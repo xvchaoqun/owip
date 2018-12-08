@@ -49,7 +49,7 @@ public class CetUnitService extends BaseMapper {
 
             commonMapper.excuteSql("update cet_unit set user_id=null where id=" + id);
             // 删除原管理员权限
-            sysUserService.delRole(oldUserId, RoleConstants.ROLE_CET_ADMIN_UNIT);
+            sysUserService.delRole(oldUserId, RoleConstants.ROLE_CET_ADMIN_UPPER);
         }
 
         if(userId!=null){
@@ -60,7 +60,7 @@ public class CetUnitService extends BaseMapper {
             cetUnitMapper.updateByPrimaryKeySelective(record);
 
             // 添加管理员权限
-            sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UNIT);
+            sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
         }
     }
 
@@ -83,7 +83,7 @@ public class CetUnitService extends BaseMapper {
             for (CetUnit cetUnit : cetUnits) {
 
                 // 删除管理员权限
-                sysUserService.delRole(cetUnit.getUserId(), RoleConstants.ROLE_CET_ADMIN_UNIT);
+                sysUserService.delRole(cetUnit.getUserId(), RoleConstants.ROLE_CET_ADMIN_UPPER);
             }
         }
 

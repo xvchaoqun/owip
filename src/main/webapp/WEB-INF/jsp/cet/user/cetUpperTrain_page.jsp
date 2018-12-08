@@ -10,8 +10,8 @@
 
                 <c:if test="${cls==1}">
                     <button class="popupBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}">
-                        <i class="fa fa-plus"></i> 添加本人参加上级单位调训信息
+                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}&upperType=${upperType}">
+                        <i class="fa fa-plus"></i> 添加本人参加${upperType==CET_UPPER_TRAIN_UPPER?'上级单位调训':'二级单位培训'}信息
                     </button>
                 </c:if>
                 </div>
@@ -19,15 +19,15 @@
                    value="${not empty param.type ||not empty param.unitId ||not empty param.userId || not empty param.code || not empty param.sort}"/>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUpperTrain?cls=1"><i
-                            class="fa fa-list"></i> 参加上级单位调训信息</a>
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUpperTrain?cls=1&upperType=${upperType}"><i
+                            class="fa fa-list"></i> 参加${upperType==CET_UPPER_TRAIN_UPPER?'上级单位调训':'二级单位培训'}信息</a>
                 </li>
                 <li class="<c:if test="${cls==2}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUpperTrain?cls=2"><i
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUpperTrain?cls=2&upperType=${upperType}"><i
                             class="fa fa-circle-o"></i> 待审核</a>
                 </li>
                 <li class="<c:if test="${cls==3}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUpperTrain?cls=3"><i
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUpperTrain?cls=3&upperType=${upperType}"><i
                             class="fa fa-times"></i> 未通过审核</a>
                 </li>
             </ul>
@@ -35,7 +35,7 @@
             <div class="jqgrid-vertical-offset buttons">
 <c:if test="${cls!=1}">
                     <button class="jqOpenViewBtn btn ${cls==3?'btn-success':'btn-primary'} btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}"
+                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}&upperType=${upperType}"
                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         ${cls==3?'重新提交':'修改'}
                     </button>

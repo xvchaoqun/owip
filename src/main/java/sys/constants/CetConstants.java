@@ -193,6 +193,16 @@ public class CetConstants {
     }
 
 
+    // 组织单位类型，1 上级调训  2 二级单位组织培训
+    public final static byte CET_UPPER_TRAIN_UPPER = 1;
+    public final static byte CET_UPPER_TRAIN_UNIT = 2;
+    public static Map<Byte, String> CET_UPPER_TRAIN_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+        CET_UPPER_TRAIN_MAP.put(CET_UPPER_TRAIN_UPPER, "上级调训");
+        CET_UPPER_TRAIN_MAP.put(CET_UPPER_TRAIN_UNIT, "二级单位组织培训");
+    }
+
     // 上级调训 审批状态，0 待审批 1 审批通过 2 审批不通过
     public final static byte CET_UPPER_TRAIN_STATUS_INIT = 0;
     public final static byte CET_UPPER_TRAIN_STATUS_PASS = 1;

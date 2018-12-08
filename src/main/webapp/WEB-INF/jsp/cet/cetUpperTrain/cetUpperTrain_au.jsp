@@ -12,13 +12,14 @@ pageEncoding="UTF-8"%>
     <h3>
 		<c:if test="${param.check==1}">审批</c:if>
 		<c:if test="${param.check!=1}">
-			<c:if test="${cetUpperTrain!=null}">编辑</c:if><c:if test="${cetUpperTrain==null}">添加</c:if>上级调训
+			<c:if test="${cetUpperTrain!=null}">编辑</c:if><c:if test="${cetUpperTrain==null}">添加</c:if>
 		</c:if>
 	</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUpperTrain.id}">
+        <input type="hidden" name="upperType" value="${upperType}">
 		<c:if test="${addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">
         <input type="hidden" name="userId" value="${_user.id}">
 		</c:if>
@@ -44,7 +45,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="organizer" data-placeholder="请选择" data-width="${selectWidth}">
 							<option></option>
-							<c:import url="/metaTypes?__code=mc_cet_upper_train_organizer"/>
+							<c:import url="/metaTypes?__code=mc_cet_upper_train_organizer${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"/>
 							<option value="0">其他</option>
 						</select>
 						<script type="text/javascript">
@@ -62,7 +63,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="trainType" data-placeholder="请选择" data-width="${selectWidth}">
 							<option></option>
-							<c:import url="/metaTypes?__code=mc_cet_upper_train_type"/>
+							<c:import url="/metaTypes?__code=mc_cet_upper_train_type${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"/>
 						</select>
 						<script type="text/javascript">
 							$("#modalForm select[name=trainType]").val(${cetUpperTrain.trainType});
@@ -74,7 +75,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="specialType" data-placeholder="请选择" data-width="${selectWidth}">
 							<option></option>
-							<c:import url="/metaTypes?__code=mc_cet_upper_train_special"/>
+							<c:import url="/metaTypes?__code=mc_cet_upper_train_special${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"/>
 							<option value="0">无</option>
 						</select>
 						<script type="text/javascript">
@@ -143,7 +144,7 @@ pageEncoding="UTF-8"%>
 				</c:if>
 				<c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label">派出单位</label>
+					<label class="col-xs-4 control-label">${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位</label>
 					<div class="col-xs-8">
 						<div class="input-group">
 							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
@@ -155,7 +156,7 @@ pageEncoding="UTF-8"%>
 							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
 								<input required type="radio" name="type" id="type1" value="1">
 								<label for="type1">
-									其他部门派出
+									其他部门${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}
 								</label>
 							</div>
 						</div>
@@ -165,7 +166,7 @@ pageEncoding="UTF-8"%>
 					 style="display: ${cetUpperTrain.type?'block':'none'}">
 					<div class="col-xs-offset-4 col-xs-6">
 						<select ${cetUpperTrain.type?'required':''}
-								data-rel="select2" data-width="${selectWidth}" name="unitId" data-placeholder="请选择派出单位">
+								data-rel="select2" data-width="${selectWidth}" name="unitId" data-placeholder="请选择单位">
 							<option></option>
 							<c:forEach var="unit" items="${upperUnits}">
 								<option value="${unit.id}">${unit.name}</option>
@@ -179,7 +180,7 @@ pageEncoding="UTF-8"%>
 				</c:if>
 				<c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label">派出单位</label>
+					<label class="col-xs-4 control-label">${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位</label>
 					<div class="col-xs-8">
 						<input type="hidden" name="type" value="1">
 
@@ -315,7 +316,7 @@ pageEncoding="UTF-8"%>
 	organizerChange();
 
 	<c:if test="${isMultiSelect}">
-	$.getJSON("${ctx}/cet/cetUpperTrain_selectCadres_tree",{addType:${addType}},function(data){
+	$.getJSON("${ctx}/cet/cetUpperTrain_selectCadres_tree",{addType:${addType}, upperType:${upperType}},function(data){
 		var treeData = data.tree;
 		treeData.title="选择参训人员"
 		$("#tree3").dynatree({
@@ -365,7 +366,7 @@ pageEncoding="UTF-8"%>
 						<c:choose>
 						<c:when test="${addType==CET_UPPER_TRAIN_ADD_TYPE_SELF
 						&& (empty cetUpperTrain.id||cetUpperTrain.status==CET_UPPER_TRAIN_STATUS_UNPASS)}">
-						$.loadPage({url:'${ctx}/user/cet/cetUpperTrain?cls=2'})
+						$.loadPage({url:'${ctx}/user/cet/cetUpperTrain?cls=2&upperType=${upperType}'})
 						</c:when>
 						<c:otherwise>
 						$("#modal").modal('hide');

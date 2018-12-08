@@ -19,6 +19,8 @@ public class CetUpperTrainAdmin implements Serializable {
 
     private Integer id;
 
+    private Byte upperType;
+
     private Boolean type;
 
     private Integer unitId;
@@ -35,6 +37,14 @@ public class CetUpperTrainAdmin implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Byte getUpperType() {
+        return upperType;
+    }
+
+    public void setUpperType(Byte upperType) {
+        this.upperType = upperType;
     }
 
     public Boolean getType() {

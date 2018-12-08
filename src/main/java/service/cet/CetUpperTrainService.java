@@ -67,10 +67,11 @@ public class CetUpperTrainService extends BaseMapper {
     }
 
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id, boolean real){
 
         CetUpperTrain oldRecord = cetUpperTrainMapper.selectByPrimaryKey(id);
 
+        byte upperType = oldRecord.getUpperType();
         byte addType = oldRecord.getAddType();
         Integer unitId = oldRecord.getUnitId();
         Integer leaderUserId = oldRecord.getUserId();
@@ -82,14 +83,16 @@ public class CetUpperTrainService extends BaseMapper {
         }else if(addType==CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT){ // 单位添加的组织部、本单位可以删除
 
             if(!ShiroHelper.isPermitted("cetUpperTrain:del")) {
-
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UNIT);
+                
+                SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
+                    ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
+                
                 if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
                     throw new UnauthorizedException();
                 }
 
-                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
-                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(currentUserId);
+                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
 
                 if ((unitId==null || !adminUnitIdSet.contains(unitId))
                         && (leaderUserId==null || !adminLeaderUserIdSet.contains(leaderUserId))){
@@ -99,13 +102,14 @@ public class CetUpperTrainService extends BaseMapper {
         }else if(addType==CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF){
 
             if(!ShiroHelper.isPermitted("cetUpperTrain:del")) {
-                if(ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN_UNIT)) {
+                if(ShiroHelper.hasRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
+                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT)) {
 
                     if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
                         throw new OpException("党委组织部已确认，不允许删除。");
                     }
-                    Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
-                    Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(currentUserId);
+                    Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+                    Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
 
                     if ((unitId==null || !adminUnitIdSet.contains(unitId))
                             && (leaderUserId==null || !adminLeaderUserIdSet.contains(leaderUserId))){
@@ -131,24 +135,31 @@ public class CetUpperTrainService extends BaseMapper {
                 }
             }
         }
-        CetUpperTrain record = new CetUpperTrain();
-        record.setId(id);
-        record.setIsDeleted(true);
-        cetUpperTrainMapper.updateByPrimaryKeySelective(record);
-
-        sysApprovalLogService.add(oldRecord.getId(), oldRecord.getUserId(),
-                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UPPER_TRAIN,
-                "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+        if(real){
+            
+            SecurityUtils.getSubject().checkPermission("cetUpperTrain:del");
+            cetUpperTrainMapper.deleteByPrimaryKey(id);
+            
+        }else {
+            CetUpperTrain record = new CetUpperTrain();
+            record.setId(id);
+            record.setIsDeleted(true);
+            cetUpperTrainMapper.updateByPrimaryKeySelective(record);
+    
+            sysApprovalLogService.add(oldRecord.getId(), oldRecord.getUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UPPER_TRAIN,
+                    "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+        }
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids, boolean real){
 
         if(ids==null || ids.length==0) return;
 
         for (Integer id : ids) {
-            del(id);
+            del(id, real);
         }
     }
 

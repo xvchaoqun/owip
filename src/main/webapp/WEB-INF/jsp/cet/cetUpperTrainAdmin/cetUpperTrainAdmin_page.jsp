@@ -8,14 +8,14 @@ pageEncoding="UTF-8" %>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="active">
                     <a href="javascript:;" class="loadPage"
-                       data-url="${ctx}/cet/cetUpperTrainAdmin"><i
-                            class="fa fa-users"></i> 上级单位管理员</a>
+                       data-url="${ctx}/cet/cetUpperTrainAdmin?upperType=${upperType}"><i
+                            class="fa fa-users"></i> ${upperType==CET_UPPER_TRAIN_UPPER?'上级':'二级'}单位管理员</a>
                 </li>
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/metaClass_type_list?cls=mc_cet_upper_train_organizer,mc_cet_upper_train_type,mc_cet_upper_train_special"><i
-                            class="fa fa-info-circle"></i> 调训专项信息</a>
+                       data-url="${ctx}/metaClass_type_list?cls=mc_cet_upper_train_organizer${upperType==CET_UPPER_TRAIN_UPPER?'':'2'},mc_cet_upper_train_type${upperType==CET_UPPER_TRAIN_UPPER?'':'2'},mc_cet_upper_train_special${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"><i
+                            class="fa fa-info-circle"></i> ${upperType==CET_UPPER_TRAIN_UPPER?'调训':'培训'}专项信息</a>
                 </li>
             </ul>
             <div class="space-4"></div>
@@ -23,10 +23,10 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetUpperTrainAdmin:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrainAdmin_au">
+                            data-url="${ctx}/cet/cetUpperTrainAdmin_au?upperType=${upperType}">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetUpperTrainAdmin_au"
+                       data-url="${ctx}/cet/cetUpperTrainAdmin_au?upperType=${upperType}"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
@@ -86,12 +86,12 @@ pageEncoding="UTF-8" %>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/cet/cetUpperTrainAdmin"
+                                   data-url="${ctx}/cet/cetUpperTrainAdmin?upperType=${upperType}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cet/cetUpperTrainAdmin"
+                                            data-url="${ctx}/cet/cetUpperTrainAdmin?upperType=${upperType}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>

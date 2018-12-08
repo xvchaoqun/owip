@@ -9,6 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_uploadNote" id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <input type="hidden" name="addType" value="${param.addType}">
+        <input type="hidden" name="upperType" value="${cetUpperTrain.upperType}">
         <div class="form-group">
             <label class=" col-xs-4 control-label">参训人</label>
             <div class="col-xs-6 label-text">

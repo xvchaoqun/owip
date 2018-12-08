@@ -58,7 +58,7 @@
       }
       return ret;
     }},
-    {label: '派出单位', name: 'unitId', align: 'left', width: 150, formatter: function (cellvalue, options, rowObject) {
+    {label: '${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位', name: 'unitId', align: 'left', width: 150, formatter: function (cellvalue, options, rowObject) {
       if (!rowObject.type) {
         return '党委组织部'
       }

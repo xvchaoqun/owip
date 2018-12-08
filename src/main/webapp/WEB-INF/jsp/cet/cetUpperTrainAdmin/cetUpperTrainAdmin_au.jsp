@@ -8,6 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetUpperTrainAdmin_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUpperTrainAdmin.id}">
+        <input type="hidden" name="upperType" value="${upperType}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">管理员类型</label>
                 <div class="col-xs-6 choice label-text">
@@ -26,7 +27,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select ${isUnitAdmin?'required':''} data-rel="select2-ajax"
                                                                 data-width="273" data-ajax-url="${ctx}/unit_selects"
-                                                                name="unitId" data-placeholder="请选择派出单位">
+                                                                name="unitId" data-placeholder="请选择${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位">
                         <option value="${cetUpperTrainAdmin.unit.id}">${cetUpperTrainAdmin.unit.name}</option>
                     </select>
 				</div>

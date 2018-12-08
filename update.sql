@@ -1,4 +1,19 @@
 
+20181208
+ALTER TABLE `cet_upper_train`
+	COMMENT='上级调训或二级单位组织培训',
+	ADD COLUMN `upper_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '组织单位类型，1 上级调训  2 二级单位组织培训' AFTER `id`;
+
+ALTER TABLE `cet_upper_train_admin`
+	COMMENT='单位管理员，上级调训或二级单位组织培训',
+	ADD COLUMN `upper_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '组织单位类型，1 上级调训  2 二级单位组织培训' AFTER `id`;
+
+update cet_upper_train set upper_type=1;
+
+update cet_upper_train_admin set upper_type=1;
+
+ALTER TABLE `sys_resource`
+	CHANGE COLUMN `permission` `permission` VARCHAR(200) NULL DEFAULT NULL COMMENT '权限字符串' AFTER `is_leaf`;
 
 20181207
 ALTER TABLE `unit_team`

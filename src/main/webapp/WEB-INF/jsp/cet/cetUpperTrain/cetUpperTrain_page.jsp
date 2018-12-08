@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="CET_UPPER_TRAIN_UPPER" value="<%=CetConstants.CET_UPPER_TRAIN_UPPER%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT%>"/>
@@ -15,13 +16,13 @@
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
-                       data-url="${ctx}/cet/cetUpperTrain?cls=1&type=${param.type}&addType=${addType}"><i
-                            class="fa fa-list"></i> 调训信息汇总
+                       data-url="${ctx}/cet/cetUpperTrain?cls=1&type=${param.type}&addType=${addType}&upperType=${upperType}"><i
+                            class="fa fa-list"></i> ${upperType==CET_UPPER_TRAIN_UPPER?'调训':'培训'}信息汇总
                     </a>
                 </li>
                 <li class="<c:if test="${cls==2}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
-                       data-url="${ctx}/cet/cetUpperTrain?cls=2&type=${param.type}&addType=${addType}"><i
+                       data-url="${ctx}/cet/cetUpperTrain?cls=2&type=${param.type}&addType=${addType}&upperType=${upperType}"><i
                             class="fa fa-circle-o"></i> 待审核
                     <span id="checkCount"></span>
                     </a>
@@ -29,14 +30,14 @@
                 <c:if test="${empty param.type || param.type==0}">
                 <li class="<c:if test="${cls==3}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
-                       data-url="${ctx}/cet/cetUpperTrain?cls=3&type=${param.type}&addType=${addType}"><i
+                       data-url="${ctx}/cet/cetUpperTrain?cls=3&type=${param.type}&addType=${addType}&upperType=${upperType}"><i
                             class="fa fa-times"></i> 未通过审核</a>
                 </li>
                 </c:if>
                 <c:if test="${addType==CET_UPPER_TRAIN_ADD_TYPE_OW}">
                 <li class="<c:if test="${cls==4}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
-                       data-url="${ctx}/cet/cetUpperTrain?cls=4&type=${param.type}&addType=${addType}"><i
+                       data-url="${ctx}/cet/cetUpperTrain?cls=4&type=${param.type}&addType=${addType}&upperType=${upperType}"><i
                             class="fa fa-trash"></i> 已删除</a>
                 </li>
                 </c:if>
@@ -46,19 +47,19 @@
 
                     <c:if test="${cls==1}">
                     <button class="popupBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?type=${param.type}&addType=${addType}"
+                            data-url="${ctx}/cet/cetUpperTrain_au?type=${param.type}&addType=${addType}&upperType=${upperType}"
                             data-width="900">
                         <i class="fa fa-plus"></i> 添加
                     </button>
                     <button id="modifyBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${addType}"
+                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${addType}&upperType=${upperType}"
                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改
                     </button>
                     </c:if>
                     <c:if test="${cls==2}">
                     <button class="jqOpenViewBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${addType}&check=1"
+                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${addType}&upperType=${upperType}&check=1"
                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         审批
                     </button>
@@ -72,7 +73,7 @@
                         <i class="fa fa-trash"></i> 删除
                     </button>
                     <button id="uploadNoteBtn" class="jqOpenViewBtn btn btn-warning btn-sm tooltip-success"
-                        data-url="${ctx}/cet/cetUpperTrain_uploadNote?addType=${addType}"
+                        data-url="${ctx}/cet/cetUpperTrain_uploadNote?addType=${addType}&upperType=${upperType}"
                         data-grid-id="#jqGrid"
                         data-rel="tooltip" data-placement="top"
                         title="上传培训总结"><i class="fa fa-upload"></i> 上传培训总结</button>
@@ -85,6 +86,16 @@
                     <i class="fa fa-search"></i> 操作记录
                 </button>
                 </c:if>
+                <c:if test="${cls==4}">
+                    <button id="delBtn" data-url="${ctx}/cet/cetUpperTrain_batchDel?real=1"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？（删除后不可恢复）"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 完全删除
+                    </button>
+
+               </c:if>
                 <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/cet/cetUpperTrain_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -117,7 +128,7 @@
                             </div>--%>
                             <c:if test="${type}">
                             <div class="form-group">
-                                <label>派出单位</label>
+                                <label>${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位</label>
                                 <select data-ajax-url="${ctx}/unit_selects"
                                         name="unitId" data-placeholder="请选择">
                                     <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
@@ -150,7 +161,7 @@
                                         data-width="200"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_organizer"/>
+                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_organizer${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"/>
                                     <option value="0">其他</option>
                                 </select>
                                 <script type="text/javascript">
@@ -163,7 +174,7 @@
                                         data-width="120"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_type"/>
+                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_type${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"/>
                                 </select>
                                 <script type="text/javascript">
                                     $("#searchForm select[name=trainType]").val(${param.trainType});
@@ -175,7 +186,7 @@
                                         data-width="272"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_special"/>
+                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_special${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"/>
                                     <option value="0">无</option>
                                 </select>
                                 <script type="text/javascript">
@@ -185,12 +196,12 @@
 
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/cet/cetUpperTrain?cls=${cls}&type=${param.type}&addType=${addType}"
+                                   data-url="${ctx}/cet/cetUpperTrain?cls=${cls}&type=${param.type}&addType=${addType}&upperType=${upperType}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cet/cetUpperTrain?cls=${cls}&type=${param.type}&addType=${addType}"
+                                            data-url="${ctx}/cet/cetUpperTrain?cls=${cls}&type=${param.type}&addType=${addType}&upperType=${upperType}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>

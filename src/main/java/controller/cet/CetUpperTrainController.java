@@ -59,6 +59,7 @@ public class CetUpperTrainController extends CetBaseController {
     @RequestMapping("/cetUpperTrain")
     public String cetUpperTrain(@RequestParam(required = false, defaultValue = "1") Byte cls,
                                 Boolean type,
+                                byte upperType,
                                 byte addType,
                                 Integer unitId,
                                 Integer userId,
@@ -66,6 +67,7 @@ public class CetUpperTrainController extends CetBaseController {
 
         modelMap.put("cls", cls);
         modelMap.put("type", type);
+        modelMap.put("upperType", upperType);
         modelMap.put("addType", addType);
 
         if (unitId != null) {
@@ -82,6 +84,7 @@ public class CetUpperTrainController extends CetBaseController {
     @RequestMapping("/cetUpperTrain_data")
     @ResponseBody
     public void cetUpperTrain_data(HttpServletResponse response,
+                                   byte upperType,
                                    byte addType,
                                    @RequestParam(required = false, defaultValue = "1") Byte cls,
                                    Boolean type,
@@ -104,11 +107,12 @@ public class CetUpperTrainController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetUpperTrainExample example = new CetUpperTrainExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andUpperTypeEqualTo(upperType);
         example.setOrderByClause("id desc");
 
         CetUpperTrainExample checkExample = new CetUpperTrainExample();
         Criteria checkCriteria = checkExample.createCriteria()
+                .andUpperTypeEqualTo(upperType)
                 .andIsDeletedEqualTo(false);
 
         if (type != null) {
@@ -181,13 +185,14 @@ public class CetUpperTrainController extends CetBaseController {
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
             Integer currentUserId = ShiroHelper.getCurrentUserId();
-            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(currentUserId);
+            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
             if (adminUnitIdSet.size() == 0 && adminLeaderUserIdSet.size() == 0) {
                 throw new UnauthorizedException();
             }
 
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UNIT);
+            SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
+                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
             criteria.andUnitAdmin(adminUnitIdSet, adminLeaderUserIdSet);
             checkCriteria.andUnitAdmin(adminUnitIdSet, adminLeaderUserIdSet);
         }else {
@@ -231,6 +236,7 @@ public class CetUpperTrainController extends CetBaseController {
                                    Boolean check,// 审批
                                    HttpServletRequest request) throws IOException, InterruptedException {
 
+        byte upperType = record.getUpperType();
         CetUpperTrain oldRecord = null;
         Integer id = record.getId();
         byte addType = record.getAddType();
@@ -258,8 +264,8 @@ public class CetUpperTrainController extends CetBaseController {
 
             if(!ShiroHelper.isPermitted("cetUpperTrain:edit")) {
                 Integer currentUserId = ShiroHelper.getCurrentUserId();
-                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
-                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(currentUserId);
+                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
 
                 if (id != null) {
                     Integer oldUnitId = oldRecord.getUnitId();
@@ -277,7 +283,8 @@ public class CetUpperTrainController extends CetBaseController {
                     }
                 }
 
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UNIT);
+                SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
+                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
 
                 record.setIsValid(null);
                 if (id == null) {
@@ -307,8 +314,8 @@ public class CetUpperTrainController extends CetBaseController {
                 int currentUserId = ShiroHelper.getCurrentUserId();
 
                 boolean isUnitAdmin = true;
-                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
-                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(currentUserId);
+                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
                 Integer unitId = record.getUnitId(); // 派出单位
                 Integer leaderUserId = record.getUserId(); // 干部
                 if ((unitId==null || !adminUnitIdSet.contains(unitId))
@@ -328,7 +335,8 @@ public class CetUpperTrainController extends CetBaseController {
                 record.setWordNote(upload(_word, "cetUpperTrain_note"));
                 record.setPdfNote(uploadPdf(_pdf, "cetUpperTrain_note"));
                 if(isUnitAdmin){
-                    SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UNIT);
+                    SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
+                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
                     if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
                         throw new OpException("党委组织部已确认，不允许修改。");
                     }
@@ -356,10 +364,10 @@ public class CetUpperTrainController extends CetBaseController {
 
         if (id == null){
             cetUpperTrainService.insertSelective(record, userIds);
-            logger.info(addLog(LogConstants.LOG_CET, "添加上级调训：%s", StringUtils.join(userIds, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "添加上级调训或单位培训：%s", StringUtils.join(userIds, ",")));
         } else{
             cetUpperTrainService.updateByPrimaryKeySelective(record, BooleanUtils.isTrue(check));
-            logger.info(addLog(LogConstants.LOG_CET, "更新上级调训：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "更新上级调训或单位培训：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -368,20 +376,23 @@ public class CetUpperTrainController extends CetBaseController {
     //@RequiresPermissions("cetUpperTrain:edit")
     @RequestMapping("/cetUpperTrain_au")
     public String cetUpperTrain_au(Integer id,
+                                   byte upperType,
                                    byte addType,
                                    ModelMap modelMap) {
 
         if (id != null) {
             CetUpperTrain cetUpperTrain = cetUpperTrainMapper.selectByPrimaryKey(id);
+            upperType = cetUpperTrain.getUpperType();
             modelMap.put("cetUpperTrain", cetUpperTrain);
         }
         //modelMap.put("type", BooleanUtils.isTrue(type) ? 1 : 0);
+        modelMap.put("upperType", upperType);
         modelMap.put("addType", addType);
 
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
             int currentUserId = ShiroHelper.getCurrentUserId();
-            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(currentUserId);
+            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
             if(adminLeaderUserIdSet.size()>0){
                 // 如果是校领导管理员，从所有的单位中选
                 List<Unit> upperUnits = iCetMapper.findUpperUnits();
@@ -414,12 +425,16 @@ public class CetUpperTrainController extends CetBaseController {
     //@RequiresPermissions("cetUpperTrain:del")
     @RequestMapping(value = "/cetUpperTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetUpperTrain_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetUpperTrain_batchDel(HttpServletRequest request,
+                                      @RequestParam(value = "ids[]") Integer[] ids,
+                                      Boolean real,
+                                      ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
-            cetUpperTrainService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_CET, "批量删除上级调训：%s", StringUtils.join(ids, ",")));
+            cetUpperTrainService.batchDel(ids, BooleanUtils.isTrue(real));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除上级调训或单位培训：%s",
+                    StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -429,7 +444,7 @@ public class CetUpperTrainController extends CetBaseController {
     //@RequiresPermissions("cetUpperTrain:edit")
     @RequestMapping(value = "/cetUpperTrain_uploadNote", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUpperTrain_uploadNote(int id, byte addType, MultipartFile _word, MultipartFile _pdf,
+    public Map do_cetUpperTrain_uploadNote(int id, byte upperType, byte addType, MultipartFile _word, MultipartFile _pdf,
                                            HttpServletRequest request) throws IOException, InterruptedException {
 
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
@@ -444,8 +459,8 @@ public class CetUpperTrainController extends CetBaseController {
             Integer unitId = oldRecord.getUnitId();
             Integer leaderUserId = oldRecord.getUserId();
 
-            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(currentUserId);
+            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
             if ((unitId==null || !adminUnitIdSet.contains(unitId))
                     && (leaderUserId==null || !adminLeaderUserIdSet.contains(leaderUserId))){
                 throw new UnauthorizedException(); // 非单位管理员，也不是校领导管理员
@@ -497,7 +512,7 @@ public class CetUpperTrainController extends CetBaseController {
     //@RequiresPermissions("cetUpperTrain:*")
     @RequestMapping("/cetUpperTrain_selectCadres_tree")
     @ResponseBody
-    public Map cetUpperTrain_selectCadres_tree(Byte addType) throws IOException {
+    public Map cetUpperTrain_selectCadres_tree(Byte addType, byte upperType) throws IOException {
 
         if (addType == null) return null;
 
@@ -507,11 +522,12 @@ public class CetUpperTrainController extends CetBaseController {
             cadreViews = new LinkedHashSet<CadreView>(cadreService.findAll().values());
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UNIT);
+            SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
+                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
 
             Integer currentUserId = ShiroHelper.getCurrentUserId();
-            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(currentUserId);
+            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
             CadreViewExample example = new CadreViewExample();
             if(adminUnitIdSet.size()>0 && adminLeaderUserIdSet.size()>0) {
                 example.createCriteria().andUnitIdIn(new ArrayList<>(adminUnitIdSet));
@@ -564,7 +580,7 @@ public class CetUpperTrainController extends CetBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "上级调训_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "上级调训或单位培训_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

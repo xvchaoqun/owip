@@ -39,8 +39,11 @@ public class UserCetUpperTrainController extends CetBaseController {
     @RequiresPermissions("userCetUpperTrain:list")
     @RequestMapping("/cetUpperTrain")
     public String cetUpperTrain(@RequestParam(required = false, defaultValue = "1")Byte cls,
+                                byte upperType,
                                 ModelMap modelMap) {
+        
         modelMap.put("cls", cls);
+        modelMap.put("upperType", upperType);
 
         return "cet/user/cetUpperTrain_page";
     }
@@ -49,6 +52,7 @@ public class UserCetUpperTrainController extends CetBaseController {
     @RequestMapping("/cetUpperTrain_data")
     @ResponseBody
     public void cetUpperTrain_data(HttpServletResponse response,
+                                   byte upperType,
                                    @RequestParam(required = false, defaultValue = "1")Byte cls,
                               Integer pageSize, Integer pageNo) throws IOException {
 
@@ -64,7 +68,8 @@ public class UserCetUpperTrainController extends CetBaseController {
 
         CetUpperTrainExample example = new CetUpperTrainExample();
         CetUpperTrainExample.Criteria criteria =
-                example.createCriteria().andUserIdEqualTo(userId)
+                example.createCriteria().andUpperTypeEqualTo(upperType)
+                        .andUserIdEqualTo(userId)
                 .andIsDeletedEqualTo(false);
         example.setOrderByClause("id desc");
 

@@ -41,6 +41,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
     @RequiresPermissions("cetUpperTrainAdmin:list")
     @RequestMapping("/cetUpperTrainAdmin")
     public String cetUpperTrainAdmin(Integer unitId,
+                                     byte upperType,
                                      Integer userId,
                                      ModelMap modelMap) {
 
@@ -50,7 +51,9 @@ public class CetUpperTrainAdminController extends CetBaseController {
         if(userId!=null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-
+        
+        modelMap.put("upperType", upperType);
+        
         return "cet/cetUpperTrainAdmin/cetUpperTrainAdmin_page";
     }
 
@@ -58,6 +61,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
     @RequestMapping("/cetUpperTrainAdmin_data")
     @ResponseBody
     public void cetUpperTrainAdmin_data(HttpServletResponse response,
+                                    byte upperType,
                                     Boolean type,
                                     Integer unitId,
                                     Integer userId,
@@ -74,7 +78,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andUpperTypeEqualTo(upperType);
         example.setOrderByClause("id desc");
 
         if (type!=null) {
@@ -124,11 +128,11 @@ public class CetUpperTrainAdminController extends CetBaseController {
         if (id == null) {
             
             cetUpperTrainAdminService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_CET, "添加上级调训单位管理员：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_CET, "添加培训单位管理员：%s", record.getId()));
         } else {
 
             cetUpperTrainAdminService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( LogConstants.LOG_CET, "更新上级调训单位管理员：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_CET, "更新培训单位管理员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -136,12 +140,15 @@ public class CetUpperTrainAdminController extends CetBaseController {
 
     @RequiresPermissions("cetUpperTrainAdmin:edit")
     @RequestMapping("/cetUpperTrainAdmin_au")
-    public String cetUpperTrainAdmin_au(Integer id, ModelMap modelMap) {
+    public String cetUpperTrainAdmin_au(Integer id, byte upperType, ModelMap modelMap) {
 
         if (id != null) {
             CetUpperTrainAdmin cetUpperTrainAdmin = cetUpperTrainAdminMapper.selectByPrimaryKey(id);
+            upperType = cetUpperTrainAdmin.getUpperType();
             modelMap.put("cetUpperTrainAdmin", cetUpperTrainAdmin);
         }
+        modelMap.put("upperType", upperType);
+        
         return "cet/cetUpperTrainAdmin/cetUpperTrainAdmin_au";
     }
 
@@ -153,7 +160,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
         if (id != null) {
 
             cetUpperTrainAdminService.del(id);
-            logger.info(addLog( LogConstants.LOG_CET, "删除上级调训单位管理员：%s", id));
+            logger.info(addLog( LogConstants.LOG_CET, "删除培训单位管理员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -166,7 +173,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetUpperTrainAdminService.batchDel(ids);
-            logger.info(addLog( LogConstants.LOG_CET, "批量删除上级调训单位管理员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( LogConstants.LOG_CET, "批量删除培训单位管理员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -188,7 +195,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "上级调训单位管理员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "培训单位管理员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

@@ -3,6 +3,7 @@
 <mapper namespace="persistence.cet.CetUpperTrainMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetUpperTrain">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="upper_type" jdbcType="TINYINT" property="upperType" />
     <result column="type" jdbcType="BIT" property="type" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
@@ -87,9 +88,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, unit_id, user_id, title, post_id, organizer, other_organizer, train_type, 
-    special_type, train_name, start_date, end_date, period, address, word_note, pdf_note, 
-    add_type, add_user_id, add_time, is_valid, is_deleted, remark, status, back_reason
+    id, upper_type, type, unit_id, user_id, title, post_id, organizer, other_organizer, 
+    train_type, special_type, train_name, start_date, end_date, period, address, word_note, 
+    pdf_note, add_type, add_user_id, add_time, is_valid, is_deleted, remark, status, 
+    back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUpperTrainExample" resultMap="BaseResultMap">
     select
@@ -125,24 +127,24 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cet_upper_train (type, unit_id, user_id, 
-      title, post_id, organizer, 
-      other_organizer, train_type, special_type, 
-      train_name, start_date, end_date, 
-      period, address, word_note, 
-      pdf_note, add_type, add_user_id, 
-      add_time, is_valid, is_deleted, 
-      remark, status, back_reason
-      )
-    values (#{type,jdbcType=BIT}, #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, 
-      #{otherOrganizer,jdbcType=VARCHAR}, #{trainType,jdbcType=INTEGER}, #{specialType,jdbcType=INTEGER}, 
-      #{trainName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
-      #{period,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{wordNote,jdbcType=VARCHAR}, 
-      #{pdfNote,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR}
-      )
+    insert into cet_upper_train (upper_type, type, unit_id, 
+      user_id, title, post_id, 
+      organizer, other_organizer, train_type, 
+      special_type, train_name, start_date, 
+      end_date, period, address, 
+      word_note, pdf_note, add_type, 
+      add_user_id, add_time, is_valid, 
+      is_deleted, remark, status, 
+      back_reason)
+    values (#{upperType,jdbcType=TINYINT}, #{type,jdbcType=BIT}, #{unitId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, 
+      #{organizer,jdbcType=INTEGER}, #{otherOrganizer,jdbcType=VARCHAR}, #{trainType,jdbcType=INTEGER}, 
+      #{specialType,jdbcType=INTEGER}, #{trainName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, 
+      #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
+      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, 
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{backReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUpperTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -150,6 +152,9 @@
     </selectKey>
     insert into cet_upper_train
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="upperType != null">
+        upper_type,
+      </if>
       <if test="type != null">
         type,
       </if>
@@ -224,6 +229,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="upperType != null">
+        #{upperType,jdbcType=TINYINT},
+      </if>
       <if test="type != null">
         #{type,jdbcType=BIT},
       </if>
@@ -310,6 +318,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.upperType != null">
+        upper_type = #{record.upperType,jdbcType=TINYINT},
+      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=BIT},
       </if>
@@ -390,6 +401,7 @@
   <update id="updateByExample" parameterType="map">
     update cet_upper_train
     set id = #{record.id,jdbcType=INTEGER},
+      upper_type = #{record.upperType,jdbcType=TINYINT},
       type = #{record.type,jdbcType=BIT},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
@@ -421,6 +433,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetUpperTrain">
     update cet_upper_train
     <set>
+      <if test="upperType != null">
+        upper_type = #{upperType,jdbcType=TINYINT},
+      </if>
       <if test="type != null">
         type = #{type,jdbcType=BIT},
       </if>
@@ -498,7 +513,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetUpperTrain">
     update cet_upper_train
-    set type = #{type,jdbcType=BIT},
+    set upper_type = #{upperType,jdbcType=TINYINT},
+      type = #{type,jdbcType=BIT},
       unit_id = #{unitId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
