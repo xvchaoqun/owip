@@ -556,6 +556,7 @@ public class PmdPayCampusCardService extends BaseMapper {
 
             duePay = duePay.add(pmdMember.getDuePay());
 
+            //TO DO: 有重复检测出现
             checkPayStatus(pmdMemberId, null);
 
             PmdOrderItem _pmdOrderItem = new PmdOrderItem();
