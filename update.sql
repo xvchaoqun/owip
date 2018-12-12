@@ -1,4 +1,14 @@
 
+
+20181212
+ALTER TABLE `unit_team`
+	CHANGE COLUMN `year` `year` INT(10) UNSIGNED NOT NULL COMMENT '届数' AFTER `unit_id`,
+	DROP INDEX `year`,
+	ADD UNIQUE INDEX `unit_id_year` (`unit_id`, `year`);
+
+
+
+
 20181208
 ALTER TABLE `cet_upper_train`
 	COMMENT='上级调训或二级单位组织培训',

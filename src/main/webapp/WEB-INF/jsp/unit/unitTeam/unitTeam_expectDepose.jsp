@@ -8,6 +8,7 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/unitTeam_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitTeam.id}">
+        <input type="hidden" name="unitId" value="${unitTeam.unitId}">
         <div class="form-group">
             <label class="col-xs-3 control-label">行政班子名称</label>
             <div class="col-xs-6 label-text">

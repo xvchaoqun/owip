@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
+<fmt:message key="global.session.timeout" bundle="${spring}" var="_timeout"/>
 <script>
     var colModel =[
         { label: '账号', name: 'username', width: 140,frozen:true },
