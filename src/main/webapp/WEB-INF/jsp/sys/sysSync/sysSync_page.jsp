@@ -122,7 +122,7 @@
                 var $btn = $this.button('loading')
                 $.post("${ctx}/sync_user_batch",{type:$this.data("type")},function(ret){
                     if(ret.success){
-                        SysMsg.success('同步成功。', '成功');
+                        SysMsg.success('同步任务启动成功，系统将自动完成同步。', '启动成功');
                         //clearTimeout(t);
                         $("#jqGrid").trigger("reloadGrid");
                     }
