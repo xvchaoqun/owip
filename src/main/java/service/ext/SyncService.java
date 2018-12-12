@@ -791,7 +791,6 @@ public class SyncService extends BaseMapper {
                 //ui.setEmail(StringUtils.trim(extYjs.getDzxx()));
                 ui.setNation(extYjs.getMz());
                 //ui.setNativePlace(extYjs.get); 籍贯
-                ui.setIdcard(extYjs.getSfzh());
 
                 //+++++++++++++ 同步后面一系列属性
                 student.setType(extYjs.getXslb());

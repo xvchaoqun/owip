@@ -132,19 +132,5 @@
            <!--<table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
            </table>-->
 
-        <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks" mapperName="ext.ExtBksMapper">
-        </table>
-        <table tableName="ext_jzg" domainObjectName="ext.ExtJzg" mapperName="ext.ExtJzgMapper">
-        </table>
-        <table tableName="ext_yjs" domainObjectName="ext.ExtYjs" mapperName="ext.ExtYjsMapper">
-        </table>-->
-        <!--<table tableName="ext_abroad" domainObjectName="ext.ExtAbroad">
-        </table>-->
-        <!--<table tableName="ext_retire_salary" domainObjectName="ext.ExtRetireSalary"  mapperName="ext.ExtRetireSalaryMapper">
-        </table>-->
-        <!--<table tableName="ext_jzg_salary" domainObjectName="ext.ExtJzgSalary"  mapperName="ext.ExtJzgSalaryMapper">
-        </table>-->
-
-
     </context>
 </generatorConfiguration>
