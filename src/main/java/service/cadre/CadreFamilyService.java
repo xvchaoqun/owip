@@ -37,7 +37,8 @@ public class CadreFamilyService extends BaseMapper {
         if(title== CadreConstants.CADRE_FAMILY_TITLE_FATHER
                 || title == CadreConstants.CADRE_FAMILY_TITLE_MOTHER) {
             CadreFamilyExample example = new CadreFamilyExample();
-            CadreFamilyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
+            CadreFamilyExample.Criteria criteria = example.createCriteria()
+                    .andTitleEqualTo(title).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             criteria.andCadreIdEqualTo(cadreId);
 
             if(cadreFamilyMapper.countByExample(example)>0){
@@ -57,7 +58,8 @@ public class CadreFamilyService extends BaseMapper {
         if(title== CadreConstants.CADRE_FAMILY_TITLE_FATHER
                 || title == CadreConstants.CADRE_FAMILY_TITLE_MOTHER) {
             CadreFamilyExample example = new CadreFamilyExample();
-            CadreFamilyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
+            CadreFamilyExample.Criteria criteria = example.createCriteria()
+                    .andTitleEqualTo(title).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             criteria.andCadreIdEqualTo(cadreId);
             criteria.andIdNotEqualTo(id);
 

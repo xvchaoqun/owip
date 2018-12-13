@@ -1,4 +1,25 @@
 
+20181213
+-- 修改 use_passport 默认值为 -1
+select  use_passport, count(*) from abroad_passport_draw group by use_passport;
+
+select d.id, d.return_date, d.passport_id, d.type, d.use_passport, p.type as p_type, p.cancel_confirm from abroad_passport_draw d
+left join abroad_passport p on p.id=d.passport_id
+where d.is_deleted=0 and d.draw_status=1 and (d.use_passport!=2 or d.use_passport is null) and d.return_date <= now()
+  and (p.type=1 or (p.type=2 and p.cancel_confirm=0));
+-- 验证
+select d.id, d.return_date, d.passport_id, d.type, d.use_passport, p.type as p_type, p.cancel_confirm from abroad_passport_draw d
+left join abroad_passport p on p.id=d.passport_id
+where d.is_deleted=0 and d.draw_status=1 and d.use_passport!=2 and d.return_date <= now()
+  and (p.type=1 or (p.type=2 and p.cancel_confirm=0));
+
+update abroad_passport_draw set use_passport=111 where use_passport is null;
+
+ALTER TABLE `abroad_passport_draw`
+	CHANGE COLUMN `use_passport` `use_passport` TINYINT(3) NOT NULL DEFAULT '-1' COMMENT '归还证件处理类别， 因私出国、因公赴台长期（1：持证件出国（境） 0：未持证件出国（境） 2：拒不交回证件） 处理其他事务（1：违规使用证件出国（境）0：没有使用证件出国（境） 2：拒不交回证件）' AFTER `attachment_filename`;
+
+update 	abroad_passport_draw set use_passport=-1 where use_passport =111;
+
 
 20181212
 ALTER TABLE `unit_team`
