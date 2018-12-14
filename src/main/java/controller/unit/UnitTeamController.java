@@ -211,6 +211,7 @@ public class UnitTeamController extends BaseController {
         
         UnitTeam record = new UnitTeam();
         record.setId(unitTeamId);
+        record.setUnitId(unitTeam.getUnitId());
         if (auType == 2) {
             
             if (unitTeam.getDeposeDate() != null && dispatchCadreDate != null
