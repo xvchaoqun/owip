@@ -143,7 +143,7 @@
     </a>
 </div>
 <!-- /.main-container -->
-<div id="modal" class="modal fade" data-backdrop="static">
+<div id="modal" class="modal fade" data-backdrop="static" tabindex="-1" data-keyboard="false">
     <div class="modal-dialog" role="document" <%--style="min-width: 650px;"--%>>
         <div class="modal-content">
         </div>

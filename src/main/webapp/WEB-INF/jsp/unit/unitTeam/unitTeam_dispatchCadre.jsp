@@ -9,6 +9,8 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/unitTeam_dispatchCadre" id="modalForm" method="post">
         <input type="hidden" name="unitTeamId" value="${unitTeam.id}">
         <input type="hidden" name="auType" value="${param.auType}">
+        <input type="hidden" name="unitId" value="${unitTeam.unitId}">
+
         <input type="hidden" name="dispatchCadreId" value="${param.auType==2?unitTeam.appointDispatchCadreId
         :unitTeam.deposeDispatchCadreId}">
 			<div class="form-group table-single-select">

@@ -387,7 +387,7 @@ var _modal_width;
                 $('#modal .modal-dialog').removeClass("width" + _modal_width);
                 _modal_width = undefined;
             }
-            dragTarget = dragTarget || ".modal-header";
+            dragTarget = dragTarget || ".modal-header,.modal-footer";
             if(direction){
                 $("#modal").addClass(direction);
             }

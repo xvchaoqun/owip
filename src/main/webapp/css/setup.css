@@ -740,7 +740,7 @@ br.xs-100 {
     overflow-x: hidden;
 }
 
-.modal .modal-header, .modal-footer.draggable {
+.modal .modal-header, .modal .modal-footer, .modal-footer.draggable {
     cursor: move;
 }
 
