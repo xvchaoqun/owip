@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import persistence.abroad.common.ApproverTypeBean;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.cadre.CadreView;
@@ -8,8 +7,8 @@ import freemarker.template.TemplateException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.RoleConstants;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +33,8 @@ public class AbroadExportController extends AbroadBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
-                ShiroUser shiroUser = ShiroHelper.getShiroUser();
-                ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
+                //ShiroUser shiroUser = ShiroHelper.getShiroUser();
+                ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
                 if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
                     throw new OpException("您没有权限");
             }

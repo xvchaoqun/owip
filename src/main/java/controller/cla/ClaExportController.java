@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.cla.common.ClaApproverTypeBean;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.RoleConstants;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +33,8 @@ public class ClaExportController extends ClaBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
-                ShiroUser shiroUser = ShiroHelper.getShiroUser();
-                ClaApproverTypeBean approverTypeBean = shiroUser.getClaApproverTypeBean();
+                //ShiroUser shiroUser = ShiroHelper.getShiroUser();
+                ClaApproverTypeBean approverTypeBean = claApplyService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
                 if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(claApply.getCadreId()))
                     throw new OpException("您没有权限");
             }

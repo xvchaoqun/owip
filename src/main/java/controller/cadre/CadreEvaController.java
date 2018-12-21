@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.cadre.CadreEva;
 import domain.cadre.CadreEvaExample;
 import domain.cadre.CadreEvaExample.Criteria;
+import domain.cadre.CadreView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -109,12 +110,16 @@ public class CadreEvaController extends BaseController {
 
     @RequiresPermissions("cadreEva:edit")
     @RequestMapping("/cadreEva_au")
-    public String cadreEva_au(Integer id, ModelMap modelMap) {
+    public String cadreEva_au(Integer id, Integer cadreId, ModelMap modelMap) {
 
         if (id != null) {
             CadreEva cadreEva = cadreEvaMapper.selectByPrimaryKey(id);
             modelMap.put("cadreEva", cadreEva);
+            cadreId = cadreEva.getCadreId();
         }
+        CadreView cadreView = cadreService.findAll().get(cadreId);
+        modelMap.put("cadre", cadreView);
+        
         return "cadre/cadreEva/cadreEva_au";
     }
 

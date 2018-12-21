@@ -374,10 +374,10 @@ public class BranchController extends BaseController {
 
         List<BranchView> records = branchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号", "名称", "简称", "所属分党委", "类别",
+        String[] titles = {"编号|100", "名称|200|left", "简称|150|left", "所属分党委|300|left", "类别|100",
                 "党员总数", "在职教职工数量", "离退休党员数量", "学生数量", "委员会总数",
                 "是否已设立现任委员会", "是否是教工党支部", "是否是专业教师党支部", "是否建立在团队",
-                "单位属性", "联系电话", "传真", "邮箱", "成立时间"};
+                "单位属性", "联系电话|100", "传真|100", "邮箱|150", "成立时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             BranchView record = records.get(i);
@@ -404,7 +404,7 @@ public class BranchController extends BaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "党支部_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "党支部(" + DateUtils.formatDate(new Date(), "yyyyMMdd") +")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
@@ -448,11 +448,11 @@ public class BranchController extends BaseController {
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
         List<BranchView> records = branchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级",
-                "性别","出生日期", "年龄","年龄范围","民族", "国家/地区", "证件号码",
-                "政治面貌","所在分党委、党总支、直属党支部","所在党支部", "所在单位", "入党时间","到校日期",
-                "专业技术职务","专技岗位等级","管理岗位等级","任职级别","行政职务","学历","学历毕业学校","学位授予学校",
-                "学位","学员结构", "人才类型", "人才称号", "籍贯","转正时间","手机号码","电子邮箱"};
+        String[] titles = {"工作证号|100","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级|150",
+                "性别","出生日期|100", "年龄","年龄范围","民族", "国家/地区", "证件号码|150",
+                "政治面貌","所在分党委、党总支、直属党支部|300|left","所在党支部|200|left", "所在单位", "入党时间|100","到校日期|100",
+                "专业技术职务|150","专技岗位等级|150","管理岗位等级","任职级别","行政职务","学历","学历毕业学校|150|left","学位授予学校",
+                "学位|100","学员结构", "人才类型", "人才称号", "籍贯","转正时间|100","手机号码|100","电子邮箱|150"};
 
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -516,7 +516,7 @@ public class BranchController extends BaseController {
                 valuesList.add(values);
             }
         }
-        String fileName = "党支部书记_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "党支部书记(" + DateUtils.formatDate(new Date(), "yyyyMMdd") +")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

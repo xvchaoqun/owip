@@ -511,7 +511,7 @@ public class ApplySelfService extends BaseMapper {
     }
 
     /**
-     * 登录时调用一次，后写入ShiroUser
+     * 登录时调用一次，后写入ShiroUser????
      *
      * @param userId
      * @return

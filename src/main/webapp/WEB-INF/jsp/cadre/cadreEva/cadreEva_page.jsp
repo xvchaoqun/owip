@@ -44,6 +44,7 @@
         colModel: [
             {label: '年份', name: 'year'},
             {label: '考核情况', name: 'type', formatter:$.jgrid.formatter.MetaType},
+            {label: '时任职务', name: 'title', width:400, align:'left'},
             {label: '备注', name: 'remark', width:300}
         ]
     }).jqGrid("setFrozenColumns");

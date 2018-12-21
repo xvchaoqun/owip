@@ -33,7 +33,7 @@
       </div>
 
       <div class="profile-info-row">
-        <div class="profile-info-name"> 分党委 </div>
+        <div class="profile-info-name"> 联系分党委 </div>
 
         <div class="profile-info-value">
           <span class="editable" id="signup">${cm:displayParty(memberApply.partyId, null)}</span>
@@ -41,7 +41,7 @@
       </div>
       <c:if test="${memberApply.branchId>0}">
       <div class="profile-info-row">
-        <div class="profile-info-name"> 党支部 </div>
+        <div class="profile-info-name"> 联系党支部 </div>
 
         <div class="profile-info-value">
           <span class="editable" id="login">${cm:displayParty(null, memberApply.branchId)}</span>

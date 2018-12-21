@@ -17,9 +17,9 @@ pageEncoding="UTF-8"%>
 				<table id="jqGridPager_popup" class="table-striped"></table>
 			</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">${param.auType==2?'任职时间':'免职时间'}</label>
+			<label class="col-xs-2 control-label" style="font-size: 18px; font-weight: bolder;">${param.auType==2?'任职时间':'免职时间'}</label>
 			<div class="col-xs-6">
-				<div class="input-group">
+				<div class="input-group" style="width: 200px;margin-top: 6px;">
 					<input required class="form-control date-picker" name="dispatchCadreDate"
 						   type="text" data-date-format="yyyy-mm-dd"
 						   value="${cm:formatDate(param.auType==2?unitTeam.appointDate:unitTeam.deposeDate, "yyyy-MM-dd")}"/>
@@ -29,6 +29,19 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		</div>
+		<c:if test="${param.auType==2}">
+		<div class="form-group">
+            <label class="col-xs-2 control-label" style="font-size: 18px; font-weight: bolder;">应换届时间</label>
+            <div class="col-xs-6">
+                <div class="input-group" style="width: 200px;margin-top: 6px;">
+                    <input class="form-control date-picker" name="expectDeposeDate" type="text"
+                           data-date-format="yyyy-mm-dd"
+                           value="${cm:formatDate(unitTeam.expectDeposeDate,'yyyy-MM-dd')}"/>
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+		</c:if>
     </form>
 </div>
 <div class="modal-footer">

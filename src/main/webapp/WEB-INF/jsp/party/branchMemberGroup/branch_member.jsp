@@ -81,7 +81,7 @@
                                 <span class="label label-success arrowed-in arrowed-in-right">管理员</span>
                             </c:if>${user.realname}（${user.code}）
                         </td>
-                        <td nowrap>${typeMap.get(branchMember.typeId).name}</td>
+                        <td nowrap>${cm:getMetaType(branchMember.typeId).name}</td>
                         <shiro:hasPermission name="branchMember:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>

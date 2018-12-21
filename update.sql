@@ -1,4 +1,11 @@
 
+20181221
+
+ALTER TABLE `cadre_eva`
+	ADD COLUMN `title` VARCHAR(100) NULL COMMENT '时任职务' AFTER `year`;
+
+更新common-utils
+
 20181213
 -- 修改 use_passport 默认值为 -1
 select  use_passport, count(*) from abroad_passport_draw group by use_passport;

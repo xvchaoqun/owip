@@ -671,7 +671,7 @@
 
     <!--持久化，保证重启服务器不踢出用户-->
     <cache name="ActiveSessionCache"
-           maxElementsInMemory="1000"
+           maxElementsInMemory="10000"
            overflowToDisk="true"
            eternal="true"
            timeToLiveSeconds="0"

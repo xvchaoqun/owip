@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, year, type, remark
+    id, cadre_id, year, title, type, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreEvaExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadreEva">
     insert into cadre_eva (id, cadre_id, year, 
-      type, remark)
+      title, type, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
-      #{type,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreEva">
     insert into cadre_eva
@@ -116,6 +119,9 @@
       </if>
       <if test="year != null">
         year,
+      </if>
+      <if test="title != null">
+        title,
       </if>
       <if test="type != null">
         type,
@@ -133,6 +139,9 @@
       </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -160,6 +169,9 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
@@ -176,6 +188,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -191,6 +204,9 @@
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
       </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
@@ -204,6 +220,7 @@
     update cadre_eva
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       year = #{year,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

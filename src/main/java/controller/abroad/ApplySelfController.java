@@ -1,14 +1,8 @@
 package controller.abroad;
 
-import persistence.abroad.common.ApprovalResult;
-import persistence.abroad.common.ApproverTypeBean;
 import controller.global.OpException;
-import domain.abroad.ApplySelf;
-import domain.abroad.ApplySelfExample;
+import domain.abroad.*;
 import domain.abroad.ApplySelfExample.Criteria;
-import domain.abroad.ApplySelfFile;
-import domain.abroad.ApprovalLog;
-import domain.abroad.ApproverType;
 import domain.base.Country;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
@@ -32,8 +26,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import persistence.abroad.common.ApprovalResult;
+import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
@@ -42,24 +37,13 @@ import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.DownloadUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/abroad")
@@ -239,8 +223,8 @@ public class ApplySelfController extends AbroadBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
-                ShiroUser shiroUser = ShiroHelper.getShiroUser();
-                ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
+                //ShiroUser shiroUser = ShiroHelper.getShiroUser();
+                ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
                 if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
                     throw new OpException("您没有权限");
             }
@@ -301,8 +285,8 @@ public class ApplySelfController extends AbroadBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
-                ShiroUser shiroUser = ShiroHelper.getShiroUser();
-                ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
+                //ShiroUser shiroUser = ShiroHelper.getShiroUser();
+                ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
                 if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(cadreId))
                     throw new OpException("您没有权限");
             }

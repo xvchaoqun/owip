@@ -2,11 +2,7 @@ package service.cadre;
 
 import bean.CadreInfoForm;
 import domain.base.MetaType;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreFamily;
-import domain.cadre.CadreFamilyExample;
-import domain.cadre.CadreInfo;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
@@ -45,10 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/10/28.
@@ -222,7 +215,27 @@ public class CadreAdformService extends BaseMapper {
 
         //年度考核结果
         Integer currentYear = DateUtils.getCurrentYear();
-        bean.setCes((currentYear-3) + "、"+ (currentYear-2) + "、"+ (currentYear-1) + "年年度考核均为合格。");
+        String evaResult = (currentYear-3) + "、"+ (currentYear-2) + "、"+ (currentYear-1) + "年年度考核均为合格。"; // 默认
+        {
+            Map<Integer, String> evaMap = new LinkedHashMap<>();
+            CadreEvaExample example = new CadreEvaExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andYearBetween(currentYear - 3, currentYear);
+            example.setOrderByClause("year desc");
+            List<CadreEva> cadreEvas = cadreEvaMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 3));
+            if(cadreEvas.size()>0) {
+                for (CadreEva cadreEva : cadreEvas) {
+                    int year = cadreEva.getYear();
+                    int type = cadreEva.getType();
+                    evaMap.put(year, year + "年度考核" + metaTypeService.getName(type));
+                }
+                ArrayList<String> evaList = new ArrayList<>(evaMap.values());
+                Collections.reverse(evaList);
+                evaResult = StringUtils.join(evaList, "，");
+            }
+        }
+        
+        bean.setCes(evaResult);
 
         // 培训情况
         CadreInfo train = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);

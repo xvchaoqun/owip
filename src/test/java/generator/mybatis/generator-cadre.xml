@@ -105,9 +105,9 @@
             <columnOverride column="is_double" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
 
-        <table tableName="cadre_company_file" domainObjectName="cadre.CadreCompanyFile"
+       <!-- <table tableName="cadre_company_file" domainObjectName="cadre.CadreCompanyFile"
                mapperName="cadre.CadreCompanyFileMapper">
-        </table>
+        </table>-->
 
         <!--<table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -142,8 +142,8 @@
          <!--<table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-       <!-- <table tableName="cadre_eva" domainObjectName="cadre.CadreEva" mapperName="cadre.CadreEvaMapper">
-        </table>-->
+        <table tableName="cadre_eva" domainObjectName="cadre.CadreEva" mapperName="cadre.CadreEvaMapper">
+        </table>
         <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

@@ -3,11 +3,7 @@ package controller.cla;
 import controller.global.OpException;
 import domain.base.Country;
 import domain.cadre.CadreView;
-import domain.cla.ClaApply;
-import domain.cla.ClaApplyExample;
-import domain.cla.ClaApplyFile;
-import domain.cla.ClaApprovalLog;
-import domain.cla.ClaApproverType;
+import domain.cla.*;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -32,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import persistence.cla.common.ClaApprovalResult;
 import persistence.cla.common.ClaApproverTypeBean;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.ClaConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
@@ -41,24 +36,13 @@ import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.DownloadUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cla")
@@ -209,8 +193,8 @@ public class ClaApplyController extends ClaBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
-                ShiroUser shiroUser = ShiroHelper.getShiroUser();
-                ClaApproverTypeBean approverTypeBean = shiroUser.getClaApproverTypeBean();
+                //ShiroUser shiroUser = ShiroHelper.getShiroUser();
+                ClaApproverTypeBean approverTypeBean = claApplyService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
                 if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(claApply.getCadreId()))
                     throw new OpException("您没有权限");
             }
@@ -271,8 +255,8 @@ public class ClaApplyController extends ClaBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
-                ShiroUser shiroUser = ShiroHelper.getShiroUser();
-                ClaApproverTypeBean approverTypeBean = shiroUser.getClaApproverTypeBean();
+                //ShiroUser shiroUser = ShiroHelper.getShiroUser();
+                ClaApproverTypeBean approverTypeBean = claApplyService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
                 if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(cadreId))
                     throw new OpException("您没有权限");
             }

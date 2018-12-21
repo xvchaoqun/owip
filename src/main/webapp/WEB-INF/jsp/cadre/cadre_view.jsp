@@ -64,7 +64,7 @@
                 <shiro:hasPermission name="cadreParttime:*">
                     <li class="${to=='cadreParttime_page'?'active':''}">
                         <a href="javascript:"
-                           data-url="${ctx}/cadreParttime_page?cadreId=${param.cadreId}&_auth=${param._auth}">社会或学术兼职</a>
+                           data-url="${ctx}/cadreParttime_page?cadreId=${param.cadreId}&_auth=${param._auth}">学术兼职</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreTrain:*">
@@ -100,7 +100,7 @@
                 <shiro:hasPermission name="cadreCompany:*">
                     <li class="${to=='cadreCompany'?'active':''}">
                         <a href="javascript:"
-                           data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团和学术兼职</a>
+                           data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团兼职</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreConcat:*">

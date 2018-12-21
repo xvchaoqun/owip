@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import persistence.abroad.common.ApprovalResult;
 import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -125,8 +124,8 @@ public class MobileApplySelfController extends AbroadBaseController {
 		if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
 			CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
-				ShiroUser shiroUser = ShiroHelper.getShiroUser();
-				ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
+				//ShiroUser shiroUser = ShiroHelper.getShiroUser();
+				ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
 				if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
 					throw new OpException("您没有权限");
 			}

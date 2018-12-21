@@ -14,6 +14,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by lm on 2017/11/7.
@@ -64,15 +65,32 @@ public class PmdPayController extends PmdBaseController {
 
     // 校园卡
     @RequestMapping("/callback/campuscard")
-    public void callback(PayNotifyCampusCardBean bean, HttpServletRequest request,
+    public void callback_campuscard(PayNotifyCampusCardBean bean, HttpServletRequest request,
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
-
+    
+        Map<String, String[]> parameterMap = request.getParameterMap();
         logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
-        // 保存原始的支付通知
-        pmdPayCampusCardService.savePayNotifyBean(bean);
+        boolean ret = true;
+        if(parameterMap.size()>0) {
+            // 保存原始的支付通知
+            pmdPayCampusCardService.savePayNotifyBean(bean);
+            ret = pmdPayCampusCardService.notify(bean);
+        }
+        // 支付服务器要求返回200返回码
+        response.getWriter().write(ret ? "success" : "failed");
+    }
 
-        boolean ret = pmdPayCampusCardService.notify(bean);
-
+    // 新校园卡
+    @RequestMapping("/callback/newcampuscard")
+    public void callback_newcampuscard(PayNotifyCampusCardBean bean, HttpServletRequest request,
+                           HttpServletResponse response, ModelMap modelMap) throws IOException {
+    
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
+        boolean ret = true;
+        if(parameterMap.size()>0) {
+        
+        }
         // 支付服务器要求返回200返回码
         response.getWriter().write(ret ? "success" : "failed");
     }

@@ -1,10 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.dispatch.Dispatch;
+import domain.base.MetaType;
 import domain.dispatch.DispatchUnit;
 import domain.party.*;
 import domain.party.BranchMemberGroupExample.Criteria;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -83,6 +83,7 @@ public class BranchMemberGroupController extends BaseController {
                                     Integer branchId,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -126,6 +127,9 @@ public class BranchMemberGroupController extends BaseController {
         }
 
         if (export == 1) {
+             if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+             
             branchMemberGroup_export(example, response);
             return;
         }
@@ -269,31 +273,56 @@ public class BranchMemberGroupController extends BaseController {
 
         List<BranchMemberGroupView> records = branchMemberGroupViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称", "所属分党委", "所属党支部", "是否现任班子","应换届时间","实际换届时间","任命时间","发文"};
-        List<String[]> valuesList = new ArrayList<>();
+    
+        List<String> titles = new ArrayList<>(Arrays.asList("名称|250|left", "所属分党委|250|left", "所属党支部|250|left",
+                "是否现任班子","应换届时间|100","实际换届时间|100","任命时间|100"));
+        
+        Map<Integer, MetaType> branchMemberTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
+        for (MetaType branchMemberType : branchMemberTypeMap.values()) {
+            titles.add(branchMemberType.getName());
+        }
+        
+        List<List<String>> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             BranchMemberGroupView record = records.get(i);
-            Dispatch dispatch = null;
+            /*Dispatch dispatch = null;
             if(record.getDispatchUnitId()!=null) {
                 DispatchUnit dispatchUnit = CmTag.getDispatchUnit(record.getDispatchUnitId());
                 if(dispatchUnit!=null)
                     dispatch = dispatchUnit.getDispatch();
-            }
+            }*/
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-            String[] values = {
+            List<String> values = new ArrayList<>(Arrays.asList(
                     record.getName(),
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
                     BooleanUtils.isTrue(record.getIsPresent())?"是":"否",
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD),
-                    dispatch==null?"":CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear())
-            };
+                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD)));
+    
+            Map<Integer, List<BranchMember>> branchMemberListMap = branchMemberGroupService.getBranchMemberListMap(record.getId());
+    
+            for (MetaType branchMemberType : branchMemberTypeMap.values()) {
+                int typeId = branchMemberType.getId();
+                List<BranchMember> branchMemberList = branchMemberListMap.get(typeId);
+                String realname = "";
+                if(branchMemberList!=null) {
+                    List<String> realnames = new ArrayList<>();
+                    for (BranchMember branchMember : branchMemberList) {
+                        SysUserView uv = sysUserService.findById(branchMember.getUserId());
+                        realnames.add(uv.getRealname());
+                    }
+                    realname = StringUtils.join(realnames, ",");
+                }
+                
+                values.add(realname);
+            }
+            
             valuesList.add(values);
         }
-        String fileName = "支部委员会_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "支部委员会(" + DateUtils.formatDate(new Date(), "yyyyMMdd") +")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
@@ -362,7 +391,7 @@ public class BranchMemberGroupController extends BaseController {
 
             BranchMemberExample example = new BranchMemberExample();
             BranchMemberExample.Criteria criteria = example.createCriteria().andGroupIdEqualTo(id);
-            example.setOrderByClause(String.format("%s %s", "sort_order", "desc"));
+            example.setOrderByClause("sort_order desc");
 
             int count = branchMemberMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {
@@ -385,7 +414,6 @@ public class BranchMemberGroupController extends BaseController {
 
             BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
             modelMap.put("branchMemberGroup", branchMemberGroup);
-            modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_member_type"));
         }
 
         return "party/branchMemberGroup/branch_member";

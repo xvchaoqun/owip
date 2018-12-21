@@ -280,7 +280,7 @@ public class ClaApplyService extends BaseMapper {
             ClaApproverTypeBean approverTypeBean = null;
             ShiroUser shiroUser = ShiroHelper.getShiroUser();
             if (shiroUser != null) {
-                approverTypeBean = shiroUser.getClaApproverTypeBean();
+                approverTypeBean = getApproverTypeBean(ShiroHelper.getCurrentUserId());
             } else {
                 // 用于 api 接口调用
                 approverTypeBean = getApproverTypeBean(userId);

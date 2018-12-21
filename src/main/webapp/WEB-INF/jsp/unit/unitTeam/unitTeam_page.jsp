@@ -22,11 +22,11 @@
            data-msg="确定删除这{0}条记录吗？"><i class="fa fa-trash"></i> 删除</button>
     </shiro:hasPermission>
      <shiro:hasPermission name="unitTeam:edit">
-        <button class="jqOpenViewBtn btn btn-info btn-sm"
+        <%--<button class="jqOpenViewBtn btn btn-info btn-sm"
                 data-grid-id="#jqGrid2"
                 data-url="${ctx}/unitTeam_au?auType=1&unitId=${param.unitId}">
             <i class="fa fa-clock-o"></i> 设定应换届时间
-        </button>
+        </button>--%>
         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                 data-grid-id="#jqGrid2" data-width="1100"
                 data-url="${ctx}/unitTeam_au?auType=2&unitId=${param.unitId}">

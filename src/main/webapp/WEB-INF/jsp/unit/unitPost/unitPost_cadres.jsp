@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${unitPost.name}-历史任职干部</h3>
+    <h3>${unitPost.name}-历史任免干部信息</h3>
 </div>
 <div class="modal-body popup-jqgrid">
     <form class="form-inline search-form" id="searchForm_popup">

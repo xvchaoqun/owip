@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import persistence.cla.common.ClaApprovalResult;
 import persistence.cla.common.ClaApproverTypeBean;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -125,8 +124,8 @@ public class MobileClaApplyController extends ClaBaseController {
 		if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
 			CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
-				ShiroUser shiroUser = ShiroHelper.getShiroUser();
-				ClaApproverTypeBean approverTypeBean = shiroUser.getClaApproverTypeBean();
+				//ShiroUser shiroUser = ShiroHelper.getShiroUser();
+				ClaApproverTypeBean approverTypeBean = claApplyService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
 				if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(claApply.getCadreId()))
 					throw new OpException("您没有权限");
 			}
