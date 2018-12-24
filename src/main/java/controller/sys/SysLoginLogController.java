@@ -53,7 +53,7 @@ public class SysLoginLogController extends BaseController {
 		boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
 		if(!superAccount) {
 			Set<String> roles = sysUserService.findRoles(username);
-			if (roles.contains(RoleConstants.ROLE_ADMIN) || roles.contains(RoleConstants.ROLE_ADMIN1)) {
+			if (roles.contains(RoleConstants.ROLE_ADMIN)) {
 				canSwitch = false;
 			}
 		}

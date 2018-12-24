@@ -71,7 +71,7 @@ public class HtmlFragmentController extends BaseController {
         HtmlFragmentExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ADMIN1)) {
+        if (!ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {
 
             Set<Integer> roleIdSet = sysUserService.getUserRoleIdSet(loginUser.getRoleIds());
             criteria.andRoleIdIn(new ArrayList<>(roleIdSet));

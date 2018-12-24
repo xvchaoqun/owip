@@ -1,4 +1,9 @@
 
+
+
+role_admin1 -> role_super
+
+
 20181221
 
 ALTER TABLE `cadre_eva`

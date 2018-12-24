@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.Escape;
@@ -106,7 +107,8 @@ public class SysRoleController extends BaseController {
 			HttpServletRequest request) {
 
 		String role = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getRole()));
-		if(StringUtils.equals(role, RoleConstants.ROLE_ADMIN)) {
+		if(!CmTag.isSuperAccount(loginUser.getUsername())
+				&& StringUtils.equals(role, RoleConstants.ROLE_ADMIN)) {
 			throw new IllegalArgumentException("不允许添加admin角色");
 		}
 		if (role!=null && sysRoleService.idDuplicate(sysRole.getId(), role)) {

@@ -30,7 +30,7 @@
                                     <label class="col-xs-2 control-label">代码</label>
 
                                     <div class="col-xs-9">
-                                        <input required class="form-control" ${sysRole.role eq 'admin'?'disabled':''}
+                                        <input required class="form-control" ${(!cm:isSuperAccount(_user.username) && sysRole.role eq 'admin')?'disabled':''}
                                         type="text" name="role" value="${sysRole.role}">
                                         <span class="help-block small danger">如需修改，请联系系统开发人员</span>
                                     </div>

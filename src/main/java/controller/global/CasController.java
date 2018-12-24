@@ -47,23 +47,6 @@ public class CasController extends BaseController {
     @RequestMapping("/login_switch")
     public String login_switch(String username, HttpServletRequest request, HttpServletResponse response) {
 
-        /*boolean lackRoleAdmin = !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN,
-                RoleConstants.ROLE_ADMIN1);
-        if(!PropertiesUtils.getBoolean("devMode")){
-            if(lackRoleAdmin) { // 允许系统管理员、管理员在登录状态下登录别的账号，且不产生登录记录
-                throw new UnauthorizedException();
-            }else{
-
-                boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-                if(!superAccount) {
-                    Set<String> roles = sysUserService.findRoles(username);
-                    if (roles.contains(RoleConstants.ROLE_ADMIN) || roles.contains(RoleConstants.ROLE_ADMIN1)) {
-                        throw new UnauthorizedException();
-                    }
-                }
-            }
-        }*/
-
         logger.info(addLog(LogConstants.LOG_ADMIN, "切换账号登录%s", username));
 
         String _switchUser = ShiroHelper.getCurrentUsername();

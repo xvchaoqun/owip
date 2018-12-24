@@ -31,7 +31,6 @@
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
 <c:set var="ROLE_ADMIN" value="<%=RoleConstants.ROLE_ADMIN%>"/>
-<c:set var="ROLE_ADMIN1" value="<%=RoleConstants.ROLE_ADMIN1%>"/>
 <c:set var="ROLE_ODADMIN" value="<%=RoleConstants.ROLE_ODADMIN%>"/>
 <c:set var="ROLE_PARTYADMIN" value="<%=RoleConstants.ROLE_PARTYADMIN%>"/>
 <c:set var="ROLE_BRANCHADMIN" value="<%=RoleConstants.ROLE_BRANCHADMIN%>"/>
