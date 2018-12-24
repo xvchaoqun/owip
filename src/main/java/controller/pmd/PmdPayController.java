@@ -92,6 +92,6 @@ public class PmdPayController extends PmdBaseController {
         
         }
         // 支付服务器要求返回200返回码
-        response.getWriter().write(ret ? "success" : "failed");
+        response.getWriter().write(ret ? "pok" : "failed");
     }
 }
