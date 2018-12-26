@@ -27,11 +27,15 @@
         <!--党费收缴系统-->
         <!--<table tableName="pmd_special_user" domainObjectName="pmd.PmdSpecialUser" mapperName="pmd.PmdSpecialUserMapper">
         </table>-->
-        <!--<table tableName="pmd_order_campuscard"
-               domainObjectName="pmd.PmdOrderCampuscard" mapperName="pmd.PmdOrderCampuscardMapper">
+        <!--<table tableName="pmd_order"
+               domainObjectName="pmd.PmdOrder" mapperName="pmd.PmdOrderMapper">
+             <columnOverride column="params" jdbcType="VARCHAR"></columnOverride>
         </table>-->
         <!--<table tableName="pmd_order_item"
                domainObjectName="pmd.PmdOrderItem" mapperName="pmd.PmdOrderItemMapper">
+        </table>-->
+        <!--<table tableName="pmd_notify" domainObjectName="pmd.PmdNotify" mapperName="pmd.PmdNotifyMapper">
+            <columnOverride column="params" jdbcType="VARCHAR"></columnOverride>
         </table>-->
         <!--<table tableName="pmd_notify_wszf" domainObjectName="pmd.PmdNotifyWszf" mapperName="pmd.PmdNotifyWszfMapper">
         </table>
@@ -118,13 +122,13 @@
             <columnOverride column="delay_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="history_delay_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <table tableName="pmd_pay_view"
+        <!--<table tableName="pmd_pay_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="pmd.PmdPayView" mapperName="pmd.PmdPayViewMapper">
             <columnOverride column="is_delay"  javaType="Boolean"></columnOverride>
-        </table>
+        </table>-->
 
     </context>
 </generatorConfiguration>

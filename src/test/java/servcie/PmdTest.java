@@ -23,7 +23,7 @@ import service.pmd.PmdBranchService;
 import service.pmd.PmdMonthService;
 import service.pmd.PmdPartyService;
 import service.pmd.PmdPayService;
-import service.pmd.PmdPayWszfService;
+import service.pmd.PmdOrderWszfService;
 import sys.utils.DateUtils;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class PmdTest {
     @Autowired
     PmdPayService pmdPayService;
     @Autowired
-    PmdPayWszfService pmdWszfService;
+    PmdOrderWszfService pmdOrderWszfService;
     @Autowired
     CommonMapper commonMapper;
     @Autowired

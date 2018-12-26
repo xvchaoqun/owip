@@ -1,4 +1,16 @@
 
+
+20181226
+
+创建新表 pmd_order  pmd_notify
+
+把 pmd_order_campuscard 数据导入 pmd_order
+INSERT INTO `pmd_order` (`sn`, `member_id`, `is_batch`, `pay_month`, `payer`, `payername`, `amt`, `sign`, `user_id`, `is_success`, `is_closed`, `create_time`, `ip`)
+select `sn`, `member_id`, `is_batch`, `pay_month`, `payer`, `payername`, `amt`, `sign`, `user_id`, `is_success`, `is_closed`, `create_time`, `ip` from pmd_order_campuscard;
+
+更新 pmd_pay_view
+
+
 20181224
 role_admin1 -> role_super
 

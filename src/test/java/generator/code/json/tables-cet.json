@@ -7,13 +7,32 @@
   "resFolder": "cet",
   "tables": [
     {
+      "table": "cet_unit_project",
+      "key": "id",
+      "searchColumns": "year,unit_id",
+      "showColumns": "year,unit_id,end_date,start_date,project_name,project_type,special_type,period,total_count,address,is_valid,remark,add_user_id,add_time",
+      "excludeEditColumns": "id,status,add_time,add_user_id",
+      "logType":"LogConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_unit_train",
+      "key": "id",
+      "searchColumns": "user_id",
+      "showColumns": "user_id,title,post_id,period,word_note,add_type,add_user_id,add_time,status",
+      "excludeEditColumns": "id,status,add_time,add_user_id,back_reason",
+      "logType":"LogConstants.LOG_CET",
+      "ignore": false
+    },
+
+    {
       "table": "cet_upper_train",
       "key": "id",
       "searchColumns": "type,unit_id,user_id",
       "showColumns": "type,unit_id,user_id,title,post_id,organizer,train_type,special_train_type,train_name,start_date,end_date,period,is_valid",
       "excludeEditColumns": "id,add_time,add_user_id,back_reason,status",
       "logType":"LogConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_upper_train_admin",
@@ -22,7 +41,7 @@
       "showColumns": "type,unit_id,leader_id,user_id",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_unit",

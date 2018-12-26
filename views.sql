@@ -377,9 +377,9 @@ left join pmd_month pm on pb.month_id=pm.id;
 
 -- 缴费账单，用于对账
 DROP VIEW IF EXISTS `pmd_pay_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_view` AS select group_concat(poc_check.sn) as real_order_no,
-group_concat(poc_check.payer) as payer, group_concat(poc_check.payername) as payername ,
-t.*, uv.code, uv.realname, ouv.code as order_code, ouv.realname as order_realname, poc.create_time from
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_view` AS select group_concat(po_check.sn) as real_order_no,
+group_concat(po_check.payer) as payer, group_concat(po_check.payername) as payername ,
+t.*, uv.code, uv.realname, ouv.code as order_code, ouv.realname as order_realname, po.create_time from
 (
 -- 本月正常缴费
 select  pmp.order_no, m.id as pay_month_id, m.pay_month, pm.user_id, pmp.order_user_id, pmp.member_id, pm.real_pay, 0 as is_delay, pmp.pay_time
@@ -391,8 +391,8 @@ select pmpv.order_no, m.id as pay_month_id, m.pay_month, pmpv.user_id, pmpv.orde
 from pmd_member_pay_view pmpv, pmd_month m
 where pmpv.pay_month_id=m.id and pmpv.month_id < m.id and pmpv.has_pay=1 and pmpv.is_delay=1 and pmpv.is_online_pay=1
 ) t
-left join pmd_order_campuscard poc on poc.sn=t.order_no
-left join pmd_order_campuscard poc_check on poc_check.member_id=t.member_id and poc_check.is_success=1
+left join pmd_order po on po.sn=t.order_no
+left join pmd_order po_check on po_check.member_id=t.member_id and po_check.is_success=1
 left join sys_user_view uv on t.user_id=uv.id
 left join sys_user_view ouv on t.order_user_id=ouv.id
 group by member_id;

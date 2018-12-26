@@ -1,13 +1,5 @@
 package servcie;
 
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdBranchExample;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdNorm;
-import domain.pmd.PmdParty;
-import domain.pmd.PmdPartyExample;
-import org.apache.commons.lang.math.RandomUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,13 +17,11 @@ import service.pmd.PmdExportService;
 import service.pmd.PmdMonthService;
 import service.pmd.PmdPartyService;
 import service.pmd.PmdPayService;
-import service.pmd.PmdPayWszfService;
-import sys.utils.DateUtils;
+import service.pmd.PmdOrderWszfService;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by lm on 2018/1/12.
@@ -55,7 +45,7 @@ public class PmdExportTest {
     @Autowired
     PmdPayService pmdPayService;
     @Autowired
-    PmdPayWszfService pmdWszfService;
+    PmdOrderWszfService pmdOrderWszfService;
     @Autowired
     CommonMapper commonMapper;
     @Autowired

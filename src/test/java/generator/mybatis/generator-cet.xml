@@ -40,13 +40,20 @@
         </javaClientGenerator>
 
         <!--干部教育培训系统-->
-        <table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
+
+        <table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
+        </table>
+        <!--<table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
+        </table>-->
+
+
+        <!--<table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
                mapperName="cet.CetUpperTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
                mapperName="cet.CetUpperTrainAdminMapper">
-        </table>
+        </table>-->
 
        <!-- <table tableName="cet_unit" domainObjectName="cet.CetUnit" mapperName="cet.CetUnitMapper">
         </table>
