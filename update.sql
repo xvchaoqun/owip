@@ -1,4 +1,8 @@
 
+20181226
+ALTER TABLE `sys_user_reg`
+	COMMENT='校外账号注册';
+RENAME TABLE `sys_user_reg` TO `ow_member_reg`;
 
 20181226
 

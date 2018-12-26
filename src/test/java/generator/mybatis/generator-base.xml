@@ -101,8 +101,7 @@
         <!--<table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo" mapperName="sys.TeacherInfoMapper">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <!--<table tableName="sys_user_reg" domainObjectName="sys.SysUserReg">
-        </table>-->
+
         <!--<table tableName="sys_login_log" domainObjectName="sys.SysLoginLog" mapperName="sys.SysLoginLogMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="agent" jdbcType="VARCHAR"></columnOverride>

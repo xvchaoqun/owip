@@ -151,7 +151,7 @@
                 /monitor = anon
                 /cas = anon
                 /m/cas = anon
-                /reg = anon
+                /member_reg = anon
                 /login = authc
                 /logout = logout
                 /authenticated = authc
