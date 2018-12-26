@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>党员出党-返回修改</h3>
+    <h3>减员信息-返回修改</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberQuit_back" id="modalForm" method="post">

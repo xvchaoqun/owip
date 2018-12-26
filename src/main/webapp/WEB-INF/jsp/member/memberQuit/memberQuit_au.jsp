@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
 
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${memberQuit!=null}">编辑</c:if><c:if test="${memberQuit==null}">添加</c:if>党员出党</h3>
+    <h3><c:if test="${memberQuit!=null}">编辑</c:if><c:if test="${memberQuit==null}">添加</c:if>减员信息</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberQuit_au" id="modalForm" method="post">
@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">出党原因</label>
+				<label class="col-xs-3 control-label">减员原因</label>
 				<div class="col-xs-6">
                         <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                             <option></option>
@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">出党时间</label>
+				<label class="col-xs-3 control-label">减员时间</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 200px">
                         <input required class="form-control date-picker" name="_quitTime" type="text"

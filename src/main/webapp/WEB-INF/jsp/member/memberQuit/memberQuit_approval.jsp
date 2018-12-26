@@ -35,7 +35,7 @@
                         <div class="page-header">
                             <h1>
                                 <i class="fa fa-check-square-o"></i>
-                                党员出党申请信息
+                                减员申请信息
                                 <c:if test="${count>0}">
                                 （总共${count}条记录未处理）
                                 </c:if>
@@ -90,7 +90,7 @@
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 出党时间 </div>
+                                    <div class="profile-info-name"> 减员时间 </div>
 
                                     <div class="profile-info-value">
                                         <span class="editable" >${cm:formatDate(memberQuit.quitTime,'yyyy-MM-dd')}</span>

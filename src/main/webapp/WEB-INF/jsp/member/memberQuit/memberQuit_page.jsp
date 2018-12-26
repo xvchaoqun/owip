@@ -128,16 +128,16 @@
                                                 </div>
                                             </div>
                                                     <div class="form-group">
-                                                        <label>出党时间</label>
-                                                            <div class="input-group tooltip-success" data-rel="tooltip" title="出党时间范围">
+                                                        <label>减员时间</label>
+                                                            <div class="input-group tooltip-success" data-rel="tooltip" title="减员时间范围">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar bigger-110"></i>
                                                                 </span>
-                                                                <input placeholder="请选择出党时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_quitTime" value="${param._quitTime}"/>
+                                                                <input placeholder="请选择减员时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_quitTime" value="${param._quitTime}"/>
                                                             </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>出党原因</label>
+                                                        <label>减员原因</label>
                                                             <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                                                                 <option></option>
                                                                 <c:forEach items="<%=MemberConstants.MEMBER_QUIT_TYPE_MAP%>" var="quitType">
@@ -273,8 +273,8 @@
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
-            {label: '出党时间', name: 'quitTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '出党原因', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
+            {label: '减员时间', name: 'quitTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '减员原因', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_QUIT_TYPE_MAP[rowObject.type];
             }},{label: '当前状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_QUIT_STATUS_MAP[rowObject.status];
