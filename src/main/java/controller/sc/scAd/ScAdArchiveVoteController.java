@@ -1,5 +1,6 @@
 package controller.sc.scAd;
 
+import controller.sc.ScBaseController;
 import domain.sc.scAd.ScAdArchiveVote;
 import domain.sc.scAd.ScAdArchiveVoteExample;
 import domain.sc.scAd.ScAdArchiveVoteExample.Criteria;
@@ -29,7 +30,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScAdArchiveVoteController extends ScAdBaseController {
+public class ScAdArchiveVoteController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

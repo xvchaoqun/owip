@@ -6,20 +6,15 @@ import domain.pmd.PmdPayParty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.party.PartyMemberService;
 import service.sys.SysUserService;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class PmdPartyAdminService extends BaseMapper {
+public class PmdPartyAdminService extends PmdBaseMapper {
 
     @Autowired
     private PmdPayPartyService pmdPayPartyService;

@@ -1,18 +1,13 @@
 package service.cet;
 
 import controller.global.OpException;
-import domain.cet.CetCourseItem;
-import domain.cet.CetPlanCourse;
-import domain.cet.CetPlanCourseObj;
-import domain.cet.CetPlanCourseObjResult;
-import domain.cet.CetPlanCourseObjResultExample;
+import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysUserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CetPlanCourseObjResultService extends BaseMapper {
+public class CetPlanCourseObjResultService extends CetBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
@@ -89,7 +84,7 @@ public class CetPlanCourseObjResultService extends BaseMapper {
             String _isFinished = xlsRow.get(4 + (courseItemSize*2)); // 第九列是是否结业
 
             if(!NumberUtils.isDigits(_num)){
-                throw new OpException("导入失败，第{}行的学员的学习心得数有误。", (i+1));
+                throw new OpException("导入失败，第{0}行的学员的学习心得数有误。", (i+1));
             }
             int num = Integer.valueOf(_num);
             boolean isFinished = StringUtils.equals(_isFinished, "是");
@@ -111,10 +106,10 @@ public class CetPlanCourseObjResultService extends BaseMapper {
                 String _period = xlsRow.get(4 + j*2);
 
                 if(!NumberUtils.isDigits(_courseNum)){
-                    throw new OpException("导入失败，第{}行的学员的课程数有误。", (i+1));
+                    throw new OpException("导入失败，第{0}行的学员的课程数有误。", (i+1));
                 }
                 if(!NumberUtils.isNumber(_period)){
-                    throw new OpException("导入失败，第{}行的学员的学时数有误。", (i+1));
+                    throw new OpException("导入失败，第{0}行的学员的学时数有误。", (i+1));
                 }
 
                 CetPlanCourseObjResult record = new CetPlanCourseObjResult();

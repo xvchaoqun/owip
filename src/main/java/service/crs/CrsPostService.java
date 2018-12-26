@@ -1,23 +1,12 @@
 package service.crs;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import domain.crs.CrsApplicantWithBLOBs;
-import domain.crs.CrsCandidate;
-import domain.crs.CrsCandidateExample;
-import domain.crs.CrsPost;
-import domain.crs.CrsPostExample;
-import domain.crs.CrsPostWithBLOBs;
+import com.google.gson.*;
+import domain.crs.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import sys.constants.CrsConstants;
 import sys.utils.DateUtils;
 
@@ -31,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CrsPostService extends BaseMapper {
+public class CrsPostService extends CrsBaseMapper {
 
     public int[] groupCount(int postId){
 

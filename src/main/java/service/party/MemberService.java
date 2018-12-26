@@ -1,18 +1,7 @@
 package service.party;
 
 import controller.global.OpException;
-import domain.member.Member;
-import domain.member.MemberExample;
-import domain.member.MemberModify;
-import domain.member.MemberModifyExample;
-import domain.member.MemberOut;
-import domain.member.MemberOutExample;
-import domain.member.MemberOutflow;
-import domain.member.MemberOutflowExample;
-import domain.member.MemberStay;
-import domain.member.MemberStayExample;
-import domain.member.MemberTransfer;
-import domain.member.MemberTransferExample;
+import domain.member.*;
 import domain.party.Branch;
 import domain.party.EnterApply;
 import domain.sys.SysUserView;
@@ -26,17 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
-import service.member.MemberApplyService;
 import service.ext.SyncService;
+import service.member.EnterApplyService;
+import service.member.MemberApplyService;
+import service.member.MemberBaseMapper;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
-import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -49,28 +35,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class MemberService extends BaseMapper {
+public class MemberService extends MemberBaseMapper {
+    
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
     @Autowired(required = false)
     private SyncService syncService;
-    /*@Autowired
-    private EnterApplyService enterApplyService;
-    @Autowired
-    private MemberApplyService memberApplyService;
-    @Autowired
-    protected MemberApplyOpService memberApplyOpService;*/
     @Autowired
     private PartyService partyService;
     @Autowired
     private BranchService branchService;
     @Autowired
     private LogService logService;
-   /* @Autowired
-    protected ApplyApprovalLogService applyApprovalLogService;*/
-    @Autowired
-    protected MemberTeacherService memberTeacherService;
 
     public Member get(int userId) {
 

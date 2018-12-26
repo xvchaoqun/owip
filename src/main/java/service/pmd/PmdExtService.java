@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by lm on 2017/11/15.
  */
 @Service
-public class PmdExtService extends BaseMapper{
+public class PmdExtService extends PmdBaseMapper{
 
     @Autowired
     private MemberTeacherMapper memberTeacherMapper;

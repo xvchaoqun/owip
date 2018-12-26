@@ -6,7 +6,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.Map;
  * Created by fafa on 2016/6/24.
  */
 @Service
-public class ApproverBlackListService extends BaseMapper {
+public class ApproverBlackListService extends AbroadBaseMapper {
 
     @Transactional
     @CacheEvict(value="ApproverBlackList", key = "#approverTypeId")

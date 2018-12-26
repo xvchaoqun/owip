@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CrsApplyRuleService extends BaseMapper {
+public class CrsApplyRuleService extends CrsBaseMapper {
 
     // 根据报名规则，判断是否可以报名
     public boolean canApply(int userId, int postId){

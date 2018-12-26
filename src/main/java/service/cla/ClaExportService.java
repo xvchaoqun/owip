@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.cla.common.ClaApprovalResult;
-import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
 import service.sys.SysUserService;
@@ -27,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ClaExportService extends BaseMapper {
+public class ClaExportService extends ClaBaseMapper {
 
     @Autowired
     private FreemarkerService freemarkerService;

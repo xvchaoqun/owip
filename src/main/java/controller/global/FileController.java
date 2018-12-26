@@ -1,42 +1,28 @@
 package controller.global;
 
 import controller.BaseController;
-import domain.abroad.PassportDraw;
-import domain.abroad.PassportDrawFile;
 import domain.sys.AttachFile;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.qrcode.QRCodeUtil;
-import sys.utils.DownloadUtils;
-import sys.utils.FileUtils;
-import sys.utils.ImageUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
-import sys.utils.RequestUtils;
+import sys.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.MessageFormat;
 
 /**
@@ -68,25 +54,6 @@ public class FileController extends BaseController {
         response.setHeader("Set-Cookie", "fileDownload=true; path=/");
         DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
-
-    @RequestMapping(value = "/attach/passportDrawFile")
-    public void passportDrawFile(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        PassportDrawFile passportDrawFile = passportDrawFileMapper.selectByPrimaryKey(id);
-        if (passportDrawFile != null) {
-            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
-            if (passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
-                // 本人、干部管理员或管理员才可以下载
-                if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN)) {
-                    throw new UnauthorizedException();
-                }
-            }
-
-            String path = springProps.uploadPath + passportDrawFile.getFilePath();
-            DownloadUtils.download(request, response, path, passportDrawFile.getFileName());
-        }
-    }
-
 
     @RequestMapping("/swf/preview")
     public String swf_preview(String type, String path, String filename,

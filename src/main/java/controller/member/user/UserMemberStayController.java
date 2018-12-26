@@ -96,7 +96,7 @@ public class UserMemberStayController extends MemberBaseController {
         }
 
         modelMap.put("userBean", userBeanService.get(userId));
-        modelMap.put("student", studentService.get(userId));
+        modelMap.put("student", studentInfoService.get(userId));
         modelMap.put("memberStay", memberStay);
 
         if(!selfSubmit){ // 管理员可在任意状态下修改

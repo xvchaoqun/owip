@@ -6,7 +6,9 @@ import domain.base.MetaType;
 import domain.cadre.*;
 import domain.dispatch.*;
 import domain.modify.ModifyCadreAuth;
+import domain.party.Party;
 import domain.party.RetireApply;
+import domain.partySchool.PartySchool;
 import domain.sys.HtmlFragment;
 import domain.sys.SysConfig;
 import domain.sys.SysResource;
@@ -32,6 +34,8 @@ import service.ext.ExtService;
 import service.global.CacheService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
+import service.party.PartyService;
+import service.partySchool.PartySchoolService;
 import service.sys.HtmlFragmentService;
 import service.sys.SysConfigService;
 import service.sys.SysResourceService;
@@ -64,6 +68,8 @@ public class CmTag {
     static ExtService extService = context.getBean(ExtService.class);
 
     static UnitService unitService = context.getBean(UnitService.class);
+    static PartyService partyService = context.getBean(PartyService.class);
+    static PartySchoolService partySchoolService = context.getBean(PartySchoolService.class);
 
     static CadreService cadreService = context.getBean(CadreService.class);
     static CadrePostService cadrePostService = context.getBean(CadrePostService.class);
@@ -304,11 +310,28 @@ public class CmTag {
         return cadreFamilyService.get(id);
     }
 
+    public static Party getParty(Integer id) {
+
+        if (id == null) return null;
+
+        return partyService.findAll().get(id);
+    }
+    public static PartySchool getPartySchool(Integer id) {
+
+        if (id == null) return null;
+
+        return partySchoolService.findAll().get(id);
+    }
     public static SysUserView getUserById(Integer id) {
 
         if (id == null) return null;
 
         return sysUserService.findById(id);
+    }
+
+    public static SysUserView getUserByCode(String code) {
+
+        return sysUserService.findByCode(code);
     }
 
     public static SysUserView getUserByUsername(String username) {

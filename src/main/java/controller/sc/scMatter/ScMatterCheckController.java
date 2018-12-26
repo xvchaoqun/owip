@@ -1,6 +1,7 @@
 package controller.sc.scMatter;
 
 import controller.global.OpException;
+import controller.sc.ScBaseController;
 import domain.sc.scMatter.ScMatterCheck;
 import domain.sc.scMatter.ScMatterCheckExample;
 import domain.sc.scMatter.ScMatterCheckExample.Criteria;
@@ -38,7 +39,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterCheckController extends ScMatterBaseController {
+public class ScMatterCheckController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

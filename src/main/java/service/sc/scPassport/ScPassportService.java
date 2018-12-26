@@ -5,12 +5,12 @@ import domain.sc.scPassport.ScPassportExample;
 import org.apache.shiro.util.Assert;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScPassportService extends BaseMapper {
+public class ScPassportService extends ScBaseMapper {
 
     public boolean idDuplicate(Integer id, int handId, int classId){
 

@@ -6,21 +6,16 @@ import domain.pmd.PmdPayBranch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.party.BranchMemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class PmdBranchAdminService extends BaseMapper {
+public class PmdBranchAdminService extends PmdBaseMapper {
 
     @Autowired
     private PmdPayBranchService pmdPayBranchService;

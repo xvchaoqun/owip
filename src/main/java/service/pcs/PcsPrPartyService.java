@@ -4,11 +4,7 @@ import controller.global.OpException;
 import controller.pcs.pr.PcsPrCandidateFormBean;
 import domain.member.Member;
 import domain.party.Party;
-import domain.pcs.PcsPrCandidate;
-import domain.pcs.PcsPrCandidateExample;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrRecommend;
-import domain.pcs.PcsPrRecommendExample;
+import domain.pcs.*;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
@@ -16,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.cadre.CadreService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -33,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PcsPrPartyService extends BaseMapper {
+public class PcsPrPartyService extends PcsBaseMapper {
 
     @Autowired
     private CadreService cadreService;

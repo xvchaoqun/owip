@@ -2,12 +2,11 @@ package service.oa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 import service.base.ShortMsgService;
 import service.sys.SysUserService;
 
 @Service
-public class OaTaskMsgService extends BaseMapper {
+public class OaTaskMsgService extends OaBaseMapper {
 
     @Autowired
     private OaTaskUserService oaTaskUserService;

@@ -1,12 +1,8 @@
 package controller.sc.scCommittee;
 
+import controller.sc.ScBaseController;
 import domain.cadre.CadreView;
-import domain.sc.scCommittee.ScCommittee;
-import domain.sc.scCommittee.ScCommitteeExample;
-import domain.sc.scCommittee.ScCommitteeMember;
-import domain.sc.scCommittee.ScCommitteeMemberView;
-import domain.sc.scCommittee.ScCommitteeView;
-import domain.sc.scCommittee.ScCommitteeViewExample;
+import domain.sc.scCommittee.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -24,25 +20,16 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScCommitteeController extends ScCommitteeBaseController {
+public class ScCommitteeController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

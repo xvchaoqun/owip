@@ -1,23 +1,16 @@
 package service.cet;
 
-import domain.cet.CetPlanCourse;
-import domain.cet.CetPlanCourseObj;
-import domain.cet.CetPlanCourseObjExample;
-import domain.cet.CetPlanCourseObjResult;
-import domain.cet.CetPlanCourseObjResultExample;
-import domain.cet.CetProjectObj;
-import domain.cet.CetProjectPlan;
+import domain.cet.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class CetPlanCourseObjService extends BaseMapper {
+public class CetPlanCourseObjService extends CetBaseMapper {
 
     @Autowired
     private CetProjectObjService cetProjectObjService;

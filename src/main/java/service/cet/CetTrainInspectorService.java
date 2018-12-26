@@ -3,13 +3,7 @@ package service.cet;
 import bean.XlsCetTrainInspector;
 import bean.XlsUpload;
 import controller.global.OpException;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainEvaResultExample;
-import domain.cet.CetTrainInspector;
-import domain.cet.CetTrainInspectorCourseExample;
-import domain.cet.CetTrainInspectorExample;
-import domain.cet.CetTraineeCadreView;
-import domain.cet.CetTraineeCadreViewExample;
+import domain.cet.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -20,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import service.BaseMapper;
 import sys.constants.CetConstants;
 import sys.utils.DateUtils;
 
@@ -30,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CetTrainInspectorService extends BaseMapper {
+public class CetTrainInspectorService extends CetBaseMapper {
 
     @Autowired
     private CetTrainService cetTrainService;

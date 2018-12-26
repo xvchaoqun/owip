@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class MemberTransferService extends BaseMapper {
+public class MemberTransferService extends MemberBaseMapper {
 
     @Autowired
     private LoginUserService loginUserService;

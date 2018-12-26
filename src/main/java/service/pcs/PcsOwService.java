@@ -1,23 +1,17 @@
 package service.pcs;
 
 import controller.global.OpException;
-import domain.pcs.PcsCandidateChosen;
-import domain.pcs.PcsCandidateChosenExample;
-import domain.pcs.PcsCandidateView;
-import domain.pcs.PcsCandidateViewExample;
-import domain.pcs.PcsIssue;
-import domain.pcs.PcsIssueExample;
+import domain.pcs.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class PcsOwService extends BaseMapper {
+public class PcsOwService extends PcsBaseMapper {
 
     public static final String TABLE_NAME = "pcs_candidate_chosen";
 

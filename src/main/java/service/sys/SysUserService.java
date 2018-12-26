@@ -159,7 +159,7 @@ public class SysUserService extends BaseMapper {
 
         SysRole sysRole = sysRoleService.getByRole(role);
         if(sysRole==null){
-            throw new OpException("角色{}不存在。", role);
+            throw new OpException("角色{0}不存在。", role);
         }
         SysUserViewExample example = new SysUserViewExample();
         SysUserViewExample.Criteria criteria = example.createCriteria();
@@ -232,7 +232,7 @@ public class SysUserService extends BaseMapper {
 
         SysRole sysRole = sysRoleService.getByRole(role);
         if(sysRole==null){
-            throw new OpException("角色{}不存在。", role);
+            throw new OpException("角色{0}不存在。", role);
         }
         Set<Integer> roleIdSet = getUserRoleIdSet(_sysUser.getRoleIds());
         roleIdSet.remove(sysRole.getId());

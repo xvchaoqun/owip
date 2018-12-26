@@ -1,9 +1,6 @@
 package controller.abroad;
 
-import domain.abroad.ApplySelf;
-import domain.abroad.Passport;
-import domain.abroad.PassportDraw;
-import domain.abroad.PassportDrawExample;
+import domain.abroad.*;
 import domain.abroad.PassportDrawExample.Criteria;
 import domain.base.ContentTpl;
 import domain.base.Country;
@@ -16,6 +13,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -27,34 +25,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.AbroadConstants;
-import sys.constants.ContentTplConstants;
-import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import shiro.ShiroHelper;
+import sys.constants.*;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.ImageUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/abroad")
@@ -534,6 +518,24 @@ public class PassportDrawController extends AbroadBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+    
+    @RequestMapping(value = "/attach/passportDrawFile")
+    public void attach_passportDrawFile(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        PassportDrawFile passportDrawFile = passportDrawFileMapper.selectByPrimaryKey(id);
+        if (passportDrawFile != null) {
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
+            if (passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
+                // 本人、干部管理员或管理员才可以下载
+                if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN)) {
+                    throw new UnauthorizedException();
+                }
+            }
+
+            String path = springProps.uploadPath + passportDrawFile.getFilePath();
+            DownloadUtils.download(request, response, path, passportDrawFile.getFileName());
+        }
     }
 
 }

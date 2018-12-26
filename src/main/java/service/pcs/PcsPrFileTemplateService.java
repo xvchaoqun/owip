@@ -5,13 +5,12 @@ import domain.pcs.PcsPrFileTemplateExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class PcsPrFileTemplateService extends BaseMapper {
+public class PcsPrFileTemplateService extends PcsBaseMapper {
 
     public static final String TABLE_NAME = "pcs_pr_file_template";
 

@@ -1,5 +1,6 @@
 package controller.sc.scCommittee;
 
+import controller.sc.ScBaseController;
 import domain.sc.scCommittee.ScCommitteeMember;
 import domain.sc.scCommittee.ScCommitteeMemberExample;
 import domain.sc.scCommittee.ScCommitteeMemberView;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScCommitteeMemberController extends ScCommitteeBaseController {
+public class ScCommitteeMemberController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

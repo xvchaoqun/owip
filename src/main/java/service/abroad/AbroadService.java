@@ -1,29 +1,20 @@
 package service.abroad;
 
-import domain.abroad.ApplicatCadre;
-import domain.abroad.ApplicatCadreExample;
-import domain.abroad.ApprovalOrder;
-import domain.abroad.ApprovalOrderExample;
-import domain.abroad.ApproverType;
+import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 import sys.constants.CadreConstants;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by lm on 2018/7/20.
  */
 @Service
-public class AbroadService extends BaseMapper {
+public class AbroadService extends AbroadBaseMapper {
 
     @Autowired
     ApplicatTypeService applicatTypeService;

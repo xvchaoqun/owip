@@ -1,18 +1,7 @@
 package service.cet;
 
 import controller.global.OpException;
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainCourseView;
-import domain.cet.CetTrainee;
-import domain.cet.CetTraineeCourse;
-import domain.cet.CetTraineeCourseExample;
-import domain.cet.CetTraineeCourseView;
-import domain.cet.CetTraineeCourseViewExample;
-import domain.cet.CetTraineeView;
+import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -22,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import persistence.cet.common.ICetTrainCourse;
-import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -30,15 +18,10 @@ import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class CetTraineeCourseService extends BaseMapper {
+public class CetTraineeCourseService extends CetBaseMapper {
 
     @Autowired
     private CetTraineeService cetTraineeService;

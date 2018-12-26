@@ -70,7 +70,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class ClaApplyService extends BaseMapper {
+public class ClaApplyService extends ClaBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired

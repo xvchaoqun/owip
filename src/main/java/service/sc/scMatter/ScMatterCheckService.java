@@ -10,17 +10,13 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 import service.sys.SysUserService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class ScMatterCheckService extends BaseMapper {
+public class ScMatterCheckService extends ScBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

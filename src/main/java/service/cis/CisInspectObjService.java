@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CisInspectObjService extends BaseMapper {
+public class CisInspectObjService extends CisBaseMapper {
 
     @Autowired
     private FreemarkerService freemarkerService;

@@ -1,11 +1,12 @@
 package controller.pmd.user;
 
+import com.google.gson.Gson;
 import controller.global.OpException;
 import controller.pmd.PmdBaseController;
 import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
-import domain.pmd.PmdOrderCampuscard;
+import domain.pmd.PmdOrder;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,11 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.pmd.PayFormWszfBean;
+import service.pmd.PmdOrderCampusCardService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -46,7 +46,7 @@ public class UserPmdPayController extends PmdBaseController {
         PmdMember pmdMember = pmdMemberService.get(monthId, userId);
         modelMap.put("pmdMember", pmdMember);
 
-        PayFormWszfBean payFormBean = pmdPayWszfService.createPayFormBean(pmdMember.getId());
+        PayFormWszfBean payFormBean = pmdOrderWszfService.createPayFormBean(pmdMember.getId());
         modelMap.put("payFormBean", payFormBean);
 
         modelMap.put("pay_url", PropertiesUtils.getString("pay.wszf.url"));
@@ -59,7 +59,7 @@ public class UserPmdPayController extends PmdBaseController {
         bean.setJylsh(String.valueOf(1303190000001L + pmdMember.getId()));
         bean.setTranStat("1");
         bean.setReturn_type("1");
-        String sign = pmdPayWszfService.verifySign(bean);
+        String sign = pmdOrderWszfService.verifySign(bean);
         String ret = "orderDate=" + bean.getOrderDate() +
                 "&orderNo=" + bean.getOrderNo() +
                 "&amount=" + bean.getAmount() +
@@ -77,7 +77,7 @@ public class UserPmdPayController extends PmdBaseController {
     @ResponseBody
     public Map do_payConfirm_wszf(int monthId) {
 
-        PayFormWszfBean payFormBean = pmdPayWszfService.payConfirm(monthId);
+        PayFormWszfBean payFormBean = pmdOrderWszfService.payConfirm(monthId);
         logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(payFormBean, false)));
 
@@ -140,66 +140,69 @@ public class UserPmdPayController extends PmdBaseController {
         return _pmdMember;
     }
 
-    // 校园卡
+    // 支付订单确认
     //@RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping("/payConfirm_campuscard")
-    public String payConfirm_campuscard(int id,
-                                        @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay,
+    @RequestMapping("/payConfirm")
+    public String payConfirm(int id, @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay,
                                         ModelMap modelMap) {
 
         PmdMember pmdMember = checkPayAuth(id, isSelfPay);
         modelMap.put("pmdMember", pmdMember);
         modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
 
-        return "pmd/user/payConfirm_campuscard";
+        return "pmd/user/payConfirm";
     }
 
     //@RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping(value = "/payConfirm_campuscard", method = RequestMethod.POST)
+    @RequestMapping(value = "/payConfirm", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_payConfirm_campuscard(int id,
-                                        @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay) {
+    public Map do_payConfirm(int id, @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay) {
 
         checkPayAuth(id, isSelfPay);
 
-        PmdOrderCampuscard order = pmdPayCampusCardService.payConfirm(id, isSelfPay);
+        PmdOrder order = pmdOrderCampusCardService.payConfirm(id, isSelfPay);
         logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 
+        Gson gson = new Gson();
+        Map<String, Object> params =  gson.fromJson(order.getParams(), Map.class);
+        params.put("sn", order.getSn());
+        params.put("sign", order.getSign());
+        
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("order", order);
+        resultMap.put("order", params);
 
         // test
-       /* PayNotifyCampusCardBean bean = new PayNotifyCampusCardBean();
-        bean.setPaycode(order.getPaycode());
-        bean.setPayitem("ZZBGZ001");
-        bean.setPayer(order.getPayer());
-        bean.setPayertype(order.getPayertype());
-        bean.setSn(order.getSn());
-        bean.setAmt(order.getAmt());
-        bean.setPaid("true");
-        bean.setPaidtime(DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
+        String paycode = (String) params.get("paycode");
+        String payitem = "ZZBGZ001";
+        String payer = order.getPayer();
+        String payertype = (String) params.get("payertype");
+        String sn = order.getSn();
+        String amt = order.getAmt();
+        String paid = "true";
+        String paidtime = DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss");
 
-        String sign =  MD5Util.md5Hex(pmdPayCampusCardService.signMd5Str(bean), "utf-8");
-        String ret = "paycode=" + bean.getPaycode() +
-                "&payitem=" + bean.getPayitem() +
-                "&payer=" + bean.getPayer() +
-                "&payertype=" + bean.getPayertype() +
-                "&sn=" + bean.getSn() +
-                "&amt=" + bean.getAmt() +
-                "&paid=" + bean.getPaid() +
-                "&paidtime=" + bean.getPaidtime() +
+        
+        String sign =  MD5Util.md5Hex(PmdOrderCampusCardService.notifySignStr(paycode, sn, amt, payer, paid, paidtime), "utf-8");
+        String ret = "paycode=" + paycode +
+                "&payitem=" + payitem +
+                "&payer=" + payer +
+                "&payertype=" + payertype +
+                "&sn=" + sn +
+                "&amt=" + amt +
+                "&paid=" + paid +
+                "&paidtime=" + paidtime +
                 "&sign=" + sign;
-        resultMap.put("ret", ret);*/
+        resultMap.put("ret", ret);
         // test
 
         return resultMap;
     }
 
-    // 批量缴费
+    // 批量缴费订单确认
     //@RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping("/payConfirm_campuscard_batch")
-    public String payConfirm_campuscard_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay, ModelMap modelMap) {
+    @RequestMapping("/payConfirm_batch")
+    public String payConfirm_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay, ModelMap modelMap) {
 
         BigDecimal duePay = BigDecimal.ZERO;
         for (Integer id : ids) {
@@ -210,47 +213,52 @@ public class UserPmdPayController extends PmdBaseController {
         modelMap.put("duePay", duePay);
         modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
 
-        return "pmd/user/payConfirm_campuscard_batch";
+        return "pmd/user/payConfirm_batch";
     }
 
     //@RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping(value = "/payConfirm_campuscard_batch", method = RequestMethod.POST)
+    @RequestMapping(value = "/payConfirm_batch", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_payConfirm_campuscard_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay) {
+    public Map do_payConfirm_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay) {
 
         for (Integer id : ids) {
             checkPayAuth(id, false);
         }
 
-        PmdOrderCampuscard order = pmdPayCampusCardService.batchPayConfirm(isDelay, ids);
+        PmdOrder order = pmdOrderCampusCardService.batchPayConfirm(isDelay, ids);
         logger.info(addLog(LogConstants.LOG_PMD, "批量缴费支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 
+        Gson gson = new Gson();
+        Map<String, Object> params =  gson.fromJson(order.getParams(), Map.class);
+        params.put("sn", order.getSn());
+        params.put("sign", order.getSign());
+        
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("order", order);
+        resultMap.put("order", params);
 
         // test
-        /*PayNotifyCampusCardBean bean = new PayNotifyCampusCardBean();
-        bean.setPaycode(order.getPaycode());
-        bean.setPayitem("ZZBGZ001");
-        bean.setPayer(order.getPayer());
-        bean.setPayertype(order.getPayertype());
-        bean.setSn(order.getSn());
-        bean.setAmt(order.getAmt());
-        bean.setPaid("true");
-        bean.setPaidtime(DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
+        String paycode = (String) params.get("paycode");
+        String payitem = "ZZBGZ001";
+        String payer = order.getPayer();
+        String payertype = (String) params.get("payertype");
+        String sn = order.getSn();
+        String amt = order.getAmt();
+        String paid = "true";
+        String paidtime = DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss");
 
-        String sign =  MD5Util.md5Hex(pmdPayCampusCardService.signMd5Str(bean), "utf-8");
-        String ret = "paycode=" + bean.getPaycode() +
-                "&payitem=" + bean.getPayitem() +
-                "&payer=" + bean.getPayer() +
-                "&payertype=" + bean.getPayertype() +
-                "&sn=" + bean.getSn() +
-                "&amt=" + bean.getAmt() +
-                "&paid=" + bean.getPaid() +
-                "&paidtime=" + bean.getPaidtime() +
+        
+        String sign =  MD5Util.md5Hex(PmdOrderCampusCardService.notifySignStr(paycode, sn, amt, payer, paid, paidtime), "utf-8");
+        String ret = "paycode=" + paycode +
+                "&payitem=" + payitem +
+                "&payer=" + payer +
+                "&payertype=" + payertype +
+                "&sn=" + sn +
+                "&amt=" + amt +
+                "&paid=" + paid +
+                "&paidtime=" + paidtime +
                 "&sign=" + sign;
-        resultMap.put("ret", ret);*/
+        resultMap.put("ret", ret);
         // test
 
         return resultMap;

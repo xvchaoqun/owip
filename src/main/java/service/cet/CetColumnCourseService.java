@@ -5,12 +5,11 @@ import domain.cet.CetColumnCourseExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.List;
 
 @Service
-public class CetColumnCourseService extends BaseMapper {
+public class CetColumnCourseService extends CetBaseMapper {
 
     public boolean idDuplicate(Integer columnId, Integer courseId){
 

@@ -1,32 +1,17 @@
 package service.cet;
 
 import controller.global.OpException;
-import domain.cet.CetProject;
-import domain.cet.CetProjectExample;
-import domain.cet.CetProjectObj;
-import domain.cet.CetProjectObjExample;
-import domain.cet.CetProjectTraineeType;
-import domain.cet.CetProjectTraineeTypeExample;
-import domain.cet.CetProjectView;
-import domain.cet.CetProjectViewExample;
-import domain.cet.CetTraineeType;
+import domain.cet.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class CetProjectService extends BaseMapper {
+public class CetProjectService extends CetBaseMapper {
 
     @Autowired
     private CetProjectObjService cetProjectObjService;
@@ -119,7 +104,7 @@ public class CetProjectService extends BaseMapper {
                         traineeTypeList.add(cetTraineeTypeMap.get(traineeTypeId).getName());
                     }
 
-                    throw new OpException("参训人员类型（{}）已设置培训对象，不可删除。", StringUtils.join(traineeTypeList, "、"));
+                    throw new OpException("参训人员类型（{0}）已设置培训对象，不可删除。", StringUtils.join(traineeTypeList, "、"));
                 }
             }
         }

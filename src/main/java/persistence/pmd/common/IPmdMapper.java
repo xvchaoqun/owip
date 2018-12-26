@@ -4,7 +4,7 @@ import domain.ext.ExtJzgSalary;
 import domain.ext.ExtRetireSalary;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberPayView;
-import domain.pmd.PmdOrderCampuscard;
+import domain.pmd.PmdOrder;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -37,21 +37,21 @@ public interface IPmdMapper {
     public List<Integer> listOrderMemberIds(@Param("sn") String sn);
 
     // 查询缴费记录关联的支付记录
-    @ResultMap("persistence.pmd.PmdOrderCampuscardMapper.BaseResultMap")
-    @Select("select * from pmd_order_campuscard where member_id=#{memberId} union " +
-            "select poc.* from pmd_order_campuscard poc, pmd_order_item poi where poi.member_id=#{memberId} and poc.sn=poi.sn " +
+    @ResultMap("persistence.pmd.PmdOrderMapper.BaseResultMap")
+    @Select("select * from pmd_order where member_id=#{memberId} union " +
+            "select po.* from pmd_order po, pmd_order_item poi where poi.member_id=#{memberId} and po.sn=poi.sn " +
             "order by create_time desc")
-    public List<PmdOrderCampuscard> findRelateOrders(@Param("memberId") Integer memberId);
+    public List<PmdOrder> findRelateOrders(@Param("memberId") Integer memberId);
 
     // 查询用户缴费记录
-    public List<IPmdOrderCampuscard> selectPayList(@Param("userId") Integer userId, RowBounds rowBounds);
+    public List<IPmdOrder> selectPayList(@Param("userId") Integer userId, RowBounds rowBounds);
     public int countPayList(@Param("userId") Integer userId);
 
     // 查询缴费记录对应的批量缴费记录（未关闭的）
-    @ResultMap("persistence.pmd.PmdOrderCampuscardMapper.BaseResultMap")
-    @Select("select poc.* from pmd_order_item poi, pmd_order_campuscard poc " +
-            "where poi.member_id=#{memberId} and poc.sn=poi.sn and poc.is_batch=1 and poc.is_closed=0")
-    public List<PmdOrderCampuscard> notClosedBatchOrder(@Param("memberId") int memberId);
+    @ResultMap("persistence.pmd.PmdOrderMapper.BaseResultMap")
+    @Select("select po.* from pmd_order_item poi, pmd_order po " +
+            "where poi.member_id=#{memberId} and po.sn=poi.sn and po.is_batch=1 and po.is_closed=0")
+    public List<PmdOrder> notClosedBatchOrder(@Param("memberId") int memberId);
 
     // 删除某个支部下的所有未缴费记录
     public void delNotPayMembers(@Param("currentMonthId") int currentMonthId,

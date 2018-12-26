@@ -1,6 +1,6 @@
 package controller.pmd;
 
-import domain.pmd.PmdOrderCampuscard;
+import domain.pmd.PmdOrder;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +13,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.pmd.common.IPmdOrderCampuscard;
-import service.pmd.PmdPayCampusCardService;
+import persistence.pmd.common.IPmdOrder;
+import service.pmd.PmdOrderCampusCardService;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -35,13 +35,13 @@ public class PmdOrderController extends PmdBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("pmdOw:admin")
-    @RequestMapping("/pmdOrderCampuscard_orders")
-    public String pmdOrderCampuscard_orders(int memberId, ModelMap modelMap) {
+    @RequestMapping("/pmdOrder_orders")
+    public String pmdOrder_orders(int memberId, ModelMap modelMap) {
 
-        List<PmdOrderCampuscard> pmdOrderCampuscards = iPmdMapper.findRelateOrders(memberId);
-        modelMap.put("pmdOrderCampuscards", pmdOrderCampuscards);
+        List<PmdOrder> pmdOrders = iPmdMapper.findRelateOrders(memberId);
+        modelMap.put("pmdOrders", pmdOrders);
 
-        return "/pmd/pmdOrder/pmdOrderCampuscard_orders";
+        return "/pmd/pmdOrder/pmdOrder_orders";
     }
 
     @RequiresPermissions("pmdOw:admin")
@@ -55,18 +55,18 @@ public class PmdOrderController extends PmdBaseController {
     }
 
     @RequiresPermissions("pmdOw:admin")
-    @RequestMapping("/pmdOrderCampuscard")
-    public String pmdOrderCampuscard(int userId, ModelMap modelMap) {
+    @RequestMapping("/pmdOrder")
+    public String pmdOrder(int userId, ModelMap modelMap) {
 
         SysUserView uv = sysUserService.findById(userId);
         modelMap.put("uv", uv);
 
-        return "pmd/pmdOrder/pmdOrderCampuscard_page";
+        return "pmd/pmdOrder/pmdOrder_page";
     }
 
     @RequiresPermissions("pmdOw:admin")
-    @RequestMapping("/pmdOrderCampuscard_data")
-    public void pmdOrderCampuscard_data(HttpServletResponse response,
+    @RequestMapping("/pmdOrder_data")
+    public void pmdOrder_data(HttpServletResponse response,
                               int userId,
                              Integer pageSize, Integer pageNo) throws IOException {
 
@@ -78,14 +78,12 @@ public class PmdOrderController extends PmdBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        //PmdOrderCampuscardExample example = new PmdOrderCampuscardExample();
-
         // 查询支付人或缴费人
         int count = iPmdMapper.countPayList(userId);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<IPmdOrderCampuscard> records = iPmdMapper.selectPayList(userId, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<IPmdOrder> records = iPmdMapper.selectPayList(userId, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -95,30 +93,30 @@ public class PmdOrderController extends PmdBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(pmdOrderCampuscard.class, pmdOrderCampuscardMixin.class);
+        //baseMixins.put(pmdOrder.class, pmdOrderMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
     
     @RequiresPermissions("pmdOw:admin")
-    @RequestMapping(value = "/pmdOrderCampuscard_closeTrade", method = RequestMethod.POST)
+    @RequestMapping(value = "/pmdOrder_closeTrade", method = RequestMethod.POST)
     @ResponseBody
-    public Map pmdOrderCampuscard_closeTrade(String sn, HttpServletRequest request) throws IOException {
+    public Map pmdOrder_closeTrade(String sn, HttpServletRequest request) throws IOException {
 
-        PmdPayCampusCardService.CloseTradeRet ret = pmdPayCampusCardService.closeTrade(sn);
+        PmdOrderCampusCardService.CloseTradeRet ret = pmdOrderCampusCardService.closeTrade(sn);
         logger.info(addLog(LogConstants.LOG_PMD, "后台关闭订单：%s，结果: %s", sn, JSONUtils.toString(ret, false)));
 
-        return ret.success?success(FormUtils.SUCCESS):failed("关闭失败：" + ret.desc + "（" + ret.code+"）");
+        return ret.success?success(FormUtils.SUCCESS):failed("关闭失败：" + ret.ret);
     }
 
     @RequiresPermissions("pmdOw:admin")
-    @RequestMapping("/pmdOrderCampuscard_query")
-    public String pmdOrderCampuscard_query(String sn, String code, ModelMap modelMap) throws IOException {
+    @RequestMapping("/pmdOrder_query")
+    public String pmdOrder_query(String sn, String code, ModelMap modelMap) throws IOException {
 
-        String ret = pmdPayCampusCardService.query(sn, code);
+        String ret = pmdOrderCampusCardService.query(sn, code);
         modelMap.put("ret", ret);
 
-        PmdOrderCampuscard order = pmdOrderCampuscardMapper.selectByPrimaryKey(sn);
+        PmdOrder order = pmdOrderMapper.selectByPrimaryKey(sn);
         modelMap.put("order", order);
 
         String keys = PropertiesUtils.getString("pay.campuscard.keys");
@@ -126,6 +124,6 @@ public class PmdOrderController extends PmdBaseController {
         modelMap.put("yek", StringUtils.reverse(keys));
 
 
-        return "pmd/pmdOrder/pmdOrderCampuscard_query";
+        return "pmd/pmdOrder/pmdOrder_query";
     }
 }

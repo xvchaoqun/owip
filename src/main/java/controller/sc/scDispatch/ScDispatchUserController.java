@@ -1,5 +1,6 @@
 package controller.sc.scDispatch;
 
+import controller.sc.ScBaseController;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scCommittee.ScCommitteeVoteViewExample;
 import domain.sc.scDispatch.ScDispatchUser;
@@ -29,16 +30,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScDispatchUserController extends ScDispatchBaseController {
+public class ScDispatchUserController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

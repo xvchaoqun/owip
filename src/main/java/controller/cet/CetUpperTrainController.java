@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,11 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
-import sys.constants.CadreConstants;
-import sys.constants.CetConstants;
-import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -39,15 +35,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -55,7 +43,7 @@ public class CetUpperTrainController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetUpperTrain:list")
+    //@RequiresPermissions("cetUpperTrain:list")
     @RequestMapping("/cetUpperTrain")
     public String cetUpperTrain(@RequestParam(required = false, defaultValue = "1") Byte cls,
                                 Boolean type,
@@ -65,22 +53,28 @@ public class CetUpperTrainController extends CetBaseController {
                                 Integer userId,
                                 ModelMap modelMap) {
 
+        if(!ShiroHelper.isPermitted("cetUpperTrain:list")
+        && !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN_UPPER,
+                RoleConstants.ROLE_CET_ADMIN_UNIT)){
+            throw new UnauthorizedException();
+        }
+        
         modelMap.put("cls", cls);
         modelMap.put("type", type);
         modelMap.put("upperType", upperType);
         modelMap.put("addType", addType);
 
         if (unitId != null) {
-            modelMap.put("unit", unitService.findAll().get(unitId));
+            modelMap.put("unit", CmTag.getUnit(unitId));
         }
         if (userId != null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
         }
 
         return "cet/cetUpperTrain/cetUpperTrain_page";
     }
 
-    @RequiresPermissions("cetUpperTrain:list")
+    //@RequiresPermissions("cetUpperTrain:list")
     @RequestMapping("/cetUpperTrain_data")
     @ResponseBody
     public void cetUpperTrain_data(HttpServletResponse response,
@@ -359,7 +353,7 @@ public class CetUpperTrainController extends CetBaseController {
             //}
 
         }else{
-            throw new OpException("参数有误。");
+            throw new UnauthorizedException();
         }
 
         if (id == null){
@@ -395,13 +389,12 @@ public class CetUpperTrainController extends CetBaseController {
             Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
             if(adminLeaderUserIdSet.size()>0){
                 // 如果是校领导管理员，从所有的单位中选
-                List<Unit> upperUnits = iCetMapper.findUpperUnits();
+                List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
                 modelMap.put("upperUnits", upperUnits);
             }else if(adminUnitIdSet.size()>0){
-                Map<Integer, Unit> unitMap = unitService.findAll();
                 List<Unit> upperUnits = new ArrayList<>();
                 for (Integer adminUintId : adminUnitIdSet) {
-                    Unit unit = unitMap.get(adminUintId);
+                    Unit unit = CmTag.getUnit(adminUintId);
                     if(unit!=null){
                         upperUnits.add(unit);
                     }
@@ -413,10 +406,10 @@ public class CetUpperTrainController extends CetBaseController {
 
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW
                         ||addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF) {
-            List<Unit> upperUnits = iCetMapper.findUpperUnits();
+            List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
             modelMap.put("upperUnits", upperUnits);
         }else {
-            throw new OpException("参数有误。");
+            throw new UnauthorizedException();
         }
 
         return "cet/cetUpperTrain/cetUpperTrain_au";
@@ -504,7 +497,7 @@ public class CetUpperTrainController extends CetBaseController {
         Integer userId = cetUpperTrain.getUserId();
 
         modelMap.put("cetUpperTrain", cetUpperTrain);
-        modelMap.put("sysUser", sysUserService.findById(userId));
+        modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetUpperTrain/cetUpperTrain_uploadNote";
     }

@@ -1,5 +1,6 @@
 package controller.sc.scLetter;
 
+import controller.sc.ScBaseController;
 import domain.sc.scLetter.ScLetterReplyItemView;
 import domain.sc.scLetter.ScLetterReplyItemViewExample;
 import mixin.MixinUtils;
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/sc")
-public class ScLetterReplyItemController extends ScLetterBaseController {
+public class ScLetterReplyItemController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

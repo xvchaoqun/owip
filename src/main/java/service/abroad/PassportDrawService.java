@@ -48,7 +48,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PassportDrawService extends BaseMapper {
+public class PassportDrawService extends AbroadBaseMapper {
 
     @Autowired
     protected ShortMsgService shortMsgService;

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pcs.common.PcsBranchBean;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.utils.ContextHelper;
 
@@ -21,7 +20,7 @@ import java.util.List;
  * Created by lm on 2017/8/31.
  */
 @Service
-public class PcsPartyService extends BaseMapper {
+public class PcsPartyService extends PcsBaseMapper {
 
     @Autowired
     private PcsOwService pcsOwService;

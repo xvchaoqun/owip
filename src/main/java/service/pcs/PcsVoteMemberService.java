@@ -4,12 +4,11 @@ import domain.pcs.PcsVoteMember;
 import domain.pcs.PcsVoteMemberExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class PcsVoteMemberService extends BaseMapper {
+public class PcsVoteMemberService extends PcsBaseMapper {
 
     @Transactional
     public void insertSelective(PcsVoteMember record) {

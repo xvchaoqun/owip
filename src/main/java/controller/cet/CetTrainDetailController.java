@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CetConstants;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -66,9 +67,8 @@ public class CetTrainDetailController extends CetBaseController {
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         modelMap.put("cetTrain", cetTrain);
 
-        Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
         List<ContentTpl> tplList = new ArrayList<>();
-        tplList.add(contentTplMap.get(ContentTplConstants.CONTENT_TPL_CET_MSG_2));
+        tplList.add(CmTag.getContentTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_2));
         modelMap.put("tplList", tplList);
 
         return "cet/cetTrain/cetTrain_detail/msg";
@@ -78,8 +78,7 @@ public class CetTrainDetailController extends CetBaseController {
     @RequestMapping("/cetTrain_detail/msg_au")
     public String msg_au(String tplKey, ModelMap modelMap) {
 
-        Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
-        ContentTpl tpl = contentTplMap.get(tplKey);
+        ContentTpl tpl = CmTag.getContentTpl(tplKey);
         modelMap.put("contentTpl", tpl);
 
         return "cet/cetTrain/cetTrain_detail/msg_au";
@@ -128,8 +127,7 @@ public class CetTrainDetailController extends CetBaseController {
     @RequestMapping("/cetTrain_detail/msg_send")
     public String msg_send(String tplKey, Integer projectId, Integer trainId, ModelMap modelMap) {
 
-        Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
-        ContentTpl tpl = contentTplMap.get(tplKey);
+        ContentTpl tpl = CmTag.getContentTpl(tplKey);
         modelMap.put("name", tpl.getName());
         modelMap.put("content", tpl.getContent());
 

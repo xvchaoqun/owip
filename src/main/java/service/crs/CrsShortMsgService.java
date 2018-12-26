@@ -3,12 +3,7 @@ package service.crs;
 import bean.ShortMsgBean;
 import domain.base.ContentTpl;
 import domain.cadre.CadreView;
-import domain.crs.CrsApplicant;
-import domain.crs.CrsApplicantExample;
-import domain.crs.CrsApplicantView;
-import domain.crs.CrsPost;
-import domain.crs.CrsPostExample;
-import domain.crs.CrsShortMsg;
+import domain.crs.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,7 +13,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.base.ContentTplService;
 import service.base.ShortMsgService;
 import service.cadre.CadreService;
@@ -35,7 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CrsShortMsgService extends BaseMapper {
+public class CrsShortMsgService extends CrsBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

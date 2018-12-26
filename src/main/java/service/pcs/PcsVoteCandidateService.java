@@ -1,15 +1,9 @@
 package service.pcs;
 
-import domain.pcs.PcsCandidateChosen;
-import domain.pcs.PcsCandidateView;
-import domain.pcs.PcsVoteCandidate;
-import domain.pcs.PcsVoteCandidateExample;
-import domain.pcs.PcsVoteMember;
-import domain.pcs.PcsVoteMemberExample;
+import domain.pcs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.PcsConstants;
 import sys.utils.DateUtils;
@@ -18,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class PcsVoteCandidateService extends BaseMapper {
+public class PcsVoteCandidateService extends PcsBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

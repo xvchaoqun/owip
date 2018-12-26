@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class CrsExpertService extends BaseMapper {
+public class CrsExpertService extends CrsBaseMapper {
 
     @Autowired
     private MetaTypeService metaTypeService;

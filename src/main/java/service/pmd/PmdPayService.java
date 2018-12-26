@@ -27,7 +27,7 @@ import java.util.List;
  * Created by lm on 2017/11/7.
  */
 @Service
-public class PmdPayService extends BaseMapper {
+public class PmdPayService extends PmdBaseMapper {
 
     @Autowired
     private PmdMemberService pmdMemberService;

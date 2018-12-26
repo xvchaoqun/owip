@@ -34,7 +34,7 @@
                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                         data-open-by="page"
                         data-id-name="userId"
-                        data-url="${ctx}/pmd/pmdOrderCampuscard">
+                        data-url="${ctx}/pmd/pmdOrder">
                     <i class="fa fa-search"></i> 历史支付订单
                 </button>
                <%-- <a class="jqExportBtn btn btn-success btn-sm tooltip-success"

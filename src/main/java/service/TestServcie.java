@@ -2,7 +2,7 @@ package service;
 
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.party.EnterApplyService;
+import service.member.EnterApplyService;
 import service.sys.SysUserService;
 import sys.utils.JSONUtils;
 

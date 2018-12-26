@@ -6,19 +6,14 @@ import domain.unit.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class CisObjUnitService extends BaseMapper {
+public class CisObjUnitService extends CisBaseMapper {
 
     @Autowired
     private UnitService unitService;

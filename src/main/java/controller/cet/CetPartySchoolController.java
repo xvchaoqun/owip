@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -26,12 +27,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -44,7 +40,7 @@ public class CetPartySchoolController extends CetBaseController {
     public String cetPartySchool(Integer partySchoolId, ModelMap modelMap) {
 
         if(partySchoolId!=null){
-            modelMap.put("partySchool", partySchoolService.findAll().get(partySchoolId));
+            modelMap.put("partySchool", CmTag.getPartySchool(partySchoolId));
         }
         return "cet/cetPartySchool/cetPartySchool_page";
     }
@@ -136,11 +132,11 @@ public class CetPartySchoolController extends CetBaseController {
 
         if(partySchoolId!=null){
 
-            modelMap.put("partySchool", partySchoolService.findAll().get(partySchoolId));
+            modelMap.put("partySchool", CmTag.getPartySchool(partySchoolId));
         }
 
         /*if(userId!=null){
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
         }*/
 
         return "cet/cetPartySchool/cetPartySchool_au";
@@ -169,7 +165,7 @@ public class CetPartySchoolController extends CetBaseController {
 
         Integer userId = cetPartySchool.getUserId();
         if(userId!=null)
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetPartySchool/cetPartySchool_setAdmin";
     }
@@ -244,7 +240,7 @@ public class CetPartySchoolController extends CetBaseController {
                 option.put("text", record.getPartySchoolName());
                 option.put("id", record.getId() + "");
                 if(record.getUserId()!=null) {
-                    SysUserView uv = sysUserService.findById(record.getUserId());
+                    SysUserView uv = CmTag.getUserById(record.getUserId());
                     option.put("userId", uv.getId());
                     option.put("realname", uv.getRealname());
                     option.put("code", uv.getCode());

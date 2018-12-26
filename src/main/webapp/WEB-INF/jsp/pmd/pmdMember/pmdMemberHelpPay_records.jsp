@@ -23,7 +23,7 @@
       <td nowrap>${pmdMember.duePay}</td>
       <td nowrap>
         <c:if test="${_user.id!=pmdMember.userId && pmdMember.duePay>0}">
-        <button data-url="${ctx}/user/pmd/payConfirm_campuscard?id=${pmdMember.id}&isSelfPay=0&isMemberHelpPay=1"
+        <button data-url="${ctx}/user/pmd/payConfirm?id=${pmdMember.id}&isSelfPay=0&isMemberHelpPay=1"
                 class="popupBtn btn btn-success btn-xs">
           <i class="fa fa-rmb"></i> 代缴
         </button>

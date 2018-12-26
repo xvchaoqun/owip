@@ -3,26 +3,18 @@ package service.sc.scAd;
 import bean.CadreInfoForm;
 import controller.global.OpException;
 import domain.cis.CisInspectObj;
-import domain.sc.scAd.ScAdArchive;
-import domain.sc.scAd.ScAdArchiveExample;
-import domain.sc.scAd.ScAdArchiveVote;
-import domain.sc.scAd.ScAdArchiveVoteExample;
-import domain.sc.scAd.ScAdArchiveWithBLOBs;
-import domain.sc.scCommittee.ScCommittee;
-import domain.sc.scCommittee.ScCommitteeTopicCadre;
-import domain.sc.scCommittee.ScCommitteeVote;
-import domain.sc.scCommittee.ScCommitteeVoteExample;
-import domain.sc.scCommittee.ScCommitteeVoteView;
-import domain.sc.scCommittee.ScCommitteeVoteViewExample;
+import domain.sc.scAd.*;
+import domain.sc.scCommittee.*;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import persistence.cis.CisInspectObjMapper;
 import service.cadre.CadreAdformService;
 import service.cis.CisInspectObjService;
+import service.sc.ScBaseMapper;
 import service.sc.scCommittee.ScCommitteeTopicService;
 import service.sys.SysConfigService;
 import sys.constants.DispatchConstants;
@@ -37,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ScAdArchiveService extends BaseMapper {
+public class ScAdArchiveService extends ScBaseMapper {
 
     @Autowired
     private CadreAdformService cadreAdformService;
@@ -45,6 +37,8 @@ public class ScAdArchiveService extends BaseMapper {
     protected SysConfigService sysConfigService;
     @Autowired
     protected ScCommitteeTopicService scCommitteeTopicService;
+    @Autowired(required = false)
+    protected CisInspectObjMapper cisInspectObjMapper;
 
  /*   public boolean idDuplicate(Integer id, String code){
 

@@ -1,27 +1,18 @@
 package service.cet;
 
-import domain.cet.CetDiscussGroup;
-import domain.cet.CetDiscussGroupObj;
-import domain.cet.CetDiscussGroupObjExample;
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
+import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysUserService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class CetDiscussGroupObjService extends BaseMapper {
+public class CetDiscussGroupObjService extends CetBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

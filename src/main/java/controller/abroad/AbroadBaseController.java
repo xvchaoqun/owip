@@ -1,32 +1,41 @@
 package controller.abroad;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.abroad.AbroadAdditionalPostService;
-import service.abroad.AbroadExportService;
-import service.abroad.AbroadService;
-import service.abroad.AbroadShortMsgService;
-import service.abroad.ApplicatTypeService;
-import service.abroad.ApplySelfService;
-import service.abroad.ApprovalLogService;
-import service.abroad.ApprovalOrderService;
-import service.abroad.ApproverBlackListService;
-import service.abroad.ApproverService;
-import service.abroad.ApproverTypeService;
-import service.abroad.PassportApplyService;
-import service.abroad.PassportDrawService;
-import service.abroad.PassportService;
-import service.abroad.SafeBoxService;
-import service.abroad.TaiwanRecordService;
+import service.abroad.*;
+import service.base.CountryService;
+import service.base.ShortMsgService;
+import service.cadre.CadreCommonService;
+import service.cadre.CadreLeaderService;
+import service.cadre.CadreService;
+import service.sys.SysApprovalLogService;
+import service.sys.SysUserService;
+import service.sys.UserBeanService;
+import sys.HttpResponseMethod;
 
 /**
  * Created by lm on 2017/9/20.
  */
-public class AbroadBaseController extends BaseController {
-
+public class AbroadBaseController extends AbroadBaseMapper implements HttpResponseMethod {
+    
+    @Autowired
+    protected SysUserService sysUserService;
+    @Autowired
+    protected UserBeanService userBeanService;
+    @Autowired
+    protected CadreService cadreService;
+    @Autowired
+    protected CadreLeaderService cadreLeaderService;
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    protected CountryService countryService;
+    @Autowired
+    protected ShortMsgService shortMsgService;
+    @Autowired
+    protected CadreCommonService cadreCommonService;
+    
     @Autowired
     protected AbroadService abroadService;
-
     @Autowired
     protected ApplicatTypeService applicatTypeService;
     @Autowired
@@ -37,10 +46,10 @@ public class AbroadBaseController extends BaseController {
     protected ApproverBlackListService approverBlackListService;
     @Autowired
     protected ApproverTypeService approverTypeService;
-
+    
     @Autowired
     protected AbroadAdditionalPostService abroadAdditionalPostService;
-
+    
     @Autowired
     protected PassportDrawService passportDrawService;
     @Autowired
@@ -57,7 +66,7 @@ public class AbroadBaseController extends BaseController {
     protected TaiwanRecordService taiwanRecordService;
     @Autowired
     protected AbroadExportService abroadExportService;
-
+    
     @Autowired
     protected AbroadShortMsgService abroadShortMsgService;
 }

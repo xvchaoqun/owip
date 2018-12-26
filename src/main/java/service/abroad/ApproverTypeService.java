@@ -11,17 +11,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class ApproverTypeService extends BaseMapper {
+public class ApproverTypeService extends AbroadBaseMapper {
 
     // 查询某类审批人身份 已设定的审批人 Set<干部ID>
     public Set<String> findApproverCadreIds(Integer typeId){

@@ -11,9 +11,9 @@ import domain.sc.scPassport.ScPassportHandExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.abroad.PassportService;
 import service.cadre.CadreService;
+import service.sc.ScBaseMapper;
 import sys.constants.AbroadConstants;
 import sys.constants.DispatchConstants;
 import sys.constants.ScConstants;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ScPassportHandService extends BaseMapper {
+public class ScPassportHandService extends ScBaseMapper {
 
     @Autowired
     private CadreService cadreService;

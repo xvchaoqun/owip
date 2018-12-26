@@ -1,27 +1,9 @@
 package service.cet;
 
-import persistence.cet.common.StatTrainBean;
-import domain.cet.CetCourse;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainEvaNorm;
-import domain.cet.CetTrainEvaRank;
-import domain.cet.CetTrainEvaResult;
-import domain.cet.CetTrainEvaResultExample;
-import domain.cet.CetTrainEvaTable;
-import domain.cet.CetTrainInspectorCourse;
-import domain.cet.CetTrainInspectorCourseExample;
+import domain.cet.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -29,23 +11,19 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
+import persistence.cet.common.StatTrainBean;
 import sys.Utils;
 import sys.constants.CetConstants;
 import sys.tool.xlsx.ExcelTool;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2017/3/2.
  */
 @Service
-public class CetTrainStatService extends BaseMapper {
+public class CetTrainStatService extends CetBaseMapper {
 
     @Autowired
     private CetTrainEvaRankService cetTrainEvaRankService;

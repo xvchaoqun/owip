@@ -29,6 +29,7 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 
@@ -180,7 +181,7 @@ public class MemberApplyExportController extends MemberBaseController {
             }
             SysUserView uv = sysUserService.findById(memberApply.getUserId());
             Byte gender = uv.getGender();
-            StudentInfo record = studentService.get(memberApply.getUserId());
+            StudentInfo record = studentInfoService.get(memberApply.getUserId());
             Integer partyId = memberApply.getPartyId();
             Integer branchId = memberApply.getBranchId();
 
@@ -231,7 +232,7 @@ public class MemberApplyExportController extends MemberBaseController {
         List<List<String>> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
             UserBean record = userBeanService.get(memberApply.getUserId());
-            StudentInfo studentInfo = studentService.get(memberApply.getUserId());
+            StudentInfo studentInfo = studentInfoService.get(memberApply.getUserId());
             MemberStudent memberStudent = memberStudentService.get(memberApply.getUserId());
             Byte gender = record==null?null:record.getGender();
             Integer partyId = memberApply.getPartyId();
@@ -316,12 +317,12 @@ public class MemberApplyExportController extends MemberBaseController {
                     ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
 
-            CadreView cadre = cadreService.dbFindByUserId(memberApply.getUserId());
+            CadreView cadre = CmTag.getCadreByUserId(memberApply.getUserId());
             String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus())){
                 post = cadre.getTitle();
-                adminLevel = metaTypeService.getName(cadre.getTypeId());
+                adminLevel = CmTag.getMetaType(cadre.getTypeId()).getName();
             }
 
             String[] values = {
@@ -409,12 +410,12 @@ public class MemberApplyExportController extends MemberBaseController {
                     ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
 
-            CadreView cadre = cadreService.dbFindByUserId(memberApply.getUserId());
+            CadreView cadre = CmTag.getCadreByUserId(memberApply.getUserId());
             String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus())){
                 post = cadre.getTitle();
-                adminLevel = metaTypeService.getName(cadre.getTypeId());
+                adminLevel = CmTag.getMetaType(cadre.getTypeId()).getName();
             }
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{

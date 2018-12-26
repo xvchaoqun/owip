@@ -211,7 +211,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
     public void crsApplicant_export(int applicantId, HttpServletResponse response) throws IOException, TemplateException {
 
         //输出文件
-        String filename = sysConfigService.getSchoolName() + "处级干部应聘人报名表";
+        String filename = CmTag.getSysConfig().getSchoolName() + "处级干部应聘人报名表";
         response.reset();
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));

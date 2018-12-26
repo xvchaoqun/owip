@@ -7,16 +7,11 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class CetTrainEvaNormService extends BaseMapper {
+public class CetTrainEvaNormService extends CetBaseMapper {
 
     // 更新评估指标的数量
     private void updateNormNum(Integer fid){

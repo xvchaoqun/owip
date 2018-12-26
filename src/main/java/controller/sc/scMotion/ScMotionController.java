@@ -1,5 +1,6 @@
 package controller.sc.scMotion;
 
+import controller.sc.ScBaseController;
 import domain.sc.scMotion.ScMotion;
 import domain.sc.scMotion.ScMotionExample;
 import domain.sc.scMotion.ScMotionExample.Criteria;
@@ -27,16 +28,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMotionController extends ScMotionBaseController {
+public class ScMotionController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

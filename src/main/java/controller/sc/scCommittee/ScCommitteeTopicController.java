@@ -1,5 +1,6 @@
 package controller.sc.scCommittee;
 
+import controller.sc.ScBaseController;
 import domain.sc.scCommittee.ScCommitteeTopic;
 import domain.sc.scCommittee.ScCommitteeTopicCadre;
 import domain.sc.scCommittee.ScCommitteeTopicView;
@@ -36,7 +37,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScCommitteeTopicController extends ScCommitteeBaseController {
+public class ScCommitteeTopicController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

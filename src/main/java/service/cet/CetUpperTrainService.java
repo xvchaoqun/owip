@@ -10,7 +10,6 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.cadre.CadreService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
@@ -25,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class CetUpperTrainService extends BaseMapper {
+public class CetUpperTrainService extends CetBaseMapper {
 
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;
@@ -62,7 +61,7 @@ public class CetUpperTrainService extends BaseMapper {
                     (record.getAddType()== CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF)?
                             SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UPPER_TRAIN,
-                    "添加调训记录", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+                    "添加", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
     }
 

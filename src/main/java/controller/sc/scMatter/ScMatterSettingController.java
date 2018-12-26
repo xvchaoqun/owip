@@ -1,5 +1,6 @@
 package controller.sc.scMatter;
 
+import controller.sc.ScBaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterSettingController extends ScMatterBaseController {
+public class ScMatterSettingController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

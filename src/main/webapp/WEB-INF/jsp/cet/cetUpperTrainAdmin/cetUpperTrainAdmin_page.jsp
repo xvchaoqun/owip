@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/metaClass_type_list?cls=mc_cet_upper_train_organizer${upperType==CET_UPPER_TRAIN_UPPER?'':'2'},mc_cet_upper_train_type${upperType==CET_UPPER_TRAIN_UPPER?'':'2'},mc_cet_upper_train_special${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"><i
+                       data-url="${ctx}/metaClass_type_list?cls=${upperType==CET_UPPER_TRAIN_UPPER?'mc_cet_upper_train_organizer,':''}mc_cet_upper_train_type${upperType==CET_UPPER_TRAIN_UPPER?'':'2'},mc_cet_upper_train_special${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"><i
                             class="fa fa-info-circle"></i> ${upperType==CET_UPPER_TRAIN_UPPER?'调训':'培训'}专项信息</a>
                 </li>
             </ul>

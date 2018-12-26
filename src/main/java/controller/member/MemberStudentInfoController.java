@@ -61,10 +61,10 @@ public class MemberStudentInfoController extends MemberBaseController {
         studentInfo.setActualGraduateTime(actualGraduateTime);
 
         if (userId == null) {
-            studentService.insertSelective(studentInfo);
+            studentInfoService.insertSelective(studentInfo);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加学生党员基本信息：%s", studentInfo.getUserId()));
         } else {
-            studentService.updateByPrimaryKeySelective(studentInfo);
+            studentInfoService.updateByPrimaryKeySelective(studentInfo);
             logger.info(addLog(LogConstants.LOG_PARTY, "更新学生党员基本信息：%s", studentInfo.getUserId()));
         }
 

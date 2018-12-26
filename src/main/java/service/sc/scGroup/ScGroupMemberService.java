@@ -8,13 +8,13 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ScGroupMemberService extends BaseMapper {
+public class ScGroupMemberService extends ScBaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 

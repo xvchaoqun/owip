@@ -7,14 +7,13 @@ import domain.cis.CisInspectorViewExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import sys.constants.CisConstants;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class CisInspectorService extends BaseMapper {
+public class CisInspectorService extends CisBaseMapper {
 
     public CisInspectorView getInspector(int id){
 

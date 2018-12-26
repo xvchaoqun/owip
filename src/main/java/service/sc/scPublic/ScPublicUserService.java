@@ -5,13 +5,13 @@ import domain.sc.scPublic.ScPublicUserExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ScPublicUserService extends BaseMapper {
+public class ScPublicUserService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScPublicUser record){

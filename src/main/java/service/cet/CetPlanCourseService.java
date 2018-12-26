@@ -8,7 +8,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 
 import java.util.Arrays;
@@ -16,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CetPlanCourseService extends BaseMapper {
+public class CetPlanCourseService extends CetBaseMapper {
 
     @Autowired
     private CetPlanCourseObjService cetPlanCourseObjService;

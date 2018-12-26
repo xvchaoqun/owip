@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -130,7 +131,7 @@ public class CetUnitController extends CetBaseController {
         }
 
         if(unitId!=null)
-            modelMap.put("unit", unitService.findAll().get(unitId));
+            modelMap.put("unit", CmTag.getUnit(unitId));
 
         return "cet/cetUnit/cetUnit_au";
     }
@@ -158,7 +159,7 @@ public class CetUnitController extends CetBaseController {
 
         Integer userId = cetUnit.getUserId();
         if(userId!=null)
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetUnit/cetUnit_setAdmin";
     }
@@ -233,7 +234,7 @@ public class CetUnitController extends CetBaseController {
                 option.put("text", record.getUnitName());
                 option.put("id", record.getId() + "");
                 if(record.getUserId()!=null) {
-                    SysUserView uv = sysUserService.findById(record.getUserId());
+                    SysUserView uv = CmTag.getUserById(record.getUserId());
                     option.put("userId", uv.getId());
                     option.put("realname", uv.getRealname());
                     option.put("code", uv.getCode());

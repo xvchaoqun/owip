@@ -1,6 +1,5 @@
 package controller.member;
 
-import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;
@@ -25,6 +24,7 @@ import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -32,12 +32,7 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberTeacherController extends MemberBaseController {
@@ -75,10 +70,10 @@ public class MemberTeacherController extends MemberBaseController {
             modelMap.put("selectNativePlaces", selectNativePlaces);
         }
 
-        modelMap.put("teacherEducationTypes", IPropertyMapper.teacherEducationTypes());
-        modelMap.put("teacherPostClasses", IPropertyMapper.teacherPostClasses());
-        modelMap.put("teacherNations", IPropertyMapper.teacherNations());
-        modelMap.put("teacherNativePlaces", IPropertyMapper.teacherNativePlaces());
+        modelMap.put("teacherEducationTypes", iPropertyMapper.teacherEducationTypes());
+        modelMap.put("teacherPostClasses", iPropertyMapper.teacherPostClasses());
+        modelMap.put("teacherNations", iPropertyMapper.teacherNations());
+        modelMap.put("teacherNativePlaces", iPropertyMapper.teacherNativePlaces());
 
         return "member/memberTeacher/memberTeacher_page";
     }
@@ -289,7 +284,6 @@ public class MemberTeacherController extends MemberBaseController {
     public void memberTeacher_export(int cls, MemberTeacherExample example, HttpServletResponse response) {
 
         //Map<Integer, Unit> unitMap = unitService.findAll();
-        Map<Integer, MetaType> adminLevelMap = metaTypeService.metaTypes("mc_admin_level");
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
@@ -315,14 +309,14 @@ public class MemberTeacherController extends MemberBaseController {
                 if(memberAgeRange>0)
                     ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
-            CadreView cadre = cadreService.dbFindByUserId(record.getUserId());
+            CadreView cadre = CmTag.getCadreByUserId(record.getUserId());
             SysUserView uv = sysUserService.findById(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)){
                 post = cadre.getTitle();
-                if(cadre.getTypeId()!=null) adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
+                if(cadre.getTypeId()!=null) adminLevel = CmTag.getMetaType(cadre.getTypeId()).getName();
             }
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),

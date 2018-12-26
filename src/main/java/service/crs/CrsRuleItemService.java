@@ -9,16 +9,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class CrsRuleItemService extends BaseMapper {
+public class CrsRuleItemService extends CrsBaseMapper {
 
     @Autowired
     private CrsRequireRuleService crsRequireRuleService;

@@ -38,7 +38,7 @@ public class PmdTestService {
     @Autowired
     PmdPayService pmdPayService;
     @Autowired
-    PmdPayWszfService pmdPayWszfService;
+    PmdOrderWszfService pmdOrderWszfService;
     @Autowired
     CommonMapper commonMapper;
     @Autowired

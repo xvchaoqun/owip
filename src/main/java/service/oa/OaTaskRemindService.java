@@ -5,12 +5,11 @@ import domain.oa.OaTaskRemindExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class OaTaskRemindService extends BaseMapper {
+public class OaTaskRemindService extends OaBaseMapper {
 
     public boolean idDuplicate(Integer id, int taskId, int userId) {
 

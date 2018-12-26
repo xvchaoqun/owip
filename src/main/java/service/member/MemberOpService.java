@@ -5,11 +5,10 @@ import domain.member.MemberOut;
 import domain.member.MemberTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 import sys.constants.MemberConstants;
 
 @Service
-public class MemberOpService extends BaseMapper{
+public class MemberOpService extends MemberBaseMapper{
 
     @Autowired
     private MemberOutService memberOutService;

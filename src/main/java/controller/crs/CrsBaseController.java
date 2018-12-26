@@ -1,28 +1,25 @@
 package controller.crs;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.crs.CrsApplicantCheckService;
-import service.crs.CrsApplicantService;
-import service.crs.CrsApplyRuleService;
-import service.crs.CrsApplyUserService;
-import service.crs.CrsCandidateService;
-import service.crs.CrsExpertService;
-import service.crs.CrsExportService;
-import service.crs.CrsPostExpertService;
-import service.crs.CrsPostFileService;
-import service.crs.CrsPostRequireService;
-import service.crs.CrsPostService;
-import service.crs.CrsRequireRuleService;
-import service.crs.CrsRuleItemService;
-import service.crs.CrsShortMsgService;
-import service.crs.CrsTemplateService;
+import service.base.ContentTplService;
+import service.cadre.CadreService;
+import service.crs.*;
+import service.sys.SysUserService;
+import sys.HttpResponseMethod;
 
 /**
  * Created by lm on 2017/9/20.
  */
-public class CrsBaseController extends BaseController {
-
+public class CrsBaseController extends CrsBaseMapper implements HttpResponseMethod {
+    
+    
+    @Autowired
+    protected SysUserService sysUserService;
+    @Autowired
+    protected ContentTplService contentTplService;
+    @Autowired
+    protected CadreService cadreService;
+    
     @Autowired
     protected CrsPostService crsPostService;
     @Autowired

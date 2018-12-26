@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.LoginUserService;
-import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
@@ -26,7 +24,7 @@ import sys.helper.PartyHelper;
 import java.util.List;
 
 @Service
-public class MemberQuitService extends BaseMapper {
+public class MemberQuitService extends MemberBaseMapper {
 
     @Autowired
     private MemberService memberService;

@@ -1,12 +1,7 @@
 package controller.sc.scLetter;
 
-import domain.sc.scLetter.ScLetterItemView;
-import domain.sc.scLetter.ScLetterItemViewExample;
-import domain.sc.scLetter.ScLetterReply;
-import domain.sc.scLetter.ScLetterReplyItem;
-import domain.sc.scLetter.ScLetterReplyItemView;
-import domain.sc.scLetter.ScLetterReplyView;
-import domain.sc.scLetter.ScLetterReplyViewExample;
+import controller.sc.ScBaseController;
+import domain.sc.scLetter.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -36,7 +31,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScLetterReplyController extends ScLetterBaseController {
+public class ScLetterReplyController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PmdPayBranchService extends BaseMapper {
+public class PmdPayBranchService extends PmdBaseMapper {
 
     // <BranchId, PmdPayBranch>
     public Map<Integer, PmdPayBranch> getAllPayBranchIdSet(int partyId){

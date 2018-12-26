@@ -8,17 +8,10 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.StudentInfo;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.party.BranchService;
 import service.party.PartyService;
@@ -35,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class MemberStayExportService extends BaseMapper {
+public class MemberStayExportService extends MemberBaseMapper {
 
     @Autowired
     protected MetaTypeService metaTypeService;

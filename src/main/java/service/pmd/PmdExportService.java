@@ -29,7 +29,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-public class PmdExportService extends BaseMapper {
+public class PmdExportService extends PmdBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

@@ -1,5 +1,6 @@
 package controller.sc.scPassport;
 
+import controller.sc.ScBaseController;
 import domain.base.ContentTpl;
 import domain.sc.scPassport.ScPassportHand;
 import domain.sc.scPassport.ScPassportMsg;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScPassportMsgController extends ScPassportBaseController {
+public class ScPassportMsgController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

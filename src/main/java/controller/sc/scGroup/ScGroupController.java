@@ -1,6 +1,7 @@
 package controller.sc.scGroup;
 
 import controller.global.OpException;
+import controller.sc.ScBaseController;
 import domain.sc.scGroup.ScGroup;
 import domain.sc.scGroup.ScGroupExample;
 import domain.sc.scGroup.ScGroupExample.Criteria;
@@ -23,28 +24,16 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.ContentTypeUtils;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScGroupController extends ScGroupBaseController {
+public class ScGroupController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

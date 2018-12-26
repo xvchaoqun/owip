@@ -7,7 +7,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import sys.constants.CrsConstants;
 
 import java.util.Arrays;
@@ -15,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CrsApplyUserService extends BaseMapper {
+public class CrsApplyUserService extends CrsBaseMapper {
 
     public boolean idDuplicate(Integer id, int userId, int postId){
 

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CrsPostRequireService extends BaseMapper {
+public class CrsPostRequireService extends CrsBaseMapper {
 
     @Autowired
     protected MetaTypeService metaTypeService;

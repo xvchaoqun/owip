@@ -1,14 +1,10 @@
 package controller.sc.scAd;
 
 import bean.CadreInfoForm;
+import controller.sc.ScBaseController;
 import domain.cadre.CadreView;
 import domain.cis.CisInspectObj;
-import domain.sc.scAd.ScAdArchive;
-import domain.sc.scAd.ScAdArchiveView;
-import domain.sc.scAd.ScAdArchiveViewExample;
-import domain.sc.scAd.ScAdArchiveVote;
-import domain.sc.scAd.ScAdArchiveVoteExample;
-import domain.sc.scAd.ScAdArchiveWithBLOBs;
+import domain.sc.scAd.*;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,31 +20,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import persistence.cis.common.ICisMapper;
 import service.cadre.CadreAdformService;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.XmlSerializeUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScAdArchiveController extends ScAdBaseController {
+public class ScAdArchiveController extends ScBaseController {
 
     @Autowired
     private CadreAdformService cadreAdformService;
+    @Autowired(required = false)
+    private ICisMapper iCisMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

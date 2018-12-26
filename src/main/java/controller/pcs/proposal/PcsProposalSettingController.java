@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class PcsProposalSettingController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         modelMap.put("pcsConfig", currentPcsConfig);
 
-        Map<Integer, MetaType> prTypes = metaTypeService.metaTypes("mc_pcs_proposal");
+        Map<Integer, MetaType> prTypes = CmTag.getMetaTypes("mc_pcs_proposal");
         modelMap.put("prTypes", prTypes.values());
 
         return "pcs/pcsProposal/pcsProposalSetting";
@@ -44,11 +45,11 @@ public class PcsProposalSettingController extends PcsBaseController {
     @RequestMapping("/pcsProposalType_au")
     public String pcsProposalType_au(Integer id, ModelMap modelMap) {
 
-        MetaClass proposalTypeClass = metaClassService.codeKeyMap().get("mc_pcs_proposal");
+        MetaClass proposalTypeClass = CmTag.getMetaClassByCode("mc_pcs_proposal");
         modelMap.put("classId", proposalTypeClass.getId());
 
         if(id!=null){
-            MetaType proposalType = metaTypeMapper.selectByPrimaryKey(id);
+            MetaType proposalType =  CmTag.getMetaType(id);
             modelMap.put("proposalType", proposalType);
         }
 

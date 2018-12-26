@@ -1,45 +1,32 @@
 package controller.cet;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.cet.CetColumnCourseService;
-import service.cet.CetColumnService;
-import service.cet.CetCourseFileService;
-import service.cet.CetCourseItemService;
-import service.cet.CetCourseService;
-import service.cet.CetDiscussGroupObjService;
-import service.cet.CetDiscussGroupService;
-import service.cet.CetDiscussService;
-import service.cet.CetExpertService;
-import service.cet.CetExportService;
-import service.cet.CetPartySchoolService;
-import service.cet.CetPartyService;
-import service.cet.CetPlanCourseObjResultService;
-import service.cet.CetPlanCourseObjService;
-import service.cet.CetPlanCourseService;
-import service.cet.CetProjectObjService;
-import service.cet.CetProjectPlanService;
-import service.cet.CetProjectService;
-import service.cet.CetProjectTraineeTypeService;
-import service.cet.CetProjectTypeService;
-import service.cet.CetShortMsgService;
-import service.cet.CetTrainCourseService;
-import service.cet.CetTrainEvaNormService;
-import service.cet.CetTrainEvaRankService;
-import service.cet.CetTrainEvaTableService;
-import service.cet.CetTrainInspectorCourseService;
-import service.cet.CetTrainInspectorService;
-import service.cet.CetTrainService;
-import service.cet.CetTrainStatService;
-import service.cet.CetTraineeCourseService;
-import service.cet.CetTraineeService;
-import service.cet.CetTraineeTypeService;
-import service.cet.CetUnitService;
-import service.cet.CetUpperTrainAdminService;
-import service.cet.CetUpperTrainService;
+import service.cet.CetBaseMapper;
+import service.cadre.CadreCommonService;
+import service.cadre.CadreService;
+import service.cet.*;
+import service.sys.SysApprovalLogService;
+import service.sys.SysLoginLogService;
+import service.sys.UserBeanService;
+import sys.HttpResponseMethod;
 
-public class CetBaseController extends BaseController {
+public class CetBaseController extends CetBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    protected CadreService cadreService;
+    @Autowired
+    protected CadreCommonService cadreCommonService;
+    @Autowired
+    protected UserBeanService userBeanService;
+    @Autowired
+    protected SysLoginLogService sysLoginLogService;
+    
+    @Autowired
+    protected CetUnitProjectService cetUnitProjectService;
+    @Autowired
+    protected CetUnitTrainService cetUnitTrainService;
     @Autowired
     protected CetUnitService cetUnitService;
     @Autowired

@@ -1,15 +1,10 @@
 package service.pcs;
 
-import domain.pcs.PcsPrCandidate;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
-import domain.pcs.PcsPrRecommend;
-import domain.pcs.PcsPrRecommendExample;
+import domain.pcs.*;
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.PcsConstants;
 import sys.constants.RoleConstants;
@@ -17,7 +12,7 @@ import sys.constants.RoleConstants;
 import java.util.List;
 
 @Service
-public class PcsPrOwService extends BaseMapper {
+public class PcsPrOwService extends PcsBaseMapper {
 
     @Autowired
     private PcsPrPartyService pcsPrPartyService;

@@ -1,5 +1,6 @@
 package controller.sc.scBorder;
 
+import controller.sc.ScBaseController;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreExample;
 import domain.sc.scBorder.ScBorderItem;
@@ -28,19 +29,12 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/sc")
-public class ScBorderItemController extends ScBorderBaseController {
+public class ScBorderItemController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

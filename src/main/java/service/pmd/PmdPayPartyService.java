@@ -7,7 +7,6 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.party.PartyService;
 
 import java.util.Arrays;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PmdPayPartyService extends BaseMapper {
+public class PmdPayPartyService extends PmdBaseMapper {
 
     @Autowired
     private PartyService partyService;

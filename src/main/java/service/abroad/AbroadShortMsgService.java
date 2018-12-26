@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AbroadShortMsgService extends BaseMapper {
+public class AbroadShortMsgService extends AbroadBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

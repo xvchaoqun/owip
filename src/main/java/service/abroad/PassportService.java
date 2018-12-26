@@ -2,13 +2,7 @@ package service.abroad;
 
 import bean.XlsPassport;
 import controller.global.OpException;
-import domain.abroad.Passport;
-import domain.abroad.PassportApply;
-import domain.abroad.PassportDraw;
-import domain.abroad.PassportDrawExample;
-import domain.abroad.PassportExample;
-import domain.abroad.SafeBox;
-import domain.abroad.TaiwanRecord;
+import domain.abroad.*;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
@@ -22,21 +16,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.abroad.common.PassportSearchBean;
-import service.BaseMapper;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class PassportService extends BaseMapper {
+public class PassportService extends AbroadBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -2,15 +2,7 @@ package service.cet;
 
 import bean.ShortMsgBean;
 import domain.base.ContentTpl;
-import domain.cet.CetCourse;
-import domain.cet.CetProject;
-import domain.cet.CetProjectExample;
-import domain.cet.CetProjectObj;
-import domain.cet.CetShortMsg;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainee;
-import domain.cet.CetTraineeCourse;
-import domain.cet.CetTraineeCourseExample;
+import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.base.ContentTplService;
 import service.base.ShortMsgService;
 import service.sys.SysUserService;
@@ -31,15 +22,10 @@ import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class CetShortMsgService extends BaseMapper {
+public class CetShortMsgService extends CetBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

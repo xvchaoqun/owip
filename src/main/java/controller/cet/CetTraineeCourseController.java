@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -46,7 +47,7 @@ public class CetTraineeCourseController extends CetBaseController {
     public String cetTraineeCourse(Integer userId, ModelMap modelMap) {
 
         if(userId!=null)
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetTraineeCourse/cetTraineeCourse_page";
     }

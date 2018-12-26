@@ -7,13 +7,12 @@ import domain.pcs.PcsCandidateViewExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class PcsCandidateService extends BaseMapper {
+public class PcsCandidateService extends PcsBaseMapper {
 
     public static final String TABLE_NAME = "pcs_candidate";
 

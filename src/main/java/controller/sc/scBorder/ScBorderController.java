@@ -1,5 +1,6 @@
 package controller.sc.scBorder;
 
+import controller.sc.ScBaseController;
 import domain.cadre.CadreView;
 import domain.sc.scBorder.ScBorder;
 import domain.sc.scBorder.ScBorderView;
@@ -33,7 +34,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScBorderController extends ScBorderBaseController {
+public class ScBorderController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -3,12 +3,11 @@ package service.crs;
 import domain.crs.CrsCandidate;
 import domain.crs.CrsCandidateExample;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 
 import java.util.List;
 
 @Service
-public class CrsCandidateService extends BaseMapper {
+public class CrsCandidateService extends CrsBaseMapper {
 
 
     public Integer getUserId(int postId, boolean isFirst){

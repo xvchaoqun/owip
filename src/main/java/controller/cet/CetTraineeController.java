@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -39,7 +40,7 @@ public class CetTraineeController extends CetBaseController {
     @RequestMapping("/cetTrainee_detail")
     public String cetTrainee_detail(int userId, ModelMap modelMap) {
 
-        modelMap.put("sysUser", sysUserService.findById(userId));
+        modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetTrainee/cetTrainee_detail";
     }
@@ -61,7 +62,7 @@ public class CetTraineeController extends CetBaseController {
         modelMap.put("traineeTypeId", traineeTypeId);
 
         if(userId!=null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
         }
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);

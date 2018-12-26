@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class SafeBoxService extends BaseMapper {
+public class SafeBoxService extends AbroadBaseMapper {
 
     @Autowired
     private MetaTypeService metaTypeService;

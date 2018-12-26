@@ -13,19 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pcs.common.IPcsCandidateView;
 import persistence.pcs.common.PcsBranchBean;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
 import sys.constants.RoleConstants;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class PcsRecommendService extends BaseMapper {
+public class PcsRecommendService extends PcsBaseMapper {
 
     @Autowired
     private PcsConfigService pcsConfigService;

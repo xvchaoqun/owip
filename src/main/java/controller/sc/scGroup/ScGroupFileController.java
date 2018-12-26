@@ -1,5 +1,6 @@
 package controller.sc.scGroup;
 
+import controller.sc.ScBaseController;
 import domain.sc.scGroup.ScGroupFile;
 import domain.sc.scGroup.ScGroupFileExample;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScGroupFileController extends ScGroupBaseController {
+public class ScGroupFileController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -46,10 +47,10 @@ public class CetUpperTrainAdminController extends CetBaseController {
                                      ModelMap modelMap) {
 
         if(unitId!=null){
-            modelMap.put("unit", unitService.findAll().get(unitId));
+            modelMap.put("unit", CmTag.getUnit(unitId));
         }
         if(userId!=null){
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
         }
         
         modelMap.put("upperType", upperType);

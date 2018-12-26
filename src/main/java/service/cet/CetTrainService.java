@@ -1,28 +1,17 @@
 package service.cet;
 
-import domain.cet.CetProjectObj;
-import domain.cet.CetProjectObjExample;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainExample;
-import domain.cet.CetTrainView;
-import domain.cet.CetTrainViewExample;
+import domain.cet.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import sys.constants.CetConstants;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class CetTrainService extends BaseMapper {
+public class CetTrainService extends CetBaseMapper {
 
     @Autowired
     private CetTraineeService cetTraineeService;

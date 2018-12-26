@@ -3,7 +3,6 @@ package service.pcs;
 import domain.pcs.PcsPartyView;
 import domain.pcs.PcsPartyViewExample;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * Created by lm on 2017/9/4.
  */
 @Service
-public class PcsPartyViewService extends BaseMapper {
+public class PcsPartyViewService extends PcsBaseMapper {
 
     public PcsPartyView get(int partyId){
 

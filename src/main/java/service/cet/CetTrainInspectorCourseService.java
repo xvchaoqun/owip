@@ -1,21 +1,15 @@
 package service.cet;
 
-import persistence.cet.common.TrainTempData;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import controller.global.OpException;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainEvaNorm;
-import domain.cet.CetTrainEvaResult;
-import domain.cet.CetTrainEvaTable;
-import domain.cet.CetTrainInspectorCourse;
-import domain.cet.CetTrainInspectorCourseExample;
+import domain.cet.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import persistence.cet.common.TrainTempData;
 import sys.constants.CetConstants;
 import sys.utils.ContextHelper;
 
@@ -26,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CetTrainInspectorCourseService extends BaseMapper {
+public class CetTrainInspectorCourseService extends CetBaseMapper {
 
     @Autowired
     private CetTrainEvaTableService trainEvaTableService;

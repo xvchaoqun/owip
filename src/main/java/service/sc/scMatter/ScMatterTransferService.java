@@ -7,13 +7,13 @@ import domain.sc.scMatter.ScMatterTransferExample;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
 
 @Service
-public class ScMatterTransferService extends BaseMapper {
+public class ScMatterTransferService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScMatterTransfer record){

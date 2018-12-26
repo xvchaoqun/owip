@@ -7,13 +7,13 @@ import domain.sc.scCommittee.ScCommitteeTopicExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ScCommitteeTopicService extends BaseMapper {
+public class ScCommitteeTopicService extends ScBaseMapper {
 
     // 获得议题涉及的某个干部
     public ScCommitteeTopicCadre getTopicCadre(int topicId, int cadreId){

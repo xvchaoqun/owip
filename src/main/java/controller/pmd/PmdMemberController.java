@@ -2,17 +2,8 @@ package controller.pmd;
 
 import controller.global.OpException;
 import domain.member.Member;
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdConfigMember;
-import domain.pmd.PmdConfigMemberType;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
+import domain.pmd.*;
 import domain.pmd.PmdMemberExample.Criteria;
-import domain.pmd.PmdMemberPayView;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdMonthExample;
-import domain.pmd.PmdOrderCampuscard;
-import domain.pmd.PmdParty;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,11 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/pmd")
@@ -198,10 +185,10 @@ public class PmdMemberController extends PmdBaseController {
 
             // 根据订单号查找缴费记录
             if (StringUtils.isNotBlank(orderNo)) {
-                PmdOrderCampuscard pmdOrderCampuscard = pmdOrderCampuscardMapper.selectByPrimaryKey(orderNo);
-                if (pmdOrderCampuscard != null) {
-                    if (!pmdOrderCampuscard.getIsBatch()) {
-                        criteria.andIdEqualTo(pmdOrderCampuscard.getMemberId());
+                PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
+                if (pmdOrder != null) {
+                    if (!pmdOrder.getIsBatch()) {
+                        criteria.andIdEqualTo(pmdOrder.getMemberId());
                     } else {
                         List<Integer> memberIds = iPmdMapper.listOrderMemberIds(orderNo);
                         if (memberIds.size() > 0)

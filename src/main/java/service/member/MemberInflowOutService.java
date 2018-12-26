@@ -9,9 +9,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.LoginUserService;
-import service.party.EnterApplyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
@@ -23,7 +21,7 @@ import sys.utils.DateUtils;
 import java.util.List;
 
 @Service
-public class MemberInflowOutService extends BaseMapper {
+public class MemberInflowOutService extends MemberBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

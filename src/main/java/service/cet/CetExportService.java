@@ -1,12 +1,7 @@
 package service.cet;
 
 import domain.cadre.CadreView;
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTraineeCourseView;
+import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -17,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.util.HtmlUtils;
-import service.BaseMapper;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
 import sys.constants.CetConstants;
@@ -35,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CetExportService extends BaseMapper {
+public class CetExportService extends CetBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PmdConfigMemberTypeService extends BaseMapper {
+public class PmdConfigMemberTypeService extends PmdBaseMapper {
 
     private final static String TABLE_NAME = "pmd_config_member_type";
     @Autowired

@@ -9,15 +9,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.base.ShortMsgService;
+import service.sc.ScBaseMapper;
 import service.sys.UserBeanService;
 import sys.constants.SystemConstants;
 
 import java.util.Date;
 
 @Service
-public class ScPassportMsgService extends BaseMapper {
+public class ScPassportMsgService extends ScBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

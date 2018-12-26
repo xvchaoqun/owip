@@ -4,7 +4,6 @@ import domain.pcs.PcsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.SpringProps;
 import service.sys.SysUserService;
 import sys.utils.DateUtils;
@@ -14,7 +13,7 @@ import sys.utils.PropertiesUtils;
 import java.util.Date;
 
 @Service
-public class PcsVoteService extends BaseMapper {
+public class PcsVoteService extends PcsBaseMapper {
 
     @Autowired
     protected SysUserService sysUserService;

@@ -15,7 +15,7 @@
           return '-';
       }
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
-              'data-url="${ctx}/user/pmd/payConfirm_campuscard?id={0}"><i class="fa fa-rmb"></i> {1}</button>')
+              'data-url="${ctx}/user/pmd/payConfirm?id={0}"><i class="fa fa-rmb"></i> {1}</button>')
               .format(rowObject.id, rowObject.payStatus==1?'缴费':'补缴');
     }, cellattr: function (rowId, val, rowObject, cm, rdata) {
 

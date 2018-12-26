@@ -6,14 +6,7 @@ import domain.dispatch.DispatchCadreExample;
 import domain.dispatch.DispatchType;
 import domain.sc.scCommittee.ScCommitteeVote;
 import domain.sc.scCommittee.ScCommitteeVoteView;
-import domain.sc.scDispatch.ScDispatch;
-import domain.sc.scDispatch.ScDispatchCommittee;
-import domain.sc.scDispatch.ScDispatchCommitteeExample;
-import domain.sc.scDispatch.ScDispatchExample;
-import domain.sc.scDispatch.ScDispatchUser;
-import domain.sc.scDispatch.ScDispatchUserExample;
-import domain.sc.scDispatch.ScDispatchView;
-import domain.sc.scDispatch.ScDispatchViewExample;
+import domain.sc.scDispatch.*;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,11 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
-import service.BaseMapper;
 import service.SpringProps;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
+import service.sc.ScBaseMapper;
 import shiro.ShiroHelper;
 import sys.tool.office.WordTemplate;
 import sys.utils.DateUtils;
@@ -39,14 +32,10 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class ScDispatchService extends BaseMapper {
+public class ScDispatchService extends ScBaseMapper {
 
     @Autowired
     protected SpringProps springProps;

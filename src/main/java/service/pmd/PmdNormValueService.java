@@ -1,24 +1,12 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.pmd.PmdConfigMember;
-import domain.pmd.PmdConfigMemberExample;
-import domain.pmd.PmdConfigMemberType;
-import domain.pmd.PmdConfigMemberTypeExample;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdNorm;
-import domain.pmd.PmdNormValue;
-import domain.pmd.PmdNormValueExample;
-import domain.pmd.PmdNormValueLog;
-import domain.pmd.PmdNormValueLogExample;
+import domain.pmd.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 
@@ -28,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PmdNormValueService extends BaseMapper {
+public class PmdNormValueService extends PmdBaseMapper {
 
     @Autowired
     private PmdMonthService pmdMonthService;

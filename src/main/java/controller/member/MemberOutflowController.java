@@ -1,7 +1,6 @@
 package controller.member;
 
 import controller.global.OpException;
-import domain.base.MetaType;
 import domain.member.Member;
 import domain.member.MemberOutflow;
 import domain.member.MemberOutflowView;
@@ -35,6 +34,7 @@ import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -44,12 +44,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberOutflowController extends MemberBaseController {
@@ -465,14 +460,13 @@ public class MemberOutflowController extends MemberBaseController {
             SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-            Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
-                    record.getOriginalJob()==null?"":metaTypeMap.get(record.getOriginalJob()).getName(),
-                    record.getDirection()==null?"":metaTypeMap.get(record.getDirection()).getName(),
+                    record.getOriginalJob()==null?"": CmTag.getMetaType(record.getOriginalJob()).getName(),
+                    record.getDirection()==null?"":CmTag.getMetaType(record.getDirection()).getName(),
                     DateUtils.formatDate(record.getFlowTime(), DateUtils.YYYY_MM_DD),
                     record.getProvince()==null?"":locationService.codeMap().get(record.getProvince()).getName(),
                     record.getReason(),

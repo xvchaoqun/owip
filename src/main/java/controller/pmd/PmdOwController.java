@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import persistence.pmd.PmdPayViewMapper;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 
@@ -58,7 +59,7 @@ public class PmdOwController extends PmdBaseController {
 
         XSSFWorkbook wb = pmdExportService.reportOw(monthId);
         if (wb != null) {
-            ExportHelper.output(wb, sysConfigService.getSchoolName()+"党费缴纳报表.xlsx", response);
+            ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName()+"党费缴纳报表.xlsx", response);
         }
 
         return null;
@@ -70,7 +71,7 @@ public class PmdOwController extends PmdBaseController {
 
         XSSFWorkbook wb = pmdExportService.reportParties(monthId, isDetail);
         if (wb != null) {
-            ExportHelper.output(wb, sysConfigService.getSchoolName()+"各党委线上缴纳党费"
+            ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName()+"各党委线上缴纳党费"
                     +(isDetail?"明细":"总额")+".xlsx", response);
         }
 
@@ -87,7 +88,7 @@ public class PmdOwController extends PmdBaseController {
         PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
 
         String fileName = String.format("%s%s线上缴纳党费明细",
-                sysConfigService.getSchoolName(), DateUtils.formatDate(pmdMonth.getPayMonth(),"yyyy年MM月"));
+                CmTag.getSysConfig().getSchoolName(), DateUtils.formatDate(pmdMonth.getPayMonth(),"yyyy年MM月"));
 
         PmdPayViewExample example = new PmdPayViewExample();
         example.setOrderByClause("create_time asc");

@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cet.CetUnitProjectMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetUnitProject">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="special_type" jdbcType="INTEGER" property="specialType" />
+    <result column="period" jdbcType="DECIMAL" property="period" />
+    <result column="total_count" jdbcType="INTEGER" property="totalCount" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="add_type" jdbcType="TINYINT" property="addType" />
+    <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, year, unit_id, start_date, end_date, project_name, project_type, special_type, 
+    period, total_count, address, is_valid, remark, add_type, add_user_id, add_time, 
+    status
+  </sql>
+  <select id="selectByExample" parameterType="domain.cet.CetUnitProjectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_unit_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cet_unit_project
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cet_unit_project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.cet.CetUnitProjectExample">
+    delete from cet_unit_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cet.CetUnitProject">
+    insert into cet_unit_project (id, year, unit_id, 
+      start_date, end_date, project_name, 
+      project_type, special_type, period, 
+      total_count, address, is_valid, 
+      remark, add_type, add_user_id, 
+      add_time, status)
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{projectName,jdbcType=VARCHAR}, 
+      #{projectType,jdbcType=INTEGER}, #{specialType,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
+      #{totalCount,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cet.CetUnitProject">
+    insert into cet_unit_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="projectType != null">
+        project_type,
+      </if>
+      <if test="specialType != null">
+        special_type,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="totalCount != null">
+        total_count,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="addType != null">
+        add_type,
+      </if>
+      <if test="addUserId != null">
+        add_user_id,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="specialType != null">
+        #{specialType,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="totalCount != null">
+        #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addType != null">
+        #{addType,jdbcType=TINYINT},
+      </if>
+      <if test="addUserId != null">
+        #{addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cet.CetUnitProjectExample" resultType="java.lang.Long">
+    select count(*) from cet_unit_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cet_unit_project
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectType != null">
+        project_type = #{record.projectType,jdbcType=INTEGER},
+      </if>
+      <if test="record.specialType != null">
+        special_type = #{record.specialType,jdbcType=INTEGER},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalCount != null">
+        total_count = #{record.totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addType != null">
+        add_type = #{record.addType,jdbcType=TINYINT},
+      </if>
+      <if test="record.addUserId != null">
+        add_user_id = #{record.addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cet_unit_project
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      project_type = #{record.projectType,jdbcType=INTEGER},
+      special_type = #{record.specialType,jdbcType=INTEGER},
+      period = #{record.period,jdbcType=DECIMAL},
+      total_count = #{record.totalCount,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      is_valid = #{record.isValid,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      add_type = #{record.addType,jdbcType=TINYINT},
+      add_user_id = #{record.addUserId,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetUnitProject">
+    update cet_unit_project
+    <set>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        project_type = #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="specialType != null">
+        special_type = #{specialType,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="totalCount != null">
+        total_count = #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addType != null">
+        add_type = #{addType,jdbcType=TINYINT},
+      </if>
+      <if test="addUserId != null">
+        add_user_id = #{addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetUnitProject">
+    update cet_unit_project
+    set year = #{year,jdbcType=INTEGER},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=INTEGER},
+      special_type = #{specialType,jdbcType=INTEGER},
+      period = #{period,jdbcType=DECIMAL},
+      total_count = #{totalCount,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      add_type = #{addType,jdbcType=TINYINT},
+      add_user_id = #{addUserId,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetUnitProjectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_unit_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

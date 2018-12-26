@@ -1,11 +1,8 @@
 package controller.sc.scLetter;
 
 import controller.global.OpException;
-import domain.sc.scLetter.ScLetter;
-import domain.sc.scLetter.ScLetterItemView;
-import domain.sc.scLetter.ScLetterItemViewExample;
-import domain.sc.scLetter.ScLetterView;
-import domain.sc.scLetter.ScLetterViewExample;
+import controller.sc.ScBaseController;
+import domain.sc.scLetter.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -21,26 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentTypeUtils;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScLetterController extends ScLetterBaseController {
+public class ScLetterController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

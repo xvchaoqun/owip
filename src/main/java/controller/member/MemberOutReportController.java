@@ -1,7 +1,6 @@
 package controller.member;
 
 import bean.UserBean;
-import controller.BaseController;
 import domain.member.MemberOut;
 import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -20,27 +19,18 @@ import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
-import sys.utils.ConfigUtil;
-import sys.utils.DateUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
-import sys.utils.RequestUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/1/12.
  */
 @Controller
 @RequestMapping("/report")
-public class MemberOutReportController extends BaseController {
+public class MemberOutReportController extends MemberBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 

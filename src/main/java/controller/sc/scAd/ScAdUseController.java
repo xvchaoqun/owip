@@ -1,6 +1,7 @@
 package controller.sc.scAd;
 
 import bean.CadreInfoForm;
+import controller.sc.ScBaseController;
 import domain.cadre.CadreView;
 import domain.sc.scAd.ScAdUse;
 import domain.sc.scAd.ScAdUseExample;
@@ -42,7 +43,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScAdUseController extends ScAdBaseController {
+public class ScAdUseController extends ScBaseController {
 
     @Autowired
     private CadreAdformService cadreAdformService;

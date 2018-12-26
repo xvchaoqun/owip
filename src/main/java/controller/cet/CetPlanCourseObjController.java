@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -27,12 +28,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -162,7 +158,7 @@ public class CetPlanCourseObjController extends CetBaseController {
         Integer userId = cetProjectObj.getUserId();
 
         modelMap.put("cetProjectObj", cetProjectObj);
-        modelMap.put("sysUser", sysUserService.findById(userId));
+        modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetPlanCourseObj/cetPlanCourseObj_uploadNote";
     }

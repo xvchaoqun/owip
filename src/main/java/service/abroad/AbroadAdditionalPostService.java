@@ -16,7 +16,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
@@ -25,14 +24,10 @@ import sys.constants.CadreConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class AbroadAdditionalPostService extends BaseMapper {
+public class AbroadAdditionalPostService extends AbroadBaseMapper {
 
     @Autowired
     private MetaTypeService metaTypeService;

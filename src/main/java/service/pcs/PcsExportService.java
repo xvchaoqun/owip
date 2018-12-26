@@ -14,7 +14,6 @@ import org.springframework.util.ResourceUtils;
 import persistence.pcs.common.IPcsCandidateView;
 import persistence.pcs.common.PcsBranchBean;
 import persistence.pcs.common.PcsPartyBean;
-import service.BaseMapper;
 import service.analysis.StatService;
 import service.party.PartyService;
 import service.sys.SysConfigService;
@@ -29,18 +28,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by lm on 2017/8/27.
  */
 @Service
-public class PcsExportService extends BaseMapper {
+public class PcsExportService extends PcsBaseMapper {
 
     @Autowired
     private PartyService partyService;

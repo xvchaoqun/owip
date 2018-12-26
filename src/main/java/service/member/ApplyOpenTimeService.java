@@ -5,13 +5,12 @@ import domain.member.ApplyOpenTimeExample;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ApplyOpenTimeService extends BaseMapper {
+public class ApplyOpenTimeService extends MemberBaseMapper {
 
     public boolean isOpen(Integer partyId, byte type){
 

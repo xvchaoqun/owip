@@ -7,14 +7,14 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.cadre.CadreAdformService;
+import service.sc.ScBaseMapper;
 import sys.utils.XmlSerializeUtils;
 
 import java.util.Arrays;
 
 @Service
-public class ScAdUseService extends BaseMapper {
+public class ScAdUseService extends ScBaseMapper {
 
     @Autowired
     private CadreAdformService cadreAdformService;

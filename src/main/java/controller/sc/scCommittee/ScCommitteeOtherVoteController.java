@@ -1,11 +1,7 @@
 package controller.sc.scCommittee;
 
-import domain.sc.scCommittee.ScCommitteeOtherVote;
-import domain.sc.scCommittee.ScCommitteeOtherVoteExample;
-import domain.sc.scCommittee.ScCommitteeOtherVoteView;
-import domain.sc.scCommittee.ScCommitteeOtherVoteViewExample;
-import domain.sc.scCommittee.ScCommitteeTopic;
-import domain.sc.scCommittee.ScCommitteeTopicExample;
+import controller.sc.ScBaseController;
+import domain.sc.scCommittee.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -33,7 +29,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScCommitteeOtherVoteController extends ScCommitteeBaseController {
+public class ScCommitteeOtherVoteController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,5 +1,6 @@
 package controller.sc.scGroup;
 
+import controller.sc.ScBaseController;
 import domain.sc.scGroup.ScGroupTopicUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScGroupTopicUnitController extends ScGroupBaseController {
+public class ScGroupTopicUnitController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

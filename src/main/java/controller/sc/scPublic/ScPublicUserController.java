@@ -1,5 +1,6 @@
 package controller.sc.scPublic;
 
+import controller.sc.ScBaseController;
 import domain.sc.scPublic.ScPublicUser;
 import domain.sc.scPublic.ScPublicUserExample;
 import domain.sc.scPublic.ScPublicUserExample.Criteria;
@@ -25,16 +26,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScPublicUserController extends ScPublicBaseController {
+public class ScPublicUserController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -3,7 +3,6 @@ package service.member;
 import domain.member.ApplyApprovalLog;
 import domain.member.ApplyApprovalLogExample;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 
@@ -12,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ApplyApprovalLogService extends BaseMapper {
+public class ApplyApprovalLogService extends MemberBaseMapper {
     
     public void add(int recordId, int partyId, Integer branchId, int applyUserId,
                                 int userId, byte userType, byte type,

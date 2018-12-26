@@ -1,31 +1,27 @@
 package controller.pmd;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.pmd.PmdBranchAdminService;
-import service.pmd.PmdBranchService;
-import service.pmd.PmdConfigMemberService;
-import service.pmd.PmdConfigMemberTypeService;
-import service.pmd.PmdConfigResetService;
-import service.pmd.PmdExportService;
-import service.pmd.PmdExtService;
-import service.pmd.PmdMemberPayService;
-import service.pmd.PmdMemberService;
-import service.pmd.PmdMonthService;
-import service.pmd.PmdNormService;
-import service.pmd.PmdNormValueLogService;
-import service.pmd.PmdNormValueService;
-import service.pmd.PmdPartyAdminService;
-import service.pmd.PmdPartyService;
-import service.pmd.PmdPayCampusCardService;
-import service.pmd.PmdPayPartyService;
-import service.pmd.PmdPayService;
-import service.pmd.PmdPayWszfService;
-import service.pmd.PmdSendMsgService;
-import service.pmd.PmdSpecialUserService;
+import service.base.ShortMsgService;
+import service.party.BranchService;
+import service.party.MemberService;
+import service.party.PartyService;
+import service.pmd.*;
+import service.sys.SysUserService;
+import sys.HttpResponseMethod;
 
-public class PmdBaseController extends BaseController {
+public class PmdBaseController extends PmdBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected SysUserService sysUserService;
+    @Autowired
+    protected PartyService partyService;
+    @Autowired
+    protected BranchService branchService;
+    @Autowired
+    protected MemberService memberService;
+    @Autowired
+    protected ShortMsgService shortMsgService;
+    
     @Autowired
     protected PmdMonthService pmdMonthService;
     @Autowired
@@ -45,9 +41,9 @@ public class PmdBaseController extends BaseController {
     @Autowired
     protected PmdPayService pmdPayService;
     @Autowired
-    protected PmdPayWszfService pmdPayWszfService;
+    protected PmdOrderWszfService pmdOrderWszfService;
     @Autowired
-    protected PmdPayCampusCardService pmdPayCampusCardService;
+    protected PmdOrderCampusCardService pmdOrderCampusCardService;
     @Autowired
     protected PmdSpecialUserService pmdSpecialUserService;
     @Autowired

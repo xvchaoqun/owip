@@ -4,12 +4,12 @@ import domain.sc.scLetter.ScLetterItem;
 import domain.sc.scLetter.ScLetterItemExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScLetterItemService extends BaseMapper {
+public class ScLetterItemService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScLetterItem record){

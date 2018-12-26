@@ -3,15 +3,7 @@ package service.pcs;
 import bean.ShortMsgBean;
 import controller.global.OpException;
 import domain.base.ContentTpl;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
-import domain.pcs.PcsProposal;
-import domain.pcs.PcsProposalExample;
-import domain.pcs.PcsProposalFile;
-import domain.pcs.PcsProposalFileExample;
-import domain.pcs.PcsProposalSeconder;
-import domain.pcs.PcsProposalSeconderExample;
-import domain.pcs.PcsProposalView;
+import domain.pcs.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -21,7 +13,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.base.ContentTplService;
 import service.base.ShortMsgService;
 import service.sys.UserBeanService;
@@ -39,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PcsProposalService extends BaseMapper {
+public class PcsProposalService extends PcsBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired

@@ -1,5 +1,6 @@
 package controller.sc.scMatter;
 
+import controller.sc.ScBaseController;
 import domain.sc.scMatter.ScMatterItemView;
 import domain.sc.scMatter.ScMatterItemViewExample;
 import domain.sc.scMatter.ScMatterTransfer;
@@ -31,7 +32,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterTransferController extends ScMatterBaseController {
+public class ScMatterTransferController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

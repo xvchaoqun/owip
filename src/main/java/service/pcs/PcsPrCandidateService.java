@@ -6,14 +6,13 @@ import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class PcsPrCandidateService extends BaseMapper {
+public class PcsPrCandidateService extends PcsBaseMapper {
 
     public static final String TABLE_NAME = "pcs_pr_candidate";
 

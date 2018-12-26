@@ -4,12 +4,11 @@ import domain.cis.CisEvaluate;
 import domain.cis.CisEvaluateExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class CisEvaluateService extends BaseMapper {
+public class CisEvaluateService extends CisBaseMapper {
 
     @Transactional
     public void insertSelective(CisEvaluate record){

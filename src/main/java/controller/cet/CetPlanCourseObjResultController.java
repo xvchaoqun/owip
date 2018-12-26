@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -138,7 +139,7 @@ public class CetPlanCourseObjResultController extends CetBaseController {
 
         CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(objId);
         int userId = cetProjectObj.getUserId();
-        modelMap.put("sysUser", sysUserService.findById(userId));
+        modelMap.put("sysUser", CmTag.getUserById(userId));
 
         Map<Integer, CetPlanCourseObjResult> resultMap = new HashMap<>();
         int planCourseObjId = cetPlanCourseObj.getId();

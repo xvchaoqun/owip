@@ -19,11 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
 import service.base.ShortMsgService;
 import service.cadre.CadreService;
+import service.sc.ScBaseMapper;
 import service.sys.UserBeanService;
 import sys.constants.CadreConstants;
 import sys.constants.ContentTplConstants;
@@ -33,16 +33,10 @@ import sys.utils.DateUtils;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class ScPublicService extends BaseMapper {
+public class ScPublicService extends ScBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

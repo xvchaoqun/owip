@@ -1,32 +1,22 @@
 package service.crs;
 
-import domain.crs.CrsApplicant;
-import domain.crs.CrsApplicantCheck;
-import domain.crs.CrsApplicantCheckExample;
-import domain.crs.CrsApplicantExample;
-import domain.crs.CrsApplicantWithBLOBs;
-import domain.crs.CrsRequireRule;
+import domain.crs.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class CrsApplicantCheckService extends BaseMapper {
+public class CrsApplicantCheckService extends CrsBaseMapper {
 
     @Autowired
     private SysApprovalLogService sysApprovalLogService;

@@ -1,6 +1,7 @@
 package controller.sc.scGroup;
 
 import bean.UserBean;
+import controller.sc.ScBaseController;
 import domain.sc.scGroup.ScGroupMember;
 import domain.sc.scGroup.ScGroupMemberView;
 import domain.sc.scGroup.ScGroupMemberViewExample;
@@ -27,16 +28,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScGroupMemberController extends ScGroupBaseController {
+public class ScGroupMemberController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

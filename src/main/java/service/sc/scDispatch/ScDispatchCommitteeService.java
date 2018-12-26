@@ -4,12 +4,12 @@ import domain.sc.scDispatch.ScDispatchCommittee;
 import domain.sc.scDispatch.ScDispatchCommitteeExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScDispatchCommitteeService extends BaseMapper {
+public class ScDispatchCommitteeService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScDispatchCommittee record){

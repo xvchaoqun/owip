@@ -83,7 +83,7 @@ public class MemberStayController extends MemberBaseController {
                 modelMap.put("toBranch", branchMap.get(toBranchId));
             }
         }*/
-        modelMap.put("student", studentService.get(userId));
+        modelMap.put("student", studentInfoService.get(userId));
         modelMap.put("userBean", userBeanService.get(userId));
 
         return "member/memberStay/memberStay_view";
@@ -356,7 +356,7 @@ public class MemberStayController extends MemberBaseController {
 
         Integer userId = currentMemberStay.getUserId();
         modelMap.put("userBean", userBeanService.get(userId));
-        modelMap.put("student", studentService.get(userId));
+        modelMap.put("student", studentInfoService.get(userId));
 
         Integer partyId = currentMemberStay.getPartyId();
         Integer branchId = currentMemberStay.getBranchId();

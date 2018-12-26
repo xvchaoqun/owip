@@ -2,16 +2,7 @@ package controller.cet;
 
 import bean.UserBean;
 import bean.XlsUpload;
-import domain.cet.CetDiscussGroup;
-import domain.cet.CetPlanCourse;
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
-import domain.cet.CetProjectObjCadreView;
-import domain.cet.CetProjectObjCadreViewExample;
-import domain.cet.CetProjectObjView;
-import domain.cet.CetProjectObjViewExample;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetTraineeType;
+import domain.cet.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,28 +24,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DownloadUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -122,7 +102,7 @@ public class CetProjectObjController extends CetBaseController {
         }
 
         if (userId != null)
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetProjectObj/cetProjectObj_page";
     }
@@ -477,7 +457,7 @@ public class CetProjectObjController extends CetBaseController {
     public Map cetProjectObj_selectCadres_tree(int projectId) throws IOException {
 
         Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId);
-
+    
         Set<Byte> cadreStatusList = new HashSet<>();
         cadreStatusList.add(CadreConstants.CADRE_STATUS_MIDDLE);
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
@@ -517,7 +497,7 @@ public class CetProjectObjController extends CetBaseController {
 
         CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(id);
         Integer userId = cetProjectObj.getUserId();
-        modelMap.put("sysUser", sysUserService.findById(userId));
+        modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetProjectObj/cetProjectObj_uploadWrite";
     }
@@ -634,7 +614,7 @@ public class CetProjectObjController extends CetBaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<CetProjectObjView> ovs = cetProjectObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-
+    
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != ovs && ovs.size() > 0) {
             for (CetProjectObjView ov : ovs) {

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ClaApprovalLogService extends BaseMapper {
+public class ClaApprovalLogService extends ClaBaseMapper {
 
     @Autowired
     private ClaApplyService claApplyService;

@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.abroad.common.ApprovalResult;
-import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
 import service.sys.SysUserService;
@@ -21,14 +20,10 @@ import sys.utils.DateUtils;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class AbroadExportService extends BaseMapper {
+public class AbroadExportService extends AbroadBaseMapper {
 
     @Autowired
     private FreemarkerService freemarkerService;

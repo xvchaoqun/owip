@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PcsConfigService extends BaseMapper {
+public class PcsConfigService extends PcsBaseMapper {
 
     // 获取当前党代会
     public PcsConfig getCurrentPcsConfig() {

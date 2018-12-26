@@ -75,7 +75,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class ApplySelfService extends BaseMapper {
+public class ApplySelfService extends AbroadBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired

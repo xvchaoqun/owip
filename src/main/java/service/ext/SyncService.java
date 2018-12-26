@@ -1,20 +1,8 @@
 package service.ext;
 
 import controller.global.OpException;
-import domain.ext.ExtAbroadExample;
-import domain.ext.ExtBks;
-import domain.ext.ExtBksExample;
-import domain.ext.ExtJzg;
-import domain.ext.ExtJzgExample;
-import domain.ext.ExtYjs;
-import domain.ext.ExtYjsExample;
-import domain.sys.StudentInfo;
-import domain.sys.SysSync;
-import domain.sys.SysSyncExample;
-import domain.sys.SysUser;
-import domain.sys.SysUserInfo;
-import domain.sys.SysUserView;
-import domain.sys.TeacherInfo;
+import domain.ext.*;
+import domain.sys.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -25,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import persistence.sys.StudentInfoMapper;
+import persistence.sys.TeacherInfoMapper;
 import service.BaseMapper;
 import service.SpringProps;
 import service.sys.SysUserService;
@@ -64,6 +54,10 @@ public class SyncService extends BaseMapper {
     private ExtRetireSalaryImport extRetireSalaryImport;
     @Autowired
     private ExtJzgSalaryImport extJzgSalaryImport;
+    @Autowired(required = false)
+    private TeacherInfoMapper teacherInfoMapper;
+    @Autowired(required = false)
+    private StudentInfoMapper studentInfoMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

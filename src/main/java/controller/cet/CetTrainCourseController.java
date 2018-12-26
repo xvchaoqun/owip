@@ -2,18 +2,7 @@ package controller.cet;
 
 import bean.XlsTrainCourse;
 import bean.XlsUpload;
-import domain.cet.CetCourse;
-import domain.cet.CetExpert;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainCourseExample;
-import domain.cet.CetTrainCourseView;
-import domain.cet.CetTrainCourseViewExample;
-import domain.cet.CetTrainEvaTable;
-import domain.cet.CetTrainView;
-import domain.cet.CetTraineeCourseView;
-import domain.cet.CetTraineeCourseViewExample;
+import domain.cet.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,22 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -262,7 +243,7 @@ public class CetTrainCourseController extends CetBaseController {
         modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
         modelMap.put("cetTraineeTypeMap", cetTraineeTypeService.findAll());
         if(userId!=null){
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
         }
 
         return "cet/cetTrainCourse/cetTrainCourse_trainee_page";

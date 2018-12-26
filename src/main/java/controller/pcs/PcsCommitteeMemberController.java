@@ -57,7 +57,7 @@ public class PcsCommitteeMemberController extends PcsBaseController {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
-        modelMap.put("teacherNations", IPropertyMapper.teacherNations());
+        modelMap.put("teacherNations", iPropertyMapper.teacherNations());
         return "pcs/pcsCommitteeMember/pcsCommitteeMember_page";
     }
 

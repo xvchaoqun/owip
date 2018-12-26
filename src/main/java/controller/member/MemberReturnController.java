@@ -451,7 +451,6 @@ public class MemberReturnController extends MemberBaseController {
             SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-            Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),

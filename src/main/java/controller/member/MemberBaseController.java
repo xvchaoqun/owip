@@ -1,25 +1,48 @@
 package controller.member;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.member.ApplyApprovalLogService;
-import service.member.ApplyOpenTimeService;
-import service.member.MemberAbroadService;
-import service.member.MemberApplyService;
-import service.member.MemberInService;
-import service.member.MemberInflowOutService;
-import service.member.MemberInflowService;
-import service.member.MemberOutService;
-import service.member.MemberOutflowService;
-import service.member.MemberQuitService;
-import service.member.MemberReturnService;
-import service.member.MemberStayService;
-import service.member.MemberTransferService;
-import service.member.RetireApplyService;
-import service.party.EnterApplyService;
+import service.LoginUserService;
+import service.base.LocationService;
+import service.ext.ExtService;
+import service.member.*;
+import service.party.*;
+import service.sys.StudentInfoService;
+import service.sys.SysUserService;
+import service.sys.TeacherInfoService;
+import service.sys.UserBeanService;
+import sys.HttpResponseMethod;
 
-public class MemberBaseController extends BaseController {
+public class MemberBaseController extends MemberBaseMapper  implements HttpResponseMethod {
 
+    @Autowired
+    protected SysUserService sysUserService;
+    @Autowired
+    protected UserBeanService userBeanService;
+    @Autowired
+    protected LoginUserService loginUserService;
+    @Autowired
+    protected LocationService locationService;
+    @Autowired
+    protected MemberService memberService;
+    @Autowired
+    protected MemberStudentService memberStudentService;
+    @Autowired
+    protected StudentInfoService studentInfoService;
+    @Autowired
+    protected TeacherInfoService teacherInfoService;
+    @Autowired
+    protected MemberTeacherService memberTeacherService;
+    @Autowired
+    protected ExtService extService;
+    @Autowired
+    protected PartyService partyService;
+    @Autowired
+    protected PartyMemberService partyMemberService;
+    @Autowired
+    protected BranchService branchService;
+    @Autowired
+    protected BranchMemberService branchMemberService;
+    
     @Autowired
     protected EnterApplyService enterApplyService;
     @Autowired

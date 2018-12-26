@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.base.ShortMsgService;
 import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
@@ -17,7 +16,7 @@ import sys.tags.CmTag;
 import java.util.Arrays;
 
 @Service
-public class PassportApplyService extends BaseMapper {
+public class PassportApplyService extends AbroadBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired

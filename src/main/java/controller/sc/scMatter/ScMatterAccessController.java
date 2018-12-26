@@ -1,13 +1,9 @@
 package controller.sc.scMatter;
 
 import controller.global.OpException;
-import domain.sc.scMatter.ScMatterAccess;
-import domain.sc.scMatter.ScMatterAccessExample;
+import controller.sc.ScBaseController;
+import domain.sc.scMatter.*;
 import domain.sc.scMatter.ScMatterAccessExample.Criteria;
-import domain.sc.scMatter.ScMatterAccessItemView;
-import domain.sc.scMatter.ScMatterAccessItemViewExample;
-import domain.sc.scMatter.ScMatterItemView;
-import domain.sc.scMatter.ScMatterItemViewExample;
 import mixin.MixinUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
@@ -26,25 +22,16 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentTypeUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.ImageUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterAccessController extends ScMatterBaseController {
+public class ScMatterAccessController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

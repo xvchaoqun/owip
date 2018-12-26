@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.base.ShortMsgService;
 import service.party.PartyMemberService;
@@ -26,16 +25,10 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class PcsAdminService extends BaseMapper {
+public class PcsAdminService extends PcsBaseMapper {
 
     @Autowired
     private MetaTypeService metaTypeService;

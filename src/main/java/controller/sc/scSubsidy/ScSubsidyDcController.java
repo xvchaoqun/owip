@@ -1,5 +1,6 @@
 package controller.sc.scSubsidy;
 
+import controller.sc.ScBaseController;
 import domain.sc.scSubsidy.ScSubsidyDc;
 import domain.sc.scSubsidy.ScSubsidyDcExample;
 import domain.sc.scSubsidy.ScSubsidyDcExample.Criteria;
@@ -25,16 +26,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScSubsidyDcController extends ScSubsidyBaseController {
+public class ScSubsidyDcController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -313,7 +313,7 @@ public class PcsPrListController extends PcsBaseController {
                         candidate.setProPost(teacherInfo.getProPost());
                     }
                 }else{
-                    StudentInfo studentInfo = studentService.get(userId);
+                    StudentInfo studentInfo = studentInfoService.get(userId);
                     // 学生
                     candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_STU);
                     candidate.setEduLevel(studentInfo.getEduLevel());

@@ -6,12 +6,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class CetProjectTraineeTypeService extends BaseMapper {
+public class CetProjectTraineeTypeService extends CetBaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 

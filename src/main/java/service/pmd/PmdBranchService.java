@@ -1,12 +1,7 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdBranchExample;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdParty;
+import domain.pmd.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -14,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pmd.common.PmdReportBean;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 
@@ -23,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PmdBranchService extends BaseMapper {
+public class PmdBranchService extends PmdBaseMapper {
 
     @Autowired
     private PmdMonthService pmdMonthService;

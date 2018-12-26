@@ -10,21 +10,7 @@ import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;
 import domain.party.PartyExample;
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdBranchExample;
-import domain.pmd.PmdConfigMember;
-import domain.pmd.PmdConfigMemberType;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberPay;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdMonthExample;
-import domain.pmd.PmdNorm;
-import domain.pmd.PmdParty;
-import domain.pmd.PmdPartyExample;
-import domain.pmd.PmdPayBranch;
-import domain.pmd.PmdPayBranchExample;
-import domain.pmd.PmdPayParty;
-import domain.pmd.PmdPayPartyExample;
+import domain.pmd.*;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -36,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.pmd.common.PmdReportBean;
-import service.BaseMapper;
 import service.party.MemberService;
 import service.party.MemberTeacherService;
 import service.party.PartyService;
@@ -51,17 +36,10 @@ import sys.utils.DateUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class PmdMonthService extends BaseMapper {
+public class PmdMonthService extends PmdBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -468,7 +446,7 @@ public class PmdMonthService extends BaseMapper {
 
     // 添加或重置党员缴费记录
     @Transactional
-    private PmdMember addOrResetMember(Integer pmdMemberId, PmdMonth pmdMonth, Member member) {
+    public PmdMember addOrResetMember(Integer pmdMemberId, PmdMonth pmdMonth, Member member) {
 
         int monthId = pmdMonth.getId();
         int userId = member.getUserId();

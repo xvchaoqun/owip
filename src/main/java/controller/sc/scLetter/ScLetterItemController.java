@@ -1,5 +1,6 @@
 package controller.sc.scLetter;
 
+import controller.sc.ScBaseController;
 import domain.sc.scLetter.ScLetterItem;
 import domain.sc.scLetter.ScLetterItemExample;
 import domain.sc.scLetter.ScLetterItemExample.Criteria;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class ScLetterItemController extends ScLetterBaseController {
+public class ScLetterItemController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

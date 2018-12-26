@@ -4,12 +4,12 @@ import domain.sc.scMatter.ScMatterItem;
 import domain.sc.scMatter.ScMatterItemExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScMatterItemService extends BaseMapper {
+public class ScMatterItemService extends ScBaseMapper {
 
 
     @Transactional

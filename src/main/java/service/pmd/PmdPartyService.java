@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PmdPartyService extends BaseMapper {
+public class PmdPartyService extends PmdBaseMapper {
 
     @Autowired
     private PmdMonthService pmdMonthService;

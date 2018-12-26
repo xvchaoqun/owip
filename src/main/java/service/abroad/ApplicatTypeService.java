@@ -13,19 +13,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.cadre.CadreService;
 import sys.constants.AbroadConstants;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class ApplicatTypeService extends BaseMapper {
+public class ApplicatTypeService extends AbroadBaseMapper {
 
     @Autowired
     private CadreService cadreService;

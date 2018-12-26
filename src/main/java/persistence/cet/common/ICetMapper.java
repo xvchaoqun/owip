@@ -25,8 +25,8 @@ public interface ICetMapper {
 
     // 上级培训单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
-    @Select("select distinct u.* from cet_upper_train_admin cuta, unit u where cuta.unit_id is not null and cuta.unit_id=u.id")
-    public List<Unit> findUpperUnits();
+    @Select("select distinct u.* from cet_upper_train_admin cuta, unit u where cuta.upper_type=#{upperType} and cuta.unit_id is not null and cuta.unit_id=u.id")
+    public List<Unit> findUpperUnits(@Param("upperType") byte upperType);
 
     // 培训计划的参训人类型
     @ResultMap("persistence.cet.CetTraineeTypeMapper.BaseResultMap")

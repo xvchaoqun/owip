@@ -4,15 +4,7 @@ import domain.ext.ExtJzgSalary;
 import domain.ext.ExtJzgSalaryExample;
 import domain.ext.ExtRetireSalary;
 import domain.ext.ExtRetireSalaryExample;
-import domain.pmd.PmdConfigMember;
-import domain.pmd.PmdConfigMemberType;
-import domain.pmd.PmdConfigMemberTypeExample;
-import domain.pmd.PmdConfigReset;
-import domain.pmd.PmdConfigResetExample;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdNorm;
+import domain.pmd.*;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
@@ -21,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.LogService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
@@ -36,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PmdConfigResetService extends BaseMapper {
+public class PmdConfigResetService extends PmdBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

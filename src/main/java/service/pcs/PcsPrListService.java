@@ -2,16 +2,11 @@ package service.pcs;
 
 import controller.global.OpException;
 import controller.pcs.pr.PcsPrCandidateFormBean;
-import domain.pcs.PcsPrCandidate;
-import domain.pcs.PcsPrCandidateExample;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
-import domain.pcs.PcsPrRecommend;
+import domain.pcs.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import sys.constants.PcsConstants;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
@@ -19,7 +14,7 @@ import sys.utils.PropertiesUtils;
 import java.util.List;
 
 @Service
-public class PcsPrListService extends BaseMapper {
+public class PcsPrListService extends PcsBaseMapper {
     @Autowired
     private PcsPrPartyService pcsPrPartyService;
 

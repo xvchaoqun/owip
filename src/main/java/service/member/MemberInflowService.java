@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.LoginUserService;
-import service.party.EnterApplyService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -26,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class MemberInflowService extends BaseMapper {
+public class MemberInflowService extends MemberBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

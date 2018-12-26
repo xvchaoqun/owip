@@ -17,7 +17,7 @@ pageEncoding="UTF-8" %>
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</a>--%>
                     <button id="orderBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
-                            data-url="${ctx}/pmd/pmdOrderCampuscard_orders"
+                            data-url="${ctx}/pmd/pmdOrder_orders"
                             data-width="850"
                             data-id-name="memberId">
                         <i class="fa fa-search"></i> 关联支付订单

@@ -1,11 +1,8 @@
 package controller.sc.scMatter;
 
 import bean.UserBean;
-import domain.sc.scMatter.ScMatterItem;
-import domain.sc.scMatter.ScMatterItemView;
-import domain.sc.scMatter.ScMatterItemViewExample;
-import domain.sc.scMatter.ScMatterUserView;
-import domain.sc.scMatter.ScMatterUserViewExample;
+import controller.sc.ScBaseController;
+import domain.sc.scMatter.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -28,16 +25,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterItemController extends ScMatterBaseController {
+public class ScMatterItemController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

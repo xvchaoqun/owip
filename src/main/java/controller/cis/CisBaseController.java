@@ -1,15 +1,15 @@
 package controller.cis;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.cis.CisEvaluateService;
-import service.cis.CisInspectObjService;
-import service.cis.CisInspectorService;
-import service.cis.CisObjInspectorService;
-import service.cis.CisObjUnitService;
+import service.cis.*;
+import service.sys.SysUserService;
+import sys.HttpResponseMethod;
 
-public class CisBaseController extends BaseController {
+public class CisBaseController extends CisBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected SysUserService sysUserService;
+    
     @Autowired
     protected CisEvaluateService cisEvaluateService;
     @Autowired

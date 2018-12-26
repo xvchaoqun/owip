@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class ScCommitteeVoteService extends BaseMapper {
+public class ScCommitteeVoteService extends ScBaseMapper {
 
     @Autowired
     private ScCommitteeTopicService scCommitteeTopicService;

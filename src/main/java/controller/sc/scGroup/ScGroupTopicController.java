@@ -1,12 +1,7 @@
 package controller.sc.scGroup;
 
-import domain.sc.scGroup.ScGroup;
-import domain.sc.scGroup.ScGroupExample;
-import domain.sc.scGroup.ScGroupTopic;
-import domain.sc.scGroup.ScGroupTopicUnit;
-import domain.sc.scGroup.ScGroupTopicUnitExample;
-import domain.sc.scGroup.ScGroupTopicView;
-import domain.sc.scGroup.ScGroupTopicViewExample;
+import controller.sc.ScBaseController;
+import domain.sc.scGroup.*;
 import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,20 +28,12 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Controller
 @RequestMapping("/sc")
-public class ScGroupTopicController extends ScGroupBaseController {
+public class ScGroupTopicController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

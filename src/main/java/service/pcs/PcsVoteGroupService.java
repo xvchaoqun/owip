@@ -2,16 +2,11 @@ package service.pcs;
 
 import controller.global.OpException;
 import controller.pcs.vote.PcsVoteCandidateFormBean;
-import domain.pcs.PcsCandidateChosen;
-import domain.pcs.PcsVoteCandidate;
-import domain.pcs.PcsVoteCandidateExample;
-import domain.pcs.PcsVoteGroup;
-import domain.pcs.PcsVoteGroupExample;
+import domain.pcs.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
@@ -22,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class PcsVoteGroupService extends BaseMapper {
+public class PcsVoteGroupService extends PcsBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

@@ -1,11 +1,6 @@
 package service.pcs;
 
-import domain.pcs.PcsConfig;
-import domain.pcs.PcsVoteCandidate;
-import domain.pcs.PcsVoteCandidateExample;
-import domain.pcs.PcsVoteGroup;
-import domain.pcs.PcsVoteMember;
-import domain.pcs.PcsVoteMemberExample;
+import domain.pcs.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -14,7 +9,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import service.BaseMapper;
 import service.analysis.StatService;
 import service.party.PartyService;
 import service.sys.SysConfigService;
@@ -33,7 +27,7 @@ import java.util.List;
  * Created by lm on 2017/8/27.
  */
 @Service
-public class PcsVoteExportService extends BaseMapper {
+public class PcsVoteExportService extends PcsBaseMapper {
 
     @Autowired
     private PartyService partyService;

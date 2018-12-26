@@ -10,8 +10,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
-import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -27,7 +25,7 @@ import java.util.Date;
  * Created by fafa on 2016/4/23.
  */
 @Service
-public class MemberApplyOpService extends BaseMapper {
+public class MemberApplyOpService extends MemberBaseMapper {
 
     @Autowired
     private MemberService memberService;

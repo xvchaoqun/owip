@@ -12,9 +12,15 @@ import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import persistence.abroad.ApplySelfMapper;
+import persistence.cet.CetProjectObjMapper;
+import persistence.cet.CetTraineeMapper;
+import persistence.crs.CrsApplicantMapper;
+import persistence.pmd.PmdMemberMapper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -32,6 +38,17 @@ import java.util.Map;
 @Controller
 public class SysApprovalLogController extends BaseController {
 
+    @Autowired(required = false)
+    private CetTraineeMapper cetTraineeMapper;
+    @Autowired(required = false)
+    private CetProjectObjMapper cetProjectObjMapper;
+    @Autowired(required = false)
+    private ApplySelfMapper applySelfMapper;
+    @Autowired(required = false)
+    private CrsApplicantMapper crsApplicantMapper;
+    @Autowired(required = false)
+    private PmdMemberMapper pmdMemberMapper;
+    
     @RequestMapping("/sysApprovalLog")
     public String sysApprovalLog(Integer id, Integer userId, Byte type, Byte displayType, ModelMap modelMap) {
 

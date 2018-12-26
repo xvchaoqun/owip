@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ApproverService extends BaseMapper {
+public class ApproverService extends AbroadBaseMapper {
 
     // 判断一个用户（非干部管理员）是否有因私出国境审批权限
     public boolean hasApproveAuth(int userId){

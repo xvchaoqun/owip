@@ -82,7 +82,7 @@
 
                         $("#modal").modal('hide');
                         $("#jqGrid2").trigger("reloadGrid");
-                        SysMsg.success(result.format(ret.total, ret.successCount) + failed, '成功');
+                        SysMsg.success(result.format(ret.total, ret.successCount) + failed, '导入完成');
                     }
                     $btn.button('reset');
                 }

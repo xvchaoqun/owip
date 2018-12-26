@@ -1,15 +1,12 @@
 package controller.sc.scMatter;
 
+import controller.sc.ScBaseController;
 import domain.sc.scMatter.ScMatterAccess;
 import domain.sc.scMatter.ScMatterAccessItemView;
 import domain.sc.scMatter.ScMatterAccessItemViewExample;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
@@ -33,15 +30,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterReportController extends ScMatterBaseController {
+public class ScMatterReportController extends ScBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 

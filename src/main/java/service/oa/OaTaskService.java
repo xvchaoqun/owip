@@ -1,31 +1,20 @@
 package service.oa;
 
 import controller.global.OpException;
-import domain.oa.OaTask;
-import domain.oa.OaTaskFile;
-import domain.oa.OaTaskFileExample;
-import domain.oa.OaTaskUser;
-import domain.oa.OaTaskUserExample;
-import domain.oa.OaTaskUserView;
-import domain.oa.OaTaskUserViewExample;
+import domain.oa.*;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.OaConstants;
 import sys.constants.RoleConstants;
 import sys.utils.ContextHelper;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class OaTaskService extends BaseMapper {
+public class OaTaskService extends OaBaseMapper {
 
     @Autowired
     private OaTaskUserService oaTaskUserService;

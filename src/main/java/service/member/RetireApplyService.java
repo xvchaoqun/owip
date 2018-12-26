@@ -2,12 +2,8 @@ package service.member;
 
 import domain.party.RetireApply;
 import domain.party.RetireApplyExample;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
-import service.party.MemberService;
-import service.sys.SysUserService;
 import sys.constants.OwConstants;
 
 import java.util.Date;
@@ -17,12 +13,8 @@ import java.util.List;
  * Created by fafa on 2015/11/30.
  */
 @Service
-public class RetireApplyService extends BaseMapper{
-    @Autowired
-    private SysUserService sysUserService;
-    @Autowired
-    private MemberService memberService;
-
+public class RetireApplyService extends MemberBaseMapper{
+   
     public int insertSelective(RetireApply record){
 
         return retireApplyMapper.insertSelective(record);

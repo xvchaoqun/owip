@@ -1,27 +1,20 @@
 package service.sc.scCommittee;
 
-import domain.sc.scCommittee.ScCommittee;
-import domain.sc.scCommittee.ScCommitteeExample;
-import domain.sc.scCommittee.ScCommitteeMember;
-import domain.sc.scCommittee.ScCommitteeMemberExample;
-import domain.sc.scCommittee.ScCommitteeMemberView;
-import domain.sc.scCommittee.ScCommitteeMemberViewExample;
-import domain.sc.scCommittee.ScCommitteeView;
-import domain.sc.scCommittee.ScCommitteeViewExample;
+import domain.sc.scCommittee.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.cadre.CadreService;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ScCommitteeService extends BaseMapper {
+public class ScCommitteeService extends ScBaseMapper {
 
     @Autowired
     private CadreService cadreService;

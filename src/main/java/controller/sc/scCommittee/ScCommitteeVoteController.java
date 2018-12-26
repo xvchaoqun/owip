@@ -1,12 +1,8 @@
 package controller.sc.scCommittee;
 
+import controller.sc.ScBaseController;
 import domain.cadre.CadreView;
-import domain.sc.scCommittee.ScCommitteeTopic;
-import domain.sc.scCommittee.ScCommitteeTopicExample;
-import domain.sc.scCommittee.ScCommitteeVote;
-import domain.sc.scCommittee.ScCommitteeVoteExample;
-import domain.sc.scCommittee.ScCommitteeVoteView;
-import domain.sc.scCommittee.ScCommitteeVoteViewExample;
+import domain.sc.scCommittee.*;
 import domain.unit.UnitPostView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,16 +27,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScCommitteeVoteController extends ScCommitteeBaseController {
+public class ScCommitteeVoteController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,12 +1,7 @@
 package service.pcs;
 
 import domain.cadre.CadreView;
-import domain.pcs.PcsPartyView;
-import domain.pcs.PcsPartyViewExample;
-import domain.pcs.PcsPrAllocate;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
-import domain.pcs.PcsPrRecommend;
+import domain.pcs.*;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -22,7 +17,6 @@ import org.springframework.util.ResourceUtils;
 import persistence.pcs.common.PcsBranchBean;
 import persistence.pcs.common.PcsPartyBean;
 import persistence.pcs.common.PcsPrPartyBean;
-import service.BaseMapper;
 import service.analysis.StatService;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
@@ -50,7 +44,7 @@ import java.util.Map;
  * Created by lm on 2017/8/27.
  */
 @Service
-public class PcsPrExportService extends BaseMapper {
+public class PcsPrExportService extends PcsBaseMapper {
 
     @Autowired
     private PcsPartyViewService pcsPartyViewService;

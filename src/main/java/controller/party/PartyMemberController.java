@@ -2,13 +2,8 @@ package controller.party;
 
 import controller.BaseController;
 import domain.base.MetaType;
-import domain.party.Party;
-import domain.party.PartyMember;
-import domain.party.PartyMemberExample;
+import domain.party.*;
 import domain.party.PartyMemberExample.Criteria;
-import domain.party.PartyMemberGroup;
-import domain.party.PartyMemberView;
-import domain.party.PartyMemberViewExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -17,12 +12,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.party.PartyExportService;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
@@ -35,17 +32,14 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class PartyMemberController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private PartyExportService partyExportService;
 
     @RequiresPermissions("partyMember:list")
     @RequestMapping("/partyMember")
@@ -301,7 +295,7 @@ public class PartyMemberController extends BaseController {
 
     public void partyMember_export(PartyMemberViewExample example, HttpServletResponse response) {
 
-        SXSSFWorkbook wb = partyMemberService.export(example);
+        SXSSFWorkbook wb = partyExportService.export(example);
         String fileName = CmTag.getSysConfig().getSchoolName()
                 + "分党委委员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.output(wb, fileName + ".xlsx", response);

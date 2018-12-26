@@ -1,26 +1,17 @@
 package service.sc.scLetter;
 
 import controller.global.OpException;
-import domain.sc.scLetter.ScLetter;
-import domain.sc.scLetter.ScLetterExample;
-import domain.sc.scLetter.ScLetterReply;
-import domain.sc.scLetter.ScLetterReplyExample;
-import domain.sc.scLetter.ScLetterReplyItem;
-import domain.sc.scLetter.ScLetterReplyItemExample;
-import domain.sc.scLetter.ScLetterReplyItemView;
-import domain.sc.scLetter.ScLetterReplyItemViewExample;
-import domain.sc.scLetter.ScLetterReplyView;
-import domain.sc.scLetter.ScLetterReplyViewExample;
+import domain.sc.scLetter.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ScLetterReplyService extends BaseMapper {
+public class ScLetterReplyService extends ScBaseMapper {
 
     // 师纪监办复[2018]01号
     public int genNum(int letterYear, int type){

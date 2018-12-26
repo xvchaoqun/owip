@@ -6,12 +6,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import service.BaseMapper;
+import service.member.MemberBaseMapper;
 
 import java.util.List;
 
 @Service
-public class MemberTeacherService extends BaseMapper {
+public class MemberTeacherService extends MemberBaseMapper {
 
     public boolean idDuplicate(Integer userId, String code){
 

@@ -5,14 +5,13 @@ import domain.pcs.PcsPrFileExample;
 import domain.pcs.PcsPrFileTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class PcsPrFileService extends BaseMapper {
+public class PcsPrFileService extends PcsBaseMapper {
 
     @Autowired
     protected PcsPrFileTemplateService pcsPrFileTemplateService;

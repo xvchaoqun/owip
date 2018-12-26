@@ -72,10 +72,10 @@ public class MemberStudentController extends MemberBaseController {
             modelMap.put("selectNativePlaces", selectNativePlaces);
         }
 
-        modelMap.put("studentGrades", IPropertyMapper.studentGrades());
-        modelMap.put("studentTypes", IPropertyMapper.studentTypes());
-        modelMap.put("studentNations", IPropertyMapper.studentNations());
-        modelMap.put("studentNativePlaces", IPropertyMapper.studentNativePlaces());
+        modelMap.put("studentGrades", iPropertyMapper.studentGrades());
+        modelMap.put("studentTypes", iPropertyMapper.studentTypes());
+        modelMap.put("studentNations", iPropertyMapper.studentNations());
+        modelMap.put("studentNativePlaces", iPropertyMapper.studentNativePlaces());
 
         return "member/memberStudent/memberStudent_page";
     }

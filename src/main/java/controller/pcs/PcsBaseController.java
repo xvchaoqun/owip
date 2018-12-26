@@ -1,34 +1,49 @@
 package controller.pcs;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.pcs.PcsAdminService;
-import service.pcs.PcsCandidateService;
-import service.pcs.PcsCommitteeMemberService;
-import service.pcs.PcsConfigService;
-import service.pcs.PcsExportService;
-import service.pcs.PcsOwService;
-import service.pcs.PcsPartyService;
-import service.pcs.PcsPartyViewService;
-import service.pcs.PcsPrAlocateService;
-import service.pcs.PcsPrCandidateService;
-import service.pcs.PcsPrExportService;
-import service.pcs.PcsPrFileService;
-import service.pcs.PcsPrFileTemplateService;
-import service.pcs.PcsPrListService;
-import service.pcs.PcsPrOwService;
-import service.pcs.PcsPrPartyService;
-import service.pcs.PcsProposalOwService;
-import service.pcs.PcsProposalService;
-import service.pcs.PcsRecommendService;
-import service.pcs.PcsVoteCandidateService;
-import service.pcs.PcsVoteExportService;
-import service.pcs.PcsVoteGroupService;
-import service.pcs.PcsVoteMemberService;
-import service.pcs.PcsVoteService;
+import service.base.MetaClassService;
+import service.base.MetaTypeService;
+import service.cadre.CadreService;
+import service.ext.ExtService;
+import service.party.BranchService;
+import service.party.MemberService;
+import service.party.MemberTeacherService;
+import service.party.PartyService;
+import service.pcs.*;
+import service.sys.StudentInfoService;
+import service.sys.SysUserService;
+import service.sys.TeacherInfoService;
+import service.sys.UserBeanService;
+import sys.HttpResponseMethod;
 
-public class PcsBaseController extends BaseController {
+public class PcsBaseController extends PcsBaseMapper implements HttpResponseMethod {
 
+    
+    @Autowired
+    protected SysUserService sysUserService;
+    @Autowired
+    protected PartyService partyService;
+    @Autowired
+    protected BranchService branchService;
+    @Autowired
+    protected MemberService memberService;
+    @Autowired
+    protected MemberTeacherService memberTeacherService;
+    @Autowired
+    protected CadreService cadreService;
+    @Autowired
+    protected TeacherInfoService teacherInfoService;
+    @Autowired
+    protected StudentInfoService studentInfoService;
+    @Autowired
+    protected MetaTypeService metaTypeService;
+    @Autowired
+    protected MetaClassService metaClassService;
+    @Autowired
+    protected UserBeanService userBeanService;
+    @Autowired
+    protected ExtService extService;
+    
     @Autowired(required = false)
     protected PcsPartyViewService pcsPartyViewService;
     @Autowired(required = false)

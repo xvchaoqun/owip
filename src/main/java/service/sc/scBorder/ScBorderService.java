@@ -7,7 +7,7 @@ import domain.sc.scBorder.ScBorderItem;
 import domain.sc.scBorder.ScBorderItemExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class ScBorderService extends BaseMapper {
+public class ScBorderService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScBorder record){

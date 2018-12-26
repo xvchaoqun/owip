@@ -2,14 +2,7 @@ package service.cet;
 
 import bean.XlsTrainCourse;
 import controller.global.OpException;
-import domain.cet.CetCourse;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainCourseExample;
-import domain.cet.CetTrainCourseFile;
-import domain.cet.CetTrainEvaResultExample;
-import domain.cet.CetTraineeCourseView;
-import domain.cet.CetTraineeCourseViewExample;
+import domain.cet.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +10,11 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class CetTrainCourseService extends BaseMapper {
+public class CetTrainCourseService extends CetBaseMapper {
 
     @Autowired
     private CetCourseService cetCourseService;

@@ -35,7 +35,7 @@ import java.util.List;
  * Created by lm on 2017/12/10.
  */
 @Service
-public class PmdSendMsgService extends BaseMapper {
+public class PmdSendMsgService extends PmdBaseMapper {
 
     @Autowired
     private PmdMonthService pmdMonthService;

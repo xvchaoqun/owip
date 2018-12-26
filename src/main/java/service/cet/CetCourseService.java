@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import sys.constants.CetConstants;
 import sys.utils.DateUtils;
 
@@ -17,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class CetCourseService extends BaseMapper {
+public class CetCourseService extends CetBaseMapper {
 
     public boolean idDuplicate(Integer id, int year, byte type, int num){
 

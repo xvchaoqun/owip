@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -130,9 +131,8 @@ public class CetPartyController extends CetBaseController {
 
             partyId = cetParty.getPartyId();
         }
-
         if(partyId!=null)
-            modelMap.put("party", partyService.findAll().get(partyId));
+            modelMap.put("party", CmTag.getParty(partyId));
 
         return "cet/cetParty/cetParty_au";
     }
@@ -160,7 +160,7 @@ public class CetPartyController extends CetBaseController {
 
         Integer userId = cetParty.getUserId();
         if(userId!=null)
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
 
         return "cet/cetParty/cetParty_setAdmin";
     }
@@ -235,7 +235,7 @@ public class CetPartyController extends CetBaseController {
                 option.put("text", record.getPartyName());
                 option.put("id", record.getId() + "");
                 if(record.getUserId()!=null) {
-                    SysUserView uv = sysUserService.findById(record.getUserId());
+                    SysUserView uv = CmTag.getUserById(record.getUserId());
                     option.put("userId", uv.getId());
                     option.put("realname", uv.getRealname());
                     option.put("code", uv.getCode());

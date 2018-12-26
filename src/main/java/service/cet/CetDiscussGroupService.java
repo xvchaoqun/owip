@@ -1,15 +1,10 @@
 package service.cet;
 
-import domain.cet.CetDiscuss;
-import domain.cet.CetDiscussGroup;
-import domain.cet.CetDiscussGroupExample;
-import domain.cet.CetDiscussGroupObj;
-import domain.cet.CetDiscussGroupObjExample;
+import domain.cet.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 
@@ -17,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class CetDiscussGroupService extends BaseMapper {
+public class CetDiscussGroupService extends CetBaseMapper {
 
     @Autowired
     private CetDiscussGroupObjService cetDiscussGroupObjService;

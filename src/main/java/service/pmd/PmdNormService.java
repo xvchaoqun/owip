@@ -6,7 +6,6 @@ import domain.pmd.PmdNormExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 
@@ -15,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PmdNormService extends BaseMapper {
+public class PmdNormService extends PmdBaseMapper {
 
     public static final String TABLE_NAME = "pmd_norm";
 

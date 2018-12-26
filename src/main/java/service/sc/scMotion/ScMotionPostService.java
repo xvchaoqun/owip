@@ -5,10 +5,10 @@ import domain.sc.scMotion.ScMotionPost;
 import domain.sc.scMotion.ScMotionPostExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 @Service
-public class ScMotionPostService extends BaseMapper {
+public class ScMotionPostService extends ScBaseMapper {
 
     private void updatePostCount(int motionId){
 

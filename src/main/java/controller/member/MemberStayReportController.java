@@ -106,7 +106,7 @@ public class MemberStayReportController extends MemberBaseController {
         MemberStay ga = memberStayMapper.selectByPrimaryKey(id);
         int userId = ga.getUserId();
         UserBean u = userBeanService.get(userId);
-        StudentInfo student = studentService.get(userId);
+        StudentInfo student = studentInfoService.get(userId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", ga.getCode());
 

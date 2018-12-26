@@ -1,5 +1,6 @@
 package controller.sc.scPassport;
 
+import controller.sc.ScBaseController;
 import domain.sc.scPassport.ScPassport;
 import domain.sc.scPassport.ScPassportExample;
 import domain.sc.scPassport.ScPassportExample.Criteria;
@@ -30,16 +31,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScPassportController extends ScPassportBaseController {
+public class ScPassportController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

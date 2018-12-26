@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import persistence.cla.common.ClaApprovalResult;
-import service.BaseMapper;
 import service.base.ContentTplService;
 import service.base.ShortMsgService;
 import service.cadre.CadreService;
@@ -29,14 +28,10 @@ import sys.service.ApplicationContextSupport;
 import sys.utils.JSONUtils;
 
 import java.text.MessageFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class ClaShortMsgService extends BaseMapper {
+public class ClaShortMsgService extends ClaBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

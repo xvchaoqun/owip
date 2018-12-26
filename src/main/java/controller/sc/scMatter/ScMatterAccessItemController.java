@@ -1,5 +1,6 @@
 package controller.sc.scMatter;
 
+import controller.sc.ScBaseController;
 import domain.sc.scMatter.ScMatterAccessItem;
 import domain.sc.scMatter.ScMatterAccessItemExample;
 import domain.sc.scMatter.ScMatterAccessItemExample.Criteria;
@@ -31,7 +32,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterAccessItemController extends ScMatterBaseController {
+public class ScMatterAccessItemController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

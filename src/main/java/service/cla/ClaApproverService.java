@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.cla.common.ClaApproverTypeBean;
-import service.BaseMapper;
 import sys.constants.CadreConstants;
 import sys.helper.ClaHelper;
 
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ClaApproverService extends BaseMapper {
+public class ClaApproverService extends ClaBaseMapper {
 
     // 判断一个用户（非干部管理员）是否有干部请假审批权限
     public boolean hasApproveAuth(int userId){

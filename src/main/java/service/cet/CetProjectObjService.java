@@ -1,16 +1,6 @@
 package service.cet;
 
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
-import domain.cet.CetProjectObjExample;
-import domain.cet.CetProjectObjView;
-import domain.cet.CetProjectObjViewExample;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTraineeCourse;
-import domain.cet.CetTraineeCourseView;
-import domain.cet.CetTraineeView;
+import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -24,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.cet.common.FinishPeriodBean;
 import persistence.cet.common.ICetProjectObj;
-import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -34,18 +23,10 @@ import sys.constants.SystemConstants;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class CetProjectObjService extends BaseMapper {
+public class CetProjectObjService extends CetBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

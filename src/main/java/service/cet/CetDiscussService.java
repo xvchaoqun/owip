@@ -7,7 +7,6 @@ import domain.cet.CetDiscussGroupObjExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CetDiscussService extends BaseMapper {
+public class CetDiscussService extends CetBaseMapper {
 
     // 查看已分组学员情况 <projectObjId, CetDiscussGroupObj>
     public Map<Integer, CetDiscussGroupObj> getObjMap(int discussId){

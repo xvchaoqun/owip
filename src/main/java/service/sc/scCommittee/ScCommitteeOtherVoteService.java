@@ -4,12 +4,12 @@ import domain.sc.scCommittee.ScCommitteeOtherVote;
 import domain.sc.scCommittee.ScCommitteeOtherVoteExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScCommitteeOtherVoteService extends BaseMapper {
+public class ScCommitteeOtherVoteService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScCommitteeOtherVote record){

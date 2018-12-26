@@ -4,12 +4,7 @@ import bean.XlsCadre;
 import controller.global.OpException;
 import domain.abroad.Passport;
 import domain.abroad.PassportExample;
-import domain.cadre.Cadre;
-import domain.cadre.CadreExample;
-import domain.cadre.CadreParty;
-import domain.cadre.CadrePartyExample;
-import domain.cadre.CadreView;
-import domain.cadre.CadreViewExample;
+import domain.cadre.*;
 import domain.cadreInspect.CadreInspect;
 import domain.modify.ModifyCadreAuth;
 import domain.pcs.PcsCommitteeMemberView;
@@ -25,6 +20,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import persistence.abroad.PassportMapper;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadreInspect.CadreInspectService;
@@ -39,21 +35,15 @@ import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.utils.JSONUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CadreService extends BaseMapper {
 
     public static final String TABLE_NAME = "cadre";
 
+    @Autowired(required = false)
+    private PassportMapper passportMapper;
     @Autowired
     private SysUserService sysUserService;
     @Autowired

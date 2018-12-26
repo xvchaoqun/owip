@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.abroad.common.ApprovalResult;
-import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
@@ -27,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ApprovalLogService extends BaseMapper {
+public class ApprovalLogService extends AbroadBaseMapper {
 
     @Autowired
     private ApplySelfService applySelfService;

@@ -3,14 +3,7 @@ package service.crs;
 import controller.global.OpException;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
-import domain.crs.CrsApplicant;
-import domain.crs.CrsApplicantExample;
-import domain.crs.CrsApplicantView;
-import domain.crs.CrsApplicantViewExample;
-import domain.crs.CrsApplicantWithBLOBs;
-import domain.crs.CrsApplyUser;
-import domain.crs.CrsApplyUserExample;
-import domain.crs.CrsPost;
+import domain.crs.*;
 import domain.modify.ModifyCadreAuth;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
@@ -21,7 +14,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreService;
 import service.modify.ModifyCadreAuthService;
@@ -36,14 +28,10 @@ import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class CrsApplicantService extends BaseMapper {
+public class CrsApplicantService extends CrsBaseMapper {
 
     @Autowired
     private SysApprovalLogService sysApprovalLogService;

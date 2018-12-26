@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,7 +84,7 @@ public class PcsProposalOwController extends PcsBaseController {
         modelMap.put("candidate", pcsPrCandidateView);
 
         // 提案类型列表
-        Map<Integer, MetaType> prTypes = metaTypeService.metaTypes("mc_pcs_proposal");
+        Map<Integer, MetaType> prTypes = CmTag.getMetaTypes("mc_pcs_proposal");
         modelMap.put("prTypes", prTypes.values());
 
         return "pcs/pcsProposal/pcsProposal_check";

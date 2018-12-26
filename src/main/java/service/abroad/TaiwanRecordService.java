@@ -6,13 +6,12 @@ import domain.abroad.TaiwanRecordExample;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import sys.constants.AbroadConstants;
 
 import java.util.Arrays;
 
 @Service
-public class TaiwanRecordService extends BaseMapper {
+public class TaiwanRecordService extends AbroadBaseMapper {
 
     @Transactional
     public void insertSelective(TaiwanRecord record) {

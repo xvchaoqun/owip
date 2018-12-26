@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class PmdMemberService extends BaseMapper {
+public class PmdMemberService extends PmdBaseMapper {
 
     @Autowired
     private PmdBranchService pmdBranchService;

@@ -8,7 +8,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.RoleConstants;
 
@@ -16,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class CetPartyService extends BaseMapper {
+public class CetPartyService extends CetBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

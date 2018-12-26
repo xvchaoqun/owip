@@ -1,17 +1,27 @@
 package controller.oa;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.oa.OaTaskMsgService;
-import service.oa.OaTaskRemindService;
-import service.oa.OaTaskService;
-import service.oa.OaTaskUserService;
+import service.base.ShortMsgService;
+import service.cadre.CadreCommonService;
+import service.cadre.CadreService;
+import service.oa.*;
+import service.sys.SysUserService;
+import sys.HttpResponseMethod;
 
 /**
  * Created by lm on 2017/9/20.
  */
-public class OaBaseController extends BaseController {
+public class OaBaseController extends OaBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected SysUserService sysUserService;
+    @Autowired
+    protected CadreService cadreService;
+    @Autowired
+    protected ShortMsgService shortMsgService;
+    @Autowired
+    protected CadreCommonService cadreCommonService;
+    
     @Autowired
     protected OaTaskService oaTaskService;
     @Autowired

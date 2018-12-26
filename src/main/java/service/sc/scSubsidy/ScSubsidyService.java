@@ -5,13 +5,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
-import domain.sc.scSubsidy.ScSubsidy;
-import domain.sc.scSubsidy.ScSubsidyCadre;
-import domain.sc.scSubsidy.ScSubsidyCadreExample;
-import domain.sc.scSubsidy.ScSubsidyDc;
-import domain.sc.scSubsidy.ScSubsidyDcExample;
-import domain.sc.scSubsidy.ScSubsidyDispatch;
-import domain.sc.scSubsidy.ScSubsidyExample;
+import domain.sc.scSubsidy.*;
 import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -22,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
-import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.sc.ScBaseMapper;
 import service.unit.UnitService;
 import sys.constants.CadreConstants;
 import sys.constants.DispatchConstants;
@@ -37,14 +31,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class ScSubsidyService extends BaseMapper {
+public class ScSubsidyService extends ScBaseMapper {
 
     @Autowired
     private UnitService unitService;

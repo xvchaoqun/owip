@@ -1,16 +1,11 @@
 package service.sc.scLetter;
 
 import controller.global.OpException;
-import domain.sc.scLetter.ScLetter;
-import domain.sc.scLetter.ScLetterExample;
-import domain.sc.scLetter.ScLetterItem;
-import domain.sc.scLetter.ScLetterItemExample;
-import domain.sc.scLetter.ScLetterItemView;
-import domain.sc.scLetter.ScLetterItemViewExample;
+import domain.sc.scLetter.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class ScLetterService extends BaseMapper {
+public class ScLetterService extends ScBaseMapper {
 
     // 个人事项核查[2018]01号
     public int genNum(int year, int type){

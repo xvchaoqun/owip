@@ -1,21 +1,14 @@
 package service.pmd;
 
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdConfigMember;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberPayView;
-import domain.pmd.PmdMemberPayViewExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdParty;
+import domain.pmd.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-public class PmdMemberPayService extends BaseMapper {
+public class PmdMemberPayService extends PmdBaseMapper {
 
     @Autowired
     private  PmdMemberService pmdMemberService;

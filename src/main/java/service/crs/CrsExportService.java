@@ -41,7 +41,7 @@ import java.util.Map;
  * Created by lm on 2017/10/14.
  */
 @Service
-public class CrsExportService extends BaseMapper{
+public class CrsExportService extends CrsBaseMapper{
 
     @Autowired
     private FreemarkerService freemarkerService;

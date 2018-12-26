@@ -4,12 +4,11 @@ import domain.pmd.PmdNormValueLog;
 import domain.pmd.PmdNormValueLogExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class PmdNormValueLogService extends BaseMapper {
+public class PmdNormValueLogService extends PmdBaseMapper {
 
     @Transactional
     public void insertSelective(PmdNormValueLog record){

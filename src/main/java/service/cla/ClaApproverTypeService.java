@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class ClaApproverTypeService extends BaseMapper {
+public class ClaApproverTypeService extends ClaBaseMapper {
 
     // 查询某类审批人身份 已设定的审批人 Set<干部ID>
     public Set<Integer> findApproverCadreIds(Integer typeId){

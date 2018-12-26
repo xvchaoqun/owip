@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.pmd.PayNotifyCampusCardBean;
-import service.pmd.PayNotifyWszfBean;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,54 +25,43 @@ public class PmdPayController extends PmdBaseController {
 
     // 校园统一支付平台
     @RequestMapping("/callback/wszf")
-    public String returnPage(PayNotifyWszfBean bean, HttpServletRequest request, HttpServletResponse response,
+    public String returnPage(HttpServletRequest request, HttpServletResponse response,
                              ModelMap modelMap) throws IOException {
 
         logger.info("pmd request.getParameterMap()=" +JSONUtils.toString(request.getParameterMap(), false));
         // 保存原始的支付通知
-        pmdPayWszfService.savePayNotifyBean(bean);
+        pmdOrderWszfService.savePayNotifyBean(request);
 
-        pmdPayWszfService.callback(bean);
+        pmdOrderWszfService.callback(request);
 
-        if(StringUtils.equals(bean.getReturn_type(), "1")) {
+        String returnType = request.getParameter("return_type");
+        String orderNo = request.getParameter("orderNo");
+        if(StringUtils.equals(returnType, "1")) {
 
             // 页面返回同步通知
-            PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(bean.getOrderNo());
+            PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(orderNo);
             modelMap.put("pmdMemberPayView", pmdMemberPayView);
 
             return "pmd/pay/return_page";
-        }else if(StringUtils.equals(bean.getReturn_type(), "2")) {
+        }else if(StringUtils.equals(returnType, "2")) {
             // 服务器返回异步通知
             response.getWriter().write("success");
         }
 
         return null;
     }
-    /*@RequestMapping("/notifyPage")
-    public void notifyPage(PayNotifyWszfBean bean, HttpServletRequest request,
-                           HttpServletResponse response, ModelMap modelMap) throws IOException {
-
-        logger.info("pmd notifyPage request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
-        // 保存原始的支付通知
-        pmdPayWszfService.savePayNotifyBean(bean);
-
-        boolean ret = pmdPayWszfService.notifyPage(bean);
-        // 支付服务器要求返回字符串success
-        response.getWriter().write(ret ? "success" : "failed");
-    }*/
 
     // 校园卡
     @RequestMapping("/callback/campuscard")
-    public void callback_campuscard(PayNotifyCampusCardBean bean, HttpServletRequest request,
+    public void callback_campuscard(HttpServletRequest request,
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
     
         Map<String, String[]> parameterMap = request.getParameterMap();
-        logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
+        logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(parameterMap, false));
         boolean ret = true;
         if(parameterMap.size()>0) {
-            // 保存原始的支付通知
-            pmdPayCampusCardService.savePayNotifyBean(bean);
-            ret = pmdPayCampusCardService.notify(bean);
+           
+            ret = pmdOrderCampusCardService.notify(request);
         }
         // 支付服务器要求返回200返回码
         response.getWriter().write(ret ? "success" : "failed");
@@ -82,7 +69,7 @@ public class PmdPayController extends PmdBaseController {
 
     // 新校园卡
     @RequestMapping("/callback/newcampuscard")
-    public void callback_newcampuscard(PayNotifyCampusCardBean bean, HttpServletRequest request,
+    public void callback_newcampuscard(HttpServletRequest request,
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
     
         Map<String, String[]> parameterMap = request.getParameterMap();

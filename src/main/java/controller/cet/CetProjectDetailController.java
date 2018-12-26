@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
 import java.math.BigDecimal;
@@ -138,10 +139,9 @@ public class CetProjectDetailController extends CetBaseController {
 
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
-
-        Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
+        
         List<ContentTpl> tplList = new ArrayList<>();
-        tplList.add(contentTplMap.get(ContentTplConstants.CONTENT_TPL_CET_MSG_1));
+        tplList.add(CmTag.getContentTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_1));
         modelMap.put("tplList", tplList);
 
         return "cet/cetProject/cetProject_detail/cetProject_detail_begin";

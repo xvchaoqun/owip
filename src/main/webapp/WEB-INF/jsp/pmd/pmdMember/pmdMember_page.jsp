@@ -147,13 +147,13 @@
                                 data-id-name="pmdMemberId">
                             <i class="fa fa-rmb"></i> 修改党费应交额</button>
                         <button id="helpPayBtn" class="jqOpenViewBtn btn btn-success btn-sm"
-                                data-url="${ctx}/user/pmd/payConfirm_campuscard"
+                                data-url="${ctx}/user/pmd/payConfirm"
                                 data-querystr="&isSelfPay=0"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-rmb"></i> 代缴党费
                         </button>
                         <button id="helpBatchPayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
-                                data-url="${ctx}/user/pmd/payConfirm_campuscard_batch"
+                                data-url="${ctx}/user/pmd/payConfirm_batch"
                                 data-querystr="isDelay=0"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-rmb"></i> 批量代缴党费

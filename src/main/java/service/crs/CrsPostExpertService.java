@@ -6,7 +6,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import sys.constants.CrsConstants;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.List;
  * Created by lm on 2017/7/31.
  */
 @Service
-public class CrsPostExpertService extends BaseMapper {
+public class CrsPostExpertService extends CrsBaseMapper {
 
     public List<Integer> getExpertUserIds(int postId, Byte role) {
 

@@ -1,5 +1,6 @@
 package controller.sc.scMatter;
 
+import controller.sc.ScBaseController;
 import domain.sc.scMatter.ScMatter;
 import domain.sc.scMatter.ScMatterView;
 import domain.sc.scMatter.ScMatterViewExample;
@@ -26,15 +27,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterController extends ScMatterBaseController {
+public class ScMatterController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

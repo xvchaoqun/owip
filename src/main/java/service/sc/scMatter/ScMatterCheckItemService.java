@@ -4,12 +4,12 @@ import domain.sc.scMatter.ScMatterCheckItem;
 import domain.sc.scMatter.ScMatterCheckItemExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScMatterCheckItemService extends BaseMapper {
+public class ScMatterCheckItemService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScMatterCheckItem record){

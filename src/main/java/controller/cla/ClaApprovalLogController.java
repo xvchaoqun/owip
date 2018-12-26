@@ -1,6 +1,5 @@
 package controller.cla;
 
-import controller.BaseController;
 import domain.cla.ClaApprovalLog;
 import domain.cla.ClaApprovalLogExample;
 import interceptor.OrderParam;
@@ -30,7 +29,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/cla")
-public class ClaApprovalLogController extends BaseController {
+public class ClaApprovalLogController extends ClaBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

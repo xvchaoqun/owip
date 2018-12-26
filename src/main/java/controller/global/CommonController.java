@@ -117,6 +117,7 @@ public class CommonController extends BaseController {
             // type=0 所有干部（包括后备干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库  （优先级最低）
             @RequestParam(defaultValue = "1", required = false) Byte type,
             Byte status, // 特定干部类别 (优先级最高)
+            @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所属单位
             Integer pageSize,
             // key=0，选项value=cadreId key=1 ，选项value=userId
             @RequestParam(defaultValue = "0", required = false) Byte key,
@@ -160,12 +161,12 @@ public class CommonController extends BaseController {
             }
         }
 
-        int count = iCadreMapper.countCadreList(searchStr, cadreStatusSet, isCommittee);
+        int count = iCadreMapper.countCadreList(searchStr, cadreStatusSet, unitIds, isCommittee);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, isCommittee,
+        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, unitIds, isCommittee,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
@@ -182,6 +183,7 @@ public class CommonController extends BaseController {
                 }
                 option.put("text", uv.getRealname());
                 option.put("mobile", uv.getMobile());
+                option.put("postId", cadre.getPostId()+"");
                 option.put("title", cadre.getTitle());
                 option.put("status", cadre.getStatus() + "");
                 if (StringUtils.isNotBlank(uv.getCode())) {
@@ -271,12 +273,12 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = searchStr + "%";
 
-        int count = iCadreMapper.countCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null);
+        int count = iCadreMapper.countCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null,null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null,
+        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null, null,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();

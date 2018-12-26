@@ -1,17 +1,12 @@
 package service.pcs;
 
 import controller.global.OpException;
-import domain.pcs.PcsPrCandidate;
-import domain.pcs.PcsPrCandidateExample;
-import domain.pcs.PcsProposal;
-import domain.pcs.PcsProposalExample;
-import domain.pcs.PcsProposalView;
+import domain.pcs.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.util.Assert;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import sys.constants.PcsConstants;
 import sys.utils.DateUtils;
 
@@ -19,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PcsProposalOwService extends BaseMapper {
+public class PcsProposalOwService extends PcsBaseMapper {
 
     public static final String TABLE_NAME = "pcs_pr_candidate";
 

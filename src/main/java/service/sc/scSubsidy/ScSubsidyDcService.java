@@ -4,12 +4,12 @@ import domain.sc.scSubsidy.ScSubsidyDc;
 import domain.sc.scSubsidy.ScSubsidyDcExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScSubsidyDcService extends BaseMapper {
+public class ScSubsidyDcService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScSubsidyDc record){

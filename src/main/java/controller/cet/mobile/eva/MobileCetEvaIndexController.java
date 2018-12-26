@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.cet.common.ICetTrainCourse;
 import sys.helper.CetHelper;
+import sys.tags.CmTag;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
@@ -50,7 +51,7 @@ public class MobileCetEvaIndexController extends CetBaseController {
 
 			// 校内培训，读取已选课程
 			String code = trainInspector.getMobile();
-			SysUserView uv = sysUserService.findByCode(code);
+			SysUserView uv = CmTag.getUserByCode(code);
 			int userId = uv.getId();
 			CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
 			int traineeId = cetTrainee.getId();

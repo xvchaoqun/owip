@@ -4,12 +4,12 @@ import domain.sc.scMatter.ScMatterAccessItem;
 import domain.sc.scMatter.ScMatterAccessItemExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScMatterAccessItemService extends BaseMapper {
+public class ScMatterAccessItemService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScMatterAccessItem record){

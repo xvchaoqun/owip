@@ -1,11 +1,7 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.pmd.PmdConfigMember;
-import domain.pmd.PmdConfigMemberType;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdNorm;
+import domain.pmd.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +9,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.LogService;
 import service.sys.SysApprovalLogService;
 import sys.constants.LogConstants;
@@ -25,7 +20,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 @Service
-public class PmdConfigMemberService extends BaseMapper {
+public class PmdConfigMemberService extends PmdBaseMapper {
 
     @Autowired
     private PmdMonthService pmdMonthService;

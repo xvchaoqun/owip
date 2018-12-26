@@ -5,12 +5,12 @@ import domain.sc.scMotion.ScMotionExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 
 @Service
-public class ScMotionService extends BaseMapper {
+public class ScMotionService extends ScBaseMapper {
 
     public boolean idDuplicate(Integer id, short year, int num) {
 

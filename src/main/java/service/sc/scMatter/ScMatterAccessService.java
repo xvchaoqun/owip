@@ -6,7 +6,7 @@ import domain.sc.scMatter.ScMatterAccessItem;
 import domain.sc.scMatter.ScMatterAccessItemExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
+import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class ScMatterAccessService extends BaseMapper {
+public class ScMatterAccessService extends ScBaseMapper {
 
     @Transactional
     public void insertSelective(ScMatterAccess record, Integer[] matterItemIds){
