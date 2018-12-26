@@ -4,6 +4,7 @@ ALTER TABLE `sys_user_reg`
 	COMMENT='校外账号注册';
 RENAME TABLE `sys_user_reg` TO `ow_member_reg`;
 
+sysUserReg:* -> memberReg:*
 20181226
 
 创建新表 pmd_order  pmd_notify

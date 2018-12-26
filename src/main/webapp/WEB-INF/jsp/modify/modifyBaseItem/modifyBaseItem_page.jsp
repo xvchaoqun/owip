@@ -107,11 +107,12 @@
                             + '<i class="fa fa-check"></i> 审核</button>'
                 }
             }},
+
+            </c:if>
             { label:'审核人', name: 'checkUser.realname' },
+            { label: '审核时间', name: 'checkTime', width: 150/*, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}*/},
             { label:'依据', name: 'checkReason', width: 150 },
             { label:'备注', name: 'checkRemark', width: 250 },
-            </c:if>
-            { label: '审核时间', name: 'checkTime', width: 150/*, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}*/},
             <c:if test="${param.type!='check' && apply.status!=MODIFY_BASE_APPLY_STATUS_DELETE && apply.userId==_user.id}">
             { label:'编辑', name: '_edit',formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
