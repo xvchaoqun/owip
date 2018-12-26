@@ -137,7 +137,8 @@
 		<property name="maxUploadSize" value="${upload.maxSize}"/>
 	</bean>
 
-	<!--<aop:config proxy-target-class="true"></aop:config>-->
+	<!--保证shiro注解生效-->
+	<aop:config proxy-target-class="true"></aop:config>
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager"/>
 	</bean>
