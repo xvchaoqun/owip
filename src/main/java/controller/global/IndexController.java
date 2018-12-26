@@ -10,10 +10,12 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.member.MemberRegService;
 import shiro.ShiroHelper;
 import sys.CasUtils;
 import sys.constants.RoleConstants;
@@ -28,6 +30,9 @@ import java.util.List;
 @Controller
 public class IndexController extends BaseController {
 
+	@Autowired(required = false)
+	private MemberRegService memberRegService;
+	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@RequestMapping("/monitor")
 	@ResponseBody
@@ -70,8 +75,8 @@ public class IndexController extends BaseController {
 	public String index(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
 		if(ShiroHelper.hasRole(RoleConstants.ROLE_REG)){
-			modelMap.put("sysUserReg", sysUserRegService.findByUserId(loginUser.getId()));
-			return "member/user/sysUserReg/sysUserReg";
+			modelMap.put("memberReg", memberRegService.findByUserId(loginUser.getId()));
+			return "member/user/memberReg/memberReg";
 		}
 
 		return "index_page";

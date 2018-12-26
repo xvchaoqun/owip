@@ -6,14 +6,14 @@
     <h3>修改登录密码</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sysUserReg_changepw" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${sysUserReg.id}">
+    <form class="form-horizontal" action="${ctx}/memberReg_changepw" id="modalForm" method="post">
+        <input type="hidden" name="id" value="${memberReg.id}">
 
         <div class="form-group">
             <label class="col-xs-3 control-label">用户名</label>
 
             <div class="col-xs-6 label-text">
-                ${sysUserReg.username}
+                ${memberReg.username}
             </div>
         </div>
         <div class="form-group">

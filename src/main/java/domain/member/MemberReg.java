@@ -1,9 +1,9 @@
-package domain.sys;
+package domain.member;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class SysUserReg implements Serializable {
+public class MemberReg implements Serializable {
     private Integer id;
 
     private Integer userId;

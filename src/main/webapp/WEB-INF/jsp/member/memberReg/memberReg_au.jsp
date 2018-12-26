@@ -3,20 +3,20 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${sysUserReg!=null}">编辑</c:if><c:if test="${sysUserReg==null}">添加</c:if>用户注册</h3>
+    <h3><c:if test="${memberReg!=null}">编辑</c:if><c:if test="${memberReg==null}">添加</c:if>用户注册</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sysUserReg_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${sysUserReg.id}">
-        <input type="hidden" name="username" value="${sysUserReg.username}">
-        <input type="hidden" name="code" value="${sysUserReg.code}">
-        <input type="hidden" name="userId" value="${sysUserReg.userId}">
+    <form class="form-horizontal" action="${ctx}/memberReg_au" id="modalForm" method="post">
+        <input type="hidden" name="id" value="${memberReg.id}">
+        <input type="hidden" name="username" value="${memberReg.username}">
+        <input type="hidden" name="code" value="${memberReg.code}">
+        <input type="hidden" name="userId" value="${memberReg.userId}">
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属分党委</label>
+				<label class="col-xs-3 control-label">联系分党委</label>
 				<div class="col-xs-6">
 					<select required name="partyId" data-rel="select2"
-							data-placeholder="请选择所属分党委" data-width="350">
+							data-placeholder="请选择联系分党委" data-width="350">
 						<option></option>
 						<c:forEach var="entity" items="${partyMap}">
 							<c:if test="${!entity.value.isDeleted}">
@@ -25,14 +25,14 @@ pageEncoding="UTF-8"%>
 						</c:forEach>
 					</select>
 					<script>
-						$("#modalForm select[name=partyId]").val('${sysUserReg.partyId}');
+						$("#modalForm select[name=partyId]").val('${memberReg.partyId}');
 					</script>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">用户名</label>
 				<div class="col-xs-6 label-text">
-					${sysUserReg.username}
+					${memberReg.username}
 				</div>
 			</div>
 
@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
 						<c:forEach var="userType" items="${USER_TYPE_MAP}">
 							<label>
 								<input name="type" type="radio" class="ace" value="${userType.key}"
-									   <c:if test="${sysUserReg.type==userType.key}">checked</c:if>/>
+									   <c:if test="${memberReg.type==userType.key}">checked</c:if>/>
 								<span class="lbl" style="padding-right: 5px;"> ${userType.value}</span>
 							</label>
 						</c:forEach>
@@ -53,26 +53,26 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">学工号</label>
 				<div class="col-xs-6 label-text">
-					${sysUserReg.code}
+					${memberReg.code}
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">真实姓名</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="realname" value="${sysUserReg.realname}">
+                        <input required class="form-control" type="text" name="realname" value="${memberReg.realname}">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label">身份证</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="idcard" value="${sysUserReg.idcard}">
+                        <input required class="form-control" type="text" name="idcard" value="${memberReg.idcard}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">手机</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="phone" value="${sysUserReg.phone}">
+                        <input required class="form-control" type="text" name="phone" value="${memberReg.phone}">
 				</div>
 			</div>
     </form>

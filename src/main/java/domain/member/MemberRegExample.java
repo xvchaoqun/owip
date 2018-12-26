@@ -1,4 +1,4 @@
-package domain.sys;
+package domain.member;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -9,14 +9,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class SysUserRegExample {
+public class MemberRegExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public SysUserRegExample() {
+    public MemberRegExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -1182,7 +1182,7 @@ public class SysUserRegExample {
         protected Criteria() {
             super();
         }
-
+        
         public Criteria addPermits(List<Integer> partyIdList) {
 
             Subject subject = SecurityUtils.getSubject();

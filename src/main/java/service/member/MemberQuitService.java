@@ -1,6 +1,5 @@
 package service.member;
 
-import controller.BaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberQuit;
@@ -130,12 +129,12 @@ public class MemberQuitService extends MemberBaseMapper {
             byte status = -1;
             MemberQuit memberQuit = null;
             if (type == 1) {// 支部打回
-                BaseController.VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth(userId);
+                VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth(userId);
                 memberQuit = verifyAuth.entity;
                 status = MemberConstants.MEMBER_QUIT_STATUS_BACK;
             }
             if (type == 2) {// 分党委打回
-                BaseController.VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth2(userId);
+                VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth2(userId);
                 memberQuit = verifyAuth.entity;
                 status = MemberConstants.MEMBER_QUIT_STATUS_APPLY;
             }
@@ -236,7 +235,7 @@ public class MemberQuitService extends MemberBaseMapper {
         for (int id : ids) {
             MemberQuit memberQuit = null;
             if(type==1) {
-                BaseController.VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth(id);
+                VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth(id);
                 memberQuit = verifyAuth.entity;
 
                 if (verifyAuth.isDirectBranch) {
@@ -246,7 +245,7 @@ public class MemberQuitService extends MemberBaseMapper {
                 }
             }
             if(type==2) {
-                BaseController.VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth2(id);
+                VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth2(id);
                 memberQuit = verifyAuth.entity;
 
                 check2(memberQuit.getUserId());

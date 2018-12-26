@@ -60,7 +60,7 @@
                     </li>
                     <li>手机号码可用于密码找回，请正确填写。</li>
                 </ol></div>
-            <form id="reg-form" method="POST" action="${ctx}/reg">
+            <form id="reg-form" method="POST" action="${ctx}/member_reg">
                 <dt>登录账号</dt><dd><div class="input_box"><input name="username" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><input name="passwd" type="password"/></div></dd>
                 <dt>密码确认</dt><dd><div class="input_box"><input name="repasswd" type="password"/></div></dd>
@@ -76,9 +76,9 @@
                 <dt>身份证号码</dt><dd><div class="input_box"><input name="idcard" type="text"/></div></dd>
                 <dt>手机号码</dt><dd><div class="input_box"><input name="phone" type="text"/></div></dd>
 
-                <dt>选择分党委</dt><dd><div class="input_box">
+                <dt>联系分党委</dt><dd><div class="input_box">
                 <select name="party">
-                    <option value="">请选择所属分党委</option>
+                    <option value="">请选择</option>
                     <c:forEach var="entity" items="${partyMap}">
                         <c:if test="${!entity.value.isDeleted}">
                         <option value="${entity.key}">${entity.value.name}</option>

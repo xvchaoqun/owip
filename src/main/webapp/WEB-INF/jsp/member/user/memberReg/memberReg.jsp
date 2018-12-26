@@ -18,25 +18,25 @@
                         注册账号
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${sysUserReg.username}
+                        ${memberReg.username}
                     </td>
                     <td class="bg-right">
                         类别
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${USER_TYPE_MAP.get(sysUserReg.type)}
+                        ${USER_TYPE_MAP.get(memberReg.type)}
                     </td>
                     <td class="bg-right">
-                        ${(sysUserReg.type==USER_TYPE_JZG)?"教工号":"学号"}
+                        ${(memberReg.type==USER_TYPE_JZG)?"教工号":"学号"}
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${sysUserReg.code}
+                        ${memberReg.code}
                     </td>
                     <td class="bg-right">
                         真实姓名
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                        ${sysUserReg.realname}
+                        ${memberReg.realname}
                     </td>
                 </tr>
                 <tr>
@@ -44,19 +44,19 @@
                         所属组织机构
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                            ${cm:displayParty(sysUserReg.partyId, null)}
+                            ${cm:displayParty(memberReg.partyId, null)}
                     </td>
                     <td class="bg-right">
                         身份证号码
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${sysUserReg.idcard}
+                        ${memberReg.idcard}
                     </td>
                     <td class="bg-right">
                         手机号码
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${sysUserReg.phone}
+                        ${memberReg.phone}
                     </td>
                     <td class="bg-right">
                         状态

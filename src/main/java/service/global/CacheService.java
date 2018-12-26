@@ -10,11 +10,11 @@ import domain.base.MetaType;
 import domain.cadre.CadreViewExample;
 import domain.cet.CetTrainEvaTable;
 import domain.dispatch.DispatchType;
+import domain.member.MemberReg;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysRole;
 import domain.sys.SysUser;
-import domain.sys.SysUserReg;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import mixin.MetaTypeOptionMixin;
@@ -355,7 +355,7 @@ public class CacheService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
             @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
     })
-    public void clearUserCache(SysUserReg u) {}
+    public void clearUserCache(MemberReg u) {}
 
     @Caching(evict={
             @CacheEvict(value="UserPermissions", allEntries=true),

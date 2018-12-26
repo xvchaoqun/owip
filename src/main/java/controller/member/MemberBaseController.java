@@ -44,6 +44,8 @@ public class MemberBaseController extends MemberBaseMapper  implements HttpRespo
     protected BranchMemberService branchMemberService;
     
     @Autowired
+    protected MemberRegService memberRegService;
+    @Autowired
     protected EnterApplyService enterApplyService;
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;

@@ -19,6 +19,7 @@ import service.crp.CrpRecordService;
 import service.ext.ExtService;
 import service.ext.SyncService;
 import service.global.CacheService;
+import service.member.MemberRegService;
 import service.party.*;
 import service.partySchool.PartySchoolService;
 import service.sys.*;
@@ -183,8 +184,7 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected SysApprovalLogService sysApprovalLogService;
     @Autowired
     protected SysUserService sysUserService;
-    @Autowired
-    protected SysUserRegService sysUserRegService;
+    
     @Autowired
     protected SysRoleService sysRoleService;
     @Autowired

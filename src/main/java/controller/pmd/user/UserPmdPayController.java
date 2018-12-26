@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.pmd.PayFormWszfBean;
-import service.pmd.PmdOrderCampusCardService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.utils.*;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -173,7 +174,7 @@ public class UserPmdPayController extends PmdBaseController {
         resultMap.put("order", params);
 
         // test
-        String paycode = (String) params.get("paycode");
+        /*String paycode = (String) params.get("paycode");
         String payitem = "ZZBGZ001";
         String payer = order.getPayer();
         String payertype = (String) params.get("payertype");
@@ -193,7 +194,7 @@ public class UserPmdPayController extends PmdBaseController {
                 "&paid=" + paid +
                 "&paidtime=" + paidtime +
                 "&sign=" + sign;
-        resultMap.put("ret", ret);
+        resultMap.put("ret", ret);*/
         // test
 
         return resultMap;
@@ -238,7 +239,7 @@ public class UserPmdPayController extends PmdBaseController {
         resultMap.put("order", params);
 
         // test
-        String paycode = (String) params.get("paycode");
+        /*String paycode = (String) params.get("paycode");
         String payitem = "ZZBGZ001";
         String payer = order.getPayer();
         String payertype = (String) params.get("payertype");
@@ -258,7 +259,7 @@ public class UserPmdPayController extends PmdBaseController {
                 "&paid=" + paid +
                 "&paidtime=" + paidtime +
                 "&sign=" + sign;
-        resultMap.put("ret", ret);
+        resultMap.put("ret", ret);*/
         // test
 
         return resultMap;

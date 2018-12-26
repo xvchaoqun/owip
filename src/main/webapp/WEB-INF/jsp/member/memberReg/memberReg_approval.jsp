@@ -41,20 +41,20 @@
                                         <div class="profile-info-name">  注册账号 </div>
 
                                         <div class="profile-info-value">
-                                            <span class="editable">${sysUserReg.username}</span>
+                                            <span class="editable">${memberReg.username}</span>
                                         </div>
                                     </div>
                                     <div class="profile-info-row">
                                         <div class="profile-info-name">  类别 </div>
                                         <div class="profile-info-value">
-                                            <span class="editable">${USER_TYPE_MAP.get(sysUserReg.type)}</span>
+                                            <span class="editable">${USER_TYPE_MAP.get(memberReg.type)}</span>
                                         </div>
                                     </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name">  ${(sysUserReg.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
+                                    <div class="profile-info-name">  ${(memberReg.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable">${sysUserReg.code}</span>
+                                        <span class="editable">${memberReg.code}</span>
                                     </div>
                                 </div>
 
@@ -63,7 +63,7 @@
 
                                     <div class="profile-info-value">
                                     <span class="editable">
-                                        ${cm:displayParty(sysUserReg.partyId, null)}
+                                        ${cm:displayParty(memberReg.partyId, null)}
                                     </span>
                                     </div>
                                 </div>
@@ -74,28 +74,28 @@
                                     <div class="profile-info-name">  真实姓名 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable">${sysUserReg.realname}</span>
+                                        <span class="editable">${memberReg.realname}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 身份证号码 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${sysUserReg.idcard}</span>
+                                        <span class="editable" >${memberReg.idcard}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 手机号码 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${sysUserReg.phone}</span>
+                                        <span class="editable" >${memberReg.phone}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 注册IP </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${sysUserReg.ip}</span>
+                                        <span class="editable" >${memberReg.ip}</span>
                                     </div>
                                 </div>
 
@@ -108,18 +108,18 @@
                                     <span class="step">0</span>
                                     <span class="title">申请已提交</span>
                                   <span class="subtitle">
-                                      ${cm:formatDate(sysUserReg.createTime,'yyyy-MM-dd')}
+                                      ${cm:formatDate(memberReg.createTime,'yyyy-MM-dd')}
                                   </span>
                                 </li>
                                 <c:set var="USER_REG_STATUS_DENY" value="<%=SystemConstants.USER_REG_STATUS_DENY%>"/>
-                                <c:if test="${sysUserReg.status==USER_REG_STATUS_DENY}">
+                                <c:if test="${memberReg.status==USER_REG_STATUS_DENY}">
                                     <li data-step="2" class="active">
                                         <span class="step">1</span>
                                         <span class="title">未通过申请</span>
                                     </li>
                                 </c:if>
                                 <c:set var="USER_REG_STATUS_PASS" value="<%=SystemConstants.USER_REG_STATUS_PASS%>"/>
-                                <li data-step="1"  class="${sysUserReg.status==USER_REG_STATUS_PASS?'complete':''}">
+                                <li data-step="1"  class="${memberReg.status==USER_REG_STATUS_PASS?'complete':''}">
                                     <span class="step">1</span>
                                     <span class="title">分党委党总支直属党支部审核</span>
                                 </li>
@@ -134,7 +134,7 @@
                                 </c:if>
                                 <c:if test="${not empty last}">
                                     <button id="last" class="openView btn"
-                                            data-url="${ctx}/sysUserReg_approval?id=${last.id}&type=${param.type}"
+                                            data-url="${ctx}/memberReg_approval?id=${last.id}&type=${param.type}"
                                             type="button">
                                         <i class="ace-icon fa fa-angle-double-left fa-lg"></i>上一条
                                     </button>
@@ -148,17 +148,17 @@
                                 </c:if>
                                 <c:if test="${not empty next}">
                                 <button id="next" class="openView btn"
-                                        data-url="${ctx}/sysUserReg_approval?id=${next.id}"
+                                        data-url="${ctx}/memberReg_approval?id=${next.id}"
                                         type="button">
                                     下一条 <i class="ace-icon fa fa-angle-double-right fa-lg "></i>
                                 </button>
                                     </c:if>
                             </div>
-                            <button ${isAdmin?'':'disabled'}  onclick="apply_pass(${sysUserReg.id}, true)" class="btn btn-success">
+                            <button ${isAdmin?'':'disabled'}  onclick="apply_pass(${memberReg.id}, true)" class="btn btn-success">
                                 <i class="fa fa-check"></i> 通过
                             </button>
                             &nbsp;&nbsp;
-                            <button ${isAdmin?'':'disabled'}  onclick="apply_deny(${sysUserReg.id}, true)" class="btn btn-danger">
+                            <button ${isAdmin?'':'disabled'}  onclick="apply_deny(${memberReg.id}, true)" class="btn btn-danger">
                                 <i class="fa fa-times"></i> 拒绝
                             </button>
                         </div>
@@ -169,5 +169,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${sysUserReg.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_USER_REG}"/>
+    <c:import url="/applyApprovalLogs?id=${memberReg.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_USER_REG}"/>
 </div>

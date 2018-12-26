@@ -1,6 +1,5 @@
 package service.member;
 
-import controller.BaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberStay;
@@ -348,7 +347,7 @@ public class MemberStayService extends MemberBaseMapper {
         for (int id : ids) {
             MemberStay memberStay = null;
             if (type == 1) {
-                BaseController.VerifyAuth<MemberStay> verifyAuth = checkVerityAuth(id);
+                VerifyAuth<MemberStay> verifyAuth = checkVerityAuth(id);
                 memberStay = verifyAuth.entity;
                 boolean isDirectBranch = verifyAuth.isDirectBranch;
 
@@ -359,7 +358,7 @@ public class MemberStayService extends MemberBaseMapper {
                 }
             }
             if (type == 2) {
-                BaseController.VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
+                VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
                 memberStay = verifyAuth.entity;
 
                 check2(memberStay.getId(), branchId, orgBranchAdminId, orgBranchAdminPhone);

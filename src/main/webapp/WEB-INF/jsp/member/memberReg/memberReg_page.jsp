@@ -6,35 +6,35 @@
 
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-au="${ctx}/sysUserReg_au"
-                 data-url-page="${ctx}/sysUserReg"
+                 data-url-au="${ctx}/memberReg_au"
+                 data-url-page="${ctx}/memberReg"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.username||not empty param.realname
                 ||not empty param.partyId ||not empty param.idcard|| not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/sysUserReg?cls=1"}><i class="fa fa-circle-o"></i> 分党委审核</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReg?cls=1"}><i class="fa fa-circle-o"></i> 分党委审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/sysUserReg?cls=2"}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReg?cls=2"}><i class="fa fa-times"></i> 未通过</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/sysUserReg?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReg?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <c:if test="${cls==1}">
-                                <shiro:hasPermission name="sysUserReg:edit">
+                                <shiro:hasPermission name="memberReg:edit">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> 修改信息
                                     </button>
                                 </shiro:hasPermission>
                                     <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/sysUserReg_approval"
+                                            data-url="${ctx}/memberReg_approval"
                                             data-open-by="page"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
@@ -48,9 +48,9 @@
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
                                 <c:if test="${cls==3}">
-                                <shiro:hasPermission name="sysUserReg:edit">
+                                <shiro:hasPermission name="memberReg:edit">
                                     <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                            data-url="${ctx}/sysUserReg_changepw">
+                                            data-url="${ctx}/memberReg_changepw">
                                         <i class="fa fa-edit"></i> 修改登录密码
                                     </button>
                                 </shiro:hasPermission>
@@ -137,12 +137,12 @@
     }
     function apply_deny(id, goToNext) {
 
-        $.loadModal("${ctx}/sysUserReg_deny?id=" + id  +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
+        $.loadModal("${ctx}/memberReg_deny?id=" + id  +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
     function apply_pass(id, goToNext) {
         bootbox.confirm("确定通过该申请？", function (result) {
             if (result) {
-                $.post("${ctx}/sysUserReg_check", {id: id}, function (ret) {
+                $.post("${ctx}/memberReg_check", {id: id}, function (ret) {
                     if (ret.success) {
                         //SysMsg.success('操作成功。', '成功', function () {
                             //page_reload();
@@ -155,7 +155,7 @@
     }
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/sysUserReg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/memberReg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '账号', name: 'username',frozen:true},
             {label: '真实姓名', name: 'realname', frozen:true},

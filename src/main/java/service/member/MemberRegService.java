@@ -1,11 +1,11 @@
-package service.sys;
+package service.member;
 
 import controller.global.OpException;
+import domain.member.MemberReg;
+import domain.member.MemberRegExample;
 import domain.sys.SysUser;
 import domain.sys.SysUserExample;
 import domain.sys.SysUserInfo;
-import domain.sys.SysUserReg;
-import domain.sys.SysUserRegExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -15,9 +15,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.LoginUserService;
 import service.global.CacheService;
+import service.sys.SysUserService;
 import shiro.PasswordHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -29,7 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class SysUserRegService extends BaseMapper {
+public class MemberRegService extends MemberBaseMapper {
 
     @Autowired
     private CacheService cacheService;
@@ -41,76 +41,76 @@ public class SysUserRegService extends BaseMapper {
     @Autowired
     private LoginUserService loginUserService;
 
-    public SysUserReg findByUserId(int userId){
+    public MemberReg findByUserId(int userId){
 
-        SysUserRegExample example = new SysUserRegExample();
+        MemberRegExample example = new MemberRegExample();
         example.createCriteria().andUserIdEqualTo(userId);
-        List<SysUserReg> sysUserRegs = sysUserRegMapper.selectByExample(example);
-        if(sysUserRegs.size()==1) return sysUserRegs.get(0);
+        List<MemberReg> memberRegs = memberRegMapper.selectByExample(example);
+        if(memberRegs.size()==1) return memberRegs.get(0);
         return null;
     }
 
     public int count(Integer partyId){
 
-        SysUserRegExample example = new SysUserRegExample();
-        SysUserRegExample.Criteria criteria = example.createCriteria();
+        MemberRegExample example = new MemberRegExample();
+        MemberRegExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList());
         criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_APPLY);
 
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
 
-        return sysUserRegMapper.countByExample(example);
+        return (int) memberRegMapper.countByExample(example);
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
-    public SysUserReg next(SysUserReg sysUserReg){
+    public MemberReg next(MemberReg memberReg){
 
-        SysUserRegExample example = new SysUserRegExample();
-        SysUserRegExample.Criteria criteria = example.createCriteria();
+        MemberRegExample example = new MemberRegExample();
+        MemberRegExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList());
 
         criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_APPLY);
 
-        if(sysUserReg!=null)
-            criteria.andUserIdNotEqualTo(sysUserReg.getUserId()).andCreateTimeLessThanOrEqualTo(sysUserReg.getCreateTime());
+        if(memberReg!=null)
+            criteria.andUserIdNotEqualTo(memberReg.getUserId()).andCreateTimeLessThanOrEqualTo(memberReg.getCreateTime());
         example.setOrderByClause("create_time desc");
 
-        List<SysUserReg> memberApplies = sysUserRegMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        List<MemberReg> memberApplies = memberRegMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         return (memberApplies.size()==0)?null:memberApplies.get(0);
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
-    public SysUserReg last(SysUserReg sysUserReg){
+    public MemberReg last(MemberReg memberReg){
 
-        SysUserRegExample example = new SysUserRegExample();
-        SysUserRegExample.Criteria criteria = example.createCriteria();
+        MemberRegExample example = new MemberRegExample();
+        MemberRegExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList());
 
         criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_APPLY);
 
-        if(sysUserReg!=null)
-            criteria.andUserIdNotEqualTo(sysUserReg.getUserId()).andCreateTimeGreaterThanOrEqualTo(sysUserReg.getCreateTime());
+        if(memberReg!=null)
+            criteria.andUserIdNotEqualTo(memberReg.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberReg.getCreateTime());
         example.setOrderByClause("create_time asc");
 
-        List<SysUserReg> records = sysUserRegMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        List<MemberReg> records = memberRegMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         return (records.size()==0)?null:records.get(0);
     }
     // 不通过
     @Transactional
     public void deny(int id){
 
-        SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
+        MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
         {
-            SysUserReg record = new SysUserReg();
+            MemberReg record = new MemberReg();
             record.setId(id);
             record.setStatus(SystemConstants.USER_REG_STATUS_DENY);
             updateByPrimaryKeySelective(record);
         }
         // 删除账号
-        int userId = sysUserReg.getUserId();
+        int userId = memberReg.getUserId();
         sysUserInfoMapper.deleteByPrimaryKey(userId);
         sysUserService.deleteByPrimaryKey(userId);
     }
@@ -119,9 +119,9 @@ public class SysUserRegService extends BaseMapper {
     @Transactional
     public void pass(int id){
 
-        SysUserReg _sysUser = sysUserRegMapper.selectByPrimaryKey(id);
+        MemberReg _sysUser = memberRegMapper.selectByPrimaryKey(id);
         {
-            SysUserReg record = new SysUserReg();
+            MemberReg record = new MemberReg();
             record.setId(id);
             record.setStatus(SystemConstants.USER_REG_STATUS_PASS);
             updateByPrimaryKeySelective(record);
@@ -201,7 +201,7 @@ public class SysUserRegService extends BaseMapper {
         sysUserInfo.setMobile(phone);
         sysUserService.insertOrUpdateUserInfoSelective(sysUserInfo);
 
-        SysUserReg reg = new SysUserReg();
+        MemberReg reg = new MemberReg();
         reg.setUserId(sysUser.getId());
         reg.setPartyId(party);
         reg.setUsername(username);
@@ -215,19 +215,19 @@ public class SysUserRegService extends BaseMapper {
         reg.setCreateTime(new Date());
         reg.setIp(ip);
         reg.setStatus(SystemConstants.USER_REG_STATUS_APPLY);
-        sysUserRegMapper.insertSelective(reg);
+        memberRegMapper.insertSelective(reg);
     }
 
     public boolean usernameDuplicate(Integer id, Integer userId, String username){
 
         Assert.isTrue(StringUtils.isNotBlank(username), "username is blank");
         {
-            SysUserRegExample example = new SysUserRegExample();
-            SysUserRegExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username)
+            MemberRegExample example = new MemberRegExample();
+            MemberRegExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username)
                     .andStatusNotEqualTo(SystemConstants.USER_REG_STATUS_DENY);
             if(id!=null) criteria.andIdNotEqualTo(id);
 
-            if (sysUserRegMapper.countByExample(example) > 0) return true;
+            if (memberRegMapper.countByExample(example) > 0) return true;
         }
         {
             SysUserExample example = new SysUserExample();
@@ -246,12 +246,12 @@ public class SysUserRegService extends BaseMapper {
 
         Assert.isTrue(StringUtils.isNotBlank(idcard), "idcard is blank");
         {
-            SysUserRegExample example = new SysUserRegExample();
-            SysUserRegExample.Criteria criteria = example.createCriteria().andIdcardEqualTo(idcard)
+            MemberRegExample example = new MemberRegExample();
+            MemberRegExample.Criteria criteria = example.createCriteria().andIdcardEqualTo(idcard)
                     .andStatusNotEqualTo(SystemConstants.USER_REG_STATUS_DENY);
 
             if(id!=null) criteria.andIdNotEqualTo(id);
-            if (sysUserRegMapper.countByExample(example) > 0) return true;
+            if (memberRegMapper.countByExample(example) > 0) return true;
         }
 
         /*{
@@ -268,10 +268,10 @@ public class SysUserRegService extends BaseMapper {
     @Transactional
     public SysUserView changepw(int id, String password){ // 返回值是为了清除缓存
 
-        SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
-        if(sysUserReg==null || sysUserReg.getUserId()==null) throw new OpException("参数错误");
+        MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
+        if(memberReg==null || memberReg.getUserId()==null) throw new OpException("参数错误");
 
-        SysUserView _sysUser = sysUserService.findById(sysUserReg.getUserId());
+        SysUserView _sysUser = sysUserService.findById(memberReg.getUserId());
         if(_sysUser==null) throw new OpException("用户不存在");
 
         SysUser record = new SysUser();
@@ -281,7 +281,7 @@ public class SysUserRegService extends BaseMapper {
         record.setPasswd(encrypt.getPassword());
         sysUserService.updateByPrimaryKeySelective(record);
 
-        SysUserReg _record = new SysUserReg();
+        MemberReg _record = new MemberReg();
         _record.setId(id);
         _record.setPasswd(password);
         updateByPrimaryKeySelective(_record);
@@ -292,16 +292,16 @@ public class SysUserRegService extends BaseMapper {
     }
 
    /* @Transactional
-    public int insertSelective(SysUserReg record){
+    public int insertSelective(MemberReg record){
 
         Assert.isTrue(!usernameDuplicate(record.getId(), record.getUserId(), record.getUsername()));
         Assert.isTrue(!idcardDuplicate(record.getId(), record.getUserId(), record.getIdcard()));
-        return sysUserRegMapper.insertSelective(record);
+        return memberRegMapper.insertSelective(record);
     }*/
     /*@Transactional
     public void del(Integer id){
 
-        sysUserRegMapper.deleteByPrimaryKey(id);
+        memberRegMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -309,20 +309,20 @@ public class SysUserRegService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        SysUserRegExample example = new SysUserRegExample();
+        MemberRegExample example = new MemberRegExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        sysUserRegMapper.deleteByExample(example);
+        memberRegMapper.deleteByExample(example);
     }*/
 
     @Transactional
-    public int updateByPrimaryKeySelective(SysUserReg record){
+    public int updateByPrimaryKeySelective(MemberReg record){
 
         // 不可修改账号ID、账号名称、学工号
         record.setUserId(null);
         record.setUsername(null);
         record.setCode(null);
 
-        return sysUserRegMapper.updateByPrimaryKeySelective(record);
+        return memberRegMapper.updateByPrimaryKeySelective(record);
     }
 
 }
