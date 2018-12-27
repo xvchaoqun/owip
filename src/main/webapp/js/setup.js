@@ -424,11 +424,11 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function () {
     _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
 });*/
 // 导出
-$(document).on("click", ".myTableDiv .exportBtn", function () {
+/*$(document).on("click", ".myTableDiv .exportBtn", function () {
 
     var $div = $(this).closest(".myTableDiv");
     location.href = $div.data("url-page") + "?export=1&" + $("div.myTableDiv #searchForm").serialize();
-});
+});*/
 
 // 下载
 $(document).on("click", ".downloadBtn", function () {

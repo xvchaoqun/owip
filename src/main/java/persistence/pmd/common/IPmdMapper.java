@@ -61,6 +61,13 @@ public interface IPmdMapper {
     // 党费重新计算-可选月份
     @Select("select distinct rq from ext_jzg_salary where rq in(select distinct rq from ext_retire_salary) order by rq desc")
     public List<String> extSalaryMonthList();
+    
+    // 教职工工资月份
+    @Select("select distinct rq from ext_jzg_salary order by rq desc")
+    public List<String> extJzgSalaryMonthList();
+    // 离退休工资月份
+    @Select("select distinct rq from ext_retire_salary order by rq desc")
+    public List<String> extRetireSalaryMonthList();
 
     // 读取当前缴费党员库中的教职工工资
     @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")

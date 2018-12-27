@@ -4,9 +4,7 @@ import controller.BaseController;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.base.MetaTypeExample;
-import domain.base.MetaTypeExample.Criteria;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
-import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -59,7 +56,7 @@ public class MetaTypeController extends BaseController {
         return "base/metaType/metaTypes";
     }
 
-    @RequiresPermissions("metaType:list")
+    /*@RequiresPermissions("metaType:list")
     @RequestMapping("/metaType")
     public String metaType(HttpServletRequest request,
                            HttpServletResponse response,
@@ -113,19 +110,19 @@ public class MetaTypeController extends BaseController {
         if (classId != null) {
             searchStr += "&classId=" + classId;
         }
-       /* if (StringUtils.isNotBlank(sort)) {
+       *//* if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
         }
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
-        }*/
+        }*//*
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
         modelMap.put("metaClassMap", metaClassService.findAll());
 
         return "base/metaType/metaType_page";
-    }
+    }*/
 
     @RequiresPermissions("metaType:edit")
     @RequestMapping(value = "/metaType_au", method = RequestMethod.POST)

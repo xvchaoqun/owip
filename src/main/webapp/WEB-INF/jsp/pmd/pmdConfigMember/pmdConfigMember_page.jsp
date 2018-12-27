@@ -37,6 +37,10 @@
                         data-url="${ctx}/pmd/pmdOrder">
                     <i class="fa fa-search"></i> 历史支付订单
                 </button>
+
+                <a class="popupBtn btn btn-primary btn-sm"
+                   data-url="${ctx}/pmd/pmdConfigMember_exportSalary"><i
+                        class="fa fa-download"></i> 导出工资数据</a>
                <%-- <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</a>--%>

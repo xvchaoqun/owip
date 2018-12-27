@@ -1,9 +1,17 @@
 package domain.modify;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class ModifyBaseItem implements Serializable {
+    
+    public SysUserView getCheckUser(){
+        return CmTag.getUserById(checkUserId);
+    }
+    
     private Integer id;
 
     private Integer applyId;
