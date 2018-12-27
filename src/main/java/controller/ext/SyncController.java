@@ -55,7 +55,7 @@ public class SyncController extends BaseController {
     @Autowired
     private ExtRetireSalaryImport extRetireSalaryImport;
 
-    // 同步学校信息（系统不存在账号插入，已存在的更新）
+    // 离退休费
     @RequiresPermissions("sysSync:edit")
     @RequestMapping("/sync_retire_salary")
     @ResponseBody
