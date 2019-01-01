@@ -836,6 +836,29 @@ $(document).on("click", ".jqExportBtn", function () {
     return false;
 });
 
+$(document).on("click", ".jqExportItemBtn", function () {
+
+    var $this = $(this);
+
+    var gridId = $this.data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
+    var id = grid.getGridParam("selrow");
+    var ids = grid.getGridParam("selarrrow");
+    if (!id || ids.length > 1) {
+        SysMsg.warning("请选择一行", "提示");
+        return;
+    }
+
+    var idName = $this.data("id-name") || 'id';
+    var url = $this.data("url");
+    var queryString = $this.data("querystr");
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+    if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
+
+    $this.download(url);
+    return false;
+});
+
 // 批量操作 for jqgrid
 $(document).on("click", ".jqBatchBtn", function (e) {
 

@@ -39,6 +39,10 @@
 			<mvc:mapping path="/**/pmd/**"/>
 			<bean class="interceptor.PmdSessionInterceptor"/>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/cet/**"/>
+			<bean class="interceptor.CetSessionInterceptor"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<!-- 激活@Controller模式-->

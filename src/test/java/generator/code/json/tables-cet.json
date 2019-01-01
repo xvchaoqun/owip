@@ -7,13 +7,40 @@
   "resFolder": "cet",
   "tables": [
     {
+      "table": "cet_annual",
+      "key": "id",
+      "searchColumns": "year,trainee_type_id",
+      "showColumns": "year,trainee_type_id,obj_count,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_CET",
+      "ignore": true
+    },
+    {
+      "table": "cet_annual_obj",
+      "key": "id",
+      "searchColumns": "record_id,user_id",
+      "showColumns": "user_id,title,admin_level,post_type,lp_work_time,period,finish_period",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_CET",
+      "ignore": true
+    },
+    {
+      "table": "cet_annual_require",
+      "key": "id",
+      "searchColumns": "admin_level",
+      "showColumns": "admin_level,period,max_special_period,max_daily_period,max_party_period,max_unit_period,max_upper_period,remark,relate_count,op_time,op_user_id,ip",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_CET",
+      "ignore": false
+    },
+    {
       "table": "cet_unit_project",
       "key": "id",
       "searchColumns": "year,unit_id",
       "showColumns": "year,unit_id,end_date,start_date,project_name,project_type,special_type,period,total_count,address,is_valid,remark,add_user_id,add_time",
       "excludeEditColumns": "id,status,add_time,add_user_id",
       "logType":"LogConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_unit_train",
@@ -22,7 +49,7 @@
       "showColumns": "user_id,title,post_id,period,word_note,add_type,add_user_id,add_time,status",
       "excludeEditColumns": "id,status,add_time,add_user_id,back_reason",
       "logType":"LogConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
 
     {
