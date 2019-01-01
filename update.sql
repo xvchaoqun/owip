@@ -1,4 +1,28 @@
 
+
+
+
+20190102
+ALTER TABLE `cet_project_obj`
+	ADD COLUMN `finish_period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '已完成学时数，每天统计一次当年的记录、可手动刷新' AFTER `should_finish_period`;
+
+更新 cet_project_obj_view   cet_project_obj_cadre_view
+
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `year` INT(10) UNSIGNED NOT NULL COMMENT '年度' AFTER `id`;
+
+ALTER TABLE `cet_project`
+	ADD COLUMN `is_valid` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否计入年度学习任务' AFTER `name`;
+
+更新 cet_project_view
+
+update cet_project set is_valid=1;
+
+update cet_upper_train set year=2018;
+
+更新common-utils
+
+
 20181226
 ALTER TABLE `sys_user_reg`
 	COMMENT='校外账号注册';
