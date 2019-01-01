@@ -1,12 +1,7 @@
 package controller.cet;
 
 import controller.global.OpException;
-import domain.cet.CetProject;
-import domain.cet.CetProjectExample;
-import domain.cet.CetProjectType;
-import domain.cet.CetProjectView;
-import domain.cet.CetProjectViewExample;
-import domain.cet.CetTraineeType;
+import domain.cet.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,23 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentTypeUtils;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -49,6 +33,16 @@ public class CetProjectController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("cetProject:list")
+    @RequestMapping("/refreshYearObjsFinishPeriod")
+    @ResponseBody
+    public Map refreshYearObjsFinishPeriod( int year, ModelMap modelMap) {
+
+        cetProjectObjService.refreshYearObjsFinishPeriod(year);
+        
+        return success();
+    }
+    
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject")
     public String cetProject( ModelMap modelMap) {
@@ -135,7 +129,7 @@ public class CetProjectController extends CetBaseController {
         }
 
         record.setWordFilePath(upload(_wordFilePath, "cet_project"));
-
+        record.setIsValid(BooleanUtils.isTrue(record.getIsValid()));
         if (id == null) {
             cetProjectService.insertSelective(record, traineeTypeIds);
             logger.info(addLog(LogConstants.LOG_CET, "添加专题培训：%s", record.getId()));
@@ -190,9 +184,6 @@ public class CetProjectController extends CetBaseController {
         modelMap.put("projectTypes", projectTypeMap.values());
 
         modelMap.put("type", _type);
-
-        Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
-        modelMap.put("traineeTypeMap", traineeTypeMap);
 
         return "cet/cetProject/cetProject_au";
     }

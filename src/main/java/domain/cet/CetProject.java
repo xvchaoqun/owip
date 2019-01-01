@@ -1,7 +1,6 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import persistence.cet.common.ICetProjectObj;
 import service.cet.CetProjectObjService;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
@@ -14,7 +13,7 @@ import java.util.Date;
 
 public class CetProject implements Serializable {
 
-    public ICetProjectObj getObj(){
+    public CetProjectObj getObj(){
 
         HttpServletRequest request = ContextHelper.getRequest();
         if (request == null) return null;
@@ -23,7 +22,7 @@ public class CetProject implements Serializable {
         if(userId==null) return null;
 
         CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
-        return cetProjectObjService.getICetProjectObj(id, userId);
+        return cetProjectObjService.get(userId, id);
     }
 
     private Integer id;
@@ -43,6 +42,8 @@ public class CetProject implements Serializable {
     private String openAddress;
 
     private String name;
+
+    private Boolean isValid;
 
     private Integer projectTypeId;
 
@@ -128,6 +129,14 @@ public class CetProject implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Boolean getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(Boolean isValid) {
+        this.isValid = isValid;
     }
 
     public Integer getProjectTypeId() {

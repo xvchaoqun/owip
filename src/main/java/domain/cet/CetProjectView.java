@@ -21,6 +21,8 @@ public class CetProjectView implements Serializable {
 
     private String name;
 
+    private Boolean isValid;
+
     private Integer projectTypeId;
 
     private String fileName;
@@ -107,6 +109,14 @@ public class CetProjectView implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Boolean getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(Boolean isValid) {
+        this.isValid = isValid;
     }
 
     public Integer getProjectTypeId() {

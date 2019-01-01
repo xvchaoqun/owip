@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="row rownumbers">
-    <div class="col-xs-12">
+    <div class="col-xs-12 multi-row-head-table">
 
         <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.name || not empty param.code || not empty param.sort}"/>
@@ -123,12 +123,12 @@ pageEncoding="UTF-8" %>
             {label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == undefined) return '';
                 return _cMap.CET_PROJECT_STATUS_MAP[rowObject.status];
-            }},
+            }, frozen: true},
             { label: '年度',name: 'year', frozen: true},
             { label: '培训时间',name: 'startDate', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
             }, frozen: true},
-            { label: '培训班名称',name: 'name', width: 300, frozen: true},
+            { label: '培训班名称',name: 'name', width: 400, align:'left'},
             {
                 label: '专题分类', name: 'projectTypeId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return ''
@@ -161,6 +161,12 @@ pageEncoding="UTF-8" %>
             }
             },
             { label: '总学时',name: 'period'},
+            {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: function (cellvalue, options, rowObject) {
+              if (cellvalue==undefined) {
+                return '-'
+              }
+              return cellvalue?'是':'否'
+            }},
             { label: '参训人数',name: 'objCount'},
             {label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';

@@ -24,6 +24,10 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     protected SysLoginLogService sysLoginLogService;
     
     @Autowired
+    protected CetAnnualService cetAnnualService;
+    @Autowired
+    protected CetAnnualObjService cetAnnualObjService;
+    @Autowired
     protected CetUnitProjectService cetUnitProjectService;
     @Autowired
     protected CetUnitTrainService cetUnitTrainService;

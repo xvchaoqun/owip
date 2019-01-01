@@ -465,6 +465,66 @@ public class CetProjectObjViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andFinishPeriodIsNull() {
+            addCriterion("finish_period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodIsNotNull() {
+            addCriterion("finish_period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodEqualTo(BigDecimal value) {
+            addCriterion("finish_period =", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodNotEqualTo(BigDecimal value) {
+            addCriterion("finish_period <>", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodGreaterThan(BigDecimal value) {
+            addCriterion("finish_period >", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("finish_period >=", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodLessThan(BigDecimal value) {
+            addCriterion("finish_period <", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("finish_period <=", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodIn(List<BigDecimal> values) {
+            addCriterion("finish_period in", values, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodNotIn(List<BigDecimal> values) {
+            addCriterion("finish_period not in", values, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("finish_period between", value1, value2, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("finish_period not between", value1, value2, "finishPeriod");
+            return (Criteria) this;
+        }
+
         public Criteria andIsGraduateIsNull() {
             addCriterion("is_graduate is null");
             return (Criteria) this;

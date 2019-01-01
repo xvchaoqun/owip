@@ -194,6 +194,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
         for (DispatchWorkFile dispatchWorkFile : dispatchWorkFiles) {
     
             String pdfFilePath = dispatchWorkFile.getPdfFilePath();
+            if(StringUtils.isBlank(pdfFilePath)) continue;
             if(FileUtils.exists(springProps.uploadPath + pdfFilePath+".jpg"))
                 continue;
              // 异步pdf转图片

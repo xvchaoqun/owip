@@ -2,26 +2,23 @@ package service.cet;
 
 import domain.cet.*;
 import domain.sys.SysUserView;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.BigDecimalConverter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.cet.common.FinishPeriodBean;
-import persistence.cet.common.ICetProjectObj;
+import persistence.cet.CetProjectObjPlanMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -327,12 +324,21 @@ public class CetProjectObjService extends CetBaseMapper {
         return resultMap;
     }
 
-    // 获取培训对象在一个培训方案中已完成的学时
-    public BigDecimal getPlanFinishPeriod(CetProjectPlan cetProjectPlan, int objId) {
+    // 获取培训对象在一个培训方案中已完成的学时（非实时）
+    public BigDecimal getPlanFinishPeriod(int planId, int objId) {
 
-        //int projectId = cetProjectPlan.getProjectId();
-        int planId = cetProjectPlan.getId();
-        byte planType = cetProjectPlan.getType();
+        CetProjectObjPlanMapper cetProjectObjPlanMapper = CmTag.getBean(CetProjectObjPlanMapper.class);
+        CetProjectObjPlanExample example = new CetProjectObjPlanExample();
+        example.createCriteria().andPlanIdEqualTo(planId).andObjIdEqualTo(objId);
+        List<CetProjectObjPlan> cetProjectObjPlans = cetProjectObjPlanMapper
+                .selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        
+        return (cetProjectObjPlans.size()==1)?cetProjectObjPlans.get(0).getFinishPeriod():null;
+    }
+
+    // 获取培训对象在一个培训方案中已完成的学时（实时统计）
+    public BigDecimal getRealObjPlanFinishPeriod(int planId, byte planType, int objId) {
+
         switch (planType){
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
@@ -355,7 +361,7 @@ public class CetProjectObjService extends CetBaseMapper {
         return null;
     }
     // 获取所有培训对象在一个培训方案中已完成的学时 <objId, BigDecimal>
-    public Map<Integer, BigDecimal> getPlanFinishPeriods(CetProjectPlan cetProjectPlan) {
+    /*public Map<Integer, BigDecimal> getPlanFinishPeriods(CetProjectPlan cetProjectPlan) {
 
         List<FinishPeriodBean> beans = new ArrayList<>();
 
@@ -388,9 +394,9 @@ public class CetProjectObjService extends CetBaseMapper {
         }
 
         return resultMap;
-    }
+    }*/
 
-    // 获取培训对象在一个培训中已完成的学时
+    /*// 获取培训对象在一个培训中已完成的学时
     public ICetProjectObj getICetProjectObj(int projectId, int userId) {
 
         ICetProjectObj cetProjectObj = new ICetProjectObj();
@@ -406,29 +412,107 @@ public class CetProjectObjService extends CetBaseMapper {
         cetProjectObj.setFinishPeriod(getFinishPeriod(projectId, objId).get(0));
 
         return cetProjectObj;
-    }
+    }*/
 
-    public Map<Integer, BigDecimal> getFinishPeriod(int projectId, int objId){
+    // 获取培训对象的已完成学时(实时）
+    // <planId, BigDecimal>  planId=0是汇总
+    public Map<Integer, BigDecimal> getRealObjFinishPeriodMap(int projectId, int objId){
 
         Map<Integer, BigDecimal> periodMap = new LinkedHashMap<>();
-
         Map<Integer, CetProjectPlan> cetProjectPlanMap = cetProjectPlanService.findAll(projectId);
+        
         BigDecimal finishPeriod = BigDecimal.ZERO;
         for (CetProjectPlan cetProjectPlan : cetProjectPlanMap.values()) {
 
-            BigDecimal planFinishPeriod = getPlanFinishPeriod(cetProjectPlan, objId);
+            int planId = cetProjectPlan.getId();
+            byte type = cetProjectPlan.getType();
+            BigDecimal planFinishPeriod = getRealObjPlanFinishPeriod(planId, type, objId);
             periodMap.put(cetProjectPlan.getId(), planFinishPeriod);
             if(planFinishPeriod!=null){
                 finishPeriod = finishPeriod.add(planFinishPeriod);
             }
         }
-        periodMap.put(0, finishPeriod);
+        periodMap.put(0, finishPeriod); // 汇总
 
         return periodMap;
     }
+    
+    // 刷新某个人的已完成学时 汇总数据
+    public void refreshObjFinishPeriod(int projectId, int objId){
+    
+        Map<Integer, BigDecimal> periodMap = getRealObjFinishPeriodMap(projectId, objId);
+        
+        {
+            CetProjectObjPlanExample example = new CetProjectObjPlanExample();
+            example.createCriteria().andObjIdEqualTo(objId);
+            cetProjectObjPlanMapper.deleteByExample(example);
+        }
+        
+        for (Map.Entry<Integer, BigDecimal> entry : periodMap.entrySet()) {
+            int planId = entry.getKey();
+            BigDecimal finishPeriod = entry.getValue();
+            
+            if(planId==0){
+                
+                CetProjectObj record = new CetProjectObj();
+                record.setId(objId);
+                record.setFinishPeriod(finishPeriod);
+                
+                cetProjectObjMapper.updateByPrimaryKeySelective(record);
+            }else{
+                CetProjectObjPlan record = new CetProjectObjPlan();
+                record.setPlanId(planId);
+                record.setObjId(objId);
+                record.setFinishPeriod(finishPeriod);
+                
+                cetProjectObjPlanMapper.insertSelective(record);
+            }
+        }
+    }
+    
+    // 刷新培训班所有培训对象的已完成学时数
+    public void refreshAllObjsFinishPeriod(int projectId){
+    
+        CetProjectObjExample example = new CetProjectObjExample();
+        example.createCriteria().andProjectIdEqualTo(projectId);
+        List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+        for (CetProjectObj cetProjectObj : cetProjectObjs) {
+            
+            refreshObjFinishPeriod(cetProjectObj.getProjectId(), cetProjectObj.getId());
+        }
+    }
+    
+    // 刷新年度所有培训班的培训对象的已完成学时
+    public void refreshYearObjsFinishPeriod(int year){
+    
+        CetProjectExample example = new CetProjectExample();
+        example.createCriteria().andYearEqualTo(year);
+        List<CetProject> cetProjects = cetProjectMapper.selectByExample(example);
+        for (CetProject cetProject : cetProjects) {
+            
+            refreshAllObjsFinishPeriod(cetProject.getId());
+        }
+    }
 
+    // 获取培训对象的已完成学时分项
+    public Map<Integer, BigDecimal> getObjPlanFinishPeriodMap(int objId){
+    
+        CetProjectObjPlanExample example = new CetProjectObjPlanExample();
+        example.createCriteria().andObjIdEqualTo(objId);
+        
+        List<CetProjectObjPlan> cetProjectObjPlans = cetProjectObjPlanMapper.selectByExample(example);
+        Map<Integer, BigDecimal> periodMap = new HashMap<>();
+        
+        for (CetProjectObjPlan cetProjectObjPlan : cetProjectObjPlans) {
+            
+            periodMap.put(cetProjectObjPlan.getId(), cetProjectObjPlan.getFinishPeriod());
+        }
+        
+        return periodMap;
+    }
+    
     // <objId, Map<planId, period>> planId=0是汇总
-    public Map<Integer, Map<Integer, BigDecimal>> getObjFinishPeriodMap(int projectId){
+    /*public Map<Integer, Map<Integer, BigDecimal>> getObjFinishPeriodMap(int projectId){
 
         Map<Integer, Map<Integer, BigDecimal>> objFinishPeriodMap = new HashMap<>();
         Map<Integer, CetProjectPlan> cetProjectPlanMap = cetProjectPlanService.findAll(projectId);
@@ -453,7 +537,7 @@ public class CetProjectObjService extends CetBaseMapper {
         }
 
         return objFinishPeriodMap;
-    }
+    }*/
 
     // 设置应完成学时
     @Transactional

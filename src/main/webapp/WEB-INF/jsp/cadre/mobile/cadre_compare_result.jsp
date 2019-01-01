@@ -30,7 +30,12 @@
     <c:forEach var="cadre" items="${cadres}" varStatus="vs">
     <tr>
       <td>${vs.count}</td>
-      <td>${cadre.realname}</td>
+      <td>
+        <c:set var="backTo" value="${ctx}/m/cadre_compare_result?cadreIds[]=${param['cadreIds[]']}"/>
+        <a href="javascript:;" class="openView" data-open-by="page" data-url="${ctx}/m/cadre_info?backTo=${cm:encodeURI(backTo)}&cadreId=${cadre.id}">
+          ${cadre.realname}
+        </a>
+      </td>
       <td style="text-align: left">${cadre.title}</td>
       <td>${cm:getMetaType(cadre.typeId).name}</td>
       <td>${GENDER_MAP.get(cadre.gender)}</td>

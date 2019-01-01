@@ -24,6 +24,8 @@ public class CetUpperTrain implements Serializable {
 
     private Integer id;
 
+    private Integer year;
+
     private Byte upperType;
 
     private Boolean type;
@@ -84,6 +86,14 @@ public class CetUpperTrain implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public Byte getUpperType() {

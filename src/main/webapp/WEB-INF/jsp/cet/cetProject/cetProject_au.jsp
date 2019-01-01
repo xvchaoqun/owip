@@ -142,6 +142,12 @@
                                 </div>
                             </div>--%>
                             <div class="form-group">
+                                <label class="col-xs-4 control-label">是否计入年度学习任务</label>
+                                <div class="col-xs-6">
+                                    <input type="checkbox" class="big" name="isValid" ${cetProject.isValid?"checked":""}/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-xs-3 control-label">备注</label>
                                 <div class="col-xs-8">
 					                <textarea class="form-control limited" name="remark">${cetProject.remark}</textarea>
@@ -224,6 +230,7 @@
             });
         }
     });
+    $("#modalForm input[name=isValid]").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
     $.register.date($('.date-picker'));
     $('textarea.limited').inputlimiter();

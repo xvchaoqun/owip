@@ -22,8 +22,7 @@ public class CetProjectPlan implements Serializable {
         if(objId==null) return null;
 
         CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
-
-        return cetProjectObjService.getPlanFinishPeriod(this, objId);
+        return cetProjectObjService.getPlanFinishPeriod(id, objId);
     }
 
     private Integer id;

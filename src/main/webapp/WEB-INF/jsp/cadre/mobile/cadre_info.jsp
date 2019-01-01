@@ -21,7 +21,7 @@
   <div class="tab-content" style="padding:16px 0px 10px">
     <div id="base" class="tab-pane in active">
       <div class="profile-user-info profile-user-info-striped" style="border:0px;">
-        <div class="profile-info-row">
+        <div class="profile-info-row" style="display: table-caption;">
           <table class="table table-center avatar" style="margin-bottom: 0px;">
             <tr>
               <td rowspan="6" class="avatar">
@@ -185,8 +185,8 @@
           </div>
         </div>
 <c:if test="${not empty cadre}">
-        <div class="profile-info-row">
-          <div class="profile-info-name">
+        <div class="profile-info-row" style="display: table-caption;caption-side: bottom;">
+          <div class="profile-info-name" style="width:auto;display: block;">
             <button class="popView btn btn-success btn-block btn-sm" data-direction="bottom"
                     data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${cadre.id}"><i class="fa fa-search"></i> 干部任免审批表</button>
           </div>

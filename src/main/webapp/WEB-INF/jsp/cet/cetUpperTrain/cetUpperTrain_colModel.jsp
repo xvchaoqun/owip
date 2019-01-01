@@ -8,6 +8,7 @@
    <c:if test="${cls==3}">
     {label: '未通过原因', width: 210, align: 'left', name: 'backReason', frozen:true},
     </c:if>
+    { label: '年度',name: 'year', frozen: true},
     {label: '参训人姓名', name: 'user.realname', frozen:true},
     {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
     {label: '时任单位及职务', name: 'title', align: 'left', width: 350},

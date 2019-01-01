@@ -327,7 +327,7 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_quit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_add(boolean isQuit,
+    public Map do_cetProjectObj_quit(boolean isQuit,
                                     @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                     HttpServletRequest request) {
 

@@ -1,17 +1,8 @@
 package persistence.cet.common;
 
-import domain.cet.CetCourse;
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainCourseView;
-import domain.cet.CetTraineeType;
+import domain.cet.*;
 import domain.unit.Unit;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.ResultType;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
 
 import java.math.BigDecimal;
@@ -23,6 +14,62 @@ import java.util.Map;
  */
 public interface ICetMapper {
 
+    // 设定年度学习任务
+    @Update("update cet_annual_obj set period=#{r.period}, max_special_period=#{r.maxSpecialPeriod}, " +
+            "max_daily_period=#{r.maxDailyPeriod}, max_party_period=#{r.maxPartyPeriod}, " +
+            "max_unit_period=#{r.maxUnitPeriod}, max_upper_period=#{r.maxUpperPeriod} where id in(${ids})")
+    public void batchRequire(@Param("r") CetAnnualRequire cetAnnualRequire,
+                             @Param("ids") String ids);
+    
+    // 党校专题培训/日常培训完成学时数（统计 计入年度学习任务、未退出、已结业的记录 的总学时）
+    @Select("select sum(cpo.finish_period) from cet_project_obj cpo, cet_project cp " +
+            "where cpo.user_id=#{userId} and cpo.is_quit=0 and cpo.is_graduate=1 and cpo.project_id=cp.id " +
+            "and cp.year=${year} and cp.type=#{type} and cp.is_valid=1")
+    public BigDecimal getProjectFinishPeriod(@Param("userId") Integer userId,
+                                             @Param("year") Integer year,
+                                             @Param("type") Byte type);
+   // 党校专题培训/日常培训（读取未退出的记录）
+    @ResultMap("persistence.cet.common.ICetMapper.TrainRecordMap")
+    @Select("select cp.start_date, cp.end_date, cp.name, cp.type, '党委组织部' as organizer, cpo.finish_period as period, cpo.is_graduate " +
+            "from cet_project_obj cpo, cet_project cp " +
+            "where cpo.user_id=#{userId} and cpo.is_quit=0 and cpo.project_id=cp.id " +
+            "and cp.year=${year} and cp.type=#{type} and cp.is_valid=#{isValid}")
+    public List<TrainRecord> getProjectRecords(@Param("userId") Integer userId,
+                                             @Param("year") Integer year,
+                                             @Param("type") Byte type, // 专题培训/日常培训
+                                             @Param("isValid") Boolean isValid  // 是否计入年度学习任务
+                                             );
+    
+    // 上级调训完成学时数（统计 计入年度学习任务 的总学时，默认已结业）
+    @Select("select sum(period) from cet_upper_train where user_id=#{userId} and year=${year} and upper_type=1 and is_valid=1")
+    public BigDecimal getUpperFinishPeriod(@Param("userId") Integer userId,
+                                           @Param("year") Integer year);
+    
+    @ResultMap("persistence.cet.common.ICetMapper.TrainRecordMap")
+    @Select("select cut.start_date, cut.end_date, cut.train_name as name, 5 as type, " +
+            "if(cut.organizer=0, cut.other_organizer, bmt.name) as organizer, cut.period, 1 as is_graduate " +
+            "from cet_upper_train cut left join base_meta_type bmt on cut.organizer= bmt.id " +
+            "where cut.user_id=#{userId} and cut.year=${year} and cut.upper_type=1 and cut.is_valid=#{isValid}")
+    public List<TrainRecord>  getUpperRecords(@Param("userId") Integer userId,
+                                            @Param("year") Integer year,
+                                            @Param("isValid") Boolean isValid  // 是否计入年度学习任务
+                                      );
+    
+    // 二级单位培训完成学时数
+    @Select("select sum(cut.period) from cet_unit_train cut, cet_unit_project cup " +
+            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=${year} and cup.is_valid=1")
+    public BigDecimal getUnitFinishPeriod(  @Param("userId") Integer userId,
+                                            @Param("year") Integer year);
+    
+    @ResultMap("persistence.cet.common.ICetMapper.TrainRecordMap")
+    @Select("select cup.start_date, cup.end_date, cup.project_name as name, 4 as type, u.name as organizer, cut.period, 1 as is_graduate " +
+            "from cet_unit_train cut, cet_unit_project cup left join unit u on u.id=cup.unit_id " +
+            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=${year} and cup.is_valid=1")
+    public List<TrainRecord> getUnitRecords(   @Param("userId") Integer userId,
+                                        @Param("year") Integer year,
+                                        @Param("isValid") Boolean isValid  // 是否计入年度学习任务
+                                     );
+    
     // 上级培训单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
     @Select("select distinct u.* from cet_upper_train_admin cuta, unit u where cuta.upper_type=#{upperType} and cuta.unit_id is not null and cuta.unit_id=u.id")

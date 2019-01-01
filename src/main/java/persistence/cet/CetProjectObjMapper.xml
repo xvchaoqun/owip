@@ -8,6 +8,7 @@
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
+    <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
     <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     <result column="word_write" jdbcType="VARCHAR" property="wordWrite" />
     <result column="write_file_path" jdbcType="VARCHAR" property="writeFilePath" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, is_graduate, 
-    word_write, write_file_path, remark
+    id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, finish_period, 
+    is_graduate, word_write, write_file_path, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">
     select
@@ -110,13 +111,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cet_project_obj (project_id, user_id, trainee_type_id, 
-      is_quit, should_finish_period, is_graduate, 
-      word_write, write_file_path, remark
-      )
+      is_quit, should_finish_period, finish_period, 
+      is_graduate, word_write, write_file_path, 
+      remark)
     values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
-      #{isQuit,jdbcType=BIT}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{isGraduate,jdbcType=BIT}, 
-      #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
-      )
+      #{isQuit,jdbcType=BIT}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, 
+      #{isGraduate,jdbcType=BIT}, #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -138,6 +139,9 @@
       </if>
       <if test="shouldFinishPeriod != null">
         should_finish_period,
+      </if>
+      <if test="finishPeriod != null">
+        finish_period,
       </if>
       <if test="isGraduate != null">
         is_graduate,
@@ -167,6 +171,9 @@
       </if>
       <if test="shouldFinishPeriod != null">
         #{shouldFinishPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="finishPeriod != null">
+        #{finishPeriod,jdbcType=DECIMAL},
       </if>
       <if test="isGraduate != null">
         #{isGraduate,jdbcType=BIT},
@@ -209,6 +216,9 @@
       <if test="record.shouldFinishPeriod != null">
         should_finish_period = #{record.shouldFinishPeriod,jdbcType=DECIMAL},
       </if>
+      <if test="record.finishPeriod != null">
+        finish_period = #{record.finishPeriod,jdbcType=DECIMAL},
+      </if>
       <if test="record.isGraduate != null">
         is_graduate = #{record.isGraduate,jdbcType=BIT},
       </if>
@@ -234,6 +244,7 @@
       trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
       is_quit = #{record.isQuit,jdbcType=BIT},
       should_finish_period = #{record.shouldFinishPeriod,jdbcType=DECIMAL},
+      finish_period = #{record.finishPeriod,jdbcType=DECIMAL},
       is_graduate = #{record.isGraduate,jdbcType=BIT},
       word_write = #{record.wordWrite,jdbcType=VARCHAR},
       write_file_path = #{record.writeFilePath,jdbcType=VARCHAR},
@@ -260,6 +271,9 @@
       <if test="shouldFinishPeriod != null">
         should_finish_period = #{shouldFinishPeriod,jdbcType=DECIMAL},
       </if>
+      <if test="finishPeriod != null">
+        finish_period = #{finishPeriod,jdbcType=DECIMAL},
+      </if>
       <if test="isGraduate != null">
         is_graduate = #{isGraduate,jdbcType=BIT},
       </if>
@@ -282,6 +296,7 @@
       trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
       is_quit = #{isQuit,jdbcType=BIT},
       should_finish_period = #{shouldFinishPeriod,jdbcType=DECIMAL},
+      finish_period = #{finishPeriod,jdbcType=DECIMAL},
       is_graduate = #{isGraduate,jdbcType=BIT},
       word_write = #{wordWrite,jdbcType=VARCHAR},
       write_file_path = #{writeFilePath,jdbcType=VARCHAR},

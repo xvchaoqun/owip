@@ -23,6 +23,15 @@
         <result column="total_period" jdbcType="DECIMAL" property="totalPeriod"/>
         <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod"/>
     </resultMap>
+    <resultMap id="TrainRecordMap" type="persistence.cet.common.TrainRecord">
+        <result column="start_date" jdbcType="DATE" property="startDate" />
+        <result column="end_date" jdbcType="DATE" property="endDate" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="type" jdbcType="TINYINT" property="type" />
+        <result column="organizer" jdbcType="VARCHAR" property="organizer" />
+        <result column="period" jdbcType="DECIMAL" property="period" />
+        <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
+    </resultMap>
     <sql id="searchTrains">
         where ct.plan_id=cpp.id and cpp.project_id=cpo.project_id
         and ctee.train_id = ct.id and cpo.is_quit=0

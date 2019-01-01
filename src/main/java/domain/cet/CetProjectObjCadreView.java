@@ -5,7 +5,6 @@ import persistence.cet.CetDiscussGroupMapper;
 import persistence.cet.CetTrainCourseMapper;
 import service.cet.CetDiscussGroupObjService;
 import service.cet.CetPlanCourseObjService;
-import service.cet.CetProjectObjService;
 import service.cet.CetTraineeCourseService;
 import service.cet.CetTraineeService;
 import sys.tags.CmTag;
@@ -22,7 +21,7 @@ import java.util.Map;
 public class CetProjectObjCadreView implements Serializable {
 
     // 只有培训对象页面，需要计算
-    public BigDecimal getFinishPeriod(){
+    /*public BigDecimal getFinishPeriod(){
 
         HttpServletRequest request = ContextHelper.getRequest();
         if (request == null) return null;
@@ -35,7 +34,7 @@ public class CetProjectObjCadreView implements Serializable {
             return cetProjectObjService.getFinishPeriod(projectId, id).get(0);
         }
         return null;
-    }
+    }*/
 
     public Map getObjInfo() {
 
@@ -127,6 +126,8 @@ public class CetProjectObjCadreView implements Serializable {
 
     private BigDecimal shouldFinishPeriod;
 
+    private BigDecimal finishPeriod;
+
     private Boolean isGraduate;
 
     private String wordWrite;
@@ -217,6 +218,14 @@ public class CetProjectObjCadreView implements Serializable {
 
     public void setShouldFinishPeriod(BigDecimal shouldFinishPeriod) {
         this.shouldFinishPeriod = shouldFinishPeriod;
+    }
+
+    public BigDecimal getFinishPeriod() {
+        return finishPeriod;
+    }
+
+    public void setFinishPeriod(BigDecimal finishPeriod) {
+        this.finishPeriod = finishPeriod;
     }
 
     public Boolean getIsGraduate() {

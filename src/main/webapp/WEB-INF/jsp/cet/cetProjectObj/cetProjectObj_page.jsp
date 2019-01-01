@@ -514,6 +514,7 @@
         colModel:[
             <c:if test="${cls==1}">
             { label: '学习情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.finishPeriod==undefined) return '--'
                 return rowObject.finishPeriod
             }, frozen: true},
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},

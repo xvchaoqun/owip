@@ -8,6 +8,7 @@
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
+    <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
     <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     <result column="word_write" jdbcType="VARCHAR" property="wordWrite" />
     <result column="write_file_path" jdbcType="VARCHAR" property="writeFilePath" />
@@ -60,10 +61,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, is_graduate, 
-    word_write, write_file_path, remark, username, code, realname, cadre_id, title, type_id, 
-    post_id, is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, 
-    email, cadre_status, cadre_sort_order
+    id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, finish_period, 
+    is_graduate, word_write, write_file_path, remark, username, code, realname, cadre_id, 
+    title, type_id, post_id, is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, 
+    lp_work_time, mobile, email, cadre_status, cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjCadreViewExample" resultMap="BaseResultMap">
     select

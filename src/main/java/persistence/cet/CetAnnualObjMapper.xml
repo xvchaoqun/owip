@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cet.CetAnnualObjMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetAnnualObj">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="annual_id" jdbcType="INTEGER" property="annualId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
+    <result column="period" jdbcType="DECIMAL" property="period" />
+    <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
+    <result column="max_special_period" jdbcType="DECIMAL" property="maxSpecialPeriod" />
+    <result column="max_daily_period" jdbcType="DECIMAL" property="maxDailyPeriod" />
+    <result column="max_party_period" jdbcType="DECIMAL" property="maxPartyPeriod" />
+    <result column="max_unit_period" jdbcType="DECIMAL" property="maxUnitPeriod" />
+    <result column="max_upper_period" jdbcType="DECIMAL" property="maxUpperPeriod" />
+    <result column="special_period" jdbcType="DECIMAL" property="specialPeriod" />
+    <result column="daily_period" jdbcType="DECIMAL" property="dailyPeriod" />
+    <result column="party_period" jdbcType="DECIMAL" property="partyPeriod" />
+    <result column="unit_period" jdbcType="DECIMAL" property="unitPeriod" />
+    <result column="upper_period" jdbcType="DECIMAL" property="upperPeriod" />
+    <result column="has_archived" jdbcType="BIT" property="hasArchived" />
+    <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, year, annual_id, user_id, title, admin_level, post_type, lp_work_time, period, 
+    finish_period, max_special_period, max_daily_period, max_party_period, max_unit_period, 
+    max_upper_period, special_period, daily_period, party_period, unit_period, upper_period, 
+    has_archived, is_quit, sort_order, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.cet.CetAnnualObjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_annual_obj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cet_annual_obj
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cet_annual_obj
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.cet.CetAnnualObjExample">
+    delete from cet_annual_obj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cet.CetAnnualObj">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_annual_obj (year, annual_id, user_id, 
+      title, admin_level, post_type, 
+      lp_work_time, period, finish_period, 
+      max_special_period, max_daily_period, max_party_period, 
+      max_unit_period, max_upper_period, special_period, 
+      daily_period, party_period, unit_period, 
+      upper_period, has_archived, is_quit, 
+      sort_order, remark)
+    values (#{year,jdbcType=INTEGER}, #{annualId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
+      #{lpWorkTime,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, 
+      #{maxSpecialPeriod,jdbcType=DECIMAL}, #{maxDailyPeriod,jdbcType=DECIMAL}, #{maxPartyPeriod,jdbcType=DECIMAL}, 
+      #{maxUnitPeriod,jdbcType=DECIMAL}, #{maxUpperPeriod,jdbcType=DECIMAL}, #{specialPeriod,jdbcType=DECIMAL}, 
+      #{dailyPeriod,jdbcType=DECIMAL}, #{partyPeriod,jdbcType=DECIMAL}, #{unitPeriod,jdbcType=DECIMAL}, 
+      #{upperPeriod,jdbcType=DECIMAL}, #{hasArchived,jdbcType=BIT}, #{isQuit,jdbcType=BIT}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cet.CetAnnualObj">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_annual_obj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="year != null">
+        year,
+      </if>
+      <if test="annualId != null">
+        annual_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="adminLevel != null">
+        admin_level,
+      </if>
+      <if test="postType != null">
+        post_type,
+      </if>
+      <if test="lpWorkTime != null">
+        lp_work_time,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="finishPeriod != null">
+        finish_period,
+      </if>
+      <if test="maxSpecialPeriod != null">
+        max_special_period,
+      </if>
+      <if test="maxDailyPeriod != null">
+        max_daily_period,
+      </if>
+      <if test="maxPartyPeriod != null">
+        max_party_period,
+      </if>
+      <if test="maxUnitPeriod != null">
+        max_unit_period,
+      </if>
+      <if test="maxUpperPeriod != null">
+        max_upper_period,
+      </if>
+      <if test="specialPeriod != null">
+        special_period,
+      </if>
+      <if test="dailyPeriod != null">
+        daily_period,
+      </if>
+      <if test="partyPeriod != null">
+        party_period,
+      </if>
+      <if test="unitPeriod != null">
+        unit_period,
+      </if>
+      <if test="upperPeriod != null">
+        upper_period,
+      </if>
+      <if test="hasArchived != null">
+        has_archived,
+      </if>
+      <if test="isQuit != null">
+        is_quit,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="annualId != null">
+        #{annualId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
+      </if>
+      <if test="lpWorkTime != null">
+        #{lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="finishPeriod != null">
+        #{finishPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxSpecialPeriod != null">
+        #{maxSpecialPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxDailyPeriod != null">
+        #{maxDailyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxPartyPeriod != null">
+        #{maxPartyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxUnitPeriod != null">
+        #{maxUnitPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxUpperPeriod != null">
+        #{maxUpperPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="specialPeriod != null">
+        #{specialPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="dailyPeriod != null">
+        #{dailyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="partyPeriod != null">
+        #{partyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPeriod != null">
+        #{unitPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="upperPeriod != null">
+        #{upperPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="hasArchived != null">
+        #{hasArchived,jdbcType=BIT},
+      </if>
+      <if test="isQuit != null">
+        #{isQuit,jdbcType=BIT},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cet.CetAnnualObjExample" resultType="java.lang.Long">
+    select count(*) from cet_annual_obj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cet_annual_obj
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.annualId != null">
+        annual_id = #{record.annualId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
+      </if>
+      <if test="record.lpWorkTime != null">
+        lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=DECIMAL},
+      </if>
+      <if test="record.finishPeriod != null">
+        finish_period = #{record.finishPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxSpecialPeriod != null">
+        max_special_period = #{record.maxSpecialPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxDailyPeriod != null">
+        max_daily_period = #{record.maxDailyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxPartyPeriod != null">
+        max_party_period = #{record.maxPartyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxUnitPeriod != null">
+        max_unit_period = #{record.maxUnitPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxUpperPeriod != null">
+        max_upper_period = #{record.maxUpperPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.specialPeriod != null">
+        special_period = #{record.specialPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dailyPeriod != null">
+        daily_period = #{record.dailyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.partyPeriod != null">
+        party_period = #{record.partyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.unitPeriod != null">
+        unit_period = #{record.unitPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upperPeriod != null">
+        upper_period = #{record.upperPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hasArchived != null">
+        has_archived = #{record.hasArchived,jdbcType=BIT},
+      </if>
+      <if test="record.isQuit != null">
+        is_quit = #{record.isQuit,jdbcType=BIT},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cet_annual_obj
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      annual_id = #{record.annualId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
+      lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
+      period = #{record.period,jdbcType=DECIMAL},
+      finish_period = #{record.finishPeriod,jdbcType=DECIMAL},
+      max_special_period = #{record.maxSpecialPeriod,jdbcType=DECIMAL},
+      max_daily_period = #{record.maxDailyPeriod,jdbcType=DECIMAL},
+      max_party_period = #{record.maxPartyPeriod,jdbcType=DECIMAL},
+      max_unit_period = #{record.maxUnitPeriod,jdbcType=DECIMAL},
+      max_upper_period = #{record.maxUpperPeriod,jdbcType=DECIMAL},
+      special_period = #{record.specialPeriod,jdbcType=DECIMAL},
+      daily_period = #{record.dailyPeriod,jdbcType=DECIMAL},
+      party_period = #{record.partyPeriod,jdbcType=DECIMAL},
+      unit_period = #{record.unitPeriod,jdbcType=DECIMAL},
+      upper_period = #{record.upperPeriod,jdbcType=DECIMAL},
+      has_archived = #{record.hasArchived,jdbcType=BIT},
+      is_quit = #{record.isQuit,jdbcType=BIT},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetAnnualObj">
+    update cet_annual_obj
+    <set>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="annualId != null">
+        annual_id = #{annualId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
+      </if>
+      <if test="lpWorkTime != null">
+        lp_work_time = #{lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="finishPeriod != null">
+        finish_period = #{finishPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxSpecialPeriod != null">
+        max_special_period = #{maxSpecialPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxDailyPeriod != null">
+        max_daily_period = #{maxDailyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxPartyPeriod != null">
+        max_party_period = #{maxPartyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxUnitPeriod != null">
+        max_unit_period = #{maxUnitPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="maxUpperPeriod != null">
+        max_upper_period = #{maxUpperPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="specialPeriod != null">
+        special_period = #{specialPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="dailyPeriod != null">
+        daily_period = #{dailyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="partyPeriod != null">
+        party_period = #{partyPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPeriod != null">
+        unit_period = #{unitPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="upperPeriod != null">
+        upper_period = #{upperPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="hasArchived != null">
+        has_archived = #{hasArchived,jdbcType=BIT},
+      </if>
+      <if test="isQuit != null">
+        is_quit = #{isQuit,jdbcType=BIT},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetAnnualObj">
+    update cet_annual_obj
+    set year = #{year,jdbcType=INTEGER},
+      annual_id = #{annualId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
+      lp_work_time = #{lpWorkTime,jdbcType=DATE},
+      period = #{period,jdbcType=DECIMAL},
+      finish_period = #{finishPeriod,jdbcType=DECIMAL},
+      max_special_period = #{maxSpecialPeriod,jdbcType=DECIMAL},
+      max_daily_period = #{maxDailyPeriod,jdbcType=DECIMAL},
+      max_party_period = #{maxPartyPeriod,jdbcType=DECIMAL},
+      max_unit_period = #{maxUnitPeriod,jdbcType=DECIMAL},
+      max_upper_period = #{maxUpperPeriod,jdbcType=DECIMAL},
+      special_period = #{specialPeriod,jdbcType=DECIMAL},
+      daily_period = #{dailyPeriod,jdbcType=DECIMAL},
+      party_period = #{partyPeriod,jdbcType=DECIMAL},
+      unit_period = #{unitPeriod,jdbcType=DECIMAL},
+      upper_period = #{upperPeriod,jdbcType=DECIMAL},
+      has_archived = #{hasArchived,jdbcType=BIT},
+      is_quit = #{isQuit,jdbcType=BIT},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetAnnualObjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_annual_obj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

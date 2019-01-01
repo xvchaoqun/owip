@@ -41,7 +41,22 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 	</c:if>
-				<div class="form-group">
+			<div class="form-group">
+				<label class="col-xs-4 control-label">年度</label>
+				<div class="col-xs-6">
+					<div class="input-group">
+						<input required class="form-control date-picker" placeholder="请选择年份"
+							   name="year"
+							   type="text"
+							   data-date-format="yyyy" data-date-min-view-mode="2"
+							   value="${empty cetUpperTrain.year?_thisYear:cetUpperTrain.year}"/>
+							<span class="input-group-addon"> <i
+									class="fa fa-calendar bigger-110"></i></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
 					<label class="col-xs-4 control-label">培训班主办方</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="organizer" data-placeholder="请选择" data-width="${selectWidth}">
