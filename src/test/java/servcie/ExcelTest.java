@@ -6,22 +6,14 @@ import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadreView;
 import domain.unit.Unit;
 import org.apache.poi.ss.util.CellRangeAddressList;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
-import org.apache.poi.xssf.usermodel.XSSFComment;
-import org.apache.poi.xssf.usermodel.XSSFDataValidation;
-import org.apache.poi.xssf.usermodel.XSSFDataValidationConstraint;
-import org.apache.poi.xssf.usermodel.XSSFDataValidationHelper;
-import org.apache.poi.xssf.usermodel.XSSFDrawing;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.cadre.CadreViewMapper;
+import persistence.cadre.common.ICadreMapper;
 import persistence.dispatch.common.IDispatchMapper;
 import service.cadre.CadreService;
 import service.unit.UnitService;
@@ -31,11 +23,7 @@ import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +40,8 @@ public class ExcelTest {
     private CadreService cadreService;
     @Autowired
     private CadreViewMapper cadreViewMapper;
+    @Autowired
+    private ICadreMapper iCadreMapper;
     @Autowired
     private IDispatchMapper iDispatchMapper;
     @Autowired
@@ -276,7 +266,7 @@ public class ExcelTest {
 
     public void renderLeaveCadreInfo(XSSFSheet sheet, DispatchCadreView dc, int rowNum) {
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(dc.getCadreId());
+        CadreView cadre = iCadreMapper.getCadre(dc.getCadreId());
         XSSFRow row = sheet.getRow(rowNum);
         XSSFCell cel = row.getCell(2);
         cel.setCellValue(cadre.getRealname());

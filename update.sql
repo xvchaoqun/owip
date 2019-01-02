@@ -1,5 +1,19 @@
 
 
+20190102
+ALTER TABLE `sc_subsidy`
+	CHANGE COLUMN `hr_type` `hr_type` INT(10) UNSIGNED NULL COMMENT '发人事处文号，关联年度类型' AFTER `year`,
+	CHANGE COLUMN `fe_type` `fe_type` INT(10) UNSIGNED NULL COMMENT '发财经处文号，关联年度类型' AFTER `hr_type`,
+	CHANGE COLUMN `hr_num` `hr_num` INT(10) UNSIGNED NULL COMMENT '人事处编号' AFTER `fe_type`,
+	CHANGE COLUMN `fe_num` `fe_num` INT(10) UNSIGNED NULL COMMENT '财经处编号' AFTER `hr_num`;
+
+ALTER TABLE `cet_plan_course_obj`
+	CHANGE COLUMN `is_finished` `is_finished` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否结业，针对上级网上专题班，是否完成，针对自主学习' AFTER `num`;
+
+更新 cadre_view
+crs_candidate_view
+cadre_inspect_view
+cadre_reserve_view
 
 
 20190102

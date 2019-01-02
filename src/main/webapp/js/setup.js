@@ -922,6 +922,12 @@ $(document).on("click", ".jqItemBtn", function () {
 
     SysMsg.confirm(msg, title, function () {
 
+        var $btn = $this.button('loading');
+        var text = $this.data("loading-text");
+        if($.trim(text)==''){
+            $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> 操作中')
+        }
+
         $.post(url, function (ret) {
             if (ret.success) {
                 if (callback) {
@@ -932,6 +938,7 @@ $(document).on("click", ".jqItemBtn", function () {
                     $(window).resize(); // 解决jqgrid显示的问题
                 }
             }
+            $btn.button('reset');
         });
     });
 });

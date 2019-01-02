@@ -65,7 +65,7 @@ SELECT c.*
 	,main_cadre_post_type.bool_attr as is_principal_post
 	,TIMESTAMPDIFF(YEAR,np_work_time,now()) as cadre_post_year
 	,TIMESTAMPDIFF(YEAR,s_work_time,e_work_time) as admin_level_year
-	,np.* ,lp.*, nl.*
+	,np.* ,lp.*, nl.s_dispatch_id, nl.s_work_time, nl.e_dispatch_id, nl.e_work_time
 	,admin_level.code as admin_level_code
    ,admin_level.name as admin_level_name
    ,max_ce_edu.extra_attr as max_ce_edu_attr
