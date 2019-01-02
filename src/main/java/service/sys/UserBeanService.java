@@ -77,7 +77,7 @@ public class UserBeanService extends BaseMapper {
         userBean.setCountry(uv.getCountry());
         userBean.setUnit(uv.getUnit());
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(userId);
+        CadreView cadre = iCadreMapper.getCadre(userId);
         if(cadre!=null){
             userBean.setBirth(cadre.getBirth());
         }

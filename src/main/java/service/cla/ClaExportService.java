@@ -45,7 +45,7 @@ public class ClaExportService extends ClaBaseMapper {
         ClaApply claApply = claApplyMapper.selectByPrimaryKey(applyId);
         Integer cadreId = claApply.getCadreId();
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         Map<String, Object> dataMap = new HashMap<String, Object>();

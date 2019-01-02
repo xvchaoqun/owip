@@ -48,7 +48,7 @@ public class AbroadReportController extends AbroadBaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(passport.getCadreId());
+        CadreView cadre = iCadreMapper.getCadre(passport.getCadreId());
         SysUserView user = sysUserService.findById(cadre.getUserId());
         //String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String title = cadre.getTitle();
@@ -121,7 +121,7 @@ public class AbroadReportController extends AbroadBaseController {
             Integer passportId = passportDraw.getPassportId();
             Passport passport = passportMapper.selectByPrimaryKey(passportId);
             classId = passport.getClassId();
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(passportDraw.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(passportDraw.getCadreId());
             userId = cadre.getUserId();
         }
 
@@ -190,7 +190,7 @@ public class AbroadReportController extends AbroadBaseController {
         if (id != null) { // 以id为准
             passportApply = passportApplyMapper.selectByPrimaryKey(id);
             classId = passportApply.getClassId();
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(passportApply.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(passportApply.getCadreId());
             userId = cadre.getUserId();
         }
 
@@ -285,7 +285,7 @@ public class AbroadReportController extends AbroadBaseController {
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
 
         Integer cadreId = passportDraw.getCadreId();
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView sysUser = cadre.getUser();
         String realname = sysUser.getRealname();
         String code = sysUser.getCode();

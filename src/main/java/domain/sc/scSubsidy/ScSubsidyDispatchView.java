@@ -15,12 +15,12 @@ public class ScSubsidyDispatchView implements Serializable {
     }
 
     public String getHrCode(){
-
+        if(hrType==null || hrNum==null) return null;
         return ScSubsidy.getHrCode(hrType, year, hrNum);
     }
 
     public String getFeCode(){
-
+        if(feType==null || feNum==null) return null;
         return ScSubsidy.getFeCode(feType, year, feNum);
     }
 

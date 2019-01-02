@@ -11,6 +11,7 @@ public class TrainRecord {
     private Byte type;
     private String organizer;
     private BigDecimal period;
+    private BigDecimal shouldFinishPeriod;
     private Boolean isGraduate;
     
     public Date getStartDate() {
@@ -59,6 +60,14 @@ public class TrainRecord {
     
     public void setPeriod(BigDecimal period) {
         this.period = period;
+    }
+    
+    public BigDecimal getShouldFinishPeriod() {
+        return shouldFinishPeriod;
+    }
+    
+    public void setShouldFinishPeriod(BigDecimal shouldFinishPeriod) {
+        this.shouldFinishPeriod = shouldFinishPeriod;
     }
     
     public Boolean getIsGraduate() {

@@ -39,12 +39,17 @@ public class ScSubsidyDispatchController extends ScBaseController {
     @RequestMapping("/scSubsidyDispatch")
     public String scSubsidyDispatch(@RequestParam(required = false, defaultValue = "1") Byte cls,
                                     Integer hrType,
+                                    Integer feType,
                                     ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if(hrType!=null){
             modelMap.put("hrAnnualType", annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY).get(hrType));
         }
+        if(feType!=null){
+            modelMap.put("feAnnualType", annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY).get(feType));
+        }
+        
         return "sc/scSubsidy/scSubsidyDispatch/scSubsidyDispatch_page";
     }
 
@@ -55,6 +60,8 @@ public class ScSubsidyDispatchController extends ScBaseController {
                                        Short year,
                                        Integer hrType,
                                        Integer hrNum,
+                                 Integer feType,
+                                    Integer feNum,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -79,6 +86,12 @@ public class ScSubsidyDispatchController extends ScBaseController {
         }
         if (hrNum!=null) {
             criteria.andHrNumEqualTo(hrNum);
+        }
+        if (feType!=null) {
+            criteria.andFeTypeEqualTo(feType);
+        }
+        if (feNum!=null) {
+            criteria.andFeNumEqualTo(feNum);
         }
 
         if (export == 1) {

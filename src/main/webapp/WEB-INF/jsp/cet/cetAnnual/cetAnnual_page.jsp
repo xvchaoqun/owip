@@ -87,17 +87,17 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/cet/cetAnnual_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                {label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {
+                {label: '详情', name: '_detail', width:180, formatter: function (cellvalue, options, rowObject) {
                     return ('<button class="openView btn btn-success btn-xs" ' +
                     'data-url="${ctx}/cet/cetAnnual_detail?annualId={0}"><i class="fa fa-search"></i> 详情</button>')
                             .format(rowObject.id);
                 }, frozen: true},
-                { label: '年度',name: 'year', width:80},
+                { label: '年度',name: 'year', width:180},
                 { label: '培训对象类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
                     return traineeTypeMap[cellvalue].name
-                }},
-                { label: '培训对象人数',name: 'objCount', width:120},
-                { label: '备注',name: 'remark', width:220}
+                }, width:280},
+                { label: '培训对象人数',name: 'objCount', width:220},
+                { label: '备注',name: 'remark', width:320, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -34,6 +34,25 @@ public class CetProjectController extends CetBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cetProject:list")
+    @RequestMapping("/refreshObjFinishPeriod")
+    @ResponseBody
+    public Map refreshObjFinishPeriod( int projectId, int objId, ModelMap modelMap) {
+
+        cetProjectObjService.refreshObjFinishPeriod(projectId, objId);
+        
+        return success();
+    }
+    
+    @RequiresPermissions("cetProject:list")
+    @RequestMapping("/refreshAllObjsFinishPeriod")
+    @ResponseBody
+    public Map refreshAllObjsFinishPeriod( int projectId, ModelMap modelMap) {
+
+        cetProjectObjService.refreshAllObjsFinishPeriod(projectId);
+        
+        return success();
+    }
+    @RequiresPermissions("cetProject:list")
     @RequestMapping("/refreshYearObjsFinishPeriod")
     @ResponseBody
     public Map refreshYearObjsFinishPeriod( int year, ModelMap modelMap) {

@@ -56,6 +56,16 @@
                 class="jqBatchBtn btn btn-warning btn-sm">
             <i class="fa fa-sign-out"></i> 手动结业
         </button>
+         <button data-url="${ctx}/cet/refreshObjFinishPeriod?projectId=${cetProject.id}"
+                data-title="刷新培训学时"
+                data-msg="确定统计并刷新该学员最新的培训学时？"
+                data-grid-id="#jqGrid2"
+                data-id-name="objId"
+                 data-callback="_callback2"
+                data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
+                class="jqItemBtn btn btn-warning btn-sm">
+            <i class="fa fa-refresh"></i> 刷新培训学时
+        </button>
     </shiro:hasPermission>
     </c:if>
     <c:if test="${isQuit}">
@@ -512,14 +522,7 @@
         rownumbers:true,
         url: '${ctx}/cet/cetProjectObj_data?callback=?&traineeTypeId=${traineeTypeId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:[
-            <c:if test="${cls==1}">
-            { label: '学习情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.finishPeriod==undefined) return '--'
-                return rowObject.finishPeriod
-            }, frozen: true},
-            {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
-            {label: '应完成学时数', name: 'shouldFinishPeriod', formatter: $.jgrid.formatter.defaultString, width: 110, frozen: true},
-            </c:if>
+
             <c:if test="${cls==2}">
             { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.objInfo.canQuit?("<span class='{0}'>可选</span>").format(rowObject.objInfo.isFinished?"text-success bolder":"text-default"):
@@ -645,16 +648,20 @@
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
             },
-            {label: '联系方式', name: 'mobile', width: 120},
-            {label: '电子邮箱', name: 'email', width: 250},
-            <c:if test="${cls==1}">
+             <c:if test="${cls==1}">
+            {label: '应完成学时数', name: 'shouldFinishPeriod', formatter: $.jgrid.formatter.defaultString, width: 110, frozen: true},
             {label: '已完成学时数', name: 'finishPeriod', width: 110},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 if(isNaN(rowObject.shouldFinishPeriod) || rowObject.shouldFinishPeriod<=0) return '-';
-                return Math.formatFloat(rowObject.finishPeriod*100/rowObject.shouldFinishPeriod, 2) + "%";
-            }}
+                var progress= Math.formatFloat(rowObject.finishPeriod*100/rowObject.shouldFinishPeriod, 2) + "%";
+                return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
+                '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
+            }},
+            {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
             </c:if>
+            {label: '联系方式', name: 'mobile', width: 120},
+            {label: '电子邮箱', name: 'email', width: 250},
             /*,
             {label: '是否达到结业要求', name: '_enough', width: 150, formatter: function (cellvalue, options, rowObject) {
 

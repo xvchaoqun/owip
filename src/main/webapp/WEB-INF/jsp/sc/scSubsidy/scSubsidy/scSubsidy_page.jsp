@@ -6,7 +6,9 @@
         <div id="body-content" class="rownumbers"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.year||not empty param.hrType ||not empty param.hrNum ||not empty param.type || not empty param.code || not empty param.sort}"/>
+                   value="${not empty param.year||not empty param.hrType ||not empty param.hrNum
+                    ||not empty param.feType ||not empty param.feNum
+                   ||not empty param.type || not empty param.code || not empty param.sort}"/>
             <jsp:include page="menu.jsp"/>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
@@ -64,6 +66,18 @@
                                 <label>发人事处通知编号</label>
                                 <input class="form-control num" type="text" name="hrNum" style="width: 50px" value="${param.hrNum}">
                             </div>
+                            <div class="form-group">
+                                <label>发财经处通知文号</label>
+                                <select data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/annualType_selects?module=<%=SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY%>"
+                                        name="feType" data-placeholder="请选择文号" data-width="150">
+                                    <option value="${feAnnualType.id}">${feAnnualType.name}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>发财经处通知编号</label>
+                                <input class="form-control num" type="text" name="feNum" style="width: 50px" value="${param.feNum}">
+                            </div>
                             <%--<div class="form-group">
                                 <label>文号</label>
                                 <input class="form-control search-query" name="type" type="text" value="${param.type}"
@@ -102,6 +116,7 @@
             {label: '通知日期', name: 'infoDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '发人事处通知', name: '_hr', width:350, formatter: function (cellvalue, options, rowObject) {
+                    if(rowObject.hrCode==undefined) return '--'
                 return ('{0} <button class="linkBtn btn btn-warning btn-xs" ' +
                 'data-url="${ctx}/sc/scSubsidy_export?fileType=1&id={1}"><i class="fa fa-download"></i> 系统生成版</button>' +
                 ' <button class="openView btn btn-primary btn-xs" ' +
@@ -111,6 +126,8 @@
             },
             {
                 label: '发财经处通知', name: '_fe', width: 350, formatter: function (cellvalue, options, rowObject) {
+
+                    if(rowObject.feCode==undefined) return '--'
                 return ('{0} <button class="linkBtn btn btn-warning btn-xs" ' +
                 'data-url="${ctx}/sc/scSubsidy_export?fileType=2&id={1}"><i class="fa fa-download"></i> 系统生成版</button>' +
                 ' <button class="openView btn btn-primary btn-xs" ' +
@@ -123,9 +140,11 @@
                 name: '_dispatches',
                 width: 150,
                 formatter: function (cellvalue, options, rowObject) {
+
                     return ('<button class="loadPage btn btn-primary btn-xs" ' +
-                    'data-url="${ctx}/sc/scSubsidy?cls=3&year={0}&hrType={1}&hrNum={2}"><i class="fa fa-search"></i> 查看</button>')
-                            .format(rowObject.year, rowObject.hrType, rowObject.hrNum);
+                    'data-url="${ctx}/sc/scSubsidy?cls=3&year={0}&hrType={1}&hrNum={2}&feType={3}&feNum={4}"><i class="fa fa-search"></i> 查看</button>')
+                            .format(rowObject.year, $.trim(rowObject.hrType), $.trim(rowObject.hrNum),
+                            $.trim(rowObject.feType), $.trim(rowObject.feNum));
                 }
             },
             {
@@ -133,9 +152,11 @@
                 name: '_cadres',
                 width: 90,
                 formatter: function (cellvalue, options, rowObject) {
+
                     return ('<button class="loadPage btn btn-primary btn-xs" ' +
-                    'data-url="${ctx}/sc/scSubsidy?cls=2&year={0}&hrType={1}&hrNum={2}"><i class="fa fa-search"></i> 查看</button>')
-                            .format(rowObject.year, rowObject.hrType, rowObject.hrNum);
+                    'data-url="${ctx}/sc/scSubsidy?cls=2&year={0}&hrType={1}&hrNum={2}&feType={3}&feNum={4}"><i class="fa fa-search"></i> 查看</button>')
+                            .format(rowObject.year, $.trim(rowObject.hrType), $.trim(rowObject.hrNum),
+                            $.trim(rowObject.feType), $.trim(rowObject.feNum));
                 }
             },
             {label: '备注', name: 'remark', width: 300, align: 'left'}
@@ -148,4 +169,5 @@
     //$('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
     $.register.dispatchType_select($('#searchForm select[name=hrType]'), $("#searchForm input[name=year]"));
+    $.register.dispatchType_select($('#searchForm select[name=feType]'), $("#searchForm input[name=year]"));
 </script>

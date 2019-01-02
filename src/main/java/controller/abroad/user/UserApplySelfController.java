@@ -236,7 +236,7 @@ public class UserApplySelfController extends AbroadBaseController {
             cadreId = cadre.getId();
             self = true;
         }
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
 
         List<ApplySelfFile> applySelfFiles = new ArrayList<>();
         for (MultipartFile _file : _files) {
@@ -361,7 +361,7 @@ public class UserApplySelfController extends AbroadBaseController {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
             modelMap.put("applySelf", applySelf);
 
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             Integer firstTrialStatus = AbroadHelper.getAdminFirstTrialStatus(id);
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新

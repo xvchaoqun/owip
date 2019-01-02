@@ -45,6 +45,16 @@ pageEncoding="UTF-8" %>
                         ><i class="fa fa-dot-circle-o"></i>
                     结束
                 </button>
+
+                <button data-url="${ctx}/cet/refreshAllObjsFinishPeriod"
+                        data-title="刷新培训学时"
+                        data-msg="确定统计并刷新该培训班中所有学员最新的培训学时？"
+                        data-grid-id="#jqGrid"
+                        data-id-name="projectId"
+                        data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
+                        class="jqItemBtn btn btn-warning btn-sm">
+                    <i class="fa fa-refresh"></i> 刷新培训学时
+                </button>
                 <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/cet/cetProject_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">

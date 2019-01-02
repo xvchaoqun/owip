@@ -280,7 +280,7 @@ public class CmTag {
         return cadreMap.get(id);
         
         /*CadreViewMapper cadreViewMapper = getBean(CadreViewMapper.class);
-        return  cadreViewMapper.selectByPrimaryKey(id);*/
+        return  iCadreMapper.getCadre(id);*/
     }
 
     public static CadreView getCadreByUserId(Integer userId) {

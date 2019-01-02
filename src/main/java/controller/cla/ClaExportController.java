@@ -31,7 +31,7 @@ public class ClaExportController extends ClaBaseController {
 
         // 判断一下查看权限++++++++++++++++++++???
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ClaApproverTypeBean approverTypeBean = claApplyService.getApproverTypeBean(ShiroHelper.getCurrentUserId());

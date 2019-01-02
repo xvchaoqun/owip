@@ -314,7 +314,7 @@ public class CadreCommonService extends BaseMapper {
 
         if(cadreId==null) return;
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         modelMap.put("cadre", cadre);
 
         SysUserView uv = sysUserService.findById(cadre.getUserId());

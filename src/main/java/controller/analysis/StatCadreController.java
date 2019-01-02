@@ -66,7 +66,7 @@ public class StatCadreController extends BaseController {
     public String stat_cadre_category(int type, Integer cadreId, ModelMap modelMap) throws IOException {
 
         if (cadreId != null) {
-            modelMap.put("cadre", cadreViewMapper.selectByPrimaryKey(cadreId));
+            modelMap.put("cadre", iCadreMapper.getCadre(cadreId));
         }
 
         /*switch (type){

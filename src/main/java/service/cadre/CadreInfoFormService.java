@@ -76,7 +76,7 @@ public class CadreInfoFormService extends BaseMapper {
 
         CadreInfoForm bean = cadreAdformService.getCadreAdform(cadreId);
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView uv = cadre.getUser();
 
         bean.setCode(uv.getCode());

@@ -73,7 +73,7 @@ public class CadreAdformService extends BaseMapper {
     // 获取任免审批表属性值
     public CadreInfoForm getCadreAdform(int cadreId){
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView uv = cadre.getUser();
 
         CadreInfoForm bean = new CadreInfoForm();

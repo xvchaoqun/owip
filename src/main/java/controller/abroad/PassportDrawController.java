@@ -121,7 +121,7 @@ public class PassportDrawController extends AbroadBaseController {
                                     ModelMap modelMap) {
         modelMap.put("type", type);
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -461,7 +461,7 @@ public class PassportDrawController extends AbroadBaseController {
     public String passportDraw_view( Integer id, ModelMap modelMap) {
 
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(passportDraw.getCadreId());
+        CadreView cadre = iCadreMapper.getCadre(passportDraw.getCadreId());
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
         modelMap.put("sysUser", sysUser);

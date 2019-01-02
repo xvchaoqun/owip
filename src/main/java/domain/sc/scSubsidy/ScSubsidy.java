@@ -28,7 +28,8 @@ public class ScSubsidy implements Serializable {
     }
 
     public String getHrCode(){
-
+        if(hrType==null || hrNum==null) return null;
+        
         return getHrCode(hrType, year, hrNum);
     }
 
@@ -49,6 +50,8 @@ public class ScSubsidy implements Serializable {
 
     public String getFeCode(){
 
+        if(feType==null || feNum==null) return null;
+        
         return getFeCode(feType, year, feNum);
     }
 

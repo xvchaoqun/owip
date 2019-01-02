@@ -63,7 +63,7 @@ public class CadrePostController extends BaseController {
             modelMap.put("subCadrePosts", cadrePostService.getSubCadrePosts(cadreId));
         }
         if(type==3){
-            modelMap.put("cadre", cadreViewMapper.selectByPrimaryKey(cadreId));
+            modelMap.put("cadre", iCadreMapper.getCadre(cadreId));
             // 任职级经历
             modelMap.put("cadreAdminLevels", cadreAdminLevelService.getCadreAdminLevels(cadreId));
         }
@@ -174,7 +174,7 @@ public class CadrePostController extends BaseController {
             /*if (cadrePost.getDoubleUnitId() != null)
                 modelMap.put("doubleUnit", unitService.findAll().get(cadrePost.getDoubleUnitId()));*/
         }
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         modelMap.put("cadre", cadre);
 
         // MAP<unitTypeId, List<unitId>>

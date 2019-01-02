@@ -79,8 +79,6 @@
     <result column="lp_file_name" jdbcType="VARCHAR" property="lpFileName" />
     <result column="lp_file" jdbcType="VARCHAR" property="lpFile" />
     <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
-    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
-    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
     <result column="s_dispatch_id" jdbcType="INTEGER" property="sDispatchId" />
     <result column="s_work_time" jdbcType="DATE" property="sWorkTime" />
     <result column="e_dispatch_id" jdbcType="INTEGER" property="eDispatchId" />
@@ -141,10 +139,10 @@
     pro_post, manage_level, manage_level_time, arrive_time, work_time, work_start_time, 
     main_cadre_post_id, is_double, double_unit_ids, is_principal_post, cadre_post_year, 
     admin_level_year, np_relate_id, np_id, np_file_name, np_file, np_work_time, lp_relate_id, 
-    lp_id, lp_file_name, lp_file, lp_work_time, cadre_id, admin_level_id, s_dispatch_id, 
-    s_work_time, e_dispatch_id, e_work_time, admin_level_code, admin_level_name, max_ce_edu_attr, 
-    max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, 
-    unit_type_attr, verify_birth, verify_work_time
+    lp_id, lp_file_name, lp_file, lp_work_time, s_dispatch_id, s_work_time, e_dispatch_id, 
+    e_work_time, admin_level_code, admin_level_name, max_ce_edu_attr, max_ce_edu_code, 
+    max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, unit_type_attr, 
+    verify_birth, verify_work_time
   </sql>
   <sql id="Blob_Column_List">
     talent_title

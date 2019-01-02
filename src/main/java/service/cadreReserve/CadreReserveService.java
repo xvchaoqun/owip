@@ -98,7 +98,7 @@ public class CadreReserveService extends BaseMapper {
         List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
         if(cadreReserves.size()>1){
             CadreReserve cadreReserve = cadreReserves.get(0);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreReserve.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(cadreReserve.getCadreId());
             throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()
                     +"状态异常，存在多条记录");
         }
@@ -115,7 +115,7 @@ public class CadreReserveService extends BaseMapper {
         List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
         if(cadreReserves.size()>1){
             CadreReserve cadreReserve = cadreReserves.get(0);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreReserve.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(cadreReserve.getCadreId());
             throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()
                     +"状态异常，存在多条后备干部[已列为考察对象]记录");
         }

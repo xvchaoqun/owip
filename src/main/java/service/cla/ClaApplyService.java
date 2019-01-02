@@ -494,7 +494,7 @@ public class ClaApplyService extends ClaBaseMapper {
             CadreService cadreService = (CadreService) wac.getBean("cadreService");
             SysUserService sysUserService = (SysUserService) wac.getBean("sysUserService");
             ClaApply apply = claApplyMapper.selectByPrimaryKey(applyId);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(apply.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(apply.getCadreId());
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
 
             if((firstVal.getValue()!=null && firstVal.getValue()==0)||(lastVal.getValue()!=null)) { //初审未通过，或者终审完成，需要短信提醒
@@ -561,7 +561,7 @@ public class ClaApplyService extends ClaBaseMapper {
 
         ClaApply apply = claApplyMapper.selectByPrimaryKey(applyId);
         Integer cadreId = apply.getCadreId();
-        //CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        //CadreView cadre = iCadreMapper.getCadre(cadreId);
         //Integer postId = cadre.getPostId();
 
         Set<Integer> needApprovalTypeSet = new HashSet<>();
@@ -786,7 +786,7 @@ public class ClaApplyService extends ClaBaseMapper {
 
         ClaApply apply = claApplyMapper.selectByPrimaryKey(applyId);
         int targetCadreId = apply.getCadreId(); // 待审批的干部
-        CadreView targetCadre = cadreViewMapper.selectByPrimaryKey(targetCadreId);
+        CadreView targetCadre = iCadreMapper.getCadre(targetCadreId);
 
         ApproverType approverType = approverTypeMapper.selectByPrimaryKey(approvalTypeId);
         Byte type = approverType.getType();

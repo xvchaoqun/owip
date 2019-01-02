@@ -35,7 +35,7 @@ public class CadreInfoFormController extends BaseController {
     @RequestMapping("/cadreInfoForm_download")
     public void cadreInfoForm_download(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         //输出文件
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部信息采集表 " + cadre.getUser().getRealname();
         response.reset();

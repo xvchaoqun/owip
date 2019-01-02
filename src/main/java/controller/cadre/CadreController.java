@@ -86,7 +86,7 @@ public class CadreController extends BaseController {
         modelMap.put("status", status);
 
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
         }
 
@@ -334,7 +334,7 @@ public class CadreController extends BaseController {
         }
         modelMap.put("to", to);
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         modelMap.put("cadre", cadre);
         return "cadre/cadre_view";
     }
@@ -354,7 +354,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_promote")
     public String cadre_promote(int id, ModelMap modelMap) {
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(id);
+        CadreView cadre = iCadreMapper.getCadre(id);
         modelMap.put("cadre", cadre);
 
         return "cadre/cadre_promote";
@@ -377,7 +377,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_leave")
     public String cadre_leave(int id, ModelMap modelMap) {
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(id);
+        CadreView cadre = iCadreMapper.getCadre(id);
         modelMap.put("cadre", cadre);
 
         TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, DispatchConstants.DISPATCH_CADRE_TYPE_DISMISS);

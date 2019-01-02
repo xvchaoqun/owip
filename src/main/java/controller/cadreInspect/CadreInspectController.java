@@ -163,7 +163,7 @@ public class CadreInspectController extends BaseController {
         if (id != null) {
             CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(id);
             modelMap.put("cadreInspect", cadreInspect);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreInspect.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(cadreInspect.getCadreId());
             modelMap.put("cadre", cadre);
         }
 
@@ -176,7 +176,7 @@ public class CadreInspectController extends BaseController {
 
         if (id != null) {
             CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(id);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreInspect.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(cadreInspect.getCadreId());
             modelMap.put("cadreInspect", cadreInspect);
             modelMap.put("cadre", cadre);
         }

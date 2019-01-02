@@ -12,6 +12,4 @@ public interface CadreViewMapper {
     List<CadreView> selectByExampleWithRowbounds(CadreViewExample example, RowBounds rowBounds);
 
     List<CadreView> selectByExample(CadreViewExample example);
-
-    CadreView selectByPrimaryKey(Integer id);
 }

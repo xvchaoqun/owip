@@ -46,7 +46,7 @@ public class VerifyAgeController extends VerifyBaseController {
                                  ModelMap modelMap) {
         modelMap.put("cls", cls);
         if(cadreId!=null){
-            modelMap.put("cadre", cadreViewMapper.selectByPrimaryKey(cadreId));
+            modelMap.put("cadre", iCadreMapper.getCadre(cadreId));
         }
         return "verify/verifyAge/verifyAge_page";
     }

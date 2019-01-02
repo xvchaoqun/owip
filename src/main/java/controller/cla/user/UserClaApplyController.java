@@ -197,7 +197,7 @@ public class UserClaApplyController extends ClaBaseController {
             cadreId = cadre.getId();
             self = true;
         }
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
 
         List<ClaApplyFile> claApplyFiles = new ArrayList<>();
         for (MultipartFile _file : _files) {
@@ -316,7 +316,7 @@ public class UserClaApplyController extends ClaBaseController {
             ClaApply claApply = claApplyMapper.selectByPrimaryKey(id);
             modelMap.put("claApply", claApply);
 
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             Integer firstTrialStatus = ClaHelper.getClaAdminFirstTrialStatus(id);
             if(claApply.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新

@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import sys.constants.CrsConstants;
@@ -19,11 +18,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CrsPostRequireService extends CrsBaseMapper {
@@ -74,7 +69,7 @@ public class CrsPostRequireService extends CrsBaseMapper {
         String manageLevelTime = cv.getManageLevelTime() == null ? null : DateUtils.yearOffNow_cn(cv.getManageLevelTime());
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_GLGW,  combineTowString(manageLevel, manageLevelTime));
 
-        Integer adminLevelId = cv.getAdminLevelId();
+        Integer adminLevelId = cv.getTypeId();
         MetaType mainPost = codeKeyMap.get("mt_admin_level_main");
         MetaType vicePost = codeKeyMap.get("mt_admin_level_vice");
         String lpWorkTime = DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYY_MM_DD);

@@ -42,7 +42,7 @@ public class AbroadExportService extends AbroadBaseMapper {
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
         Integer cadreId = applySelf.getCadreId();
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         Map<String, Object> dataMap = new HashMap<String, Object>();

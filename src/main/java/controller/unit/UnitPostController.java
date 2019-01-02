@@ -87,7 +87,7 @@ public class UnitPostController extends BaseController {
         modelMap.put("cls", cls);
 
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
         }
 

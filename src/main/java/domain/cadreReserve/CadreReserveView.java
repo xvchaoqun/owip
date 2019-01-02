@@ -192,10 +192,6 @@ public class CadreReserveView implements Serializable {
 
     private Date lpWorkTime;
 
-    private Integer cadreId;
-
-    private Integer adminLevelId;
-
     private Integer sDispatchId;
 
     private Date sWorkTime;
@@ -854,22 +850,6 @@ public class CadreReserveView implements Serializable {
 
     public void setLpWorkTime(Date lpWorkTime) {
         this.lpWorkTime = lpWorkTime;
-    }
-
-    public Integer getCadreId() {
-        return cadreId;
-    }
-
-    public void setCadreId(Integer cadreId) {
-        this.cadreId = cadreId;
-    }
-
-    public Integer getAdminLevelId() {
-        return adminLevelId;
-    }
-
-    public void setAdminLevelId(Integer adminLevelId) {
-        this.adminLevelId = adminLevelId;
     }
 
     public Integer getsDispatchId() {

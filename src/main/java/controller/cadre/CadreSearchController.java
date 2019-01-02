@@ -63,7 +63,7 @@ public class CadreSearchController  extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView sysUser = cadre.getUser();
         if (sysUser == null) {
             msg = "该用户不存在";

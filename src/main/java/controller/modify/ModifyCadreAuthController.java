@@ -46,7 +46,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
                                   ModelMap modelMap) {
 
         if(cadreId!=null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
             modelMap.put("sysUser", cadre.getUser());
         }
@@ -126,7 +126,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
         if (id != null) {
             ModifyCadreAuth modifyCadreAuth = modifyCadreAuthMapper.selectByPrimaryKey(id);
             modelMap.put("modifyCadreAuth", modifyCadreAuth);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(modifyCadreAuth.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(modifyCadreAuth.getCadreId());
             modelMap.put("cadre", cadre);
             modelMap.put("sysUser", cadre.getUser());
         }

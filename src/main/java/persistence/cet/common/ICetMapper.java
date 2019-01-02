@@ -21,16 +21,17 @@ public interface ICetMapper {
     public void batchRequire(@Param("r") CetAnnualRequire cetAnnualRequire,
                              @Param("ids") String ids);
     
-    // 党校专题培训/日常培训完成学时数（统计 计入年度学习任务、未退出、已结业的记录 的总学时）
+    // 党校专题培训/日常培训完成学时数（统计 计入年度学习任务、未退出的记录 的总学时）
     @Select("select sum(cpo.finish_period) from cet_project_obj cpo, cet_project cp " +
-            "where cpo.user_id=#{userId} and cpo.is_quit=0 and cpo.is_graduate=1 and cpo.project_id=cp.id " +
+            "where cpo.user_id=#{userId} and cpo.is_quit=0 and cpo.project_id=cp.id " +
             "and cp.year=${year} and cp.type=#{type} and cp.is_valid=1")
     public BigDecimal getProjectFinishPeriod(@Param("userId") Integer userId,
                                              @Param("year") Integer year,
                                              @Param("type") Byte type);
    // 党校专题培训/日常培训（读取未退出的记录）
     @ResultMap("persistence.cet.common.ICetMapper.TrainRecordMap")
-    @Select("select cp.start_date, cp.end_date, cp.name, cp.type, '党委组织部' as organizer, cpo.finish_period as period, cpo.is_graduate " +
+    @Select("select cp.start_date, cp.end_date, cp.name, cp.type, '党委组织部' as organizer, cpo.finish_period as period," +
+            "cpo.should_finish_period, cpo.is_graduate " +
             "from cet_project_obj cpo, cet_project cp " +
             "where cpo.user_id=#{userId} and cpo.is_quit=0 and cpo.project_id=cp.id " +
             "and cp.year=${year} and cp.type=#{type} and cp.is_valid=#{isValid}")

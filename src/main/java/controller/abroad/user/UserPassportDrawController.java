@@ -321,7 +321,7 @@ public class UserPassportDrawController extends AbroadBaseController {
             isSelf = true;
         }
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
@@ -399,7 +399,7 @@ public class UserPassportDrawController extends AbroadBaseController {
            return failed("请选择证件");
         }
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         Passport passportTw = null;
         if(type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW) {
 
@@ -507,7 +507,7 @@ public class UserPassportDrawController extends AbroadBaseController {
             isSelf = true;
         }
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
         if(passport.getCadreId() != cadreId.intValue()) throw new UnauthorizedException();

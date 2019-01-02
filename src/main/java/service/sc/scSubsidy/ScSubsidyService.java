@@ -45,19 +45,28 @@ public class ScSubsidyService extends ScBaseMapper {
     public void insertSelective(ScSubsidy record, Integer[] dispatchIds){
 
         short year = record.getYear();
-        int hrType = record.getHrType();
-        int hrNum = record.getHrNum();
-        int feType = record.getFeType();
-        int feNum = record.getFeNum();
+        Integer hrType = record.getHrType();
+        Integer hrNum = record.getHrNum();
+        if((hrType==null && hrNum!=null) || (hrType!=null && hrNum==null)){
+            throw new OpException("请填写完整发人事处通知文号和编码。");
+        }
+        Integer feType = record.getFeType();
+        Integer feNum = record.getFeNum();
+        if((feType==null && feNum!=null) || (feType!=null && feNum==null)){
+            throw new OpException("请填写完整发财经处通知文号和编码。");
+        }
+        if(hrType==null && feType==null){
+            throw new OpException("人事处或财经处通知至少填写一个。");
+        }
 
-        {
+        if(hrType!=null && hrNum!=null){
             ScSubsidyExample example = new ScSubsidyExample();
             example.createCriteria().andYearEqualTo(year).andHrTypeEqualTo(hrType).andHrNumEqualTo(hrNum);
             if(scSubsidyMapper.countByExample(example)>0){
                 throw new OpException("发人事处通知编号重复。");
             }
         }
-        {
+        if(feType!=null && feNum!=null){
             ScSubsidyExample example = new ScSubsidyExample();
             example.createCriteria().andYearEqualTo(year).andFeTypeEqualTo(feType).andFeNumEqualTo(feNum);
             if(scSubsidyMapper.countByExample(example)>0){

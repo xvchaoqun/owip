@@ -91,7 +91,7 @@ public class CadreInspectService extends BaseMapper {
         List<CadreInspect> cadreInspects = cadreInspectMapper.selectByExample(example);
         if(cadreInspects.size()>1){
             CadreInspect cadreInspect = cadreInspects.get(0);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreInspect.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(cadreInspect.getCadreId());
             throw new OpException("考察对象"+cadre.getUser().getRealname() +"状态异常，存在多条记录");
         }
 

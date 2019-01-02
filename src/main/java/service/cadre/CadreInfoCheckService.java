@@ -156,7 +156,7 @@ public class CadreInfoCheckService extends BaseMapper {
     // 基本信息
     public byte baseCheck(int cadreId, String name) {
 
-        CadreView cv = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cv = iCadreMapper.getCadre(cadreId);
         int userId = cv.getUserId();
 
         String tableName = "sys_user_info";
@@ -206,7 +206,7 @@ public class CadreInfoCheckService extends BaseMapper {
     // 人事信息
     public byte staffCheck(int cadreId, String name) {
 
-        CadreView cv = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cv = iCadreMapper.getCadre(cadreId);
         int userId = cv.getUserId();
 
         String tableName = "sys_teacher_info";
@@ -228,7 +228,7 @@ public class CadreInfoCheckService extends BaseMapper {
     // 干部信息
     public byte cadreCheck(int cadreId, String name) {
 
-        CadreView cv = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cv = iCadreMapper.getCadre(cadreId);
         int userId = cv.getUserId();
 
         boolean exist = false;

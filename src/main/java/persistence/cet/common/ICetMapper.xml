@@ -30,6 +30,7 @@
         <result column="type" jdbcType="TINYINT" property="type" />
         <result column="organizer" jdbcType="VARCHAR" property="organizer" />
         <result column="period" jdbcType="DECIMAL" property="period" />
+        <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
         <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     </resultMap>
     <sql id="searchTrains">

@@ -58,7 +58,7 @@ public class CadreLeaderController extends BaseController {
         modelMap.put("status", status);
 
         if (cadreId!=null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
             if(cadre!=null) {
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
@@ -81,7 +81,7 @@ public class CadreLeaderController extends BaseController {
         }
 
         if (cadreId!=null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
         }
 
@@ -175,7 +175,7 @@ public class CadreLeaderController extends BaseController {
         if (id != null) {
             CadreLeader cadreLeader = cadreLeaderMapper.selectByPrimaryKey(id);
             modelMap.put("cadreLeader", cadreLeader);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreLeader.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(cadreLeader.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);

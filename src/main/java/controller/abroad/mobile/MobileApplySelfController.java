@@ -71,7 +71,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		modelMap.put("commonList", commonList);
 
 		if (cadreId != null) {
-			CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+			CadreView cadre = iCadreMapper.getCadre(cadreId);
 			modelMap.put("cadre", cadre);
 			SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 			modelMap.put("sysUser", sysUser);
@@ -122,7 +122,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 
 		// 判断一下查看权限++++++++++++++++++++???
 		if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
-			CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+			CadreView cadre = iCadreMapper.getCadre(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
 				//ShiroUser shiroUser = ShiroHelper.getShiroUser();
 				ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
@@ -131,7 +131,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 			}
 		}
 
-		CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+		CadreView cadre = iCadreMapper.getCadre(cadreId);
 		SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
 		modelMap.put("sysUser", sysUser);

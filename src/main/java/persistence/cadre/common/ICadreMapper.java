@@ -1,19 +1,10 @@
 package persistence.cadre.common;
 
 import controller.analysis.CadreCategorySearchBean;
-import domain.cadre.Cadre;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreFamily;
-import domain.cadre.CadreLeader;
-import domain.cadre.CadrePost;
-import domain.cadre.CadreWork;
+import domain.cadre.*;
 import domain.crp.CrpRecord;
 import domain.sys.SysUserView;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.ResultType;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
 import sys.constants.CadreConstants;
 
@@ -27,6 +18,10 @@ import java.util.Set;
  */
 public interface ICadreMapper {
 
+    @ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")
+    @Select("select * from cadre_view where id=#{cadreId}")
+    CadreView getCadre(@Param("cadreId") int cadreId);
+    
     // 无此记录
     @Select("select ${columnName} from cadre_info_check where cadre_id=#{cadreId}")
     Boolean cadreInfoCheck(@Param("cadreId") int cadreId, @Param("columnName") String columnName );

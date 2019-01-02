@@ -559,7 +559,7 @@ public class ApplySelfService extends AbroadBaseMapper {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         Integer cadreId = applySelf.getCadreId();
-        //CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        //CadreView cadre = iCadreMapper.getCadre(cadreId);
         //Integer postId = cadre.getPostId();
         Set<Integer> needApprovalTypeSet = new HashSet<>();
 

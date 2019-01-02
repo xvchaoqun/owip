@@ -16,6 +16,7 @@
         <th>培训班主办方</th>
         <th width="100">完成学时数</th>
         <th width="100">是否已结业</th>
+        <th width="100">完成百分比</th>
     </tr>
     </thead>
     <tbody>
@@ -36,10 +37,22 @@
                 ${record.organizer}
             </td>
             <td>
-                ${record.isGraduate?(cm:trimToZero(record.period)):0}
+                ${cm:trimToZero(record.period)}
             </td>
             <td>
                 ${record.isGraduate?"已结业":"未结业"}
+            </td>
+            <td>
+                <c:if test="${empty record.shouldFinishPeriod}">--</c:if>
+                <c:if test="${not empty record.shouldFinishPeriod}">
+                    <fmt:parseNumber value="${record.period}" var="period" />
+                    <fmt:parseNumber value="${record.shouldFinishPeriod}" var="shouldFinishPeriod" />
+                    <fmt:formatNumber value="${period/shouldFinishPeriod}" type="percent"
+                                          pattern="#0.00%" var="progress"/>
+                    <div class="progress progress-striped pos-rel" data-percent="${progress}">
+                        <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
+                    </div>
+                </c:if>
             </td>
         </tr>
     </c:forEach>

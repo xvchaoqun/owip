@@ -36,19 +36,17 @@ public class CetAnnualObjService extends CetBaseMapper {
     }
     
     @Transactional
-    public void del(Integer id) {
-        
-        cetAnnualObjMapper.deleteByPrimaryKey(id);
-    }
-    
-    @Transactional
     public void batchDel(Integer[] ids) {
         
         if (ids == null || ids.length == 0) return;
-        
+    
+        CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(ids[0]);
+    
         CetAnnualObjExample example = new CetAnnualObjExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cetAnnualObjMapper.deleteByExample(example);
+        
+        updateObjCount(cetAnnualObj.getAnnualId());
     }
     
     @Transactional
@@ -101,8 +99,8 @@ public class CetAnnualObjService extends CetBaseMapper {
         // 已选人员
         Set<Integer> selectedAnnualObjUserIdSet = getSelectedAnnualObjUserIdSet(annualId);
         // 提交更新人员
-        Set<Integer> specialeeUserIdSet = new HashSet<>();
-        specialeeUserIdSet.addAll(Arrays.asList(userIds));
+        Set<Integer> toAddUserIdSet = new HashSet<>();
+        toAddUserIdSet.addAll(Arrays.asList(userIds));
         
         for (Integer userId : userIds) {
             
@@ -117,7 +115,7 @@ public class CetAnnualObjService extends CetBaseMapper {
                 case "t_cadre": {
                     CadreView cv = CmTag.getCadreByUserId(userId);
                     record.setTitle(cv.getTitle());
-                    record.setAdminLevel(cv.getAdminLevelId());
+                    record.setAdminLevel(cv.getTypeId());
                     record.setPostType(cv.getPostId());
                     record.setLpWorkTime(cv.getLpWorkTime());
                     record.setSortOrder(cv.getSortOrder());
@@ -136,12 +134,25 @@ public class CetAnnualObjService extends CetBaseMapper {
         }
         
         // 需要删除的人员
-        selectedAnnualObjUserIdSet.removeAll(specialeeUserIdSet);
+        selectedAnnualObjUserIdSet.removeAll(toAddUserIdSet);
         for (Integer userId : selectedAnnualObjUserIdSet) {
             CetAnnualObjExample example = new CetAnnualObjExample();
             example.createCriteria().andAnnualIdEqualTo(annualId).andUserIdEqualTo(userId);
             cetAnnualObjMapper.deleteByExample(example);
         }
+    
+       updateObjCount(annualId);
+    }
+    
+    private void updateObjCount(int annualId){
+         //更新培训人数
+            CetAnnualObjExample exmaple = new CetAnnualObjExample();
+            exmaple.createCriteria().andAnnualIdEqualTo(annualId);
+            int count = (int) cetAnnualObjMapper.countByExample(exmaple);
+            CetAnnual record = new CetAnnual();
+            record.setId(annualId);
+            record.setObjCount(count);
+            cetAnnualMapper.updateByPrimaryKeySelective(record);
     }
     
     // 党校专题培训完成学时数、 党校日常培训完成学时数、 二级党校/党委培训完成学时数、 二级单位培训完成学时数、 上级调训完成学时数

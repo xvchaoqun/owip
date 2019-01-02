@@ -191,7 +191,7 @@ public class ClaApplyController extends ClaBaseController {
 
         // 判断一下查看权限++++++++++++++++++++???
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ClaApproverTypeBean approverTypeBean = claApplyService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
@@ -200,7 +200,7 @@ public class ClaApplyController extends ClaBaseController {
             }
         }
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         modelMap.put("sysUser", uv);
@@ -253,7 +253,7 @@ public class ClaApplyController extends ClaBaseController {
 
         // 判断一下查看权限++++++++++++++++++++???
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ClaApproverTypeBean approverTypeBean = claApplyService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
@@ -309,7 +309,7 @@ public class ClaApplyController extends ClaBaseController {
 
         modelMap.put("status", status);
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -410,7 +410,7 @@ public class ClaApplyController extends ClaBaseController {
         modelMap.put("status", status);
 
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -507,7 +507,7 @@ public class ClaApplyController extends ClaBaseController {
             ClaApply claApply = claApplyMapper.selectByPrimaryKey(id);
             modelMap.put("claApply", claApply);
 
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(claApply.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(claApply.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);

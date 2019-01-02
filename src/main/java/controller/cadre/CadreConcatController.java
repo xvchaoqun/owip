@@ -31,7 +31,7 @@ public class CadreConcatController extends BaseController {
     public String cadreConcat_page(int cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export, ModelMap modelMap) {
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         modelMap.put("cadre", cadre);
 
         return "cadre/cadreConcat/cadreConcat_page";
@@ -77,7 +77,7 @@ public class CadreConcatController extends BaseController {
     public String cadreConcat_au(Integer cadreId, ModelMap modelMap) {
 
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
         }
         return "cadre/cadreConcat/cadreConcat_au";

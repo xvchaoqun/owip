@@ -221,7 +221,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         // 判断一下查看权限++++++++++++++++++++???
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
@@ -230,7 +230,7 @@ public class ApplySelfController extends AbroadBaseController {
             }
         }
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         modelMap.put("sysUser", uv);
@@ -283,7 +283,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         // 判断一下查看权限++++++++++++++++++++???
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
@@ -339,7 +339,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         modelMap.put("status", status);
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -434,7 +434,7 @@ public class ApplySelfController extends AbroadBaseController {
         }
 
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -544,7 +544,7 @@ public class ApplySelfController extends AbroadBaseController {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
             modelMap.put("applySelf", applySelf);
 
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(applySelf.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(applySelf.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);

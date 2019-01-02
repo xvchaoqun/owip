@@ -31,7 +31,7 @@ public class AbroadExportController extends AbroadBaseController {
 
         // 判断一下查看权限++++++++++++++++++++???
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(ShiroHelper.getCurrentUserId());

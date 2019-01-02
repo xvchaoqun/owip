@@ -25,7 +25,7 @@
                     <label class="col-xs-3 control-label">发人事处通知文号</label>
 
                     <div class="col-xs-6" style="padding-top: 10px;">
-                        <select required data-rel="select2-ajax"
+                        <select data-rel="select2-ajax"
                                 data-ajax-url="${ctx}/annualType_selects?module=<%=SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY%>"
                                 name="hrType" data-placeholder="请选择文号" data-width="225">
                             <option value="${hrAnnualType.id}">${hrAnnualType.name}</option>
@@ -36,14 +36,14 @@
                     <label class="col-xs-3 control-label">发人事处通知编号</label>
 
                     <div class="col-xs-8" style="padding-top: 10px;">
-                        <input required class="form-control num" type="text" name="hrNum" value="${scSubsidy.hrNum}">
+                        <input class="form-control num" type="text" name="hrNum" value="${scSubsidy.hrNum}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">发财经处通知文号</label>
 
                     <div class="col-xs-6" style="padding-top: 10px;">
-                        <select required data-rel="select2-ajax"
+                        <select data-rel="select2-ajax"
                                 data-ajax-url="${ctx}/annualType_selects?module=<%=SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY%>"
                                 name="feType" data-placeholder="请选择文号" data-width="225">
                             <option value="${feAnnualType.id}">${feAnnualType.name}</option>
@@ -54,7 +54,7 @@
                     <label class="col-xs-3 control-label">发财经处通知编号</label>
 
                     <div class="col-xs-8" style="padding-top: 10px;">
-                        <input required class="form-control num" type="text" name="feNum" value="${scSubsidy.feNum}">
+                        <input class="form-control num" type="text" name="feNum" value="${scSubsidy.feNum}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -88,7 +88,8 @@
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${scSubsidy!=null}">确定</c:if><c:if
+    <button id="submitBtn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+        <i class="fa fa-check"></i> <c:if test="${scSubsidy!=null}">确定</c:if><c:if
             test="${scSubsidy==null}">添加</c:if></button>
 </div>
 <script>

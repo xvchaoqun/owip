@@ -236,19 +236,6 @@ public class CetAnnualObjController extends CetBaseController {
     }
     
     @RequiresPermissions("cetAnnualObj:del")
-    @RequestMapping(value = "/cetAnnualObj_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetAnnualObj_del(HttpServletRequest request, Integer id) {
-        
-        if (id != null) {
-            
-            cetAnnualObjService.del(id);
-            logger.info(addLog(LogConstants.LOG_CET, "删除年度学习档案包含的培训对象：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-    
-    @RequiresPermissions("cetAnnualObj:del")
     @RequestMapping(value = "/cetAnnualObj_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetAnnualObj_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {

@@ -44,7 +44,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
     public String verifyWorkTime(@RequestParam(defaultValue = "1") Integer cls,Integer cadreId, ModelMap modelMap) {
         modelMap.put("cls", cls);
         if(cadreId!=null){
-            modelMap.put("cadre", cadreViewMapper.selectByPrimaryKey(cadreId));
+            modelMap.put("cadre", iCadreMapper.getCadre(cadreId));
         }
         return "verify/verifyWorkTime/verifyWorkTime_page";
     }

@@ -40,6 +40,7 @@ public class ScSubsidyCadreController extends ScBaseController {
     public String scSubsidyCadre(@RequestParam(required = false, defaultValue = "1") Byte cls,
                                  Integer cadreId,
                                  Integer hrType,
+                                 Integer feType,
                                  ModelMap modelMap) {
         modelMap.put("cls", cls);
 
@@ -48,6 +49,9 @@ public class ScSubsidyCadreController extends ScBaseController {
         }
         if(hrType!=null){
             modelMap.put("hrAnnualType", annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY).get(hrType));
+        }
+        if(feType!=null){
+            modelMap.put("feAnnualType", annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY).get(feType));
         }
 
         return "sc/scSubsidy/scSubsidyCadre/scSubsidyCadre_page";
@@ -60,6 +64,8 @@ public class ScSubsidyCadreController extends ScBaseController {
                                     Short year,
                                     Integer hrType,
                                     Integer hrNum,
+                                    Integer feType,
+                                    Integer feNum,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -85,6 +91,12 @@ public class ScSubsidyCadreController extends ScBaseController {
         }
         if (hrNum!=null) {
             criteria.andHrNumEqualTo(hrNum);
+        }
+        if (feType!=null) {
+            criteria.andFeTypeEqualTo(feType);
+        }
+        if (feNum!=null) {
+            criteria.andFeNumEqualTo(feNum);
         }
 
         if (cadreId!=null) {

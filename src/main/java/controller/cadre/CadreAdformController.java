@@ -45,7 +45,7 @@ public class CadreAdformController extends BaseController {
     @RequestMapping("/cadreAdform_download")
     public void cadreAdform_download(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         //输出文件
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();
@@ -62,7 +62,7 @@ public class CadreAdformController extends BaseController {
     @RequestMapping("/cadreAdform_zzb")
     public void cadreAdform_zzb(int cadreId, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         //输出文件
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();

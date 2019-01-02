@@ -6,7 +6,9 @@
         <div id="body-content" class="rownumbers"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.year ||not empty param.hrType ||not empty param.hrNum ||not empty param.cadreId || not empty param.code || not empty param.sort}"/>
+                   value="${not empty param.year ||not empty param.hrType ||not empty param.hrNum
+                    ||not empty param.feType ||not empty param.feNum
+                    ||not empty param.cadreId || not empty param.code || not empty param.sort}"/>
             <jsp:include page="../scSubsidy/menu.jsp"/>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
@@ -67,6 +69,20 @@
                                 <label>发人事处通知编号</label>
                                 <input class="form-control num" type="text" name="hrNum" style="width: 50px" value="${param.hrNum}">
                             </div>
+
+                            <div class="form-group">
+                                <label>发财经处通知文号</label>
+                                <select data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/annualType_selects?module=<%=SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY%>"
+                                        name="feType" data-placeholder="请选择文号" data-width="150">
+                                    <option value="${feAnnualType.id}">${feAnnualType.name}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>发财经处通知编号</label>
+                                <input class="form-control num" type="text" name="feNum" style="width: 50px" value="${param.feNum}">
+                            </div>
+
                             <div class="form-group">
                                 <label>干部</label>
                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
@@ -125,5 +141,6 @@
     //$('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
     $.register.dispatchType_select($('#searchForm select[name=hrType]'), $("#searchForm input[name=year]"));
+    $.register.dispatchType_select($('#searchForm select[name=feType]'), $("#searchForm input[name=year]"));
     $.register.user_select($('#searchForm select[name=cadreId]'));
 </script>

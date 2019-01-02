@@ -59,7 +59,7 @@ public class CadreBaseInfoController extends BaseController {
                                     String title,
                                   HttpServletRequest request) throws IOException {
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         int userId = cadre.getUserId();
         Member member = memberService.get(userId);
         if(member==null) {

@@ -157,7 +157,7 @@ public class CadreBookController extends BaseController {
             CadreBook cadreBook = cadreBookMapper.selectByPrimaryKey(id);
             modelMap.put("cadreBook", cadreBook);
         }
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

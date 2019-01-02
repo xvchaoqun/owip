@@ -83,7 +83,7 @@ public class UserClaApplyBackController extends ClaBaseController {
 
         claApplyMapper.updateByPrimaryKeySelective(_update);
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         sysApprovalLogService.add(applyId, cadre.getUserId(),
                 self? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,

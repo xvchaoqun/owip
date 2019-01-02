@@ -68,7 +68,7 @@ public class CadreReserveController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView sysUser = cadre.getUser();
         if (sysUser == null) {
             msg = "该用户不存在";
@@ -116,7 +116,7 @@ public class CadreReserveController extends BaseController {
         modelMap.put("reserveType", reserveType);
 
         if (cadreId != null) {
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
         }
 
@@ -268,7 +268,7 @@ public class CadreReserveController extends BaseController {
             CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
             reserveType = cadreReserve.getType();
             modelMap.put("cadreReserve", cadreReserve);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreReserve.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(cadreReserve.getCadreId());
             modelMap.put("cadre", cadre);
         }
         modelMap.put("reserveType", reserveType);
@@ -295,7 +295,7 @@ public class CadreReserveController extends BaseController {
 
         if (id != null) {
             CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
-            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreReserve.getCadreId());
+            CadreView cadre = iCadreMapper.getCadre(cadreReserve.getCadreId());
             modelMap.put("cadreReserve", cadreReserve);
             modelMap.put("cadre", cadre);
         }

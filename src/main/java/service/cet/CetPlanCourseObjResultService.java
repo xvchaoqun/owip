@@ -83,10 +83,10 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
             String _num = xlsRow.get(3 + (courseItemSize*2)); // 第八列是提交学习心得数
             String _isFinished = xlsRow.get(4 + (courseItemSize*2)); // 第九列是是否结业
 
-            if(!NumberUtils.isDigits(_num)){
+            if(StringUtils.isNotBlank(_num) && !NumberUtils.isDigits(_num)){
                 throw new OpException("导入失败，第{0}行的学员的学习心得数有误。", (i+1));
             }
-            int num = Integer.valueOf(_num);
+            int num = StringUtils.isBlank(_num)?0:Integer.valueOf(_num);
             boolean isFinished = StringUtils.equals(_isFinished, "是");
 
             {
