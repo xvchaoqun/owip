@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -551,6 +550,7 @@ public class PmdOrderCampusCardService extends PmdBaseMapper {
         String amt = duePay.toString();
         PmdOrder newOrder = new PmdOrder();
         newOrder.setPayer(payer);
+        newOrder.setPayername(payername);
         newOrder.setAmt(amt);
         
         Map<String, Object> params = new HashMap<>();
