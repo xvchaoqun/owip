@@ -90,14 +90,14 @@
         <c:set var="_query" value="${not empty param.userId ||not empty param.isOnlinePay ||not empty param.hasPay
              || not empty param.isDelay || not empty param.isSelfPay}"/>
         <div class="form-group">
-            <button type="button" data-url="${ctx}/pmd/pmdMember"
+            <button type="button" data-url="${ctx}/pmd/pmdMember?cls=${param.cls}&backToPartyList=${param.backToPartyList}"
                     data-target="#body-content-view" data-form="#searchForm2"
                     class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找
             </button>
             <c:if test="${_query}">
                 <button type="button"
                         data-url="${ctx}/pmd/pmdMember"
-                        data-querystr="partyId=${param.partyId}&branchId=${param.branchId}&monthId=${param.monthId}"
+                        data-querystr="cls=${param.cls}&backToPartyList=${param.backToPartyList}&partyId=${param.partyId}&branchId=${param.branchId}&monthId=${param.monthId}"
                         data-target="#body-content-view"
                         class="resetBtn btn btn-warning btn-sm">
                     <i class="fa fa-reply"></i> 重置

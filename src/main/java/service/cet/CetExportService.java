@@ -341,7 +341,7 @@ public class CetExportService extends CetBaseMapper {
             cell.setCellValue(period.toString());
             
             // 已完成学时数
-            BigDecimal finishPeriod = NumberUtils.trimToZero(getFinishPeriod(obj, r));
+            BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(obj, r));
             cell = row.getCell(column++);
             cell.setCellValue(finishPeriod.toString());
     
@@ -358,23 +358,23 @@ public class CetExportService extends CetBaseMapper {
             
             // 党校专题
             cell = row.getCell(column++);
-            cell.setCellValue(getSpecialPeriod(obj, r).toString());
+            cell.setCellValue(cetAnnualObjService.getSpecialPeriod(obj, r).toString());
             
             // 党校日常
             cell = row.getCell(column++);
-            cell.setCellValue(getDailyPeriod(obj, r).toString());
+            cell.setCellValue(cetAnnualObjService.getDailyPeriod(obj, r).toString());
             
             // 二级党校
             cell = row.getCell(column++);
-            cell.setCellValue(getPartyPeriod(obj, r).toString());
+            cell.setCellValue(cetAnnualObjService.getPartyPeriod(obj, r).toString());
             
             // 二级单位
             cell = row.getCell(column++);
-            cell.setCellValue(getUnitPeriod(obj, r).toString());
+            cell.setCellValue(cetAnnualObjService.getUnitPeriod(obj, r).toString());
             
             // 上级调训
             cell = row.getCell(column++);
-            cell.setCellValue(getUpperPeriod(obj, r).toString());
+            cell.setCellValue(cetAnnualObjService.getUpperPeriod(obj, r).toString());
             
             // 备注
             cell = row.getCell(column++);
@@ -383,90 +383,6 @@ public class CetExportService extends CetBaseMapper {
         
        ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() + typeName + cetAnnual.getYear() +
                 "年度培训学习情况统计表.xlsx", response);
-    }
-    
-    // 最终的党校专题学时
-    private BigDecimal getSpecialPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r){
-        
-         BigDecimal period = null;
-         if (BooleanUtils.isTrue(cetAnnualObj.getHasArchived())) {
-                period = NumberUtils.trimToZero(cetAnnualObj.getSpecialPeriod());
-         }else {
-                period = NumberUtils.trimToZero(r.get("specialPeriod"));
-         }
-         
-         BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxSpecialPeriod());
-         return period.compareTo(max)>0?max:period;
-    }
-    
-    // 最终的党校日常学时
-    private BigDecimal getDailyPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r){
-        
-         BigDecimal period = null;
-         if (BooleanUtils.isTrue(cetAnnualObj.getHasArchived())) {
-                period = NumberUtils.trimToZero(cetAnnualObj.getDailyPeriod());
-         }else {
-                period = NumberUtils.trimToZero(r.get("dailyPeriod"));
-         }
-         
-         BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxDailyPeriod());
-         return period.compareTo(max)>0?max:period;
-    }
-    
-    // 最终的二级党委学时
-    private BigDecimal getPartyPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r){
-        
-         BigDecimal period = null;
-         if (BooleanUtils.isTrue(cetAnnualObj.getHasArchived())) {
-                period = NumberUtils.trimToZero(cetAnnualObj.getPartyPeriod());
-         }else {
-                period = NumberUtils.trimToZero(r.get("partyPeriod"));
-         }
-         
-         BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxPartyPeriod());
-         return period.compareTo(max)>0?max:period;
-    }
-    
-    // 最终的二级单位学时
-    private BigDecimal getUnitPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r){
-        
-         BigDecimal period = null;
-         if (BooleanUtils.isTrue(cetAnnualObj.getHasArchived())) {
-                period = NumberUtils.trimToZero(cetAnnualObj.getUnitPeriod());
-         }else {
-                period = NumberUtils.trimToZero(r.get("unitPeriod"));
-         }
-         
-         BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxUnitPeriod());
-         return period.compareTo(max)>0?max:period;
-    }
-    
-    // 最终的上级调训学时
-    private BigDecimal getUpperPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r){
-        
-         BigDecimal period = null;
-         if (BooleanUtils.isTrue(cetAnnualObj.getHasArchived())) {
-                period = NumberUtils.trimToZero(cetAnnualObj.getUpperPeriod());
-         }else {
-                period = NumberUtils.trimToZero(r.get("upperPeriod"));
-         }
-         
-         BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxUpperPeriod());
-         return period.compareTo(max)>0?max:period;
-    }
-    
-    // 最终的已完成学时
-    private BigDecimal getFinishPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r) {
-        
-         BigDecimal finishPeriod = BigDecimal.ZERO;
-         
-         finishPeriod = finishPeriod.add(getSpecialPeriod(cetAnnualObj, r));
-         finishPeriod = finishPeriod.add(getDailyPeriod(cetAnnualObj, r));
-         finishPeriod = finishPeriod.add(getPartyPeriod(cetAnnualObj, r));
-         finishPeriod = finishPeriod.add(getUnitPeriod(cetAnnualObj, r));
-         finishPeriod = finishPeriod.add(getUpperPeriod(cetAnnualObj, r));
-       
-         return finishPeriod;
     }
     
     /**
@@ -481,7 +397,7 @@ public class CetExportService extends CetBaseMapper {
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         int year = cetAnnual.getYear();
     
-        BigDecimal finishPeriod = NumberUtils.trimToZero(getFinishPeriod(cetAnnualObj, cetAnnualObj.getR()));
+        BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(cetAnnualObj, cetAnnualObj.getR()));
         BigDecimal period = NumberUtils.trimToZero(cetAnnualObj.getPeriod());
         String rate = "--";
             if(period.compareTo(BigDecimal.ZERO)>0) {

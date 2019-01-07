@@ -29,6 +29,15 @@ pageEncoding="UTF-8" %>
                 data-url="${ctx}/cet/cetAnnual_exportObjs">
             <i class="fa fa-download"></i> 导出学时情况统计表</button>
 
+                 <button data-url="${ctx}/cet/archiveFinishPeriod"
+                        data-title="归档已完成学时"
+                        data-msg="确定归档已完成学时？"
+                        data-grid-id="#jqGrid"
+                        data-id-name="annualId"
+                        data-loading-text="<i class='fa fa-spinner fa-spin'></i> 归档中，请稍后..."
+                        class="jqItemBtn btn btn-warning btn-sm">
+                    <i class="fa fa-refresh"></i> 归档已完成学时
+                </button>
                 <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/cet/cetAnnual_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">

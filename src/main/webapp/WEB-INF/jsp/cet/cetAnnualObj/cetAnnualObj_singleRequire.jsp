@@ -18,7 +18,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">年度学习任务</label>
 				<div class="col-xs-3">
-                        <input required class="form-control period" type="text" name="period" value="${cm:trimToZero(cetAnnualObj.period)}">
+                        <input required class="form-control period" type="text" name="period" data-rule-min="0.5"
+							   value="${cm:trimToZero(cetAnnualObj.period)}">
 				</div>
 			</div>
 

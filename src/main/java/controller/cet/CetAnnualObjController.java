@@ -3,6 +3,7 @@ package controller.cet;
 import domain.cet.*;
 import domain.cet.CetAnnualObjExample.Criteria;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.cet.common.TrainRecord;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -68,9 +70,22 @@ public class CetAnnualObjController extends CetBaseController {
     
     @RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj")
-    public String cetAnnualObj( @RequestParam(defaultValue = "0") Boolean isQuit, ModelMap modelMap) {
+    public String cetAnnualObj( Integer userId, @RequestParam(defaultValue = "0") Boolean isQuit,
+                                @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
+                                   @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+                                ModelMap modelMap) {
 
         modelMap.put("isQuit", isQuit);
+        
+        if (adminLevels != null) {
+            modelMap.put("selectAdminLevels", Arrays.asList(adminLevels));
+        }
+        if (postTypes != null) {
+            modelMap.put("selectPostTypes", Arrays.asList(postTypes));
+        }
+        
+        if (userId != null)
+            modelMap.put("sysUser", CmTag.getUserById(userId));
         
         return "cet/cetAnnualObj/cetAnnualObj_page";
     }
@@ -82,6 +97,9 @@ public class CetAnnualObjController extends CetBaseController {
                                   int annualId,
                                   Integer userId,
                                   @RequestParam(defaultValue = "0") Boolean isQuit,
+                                  @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
+                                  @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+                                  Boolean isFinished,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -102,6 +120,16 @@ public class CetAnnualObjController extends CetBaseController {
         
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        
+        if (adminLevels != null) {
+            criteria.andAdminLevelIn(Arrays.asList(adminLevels));
+        }
+        if (postTypes != null) {
+            criteria.andPostTypeIn(Arrays.asList(postTypes));
+        }
+        if(isFinished!=null){
+           criteria.isFinished(BooleanUtils.isTrue(isFinished));
         }
         
         if (export == 1) {
@@ -129,6 +157,35 @@ public class CetAnnualObjController extends CetBaseController {
         //baseMixins.put(cetAnnualObj.class, cetAnnualObjMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+    
+    @RequiresPermissions("cetAnnualObj:edit")
+    @RequestMapping(value = "/archiveFinishPeriod", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_archiveFinishPeriod(int annualId,
+                                   //boolean isQuit,
+                                   HttpServletRequest request) {
+        
+        cetAnnualObjService.archiveFinishPeriod(annualId);
+        
+        logger.info(addLog(LogConstants.LOG_CET, "归档已完成学时： %s", annualId));
+        
+        return success(FormUtils.SUCCESS);
+    }
+    
+    @RequiresPermissions("cetAnnualObj:edit")
+    @RequestMapping(value = "/archiveObjFinishPeriod", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_archiveObjFinishPeriod(int annualId,
+                                   int objId,
+                                   //boolean isQuit,
+                                   HttpServletRequest request) {
+        
+        cetAnnualObjService.archiveObjFinishPeriod(annualId, objId);
+        
+        logger.info(addLog(LogConstants.LOG_CET, "归档已完成学时： %s, %s", annualId, objId));
+        
+        return success(FormUtils.SUCCESS);
     }
     
     @RequiresPermissions("cetAnnualObj:edit")

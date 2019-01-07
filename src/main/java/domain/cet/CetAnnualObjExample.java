@@ -1,5 +1,7 @@
 package domain.cet;
 
+import org.apache.commons.lang3.BooleanUtils;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -560,6 +562,15 @@ public class CetAnnualObjExample {
 
         public Criteria andPostTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("post_type not between", value1, value2, "postType");
+            return (Criteria) this;
+        }
+
+        public Criteria isFinished(Boolean isFinished) {
+            if(BooleanUtils.isTrue(isFinished)) {
+                addCriterion("finish_period >= period");
+            }else{
+                addCriterion("finish_period < period");
+            }
             return (Criteria) this;
         }
 

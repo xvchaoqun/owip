@@ -1,5 +1,10 @@
 
 
+
+update cet_annual_obj set finish_period=0;
+ALTER TABLE `cet_annual_obj`
+	CHANGE COLUMN `finish_period` `finish_period` DECIMAL(10,1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '已完成学时数' AFTER `period`;
+
 20190102
 ALTER TABLE `sc_subsidy`
 	CHANGE COLUMN `hr_type` `hr_type` INT(10) UNSIGNED NULL COMMENT '发人事处文号，关联年度类型' AFTER `year`,

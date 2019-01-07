@@ -2,9 +2,7 @@ package controller.pmd;
 
 import domain.party.Party;
 import domain.party.PartyExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdMonthExample;
-import domain.pmd.PmdPayParty;
+import domain.pmd.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -139,12 +137,26 @@ public class PmdMonthController extends PmdBaseController {
     @RequiresPermissions("pmdMonth:edit")
     @RequestMapping("/pmdMonth_addParty")
     public String pmdMonth_addParty(ModelMap modelMap) {
-
-        // 全部已设定的
-        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(null);
+    
+        List<Integer> hasSelectedPartyIds = new ArrayList<>();
+        {
+            PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+            PmdPartyExample example = new PmdPartyExample();
+            example.createCriteria().andMonthIdEqualTo(currentPmdMonth.getId());
+            List<PmdParty> pmdParties = pmdPartyMapper.selectByExample(example);
+            for (PmdParty pmdParty : pmdParties) {
+                hasSelectedPartyIds.add(pmdParty.getPartyId());
+            }
+        }
+    
+        /*{
+            // 全部已设定的
+            Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(null);
+        
+        }*/
 
         PartyExample example = new PartyExample();
-        example.createCriteria().andIsDeletedEqualTo(false).andIdNotIn(new ArrayList<>(allPayPartyIdSet.keySet()));
+        example.createCriteria().andIsDeletedEqualTo(false).andIdNotIn(hasSelectedPartyIds);
         example.setOrderByClause(" sort_order desc");
         List<Party> partyList = partyMapper.selectByExample(example);
         modelMap.put("partyList", partyList);

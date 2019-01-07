@@ -731,10 +731,14 @@ public class PmdMonthService extends PmdBaseMapper {
         if(currentPmdMonth==null) return;
         int monthId = currentPmdMonth.getId();
         {
-            PmdPayParty record = new PmdPayParty();
-            record.setPartyId(partyId);
-            record.setMonthId(monthId);
-            pmdPayPartyMapper.insertSelective(record);
+            PmdPayPartyExample example = new PmdPayPartyExample();
+            example.createCriteria().andPartyIdEqualTo(partyId);
+            if(pmdPayPartyMapper.countByExample(example)==0) {
+                PmdPayParty record = new PmdPayParty();
+                record.setPartyId(partyId);
+                record.setMonthId(monthId);
+                pmdPayPartyMapper.insertSelective(record);
+            }
         }
 
         Party party = partyMapper.selectByPrimaryKey(partyId);
@@ -761,11 +765,15 @@ public class PmdMonthService extends PmdBaseMapper {
 
                 pmdBranchMapper.insertSelective(record);
 
-                PmdPayBranch _record = new PmdPayBranch();
-                _record.setBranchId(branchId);
-                _record.setPartyId(partyId);
-                _record.setMonthId(monthId);
-                pmdPayBranchMapper.insertSelective(_record);
+                PmdPayBranchExample example2 = new PmdPayBranchExample();
+                example2.createCriteria().andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
+                if(pmdPayBranchMapper.countByExample(example2)==0) {
+                    PmdPayBranch _record = new PmdPayBranch();
+                    _record.setBranchId(branchId);
+                    _record.setPartyId(partyId);
+                    _record.setMonthId(monthId);
+                    pmdPayBranchMapper.insertSelective(_record);
+                }
             }
         }
 

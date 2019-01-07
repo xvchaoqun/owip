@@ -255,6 +255,20 @@ public class PmdPartyController extends PmdBaseController {
 
         return "pmd/pmdParty/pmdParty_delay";
     }
+    
+    @RequiresPermissions("pmdParty:del")
+    @RequestMapping(value = "/pmdParty_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdParty_del(HttpServletRequest request, Integer id) {
+
+        if (id != null) {
+
+            pmdPartyService.del(id);
+            logger.info(addLog(LogConstants.LOG_PMD, "删除缴费分党委：%s", id));
+        }
+        
+        return success(FormUtils.SUCCESS);
+    }
 
     /*@RequiresPermissions("pmdParty:edit")
     @RequestMapping(value = "/pmdParty_au", method = RequestMethod.POST)
@@ -284,19 +298,6 @@ public class PmdPartyController extends PmdBaseController {
             modelMap.put("pmdParty", pmdParty);
         }
         return "pmd/pmdParty/pmdParty_au";
-    }
-
-    @RequiresPermissions("pmdParty:del")
-    @RequestMapping(value = "/pmdParty_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pmdParty_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            pmdPartyService.del(id);
-            logger.info(addLog(LogConstants.LOG_PMD, "删除每月参与线上收费的分党委：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("pmdParty:del")

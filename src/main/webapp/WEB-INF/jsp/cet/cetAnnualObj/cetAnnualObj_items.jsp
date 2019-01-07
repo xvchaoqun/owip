@@ -6,6 +6,7 @@
             data-url="${ctx}/cet/cetAnnualObj_exportDetails?objId=${param.objId}">
         <i class="fa fa-download"></i>
         导出学习培训明细表</button>
+    <div class="space-4"></div>
 </c:if>
 <table class="table table-bordered table-striped table-center">
     <thead>

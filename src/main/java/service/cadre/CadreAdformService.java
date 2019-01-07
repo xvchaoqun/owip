@@ -144,7 +144,8 @@ public class CadreAdformService extends BaseMapper {
                 //String degree = fulltimeEdu.getDegree();
                 _fulltimeEdu = CmTag.getEduName(eduId) /*+ (degree!=null?degree:"")*/;
 
-                bean.setSchool(fulltimeEdu.getSchool());
+                bean.setSchool(StringUtils.trimToEmpty(fulltimeEdu.getSchool()));
+                bean.setDep(StringUtils.trimToEmpty(fulltimeEdu.getDep()));
                 bean.setDepMajor(StringUtils.trimToEmpty(CadreUtils.major(fulltimeEdu.getMajor())));
                 _fulltimeMajor = bean.getSchool() + StringUtils.trimToEmpty(fulltimeEdu.getDep()) + bean.getDepMajor();
 
@@ -159,7 +160,8 @@ public class CadreAdformService extends BaseMapper {
                 //String degree = onjobEdu.getDegree();
                 _onjobEdu = CmTag.getEduName(eduId) /*+ (degree!=null?degree:"")*/;
 
-                bean.setInSchool(onjobEdu.getSchool());
+                bean.setInSchool(StringUtils.trimToEmpty(onjobEdu.getSchool()));
+                bean.setInDep(StringUtils.trimToEmpty(onjobEdu.getDep()));
                 bean.setInDepMajor(StringUtils.trimToEmpty(CadreUtils.major(onjobEdu.getMajor())));
 
                 _onjobMajor = bean.getInSchool() + StringUtils.trimToEmpty(onjobEdu.getDep()) + bean.getInDepMajor();
@@ -417,11 +419,13 @@ public class CadreAdformService extends BaseMapper {
 
         setNodeText(doc, "QuanRiZhiJiaoYu_XueLi", adform.getEdu());
         setNodeText(doc, "QuanRiZhiJiaoYu_XueWei", adform.getDegree());
-        setNodeText(doc, "QuanRiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", adform.getSchool());
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", StringUtils.trimToEmpty(adform.getSchool())
+                + StringUtils.trimToEmpty(adform.getDep()));
         setNodeText(doc, "QuanRiZhiJiaoYu_XueWei_BiYeYuanXiaoXi", adform.getDepMajor());
         setNodeText(doc, "ZaiZhiJiaoYu_XueLi", adform.getInEdu());
         setNodeText(doc, "ZaiZhiJiaoYu_XueWei", adform.getInDegree());
-        setNodeText(doc, "ZaiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", adform.getInSchool());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", StringUtils.trimToEmpty(adform.getInSchool()) +
+                StringUtils.trimToEmpty(adform.getInDep()));
         setNodeText(doc, "ZaiZhiJiaoYu_XueWei_BiYeYuanXiaoXi", adform.getInDepMajor());
 
         setNodeText(doc, "XianRenZhiWu", adform.getPost());

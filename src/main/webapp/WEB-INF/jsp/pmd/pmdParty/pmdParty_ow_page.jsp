@@ -57,6 +57,16 @@
                                    data-grid-id="#jqGrid2"><i class="fa fa-refresh"></i>
                                     更新报送</button>
                     </shiro:hasRole>
+                    <shiro:hasPermission name="pmdParty:del">
+                    <button data-url="${ctx}/pmd/pmdParty_del"
+                            data-title="删除"
+                            data-msg="确定删除此缴费党委？"
+                            data-grid-id="#jqGrid2"
+                            data-callback="_reload2"
+                            class="jqItemBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>

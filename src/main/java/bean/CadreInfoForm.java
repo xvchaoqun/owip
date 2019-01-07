@@ -62,6 +62,8 @@ public class CadreInfoForm {
     private String degree;
     // 全日制教育-毕业院校
     private String school;
+    // 全日制教育-系
+    private String dep;
     // 全日制教育-系及专业
     private String depMajor;
     // 全日制教育-毕业院校系及专业
@@ -72,6 +74,8 @@ public class CadreInfoForm {
     private String inDegree;
     // 在职教育-毕业院校
     private String inSchool;
+    // 在职教育-系
+    private String inDep;
     // 在职教育-系及专业
     private String inDepMajor;
     // 在职教育-毕业院校系及专业
@@ -343,7 +347,23 @@ public class CadreInfoForm {
     public void setDepMajor(String depMajor) {
         this.depMajor = depMajor;
     }
-
+    
+    public String getDep() {
+        return dep;
+    }
+    
+    public void setDep(String dep) {
+        this.dep = dep;
+    }
+    
+    public String getInDep() {
+        return inDep;
+    }
+    
+    public void setInDep(String inDep) {
+        this.inDep = inDep;
+    }
+    
     public String getSchoolDepMajor() {
         return schoolDepMajor;
     }

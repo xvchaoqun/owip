@@ -48,7 +48,7 @@
                                         //colors[0]= "badge-yellow";
                                     %>
                                     <c:set value="<%=colors%>" var="colors"/>
-                                    <ul class="nav nav-tabs" id="myTab3">
+                                    <ul class="nav nav-tabs" id="stages">
                                         <li class="<c:if test="${stage==-3}">active</c:if>">
                                             <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=-3'>
                                                 <span class="badge badge-yellow">-</span> 已移除的申请
@@ -473,6 +473,11 @@
         </div>
     </div>
 </div>
+<style>
+   ul#stages>li{
+       min-width:170px;
+    }
+</style>
 <script>
     $("#jqGrid").jqGrid({
         multiboxonly:false,

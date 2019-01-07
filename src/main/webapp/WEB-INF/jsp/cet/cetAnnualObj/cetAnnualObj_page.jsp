@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
 <c:set var="_query"
-       value="${not empty param.recordId ||not empty param.userId || not empty param.code || not empty param.sort}"/>
+       value="${not empty param.userId ||not empty param.adminLevels || not empty param.postTypes || not empty param.isFinished}"/>
 <div class="jqgrid-vertical-offset buttons">
     <c:if test="${!isQuit}">
     <shiro:hasPermission name="cetAnnualObj:edit">
@@ -36,15 +36,15 @@
             <i class="fa fa-refresh"></i>
             同步培训对象信息
         </button>
-        <button disabled class="btn btn-primary btn-sm"
-                data-url="${ctx}/cet/cetAnnualObj_sync?annualId=${param.annualId}">
-            <i class="fa fa-archive"></i>
-            正式归档
-        </button>
-        <button disabled class="btn btn-primary btn-sm"
-                data-url="${ctx}/cet/cetAnnualObj_sync?annualId=${param.annualId}">
-            <i class="fa fa-archive"></i>
-            取消归档
+         <button data-url="${ctx}/cet/archiveObjFinishPeriod?annualId=${param.annualId}"
+                data-title="归档已完成学时"
+                data-msg="确定归档已完成学时？"
+                data-grid-id="#jqGrid2"
+                data-id-name="objId"
+                 data-callback="_callback2"
+                data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
+                class="jqItemBtn btn btn-warning btn-sm">
+            <i class="fa fa-refresh"></i> 归档已完成学时
         </button>
     </shiro:hasPermission>
 
@@ -96,28 +96,48 @@
     </div>
     <div class="widget-body">
         <div class="widget-main no-padding">
-            <form class="form-inline search-form" id="searchForm">
+            <form class="form-inline search-form" id="searchForm2">
                 <div class="form-group">
-                    <label>所属档案</label>
-                    <input class="form-control search-query" name="recordId" type="text"
-                           value="${param.recordId}"
-                           placeholder="请输入所属档案">
+                    <label>姓名</label>
+                     <select data-rel="select2-ajax"
+                            data-ajax-url="${ctx}/cadre_selects?key=1&type=1"
+                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label>培训对象</label>
-                    <input class="form-control search-query" name="userId" type="text"
-                           value="${param.userId}"
-                           placeholder="请输入培训对象">
+                    <label>行政级别</label>
+                        <select class="multiselect" multiple="" name="adminLevels">
+                            <c:import url="/metaTypes?__code=mc_admin_level"/>
+                        </select>
                 </div>
+                <div class="form-group">
+                    <label>职务属性</label>
+                        <select class="multiselect" multiple="" name="postTypes">
+                            <c:import url="/metaTypes?__code=mc_post"/>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label>完成情况(查询归档学时)</label>
+                    <select data-rel="select2" name="isFinished" data-width="160" data-placeholder="请选择">
+                        <option></option>
+                        <option value="1">完成(>=100%)</option>
+                        <option value="0">未完成(<100%)</option>
+                    </select>
+                    <script>
+                        $("#searchForm2 select[name=isFinished]").val('${param.isFinished}')
+                    </script>
+                </div>
+
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-url="${ctx}/cet/cetAnnualObj"
-                       data-target="#page-content"
-                       data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
+                       data-url="${ctx}/cet/cetAnnualObj?annualId=${param.annualId}"
+                       data-target="#detail-content"
+                       data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/cet/cetAnnualObj"
-                                data-target="#page-content">
+                                data-url="${ctx}/cet/cetAnnualObj?annualId=${param.annualId}"
+                                data-target="#detail-content">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>
@@ -135,6 +155,10 @@
     }
 </style>
 <script>
+    $.register.user_select($("#searchForm2 select[name=userId]"));
+    $.register.multiselect($('#searchForm2 select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
+    $.register.multiselect($('#searchForm2 select[name=postTypes]'), ${cm:toJSONArray(selectPostTypes)});
+
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         page:"${param._pageNo}",
@@ -156,9 +180,9 @@
             {label: '任现职时间', name: 'lpWorkTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年度学习任务', name: 'period'},
             {
-                label: '已完成学时数', name: 'finishPeriod', formatter: function (cellvalue, options, rowObject) {
+                label: '已完成学时数<br/>/归档学时', name: '_finishPeriod', formatter: function (cellvalue, options, rowObject) {
 
-                    return getFinishPeriod(rowObject);
+                    return getFinishPeriod(rowObject) + "/" + rowObject.finishPeriod;
                 }
             },
             { label: '完成百分比',name: '_finish',formatter: function (cellvalue, options, rowObject) {
@@ -266,7 +290,7 @@
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
     //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $('#searchForm2 [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

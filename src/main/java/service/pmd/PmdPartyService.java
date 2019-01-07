@@ -1,26 +1,18 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdBranchExample;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdParty;
-import domain.pmd.PmdPartyExample;
+import domain.pmd.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.pmd.common.PmdReportBean;
-import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -193,19 +185,55 @@ public class PmdPartyService extends PmdBaseMapper {
     }
 
     @Transactional
-    public void del(Integer id) {
+    public void del(Integer pmdPartyId) {
 
-        pmdPartyMapper.deleteByPrimaryKey(id);
-    }
+        // 只能删除当月的缴费党委
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth==null){
+            throw new OpException("缴费未开启");
+        }
+        int monthId = currentPmdMonth.getId();
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(pmdPartyId);
+        if(pmdParty.getMonthId() != monthId){
+            throw new OpException("仅允许删除当前缴费月份的党委");
+        }
 
-    @Transactional
-    public void batchDel(Integer[] ids) {
-
-        if (ids == null || ids.length == 0) return;
-
-        PmdPartyExample example = new PmdPartyExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pmdPartyMapper.deleteByExample(example);
+        if(pmdParty.getHasReport()){
+            throw new OpException("不能删除已报送党委");
+        }
+    
+        int partyId = pmdParty.getPartyId();
+        // 如果是直属党支部
+        if(PartyHelper.isDirectBranch(partyId)){
+            PmdMemberPayExample example = new PmdMemberPayExample();
+            example.createCriteria().andPayMonthIdEqualTo(monthId)
+                    .andChargePartyIdEqualTo(partyId).andHasPayEqualTo(true)
+                    .andIsOnlinePayEqualTo(true); // 现金缴费删除？
+            if(pmdMemberPayMapper.countByExample(example)>0){
+                throw new OpException("存在已缴费记录，不允许删除");
+            }
+        }else {
+            PmdBranchExample example = new PmdBranchExample();
+            example.createCriteria().andPartyIdEqualTo(partyId).andMonthIdEqualTo(monthId);
+            if (pmdBranchMapper.countByExample(example) > 0) {
+                throw new OpException("存在未删除党支部，不允许删除");
+            }
+        }
+        
+        pmdPartyMapper.deleteByPrimaryKey(pmdPartyId);
+    
+        {
+            // 更新当月缴费党委数量
+            PmdPartyExample example = new PmdPartyExample();
+            example.createCriteria().andMonthIdEqualTo(monthId);
+            int partyCount = (int) pmdPartyMapper.countByExample(example);
+            
+            PmdMonth record = new PmdMonth();
+            record.setId(monthId);
+            record.setPartyCount(partyCount);
+            pmdMonthMapper.updateByPrimaryKeySelective(record);
+        }
+        
     }
 
     @Transactional
