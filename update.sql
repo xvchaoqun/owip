@@ -1,6 +1,6 @@
 
 
-
+20190107
 update cet_annual_obj set finish_period=0;
 ALTER TABLE `cet_annual_obj`
 	CHANGE COLUMN `finish_period` `finish_period` DECIMAL(10,1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '已完成学时数' AFTER `period`;

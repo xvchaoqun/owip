@@ -909,7 +909,7 @@
 					</div>
 				</div>
 			</div>
-			<shiro:hasRole name="${ROLE_CADRERECRUIT}">
+			<shiro:hasAnyRoles name="${ROLE_CADRERECRUIT},${ROLE_CADREADMIN}">
 				<div class="widget-box transparent">
 					<div class="widget-header widget-header-flat">
 						<h4 class="widget-title lighter">
@@ -936,7 +936,7 @@
 						</div>
 					</div>
 				</div>
-			</shiro:hasRole>
+			</shiro:hasAnyRoles>
 			<div class="widget-box transparent">
 				<div class="widget-header widget-header-flat">
 					<h4 class="widget-title lighter">
