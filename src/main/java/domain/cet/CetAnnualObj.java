@@ -35,6 +35,8 @@ public class CetAnnualObj implements Serializable {
 
     private Integer adminLevel;
 
+    private Boolean needUpdateRequire;
+
     private Integer postType;
 
     private Date lpWorkTime;
@@ -119,6 +121,14 @@ public class CetAnnualObj implements Serializable {
 
     public void setAdminLevel(Integer adminLevel) {
         this.adminLevel = adminLevel;
+    }
+
+    public Boolean getNeedUpdateRequire() {
+        return needUpdateRequire;
+    }
+
+    public void setNeedUpdateRequire(Boolean needUpdateRequire) {
+        this.needUpdateRequire = needUpdateRequire;
     }
 
     public Integer getPostType() {

@@ -505,6 +505,66 @@ public class CetAnnualObjExample {
             return (Criteria) this;
         }
 
+        public Criteria andNeedUpdateRequireIsNull() {
+            addCriterion("need_update_require is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireIsNotNull() {
+            addCriterion("need_update_require is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireEqualTo(Boolean value) {
+            addCriterion("need_update_require =", value, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireNotEqualTo(Boolean value) {
+            addCriterion("need_update_require <>", value, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireGreaterThan(Boolean value) {
+            addCriterion("need_update_require >", value, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("need_update_require >=", value, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireLessThan(Boolean value) {
+            addCriterion("need_update_require <", value, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireLessThanOrEqualTo(Boolean value) {
+            addCriterion("need_update_require <=", value, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireIn(List<Boolean> values) {
+            addCriterion("need_update_require in", values, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireNotIn(List<Boolean> values) {
+            addCriterion("need_update_require not in", values, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_update_require between", value1, value2, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedUpdateRequireNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_update_require not between", value1, value2, "needUpdateRequire");
+            return (Criteria) this;
+        }
+
         public Criteria andPostTypeIsNull() {
             addCriterion("post_type is null");
             return (Criteria) this;

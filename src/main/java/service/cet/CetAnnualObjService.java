@@ -343,6 +343,22 @@ public class CetAnnualObjService extends CetBaseMapper {
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_ANNUAL,
                 "设定年度学习任务", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                 "个别设定");
+        
+        if (obj.getNeedUpdateRequire()) {
+            CetAnnualObj update = new CetAnnualObj();
+            update.setId(objId);
+            
+            CadreView cv = CmTag.getCadreByUserId(obj.getUserId());
+            update.setTitle(cv.getTitle());
+            update.setAdminLevel(cv.getTypeId());
+            update.setPostType(cv.getPostId());
+            update.setLpWorkTime(cv.getLpWorkTime());
+            // 重置状态
+            update.setNeedUpdateRequire(false);
+            
+            cetAnnualObjMapper.updateByPrimaryKeySelective(update);
+        }
+        
         iCetMapper.batchRequire(record, objId + "");
     }
     
@@ -464,16 +480,69 @@ public class CetAnnualObjService extends CetBaseMapper {
         
         for (CetAnnualObj cetAnnualObj : cetAnnualObjs) {
             
-            archiveObjFinishPeriod(annualId, cetAnnualObj.getId());
+            archiveObjFinishPeriod(cetAnnualObj.getId());
         }
     }
     
-    public void archiveObjFinishPeriod(int annualId, int objId) {
+    public void archiveObjFinishPeriod(int objId) {
         
         CetAnnualObj record = new CetAnnualObj();
         record.setId(objId);
         record.setFinishPeriod(getFinishPeriod(objId));
         
         cetAnnualObjMapper.updateByPrimaryKeySelective(record);
+    }
+    
+    // 同步培训对象信息
+    @Transactional
+    public int sync(int annualId) {
+        
+        CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
+        //int year = cetAnnual.getYear();
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(cetAnnual.getTraineeTypeId());
+        String code = cetTraineeType.getCode();
+        
+        CetAnnualObjExample exmaple = new CetAnnualObjExample();
+        exmaple.createCriteria().andAnnualIdEqualTo(annualId);
+        List<CetAnnualObj> cetAnnualObjs = cetAnnualObjMapper.selectByExample(exmaple);
+        
+        int adminLevelChangedCount = 0;
+        
+        for (CetAnnualObj cetAnnualObj : cetAnnualObjs) {
+            
+            Integer userId = cetAnnualObj.getUserId();
+            
+            switch (code) {
+                // 中层干部
+                case "t_cadre": {
+                    
+                    CetAnnualObj record = new CetAnnualObj();
+                    record.setId(cetAnnualObj.getId());
+                    
+                    int adminLevel = cetAnnualObj.getAdminLevel();
+                    CadreView cv = CmTag.getCadreByUserId(userId);
+                    int latestAdminLevel = cv.getTypeId();
+                    
+                    // 排序始终同步最新的
+                    record.setSortOrder(cv.getSortOrder());
+                    
+                    if (adminLevel != latestAdminLevel) {
+                        // 行政级别变更了，不允许直接修改信息，必须修改年度学习任务
+                        record.setNeedUpdateRequire(true);
+                        adminLevelChangedCount++;
+                    } else {
+                        record.setTitle(cv.getTitle());
+                        record.setAdminLevel(cv.getTypeId());
+                        record.setPostType(cv.getPostId());
+                        record.setLpWorkTime(cv.getLpWorkTime());
+                    }
+                    
+                    cetAnnualObjMapper.updateByPrimaryKeySelective(record);
+                }
+                break;
+            }
+        }
+        
+        return adminLevelChangedCount;
     }
 }

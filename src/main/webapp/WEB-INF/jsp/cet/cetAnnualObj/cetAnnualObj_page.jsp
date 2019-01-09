@@ -3,8 +3,25 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
 <c:set var="_query"
-       value="${not empty param.userId ||not empty param.adminLevels || not empty param.postTypes || not empty param.isFinished}"/>
+       value="${not empty param.userId ||not empty param.adminLevels
+        || not empty param.postTypes || not empty param.isFinished || not empty param.needUpdateRequire}"/>
 <div class="jqgrid-vertical-offset buttons">
+
+     <div class="type-select">
+        <span class="typeCheckbox ${param.sortByFinished==1?"checked":""}">
+        <input ${param.sortByFinished==1?"checked":""}  data-name="sortByFinished"
+                type="checkbox" value="1"> 按照已完成学时数排序
+        </span>
+        <span class="typeCheckbox ${param.displayFinished==1?"checked":""}">
+        <input ${param.displayFinished==1?"checked":""}  data-name="displayFinished"
+                type="checkbox" value="1"> 只显示完成
+        </span>
+        <span class="typeCheckbox ${param.displayUnfinished==1?"checked":""}">
+        <input ${param.displayUnfinished==1?"checked":""}  data-name="displayUnfinished"
+                type="checkbox" value="1"> 只显示未完成
+        </span>
+    </div>
+
     <c:if test="${!isQuit}">
     <shiro:hasPermission name="cetAnnualObj:edit">
         <button class="popupBtn btn btn-success btn-sm"
@@ -31,29 +48,34 @@
             修改年度学习任务
         </button>
 
-        <button disabled class="btn btn-primary btn-sm"
-                data-url="${ctx}/cet/cetAnnualObj_sync?annualId=${param.annualId}">
-            <i class="fa fa-refresh"></i>
-            同步培训对象信息
+         <button data-url="${ctx}/cet/cetAnnualObj_sync?annualId=${param.annualId}"
+                data-title="同步培训对象信息"
+                data-msg="确定同步培训对象信息？"
+                data-need-id="false"
+                data-callback="_sync_callback"
+                data-loading-text="<i class='fa fa-spinner fa-spin'></i> 同步中，请稍后..."
+                class="jqItemBtn btn btn-primary btn-sm">
+            <i class="fa fa-refresh"></i> 同步培训对象信息
         </button>
+
          <button data-url="${ctx}/cet/archiveObjFinishPeriod?annualId=${param.annualId}"
                 data-title="归档已完成学时"
                 data-msg="确定归档已完成学时？"
                 data-grid-id="#jqGrid2"
                 data-id-name="objId"
-                 data-callback="_callback2"
+                 data-callback="_archive_callback"
                 data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
                 class="jqItemBtn btn btn-warning btn-sm">
             <i class="fa fa-refresh"></i> 归档已完成学时
         </button>
     </shiro:hasPermission>
 
-
-    <%-- <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-             data-url="${ctx}/cet/cetAnnualObj_data"
+     <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+             data-url="${ctx}/cet/cetAnnualObj_data?annualId=${param.annualId}"
+             data-grid-id="#jqGrid2"
              data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-         <i class="fa fa-download"></i> 导出
-     </button>--%>
+         <i class="fa fa-download"></i> 导出明细表
+     </button>
         </c:if>
     <c:if test="${isQuit}">
     <shiro:hasPermission name="cetProjectObj:edit">
@@ -83,6 +105,8 @@
             <i class="fa fa-trash"></i> 删除
         </button>
     </shiro:hasPermission>
+
+
 </div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
     <div class="widget-header">
@@ -97,6 +121,10 @@
     <div class="widget-body">
         <div class="widget-main no-padding">
             <form class="form-inline search-form" id="searchForm2">
+                <input type="hidden" name="sortByFinished" value="${param.sortByFinished}">
+                <input type="hidden" name="displayFinished" value="${param.displayFinished}">
+                <input type="hidden" name="displayUnfinished" value="${param.displayUnfinished}">
+
                 <div class="form-group">
                     <label>姓名</label>
                      <select data-rel="select2-ajax"
@@ -128,6 +156,17 @@
                         $("#searchForm2 select[name=isFinished]").val('${param.isFinished}')
                     </script>
                 </div>
+                <div class="form-group">
+                    <label>行政级别是否变更</label>
+                    <select data-rel="select2" name="needUpdateRequire" data-width="160" data-placeholder="请选择">
+                        <option></option>
+                        <option value="1">是</option>
+                        <option value="0">否</option>
+                    </select>
+                    <script>
+                        $("#searchForm2 select[name=needUpdateRequire]").val('${param.needUpdateRequire}')
+                    </script>
+                </div>
 
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
@@ -153,8 +192,53 @@
     span.overflow{
         color: red;
     }
+    .type-select {
+        float:right;
+        padding: 5px 20px 0 5px;
+    }
+
+    .type-select a {
+        padding-left: 20px;
+    }
+
+    .type-select .typeCheckbox {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .type-select .typeCheckbox.checked {
+        color: darkred;
+        font-weight: bolder;
+    }
 </style>
 <script>
+
+    $(".typeCheckbox input").click(function () {
+        var $input = $(this);
+        var name = $(this).data("name");
+        var isChecked = $input.is(":checked");
+        if(name=='displayFinished'&& isChecked){
+            $("#searchForm2 input[name=displayUnfinished]").val("");
+        }else if(name=='displayUnfinished'&& isChecked){
+            $("#searchForm2 input[name=displayFinished]").val("");
+        }
+        $("#searchForm2 input[name="+name+"]").val(isChecked?$input.val():"");
+        $("#searchForm2 .jqSearchBtn").click();
+    })
+
+    function _archive_callback(){
+        $("#jqGrid2").trigger("reloadGrid");
+    }
+
+    function _sync_callback($btn, ret){
+        //console.log(ret)
+        if(ret.adminLevelChangedCount>0){
+            SysMsg.info("共有"+ ret.adminLevelChangedCount + "个人行政级别变更了，请修改其年度学习任务。")
+        }
+
+        $("#jqGrid2").trigger("reloadGrid");
+    }
+
     $.register.user_select($("#searchForm2 select[name=userId]"));
     $.register.multiselect($('#searchForm2 select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
     $.register.multiselect($('#searchForm2 select[name=postTypes]'), ${cm:toJSONArray(selectPostTypes)});
@@ -239,7 +323,13 @@
             {label: '联系方式', name: 'user.mobile', width: 110},
             {label: '电子邮箱', name: 'user.email', width: 180, align: 'left'},
             {label: '备注', name: 'remark', width: 250},
-        ]
+        ],rowattr: function(rowData, currentObj, rowId)
+        {
+            if(currentObj.needUpdateRequire) {
+                //console.log(rowData)
+                return {'class':'danger'}
+            }
+        }
     }).jqGrid("setFrozenColumns");
 
     function _overflow(finish, max) {

@@ -388,13 +388,10 @@ public class CetExportService extends CetBaseMapper {
     /**
      * xxxx中层干部2018年度培训学习明细表.xlsx
      */
-    public void cetAnnual_exportObjDetails(int objId, HttpServletResponse response) throws IOException {
-    
+    public XSSFWorkbook cetAnnual_exportObjDetails(CetAnnualObj cetAnnualObj,
+                                                   CetAnnual cetAnnual, String typeName) throws IOException {
         
-        CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
         int userId = cetAnnualObj.getUserId();
-        Integer annualId = cetAnnualObj.getAnnualId();
-        CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         int year = cetAnnual.getYear();
     
         BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(cetAnnualObj, cetAnnualObj.getR()));
@@ -409,10 +406,7 @@ public class CetExportService extends CetBaseMapper {
             
         SysUserView uv = cetAnnualObj.getUser();
     
-        Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
-        Integer traineeTypeId = cetAnnual.getTraineeTypeId();
-        CetTraineeType cetTraineeType = cetTraineeTypeService.findAll().get(traineeTypeId);
-        String typeName = cetTraineeType.getName();
+       
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cet/cet_annual_obj_details.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
@@ -438,7 +432,6 @@ public class CetExportService extends CetBaseMapper {
                 .replace("finishRate", rate);
         cell.setCellValue(str);
         
-      
         List<TrainRecord> records = cetAnnualObjService.getTrainRecords(userId, year, true);
 
         int startRow = 3;
@@ -461,7 +454,7 @@ public class CetExportService extends CetBaseMapper {
             
             // 培训班名称
             cell = row.getCell(column++);
-            cell.setCellValue(record.getName());
+            cell.setCellValue(HtmlUtils.htmlUnescape(record.getName()));
             
             // 培训类型
             cell = row.getCell(column++);
@@ -484,8 +477,7 @@ public class CetExportService extends CetBaseMapper {
             cell.setCellValue("");
         }
         
-       ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() + typeName + cetAnnual.getYear() +
-                "年度培训学习明细表.xlsx", response);
+       return wb;
     }
     
 }

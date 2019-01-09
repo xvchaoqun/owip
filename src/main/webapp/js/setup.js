@@ -903,9 +903,13 @@ $(document).on("click", ".jqItemBtn", function () {
     var $this = $(this);
     var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
+
+    var needId = $(this).data("need-id");
+    if (needId == undefined) needId = true;
+
     var id = grid.getGridParam("selrow");
     var ids = grid.getGridParam("selarrrow");
-    if (!id || ids.length > 1) {
+    if (needId && (!id || ids.length > 1)) {
         SysMsg.warning("请选择一行", "提示");
         return;
     }
@@ -932,7 +936,7 @@ $(document).on("click", ".jqItemBtn", function () {
             if (ret.success) {
                 if (callback) {
                     // console.log($this)
-                    window[callback]($this);
+                    window[callback]($this, ret);
                 } else {
                     //grid.trigger("reloadGrid");
                     $(window).resize(); // 解决jqgrid显示的问题

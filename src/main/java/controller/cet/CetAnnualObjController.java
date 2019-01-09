@@ -1,11 +1,13 @@
 package controller.cet;
 
+import domain.cadre.CadreView;
 import domain.cet.*;
 import domain.cet.CetAnnualObjExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +23,12 @@ import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -39,22 +40,22 @@ public class CetAnnualObjController extends CetBaseController {
     
     @RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj_detail")
-    public String cetAnnualObj_detail( int objId, ModelMap modelMap) {
-    
+    public String cetAnnualObj_detail(int objId, ModelMap modelMap) {
+        
         CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
         modelMap.put("cetAnnualObj", cetAnnualObj);
         Integer annualId = cetAnnualObj.getAnnualId();
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         modelMap.put("cetAnnual", cetAnnual);
-
+        
         return "cet/cetAnnualObj/cetAnnualObj_detail";
     }
     
     
     @RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj_items")
-    public String cetAnnualObj_items( int objId,  @RequestParam(defaultValue = "0") Boolean isValid, ModelMap modelMap) {
-    
+    public String cetAnnualObj_items(int objId, @RequestParam(defaultValue = "0") Boolean isValid, ModelMap modelMap) {
+        
         CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
         int userId = cetAnnualObj.getUserId();
         Integer annualId = cetAnnualObj.getAnnualId();
@@ -63,18 +64,18 @@ public class CetAnnualObjController extends CetBaseController {
         
         List<TrainRecord> trainRecords = cetAnnualObjService.getTrainRecords(userId, year, isValid);
         modelMap.put("trainRecords", trainRecords);
-    
+        
         return "cet/cetAnnualObj/cetAnnualObj_items";
     }
     
     
     @RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj")
-    public String cetAnnualObj( Integer userId, @RequestParam(defaultValue = "0") Boolean isQuit,
-                                @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-                                   @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
-                                ModelMap modelMap) {
-
+    public String cetAnnualObj(Integer userId, @RequestParam(defaultValue = "0") Boolean isQuit,
+                               @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
+                               @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+                               ModelMap modelMap) {
+        
         modelMap.put("isQuit", isQuit);
         
         if (adminLevels != null) {
@@ -94,12 +95,17 @@ public class CetAnnualObjController extends CetBaseController {
     @RequestMapping("/cetAnnualObj_data")
     @ResponseBody
     public void cetAnnualObj_data(HttpServletResponse response,
+                                  HttpServletRequest request,
                                   int annualId,
                                   Integer userId,
                                   @RequestParam(defaultValue = "0") Boolean isQuit,
                                   @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
                                   @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
                                   Boolean isFinished,
+                                  Boolean needUpdateRequire,
+                                  Boolean sortByFinished,
+                                  Boolean displayFinished,
+                                  Boolean displayUnfinished,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -116,7 +122,11 @@ public class CetAnnualObjController extends CetBaseController {
         Criteria criteria = example.createCriteria()
                 .andAnnualIdEqualTo(annualId)
                 .andIsQuitEqualTo(isQuit);
-        example.setOrderByClause("sort_order desc");
+        if (BooleanUtils.isTrue(sortByFinished)) {
+            example.setOrderByClause("finish_period desc, sort_order desc");
+        } else {
+            example.setOrderByClause("sort_order desc");
+        }
         
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -128,14 +138,24 @@ public class CetAnnualObjController extends CetBaseController {
         if (postTypes != null) {
             criteria.andPostTypeIn(Arrays.asList(postTypes));
         }
-        if(isFinished!=null){
-           criteria.isFinished(BooleanUtils.isTrue(isFinished));
+        if (isFinished != null) {
+            criteria.isFinished(BooleanUtils.isTrue(isFinished));
+        }
+        if (BooleanUtils.isTrue(displayFinished)) {
+            criteria.isFinished(true);
+        }
+        if (BooleanUtils.isTrue(displayUnfinished)) {
+            criteria.isFinished(false);
+        }
+        
+        if (needUpdateRequire != null) {
+            criteria.andNeedUpdateRequireEqualTo(BooleanUtils.isTrue(needUpdateRequire));
         }
         
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cetAnnualObj_export(example, response);
+            cetAnnualObj_export(annualId, example, request, response);
             return;
         }
         
@@ -163,8 +183,8 @@ public class CetAnnualObjController extends CetBaseController {
     @RequestMapping(value = "/archiveFinishPeriod", method = RequestMethod.POST)
     @ResponseBody
     public Map do_archiveFinishPeriod(int annualId,
-                                   //boolean isQuit,
-                                   HttpServletRequest request) {
+                                      //boolean isQuit,
+                                      HttpServletRequest request) {
         
         cetAnnualObjService.archiveFinishPeriod(annualId);
         
@@ -174,14 +194,29 @@ public class CetAnnualObjController extends CetBaseController {
     }
     
     @RequiresPermissions("cetAnnualObj:edit")
+    @RequestMapping(value = "/cetAnnualObj_sync", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetAnnualObj_sync(int annualId,
+                                    HttpServletRequest request) {
+        
+        int adminLevelChangedCount = cetAnnualObjService.sync(annualId);
+        logger.info(addLog(LogConstants.LOG_CET, "同步培训对象信息： %s", annualId));
+        
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("adminLevelChangedCount", adminLevelChangedCount);
+        
+        return resultMap;
+    }
+    
+    @RequiresPermissions("cetAnnualObj:edit")
     @RequestMapping(value = "/archiveObjFinishPeriod", method = RequestMethod.POST)
     @ResponseBody
     public Map do_archiveObjFinishPeriod(int annualId,
-                                   int objId,
-                                   //boolean isQuit,
-                                   HttpServletRequest request) {
+                                         int objId,
+                                         //boolean isQuit,
+                                         HttpServletRequest request) {
         
-        cetAnnualObjService.archiveObjFinishPeriod(annualId, objId);
+        cetAnnualObjService.archiveObjFinishPeriod(objId);
         
         logger.info(addLog(LogConstants.LOG_CET, "归档已完成学时： %s, %s", annualId, objId));
         
@@ -243,11 +278,11 @@ public class CetAnnualObjController extends CetBaseController {
     public Map do_cetAnnualObj_quit(boolean isQuit,
                                     @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                     HttpServletRequest request) {
-
+        
         cetAnnualObjService.quit(isQuit, ids);
         logger.info(addLog(LogConstants.LOG_CET, "培训对象： %s, %s", isQuit ? "退出" : "返回",
                 StringUtils.join(ids, ",")));
-
+        
         return success(FormUtils.SUCCESS);
     }
     
@@ -264,11 +299,18 @@ public class CetAnnualObjController extends CetBaseController {
     
     @RequiresPermissions("cetAnnualObj:edit")
     @RequestMapping("/cetAnnualObj_singleRequire")
-    public String cetAnnualObj_singleRequire(Integer id, ModelMap modelMap) {
+    public String cetAnnualObj_singleRequire(int id, ModelMap modelMap) {
         
-        if (id != null) {
-            CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(id);
-            modelMap.put("cetAnnualObj", cetAnnualObj);
+        CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(id);
+        modelMap.put("cetAnnualObj", cetAnnualObj);
+        
+        if (cetAnnualObj.getNeedUpdateRequire()) {
+            
+            Integer userId = cetAnnualObj.getUserId();
+            CadreView cv = CmTag.getCadreByUserId(userId);
+            modelMap.put("latestAdminLevel", cv.getTypeId());
+            
+            return "cet/cetAnnualObj/cetAnnualObj_adminLevelChanged";
         }
         
         return "cet/cetAnnualObj/cetAnnualObj_singleRequire";
@@ -320,31 +362,61 @@ public class CetAnnualObjController extends CetBaseController {
     @RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj_exportDetails")
     public void cetAnnual_exportObjs(int objId, HttpServletResponse response) throws IOException {
-    
-        cetExportService.cetAnnual_exportObjDetails(objId, response);
+        
+        CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
+        Integer annualId = cetAnnualObj.getAnnualId();
+        CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
+        
+        Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
+        Integer traineeTypeId = cetAnnual.getTraineeTypeId();
+        CetTraineeType cetTraineeType = traineeTypeMap.get(traineeTypeId);
+        String typeName = cetTraineeType.getName();
+        
+        XSSFWorkbook wb = cetExportService.cetAnnual_exportObjDetails(cetAnnualObj, cetAnnual, typeName);
+        
+        String filename = String.format("%s%s%s年度培训学习明细表（%s）.xlsx",
+                CmTag.getSysConfig().getSchoolName(), typeName, cetAnnual.getYear(),
+                cetAnnualObj.getUser().getRealname());
+        ExportHelper.output(wb, filename, response);
         return;
     }
     
-    public void cetAnnualObj_export(CetAnnualObjExample example, HttpServletResponse response) {
+    public void cetAnnualObj_export(int annualId, CetAnnualObjExample example,
+                                    HttpServletRequest request,
+                                    HttpServletResponse response) throws IOException {
+        
+        CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
+        Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
+        Integer traineeTypeId = cetAnnual.getTraineeTypeId();
+        CetTraineeType cetTraineeType = traineeTypeMap.get(traineeTypeId);
+        String typeName = cetTraineeType.getName();
         
         List<CetAnnualObj> records = cetAnnualObjMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"培训对象|100", "时任单位及职务|100", "行政级别|100", "职务属性|100", "任现职时间|100", "年度学习任务|100", "已完成学时数|100"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            CetAnnualObj record = records.get(i);
-            String[] values = {
-                    record.getUserId() + "",
-                    record.getTitle(),
-                    record.getAdminLevel() + "",
-                    record.getPostType() + "",
-                    DateUtils.formatDate(record.getLpWorkTime(), DateUtils.YYYY_MM_DD),
-                    record.getPeriod() + "",
-                    record.getFinishPeriod() + ""
-            };
-            valuesList.add(values);
+        
+        Map<String, File> fileMap = new LinkedHashMap<>();
+        String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "annual" + annualId;
+        FileUtils.mkdirs(tmpdir, false);
+        for (CetAnnualObj cetAnnualObj : records) {
+            
+            XSSFWorkbook wb = cetExportService.cetAnnual_exportObjDetails(cetAnnualObj, cetAnnual, typeName);
+            String filename = String.format("%s%s%s年度培训学习明细表（%s）.xlsx",
+                    CmTag.getSysConfig().getSchoolName(), typeName, cetAnnual.getYear(),
+                    cetAnnualObj.getUser().getRealname());
+            String filepath = tmpdir + FILE_SEPARATOR + filename;
+            FileOutputStream output = new FileOutputStream(new File(filepath));
+            wb.write(output);
+            output.close();
+            
+            fileMap.put(filename, new File(filepath));
         }
-        String fileName = "年度学习档案包含的培训对象_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
+        
+        String filename = String.format("%s%s%s年度培训学习明细表.xlsx",
+                    CmTag.getSysConfig().getSchoolName(), typeName, cetAnnual.getYear());
+        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+        DownloadUtils.zip(fileMap, filename, request, response);
+        
+        FileUtils.deleteDir(new File(tmpdir));
+        return;
     }
 }

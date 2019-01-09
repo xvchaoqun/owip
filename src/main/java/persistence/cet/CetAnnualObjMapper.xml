@@ -8,6 +8,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="need_update_require" jdbcType="BIT" property="needUpdateRequire" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
     <result column="period" jdbcType="DECIMAL" property="period" />
@@ -86,10 +87,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, annual_id, user_id, title, admin_level, post_type, lp_work_time, period, 
-    finish_period, max_special_period, max_daily_period, max_party_period, max_unit_period, 
-    max_upper_period, special_period, daily_period, party_period, unit_period, upper_period, 
-    has_archived, is_quit, sort_order, remark
+    id, year, annual_id, user_id, title, admin_level, need_update_require, post_type, 
+    lp_work_time, period, finish_period, max_special_period, max_daily_period, max_party_period, 
+    max_unit_period, max_upper_period, special_period, daily_period, party_period, unit_period, 
+    upper_period, has_archived, is_quit, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetAnnualObjExample" resultMap="BaseResultMap">
     select
@@ -126,21 +127,23 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cet_annual_obj (year, annual_id, user_id, 
-      title, admin_level, post_type, 
-      lp_work_time, period, finish_period, 
-      max_special_period, max_daily_period, max_party_period, 
-      max_unit_period, max_upper_period, special_period, 
-      daily_period, party_period, unit_period, 
-      upper_period, has_archived, is_quit, 
-      sort_order, remark)
+      title, admin_level, need_update_require, 
+      post_type, lp_work_time, period, 
+      finish_period, max_special_period, max_daily_period, 
+      max_party_period, max_unit_period, max_upper_period, 
+      special_period, daily_period, party_period, 
+      unit_period, upper_period, has_archived, 
+      is_quit, sort_order, remark
+      )
     values (#{year,jdbcType=INTEGER}, #{annualId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
-      #{lpWorkTime,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, 
-      #{maxSpecialPeriod,jdbcType=DECIMAL}, #{maxDailyPeriod,jdbcType=DECIMAL}, #{maxPartyPeriod,jdbcType=DECIMAL}, 
-      #{maxUnitPeriod,jdbcType=DECIMAL}, #{maxUpperPeriod,jdbcType=DECIMAL}, #{specialPeriod,jdbcType=DECIMAL}, 
-      #{dailyPeriod,jdbcType=DECIMAL}, #{partyPeriod,jdbcType=DECIMAL}, #{unitPeriod,jdbcType=DECIMAL}, 
-      #{upperPeriod,jdbcType=DECIMAL}, #{hasArchived,jdbcType=BIT}, #{isQuit,jdbcType=BIT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{title,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, #{needUpdateRequire,jdbcType=BIT}, 
+      #{postType,jdbcType=INTEGER}, #{lpWorkTime,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, 
+      #{finishPeriod,jdbcType=DECIMAL}, #{maxSpecialPeriod,jdbcType=DECIMAL}, #{maxDailyPeriod,jdbcType=DECIMAL}, 
+      #{maxPartyPeriod,jdbcType=DECIMAL}, #{maxUnitPeriod,jdbcType=DECIMAL}, #{maxUpperPeriod,jdbcType=DECIMAL}, 
+      #{specialPeriod,jdbcType=DECIMAL}, #{dailyPeriod,jdbcType=DECIMAL}, #{partyPeriod,jdbcType=DECIMAL}, 
+      #{unitPeriod,jdbcType=DECIMAL}, #{upperPeriod,jdbcType=DECIMAL}, #{hasArchived,jdbcType=BIT}, 
+      #{isQuit,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetAnnualObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -162,6 +165,9 @@
       </if>
       <if test="adminLevel != null">
         admin_level,
+      </if>
+      <if test="needUpdateRequire != null">
+        need_update_require,
       </if>
       <if test="postType != null">
         post_type,
@@ -233,6 +239,9 @@
       </if>
       <if test="adminLevel != null">
         #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="needUpdateRequire != null">
+        #{needUpdateRequire,jdbcType=BIT},
       </if>
       <if test="postType != null">
         #{postType,jdbcType=INTEGER},
@@ -317,6 +326,9 @@
       <if test="record.adminLevel != null">
         admin_level = #{record.adminLevel,jdbcType=INTEGER},
       </if>
+      <if test="record.needUpdateRequire != null">
+        need_update_require = #{record.needUpdateRequire,jdbcType=BIT},
+      </if>
       <if test="record.postType != null">
         post_type = #{record.postType,jdbcType=INTEGER},
       </if>
@@ -384,6 +396,7 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      need_update_require = #{record.needUpdateRequire,jdbcType=BIT},
       post_type = #{record.postType,jdbcType=INTEGER},
       lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
       period = #{record.period,jdbcType=DECIMAL},
@@ -423,6 +436,9 @@
       </if>
       <if test="adminLevel != null">
         admin_level = #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="needUpdateRequire != null">
+        need_update_require = #{needUpdateRequire,jdbcType=BIT},
       </if>
       <if test="postType != null">
         post_type = #{postType,jdbcType=INTEGER},
@@ -488,6 +504,7 @@
       user_id = #{userId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       admin_level = #{adminLevel,jdbcType=INTEGER},
+      need_update_require = #{needUpdateRequire,jdbcType=BIT},
       post_type = #{postType,jdbcType=INTEGER},
       lp_work_time = #{lpWorkTime,jdbcType=DATE},
       period = #{period,jdbcType=DECIMAL},

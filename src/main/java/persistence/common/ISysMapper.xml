@@ -38,7 +38,7 @@
     </sql>
     <select id="selectUserList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
         <include refid="userSearchSql" />
-        order by create_time asc
+        order by id desc
     </select>
     <select id="countUserList" parameterType="map" resultType="java.lang.Integer">
         select count(id) from (

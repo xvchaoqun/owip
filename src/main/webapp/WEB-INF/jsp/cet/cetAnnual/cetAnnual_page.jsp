@@ -58,13 +58,22 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>年度</label>
-                            <input class="form-control search-query" name="year" type="text" value="${param.year}"
-                                   placeholder="请输入年度">
+                            <input class="form-control date-picker" placeholder="请选择年份"
+                                   name="year" type="text" style="width: 80px;"
+                                   data-date-format="yyyy" data-date-min-view-mode="2"
+                                   value="${param.year}"/>
                         </div>
                         <div class="form-group">
                             <label>培训对象类型</label>
-                            <input class="form-control search-query" name="traineeTypeId" type="text" value="${param.traineeTypeId}"
-                                   placeholder="请输入培训对象类型">
+                             <select data-rel="select2" name="traineeTypeId" data-placeholder="请选择">
+                                <option></option>
+                                <c:forEach items="${traineeTypeMap}" var="entity">
+                                    <option value="${entity.key}">${entity.value.name}</option>
+                                </c:forEach>
+                            </select>
+                            <script type="text/javascript">
+                                $("#searchForm select[name=traineeTypeId]").val(${param.traineeTypeId});
+                            </script>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -112,7 +121,7 @@ pageEncoding="UTF-8" %>
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
+    $.register.date($('.date-picker'));
 </script>

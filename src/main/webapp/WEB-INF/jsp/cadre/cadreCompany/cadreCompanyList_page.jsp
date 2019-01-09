@@ -19,7 +19,7 @@
                     </button>
                 </shiro:hasPermission>
 
-                <shiro:hasPermission name="cadreCompany:edit">
+                <%--<shiro:hasPermission name="cadreCompany:edit">
                     <c:if test="${cls==1}">
                         <button class="popupBtn btn btn-success btn-sm"
                                 data-url="${ctx}/cadreCompany_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -30,9 +30,9 @@
                             data-grid-id="#jqGrid_cadreCompany"
                             data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
                         修改</button>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
 
-                <shiro:hasPermission name="cadreCompany:finish">
+                <%--<shiro:hasPermission name="cadreCompany:finish">
                     <c:if test="${cls==1}">
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/cadreCompany_finish"
@@ -49,9 +49,9 @@
                                 data-querystr="&cadreId=${param.cadreId}&isFinished=0"><i class="fa fa-reply"></i>
                             返回正在兼职</button>
                     </c:if>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
 
-                <shiro:hasPermission name="cadreCompany:del">
+                <%--<shiro:hasPermission name="cadreCompany:del">
                     <button data-url="${ctx}/cadreCompany_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
@@ -60,7 +60,7 @@
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-times"></i> 删除
                     </button>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
 
                 <c:if test="${cls==1}">
                 <c:if test="${module==1}">

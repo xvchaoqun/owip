@@ -11,6 +11,8 @@
         </h4>
         <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
             ${cetAnnual.year}年度${(traineeTypeMap.get(cetAnnual.traineeTypeId)).name}
+
+             <span class="text-danger">（注：查询操作前请确认归档已完成学时）</span>
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">

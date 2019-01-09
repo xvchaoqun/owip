@@ -2,10 +2,9 @@ package persistence.cet;
 
 import domain.cet.CetAnnualObj;
 import domain.cet.CetAnnualObjExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface CetAnnualObjMapper {
     long countByExample(CetAnnualObjExample example);
