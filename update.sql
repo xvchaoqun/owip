@@ -1,5 +1,17 @@
 
 
+20190109
+ALTER TABLE `cet_annual_obj`
+	ADD COLUMN `need_update_require` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '同步信息时检测行政级别是否变更，如果变更，则必须修改年度学习任务后进行信息同步' AFTER `admin_level`,
+	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NOT NULL COMMENT '排序，同步干部库中的顺序' AFTER `is_quit`;
+
+
+
+20190108
+
+更新  common-utils
+
+
 20190107
 update cet_annual_obj set finish_period=0;
 ALTER TABLE `cet_annual_obj`
