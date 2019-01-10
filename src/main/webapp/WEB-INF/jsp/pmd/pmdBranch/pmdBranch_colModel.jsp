@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <script>
   var colModel = [
-    {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}},
+    {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen:true},
     { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
 
       if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
@@ -10,7 +10,7 @@
       'data-url="${ctx}/pmd/pmdBranch_report?id={0}&cls=${cls}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
               .format(rowObject.id, rowObject.canReport ? '' : 'disabled');
 
-    }},
+    }, frozen:true},
     /*{ label: '报表',name: '_table', frozen: true},*/
 
     { label: '详情',name: '_members', width:80, formatter: function (cellvalue, options, rowObject) {
@@ -24,9 +24,9 @@
       'data-url="${ctx}/pmd/pmdMember?cls=3&branchId={0}&monthId={1}&partyId={2}"><i class="fa fa-search"></i> 详情</button>')
               .format(rowObject.branchId, rowObject.monthId, rowObject.partyId);
       </c:if>
-    }},
+    }, frozen:true},
 
-    { label: '党支部名称',name: 'branchName', width:300, align:'left'},
+    { label: '党支部名称',name: 'branchName', width:300, align:'left', frozen:true},
     { label: '所属党委',name: 'partyName', width:300, align:'left'},
     { label: '党员总数',name: 'memberCount', width:80, formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.memberCount;
