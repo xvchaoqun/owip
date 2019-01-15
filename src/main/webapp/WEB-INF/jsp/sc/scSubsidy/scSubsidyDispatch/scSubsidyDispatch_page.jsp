@@ -115,6 +115,7 @@ pageEncoding="UTF-8" %>
             {label: '年份', name: 'year',width:80, frozen: true},
             {
                 label: '干部任免文件', name: '_dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
+                    if(rowObject.dispatch==undefined) return '--'
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                         rowObject.dispatch.dispatchCode, rowObject.dispatch.dispatchCode);
             }, frozen: true},

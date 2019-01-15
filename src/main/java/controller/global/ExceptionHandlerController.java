@@ -75,7 +75,7 @@ public class ExceptionHandlerController {
 
             } else if (StringUtils.contains(message, "foreign key constraint")) {
 
-                String msg = "数据已在别的地方使用，不可以删除";
+                String msg = "数据已被关联使用，不可以删除";
                 Map<String, String> delMsgMap = SystemConstants.FOREIN_KEY_DEL_MSG_MAP;
                 for (Map.Entry<String, String> entry : delMsgMap.entrySet()) {
                     if(StringUtils.contains(message, MessageFormat.format("REFERENCES `{0}` (`id`)", entry.getKey()))){
