@@ -91,7 +91,7 @@
             </c:if>
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_SPECIAL}">
             {
-                label: '学习情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
+                label: '学习情况', name: 'selectedCount', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/cet/cetProject_detail_obj?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
