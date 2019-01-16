@@ -15,15 +15,15 @@
                 <!--干部考察管理-->
                 <value>(persistence|service|controller)\.cis\..*</value>
 
-                <!--<value>(persistence|service|controller)\.cet\..*</value>-->
+                <value>(persistence|service|controller)\.cet\..*</value>
                 <value>(persistence|service|controller)\.abroad\..*</value>
                 <value>(persistence|service|controller)\.cla\..*</value>
                 <value>(persistence|service|controller)\.pcs\..*</value>
                 <value>(persistence|service|controller)\.oa\..*</value>
 
                 <!--干部选拔-->
-                <value>(persistence|service|controller)\.sc\..*</value>
-                <value>(persistence|service|controller)\.dispatch\..*</value>
+                <!--<value>(persistence|service|controller)\.sc\..*</value>
+                <value>(persistence|service|controller)\.dispatch\..*</value>-->
 
                 <value>(persistence|service|controller)\.verify\..*</value>
 

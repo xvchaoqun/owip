@@ -16,6 +16,10 @@
                         data-url="${ctx}/sc/scSubsidy_au">
                     <i class="fa fa-files-o"></i> 生成干部津贴变动文件
                 </button>
+                <button class="jqOpenViewBtn btn btn-primary btn-sm" data-width="800"
+                        data-url="${ctx}/sc/scSubsidy_au">
+                    <i class="fa fa-edit"></i>  修改
+                </button>
                 <shiro:hasPermission name="scSubsidy:del">
                     <button data-url="${ctx}/sc/scSubsidy_batchDel"
                             data-title="删除"

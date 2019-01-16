@@ -42,8 +42,10 @@ public class ScSubsidyService extends ScBaseMapper {
     private MetaTypeService metaTypeService;
 
     @Transactional
-    public void insertSelective(ScSubsidy record, Integer[] dispatchIds){
+    public void insertOrUpdateSelective(ScSubsidy record, Integer[] dispatchIds){
 
+        Integer id = record.getId();
+        
         short year = record.getYear();
         Integer hrType = record.getHrType();
         Integer hrNum = record.getHrNum();
@@ -61,22 +63,42 @@ public class ScSubsidyService extends ScBaseMapper {
 
         if(hrType!=null && hrNum!=null){
             ScSubsidyExample example = new ScSubsidyExample();
-            example.createCriteria().andYearEqualTo(year).andHrTypeEqualTo(hrType).andHrNumEqualTo(hrNum);
+            ScSubsidyExample.Criteria criteria = example.createCriteria().andYearEqualTo(year)
+                    .andHrTypeEqualTo(hrType).andHrNumEqualTo(hrNum);
+            if(id!=null){
+                criteria.andIdNotEqualTo(id);
+            }
             if(scSubsidyMapper.countByExample(example)>0){
                 throw new OpException("发人事处通知编号重复。");
             }
         }
         if(feType!=null && feNum!=null){
             ScSubsidyExample example = new ScSubsidyExample();
-            example.createCriteria().andYearEqualTo(year).andFeTypeEqualTo(feType).andFeNumEqualTo(feNum);
+            ScSubsidyExample.Criteria criteria = example.createCriteria().andYearEqualTo(year)
+                    .andFeTypeEqualTo(feType).andFeNumEqualTo(feNum);
+    
+            if(id!=null){
+                criteria.andIdNotEqualTo(id);
+            }
+            
             if(scSubsidyMapper.countByExample(example)>0){
                 throw new OpException("发财经处通知编号重复。");
             }
         }
 
-
-        scSubsidyMapper.insertSelective(record);
+        if(id==null) {
+            
+            scSubsidyMapper.insertSelective(record);
+        }else{
+            scSubsidyMapper.updateByPrimaryKeySelective(record);
+        }
+        
         Integer subsidyId = record.getId();
+        {
+            ScSubsidyDispatchExample example = new ScSubsidyDispatchExample();
+            example.createCriteria().andSubsidyIdEqualTo(subsidyId);
+            scSubsidyDispatchMapper.deleteByExample(example);
+        }
         for (Integer dispatchId : dispatchIds) {
 
             ScSubsidyDispatch ssd = new ScSubsidyDispatch();
@@ -85,6 +107,18 @@ public class ScSubsidyService extends ScBaseMapper {
             scSubsidyDispatchMapper.insertSelective(ssd);
         }
 
+        {
+            ScSubsidyDcExample example = new ScSubsidyDcExample();
+            example.createCriteria().andSubsidyIdEqualTo(subsidyId);
+            scSubsidyDcMapper.deleteByExample(example);
+        }
+        
+        {
+            ScSubsidyCadreExample example = new ScSubsidyCadreExample();
+            example.createCriteria().andSubsidyIdEqualTo(subsidyId);
+            scSubsidyCadreMapper.deleteByExample(example);
+        }
+        
         List<DispatchCadre> dispatchCadres = iScMapper.getDispatchCadres(StringUtils.join(dispatchIds, ","));
         Set<Integer> cadreIdSet = new LinkedHashSet<>();
         for (DispatchCadre dispatchCadre : dispatchCadres) {
@@ -102,7 +136,6 @@ public class ScSubsidyService extends ScBaseMapper {
 
             scSubsidyDcMapper.insertSelective(scSubsidyDc);
         }
-
         for (Integer cadreId : cadreIdSet) {
             Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
             ScSubsidyCadre scSubsidyCadre = new ScSubsidyCadre();
@@ -134,9 +167,26 @@ public class ScSubsidyService extends ScBaseMapper {
 
         return scSubsidyMapper.updateByPrimaryKeySelective(record);
     }
+    
+    // 包含的任免文件ID
+    public Set<Integer> getDispatchIdSet(Integer subsidyId){
+    
+        Set<Integer> dispatchIdSet = new HashSet<>();
+        if(subsidyId==null) return dispatchIdSet;
+        
+        ScSubsidyDispatchExample example = new ScSubsidyDispatchExample();
+        example.createCriteria().andSubsidyIdEqualTo(subsidyId);
+        List<ScSubsidyDispatch> scSubsidyDispatches = scSubsidyDispatchMapper.selectByExample(example);
+        
+        for (ScSubsidyDispatch scSubsidyDispatch : scSubsidyDispatches) {
+            dispatchIdSet.add(scSubsidyDispatch.getDispatchId());
+        }
+        
+        return dispatchIdSet;
+    }
 
     // 选择任免文件
-    public TreeNode getDispatchTree(List<Dispatch> dispatches, Set<Integer> scSubsidyDispatchIdSet) {
+    public TreeNode getDispatchTree(List<Dispatch> dispatches, Integer subsidyId, Set<Integer> scSubsidyDispatchIdSet) {
 
         TreeNode root = new TreeNode();
         root.title = "任免文件";
@@ -145,7 +195,9 @@ public class ScSubsidyService extends ScBaseMapper {
         root.hideCheckbox = true;
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
-
+    
+        Set<Integer> dispatchIdSet = getDispatchIdSet(subsidyId);
+    
         for (Dispatch dispatch : dispatches) {
 
             TreeNode node = new TreeNode();
@@ -153,8 +205,12 @@ public class ScSubsidyService extends ScBaseMapper {
             int key = dispatch.getId();
             node.key =  key + "";
 
-            if (scSubsidyDispatchIdSet.contains(key))
+            if (scSubsidyDispatchIdSet.contains(key) && !dispatchIdSet.contains(key)) {
                 node.hideCheckbox = true;
+            }
+            if(dispatchIdSet.contains(key)){
+                node.select = true;
+            }
 
             rootChildren.add(node);
         }

@@ -17,7 +17,7 @@
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             <input required style="width: 80px;" autocomplete="off" class="form-control date-picker" placeholder="请选择年份"
                                    name="year" type="text"
-                                   data-date-format="yyyy" data-date-min-view-mode="2" value="${_thisYear}"/>
+                                   data-date-format="yyyy" data-date-min-view-mode="2" value="${empty scSubsidy?_thisYear:scSubsidy.year}"/>
                         </div>
                     </div>
                 </div>
@@ -87,9 +87,10 @@
     </form>
 </div>
 <div class="modal-footer">
+    <c:if test="${not empty scSubsidy}"><div class="text-danger" style="text-align: left">注：修改操作将同步最新的任免文件信息和干部信息</div></c:if>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
-        <i class="fa fa-check"></i> <c:if test="${scSubsidy!=null}">确定</c:if><c:if
+        <i class="fa fa-check"></i> <c:if test="${scSubsidy!=null}">修改</c:if><c:if
             test="${scSubsidy==null}">添加</c:if></button>
 </div>
 <script>
@@ -124,8 +125,9 @@
         var year = $(this).val();
         //console.log(year)
         if(year>0){
-            $.getJSON("${ctx}/sc/scSubsidy_selectDispatch_tree",{year:year},function(data){
+            $.getJSON("${ctx}/sc/scSubsidy_selectDispatch_tree",{year:year, subsidyId:'${scSubsidy.id}'},function(data){
                 var treeData = data.tree;
+                //console.log(treeData)
                 $("#tree3").dynatree({
                     checkbox: true,
                     selectMode: 3,

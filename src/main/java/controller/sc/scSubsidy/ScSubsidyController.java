@@ -2,6 +2,7 @@ package controller.sc.scSubsidy;
 
 import controller.global.OpException;
 import controller.sc.ScBaseController;
+import domain.base.AnnualType;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchExample;
 import domain.sc.scSubsidy.ScSubsidy;
@@ -50,11 +51,12 @@ public class ScSubsidyController extends ScBaseController {
         }else if(cls==3){
             return "forward:/sc/scSubsidyDispatch";
         }
+        Map<Integer, AnnualType> annualTypeMap = annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY);
         if(hrType!=null){
-            modelMap.put("hrAnnualType", annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY).get(hrType));
+            modelMap.put("hrAnnualType", annualTypeMap.get(hrType));
         }
          if(feType!=null){
-            modelMap.put("feAnnualType", annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY).get(feType));
+            modelMap.put("feAnnualType", annualTypeMap.get(feType));
         }
         return "sc/scSubsidy/scSubsidy/scSubsidy_page";
     }
@@ -138,8 +140,8 @@ public class ScSubsidyController extends ScBaseController {
             return failed("请选择任免文件。");
         }
 
-        scSubsidyService.insertSelective(record, dispatchIds);
-        logger.info(addLog( LogConstants.LOG_SC_SUBSIDY, "添加干部津贴变动：%s", record.getId()));
+        scSubsidyService.insertOrUpdateSelective(record, dispatchIds);
+        logger.info(addLog( LogConstants.LOG_SC_SUBSIDY, "添加/修改干部津贴变动：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -151,6 +153,16 @@ public class ScSubsidyController extends ScBaseController {
         if (id != null) {
             ScSubsidy scSubsidy = scSubsidyMapper.selectByPrimaryKey(id);
             modelMap.put("scSubsidy", scSubsidy);
+            Integer hrType = scSubsidy.getHrType();
+            Integer feType = scSubsidy.getFeType();
+            
+            Map<Integer, AnnualType> annualTypeMap = annualTypeService.findAll(SystemConstants.ANNUAL_TYPE_MODULE_SUBSIDY);
+            if(hrType!=null){
+                modelMap.put("hrAnnualType", annualTypeMap.get(hrType));
+            }
+             if(feType!=null){
+                modelMap.put("feAnnualType", annualTypeMap.get(feType));
+            }
         }
         return "sc/scSubsidy/scSubsidy/scSubsidy_au";
     }
@@ -158,7 +170,7 @@ public class ScSubsidyController extends ScBaseController {
     @RequiresPermissions("scSubsidy:edit")
     @RequestMapping("/scSubsidy_selectDispatch_tree")
     @ResponseBody
-    public Map scSubsidy_selectDispatch_tree(Integer year, ModelMap modelMap) {
+    public Map scSubsidy_selectDispatch_tree(Integer year, Integer subsidyId, ModelMap modelMap) {
 
 
         DispatchExample example = new DispatchExample();
@@ -167,7 +179,7 @@ public class ScSubsidyController extends ScBaseController {
 
         List<Integer> scSubsidyDispatchIds = iScMapper.getScSubsidyDispatchIds(year);
 
-        TreeNode tree = scSubsidyService.getDispatchTree(dispatches, new HashSet<>(scSubsidyDispatchIds));
+        TreeNode tree = scSubsidyService.getDispatchTree(dispatches, subsidyId, new HashSet<>(scSubsidyDispatchIds));
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
