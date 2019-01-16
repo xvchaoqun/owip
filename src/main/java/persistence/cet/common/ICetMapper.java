@@ -127,6 +127,11 @@ public interface ICetMapper {
     @Select("select user_id from cet_trainee_course_view where train_course_id=#{trainCourseId} order by choose_time asc")
     public List<Integer> applyUserIds(@Param("trainCourseId") Integer trainCourseId);
 
+    // 培训班已选课学员数量
+    @Select("select count(distinct cteec.trainee_id) from cet_trainee_course cteec, cet_trainee ctee, cet_train_course ctc \n" +
+            "where cteec.trainee_id=ctee.id and cteec.train_course_id=ctc.id and ctc.train_id=#{trainId}")
+    public int traineeCount(@Param("trainId") Integer trainId);
+    
     // 已分组学员
     public List<Integer> groupUserIds(@Param("discussGroupId") int discussGroupId,
                                       @Param("isFinished") Boolean isFinished);

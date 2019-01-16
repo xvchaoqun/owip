@@ -1,12 +1,40 @@
 package domain.cet;
 
+import persistence.cet.CetProjectObjMapper;
+import persistence.cet.CetTrainCourseMapper;
+import persistence.cet.common.ICetMapper;
 import sys.constants.CetConstants;
+import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class CetTrainView implements Serializable {
 
+    public int getCourseNum(){
+    
+        CetTrainCourseMapper trainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
+        CetTrainCourseExample example = new CetTrainCourseExample();
+        example.createCriteria().andTrainIdEqualTo(id);
+        
+        return (int)trainCourseMapper.countByExample(example);
+    }
+    
+    public int getObjCount(){
+    
+        CetProjectObjMapper cetProjectObjMapper = CmTag.getBean(CetProjectObjMapper.class);
+        CetProjectObjExample example = new CetProjectObjExample();
+        example.createCriteria().andProjectIdEqualTo(projectId);
+        
+        return (int)cetProjectObjMapper.countByExample(example);
+    }
+    
+    public int getTraineeCount(){
+    
+        ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
+        return iCetMapper.traineeCount(id);
+    }
+    
     public Boolean getAutoSwitch() {
         return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
     }
@@ -61,12 +89,6 @@ public class CetTrainView implements Serializable {
     private Integer year;
 
     private Integer projectId;
-
-    private Integer courseNum;
-
-    private Long objCount;
-
-    private Integer traineeCount;
 
     private String evaNote;
 
@@ -254,30 +276,6 @@ public class CetTrainView implements Serializable {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
-    }
-
-    public Integer getCourseNum() {
-        return courseNum;
-    }
-
-    public void setCourseNum(Integer courseNum) {
-        this.courseNum = courseNum;
-    }
-
-    public Long getObjCount() {
-        return objCount;
-    }
-
-    public void setObjCount(Long objCount) {
-        this.objCount = objCount;
-    }
-
-    public Integer getTraineeCount() {
-        return traineeCount;
-    }
-
-    public void setTraineeCount(Integer traineeCount) {
-        this.traineeCount = traineeCount;
     }
 
     public String getEvaNote() {

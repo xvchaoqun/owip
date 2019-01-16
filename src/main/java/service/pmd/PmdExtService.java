@@ -398,7 +398,7 @@ public class PmdExtService extends PmdBaseMapper{
                                                 IF(AND(U3>55000,U3<=80000),(U3-55000)*0.35+13745,
                                                         IF(AND(U3>80000),(U3-80000)*0.45+22495)))))))*/
         // 税金
-        BigDecimal tax = BigDecimal.ZERO;
+        /*BigDecimal tax = BigDecimal.ZERO;
         if (base.compareTo(BigDecimal.ZERO) > 0 && base.compareTo(BigDecimal.valueOf(1500)) <= 0) {
             tax = base.multiply(BigDecimal.valueOf(0.03));
         } else if (base.compareTo(BigDecimal.valueOf(1500)) > 0 && base.compareTo(BigDecimal.valueOf(4500)) <= 0) {
@@ -419,6 +419,28 @@ public class PmdExtService extends PmdBaseMapper{
         } else if (base.compareTo(BigDecimal.valueOf(80000)) > 0) {
             tax = (base.subtract(BigDecimal.valueOf(80000))).multiply(BigDecimal.valueOf(0.45));
             tax = tax.add(BigDecimal.valueOf(22495));
+        }*/
+        BigDecimal tax = BigDecimal.ZERO;
+        if (base.compareTo(BigDecimal.ZERO) > 0 && base.compareTo(BigDecimal.valueOf(3000)) <= 0) {
+            tax = base.multiply(BigDecimal.valueOf(0.03));
+        } else if (base.compareTo(BigDecimal.valueOf(3000)) > 0 && base.compareTo(BigDecimal.valueOf(12000)) <= 0) {
+            tax = base.multiply(BigDecimal.valueOf(0.1));
+            tax = tax.subtract(BigDecimal.valueOf(210));
+        } else if (base.compareTo(BigDecimal.valueOf(12000)) > 0 && base.compareTo(BigDecimal.valueOf(25000)) <= 0) {
+            tax = base.multiply(BigDecimal.valueOf(0.2));
+            tax = tax.subtract(BigDecimal.valueOf(1410));
+        } else if (base.compareTo(BigDecimal.valueOf(25000)) > 0 && base.compareTo(BigDecimal.valueOf(35000)) <= 0) {
+            tax = base.multiply(BigDecimal.valueOf(0.25));
+            tax = tax.subtract(BigDecimal.valueOf(2660));
+        } else if (base.compareTo(BigDecimal.valueOf(35000)) > 0 && base.compareTo(BigDecimal.valueOf(55000)) <= 0) {
+            tax = base.multiply(BigDecimal.valueOf(0.3));
+            tax = tax.subtract(BigDecimal.valueOf(4410));
+        } else if (base.compareTo(BigDecimal.valueOf(55000)) > 0 && base.compareTo(BigDecimal.valueOf(80000)) <= 0) {
+            tax = base.multiply(BigDecimal.valueOf(0.35));
+            tax = tax.subtract(BigDecimal.valueOf(7160));
+        } else if (base.compareTo(BigDecimal.valueOf(80000)) > 0) {
+            tax = base.multiply(BigDecimal.valueOf(0.45));
+            tax = tax.subtract(BigDecimal.valueOf(15160));
         }
 
         // 党费基数
