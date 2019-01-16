@@ -15,11 +15,11 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-xs-4 control-label">离退休费(¥)</label>
+      <label class="col-xs-4 control-label">离退休人员社保养老金(¥)</label>
       <div class="col-xs-8">
         <input required class="number" data-rule-min="0.01" maxlength="10" style="width: 100px;"
                type="text" name="retireSalary" value="${cm:stripTrailingZeros(pmdConfigMember.retireSalary)}">
-        <button type="button" class="btn btn-success" onclick="_syncRetireSalary()"><i class="fa fa-refresh"></i> 同步最新离退休费</button>
+        <button type="button" class="btn btn-success" onclick="_syncRetireSalary()"><i class="fa fa-refresh"></i> 同步最新离退休人员社保养老金</button>
       </div>
     </div>
     <div class="center" id="msg">
@@ -38,9 +38,9 @@
     $.getJSON("${ctx}/user/pmd/pmdMember_syncRetireSalary",{pmdMemberId:${param.pmdMemberId}},function(ret){
         if(ret.exist){
           $("#modalForm input[name=retireSalary]").val(ret.ltxf);
-          $("#msg").html('<span class="text-success">已读取'+ret.rq+'月份的离退休费</span>')
+          $("#msg").html('<span class="text-success">已读取'+ret.rq+'月份的社保养老金</span>')
         }else{
-          $("#msg").html('<span class="text-danger">还没有该老师的离退休费数据</span>')
+          $("#msg").html('<span class="text-danger">还没有该老师的社保养老金数据</span>')
         }
     });
   }

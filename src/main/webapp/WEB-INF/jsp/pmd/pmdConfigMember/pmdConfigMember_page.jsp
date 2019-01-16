@@ -181,7 +181,7 @@
                 return '-'
             }},
             {
-                label: '离退休费', name: 'retireSalary', formatter: function (cellvalue, options, rowObject) {
+                label: '社保养老金', name: 'retireSalary', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_RETIRE}') return '-'
                 return $.trim(cellvalue)
             }
