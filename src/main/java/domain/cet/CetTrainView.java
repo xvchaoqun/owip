@@ -20,8 +20,10 @@ public class CetTrainView implements Serializable {
         return (int)trainCourseMapper.countByExample(example);
     }
     
-    public int getObjCount(){
+    public Integer getObjCount(){
     
+        if(projectId==null) return null;
+        
         CetProjectObjMapper cetProjectObjMapper = CmTag.getBean(CetProjectObjMapper.class);
         CetProjectObjExample example = new CetProjectObjExample();
         example.createCriteria().andProjectIdEqualTo(projectId);
