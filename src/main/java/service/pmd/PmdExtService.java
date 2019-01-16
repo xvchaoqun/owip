@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -25,6 +27,7 @@ import java.util.Map;
 @Service
 public class PmdExtService extends PmdBaseMapper{
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private MemberTeacherMapper memberTeacherMapper;
 
@@ -382,8 +385,8 @@ public class PmdExtService extends PmdBaseMapper{
                 .subtract(gzcx).subtract(shiyebx).subtract(yanglaobx)
                 .subtract(yiliaobx).subtract(gsbx).subtract(shengyubx).subtract(qynj)
                 .subtract(zynj).subtract(gjj);
-        // 扣除3500的计税基数
-        BigDecimal base = total.subtract(BigDecimal.valueOf(3500));
+        // 扣除5000的计税基数
+        BigDecimal base = total.subtract(BigDecimal.valueOf(5000));
         if (base.compareTo(BigDecimal.ZERO) < 0) {
             base = BigDecimal.ZERO;
         }
@@ -432,7 +435,11 @@ public class PmdExtService extends PmdBaseMapper{
         } else {
             rate = BigDecimal.valueOf(0.02);
         }
-
+        
+        if(partyBase.compareTo(BigDecimal.ZERO)<=0){
+            logger.info("党费计算异常，工号{}", record.getUser().getCode());
+            return null;
+        }
         return partyBase.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 }
