@@ -55,7 +55,7 @@ public class SyncController extends BaseController {
     @Autowired
     private ExtRetireSalaryImport extRetireSalaryImport;
 
-    // 离退休费
+    // 离退休人员社保养老金
     @RequiresPermissions("sysSync:edit")
     @RequestMapping("/sync_retire_salary")
     @ResponseBody

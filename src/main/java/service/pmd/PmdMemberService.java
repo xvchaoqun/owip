@@ -1,18 +1,7 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdConfigMember;
-import domain.pmd.PmdConfigMemberType;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMemberPay;
-import domain.pmd.PmdMemberPayExample;
-import domain.pmd.PmdMemberPayView;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdNorm;
-import domain.pmd.PmdNormValue;
-import domain.pmd.PmdParty;
+import domain.pmd.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -20,7 +9,6 @@ import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
@@ -276,7 +264,7 @@ public class PmdMemberService extends PmdBaseMapper {
                 }
             }
             if(!isRetire){
-                // 清空离退休费
+                // 清空离退休人员社保养老金
                 commonMapper.excuteSql(String.format("update pmd_config_member " +
                         "set retire_salary=null where user_id=%s", userId));
             }

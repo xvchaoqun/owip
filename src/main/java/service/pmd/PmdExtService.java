@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import persistence.member.MemberTeacherMapper;
-import service.BaseMapper;
 import sys.utils.NumberUtils;
 
 import java.io.FileInputStream;
@@ -326,21 +325,27 @@ public class PmdExtService extends PmdBaseMapper{
         return duePay;
     }
 
-    // 离退休费
+    // 离退休人员社保养老金
     // <userId, MemberTeacher>
     public BigDecimal getLtxf(String code){
 
         return iPmdMapper.getLatestLtxf(code);
     }
 
-    // 根据离退休费计算党费
+    // 根据离退休人员社保养老金计算党费
     public BigDecimal getDuePayFromLtxf(BigDecimal ltxf){
 
         BigDecimal duePay = null;
-
+        
+        
         if (ltxf == null || ltxf.compareTo(BigDecimal.ZERO) <= 0) {
             // 没有读取到离退休工资的情况？
-        } else if (ltxf.compareTo(BigDecimal.valueOf(5000)) > 0) {
+            return null;
+        }
+        // 201901调整为社保养老金的30%
+        ltxf = ltxf.multiply(BigDecimal.valueOf(0.3));
+        
+        if (ltxf.compareTo(BigDecimal.valueOf(5000)) > 0) {
 
             duePay = ltxf.multiply(BigDecimal.valueOf(0.01));
         } else {

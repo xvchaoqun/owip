@@ -145,7 +145,7 @@ public class UserPmdMemberController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 同步最新月份的离退休费
+    // 同步最新月份的离退休人员社保养老金
     @RequestMapping("/pmdMember_syncRetireSalary")
     @ResponseBody
     public Map pmdMember_syncRetireSalary(int pmdMemberId) {

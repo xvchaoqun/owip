@@ -302,148 +302,6 @@ public class PmdMonthService extends PmdBaseMapper {
         }
     }
 
-    // 添加一个党员
-   /* @Transactional
-    private void addMember(PmdMonth pmdMonth, Member member) {
-
-        int monthId = pmdMonth.getId();
-        int userId = member.getUserId();
-        SysUserView uv = sysUserService.findById(userId);
-
-        Integer memberId = null;
-        {
-            // 新建党员快照
-            PmdMember record = new PmdMember();
-            record.setMonthId(monthId);
-            record.setPayMonth(pmdMonth.getPayMonth());
-            record.setUserId(userId);
-            record.setPartyId(member.getPartyId());
-            record.setBranchId(member.getBranchId());
-            Byte type = null;
-
-            // 特殊缴费人员（年薪制） > 离退 > 高层次人才 > 事业 > 非事业
-            // 标准类型
-            Byte normType = PmdConstants.PMD_MEMBER_NORM_TYPE_UNMODIFY;
-            // 标准名称，系统自动计算得到
-            String normName = null;
-            // 标准对应的额度，系统自动计算得到
-            BigDecimal normDuePay = null;
-
-            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
-
-                type = PmdConstants.PMD_MEMBER_TYPE_STUDENT;
-                // 对于学生来说，需要支部选择缴费标准
-                normType = PmdConstants.PMD_MEMBER_NORM_TYPE_SELECT;
-            } else {
-
-                MemberTeacher memberTeacher = memberTeacherService.get(userId);
-                record.setTalentTitle(memberTeacher.getTalentTitle());
-                record.setPostClass(memberTeacher.getPostClass());
-                record.setMainPostLevel(memberTeacher.getMainPostLevel());
-                record.setProPostLevel(memberTeacher.getProPostLevel());
-                record.setManageLevel(memberTeacher.getManageLevel());
-                record.setOfficeLevel(memberTeacher.getOfficeLevel());
-                record.setAuthorizedType(memberTeacher.getAuthorizedType());
-                record.setStaffType(memberTeacher.getStaffType());
-
-                type = memberTeacher.getIsRetire()?PmdConstants.PMD_MEMBER_TYPE_RETIRE
-                        :PmdConstants.PMD_MEMBER_TYPE_TEACHER;
-
-                // 如果是特殊缴费人员，则规则为支部直接编辑额度
-                Map<String, PmdSpecialUser> pmdSpecialUserMap = pmdSpecialUserService.findAll();
-                PmdSpecialUser pmdSpecialUser = pmdSpecialUserMap.get(uv.getCode());
-                if (pmdSpecialUser != null) {
-                    normType = PmdConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
-                    normName = pmdSpecialUser.getType();
-                    normDuePay = null;
-                } else {
-
-                    if (type == PmdConstants.PMD_MEMBER_TYPE_RETIRE) {
-
-                        BigDecimal ltxf = pmdExtService.getLtxf(memberTeacher.getCode());
-                        if (ltxf == null || ltxf.compareTo(BigDecimal.ZERO) <= 0) {
-                            normName = "离退休";
-                        } else if (ltxf.compareTo(BigDecimal.valueOf(5000)) > 0) {
-                            normName = "离退休费>5000元";
-                            normDuePay = ltxf.multiply(BigDecimal.valueOf(0.01));
-                        } else {
-                            normName = "离退休费<=5000元";
-                            normDuePay = ltxf.multiply(BigDecimal.valueOf(0.005));
-                        }
-                    } else {
-
-                        int maxRCCHDuePay = pmdExtService.getMaxRCCHDuePay(memberTeacher);
-                        if (maxRCCHDuePay > 0) {
-                            normName = "高层次人才";
-                            normDuePay = BigDecimal.valueOf(maxRCCHDuePay);
-                        } else {
-                            boolean syb = pmdExtService.isSYB(memberTeacher);
-                            if (syb) {
-                                // 事业编
-                                PmdExtService.PostDuePayBean postDuePay = pmdExtService.getPostDuePay(memberTeacher);
-                                int duePay = postDuePay.getDuePay();
-                                if (duePay > 0) {
-                                    normName = postDuePay.getPost();
-                                    normDuePay = BigDecimal.valueOf(duePay);
-                                } else {
-                                    normName = "缺少岗位等级数据";
-                                }
-                            } else {
-                                // 非事业编
-                                if (pmdExtService.isXP(memberTeacher)) {
-
-                                    normName = "校聘职工";
-                                    int xpDuePay = pmdExtService.getXPDuePay(memberTeacher);
-                                    if (xpDuePay > 0) {
-                                        normDuePay = BigDecimal.valueOf(xpDuePay);
-                                    }
-                                } else if (pmdExtService.isXSZL(memberTeacher)) {
-                                    normName = "学生助理";
-                                    int xszlDuePay = pmdExtService.getXSZLDuePay(memberTeacher);
-                                    if (xszlDuePay > 0) {
-                                        normDuePay = BigDecimal.valueOf(xszlDuePay);
-                                    }
-                                } else {
-                                    normName = "其他教职工";
-                                }
-                            }
-                        }
-                    }
-
-                    if (normDuePay == null) {
-                        // 对于教职工来说，没找对对应的缴费金额，则允许支部编辑额度
-                        normType = PmdConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
-                    }
-                }
-            }
-            record.setType(type);
-
-
-            record.setNormType(normType);
-            record.setNormName(normName);
-            record.setNormDuePay(normDuePay);
-
-            record.setNormDisplayName(normName);
-            record.setDuePay(normDuePay);
-
-            //record.setRealPay(new BigDecimal(0));
-            record.setIsDelay(false);
-            record.setHasPay(false);
-
-            pmdMemberMapper.insertSelective(record);
-            memberId = record.getId();
-        }
-
-        {
-            // 同步至党员账本
-            PmdMemberPay record = new PmdMemberPay();
-            record.setMemberId(memberId);
-            record.setHasPay(false);
-
-            pmdMemberPayMapper.insertSelective(record);
-        }
-    }*/
-
     // 添加或重置党员缴费记录
     @Transactional
     public PmdMember addOrResetMember(Integer pmdMemberId, PmdMonth pmdMonth, Member member) {
@@ -461,7 +319,7 @@ public class PmdMonthService extends PmdBaseMapper {
         BigDecimal duePay = null;
         // 党员分类别
         Integer configMemberTypeId = null;
-        // 离退休费
+        // 离退休人员社保养老金
         BigDecimal ltxf = null;
 
         Boolean hasSalary = null;
@@ -705,7 +563,7 @@ public class PmdMonthService extends PmdBaseMapper {
             pmdConfigResetService.updateDuePayByJzgSalary(ejs);
 
             ExtRetireSalary ers = iPmdMapper.getExtRetireSalary(_salaryMonth, uv.getCode());
-            // 更新离退休费
+            // 更新离退休人员社保养老金
             pmdConfigResetService.updateDuePayByRetireSalary(ers);
         }
 

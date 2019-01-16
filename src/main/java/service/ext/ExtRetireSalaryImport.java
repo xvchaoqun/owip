@@ -36,7 +36,7 @@ public class ExtRetireSalaryImport extends Source {
         cal.add(Calendar.MONTH, -1);
         String lastRq = DateUtils.formatDate(cal.getTime(), "yyyyMM");
 
-        logger.info("同步最新两个月的离退休费信息:" + code);
+        logger.info("同步最新两个月的离退休人员社保养老金信息:" + code);
         excute(schema, tableName, String.format("where zgh='%s' and (rq='%s' or rq='%s')", code, lastRq, rq));
     }
 
