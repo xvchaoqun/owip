@@ -51,7 +51,7 @@ left join cet_column_course ccc on ccc.column_id=cc.id
 left join cet_column cc2 on cc2.fid=cc.id
 group by cc.id ;
 
-DROP VIEW IF EXISTS `cet_train_view`;
+/*DROP VIEW IF EXISTS `cet_train_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
 select ct.*, cp.year, cpp.project_id,
 -- 课程数量
@@ -66,7 +66,13 @@ left join cet_project cp on cp.id = cpp.project_id
 left join cet_project_obj cpo on cpo.project_id=cp.id
 left join cet_trainee ctee on ctee.obj_id=cpo.id
 left join cet_trainee_course cteec on cteec.trainee_id=ctee.id and cteec.train_course_id=ctc.id
-group by ct.id;
+group by ct.id;*/
+
+DROP VIEW IF EXISTS `cet_train_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
+select ct.*, cp.year, cpp.project_id from cet_train ct
+left join cet_project_plan cpp on cpp.id=ct.plan_id
+left join cet_project cp on cp.id = cpp.project_id;
 
 DROP VIEW IF EXISTS `cet_trainee_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_view` AS
