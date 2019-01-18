@@ -1,11 +1,20 @@
 
 
+
+ALTER TABLE `sc_committee_topic`
+	ADD COLUMN `unit_ids` VARCHAR(200) NULL COMMENT '涉及单位，逗号分隔' AFTER `name`;
+
+
+
 20190109
 ALTER TABLE `cet_annual_obj`
 	ADD COLUMN `need_update_require` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '同步信息时检测行政级别是否变更，如果变更，则必须修改年度学习任务后进行信息同步' AFTER `admin_level`,
 	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NOT NULL COMMENT '排序，同步干部库中的顺序' AFTER `is_quit`;
 
+ALTER TABLE `dispatch_unit`
+	DROP COLUMN `is_unit`;
 
+更新 common-tools
 
 20190108
 

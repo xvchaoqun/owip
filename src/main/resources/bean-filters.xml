@@ -6,13 +6,13 @@
     <!--优化spring启动 通过移除bean定义 -->
     <bean class="sys.spring.CustomBeanFactoryPostProcessor">
         <!-- 需要从bean定义中移除指定的类类型 正则表达式-->
-        <property name="excludeFilters">
+        <!--<property name="excludeFilters">
             <list>
-                <!--关联member模块-->
+                &lt;!&ndash;关联member模块&ndash;&gt;
                 <value>(persistence|service|controller)\.pmd\..*</value>
                 <value>(persistence|service|controller)\.member\..*</value>
 
-                <!--干部考察管理-->
+                &lt;!&ndash;干部考察管理&ndash;&gt;
                 <value>(persistence|service|controller)\.cis\..*</value>
 
                 <value>(persistence|service|controller)\.cet\..*</value>
@@ -21,23 +21,23 @@
                 <value>(persistence|service|controller)\.pcs\..*</value>
                 <value>(persistence|service|controller)\.oa\..*</value>
 
-                <!--干部选拔-->
-                <!--<value>(persistence|service|controller)\.sc\..*</value>
-                <value>(persistence|service|controller)\.dispatch\..*</value>-->
+                &lt;!&ndash;干部选拔&ndash;&gt;
+                <value>(persistence|service|controller)\.sc\..*</value>
+                <value>(persistence|service|controller)\.dispatch\..*</value>
 
                 <value>(persistence|service|controller)\.verify\..*</value>
 
-                <!--与modify模块有关联-->
+                &lt;!&ndash;与modify模块有关联&ndash;&gt;
                 <value>(persistence|service|controller)\.crs\..*</value>
                 <value>(persistence|service|controller)\.modify\..*</value>
             </list>
         </property>
-        <!-- 不可移除的类-->
+        &lt;!&ndash; 不可移除的类&ndash;&gt;
         <property name="includeFilters">
             <list>
                 <value>(persistence|service|controller)\.pcs\.PcsConfig.*</value>
                 <value>(persistence|service|controller)\.pcs\.PcsCommitteeMember.*</value>
             </list>
-        </property>
+        </property>-->
     </bean>
 </beans>

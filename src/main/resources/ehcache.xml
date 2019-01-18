@@ -725,6 +725,15 @@
            overflowToDisk="false"
            statistics="true">
     </cache>
+
+    <cache name="ColumnBeans"
+           maxEntriesLocalHeap="200"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
     <cache name="_Sitemaps"
            eternal="false"
            maxElementsInMemory="2000"
