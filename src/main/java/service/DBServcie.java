@@ -1,5 +1,6 @@
 package service;
 
+import bean.ColumnBean;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -10,8 +11,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/1/15.
@@ -25,13 +25,22 @@ public class DBServcie {
     private SpringProps springProps;
 
     @Cacheable(value="TableColumns", key = "#tablename")
-    public Set<String> getTableColumns(String tablename) throws Exception {
+    public Set<String> getTableColumns(String tablename){
 
-        Set<String> tableColumns = new HashSet<>();
-        Connection conn = dataSource.getConnection();
+        Map<String, ColumnBean> columnBeanMap = getColumnBeanMap(tablename);
+        return new HashSet<>(columnBeanMap.keySet());
+    }
+
+    @Cacheable(value="ColumnBeans", key = "#tablename")
+    public Map<String, ColumnBean> getColumnBeanMap(String tablename){
+
+        Map<String, ColumnBean> columnBeansMap = new LinkedHashMap<>();
+        
+        Connection conn = null;
         Statement stat = null;
         ResultSet rs = null;
         try {
+            conn = dataSource.getConnection();
 
             String sql = " select column_name, data_type, character_maximum_length as data_length, column_comment as comments from information_schema.columns "
                     + "where table_name='" + tablename + "' and table_schema='" + springProps.schema + "'";
@@ -40,8 +49,18 @@ public class DBServcie {
             //System.out.println("sql=" + sql);
             rs = stat.executeQuery(sql);
             while (rs != null && rs.next()) {
+                
                 String columnName = StringUtils.lowerCase(rs.getString("column_name"));
-                tableColumns.add(columnName);
+				String dataType = rs.getString("data_type");
+				long length = rs.getLong("data_length");
+				String comments = rs.getString("comments");
+
+				if(StringUtils.isNotBlank(comments))
+					comments = comments.split("，")[0];
+                else
+					comments = columnName;
+				
+                columnBeansMap.put(columnName, new ColumnBean(columnName, dataType, length,  comments));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,6 +76,6 @@ public class DBServcie {
             }
         }
 
-        return tableColumns;
+        return columnBeansMap;
     }
 }

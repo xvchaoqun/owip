@@ -16,7 +16,7 @@ public class CustomWebArgumentResolver implements WebArgumentResolver {
     @Autowired
     protected DBServcie dbServcie;
     @Override
-    public Object resolveArgument(MethodParameter methodParameter, NativeWebRequest webRequest) throws Exception {
+    public Object resolveArgument(MethodParameter methodParameter, NativeWebRequest webRequest){
 
         SortParam sortParam = methodParameter.getParameterAnnotation(SortParam.class);
         if(sortParam!=null) {

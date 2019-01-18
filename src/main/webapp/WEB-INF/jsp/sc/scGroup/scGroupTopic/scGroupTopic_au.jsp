@@ -204,13 +204,13 @@
 
     $.fileInput($('#modalForm input[type=file]'));
 
-    var doubleUnitIds = ${selectUnitIds};
-    $.register.multiselect($('#modalForm select[name=unitIds]'), doubleUnitIds, {
+    var selectUnitIds = ${selectUnitIds};
+    $.register.multiselect($('#modalForm select[name=unitIds]'), selectUnitIds, {
         enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false, buttonWidth: '240px'
     });
 
-    $.register.multiselect($('#modalForm select[name=historyUnitIds]'), doubleUnitIds, {
+    $.register.multiselect($('#modalForm select[name=historyUnitIds]'), selectUnitIds, {
         enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false, buttonWidth: '240px'
     });

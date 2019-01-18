@@ -62,6 +62,54 @@
                                                            name="name">${scCommitteeTopic.name}</textarea>
                                             </div>
                                         </div>
+                                        <%--<div class="form-group">
+                                            <label class="col-xs-3 control-label">涉及单位</label>
+
+                                            <div class="col-xs-6">
+                                                <div class="input-group">
+                                                    <select class="multiselect" multiple="" name="unitIds">
+                                                        <c:forEach var="unitType"
+                                                                   items="${cm:getMetaTypes('mc_unit_type')}">
+                                                            <c:set var="unitList"
+                                                                   value="${unitListMap.get(unitType.value.id)}"/>
+                                                            <c:if test="${fn:length(unitList)>0}">
+                                                                <optgroup label="${unitType.value.name}">
+                                                                    <c:forEach
+                                                                            items="${unitList}"
+                                                                            var="unitId">
+                                                                        <c:set var="unit"
+                                                                               value="${unitMap.get(unitId)}"></c:set>
+                                                                        <option value="${unit.id}">${unit.name}</option>
+                                                                    </c:forEach>
+                                                                </optgroup>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <span class="help-block">（正在运转单位）</span>
+
+                                                    <div class="space-4"></div>
+                                                    <select class="multiselect" multiple="" name="historyUnitIds">
+                                                        <c:forEach var="unitType"
+                                                                   items="${cm:getMetaTypes('mc_unit_type')}">
+                                                            <c:set var="unitList"
+                                                                   value="${historyUnitListMap.get(unitType.value.id)}"/>
+                                                            <c:if test="${fn:length(unitList)>0}">
+                                                                <optgroup label="${unitType.value.name}">
+                                                                    <c:forEach
+                                                                            items="${unitList}"
+                                                                            var="unitId">
+                                                                        <c:set var="unit"
+                                                                               value="${unitMap.get(unitId)}"></c:set>
+                                                                        <option value="${unit.id}">${unit.name}</option>
+                                                                    </c:forEach>
+                                                                </optgroup>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <span class="help-block">（历史单位）</span>
+                                                </div>
+                                            </div>
+                                        </div>--%>
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label">表决情况</label>
                                             <div class="col-xs-7 label-text">
@@ -158,6 +206,17 @@
         filterMode:false,
         pasteType:0
     });
+
+   /* var selectUnitIds = ${selectUnitIds};
+    $.register.multiselect($('#modalForm select[name=unitIds]'), selectUnitIds, {
+        enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false, buttonWidth: '240px'
+    });
+
+    $.register.multiselect($('#modalForm select[name=historyUnitIds]'), selectUnitIds, {
+        enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false, buttonWidth: '240px'
+    });*/
 
     //$.register.date($('.date-picker'));
     $('#modalForm [data-rel="select2"]').select2();

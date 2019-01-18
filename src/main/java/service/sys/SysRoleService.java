@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.global.CacheService;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -176,8 +177,8 @@ public class SysRoleService extends BaseMapper {
 
 		for(SysRole sysRole:sysRoles){
 
-			// 只有超级管理员允许修改为系统管理员（如果不是则不显示系统管理员的选项）
-			if(!superAccount &&  StringUtils.equals(sysRole.getRole(), "admin")) {
+			// 只有超级管理员允许修改为超级管理员（如果不是则不显示超级管理员的选项）
+			if(!superAccount &&  StringUtils.equals(sysRole.getRole(), RoleConstants.ROLE_SUPER)) {
 				continue;
 			}
 

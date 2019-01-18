@@ -181,8 +181,7 @@ public class DBOperator {
 
 				if(StringUtils.isNotBlank(comments))
 					comments = comments.split("，")[0];
-
-				if(StringUtils.isBlank(comments))
+				else
 					comments = columnName;
 				
 				columnBeansMap.put(columnName, new ColumnBean(columnName, dataType, length,  comments));

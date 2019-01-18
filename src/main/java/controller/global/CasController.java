@@ -9,6 +9,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -106,6 +107,10 @@ public class CasController extends BaseController {
                                String _switchUser){
 
         if (StringUtils.isNotBlank(username)) {
+            
+            Session session = SecurityUtils.getSubject().getSession();
+            session.setAttribute("_ssoLogin", true);
+            
             SysUserView uv = sysUserService.findByUsername(username);
             if (uv != null && BooleanUtils.isFalse(uv.getLocked())) {  // 系统中存在这个用户（且状态正常）才处理
 
@@ -126,9 +131,9 @@ public class CasController extends BaseController {
                             SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
                 }
                 if(StringUtils.isNotBlank(_switchUser)){
-                    SecurityUtils.getSubject().getSession().setAttribute("_switchUser", _switchUser);
+                    session.setAttribute("_switchUser", _switchUser);
                 }else{
-                    SecurityUtils.getSubject().getSession().removeAttribute("_switchUser");
+                    session.removeAttribute("_switchUser");
                 }
 
                 return casRedirect(request);

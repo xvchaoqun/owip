@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
+<c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
@@ -98,7 +98,10 @@
                                             <select name="roleId" data-placeholder="请选择" class="select2 tag-input-style">
                                                 <option></option>
                                                 <c:forEach items="${roleMap}" var="role">
-                                                    <option value="${role.key}">${role.value.description}</option>
+                                                    <c:if test="${cm:isSuperAccount(_user.username)
+                                                    || role.value.role!=ROLE_SUPER}">
+                                                        <option value="${role.key}">${role.value.description}</option>
+                                                    </c:if>
                                                 </c:forEach>
                                             </select>
                                             <script>
