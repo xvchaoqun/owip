@@ -38,7 +38,7 @@
         pager: "jqGridPager2",
         url: '${ctx}/pmd/pmdOrder_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '订单号',name: 'sn', width:200, align:'left'},
+            { label: '订单号',name: 'sn', width:200, align:'left',frozen:true},
            /* { label: '缴费月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},*/
             { label: '缴费人',name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isBatch){
@@ -49,8 +49,8 @@
                     if(cellvalue==undefined) return '--'
                     return cellvalue;
                 }
-            }},
-            { label: '缴费账号',name: 'user.code', formatter: $.jgrid.formatter.defaultString, width:120},
+            },frozen:true},
+            { label: '缴费账号',name: 'user.code', formatter: $.jgrid.formatter.defaultString, width:120,frozen:true},
             { label: '订单状态',name: 'isClosed', width:150, formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.isClosed) return '已关闭'
