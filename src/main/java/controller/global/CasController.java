@@ -96,21 +96,28 @@ public class CasController extends BaseController {
 
         if(StringUtils.isBlank(username) && ShiroHelper.getCurrentUser()!=null){
             // 已登录的情况下，跳转到原账号
-            return casRedirect(request);
+            return loginRedirect(request);
         }
 
         return directLogin(username, true, request, response, null);
     }
 
-    private String directLogin(String username, boolean needLoginLog,
+    /**
+     * 使用账号直接登录
+     *
+     * @param username
+     * @param isSelfLogin 是否本人CAS登录
+     * @param request
+     * @param response
+     * @param _switchUser  切换登录的账号
+     * @return
+     */
+    private String directLogin(String username, boolean isSelfLogin,
                                HttpServletRequest request, HttpServletResponse response,
                                String _switchUser){
 
         if (StringUtils.isNotBlank(username)) {
-            
-            Session session = SecurityUtils.getSubject().getSession();
-            session.setAttribute("_ssoLogin", true);
-            
+
             SysUserView uv = sysUserService.findByUsername(username);
             if (uv != null && BooleanUtils.isFalse(uv.getLocked())) {  // 系统中存在这个用户（且状态正常）才处理
 
@@ -126,7 +133,10 @@ public class CasController extends BaseController {
 
                 sysLoginLogService.setTimeout(SecurityUtils.getSubject());
 
-                if(needLoginLog) {
+                Session session = SecurityUtils.getSubject().getSession();
+                if(isSelfLogin) {
+                    session.setAttribute("_ssoLogin", true); // 标记此次登录为单点登录（还未使用）
+
                     logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                             SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
                 }
@@ -136,10 +146,11 @@ public class CasController extends BaseController {
                     session.removeAttribute("_switchUser");
                 }
 
-                return casRedirect(request);
+                return loginRedirect(request);
             } else {
                 logger.info(sysLoginLogService.log(null, username,
-                        SystemConstants.LOGIN_TYPE_CAS, false, "登录失败"));
+                        isSelfLogin?SystemConstants.LOGIN_TYPE_CAS:SystemConstants.LOGIN_TYPE_NET,
+                        false, "登录失败"));
             }
 
             return "redirect:/jsp/unauthorized.jsp?username=" + StringUtils.trimToEmpty(username);
@@ -149,7 +160,7 @@ public class CasController extends BaseController {
         return "redirect:/";
     }
 
-    private String casRedirect(HttpServletRequest request){
+    private String loginRedirect(HttpServletRequest request){
 
         String url = request.getParameter("url");
         return "redirect:/" + (StringUtils.isBlank(url)?"":("#"+url));

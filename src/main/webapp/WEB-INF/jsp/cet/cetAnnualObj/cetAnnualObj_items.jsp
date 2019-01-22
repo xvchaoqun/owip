@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
+<shiro:hasPermission name="cetAnnualObj:list">
 <c:if test="${param.isValid==1}">
     <button class="downloadBtn btn btn-success btn-xs"
             data-url="${ctx}/cet/cetAnnualObj_exportDetails?objId=${param.objId}">
@@ -8,6 +9,7 @@
         导出学习培训明细表</button>
     <div class="space-4"></div>
 </c:if>
+</shiro:hasPermission>
 <table class="table table-bordered table-striped table-center">
     <thead>
     <tr>

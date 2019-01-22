@@ -35,25 +35,24 @@
                 function _syncResult() {
                     var ret = ${ret};
                     if ($.isJson(ret) && ${hasPay}) {
+                        ret.paidtime = $.date(eval('new ' + (ret.paidtime.replace(/\//g, ''))), "yyyy-MM-dd HH:mm:ss")
+                        //console.log("ret.paidtime=" + ret.paidtime)
+                        var signStr = '${keys}' + ret.paycode + ret.sn + ret.amt + ret.payer + ret.paid + ret.paidtime + '${yek}';
+                        var sign = $.md5(signStr)
+                        var params = "paycode={0}&payitem={1}&payer={2}&payertype={3}&sn={4}&amt={5}&paid={6}&paidtime={7}&sign={8}"
+                                .format(ret.paycode, $.trim(ret.payitem), ret.payer, ret.payertype, ret.sn, ret.amt, ret.paid, ret.paidtime, sign.toUpperCase());
+                        //console.log(signStr)
+                        //console.log(params)
+                        //return;
+                        $.post("${ctx}/pmd/pay/callback/campuscard?" + params, function (ret) {
+                            if (ret == 'success') {
+                                SysMsg.success("同步支付通知成功。");
 
-                        var params = ret.msg;
-                        //console.log("params=" + params);
-
-                        $.post("${ctx}/pmd/pmdOrder_query_sign?"+params,function(sign){
-
-                            params += "&sign=" + sign;
-                            //console.log("sign params=" + params);
-
-                            $.post("${ctx}/pmd/pay/callback/newcampuscard?" + params, function (ret) {
-                                if (ret == 'pok') {
-                                    SysMsg.success("同步支付通知成功。");
-
-                                    $("#modal").modal('hide');
-                                    $("#jqGrid2").trigger("reloadGrid");
-                                } else {
-                                    SysMsg.info("同步失败：" + ret)
-                                }
-                            });
+                                $("#modal").modal('hide');
+                                $("#jqGrid2").trigger("reloadGrid");
+                            } else {
+                                SysMsg.info("同步失败：" + ret)
+                            }
                         });
                     } else {
                         SysMsg.warning("没有支付成功，无需同步");

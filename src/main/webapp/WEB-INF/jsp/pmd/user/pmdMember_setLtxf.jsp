@@ -16,10 +16,15 @@
     </div>
     <div class="form-group">
       <label class="col-xs-4 control-label">离退休人员社保养老金(¥)</label>
-      <div class="col-xs-8">
+      <div class="col-xs-8 label-text">
+        <c:if test="${param.view==1 || param.view==2}">
+          ${cm:stripTrailingZeros(pmdConfigMember.retireSalary)}
+        </c:if>
+        <c:if test="${param.view!=1 && param.view!=2}">
         <input required class="number" data-rule-min="0.01" maxlength="10" style="width: 100px;"
                type="text" name="retireSalary" value="${cm:stripTrailingZeros(pmdConfigMember.retireSalary)}">
         <button type="button" class="btn btn-success" onclick="_syncRetireSalary()"><i class="fa fa-refresh"></i> 同步最新离退休人员社保养老金</button>
+        </c:if>
       </div>
     </div>
     <div class="center" id="msg">
@@ -28,8 +33,13 @@
   </form>
 </div>
 <div class="modal-footer">
+<c:if test="${param.view==1 || param.view==2}">
+  <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+</c:if>
+<c:if test="${param.view!=1 && param.view!=2}">
   <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
   <button id="submitBtn" type="button" class="btn btn-primary"><i class="fa fa-check"></i> 确定</button>
+</c:if>
 </div>
 <script>
   function _syncRetireSalary(){

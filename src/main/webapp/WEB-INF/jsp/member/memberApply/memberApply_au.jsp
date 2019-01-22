@@ -22,6 +22,7 @@
 
                 <div class="col-sm-9">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notMember_selects"
+                            data-width="350"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
@@ -51,7 +52,7 @@
                 <div class="col-sm-3">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_applyTime" type="text"
-                               data-date-format="yyyy-mm-dd"
+                               data-date-format="yyyy-mm-dd" style="width: 100px;"
                                value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}  "/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>

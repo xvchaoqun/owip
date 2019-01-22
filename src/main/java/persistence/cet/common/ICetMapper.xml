@@ -18,10 +18,10 @@
 
     <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"
                extends="persistence.cet.CetTrainViewMapper.BaseResultMap">
-        <result column="trainee_id" jdbcType="INTEGER" property="traineeId"/>
-        <result column="course_count" jdbcType="INTEGER" property="courseCount"/>
+        <result column="obj_id" jdbcType="INTEGER" property="objId"/>
+        <!--<result column="course_count" jdbcType="INTEGER" property="courseCount"/>
         <result column="total_period" jdbcType="DECIMAL" property="totalPeriod"/>
-        <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod"/>
+        <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod"/>-->
     </resultMap>
     <resultMap id="TrainRecordMap" type="persistence.cet.common.TrainRecord">
         <result column="start_date" jdbcType="DATE" property="startDate" />
@@ -33,7 +33,7 @@
         <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
         <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     </resultMap>
-    <sql id="searchTrains">
+    <!--<sql id="searchTrains">
         where ct.plan_id=cpp.id and cpp.project_id=cpo.project_id
         and ctee.train_id = ct.id and cpo.is_quit=0
         and cpo.user_id=#{userId} and ct.is_deleted=0 and ct.pub_status=1
@@ -49,7 +49,7 @@
             and ct.is_finished = #{isFinished}
         </if>
     </sql>
-    <!-- 查询参训人的培训班列表 -->
+    &lt;!&ndash; 查询参训人的培训班列表 &ndash;&gt;
     <select id="selectUserCetTrainList" resultMap="TrainBaseResultMap" parameterType="map">
         select ct.*, cpo.id as obj_id, ctee.id as trainee_id, ctee.course_count
         <if test="hasSelected">
@@ -74,6 +74,26 @@
     <select id="countUserCetTrainList" parameterType="map" resultType="java.lang.Integer">
         select count(ct.id) from cet_train_view ct, cet_project_plan cpp, cet_project_obj cpo
         left join cet_trainee_cadre_view ctee on ctee.obj_id=cpo.id
+        <include refid="searchTrains"/>
+    </select>-->
+
+    <sql id="searchTrains">
+        where ct.plan_id=cpp.id and cpp.project_id=cpo.project_id
+        and cpo.is_quit=0
+        and cpo.user_id=#{userId} and ct.is_deleted=0 and ct.pub_status=1
+        <if test="isFinished!=null">
+            and ct.is_finished = #{isFinished}
+        </if>
+    </sql>
+    <!-- 查询参训人的培训班列表 -->
+    <select id="selectUserCetTrainList" resultMap="TrainBaseResultMap" parameterType="map">
+        select ct.*, cpo.id as obj_id
+        from cet_train_view ct, cet_project_plan cpp, cet_project_obj cpo
+        <include refid="searchTrains"/>
+        order by ct.create_time desc
+    </select>
+    <select id="countUserCetTrainList" parameterType="map" resultType="java.lang.Integer">
+        select count(ct.id) from cet_train_view ct, cet_project_plan cpp, cet_project_obj cpo
         <include refid="searchTrains"/>
     </select>
 

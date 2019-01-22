@@ -233,10 +233,10 @@
             <tr class="due-pay">
                 <td>应缴纳党费额度</td>
                 <td colspan="2" style="text-align: center">
-                    <c:if test="${param.view==1}">
+                    <c:if test="${param.view==1 || param.view==2}">
                         ${cm:stripTrailingZeros(pmdConfigMember.duePay)}
                     </c:if>
-                    <c:if test="${param.view!=1}">
+                    <c:if test="${param.view!=1 && param.view!=2}">
                         <span id="duePaySpan">${duePay}</span>
                     </c:if>
                 </td>
@@ -255,11 +255,10 @@
 </c:if>
 </div>
 <div class="modal-footer">
-    <c:if test="${param.view==1}">
+    <c:if test="${param.view==1 || param.view==2}">
         <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
-
     </c:if>
-    <c:if test="${param.view!=1}">
+    <c:if test="${param.view!=1 && param.view!=2}">
         <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
 
         <input id="submitBtn" type="button" class="btn btn-primary"

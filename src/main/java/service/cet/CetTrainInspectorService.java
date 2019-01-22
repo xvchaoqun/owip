@@ -3,6 +3,7 @@ package service.cet;
 import bean.XlsCetTrainInspector;
 import bean.XlsUpload;
 import controller.global.OpException;
+import domain.cadre.CadreView;
 import domain.cet.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
@@ -170,17 +172,19 @@ public class CetTrainInspectorService extends CetBaseMapper {
         }
 
         // 读取已选课人员
-        CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
+        CetTraineeViewExample example = new CetTraineeViewExample();
         example.createCriteria().andTrainIdEqualTo(trainId)
                 .andCourseCountGreaterThan(0);
-        List<CetTraineeCadreView> cetTraineeCadreViews = cetTraineeCadreViewMapper.selectByExample(example);
+        List<CetTraineeView> cetTraineeViews = cetTraineeViewMapper.selectByExample(example);
 
         Date now = new Date();
-        for (CetTraineeCadreView ctee : cetTraineeCadreViews) {
+        for (CetTraineeView ctee : cetTraineeViews) {
 
+            Integer userId = ctee.getUserId();
+            CadreView cv = CmTag.getCadreByUserId(userId);
             // 使用工作证号当做账号
-            String mobile = ctee.getCode();
-            String realname = ctee.getRealname();
+            String mobile = cv.getCode();
+            String realname = cv.getRealname();
             CetTrainInspector cetTrainInspector = tryLogin(trainId, mobile);
             if (cetTrainInspector != null) {
                 // 存在则进行更新操作

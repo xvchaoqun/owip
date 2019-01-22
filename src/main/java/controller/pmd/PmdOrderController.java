@@ -1,9 +1,9 @@
 package controller.pmd;
 
+import bean.pay.OrderQueryResult;
 import domain.pmd.PmdOrder;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pmd.common.IPmdOrder;
-import service.pmd.PmdOrderCampusCardService;
+import service.pmd.PmdOrderService;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +103,7 @@ public class PmdOrderController extends PmdBaseController {
     @ResponseBody
     public Map pmdOrder_closeTrade(String sn, HttpServletRequest request) throws IOException {
 
-        PmdOrderCampusCardService.CloseTradeRet ret = pmdOrderCampusCardService.closeTrade(sn);
+        PmdOrderService.CloseTradeRet ret = pmdOrderService.closeTrade(sn);
         logger.info(addLog(LogConstants.LOG_PMD, "后台关闭订单：%s，结果: %s", sn, JSONUtils.toString(ret, false)));
 
         return ret.success?success(FormUtils.SUCCESS):failed("关闭失败：" + ret.ret);
@@ -113,17 +113,23 @@ public class PmdOrderController extends PmdBaseController {
     @RequestMapping("/pmdOrder_query")
     public String pmdOrder_query(String sn, String code, ModelMap modelMap) throws IOException {
 
-        String ret = pmdOrderCampusCardService.query(sn, code);
-        modelMap.put("ret", ret);
+        OrderQueryResult queryResult = pmdOrderService.query(sn);
+        modelMap.put("ret", queryResult.getRet());
+        modelMap.put("hasPay", queryResult.isHasPay());
 
         PmdOrder order = pmdOrderMapper.selectByPrimaryKey(sn);
         modelMap.put("order", order);
 
-        String keys = PropertiesUtils.getString("pay.campuscard.keys");
-        modelMap.put("keys",keys);
-        modelMap.put("yek", StringUtils.reverse(keys));
-
-
         return "pmd/pmdOrder/pmdOrder_query";
+    }
+
+    @RequiresPermissions("pmdOw:admin")
+    @RequestMapping("/pmdOrder_query_sign")
+    @ResponseBody
+    public String pmdOrder_query_sign(HttpServletRequest request, ModelMap modelMap) throws IOException {
+
+        String sign = pmdOrderService.notifySign(request);
+
+        return URLEncoder.encode(sign, "UTF-8");
     }
 }

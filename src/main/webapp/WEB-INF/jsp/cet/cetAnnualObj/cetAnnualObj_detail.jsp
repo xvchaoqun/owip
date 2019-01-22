@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="widget-box transparent">
+    <c:if test="${not empty param.objId}">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:" class="openView btn btn-xs btn-success"
@@ -11,8 +12,6 @@
         </h4>
         <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
              ${cetAnnual.year}年度${(traineeTypeMap.get(cetAnnual.traineeTypeId)).name}，${cetAnnualObj.user.realname}
-
-
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">
@@ -25,6 +24,8 @@
             </ul>
         </div>
     </div>
+    </c:if>
+    <c:if test="${not empty cetAnnualObj}">
     <div class="widget-body">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
             <div class="jqgrid-vertical-offset panel panel-default" style="margin-bottom: 0">
@@ -57,14 +58,14 @@
             <li class="active">
                 <a href="javascript:;" class="loadPage"
                    data-load-el="#detail-content-view" data-callback="$.menu.liSelected"
-                   data-url='${ctx}/cet/cetAnnualObj_items?objId=${param.objId}&isValid=1'><i
+                   data-url='${ctx}/cet/cetAnnualObj_items?objId=${cetAnnualObj.id}&isValid=1'><i
                         class="fa fa-check"></i> 计入年度学习任务
                 </a>
             </li>
             <li>
                 <a href="javascript:;" class="loadPage"
                    data-load-el="#detail-content-view" data-callback="$.menu.liSelected"
-                   data-url='${ctx}/cet/cetAnnualObj_items?objId=${param.objId}&isValid=0'><i
+                   data-url='${ctx}/cet/cetAnnualObj_items?objId=${cetAnnualObj.id}&isValid=0'><i
                         class="fa fa-times"></i> 未计入年度学习任务
                 </a>
             </li>
@@ -72,12 +73,14 @@
         </ul>
         <div class="space-4"></div>
         <div class="col-xs-12" id="detail-content-view">
-            <c:import url="${ctx}/cet/cetAnnualObj_items?objId=${param.objId}&isValid=1"/>
+            <c:import url="${ctx}/cet/cetAnnualObj_items?objId=${cetAnnualObj.id}&isValid=1"/>
         </div>
         <div style="clear: both"></div>
         </div>
     </div>
+    </c:if>
 </div>
+<div class="footer-margin"/>
 <style>
     .panel-body label{
         font-size: 14pt;
@@ -95,6 +98,3 @@
         font-weight: bolder;
     }
 </style>
-<script>
-
-</script>

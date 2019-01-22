@@ -14,6 +14,15 @@ import java.util.Map;
  */
 public interface ICetMapper {
 
+   // 获取个人的进入年度学习档案的所有年度
+   @Select("select year from cet_annual_obj where user_id=#{userId} order by year desc")
+   public List<Integer> getAnnualYears(@Param("userId") Integer userId);
+
+   // 获取个人的年度学习档案
+   @ResultMap("persistence.cet.CetAnnualObjMapper.BaseResultMap")
+   @Select("select * from cet_annual_obj where user_id=#{userId} and year = #{year}")
+   public CetAnnualObj getCetAnnualObj(@Param("userId") Integer userId, @Param("year") Integer year);
+
     // 设定年度学习任务
     @Update("update cet_annual_obj set period=#{r.period}, max_special_period=#{r.maxSpecialPeriod}, " +
             "max_daily_period=#{r.maxDailyPeriod}, max_party_period=#{r.maxPartyPeriod}, " +

@@ -1,10 +1,10 @@
 package persistence.cet.common;
 
-import domain.cet.CetProject;
-import domain.cet.CetTrainView;
+import domain.cet.*;
+import persistence.cet.CetTraineeViewMapper;
 import sys.tags.CmTag;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by lm on 2018/3/14.
@@ -16,43 +16,24 @@ public class ICetTrain extends CetTrainView {
         return iCetMapper.getCetProject(getId());
     }
 
-    private Integer traineeId;
-
-    private Integer courseCount;
-
-    private BigDecimal totalPeriod;
-
-    private BigDecimal finishPeriod;
-
-    public Integer getTraineeId() {
-        return traineeId;
-    }
-
-    public void setTraineeId(Integer traineeId) {
-        this.traineeId = traineeId;
-    }
-
     public Integer getCourseCount() {
-        return courseCount;
+
+        CetTraineeViewMapper cetTraineeViewMapper = CmTag.getBean(CetTraineeViewMapper.class);
+
+        CetTraineeViewExample example = new CetTraineeViewExample();
+        example.createCriteria().andObjIdEqualTo(objId).andTrainIdEqualTo(getId());
+        List<CetTraineeView> cetTraineeViews = cetTraineeViewMapper.selectByExample(example);
+
+        return cetTraineeViews.size()==0?null:cetTraineeViews.get(0).getCourseCount();
     }
 
-    public void setCourseCount(Integer courseCount) {
-        this.courseCount = courseCount;
+    private Integer objId;
+
+    public Integer getObjId() {
+        return objId;
     }
 
-    public BigDecimal getTotalPeriod() {
-        return totalPeriod;
-    }
-
-    public void setTotalPeriod(BigDecimal totalPeriod) {
-        this.totalPeriod = totalPeriod;
-    }
-
-    public BigDecimal getFinishPeriod() {
-        return finishPeriod;
-    }
-
-    public void setFinishPeriod(BigDecimal finishPeriod) {
-        this.finishPeriod = finishPeriod;
+    public void setObjId(Integer objId) {
+        this.objId = objId;
     }
 }

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.cet.common.TrainRecord;
+import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -38,26 +41,54 @@ public class CetAnnualObjController extends CetBaseController {
     
     private Logger logger = LoggerFactory.getLogger(getClass());
     
-    @RequiresPermissions("cetAnnualObj:list")
+    //@RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj_detail")
-    public String cetAnnualObj_detail(int objId, ModelMap modelMap) {
-        
-        CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
+    public String cetAnnualObj_detail(Integer objId, Integer year, ModelMap modelMap) {
+
+        CetAnnualObj cetAnnualObj = null;
+        CetAnnual cetAnnual = null;
+
+        if(objId != null){
+
+            SecurityUtils.getSubject().checkPermission("cetAnnualObj:list");
+            cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
+        }else{
+            // 干部本人查看
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_TRAINEE);
+            Integer userId = ShiroHelper.getCurrentUserId();
+            List<Integer> annualYears = iCetMapper.getAnnualYears(userId);
+            modelMap.put("years", annualYears);
+            if(year == null){
+                year = annualYears.get(0);
+            }
+            if(year!=null) {
+                cetAnnualObj = iCetMapper.getCetAnnualObj(userId, year);
+            }
+        }
+
         modelMap.put("cetAnnualObj", cetAnnualObj);
+
         Integer annualId = cetAnnualObj.getAnnualId();
-        CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
+        cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         modelMap.put("cetAnnual", cetAnnual);
         
         return "cet/cetAnnualObj/cetAnnualObj_detail";
     }
     
     
-    @RequiresPermissions("cetAnnualObj:list")
+    //@RequiresPermissions("cetAnnualObj:list")
     @RequestMapping("/cetAnnualObj_items")
     public String cetAnnualObj_items(int objId, @RequestParam(defaultValue = "0") Boolean isValid, ModelMap modelMap) {
-        
+
         CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
         int userId = cetAnnualObj.getUserId();
+        if(userId!= ShiroHelper.getCurrentUserId()){
+            // 非本人查看，需要检查权限
+            SecurityUtils.getSubject().checkPermission("cetAnnualObj:list");
+        }else{
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_TRAINEE);
+        }
+
         Integer annualId = cetAnnualObj.getAnnualId();
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         int year = cetAnnual.getYear();

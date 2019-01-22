@@ -1,5 +1,6 @@
 package controller.pmd.user;
 
+import bnu.newpay.BnuPayUtils;
 import com.google.gson.Gson;
 import controller.global.OpException;
 import controller.pmd.PmdBaseController;
@@ -9,7 +10,6 @@ import domain.pmd.PmdMonth;
 import domain.pmd.PmdOrder;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.pmd.PayFormWszfBean;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.RequestUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
@@ -36,54 +37,6 @@ import java.util.Set;
 public class UserPmdPayController extends PmdBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    // 校园统一支付平台
-    @RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping("/payConfirm_wszf")
-    public String payConfirm_wszf(int monthId, ModelMap modelMap) {
-
-        int userId = ShiroHelper.getCurrentUserId();
-
-        PmdMember pmdMember = pmdMemberService.get(monthId, userId);
-        modelMap.put("pmdMember", pmdMember);
-
-        PayFormWszfBean payFormBean = pmdOrderWszfService.createPayFormBean(pmdMember.getId());
-        modelMap.put("payFormBean", payFormBean);
-
-        modelMap.put("pay_url", PropertiesUtils.getString("pay.wszf.url"));
-
-        // test
-        /*PayNotifyWszfBean bean = new PayNotifyWszfBean();
-        bean.setOrderDate(payFormBean.getOrderDate());
-        bean.setOrderNo(payFormBean.getOrderNo());
-        bean.setAmount(payFormBean.getAmount());
-        bean.setJylsh(String.valueOf(1303190000001L + pmdMember.getId()));
-        bean.setTranStat("1");
-        bean.setReturn_type("1");
-        String sign = pmdOrderWszfService.verifySign(bean);
-        String ret = "orderDate=" + bean.getOrderDate() +
-                "&orderNo=" + bean.getOrderNo() +
-                "&amount=" + bean.getAmount() +
-                "&jylsh=" + bean.getJylsh() +
-                "&tranStat=" + bean.getTranStat() +
-                "&return_type=" + bean.getReturn_type() +
-                "&sign=" + sign;
-        modelMap.put("ret", ret);*/
-        // test
-
-        return "pmd/user/payConfirm_wszf";
-    }
-    @RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping(value = "/payConfirm_wszf", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_payConfirm_wszf(int monthId) {
-
-        PayFormWszfBean payFormBean = pmdOrderWszfService.payConfirm(monthId);
-        logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
-                JSONUtils.toString(payFormBean, false)));
-
-        return success(FormUtils.SUCCESS);
-    }
 
     // 缴费原则：本人或代缴（支部成员或支部管理员）
     // （应该判断当月缴费所在的支部，因为用户可能延迟缴费之后进行了组织关系转接）
@@ -141,6 +94,27 @@ public class UserPmdPayController extends PmdBaseController {
         return _pmdMember;
     }
 
+    // 页面支付通知
+    @RequestMapping("/callback")
+    public String callback(HttpServletRequest request, ModelMap modelMap) throws UnsupportedEncodingException {
+
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        logger.info("pmd page callback request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
+
+        modelMap.put("verifySign", pmdOrderService.verifyNotifySign(request));
+
+        if(parameterMap.size()>0) {
+
+            String sn = request.getParameter("thirdorderid");
+            PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(sn);
+            if(pmdOrder!=null && pmdOrder.getUserId().intValue()==ShiroHelper.getCurrentUserId()) {
+                pmdOrderService.notify(request);
+            }
+        }
+
+        return "pmd/user/callback";
+    }
+
     // 支付订单确认
     //@RequiresPermissions("userPmdMember:payConfirm")
     @RequestMapping("/payConfirm")
@@ -149,7 +123,7 @@ public class UserPmdPayController extends PmdBaseController {
 
         PmdMember pmdMember = checkPayAuth(id, isSelfPay);
         modelMap.put("pmdMember", pmdMember);
-        modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
+        //modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
 
         return "pmd/user/payConfirm";
     }
@@ -157,45 +131,42 @@ public class UserPmdPayController extends PmdBaseController {
     //@RequiresPermissions("userPmdMember:payConfirm")
     @RequestMapping(value = "/payConfirm", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_payConfirm(int id, @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay) {
+    public Map do_payConfirm(int id, @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay,
+                             @RequestParam(required = false, defaultValue = "0")Boolean isMobile,
+                             HttpServletRequest request) throws UnsupportedEncodingException {
 
         checkPayAuth(id, isSelfPay);
 
-        PmdOrder order = pmdOrderCampusCardService.payConfirm(id, isSelfPay);
+        PmdOrder order = pmdOrderService.payConfirm(id, isSelfPay,
+                isMobile?BnuPayUtils.orderType_PHONE:BnuPayUtils.orderType_PC);
         logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 
         Gson gson = new Gson();
         Map<String, Object> params =  gson.fromJson(order.getParams(), Map.class);
-        params.put("sn", order.getSn());
+        //params.put("sn", order.getSn());
         params.put("sign", order.getSign());
         
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("order", params);
 
-        // test
-        /*String paycode = (String) params.get("paycode");
-        String payitem = "ZZBGZ001";
-        String payer = order.getPayer();
-        String payertype = (String) params.get("payertype");
-        String sn = order.getSn();
-        String amt = order.getAmt();
-        String paid = "true";
-        String paidtime = DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss");
+        String homeURL = RequestUtils.getHomeURL(request);
+        if(isMobile) {
+            resultMap.put("thirdurl", homeURL + "/m/pmd/callback");
+        }else{
+            resultMap.put("thirdurl", homeURL + "/user/pmd/callback");
+        }
 
-        
-        String sign =  MD5Util.md5Hex(PmdOrderCampusCardService.notifySignStr(paycode, sn, amt, payer, paid, paidtime), "utf-8");
-        String ret = "paycode=" + paycode +
-                "&payitem=" + payitem +
-                "&payer=" + payer +
-                "&payertype=" + payertype +
-                "&sn=" + sn +
-                "&amt=" + amt +
-                "&paid=" + paid +
-                "&paidtime=" + paidtime +
-                "&sign=" + sign;
-        resultMap.put("ret", ret);*/
         // test
+        /*Map<String, Object> callbackMap = new LinkedHashMap<>(params);
+        callbackMap.remove("ordertype");
+        callbackMap.remove("sign");
+        callbackMap.put("orderid", order.getSn()+"back");
+        callbackMap.put("state", "1");
+        callbackMap.put("sign", URLEncoder.encode(BnuPayUtils.sign(callbackMap), "UTF-8"));
+
+        callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
+        resultMap.put("ret", FormUtils.requestParams(callbackMap));*/
 
         return resultMap;
     }
@@ -212,7 +183,6 @@ public class UserPmdPayController extends PmdBaseController {
         }
         modelMap.put("ids", ids);
         modelMap.put("duePay", duePay);
-        modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
 
         return "pmd/user/payConfirm_batch";
     }
@@ -220,47 +190,38 @@ public class UserPmdPayController extends PmdBaseController {
     //@RequiresPermissions("userPmdMember:payConfirm")
     @RequestMapping(value = "/payConfirm_batch", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_payConfirm_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay) {
+    public Map do_payConfirm_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay,
+                                   HttpServletRequest request) throws UnsupportedEncodingException {
 
         for (Integer id : ids) {
             checkPayAuth(id, false);
         }
 
-        PmdOrder order = pmdOrderCampusCardService.batchPayConfirm(isDelay, ids);
+        PmdOrder order = pmdOrderService.batchPayConfirm(isDelay, ids);
         logger.info(addLog(LogConstants.LOG_PMD, "批量缴费支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 
         Gson gson = new Gson();
         Map<String, Object> params =  gson.fromJson(order.getParams(), Map.class);
-        params.put("sn", order.getSn());
+        //params.put("sn", order.getSn());
         params.put("sign", order.getSign());
         
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("order", params);
 
-        // test
-        /*String paycode = (String) params.get("paycode");
-        String payitem = "ZZBGZ001";
-        String payer = order.getPayer();
-        String payertype = (String) params.get("payertype");
-        String sn = order.getSn();
-        String amt = order.getAmt();
-        String paid = "true";
-        String paidtime = DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss");
+        String homeURL = RequestUtils.getHomeURL(request);
+        resultMap.put("thirdurl", homeURL + "/user/pmd/callback");
 
-        
-        String sign =  MD5Util.md5Hex(PmdOrderCampusCardService.notifySignStr(paycode, sn, amt, payer, paid, paidtime), "utf-8");
-        String ret = "paycode=" + paycode +
-                "&payitem=" + payitem +
-                "&payer=" + payer +
-                "&payertype=" + payertype +
-                "&sn=" + sn +
-                "&amt=" + amt +
-                "&paid=" + paid +
-                "&paidtime=" + paidtime +
-                "&sign=" + sign;
-        resultMap.put("ret", ret);*/
         // test
+        /*Map<String, Object> callbackMap = new LinkedHashMap<>(params);
+        callbackMap.remove("ordertype");
+        callbackMap.remove("sign");
+        callbackMap.put("orderid", order.getSn()+"back");
+        callbackMap.put("state", "1");
+        callbackMap.put("sign", URLEncoder.encode(BnuPayUtils.sign(callbackMap), "UTF-8"));
+
+        callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
+        resultMap.put("ret", FormUtils.requestParams(callbackMap));*/
 
         return resultMap;
     }

@@ -55,13 +55,20 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-edit"></i> 修改缴费方式
                     </button>
                     </shiro:hasPermission>
-                    <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                    <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                             data-width="600"
                             data-url="${ctx}/user/pmd/pmdMember_setSalary"
                             data-grid-id="#jqGrid"
                             data-querystr="&isSelf=0"
                             data-id-name="pmdMemberId">
                         <i class="fa fa-rmb"></i> 修改党费应交额</button>
+                    <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                            data-width="600"
+                            data-url="${ctx}/user/pmd/pmdMember_setSalary"
+                            data-grid-id="#jqGrid"
+                            data-querystr="&isSelf=0&view=2"
+                            data-id-name="pmdMemberId">
+                        <i class="fa fa-rmb"></i> 查看党费应交额</button>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

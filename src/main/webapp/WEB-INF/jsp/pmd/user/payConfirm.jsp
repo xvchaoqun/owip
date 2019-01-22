@@ -1,3 +1,4 @@
+<%@ page import="bnu.newpay.BnuPayUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
@@ -39,7 +40,7 @@
             <td>${pmdMember.duePay}</td>
         </tr>
     </table>
-    <form id="payForm" action="${pay_url}" target="_blank" method="post"></form>
+    <form id="payForm" action="<%=BnuPayUtils.payURL%>" target="_blank" method="post"></form>
 </div>
 <div class="modal-footer">
     <%--<div id="tip">提示：由于校园卡支付平台出于安全性考虑，只要点了“去支付”按钮，必须支付完成，不可再换人代缴操作，请谨慎操作。</div>--%>
@@ -64,15 +65,16 @@
     }
 </style>
 <script type="text/template" id="payFormTpl">
-    <input type="hidden" name="paycode" value="{{=order.paycode}}"/>
-    <input type="hidden" name="payer" value="{{=order.payer}}"/>
-    <input type="hidden" name="payertype" value="{{=order.payertype}}"/>
-    <input type="hidden" name="payername" value="{{=order.payername}}"/>
-    <input type="hidden" name="sn" value="{{=order.sn}}"/>
-    <input type="hidden" name="amt" value="{{=order.amt}}"/>
-    <input type="hidden" name="macc" value="{{=order.macc}}"/>
-    <input type="hidden" name="commnet" value="{{=order.commnet}}"/>
-    <input type="hidden" name="sno_id_name" value="{{=order.snoIdName}}"/>
+    <input type="hidden" name="tranamt" value="{{=order.tranamt}}"/>
+    <input type="hidden" name="account" value="{{=order.account}}"/>
+    <input type="hidden" name="sno" value="{{=order.sno}}"/>
+    <input type="hidden" name="toaccount" value="{{=order.toaccount}}"/>
+    <input type="hidden" name="thirdsystem" value="{{=order.thirdsystem}}"/>
+    <input type="hidden" name="thirdorderid" value="{{=order.thirdorderid}}"/>
+    <input type="hidden" name="ordertype" value="{{=order.ordertype}}"/>
+    <input type="hidden" name="orderdesc" value="{{=order.orderdesc}}"/>
+    <input type="hidden" name="praram1" value="{{=order.praram1}}"/>
+    <input type="hidden" name="thirdurl" value="{{=thirdurl}}"/>
     <input type="hidden" name="sign" value="{{=order.sign}}"/>
 </script>
 <script>
@@ -91,9 +93,10 @@
                     $("#closeBtn").hide();
 
                     // test
-                    //$("#testCallback").attr("href", "${ctx}/pmd/pay/callback/campuscard?" + data.ret);
+                    /*$("#testCallback").attr("href", "${ctx}/pmd/pay/callback/newcampuscard?" + data.ret);
+                    console.log(data.order)*/
 
-                    $("#payForm").html(_.template($("#payFormTpl").html())({order: data.order}))
+                    $("#payForm").html(_.template($("#payFormTpl").html())({order: data.order, thirdurl:data.thirdurl}))
                     $("#payForm").submit();
                 }
             }

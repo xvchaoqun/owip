@@ -18,7 +18,9 @@ public class CurrentUserFilter extends PathMatchingFilter {
     protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 
         String username = ShiroHelper.getCurrentUsername();
-        request.setAttribute(Constants.CURRENT_USER, userService.findByUsername(username));
+        if(username!=null) {
+            request.setAttribute(Constants.CURRENT_USER, userService.findByUsername(username));
+        }
         return true;
     }
 }

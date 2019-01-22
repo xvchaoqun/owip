@@ -21,7 +21,6 @@ import org.apache.shiro.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
@@ -35,7 +34,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
-@Service
+//@Service
 public class PmdOrderCampusCardService extends PmdBaseMapper {
     
     @Autowired

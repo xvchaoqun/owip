@@ -40,10 +40,9 @@ public class PmdBaseController extends PmdBaseMapper implements HttpResponseMeth
     protected PmdBranchAdminService pmdBranchAdminService;
     @Autowired
     protected PmdPayService pmdPayService;
+
     @Autowired
-    protected PmdOrderWszfService pmdOrderWszfService;
-    @Autowired
-    protected PmdOrderCampusCardService pmdOrderCampusCardService;
+    protected PmdOrderService pmdOrderService;
     @Autowired
     protected PmdSpecialUserService pmdSpecialUserService;
     @Autowired

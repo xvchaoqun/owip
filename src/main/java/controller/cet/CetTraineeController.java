@@ -1,10 +1,6 @@
 package controller.cet;
 
-import domain.cet.CetProject;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourseExample;
-import domain.cet.CetTraineeCadreViewExample;
-import domain.cet.CetTraineeType;
+import domain.cet.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -106,8 +102,8 @@ public class CetTraineeController extends CetBaseController {
             // 中层干部、后备干部
             case "t_cadre":
             case "t_reserve":
-                CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
-                CetTraineeCadreViewExample.Criteria criteria =
+                CetTraineeViewExample example = new CetTraineeViewExample();
+                CetTraineeViewExample.Criteria criteria =
                         example.createCriteria().andTrainIdEqualTo(trainId)
                                 .andTraineeTypeIdEqualTo(traineeTypeId);
                 example.setOrderByClause("id asc");
@@ -124,12 +120,12 @@ public class CetTraineeController extends CetBaseController {
                     criteria.andUserIdEqualTo(userId);
                 }
 
-                count = (int) cetTraineeCadreViewMapper.countByExample(example);
+                count = (int) cetTraineeViewMapper.countByExample(example);
                 if ((pageNo - 1) * pageSize >= count) {
 
                     pageNo = Math.max(1, pageNo - 1);
                 }
-                records = cetTraineeCadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                records = cetTraineeViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
                 CommonList commonList = new CommonList(count, pageNo, pageSize);
                 total = commonList.pageNum;
                 break;
