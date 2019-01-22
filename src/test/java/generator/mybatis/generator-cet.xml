@@ -243,17 +243,6 @@
             <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_quit" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
-        <!--<table tableName="cet_trainee_cadre_view" domainObjectName="cet.CetTraineeCadreView"
-               mapperName="cet.CetTraineeCadreViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-            <columnOverride column="course_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
-
-
 
         <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
         </table>-->

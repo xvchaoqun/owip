@@ -4,7 +4,22 @@
 ALTER TABLE `sc_committee_topic`
 	ADD COLUMN `unit_ids` VARCHAR(200) NULL COMMENT '涉及单位，逗号分隔' AFTER `name`;
 
+20190122
 
+删除 cet_trainee_cadre_view
+
+ALTER TABLE `cet_annual_obj`
+	ADD UNIQUE INDEX `annual_id_user_id` (`annual_id`, `user_id`);
+
+ALTER TABLE `pmd_order`
+	CHANGE COLUMN `sign` `sign` VARCHAR(300) NULL DEFAULT NULL COMMENT '签名' AFTER `params`;
+
+ALTER TABLE `pmd_member_pay`
+	CHANGE COLUMN `order_no` `order_no` VARCHAR(30) NULL DEFAULT NULL COMMENT '缴费订单号，批量缴费时允许重复' AFTER `member_id`;
+
+
+更新 common-utils
++ bnu.newpay.jar
 
 20190109
 ALTER TABLE `cet_annual_obj`

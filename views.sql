@@ -91,13 +91,13 @@ left join cet_trainee_course cteec on cteec.trainee_id=ctee.id
 left join cet_train_course ctc on ctc.id=cteec.train_course_id
 left join cet_course cc on cc.id=ctc.course_id group by ctee.id;
 
-DROP VIEW IF EXISTS `cet_trainee_cadre_view`;
+/*DROP VIEW IF EXISTS `cet_trainee_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_cadre_view` AS
 select cteev.*,
 cv.id as cadre_id, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.is_ow, cv.ow_grow_time, cv.dp_grow_time, cv.dp_type_id, cv.pro_post,
 cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order from cet_trainee_view cteev
 left join cadre_view cv on cv.user_id=cteev.user_id
-group by cteev.id;
+group by cteev.id;*/
 
 DROP VIEW IF EXISTS `cet_train_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_view` AS

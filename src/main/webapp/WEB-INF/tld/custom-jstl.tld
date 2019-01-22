@@ -338,6 +338,11 @@
 		<function-signature>java.lang.Byte toByte(java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>bigDecimalDivide</name>
+		<function-class>sys.utils.TagUtils</function-class>
+		<function-signature>java.lang.String divide(java.lang.String,java.lang.Integer)</function-signature>
+	</function>
+	<function>
 		<name>join</name>
 		<function-class>sys.utils.TagUtils</function-class>
 		<function-signature>java.lang.String join(java.lang.Iterable,java.lang.String)</function-signature>

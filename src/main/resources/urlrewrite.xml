@@ -101,4 +101,10 @@
 		<from casesensitive="true">^/m/dispatchWorkFile_search$</from>
 		<to>/dispatchWorkFile_search</to>
 	</rule>
+	<rule>
+		<note>缴纳党费确认</note>
+		<condition type="method">POST</condition>
+		<from casesensitive="true">^/m/pmd/payConfirm</from>
+		<to>/user/pmd/payConfirm</to>
+	</rule>
 </urlrewrite>
