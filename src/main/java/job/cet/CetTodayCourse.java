@@ -24,7 +24,7 @@ public class CetTodayCourse implements Job {
             cetShortMsgService.todayCourse(null);
 
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

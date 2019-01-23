@@ -35,7 +35,7 @@ public class SyncPmdAdmin implements Job {
         try {
             pmdPartyAdminService.syncPartyAdmins();
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
 
         logger.info("同步党建党支部管理员...");
@@ -43,7 +43,7 @@ public class SyncPmdAdmin implements Job {
             Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(null);
             pmdBranchAdminService.syncBranchAdmins(new ArrayList<>(allPayPartyIdSet.keySet()));
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

@@ -47,7 +47,7 @@ public class ScPassportMsgService extends ScBaseMapper {
 
             success = shortMsgService.send(bean, "127.0.0.1");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             logger.error("新任干部提交证件短信通知失败。接收人：{}, {},{}", new Object[]{
                     cadre.getRealname(), cadre.getMobile(), ex.getMessage()
             });

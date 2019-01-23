@@ -25,7 +25,7 @@ public class PassportExpire implements Job {
         try {
             passportService.expire();
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

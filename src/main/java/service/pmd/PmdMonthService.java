@@ -91,11 +91,11 @@ public class PmdMonthService extends PmdBaseMapper {
         try {
             PropertyUtils.copyProperties(record, r);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         PmdMonthExample example = new PmdMonthExample();
@@ -118,11 +118,11 @@ public class PmdMonthService extends PmdBaseMapper {
         try {
             PropertyUtils.copyProperties(record, r);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         
         pmdMonthMapper.updateByPrimaryKeySelective(record);

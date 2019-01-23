@@ -37,7 +37,7 @@ public class ExceptionHandlerController {
 
     public String getMsg(HttpServletRequest request, Exception ex) {
 
-        //ex.printStackTrace();
+        //logger.error("异常", ex);
         String username = ShiroHelper.getCurrentUsername();
         return MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
                 username, ex.getMessage(), request.getRequestURI(),
@@ -115,11 +115,11 @@ public class ExceptionHandlerController {
             logger.error(getMsg(request, ex), ex);
         }
 
-        //ex.printStackTrace();
+        //logger.error("异常", ex);
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
-            //ex.printStackTrace();
+            //logger.error("异常", ex);
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", msg);
             mv.setViewName("500");
@@ -145,7 +145,7 @@ public class ExceptionHandlerController {
 
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
-            //ex.printStackTrace();
+            //logger.error("异常", ex);
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", "没有权限访问");
             mv.setViewName("unauthorized");
@@ -153,7 +153,7 @@ public class ExceptionHandlerController {
         }
 
         ModelAndView mav = new ModelAndView();
-        //ex.printStackTrace();
+        //logger.error("异常", ex);
 
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
@@ -174,7 +174,7 @@ public class ExceptionHandlerController {
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
-            //ex.printStackTrace();
+            //logger.error("异常", ex);
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", "系统异常[" + ex.getMessage() + "]，请稍后重试");
             mv.setViewName("500");
@@ -230,7 +230,7 @@ public class ExceptionHandlerController {
         try {
             JSONUtils.write(response, resultMap, false);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
     }
 

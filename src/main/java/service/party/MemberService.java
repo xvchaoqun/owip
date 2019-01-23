@@ -337,9 +337,9 @@ public class MemberService extends MemberBaseMapper {
             ConvertUtils.register(new DateConverter(null), java.util.Date.class);
             BeanUtils.copyProperties(modify, memberMapper.selectByPrimaryKey(userId));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         modify.setReason(reason);
         modify.setOpUserId(ShiroHelper.getCurrentUserId());

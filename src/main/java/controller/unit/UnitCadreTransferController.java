@@ -63,7 +63,7 @@ public class UnitCadreTransferController extends BaseController {
                 try {
                     unitCadreDispatchIdSet.add(Integer.valueOf(str));
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error("异常", ex);
                 }
             }
         }

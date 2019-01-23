@@ -28,7 +28,7 @@ import java.util.Map;
 public abstract class Source {
 
     //public DruidDataSource bnuDS;
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static Logger logger = LoggerFactory.getLogger(Source.class);
     private static DataSource ds;
     @Autowired
     public SysSyncMapper sysSyncMapper;
@@ -60,7 +60,7 @@ public abstract class Source {
         try {
             return ds.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         return null;
@@ -73,7 +73,7 @@ public abstract class Source {
             try {
                 rs.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("异常", e);
             }
         }
 
@@ -81,14 +81,14 @@ public abstract class Source {
             try {
                 stat.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("异常", e);
             }
         }
 
         try {
             conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
     }
 
@@ -145,7 +145,7 @@ public abstract class Source {
             }
         } catch (Exception ex) {
             logger.error("出错：{}", JSONUtils.toString(map, false));
-            ex.printStackTrace();
+            logger.error("异常", ex);
         } finally {
             realeaseResource(rs, stat, conn);
         }
@@ -183,7 +183,7 @@ public abstract class Source {
             }
         } catch (Exception ex) {
             logger.error("出错：{}", JSONUtils.toString(map, false));
-            ex.printStackTrace();
+            logger.error("异常", ex);
         } finally {
             realeaseResource(rs, stat, conn);
         }
@@ -245,7 +245,7 @@ public abstract class Source {
 
         } catch (Exception ex) {
             logger.error("出错：{}", JSONUtils.toString(map,false));
-            ex.printStackTrace();
+            logger.error("异常", ex);
         } finally {
             realeaseResource(rs, stat, conn);
         }

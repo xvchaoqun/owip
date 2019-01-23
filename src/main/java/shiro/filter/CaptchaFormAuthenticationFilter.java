@@ -165,7 +165,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
             JSONUtils.write((HttpServletResponse) response, resultMap);
         } catch (IOException e1) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            logger.error("异常", e1);
         }
         return false;
     }

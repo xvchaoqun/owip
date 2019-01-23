@@ -188,7 +188,7 @@ public class CrsShortMsgService extends CrsBaseMapper {
 
             shortMsgService.send(bean, "127.0.0.1");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             logger.error("竞争上岗，给未上传PPT的应聘人员发短信提醒失败。接收人：{}, {},{}", new Object[]{
                     uv.getRealname(), uv.getMobile(), ex.getMessage()
             });
@@ -224,7 +224,7 @@ public class CrsShortMsgService extends CrsBaseMapper {
 
             shortMsgService.send(bean, "127.0.0.1");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             logger.error("竞争上岗，给未上传PPT的应聘人员发催交短信失败。接收人：{}, {},{}", new Object[]{
                     uv.getRealname(), uv.getMobile(), ex.getMessage()
             });
@@ -270,7 +270,7 @@ public class CrsShortMsgService extends CrsBaseMapper {
 
                 shortMsgService.send(bean, ip);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error("异常", ex);
                 logger.error("竞争上岗报名，给干部管理员发短信提醒失败。申请人：{}， 接收人：{}, {},{}", new Object[]{
                         applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
                 });
@@ -338,7 +338,7 @@ public class CrsShortMsgService extends CrsBaseMapper {
 
                     shortMsgService.send(bean, "127.0.0.1");
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error("异常", ex);
                     logger.error("竞争上岗报名结束，给管理员发短信提醒失败。接收人：{}, {},{}", new Object[]{
                             uv.getRealname(), uv.getMobile(), ex.getMessage()
                     });

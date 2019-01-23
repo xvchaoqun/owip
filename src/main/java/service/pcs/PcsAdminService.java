@@ -11,6 +11,8 @@ import domain.pcs.PcsConfig;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ import java.util.*;
 @Service
 public class PcsAdminService extends PcsBaseMapper {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
@@ -282,7 +285,7 @@ public class PcsAdminService extends PcsBaseMapper {
                         try {
                             if (shortMsgService.send(bean, ip)) success++;
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            logger.error("异常", ex);
                         }
 
                     }
@@ -339,7 +342,7 @@ public class PcsAdminService extends PcsBaseMapper {
                     try {
                         if (shortMsgService.send(bean, ip)) success++;
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error("异常", ex);
                     }
 
                 }
@@ -396,7 +399,7 @@ public class PcsAdminService extends PcsBaseMapper {
                     try {
                         if (shortMsgService.send(bean, ip)) success++;
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error("异常", ex);
                     }
 
                 }

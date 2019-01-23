@@ -27,7 +27,7 @@ public class OnlineStatic implements Job {
             sysOnlineStaticService.stat();
 
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

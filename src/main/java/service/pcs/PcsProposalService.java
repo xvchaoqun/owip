@@ -71,7 +71,7 @@ public class PcsProposalService extends PcsBaseMapper {
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
-                ex.printStackTrace();
+                logger.error("异常", ex);
                 logger.error("党代表提交提案通知管理员失败。申请人：{}， 审核人：{}, {},{}", new Object[]{
                         applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
                 });
@@ -108,7 +108,7 @@ public class PcsProposalService extends PcsBaseMapper {
 
                 shortMsgService.send(bean, "127.0.0.1");
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error("异常", ex);
                 logger.error("党代表-给提案附议人发短信提醒失败。被邀请人：{}，审核人：{}, {}",
                         candidate.getRealname(), ShiroHelper.getCurrentUser().getRealname(), ex.getMessage());
             }

@@ -25,7 +25,7 @@ public class ApplySelfSendApprovalMsgToAdmin implements Job {
         try {
             abroadShortMsgService.sendAbroadApprovalMsgToAdmin();
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

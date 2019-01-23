@@ -97,7 +97,7 @@ public class MemberRegController extends MemberBaseController {
 		}catch (RegException re){
 			return failed(re.getMessage());
 		}catch (Exception ex){
-			ex.printStackTrace();
+			logger.error("异常", ex);
 			logger.error("注册失败：" + ex.getMessage());
 			return failed("系统错误：" + ex.getMessage());
 		}*/

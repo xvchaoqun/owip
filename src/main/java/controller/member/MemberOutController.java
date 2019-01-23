@@ -455,9 +455,9 @@ public class MemberOutController extends MemberBaseController {
                         try {
                             BeanUtils.copyProperties(_modifyRecord, before);
                         } catch (IllegalAccessException e) {
-                            e.printStackTrace();
+                            logger.error("异常", e);
                         } catch (InvocationTargetException e) {
-                            e.printStackTrace();
+                            logger.error("异常", e);
                         }
                         _modifyRecord.setId(null);
                         _modifyRecord.setOutId(_memberOut.getId());
@@ -473,9 +473,9 @@ public class MemberOutController extends MemberBaseController {
                         try {
                             BeanUtils.copyProperties(_modifyRecord, _memberOut);
                         } catch (IllegalAccessException e) {
-                            e.printStackTrace();
+                            logger.error("异常", e);
                         } catch (InvocationTargetException e) {
-                            e.printStackTrace();
+                            logger.error("异常", e);
                         }
                         _modifyRecord.setId(null);
                         _modifyRecord.setOutId(_memberOut.getId());

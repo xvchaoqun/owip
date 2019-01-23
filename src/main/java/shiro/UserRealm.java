@@ -1,19 +1,15 @@
 package shiro;
 
 import domain.sys.SysUserView;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginService;
 import service.SpringProps;
@@ -27,6 +23,7 @@ import java.util.Set;
 
 public class UserRealm extends AuthorizingRealm {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SpringProps springProps;
     @Autowired
@@ -81,7 +78,7 @@ public class UserRealm extends AuthorizingRealm {
             try{
                 tryLogin = loginService.tryLogin(username, inputPasswd);
             }catch (Exception ex){
-                ex.printStackTrace();
+                logger.error("异常", ex);
                 throw new SSOException();
             }
             if(!tryLogin){

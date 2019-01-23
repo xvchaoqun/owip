@@ -5,6 +5,8 @@ import domain.member.MemberApplyView;
 import domain.party.Branch;
 import domain.party.Party;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.party.BranchMemberService;
 import service.party.BranchService;
 import service.party.PartyMemberService;
@@ -20,6 +22,8 @@ import java.util.Map;
  * Created by lm on 2018/6/8.
  */
 public class PartyHelper {
+
+    private static Logger logger = LoggerFactory.getLogger(PartyHelper.class);
 
     private static PartyService partyService = CmTag.getBean(PartyService.class);
     private static BranchService branchService = CmTag.getBean(BranchService.class);
@@ -82,7 +86,7 @@ public class PartyHelper {
         try {
             PropertyUtils.copyProperties(memberApply, memberApplyView);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         return getApplyStatus(memberApply);

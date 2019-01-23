@@ -6,12 +6,9 @@ import job.Test;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.commons.lang.math.RandomUtils;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerKey;
+import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.ui.Model;
@@ -26,13 +23,8 @@ import sys.utils.FormUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static org.quartz.JobBuilder.newJob;
@@ -44,6 +36,8 @@ import static org.quartz.TriggerBuilder.newTrigger;
 //@Controller
 //@RequestMapping("/test")
 public class TestController extends BaseController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     //@Autowired
     //TestServcie testServcie;
@@ -157,14 +151,14 @@ public class TestController extends BaseController {
                     try {
                         System.out.println(Arrays.toString(t.getBytes()));
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("异常", e);
                     }
                 }
             });
 
             file.transferTo(new File("d:/test.jpg"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         return FormUtils.SUCCESS;
     }

@@ -94,7 +94,7 @@ public class PmdExtService extends PmdBaseMapper{
                 map.put(node.valueOf("@name").trim(), Integer.valueOf(node.getText()));
             }
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
 
         return map;

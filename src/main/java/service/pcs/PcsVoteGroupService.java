@@ -4,6 +4,8 @@ import controller.global.OpException;
 import controller.pcs.vote.PcsVoteCandidateFormBean;
 import domain.pcs.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import java.util.List;
 @Service
 public class PcsVoteGroupService extends PcsBaseMapper {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -115,11 +118,11 @@ public class PcsVoteGroupService extends PcsBaseMapper {
             try {
                 PropertyUtils.copyProperties(record, bean);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                logger.error("异常", e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();
+                logger.error("异常", e);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                logger.error("异常", e);
             }
 
             int userId = record.getUserId();

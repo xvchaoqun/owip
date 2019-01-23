@@ -25,7 +25,7 @@ public class SyncBKS implements Job {
         try {
             syncService.syncAllBks(true);
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

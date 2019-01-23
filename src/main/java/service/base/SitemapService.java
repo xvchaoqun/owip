@@ -5,6 +5,8 @@ import domain.base.SitemapExample;
 import domain.sys.SysResource;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,15 +18,12 @@ import service.sys.SysResourceService;
 import service.sys.SysUserService;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SitemapService extends BaseMapper{
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private SysUserService sysUserService;
@@ -173,10 +172,10 @@ public class SitemapService extends BaseMapper{
 			try {
 				BeanUtils.copyProperties(_siteMap, sitemap);
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				logger.error("异常", e);
 				continue;
 			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+				logger.error("异常", e);
 				continue;
 			}
 

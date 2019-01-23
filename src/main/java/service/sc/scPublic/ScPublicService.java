@@ -205,7 +205,7 @@ public class ScPublicService extends ScBaseMapper {
 
                     shortMsgService.send(bean, null);
                 }catch (Exception ex){
-                    ex.printStackTrace();
+                    logger.error("异常", ex);
                     logger.error("干部任前公示结束确认提醒失败。公示编号：{}， 接收人：{}, {}",
                             scPublic.getCode(), uv.getRealname(), uv.getCode());
                 }

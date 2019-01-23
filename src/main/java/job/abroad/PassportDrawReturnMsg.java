@@ -25,7 +25,7 @@ public class PassportDrawReturnMsg implements Job {
         try {
             abroadShortMsgService.sendReturnMsg();
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

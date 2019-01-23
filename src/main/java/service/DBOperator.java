@@ -2,6 +2,8 @@ package service;
 
 import bean.ColumnBean;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.util.Map;
 @Service
 public class DBOperator {
 
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private DataSource dataSource;
 
@@ -40,7 +43,7 @@ public class DBOperator {
 			}
 		}catch(SQLException ex){
 
-			ex.printStackTrace();
+			logger.error("异常", ex);
 		}finally{
 
 			try {
@@ -48,7 +51,7 @@ public class DBOperator {
 				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("异常", e);
 			}
 		}
 
@@ -76,7 +79,7 @@ public class DBOperator {
 			}
 		}catch(SQLException ex){
 			
-			ex.printStackTrace();
+			logger.error("异常", ex);
 		}finally{
 			
 			try {
@@ -84,7 +87,7 @@ public class DBOperator {
 				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("异常", e);
 			}
 		}
 		
@@ -141,7 +144,7 @@ public class DBOperator {
 				columnBeans.add(new ColumnBean(columnName, dataType, length,  comments));
 			}			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("异常", e);
 			//throw new Exception("连接数据库失败,请检查数据库连接。");			
 		} finally {
 			//close(conn, stat, rs);
@@ -150,7 +153,7 @@ public class DBOperator {
 				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("异常", e);
 			}
 		}
 		
@@ -187,7 +190,7 @@ public class DBOperator {
 				columnBeansMap.put(columnName, new ColumnBean(columnName, dataType, length,  comments));
 			}			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("异常", e);
 			//throw new Exception("连接数据库失败,请检查数据库连接。");			
 		} finally {
 			//close(conn, stat, rs);
@@ -196,7 +199,7 @@ public class DBOperator {
 				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("异常", e);
 			}
 		}
 		

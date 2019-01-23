@@ -11,6 +11,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.util.HtmlUtils;
 import sys.utils.PropertiesUtils;
 
@@ -20,6 +22,8 @@ import java.io.IOException;
  * Created by lm on 2017/10/24.
  */
 public class SendMsgUtils {
+
+    private static Logger logger = LoggerFactory.getLogger(SendMsgUtils.class);
 
     public static SendMsgResult sendMsg(String mobile, String content) {
 
@@ -48,7 +52,7 @@ public class SendMsgUtils {
             }
         } catch (IOException e) {
 
-            e.printStackTrace();
+            logger.error("异常", e);
             throw new OpException("系统错误:" + e.getMessage());
         }
 

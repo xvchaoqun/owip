@@ -2,6 +2,8 @@ package service;
 
 import bean.ColumnBean;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by fafa on 2016/1/15.
@@ -19,6 +24,7 @@ import java.util.*;
 @Service
 public class DBServcie {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private DataSource dataSource;
     @Autowired
@@ -63,7 +69,7 @@ public class DBServcie {
                 columnBeansMap.put(columnName, new ColumnBean(columnName, dataType, length,  comments));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
             //throw new Exception("连接数据库失败,请检查数据库连接。");
         } finally {
             //close(conn, stat, rs);
@@ -72,7 +78,7 @@ public class DBServcie {
                 conn.close();
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("异常", e);
             }
         }
 

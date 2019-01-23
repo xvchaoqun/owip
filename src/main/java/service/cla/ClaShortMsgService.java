@@ -86,7 +86,7 @@ public class ClaShortMsgService extends ClaBaseMapper {
         /*try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         System.out.println("发送短信开始。。。");*/
 
@@ -121,7 +121,7 @@ public class ClaShortMsgService extends ClaBaseMapper {
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
-                ex.printStackTrace();
+                logger.error("异常", ex);
                 logger.error("干部提交干部请假，给干部管理员发短信提醒失败。申请人：{}， 审核人：{}, {},{}", new Object[]{
                     applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
                 });
@@ -164,7 +164,7 @@ public class ClaShortMsgService extends ClaBaseMapper {
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
-                ex.printStackTrace();
+                logger.error("异常", ex);
                 logger.error("干部提交干部请假，给干部管理员发短信提醒失败。申请人：{}， 审核人：{}, {}, {}", new Object[]{
                         applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
                 });

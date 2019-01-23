@@ -6,6 +6,8 @@ import domain.oa.*;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,7 @@ import java.util.*;
 @Service
 public class OaTaskUserService extends OaBaseMapper{
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private ShortMsgService shortMsgService;
     @Autowired
@@ -341,7 +344,7 @@ void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedExc
             try {
                 send = shortMsgService.send(bean, ip);
             }catch (Exception ex){
-                ex.printStackTrace();
+                logger.error("异常", ex);
             }
             if(send)success++;
 
@@ -395,7 +398,7 @@ void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedExc
             try {
                 send = shortMsgService.send(bean, ip);
             }catch (Exception ex){
-                ex.printStackTrace();
+                logger.error("异常", ex);
             }
             if (send) {
                 success++;
@@ -448,7 +451,7 @@ void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedExc
         try {
             send = shortMsgService.send(bean, ip);
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
 
         OaTaskMsg oaTaskMsg = new OaTaskMsg();

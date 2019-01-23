@@ -1,10 +1,12 @@
 package sys.tags;
 
-import persistence.abroad.common.ApprovalResult;
 import domain.abroad.ApplySelf;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import persistence.abroad.ApplySelfMapper;
+import persistence.abroad.common.ApprovalResult;
 import service.abroad.ApplySelfService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -19,6 +21,8 @@ import java.util.Map;
 
 @SuppressWarnings("serial")
 public class ApprovalTd extends BodyTagSupport {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     private int applySelfId;
     private boolean view;
@@ -138,7 +142,7 @@ public class ApprovalTd extends BodyTagSupport {
         try {
             writer.write(td);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         return EVAL_PAGE;

@@ -16,6 +16,8 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -35,12 +37,7 @@ import sys.utils.ImageUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Writer;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -48,6 +45,8 @@ import java.util.*;
  */
 @Service
 public class CadreAdformService extends BaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private FreemarkerService freemarkerService;
@@ -95,7 +94,7 @@ public class CadreAdformService extends BaseMapper {
             bean.setAvatarWidth(_avatar.getWidth());
             bean.setAvatarHeight(_avatar.getHeight());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         String base64 = ImageUtils.encodeImgageToBase64(avatar);
         bean.setAvatar(base64);

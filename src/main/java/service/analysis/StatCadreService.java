@@ -8,6 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import persistence.cadre.common.StatCadreBean;
 import service.BaseMapper;
@@ -20,17 +22,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2017/1/18.
  */
 @Service
 public class StatCadreService extends BaseMapper {
+
+    private static Logger logger = LoggerFactory.getLogger(StatCadreService.class);
 
     // 导出
     public XSSFWorkbook toXlsx() throws IOException {
@@ -98,7 +98,7 @@ public class StatCadreService extends BaseMapper {
                     if(data.get(i)!=null && StringUtils.isNotBlank(data.get(i).toString()))
                         cell.setCellValue(nf.parse((String) data.get(i)).doubleValue());
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    logger.error("异常", e);
                 }
 
             }

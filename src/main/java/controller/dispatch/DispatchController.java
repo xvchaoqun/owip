@@ -221,7 +221,7 @@ public class DispatchController extends DispatchBaseController {
             pdf2Swf(savePath, swfPath);
         } catch (IOException | InterruptedException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("异常", e);
 
             return null;
         }
@@ -323,7 +323,7 @@ public class DispatchController extends DispatchBaseController {
                 pdf2Swf(pdfPath, swfPath);
             } catch (IOException | InterruptedException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("异常", e);
             }
 
             record.setPptName(originalFilename);

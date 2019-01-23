@@ -8,18 +8,17 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class XlsUpload {
 
+    public static Logger logger = LoggerFactory.getLogger(XlsUpload.class);
     public final static int passportXLSColumnCount = 8;
     public final static int cadreXLSColumnCount = 7;
     public final static int cadreReserveXLSColumnCount = 7;
@@ -653,7 +652,7 @@ public class XlsUpload {
             try {
                 result = sdf.format(date);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("异常", e);
                 return "";
             }
             return result;

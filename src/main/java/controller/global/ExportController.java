@@ -94,7 +94,7 @@ public class ExportController extends HttpServlet {
                     t.transcode(input, output);
                 } catch (TranscoderException e) {
                     //out.print("Problem transcoding stream. See the web logs for more details.");
-                    //e.printStackTrace();
+                    //logger.error("异常", e);
                     logger.info("Problem transcoding stream. See the web logs for more details." + e.getMessage());
                 }
             } else if (ext == "svg") {

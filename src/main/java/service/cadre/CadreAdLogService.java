@@ -5,6 +5,8 @@ import domain.cadre.CadreAdLog;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import shiro.ShiroHelper;
@@ -19,6 +21,8 @@ import java.util.Date;
 @Service
 public class CadreAdLogService extends BaseMapper {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     public void addLog(int cadreId, String content, Byte module, Integer moduleId){
 
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
@@ -27,9 +31,9 @@ public class CadreAdLogService extends BaseMapper {
             ConvertUtils.register(new DateConverter(null), Date.class);
             BeanUtils.copyProperties(record, cadre);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         record.setId(null);

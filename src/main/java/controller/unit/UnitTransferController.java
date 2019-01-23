@@ -61,7 +61,7 @@ public class UnitTransferController extends BaseController {
                 try {
                     unitDispatchIdSet.add(Integer.valueOf(str));
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error("异常", ex);
                 }
             }
         }

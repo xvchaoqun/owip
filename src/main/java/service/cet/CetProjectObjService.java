@@ -404,9 +404,9 @@ public class CetProjectObjService extends CetBaseMapper {
             ConvertUtils.register(new BigDecimalConverter(null), java.math.BigDecimal.class);
             BeanUtils.copyProperties(cetProjectObj, get(userId, projectId));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         int objId = cetProjectObj.getId();
         cetProjectObj.setFinishPeriod(getFinishPeriod(projectId, objId).get(0));

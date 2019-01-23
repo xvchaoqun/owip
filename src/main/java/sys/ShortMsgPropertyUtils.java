@@ -25,7 +25,7 @@ public class ShortMsgPropertyUtils {
                 props = null;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         if(props == null){
             try {
@@ -34,7 +34,7 @@ public class ShortMsgPropertyUtils {
                 props = PropertiesLoaderUtils.loadProperties(resource);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("异常", e);
             }
         }
         if(null != props){

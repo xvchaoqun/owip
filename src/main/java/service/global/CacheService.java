@@ -258,7 +258,7 @@ public class CacheService extends BaseMapper {
                     try {
                         constantMap.put(field.getName(), field.get(null));
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        logger.error("异常", e);
                     }
                 }
             }
@@ -302,7 +302,7 @@ public class CacheService extends BaseMapper {
             FileUtils.writerText(CmTag.getJsFolder(), "var _cMap=" + mapper.writeValueAsString(cMap), "metadata.js", false);
             logger.info("==============刷新metadata.js成功=================");
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         return cMap;

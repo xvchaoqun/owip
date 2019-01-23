@@ -102,7 +102,7 @@ public class SyncService extends BaseMapper {
         try {
             ret = extJzgSalaryImport.excute(syncId);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             throw new OpException("教职工工资信息同步出错：" + ex.getMessage());
         }
 
@@ -146,7 +146,7 @@ public class SyncService extends BaseMapper {
         try {
             ret = extRetireSalaryImport.excute(syncId);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             throw new OpException("离退休工资信息同步出错：" + ex.getMessage());
         }
 
@@ -191,7 +191,7 @@ public class SyncService extends BaseMapper {
         try {
             extAbroadImport.excute(syncId);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             throw new OpException("学校信息同步出错：" + ex.getMessage());
         }
 
@@ -211,7 +211,7 @@ public class SyncService extends BaseMapper {
         try {
             updateByPrimaryKeySelective(record);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 
@@ -286,7 +286,7 @@ public class SyncService extends BaseMapper {
         try {
             extJzgImport.excute(syncId);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             throw new OpException("学校信息同步出错：" + ex.getMessage());
         }
 
@@ -306,7 +306,7 @@ public class SyncService extends BaseMapper {
                 try {
                     ret = syncExtJzg(extJzg);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error("异常", ex);
                 }
                 if (ret == 1) insertCount++;
                 if (ret == 0) updateCount++;
@@ -327,7 +327,7 @@ public class SyncService extends BaseMapper {
                 }
                 updateByPrimaryKeySelective(record);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error("异常", ex);
             }
         }
 
@@ -339,7 +339,7 @@ public class SyncService extends BaseMapper {
         try {
             updateByPrimaryKeySelective(record);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 
@@ -412,7 +412,7 @@ public class SyncService extends BaseMapper {
         try {
             extYjsImport.excute(syncId);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             throw new OpException("学校信息同步出错：" + ex.getMessage());
         }
 
@@ -434,7 +434,7 @@ public class SyncService extends BaseMapper {
                     ret = sysExtYjs(extYjs);
                 } catch (Exception ex) {
 
-                    ex.printStackTrace();
+                    logger.error("异常", ex);
                 }
                 if (ret == 1) insertCount++;
                 if (ret == 0) updateCount++;
@@ -455,7 +455,7 @@ public class SyncService extends BaseMapper {
                 }
                 updateByPrimaryKeySelective(record);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error("异常", ex);
             }
         }
 
@@ -467,7 +467,7 @@ public class SyncService extends BaseMapper {
         try {
             updateByPrimaryKeySelective(record);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 
@@ -542,7 +542,7 @@ public class SyncService extends BaseMapper {
         try {
             extBksImport.excute(syncId);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
             throw new OpException("学校信息同步出错：" + ex.getMessage());
         }
 
@@ -563,7 +563,7 @@ public class SyncService extends BaseMapper {
                 try {
                     ret = syncExtBks(extBks);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error("异常", ex);
                 }
                 if (ret == 1) insertCount++;
                 if (ret == 0) updateCount++;
@@ -584,7 +584,7 @@ public class SyncService extends BaseMapper {
                 }
                 updateByPrimaryKeySelective(record);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error("异常", ex);
             }
         }
 
@@ -596,7 +596,7 @@ public class SyncService extends BaseMapper {
         try {
             updateByPrimaryKeySelective(record);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 

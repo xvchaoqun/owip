@@ -889,9 +889,9 @@ public class ApplySelfService extends AbroadBaseMapper {
         try {
             BeanUtils.copyProperties(modify, applySelf);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         modify.setId(null);

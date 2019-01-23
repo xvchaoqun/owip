@@ -477,8 +477,8 @@ public class PassportController extends AbroadBaseController {
                             successCount += passportMapper.updateByExampleSelective(record, example);
                         }
                     }
-                }catch (Exception ex){
-                    ex.printStackTrace();
+                }catch (Exception e){
+                    logger.error("异常", e);
                 }
             }
         }

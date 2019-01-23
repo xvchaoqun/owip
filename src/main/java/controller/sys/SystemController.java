@@ -103,12 +103,12 @@ public class SystemController extends BaseController {
                             }
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("异常", e);
                     } finally {
                         try {
                             is1.close();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            logger.error("异常", e);
                         }
                     }
                 }
@@ -125,12 +125,12 @@ public class SystemController extends BaseController {
                             }
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("异常", e);
                     } finally {
                         try {
                             is2.close();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            logger.error("异常", e);
                         }
                     }
                 }
@@ -179,9 +179,9 @@ public class SystemController extends BaseController {
             return;
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         response.setHeader("Set-Cookie", "fileDownload=false; path=/");

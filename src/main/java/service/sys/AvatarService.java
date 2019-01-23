@@ -6,6 +6,8 @@ import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,7 @@ import java.io.IOException;
 @Service
 public class AvatarService extends BaseMapper{
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -124,7 +127,7 @@ public class AvatarService extends BaseMapper{
                         }
                     }
                 }catch (Exception ex){
-                    ex.printStackTrace();
+                    logger.error("异常", ex);
                     result.error++;
                 }
             }

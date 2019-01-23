@@ -5,6 +5,8 @@ import domain.pmd.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @Service
 public class PmdBranchService extends PmdBaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private PmdMonthService pmdMonthService;
@@ -60,7 +64,7 @@ public class PmdBranchService extends PmdBaseMapper {
         try {
             PropertyUtils.copyProperties(record, r);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         PmdBranchExample example = new PmdBranchExample();
@@ -87,7 +91,7 @@ public class PmdBranchService extends PmdBaseMapper {
         try {
             PropertyUtils.copyProperties(record, r);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         pmdBranchMapper.updateByPrimaryKeySelective(record);

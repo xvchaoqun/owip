@@ -269,7 +269,7 @@ public class PmdOrderService extends PmdBaseMapper {
             ret = StringUtils.equalsIgnoreCase(sign, verifySign);
             if(!ret) ret = StringUtils.equalsIgnoreCase(URLDecoder.decode(sign, "UTF-8"), verifySign);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         if (!ret) {
             logger.warn("签名校验失败，{}, verifySign={}, sign={}",

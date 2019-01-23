@@ -151,7 +151,7 @@ public class CmTag {
         try {
             return new File(ConfigUtil.defaultHomePath() + File.separator + relativePath).getCanonicalPath();
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         return null;

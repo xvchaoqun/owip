@@ -8,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -29,6 +31,7 @@ import java.util.Map;
 @Service
 public class FreemarkerService {
 
+    private static Logger logger = LoggerFactory.getLogger(FreemarkerService.class);
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
 
@@ -62,9 +65,9 @@ public class FreemarkerService {
             tp.process(dataMap, writer);
             return StringUtils.trimToNull(writer.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (TemplateException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         return null;

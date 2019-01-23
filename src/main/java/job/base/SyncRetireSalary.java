@@ -25,7 +25,7 @@ public class SyncRetireSalary implements Job {
         try {
             syncService.syncRetireSalary(true);
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

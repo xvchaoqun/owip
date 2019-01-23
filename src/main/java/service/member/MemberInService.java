@@ -1,11 +1,7 @@
 package service.member;
 
 import controller.global.OpException;
-import domain.member.Member;
-import domain.member.MemberIn;
-import domain.member.MemberInExample;
-import domain.member.MemberInModify;
-import domain.member.MemberInModifyExample;
+import domain.member.*;
 import domain.party.EnterApply;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
@@ -14,6 +10,8 @@ import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +36,7 @@ import java.util.List;
 @Service
 public class MemberInService extends MemberBaseMapper {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private MemberService memberService;
     @Autowired
@@ -290,9 +289,9 @@ public class MemberInService extends MemberBaseMapper {
             modify.setId(null);
             modify.setApplyUserId(memberIn.getUserId());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
         }
 
         modify.setInId(id);

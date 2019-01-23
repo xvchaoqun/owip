@@ -22,7 +22,7 @@ public class FlushMetadata implements Job {
         try {
             cacheService.flushMetadata();
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

@@ -587,11 +587,11 @@ public class PcsOwController extends PcsBaseController {
             try {
                 PropertyUtils.copyProperties(record, pcsBranchBean);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                logger.error("异常", e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();
+                logger.error("异常", e);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                logger.error("异常", e);
             }
         }
 

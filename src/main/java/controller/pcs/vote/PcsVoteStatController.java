@@ -86,7 +86,7 @@ public class PcsVoteStatController extends PcsBaseController {
         try {
             pcsVoteService.clear();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("异常", e);
             return failed("操作失败：" + e.getMessage());
         }
         logger.info("清空两委选举数据");

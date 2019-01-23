@@ -130,7 +130,7 @@ public class CisEvaluateController extends CisBaseController {
                 pdf2Swf(savePath, swfPath);
             } catch (IOException | InterruptedException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("异常", e);
             }
 
             record.setFileName(originalFilename);

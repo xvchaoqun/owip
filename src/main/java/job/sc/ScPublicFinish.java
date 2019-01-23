@@ -24,7 +24,7 @@ public class ScPublicFinish implements Job {
             scPublicService.autoFinish();
 
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

@@ -24,7 +24,7 @@ public class FlushCountCache implements Job {
             cacheService.refreshCacheCounts();
 
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error("异常", ex);
         }
     }
 }

@@ -400,7 +400,7 @@ public class CetShortMsgService extends CetBaseMapper {
                             saveMsg(tplKey, StringUtils.join(trainCourseIds, ","), userId, mobile, msg, send, null);
                             if (send) success++;
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            logger.error("异常", ex);
                         }
                     }
                 }
@@ -462,7 +462,7 @@ public class CetShortMsgService extends CetBaseMapper {
                             saveMsg(tplKey, projectId+"", userId, mobile, msg, send, null);
                             if (send) success++;
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            logger.error("异常", ex);
                         }
                     }
                 }

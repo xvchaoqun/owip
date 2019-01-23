@@ -1,11 +1,7 @@
 package service.cadre;
 
 import domain.base.MetaType;
-import domain.cadre.CadreAdminLevel;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadrePost;
-import domain.cadre.CadreView;
-import domain.cadre.CadreViewExample;
+import domain.cadre.*;
 import domain.dispatch.Dispatch;
 import domain.party.Branch;
 import domain.party.Party;
@@ -13,18 +9,14 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -46,11 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2017/1/19.
@@ -58,6 +46,7 @@ import java.util.Map;
 @Service
 public class CadreExportService extends BaseMapper {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     protected MetaTypeService metaTypeService;
     @Autowired
@@ -152,7 +141,7 @@ public class CadreExportService extends BaseMapper {
                     width = Integer.valueOf(split[1]);
                     sheet.setColumnWidth(i, (short) (35.7 * width));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.error("异常", e);
                 }
             }
         }

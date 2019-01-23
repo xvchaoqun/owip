@@ -36,7 +36,7 @@ public class MetaClassTypeController extends BaseController{
             }
 
         }catch(RuntimeException e){
-            e.printStackTrace();
+            logger.error("异常", e);
         }
         if(afterStr==null){
             throw new UnauthorizedException();
