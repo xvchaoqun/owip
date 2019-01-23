@@ -237,14 +237,14 @@ public class PmdConfigMemberController extends PmdBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "在职教职工党员工资数据(" + salaryMonth + ")";
+        String fileName = "在职教职工党员工资(" + salaryMonth + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
     
     public void extRetireSalary_export(String salaryMonth, List<ExtRetireSalary> records, HttpServletResponse response) {
 
         int rownum = records.size();
-        String[] titles = {"日期|100","工号|100","姓名|50","所在分党委|350|left","所在党支部|350|left","社保养老金|80"};
+        String[] titles = {"日期|100","工号|100","姓名|50","所在分党委|350|left","所在党支部|350|left","党费计算基数|80"};
         List<String[]> valuesList = new ArrayList<>();
     
         Map<Integer, Party> partyMap = partyService.findAll();
@@ -277,11 +277,11 @@ public class PmdConfigMemberController extends PmdBaseController {
                     realname,
                     partyName,
                     branchName,
-                    NumberUtils.stripTrailingZeros(record.getLtxf())
+                    NumberUtils.stripTrailingZeros(record.getBase())
             };
             valuesList.add(values);
         }
-        String fileName = "离退休党员工资数据(" + salaryMonth + ")";
+        String fileName = "离退休党费计算基数(" + salaryMonth + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
     

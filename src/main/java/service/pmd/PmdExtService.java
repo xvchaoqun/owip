@@ -328,32 +328,31 @@ public class PmdExtService extends PmdBaseMapper{
         return duePay;
     }
 
-    // 离退休人员社保养老金
+    // 离退休人员党费计算基数
     // <userId, MemberTeacher>
-    public BigDecimal getLtxf(String code){
+    public BigDecimal getRetireBase(String code){
 
-        return iPmdMapper.getLatestLtxf(code);
+        return iPmdMapper.getLatestRetireBase(code);
     }
 
-    // 根据离退休人员社保养老金计算党费
-    public BigDecimal getDuePayFromLtxf(BigDecimal ltxf){
+    // 根据离退休人员党费计算基数计算党费
+    public BigDecimal getDuePayFromRetireBase(BigDecimal base){
 
         BigDecimal duePay = null;
         
-        
-        if (ltxf == null || ltxf.compareTo(BigDecimal.ZERO) <= 0) {
-            // 没有读取到离退休工资的情况？
+        if (base == null || base.compareTo(BigDecimal.ZERO) <= 0) {
+            // 没有读取到离退休党费计算基数的情况？
             return null;
         }
-        // 201901调整为社保养老金的30%
-        ltxf = ltxf.multiply(BigDecimal.valueOf(0.3));
+        // 201901调整为党费计算基数的30%
+        base = base.multiply(BigDecimal.valueOf(0.3));
         
-        if (ltxf.compareTo(BigDecimal.valueOf(5000)) > 0) {
+        if (base.compareTo(BigDecimal.valueOf(5000)) > 0) {
 
-            duePay = ltxf.multiply(BigDecimal.valueOf(0.01));
+            duePay = base.multiply(BigDecimal.valueOf(0.01));
         } else {
 
-            duePay = ltxf.multiply(BigDecimal.valueOf(0.005));
+            duePay = base.multiply(BigDecimal.valueOf(0.005));
         }
 
         return duePay;

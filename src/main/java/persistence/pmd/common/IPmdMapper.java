@@ -89,9 +89,9 @@ public interface IPmdMapper {
     @Select("select * from ext_retire_salary where zgh=#{zgh} and rq=#{rq}")
     public ExtRetireSalary getExtRetireSalary(@Param("rq") String salaryMonth, @Param("zgh") String code);
 
-    // 读取最新的离退休人员社保养老金
-    @Select("select ltxf from ext_retire_salary where zgh = #{code} order by rq desc limit 1")
-    BigDecimal getLatestLtxf(@Param("code") String code);
+    // 读取最新的离退休人员党费计算基数
+    @Select("select base from ext_retire_salary where zgh = #{code} order by rq desc limit 1")
+    BigDecimal getLatestRetireBase(@Param("code") String code);
 
     // 往月延迟缴费党员数（已启动缴费，同步了党员信息之后汇总）
     public int historyDelayMemberCount(@Param("currentMonthId") int currentMonthId,

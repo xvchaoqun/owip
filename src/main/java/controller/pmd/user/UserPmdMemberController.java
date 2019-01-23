@@ -103,7 +103,7 @@ public class UserPmdMemberController extends PmdBaseController {
 
         if(pmdConfigMember.getConfigMemberType()== PmdConstants.PMD_MEMBER_TYPE_RETIRE){
 
-            return "pmd/user/pmdMember_setLtxf";
+            return "pmd/user/pmdMember_setRetireBase";
         }
 
         PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(pmdConfigMember.getConfigMemberTypeId());
@@ -145,7 +145,7 @@ public class UserPmdMemberController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 同步最新月份的离退休人员社保养老金
+    // 同步最新月份的离退休人员党费计算基数
     @RequestMapping("/pmdMember_syncRetireSalary")
     @ResponseBody
     public Map pmdMember_syncRetireSalary(int pmdMemberId) {
@@ -165,7 +165,7 @@ public class UserPmdMemberController extends PmdBaseController {
         if(extRetireSalaries!=null && extRetireSalaries.size()==1){
 
             ExtRetireSalary extRetireSalary = extRetireSalaries.get(0);
-            resultMap.put("ltxf", extRetireSalary.getLtxf());
+            resultMap.put("base", extRetireSalary.getBase());
             resultMap.put("rq", extRetireSalary.getRq());
 
             resultMap.put("exist", true);
@@ -174,13 +174,13 @@ public class UserPmdMemberController extends PmdBaseController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/pmdMember_setLtxf", method = RequestMethod.POST)
+    @RequestMapping(value = "/pmdMember_setRetireBase", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_setLtxf(int pmdMemberId, BigDecimal retireSalary, HttpServletRequest request) {
+    public Map do_pmdMember_setRetireBase(int pmdMemberId, BigDecimal retireSalary, HttpServletRequest request) {
 
         int userId = checkPayAuth(pmdMemberId, false);
 
-        pmdConfigMemberService.setLtxf(userId, retireSalary);
+        pmdConfigMemberService.setRetireBase(userId, retireSalary);
         return success(FormUtils.SUCCESS);
     }
 

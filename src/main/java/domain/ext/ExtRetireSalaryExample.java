@@ -235,66 +235,6 @@ public class ExtRetireSalaryExample {
             return (Criteria) this;
         }
 
-        public Criteria andLtxfIsNull() {
-            addCriterion("ltxf is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfIsNotNull() {
-            addCriterion("ltxf is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfEqualTo(BigDecimal value) {
-            addCriterion("ltxf =", value, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfNotEqualTo(BigDecimal value) {
-            addCriterion("ltxf <>", value, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfGreaterThan(BigDecimal value) {
-            addCriterion("ltxf >", value, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("ltxf >=", value, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfLessThan(BigDecimal value) {
-            addCriterion("ltxf <", value, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("ltxf <=", value, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfIn(List<BigDecimal> values) {
-            addCriterion("ltxf in", values, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfNotIn(List<BigDecimal> values) {
-            addCriterion("ltxf not in", values, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("ltxf between", value1, value2, "ltxf");
-            return (Criteria) this;
-        }
-
-        public Criteria andLtxfNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("ltxf not between", value1, value2, "ltxf");
-            return (Criteria) this;
-        }
-
         public Criteria andRqIsNull() {
             addCriterion("rq is null");
             return (Criteria) this;
@@ -362,6 +302,66 @@ public class ExtRetireSalaryExample {
 
         public Criteria andRqNotBetween(String value1, String value2) {
             addCriterion("rq not between", value1, value2, "rq");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseIsNull() {
+            addCriterion("base is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseIsNotNull() {
+            addCriterion("base is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseEqualTo(BigDecimal value) {
+            addCriterion("base =", value, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseNotEqualTo(BigDecimal value) {
+            addCriterion("base <>", value, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseGreaterThan(BigDecimal value) {
+            addCriterion("base >", value, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("base >=", value, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseLessThan(BigDecimal value) {
+            addCriterion("base <", value, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("base <=", value, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseIn(List<BigDecimal> values) {
+            addCriterion("base in", values, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseNotIn(List<BigDecimal> values) {
+            addCriterion("base not in", values, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("base between", value1, value2, "base");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("base not between", value1, value2, "base");
             return (Criteria) this;
         }
     }

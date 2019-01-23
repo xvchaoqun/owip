@@ -319,8 +319,8 @@ public class PmdMonthService extends PmdBaseMapper {
         BigDecimal duePay = null;
         // 党员分类别
         Integer configMemberTypeId = null;
-        // 离退休人员社保养老金
-        BigDecimal ltxf = null;
+        // 离退休人员党费计算基数
+        BigDecimal retireBase = null;
 
         Boolean hasSalary = null;
         // 是否需要提交工资明细，如果是A1、A2类别的党员还没提交工资明细则需要，否则不需要（辅助字段）
@@ -335,7 +335,7 @@ public class PmdMonthService extends PmdBaseMapper {
             configMemberType = pmdConfigMember.getConfigMemberType();
             duePay = pmdConfigMember.getDuePay();
             configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
-            ltxf = pmdConfigMember.getRetireSalary();
+            retireBase = pmdConfigMember.getRetireSalary();
             if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
                 hasSalary = BooleanUtils.isTrue(pmdConfigMember.getHasSalary());
             }
@@ -379,8 +379,8 @@ public class PmdMonthService extends PmdBaseMapper {
                         configMemberTypeId = pmdConfigMemberType.getId();
                     }
 
-                    ltxf = pmdExtService.getLtxf(memberTeacher.getCode());
-                    duePay = pmdExtService.getDuePayFromLtxf(ltxf);
+                    retireBase = pmdExtService.getRetireBase(memberTeacher.getCode());
+                    duePay = pmdExtService.getDuePayFromRetireBase(retireBase);
                 } else {
                     boolean syb = pmdExtService.isSYB(memberTeacher);
                     if (syb) {
@@ -411,7 +411,7 @@ public class PmdMonthService extends PmdBaseMapper {
             record.setConfigMemberType(configMemberType);
             record.setConfigMemberTypeId(configMemberTypeId);
             record.setDuePay(duePay);
-            record.setRetireSalary(ltxf);
+            record.setRetireSalary(retireBase);
             // 默认线上缴费
             record.setIsOnlinePay(true);
             // ???
@@ -477,7 +477,7 @@ public class PmdMonthService extends PmdBaseMapper {
                 }
             }
             _pmdMember.setConfigMemberDuePay(duePay);
-            _pmdMember.setSalary(ltxf);
+            _pmdMember.setSalary(retireBase);
             _pmdMember.setDuePay(duePay);
 
             // 只针对学生党员
@@ -563,7 +563,7 @@ public class PmdMonthService extends PmdBaseMapper {
             pmdConfigResetService.updateDuePayByJzgSalary(ejs);
 
             ExtRetireSalary ers = iPmdMapper.getExtRetireSalary(_salaryMonth, uv.getCode());
-            // 更新离退休人员社保养老金
+            // 更新离退休人员党费计算基数
             pmdConfigResetService.updateDuePayByRetireSalary(ers);
         }
 

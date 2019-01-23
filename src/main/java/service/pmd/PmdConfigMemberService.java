@@ -86,8 +86,8 @@ public class PmdConfigMemberService extends PmdBaseMapper {
         return false;
     }
 
-    // 判断是否允许设置离退休人员社保养老金
-    public boolean canSetLtxf(int userId){
+    // 判断是否允许设置离退休人员党费计算基数
+    public boolean canSetRetireBase(int userId){
 
         PmdConfigMember pmdConfigMember = getPmdConfigMember(userId);
         if(pmdConfigMember!=null) {
@@ -147,13 +147,13 @@ public class PmdConfigMemberService extends PmdBaseMapper {
                 JSONUtils.toString(getPmdConfigMember(userId), false))));
     }
 
-    // 修改离退休人员社保养老金
+    // 修改离退休人员党费计算基数
     @Transactional
     @CacheEvict(value = "PmdConfigMember", key = "#userId")
-    public void setLtxf(int userId, BigDecimal retireSalary) {
+    public void setRetireBase(int userId, BigDecimal retireSalary) {
 
-        if(!canSetLtxf(userId)){
-            throw new OpException("不允许设置离退休人员社保养老金");
+        if(!canSetRetireBase(userId)){
+            throw new OpException("不允许设置离退休人员党费计算基数");
         }
 
         PmdConfigMember pmdConfigMember = getPmdConfigMember(userId);
@@ -165,7 +165,7 @@ public class PmdConfigMemberService extends PmdBaseMapper {
         record.setConfigMemberTypeId(pmdConfigMember.getConfigMemberTypeId());
         record.setIsOnlinePay(true);
         record.setRetireSalary(retireSalary);
-        BigDecimal duePay = pmdExtService.getDuePayFromLtxf(retireSalary);
+        BigDecimal duePay = pmdExtService.getDuePayFromRetireBase(retireSalary);
         record.setDuePay(duePay);
         record.setHasReset(true);
 
@@ -173,10 +173,10 @@ public class PmdConfigMemberService extends PmdBaseMapper {
         pmdConfigMemberMapper.updateByPrimaryKey(record);
 
         // 更新当前缴费月份数据（未缴费前）
-        updatePmdMemberDuePay(userId, duePay, MessageFormat.format("修改离退休人员社保养老金,{0}->{1}",
+        updatePmdMemberDuePay(userId, duePay, MessageFormat.format("修改离退休人员党费计算基数,{0}->{1}",
                 pmdConfigMember.getRetireSalary(), retireSalary));
 
-        logger.info(logService.log(LogConstants.LOG_PMD, MessageFormat.format("修改离退休人员社保养老金, 修改前：{0}，修改后：{1}",
+        logger.info(logService.log(LogConstants.LOG_PMD, MessageFormat.format("修改离退休人员党费计算基数, 修改前：{0}，修改后：{1}",
                 JSONUtils.toString(pmdConfigMember, false),
                 JSONUtils.toString(getPmdConfigMember(userId), false))));
     }

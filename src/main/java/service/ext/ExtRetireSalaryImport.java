@@ -36,7 +36,7 @@ public class ExtRetireSalaryImport extends Source {
         cal.add(Calendar.MONTH, -1);
         String lastRq = DateUtils.formatDate(cal.getTime(), "yyyyMM");
 
-        logger.info("同步最新两个月的离退休人员社保养老金信息:" + code);
+        logger.info("同步最新两个月的离退休人员党费计算基数信息:" + code);
         excute(schema, tableName, String.format("where zgh='%s' and (rq='%s' or rq='%s')", code, lastRq, rq));
     }
 
@@ -67,8 +67,10 @@ public class ExtRetireSalaryImport extends Source {
         ExtRetireSalaryExample example = new ExtRetireSalaryExample();
         example.createCriteria().andZghEqualTo(rs.getString("zgh")).andRqEqualTo(rs.getString("rq"));
 
-        BigDecimal ltxf = record.getLtxf();
-        if(ltxf==null || ltxf.compareTo(BigDecimal.valueOf(0)) <= 0) return;
+        record.setBase(rs.getBigDecimal("yljffje"));
+
+        BigDecimal base = record.getBase();
+        if(base==null || base.compareTo(BigDecimal.valueOf(0)) <= 0) return;
 
         List<ExtRetireSalary> records = extRetireSalaryMapper.selectByExample(example);
         if (records.size() > 0) {

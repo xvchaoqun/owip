@@ -242,15 +242,15 @@ public class PmdMemberService extends PmdBaseMapper {
             PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
 
             // 同步公式对应的党费
-            BigDecimal ltxf = null;
+            BigDecimal retireBase = null;
             Boolean isSalary = false; // 是否由工资计算党费
             Boolean isRetire = false; // 是否由离退休计算党费
             Boolean needSetSalary = false;
             if(setType==PmdConstants.PMD_NORM_SET_TYPE_FORMULA) {
                 if (pmdNorm.getFormulaType() == PmdConstants.PMD_FORMULA_TYPE_RETIRE) {
                     isRetire = true;
-                    ltxf = pmdExtService.getLtxf(uv.getCode());
-                    amount = pmdExtService.getDuePayFromLtxf(ltxf);
+                    retireBase = pmdExtService.getRetireBase(uv.getCode());
+                    amount = pmdExtService.getDuePayFromRetireBase(retireBase);
                 } else if (pmdNorm.getFormulaType() == PmdConstants.PMD_FORMULA_TYPE_ONJOB ||
                         pmdNorm.getFormulaType() == PmdConstants.PMD_FORMULA_TYPE_EXTERNAL) {
 
@@ -264,7 +264,7 @@ public class PmdMemberService extends PmdBaseMapper {
                 }
             }
             if(!isRetire){
-                // 清空离退休人员社保养老金
+                // 清空离退休人员党费计算基数
                 commonMapper.excuteSql(String.format("update pmd_config_member " +
                         "set retire_salary=null where user_id=%s", userId));
             }
@@ -289,7 +289,7 @@ public class PmdMemberService extends PmdBaseMapper {
                 record.setConfigMemberType(configMemberType);
                 record.setConfigMemberTypeId(configMemberTypeId);
                 record.setDuePay(amount);
-                record.setRetireSalary(ltxf);
+                record.setRetireSalary(retireBase);
                 record.setHasSalary(hasSalary);
                 record.setHasReset(true);
 
@@ -302,7 +302,7 @@ public class PmdMemberService extends PmdBaseMapper {
             record.setConfigMemberTypeName(pmdConfigMemberType.getName());
             record.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
             record.setConfigMemberTypeNormName(pmdConfigMemberType.getPmdNorm().getName());
-            record.setSalary(ltxf);
+            record.setSalary(retireBase);
             record.setDuePayReason(pmdConfigMemberType.getName());
             record.setDuePay(amount);
             record.setConfigMemberDuePay(amount);

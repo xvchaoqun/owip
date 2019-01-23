@@ -2,10 +2,9 @@ package persistence.ext;
 
 import domain.ext.ExtRetireSalary;
 import domain.ext.ExtRetireSalaryExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface ExtRetireSalaryMapper {
     long countByExample(ExtRetireSalaryExample example);

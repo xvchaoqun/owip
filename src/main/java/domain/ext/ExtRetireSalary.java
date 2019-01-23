@@ -8,9 +8,9 @@ public class ExtRetireSalary implements Serializable {
 
     private String zgh;
 
-    private BigDecimal ltxf;
-
     private String rq;
+
+    private BigDecimal base;
 
     private static final long serialVersionUID = 1L;
 
@@ -30,19 +30,19 @@ public class ExtRetireSalary implements Serializable {
         this.zgh = zgh == null ? null : zgh.trim();
     }
 
-    public BigDecimal getLtxf() {
-        return ltxf;
-    }
-
-    public void setLtxf(BigDecimal ltxf) {
-        this.ltxf = ltxf;
-    }
-
     public String getRq() {
         return rq;
     }
 
     public void setRq(String rq) {
         this.rq = rq == null ? null : rq.trim();
+    }
+
+    public BigDecimal getBase() {
+        return base;
+    }
+
+    public void setBase(BigDecimal base) {
+        this.base = base;
     }
 }

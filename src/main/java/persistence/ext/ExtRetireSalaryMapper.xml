@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.ext.ExtRetireSalary">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="zgh" jdbcType="VARCHAR" property="zgh" />
-    <result column="ltxf" jdbcType="DECIMAL" property="ltxf" />
     <result column="rq" jdbcType="VARCHAR" property="rq" />
+    <result column="base" jdbcType="DECIMAL" property="base" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, zgh, ltxf, rq
+    id, zgh, rq, base
   </sql>
   <select id="selectByExample" parameterType="domain.ext.ExtRetireSalaryExample" resultMap="BaseResultMap">
     select
@@ -99,10 +99,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.ext.ExtRetireSalary">
-    insert into ext_retire_salary (id, zgh, ltxf, 
-      rq)
-    values (#{id,jdbcType=INTEGER}, #{zgh,jdbcType=VARCHAR}, #{ltxf,jdbcType=DECIMAL}, 
-      #{rq,jdbcType=VARCHAR})
+    insert into ext_retire_salary (id, zgh, rq, 
+      base)
+    values (#{id,jdbcType=INTEGER}, #{zgh,jdbcType=VARCHAR}, #{rq,jdbcType=VARCHAR}, 
+      #{base,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="domain.ext.ExtRetireSalary">
     insert into ext_retire_salary
@@ -113,11 +113,11 @@
       <if test="zgh != null">
         zgh,
       </if>
-      <if test="ltxf != null">
-        ltxf,
-      </if>
       <if test="rq != null">
         rq,
+      </if>
+      <if test="base != null">
+        base,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -127,11 +127,11 @@
       <if test="zgh != null">
         #{zgh,jdbcType=VARCHAR},
       </if>
-      <if test="ltxf != null">
-        #{ltxf,jdbcType=DECIMAL},
-      </if>
       <if test="rq != null">
         #{rq,jdbcType=VARCHAR},
+      </if>
+      <if test="base != null">
+        #{base,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -150,11 +150,11 @@
       <if test="record.zgh != null">
         zgh = #{record.zgh,jdbcType=VARCHAR},
       </if>
-      <if test="record.ltxf != null">
-        ltxf = #{record.ltxf,jdbcType=DECIMAL},
-      </if>
       <if test="record.rq != null">
         rq = #{record.rq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.base != null">
+        base = #{record.base,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null">
@@ -165,8 +165,8 @@
     update ext_retire_salary
     set id = #{record.id,jdbcType=INTEGER},
       zgh = #{record.zgh,jdbcType=VARCHAR},
-      ltxf = #{record.ltxf,jdbcType=DECIMAL},
-      rq = #{record.rq,jdbcType=VARCHAR}
+      rq = #{record.rq,jdbcType=VARCHAR},
+      base = #{record.base,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -177,11 +177,11 @@
       <if test="zgh != null">
         zgh = #{zgh,jdbcType=VARCHAR},
       </if>
-      <if test="ltxf != null">
-        ltxf = #{ltxf,jdbcType=DECIMAL},
-      </if>
       <if test="rq != null">
         rq = #{rq,jdbcType=VARCHAR},
+      </if>
+      <if test="base != null">
+        base = #{base,jdbcType=DECIMAL},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -189,8 +189,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.ext.ExtRetireSalary">
     update ext_retire_salary
     set zgh = #{zgh,jdbcType=VARCHAR},
-      ltxf = #{ltxf,jdbcType=DECIMAL},
-      rq = #{rq,jdbcType=VARCHAR}
+      rq = #{rq,jdbcType=VARCHAR},
+      base = #{base,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.ext.ExtRetireSalaryExample" resultMap="BaseResultMap">

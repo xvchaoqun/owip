@@ -135,8 +135,8 @@ public class PmdConfigResetService extends PmdBaseMapper {
 
         if(ers==null) return;
 
-        BigDecimal ltxf = ers.getLtxf();
-        if (ltxf != null && ltxf.compareTo(BigDecimal.valueOf(0)) > 0) {
+        BigDecimal base = ers.getBase();
+        if (base != null && base.compareTo(BigDecimal.valueOf(0)) > 0) {
             String zgh = ers.getZgh();
             SysUserView uv = sysUserService.findByCode(zgh);
             int userId = uv.getId();
@@ -167,8 +167,8 @@ public class PmdConfigResetService extends PmdBaseMapper {
 
             PmdConfigMember _pmdConfigMember = new PmdConfigMember();
             _pmdConfigMember.setUserId(userId);
-            _pmdConfigMember.setRetireSalary(ltxf);
-            BigDecimal duePay = pmdExtService.getDuePayFromLtxf(ltxf);
+            _pmdConfigMember.setRetireSalary(base);
+            BigDecimal duePay = pmdExtService.getDuePayFromRetireBase(base);
             _pmdConfigMember.setDuePay(duePay);
             _pmdConfigMember.setHasReset(true);
 
