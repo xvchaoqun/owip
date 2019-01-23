@@ -51,7 +51,7 @@ public class PcsPrAllocateController extends PcsBaseController {
 
         pcsPrAlocateService.batchUpdate(configId, records);
 
-        logger.info(addLog(LogConstants.LOG_PCS, "更新党代表分配方案：%s", JSONUtils.toString(records)));
+        logger.info(addLog(LogConstants.LOG_PCS, "更新党代表分配方案：%s", JSONUtils.toString(records,false)));
 
         return success(FormUtils.SUCCESS);
     }

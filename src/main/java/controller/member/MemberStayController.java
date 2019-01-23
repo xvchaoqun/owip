@@ -657,7 +657,7 @@ public class MemberStayController extends MemberBaseController {
             List<MemberStay> memberStays = memberStayMapper.selectByExample(example);
 
             memberStayService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除暂留：%s", JSONUtils.toString(memberStays)));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除暂留：%s", JSONUtils.toString(memberStays,false)));
         }
         return success(FormUtils.SUCCESS);
     }

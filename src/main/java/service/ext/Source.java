@@ -144,7 +144,7 @@ public abstract class Source {
                 }
             }
         } catch (Exception ex) {
-            logger.error("出错：{}", JSONUtils.toString(map));
+            logger.error("出错：{}", JSONUtils.toString(map, false));
             ex.printStackTrace();
         } finally {
             realeaseResource(rs, stat, conn);
@@ -182,7 +182,7 @@ public abstract class Source {
                 i++;
             }
         } catch (Exception ex) {
-            logger.error("出错：{}", JSONUtils.toString(map));
+            logger.error("出错：{}", JSONUtils.toString(map, false));
             ex.printStackTrace();
         } finally {
             realeaseResource(rs, stat, conn);
@@ -244,7 +244,7 @@ public abstract class Source {
             }
 
         } catch (Exception ex) {
-            logger.error("出错：{}", JSONUtils.toString(map));
+            logger.error("出错：{}", JSONUtils.toString(map,false));
             ex.printStackTrace();
         } finally {
             realeaseResource(rs, stat, conn);

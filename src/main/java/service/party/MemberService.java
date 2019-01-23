@@ -253,7 +253,7 @@ public class MemberService extends MemberBaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
             if (memberOuts.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts,false)));
                 memberOutMapper.deleteByExample(example);
             }
         }
@@ -262,7 +262,7 @@ public class MemberService extends MemberBaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberStay> memberStays = memberStayMapper.selectByExample(example);
             if (memberStays.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(memberStays)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(memberStays,false)));
                 memberStayMapper.deleteByExample(example);
             }
         }
@@ -271,7 +271,7 @@ public class MemberService extends MemberBaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
             if (memberTransfers.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers,false)));
                 memberTransferMapper.deleteByExample(example);
             }
         }
@@ -280,7 +280,7 @@ public class MemberService extends MemberBaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExample(example);
             if (memberOutflows.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows,false)));
                 memberOutflowMapper.deleteByExample(example);
             }
         }
