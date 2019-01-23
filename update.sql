@@ -4,6 +4,7 @@
 ALTER TABLE `sc_committee_topic`
 	ADD COLUMN `unit_ids` VARCHAR(200) NULL COMMENT '涉及单位，逗号分隔' AFTER `name`;
 
+
 20190122
 
 删除 cet_trainee_cadre_view
@@ -20,6 +21,10 @@ ALTER TABLE `pmd_member_pay`
 
 更新 common-utils
 + bnu.newpay.jar
+
+ALTER TABLE `ext_retire_salary`
+	CHANGE COLUMN `ltxf` `base` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '党费计算基数' AFTER `rq`;
+
 
 20190109
 ALTER TABLE `cet_annual_obj`

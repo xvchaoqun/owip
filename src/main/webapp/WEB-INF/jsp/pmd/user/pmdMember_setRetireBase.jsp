@@ -6,7 +6,7 @@
   <h3>修改党费应交额</h3>
 </div>
 <div class="modal-body">
-  <form class="form-horizontal" action="${ctx}/user/pmd/pmdMember_setLtxf" id="modalForm" method="post">
+  <form class="form-horizontal" action="${ctx}/user/pmd/pmdMember_setRetireBase" id="modalForm" method="post">
     <input name="pmdMemberId" type="hidden" value="${param.pmdMemberId}">
     <div class="form-group">
       <label class="col-xs-4 control-label">党员</label>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-xs-4 control-label">离退休人员社保养老金(¥)</label>
+      <label class="col-xs-4 control-label">离退休人员党费计算基数(¥)</label>
       <div class="col-xs-8 label-text">
         <c:if test="${param.view==1 || param.view==2}">
           ${cm:stripTrailingZeros(pmdConfigMember.retireSalary)}
@@ -23,7 +23,7 @@
         <c:if test="${param.view!=1 && param.view!=2}">
         <input required class="number" data-rule-min="0.01" maxlength="10" style="width: 100px;"
                type="text" name="retireSalary" value="${cm:stripTrailingZeros(pmdConfigMember.retireSalary)}">
-        <button type="button" class="btn btn-success" onclick="_syncRetireSalary()"><i class="fa fa-refresh"></i> 同步最新离退休人员社保养老金</button>
+        <button type="button" class="btn btn-success" onclick="_syncRetireSalary()"><i class="fa fa-refresh"></i> 同步最新离退休人员党费计算基数</button>
         </c:if>
       </div>
     </div>
@@ -47,10 +47,10 @@
     $("#msg").html('<span class="text-primary">数据同步中...</span>');
     $.getJSON("${ctx}/user/pmd/pmdMember_syncRetireSalary",{pmdMemberId:${param.pmdMemberId}},function(ret){
         if(ret.exist){
-          $("#modalForm input[name=retireSalary]").val(ret.ltxf);
-          $("#msg").html('<span class="text-success">已读取'+ret.rq+'月份的社保养老金</span>')
+          $("#modalForm input[name=retireSalary]").val(ret.base);
+          $("#msg").html('<span class="text-success">已读取'+ret.rq+'月份的党费计算基数</span>')
         }else{
-          $("#msg").html('<span class="text-danger">还没有该老师的社保养老金数据</span>')
+          $("#msg").html('<span class="text-danger">还没有该老师的党费计算基数数据</span>')
         }
     });
   }

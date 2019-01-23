@@ -17,7 +17,7 @@
                     </label>
                     <label>
                         <input name="type" type="radio" class="ace" value="2"/>
-                        <span class="lbl" style="padding-right: 5px;"> 离退休人员社保养老金</span>
+                        <span class="lbl" style="padding-right: 5px;"> 离退休人员党费计算基数</span>
                     </label>
                 </div>
             </div>

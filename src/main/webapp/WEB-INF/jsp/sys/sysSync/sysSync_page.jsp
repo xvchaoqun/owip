@@ -52,8 +52,8 @@
                     <li class="divider"></li>
                     <li>
                         <a data-type="${SYNC_TYPE_RETIRE_SALARY}"
-                           class="syncBtn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本月社保养老金同步中..."
-                           autocomplete="off"><i class="fa fa-refresh"></i> 同步本月离退休人员社保养老金</a>
+                           class="syncBtn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本月党费计算基数同步中..."
+                           autocomplete="off"><i class="fa fa-refresh"></i> 同步本月离退休人员党费计算基数</a>
                     </li>
                     <li>
                         <a data-type="${SYNC_TYPE_JZG_SALARY}"
