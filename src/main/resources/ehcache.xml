@@ -78,6 +78,15 @@
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
 
+       <cache name="CetTrainCourseSignToken"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU"/>
+
        <cache name="CetTrainCourses"
               eternal="false"
               maxElementsInMemory="2000"
