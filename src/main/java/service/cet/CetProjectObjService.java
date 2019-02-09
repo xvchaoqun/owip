@@ -1,5 +1,7 @@
 package service.cet;
 
+import controller.global.OpException;
+import domain.cadre.CadreView;
 import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.cet.CetProjectObjPlanMapper;
+import service.cadre.CadreService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -30,6 +33,8 @@ public class CetProjectObjService extends CetBaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
+    private CadreService cadreService;
+    @Autowired
     private CetTraineeService cetTraineeService;
     @Autowired
     private CetTrainCourseService cetTrainCourseService;
@@ -39,6 +44,8 @@ public class CetProjectObjService extends CetBaseMapper {
     private CetProjectPlanService cetProjectPlanService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    private CetTraineeTypeService cetTraineeTypeService;
 
 
     public CetProjectObj get(int userId, int projectId){
@@ -48,12 +55,6 @@ public class CetProjectObjService extends CetBaseMapper {
         List<CetProjectObj> cetTrainees = cetProjectObjMapper.selectByExample(example);
 
         return cetTrainees.size()>0?cetTrainees.get(0):null;
-    }
-
-    @Transactional
-    public void insertSelective(CetProjectObj record){
-
-        cetProjectObjMapper.insertSelective(record);
     }
 
     @Transactional
@@ -87,31 +88,25 @@ public class CetProjectObjService extends CetBaseMapper {
     }
 
     // 培训对象列表
-    public List<CetProjectObj> cetProjectObjs(int projectId){
+    public List<CetProjectObj> cetProjectObjs(int projectId, Integer traineeTypeId){
 
         CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andProjectIdEqualTo(projectId).andIsQuitEqualTo(false);
+        CetProjectObjExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId).andIsQuitEqualTo(false);
+        if(traineeTypeId!=null){
+            criteria.andTraineeTypeIdEqualTo(traineeTypeId);
+        }
         example.setOrderByClause("id asc");
 
         return cetProjectObjMapper.selectByExample(example);
     }
 
-    public List<CetProjectObj> cetProjectObjList(int projectId, int traineeTypeId){
-
-        CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andProjectIdEqualTo(projectId)
-                .andTraineeTypeIdEqualTo(traineeTypeId).andIsQuitEqualTo(false);
-        example.setOrderByClause("id asc");
-
-        return cetProjectObjMapper.selectByExample(example);
-    }
-
-    public Set<Integer> getSelectedProjectObjUserIdSet(int projectId) {
+    public Set<Integer> getSelectedProjectObjUserIdSet(int projectId, int traineeTypeId) {
 
         Set<Integer> userIdSet = new HashSet<>();
 
         CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andProjectIdEqualTo(projectId);
+        example.createCriteria().andProjectIdEqualTo(projectId)
+                .andTraineeTypeIdEqualTo(traineeTypeId);
         List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
 
         for (CetProjectObj cetProjectObj : cetProjectObjs) {
@@ -121,12 +116,85 @@ public class CetProjectObjService extends CetBaseMapper {
         return userIdSet;
     }
 
+    // 同步参训学员的特定信息
+    private void appendTraineeInfo(String typeCode, int userId, CetProjectObj record){
+
+        switch (typeCode) {
+            // 中层干部、后备干部
+            case "t_cadre":
+            case "t_reserve":
+                // 同步干部信息
+                CadreView cv = cadreService.dbFindByUserId(userId);
+                if (cv != null) {
+                    record.setCadreId(cv.getId());
+                    record.setTitle(cv.getTitle());
+                    record.setTypeId(cv.getTypeId());
+                    record.setPostId(cv.getPostId());
+                    record.setIsOw(cv.getIsOw());
+                    record.setOwGrowTime(cv.getOwGrowTime());
+                    record.setDpGrowTime(cv.getDpGrowTime());
+                    record.setDpTypeId(cv.getDpTypeId());
+                    record.setProPost(cv.getProPost());
+                    record.setLpWorkTime(cv.getLpWorkTime());
+                    record.setMobile(cv.getMobile());
+                    record.setEmail(cv.getEmail());
+                    record.setCadreStatus(cv.getStatus());
+                    record.setCadreSortOrder(cv.getSortOrder());
+                }
+                break;
+        }
+    }
+
+    // 更新同步参训学员特定信息
+    @Transactional
+    public void syncTraineeInfo(int projectId, int traineeTypeId){
+
+        Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
+        CetTraineeType cetTraineeType = cetTraineeTypeMap.get(traineeTypeId);
+
+        CetProjectObjExample example = new CetProjectObjExample();
+        example.createCriteria().andProjectIdEqualTo(projectId)
+                .andTraineeTypeIdEqualTo(traineeTypeId);
+
+        List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+
+        for (CetProjectObj cetProjectObj : cetProjectObjs) {
+
+            CetProjectObj record = new CetProjectObj();
+            record.setId(cetProjectObj.getId());
+            appendTraineeInfo(cetTraineeType.getCode(), cetProjectObj.getUserId(), record);
+
+            updateByPrimaryKeySelective(record);
+        }
+    }
+
     @Transactional
     public void addOrUpdate(int projectId, int traineeTypeId, Integer[] userIds) {
         if(userIds==null || userIds.length==0) return;
 
+        Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
+        CetTraineeType cetTraineeType = cetTraineeTypeMap.get(traineeTypeId);
+
+        // 检查别的参选人类型中是否已经选择参训对象
+        {
+            CetProjectObjExample example = new CetProjectObjExample();
+            example.createCriteria().andProjectIdEqualTo(projectId)
+                    .andTraineeTypeIdNotEqualTo(traineeTypeId)
+                    .andUserIdIn(Arrays.asList(userIds));
+
+            List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+            if(cetProjectObjs.size()>0){
+                CetProjectObj cetProjectObj = cetProjectObjs.get(0);
+                int otherTraineeTypeId = cetProjectObj.getTraineeTypeId();
+                SysUserView uv = sysUserService.findById(cetProjectObj.getUserId());
+
+                throw new OpException("参训人{0}（工号：{1}）已经是培训对象（{2}）", uv.getRealname(), uv.getCode(),
+                        cetTraineeTypeMap.get(otherTraineeTypeId).getName());
+            }
+        }
+
         // 已选人员
-        Set<Integer> selectedProjectObjUserIdSet = getSelectedProjectObjUserIdSet(projectId);
+        Set<Integer> selectedProjectObjUserIdSet = getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
         // 提交更新人员
         Set<Integer> specialeeUserIdSet = new HashSet<>();
         specialeeUserIdSet.addAll(Arrays.asList(userIds));
@@ -141,6 +209,9 @@ public class CetProjectObjService extends CetBaseMapper {
             record.setProjectId(projectId);
             record.setUserId(userId);
             record.setTraineeTypeId(traineeTypeId);
+
+            appendTraineeInfo(cetTraineeType.getCode(), userId, record);
+
             cetProjectObjMapper.insertSelective(record);
 
             sysUserService.addRole(userId, RoleConstants.ROLE_CET_TRAINEE);
@@ -166,7 +237,6 @@ public class CetProjectObjService extends CetBaseMapper {
 
             delRoleIfNotTrainee(userId);
         }
-
     }
 
     // 退出
@@ -193,16 +263,18 @@ public class CetProjectObjService extends CetBaseMapper {
 
     // 设置为必选学员/退课
     // opType  1：设置为必选 2：设置为可选 3: 选课  4：退课
-    public void apply(int projectId, Integer[] objIds, byte opType, int trainCourseId) {
+    public void apply(int projectId, int traineeTypeId, Integer[] objIds, byte opType, int trainCourseId) {
 
         List<CetProjectObj> cetProjectObjs = null;
         if(objIds==null || objIds.length==0){
             CetProjectObjExample example = new CetProjectObjExample();
-            example.createCriteria().andProjectIdEqualTo(projectId).andIsQuitEqualTo(false);
+            example.createCriteria().andProjectIdEqualTo(projectId)
+                    .andTraineeTypeIdEqualTo(traineeTypeId).andIsQuitEqualTo(false);
             cetProjectObjs = cetProjectObjMapper.selectByExample(example);
         }else {
             CetProjectObjExample example = new CetProjectObjExample();
-            example.createCriteria().andIdIn(Arrays.asList(objIds));
+            example.createCriteria().andTraineeTypeIdEqualTo(traineeTypeId)
+                    .andIdIn(Arrays.asList(objIds));
             cetProjectObjs = cetProjectObjMapper.selectByExample(example);
         }
 

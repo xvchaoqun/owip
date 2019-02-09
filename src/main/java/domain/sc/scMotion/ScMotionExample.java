@@ -312,243 +312,193 @@ public class ScMotionExample {
             return (Criteria) this;
         }
 
-        public Criteria andNumIsNull() {
-            addCriterion("num is null");
+        public Criteria andSeqIsNull() {
+            addCriterion("seq is null");
             return (Criteria) this;
         }
 
-        public Criteria andNumIsNotNull() {
-            addCriterion("num is not null");
+        public Criteria andSeqIsNotNull() {
+            addCriterion("seq is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNumEqualTo(Integer value) {
-            addCriterion("num =", value, "num");
+        public Criteria andSeqEqualTo(String value) {
+            addCriterion("seq =", value, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumNotEqualTo(Integer value) {
-            addCriterion("num <>", value, "num");
+        public Criteria andSeqNotEqualTo(String value) {
+            addCriterion("seq <>", value, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumGreaterThan(Integer value) {
-            addCriterion("num >", value, "num");
+        public Criteria andSeqGreaterThan(String value) {
+            addCriterion("seq >", value, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("num >=", value, "num");
+        public Criteria andSeqGreaterThanOrEqualTo(String value) {
+            addCriterion("seq >=", value, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumLessThan(Integer value) {
-            addCriterion("num <", value, "num");
+        public Criteria andSeqLessThan(String value) {
+            addCriterion("seq <", value, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumLessThanOrEqualTo(Integer value) {
-            addCriterion("num <=", value, "num");
+        public Criteria andSeqLessThanOrEqualTo(String value) {
+            addCriterion("seq <=", value, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumIn(List<Integer> values) {
-            addCriterion("num in", values, "num");
+        public Criteria andSeqLike(String value) {
+            addCriterion("seq like", value, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumNotIn(List<Integer> values) {
-            addCriterion("num not in", values, "num");
+        public Criteria andSeqNotLike(String value) {
+            addCriterion("seq not like", value, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumBetween(Integer value1, Integer value2) {
-            addCriterion("num between", value1, value2, "num");
+        public Criteria andSeqIn(List<String> values) {
+            addCriterion("seq in", values, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andNumNotBetween(Integer value1, Integer value2) {
-            addCriterion("num not between", value1, value2, "num");
+        public Criteria andSeqNotIn(List<String> values) {
+            addCriterion("seq not in", values, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdIsNull() {
-            addCriterion("unit_id is null");
+        public Criteria andSeqBetween(String value1, String value2) {
+            addCriterion("seq between", value1, value2, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdIsNotNull() {
-            addCriterion("unit_id is not null");
+        public Criteria andSeqNotBetween(String value1, String value2) {
+            addCriterion("seq not between", value1, value2, "seq");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdEqualTo(Integer value) {
-            addCriterion("unit_id =", value, "unitId");
+        public Criteria andUnitPostIdIsNull() {
+            addCriterion("unit_post_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdNotEqualTo(Integer value) {
-            addCriterion("unit_id <>", value, "unitId");
+        public Criteria andUnitPostIdIsNotNull() {
+            addCriterion("unit_post_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdGreaterThan(Integer value) {
-            addCriterion("unit_id >", value, "unitId");
+        public Criteria andUnitPostIdEqualTo(Integer value) {
+            addCriterion("unit_post_id =", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("unit_id >=", value, "unitId");
+        public Criteria andUnitPostIdNotEqualTo(Integer value) {
+            addCriterion("unit_post_id <>", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdLessThan(Integer value) {
-            addCriterion("unit_id <", value, "unitId");
+        public Criteria andUnitPostIdGreaterThan(Integer value) {
+            addCriterion("unit_post_id >", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("unit_id <=", value, "unitId");
+        public Criteria andUnitPostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id >=", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdIn(List<Integer> values) {
-            addCriterion("unit_id in", values, "unitId");
+        public Criteria andUnitPostIdLessThan(Integer value) {
+            addCriterion("unit_post_id <", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdNotIn(List<Integer> values) {
-            addCriterion("unit_id not in", values, "unitId");
+        public Criteria andUnitPostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id <=", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id between", value1, value2, "unitId");
+        public Criteria andUnitPostIdIn(List<Integer> values) {
+            addCriterion("unit_post_id in", values, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id not between", value1, value2, "unitId");
+        public Criteria andUnitPostIdNotIn(List<Integer> values) {
+            addCriterion("unit_post_id not in", values, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
+        public Criteria andUnitPostIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id between", value1, value2, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
+        public Criteria andUnitPostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id not between", value1, value2, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(Integer value) {
-            addCriterion("type =", value, "type");
+        public Criteria andScTypeIsNull() {
+            addCriterion("sc_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(Integer value) {
-            addCriterion("type <>", value, "type");
+        public Criteria andScTypeIsNotNull() {
+            addCriterion("sc_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(Integer value) {
-            addCriterion("type >", value, "type");
+        public Criteria andScTypeEqualTo(Integer value) {
+            addCriterion("sc_type =", value, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("type >=", value, "type");
+        public Criteria andScTypeNotEqualTo(Integer value) {
+            addCriterion("sc_type <>", value, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(Integer value) {
-            addCriterion("type <", value, "type");
+        public Criteria andScTypeGreaterThan(Integer value) {
+            addCriterion("sc_type >", value, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("type <=", value, "type");
+        public Criteria andScTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sc_type >=", value, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<Integer> values) {
-            addCriterion("type in", values, "type");
+        public Criteria andScTypeLessThan(Integer value) {
+            addCriterion("sc_type <", value, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<Integer> values) {
-            addCriterion("type not in", values, "type");
+        public Criteria andScTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("sc_type <=", value, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(Integer value1, Integer value2) {
-            addCriterion("type between", value1, value2, "type");
+        public Criteria andScTypeIn(List<Integer> values) {
+            addCriterion("sc_type in", values, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("type not between", value1, value2, "type");
+        public Criteria andScTypeNotIn(List<Integer> values) {
+            addCriterion("sc_type not in", values, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andPostCountIsNull() {
-            addCriterion("post_count is null");
+        public Criteria andScTypeBetween(Integer value1, Integer value2) {
+            addCriterion("sc_type between", value1, value2, "scType");
             return (Criteria) this;
         }
 
-        public Criteria andPostCountIsNotNull() {
-            addCriterion("post_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountEqualTo(Integer value) {
-            addCriterion("post_count =", value, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountNotEqualTo(Integer value) {
-            addCriterion("post_count <>", value, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountGreaterThan(Integer value) {
-            addCriterion("post_count >", value, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("post_count >=", value, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountLessThan(Integer value) {
-            addCriterion("post_count <", value, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountLessThanOrEqualTo(Integer value) {
-            addCriterion("post_count <=", value, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountIn(List<Integer> values) {
-            addCriterion("post_count in", values, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountNotIn(List<Integer> values) {
-            addCriterion("post_count not in", values, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountBetween(Integer value1, Integer value2) {
-            addCriterion("post_count between", value1, value2, "postCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("post_count not between", value1, value2, "postCount");
+        public Criteria andScTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("sc_type not between", value1, value2, "scType");
             return (Criteria) this;
         }
 
@@ -562,52 +512,52 @@ public class ScMotionExample {
             return (Criteria) this;
         }
 
-        public Criteria andWayEqualTo(Integer value) {
+        public Criteria andWayEqualTo(Byte value) {
             addCriterion("way =", value, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayNotEqualTo(Integer value) {
+        public Criteria andWayNotEqualTo(Byte value) {
             addCriterion("way <>", value, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayGreaterThan(Integer value) {
+        public Criteria andWayGreaterThan(Byte value) {
             addCriterion("way >", value, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayGreaterThanOrEqualTo(Integer value) {
+        public Criteria andWayGreaterThanOrEqualTo(Byte value) {
             addCriterion("way >=", value, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayLessThan(Integer value) {
+        public Criteria andWayLessThan(Byte value) {
             addCriterion("way <", value, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayLessThanOrEqualTo(Integer value) {
+        public Criteria andWayLessThanOrEqualTo(Byte value) {
             addCriterion("way <=", value, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayIn(List<Integer> values) {
+        public Criteria andWayIn(List<Byte> values) {
             addCriterion("way in", values, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayNotIn(List<Integer> values) {
+        public Criteria andWayNotIn(List<Byte> values) {
             addCriterion("way not in", values, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayBetween(Integer value1, Integer value2) {
+        public Criteria andWayBetween(Byte value1, Byte value2) {
             addCriterion("way between", value1, value2, "way");
             return (Criteria) this;
         }
 
-        public Criteria andWayNotBetween(Integer value1, Integer value2) {
+        public Criteria andWayNotBetween(Byte value1, Byte value2) {
             addCriterion("way not between", value1, value2, "way");
             return (Criteria) this;
         }
@@ -682,63 +632,73 @@ public class ScMotionExample {
             return (Criteria) this;
         }
 
-        public Criteria andScTypeIsNull() {
-            addCriterion("sc_type is null");
+        public Criteria andTopicsIsNull() {
+            addCriterion("topics is null");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeIsNotNull() {
-            addCriterion("sc_type is not null");
+        public Criteria andTopicsIsNotNull() {
+            addCriterion("topics is not null");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeEqualTo(Integer value) {
-            addCriterion("sc_type =", value, "scType");
+        public Criteria andTopicsEqualTo(String value) {
+            addCriterion("topics =", value, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeNotEqualTo(Integer value) {
-            addCriterion("sc_type <>", value, "scType");
+        public Criteria andTopicsNotEqualTo(String value) {
+            addCriterion("topics <>", value, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeGreaterThan(Integer value) {
-            addCriterion("sc_type >", value, "scType");
+        public Criteria andTopicsGreaterThan(String value) {
+            addCriterion("topics >", value, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sc_type >=", value, "scType");
+        public Criteria andTopicsGreaterThanOrEqualTo(String value) {
+            addCriterion("topics >=", value, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeLessThan(Integer value) {
-            addCriterion("sc_type <", value, "scType");
+        public Criteria andTopicsLessThan(String value) {
+            addCriterion("topics <", value, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("sc_type <=", value, "scType");
+        public Criteria andTopicsLessThanOrEqualTo(String value) {
+            addCriterion("topics <=", value, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeIn(List<Integer> values) {
-            addCriterion("sc_type in", values, "scType");
+        public Criteria andTopicsLike(String value) {
+            addCriterion("topics like", value, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeNotIn(List<Integer> values) {
-            addCriterion("sc_type not in", values, "scType");
+        public Criteria andTopicsNotLike(String value) {
+            addCriterion("topics not like", value, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeBetween(Integer value1, Integer value2) {
-            addCriterion("sc_type between", value1, value2, "scType");
+        public Criteria andTopicsIn(List<String> values) {
+            addCriterion("topics in", values, "topics");
             return (Criteria) this;
         }
 
-        public Criteria andScTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("sc_type not between", value1, value2, "scType");
+        public Criteria andTopicsNotIn(List<String> values) {
+            addCriterion("topics not in", values, "topics");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicsBetween(String value1, String value2) {
+            addCriterion("topics between", value1, value2, "topics");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicsNotBetween(String value1, String value2) {
+            addCriterion("topics not between", value1, value2, "topics");
             return (Criteria) this;
         }
 

@@ -2,6 +2,7 @@ package service.party;
 
 import domain.base.MetaType;
 import domain.party.*;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,9 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.sys.SysConfigService;
 import sys.tags.CmTag;
+import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PartyMemberService extends BaseMapper {
@@ -29,6 +29,78 @@ public class PartyMemberService extends BaseMapper {
     protected PartyMemberGroupService partyMemberGroupService;
     @Autowired
     protected SysConfigService sysConfigService;
+
+    public TreeNode getTree(Set<Integer> selectIdSet){
+
+        Map<Integer, List<SysUserView>> groupMap = new LinkedHashMap<>();
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_party_member_post");
+        for (Map.Entry<Integer, MetaType> entry : metaTypeMap.entrySet()) {
+            groupMap.put(entry.getKey(), new ArrayList<SysUserView>());
+        }
+
+        {
+            PartyMemberViewExample example = new PartyMemberViewExample();
+            PartyMemberViewExample.Criteria criteria = example.createCriteria();
+            example.setOrderByClause("party_sort_order desc, sort_order desc");
+
+            List<PartyMemberView> partyMemberViews = partyMemberViewMapper.selectByExample(example);
+
+            for (PartyMemberView pmv : partyMemberViews) {
+
+                int postId = pmv.getPostId();
+                SysUserView uv = pmv.getUser();
+
+                List<SysUserView> uvs = groupMap.get(postId);
+                if(uvs==null){
+                    uvs = new ArrayList<>();
+                    groupMap.put(postId, uvs);
+                }
+                uvs.add(uv);
+            }
+        }
+
+        TreeNode root = new TreeNode();
+        root.title = "分党委班子成员";
+        root.expand = true;
+        root.isFolder = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        for(Map.Entry<Integer, List<SysUserView>> entry : groupMap.entrySet()) {
+            List<SysUserView> entryValue = entry.getValue();
+            if(entryValue.size()>0) {
+
+                TreeNode titleNode = new TreeNode();
+                titleNode.expand = false;
+                titleNode.isFolder = true;
+                List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+                titleNode.children = titleChildren;
+
+                int selectCount = 0;
+                for (SysUserView uv : entryValue) {
+
+                    int userId = uv.getUserId();
+                    String unit = uv.getUnit();
+                    TreeNode node = new TreeNode();
+                    node.title = uv.getRealname() + (unit != null ? ("-" + unit) : "");
+
+                    int key = userId;
+                    node.key = key + "";
+
+                    if (selectIdSet.contains(key)) {
+                        selectCount++;
+                        node.select = true;
+                    }
+
+                    titleChildren.add(node);
+                }
+
+                titleNode.title = metaTypeMap.get(entry.getKey()).getName() + String.format("(%s", selectCount > 0 ? selectCount + "/" : "") + entryValue.size() + "人)";
+                rootChildren.add(titleNode);
+            }
+        }
+        return root;
+    }
 
     // 获取现任分党委委员（拥有某种分工的）
     public List<PartyMemberView> getPartyMemberViews(int partyId,  int typeId){
@@ -83,8 +155,6 @@ public class PartyMemberService extends BaseMapper {
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
         return records.size()==0?null:records.get(0);
     }
-
-    
 
     // 查询用户是否是现任分党委、党总支、直属党支部班子的管理员
     public boolean isPresentAdmin(Integer userId, Integer partyId) {
@@ -148,6 +218,7 @@ public class PartyMemberService extends BaseMapper {
 
     @Transactional
     public void del(Integer id) {
+
         PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
         if (partyMember.getIsAdmin()) {
             partyMemberAdminService.toggleAdmin(partyMember);
@@ -192,20 +263,6 @@ public class PartyMemberService extends BaseMapper {
 
         return 1;
     }
-
-    /*@Cacheable(value="PartyMember:ALL")
-    public Map<Integer, PartyMember> findAll() {
-
-        PartyMemberExample example = new PartyMemberExample();
-        example.setOrderByClause("sort_order desc");
-        List<PartyMember> partyMemberes = partyMemberMapper.selectByExample(example);
-        Map<Integer, PartyMember> map = new LinkedHashMap<>();
-        for (PartyMember partyMember : partyMemberes) {
-            map.put(partyMember.getId(), partyMember);
-        }
-
-        return map;
-    }*/
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序

@@ -1,6 +1,9 @@
 package domain.party;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import sys.constants.RoleConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -2706,6 +2709,21 @@ public class PartyMemberViewExample {
 
         protected Criteria() {
             super();
+        }
+        public Criteria addPermits(List<Integer> partyIdList) {
+
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.hasRole(RoleConstants.ROLE_ADMIN)
+                    || subject.hasRole(RoleConstants.ROLE_ODADMIN))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty())
+                andGroupPartyIdIn(partyIdList);
+            if(partyIdList.isEmpty())
+                andUserIdIsNull();
+            return this;
         }
     }
 

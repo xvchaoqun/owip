@@ -111,7 +111,7 @@ public class PartyMemberGroupController extends BaseController {
             return;
         }
 
-        int count = partyMemberGroupViewMapper.countByExample(example);
+        int count = (int) partyMemberGroupViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -245,7 +245,7 @@ public class PartyMemberGroupController extends BaseController {
 
         List<PartyMemberGroupView> records = partyMemberGroupViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称","所属分党委", "是否现任班子","应换届时间","实际换届时间","任命时间","发文"};
+        String[] titles = {"名称|350|left","所属分党委|350|left", "是否现任班子|70","应换届时间|100","实际换届时间|110","任命时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyMemberGroupView record = records.get(i);
@@ -264,8 +264,7 @@ public class PartyMemberGroupController extends BaseController {
                     BooleanUtils.isTrue(record.getIsPresent())?"是":"否",
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD),
-                    dispatchCode
+                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD)
             };
             valuesList.add(values);
         }

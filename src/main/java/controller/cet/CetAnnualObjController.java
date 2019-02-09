@@ -58,7 +58,7 @@ public class CetAnnualObjController extends CetBaseController {
             Integer userId = ShiroHelper.getCurrentUserId();
             List<Integer> annualYears = iCetMapper.getAnnualYears(userId);
             modelMap.put("years", annualYears);
-            if(year == null){
+            if(year == null && annualYears.size()>0){
                 year = annualYears.get(0);
             }
             if(year!=null) {
@@ -68,9 +68,11 @@ public class CetAnnualObjController extends CetBaseController {
 
         modelMap.put("cetAnnualObj", cetAnnualObj);
 
-        Integer annualId = cetAnnualObj.getAnnualId();
-        cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
-        modelMap.put("cetAnnual", cetAnnual);
+        if(cetAnnualObj!=null) {
+            Integer annualId = cetAnnualObj.getAnnualId();
+            cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
+            modelMap.put("cetAnnual", cetAnnual);
+        }
         
         return "cet/cetAnnualObj/cetAnnualObj_detail";
     }

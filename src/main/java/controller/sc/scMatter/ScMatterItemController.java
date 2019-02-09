@@ -40,12 +40,13 @@ public class ScMatterItemController extends ScBaseController {
                                ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        if(cls==-1){
-            return "sc/scMatter/scMatterItem/scMatter_item_page";
-        }
 
         if(userId!=null){
             modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+
+        if(cls==-1){
+            return "sc/scMatter/scMatterItem/scMatter_item_page";
         }
 
         return "sc/scMatter/scMatterItem/scMatterItem_page";
@@ -57,6 +58,7 @@ public class ScMatterItemController extends ScBaseController {
                                   Integer year,
                                   Boolean type,
                                   Integer userId,
+                                 Byte backStatus,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -81,6 +83,16 @@ public class ScMatterItemController extends ScBaseController {
         }
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if(backStatus!=null){
+
+            if(backStatus==1){
+                criteria.andRealHandTimeIsNotNull();
+            }else if(backStatus==2){
+                criteria.andRealHandTimeIsNull();
+            }else if(backStatus==3){
+                criteria.andRealHandTimeIsNull().andHandTimeLessThanOrEqualTo(new Date());
+            }
         }
 
         if (export == 1) {

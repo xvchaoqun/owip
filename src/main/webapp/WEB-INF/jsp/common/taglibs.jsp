@@ -1,7 +1,8 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ page import="sys.shiro.Constants" %>
-<%@ page import="java.util.Date" %>
 <%@ page import="sys.constants.*" %>
+<%@ page import="sys.shiro.Constants" %>
+<%@ page import="sys.utils.RequestUtils" %>
+<%@ page import="java.util.Date" %>
 <%@ page trimDirectiveWhitespaces="true"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
@@ -11,6 +12,7 @@
 <%@ taglib prefix="wo" uri="/wo-tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="_homeUrl" value="<%=RequestUtils.getHomeURL(request)%>"/>
 <c:set var="_path" value="${fn:escapeXml(requestScope['javax.servlet.forward.servlet_path'])}"/>
 <c:set value="${cm:getSysConfig()}" var="_sysConfig"/>
 <c:set value="${_sysConfig.siteName}" var="_plantform_name"/>
@@ -58,6 +60,7 @@
 <c:set value="<%=CadreConstants.CADRE_STATUS_INSPECT%>" var="CADRE_STATUS_INSPECT"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_MIDDLE_LEAVE%>" var="CADRE_STATUS_MIDDLE_LEAVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
+<c:set value="<%=CadreConstants.CADRE_STATUS_RESERVE%>" var="CADRE_STATUS_RESERVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
 
 <c:set var="MEMBER_SOURCE_MAP" value="<%=MemberConstants.MEMBER_SOURCE_MAP%>"/>

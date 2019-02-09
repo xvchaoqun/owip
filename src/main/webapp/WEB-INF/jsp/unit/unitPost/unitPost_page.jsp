@@ -21,7 +21,7 @@ pageEncoding="UTF-8" %>
             </ul>
             <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.unitId ||not empty param.name
-            ||not empty param.isPrincipalPost ||not empty param.isCpc  ||not empty param.cadreId
+            ||not empty param.isPrincipalPost||not empty param.isMainPost ||not empty param.isCpc  ||not empty param.cadreId
             ||not empty param.adminLevel ||not empty param.postType ||not empty param.postClass
             ||not empty param.unitTypes||not empty param.adminLevels
             ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
@@ -132,7 +132,7 @@ pageEncoding="UTF-8" %>
                             </div>
                         <div class="form-group">
                             <label>职务类别</label>
-                            <select required data-rel="select2" name="postClass" data-placeholder="请选择">
+                            <select required data-rel="select2" name="postClass" data-width="100" data-placeholder="请选择">
                                 <option></option>
                                 <c:import url="/metaTypes?__code=mc_post_class"/>
                             </select>
@@ -149,7 +149,19 @@ pageEncoding="UTF-8" %>
                                     <option value="0">否</option>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=isPrincipalPost]").val('${param.isPrincipalPost}');
+                                    $("#searchForm select[name=isCpc]").val('${param.isCpc}');
+                                </script>
+                            </div>
+                            <div class="form-group">
+                                <label>任职类型</label>
+                                <select name="isMainPost" data-width="100"
+                                        data-rel="select2" data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">主职</option>
+                                    <option value="0">兼职</option>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=isMainPost]").val('${param.isMainPost}');
                                 </script>
                             </div>
                             <div class="form-group">
@@ -175,7 +187,7 @@ pageEncoding="UTF-8" %>
                                                                                   value="${param.endNowPostAge}">
 
                             </div>
-                            <div class="form-group">
+                            <%--<div class="form-group">
                                 <label>现职级始任年限</label>
                                 <input class="num" type="text" name="startNowLevelAge" style="width: 50px"
                                        value="${param.startNowLevelAge}"> 至 <input class="num"
@@ -183,7 +195,7 @@ pageEncoding="UTF-8" %>
                                                                                    name="endNowLevelAge"
                                                                                    value="${param.endNowLevelAge}">
 
-                            </div>
+                            </div>--%>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/unitPost?cls=${cls}"

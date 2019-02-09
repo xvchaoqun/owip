@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.sc.scMotion.ScMotionPostMapper">
-  <resultMap id="BaseResultMap" type="domain.sc.scMotion.ScMotionPost">
+<mapper namespace="persistence.sc.scRecord.ScRecordMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scRecord.ScRecord">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="SMALLINT" property="year" />
+    <result column="seq" jdbcType="VARCHAR" property="seq" />
     <result column="motion_id" jdbcType="INTEGER" property="motionId" />
-    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -66,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, motion_id, unit_post_id, remark
+    id, year, seq, motion_id, status, remark
   </sql>
-  <select id="selectByExample" parameterType="domain.sc.scMotion.ScMotionPostExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.sc.scRecord.ScRecordExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from sc_motion_post
+    from sc_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,36 +87,44 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sc_motion_post
+    from sc_record
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from sc_motion_post
+    delete from sc_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.sc.scMotion.ScMotionPostExample">
-    delete from sc_motion_post
+  <delete id="deleteByExample" parameterType="domain.sc.scRecord.ScRecordExample">
+    delete from sc_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.sc.scMotion.ScMotionPost">
-    insert into sc_motion_post (id, motion_id, unit_post_id, 
-      remark)
-    values (#{id,jdbcType=INTEGER}, #{motionId,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="domain.sc.scRecord.ScRecord">
+    insert into sc_record (id, year, seq, 
+      motion_id, status, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, #{seq,jdbcType=VARCHAR}, 
+      #{motionId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.sc.scMotion.ScMotionPost">
-    insert into sc_motion_post
+  <insert id="insertSelective" parameterType="domain.sc.scRecord.ScRecord">
+    insert into sc_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="seq != null">
+        seq,
+      </if>
       <if test="motionId != null">
         motion_id,
       </if>
-      <if test="unitPostId != null">
-        unit_post_id,
+      <if test="status != null">
+        status,
       </if>
       <if test="remark != null">
         remark,
@@ -124,34 +134,46 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="year != null">
+        #{year,jdbcType=SMALLINT},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=VARCHAR},
+      </if>
       <if test="motionId != null">
         #{motionId,jdbcType=INTEGER},
       </if>
-      <if test="unitPostId != null">
-        #{unitPostId,jdbcType=INTEGER},
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.sc.scMotion.ScMotionPostExample" resultType="java.lang.Long">
-    select count(*) from sc_motion_post
+  <select id="countByExample" parameterType="domain.sc.scRecord.ScRecordExample" resultType="java.lang.Long">
+    select count(*) from sc_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update sc_motion_post
+    update sc_record
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=SMALLINT},
+      </if>
+      <if test="record.seq != null">
+        seq = #{record.seq,jdbcType=VARCHAR},
+      </if>
       <if test="record.motionId != null">
         motion_id = #{record.motionId,jdbcType=INTEGER},
       </if>
-      <if test="record.unitPostId != null">
-        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -162,23 +184,31 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update sc_motion_post
+    update sc_record
     set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=SMALLINT},
+      seq = #{record.seq,jdbcType=VARCHAR},
       motion_id = #{record.motionId,jdbcType=INTEGER},
-      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.scMotion.ScMotionPost">
-    update sc_motion_post
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.scRecord.ScRecord">
+    update sc_record
     <set>
+      <if test="year != null">
+        year = #{year,jdbcType=SMALLINT},
+      </if>
+      <if test="seq != null">
+        seq = #{seq,jdbcType=VARCHAR},
+      </if>
       <if test="motionId != null">
         motion_id = #{motionId,jdbcType=INTEGER},
       </if>
-      <if test="unitPostId != null">
-        unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -186,20 +216,22 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.sc.scMotion.ScMotionPost">
-    update sc_motion_post
-    set motion_id = #{motionId,jdbcType=INTEGER},
-      unit_post_id = #{unitPostId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="domain.sc.scRecord.ScRecord">
+    update sc_record
+    set year = #{year,jdbcType=SMALLINT},
+      seq = #{seq,jdbcType=VARCHAR},
+      motion_id = #{motionId,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scMotion.ScMotionPostExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scRecord.ScRecordExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from sc_motion_post
+    from sc_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

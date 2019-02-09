@@ -40,6 +40,12 @@ public class BranchMemberGroupView implements Serializable {
 
     private Integer partyId;
 
+    private Integer partySortOrder;
+
+    private Integer branchSortOrder;
+
+    private Long memberCount;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -136,5 +142,29 @@ public class BranchMemberGroupView implements Serializable {
 
     public void setPartyId(Integer partyId) {
         this.partyId = partyId;
+    }
+
+    public Integer getPartySortOrder() {
+        return partySortOrder;
+    }
+
+    public void setPartySortOrder(Integer partySortOrder) {
+        this.partySortOrder = partySortOrder;
+    }
+
+    public Integer getBranchSortOrder() {
+        return branchSortOrder;
+    }
+
+    public void setBranchSortOrder(Integer branchSortOrder) {
+        this.branchSortOrder = branchSortOrder;
+    }
+
+    public Long getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(Long memberCount) {
+        this.memberCount = memberCount;
     }
 }

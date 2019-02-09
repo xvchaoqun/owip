@@ -47,7 +47,8 @@ public class CetProjectObjController extends CetBaseController {
     public String cetProjectObj(
             Integer userId,
             int projectId,
-            Integer traineeTypeId,
+            Integer traineeTypeId, // 类别
+
             Integer trainCourseId, // 培训班选课页面时传入
             Integer planCourseId, // 培训方案选课页面时传入
             Integer planId, // 上传心得体会页面时传入
@@ -69,6 +70,18 @@ public class CetProjectObjController extends CetBaseController {
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
 
+        Map<Integer, Integer> typeCountMap = new HashMap<>();
+        List<Map> typeCountList = iCetMapper.projectObj_typeCount(projectId, isQuit);
+        for (Map resultMap : typeCountList) {
+            int _traineeTypeId = ((Long) resultMap.get("trainee_type_id")).intValue();
+            int num = ((Long) resultMap.get("num")).intValue();
+            typeCountMap.put(_traineeTypeId, num);
+        }
+        modelMap.put("typeCountMap", typeCountMap);
+
+        if(typeCountList.size()>0){
+            traineeTypeId = ((Long) typeCountList.get(0).get("trainee_type_id")).intValue();
+        }
         if (traineeTypeId == null) {
             traineeTypeId = cetTraineeTypes.get(0).getId();
         }
@@ -137,9 +150,6 @@ public class CetProjectObjController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
-        String code = cetTraineeType.getCode();
-
         List<Integer> applyUserIds = null;
         if (hasChosen != null && trainCourseId != null) {
             applyUserIds = iCetMapper.applyUserIds(trainCourseId);
@@ -156,118 +166,111 @@ public class CetProjectObjController extends CetBaseController {
             finishUserIds = iCetMapper.finishUserIds(planCourseId, isFinish);
         }
 
-        List records = null;
-        int count = 0, total = 0;
-        switch (code) {
-            // 中层干部、后备干部
-            case "t_cadre":
-            case "t_reserve":
-                CetProjectObjCadreViewExample example = new CetProjectObjCadreViewExample();
-                CetProjectObjCadreViewExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId)
-                        .andTraineeTypeIdEqualTo(traineeTypeId);
-                example.setOrderByClause("id asc");
+        CetProjectObjViewExample example = new CetProjectObjViewExample();
+        CetProjectObjViewExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId)
+                .andTraineeTypeIdEqualTo(traineeTypeId);
+        example.setOrderByClause("id asc");
 
-                if (hasChosen != null && trainCourseId != null) {
-                    if (hasChosen) {
-                        if (applyUserIds != null && applyUserIds.size() > 0) {
-                            criteria.andUserIdIn(applyUserIds);
-                        } else {
-                            criteria.andIdIsNull();
-                        }
-                    } else {
-                        if (applyUserIds != null && applyUserIds.size() > 0) {
-                            criteria.andUserIdNotIn(applyUserIds);
-                        }
-                    }
+        if (hasChosen != null && trainCourseId != null) {
+            if (hasChosen) {
+                if (applyUserIds != null && applyUserIds.size() > 0) {
+                    criteria.andUserIdIn(applyUserIds);
+                } else {
+                    criteria.andIdIsNull();
                 }
-                if(isCurrentGroup != null && discussGroupId!=null){
-
-                    if (isCurrentGroup) {
-                        if (groupUserIds != null && groupUserIds.size() > 0) {
-                            criteria.andUserIdIn(groupUserIds);
-                        } else {
-                            criteria.andIdIsNull();
-                        }
-                    } else {
-                        if (groupUserIds != null && groupUserIds.size() > 0) {
-                            criteria.andUserIdNotIn(groupUserIds);
-                        }
-                    }
+            } else {
+                if (applyUserIds != null && applyUserIds.size() > 0) {
+                    criteria.andUserIdNotIn(applyUserIds);
                 }
-                if(isFinish != null && planCourseId!=null){
-
-                    if (isFinish) {
-                        if (finishUserIds != null && finishUserIds.size() > 0) {
-                            criteria.andUserIdIn(finishUserIds);
-                        } else {
-                            criteria.andIdIsNull();
-                        }
-                    } else {
-                        if (finishUserIds != null && finishUserIds.size() > 0) {
-                            criteria.andUserIdIn(finishUserIds);
-                        } else {
-                            criteria.andIdIsNull();
-                        }
-                    }
-                }
-
-                if(hasUploadWrite!=null){
-                    if(hasUploadWrite){
-                        criteria.andWriteFilePathIsNotNull();
-                    }else{
-                        criteria.andWriteFilePathIsNull();
-                    }
-                }
-
-                criteria.andIsQuitEqualTo(isQuit);
-                if (dpTypes != null) {
-                    criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
-                }
-                if (postIds != null) {
-                    criteria.andPostIdIn(Arrays.asList(postIds));
-                }
-                if (adminLevels != null) {
-                    criteria.andTypeIdIn(Arrays.asList(adminLevels));
-                }
-
-                if (userId != null) {
-                    criteria.andUserIdEqualTo(userId);
-                }
-
-                if (export == 1) {
-
-                    criteria.andWriteFilePathIsNotNull();
-                    records = cetProjectObjCadreViewMapper.selectByExample(example);
-
-                    CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
-                    Map<String, File> fileMap = new LinkedHashMap<>();
-                    for (Object record : records) {
-
-                        CetProjectObjCadreView obj = (CetProjectObjCadreView) record;
-                        String writeFilePath = obj.getWriteFilePath();
-                        String realname = obj.getRealname();
-
-                        fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(writeFilePath),
-                                new File(springProps.uploadPath + writeFilePath));
-                    }
-                    response.setHeader("Set-Cookie", "fileDownload=true; path=/");
-                    DownloadUtils.zip(fileMap, String.format("[%s]心得体会（%s）", cetProject.getName(),
-                            cetTraineeType.getName()), request, response);
-                    return;
-                }
-
-                count = (int) cetProjectObjCadreViewMapper.countByExample(example);
-                if ((pageNo - 1) * pageSize >= count) {
-
-                    pageNo = Math.max(1, pageNo - 1);
-                }
-                records = cetProjectObjCadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-                CommonList commonList = new CommonList(count, pageNo, pageSize);
-                total = commonList.pageNum;
-                break;
-            default:
-                break;
+            }
         }
+        if(isCurrentGroup != null && discussGroupId!=null){
+
+            if (isCurrentGroup) {
+                if (groupUserIds != null && groupUserIds.size() > 0) {
+                    criteria.andUserIdIn(groupUserIds);
+                } else {
+                    criteria.andIdIsNull();
+                }
+            } else {
+                if (groupUserIds != null && groupUserIds.size() > 0) {
+                    criteria.andUserIdNotIn(groupUserIds);
+                }
+            }
+        }
+        if(isFinish != null && planCourseId!=null){
+
+            if (isFinish) {
+                if (finishUserIds != null && finishUserIds.size() > 0) {
+                    criteria.andUserIdIn(finishUserIds);
+                } else {
+                    criteria.andIdIsNull();
+                }
+            } else {
+                if (finishUserIds != null && finishUserIds.size() > 0) {
+                    criteria.andUserIdIn(finishUserIds);
+                } else {
+                    criteria.andIdIsNull();
+                }
+            }
+        }
+
+        if(hasUploadWrite!=null){
+            if(hasUploadWrite){
+                criteria.andWriteFilePathIsNotNull();
+            }else{
+                criteria.andWriteFilePathIsNull();
+            }
+        }
+
+        criteria.andIsQuitEqualTo(isQuit);
+        if (dpTypes != null) {
+            criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
+        }
+        if (postIds != null) {
+            criteria.andPostIdIn(Arrays.asList(postIds));
+        }
+        if (adminLevels != null) {
+            criteria.andTypeIdIn(Arrays.asList(adminLevels));
+        }
+
+        if (userId != null) {
+            criteria.andUserIdEqualTo(userId);
+        }
+
+        List<CetProjectObjView> records;
+        if (export == 1) {
+
+            criteria.andWriteFilePathIsNotNull();
+            records = cetProjectObjViewMapper.selectByExample(example);
+
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+            Map<String, File> fileMap = new LinkedHashMap<>();
+            for (Object record : records) {
+
+                CetProjectObjView obj = (CetProjectObjView) record;
+                String writeFilePath = obj.getWriteFilePath();
+                String realname = obj.getRealname();
+
+                fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(writeFilePath),
+                        new File(springProps.uploadPath + writeFilePath));
+            }
+            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+
+            CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
+            DownloadUtils.zip(fileMap, String.format("[%s]心得体会（%s）", cetProject.getName(),
+                    cetTraineeType.getName()), request, response);
+            return;
+        }
+
+        int count = (int) cetProjectObjViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        records = cetProjectObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+        int total = commonList.pageNum;
 
         request.setAttribute("trainCourseId", trainCourseId);
         request.setAttribute("planCourseId", planCourseId);
@@ -285,12 +288,24 @@ public class CetProjectObjController extends CetBaseController {
         return;
     }
 
+    // 同步学员特定信息
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value = "/cetProjectObj_syncTraineeInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_syncTraineeInfo(int projectId, int traineeTypeId, HttpServletRequest request) {
+
+        cetProjectObjService.syncTraineeInfo(projectId, traineeTypeId);
+
+        logger.info(addLog(LogConstants.LOG_CET, "同步学员特定信息： %s, %s", projectId, traineeTypeId));
+        return success(FormUtils.SUCCESS);
+    }
+
     // 导出学时情况
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping("/cetProjectObj_exportFinishPeriod")
-    public void cetProjectObj_exportFinishPeriod(int projectId, HttpServletResponse response) throws IOException {
+    public void cetProjectObj_exportFinishPeriod(int projectId, int traineeTypeId, HttpServletResponse response) throws IOException {
 
-        cetExportService.exportFinishPeriod(projectId, response);
+        cetExportService.exportFinishPeriod(projectId, traineeTypeId, response);
         return;
     }
 
@@ -351,11 +366,11 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_apply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_apply(byte opType, int trainCourseId, int projectId,
+    public Map do_cetProjectObj_apply(byte opType, int trainCourseId, int projectId, int traineeTypeId,
                                         @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                         HttpServletRequest request) {
 
-        cetProjectObjService.apply(projectId, ids, opType, trainCourseId);
+        cetProjectObjService.apply(projectId, traineeTypeId, ids, opType, trainCourseId);
         logger.info(addLog(LogConstants.LOG_CET, "设置为必选学员/选课/退课： %s, %s, %s",
                 StringUtils.join(ids, ","), opType, trainCourseId));
 
@@ -441,22 +456,16 @@ public class CetProjectObjController extends CetBaseController {
         modelMap.put("cetProject", cetProject);
         CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
         modelMap.put("cetTraineeType", cetTraineeType);
-        String code = cetTraineeType.getCode();
-        switch (code) {
-            // 中层干部
-            case "t_cadre":
-                return "cet/cetProjectObj/cetProjectObj_selectCadres";
-        }
 
-        return null;
+        return "cet/cetProjectObj/cetProjectObj_select";
     }
 
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping("/cetProjectObj_selectCadres_tree")
     @ResponseBody
-    public Map cetProjectObj_selectCadres_tree(int projectId) throws IOException {
+    public Map cetProjectObj_selectCadres_tree(int projectId, int traineeTypeId) throws IOException {
 
-        Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId);
+        Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
     
         Set<Byte> cadreStatusList = new HashSet<>();
         cadreStatusList.add(CadreConstants.CADRE_STATUS_MIDDLE);
@@ -468,6 +477,61 @@ public class CetProjectObjController extends CetBaseController {
         return resultMap;
     }
 
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_selectCadreReserves_tree")
+    @ResponseBody
+    public Map cetProjectObj_selectCadreReserves_tree(int projectId, int traineeTypeId) throws IOException {
+
+        Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
+
+        TreeNode tree = cadreReserveService.getTree(selectIdSet, false);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_selectPartyMembers_tree")
+    @ResponseBody
+    public Map cetProjectObj_selectPartyMembers_tree(int projectId, int traineeTypeId) throws IOException {
+
+        Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
+
+        TreeNode tree = partyMemberService.getTree(selectIdSet);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_selectBranchMembers_tree")
+    @ResponseBody
+    public Map cetProjectObj_selectBranchMembers_tree(int projectId, int traineeTypeId) throws IOException {
+
+        Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
+
+        TreeNode tree = branchMemberService.getTree(selectIdSet);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_selectActivists_tree")
+    @ResponseBody
+    public Map cetProjectObj_selectActivists_tree(int projectId, int traineeTypeId) throws IOException {
+
+        Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
+
+        TreeNode tree = memberApplyService.getActivistTree(selectIdSet);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
 
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_uploadWrite", method = RequestMethod.POST)

@@ -12,9 +12,9 @@
             data-url="${ctx}/cet/cetTrainInspector_gen_oncampus?trainId=${cetTrain.id}">
         <i class="fa fa-plus"></i> 生成评课账号</button>
 
-  <button class="linkBtn btn btn-success btn-sm tooltip-success"
+  <button class="downloadBtn btn btn-success btn-sm tooltip-success"
        data-url="${ctx}/cet/cetTrainInspector_list?export=1&trainId=${cetTrain.id}"
-          data-target="_blank" data-rel="tooltip" data-placement="top" title="导出全部的测评账号">
+          data-rel="tooltip" data-placement="top" title="导出全部的测评账号">
       <i class="fa fa-download"></i> 导出账号</button>
 
   <c:if test="${cetTrain.evaCount>0}">
@@ -82,14 +82,14 @@
 </div>
 <div class="rownumbers">
 <div class="space-4"></div>
-<table id="jqGrid4" class="jqGrid2 table-striped"></table>
-<div id="jqGridPager4"></div>
+<table id="jqGrid2" class="jqGrid2 table-striped"></table>
+<div id="jqGridPager2"></div>
 </div>
 <script>
   $('#searchForm2 [data-rel="select2"]').select2();
   $.register.date($('.date-picker'));
-  $("#jqGrid4").jqGrid({
-    pager: "jqGridPager4",
+  $("#jqGrid2").jqGrid({
+    pager: "jqGridPager2",
     rownumbers:true,
     url: '${ctx}/cet/cetTrainInspector_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
     colModel: [
@@ -115,5 +115,5 @@
     ]
   }).jqGrid("setFrozenColumns");
   $(window).triggerHandler('resize.jqGrid2');
-  $.initNavGrid("jqGrid4", "jqGridPager4");
+  $.initNavGrid("jqGrid2", "jqGridPager2");
 </script>

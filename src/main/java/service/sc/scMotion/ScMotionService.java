@@ -2,30 +2,42 @@ package service.sc.scMotion;
 
 import domain.sc.scMotion.ScMotion;
 import domain.sc.scMotion.ScMotionExample;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.sc.ScBaseMapper;
+import sys.utils.DateUtils;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class ScMotionService extends ScBaseMapper {
 
-    public boolean idDuplicate(Integer id, short year, int num) {
+    public String getNextSeq(Date holdDate) {
 
         ScMotionExample example = new ScMotionExample();
         ScMotionExample.Criteria criteria = example.createCriteria()
-                .andYearEqualTo(year).andNumEqualTo(num);
-        if (id != null) criteria.andIdNotEqualTo(id);
+                .andHoldDateEqualTo(holdDate);
+        example.setOrderByClause("seq desc");
 
-        return scMotionMapper.countByExample(example) > 0;
+        List<ScMotion> scMotions = scMotionMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        if(scMotions.size()==0) return DateUtils.formatDate(holdDate, "yyyyMMdd0101");
+
+        ScMotion scMotion = scMotions.get(0);
+        String code = scMotion.getCode();
+
+        return DateUtils.formatDate(holdDate, "yyyyMMdd01")
+                + String.format("%02d", Integer.valueOf(code.substring(10, 12))+1);
     }
 
     @Transactional
     public void insertSelective(ScMotion record) {
 
-        Assert.isTrue(!idDuplicate(null, record.getYear(), record.getNum()), "duplicate");
+        record.setSeq(getNextSeq(record.getHoldDate()));
+
         scMotionMapper.insertSelective(record);
     }
 
@@ -46,8 +58,13 @@ public class ScMotionService extends ScBaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(ScMotion record) {
-        Assert.isTrue(!idDuplicate(record.getId(), record.getYear(), record.getNum()), "duplicate");
-        return scMotionMapper.updateByPrimaryKeySelective(record);
+    public void updateByPrimaryKeySelective(ScMotion record) {
+
+        ScMotion scMotion = scMotionMapper.selectByPrimaryKey(record.getId());
+        if(record.getWay()!=null && record.getWay().intValue()!=scMotion.getWay()){
+            commonMapper.excuteSql("update sc_motion set topics=null where id="+record.getId());
+        }
+
+        scMotionMapper.updateByPrimaryKeySelective(record);
     }
 }

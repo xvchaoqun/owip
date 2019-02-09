@@ -311,7 +311,7 @@ public class CetTraineeCourseService extends CetBaseMapper {
 
     // 签到/还原
     @Transactional
-    public void sign(Integer trainCourseId, Integer[] traineeCourseIds, boolean sign, byte signType) {
+    public void sign(Integer trainCourseId, Integer[] traineeCourseIds, boolean sign, byte signType, Date signTime) {
 
         List<CetTraineeCourse> cetTraineeCourses = null;
         if(traineeCourseIds==null || traineeCourseIds.length==0){ // 全部签到/全部还原
@@ -338,10 +338,12 @@ public class CetTraineeCourseService extends CetBaseMapper {
             CetTraineeCourse record = new CetTraineeCourse();
             record.setIsFinished(sign);
             record.setSignType(signType);
-            record.setSignTime(new Date());
+            record.setSignTime(signTime);
 
             CetTraineeCourseExample example = new CetTraineeCourseExample();
-            example.createCriteria().andIdEqualTo(traineeCourseId).andIsFinishedNotEqualTo(sign);
+            example.createCriteria().andIdEqualTo(traineeCourseId)
+                    .andIsFinishedNotEqualTo(sign); // 只对未签到/已签到的进行操作
+
             cetTraineeCourseMapper.updateByExampleSelective(record, example);
 
             if (!sign) {

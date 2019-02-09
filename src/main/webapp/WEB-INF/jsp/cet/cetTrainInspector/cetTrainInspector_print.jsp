@@ -61,9 +61,9 @@ table tr td.title{
 	vertical-align: middle;
 	font-weight: bolder;
 	padding-left: 0px;" nowrap>评课系统网址：</td>
-		<td><fmt:message key="site.train.login" bundle="${spring}"/></td>
+		<td>${cetInspectorLoginUrl}</td>
 		<td rowspan="4">
-			<div class="qrcode" data-url="<fmt:message key="site.train.login" bundle="${spring}"/>?u=${inspector.username}&p=${inspector.passwd}"
+			<div class="qrcode" data-url="${cetInspectorLoginUrl}?u=${inspector.username}&p=${inspector.passwd}"
 				 style="width:100px; height:100px;"></div>
 		</td>
 	</tr>

@@ -19,17 +19,27 @@ import persistence.sc.scGroup.*;
 import persistence.sc.scLetter.*;
 import persistence.sc.scMatter.*;
 import persistence.sc.scMotion.ScMotionMapper;
-import persistence.sc.scMotion.ScMotionPostMapper;
+import persistence.sc.scMotion.ScMotionViewMapper;
 import persistence.sc.scPassport.ScPassportHandMapper;
 import persistence.sc.scPassport.ScPassportMapper;
 import persistence.sc.scPassport.ScPassportMsgMapper;
 import persistence.sc.scPublic.ScPublicMapper;
 import persistence.sc.scPublic.ScPublicUserMapper;
 import persistence.sc.scPublic.ScPublicViewMapper;
+import persistence.sc.scRecord.ScRecordMapper;
+import persistence.sc.scRecord.ScRecordViewMapper;
 import persistence.sc.scSubsidy.*;
 import service.CoreBaseMapper;
 
 public class ScBaseMapper extends CoreBaseMapper {
+
+    /**
+     * 干部选拔-纪实
+     */
+    @Autowired(required = false)
+    protected ScRecordMapper scRecordMapper;
+    @Autowired(required = false)
+    protected ScRecordViewMapper scRecordViewMapper;
 
     /**
      * 干部选拔-动议
@@ -37,7 +47,7 @@ public class ScBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected ScMotionMapper scMotionMapper;
     @Autowired(required = false)
-    protected ScMotionPostMapper scMotionPostMapper;
+    protected ScMotionViewMapper scMotionViewMapper;
 
     /**
      * 干部选拔-干部津贴变动

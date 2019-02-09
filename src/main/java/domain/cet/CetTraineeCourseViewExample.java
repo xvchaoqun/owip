@@ -846,6 +846,66 @@ public class CetTraineeCourseViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andProjectIdIsNull() {
+            addCriterion("project_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIsNotNull() {
+            addCriterion("project_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdEqualTo(Integer value) {
+            addCriterion("project_id =", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotEqualTo(Integer value) {
+            addCriterion("project_id <>", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdGreaterThan(Integer value) {
+            addCriterion("project_id >", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("project_id >=", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdLessThan(Integer value) {
+            addCriterion("project_id <", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdLessThanOrEqualTo(Integer value) {
+            addCriterion("project_id <=", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIn(List<Integer> values) {
+            addCriterion("project_id in", values, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotIn(List<Integer> values) {
+            addCriterion("project_id not in", values, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdBetween(Integer value1, Integer value2) {
+            addCriterion("project_id between", value1, value2, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("project_id not between", value1, value2, "projectId");
+            return (Criteria) this;
+        }
+
         public Criteria andTraineeTypeIdIsNull() {
             addCriterion("trainee_type_id is null");
             return (Criteria) this;
@@ -1146,63 +1206,73 @@ public class CetTraineeCourseViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdIsNull() {
-            addCriterion("project_id is null");
+        public Criteria andChooseUserCodeIsNull() {
+            addCriterion("choose_user_code is null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdIsNotNull() {
-            addCriterion("project_id is not null");
+        public Criteria andChooseUserCodeIsNotNull() {
+            addCriterion("choose_user_code is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdEqualTo(Integer value) {
-            addCriterion("project_id =", value, "projectId");
+        public Criteria andChooseUserCodeEqualTo(String value) {
+            addCriterion("choose_user_code =", value, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotEqualTo(Integer value) {
-            addCriterion("project_id <>", value, "projectId");
+        public Criteria andChooseUserCodeNotEqualTo(String value) {
+            addCriterion("choose_user_code <>", value, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdGreaterThan(Integer value) {
-            addCriterion("project_id >", value, "projectId");
+        public Criteria andChooseUserCodeGreaterThan(String value) {
+            addCriterion("choose_user_code >", value, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("project_id >=", value, "projectId");
+        public Criteria andChooseUserCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("choose_user_code >=", value, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdLessThan(Integer value) {
-            addCriterion("project_id <", value, "projectId");
+        public Criteria andChooseUserCodeLessThan(String value) {
+            addCriterion("choose_user_code <", value, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdLessThanOrEqualTo(Integer value) {
-            addCriterion("project_id <=", value, "projectId");
+        public Criteria andChooseUserCodeLessThanOrEqualTo(String value) {
+            addCriterion("choose_user_code <=", value, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdIn(List<Integer> values) {
-            addCriterion("project_id in", values, "projectId");
+        public Criteria andChooseUserCodeLike(String value) {
+            addCriterion("choose_user_code like", value, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotIn(List<Integer> values) {
-            addCriterion("project_id not in", values, "projectId");
+        public Criteria andChooseUserCodeNotLike(String value) {
+            addCriterion("choose_user_code not like", value, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdBetween(Integer value1, Integer value2) {
-            addCriterion("project_id between", value1, value2, "projectId");
+        public Criteria andChooseUserCodeIn(List<String> values) {
+            addCriterion("choose_user_code in", values, "chooseUserCode");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("project_id not between", value1, value2, "projectId");
+        public Criteria andChooseUserCodeNotIn(List<String> values) {
+            addCriterion("choose_user_code not in", values, "chooseUserCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserCodeBetween(String value1, String value2) {
+            addCriterion("choose_user_code between", value1, value2, "chooseUserCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserCodeNotBetween(String value1, String value2) {
+            addCriterion("choose_user_code not between", value1, value2, "chooseUserCode");
             return (Criteria) this;
         }
 

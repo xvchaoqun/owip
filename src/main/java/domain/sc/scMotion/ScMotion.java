@@ -9,7 +9,7 @@ import java.util.Date;
 public class ScMotion implements Serializable {
 
     public String getCode(){
-        return String.format("动议[%s]%s号", year, num);
+        return "动议["+seq+"]号";
     }
 
     private Integer id;
@@ -19,19 +19,17 @@ public class ScMotion implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date holdDate;
 
-    private Integer num;
+    private String seq;
 
-    private Integer unitId;
+    private Integer unitPostId;
 
-    private Integer type;
+    private Integer scType;
 
-    private Integer postCount;
-
-    private Integer way;
+    private Byte way;
 
     private String wayOther;
 
-    private Integer scType;
+    private String topics;
 
     private String remark;
 
@@ -61,43 +59,35 @@ public class ScMotion implements Serializable {
         this.holdDate = holdDate;
     }
 
-    public Integer getNum() {
-        return num;
+    public String getSeq() {
+        return seq;
     }
 
-    public void setNum(Integer num) {
-        this.num = num;
+    public void setSeq(String seq) {
+        this.seq = seq == null ? null : seq.trim();
     }
 
-    public Integer getUnitId() {
-        return unitId;
+    public Integer getUnitPostId() {
+        return unitPostId;
     }
 
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getScType() {
+        return scType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setScType(Integer scType) {
+        this.scType = scType;
     }
 
-    public Integer getPostCount() {
-        return postCount;
-    }
-
-    public void setPostCount(Integer postCount) {
-        this.postCount = postCount;
-    }
-
-    public Integer getWay() {
+    public Byte getWay() {
         return way;
     }
 
-    public void setWay(Integer way) {
+    public void setWay(Byte way) {
         this.way = way;
     }
 
@@ -109,12 +99,12 @@ public class ScMotion implements Serializable {
         this.wayOther = wayOther == null ? null : wayOther.trim();
     }
 
-    public Integer getScType() {
-        return scType;
+    public String getTopics() {
+        return topics;
     }
 
-    public void setScType(Integer scType) {
-        this.scType = scType;
+    public void setTopics(String topics) {
+        this.topics = topics == null ? null : topics.trim();
     }
 
     public String getRemark() {

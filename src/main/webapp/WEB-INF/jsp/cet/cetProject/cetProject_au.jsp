@@ -155,7 +155,7 @@
                             </div>
                         </form>
                         <div class="modal-footer center">
-                            <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+                            <%--<a href="#" data-dismiss="modal" class="btn btn-default">取消</a>--%>
                             <button id="submitBtn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
                                 <i class="fa fa-check"></i> <c:if test="${cetProject!=null}">确定</c:if><c:if test="${cetProject==null}">添加</c:if></button>
                         </div>

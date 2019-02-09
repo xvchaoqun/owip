@@ -36,6 +36,8 @@ public class CetTraineeCourseView implements Serializable {
 
     private Integer trainId;
 
+    private Integer projectId;
+
     private Integer traineeTypeId;
 
     private Integer userId;
@@ -46,7 +48,7 @@ public class CetTraineeCourseView implements Serializable {
 
     private Integer year;
 
-    private Integer projectId;
+    private String chooseUserCode;
 
     private String chooseUserName;
 
@@ -148,6 +150,14 @@ public class CetTraineeCourseView implements Serializable {
         this.trainId = trainId;
     }
 
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
     public Integer getTraineeTypeId() {
         return traineeTypeId;
     }
@@ -188,12 +198,12 @@ public class CetTraineeCourseView implements Serializable {
         this.year = year;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public String getChooseUserCode() {
+        return chooseUserCode;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setChooseUserCode(String chooseUserCode) {
+        this.chooseUserCode = chooseUserCode == null ? null : chooseUserCode.trim();
     }
 
     public String getChooseUserName() {

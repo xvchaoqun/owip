@@ -30,33 +30,45 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-3 control-label">拟调整岗位</label>
+				<div class="col-xs-6">
+					<select name="unitPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
+							data-placeholder="请选择">
+						<option value="${unitPost.id}" title="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
+					</select>
+					<script>
+						$.register.del_select($("#modalForm select[name=unitPostId]"), {
+							width:273,
+							templateResult: function (state) {
+								var txt = state.text;
+								if(state.code) txt = state.code+"-"+txt;
+								return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", txt);
+							},
+							templateSelection: function (state) {
+								var txt = state.text;
+								if(state.code) txt = state.code+"-"+txt;
+								return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", txt);
+							}
+						})
+					</script>
+				</div>
+			</div>
+			<%--<div class="form-group">
 				<label class="col-xs-3 control-label">动议编号</label>
 				<div class="col-xs-6">
                         <input required class="form-control num" type="text" name="num" value="${scMotion.num}">
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属单位</label>
-				<div class="col-xs-6">
-					<select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects?status=<%=SystemConstants.UNIT_STATUS_RUN%>"
-							data-placeholder="请选择">
-						<option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
-					</select>
-					<script>
-						$.register.del_select($("#modalForm select[name=unitId]"), 273)
-					</script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">动议事项</label>
+				<label class="col-xs-3 control-label">选拔任用方式</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" data-width="273"
-							name="type" data-placeholder="请选择">
+							name="scType" data-placeholder="请选择">
 						<option></option>
-						<jsp:include page="/metaTypes?__code=mc_sc_motion_type"/>
+						<jsp:include page="/metaTypes?__code=mc_sc_motion_sctype"/>
 					</select>
 					<script type="text/javascript">
-						$("#modalForm select[name=type]").val(${scMotion.type});
+						$("#modalForm select[name=scType]").val(${scMotion.scType});
 					</script>
 				</div>
 			</div>
@@ -81,19 +93,7 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="wayOther" value="${scMotion.wayOther}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">干部选任方式</label>
-				<div class="col-xs-6">
-					<select required data-rel="select2" data-width="273"
-							name="scType" data-placeholder="请选择">
-						<option></option>
-						<jsp:include page="/metaTypes?__code=mc_sc_motion_sctype"/>
-					</select>
-					<script type="text/javascript">
-						$("#modalForm select[name=scType]").val(${scMotion.scType});
-					</script>
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
@@ -102,8 +102,8 @@ pageEncoding="UTF-8"%>
 			</div>
     </form>
 </div>
-<div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+<div class="modal-footer"><a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${scMotion!=null}">确定</c:if><c:if test="${scMotion==null}">添加</c:if></button>
 </div>
 <script>

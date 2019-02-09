@@ -2,6 +2,7 @@ package service.cadreReserve;
 
 import bean.XlsCadreReserve;
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
@@ -26,9 +27,9 @@ import service.unit.UnitService;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
+import sys.tool.tree.TreeNode;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CadreReserveService extends BaseMapper {
@@ -46,6 +47,78 @@ public class CadreReserveService extends BaseMapper {
     private UnitService unitService;
     @Autowired
     private MetaTypeService metaTypeService;
+
+    public TreeNode getTree(Set<Integer> selectIdSet,
+                            boolean useCadreId // key使用 干部ID or 用户ID
+                            ){
+
+        Map<Integer, List<Cadre>> groupMap = new LinkedHashMap<>();
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
+        for (Map.Entry<Integer, MetaType> entry : metaTypeMap.entrySet()) {
+            groupMap.put(entry.getKey(), new ArrayList<Cadre>());
+        }
+
+        {
+            CadreReserveExample example = new CadreReserveExample();
+            example.createCriteria().andStatusIn(Arrays.asList(CadreConstants.CADRE_RESERVE_STATUS_NORMAL,
+                    CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT));
+            example.setOrderByClause("sort_order asc");
+            List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
+            for (CadreReserve cadreReserve : cadreReserves) {
+
+                Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
+                Integer type = cadreReserve.getType();
+                List<Cadre> cadres = groupMap.get(type);
+                if(null == cadres) cadres = new ArrayList<>();
+                cadres.add(cadre);
+                groupMap.put(type, cadres);
+            }
+        }
+
+        TreeNode root = new TreeNode();
+        root.title = CadreConstants.CADRE_STATUS_MAP.get(CadreConstants.CADRE_STATUS_RESERVE);
+        root.expand = true;
+        root.isFolder = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        for(Map.Entry<Integer, List<Cadre>> entry : groupMap.entrySet()) {
+            List<Cadre> entryValue = entry.getValue();
+            if(entryValue.size()>0) {
+
+                TreeNode titleNode = new TreeNode();
+                titleNode.expand = false;
+                titleNode.isFolder = true;
+                List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+                titleNode.children = titleChildren;
+
+                int selectCount = 0;
+                for (Cadre cadre : entryValue) {
+
+                    int cadreId = cadre.getId();
+                    int userId = cadre.getUserId();
+                    String title = cadre.getTitle();
+                    TreeNode node = new TreeNode();
+                    node.title = cadre.getUser().getRealname() + (title != null ? ("-" + title) : "");
+
+                    int key = useCadreId?cadreId:userId;
+                    node.key = key + "";
+
+                    if (selectIdSet.contains(key)) {
+                        selectCount++;
+                        node.select = true;
+                    }
+
+                    titleChildren.add(node);
+                }
+
+                titleNode.title = metaTypeMap.get(entry.getKey()).getName() + String.format("(%s", selectCount > 0 ? selectCount + "/" : "") + entryValue.size() + "人)";
+                rootChildren.add(titleNode);
+            }
+        }
+
+        return root;
+    }
 
     // 直接添加后备干部时执行检查
     public void directAddCheck(Integer id, int userId){

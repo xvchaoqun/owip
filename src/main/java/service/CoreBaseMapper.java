@@ -63,6 +63,8 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected BranchMemberMapper branchMemberMapper;
     @Autowired(required = false)
+    protected BranchMemberViewMapper branchMemberViewMapper;
+    @Autowired(required = false)
     protected PartyMapper partyMapper;
     @Autowired(required = false)
     protected PartyViewMapper partyViewMapper;

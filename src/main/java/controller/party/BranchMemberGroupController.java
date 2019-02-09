@@ -6,8 +6,6 @@ import domain.dispatch.DispatchUnit;
 import domain.party.*;
 import domain.party.BranchMemberGroupExample.Criteria;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -71,13 +69,15 @@ public class BranchMemberGroupController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
+        if(status==2){
+            return "party/branchMemberGroup/branchMember";
+        }
+
         return "party/branchMemberGroup/branchMemberGroup_page";
     }
     @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup_data")
     public void branchMemberGroup_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member_group") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                        @RequestParam(required = false, defaultValue = "1")Byte status,
                                     Integer partyId,
                                     Integer branchId,
@@ -96,7 +96,7 @@ public class BranchMemberGroupController extends BaseController {
 
         BranchMemberGroupViewExample example = new BranchMemberGroupViewExample();
         BranchMemberGroupViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("party_sort_order desc, branch_sort_order desc, sort_order desc");
 
         criteria.andIsDeletedEqualTo(status == -1);
 
@@ -134,7 +134,7 @@ public class BranchMemberGroupController extends BaseController {
             return;
         }
 
-        int count = branchMemberGroupViewMapper.countByExample(example);
+        int count = (int) branchMemberGroupViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -275,7 +275,7 @@ public class BranchMemberGroupController extends BaseController {
         int rownum = records.size();
     
         List<String> titles = new ArrayList<>(Arrays.asList("名称|250|left", "所属分党委|250|left", "所属党支部|250|left",
-                "是否现任班子","应换届时间|100","实际换届时间|100","任命时间|100"));
+                "是否现任班子|70","应换届时间|100","实际换届时间|100","任命时间|100"));
         
         Map<Integer, MetaType> branchMemberTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
         for (MetaType branchMemberType : branchMemberTypeMap.values()) {
@@ -378,7 +378,13 @@ public class BranchMemberGroupController extends BaseController {
 
     @RequiresPermissions("branchMember:list")
     @RequestMapping("/branch_member")
-    public String branch_member(Integer id,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String branch_member(Integer id, Integer memberId, Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        if(memberId!=null){
+
+            BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(memberId);
+            modelMap.put("branchMember", branchMember);
+        }
 
         if (id != null) {
             if (null == pageSize) {
@@ -393,7 +399,7 @@ public class BranchMemberGroupController extends BaseController {
             BranchMemberExample.Criteria criteria = example.createCriteria().andGroupIdEqualTo(id);
             example.setOrderByClause("sort_order desc");
 
-            int count = branchMemberMapper.countByExample(example);
+            int count = (int) branchMemberMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {
 
                 pageNo = Math.max(1, pageNo - 1);

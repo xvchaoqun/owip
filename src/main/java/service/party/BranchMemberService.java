@@ -1,11 +1,8 @@
 package service.party;
 
 import domain.base.MetaType;
-import domain.party.Branch;
-import domain.party.BranchMember;
-import domain.party.BranchMemberExample;
-import domain.party.BranchMemberGroup;
-import domain.party.OrgAdmin;
+import domain.party.*;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -18,9 +15,9 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import shiro.ShiroUser;
 import sys.constants.RoleConstants;
+import sys.tool.tree.TreeNode;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BranchMemberService extends BaseMapper {
@@ -34,6 +31,78 @@ public class BranchMemberService extends BaseMapper {
     private  PartyService partyService;
     @Autowired
     private MetaTypeService metaTypeService;
+
+    public TreeNode getTree(Set<Integer> selectIdSet){
+
+        Map<Integer, List<SysUserView>> groupMap = new LinkedHashMap<>();
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
+        for (Map.Entry<Integer, MetaType> entry : metaTypeMap.entrySet()) {
+            groupMap.put(entry.getKey(), new ArrayList<SysUserView>());
+        }
+
+        {
+            BranchMemberViewExample example = new BranchMemberViewExample();
+            BranchMemberViewExample.Criteria criteria = example.createCriteria();
+            example.setOrderByClause("party_sort_order desc, branch_sort_order desc,sort_order desc");
+
+            List<BranchMemberView> branchMemberViews = branchMemberViewMapper.selectByExample(example);
+
+            for (BranchMemberView pmv : branchMemberViews) {
+
+                int typeId = pmv.getTypeId();
+                SysUserView uv = pmv.getUser();
+
+                List<SysUserView> uvs = groupMap.get(typeId);
+                if(uvs==null){
+                    uvs = new ArrayList<>();
+                    groupMap.put(typeId, uvs);
+                }
+                uvs.add(uv);
+            }
+        }
+
+        TreeNode root = new TreeNode();
+        root.title = "党支部班子成员";
+        root.expand = true;
+        root.isFolder = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        for(Map.Entry<Integer, List<SysUserView>> entry : groupMap.entrySet()) {
+            List<SysUserView> entryValue = entry.getValue();
+            if(entryValue.size()>0) {
+
+                TreeNode titleNode = new TreeNode();
+                titleNode.expand = false;
+                titleNode.isFolder = true;
+                List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+                titleNode.children = titleChildren;
+
+                int selectCount = 0;
+                for (SysUserView uv : entryValue) {
+
+                    int userId = uv.getUserId();
+                    String unit = uv.getUnit();
+                    TreeNode node = new TreeNode();
+                    node.title = uv.getRealname() + (unit != null ? ("-" + unit) : "");
+
+                    int key = userId;
+                    node.key = key + "";
+
+                    if (selectIdSet.contains(key)) {
+                        selectCount++;
+                        node.select = true;
+                    }
+
+                    titleChildren.add(node);
+                }
+
+                titleNode.title = metaTypeMap.get(entry.getKey()).getName() + String.format("(%s", selectCount > 0 ? selectCount + "/" : "") + entryValue.size() + "人)";
+                rootChildren.add(titleNode);
+            }
+        }
+        return root;
+    }
 
     public void checkAuth(int partyId){
 

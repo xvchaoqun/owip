@@ -22,7 +22,7 @@
                 <form class="form-horizontal" action="${ctx}/sc/scCommitteeTopic_au" id="modalForm" method="post"
                       enctype="multipart/form-data">
                     <div style="width: 500px;float: left;margin-right: 25px">
-                        <div class="widget-box" style="height: 500px;">
+                        <div class="widget-box" style="height: 530px;">
                             <div class="widget-header">
                                 <h4 class="smaller">
                                     ${scCommitteeTopic!=null?"修改":"添加"}
@@ -62,7 +62,7 @@
                                                            name="name">${scCommitteeTopic.name}</textarea>
                                             </div>
                                         </div>
-                                        <%--<div class="form-group">
+                                        <div class="form-group">
                                             <label class="col-xs-3 control-label">涉及单位</label>
 
                                             <div class="col-xs-6">
@@ -109,7 +109,7 @@
                                                     <span class="help-block">（历史单位）</span>
                                                 </div>
                                             </div>
-                                        </div>--%>
+                                        </div>
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label">表决情况</label>
                                             <div class="col-xs-7 label-text">
@@ -126,7 +126,7 @@
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label">备注</label>
                                             <div class="col-xs-8">
-                                             <textarea class="form-control limited" rows="7"
+                                             <textarea class="form-control limited" rows="2"
                                                        name="remark">${scCommitteeTopic.remark}</textarea>
                                             </div>
                                         </div>
@@ -207,7 +207,7 @@
         pasteType:0
     });
 
-   /* var selectUnitIds = ${selectUnitIds};
+    var selectUnitIds = ${selectUnitIds};
     $.register.multiselect($('#modalForm select[name=unitIds]'), selectUnitIds, {
         enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false, buttonWidth: '240px'
@@ -216,10 +216,12 @@
     $.register.multiselect($('#modalForm select[name=historyUnitIds]'), selectUnitIds, {
         enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false, buttonWidth: '240px'
-    });*/
+    });
 
     //$.register.date($('.date-picker'));
     $('#modalForm [data-rel="select2"]').select2();
+
+    var selectedUnitIds = [];
 
     $("#submitBtn").click(function () {
         if($("#modalForm :checkbox:checked").length==0){
@@ -237,6 +239,11 @@
             });
         }
 
+        selectedUnitIds = $.map($('#modalForm select[name=unitIds] option:selected, ' +
+            '#modalForm select[name=historyUnitIds] option:selected'), function (option) {
+            return $(option).val();
+        });
+
         $("#modalForm").submit();
         return false;
     });
@@ -252,7 +259,7 @@
             var $btn = $("#submitBtn").button('loading');
 
             $(form).ajaxSubmit({
-                data: {content: contentKe.html(), memo: memoKe.html()},
+                data: {selectedUnitIds: selectedUnitIds, content: contentKe.html(), memo: memoKe.html()},
                 success: function (ret) {
                     if (ret.success) {
                         $.hideView();

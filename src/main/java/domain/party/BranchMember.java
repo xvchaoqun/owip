@@ -1,6 +1,10 @@
 package domain.party;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
+import java.util.Date;
 
 public class BranchMember implements Serializable {
     private Integer id;
@@ -10,6 +14,13 @@ public class BranchMember implements Serializable {
     private Integer userId;
 
     private Integer typeId;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    private Date assignDate;
+
+    private String officePhone;
+
+    private String mobile;
 
     private Boolean isAdmin;
 
@@ -47,6 +58,30 @@ public class BranchMember implements Serializable {
 
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
+    }
+
+    public Date getAssignDate() {
+        return assignDate;
+    }
+
+    public void setAssignDate(Date assignDate) {
+        this.assignDate = assignDate;
+    }
+
+    public String getOfficePhone() {
+        return officePhone;
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone == null ? null : officePhone.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
     public Boolean getIsAdmin() {

@@ -4,6 +4,7 @@ import bean.XlsTrainCourse;
 import controller.global.OpException;
 import domain.cet.*;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,6 +19,31 @@ public class CetTrainCourseService extends CetBaseMapper {
 
     @Autowired
     private CetCourseService cetCourseService;
+
+    @Cacheable(value = "CetTrainCourseSignToken", key = "#trainCourseId")
+    public String getSignToken(int trainCourseId){
+
+        CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+        String signToken = cetTrainCourse.getSignToken();
+        Long signTokenExpire = cetTrainCourse.getSignTokenExpire();
+        if(StringUtils.isBlank(signToken) || signTokenExpire==null){
+            return null;
+        }
+
+        return  signToken + "_"+ signTokenExpire;
+    }
+
+    @CacheEvict(value = "CetTrainCourseSignToken", key = "#trainCourseId")
+    public void updateSignToken(int trainCourseId, String signToken, long signTokenExpire){
+
+        CetTrainCourse record = new CetTrainCourse();
+        record.setId(trainCourseId);
+        record.setSignToken(signToken);
+        record.setSignTokenExpire(signTokenExpire);
+
+        cetTrainCourseMapper.updateByPrimaryKeySelective(record);
+    }
+
 
     public CetTrainCourse get(int trainId, int courseId) {
 
@@ -240,7 +266,7 @@ public class CetTrainCourseService extends CetBaseMapper {
     public Map<Integer, CetTraineeCourseView> findTrainees(int trainCourseId) {
 
         CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
-        CetTraineeCourseViewExample.Criteria criteria = example.createCriteria().andTrainCourseIdEqualTo(trainCourseId);
+        example.createCriteria().andTrainCourseIdEqualTo(trainCourseId);
 
         Map<Integer, CetTraineeCourseView> resultMap = new HashMap<>();
         List<CetTraineeCourseView> cetTraineeCourseViews = cetTraineeCourseViewMapper.selectByExample(example);

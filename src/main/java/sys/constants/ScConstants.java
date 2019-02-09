@@ -9,17 +9,32 @@ import java.util.Map;
 public class ScConstants {
 
     /**
+     * 纪实
+     */
+    // 状态，1 正在进行 2 选任暂停 3 纪实归档  10 已删除
+    public final static byte SC_RECORD_STATUS_INIT = 1;
+    public final static byte SC_RECORD_STATUS_SUSPEND = 2;
+    public final static byte SC_RECORD_STATUS_ARCHIVE = 3;
+    public final static Map<Byte, String> SC_RECORD_STATUS_MAP = new LinkedHashMap();
+
+    static {
+        SC_RECORD_STATUS_MAP.put(SC_RECORD_STATUS_INIT, "正在进行");
+        SC_RECORD_STATUS_MAP.put(SC_RECORD_STATUS_SUSPEND, "选任暂停");
+        SC_RECORD_STATUS_MAP.put(SC_RECORD_STATUS_ARCHIVE, "纪实归档");
+    }
+
+    /**
      * 动议
      */
     // 动议形式，党委干部工作小组会、 党委常委会、 其他
     public final static byte SC_MOTION_WAY_GROUP = 1;
-    public final static byte SC_MOTION_WAY_COMMITE = 2;
+    public final static byte SC_MOTION_WAY_COMMITTEE = 2;
     public final static byte SC_MOTION_WAY_OTHER = 3;
     public final static Map<Byte, String> SC_MOTION_WAY_MAP = new LinkedHashMap();
 
     static {
         SC_MOTION_WAY_MAP.put(SC_MOTION_WAY_GROUP, "党委干部工作小组会");
-        SC_MOTION_WAY_MAP.put(SC_MOTION_WAY_COMMITE, "党委常委会");
+        SC_MOTION_WAY_MAP.put(SC_MOTION_WAY_COMMITTEE, "党委常委会");
         SC_MOTION_WAY_MAP.put(SC_MOTION_WAY_OTHER, "其他");
     }
 

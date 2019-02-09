@@ -1,6 +1,10 @@
 <%@ page import="sys.constants.CetConstants" %>
+<%@ page import="sys.utils.RequestUtils" %>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set value="<%=RequestUtils.getHomeURL(request)%>" var="cetInspectorLoginUrl"/>
+<c:set value="${cetInspectorLoginUrl}/m/cet_eva/login" var="cetInspectorLoginUrl"/>
 
 <c:set value="<%=CetConstants.CET_TYPE_MAP%>" var="CET_TYPE_MAP"/>
 <c:set value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>" var="CET_PROJECT_TYPE_MAP"/>

@@ -4,18 +4,9 @@ import controller.BaseController;
 import domain.base.MetaType;
 import domain.ext.ExtJzg;
 import domain.member.Member;
-import domain.party.Branch;
-import domain.party.BranchExample;
+import domain.party.*;
 import domain.party.BranchExample.Criteria;
-import domain.party.BranchMember;
-import domain.party.BranchMemberExample;
-import domain.party.BranchMemberGroup;
-import domain.party.BranchView;
-import domain.party.BranchViewExample;
-import domain.party.Party;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -47,14 +38,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class BranchController extends BaseController {
@@ -108,8 +92,6 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_data")
     public void branch_data(HttpServletResponse response,
-                            @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch") String sort,
-                            @OrderParam(required = false, defaultValue = "desc") String order,
                             @RequestParam(required = false, defaultValue = "1") Byte status,
                             String code,
                             String name,
@@ -135,7 +117,7 @@ public class BranchController extends BaseController {
 
         BranchViewExample example = new BranchViewExample();
         BranchViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("party_sort_order desc, sort_order desc");
 
         criteria.andIsDeletedEqualTo(status == -1);
 

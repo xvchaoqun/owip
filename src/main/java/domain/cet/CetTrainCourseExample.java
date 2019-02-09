@@ -855,6 +855,136 @@ public class CetTrainCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andSignTokenIsNull() {
+            addCriterion("sign_token is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenIsNotNull() {
+            addCriterion("sign_token is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenEqualTo(String value) {
+            addCriterion("sign_token =", value, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenNotEqualTo(String value) {
+            addCriterion("sign_token <>", value, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenGreaterThan(String value) {
+            addCriterion("sign_token >", value, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenGreaterThanOrEqualTo(String value) {
+            addCriterion("sign_token >=", value, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenLessThan(String value) {
+            addCriterion("sign_token <", value, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenLessThanOrEqualTo(String value) {
+            addCriterion("sign_token <=", value, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenLike(String value) {
+            addCriterion("sign_token like", value, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenNotLike(String value) {
+            addCriterion("sign_token not like", value, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenIn(List<String> values) {
+            addCriterion("sign_token in", values, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenNotIn(List<String> values) {
+            addCriterion("sign_token not in", values, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenBetween(String value1, String value2) {
+            addCriterion("sign_token between", value1, value2, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenNotBetween(String value1, String value2) {
+            addCriterion("sign_token not between", value1, value2, "signToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireIsNull() {
+            addCriterion("sign_token_expire is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireIsNotNull() {
+            addCriterion("sign_token_expire is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireEqualTo(Long value) {
+            addCriterion("sign_token_expire =", value, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireNotEqualTo(Long value) {
+            addCriterion("sign_token_expire <>", value, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireGreaterThan(Long value) {
+            addCriterion("sign_token_expire >", value, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireGreaterThanOrEqualTo(Long value) {
+            addCriterion("sign_token_expire >=", value, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireLessThan(Long value) {
+            addCriterion("sign_token_expire <", value, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireLessThanOrEqualTo(Long value) {
+            addCriterion("sign_token_expire <=", value, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireIn(List<Long> values) {
+            addCriterion("sign_token_expire in", values, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireNotIn(List<Long> values) {
+            addCriterion("sign_token_expire not in", values, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireBetween(Long value1, Long value2) {
+            addCriterion("sign_token_expire between", value1, value2, "signTokenExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTokenExpireNotBetween(Long value1, Long value2) {
+            addCriterion("sign_token_expire not between", value1, value2, "signTokenExpire");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

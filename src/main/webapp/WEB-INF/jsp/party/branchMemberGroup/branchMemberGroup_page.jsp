@@ -15,14 +15,7 @@
             ||not empty param.branchId}"/>
 
                 <div class="tabbable">
-                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li  class="<c:if test="${status==1}">active</c:if>">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/branchMemberGroup?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部委员会</a>
-                        </li>
-                        <li  class="<c:if test="${status==-1}">active</c:if>">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/branchMemberGroup?status=-1"><i class="fa fa-trash"></i> 已删除支部委员会</a>
-                        </li>
-                    </ul>
+                    <jsp:include page="menu.jsp"/>
 
                     <div class="tab-content">
                         <div class="tab-pane in active">
@@ -31,9 +24,9 @@
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i> 修改信息</a>
 
-                    <button data-url="${ctx}/branch_member" class="jqOpenViewBtn btn btn-warning btn-sm">
+                    <%--<button data-url="${ctx}/branch_member" data-width="800" class="jqOpenViewBtn btn btn-warning btn-sm">
                         <i class="fa fa-user"></i> 编辑委员
-                    </button>
+                    </button>--%>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                     <c:if test="${status>=0}">
@@ -125,6 +118,12 @@
                 var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任委员会</span>&nbsp;';
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
             }, frozen:true},
+            {label: '查看委员', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
+                    return ('<button class="openView btn btn-warning btn-xs" ' +
+                        'data-url="${ctx}/branchMember?groupId={0}">'
+                        +'<i class="fa fa-search"></i> 查看委员({1})</button>')
+                        .format(rowObject.id, rowObject.memberCount);
+                }},
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 550,
                 formatter: function (cellvalue, options, rowObject) {

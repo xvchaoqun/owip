@@ -31,7 +31,7 @@ public class CadreConstants {
         CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任中层干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任中层干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
-        CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库"); // 非干部角色
+        CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "年轻干部库"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RECRUIT, "应聘干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_NOT_CADRE, "非干部"); // 无角色
 
@@ -106,7 +106,7 @@ public class CadreConstants {
     }*/
 
 
-    // 后备干部库状态 1 后备干部 2 后备干部已使用 3 已撤销资格
+    // 后备干部库状态
     public final static byte CADRE_RESERVE_STATUS_NORMAL = 1;
     public final static byte CADRE_RESERVE_STATUS_TO_INSPECT = 2;
     public final static byte CADRE_RESERVE_STATUS_ASSIGN = 3;

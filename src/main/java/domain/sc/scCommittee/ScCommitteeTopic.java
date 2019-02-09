@@ -11,6 +11,8 @@ public class ScCommitteeTopic implements Serializable {
 
     private String name;
 
+    private String unitIds;
+
     private String content;
 
     private String memo;
@@ -57,6 +59,14 @@ public class ScCommitteeTopic implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getUnitIds() {
+        return unitIds;
+    }
+
+    public void setUnitIds(String unitIds) {
+        this.unitIds = unitIds == null ? null : unitIds.trim();
     }
 
     public String getContent() {

@@ -1,157 +1,129 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
-    <div class="col-xs-12">
 
-        <div class="myTableDiv"
-             data-url-au="${ctx}/branchMember_au"
-             data-url-page="${ctx}/branchMember"
-             data-url-del="${ctx}/branchMember_del"
-             data-url-bd="${ctx}/branchMember_batchDel"
-             data-url-co="${ctx}/branchMember_changeOrder"
-             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input class="form-control search-query" name="groupId" type="text" value="${param.groupId}"
-                       placeholder="请输入所属支部委员会">
-                <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
-                       placeholder="请输入账号">
-                <input class="form-control search-query" name="typeId" type="text" value="${param.typeId}"
-                       placeholder="请输入类别">
-                <input class="form-control search-query" name="isAdmin" type="text" value="${param.isAdmin}"
-                       placeholder="请输入是否管理员">
-                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.groupId ||not empty param.userId ||not empty param.typeId ||not empty param.isAdmin || not empty param.code || not empty param.sort}"/>
-                <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm">
-                        <i class="fa fa-reply"></i> 重置
-                    </button>
-                </c:if>
-                <div class="vspace-12"></div>
-                <div class="buttons pull-right">
-                    <shiro:hasPermission name="branchMember:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                    <c:if test="${commonList.recNum>0}">
-                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="branchMember:del">
-                    <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 批量删除</a>
-                     </shiro:hasPermission>
-                    </c:if>
-                </div>
-            </t:sort-form>
-            <div class="space-4"></div>
-            <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th class="center">
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace checkAll">
-                                <span class="lbl"></span>
-                            </label>
-                        </th>
-							<th>所属支部委员会</th>
-							<th>账号</th>
-							<th>类别</th>
-							<th>是否管理员</th>
-                        <shiro:hasPermission name="branchMember:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap>排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${branchMembers}" var="branchMember" varStatus="st">
-                        <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" value="${branchMember.id}" class="ace">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
-								<td nowrap>${branchMember.groupId}</td>
-								<td nowrap>${branchMember.userId}</td>
-								<td nowrap>${branchMember.typeId}</td>
-								<td nowrap>${branchMember.isAdmin}</td>
-                            <shiro:hasPermission name="branchMember:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td nowrap>
-                                    <a href="javascript:;" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${branchMember.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${branchMember.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
-                            <td nowrap>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="branchMember:edit">
-                                    <button data-id="${branchMember.id}" class="editBtn btn btn-default btn-xs">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                     </shiro:hasPermission>
-                                     <shiro:hasPermission name="branchMember:del">
-                                    <button class="delBtn btn btn-danger btn-xs" data-id="${branchMember.id}">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                        </button>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:;" class="hideView btn btn-xs btn-success">
+                <i class="ace-icon fa fa-backward"></i>
+                返回</a>
+        </h4>
 
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <%--<li>
-                                            <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="查看">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                            </a>
-                                        </li>--%>
-                                            <shiro:hasPermission name="branchMember:edit">
-                                            <li>
-                                                <a href="javascript:;" data-id="${branchMember.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="branchMember:del">
-                                            <li>
-                                                <a href="javascript:;" data-id="${branchMember.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/branchMember" target="#page-content" pageNum="5"
-                         model="3"/>
-            </c:if>
-            <c:if test="${commonList.recNum==0}">
-                <div class="well well-lg center">
-                    <h4 class="green lighter">暂无记录</h4>
-                </div>
-            </c:if>
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="javascript:;">${branchMemberGroup.name}-委员管理</a>
+                </li>
+            </ul>
         </div>
     </div>
+    <div class="widget-body">
+        <div class="widget-main padding-4">
+            <div class="tab-content padding-8">
+                <shiro:hasPermission name="branchMember:edit">
+                    <a class="popupBtn btn btn-info btn-sm"
+                    data-url="${ctx}/branchMember_au?groupId=${branchMemberGroup.id}">
+                        <i class="fa fa-plus"></i> 添加</a>
+                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/branchMember_au?groupId=${branchMemberGroup.id}"
+                       data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+                        修改</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="branchMember:del">
+                    <button data-url="${ctx}/branchMember_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid2"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
+
+                <div class="space-4"></div>
+                <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+                <div id="jqGridPager2"></div>
+            </div>
+        </div>
+        <!-- /.widget-main -->
+    </div>
+    <!-- /.widget-body -->
 </div>
+<!-- /.widget-box -->
 <script>
-    $('[data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    function _adminCallback(){
+        $("#modal").modal("hide")
+        $("#jqGrid2").trigger("reloadGrid");
+    }
+
+    $.register.date($('.date-picker'));
+    $("#jqGrid2").jqGrid({
+        //forceFit:true,
+        pager: "jqGridPager2",
+        url: '${ctx}/branchMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
+            {
+                label: '姓名', name: 'user.realname', align:'left', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+                    var str = '<span class="label label-sm label-primary " style="display: inline!important;"> 管理员</span>&nbsp;';
+                    return (rowObject.isAdmin?str:'')+ cellvalue;
+                }, frozen: true
+            },
+            {
+                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{grid:'#jqGrid2', url: "${ctx}/branchMember_changeOrder"}, frozen: true
+            },
+            {label: '管理员', name: 'isAdmin',align:'left',formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue)
+                        return '<button data-url="${ctx}/branchMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
+                    else
+                        return '<button data-url="${ctx}/branchMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
+                }},
+            {label: '所在单位', name: 'unitId', width: 180,align:'left', formatter: $.jgrid.formatter.unit},
+            {label: '所属分党委', name: 'groupPartyId', width: 250, align:'left',formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '';
+                    return _cMap.partyMap[cellvalue].name;
+                }},
+            {label: '所属党支部', name: 'groupBranchId', width: 180, align:'left',formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '';
+                    return _cMap.branchMap[cellvalue].name;
+                }},
+            {label: '类别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '任职时间', name: 'assignDate', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {
+                label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER
+            },
+            {label: '民族', name: 'nation', width: 60},
+            {label: '身份证号', name: 'idcard', width: 170},
+
+            {
+                label: '出生日期', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
+            },
+            {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
+            {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
+            {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '岗位类别', name: 'postClass'},
+            {label: '主岗等级', name: 'mainPostLevel', width: 150},
+            {label: '专业技术职务', name: 'proPost', width: 120},
+            {label: '专技岗位等级', name: 'proPostLevel', width: 150},
+            {label: '管理岗位等级', name: 'manageLevel', width: 150},
+            { label: '办公电话', name: 'officePhone' },
+            { label: '手机号', name: 'mobile' },
+            {
+                label: '所属党组织',
+                name: 'partyId',
+                align: 'left',
+                width: 550,
+                formatter: function (cellvalue, options, rowObject) {
+                    return $.party(rowObject.partyId, rowObject.branchId);
+                }
+            }
+        ]
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $(window).triggerHandler('resize.jqGrid2');
+    });
+    $.initNavGrid("jqGrid2", "jqGridPager2");
+
 </script>

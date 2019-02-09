@@ -1,5 +1,8 @@
 package domain.party;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +17,7 @@ public class PartyMember implements Serializable {
 
     private Integer postId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date assignDate;
 
     private String officePhone;

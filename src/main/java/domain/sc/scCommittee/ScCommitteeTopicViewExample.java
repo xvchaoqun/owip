@@ -1,5 +1,7 @@
 package domain.sc.scCommittee;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -380,6 +382,87 @@ public class ScCommitteeTopicViewExample {
 
         public Criteria andNameNotBetween(String value1, String value2) {
             addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsIsNull() {
+            addCriterion("unit_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsIsNotNull() {
+            addCriterion("unit_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsEqualTo(String value) {
+            addCriterion("unit_ids =", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotEqualTo(String value) {
+            addCriterion("unit_ids <>", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsGreaterThan(String value) {
+            addCriterion("unit_ids >", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_ids >=", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLessThan(String value) {
+            addCriterion("unit_ids <", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLessThanOrEqualTo(String value) {
+            addCriterion("unit_ids <=", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLike(String value) {
+            addCriterion("unit_ids like", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotLike(String value) {
+            addCriterion("unit_ids not like", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsContain(Integer[] unitIds) {
+
+            List<String> unitIdList = new ArrayList<>();
+            for (Integer unitId : unitIds) {
+                unitIdList.add("find_in_set("+unitId+", unit_ids)");
+            }
+
+            addCriterion("(" + StringUtils.join(unitIdList, " or ") + ")");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsIn(List<String> values) {
+            addCriterion("unit_ids in", values, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotIn(List<String> values) {
+            addCriterion("unit_ids not in", values, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsBetween(String value1, String value2) {
+            addCriterion("unit_ids between", value1, value2, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotBetween(String value1, String value2) {
+            addCriterion("unit_ids not between", value1, value2, "unitIds");
             return (Criteria) this;
         }
 

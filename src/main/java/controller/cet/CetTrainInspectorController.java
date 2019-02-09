@@ -167,9 +167,9 @@ public class CetTrainInspectorController extends CetBaseController {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
 
-        String[] titles ={"账号","密码", "培训班次|200", "测评状态"};
+        String[] titles ={"账号|150","密码", "培训班次|450|left", "测评状态"};
         if(!cetTrain.getEvaAnonymous()) {
-            titles[0] = "手机号";
+            titles[0] = "手机号|150";
             titles[1] = "姓名";
         }
         List<String[]> valuesList = new ArrayList<>();

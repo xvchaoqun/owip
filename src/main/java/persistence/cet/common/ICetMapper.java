@@ -15,6 +15,11 @@ import java.util.Map;
 public interface ICetMapper {
 
    // 获取个人的进入年度学习档案的所有年度
+   @Select("select trainee_type_id, count(*) as num from cet_project_obj " +
+    "where project_id=#{projectId} and is_quit=#{isQuit} group by trainee_type_id ")
+   public List<Map> projectObj_typeCount(@Param("projectId") int projectId, @Param("isQuit") boolean isQuit);
+
+   // 获取个人的进入年度学习档案的所有年度
    @Select("select year from cet_annual_obj where user_id=#{userId} order by year desc")
    public List<Integer> getAnnualYears(@Param("userId") Integer userId);
 

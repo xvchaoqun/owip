@@ -6,6 +6,7 @@
     <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
     <result column="seq" jdbcType="INTEGER" property="seq" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="unit_ids" jdbcType="VARCHAR" property="unitIds" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="has_vote" jdbcType="BIT" property="hasVote" />
@@ -52,7 +53,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, committee_id, seq, name, content, memo, has_vote, has_other_vote, vote_file_path, 
+    id, committee_id, seq, name, unit_ids, content, memo, has_vote, has_other_vote, vote_file_path, 
     remark, is_deleted, year, hold_date, committee_member_count, count, absent_count, 
     attend_users, file_path, log_file
   </sql>

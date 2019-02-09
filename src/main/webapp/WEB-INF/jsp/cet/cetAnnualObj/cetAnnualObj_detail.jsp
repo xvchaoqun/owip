@@ -25,6 +25,9 @@
         </div>
     </div>
     </c:if>
+    <c:if test="${empty cetAnnualObj}">
+    <h4>暂无</h4>
+    </c:if>
     <c:if test="${not empty cetAnnualObj}">
     <div class="widget-body">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">

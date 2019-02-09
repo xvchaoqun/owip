@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +20,7 @@
 		<tr>
 			<td></td>
 			<td align="left">
-				<fmt:message key="site.train.login" bundle="${spring}" var="loginUrl"/>
-				<c:set var="loginUrl" value="${loginUrl}?trainId=${cetTrain.id}" scope="request"></c:set>
+				<c:set var="loginUrl" value="${cetInspectorLoginUrl}?trainId=${cetTrain.id}" scope="request"></c:set>
 				<img src="${ctx}/qrcode?content=${cm:encodeURI(requestScope.loginUrl)}" style="width: 400px;margin: 20px"/>
 				<%
 					//System.out.println(request.getAttribute("loginUrl"));
@@ -46,8 +46,7 @@
 		<tr>
 			<td></td>
 			<td align="left">
-				<fmt:message key="site.train.login" bundle="${spring}" var="loginUrl"/>
-				<c:set var="loginUrl" value="${loginUrl}?trainId=${cetTrain.id}"></c:set>
+				<c:set var="loginUrl" value="${cetInspectorLoginUrl}?trainId=${cetTrain.id}"></c:set>
 				<%--${loginUrl}--%>
 				<img src="${ctx}/qrcode?content=${cm:encodeURI(loginUrl)}"  style="width: 400px;margin: 20px"/>
 			</td>

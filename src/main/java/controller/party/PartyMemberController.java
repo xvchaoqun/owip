@@ -99,6 +99,8 @@ public class PartyMemberController extends BaseController {
         PartyMemberViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("party_sort_order desc, sort_order desc");
 
+        criteria.addPermits(loginUserService.adminPartyIdList());
+
         if (groupId != null) {
             criteria.andGroupIdEqualTo(groupId);
         }
@@ -152,11 +154,9 @@ public class PartyMemberController extends BaseController {
     @ResponseBody
     public Map do_partyMember_au(PartyMember record,
                                  @RequestParam(required = false, value = "_typeIds") Integer[] _typeIds,
-                                 String _assignDate,
                                  HttpServletRequest request) {
 
         Integer id = record.getId();
-        record.setAssignDate(DateUtils.parseDate(_assignDate, DateUtils.YYYYMM));
         if (partyMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), record.getPostId())) {
             return failed("添加重复【每个领导班子的人员不可重复，并且书记只有一个】");
         }

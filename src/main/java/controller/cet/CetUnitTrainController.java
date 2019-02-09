@@ -171,9 +171,11 @@ public class CetUnitTrainController extends CetBaseController {
                                   Integer projectId, ModelMap modelMap) {
         
         modelMap.put("addType", addType);
-    
-        Set<Integer> unitIds = cetUpperTrainAdminService.adminUnitIds(CetConstants.CET_UPPER_TRAIN_UNIT, addType);
-        modelMap.put("unitIds", StringUtils.join(unitIds, ","));
+
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            Set<Integer> unitIds = cetUpperTrainAdminService.adminUnitIds(CetConstants.CET_UPPER_TRAIN_UNIT, addType);
+            modelMap.put("unitIds", StringUtils.join(unitIds, ","));
+        }
         
         if (id != null) {
             CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);

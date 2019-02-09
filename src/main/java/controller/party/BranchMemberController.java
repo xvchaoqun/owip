@@ -2,20 +2,12 @@ package controller.party;
 
 import controller.BaseController;
 import domain.base.MetaType;
-import domain.party.Branch;
-import domain.party.BranchMember;
-import domain.party.BranchMemberExample;
+import domain.party.*;
 import domain.party.BranchMemberExample.Criteria;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
@@ -24,46 +16,59 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.party.BranchExportService;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
-import sys.utils.MSUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class BranchMemberController extends BaseController {
 
+    @Autowired
+    private BranchExportService branchExportService;
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("branchMember:list")
     @RequestMapping("/branchMember")
-    public String branchMember(HttpServletResponse response,
-                               @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member") String sort,
-                               @OrderParam(required = false, defaultValue = "desc") String order,
+    public String branchMember(Integer groupId, ModelMap modelMap) {
+
+        if (groupId != null) {
+            BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(groupId);
+            modelMap.put("branchMemberGroup", branchMemberGroup);
+        }
+
+        return "party/branchMember/branchMember_page";
+    }
+
+    @RequiresPermissions("branchMember:list")
+    @RequestMapping("/branchMember_data")
+    public void branchMember_data(HttpServletResponse response,
                                Integer groupId,
                                Integer userId,
                                Integer typeId,
                                Boolean isAdmin,
                                @RequestParam(required = false, defaultValue = "0") int export,
-                               Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -73,9 +78,11 @@ public class BranchMemberController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        BranchMemberExample example = new BranchMemberExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        BranchMemberViewExample example = new BranchMemberViewExample();
+        BranchMemberViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("party_sort_order desc, branch_sort_order desc, sort_order desc");
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if (groupId != null) {
             criteria.andGroupIdEqualTo(groupId);
@@ -91,43 +98,28 @@ public class BranchMemberController extends BaseController {
         }
 
         if (export == 1) {
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
             branchMember_export(example, response);
-            return null;
+            return;
         }
 
-        int count = branchMemberMapper.countByExample(example);
+        int count = (int) branchMemberViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<BranchMember> BranchMembers = branchMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("branchMembers", BranchMembers);
-
+        List<BranchMemberView> records = branchMemberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (groupId != null) {
-            searchStr += "&groupId=" + groupId;
-        }
-        if (userId != null) {
-            searchStr += "&userId=" + userId;
-        }
-        if (typeId != null) {
-            searchStr += "&typeId=" + typeId;
-        }
-        if (isAdmin != null) {
-            searchStr += "&isAdmin=" + isAdmin;
-        }
-        if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "party/branchMember/branchMember_page";
+        JSONUtils.jsonp(resultMap);
+        return;
     }
 
     @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
@@ -264,42 +256,11 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void branchMember_export(BranchMemberExample example, HttpServletResponse response) {
+    public void branchMember_export(BranchMemberViewExample example, HttpServletResponse response) {
 
-        List<BranchMember> branchMembers = branchMemberMapper.selectByExample(example);
-        int rownum = branchMemberMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"所属支部委员会", "账号", "类别", "是否管理员"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
-        for (int i = 0; i < rownum; i++) {
-
-            BranchMember branchMember = branchMembers.get(i);
-            String[] values = {
-                    branchMember.getGroupId() + "",
-                    branchMember.getUserId() + "",
-                    branchMember.getTypeId() + "",
-                    branchMember.getIsAdmin() + ""
-            };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
-        }
-
-        String fileName = "支部成员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        SXSSFWorkbook wb = branchExportService.export(example);
+        String fileName = CmTag.getSysConfig().getSchoolName()
+                + "支部委员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
@@ -323,7 +284,7 @@ public class BranchMemberController extends BaseController {
             criteria.andNameLike("%"+searchStr+"%");
         }*/
 
-        int count = branchMemberMapper.countByExample(example);
+        int count = (int) branchMemberMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

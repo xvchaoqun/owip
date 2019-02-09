@@ -1,39 +1,40 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.party.PartyMemberGroupViewMapper" >
-  <resultMap id="BaseResultMap" type="domain.party.PartyMemberGroupView" >
-    <result column="id" property="id" jdbcType="INTEGER" />
-    <result column="fid" property="fid" jdbcType="INTEGER" />
-    <result column="party_id" property="partyId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="is_present" property="isPresent" jdbcType="BIT" />
-    <result column="tran_time" property="tranTime" jdbcType="DATE" />
-    <result column="actual_tran_time" property="actualTranTime" jdbcType="DATE" />
-    <result column="appoint_time" property="appointTime" jdbcType="DATE" />
-    <result column="dispatch_unit_id" property="dispatchUnitId" jdbcType="INTEGER" />
-    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
-    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
-    <result column="party_sort_order" property="partySortOrder" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.party.PartyMemberGroupViewMapper">
+  <resultMap id="BaseResultMap" type="domain.party.PartyMemberGroupView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="fid" jdbcType="INTEGER" property="fid" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="is_present" jdbcType="BIT" property="isPresent" />
+    <result column="tran_time" jdbcType="DATE" property="tranTime" />
+    <result column="actual_tran_time" jdbcType="DATE" property="actualTranTime" />
+    <result column="appoint_time" jdbcType="DATE" property="appointTime" />
+    <result column="dispatch_unit_id" jdbcType="INTEGER" property="dispatchUnitId" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
+    <result column="member_count" jdbcType="BIGINT" property="memberCount" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -44,41 +45,41 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, fid, party_id, name, is_present, tran_time, actual_tran_time, appoint_time, dispatch_unit_id, 
-    sort_order, is_deleted, party_sort_order
+    sort_order, is_deleted, party_sort_order, member_count
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.PartyMemberGroupViewExample" >
+  <select id="selectByExample" parameterType="domain.party.PartyMemberGroupViewExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from ow_party_member_group_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.party.PartyMemberGroupViewExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.party.PartyMemberGroupViewExample" resultType="java.lang.Long">
     select count(*) from ow_party_member_group_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select resultMap="BaseResultMap" parameterType="domain.party.PartyMemberGroupViewExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.party.PartyMemberGroupViewExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from ow_party_member_group_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

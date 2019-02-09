@@ -44,7 +44,7 @@
       },
       {
           label: '现任职务<br/>年限',
-          width: 120,
+          width: 80,
           name: 'cadrePost.dispatchCadreRelateBean.last.workTime',
           formatter: function (cellvalue, options, rowObject) {
               if (cellvalue == undefined) return '';
@@ -65,14 +65,13 @@
       },
       {
           label: '现任职务<br/>始任日期',
-          width: 150,
           name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
           formatter: 'date',
           formatoptions: {newformat: 'Y-m-d'}
       },
       {
           label: '现任职务<br/>始任年限',
-          width: 150,
+          width: 80,
           name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
           formatter: function (cellvalue, options, rowObject) {
               if (cellvalue == undefined) return '';

@@ -1,6 +1,5 @@
 package controller.member;
 
-import persistence.member.common.MemberApplyCount;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
 import domain.member.MemberApplyView;
@@ -8,8 +7,6 @@ import domain.member.MemberApplyViewExample;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.member.common.MemberApplyCount;
 import service.member.MemberApplyOpService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -42,20 +40,12 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberApplyController extends MemberBaseController {
@@ -228,8 +218,6 @@ public class MemberApplyController extends MemberBaseController {
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_data")
     public void memberApply_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "create_time", tableName = "ow_member_apply") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer userId,
                                  Integer partyId,
                                  Integer branchId,
@@ -253,7 +241,7 @@ public class MemberApplyController extends MemberBaseController {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("party_sort_order desc, branch_sort_order desc, create_time desc");
 
         if (type != null) {
             criteria.andTypeEqualTo(type);

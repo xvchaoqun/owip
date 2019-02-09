@@ -118,6 +118,7 @@ public class UnitPostController extends BaseController {
                                     Integer postClass,
                               Boolean isPrincipalPost,
                               Boolean isCpc,
+                              Boolean isMainPost,
                               // 显示空缺岗位
                               Boolean displayEmpty,
                               // 显示空缺岗位或兼职
@@ -192,18 +193,28 @@ public class UnitPostController extends BaseController {
             criteria.andCadreIdEqualTo(cadreId);
         }
 
+        // 搜索始任年限时只考虑主职
         if (endNowPostAge != null) {
             criteria.andCadrePostYearLessThanOrEqualTo(endNowPostAge);
+            isMainPost = true;
         }
         if (startNowPostAge != null) {
             criteria.andCadrePostYearGreaterThanOrEqualTo(startNowPostAge);
+            isMainPost = true;
         }
         if (endNowLevelAge != null) {
             criteria.andAdminLevelYearLessThanOrEqualTo(endNowLevelAge);
+            isMainPost = true;
         }
         if (startNowLevelAge != null) {
             criteria.andAdminLevelYearGreaterThanOrEqualTo(startNowLevelAge);
+            isMainPost = true;
         }
+
+        if(isMainPost!=null){
+            criteria.andIsMainPostEqualTo(isMainPost);
+        }
+
         if (unitTypes != null) {
             criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
         }

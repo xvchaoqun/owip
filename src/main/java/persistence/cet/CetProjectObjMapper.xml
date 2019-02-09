@@ -13,6 +13,20 @@
     <result column="word_write" jdbcType="VARCHAR" property="wordWrite" />
     <result column="write_file_path" jdbcType="VARCHAR" property="writeFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="is_ow" jdbcType="BIT" property="isOw" />
+    <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
+    <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
+    <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="cadre_status" jdbcType="TINYINT" property="cadreStatus" />
+    <result column="cadre_sort_order" jdbcType="INTEGER" property="cadreSortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +88,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, finish_period, 
-    is_graduate, word_write, write_file_path, remark
+    is_graduate, word_write, write_file_path, remark, cadre_id, title, type_id, post_id, 
+    is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, email, 
+    cadre_status, cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">
     select
@@ -113,11 +129,19 @@
     insert into cet_project_obj (project_id, user_id, trainee_type_id, 
       is_quit, should_finish_period, finish_period, 
       is_graduate, word_write, write_file_path, 
-      remark)
+      remark, cadre_id, title, 
+      type_id, post_id, is_ow, ow_grow_time, 
+      dp_grow_time, dp_type_id, pro_post, 
+      lp_work_time, mobile, email, 
+      cadre_status, cadre_sort_order)
     values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
       #{isQuit,jdbcType=BIT}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, 
       #{isGraduate,jdbcType=BIT}, #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{cadreId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{isOw,jdbcType=BIT}, #{owGrowTime,jdbcType=DATE}, 
+      #{dpGrowTime,jdbcType=DATE}, #{dpTypeId,jdbcType=INTEGER}, #{proPost,jdbcType=VARCHAR}, 
+      #{lpWorkTime,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{cadreStatus,jdbcType=TINYINT}, #{cadreSortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -155,6 +179,48 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="cadreId != null">
+        cadre_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+      <if test="isOw != null">
+        is_ow,
+      </if>
+      <if test="owGrowTime != null">
+        ow_grow_time,
+      </if>
+      <if test="dpGrowTime != null">
+        dp_grow_time,
+      </if>
+      <if test="dpTypeId != null">
+        dp_type_id,
+      </if>
+      <if test="proPost != null">
+        pro_post,
+      </if>
+      <if test="lpWorkTime != null">
+        lp_work_time,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="cadreStatus != null">
+        cadre_status,
+      </if>
+      <if test="cadreSortOrder != null">
+        cadre_sort_order,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectId != null">
@@ -186,6 +252,48 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="cadreId != null">
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="isOw != null">
+        #{isOw,jdbcType=BIT},
+      </if>
+      <if test="owGrowTime != null">
+        #{owGrowTime,jdbcType=DATE},
+      </if>
+      <if test="dpGrowTime != null">
+        #{dpGrowTime,jdbcType=DATE},
+      </if>
+      <if test="dpTypeId != null">
+        #{dpTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="proPost != null">
+        #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="lpWorkTime != null">
+        #{lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="cadreStatus != null">
+        #{cadreStatus,jdbcType=TINYINT},
+      </if>
+      <if test="cadreSortOrder != null">
+        #{cadreSortOrder,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -231,6 +339,48 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.cadreId != null">
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postId != null">
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isOw != null">
+        is_ow = #{record.isOw,jdbcType=BIT},
+      </if>
+      <if test="record.owGrowTime != null">
+        ow_grow_time = #{record.owGrowTime,jdbcType=DATE},
+      </if>
+      <if test="record.dpGrowTime != null">
+        dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
+      </if>
+      <if test="record.dpTypeId != null">
+        dp_type_id = #{record.dpTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.proPost != null">
+        pro_post = #{record.proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lpWorkTime != null">
+        lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cadreStatus != null">
+        cadre_status = #{record.cadreStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.cadreSortOrder != null">
+        cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +398,21 @@
       is_graduate = #{record.isGraduate,jdbcType=BIT},
       word_write = #{record.wordWrite,jdbcType=VARCHAR},
       write_file_path = #{record.writeFilePath,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      is_ow = #{record.isOw,jdbcType=BIT},
+      ow_grow_time = #{record.owGrowTime,jdbcType=DATE},
+      dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
+      dp_type_id = #{record.dpTypeId,jdbcType=INTEGER},
+      pro_post = #{record.proPost,jdbcType=VARCHAR},
+      lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      cadre_status = #{record.cadreStatus,jdbcType=TINYINT},
+      cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +450,48 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="cadreId != null">
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="isOw != null">
+        is_ow = #{isOw,jdbcType=BIT},
+      </if>
+      <if test="owGrowTime != null">
+        ow_grow_time = #{owGrowTime,jdbcType=DATE},
+      </if>
+      <if test="dpGrowTime != null">
+        dp_grow_time = #{dpGrowTime,jdbcType=DATE},
+      </if>
+      <if test="dpTypeId != null">
+        dp_type_id = #{dpTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="proPost != null">
+        pro_post = #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="lpWorkTime != null">
+        lp_work_time = #{lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="cadreStatus != null">
+        cadre_status = #{cadreStatus,jdbcType=TINYINT},
+      </if>
+      <if test="cadreSortOrder != null">
+        cadre_sort_order = #{cadreSortOrder,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -300,7 +506,21 @@
       is_graduate = #{isGraduate,jdbcType=BIT},
       word_write = #{wordWrite,jdbcType=VARCHAR},
       write_file_path = #{writeFilePath,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      post_id = #{postId,jdbcType=INTEGER},
+      is_ow = #{isOw,jdbcType=BIT},
+      ow_grow_time = #{owGrowTime,jdbcType=DATE},
+      dp_grow_time = #{dpGrowTime,jdbcType=DATE},
+      dp_type_id = #{dpTypeId,jdbcType=INTEGER},
+      pro_post = #{proPost,jdbcType=VARCHAR},
+      lp_work_time = #{lpWorkTime,jdbcType=DATE},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      cadre_status = #{cadreStatus,jdbcType=TINYINT},
+      cadre_sort_order = #{cadreSortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">

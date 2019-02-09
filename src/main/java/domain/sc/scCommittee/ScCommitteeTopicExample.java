@@ -354,6 +354,76 @@ public class ScCommitteeTopicExample {
             return (Criteria) this;
         }
 
+        public Criteria andUnitIdsIsNull() {
+            addCriterion("unit_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsIsNotNull() {
+            addCriterion("unit_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsEqualTo(String value) {
+            addCriterion("unit_ids =", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotEqualTo(String value) {
+            addCriterion("unit_ids <>", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsGreaterThan(String value) {
+            addCriterion("unit_ids >", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_ids >=", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLessThan(String value) {
+            addCriterion("unit_ids <", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLessThanOrEqualTo(String value) {
+            addCriterion("unit_ids <=", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLike(String value) {
+            addCriterion("unit_ids like", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotLike(String value) {
+            addCriterion("unit_ids not like", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsIn(List<String> values) {
+            addCriterion("unit_ids in", values, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotIn(List<String> values) {
+            addCriterion("unit_ids not in", values, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsBetween(String value1, String value2) {
+            addCriterion("unit_ids between", value1, value2, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotBetween(String value1, String value2) {
+            addCriterion("unit_ids not between", value1, value2, "unitIds");
+            return (Criteria) this;
+        }
+
         public Criteria andContentIsNull() {
             addCriterion("content is null");
             return (Criteria) this;

@@ -25,6 +25,7 @@ public class LogConstants {
     public static final int LOG_CPC = 100; // 干部职数
     public static final int LOG_CRS = 110; // 干部竞争上岗
     public static final int LOG_SC_MOTION = 115; // 干部选拔任用-动议
+    public static final int LOG_SC_RECORD = 116; // 干部选拔任用-纪实
     public static final int LOG_SC_MATTER = 120; // 干部选拔任用-个人有关事项
     public static final int LOG_SC_LETTER = 130; // 干部选拔任用-纪委函询管理
     public static final int LOG_SC_GROUP = 140; // 干部选拔任用-干部小组会议题

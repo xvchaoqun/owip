@@ -72,9 +72,9 @@
                         class="jqBatchBtn btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i> 彻底删除
                 </button>
-                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</a>
+                    <i class="fa fa-download"></i> 导出</a>--%>
             </div>
             <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

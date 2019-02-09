@@ -8,7 +8,8 @@ pageEncoding="UTF-8" %>
                  data-url-page="${ctx}/sc/scCommitteeTopic"
                  data-url-export="${ctx}/sc/scCommitteeTopic_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.year ||not empty param.committeeId  ||not empty param.holdDate ||not empty param.name || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.year ||not empty param.committeeId
+            ||not empty param.holdDate ||not empty param.name ||not empty param.unitIds || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <jsp:include page="../scCommittee/menu.jsp"/>
                     <div class="tab-content">
@@ -90,6 +91,21 @@ pageEncoding="UTF-8" %>
                             <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                    placeholder="请输入议题名称">
                         </div>
+                            <div class="form-group">
+                                <label>涉及单位</label>
+                                <select class="multiselect" name="unitIds" multiple="">
+                                    <optgroup label="正在运转单位">
+                                        <c:forEach items="${runUnits}" var="unit">
+                                            <option value="${unit.id}">${unit.name}</option>
+                                        </c:forEach>
+                                    </optgroup>
+                                    <optgroup label="历史单位">
+                                        <c:forEach items="${historyUnits}" var="unit">
+                                            <option value="${unit.id}">${unit.name}</option>
+                                        </c:forEach>
+                                    </optgroup>
+                                </select>
+                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -114,94 +130,17 @@ pageEncoding="UTF-8" %>
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="scCommitteeTopic_colModel.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/sc/scCommitteeTopic_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '年份', name: 'year', width: 60, frozen: true},
-            {
-                label: '党委常委会', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
-                //console.log(rowObject.holdDate)
-                var _num = "党委常委会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"))
-                if($.trim(rowObject.filePath)=='') return _num;
-                return $.swfPreview(rowObject.filePath, _num);
-            }, frozen: true},
-            {label: '党委常委会<br/>日期', name: 'holdDate', width: 95, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label: '议题名称',name: 'name', width: 400, align:'left'},
-            /*{
-                label: '议题内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="popupBtn btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/sc/scCommitteeTopic_content?topicId={0}"><i class="fa fa-search"></i> 查看</button>')
-                        .format(rowObject.id);
-            }
-            },*/
-            {
-                label: '议题内容和<br/>讨论备忘',name: '_content', width: 90, formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/sc/scCommitteeTopic_content?topicId={0}"><i class="fa fa-search"></i> 查看</button>')
-                        .format(rowObject.id);
-            }
-            },
-            { label: '干部选拔任用<br/>表决',name: 'hasVote', width:130, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue)
-                    return ('<button class="openView btn btn-xs btn-success" ' +
-                'data-url="${ctx}/sc/scCommitteeVote_au?topicId={0}"><i class="fa fa-edit"></i> 编辑</button>')
-                        .format(rowObject.id)
-                            + ('&nbsp;<button class="loadPage btn btn-info btn-xs" ' +
-                            'data-url="${ctx}/sc/scCommittee?cls=3&topicId={0}"><i class="fa fa-search"></i> 查看</button>')
-                                    .format(rowObject.id);
-                return '-'
-            }},
-            { label: '其他事项<br/>表决',name: 'hasOtherVote', width:120, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue)
-                    return ('<button class="popupBtn btn btn-xs btn-primary" ' +
-                            'data-url="${ctx}/sc/scCommitteeOtherVote_au?topicId={0}"><i class="fa fa-edit"></i> 编辑</button>')
-                                    .format(rowObject.id)
-                            + ('&nbsp;<button class="loadPage btn btn-success btn-xs" ' +
-                            'data-url="${ctx}/sc/scCommittee?cls=4&topicId={0}"><i class="fa fa-search"></i> 查看</button>')
-                                    .format(rowObject.id);
-                return '-'
-            }},
-            { label: '常委总数',name: 'committeeMemberCount', width: 80},
-            { label: '应参会<br/>常委数',name: '_total', width: 70, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.count + rowObject.absentCount;
-            }},
-            {
-                label: '实际参会<br/>常委数', name: 'count', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==0) return '-'
-                return ('<a href="javascript:;" class="popupBtn bolder" ' +
-                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=0"><u>{1}</u></a>')
-                        .format(rowObject.committeeId, cellvalue);
-            }},
-            {
-                label: '请假<br/>常委数', name: 'absentCount', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==0) return '-'
-                return ('<a href="javascript:;" class="popupBtn bolder" ' +
-                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1"><u>{1}</u></a>')
-                        .format(rowObject.committeeId, cellvalue);
-            }},
-            { label: '列席人',name: 'attendUsers', width: 140, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.attendUsers==undefined) return '-';
-                if(rowObject.attendUsers.length<=8) return cellvalue;
-                return rowObject.attendUsers.substring(0,8) + "...";
-            },cellattr:function(rowId, val, rowObject, cm, rdata) {
-                if(rowObject.attendUsers!=undefined)
-                    return "title='"+rowObject.attendUsers+"'";
-            }},
-            {label: '会议记录', name: 'logFile', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.logFile==undefined) return '-';
-                return $.swfPreview(rowObject.logFile, '会议记录', '查看');
-            }},
-            {label: '表决票', name: 'voteFilePath', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.voteFilePath==undefined) return '-';
-                return $.swfPreview(rowObject.voteFilePath, '表决票', '查看');
-            }},
-            { label: '备注',name: 'remark', width:300}
-        ]
+        colModel: colModel
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
+    $.register.multiselect($('#searchForm select[name="unitIds"]'), ${cm:toJSONArray(selectedUnitIds)},
+        {enableClickableOptGroups: true, enableCollapsibleOptGroups: true});
     $.register.date($('.date-picker'));
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

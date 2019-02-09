@@ -22,13 +22,13 @@ import service.sc.scLetter.ScLetterItemService;
 import service.sc.scLetter.ScLetterReplyService;
 import service.sc.scLetter.ScLetterService;
 import service.sc.scMatter.*;
-import service.sc.scMotion.ScMotionPostService;
 import service.sc.scMotion.ScMotionService;
 import service.sc.scPassport.ScPassportHandService;
 import service.sc.scPassport.ScPassportMsgService;
 import service.sc.scPassport.ScPassportService;
 import service.sc.scPublic.ScPublicService;
 import service.sc.scPublic.ScPublicUserService;
+import service.sc.scRecord.ScRecordService;
 import service.sc.scSubsidy.ScSubsidyCadreService;
 import service.sc.scSubsidy.ScSubsidyDcService;
 import service.sc.scSubsidy.ScSubsidyDispatchService;
@@ -125,10 +125,11 @@ public class ScBaseController extends ScBaseMapper implements HttpResponseMethod
     protected ScMatterTransferService scMatterTransferService;
     
     @Autowired
-    protected ScMotionService scMotionService;
+    protected ScRecordService scRecordService;
+
     @Autowired
-    protected ScMotionPostService scMotionPostService;
-    
+    protected ScMotionService scMotionService;
+
     @Autowired
     protected ScPassportService scPassportService;
     @Autowired

@@ -1,12 +1,10 @@
 package service.member;
 
 import controller.global.OpException;
-import domain.member.Member;
-import domain.member.MemberApply;
-import domain.member.MemberApplyExample;
-import domain.member.MemberApplyView;
-import domain.member.MemberApplyViewExample;
+import domain.member.*;
+import domain.party.Branch;
 import domain.party.EnterApply;
+import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +14,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.LoginUserService;
+import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
+import sys.tool.tree.TreeNode;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MemberApplyService extends MemberBaseMapper {
@@ -34,6 +33,8 @@ public class MemberApplyService extends MemberBaseMapper {
     @Autowired
     private PartyService partyService;
     @Autowired
+    private BranchService branchService;
+    @Autowired
     private MemberService memberService;
     @Autowired
     private LoginUserService loginUserService;
@@ -41,6 +42,76 @@ public class MemberApplyService extends MemberBaseMapper {
     private EnterApplyService enterApplyService;
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
+
+    // 积极分子选择树
+    public TreeNode getActivistTree(Set<Integer> selectIdSet){
+
+        Map<Integer, List<MemberApplyView>> groupMap = new LinkedHashMap<>();
+
+        {
+            MemberApplyViewExample example = new MemberApplyViewExample();
+            MemberApplyViewExample.Criteria criteria = example.createCriteria();
+            example.setOrderByClause("party_sort_order desc, branch_sort_order desc,create_time desc");
+
+            List<MemberApplyView> memberApplyViews = memberApplyViewMapper.selectByExample(example);
+
+            for (MemberApplyView mav : memberApplyViews) {
+
+                int partyId = mav.getPartyId();
+                List<MemberApplyView> uvs = groupMap.get(partyId);
+                if(uvs==null){
+                    uvs = new ArrayList<>();
+                    groupMap.put(partyId, uvs);
+                }
+                uvs.add(mav);
+            }
+        }
+
+        TreeNode root = new TreeNode();
+        root.title = "入党积极分子";
+        root.expand = true;
+        root.isFolder = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        for(Map.Entry<Integer, List<MemberApplyView>> entry : groupMap.entrySet()) {
+            List<MemberApplyView> entryValue = entry.getValue();
+            if(entryValue.size()>0) {
+
+                TreeNode titleNode = new TreeNode();
+                titleNode.expand = false;
+                titleNode.isFolder = true;
+                List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+                titleNode.children = titleChildren;
+
+                int selectCount = 0;
+                for (MemberApplyView mav : entryValue) {
+
+                    String branchName = (mav.getBranchId()==null)?null:branchMap.get(mav.getBranchId()).getName();
+                    SysUserView uv = mav.getUser();
+                    int userId = mav.getUserId();
+                    TreeNode node = new TreeNode();
+                    node.title = uv.getRealname() + (branchName != null ? ("-" + branchName) : "");
+
+                    int key = userId;
+                    node.key = key + "";
+
+                    if (selectIdSet.contains(key)) {
+                        selectCount++;
+                        node.select = true;
+                    }
+
+                    titleChildren.add(node);
+                }
+
+                titleNode.title = partyMap.get(entry.getKey()).getName() + String.format("(%s", selectCount > 0 ? selectCount + "/" : "") + entryValue.size() + "人)";
+                rootChildren.add(titleNode);
+            }
+        }
+        return root;
+    }
 
     /*@Transactional
     @CacheEvict(value = "MemberApply", key = "#record.userId")

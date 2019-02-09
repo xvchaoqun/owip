@@ -5,13 +5,12 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="SMALLINT" property="year" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
-    <result column="num" jdbcType="INTEGER" property="num" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="post_count" jdbcType="INTEGER" property="postCount" />
-    <result column="way" jdbcType="INTEGER" property="way" />
-    <result column="way_other" jdbcType="VARCHAR" property="wayOther" />
+    <result column="seq" jdbcType="VARCHAR" property="seq" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="sc_type" jdbcType="INTEGER" property="scType" />
+    <result column="way" jdbcType="TINYINT" property="way" />
+    <result column="way_other" jdbcType="VARCHAR" property="wayOther" />
+    <result column="topics" jdbcType="VARCHAR" property="topics" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, hold_date, num, unit_id, type, post_count, way, way_other, sc_type, remark
+    id, year, hold_date, seq, unit_post_id, sc_type, way, way_other, topics, remark
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMotion.ScMotionExample" resultMap="BaseResultMap">
     select
@@ -107,13 +106,13 @@
   </delete>
   <insert id="insert" parameterType="domain.sc.scMotion.ScMotion">
     insert into sc_motion (id, year, hold_date, 
-      num, unit_id, type, 
-      post_count, way, way_other, 
-      sc_type, remark)
+      seq, unit_post_id, sc_type, 
+      way, way_other, topics, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, #{holdDate,jdbcType=DATE}, 
-      #{num,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{postCount,jdbcType=INTEGER}, #{way,jdbcType=INTEGER}, #{wayOther,jdbcType=VARCHAR}, 
-      #{scType,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{seq,jdbcType=VARCHAR}, #{unitPostId,jdbcType=INTEGER}, #{scType,jdbcType=INTEGER}, 
+      #{way,jdbcType=TINYINT}, #{wayOther,jdbcType=VARCHAR}, #{topics,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scMotion.ScMotion">
     insert into sc_motion
@@ -127,17 +126,14 @@
       <if test="holdDate != null">
         hold_date,
       </if>
-      <if test="num != null">
-        num,
+      <if test="seq != null">
+        seq,
       </if>
-      <if test="unitId != null">
-        unit_id,
+      <if test="unitPostId != null">
+        unit_post_id,
       </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="postCount != null">
-        post_count,
+      <if test="scType != null">
+        sc_type,
       </if>
       <if test="way != null">
         way,
@@ -145,8 +141,8 @@
       <if test="wayOther != null">
         way_other,
       </if>
-      <if test="scType != null">
-        sc_type,
+      <if test="topics != null">
+        topics,
       </if>
       <if test="remark != null">
         remark,
@@ -162,26 +158,23 @@
       <if test="holdDate != null">
         #{holdDate,jdbcType=DATE},
       </if>
-      <if test="num != null">
-        #{num,jdbcType=INTEGER},
+      <if test="seq != null">
+        #{seq,jdbcType=VARCHAR},
       </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
+      <if test="unitPostId != null">
+        #{unitPostId,jdbcType=INTEGER},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="postCount != null">
-        #{postCount,jdbcType=INTEGER},
+      <if test="scType != null">
+        #{scType,jdbcType=INTEGER},
       </if>
       <if test="way != null">
-        #{way,jdbcType=INTEGER},
+        #{way,jdbcType=TINYINT},
       </if>
       <if test="wayOther != null">
         #{wayOther,jdbcType=VARCHAR},
       </if>
-      <if test="scType != null">
-        #{scType,jdbcType=INTEGER},
+      <if test="topics != null">
+        #{topics,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -206,26 +199,23 @@
       <if test="record.holdDate != null">
         hold_date = #{record.holdDate,jdbcType=DATE},
       </if>
-      <if test="record.num != null">
-        num = #{record.num,jdbcType=INTEGER},
+      <if test="record.seq != null">
+        seq = #{record.seq,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
+      <if test="record.unitPostId != null">
+        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
-      <if test="record.postCount != null">
-        post_count = #{record.postCount,jdbcType=INTEGER},
+      <if test="record.scType != null">
+        sc_type = #{record.scType,jdbcType=INTEGER},
       </if>
       <if test="record.way != null">
-        way = #{record.way,jdbcType=INTEGER},
+        way = #{record.way,jdbcType=TINYINT},
       </if>
       <if test="record.wayOther != null">
         way_other = #{record.wayOther,jdbcType=VARCHAR},
       </if>
-      <if test="record.scType != null">
-        sc_type = #{record.scType,jdbcType=INTEGER},
+      <if test="record.topics != null">
+        topics = #{record.topics,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -240,13 +230,12 @@
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=SMALLINT},
       hold_date = #{record.holdDate,jdbcType=DATE},
-      num = #{record.num,jdbcType=INTEGER},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
-      post_count = #{record.postCount,jdbcType=INTEGER},
-      way = #{record.way,jdbcType=INTEGER},
-      way_other = #{record.wayOther,jdbcType=VARCHAR},
+      seq = #{record.seq,jdbcType=VARCHAR},
+      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       sc_type = #{record.scType,jdbcType=INTEGER},
+      way = #{record.way,jdbcType=TINYINT},
+      way_other = #{record.wayOther,jdbcType=VARCHAR},
+      topics = #{record.topics,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,26 +250,23 @@
       <if test="holdDate != null">
         hold_date = #{holdDate,jdbcType=DATE},
       </if>
-      <if test="num != null">
-        num = #{num,jdbcType=INTEGER},
+      <if test="seq != null">
+        seq = #{seq,jdbcType=VARCHAR},
       </if>
-      <if test="unitId != null">
-        unit_id = #{unitId,jdbcType=INTEGER},
+      <if test="unitPostId != null">
+        unit_post_id = #{unitPostId,jdbcType=INTEGER},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="postCount != null">
-        post_count = #{postCount,jdbcType=INTEGER},
+      <if test="scType != null">
+        sc_type = #{scType,jdbcType=INTEGER},
       </if>
       <if test="way != null">
-        way = #{way,jdbcType=INTEGER},
+        way = #{way,jdbcType=TINYINT},
       </if>
       <if test="wayOther != null">
         way_other = #{wayOther,jdbcType=VARCHAR},
       </if>
-      <if test="scType != null">
-        sc_type = #{scType,jdbcType=INTEGER},
+      <if test="topics != null">
+        topics = #{topics,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -292,13 +278,12 @@
     update sc_motion
     set year = #{year,jdbcType=SMALLINT},
       hold_date = #{holdDate,jdbcType=DATE},
-      num = #{num,jdbcType=INTEGER},
-      unit_id = #{unitId,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      post_count = #{postCount,jdbcType=INTEGER},
-      way = #{way,jdbcType=INTEGER},
-      way_other = #{wayOther,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=VARCHAR},
+      unit_post_id = #{unitPostId,jdbcType=INTEGER},
       sc_type = #{scType,jdbcType=INTEGER},
+      way = #{way,jdbcType=TINYINT},
+      way_other = #{wayOther,jdbcType=VARCHAR},
+      topics = #{topics,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

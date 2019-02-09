@@ -102,13 +102,16 @@
                 var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任班子</span>&nbsp;';
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
             },frozen:true},
-            {label: '查看委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
-                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/partyMember?groupId={0}">查看委员</a>'
-                        .format(rowObject.id);
+            {label: '查看委员', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="openView btn btn-warning btn-xs" ' +
+                    'data-url="${ctx}/partyMember?groupId={0}">'
+                    +'<i class="fa fa-search"></i> 查看委员({1})</button>')
+                    .format(rowObject.id, rowObject.memberCount);
             }},
             {label: '导出委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isPresent)
-                return '<a href="${ctx}/partyMember?export=1&groupId={0}" target="_blank"><i class="fa fa-file-excel-o"></i> 导出委员</a>'
+                return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
+                    'data-url="${ctx}/partyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出委员</a>')
                         .format(rowObject.id);
                 return '-'
             }},

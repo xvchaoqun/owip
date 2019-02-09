@@ -2,7 +2,6 @@ package service.cet;
 
 import controller.global.OpException;
 import domain.cet.*;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,21 +89,19 @@ public class CetProjectService extends CetBaseMapper {
     // 更新参训人类型
     private void updateTrainTypes(int projectId, Integer[] traineeTypeIds){
 
+        Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
         {
             Set<Integer> traineeTypeIdSet = findTraineeTypeIdSet(projectId);
             traineeTypeIdSet.removeAll(Arrays.asList(traineeTypeIds));
+            // 待删除的类型
             if(traineeTypeIdSet.size()>0) {
-                CetProjectObjExample example = new CetProjectObjExample();
-                example.createCriteria().andProjectIdEqualTo(projectId).andTraineeTypeIdIn(new ArrayList<>(traineeTypeIdSet));
-                if (cetProjectObjMapper.countByExample(example) > 0) {
-
-                    List<String> traineeTypeList = new ArrayList<>();
-                    Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
-                    for (Integer traineeTypeId : traineeTypeIdSet) {
-                        traineeTypeList.add(cetTraineeTypeMap.get(traineeTypeId).getName());
+                for (Integer traineeTypeId : traineeTypeIdSet) {
+                    CetProjectObjExample example = new CetProjectObjExample();
+                    example.createCriteria().andProjectIdEqualTo(projectId).andTraineeTypeIdEqualTo(traineeTypeId);
+                    if (cetProjectObjMapper.countByExample(example) > 0) {
+                        throw new OpException("参训人员类型（{0}）已设置了培训对象，不可删除。",
+                                cetTraineeTypeMap.get(traineeTypeId).getName());
                     }
-
-                    throw new OpException("参训人员类型（{0}）已设置培训对象，不可删除。", StringUtils.join(traineeTypeList, "、"));
                 }
             }
         }

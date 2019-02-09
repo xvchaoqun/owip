@@ -57,19 +57,21 @@ public class CetExportService extends CetBaseMapper {
     /**
      * 学时情况.xlsx
      */
-    public void exportFinishPeriod(int projectId, HttpServletResponse response) throws IOException {
+    public void exportFinishPeriod(int projectId, int traineeTypeId, HttpServletResponse response) throws IOException {
         
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cet/finish_period.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
-        
+
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         String projectName = cetProject.getName();
         
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("name", projectName);
+                .replace("name",
+                String.format("《%s》（%s）", projectName, cetTraineeType.getName()));
         cell.setCellValue(str);
         
         Map<Integer, CetProjectPlan> projectPlanMap = cetProjectPlanService.findAll(projectId);
@@ -81,7 +83,7 @@ public class CetExportService extends CetBaseMapper {
             cell.setCellValue(CetConstants.CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.getType()));
         }
         
-        List<CetProjectObj> cetProjectObjs = cetProjectObjService.cetProjectObjs(projectId);
+        List<CetProjectObj> cetProjectObjs = cetProjectObjService.cetProjectObjs(projectId, traineeTypeId);
         
         int startRow = 2;
         int rowCount = cetProjectObjs.size();
@@ -125,8 +127,8 @@ public class CetExportService extends CetBaseMapper {
                 }
             }
         }
-        
-        String fileName = String.format("《%s》学时情况", projectName);
+
+        String fileName = String.format("《%s》学时情况（%s）", projectName, cetTraineeType.getName());
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
     

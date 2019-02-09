@@ -1,10 +1,5 @@
 package domain.party;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import sys.constants.RoleConstants;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -866,33 +861,192 @@ public class BranchMemberGroupViewExample {
             addCriterion("party_id not between", value1, value2, "partyId");
             return (Criteria) this;
         }
+
+        public Criteria andPartySortOrderIsNull() {
+            addCriterion("party_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIsNotNull() {
+            addCriterion("party_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderEqualTo(Integer value) {
+            addCriterion("party_sort_order =", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotEqualTo(Integer value) {
+            addCriterion("party_sort_order <>", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderGreaterThan(Integer value) {
+            addCriterion("party_sort_order >", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("party_sort_order >=", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderLessThan(Integer value) {
+            addCriterion("party_sort_order <", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("party_sort_order <=", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIn(List<Integer> values) {
+            addCriterion("party_sort_order in", values, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotIn(List<Integer> values) {
+            addCriterion("party_sort_order not in", values, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("party_sort_order between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("party_sort_order not between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderIsNull() {
+            addCriterion("branch_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderIsNotNull() {
+            addCriterion("branch_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderEqualTo(Integer value) {
+            addCriterion("branch_sort_order =", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderNotEqualTo(Integer value) {
+            addCriterion("branch_sort_order <>", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderGreaterThan(Integer value) {
+            addCriterion("branch_sort_order >", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_sort_order >=", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderLessThan(Integer value) {
+            addCriterion("branch_sort_order <", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_sort_order <=", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderIn(List<Integer> values) {
+            addCriterion("branch_sort_order in", values, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderNotIn(List<Integer> values) {
+            addCriterion("branch_sort_order not in", values, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("branch_sort_order between", value1, value2, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_sort_order not between", value1, value2, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountIsNull() {
+            addCriterion("member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountIsNotNull() {
+            addCriterion("member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountEqualTo(Long value) {
+            addCriterion("member_count =", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountNotEqualTo(Long value) {
+            addCriterion("member_count <>", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountGreaterThan(Long value) {
+            addCriterion("member_count >", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountGreaterThanOrEqualTo(Long value) {
+            addCriterion("member_count >=", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountLessThan(Long value) {
+            addCriterion("member_count <", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountLessThanOrEqualTo(Long value) {
+            addCriterion("member_count <=", value, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountIn(List<Long> values) {
+            addCriterion("member_count in", values, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountNotIn(List<Long> values) {
+            addCriterion("member_count not in", values, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountBetween(Long value1, Long value2) {
+            addCriterion("member_count between", value1, value2, "memberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemberCountNotBetween(Long value1, Long value2) {
+            addCriterion("member_count not between", value1, value2, "memberCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
             super();
-        }
-        public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
-
-            Subject subject = SecurityUtils.getSubject();
-            if(subject.hasRole(RoleConstants.ROLE_ADMIN)
-                    || subject.hasRole(RoleConstants.ROLE_ODADMIN))
-                return this;
-
-            if(partyIdList==null) partyIdList = new ArrayList<>();
-            if(branchIdList==null) branchIdList = new ArrayList<>();
-
-            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
-                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
-            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
-                andBranchIdIn(branchIdList);
-            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
-                andPartyIdIn(partyIdList);
-            if(branchIdList.isEmpty() && partyIdList.isEmpty())
-                andIdIsNull();
-
-            return this;
         }
     }
 

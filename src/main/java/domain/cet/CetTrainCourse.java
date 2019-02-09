@@ -48,6 +48,10 @@ public class CetTrainCourse implements Serializable {
 
     private String address;
 
+    private String signToken;
+
+    private Long signTokenExpire;
+
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -146,6 +150,22 @@ public class CetTrainCourse implements Serializable {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public String getSignToken() {
+        return signToken;
+    }
+
+    public void setSignToken(String signToken) {
+        this.signToken = signToken == null ? null : signToken.trim();
+    }
+
+    public Long getSignTokenExpire() {
+        return signTokenExpire;
+    }
+
+    public void setSignTokenExpire(Long signTokenExpire) {
+        this.signTokenExpire = signTokenExpire;
     }
 
     public Integer getSortOrder() {

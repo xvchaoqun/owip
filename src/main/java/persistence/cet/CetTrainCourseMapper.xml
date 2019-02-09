@@ -14,6 +14,8 @@
     <result column="is_global" jdbcType="BIT" property="isGlobal" />
     <result column="eva_table_id" jdbcType="INTEGER" property="evaTableId" />
     <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="sign_token" jdbcType="VARCHAR" property="signToken" />
+    <result column="sign_token_expire" jdbcType="BIGINT" property="signTokenExpire" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -76,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, train_id, course_id, name, teacher, apply_limit, apply_status, start_time, end_time, 
-    is_global, eva_table_id, address, sort_order
+    is_global, eva_table_id, address, sign_token, sign_token_expire, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainCourseExample" resultMap="BaseResultMap">
     select
@@ -113,12 +115,14 @@
       name, teacher, apply_limit, 
       apply_status, start_time, end_time, 
       is_global, eva_table_id, address, 
-      sort_order)
+      sign_token, sign_token_expire, sort_order
+      )
     values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR}, #{applyLimit,jdbcType=INTEGER}, 
       #{applyStatus,jdbcType=TINYINT}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{isGlobal,jdbcType=BIT}, #{evaTableId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER})
+      #{signToken,jdbcType=VARCHAR}, #{signTokenExpire,jdbcType=BIGINT}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTrainCourse">
     insert into cet_train_course
@@ -158,6 +162,12 @@
       </if>
       <if test="address != null">
         address,
+      </if>
+      <if test="signToken != null">
+        sign_token,
+      </if>
+      <if test="signTokenExpire != null">
+        sign_token_expire,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -199,6 +209,12 @@
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="signToken != null">
+        #{signToken,jdbcType=VARCHAR},
+      </if>
+      <if test="signTokenExpire != null">
+        #{signTokenExpire,jdbcType=BIGINT},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -250,6 +266,12 @@
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
       </if>
+      <if test="record.signToken != null">
+        sign_token = #{record.signToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signTokenExpire != null">
+        sign_token_expire = #{record.signTokenExpire,jdbcType=BIGINT},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -272,6 +294,8 @@
       is_global = #{record.isGlobal,jdbcType=BIT},
       eva_table_id = #{record.evaTableId,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
+      sign_token = #{record.signToken,jdbcType=VARCHAR},
+      sign_token_expire = #{record.signTokenExpire,jdbcType=BIGINT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -313,6 +337,12 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="signToken != null">
+        sign_token = #{signToken,jdbcType=VARCHAR},
+      </if>
+      <if test="signTokenExpire != null">
+        sign_token_expire = #{signTokenExpire,jdbcType=BIGINT},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -332,6 +362,8 @@
       is_global = #{isGlobal,jdbcType=BIT},
       eva_table_id = #{evaTableId,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
+      sign_token = #{signToken,jdbcType=VARCHAR},
+      sign_token_expire = #{signTokenExpire,jdbcType=BIGINT},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

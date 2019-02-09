@@ -28,6 +28,8 @@ public class PartyMemberGroupView implements Serializable {
 
     private Integer partySortOrder;
 
+    private Long memberCount;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -124,5 +126,13 @@ public class PartyMemberGroupView implements Serializable {
 
     public void setPartySortOrder(Integer partySortOrder) {
         this.partySortOrder = partySortOrder;
+    }
+
+    public Long getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(Long memberCount) {
+        this.memberCount = memberCount;
     }
 }

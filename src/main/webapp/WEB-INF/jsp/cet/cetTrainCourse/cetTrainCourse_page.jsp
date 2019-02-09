@@ -41,7 +41,7 @@
             <i class="ace-icon fa fa-history"></i>
             补选课通知记录
         </button>
-        <button class="jqLinkItemBtn btn btn-success btn-sm"
+        <button class="jqExportItemBtn btn btn-success btn-sm"
                 data-url="${ctx}/cet/cetTrainCourse_exportChosenObjs"
                 data-grid-id="#jqGrid2"
                 data-id-name="trainCourseId"><i class="fa fa-download"></i>

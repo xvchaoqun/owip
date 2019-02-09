@@ -18,6 +18,26 @@
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <button id="submitBtn" class="btn btn-primary"
 		  data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">确定</button></div>
+  <c:choose>
+      <c:when test="${cetTraineeType.code=='t_cadre'}">
+          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectCadres_tree"/>
+      </c:when>
+      <c:when test="${cetTraineeType.code=='t_reserve'}">
+          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectCadreReserves_tree"/>
+      </c:when>
+      <c:when test="${cetTraineeType.code=='t_party_member'}">
+          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectPartyMembers_tree"/>
+      </c:when>
+      <c:when test="${cetTraineeType.code=='t_branch_member'}">
+          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectBranchMembers_tree"/>
+      </c:when>
+      <c:when test="${cetTraineeType.code=='t_organizer'}">
+          <c:set var="selectTreeURL" value=""/>
+      </c:when>
+      <c:when test="${cetTraineeType.code=='t_activist'}">
+          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectActivists_tree"/>
+      </c:when>
+  </c:choose>
   <script>
 	  $("#btnDeselectAll").click(function(){
 		  $("#tree3").dynatree("getRoot").visit(function(node){
@@ -32,7 +52,8 @@
 		  return false;
 	  });
 	$(function(){
-		$.getJSON("${ctx}/cet/cetProjectObj_selectCadres_tree",{projectId:"${param.projectId}"},function(data){
+		$.getJSON("${selectTreeURL}",
+            {projectId:"${param.projectId}", traineeTypeId:"${param.traineeTypeId}"},function(data){
 			var treeData = data.tree.children;
 			$("#tree3").dynatree({
 				checkbox: true,

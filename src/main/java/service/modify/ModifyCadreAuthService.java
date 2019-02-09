@@ -109,12 +109,10 @@ public class ModifyCadreAuthService extends BaseMapper {
             example.setOrderByClause("sort_order asc");
             List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
             for (CadreReserve cadreReserve : cadreReserves) {
+
                 Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
-                List<Cadre> cadres = null;
                 Integer type = cadreReserve.getType();
-                if(typeReserveCadresMap.containsKey(type)) {
-                    cadres = typeReserveCadresMap.get(type);
-                }
+                List<Cadre> cadres = typeReserveCadresMap.get(type);
                 if(null == cadres) cadres = new ArrayList<>();
                 cadres.add(cadre);
                 typeReserveCadresMap.put(type, cadres);

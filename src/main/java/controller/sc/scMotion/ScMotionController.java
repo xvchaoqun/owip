@@ -2,10 +2,9 @@ package controller.sc.scMotion;
 
 import controller.sc.ScBaseController;
 import domain.sc.scMotion.ScMotion;
-import domain.sc.scMotion.ScMotionExample;
-import domain.sc.scMotion.ScMotionExample.Criteria;
-import domain.sc.scMotion.ScMotionPost;
-import domain.sc.scMotion.ScMotionPostExample;
+import domain.sc.scMotion.ScMotionView;
+import domain.sc.scMotion.ScMotionViewExample;
+import domain.unit.UnitPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.constants.ScConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -36,7 +36,7 @@ public class ScMotionController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("scMotion:list")
+    /*@RequiresPermissions("scMotion:list")
     @RequestMapping("/scMotion_posts")
     public String scMotion_posts(int motionId, ModelMap modelMap) {
 
@@ -50,11 +50,23 @@ public class ScMotionController extends ScBaseController {
         modelMap.put("scMotionPosts", scMotionPosts);
 
         return "sc/scMotion/scMotion/scMotion_posts";
-    }
+    }*/
 
     @RequiresPermissions("scMotion:list")
     @RequestMapping("/scMotion")
-    public String scMotion() {
+    public String scMotion(Integer unitId, Integer unitPostId,
+    @RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+
+        if(unitId!=null){
+            modelMap.put("unit", unitService.findAll().get(unitId));
+        }
+        if(unitPostId!=null){
+
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
+            modelMap.put("unitPost", unitPost);
+        }
 
         return "sc/scMotion/scMotion/scMotion_page";
     }
@@ -65,7 +77,7 @@ public class ScMotionController extends ScBaseController {
     public void scMotion_data(HttpServletResponse response,
                                     Short year,
                                     Integer unitId,
-                                    Integer type,
+                                    Integer unitPostId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -78,8 +90,8 @@ public class ScMotionController extends ScBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        ScMotionExample example = new ScMotionExample();
-        Criteria criteria = example.createCriteria();
+        ScMotionViewExample example = new ScMotionViewExample();
+        ScMotionViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("hold_date desc");
 
         if (year != null) {
@@ -88,10 +100,9 @@ public class ScMotionController extends ScBaseController {
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);
         }
-        if (type!=null) {
-            criteria.andTypeEqualTo(type);
+        if (unitPostId!=null) {
+            criteria.andUnitPostIdEqualTo(unitPostId);
         }
-
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -99,12 +110,12 @@ public class ScMotionController extends ScBaseController {
             return;
         }
 
-        long count = scMotionMapper.countByExample(example);
+        long count = scMotionViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScMotion> records= scMotionMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScMotionView> records= scMotionViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -126,9 +137,6 @@ public class ScMotionController extends ScBaseController {
 
         Integer id = record.getId();
 
-        if (scMotionService.idDuplicate(id, record.getYear(), record.getNum())) {
-            return failed("添加重复");
-        }
         if (id == null) {
             
             scMotionService.insertSelective(record);
@@ -150,9 +158,53 @@ public class ScMotionController extends ScBaseController {
             ScMotion scMotion = scMotionMapper.selectByPrimaryKey(id);
             modelMap.put("scMotion", scMotion);
 
-            modelMap.put("unit", unitService.findAll().get(scMotion.getUnitId()));
+            int unitPostId = scMotion.getUnitPostId();
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
+            modelMap.put("unitPost", unitPost);
         }
         return "sc/scMotion/scMotion/scMotion_au";
+    }
+
+    @RequiresPermissions("scMotion:edit")
+    @RequestMapping(value = "/scMotion_topics", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scMotion_topics(int id, String topics, HttpServletRequest request) {
+
+        if(StringUtils.isBlank(topics)){
+
+            return failed("请选择议题。");
+        }
+
+        ScMotion record = new ScMotion();
+        record.setId(id);
+        record.setTopics(topics);
+        scMotionService.updateByPrimaryKeySelective(record);
+        logger.info(addLog( LogConstants.LOG_SC_MOTION, "关联议题：%s", record.getId()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scMotion:edit")
+    @RequestMapping("/scMotion_topics")
+    public String scMotion_topics(int id, ModelMap modelMap) {
+
+        ScMotion scMotion = scMotionMapper.selectByPrimaryKey(id);
+        modelMap.put("scMotion", scMotion);
+
+        Integer unitPostId = scMotion.getUnitPostId();
+        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
+        modelMap.put("unitPost", unitPost);
+
+        Byte way = scMotion.getWay();
+        if(way== ScConstants.SC_MOTION_WAY_COMMITTEE) {
+
+            return "sc/scMotion/scMotion/scMotion_committeeTopics";
+        }else if(way== ScConstants.SC_MOTION_WAY_GROUP){
+
+            return "sc/scMotion/scMotion/scMotion_groupTopics";
+        }else{
+            return null;
+        }
     }
 
     @RequiresPermissions("scMotion:del")
@@ -182,20 +234,19 @@ public class ScMotionController extends ScBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void scMotion_export(ScMotionExample example, HttpServletResponse response) {
+    public void scMotion_export(ScMotionViewExample example, HttpServletResponse response) {
 
-        List<ScMotion> records = scMotionMapper.selectByExample(example);
+        List<ScMotionView> records = scMotionViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年份|100","动议日期|100","动议编号|100","所属单位|100","动议事项|100","动议形式|100","干部选任方式|100","备注|100"};
+        String[] titles = {"年份|100","动议日期|100","动议编号|100","所属单位|100","动议形式|100","干部选任方式|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            ScMotion record = records.get(i);
+            ScMotionView record = records.get(i);
             String[] values = {
                 record.getYear()+"",
                             DateUtils.formatDate(record.getHoldDate(), DateUtils.YYYY_MM_DD),
-                            record.getNum()+"",
+                            record.getCode()+"",
                             record.getUnitId()+"",
-                            record.getType()+"",
                             record.getWay()+"",
                             record.getScType()+"",
                             record.getRemark()

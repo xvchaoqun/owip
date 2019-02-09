@@ -59,7 +59,7 @@
     <label class="col-xs-3 control-label">手机号</label>
 
     <div class="col-xs-6">
-      <input class="form-control" type="text" name="mobile" value="${partyMember.mobile}">
+      <input class="form-control mobile" type="text" name="mobile" value="${partyMember.mobile}">
     </div>
   </div>
 </form>

@@ -5,6 +5,7 @@ import domain.sc.scCommittee.ScCommitteeTopic;
 import domain.sc.scCommittee.ScCommitteeTopicCadre;
 import domain.sc.scCommittee.ScCommitteeTopicView;
 import domain.sc.scCommittee.ScCommitteeTopicViewExample;
+import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,18 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
@@ -43,10 +40,22 @@ public class ScCommitteeTopicController extends ScBaseController {
 
     @RequiresPermissions("scCommitteeTopic:list")
     @RequestMapping("/scCommitteeTopic")
-    public String scCommitteeTopic(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+    public String scCommitteeTopic(@RequestParam(defaultValue = "1") Integer cls,
+                                   @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
+                                    ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         modelMap.put("scCommittees", scCommitteeService.findAll());
+
+        if (unitIds!=null) {
+            List<Integer> _unitIds = Arrays.asList(unitIds);
+            modelMap.put("selectedUnitIds", _unitIds);
+        }
+        List<Unit> runUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_RUN);
+        modelMap.put("runUnits", runUnits);
+        List<Unit> historyUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_HISTORY);
+        modelMap.put("historyUnits", historyUnits);
+
 
         return "sc/scCommittee/scCommitteeTopic/scCommitteeTopic_page";
     }
@@ -58,6 +67,7 @@ public class ScCommitteeTopicController extends ScBaseController {
                                     Integer committeeId,
                                       @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
                                     String name,
+                                      @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -84,6 +94,11 @@ public class ScCommitteeTopicController extends ScBaseController {
             criteria.andNameLike("%" + name + "%");
         }
 
+        if (unitIds != null && unitIds.length>0) {
+
+            criteria.andUnitIdsContain(unitIds);
+        }
+
         long count = scCommitteeTopicViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -108,6 +123,7 @@ public class ScCommitteeTopicController extends ScBaseController {
     @RequestMapping(value = "/scCommitteeTopic_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scCommitteeTopic_au(ScCommitteeTopic record,
+                                      @RequestParam(value = "selectedUnitIds[]", required = false) Integer[] selectedUnitIds,
                                       MultipartFile _voteFilePath,
                                       HttpServletRequest request) throws IOException, InterruptedException {
 
@@ -117,6 +133,8 @@ public class ScCommitteeTopicController extends ScBaseController {
                 (id, record.getCommitteeId(), record.getSeq())){
             return failed("议题序号重复");
         }
+
+        record.setUnitIds(StringUtils.join(selectedUnitIds, ","));
 
         record.setHasVote(BooleanUtils.isTrue(record.getHasVote()));
         record.setHasOtherVote(BooleanUtils.isTrue(record.getHasOtherVote()));
@@ -142,17 +160,47 @@ public class ScCommitteeTopicController extends ScBaseController {
     @RequestMapping("/scCommitteeTopic_au")
     public String scCommitteeTopic_au(Integer id, Integer committeeId, ModelMap modelMap) {
 
+        Set<Integer> selectUnitIds = new HashSet<>();
         if (id != null) {
             ScCommitteeTopic scCommitteeTopic = scCommitteeTopicMapper.selectByPrimaryKey(id);
             modelMap.put("scCommitteeTopic", scCommitteeTopic);
             if(scCommitteeTopic!=null){
                 committeeId = scCommitteeTopic.getCommitteeId();
             }
+
+            selectUnitIds = NumberUtils.toIntSet(scCommitteeTopic.getUnitIds(), ",");
         }
+        modelMap.put("selectUnitIds", new ArrayList<>(selectUnitIds));
 
         modelMap.put("committeeId", committeeId);
 
         modelMap.put("scCommittees", scCommitteeService.findAll());
+
+        // MAP<unitTypeId, List<unitId>>
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        modelMap.put("unitListMap", unitListMap);
+        modelMap.put("historyUnitListMap", historyUnitListMap);
 
         return "sc/scCommittee/scCommitteeTopic/scCommitteeTopic_au";
     }
