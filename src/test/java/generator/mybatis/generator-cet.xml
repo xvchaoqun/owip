@@ -106,7 +106,7 @@
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="pub_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-       <!-- <table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
+        <!--<table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
          <table tableName="cet_project_obj_view" domainObjectName="cet.CetProjectObjView"
@@ -114,13 +114,6 @@
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>
-        <table tableName="cet_project_obj_cadre_view" domainObjectName="cet.CetProjectObjCadreView"
-                mapperName="cet.CetProjectObjCadreViewMapper"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
          </table>-->
         <!--<table tableName="cet_project_obj_plan" domainObjectName="cet.CetProjectObjPlan" mapperName="cet.CetProjectObjPlanMapper">
         </table>-->
@@ -176,16 +169,16 @@
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
+        <!--<table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
                 <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
                 <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
 
-        </table>
+        </table>-->
 
-       <!-- <table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
+        <!--<table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
         </table>-->
         <!--<table tableName="cet_train_course_file" domainObjectName="cet.CetTrainCourseFile" mapperName="cet.CetTrainCourseFileMapper">
         </table>-->
@@ -217,13 +210,12 @@
         </table>-->
         <!--<table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
         </table>-->
-        <!--<table tableName="cet_trainee_course_view" domainObjectName="cet.CetTraineeCourseView"
+        <table tableName="cet_trainee_course_view" domainObjectName="cet.CetTraineeCourseView"
                mapperName="cet.CetTraineeCourseViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
         </table>
-        -->
         <!--<table tableName="cet_trainee_course_cadre_view" domainObjectName="cet.CetTraineeCourseCadreView"
                mapperName="cet.CetTraineeCourseCadreViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"

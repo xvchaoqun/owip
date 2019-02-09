@@ -25,15 +25,7 @@ DROP VIEW IF EXISTS `cet_project_obj_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_view` AS
 select cpo.*, uv.username, uv.code, uv.realname from cet_project_obj cpo
 left join sys_user_view uv on uv.id=cpo.user_id
-left join cet_trainee_course_view ctcv on ctcv.project_id = cpo.project_id and ctcv.user_id=cpo.user_id
 group by cpo.id;
-
-DROP VIEW IF EXISTS `cet_project_obj_cadre_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_cadre_view` AS
-select cpov.*, cv.id as cadre_id,
- cv.title, cv.type_id, cv.post_id, cv.is_ow, cv.ow_grow_time, cv.dp_grow_time, cv.dp_type_id, cv.pro_post,
-cv.lp_work_time, cv.mobile, cv.email, cv.status as cadre_status,cv.sort_order as cadre_sort_order from cet_project_obj_view cpov
-left join cadre_view cv on cpov.user_id=cv.user_id;
 
 DROP VIEW IF EXISTS `cet_column_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_column_course_view` AS
@@ -50,23 +42,6 @@ select cc.*, count(cc2.id) as child_num, count(ccc.id) as course_num from cet_co
 left join cet_column_course ccc on ccc.column_id=cc.id
 left join cet_column cc2 on cc2.fid=cc.id
 group by cc.id ;
-
-/*DROP VIEW IF EXISTS `cet_train_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
-select ct.*, cp.year, cpp.project_id,
--- 课程数量
-count(distinct ctc.id) as course_num,
--- 可选课人数
-count(distinct cpo.id) as obj_count,
--- 已选课人数
-count(distinct cteec.trainee_id) as trainee_count from cet_train ct
-left join cet_train_course ctc on ctc.train_id=ct.id
-left join cet_project_plan cpp on cpp.id=ct.plan_id
-left join cet_project cp on cp.id = cpp.project_id
-left join cet_project_obj cpo on cpo.project_id=cp.id
-left join cet_trainee ctee on ctee.obj_id=cpo.id
-left join cet_trainee_course cteec on cteec.trainee_id=ctee.id and cteec.train_course_id=ctc.id
-group by ct.id;*/
 
 DROP VIEW IF EXISTS `cet_train_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
@@ -91,14 +66,6 @@ left join cet_trainee_course cteec on cteec.trainee_id=ctee.id
 left join cet_train_course ctc on ctc.id=cteec.train_course_id
 left join cet_course cc on cc.id=ctc.course_id group by ctee.id;
 
-/*DROP VIEW IF EXISTS `cet_trainee_cadre_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_cadre_view` AS
-select cteev.*,
-cv.id as cadre_id, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.is_ow, cv.ow_grow_time, cv.dp_grow_time, cv.dp_type_id, cv.pro_post,
-cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order from cet_trainee_view cteev
-left join cadre_view cv on cv.user_id=cteev.user_id
-group by cteev.id;*/
-
 DROP VIEW IF EXISTS `cet_train_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_view` AS
 select ctc.*,
@@ -116,8 +83,10 @@ left join (select train_course_id, count(id) as eva_finish_count from cet_train_
 
 DROP VIEW IF EXISTS `cet_trainee_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_view` AS
-select cteec.*, ctee.train_id, cpo.trainee_type_id, cpo.user_id, ctc.course_id, cc.period, cp.year, cpo.project_id,
-uv.code, uv.realname as choose_user_name from cet_trainee_course cteec
+select cteec.*, ctee.train_id,
+       cpo.project_id, cpo.trainee_type_id, cpo.user_id,
+       ctc.course_id, cc.period, cp.year,
+uv.code as choose_user_code, uv.realname as choose_user_name from cet_trainee_course cteec
 left join cet_trainee ctee on cteec.trainee_id=ctee.id
 left join cet_project_obj cpo on cpo.id=ctee.obj_id
 left join cet_project cp on cp.id=cpo.project_id
@@ -125,14 +94,6 @@ left join cet_train ct on ct.id=ctee.train_id
 left join cet_train_course ctc on ctc.id=cteec.train_course_id
 left join cet_course cc on cc.id=ctc.course_id
 left join sys_user_view uv on uv.id = cteec.choose_user_id order by cpo.id asc;
-
-DROP VIEW IF EXISTS `cet_trainee_course_cadre_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_cadre_view` AS
-select cteecv.*,
-cv.realname, cv.title, cv.type_id, cv.post_id, cv.is_ow, cv.ow_grow_time, cv.dp_grow_time, cv.dp_type_id, cv.pro_post,
-cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order
-from cet_trainee_course_view cteecv
-left join cadre_view cv on cteecv.user_id=cv.user_id;
 
 DROP VIEW IF EXISTS `cet_train_inspector_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_inspector_view` AS
@@ -168,6 +129,23 @@ left join cet_course cc on cc.expert_id=ce.id
 left join cet_train_course ctc on ctc.course_id=cc.id
 left join cet_trainee_course cteec on cteec.train_course_id=ctc.id
 group by ce.id;
+
+-- 动议
+DROP VIEW IF EXISTS `sc_motion_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `sc_motion_view` AS
+select sm.*, up.name as post_name, up.job, up.admin_level, up.post_type, up.unit_id, u.type_id as unit_type
+from sc_motion sm
+       left join unit_post up on up.id = sm.unit_post_id
+       left join unit u on u.id = up.unit_id;
+
+-- 纪实
+DROP VIEW IF EXISTS `sc_record_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `sc_record_view` AS
+select sr.*, sm.hold_date, sm.unit_post_id, up.name as post_name, up.job, up.admin_level, up.post_type, up.unit_id,
+ u.type_id as unit_type from sc_record sr
+left join sc_motion sm on sm.id=sr.motion_id
+left join unit_post up on up.id = sm.unit_post_id
+left join unit u on u.id = up.unit_id;
 
 -- 干部津贴变动
 DROP VIEW IF EXISTS `sc_subsidy_cadre_view`;
@@ -817,7 +795,11 @@ left join ow_branch ob on om.branch_id=ob.id;
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_branch_member_group_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_member_group_view` AS
-SELECT bmg.`*`, b.party_id from ow_branch_member_group bmg, ow_branch b where bmg.branch_id=b.id ;
+SELECT bmg.`*`, b.party_id, p.sort_order as party_sort_order, b.sort_order as branch_sort_order, count(obm.id) as member_count
+from ow_branch_member_group bmg
+left join ow_branch_member obm on obm.group_id=bmg.id
+left join ow_branch b on bmg.branch_id=b.id
+left join ow_party p on b.party_id=p.id group by bmg.id;
 
 
 
@@ -826,9 +808,12 @@ SELECT bmg.`*`, b.party_id from ow_branch_member_group bmg, ow_branch b where bm
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_apply_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_apply_view` AS
-select *, if((_status is null or _status=1), 0, 1) as member_status
-from (select ma.*, m.`status` as _status from ow_member_apply ma
-left join ow_member m  on ma.user_id = m.user_id) tmp;
+select ma.*, m.status as _status, if((m.status is null or m.status=1), 0, 1) as member_status
+     , p.sort_order as party_sort_order, b.sort_order as branch_sort_order
+from  ow_member_apply ma
+        left join ow_branch b on ma.branch_id=b.id
+        left join ow_party p on b.party_id=p.id
+        left join ow_member m  on ma.user_id = m.user_id;
 
 -- ----------------------------
 --  View definition for `ow_member_outflow_view`
@@ -897,7 +882,9 @@ where m.user_id=t.user_id and m.party_id=p.id and m.user_id =u.id and ui.user_id
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_member_group_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_member_group_view` AS
-select opmg.*, op.sort_order as party_sort_order from ow_party_member_group opmg, ow_party op where opmg.party_id=op.id ;
+select opmg.*, op.sort_order as party_sort_order, count(opm.id) as member_count from ow_party_member_group opmg
+left join ow_party_member opm on opm.group_id=opmg.id
+left join  ow_party op on opmg.party_id=op.id group by opmg.id;
 
 -- ----------------------------
 --  View definition for `ow_party_member_view`
@@ -948,3 +935,48 @@ left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2;
 -- ----------------------------
 --  Records 
 -- ----------------------------
+
+DROP VIEW IF EXISTS `ow_branch_member_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_branch_member_view` AS select obm.*,
+`ui`.`msg_title` AS `msg_title`
+,`ui`.`email` AS `email`
+,`ui`.`realname` AS `realname`
+,`ui`.`gender` AS `gender`
+,`ui`.`nation` AS `nation`
+,`ui`.`native_place` AS `native_place`
+,`ui`.`idcard` AS `idcard`
+,`ui`.`birth` AS `birth`
+,`om`.`party_id` AS `party_id`
+,`om`.`branch_id` AS `branch_id`
+,`om`.`status` AS `member_status`
+, obmg.branch_id as group_branch_id
+, op.id as group_party_id
+, op.unit_id
+, op.sort_order as party_sort_order
+, ob.sort_order as branch_sort_order
+,`t`.`post_class` AS `post_class`
+,`t`.`sub_post_class` AS `sub_post_class`
+,`t`.`main_post_level` AS `main_post_level`
+,`t`.`pro_post_time` AS `pro_post_time`
+,`t`.`pro_post_level` AS `pro_post_level`
+,`t`.`pro_post_level_time` AS `pro_post_level_time`
+,`t`.`pro_post` AS `pro_post`
+,`t`.`manage_level` AS `manage_level`
+,`t`.`manage_level_time` AS `manage_level_time`
+,`t`.`arrive_time` AS `arrive_time`
+, ow.id as ow_id
+-- 判断是否是中共党员
+, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
+-- 优先以党员库中的入党时间为准
+, if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
+, ow.remark as ow_remark
+, dp.grow_time as dp_grow_time
+, dp.class_id as dp_type_id
+from  ow_branch_member obm  join ow_branch_member_group obmg on obmg.is_present=1 and obmg.is_deleted=0 and obm.group_id=obmg.id
+left join sys_user_info ui on obm.user_id=ui.user_id
+left join ow_member om on obm.user_id=om.user_id
+left join ow_branch ob on obmg.branch_id=ob.id
+left join ow_party op on ob.party_id=op.id
+left join sys_teacher_info t on obm.user_id=t.user_id
+left join cadre_party dp on dp.user_id= obm.user_id and dp.type = 1
+left join cadre_party ow on ow.user_id= obm.user_id and ow.type = 2;

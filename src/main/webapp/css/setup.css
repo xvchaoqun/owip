@@ -789,6 +789,10 @@ br.xs-100 {
     color: darkred;
 }
 
+.buttons button{
+    margin-bottom: 5px;
+}
+
 /*width*/
 .width300 {
     width: 300px;

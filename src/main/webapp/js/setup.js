@@ -830,7 +830,8 @@ $(document).on("click", ".jqExportBtn", function () {
 
     var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
 
-    url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&"+ encodeURI('ids[]')+"=" + ids + "&" + $(searchFormId).serialize();
+    url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&"+
+        encodeURI('ids[]')+"=" + ids + "&" + $(searchFormId).serialize();
 
     $this.download(url);
     return false;
@@ -901,18 +902,23 @@ $(document).on("click", ".jqBatchBtn", function (e) {
 $(document).on("click", ".jqItemBtn", function () {
 
     var $this = $(this);
-    var gridId = $this.data("grid-id") || "#jqGrid";
-    var grid = $(gridId);
 
     var needId = $(this).data("need-id");
     if (needId == undefined) needId = true;
 
-    var id = grid.getGridParam("selrow");
-    var ids = grid.getGridParam("selarrrow");
-    if (needId && (!id || ids.length > 1)) {
-        SysMsg.warning("请选择一行", "提示");
-        return;
+    var id;
+    if(needId) {
+        var gridId = $this.data("grid-id") || "#jqGrid";
+        var grid = $(gridId);
+
+        id = grid.getGridParam("selrow");
+        var ids = grid.getGridParam("selarrrow");
+        if (!id || ids.length > 1) {
+            SysMsg.warning("请选择一行", "提示");
+            return;
+        }
     }
+
     var callback = $.trim($this.data("callback"));
     var idName = $(this).data("id-name") || 'id';
     var url = $(this).data("url");
@@ -1099,6 +1105,20 @@ $(document).on("click", ".popTableDiv .delBtn", function () {
             });
         }
     });
+});
+
+// 编辑
+$(document).on("click", ".popTableDiv .editBtn", function () {
+
+    var id = $(this).data("id");
+    var $div = $(this).closest(".popTableDiv");
+
+    var idName = $(this).data("id-name") || 'id';
+
+    var url = $div.data("url-au");
+    if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
+
+    $.loadModal(url, $(this).data("width"));
 });
 // 调序
 $(document).on("click", ".popTableDiv .changeOrderBtn", function () {

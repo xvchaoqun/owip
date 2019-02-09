@@ -527,7 +527,7 @@ var _modal_width;
 
             if(cadreId==undefined || cadreId<=0){
                 console.log("illegal cadreId:" + cadreId);
-                return ;
+                return $.trim(realname);
             }
 
             if( $.trim(realname) != ''
@@ -689,7 +689,7 @@ var _modal_width;
                             if (ret.success) {
                                 if (callback) {
                                     // console.log(_this)
-                                    window[callback](_this);
+                                    window[callback](_this, ret);
                                 }
                             }
                             $loading.unmask();
@@ -983,6 +983,17 @@ var _modal_width;
             if($.trim(text)==''){
                 $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> 正在导出')
             }
+
+            // 清除cookie
+            var settings = {
+                cookieName: "fileDownload",
+                cookiePath: "/",
+                cookieDomain: null,
+            };
+            var cookieData = settings.cookieName + "=; path=" + settings.cookiePath + "; expires=" + new Date(0).toUTCString() + ";";
+            if (settings.cookieDomain) cookieData += " domain=" + settings.cookieDomain + ";";
+            document.cookie = cookieData;
+
             $.fileDownload(url, {
                 prepareCallback:function(url){},
                 successCallback: function (url) {
@@ -1706,11 +1717,11 @@ $.extend($.register, {
             _params = $.extend({}, params);
         }
         return $select.select2($.extend({
-            templateResult: function (state) {
+            templateResult: _params.templateResult || function (state) {
 
                 return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
             },
-            templateSelection: function (state) {
+            templateSelection: _params.templateSelection || function (state) {
                 return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
             },
             escapeMarkup: function (markup) {

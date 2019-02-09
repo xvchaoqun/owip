@@ -25,12 +25,27 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+        <!--干部选拔-纪实-->
+        <table tableName="sc_record" domainObjectName="sc.scRecord.ScRecord"
+               mapperName="sc.scRecord.ScRecordMapper">
+        </table>
+        <table tableName="sc_record_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scRecord.ScRecordView"
+               mapperName="sc.scRecord.ScRecordViewMapper">
+        </table>
         <!--干部选拔-动议-->
         <!--<table tableName="sc_motion" domainObjectName="sc.scMotion.ScMotion"
                mapperName="sc.scMotion.ScMotionMapper">
-        </table>-->
-        <!--<table tableName="sc_motion_post" domainObjectName="sc.scMotion.ScMotionPost"
-               mapperName="sc.scMotion.ScMotionPostMapper">
+        </table>
+        <table tableName="sc_motion_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMotion.ScMotionView"
+               mapperName="sc.scMotion.ScMotionViewMapper">
         </table>-->
 
         <!--干部选拔-干部津贴变动-->
@@ -369,13 +384,13 @@
         </table>-->
        <!-- <table tableName="sc_border_item" domainObjectName="sc.scBorder.ScBorderItem" mapperName="sc.scBorder.ScBorderItemMapper">
         </table>-->
-        <table tableName="sc_border_item_view"
+        <!--<table tableName="sc_border_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scBorder.ScBorderItemView" mapperName="sc.scBorder.ScBorderItemViewMapper">
             <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
+        </table>-->
 
     </context>
 </generatorConfiguration>

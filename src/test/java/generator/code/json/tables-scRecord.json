@@ -3,16 +3,16 @@
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "",
-  "folder": "sc/scMotion",
+  "folder": "sc/scRecord",
   "resFolder": "sc",
   "tables": [
     {
-      "table": "sc_motion",
+      "table": "sc_record",
       "key": "id",
-      "searchColumns": "year,unit_id,type",
-      "showColumns": "year,hold_date,num,unit_id,type,way,sc_type,remark",
+      "searchColumns": "year,motion_id,status",
+      "showColumns": "year,seq,motion_id,status,remark",
       "excludeEditColumns": "id",
-      "logType": "LogConstants.LOG_SC_MOTION",
+      "logType": "LogConstants.LOG_SC_RECORD",
       "ignore": false
     }
   ]

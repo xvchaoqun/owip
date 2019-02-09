@@ -1,8 +1,86 @@
 
 
+20190209
 
 ALTER TABLE `sc_committee_topic`
-	ADD COLUMN `unit_ids` VARCHAR(200) NULL COMMENT '涉及单位，逗号分隔' AFTER `name`;
+	ADD COLUMN `unit_ids` VARCHAR(300) NULL COMMENT '涉及单位，逗号分隔' AFTER `name`;
+
+更新 sc_committee_topic_view
+
+ALTER TABLE `sc_motion`
+	ADD COLUMN `unit_post_id` INT(10) UNSIGNED NOT NULL COMMENT '拟调整岗位' AFTER `num`,
+	CHANGE COLUMN `sc_type` `sc_type` INT(10) UNSIGNED NOT NULL COMMENT '干部选任方式，关联元数据' AFTER `unit_post_id`,
+	DROP COLUMN `unit_id`,
+	DROP COLUMN `type`,
+	DROP COLUMN `post_count`;
+
+drop table sc_motion_post;
+
+ALTER TABLE `sc_motion`
+	CHANGE COLUMN `num` `seq` VARCHAR(50) NOT NULL COMMENT '动议编号' AFTER `hold_date`,
+	DROP INDEX `year_num`,
+	ADD UNIQUE INDEX `seq` (`seq`);
+
+ALTER TABLE `sc_motion`
+	ADD COLUMN `topics` VARCHAR(300) NULL DEFAULT NULL COMMENT '关联议题，干部小组会议题或党委常委会议题' AFTER `way_other`;
+
++ sc_motion_view
+
+ALTER TABLE `cet_train_course`
+	ADD COLUMN `sign_token` VARCHAR(32) NULL DEFAULT NULL COMMENT '刷卡签到页面token' AFTER `address`,
+	ADD COLUMN `sign_token_expire` DATETIME NULL DEFAULT NULL COMMENT 'token有效截止时间' AFTER `sign_token`;
+
+ALTER TABLE `cet_train_course`
+	CHANGE COLUMN `sign_token_expire` `sign_token_expire` BIGINT NULL DEFAULT NULL COMMENT 'token有效截止时间' AFTER `sign_token`;
+
+
+更新 common-utils
+
+
+drop view cet_project_obj_cadre_view;
+
+ALTER TABLE `cet_project_obj`
+	ADD COLUMN `cadre_id` INT UNSIGNED NULL DEFAULT NULL AFTER `remark`,
+	ADD COLUMN `title` VARCHAR(200) NULL DEFAULT NULL AFTER `cadre_id`,
+	ADD COLUMN `type_id` INT UNSIGNED NULL DEFAULT NULL AFTER `title`,
+	ADD COLUMN `post_id` INT UNSIGNED NULL DEFAULT NULL AFTER `type_id`,
+	ADD COLUMN `is_ow` TINYINT(1) UNSIGNED NULL DEFAULT NULL AFTER `post_id`,
+	ADD COLUMN `ow_grow_time` DATE NULL DEFAULT NULL AFTER `is_ow`,
+	ADD COLUMN `dp_grow_time` DATE NULL DEFAULT NULL AFTER `ow_grow_time`,
+	ADD COLUMN `dp_type_id` INT UNSIGNED NULL DEFAULT NULL AFTER `dp_grow_time`,
+	ADD COLUMN `pro_post` VARCHAR(200) NULL DEFAULT NULL AFTER `dp_type_id`,
+	ADD COLUMN `lp_work_time` DATE NULL DEFAULT NULL AFTER `pro_post`,
+	ADD COLUMN `mobile` VARCHAR(20) NULL DEFAULT NULL AFTER `lp_work_time`,
+	ADD COLUMN `email` VARCHAR(200) NULL DEFAULT NULL AFTER `mobile`,
+	ADD COLUMN `cadre_status` TINYINT(3) UNSIGNED NULL DEFAULT NULL AFTER `email`,
+	ADD COLUMN `cadre_sort_order` INT UNSIGNED NULL DEFAULT NULL AFTER `cadre_status`;
+
+更新 cet_project_obj_view
+
+
+drop view cet_trainee_course_cadre_view;
+
+更新 cet_trainee_course_view
+
++ ow_branch_member_view
+
+
+ALTER TABLE `ow_branch_member`
+  ADD COLUMN `assign_date` DATE NULL DEFAULT NULL COMMENT '任职时间，具体到月' AFTER `type_id`,
+  ADD COLUMN `office_phone` VARCHAR(50) NULL DEFAULT NULL COMMENT '办公电话' AFTER `assign_date`,
+  ADD COLUMN `mobile` VARCHAR(11) NULL DEFAULT NULL COMMENT '手机号' AFTER `office_phone`;
+
+更新 ow_branch_view
+ow_branch_member_group_view
+ow_party_member_group_view
+
+ow_member_apply_view
+
+
+ALTER TABLE `sc_motion`
+  CHANGE COLUMN `way` `way` TINYINT(3) UNSIGNED NOT NULL COMMENT '动议形式，党委干部工作小组会、 党委常委会、 其他' AFTER `sc_type`;
+
+更新 sc_motion_view
 
 
 20190122
