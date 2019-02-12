@@ -215,7 +215,7 @@ body {
 }
 
 .tab-content{
-    padding:16px 5px;
+    padding:10px 5px;
 }
 .tab-content, .nav-tabs.background-blue {
     border: none;
@@ -789,7 +789,7 @@ br.xs-100 {
     color: darkred;
 }
 
-.buttons button{
+.buttons .btn{
     margin-bottom: 5px;
 }
 
