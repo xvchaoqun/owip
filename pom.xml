@@ -15,6 +15,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <generator.mybatis.modal>sc</generator.mybatis.modal>
+        <!--maven方式跳过maven test, 等同$ mvn package -Dmaven.test.skip=true-->
+        <!--<maven.test.skip>true</maven.test.skip>-->
+        <!--surefire plugin方式跳过maven test， 等同$ mvn package -DskipTests-->
+        <skipTests>true</skipTests>
     </properties>
     <dependencies>
         <dependency>

@@ -170,7 +170,7 @@
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
-    $.register.user_select($('#modalForm select[name=chiefInspectorId]'));
+    $.register.del_select($('#modalForm select[name=chiefInspectorId]'));
     var $selectCadre = $.register.user_select($('#modalForm select[name=cadreId]'));
     $selectCadre.on("change",function(){
         //console.log($(this).select2("data")[0])

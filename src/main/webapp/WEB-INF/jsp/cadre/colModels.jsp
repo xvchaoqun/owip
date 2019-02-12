@@ -572,7 +572,15 @@
             return type;
         }, width: 200
         },
-        {label: '考察组负责人', name: 'chiefInspector.realname', width: 120},
+        {label: '考察组负责人', name: 'chiefInspector.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+            var val = $.trim(cellvalue);
+            if(val=='') return '--'
+            if(rowObject.chiefInspector.status!='<%=CisConstants.CIS_INSPECTOR_STATUS_NOW%>'){
+                return '<span class="delete">{0}</span>'.format(val)
+            }
+            return val
+        }},
         {
             label: '考察组成员', name: 'inspectors', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.inspectorType == '<%=CisConstants.CIS_INSPECTOR_TYPE_OTHER%>') return '-'

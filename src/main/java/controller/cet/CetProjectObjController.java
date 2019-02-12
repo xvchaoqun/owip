@@ -79,7 +79,7 @@ public class CetProjectObjController extends CetBaseController {
         }
         modelMap.put("typeCountMap", typeCountMap);
 
-        if(typeCountList.size()>0){
+        if(traineeTypeId==null && typeCountList.size()>0){
             traineeTypeId = ((Long) typeCountList.get(0).get("trainee_type_id")).intValue();
         }
         if (traineeTypeId == null) {

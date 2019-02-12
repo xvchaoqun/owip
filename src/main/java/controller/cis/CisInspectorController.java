@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CisConstants;
 import sys.constants.LogConstants;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -29,12 +28,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CisInspectorController extends CisBaseController {
@@ -226,7 +220,7 @@ public class CisInspectorController extends CisBaseController {
         pageNo = Math.max(1, pageNo);
 
         CisInspectorViewExample example = new CisInspectorViewExample();
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("status asc, sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
             CisInspectorViewExample.Criteria criteria = example.or().andUsernameLike("%" + searchStr + "%");
@@ -248,15 +242,15 @@ public class CisInspectorController extends CisBaseController {
         }
         List<CisInspectorView> cisInspectors = cisInspectorViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
+        List<Map> options = new ArrayList<Map>();
         if (null != cisInspectors && cisInspectors.size() > 0) {
 
             for (CisInspectorView cisInspector : cisInspectors) {
 
-                Select2Option option = new Select2Option();
-                option.setText(cisInspector.getRealname());
-                option.setId(cisInspector.getId() + "");
-
+                Map option = new HashMap();
+                option.put("text", cisInspector.getRealname());
+                option.put("id", cisInspector.getId() + "");
+                option.put("del", cisInspector.getStatus()!=CisConstants.CIS_INSPECTOR_STATUS_NOW);
                 options.add(option);
             }
         }
