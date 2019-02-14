@@ -9,7 +9,8 @@
                     table-condensed table-center table-unhover2">
         <thead>
         <tr>
-            <th colspan="2">推荐人选 | 工号</th>
+            <th>推荐人选</th>
+            <th>工号</th>
             <th style="width: 95px">得票总数</th>
             <c:if test="${drOffline.needVoterType}">
                 <c:forEach items="${typeMap}" var="entity">
