@@ -4,6 +4,8 @@
 
 drop view cis_inspector_view;
 
+民主推荐 -> mt_sctype_dr
+
 20190209
 
 ALTER TABLE `sc_committee_topic`
