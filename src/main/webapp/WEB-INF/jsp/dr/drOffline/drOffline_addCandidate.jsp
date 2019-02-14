@@ -9,7 +9,7 @@
                     table-condensed table-center table-unhover2">
         <thead>
         <tr>
-            <th>候选人</th>
+            <th colspan="2">推荐人选 | 工号</th>
             <th style="width: 95px">得票总数</th>
             <c:if test="${drOffline.needVoterType}">
                 <c:forEach items="${typeMap}" var="entity">
@@ -31,7 +31,7 @@
         </thead>
         <tbody>
         <tr>
-            <td style="text-align: left">
+            <td colspan="2" style="text-align: left">
                 <select required data-rel="select2-ajax"
                         data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
                         data-width="220"
@@ -83,7 +83,8 @@
         </tr>
         <c:forEach items="${candidates}" var="candidate">
             <tr>
-                <td>${candidate.user.realname}</td>
+                <td style="width: 100px">${candidate.user.realname}</td>
+                <td>${candidate.user.code}</td>
                 <td>${candidate.vote}</td>
                 <c:if test="${drOffline.needVoterType}">
                     <c:forEach items="${typeMap}" var="entity">
