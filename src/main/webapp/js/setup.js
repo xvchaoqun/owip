@@ -580,7 +580,7 @@ $(document).on("click", ".pirntBtn", function (e) {
 });
 
 // 重置
-$(document).on("click", " .resetBtn", function () {
+$(document).on("click", " .reloadBtn", function () {
 
     var $this = $(this);
     var querystr = $.trim($this.data("querystr"));

@@ -1,4 +1,8 @@
 
+20190214
+更新 sc_record_view
+
+drop view cis_inspector_view;
 
 20190209
 

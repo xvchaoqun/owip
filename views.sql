@@ -130,6 +130,18 @@ left join cet_train_course ctc on ctc.course_id=cc.id
 left join cet_trainee_course cteec on cteec.train_course_id=ctc.id
 group by ce.id;
 
+
+-- 民主推荐
+DROP VIEW IF EXISTS `dr_offline_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `dr_offline_view` AS
+select do.*, sr.seq as sr_seq, sm.hold_date, sm.sc_type, sm.unit_post_id, up.name as post_name,
+up.job, up.admin_level, up.post_type, up.unit_id,
+u.type_id as unit_type from dr_offline do
+left join sc_record sr on sr.id=do.record_id
+left join sc_motion sm on sm.id= sr.motion_id
+left join unit_post up on up.id = sm.unit_post_id
+left join unit u on u.id = up.unit_id ;
+
 -- 动议
 DROP VIEW IF EXISTS `sc_motion_view`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `sc_motion_view` AS
@@ -141,7 +153,7 @@ from sc_motion sm
 -- 纪实
 DROP VIEW IF EXISTS `sc_record_view`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `sc_record_view` AS
-select sr.*, sm.hold_date, sm.unit_post_id, up.name as post_name, up.job, up.admin_level, up.post_type, up.unit_id,
+select sr.*, sm.hold_date, sm.sc_type, sm.unit_post_id, up.name as post_name, up.job, up.admin_level, up.post_type, up.unit_id,
  u.type_id as unit_type from sc_record sr
 left join sc_motion sm on sm.id=sr.motion_id
 left join unit_post up on up.id = sm.unit_post_id
@@ -636,10 +648,10 @@ left join cadre_view c on c.id=cc.cadre_id;
 -- ----------------------------
 --  View definition for `cis_inspector_view`
 -- ----------------------------
-DROP VIEW IF EXISTS `cis_inspector_view`;
+/*DROP VIEW IF EXISTS `cis_inspector_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cis_inspector_view` AS
 select ci.*, uv.username, uv.code, uv.realname
-from cis_inspector ci left join sys_user_view uv on ci.user_id = uv.id;
+from cis_inspector ci left join sys_user_view uv on ci.user_id = uv.id;*/
 -- ----------------------------
 --  View definition for `cis_inspect_obj_view`
 -- ----------------------------

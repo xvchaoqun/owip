@@ -179,6 +179,7 @@ ces: cadre evaluation system 干部考核系统
 cpc: cadre post count 干部职数
 crp: cadre role play 干部挂职锻炼
 crs: cadre recruit system 干部招聘系统
+dr: Democratic recommendation 民主推荐
 pcs：Party Congress System 党代会信息管理系统
 pr:Party representative 党代表
 cm:committee member 委员

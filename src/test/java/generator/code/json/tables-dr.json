@@ -1,0 +1,37 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "dr",
+  "resFolder": "",
+  "tables": [
+    {
+      "table": "dr_member",
+      "key": "id",
+      "searchColumns": "user_id,status",
+      "showColumns": "user_id,sort_order,status",
+      "excludeEditColumns": "id,sort_order,status",
+      "logType": "LogConstants.LOG_DR",
+      "ignore": false
+    },
+    {
+      "table": "dr_offline",
+      "key": "id",
+      "searchColumns": "year,type,recommend_date",
+      "showColumns": "year,seq,type,recommend_date,record_id,chief_member_id,members,ballot_sample",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_DR",
+      "ignore": false
+    },
+    {
+      "table": "dr_voter_tpl",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_DR",
+      "ignore": false
+    }
+  ]
+}
