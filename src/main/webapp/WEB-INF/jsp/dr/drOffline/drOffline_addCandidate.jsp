@@ -21,7 +21,7 @@
                 <c:if test="${fn:length(candidates)>1}">
                     <button class="confirm btn btn-danger btn-xs"
                             data-title="清空" type="button"
-                            data-msg="确定清空全部候选人？"
+                            data-msg="确定清空全部推荐人选？"
                             data-callback="_reloadCandidates"
                             data-url="${ctx}/drOffline_delCandidate?offlineId=${drOffline.id}">
                         <i class="fa fa-trash"></i> 清空
