@@ -61,10 +61,24 @@
                 </td>
             </c:if>
             <td class="bg-center">
-                <button id="voteBtn" type="button" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"
-                        class="btn btn-success btn-sm">
-                    <i class="fa ${empty candidate?"fa-plus":"fa-edit"}"></i> ${empty candidate?"添加":"修改"}
-                </button>
+                <c:if test="${empty candidate}">
+                    <button id="voteBtn" type="button" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"
+                            class="btn btn-success btn-sm">
+                        <i class="fa fa-plus"></i> 添加
+                    </button>
+                </c:if>
+                <c:if test="${not empty candidate}">
+                    <button id="voteBtn" type="button" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"
+                            class="btn btn-success btn-xs">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button"
+                            data-target="#candidatesDiv"
+                            data-url="${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}"
+                            class="reloadBtn btn btn-primary btn-xs">
+                        <i class="fa fa-reply"></i>
+                    </button>
+                </c:if>
             </td>
         </tr>
         <c:forEach items="${candidates}" var="candidate">
