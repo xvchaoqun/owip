@@ -32,7 +32,7 @@
         </thead>
         <tbody>
         <tr>
-            <td colspan="2" style="text-align: left">
+            <td colspan="2" class="bg-center">
                 <select required data-rel="select2-ajax"
                         data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
                         data-width="220"
