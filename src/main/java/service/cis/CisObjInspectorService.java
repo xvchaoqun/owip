@@ -1,8 +1,9 @@
 package service.cis;
 
-import domain.cis.CisInspectorView;
+import domain.cis.CisInspector;
 import domain.cis.CisObjInspector;
 import domain.cis.CisObjInspectorExample;
+import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,12 +38,13 @@ public class CisObjInspectorService extends CisBaseMapper {
             List<TreeNode> children = new ArrayList<TreeNode>();
             groupNode.children = children;
 
-            List<CisInspectorView> inspectors = cisInspectorService.getInspectors(entry.getKey());
+            List<CisInspector> inspectors = cisInspectorService.getInspectors(entry.getKey());
 
-            for (CisInspectorView inspector : inspectors) {
+            for (CisInspector inspector : inspectors) {
 
+                SysUserView uv = inspector.getUser();
                 TreeNode node = new TreeNode();
-                node.title = inspector.getRealname() + "-" + inspector.getCode();
+                node.title = uv.getRealname() + "-" + uv.getCode();
                 node.key = inspector.getId() + "";
 
                 if (selectIdSet.contains(inspector.getId())) {

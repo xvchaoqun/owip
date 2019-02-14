@@ -21,12 +21,12 @@ public class CisInspectObj implements Serializable {
 
         return CmTag.getCadreById(cadreId);
     }
-    public CisInspectorView getChiefInspector(){
+    public CisInspector getChiefInspector(){
 
         return CisHelper.getCisInspector(chiefInspectorId);
     }
 
-    public List<CisInspectorView> getInspectors(){
+    public List<CisInspector> getInspectors(){
 
         return CisHelper.getCisInspectors(id);
     }

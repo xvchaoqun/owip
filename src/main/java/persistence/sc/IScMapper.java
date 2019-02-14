@@ -5,6 +5,7 @@ import domain.dispatch.DispatchCadre;
 import domain.sc.scCommittee.ScCommittee;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scMatter.ScMatterAccess;
+import domain.sc.scRecord.ScRecordView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -16,6 +17,10 @@ import java.util.List;
  * Created by lm on 2018/1/23.
  */
 public interface IScMapper {
+
+    @ResultMap("persistence.sc.scRecord.ScRecordViewMapper.BaseResultMap")
+    @Select("select * from sc_record_view where id=#{id}")
+    ScRecordView getScRecordView(@Param("id") int id);
 
     @ResultMap("persistence.sc.scMatter.ScMatterAccessMapper.BaseResultMap")
     @Select("select sma.* from sc_matter_access sma, sc_matter_access_item smai " +

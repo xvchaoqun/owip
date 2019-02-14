@@ -30,7 +30,7 @@
                     </div>
                     <a class="_searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${not empty param.year}">
-                        <button type="button" class="resetBtn btn btn-warning btn-sm">
+                        <button type="button" class="reloadBtn btn btn-warning btn-sm">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>
@@ -60,7 +60,7 @@
         $("#body-content-view").load("${ctx}/${param.type=='user'?'user/':''}abroad/passport_useLogs?type=${param.type}"+
         "&id=${passport.id}&year="+year);
     });
-    $("#useLogForm .resetBtn").click(function(){
+    $("#useLogForm .reloadBtn").click(function(){
         $("#body-content-view").load("${ctx}/${param.type=='user'?'user/':''}abroad/passport_useLogs?type=${param.type}"+
         "&id=${passport.id}");
     });

@@ -22,6 +22,8 @@ public class ScRecordView implements Serializable {
 
     private Date holdDate;
 
+    private Integer scType;
+
     private Integer unitPostId;
 
     private String postName;
@@ -92,6 +94,14 @@ public class ScRecordView implements Serializable {
 
     public void setHoldDate(Date holdDate) {
         this.holdDate = holdDate;
+    }
+
+    public Integer getScType() {
+        return scType;
+    }
+
+    public void setScType(Integer scType) {
+        this.scType = scType;
     }
 
     public Integer getUnitPostId() {

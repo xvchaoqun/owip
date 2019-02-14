@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dr.DrOfflineMapper">
+  <resultMap id="BaseResultMap" type="domain.dr.DrOffline">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="SMALLINT" property="year" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="recommend_date" jdbcType="DATE" property="recommendDate" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="chief_member_id" jdbcType="INTEGER" property="chiefMemberId" />
+    <result column="members" jdbcType="VARCHAR" property="members" />
+    <result column="ballot_sample" jdbcType="VARCHAR" property="ballotSample" />
+    <result column="headcount" jdbcType="INTEGER" property="headcount" />
+    <result column="scope" jdbcType="VARCHAR" property="scope" />
+    <result column="expect_voter_num" jdbcType="INTEGER" property="expectVoterNum" />
+    <result column="actual_voter_num" jdbcType="INTEGER" property="actualVoterNum" />
+    <result column="ballot" jdbcType="INTEGER" property="ballot" />
+    <result column="abstain" jdbcType="INTEGER" property="abstain" />
+    <result column="invalid" jdbcType="INTEGER" property="invalid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="need_voter_type" jdbcType="BIT" property="needVoterType" />
+    <result column="voter_type_tpl_id" jdbcType="INTEGER" property="voterTypeTplId" />
+    <result column="voters" jdbcType="VARCHAR" property="voters" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, year, seq, type, recommend_date, record_id, chief_member_id, members, ballot_sample, 
+    headcount, scope, expect_voter_num, actual_voter_num, ballot, abstain, invalid, title, 
+    need_voter_type, voter_type_tpl_id, voters, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.dr.DrOfflineExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dr_offline
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dr_offline
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dr_offline
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.dr.DrOfflineExample">
+    delete from dr_offline
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.dr.DrOffline">
+    insert into dr_offline (id, year, seq, 
+      type, recommend_date, record_id, 
+      chief_member_id, members, ballot_sample, 
+      headcount, scope, expect_voter_num, 
+      actual_voter_num, ballot, abstain, 
+      invalid, title, need_voter_type, 
+      voter_type_tpl_id, voters, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, #{seq,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{recommendDate,jdbcType=DATE}, #{recordId,jdbcType=INTEGER}, 
+      #{chiefMemberId,jdbcType=INTEGER}, #{members,jdbcType=VARCHAR}, #{ballotSample,jdbcType=VARCHAR}, 
+      #{headcount,jdbcType=INTEGER}, #{scope,jdbcType=VARCHAR}, #{expectVoterNum,jdbcType=INTEGER}, 
+      #{actualVoterNum,jdbcType=INTEGER}, #{ballot,jdbcType=INTEGER}, #{abstain,jdbcType=INTEGER}, 
+      #{invalid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{needVoterType,jdbcType=BIT}, 
+      #{voterTypeTplId,jdbcType=INTEGER}, #{voters,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.dr.DrOffline">
+    insert into dr_offline
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="seq != null">
+        seq,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="recommendDate != null">
+        recommend_date,
+      </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="chiefMemberId != null">
+        chief_member_id,
+      </if>
+      <if test="members != null">
+        members,
+      </if>
+      <if test="ballotSample != null">
+        ballot_sample,
+      </if>
+      <if test="headcount != null">
+        headcount,
+      </if>
+      <if test="scope != null">
+        scope,
+      </if>
+      <if test="expectVoterNum != null">
+        expect_voter_num,
+      </if>
+      <if test="actualVoterNum != null">
+        actual_voter_num,
+      </if>
+      <if test="ballot != null">
+        ballot,
+      </if>
+      <if test="abstain != null">
+        abstain,
+      </if>
+      <if test="invalid != null">
+        invalid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="needVoterType != null">
+        need_voter_type,
+      </if>
+      <if test="voterTypeTplId != null">
+        voter_type_tpl_id,
+      </if>
+      <if test="voters != null">
+        voters,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=SMALLINT},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="recommendDate != null">
+        #{recommendDate,jdbcType=DATE},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="chiefMemberId != null">
+        #{chiefMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="members != null">
+        #{members,jdbcType=VARCHAR},
+      </if>
+      <if test="ballotSample != null">
+        #{ballotSample,jdbcType=VARCHAR},
+      </if>
+      <if test="headcount != null">
+        #{headcount,jdbcType=INTEGER},
+      </if>
+      <if test="scope != null">
+        #{scope,jdbcType=VARCHAR},
+      </if>
+      <if test="expectVoterNum != null">
+        #{expectVoterNum,jdbcType=INTEGER},
+      </if>
+      <if test="actualVoterNum != null">
+        #{actualVoterNum,jdbcType=INTEGER},
+      </if>
+      <if test="ballot != null">
+        #{ballot,jdbcType=INTEGER},
+      </if>
+      <if test="abstain != null">
+        #{abstain,jdbcType=INTEGER},
+      </if>
+      <if test="invalid != null">
+        #{invalid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="needVoterType != null">
+        #{needVoterType,jdbcType=BIT},
+      </if>
+      <if test="voterTypeTplId != null">
+        #{voterTypeTplId,jdbcType=INTEGER},
+      </if>
+      <if test="voters != null">
+        #{voters,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.dr.DrOfflineExample" resultType="java.lang.Long">
+    select count(*) from dr_offline
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dr_offline
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=SMALLINT},
+      </if>
+      <if test="record.seq != null">
+        seq = #{record.seq,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommendDate != null">
+        recommend_date = #{record.recommendDate,jdbcType=DATE},
+      </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.chiefMemberId != null">
+        chief_member_id = #{record.chiefMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.members != null">
+        members = #{record.members,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ballotSample != null">
+        ballot_sample = #{record.ballotSample,jdbcType=VARCHAR},
+      </if>
+      <if test="record.headcount != null">
+        headcount = #{record.headcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.scope != null">
+        scope = #{record.scope,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expectVoterNum != null">
+        expect_voter_num = #{record.expectVoterNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.actualVoterNum != null">
+        actual_voter_num = #{record.actualVoterNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.ballot != null">
+        ballot = #{record.ballot,jdbcType=INTEGER},
+      </if>
+      <if test="record.abstain != null">
+        abstain = #{record.abstain,jdbcType=INTEGER},
+      </if>
+      <if test="record.invalid != null">
+        invalid = #{record.invalid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.needVoterType != null">
+        need_voter_type = #{record.needVoterType,jdbcType=BIT},
+      </if>
+      <if test="record.voterTypeTplId != null">
+        voter_type_tpl_id = #{record.voterTypeTplId,jdbcType=INTEGER},
+      </if>
+      <if test="record.voters != null">
+        voters = #{record.voters,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dr_offline
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=SMALLINT},
+      seq = #{record.seq,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      recommend_date = #{record.recommendDate,jdbcType=DATE},
+      record_id = #{record.recordId,jdbcType=INTEGER},
+      chief_member_id = #{record.chiefMemberId,jdbcType=INTEGER},
+      members = #{record.members,jdbcType=VARCHAR},
+      ballot_sample = #{record.ballotSample,jdbcType=VARCHAR},
+      headcount = #{record.headcount,jdbcType=INTEGER},
+      scope = #{record.scope,jdbcType=VARCHAR},
+      expect_voter_num = #{record.expectVoterNum,jdbcType=INTEGER},
+      actual_voter_num = #{record.actualVoterNum,jdbcType=INTEGER},
+      ballot = #{record.ballot,jdbcType=INTEGER},
+      abstain = #{record.abstain,jdbcType=INTEGER},
+      invalid = #{record.invalid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      need_voter_type = #{record.needVoterType,jdbcType=BIT},
+      voter_type_tpl_id = #{record.voterTypeTplId,jdbcType=INTEGER},
+      voters = #{record.voters,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.dr.DrOffline">
+    update dr_offline
+    <set>
+      <if test="year != null">
+        year = #{year,jdbcType=SMALLINT},
+      </if>
+      <if test="seq != null">
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="recommendDate != null">
+        recommend_date = #{recommendDate,jdbcType=DATE},
+      </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="chiefMemberId != null">
+        chief_member_id = #{chiefMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="members != null">
+        members = #{members,jdbcType=VARCHAR},
+      </if>
+      <if test="ballotSample != null">
+        ballot_sample = #{ballotSample,jdbcType=VARCHAR},
+      </if>
+      <if test="headcount != null">
+        headcount = #{headcount,jdbcType=INTEGER},
+      </if>
+      <if test="scope != null">
+        scope = #{scope,jdbcType=VARCHAR},
+      </if>
+      <if test="expectVoterNum != null">
+        expect_voter_num = #{expectVoterNum,jdbcType=INTEGER},
+      </if>
+      <if test="actualVoterNum != null">
+        actual_voter_num = #{actualVoterNum,jdbcType=INTEGER},
+      </if>
+      <if test="ballot != null">
+        ballot = #{ballot,jdbcType=INTEGER},
+      </if>
+      <if test="abstain != null">
+        abstain = #{abstain,jdbcType=INTEGER},
+      </if>
+      <if test="invalid != null">
+        invalid = #{invalid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="needVoterType != null">
+        need_voter_type = #{needVoterType,jdbcType=BIT},
+      </if>
+      <if test="voterTypeTplId != null">
+        voter_type_tpl_id = #{voterTypeTplId,jdbcType=INTEGER},
+      </if>
+      <if test="voters != null">
+        voters = #{voters,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.dr.DrOffline">
+    update dr_offline
+    set year = #{year,jdbcType=SMALLINT},
+      seq = #{seq,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      recommend_date = #{recommendDate,jdbcType=DATE},
+      record_id = #{recordId,jdbcType=INTEGER},
+      chief_member_id = #{chiefMemberId,jdbcType=INTEGER},
+      members = #{members,jdbcType=VARCHAR},
+      ballot_sample = #{ballotSample,jdbcType=VARCHAR},
+      headcount = #{headcount,jdbcType=INTEGER},
+      scope = #{scope,jdbcType=VARCHAR},
+      expect_voter_num = #{expectVoterNum,jdbcType=INTEGER},
+      actual_voter_num = #{actualVoterNum,jdbcType=INTEGER},
+      ballot = #{ballot,jdbcType=INTEGER},
+      abstain = #{abstain,jdbcType=INTEGER},
+      invalid = #{invalid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      need_voter_type = #{needVoterType,jdbcType=BIT},
+      voter_type_tpl_id = #{voterTypeTplId,jdbcType=INTEGER},
+      voters = #{voters,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dr.DrOfflineExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dr_offline
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -19,8 +19,6 @@ public class CisBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected CisInspectorMapper cisInspectorMapper;
     @Autowired(required = false)
-    protected CisInspectorViewMapper cisInspectorViewMapper;
-    @Autowired(required = false)
     protected CisObjInspectorMapper cisObjInspectorMapper;
     @Autowired(required = false)
     protected CisObjUnitMapper cisObjUnitMapper;

@@ -40,7 +40,7 @@ pageEncoding="UTF-8" %>
                                         <c:set var="_query" value="${not empty param.type ||not empty param.branchId ||not empty param.startTime ||not empty param.endTime || not empty param.code || not empty param.sort}"/>
                                         <c:if test="${_query}">
                                             <button type="button"
-                                                    class="resetBtn btn btn-warning btn-sm"
+                                                    class="reloadBtn btn btn-warning btn-sm"
                                                     data-querystr="cls=${param.cls}">
                                                 <i class="fa fa-reply"></i> 重置
                                             </button>

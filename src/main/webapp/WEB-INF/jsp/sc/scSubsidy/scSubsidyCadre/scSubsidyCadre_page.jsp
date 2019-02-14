@@ -96,7 +96,7 @@
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                    <button type="button" class="reloadBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/sc/scSubsidyCadre?cls=${cls}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置

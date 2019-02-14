@@ -74,7 +74,7 @@
                                                 查找</a>
 
                                             <c:if test="${_query}">&nbsp;
-                                                <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
+                                                <button type="button" class="reloadBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>

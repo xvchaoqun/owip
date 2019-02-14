@@ -1,6 +1,6 @@
 package sys.helper;
 
-import domain.cis.CisInspectorView;
+import domain.cis.CisInspector;
 import service.cis.CisInspectObjService;
 import service.cis.CisInspectorService;
 import sys.tags.CmTag;
@@ -12,13 +12,13 @@ import java.util.List;
  */
 public class CisHelper {
 
-    public static List<CisInspectorView> getCisInspectors(Integer objId) {
+    public static List<CisInspector> getCisInspectors(Integer objId) {
 
         CisInspectObjService cisInspectObjService = CmTag.getBean(CisInspectObjService.class);
         return cisInspectObjService.getInspectors(objId);
     }
 
-    public static CisInspectorView getCisInspector(Integer id) {
+    public static CisInspector getCisInspector(Integer id) {
 
         CisInspectorService cisInspectorService = CmTag.getBean(CisInspectorService.class);
         return cisInspectorService.getInspector(id);

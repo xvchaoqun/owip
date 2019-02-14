@@ -27,10 +27,10 @@ public class ScMotionService extends ScBaseMapper {
         if(scMotions.size()==0) return DateUtils.formatDate(holdDate, "yyyyMMdd0101");
 
         ScMotion scMotion = scMotions.get(0);
-        String code = scMotion.getCode();
+        String seq = scMotion.getSeq();
 
         return DateUtils.formatDate(holdDate, "yyyyMMdd01")
-                + String.format("%02d", Integer.valueOf(code.substring(10, 12))+1);
+                + String.format("%02d", Integer.valueOf(seq.substring(10, 12))+1);
     }
 
     @Transactional

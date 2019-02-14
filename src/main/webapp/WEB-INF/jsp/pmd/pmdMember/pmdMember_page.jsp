@@ -99,7 +99,7 @@
                         data-url="${ctx}/pmd/pmdMember"
                         data-querystr="cls=${param.cls}&backToPartyList=${param.backToPartyList}&partyId=${param.partyId}&branchId=${param.branchId}&monthId=${param.monthId}"
                         data-target="#body-content-view"
-                        class="resetBtn btn btn-warning btn-sm">
+                        class="reloadBtn btn btn-warning btn-sm">
                     <i class="fa fa-reply"></i> 重置
                 </button>
             </c:if>

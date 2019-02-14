@@ -1,0 +1,123 @@
+package service.dr;
+
+import domain.dr.DrVoterType;
+import domain.dr.DrVoterTypeExample;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class DrVoterTypeService extends DrBaseMapper {
+
+    /*public boolean idDuplicate(Integer id, String code){
+
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
+
+        DrVoterTypeExample example = new DrVoterTypeExample();
+        DrVoterTypeExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andStatusEqualTo(true);
+        if(id!=null) criteria.andIdNotEqualTo(id);
+
+        return drVoterTypeMapper.countByExample(example) > 0;
+    }*/
+
+    @Transactional
+    @CacheEvict(value="DrVoterType:ALL", allEntries = true)
+    public void insertSelective(DrVoterType record){
+
+        String whereSql = "tpl_id=" + record.getTplId();
+        record.setSortOrder(getNextSortOrder("dr_voter_type", whereSql));
+        drVoterTypeMapper.insertSelective(record);
+    }
+
+    @Transactional
+    @CacheEvict(value="DrVoterType:ALL", allEntries = true)
+    public void del(Integer id){
+
+        drVoterTypeMapper.deleteByPrimaryKey(id);
+    }
+
+    @Transactional
+    @CacheEvict(value="DrVoterType:ALL", allEntries = true)
+    public void batchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        DrVoterTypeExample example = new DrVoterTypeExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        drVoterTypeMapper.deleteByExample(example);
+    }
+
+    @Transactional
+    @CacheEvict(value="DrVoterType:ALL", allEntries = true)
+    public int updateByPrimaryKeySelective(DrVoterType record){
+        return drVoterTypeMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Cacheable(value="DrVoterType:ALL")
+    public Map<Integer, DrVoterType> findAll(int tplId) {
+
+        DrVoterTypeExample example = new DrVoterTypeExample();
+        example.createCriteria().andTplIdEqualTo(tplId);
+        example.setOrderByClause("sort_order asc");
+        List<DrVoterType> drVoterTypees = drVoterTypeMapper.selectByExample(example);
+        Map<Integer, DrVoterType> map = new LinkedHashMap<>();
+        for (DrVoterType drVoterType : drVoterTypees) {
+            map.put(drVoterType.getId(), drVoterType);
+        }
+
+        return map;
+    }
+
+    /**
+     * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
+     * @param id
+     * @param addNum
+     */
+    @Transactional
+    @CacheEvict(value = "DrVoterType:ALL", allEntries = true)
+    public void changeOrder(int id, int addNum) {
+
+        if(addNum == 0) return ;
+
+        byte orderBy = ORDER_BY_ASC;
+
+        DrVoterType entity = drVoterTypeMapper.selectByPrimaryKey(id);
+        Integer tplId = entity.getTplId();
+        Integer baseSortOrder = entity.getSortOrder();
+
+        DrVoterTypeExample example = new DrVoterTypeExample();
+        if (addNum*orderBy > 0) {
+
+            example.createCriteria().andTplIdEqualTo(tplId).andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        }else {
+
+            example.createCriteria().andTplIdEqualTo(tplId).andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<DrVoterType> overEntities = drVoterTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if(overEntities.size()>0) {
+
+            DrVoterType targetEntity = overEntities.get(overEntities.size()-1);
+
+            String whereSql = "tpl_id=" + tplId;
+            if (addNum*orderBy > 0)
+                commonMapper.downOrder("dr_voter_type", whereSql, baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("dr_voter_type", whereSql, baseSortOrder, targetEntity.getSortOrder());
+
+            DrVoterType record = new DrVoterType();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            drVoterTypeMapper.updateByPrimaryKeySelective(record);
+        }
+    }
+}

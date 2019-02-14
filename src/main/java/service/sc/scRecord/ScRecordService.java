@@ -41,10 +41,10 @@ public class ScRecordService extends ScBaseMapper {
         if(scRecords.size()==0) return DateUtils.formatDate(holdDate, "yyyyMMdd0101");
 
         ScRecordView scRecord = scRecords.get(0);
-        String code = scRecord.getCode();
+        String seq = scRecord.getSeq();
 
         return DateUtils.formatDate(holdDate, "yyyyMMdd01")
-                + String.format("%02d", Integer.valueOf(code.substring(10, 12))+1);
+                + String.format("%02d", Integer.valueOf(seq.substring(10, 12))+1);
     }
 
     @Transactional

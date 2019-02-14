@@ -69,7 +69,7 @@
                 data-url="${ctx}/pmd/pmdMember"
                 data-querystr="cls=${param.cls}&partyId=${param.partyId}&branchId=${param.branchId}&monthId=${param.monthId}"
                 data-target="#modal .modal-content"
-                class="resetBtn btn btn-warning btn-sm">
+                class="reloadBtn btn btn-warning btn-sm">
           <i class="fa fa-reply"></i> 重置
         </button>
       </c:if>

@@ -366,7 +366,7 @@ public class CadreCompanyService extends BaseMapper {
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-    // 导出统计表 （最多支持5个兼职类别）
+    // 导出统计表 （最多支持6个兼职类别）
     public void exportStat(byte cadreStatus, HttpServletResponse response) throws IOException {
 
         Map<Integer, CadreCompanyStatBean> records = listCadreCompanyStatBeans(String.valueOf(cadreStatus));
@@ -399,7 +399,7 @@ public class CadreCompanyService extends BaseMapper {
 
         Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
         List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
-        if(companyTypeList.size()>6) { // 最多支持5个兼职类别
+        if(companyTypeList.size()>6) { // 最多支持6个兼职类别
             companyTypeList = companyTypeList.subList(0, 6);
         }
         row = sheet.getRow(3);
@@ -508,7 +508,7 @@ public class CadreCompanyService extends BaseMapper {
 
         Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
         List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
-        if(companyTypeList.size()>6) { // 最多支持5个兼职类别
+        if(companyTypeList.size()>6) { // 最多支持6个兼职类别
             companyTypeList = companyTypeList.subList(0, 6);
         }
         row = sheet.getRow(3);
@@ -541,7 +541,7 @@ public class CadreCompanyService extends BaseMapper {
 
         Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
         List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
-        if(companyTypeList.size()>6) { // 最多支持5个兼职类别
+        if(companyTypeList.size()>6) { // 最多支持6个兼职类别
             companyTypeList = companyTypeList.subList(0, 6);
         }
 

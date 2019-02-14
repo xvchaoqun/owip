@@ -1,10 +1,7 @@
 package controller.cis;
 
 import domain.cis.CisInspector;
-import domain.cis.CisInspectorView;
-import domain.cis.CisInspectorViewExample;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import domain.cis.CisInspectorExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -51,8 +48,6 @@ public class CisInspectorController extends CisBaseController {
     @RequiresPermissions("cisInspector:list")
     @RequestMapping("/cisInspector_data")
     public void cisInspector_data(HttpServletResponse response,
-                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "cis_inspector") String sort,
-                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                   Integer userId,
                                   @RequestParam(required = false,
                                           defaultValue = CisConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
@@ -68,9 +63,9 @@ public class CisInspectorController extends CisBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CisInspectorViewExample example = new CisInspectorViewExample();
-        CisInspectorViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        CisInspectorExample example = new CisInspectorExample();
+        CisInspectorExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
+        example.setOrderByClause("sort_order desc");
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -83,12 +78,12 @@ public class CisInspectorController extends CisBaseController {
             return;
         }
 
-        int count = cisInspectorViewMapper.countByExample(example);
+        int count = cisInspectorMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CisInspectorView> records = cisInspectorViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CisInspector> records = cisInspectorMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -188,14 +183,14 @@ public class CisInspectorController extends CisBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cisInspector_export(CisInspectorViewExample example, HttpServletResponse response) {
+    public void cisInspector_export(CisInspectorExample example, HttpServletResponse response) {
 
-        List<CisInspectorView> records = cisInspectorViewMapper.selectByExample(example);
+        List<CisInspector> records = cisInspectorMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"考察组成员", "排序"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CisInspectorView record = records.get(i);
+            CisInspector record = records.get(i);
             String[] values = {
                     record.getUserId() + "",
                     record.getSortOrder() + ""
@@ -219,36 +214,24 @@ public class CisInspectorController extends CisBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CisInspectorViewExample example = new CisInspectorViewExample();
-        example.setOrderByClause("status asc, sort_order desc");
+        searchStr = StringUtils.trimToNull(searchStr);
+        if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        if (StringUtils.isNotBlank(searchStr)) {
-            CisInspectorViewExample.Criteria criteria = example.or().andUsernameLike("%" + searchStr + "%");
-            CisInspectorViewExample.Criteria criteria1 = example.or().andCodeLike("%" + searchStr + "%");
-            CisInspectorViewExample.Criteria criteria2 = example.or().andRealnameLike("%" + searchStr + "%");
-            if (status != null) {
-                criteria.andStatusEqualTo(status);
-                criteria1.andStatusEqualTo(status);
-                criteria2.andStatusEqualTo(status);
-            }
-        }else if (status != null) {
-            example.createCriteria().andStatusEqualTo(status);
-        }
-
-        int count = cisInspectorViewMapper.countByExample(example);
+        int count = iCisMapper.countInspectorList(status, searchStr);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CisInspectorView> cisInspectors = cisInspectorViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CisInspector> cisInspectors = iCisMapper.selectInspectorList(status, searchStr,
+         new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map> options = new ArrayList<Map>();
         if (null != cisInspectors && cisInspectors.size() > 0) {
 
-            for (CisInspectorView cisInspector : cisInspectors) {
+            for (CisInspector cisInspector : cisInspectors) {
 
                 Map option = new HashMap();
-                option.put("text", cisInspector.getRealname());
+                option.put("text", cisInspector.getUser().getRealname());
                 option.put("id", cisInspector.getId() + "");
                 option.put("del", cisInspector.getStatus()!=CisConstants.CIS_INSPECTOR_STATUS_NOW);
                 options.add(option);

@@ -572,7 +572,7 @@
             return type;
         }, width: 200
         },
-        {label: '考察组负责人', name: 'chiefInspector.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+        {label: '考察组负责人', name: 'chiefInspector.user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 
             var val = $.trim(cellvalue);
             if(val=='') return '--'
@@ -584,17 +584,13 @@
         {
             label: '考察组成员', name: 'inspectors', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.inspectorType == '<%=CisConstants.CIS_INSPECTOR_TYPE_OTHER%>') return '-'
-            if (cellvalue == undefined || cellvalue.length == 0) return '';
+            if (cellvalue == undefined || cellvalue.length == 0) return '--';
             var names = []
             cellvalue.forEach(function(inspector, i){
-                if (inspector.realname)
-                    names.push(inspector.realname)
+                if (inspector.user.realname)
+                    names.push(inspector.user.realname)
             })
-            /*for (var i in cellvalue) {
-                var inspector = cellvalue[i];
-                if (inspector.realname)
-                    names.push(inspector.realname)
-            }*/
+
             return names.join("，")
         }, width: 250
         },

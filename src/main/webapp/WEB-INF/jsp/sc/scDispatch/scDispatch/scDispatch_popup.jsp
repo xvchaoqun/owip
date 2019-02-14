@@ -43,7 +43,7 @@
                         data-url="${ctx}/sc/scDispatch_popup"
                         data-querystr="cls=${param.cls}"
                         data-target="#modal .modal-content"
-                        class="resetBtn btn btn-warning btn-sm">
+                        class="reloadBtn btn btn-warning btn-sm">
                     <i class="fa fa-reply"></i> 重置
                 </button>
             </c:if>

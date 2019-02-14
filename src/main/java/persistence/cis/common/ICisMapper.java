@@ -1,9 +1,11 @@
 package persistence.cis.common;
 
 import domain.cis.CisInspectObjView;
+import domain.cis.CisInspector;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -12,6 +14,10 @@ import java.util.List;
  */
 public interface ICisMapper {
 
+    // 根据账号、姓名、学工号查找考察组成员
+    List<CisInspector> selectInspectorList(@Param("status") Byte status,
+                                           @Param("search") String search, RowBounds rowBounds);
+    int countInspectorList(@Param("status") Byte status, @Param("search") String search);
 
     // 干部任免审批表-待选干部考察报告
     @ResultMap("persistence.cis.CisInspectObjViewMapper.BaseResultMap")

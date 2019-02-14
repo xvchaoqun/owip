@@ -29,7 +29,7 @@
                 <button type="button"
                         data-url="${ctx}/sc/scMotion_topics?id=${param.id}"
                         data-target="#modal .modal-content"
-                        class="resetBtn btn btn-warning btn-sm">
+                        class="reloadBtn btn btn-warning btn-sm">
                     <i class="fa fa-reply"></i> 重置
                 </button>
             </c:if>

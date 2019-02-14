@@ -2,8 +2,6 @@ package service.cis;
 
 import domain.cis.CisInspector;
 import domain.cis.CisInspectorExample;
-import domain.cis.CisInspectorView;
-import domain.cis.CisInspectorViewExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,17 +13,17 @@ import java.util.List;
 @Service
 public class CisInspectorService extends CisBaseMapper {
 
-    public CisInspectorView getInspector(int id){
+    public CisInspector getInspector(int id){
 
-        return cisInspectorViewMapper.selectByPrimaryKey(id);
+        return cisInspectorMapper.selectByPrimaryKey(id);
     }
 
-    public List<CisInspectorView> getInspectors(byte status){
+    public List<CisInspector> getInspectors(byte status){
 
-        CisInspectorViewExample example = new CisInspectorViewExample();
+        CisInspectorExample example = new CisInspectorExample();
         example.createCriteria().andStatusEqualTo(status);
         example.setOrderByClause("sort_order desc");
-        return cisInspectorViewMapper.selectByExample(example);
+        return cisInspectorMapper.selectByExample(example);
     }
 
     @Transactional
@@ -39,26 +37,32 @@ public class CisInspectorService extends CisBaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        CisInspector record = new CisInspector();
-        record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_HISTORY);
+        for (Integer id : ids) {
 
-        CisInspectorExample example = new CisInspectorExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+            CisInspector record = new CisInspector();
+            record.setId(id);
+            record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_HISTORY);
+            record.setSortOrder(getNextSortOrder("cis_inspector",
+            "status=" + CisConstants.CIS_INSPECTOR_STATUS_HISTORY));
 
-        cisInspectorMapper.updateByExampleSelective(record, example);
+            cisInspectorMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     public void reuse(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
-        CisInspector record = new CisInspector();
-        record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_NOW);
+        for (Integer id : ids) {
 
-        CisInspectorExample example = new CisInspectorExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+            CisInspector record = new CisInspector();
+            record.setId(id);
+            record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_NOW);
+            record.setSortOrder(getNextSortOrder("cis_inspector",
+            "status=" + CisConstants.CIS_INSPECTOR_STATUS_NOW));
 
-        cisInspectorMapper.updateByExampleSelective(record, example);
+            cisInspectorMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     @Transactional

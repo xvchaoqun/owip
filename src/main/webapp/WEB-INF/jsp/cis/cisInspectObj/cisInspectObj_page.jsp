@@ -24,7 +24,6 @@
                                 <button id="inspectorEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/cisObjInspectors"
                                    data-grid-id="#jqGrid"
-
                                    data-id-name="objId"><i class="fa fa-edit"></i>
                                     编辑考察组成员</button>
                             </shiro:hasPermission>
@@ -105,8 +104,8 @@
                                             <label>考察组成员</label>
                                             <select required data-rel="select2" name="inspectorId" data-placeholder="请选择"  data-width="270">
                                                 <option></option>
-                                                <c:forEach var="iv" items="${inspectors}">
-                                                    <option value="${iv.id}">${iv.realname}-${iv.code}</option>
+                                                <c:forEach var="i" items="${inspectors}">
+                                                    <option value="${i.id}">${i.user.realname}-${i.user.code}</option>
                                                 </c:forEach>
                                             </select>
                                             <script type="text/javascript">
@@ -118,7 +117,7 @@
                                                 查找</a>
 
                                             <c:if test="${_query}">&nbsp;
-                                                <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
+                                                <button type="button" class="reloadBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>

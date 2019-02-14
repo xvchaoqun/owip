@@ -2,15 +2,7 @@ package service.cis;
 
 import controller.global.OpException;
 import domain.cadre.CadreView;
-import domain.cis.CisInspectObj;
-import domain.cis.CisInspectObjExample;
-import domain.cis.CisInspectObjView;
-import domain.cis.CisInspectObjViewExample;
-import domain.cis.CisInspectorView;
-import domain.cis.CisObjInspector;
-import domain.cis.CisObjInspectorExample;
-import domain.cis.CisObjUnit;
-import domain.cis.CisObjUnitExample;
+import domain.cis.*;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import freemarker.template.TemplateException;
@@ -25,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.util.HtmlUtils;
-import service.BaseMapper;
 import service.common.FreemarkerService;
 import sys.constants.CisConstants;
 import sys.tags.CmTag;
@@ -38,21 +29,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CisInspectObjService extends CisBaseMapper {
 
     @Autowired
     private FreemarkerService freemarkerService;
-    @Autowired
-    private CisObjInspectorService cisObjInspectorService;
 
     // 输出考察报告
     public Map<String, Object> getDataMap(CisInspectObj cisInspectObj) throws IOException, TemplateException {
@@ -74,10 +57,10 @@ public class CisInspectObjService extends CisBaseMapper {
 
         dataMap.put("inspectDate", DateUtils.formatDate(cisInspectObj.getInspectDate(), DateUtils.YYYY_MM_DD_CHINA));
         List<String> names = new ArrayList<>();
-        List<CisInspectorView> inspectors = cisInspectObj.getInspectors();
+        List<CisInspector> inspectors = cisInspectObj.getInspectors();
         if(inspectors!=null && inspectors.size()>0) {
-            for (CisInspectorView inspector : inspectors) {
-                names.add(inspector.getRealname());
+            for (CisInspector inspector : inspectors) {
+                names.add(inspector.getUser().getRealname());
             }
             dataMap.put("inspectors", StringUtils.join(names, "，"));
         }
@@ -86,8 +69,8 @@ public class CisInspectObjService extends CisBaseMapper {
         dataMap.put("content", content);
         dataMap.put("info", freemarkerService.genTextareaSegment(content, "/common/editor.ftl"));
 
-        CisInspectorView chiefInspector = cisInspectObj.getChiefInspector();
-        dataMap.put("chief", chiefInspector.getRealname());
+        CisInspector chiefInspector = cisInspectObj.getChiefInspector();
+        dataMap.put("chief", chiefInspector.getUser().getRealname());
         dataMap.put("remark", cisInspectObj.getRemark());
         //dataMap.put("exportDate", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
@@ -159,22 +142,22 @@ public class CisInspectObjService extends CisBaseMapper {
         return cisInspectObjMapper.updateByPrimaryKeySelective(record);
     }
 
-    public List<CisInspectorView> getInspectors(Integer id) {
+    public List<CisInspector> getInspectors(Integer id) {
 
-        List<CisInspectorView> inspectors = new ArrayList<>();
+        List<CisInspector> inspectors = new ArrayList<>();
         CisObjInspectorExample example = new CisObjInspectorExample();
         example.createCriteria().andObjIdEqualTo(id);
 
         List<CisObjInspector> cisObjInspectors = cisObjInspectorMapper.selectByExample(example);
         for (CisObjInspector cisObjInspector : cisObjInspectors) {
             Integer inspectorId = cisObjInspector.getInspectorId();
-            CisInspectorView cisInspector = cisInspectorViewMapper.selectByPrimaryKey(inspectorId);
+            CisInspector cisInspector = cisInspectorMapper.selectByPrimaryKey(inspectorId);
             inspectors.add(cisInspector);
         }
 
-        Collections.sort(inspectors, new Comparator<CisInspectorView>() {
+        Collections.sort(inspectors, new Comparator<CisInspector>() {
             @Override
-            public int compare(CisInspectorView o1, CisInspectorView o2) {
+            public int compare(CisInspector o1, CisInspector o2) {
                 return o2.getSortOrder().compareTo(o1.getSortOrder());
             }
         });
@@ -198,7 +181,7 @@ public class CisInspectObjService extends CisBaseMapper {
     }
 
     @Transactional
-    public void updateSummary(Integer[] unitIds, Integer[] inspectorIds, CisInspectObj record) {
+    public void updateSummary(Integer[] unitIds, CisInspectObj record) {
 
         cisInspectObjMapper.updateByPrimaryKeySelective(record);
         int objId = record.getId();
@@ -215,8 +198,6 @@ public class CisInspectObjService extends CisBaseMapper {
                 cisObjUnitMapper.insertSelective(_record);
             }
         }
-
-        cisObjInspectorService.updateInspectIds(objId, inspectorIds);
     }
 
     // 导出工作安排
@@ -284,18 +265,18 @@ public class CisInspectObjService extends CisBaseMapper {
 
         // 考察组负责人
         cel = row.getCell(4);
-        CisInspectorView chiefInspector = record.getChiefInspector();
-        cel.setCellValue(chiefInspector==null?"":chiefInspector.getRealname());
+        CisInspector chiefInspector = record.getChiefInspector();
+        cel.setCellValue(chiefInspector==null?"":chiefInspector.getUser().getRealname());
 
         // 考察组成员
         row = sheet.getRow(rowNum++);
         cel = row.getCell(2);
         String _inspectors = "";
         List<String> names = new ArrayList<>();
-        List<CisInspectorView> inspectors = record.getInspectors();
+        List<CisInspector> inspectors = record.getInspectors();
         if(inspectors!=null && inspectors.size()>0) {
-            for (CisInspectorView inspector : inspectors) {
-                names.add(inspector.getRealname());
+            for (CisInspector inspector : inspectors) {
+                names.add(inspector.getUser().getRealname());
             }
             _inspectors = StringUtils.join(names, "，");
         }

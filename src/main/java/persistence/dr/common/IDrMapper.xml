@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.dr.common.IDrMapper">
+    <sql id="selectUserList_where">
+        <where>
+            u.id=i.user_id
+            <if test="status != null">
+                and i.status = #{status}
+            </if>
+            <if test="search != null">
+                and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
+            </if>
+        </where>
+    </sql>
+    <select id="selectMemberList" resultMap="persistence.dr.DrMemberMapper.BaseResultMap" parameterType="map">
+        select i.* from dr_member i, sys_user_view u
+        <include refid="selectUserList_where"/>
+        order by i.status asc, i.sort_order desc
+    </select>
+    <select id="countMemberList" parameterType="map" resultType="java.lang.Integer">
+        select count(i.id) from dr_member i, sys_user_view u
+        <include refid="selectUserList_where"/>
+    </select>
+
+</mapper>

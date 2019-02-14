@@ -9,6 +9,7 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
+    <result column="sc_type" jdbcType="INTEGER" property="scType" />
     <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="post_name" jdbcType="VARCHAR" property="postName" />
     <result column="job" jdbcType="VARCHAR" property="job" />
@@ -47,8 +48,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, seq, motion_id, status, remark, hold_date, unit_post_id, post_name, job, 
-    admin_level, post_type, unit_id, unit_type
+    id, year, seq, motion_id, status, remark, hold_date, sc_type, unit_post_id, post_name, 
+    job, admin_level, post_type, unit_id, unit_type
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scRecord.ScRecordViewExample" resultMap="BaseResultMap">
     select

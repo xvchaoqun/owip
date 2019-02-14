@@ -128,7 +128,7 @@
                        data-target="#tab-content"
                        data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
-                        <button type="button" class="resetBtn btn btn-warning btn-sm"
+                        <button type="button" class="reloadBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/unitPostList"
                                 data-querystr="cls=${cls}&unitId=${param.unitId}"
                                 data-target="#tab-content">

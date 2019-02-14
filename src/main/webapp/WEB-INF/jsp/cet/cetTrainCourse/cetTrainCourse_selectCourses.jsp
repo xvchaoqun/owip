@@ -36,7 +36,7 @@
                         data-url="${ctx}/cet/cetTrainCourse_selectCourses"
                         data-querystr="trainId=${param.trainId}"
                         data-target="#modal .modal-content"
-                        class="resetBtn btn btn-warning btn-sm">
+                        class="reloadBtn btn btn-warning btn-sm">
                     <i class="fa fa-reply"></i> 重置
                 </button>
             </c:if>

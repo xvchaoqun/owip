@@ -1,11 +1,6 @@
 package controller.cis;
 
-import domain.cis.CisInspectObj;
-import domain.cis.CisInspectObjView;
-import domain.cis.CisInspectObjViewExample;
-import domain.cis.CisInspectorView;
-import domain.cis.CisObjInspector;
-import domain.cis.CisObjInspectorExample;
+import domain.cis.*;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,12 +28,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CisInspectObjController extends CisBaseController {
@@ -54,7 +44,7 @@ public class CisInspectObjController extends CisBaseController {
         if(cadreId!=null) {
             modelMap.put("cadre", CmTag.getCadreById(cadreId));
         }
-        List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(CisConstants.CIS_INSPECTOR_STATUS_NOW);
+        List<CisInspector> nowInspectors = cisInspectorService.getInspectors(CisConstants.CIS_INSPECTOR_STATUS_NOW);
         modelMap.put("inspectors", nowInspectors);
 
         return "cis/cisInspectObj/cisInspectObj_page";
@@ -274,11 +264,11 @@ public class CisInspectObjController extends CisBaseController {
     public Map do_cisInspectObj_summary(CisInspectObj record,
                                         MultipartFile _logFile,
                                         @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
-                                        @RequestParam(value = "inspectorIds[]", required = false) Integer[] inspectorIds,
+                                        //@RequestParam(value = "inspectorIds[]", required = false) Integer[] inspectorIds,
                                    HttpServletRequest request) throws IOException, InterruptedException {
 
         record.setLogFile(uploadPdf(_logFile, "cis"));
-        cisInspectObjService.updateSummary( unitIds, inspectorIds, record);
+        cisInspectObjService.updateSummary( unitIds, record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部考察材料、考察单位、考察组成员：%s",record.getId()));
 
         return success(FormUtils.SUCCESS);

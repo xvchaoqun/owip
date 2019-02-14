@@ -95,7 +95,7 @@
                                                 查找</a>
 
                                             <c:if test="${_query}">&nbsp;
-                                                <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                                <button type="button" class="reloadBtn btn btn-warning btn-sm">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -119,8 +119,8 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/cisInspector_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '考察组成员', name: 'realname'},
-            {label: '工作证号', name: 'code'},
+            {label: '考察组成员', name: 'user.realname'},
+            {label: '工作证号', name: 'user.code'},
             {label: '考察干部', name: '_cadres', formatter: function (cellvalue, options, rowObject) {
                     return '<a href="#${ctx}/cisInspectObj?cls=1&inspectorId={0}" target="_blank">查看</a>'
                                     .format(encodeURI(rowObject.id));

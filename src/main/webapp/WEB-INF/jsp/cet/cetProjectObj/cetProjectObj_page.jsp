@@ -470,7 +470,7 @@
                        data-form="#searchForm2"
                        data-url="${ctx}/cet/cetProjectObj?projectId=${cetProject.id}&planId=${cetProjectPlan.id}&trainCourseId=${param.trainCourseId}&planCourseId=${param.planCourseId}&discussGroupId=${param.discussGroupId}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
-                        <button type="button" class="resetBtn btn btn-warning btn-sm"
+                        <button type="button" class="reloadBtn btn btn-warning btn-sm"
                                 data-target="#detail-content-view"
                                 data-url="${ctx}/cet/cetProjectObj?projectId=${cetProject.id}&planId=${cetProjectPlan.id}&traineeTypeId=${traineeTypeId}&cls=${cls}&isQuit=${isQuit}&trainCourseId=${param.trainCourseId}&planCourseId=${param.planCourseId}&discussGroupId=${param.discussGroupId}">
                             <i class="fa fa-reply"></i> 重置

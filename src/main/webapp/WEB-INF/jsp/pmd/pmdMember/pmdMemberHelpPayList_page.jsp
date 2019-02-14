@@ -47,7 +47,7 @@ pageEncoding="UTF-8" %>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button"
                                             data-querystr="cls=${cls}"
-                                            class="resetBtn btn btn-warning btn-sm">
+                                            class="reloadBtn btn btn-warning btn-sm">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
                                 </c:if>

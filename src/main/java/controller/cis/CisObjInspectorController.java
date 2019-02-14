@@ -1,6 +1,6 @@
 package controller.cis;
 
-import domain.cis.CisInspectorView;
+import domain.cis.CisInspector;
 import domain.cis.CisObjInspector;
 import domain.cis.CisObjInspectorExample;
 import domain.cis.CisObjInspectorExample.Criteria;
@@ -25,11 +25,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class CisObjInspectorController extends CisBaseController {
@@ -41,9 +37,9 @@ public class CisObjInspectorController extends CisBaseController {
     @ResponseBody
     public Map cisObjInspectors_tree(int objId) throws IOException {
 
-        List<CisInspectorView> inspectors = cisInspectObjService.getInspectors(objId);
+        List<CisInspector> inspectors = cisInspectObjService.getInspectors(objId);
         Set<Integer> selectIdSet = new HashSet<>();
-        for (CisInspectorView inspector : inspectors) {
+        for (CisInspector inspector : inspectors) {
             selectIdSet.add(inspector.getId());
         }
         TreeNode tree = cisObjInspectorService.getTree(selectIdSet);

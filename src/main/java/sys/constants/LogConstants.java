@@ -24,6 +24,7 @@ public class LogConstants {
     public static final int LOG_PMD = 90; // 党费收缴
     public static final int LOG_CPC = 100; // 干部职数
     public static final int LOG_CRS = 110; // 干部竞争上岗
+    public static final int LOG_DR = 112; // 民主推荐
     public static final int LOG_SC_MOTION = 115; // 干部选拔任用-动议
     public static final int LOG_SC_RECORD = 116; // 干部选拔任用-纪实
     public static final int LOG_SC_MATTER = 120; // 干部选拔任用-个人有关事项
@@ -58,8 +59,10 @@ public class LogConstants {
         LOG_MAP.put(LOG_CPC, "干部职数");
 
         LOG_MAP.put(LOG_CRS, "干部竞争上岗");
+        LOG_MAP.put(LOG_DR, "民主推荐");
 
         LOG_MAP.put(LOG_SC_MOTION, "动议");
+        LOG_MAP.put(LOG_SC_RECORD, "纪实");
         LOG_MAP.put(LOG_SC_MATTER, "个人有关事项");
         LOG_MAP.put(LOG_SC_LETTER, "纪委函询管理");
         LOG_MAP.put(LOG_SC_GROUP, "干部小组会议题");

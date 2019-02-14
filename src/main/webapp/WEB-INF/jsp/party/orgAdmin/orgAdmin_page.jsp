@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${ not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm">
+                    <button type="button" class="reloadBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
                     </button>
                 </c:if>

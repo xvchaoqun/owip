@@ -1,8 +1,14 @@
-package domain.cis;
+package domain.dr;
+
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
 
 import java.io.Serializable;
 
-public class CisInspectorView implements Serializable {
+public class DrMember implements Serializable {
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
     private Integer id;
 
     private Integer userId;
@@ -10,12 +16,6 @@ public class CisInspectorView implements Serializable {
     private Integer sortOrder;
 
     private Byte status;
-
-    private String username;
-
-    private String code;
-
-    private String realname;
 
     private static final long serialVersionUID = 1L;
 
@@ -49,29 +49,5 @@ public class CisInspectorView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
     }
 }
