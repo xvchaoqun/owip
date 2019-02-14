@@ -70,7 +70,7 @@
                 <c:if test="${not empty candidate}">
                     <button id="voteBtn" type="button" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"
                             class="btn btn-success btn-xs">
-                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-check-square-o"></i>
                     </button>
                     <button type="button"
                             data-target="#candidatesDiv"
