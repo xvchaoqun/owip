@@ -69,11 +69,11 @@
                     </button>
                 </c:if>
                 <c:if test="${not empty candidate}">
-                    <button id="voteBtn" type="button" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"
+                    <button id="voteBtn" type="button" title="点击确认修改" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"
                             class="btn btn-success btn-xs">
                         <i class="fa fa-check-square-o"></i>
                     </button>
-                    <button type="button"
+                    <button type="button"  title="点击返回添加"
                             data-target="#candidatesDiv"
                             data-url="${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}"
                             class="reloadBtn btn btn-primary btn-xs">
@@ -96,12 +96,12 @@
                 </c:if>
 
                 <td>
-                    <button class="reloadBtn btn btn-primary btn-xs"
+                    <button class="reloadBtn btn btn-primary btn-xs" title="点击修改"
                             data-target="#candidatesDiv" type="button"
                             data-url="${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}&candidateId=${candidate.id}">
                         <i class="fa fa-edit"></i>
                     </button>
-                    <button class="confirm btn btn-danger btn-xs"
+                    <button class="confirm btn btn-danger btn-xs" title="点击删除"
                             data-title="删除" type="button"
                             data-msg="确定删除【${candidate.user.realname}】？"
                             data-callback="_reloadCandidates"
