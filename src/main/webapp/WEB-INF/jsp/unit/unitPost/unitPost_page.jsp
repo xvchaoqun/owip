@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+        <div id="body-content" class="rownumbers multi-row-head-table"
+             data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
@@ -27,39 +28,47 @@ pageEncoding="UTF-8" %>
             ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
             || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-               <%-- <shiro:hasPermission name="unitPost:edit">
-                    <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/unitPost_au">
-                        <i class="fa fa-plus"></i> 添加</button>
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/unitPost_au"
-                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改</button>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="unitPost:del">
-                    <button data-url="${ctx}/unitPost_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
+                <c:if test="${cls==1}">
+                <div class="type-select">
+                        <span class="typeCheckbox ${param.displayEmpty==1?"checked":""}">
+                        <input ${param.displayEmpty==1?"checked":""} type="checkbox"
+                                                                     value="1"> 只显示空缺岗位
+                        </span>
+                </div>
+                 <shiro:hasPermission name="unitPost:edit">
+                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                        data-url="${ctx}/unitPost_au?jqGrid=jqGrid"
+                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                         修改</button>
+                 </shiro:hasPermission>
+                 <shiro:hasPermission name="unitPost:del">
+                     <button data-url="${ctx}/unitPost_batchDel"
+                             data-title="删除"
+                             data-msg="确定删除这{0}条数据？"
+                             data-grid-id="#jqGrid"
+                             class="jqBatchBtn btn btn-danger btn-sm">
+                         <i class="fa fa-trash"></i> 删除
+                     </button>
+                 </shiro:hasPermission>
+                <shiro:hasPermission name="unitPost:edit">
+
+                    <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                            data-url="${ctx}/unitPost_import"
+                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                        导入
                     </button>
-                </shiro:hasPermission>--%>
-
-                   <div class="type-select">
-<c:if test="${cls==1}">
-                                <span class="typeCheckbox ${param.displayEmpty==1?"checked":""}">
-                                <input ${param.displayEmpty==1?"checked":""} type="checkbox" class="big"
-                                                                              value="1"> 只显示空缺岗位
-                                </span>
-</c:if>
-                       <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                               data-url="${ctx}/unitPost_data"
-                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                           <i class="fa fa-download"></i> 导出</button>
-
-                   </div>
+                </shiro:hasPermission>
+                </c:if>
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/unitPost_data"
+                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出
+                </button>
+                <c:if test="${cls==1}">
+                <span class="text-primary" style="padding-left: 10px">【注：如需单个添加岗位，请进入单位档案页操作】</span>
+                </c:if>
             </div>
+            <div style="clear: both"></div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
@@ -79,34 +88,35 @@ pageEncoding="UTF-8" %>
                                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                        placeholder="请输入岗位名称">
                             </div>
-                        <div class="form-group">
-                            <label>所属单位</label>
-                            <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
-                                    data-placeholder="请选择所属内设机构">
-                                <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
-                            </select>
-                            <script>
-                                $.register.del_select($("#searchForm select[name=unitId]"), 250)
-                            </script>
-                        </div>
-                        <div class="form-group">
-                            <label>单位类型</label>
-                            <select class="multiselect" multiple="" name="unitTypes">
-                                <c:import url="/metaTypes?__code=mc_unit_type"/>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>是否正职</label>
-                            <select name="isPrincipalPost" data-width="100"
-                                    data-rel="select2" data-placeholder="请选择">
-                                <option></option>
-                                <option value="1">是</option>
-                                <option value="0">否</option>
-                            </select>
-                            <script>
-                                $("#searchForm select[name=isPrincipalPost]").val('${param.isPrincipalPost}');
-                            </script>
-                        </div>
+                            <div class="form-group">
+                                <label>所属单位</label>
+                                <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                        data-placeholder="请选择所属内设机构">
+                                    <option value="${unit.id}"
+                                            title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                                </select>
+                                <script>
+                                    $.register.del_select($("#searchForm select[name=unitId]"), 250)
+                                </script>
+                            </div>
+                            <div class="form-group">
+                                <label>单位类型</label>
+                                <select class="multiselect" multiple="" name="unitTypes">
+                                    <c:import url="/metaTypes?__code=mc_unit_type"/>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>是否正职</label>
+                                <select name="isPrincipalPost" data-width="100"
+                                        data-rel="select2" data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=isPrincipalPost]").val('${param.isPrincipalPost}');
+                                </script>
+                            </div>
                             <div class="form-group">
                                 <label>岗位级别</label>
                                 <select required class="form-control" data-rel="select2" name="adminLevel"
@@ -130,16 +140,17 @@ pageEncoding="UTF-8" %>
                                     $("#searchForm select[name=postType]").val('${param.postType}');
                                 </script>
                             </div>
-                        <div class="form-group">
-                            <label>职务类别</label>
-                            <select required data-rel="select2" name="postClass" data-width="100" data-placeholder="请选择">
-                                <option></option>
-                                <c:import url="/metaTypes?__code=mc_post_class"/>
-                            </select>
-                            <script type="text/javascript">
-                                $("#searchForm select[name=postClass]").val(${param.postClass});
-                            </script>
-                        </div>
+                            <div class="form-group">
+                                <label>职务类别</label>
+                                <select required data-rel="select2" name="postClass" data-width="100"
+                                        data-placeholder="请选择">
+                                    <option></option>
+                                    <c:import url="/metaTypes?__code=mc_post_class"/>
+                                </select>
+                                <script type="text/javascript">
+                                    $("#searchForm select[name=postClass]").val(${param.postClass});
+                                </script>
+                            </div>
                             <div class="form-group">
                                 <label>是否占干部职数</label>
                                 <select name="isCpc" data-width="100"
@@ -222,7 +233,8 @@ pageEncoding="UTF-8" %>
 </div>
 <style>
     .type-select {
-        padding: 10px 0 0 5px;
+        float:right;
+        padding: 5px 5px 0px 5px;
     }
 
     .type-select a {
@@ -231,7 +243,7 @@ pageEncoding="UTF-8" %>
 
     .type-select .typeCheckbox {
         padding: 10px;
-        font-size: 16px;
+        /*font-size: 16px;*/
     }
 
     .type-select .typeCheckbox.checked {
@@ -249,7 +261,7 @@ pageEncoding="UTF-8" %>
 </script>
 <script>
     $(":checkbox", ".typeCheckbox").click(function () {
-        $("#searchForm input[name=displayEmpty]").val($(this).prop("checked")?1:0);
+        $("#searchForm input[name=displayEmpty]").val($(this).prop("checked") ? 1 : 0);
         $("#searchForm .jqSearchBtn").click();
     })
 
@@ -257,7 +269,7 @@ pageEncoding="UTF-8" %>
     $.register.multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
     $.register.user_select($('#searchForm select[name=cadreId]'));
     $("#jqGrid").jqGrid({
-        rownumbers:true,
+        rownumbers: true,
         url: '${ctx}/unitPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModel
     }).jqGrid("setFrozenColumns");

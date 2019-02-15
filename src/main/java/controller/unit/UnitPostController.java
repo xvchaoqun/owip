@@ -1,6 +1,9 @@
 package controller.unit;
 
+import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.unit.Unit;
@@ -11,6 +14,9 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -22,10 +28,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.HtmlUtils;
 import service.unit.UnitPostAllocationInfoBean;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -35,12 +44,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class UnitPostController extends BaseController {
@@ -55,6 +59,86 @@ public class UnitPostController extends BaseController {
         modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
 
         return "unit/unitPost/unitPost_cadres";
+    }
+
+    @RequiresPermissions("unitPost:import")
+    @RequestMapping("/unitPost_import")
+    public String unitPost_import(ModelMap modelMap) {
+
+        return "unit/unitPost/unitPost_import";
+    }
+
+    @RequiresPermissions("unitPost:import")
+    @RequestMapping(value = "/unitPost_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_unitPost_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<UnitPost> records = new ArrayList<>();
+        int row = 0;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            UnitPost record = new UnitPost();
+            row++;
+            String code = StringUtils.trimToNull(xlsRow.get(0));
+             if(StringUtils.isBlank(code)){
+                throw new OpException("第{0}行岗位编号为空", row);
+            }
+            record.setCode(code);
+
+            String name = StringUtils.trimToNull(xlsRow.get(1));
+             if(StringUtils.isBlank(name)){
+                throw new OpException("第{0}行岗位名称为空", row);
+            }
+            record.setName(name);
+
+            String unitCode = StringUtils.trimToNull(xlsRow.get(2));
+            if(StringUtils.isBlank(unitCode)){
+                throw new OpException("第{0}行单位编码为空", row);
+            }
+            Unit unit = unitService.findUnitByCode(unitCode);
+            if(unit==null){
+                throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+            }
+            record.setUnitId(unit.getId());
+
+            record.setJob(StringUtils.trimToNull(xlsRow.get(3)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(9)));
+            record.setIsPrincipalPost(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(4)), "是"));
+            record.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(8)), "是"));
+
+            String adminLevel = StringUtils.trimToNull(xlsRow.get(5));
+            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
+            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
+            record.setAdminLevel(adminLevelType.getId());
+
+            String post = StringUtils.trimToNull(xlsRow.get(6));
+            MetaType postType = CmTag.getMetaTypeByName("mc_post", post);
+            if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, post);
+            record.setPostType(postType.getId());
+
+            String postClass = StringUtils.trimToNull(xlsRow.get(7));
+            MetaType postClassType = CmTag.getMetaTypeByName("mc_post_class", postClass);
+            if (postClassType == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, postClass);
+            record.setPostClass(postClassType.getId());
+
+            record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
+            records.add(record);
+        }
+
+        int addCount = unitPostService.importUnitPosts(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     @RequiresPermissions("unitPost:list")
@@ -389,7 +473,7 @@ public class UnitPostController extends BaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "干部岗位库_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = String.format("干部岗位库(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

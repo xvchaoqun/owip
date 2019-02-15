@@ -84,10 +84,10 @@
                                     </shiro:hasPermission>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:import">
-                                    <a class="popupBtn btn btn-primary btn-sm tooltip-success"
+                                    <button class="popupBtn btn btn-primary btn-sm tooltip-success"
                                        data-url="${ctx}/cadre_import?status=${status}"
                                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                        导入</a>
+                                        导入</button>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:export">
                                     <div class="btn-group">

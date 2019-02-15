@@ -1,4 +1,6 @@
 
+
+
 20190215
 更新 西交大、南航
 
@@ -8,7 +10,11 @@
 
 drop view cis_inspector_view;
 
-民主推荐 -> mt_sctype_dr
+*民主推荐 -> mt_sctype_dr
+
+
+ALTER TABLE `unit_post`
+	ADD UNIQUE INDEX `code` (`code`);
 
 20190209
 

@@ -19,11 +19,11 @@
     <c:if test="${cls==1}">
     <shiro:hasPermission name="unitPost:edit">
         <button class="popupBtn btn btn-info btn-sm"
-                data-url="${ctx}/unitPost_au?unitId=${param.unitId}">
+                data-url="${ctx}/unitPost_au?unitId=${param.unitId}&jqGrid=jqGrid2">
             <i class="fa fa-plus"></i> 添加
         </button>
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                data-url="${ctx}/unitPost_au?unitId=${param.unitId}"
+                data-url="${ctx}/unitPost_au?unitId=${param.unitId}&jqGrid=jqGrid2"
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
             修改
         </button>

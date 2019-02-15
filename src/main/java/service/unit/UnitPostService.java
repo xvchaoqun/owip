@@ -50,6 +50,15 @@ public class UnitPostService extends BaseMapper {
 
         return unitPostMapper.countByExample(example) > 0;
     }
+
+    public UnitPost getByCode(String code){
+
+        UnitPostExample example = new UnitPostExample();
+        UnitPostExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+        List<UnitPost> unitPosts = unitPostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return unitPosts.size()==1?unitPosts.get(0):null;
+    }
     
     // 查询某单位下的所有岗位（包含已撤销）
     public List<UnitPost> list(int unitId) {
@@ -86,6 +95,25 @@ public class UnitPostService extends BaseMapper {
         record.setSortOrder(getNextSortOrder("unit_post",
                 String.format("unit_id=%s and status=%s", record.getUnitId(), record.getStatus())));
         unitPostMapper.insertSelective(record);
+    }
+
+    @Transactional
+    public int importUnitPosts(List<UnitPost> records) {
+
+        int addCount = 0;
+        for (UnitPost record : records) {
+            String code = record.getCode();
+            UnitPost unitPost = getByCode(code);
+            if(unitPost==null){
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(unitPost.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
     }
 
     @Transactional
