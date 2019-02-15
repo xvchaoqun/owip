@@ -124,8 +124,9 @@ public class DrOfflineController extends DrBaseController {
     @RequiresPermissions("drOffline:edit")
     @RequestMapping("/drOffline_result")
     public String drOffline_result(Integer id, ModelMap modelMap) {
+
         if (id != null) {
-            DrOffline drOffline = drOfflineMapper.selectByPrimaryKey(id);
+            DrOfflineView drOffline = iDrMapper.getDrOfflineView(id);
             modelMap.put("drOffline", drOffline);
 
             Integer tplId = drOffline.getVoterTypeTplId();
@@ -172,7 +173,7 @@ public class DrOfflineController extends DrBaseController {
                     Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
-            pageSize = 8;
+            pageSize = 10;
         }
         if (null == pageNo) {
             pageNo = 1;

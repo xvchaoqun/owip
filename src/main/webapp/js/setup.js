@@ -591,6 +591,7 @@ $(document).on("click", " .reloadBtn", function () {
 
     $target.renderUrl({
         url: url,
+        op:$this.data("op"),
         params: querystr==''?null:("&" + querystr)
     });
 });

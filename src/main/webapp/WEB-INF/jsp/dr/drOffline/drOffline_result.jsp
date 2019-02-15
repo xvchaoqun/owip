@@ -6,9 +6,12 @@
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="hideView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-backward"></i>
-                返回</a>
+                返回
+            </a>
         </h4>
-
+        <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+                    【编号】${drOffline.code}&nbsp;&nbsp;【推荐岗位】${drOffline.postName}
+        </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
@@ -30,7 +33,7 @@
                                 </h4>
                             </div>
                             <div class="widget-body">
-                                <div class="widget-main" style="margin-bottom: 10px; height: 420px;">
+                                <div class="widget-main" style="margin-bottom: 10px; height: 480px;">
                                     <form class="form-horizontal" action="${ctx}/drOffline_result"
                                           id="resultForm" method="post">
                                         <input type="hidden" name="id" value="${param.id}">
@@ -150,7 +153,7 @@
                                 </h4>
                             </div>
                             <div class="widget-body">
-                                <div class="widget-main" style="margin-bottom: 10px; height: 420px;" id="candidatesDiv">
+                                <div class="widget-main" style="margin-bottom: 10px; height: 480px;" id="candidatesDiv">
                                     <c:import url="/drOffline_addCandidate?offlineId=${drOffline.id}"/>
                                 </div>
                                 <div class="modal-footer center">

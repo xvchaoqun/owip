@@ -75,7 +75,7 @@
                     </button>
                     <button type="button"  title="点击返回添加"
                             data-target="#candidatesDiv"
-                            data-url="${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}"
+                            data-url="${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}&pageNo=${param.pageNo}"
                             class="reloadBtn btn btn-primary btn-xs">
                         <i class="fa fa-reply"></i>
                     </button>
@@ -98,7 +98,7 @@
                 <td>
                     <button class="reloadBtn btn btn-primary btn-xs" title="点击修改"
                             data-target="#candidatesDiv" type="button"
-                            data-url="${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}&candidateId=${candidate.id}">
+                            data-url="${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}&candidateId=${candidate.id}&pageNo=${param.pageNo}">
                         <i class="fa fa-edit"></i>
                     </button>
                     <button class="confirm btn btn-danger btn-xs" title="点击删除"
@@ -123,7 +123,7 @@
 
     function _reloadCandidates() {
 
-        $("#candidatesDiv").load("${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}")
+        $("#candidatesDiv").load("${ctx}/drOffline_addCandidate?offlineId=${drOffline.id}&pageNo=${param.pageNo}")
     }
 
     <c:if test="${drOffline.needVoterType}">
