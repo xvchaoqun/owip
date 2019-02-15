@@ -149,6 +149,12 @@
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
             <version>2.3.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- <dependency>
             <groupId>com.artofsolving</groupId>
@@ -431,6 +437,12 @@
             <groupId>org.apache.axis2</groupId>
             <artifactId>axis2-transport-local</artifactId>
             <version>1.6.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.axis2</groupId>
