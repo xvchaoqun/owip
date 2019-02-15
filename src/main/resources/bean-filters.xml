@@ -25,6 +25,8 @@
                 <!--<value>(persistence|service|controller)\.sc\..*</value>
                 <value>(persistence|service|controller)\.dispatch\..*</value>-->
 
+                <value>(persistence|service|controller)\.dr\..*</value>
+
                 <value>(persistence|service|controller)\.verify\..*</value>
 
                 <!--与modify模块有关联-->
