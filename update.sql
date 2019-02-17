@@ -2,7 +2,7 @@
 20190217
 
 更新 common-utils
-*sample_cadreParty ->  sample_cadreParty2
+*sample_cadreParty ->  sample_cadreParty_ow
 
 ALTER TABLE `cadre`
 	CHANGE COLUMN `type_id` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据' AFTER `user_id`,

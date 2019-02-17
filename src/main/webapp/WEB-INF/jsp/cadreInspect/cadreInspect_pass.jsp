@@ -15,8 +15,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">干部类型</label>
-            <div class="col-xs-6">
+            <label class="col-xs-3 control-label">干部类型</label>
+            <div class="col-xs-8">
                 <div class="input-group">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                         <input required type="radio" name="type" id="type0" value="1" ${cadre.type!=2?"checked":""}>
@@ -34,8 +34,8 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">是否涉密</label>
-            <div class="col-xs-6">
+            <label class="col-xs-3 control-label">是否涉密</label>
+            <div class="col-xs-8">
                 <input type="checkbox" class="big" name="state" ${cadre.state?"checked":""}/>
             </div>
         </div>
