@@ -224,63 +224,63 @@ public class DispatchWorkFileAuthExample {
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIsNull() {
-            addCriterion("post_id is null");
+        public Criteria andPostTypeIsNull() {
+            addCriterion("post_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIsNotNull() {
-            addCriterion("post_id is not null");
+        public Criteria andPostTypeIsNotNull() {
+            addCriterion("post_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdEqualTo(Integer value) {
-            addCriterion("post_id =", value, "postId");
+        public Criteria andPostTypeEqualTo(Integer value) {
+            addCriterion("post_type =", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotEqualTo(Integer value) {
-            addCriterion("post_id <>", value, "postId");
+        public Criteria andPostTypeNotEqualTo(Integer value) {
+            addCriterion("post_type <>", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdGreaterThan(Integer value) {
-            addCriterion("post_id >", value, "postId");
+        public Criteria andPostTypeGreaterThan(Integer value) {
+            addCriterion("post_type >", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("post_id >=", value, "postId");
+        public Criteria andPostTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("post_type >=", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdLessThan(Integer value) {
-            addCriterion("post_id <", value, "postId");
+        public Criteria andPostTypeLessThan(Integer value) {
+            addCriterion("post_type <", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdLessThanOrEqualTo(Integer value) {
-            addCriterion("post_id <=", value, "postId");
+        public Criteria andPostTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("post_type <=", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIn(List<Integer> values) {
-            addCriterion("post_id in", values, "postId");
+        public Criteria andPostTypeIn(List<Integer> values) {
+            addCriterion("post_type in", values, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotIn(List<Integer> values) {
-            addCriterion("post_id not in", values, "postId");
+        public Criteria andPostTypeNotIn(List<Integer> values) {
+            addCriterion("post_type not in", values, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdBetween(Integer value1, Integer value2) {
-            addCriterion("post_id between", value1, value2, "postId");
+        public Criteria andPostTypeBetween(Integer value1, Integer value2) {
+            addCriterion("post_type between", value1, value2, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("post_id not between", value1, value2, "postId");
+        public Criteria andPostTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("post_type not between", value1, value2, "postType");
             return (Criteria) this;
         }
     }

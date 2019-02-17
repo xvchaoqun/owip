@@ -42,11 +42,11 @@ public class CadreAdminLevelService extends BaseMapper {
         return cadreAdminLevelMapper.selectByExample(example);
     }
 
-    public CadreAdminLevel getPresentByCadreId(int cadreId, Integer adminLevelId){
+    public CadreAdminLevel getPresentByCadreId(int cadreId, Integer adminLevel){
 
-        if(adminLevelId==null) return null;
+        if(adminLevel==null) return null;
         CadreAdminLevelExample example = new CadreAdminLevelExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId).andAdminLevelIdEqualTo(adminLevelId);
+        example.createCriteria().andCadreIdEqualTo(cadreId).andAdminLevelEqualTo(adminLevel);
 
         List<CadreAdminLevel> cadreAdminLevels = cadreAdminLevelMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         return (cadreAdminLevels.size()==1)?cadreAdminLevels.get(0):null;

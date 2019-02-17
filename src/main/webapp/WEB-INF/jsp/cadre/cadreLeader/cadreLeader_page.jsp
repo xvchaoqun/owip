@@ -102,7 +102,7 @@
             <c:if test="${!_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
-            {label: '行政级别', name: 'cadre.typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '行政级别', name: 'cadre.adminLevel', formatter:$.jgrid.formatter.MetaType},
             { label: '类别',  name: 'typeId', formatter: $.jgrid.formatter.MetaType},
             { label: '分管工作', align:'left', name: 'job', width: 750 }
 

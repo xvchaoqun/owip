@@ -1,11 +1,7 @@
 package service.party;
 
 import controller.global.OpException;
-import domain.party.Party;
-import domain.party.PartyMember;
-import domain.party.PartyMemberExample;
-import domain.party.PartyMemberGroup;
-import domain.party.PartyMemberGroupExample;
+import domain.party.*;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +92,25 @@ public class PartyMemberGroupService extends BaseMapper {
         return partyMemberGroupMapper.insertSelective(record);
     }
 
+    @Transactional
+    public int bacthImport(List<PartyMemberGroup> records) {
+
+        int addCount = 0;
+        for (PartyMemberGroup record : records) {
+
+            PartyMemberGroup _record = getPresentGroup(record.getPartyId());
+            if(_record==null){
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(_record.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
+    }
+
    /* @Transactional
     public void del(Integer id) {
 
@@ -142,6 +157,9 @@ public class PartyMemberGroupService extends BaseMapper {
         if (presentGroup!=null && presentGroup.getId().intValue()!= record.getId() && record.getIsPresent()) {
             clearPresentGroup(record.getPartyId());
             rebuildPresentGroupAdmin(record.getId());
+        }
+        if(record.getActualTranTime()==null){
+            commonMapper.excuteSql("update ow_party_member_group set actual_tran_time=null where id="+ record.getId());
         }
         return partyMemberGroupMapper.updateByPrimaryKeySelective(record);
     }

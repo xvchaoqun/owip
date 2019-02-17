@@ -1,6 +1,5 @@
 package service.cadre;
 
-import bean.XlsCadre;
 import controller.global.OpException;
 import domain.abroad.Passport;
 import domain.abroad.PassportExample;
@@ -8,9 +7,7 @@ import domain.cadre.*;
 import domain.cadreInspect.CadreInspect;
 import domain.modify.ModifyCadreAuth;
 import domain.pcs.PcsCommitteeMemberView;
-import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -312,33 +309,23 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public int importCadres(final List<XlsCadre> cadres, byte status) {
-        //int duplicate = 0;
-        int success = 0;
-        for (XlsCadre uRow : cadres) {
+    public int batchImport(List<Cadre> records) {
 
-            Cadre record = new Cadre();
-            String userCode = StringUtils.trim(uRow.getUserCode());
-            SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null) throw new OpException("工作证号：" + userCode + "不存在");
-            int userId = uv.getId();
-            record.setUserId(userId);
-            record.setStatus(status);
-            record.setTypeId(uRow.getAdminLevel());
-            record.setPostId(uRow.getPostId());
-            Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
-            if (unit == null) {
-                throw new OpException("单位编号：" + uRow.getUnitCode() + "不存在");
+        int addCount = 0;
+        for (Cadre record : records) {
+
+            int userId = record.getUserId();
+            CadreView cv = dbFindByUserId(userId);
+            if(cv==null) {
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(cv.getId());
+                updateByPrimaryKeySelective(record);
             }
-            record.setUnitId(unit.getId());
-            record.setPost(uRow.getPost());
-            record.setTitle(uRow.getTitle());
-            record.setRemark(uRow.getRemark());
-
-            insertSelective(record);
-            success++;
         }
-        return success;
+
+        return addCount;
     }
 
     @Transactional
@@ -400,7 +387,8 @@ public class CadreService extends BaseMapper {
             CadreParty cadreParty = get(userId, type);
             if(cadreParty!=null){
                 record.setId(cadreParty.getId());
-                cadrePartyMapper.updateByPrimaryKeySelective(record);
+                // 覆盖更新
+                cadrePartyMapper.updateByPrimaryKey(record);
             }else{
                 cadrePartyMapper.insertSelective(record);
             }

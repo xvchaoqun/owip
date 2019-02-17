@@ -233,7 +233,7 @@ pageEncoding="UTF-8" %>
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.cadre(rowObject.cadre.id, cellvalue);},frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250, align:'left' },
-            { label: '职务属性', name: 'cadre.postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+            { label: '职务属性', name: 'cadre.postType', width: 150, formatter:$.jgrid.formatter.MetaType},
             { label: '干部类型', name: 'cadre.status', width: 150 , formatter:function(cellvalue, options, rowObject){
                return _cMap.CADRE_STATUS_MAP[cellvalue];
             }},

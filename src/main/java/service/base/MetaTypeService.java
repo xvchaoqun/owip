@@ -123,6 +123,9 @@ public class MetaTypeService extends BaseMapper {
 
     // 根据名称查找（唯一），用于数据导入时
     public MetaType findByName(String classCode, String name){
+
+        if(StringUtils.isBlank(name)) return null;
+
         Integer classId = null;
         {
             MetaClassExample example = new MetaClassExample();

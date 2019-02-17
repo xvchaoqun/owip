@@ -29,13 +29,13 @@
     <where>
       <if test="!isAdmin">
         and dwf.id=dwfa.work_file_id
-        <if test="postIds == null or postIds.size==0">
+        <if test="postTypes == null or postTypes.size==0">
           and dwf.id is null
         </if>
-        <if test="postIds != null and postIds.size>0">
-          and dwfa.post_id IN
-          <foreach collection="postIds" item="postId" separator="," open="(" close=")">
-            #{postId}
+        <if test="postTypes != null and postTypes.size>0">
+          and dwfa.post_type IN
+          <foreach collection="postTypes" item="postType" separator="," open="(" close=")">
+            #{postType}
           </foreach>
         </if>
       </if>

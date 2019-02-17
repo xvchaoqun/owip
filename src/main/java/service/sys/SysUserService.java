@@ -511,7 +511,7 @@ public class SysUserService extends BaseMapper {
 
             if (/*approverTypeBean != null && */cadre != null) {
                 MetaType leaderPostType = CmTag.getMetaTypeByCode("mt_leader");
-                if (cadre.getPostId() != null && cadre.getPostId().intValue() == leaderPostType.getId()) {
+                if (cadre.getPostType() != null && cadre.getPostType().intValue() == leaderPostType.getId()) {
                     // 没有职务属性或干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
                     userPermissions.remove("userApplySelf:*");
                     userPermissions.remove("userPassportDraw:*");

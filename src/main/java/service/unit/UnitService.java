@@ -1,5 +1,6 @@
 package service.unit;
 
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.unit.Unit;
 import domain.unit.UnitExample;
@@ -15,6 +16,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
+import sys.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -260,12 +262,15 @@ public class UnitService extends BaseMapper {
     // 导入单位
     @Transactional
     @CacheEvict(value="Unit:ALL", allEntries = true)
-    public Map<String, Object> imports(List<Map<Integer, String>> xlsRows) {
+    public Map<String, Object> batchImport(List<Map<Integer, String>> xlsRows) {
 
             int success = 0;
             List<Map<Integer, String>> failedXlsRows = new ArrayList<>();
+
+            int row = 1;
             for (Map<Integer, String> xlsRow : xlsRows) {
 
+                row++;
                 String code = StringUtils.trim(xlsRow.get(0));
                 String name = StringUtils.trim(xlsRow.get(1));
                 String type = StringUtils.trim(xlsRow.get(2));
@@ -273,13 +278,13 @@ public class UnitService extends BaseMapper {
                         || StringUtils.isBlank(name)
                         || StringUtils.isBlank(type)){
                     failedXlsRows.add(xlsRow);
-                    continue;
+                    throw new OpException("第{0}行数据有误[空字段]", row);
                 }
 
                 MetaType unitType = metaTypeService.findByName("mc_unit_type", type);
                 if(unitType==null){
                     failedXlsRows.add(xlsRow);
-                    continue;
+                    throw new OpException("第{0}行单位类型[{1}]不存在", row, type);
                 }
 
                 Unit _unit = findUnitByCode(code);
@@ -289,8 +294,10 @@ public class UnitService extends BaseMapper {
                 record.setName(name);
                 record.setTypeId(unitType.getId());
                 String workTime = xlsRow.get(3);
-                System.out.println(workTime);
-                //record.setWorkTime();
+                //System.out.println(workTime);
+                if(StringUtils.isNotBlank(workTime)) {
+                    record.setWorkTime(DateUtils.parseDate(workTime, DateUtils.YYYY_MM_DD));
+                }
                 record.setUrl(xlsRow.get(4));
                 record.setRemark(xlsRow.get(5));
                 int ret = 0;
@@ -301,7 +308,7 @@ public class UnitService extends BaseMapper {
                     ret = insertSelective(record);
                 }else{
                     record.setId(_unit.getId());
-                    updateByPrimaryKeySelective(record);
+                    ret = updateByPrimaryKeySelective(record);
                 }
 
                 if(ret==1) {

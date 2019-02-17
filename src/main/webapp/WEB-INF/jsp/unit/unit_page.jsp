@@ -20,7 +20,7 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==1}">
                             <shiro:hasPermission name="unit:edit">
-                                <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加单位</a>
+                                <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                             </shiro:hasPermission>
                             </c:if>
                             <shiro:hasPermission name="unit:edit">
@@ -28,14 +28,14 @@
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
                             </shiro:hasPermission>
-                            <a class="popupBtn btn btn-primary btn-sm tooltip-success"
+                            <a class="popupBtn btn btn-success btn-sm tooltip-success"
                                data-url="${ctx}/unit_import?status=${status}"
                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                导入</a>
+                                批量导入</a>
 
-                            <a class="jqExportBtn btn btn-info btn-sm tooltip-success"
+                            <a class="jqExportBtn btn btn-info btn-sm tooltip-info"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
-                                <i class="fa fa-download"></i> 导出单位</a>
+                                <i class="fa fa-download"></i> 导出</a>
 
                             <c:if test="${status==1}">
                                 <shiro:hasPermission name="unit:abolish">

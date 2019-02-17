@@ -15,8 +15,8 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="is_ow" jdbcType="BIT" property="isOw" />
     <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
     <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
@@ -62,7 +62,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, finish_period, 
-    is_graduate, word_write, write_file_path, remark, cadre_id, title, type_id, post_id, 
+    is_graduate, word_write, write_file_path, remark, cadre_id, title, admin_level, post_type, 
     is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, email, 
     cadre_status, cadre_sort_order, username, code, realname
   </sql>

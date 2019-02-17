@@ -284,17 +284,6 @@ public class ScDispatchService extends ScBaseMapper {
 
             DispatchCadre record = new DispatchCadre();
             record.setDispatchId(dispatchId);
-            /*record.setCadreId(sdv.getCadreId());
-            record.setType(sdv.getType());
-            record.setCadreTypeId(sdv.getCadreTypeId());
-            record.setWayId(sdv.getWayId());
-            record.setProcedureId(sdv.getProcedureId());
-            record.setPost(sdv.getPost());
-            record.setPostId(sdv.getPostId());
-            record.setAdminLevelId(sdv.getAdminLevelId());
-            record.setUnitId(sdv.getUnitId());
-            record.setRemark(sdv.getRemark());
-            record.setSortOrder(sdv.getSortOrder());*/
             PropertyUtils.copyProperties(record, sdv);
             record.setId(null);
             dispatchCadreService.insertSelective(record);

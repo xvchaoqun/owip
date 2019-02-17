@@ -194,7 +194,7 @@ public class StatCadreController extends BaseController {
                     cv.getCode(),
                     cv.getRealname(),
                     cv.getTitle(),
-                    metaTypeService.getName(cv.getTypeId()),
+                    metaTypeService.getName(cv.getAdminLevel()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
 
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
@@ -245,7 +245,7 @@ public class StatCadreController extends BaseController {
                     cv.getCode(),
                     cv.getRealname(),
                     cv.getTitle(),
-                    metaTypeService.getName(cv.getTypeId()),
+                    metaTypeService.getName(cv.getAdminLevel()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
 
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
@@ -304,7 +304,7 @@ public class StatCadreController extends BaseController {
                     cv.getCode(),
                     cv.getRealname(),
                     cv.getTitle(),
-                    metaTypeService.getName(cv.getTypeId()),
+                    metaTypeService.getName(cv.getAdminLevel()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
 
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
@@ -343,7 +343,7 @@ public class StatCadreController extends BaseController {
                     cv.getCode(),
                     cv.getRealname(),
                     cv.getTitle(),
-                    metaTypeService.getName(cv.getTypeId()),
+                    metaTypeService.getName(cv.getAdminLevel()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
 
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),

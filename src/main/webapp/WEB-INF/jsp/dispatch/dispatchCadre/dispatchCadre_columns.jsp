@@ -25,8 +25,8 @@
                     if(rowObject.unitPostId==undefined)
                         return "class='warning'";
                 }, align:'left'},
-            { label:'职务属性', name: 'postId', width: 120, align:'left', formatter: $.jgrid.formatter.MetaType},
-            { label:'行政级别', name: 'adminLevelId', formatter: $.jgrid.formatter.MetaType},
+            { label:'职务属性', name: 'postType', width: 120, align:'left', formatter: $.jgrid.formatter.MetaType},
+            { label:'行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
             { label:'所属单位', name: 'unit.name', width: 150, align:'left' },
             { label:'单位类型', name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
             { label:'发文类型', name: 'dispatch.dispatchType.name', width: 80},

@@ -6,8 +6,8 @@
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="is_cpc" jdbcType="BIT" property="isCpc" />
     <result column="post_class_id" jdbcType="INTEGER" property="postClassId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
@@ -75,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, unit_post_id, post, post_id, admin_level_id, is_cpc, post_class_id, 
+    id, cadre_id, unit_post_id, post, post_type, admin_level, is_cpc, post_class_id, 
     unit_id, is_double, double_unit_ids, is_main_post, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadrePostExample" resultMap="BaseResultMap">
@@ -113,12 +113,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cadre_post (cadre_id, unit_post_id, post, 
-      post_id, admin_level_id, is_cpc, 
+      post_type, admin_level, is_cpc, 
       post_class_id, unit_id, is_double, 
       double_unit_ids, is_main_post, sort_order
       )
     values (#{cadreId,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
-      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, 
+      #{postType,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, 
       #{postClassId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, 
       #{doubleUnitIds,jdbcType=VARCHAR}, #{isMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
       )
@@ -138,11 +138,11 @@
       <if test="post != null">
         post,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="postType != null">
+        post_type,
       </if>
-      <if test="adminLevelId != null">
-        admin_level_id,
+      <if test="adminLevel != null">
+        admin_level,
       </if>
       <if test="isCpc != null">
         is_cpc,
@@ -176,11 +176,11 @@
       <if test="post != null">
         #{post,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
       </if>
-      <if test="adminLevelId != null">
-        #{adminLevelId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
       </if>
       <if test="isCpc != null">
         #{isCpc,jdbcType=BIT},
@@ -226,11 +226,11 @@
       <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
       </if>
-      <if test="record.adminLevelId != null">
-        admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
       </if>
       <if test="record.isCpc != null">
         is_cpc = #{record.isCpc,jdbcType=BIT},
@@ -264,8 +264,8 @@
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
-      post_id = #{record.postId,jdbcType=INTEGER},
-      admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
       is_cpc = #{record.isCpc,jdbcType=BIT},
       post_class_id = #{record.postClassId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
@@ -289,11 +289,11 @@
       <if test="post != null">
         post = #{post,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
       </if>
-      <if test="adminLevelId != null">
-        admin_level_id = #{adminLevelId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
       </if>
       <if test="isCpc != null">
         is_cpc = #{isCpc,jdbcType=BIT},
@@ -324,8 +324,8 @@
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       unit_post_id = #{unitPostId,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},
-      post_id = #{postId,jdbcType=INTEGER},
-      admin_level_id = #{adminLevelId,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
       is_cpc = #{isCpc,jdbcType=BIT},
       post_class_id = #{postClassId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},

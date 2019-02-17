@@ -43,9 +43,7 @@
 								$("#modal").modal('hide');
 								$("#jqGrid2").trigger("reloadGrid");
 								var result = '操作成功，总共{0}条记录，其中成功导入{1}条记录，<font color="red">{2}条数据重复</font>';
-								SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功',function(){
-
-								});
+								SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功');
 							}
 						}
 					});

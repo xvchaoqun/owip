@@ -37,7 +37,7 @@
                 return $.cadre(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
-            { label: '职位属性', name: 'cadre.postId', width: 200, formatter:$.jgrid.formatter.MetaType},
+            { label: '职位属性', name: 'cadre.postType', width: 200, formatter:$.jgrid.formatter.MetaType},
             { label: '证件名称', name: 'passportClass.name', width: 200 },
             { label: '证件号码', name: 'code', width: 110 },
             { label:'发证日期', name: 'issueDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },

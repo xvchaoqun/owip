@@ -81,7 +81,7 @@
           <c:if test="${bean.mainNum==0}">0</c:if>
           <c:if test="${bean.mainNum>0}">
           <a href="javascript:;" class="popupBtn"
-             data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_main').id}">
+             data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_main').id}">
               ${bean.mainNum}
           </a>
           </c:if>
@@ -97,7 +97,7 @@
           </c:if>
           <c:if test="${bean.mainLack>0}">
             <a href="javascript:;" class="popupBtn"
-               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_main').id}&displayEmpty=1">
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_main').id}&displayEmpty=1">
             <span class="badge badge-success">${bean.mainLack}</span>
             </a>
           </c:if>
@@ -106,7 +106,7 @@
           <c:if test="${bean.viceNum==0}">0</c:if>
           <c:if test="${bean.viceNum>0}">
             <a href="javascript:;" class="popupBtn"
-               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_vice').id}">
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_vice').id}">
                 ${bean.viceNum}
             </a>
           </c:if>
@@ -122,7 +122,7 @@
           </c:if>
           <c:if test="${bean.viceLack>0}">
             <a href="javascript:;" class="popupBtn"
-               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_vice').id}&displayEmpty=1">
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_vice').id}&displayEmpty=1">
               <span class="badge badge-success">${bean.viceLack}</span>
             </a>
           </c:if>
@@ -131,7 +131,7 @@
           <c:if test="${bean.noneNum==0}">0</c:if>
           <c:if test="${bean.noneNum>0}">
             <a href="javascript:;" class="popupBtn"
-               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_none').id}">
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_none').id}">
                 ${bean.noneNum}
             </a>
           </c:if>
@@ -147,7 +147,7 @@
           </c:if>
           <c:if test="${bean.noneLack>0}">
             <a href="javascript:;" class="popupBtn"
-               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_none').id}&displayEmpty=1">
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_none').id}&displayEmpty=1">
               <span class="badge badge-success">${bean.noneLack}</span>
             </a>
           </c:if>

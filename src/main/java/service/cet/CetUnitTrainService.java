@@ -129,7 +129,7 @@ public class CetUnitTrainService extends CetBaseMapper {
             record.setProjectId(projectId);
             record.setUserId(userId);
             record.setTitle(cv.getTitle());
-            record.setPostId(cv.getPostId());
+            record.setPostType(cv.getPostType());
             record.setPeriod(cetUnitProject.getPeriod());
             record.setAddType(addType);
             record.setAddUserId(currentUserId);
@@ -173,7 +173,7 @@ public class CetUnitTrainService extends CetBaseMapper {
             record.setProjectId(projectId);
             record.setUserId(userId);
             record.setTitle(cv.getTitle());
-            record.setPostId(cv.getPostId());
+            record.setPostType(cv.getPostType());
             record.setPeriod(cetUnitProject.getPeriod());
             record.setAddType(CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW);
             record.setAddUserId(currentUserId);

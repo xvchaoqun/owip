@@ -181,8 +181,8 @@ public class CadreInspectExportService extends BaseMapper {
 
             String isPositive = ""; // 是否正职
             CadrePost mainCadrePost = record.getMainCadrePost();
-            if(mainCadrePost!=null && mainCadrePost.getPostId()!=null){
-                MetaType metaType = metaTypeMap.get(mainCadrePost.getPostId());
+            if(mainCadrePost!=null && mainCadrePost.getPostType()!=null){
+                MetaType metaType = metaTypeMap.get(mainCadrePost.getPostType());
                 if(metaType!=null){
                     isPositive = (BooleanUtils.isTrue(metaType.getBoolAttr()))?"是":"否";
                 }
@@ -291,8 +291,8 @@ public class CadreInspectExportService extends BaseMapper {
                     record.getPost(),
 
                     record.getTitle(),
-                    metaTypeService.getName(record.getTypeId()),
-                    metaTypeService.getName(record.getPostId()),
+                    metaTypeService.getName(record.getAdminLevel()),
+                    metaTypeService.getName(record.getPostType()),
                     isPositive,
                     record.getGender()==null?"":SystemConstants.GENDER_MAP.get(record.getGender()),
 

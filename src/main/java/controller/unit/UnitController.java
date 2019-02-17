@@ -156,6 +156,7 @@ public class UnitController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
+
         List<UnitView> records = unitViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -382,7 +383,7 @@ public class UnitController extends BaseController {
         List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
 
-        Map<String, Object> retMap = unitService.imports(xlsRows);
+        Map<String, Object> retMap = unitService.batchImport(xlsRows);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", retMap.get("success"));
         resultMap.put("failedXlsRows", retMap.get("failedXlsRows"));

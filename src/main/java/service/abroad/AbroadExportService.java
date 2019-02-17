@@ -51,7 +51,7 @@ public class AbroadExportService extends AbroadBaseMapper {
         dataMap.put("applySelf", applySelf);
 
         dataMap.put("gender", uv.getGender()==null?"":SystemConstants.GENDER_MAP.get(uv.getGender()));
-        dataMap.put("adminLevel", metaTypeService.getName(cadre.getTypeId()));
+        dataMap.put("adminLevel", metaTypeService.getName(cadre.getAdminLevel()));
 
         //dataMap.put("day", DateUtils.getDayCountBetweenDate(applySelf.getStartDate(), applySelf.getEndDate()));
         dataMap.put("reason", StringUtils.replace(applySelf.getReason(), "+++", ","));

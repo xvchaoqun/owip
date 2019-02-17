@@ -46,7 +46,7 @@
                             <t:cadre cadreId="${cadre.id}" realname="${sysUser.realname}"/>
                             </td>
                             <td nowrap>${cadre.title}</td>
-                            <td nowrap>${cm:getMetaType(cadre.typeId).name}</td>
+                            <td nowrap>${cm:getMetaType(cadre.adminLevel).name}</td>
                             <td>${leader.job}</td>
                             <td>
                                 <ul>

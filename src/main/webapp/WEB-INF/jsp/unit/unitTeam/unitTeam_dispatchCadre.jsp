@@ -108,7 +108,7 @@ pageEncoding="UTF-8"%>
                         return "class='warning'";
                 }, align:'left'},
             { label:'职务属性', name: 'postId', width: 120, align:'left', formatter: $.jgrid.formatter.MetaType},
-            { label:'行政级别', name: 'adminLevelId', formatter: $.jgrid.formatter.MetaType}],
+            { label:'行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType}],
         gridComplete:function(){
             //console.log("gc:" +  $("#modalForm input[name=dispatchCadreId]").val())
            $("#jqGrid_popup").jqGrid("setSelection", $("#modalForm input[name=dispatchCadreId]").val(), false);

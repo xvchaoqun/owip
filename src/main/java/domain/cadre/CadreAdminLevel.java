@@ -35,7 +35,7 @@ public class CadreAdminLevel implements Serializable {
 
     private Integer cadreId;
 
-    private Integer adminLevelId;
+    private Integer adminLevel;
 
     private Integer startDispatchCadreId;
 
@@ -61,12 +61,12 @@ public class CadreAdminLevel implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Integer getAdminLevelId() {
-        return adminLevelId;
+    public Integer getAdminLevel() {
+        return adminLevel;
     }
 
-    public void setAdminLevelId(Integer adminLevelId) {
-        this.adminLevelId = adminLevelId;
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
     }
 
     public Integer getStartDispatchCadreId() {

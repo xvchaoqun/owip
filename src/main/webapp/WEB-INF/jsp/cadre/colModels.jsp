@@ -16,13 +16,20 @@
             label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true
         },
         </shiro:hasPermission>
+        <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
+        {label: '类型', name: 'type', width: 90, formatter: function (cellvalue, options, rowObject) {
+            if($.trim(cellvalue)=='') return '--';
+            return _cMap.CADRE_TYPE_MAP[cellvalue]
+        }},
+        </c:if>
+        {label: '是否涉密', name: 'state', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
         {label: '是否常委', name: 'isCommitteeMember', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-        {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-        {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+        {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+        {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '是否正职', name: 'isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '民族', name: 'nation', width: 60},
@@ -219,8 +226,8 @@
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
-        {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-        {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+        {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+        {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
         {label: '联系方式', name: 'mobile', width: 120},
@@ -237,6 +244,13 @@
         {
             label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true
         },
+        <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
+        {label: '类型', name: 'type', width: 90, formatter: function (cellvalue, options, rowObject) {
+            if($.trim(cellvalue)=='') return '--';
+            return _cMap.CADRE_TYPE_MAP[cellvalue]
+        }},
+        </c:if>
+        {label: '是否涉密', name: 'state', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '原职务', name: 'post', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
@@ -251,8 +265,8 @@
         },
         {label: '离任日期', name: 'dispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
         </c:if>
-        {label: '原行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-        {label: '原职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+        {label: '原行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+        {label: '原职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '手机号', name: 'mobile', width: 120},
         {label: '办公电话', name: 'phone'},
         {label: '家庭电话', name: 'homePhone'},
@@ -264,8 +278,8 @@
         {label: '姓名', name: 'realname', width: 120, frozen: true},
         {label: '原所在单位', name: 'unit.name', width: 200},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
-        {label: '原行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-        {label: '原职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+        {label: '原行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+        {label: '原职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '手机号', name: 'mobile', width: 120},
         {label: '电子邮箱', name: 'email', width: 150}
     ];

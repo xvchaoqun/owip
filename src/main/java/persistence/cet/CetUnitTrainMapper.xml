@@ -6,7 +6,7 @@
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="word_note" jdbcType="VARCHAR" property="wordNote" />
     <result column="pdf_note" jdbcType="VARCHAR" property="pdfNote" />
@@ -76,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, title, post_id, period, word_note, pdf_note, add_type, add_user_id, 
-    add_time, status, back_reason, remark
+    id, project_id, user_id, title, post_type, period, word_note, pdf_note, add_type, 
+    add_user_id, add_time, status, back_reason, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitTrainExample" resultMap="BaseResultMap">
     select
@@ -111,12 +111,12 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetUnitTrain">
     insert into cet_unit_train (id, project_id, user_id, 
-      title, post_id, period, 
+      title, post_type, period, 
       word_note, pdf_note, add_type, 
       add_user_id, add_time, status, 
       back_reason, remark)
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
+      #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
       #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
       #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
       #{backReason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
@@ -136,8 +136,8 @@
       <if test="title != null">
         title,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="postType != null">
+        post_type,
       </if>
       <if test="period != null">
         period,
@@ -180,8 +180,8 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
       </if>
       <if test="period != null">
         #{period,jdbcType=DECIMAL},
@@ -233,8 +233,8 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
       </if>
       <if test="record.period != null">
         period = #{record.period,jdbcType=DECIMAL},
@@ -274,7 +274,7 @@
       project_id = #{record.projectId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
-      post_id = #{record.postId,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
       period = #{record.period,jdbcType=DECIMAL},
       word_note = #{record.wordNote,jdbcType=VARCHAR},
       pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
@@ -300,8 +300,8 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
       </if>
       <if test="period != null">
         period = #{period,jdbcType=DECIMAL},
@@ -338,7 +338,7 @@
     set project_id = #{projectId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
-      post_id = #{postId,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
       period = #{period,jdbcType=DECIMAL},
       word_note = #{wordNote,jdbcType=VARCHAR},
       pdf_note = #{pdfNote,jdbcType=VARCHAR},

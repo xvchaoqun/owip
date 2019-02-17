@@ -243,7 +243,7 @@ public class UnitPostAllocationService extends BaseMapper {
      * 获取一个单位的配置情况
      *
      * @param unitId
-     * @return  <adminLevelId,  num>
+     * @return  <adminLevel,  num>
      */
     public Map<Integer, Integer> getCpcAdminLevelMap(int unitId){
 
@@ -254,10 +254,10 @@ public class UnitPostAllocationService extends BaseMapper {
         List<UnitPostCountView> records = unitPostCountViewMapper.selectByExample(example);
         for (UnitPostCountView record : records) {
 
-            Integer adminLevelId = record.getAdminLevelId();
+            Integer adminLevel = record.getAdminLevel();
             int num = record.getNum();
 
-            resultMap.put(adminLevelId, num);
+            resultMap.put(adminLevel, num);
         }
 
         return resultMap;
@@ -265,7 +265,7 @@ public class UnitPostAllocationService extends BaseMapper {
     /**
      * 获取已经设置了职数的单位
      *
-     * @return <unitId, <adminLevelId, num>>
+     * @return <unitId, <adminLevel, num>>
      */
     public Map<Integer, Map<Integer, Integer>> getUnitAdminLevelMap() {
 
@@ -275,12 +275,12 @@ public class UnitPostAllocationService extends BaseMapper {
         for (UnitPostCountView record : records) {
 
             Integer unitId = record.getUnitId();
-            Integer adminLevelId = record.getAdminLevelId();
+            Integer adminLevel = record.getAdminLevel();
             int num = record.getNum();
 
             Map<Integer, Integer> _adminLevelMap = _unitAdminLevelMap.get(unitId);
             if (_adminLevelMap == null) _adminLevelMap = new HashMap<Integer, Integer>();
-            _adminLevelMap.put(adminLevelId, num);
+            _adminLevelMap.put(adminLevel, num);
 
             _unitAdminLevelMap.put(unitId, _adminLevelMap);
         }
@@ -359,9 +359,9 @@ public class UnitPostAllocationService extends BaseMapper {
                 int noneCount = 0;
                 for (CadrePost cadrePost : cadrePosts) {
 
-                    if (cadrePost.getAdminLevelId() == null) continue;
+                    if (cadrePost.getAdminLevel() == null) continue;
 
-                    if (cadrePost.getAdminLevelId().intValue() == mainMetaType.getId()) {
+                    if (cadrePost.getAdminLevel().intValue() == mainMetaType.getId()) {
                         mains.add(cadrePost);
 
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
@@ -369,14 +369,14 @@ public class UnitPostAllocationService extends BaseMapper {
                             mainCount++;
                         }
                     }
-                    if (cadrePost.getAdminLevelId().intValue() == viceMetaType.getId()) {
+                    if (cadrePost.getAdminLevel().intValue() == viceMetaType.getId()) {
                         vices.add(cadrePost);
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
                             // 主职或者副职占职数，就计数
                             viceCount++;
                         }
                     }
-                    if (cadrePost.getAdminLevelId().intValue() == noneMetaType.getId()) {
+                    if (cadrePost.getAdminLevel().intValue() == noneMetaType.getId()) {
                         nones.add(cadrePost);
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
                             // 主职或者副职占职数，就计数
@@ -523,14 +523,14 @@ public class UnitPostAllocationService extends BaseMapper {
             int noneNum = 0;  // 无行政级别
             for (UnitPostAllocationStatBean bean : cpcStatBeans) {
 
-                Integer adminLevelId = bean.getAdminLevelId();
+                Integer adminLevel = bean.getAdminLevel();
                 int num = (int)bean.getNum();
 
-                if (adminLevelId.intValue() == mainMetaType.getId()) {
+                if (adminLevel.intValue() == mainMetaType.getId()) {
                     mainNum = num;
-                }else if (adminLevelId.intValue() == viceMetaType.getId()) {
+                }else if (adminLevel.intValue() == viceMetaType.getId()) {
                     viceNum = num;
-                }else if (adminLevelId.intValue() == noneMetaType.getId()) {
+                }else if (adminLevel.intValue() == noneMetaType.getId()) {
                     noneNum = num;
                 }
             }
@@ -550,19 +550,19 @@ public class UnitPostAllocationService extends BaseMapper {
             List<UnitPostAllocationStatBean> cpcStats = iCpcMapper.cpcStat_real(unitType);
             for (UnitPostAllocationStatBean bean : cpcStats) {
 
-                Integer adminLevelId = bean.getAdminLevelId();
+                Integer adminLevel = bean.getAdminLevel();
                 boolean mainPost = bean.isMainPost();
                 int num = (int)bean.getNum();
 
 
 
-                if (adminLevelId.intValue() == mainMetaType.getId()) {
+                if (adminLevel.intValue() == mainMetaType.getId()) {
                     if (mainPost) mainCount = num;
                     else subCount = num;
-                }else if (adminLevelId.intValue() == viceMetaType.getId()) {
+                }else if (adminLevel.intValue() == viceMetaType.getId()) {
                     if (mainPost) mainCount2 = num;
                     else subCount2 = num;
-                }else if (adminLevelId.intValue() == noneMetaType.getId()) {
+                }else if (adminLevel.intValue() == noneMetaType.getId()) {
                     if (mainPost) mainCount3 = num;
                     else subCount3 = num;
                 }

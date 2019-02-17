@@ -94,7 +94,7 @@
                     </td>
                     <td colspan="3">
                         <c:if test="${cadre.status==CADRE_STATUS_MIDDLE}">
-                            ${cm:getMetaType(cadre.typeId).name}
+                            ${cm:getMetaType(cadre.adminLevel).name}
                         </c:if>
                         <c:if test="${cadre.status!=CADRE_STATUS_MIDDLE}">
                         无行政级别

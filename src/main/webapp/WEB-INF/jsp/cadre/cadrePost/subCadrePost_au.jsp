@@ -32,26 +32,26 @@
 				<div class="form-group">
 					<label class="col-xs-3 control-label">职务属性</label>
 					<div class="col-xs-6">
-						<select required data-rel="select2" name="postId"
+						<select required data-rel="select2" name="postType"
 								data-width="272" data-placeholder="请选择">
 							<option></option>
 							<c:import url="/metaTypes?__code=mc_post"/>
 						</select>
 						<script type="text/javascript">
-							$("#modal form select[name=postId]").val(${cadrePost.postId});
+							$("#modal form select[name=postType]").val(${cadrePost.postType});
 						</script>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">职务级别</label>
 					<div class="col-xs-6">
-						<select required data-rel="select2" name="adminLevelId"
+						<select required data-rel="select2" name="adminLevel"
 								data-width="272" data-placeholder="请选择">
 							<option></option>
 							<c:import url="/metaTypes?__code=mc_admin_level"/>
 						</select>
 						<script type="text/javascript">
-							$("#modal form select[name=adminLevelId]").val(${cadrePost.adminLevelId});
+							$("#modal form select[name=adminLevel]").val(${cadrePost.adminLevel});
 						</script>
 					</div>
 				</div>
@@ -145,8 +145,8 @@
         //console.log(up)
         if(up!=undefined){
             $('#modalForm textarea[name=post]').val(up.name)
-            $("#modalForm select[name=postId]").val(up.postType).trigger("change");
-            $("#modalForm select[name=adminLevelId]").val(up.adminLevel).trigger("change");
+            $("#modalForm select[name=postType]").val(up.postType).trigger("change");
+            $("#modalForm select[name=adminLevel]").val(up.adminLevel).trigger("change");
             $("#modalForm select[name=postClassId]").val(up.postClass).trigger("change");
             var option = new Option(up.unitName, up.unitId, true, true);
             $("#modalForm select[name=unitId]").append(option).trigger('change');

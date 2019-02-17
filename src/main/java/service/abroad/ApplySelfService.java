@@ -1,24 +1,6 @@
 package service.abroad;
 
-import domain.abroad.AbroadAdditionalPost;
-import domain.abroad.ApplicatCadre;
-import domain.abroad.ApplicatCadreExample;
-import domain.abroad.ApplySelf;
-import domain.abroad.ApplySelfExample;
-import domain.abroad.ApplySelfFile;
-import domain.abroad.ApplySelfFileExample;
-import domain.abroad.ApplySelfModify;
-import domain.abroad.ApplySelfModifyExample;
-import domain.abroad.ApprovalLog;
-import domain.abroad.ApprovalLogExample;
-import domain.abroad.ApprovalOrder;
-import domain.abroad.ApprovalOrderExample;
-import domain.abroad.Approver;
-import domain.abroad.ApproverBlackList;
-import domain.abroad.ApproverType;
-import domain.abroad.Passport;
-import domain.abroad.PassportDraw;
-import domain.abroad.PassportDrawExample;
+import domain.abroad.*;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
@@ -38,7 +20,6 @@ import persistence.abroad.common.ApplySelfSearchBean;
 import persistence.abroad.common.ApprovalResult;
 import persistence.abroad.common.ApprovalTdBean;
 import persistence.abroad.common.ApproverTypeBean;
-import service.BaseMapper;
 import service.SpringProps;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
@@ -55,24 +36,12 @@ import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentUtils;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.IpUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ApplySelfService extends AbroadBaseMapper {
@@ -669,7 +638,7 @@ public class ApplySelfService extends AbroadBaseMapper {
             // 1、读取所在的全部单位（该干部在这些单位中是正职）
             List<Integer> unitIds = new ArrayList<>();
             CadreView cv = cadreService.findAll().get(cadreId);
-            if(BooleanUtils.isTrue(CmTag.getMetaType(cv.getPostId()).getBoolAttr())){
+            if(BooleanUtils.isTrue(CmTag.getMetaType(cv.getPostType()).getBoolAttr())){
                 if(!approverBlackListMap.containsKey(cadreId + "_" + cv.getUnitId())) // 2、确定拥有该审批身份
                     unitIds.add(cv.getUnitId());
             }

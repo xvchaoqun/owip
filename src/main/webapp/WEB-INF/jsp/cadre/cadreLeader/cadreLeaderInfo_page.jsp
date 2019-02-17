@@ -11,8 +11,7 @@
                  data-url-co="${ctx}/cadre_changeOrder"
                  data-url-export="${ctx}/cadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
-            ||not empty param.postId ||not empty param.title || not empty param.code }"/>
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param.title || not empty param.code }"/>
 
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -39,10 +38,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="cadre:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
-                                       data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i>
-                                        <c:if test="${status==CADRE_STATUS_LEADER}">添加现任校领导</c:if>
-                                        <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导</c:if>
-                                    </a>
+                                       data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i> 添加</a>
 
 
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -57,9 +53,9 @@
                                         <i class="fa fa-edit"></i> 离任
                                     </button>
                                 </c:if>
-                                <a class="popupBtn btn btn-primary btn-sm tooltip-success"
+                                <a class="popupBtn btn btn-info btn-sm tooltip-info"
                                    data-url="${ctx}/cadre_import?status=${status}"
-                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
+                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm"
                                    data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i

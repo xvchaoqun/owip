@@ -1,6 +1,8 @@
 package controller.party;
 
+import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchUnit;
 import domain.party.*;
@@ -9,6 +11,10 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
@@ -200,6 +208,69 @@ public class PartyMemberGroupController extends BaseController {
         }
 
         return "party/partyMemberGroup/partyMemberGroup_au";
+    }
+
+     @RequiresPermissions("partyMemberGroup:edit")
+    @RequestMapping("/partyMemberGroup_import")
+    public String partyMemberGroup_import(ModelMap modelMap) {
+
+        return "party/partyMemberGroup/partyMemberGroup_import";
+    }
+
+    @RequiresPermissions("partyMemberGroup:edit")
+    @RequestMapping(value = "/partyMemberGroup_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_partyMemberGroup_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<PartyMemberGroup> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            PartyMemberGroup record = new PartyMemberGroup();
+            row++;
+            String name = StringUtils.trimToNull(xlsRow.get(0));
+             if(StringUtils.isBlank(name)){
+                throw new OpException("第{0}行班子名称为空", row);
+            }
+            record.setName(name);
+
+            String partyCode = StringUtils.trimToNull(xlsRow.get(1));
+            if(StringUtils.isBlank(partyCode)){
+                throw new OpException("第{0}行单位编码为空", row);
+            }
+            Party party = partyService.getByCode(partyCode);
+            if(party==null){
+                throw new OpException("第{0}行所属基层党组织编码[{1}]不存在", row, partyCode);
+            }
+            record.setPartyId(party.getId());
+
+            String tranTime = StringUtils.trimToNull(xlsRow.get(2));
+            record.setTranTime(DateUtils.parseStringToDate(tranTime));
+
+            String appointTime = StringUtils.trimToNull(xlsRow.get(3));
+            record.setAppointTime(DateUtils.parseStringToDate(appointTime));
+
+            record.setIsPresent(true);
+            record.setIsDeleted(false);
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = partyMemberGroupService.bacthImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     /*@RequiresPermissions("partyMemberGroup:del")

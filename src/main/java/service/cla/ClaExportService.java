@@ -54,7 +54,7 @@ public class ClaExportService extends ClaBaseMapper {
         dataMap.put("claApply", claApply);
 
         dataMap.put("gender", uv.getGender()==null?"":SystemConstants.GENDER_MAP.get(uv.getGender()));
-        dataMap.put("adminLevel", metaTypeService.getName(cadre.getTypeId()));
+        dataMap.put("adminLevel", metaTypeService.getName(cadre.getAdminLevel()));
 
         //dataMap.put("day", DateUtils.getDayCountBetweenDate(claApply.getStartDate(), claApply.getEndDate()));
         dataMap.put("reason", StringUtils.replace(claApply.getReason(), "+++", ","));

@@ -108,12 +108,12 @@
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/sc/scPassportHand"
+                                   data-url="${ctx}/sc/scPassportHand?cls=${cls}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/sc/scPassportHand"
+                                            data-url="${ctx}/sc/scPassportHand?cls=${cls}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -177,7 +177,7 @@
                 str += "&nbsp; 证件已入库"
                 </c:if>
                 return str;
-            }},
+            }, frozen:true},
             {label: '证件类型', name: '_passportType', width: 200, formatter: function (cellvalue, options, rowObject) {
                 var passports = {};
                 passports[normalPassortId] = {ret:0, msg:'未交证件'};
@@ -196,20 +196,20 @@
                         passports[hkPassortId].ret>0?'text-success':'text-danger', passports[hkPassortId].ret==1?1:0,
                         passports[twPassortId].ret>0?'text-success':'text-danger', passports[twPassortId].ret==1?1:0,
                         passports[normalPassortId].msg, passports[hkPassortId].msg, passports[twPassortId].msg);
-            }},
+            }, frozen:true},
             </c:if>
             <c:if test="${cls==3}">
-            {label: '撤销日期', name: 'abolishTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '撤销日期', name: 'abolishTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
                 </c:if>
-            {label: '新提任日期', name: 'appointDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '工作证号', name: 'cadre.code', width: 110, frozen: true},
+            {label: '新提任日期', name: 'appointDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            {label: '工作证号', name: 'cadre.code', width: 110, frozen: true, frozen:true},
             { label: '姓名', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 
                 return (rowObject.cadre!=undefined)? $.cadre(rowObject.cadre.id, cellvalue) : cellvalue;
-            }},
+            }, frozen:true},
             {label: '职务', name: 'post', width: 350, align:'left'},
-            {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
-            {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
+            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '所在单位', name: 'unit.name', width: 200, align:'left'},
             {label: '单位类型', name: 'unit.unitType.name', width: 150},
             {
@@ -231,7 +231,7 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));

@@ -1,15 +1,16 @@
 package controller.cadre;
 
-import bean.XlsCadre;
 import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -33,33 +34,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.cadre.CadreService;
 import shiro.ShiroHelper;
-import sys.constants.CadreConstants;
-import sys.constants.DispatchConstants;
-import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreController extends BaseController {
@@ -68,13 +54,12 @@ public class CadreController extends BaseController {
 
     @RequestMapping("/cadre")
     public String cadre_page(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
-
                              @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
                              @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
                              @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
                              @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
                              @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus,
-                             @RequestParam(required = false, value = "postIds") Integer[] postIds,
+                             @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
                              @RequestParam(required = false, value = "proPosts") String[] proPosts,
                              @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
                              Integer cadreId, ModelMap modelMap) {
@@ -122,8 +107,8 @@ public class CadreController extends BaseController {
         if (maxEdus != null) {
             modelMap.put("selectMaxEdus", Arrays.asList(maxEdus));
         }
-        if (postIds != null) {
-            modelMap.put("selectPostIds", Arrays.asList(postIds));
+        if (postTypes != null) {
+            modelMap.put("selectPostTypes", Arrays.asList(postTypes));
         }
 
         modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
@@ -140,8 +125,6 @@ public class CadreController extends BaseController {
 
     @RequestMapping("/cadre_data")
     public void cadre_data(HttpServletResponse response,
-                           @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre") String sort,
-                           @OrderParam(required = false, defaultValue = "desc") String order,
                            @RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
                            Integer cadreId,
                            Byte gender,
@@ -154,14 +137,13 @@ public class CadreController extends BaseController {
                            Integer startNowLevelAge,
                            Integer endNowLevelAge,
                            @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
-
                            @RequestDateRange DateRange _birth,
                            @RequestDateRange DateRange _cadreGrowTime,
                            @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所在单位
                            @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
                            @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
                            @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
-                           @RequestParam(required = false, value = "postIds") Integer[] postIds, // 职务属性
+                           @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
                            @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
                            @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 专技岗位等级
                            Boolean isPrincipalPost, // 是否正职
@@ -185,7 +167,7 @@ public class CadreController extends BaseController {
 
         CadreViewExample example = new CadreViewExample();
         CadreViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("sort_order desc");
 
         if (cadreId != null) {
             criteria.andIdEqualTo(cadreId);
@@ -241,13 +223,13 @@ public class CadreController extends BaseController {
             criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
         }
         if (adminLevels != null) {
-            criteria.andTypeIdIn(Arrays.asList(adminLevels));
+            criteria.andAdminLevelIn(Arrays.asList(adminLevels));
         }
         if (maxEdus != null) {
             criteria.andEduIdIn(Arrays.asList(maxEdus));
         }
-        if (postIds != null) {
-            criteria.andPostIdIn(Arrays.asList(postIds));
+        if (postTypes != null) {
+            criteria.andPostTypeIn(Arrays.asList(postTypes));
         }
         if (proPosts != null) {
             criteria.andProPostIn(Arrays.asList(proPosts));
@@ -450,6 +432,8 @@ public class CadreController extends BaseController {
     @ResponseBody
     public Map do_cadre_au(Cadre record, HttpServletRequest request) {
 
+        record.setState(BooleanUtils.isTrue(record.getState()));
+
         Integer id = record.getId();
         if (id == null) {
             cadreService.insertSelective(record);
@@ -555,19 +539,77 @@ public class CadreController extends BaseController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
-        List<XlsCadre> cadres = new ArrayList<XlsCadre>();
-
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
-        for (int k = 0; k < workbook.getNumberOfSheets(); k++) {
-            XSSFSheet sheet = workbook.getSheetAt(k);
-            cadres.addAll(XlsUpload.fetchCadres(sheet));
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<Cadre> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            Cadre record = new Cadre();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(userCode)){
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            int userId = uv.getId();
+            record.setUserId(userId);
+
+            // 干部类型，仅针对中层干部
+            String _type = StringUtils.trim(xlsRow.get(2));
+            if(status==CadreConstants.CADRE_STATUS_MIDDLE
+                    || status== CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
+                if (StringUtils.contains(_type, "科级")) {
+                    record.setType((byte) 2);
+                }else{
+                    record.setType((byte) 1); // 默认是处级
+                }
+            }
+
+            String _state = StringUtils.trim(xlsRow.get(3));
+            record.setState(StringUtils.equals(_state, "是"));
+
+            String adminLevel = StringUtils.trimToNull(xlsRow.get(4));
+            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
+            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
+            record.setAdminLevel(adminLevelType.getId());
+
+            String _postType = StringUtils.trimToNull(xlsRow.get(5));
+            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+            if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+            record.setPostType(postType.getId());
+
+            String unitCode = StringUtils.trimToNull(xlsRow.get(6));
+            if(StringUtils.isBlank(unitCode)){
+                throw new OpException("第{0}行单位编号为空", row);
+            }
+            Unit unit = unitService.findUnitByCode(unitCode);
+            if(unit==null){
+                throw new OpException("第{0}行单位编号[{1}]不存在", row, unitCode);
+            }
+            record.setUnitId(unit.getId());
+
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(7)));
+            record.setPost(StringUtils.trimToNull(xlsRow.get(8)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(9)));
+
+            record.setStatus(status);
+            records.add(record);
         }
 
-        int successCount = cadreService.importCadres(cadres, status);
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int successCount = cadreService.batchImport(records);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
-        resultMap.put("total", cadres.size());
+        resultMap.put("total", records.size());
 
         return resultMap;
     }

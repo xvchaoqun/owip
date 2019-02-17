@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.dispatch.DispatchWorkFileAuth">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="work_file_id" jdbcType="INTEGER" property="workFileId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, work_file_id, post_id
+    id, work_file_id, post_type
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchWorkFileAuthExample" resultMap="BaseResultMap">
     select
@@ -98,9 +98,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.dispatch.DispatchWorkFileAuth">
-    insert into dispatch_work_file_auth (id, work_file_id, post_id
+    insert into dispatch_work_file_auth (id, work_file_id, post_type
       )
-    values (#{id,jdbcType=INTEGER}, #{workFileId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{workFileId,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.dispatch.DispatchWorkFileAuth">
@@ -112,8 +112,8 @@
       <if test="workFileId != null">
         work_file_id,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="postType != null">
+        post_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -123,8 +123,8 @@
       <if test="workFileId != null">
         #{workFileId,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -143,8 +143,8 @@
       <if test="record.workFileId != null">
         work_file_id = #{record.workFileId,jdbcType=INTEGER},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -155,7 +155,7 @@
     update dispatch_work_file_auth
     set id = #{record.id,jdbcType=INTEGER},
       work_file_id = #{record.workFileId,jdbcType=INTEGER},
-      post_id = #{record.postId,jdbcType=INTEGER}
+      post_type = #{record.postType,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -166,8 +166,8 @@
       <if test="workFileId != null">
         work_file_id = #{workFileId,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -175,7 +175,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.dispatch.DispatchWorkFileAuth">
     update dispatch_work_file_auth
     set work_file_id = #{workFileId,jdbcType=INTEGER},
-      post_id = #{postId,jdbcType=INTEGER}
+      post_type = #{postType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.dispatch.DispatchWorkFileAuthExample" resultMap="BaseResultMap">

@@ -11,8 +11,8 @@
     <result column="way_id" jdbcType="INTEGER" property="wayId" />
     <result column="procedure_id" jdbcType="INTEGER" property="procedureId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="agree_count" jdbcType="INTEGER" property="agreeCount" />
     <result column="abstain_count" jdbcType="INTEGER" property="abstainCount" />
@@ -80,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, topic_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
-    post, post_id, admin_level_id, unit_id, agree_count, abstain_count, disagree_count, 
+    post, post_type, admin_level, unit_id, agree_count, abstain_count, disagree_count, 
     remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteExample" resultMap="BaseResultMap">
@@ -117,13 +117,13 @@
     insert into sc_committee_vote (id, topic_id, cadre_id, 
       type, unit_post_id, cadre_type_id, 
       way_id, procedure_id, post, 
-      post_id, admin_level_id, unit_id, 
+      post_type, admin_level, unit_id, 
       agree_count, abstain_count, disagree_count, 
       remark, sort_order)
     values (#{id,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{unitPostId,jdbcType=INTEGER}, #{cadreTypeId,jdbcType=INTEGER}, 
       #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
-      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
+      #{postType,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
       #{agreeCount,jdbcType=INTEGER}, #{abstainCount,jdbcType=INTEGER}, #{disagreeCount,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
@@ -157,11 +157,11 @@
       <if test="post != null">
         post,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="postType != null">
+        post_type,
       </if>
-      <if test="adminLevelId != null">
-        admin_level_id,
+      <if test="adminLevel != null">
+        admin_level,
       </if>
       <if test="unitId != null">
         unit_id,
@@ -210,11 +210,11 @@
       <if test="post != null">
         #{post,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
       </if>
-      <if test="adminLevelId != null">
-        #{adminLevelId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
@@ -272,11 +272,11 @@
       <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
       </if>
-      <if test="record.adminLevelId != null">
-        admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
       </if>
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
@@ -312,8 +312,8 @@
       way_id = #{record.wayId,jdbcType=INTEGER},
       procedure_id = #{record.procedureId,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
-      post_id = #{record.postId,jdbcType=INTEGER},
-      admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       agree_count = #{record.agreeCount,jdbcType=INTEGER},
       abstain_count = #{record.abstainCount,jdbcType=INTEGER},
@@ -351,11 +351,11 @@
       <if test="post != null">
         post = #{post,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
       </if>
-      <if test="adminLevelId != null">
-        admin_level_id = #{adminLevelId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
@@ -388,8 +388,8 @@
       way_id = #{wayId,jdbcType=INTEGER},
       procedure_id = #{procedureId,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},
-      post_id = #{postId,jdbcType=INTEGER},
-      admin_level_id = #{adminLevelId,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       agree_count = #{agreeCount,jdbcType=INTEGER},
       abstain_count = #{abstainCount,jdbcType=INTEGER},

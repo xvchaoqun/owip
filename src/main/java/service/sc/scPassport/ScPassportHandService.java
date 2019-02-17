@@ -127,8 +127,8 @@ public class ScPassportHandService extends ScBaseMapper {
             ScPassportHand record = new ScPassportHand();
             record.setCadreId(cadreId);
             record.setPost(cv.getPost());
-            record.setPostId(cv.getPostId());
-            record.setTypeId(cv.getTypeId());
+            record.setPostType(cv.getPostType());
+            record.setAdminLevel(cv.getAdminLevel());
             record.setUnitId(cv.getUnitId());
 
             record.setAddType(ScConstants.SC_PASSPORTHAND_ADDTYPE_CADRE);
@@ -166,8 +166,8 @@ public class ScPassportHandService extends ScBaseMapper {
 
             record.setAppointDate(dispatchCadre.getDispatch().getWorkTime());
             record.setPost(dispatchCadre.getPost());
-            record.setPostId(dispatchCadre.getPostId());
-            record.setTypeId(dispatchCadre.getAdminLevelId());
+            record.setPostType(dispatchCadre.getPostType());
+            record.setAdminLevel(dispatchCadre.getAdminLevel());
             record.setUnitId(dispatchCadre.getUnitId());
 
             record.setDispatchCadreId(dispatchCadreId);

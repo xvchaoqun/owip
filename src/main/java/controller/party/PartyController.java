@@ -1,21 +1,18 @@
 package controller.party;
 
+import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.MetaType;
-import domain.party.Branch;
-import domain.party.Party;
-import domain.party.PartyExample;
+import domain.party.*;
 import domain.party.PartyExample.Criteria;
-import domain.party.PartyMember;
-import domain.party.PartyMemberExample;
-import domain.party.PartyMemberGroup;
-import domain.party.PartyView;
-import domain.party.PartyViewExample;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -29,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.party.PartyExportService;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
@@ -44,12 +43,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class PartyController extends BaseController {
@@ -108,9 +102,7 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:list")
     @RequestMapping("/party_data")
     public void party_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_party") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                           @RequestParam(required = false, defaultValue = "1")Byte status,
+                                    @RequestParam(required = false, defaultValue = "1")Byte status,
                                     String code,
                                     String name,
                                     Integer unitId,
@@ -120,7 +112,7 @@ public class PartyController extends BaseController {
                                     Boolean isEnterpriseBig,
                                     Boolean isEnterpriseNationalized,
                                     Boolean isSeparate,
-                           @RequestDateRange DateRange _foundTime,
+                                    @RequestDateRange DateRange _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -135,7 +127,7 @@ public class PartyController extends BaseController {
 
         PartyViewExample example = new PartyViewExample();
         PartyViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("sort_order desc");
 
         criteria.andIsDeletedEqualTo(status==-1);
 
@@ -280,6 +272,96 @@ public class PartyController extends BaseController {
         partyService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("party:edit")
+    @RequestMapping("/party_import")
+    public String party_import(ModelMap modelMap) {
+
+        return "party/party_import";
+    }
+
+    @RequiresPermissions("party:edit")
+    @RequestMapping(value = "/party_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_party_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<Party> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            Party record = new Party();
+            row++;
+            String code = StringUtils.trimToNull(xlsRow.get(0));
+             if(StringUtils.isBlank(code)){
+                throw new OpException("第{0}行编号为空", row);
+            }
+            record.setCode(code);
+
+            String name = StringUtils.trimToNull(xlsRow.get(1));
+             if(StringUtils.isBlank(name)){
+                throw new OpException("第{0}行名称为空", row);
+            }
+            record.setName(name);
+
+            String shortName = StringUtils.trimToNull(xlsRow.get(2));
+            record.setShortName(shortName);
+
+            String foundTime = StringUtils.trimToNull(xlsRow.get(3));
+            record.setFoundTime(DateUtils.parseStringToDate(foundTime));
+
+            String unitCode = StringUtils.trimToNull(xlsRow.get(4));
+            if(StringUtils.isBlank(unitCode)){
+                throw new OpException("第{0}行单位编码为空", row);
+            }
+            Unit unit = unitService.findUnitByCode(unitCode);
+            if(unit==null){
+                throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+            }
+            record.setUnitId(unit.getId());
+
+            String _partyClass = StringUtils.trimToNull(xlsRow.get(5));
+            MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", _partyClass);
+            if (partyClass == null) throw new OpException("第{0}行党总支类别[{1}]不存在", row, _partyClass);
+            record.setClassId(partyClass.getId());
+
+            String _partyType = StringUtils.trimToNull(xlsRow.get(6));
+            MetaType partyType = CmTag.getMetaTypeByName("mc_party_type", _partyType);
+            if (partyType == null) throw new OpException("第{0}行组织类别[{1}]不存在", row, _partyType);
+            record.setTypeId(partyType.getId());
+
+            String _partyUnitType = StringUtils.trimToNull(xlsRow.get(7));
+            MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", _partyUnitType);
+            if (partyUnitType == null) throw new OpException("第{0}行所在单位属性[{1}]不存在", row, _partyUnitType);
+            record.setUnitTypeId(partyUnitType.getId());
+
+            record.setIsEnterpriseBig(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(8)), "是"));
+            record.setIsEnterpriseNationalized(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(9)), "是"));
+            record.setIsSeparate(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(10)), "是"));
+
+            record.setPhone(StringUtils.trimToNull(xlsRow.get(11)));
+            record.setFax(StringUtils.trimToNull(xlsRow.get(12)));
+            record.setEmail(StringUtils.trimToNull(xlsRow.get(13)));
+
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = partyService.bacthImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     public void party_export(PartyViewExample example, HttpServletResponse response) {

@@ -56,7 +56,7 @@
           <td class="bg-right" nowrap>工作单位及职务</td>
           <td colspan="3" class="bg-left">${cadre.title}</td>
           <td class="bg-right">行政级别</td>
-          <td class="bg-left">${cm:getMetaType(cadre.typeId).name} </td>
+          <td class="bg-left">${cm:getMetaType(cadre.adminLevel).name} </td>
         </tr>
         <tr>
           <td rowspan="9" class="bg-right" nowrap>申请因私出国（境）情况</td>

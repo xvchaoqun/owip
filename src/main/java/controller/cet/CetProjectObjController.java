@@ -56,7 +56,7 @@ public class CetProjectObjController extends CetBaseController {
 
             @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
             @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-            @RequestParam(required = false, value = "postIds") Integer[] postIds,
+            @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
             @RequestParam(defaultValue = "1") Integer cls, //
             @RequestParam(defaultValue = "0") Boolean isQuit,
             ModelMap modelMap) {
@@ -110,8 +110,8 @@ public class CetProjectObjController extends CetBaseController {
         if (adminLevels != null) {
             modelMap.put("selectAdminLevels", Arrays.asList(adminLevels));
         }
-        if (postIds != null) {
-            modelMap.put("selectPostIds", Arrays.asList(postIds));
+        if (postTypes != null) {
+            modelMap.put("selectPostTypes", Arrays.asList(postTypes));
         }
 
         if (userId != null)
@@ -135,7 +135,7 @@ public class CetProjectObjController extends CetBaseController {
                                    Boolean hasUploadWrite, // 是否撰写心得体会
                                    @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
                                    @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
-                                   @RequestParam(required = false, value = "postIds") Integer[] postIds,
+                                   @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
                                    int traineeTypeId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -227,11 +227,11 @@ public class CetProjectObjController extends CetBaseController {
         if (dpTypes != null) {
             criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
         }
-        if (postIds != null) {
-            criteria.andPostIdIn(Arrays.asList(postIds));
+        if (postTypes != null) {
+            criteria.andPostTypeIn(Arrays.asList(postTypes));
         }
         if (adminLevels != null) {
-            criteria.andTypeIdIn(Arrays.asList(adminLevels));
+            criteria.andAdminLevelIn(Arrays.asList(adminLevels));
         }
 
         if (userId != null) {

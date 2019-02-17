@@ -97,7 +97,7 @@ public class DispatchCadreController extends DispatchBaseController {
                                      Integer dispatchTypeId,
                                      @RequestParam(required = false, value = "wayId")Integer[] wayId,
                                      @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
-                                     @RequestParam(required = false, value = "adminLevelId")Integer[] adminLevelId,
+                                     @RequestParam(required = false, value = "adminLevel")Integer[] adminLevel,
                                     Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -127,9 +127,9 @@ public class DispatchCadreController extends DispatchBaseController {
             List<Integer> selectedProcedureIds = Arrays.asList(procedureId);
             modelMap.put("selectedProcedureIds", selectedProcedureIds);
         }
-        if (adminLevelId!=null) {
-            List<Integer> selectedAdminLevelIds = Arrays.asList(adminLevelId);
-            modelMap.put("selectedAdminLevelIds", selectedAdminLevelIds);
+        if (adminLevel!=null) {
+            List<Integer> selectedAdminLevels = Arrays.asList(adminLevel);
+            modelMap.put("selectedAdminLevels", selectedAdminLevels);
         }
 
         return "dispatch/dispatchCadre/dispatchCadre_page";
@@ -147,10 +147,10 @@ public class DispatchCadreController extends DispatchBaseController {
                                    Integer code,
                                     Integer dispatchId,
                                     Byte type,
-                                    /*Integer typeId,*/
+
                                    @RequestParam(required = false, value = "wayId")Integer[] wayId,
                                    @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
-                                   @RequestParam(required = false, value = "adminLevelId")Integer[] adminLevelId,
+                                   @RequestParam(required = false, value = "adminLevel")Integer[] adminLevel,
                                     Integer cadreId,
                                     /*String name,*/
                                     Integer unitId,
@@ -200,9 +200,6 @@ public class DispatchCadreController extends DispatchBaseController {
             criteria.andTypeEqualTo(type);
         }
 
-        /*if (typeId!=null) {
-            criteria.andTypeIdEqualTo(typeId);
-        }*/
         if (wayId!=null) {
             List<Integer> selects = Arrays.asList(wayId);
             criteria.andWayIdIn(selects);
@@ -217,9 +214,9 @@ public class DispatchCadreController extends DispatchBaseController {
         /*if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }*/
-        if (adminLevelId!=null) {
-            List<Integer> selects = Arrays.asList(adminLevelId);
-            criteria.andAdminLevelIdIn(selects);
+        if (adminLevel!=null) {
+            List<Integer> selects = Arrays.asList(adminLevel);
+            criteria.andAdminLevelIn(selects);
         }
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);
@@ -375,8 +372,8 @@ public class DispatchCadreController extends DispatchBaseController {
                     uv.getCode(),
                     uv.getRealname(),
                     record.getPost(),
-                    metaTypeService.getName(record.getPostId()),
-                    metaTypeService.getName(record.getAdminLevelId()),
+                    metaTypeService.getName(record.getPostType()),
+                    metaTypeService.getName(record.getAdminLevel()),
                     record.getUnitId()==null?"":record.getUnit().getName(),
                     record.getUnitId()==null?"":metaTypeService.getName(record.getUnit().getTypeId()),
                     dispatch.getDispatchType().getName(),

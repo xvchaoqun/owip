@@ -44,7 +44,7 @@
                         <t:cadre cadreId="${passport.cadreId}" realname="${sysUser.realname}"/>
                     </td>
                     <td>${cadre.title}</td>
-                    <td>${cm:getMetaType(cadre.postId).name}</td>
+                    <td>${cm:getMetaType(cadre.postType).name}</td>
                     <td>${cm:getMetaType(passport.classId).name}</td>
                     <td>${passport.code}</td>
                     <td>${passport.authority}</td>

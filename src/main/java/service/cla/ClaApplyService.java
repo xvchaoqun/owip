@@ -6,23 +6,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
 import domain.cadre.CadreLeader;
 import domain.cadre.CadreView;
-import domain.cla.ClaAdditionalPost;
-import domain.cla.ClaAdditionalPostExample;
-import domain.cla.ClaApplicatCadre;
-import domain.cla.ClaApplicatCadreExample;
-import domain.cla.ClaApply;
-import domain.cla.ClaApplyExample;
-import domain.cla.ClaApplyFile;
-import domain.cla.ClaApplyFileExample;
-import domain.cla.ClaApplyModify;
-import domain.cla.ClaApplyModifyExample;
-import domain.cla.ClaApprovalLog;
-import domain.cla.ClaApprovalLogExample;
-import domain.cla.ClaApprovalOrder;
-import domain.cla.ClaApprovalOrderExample;
-import domain.cla.ClaApprover;
-import domain.cla.ClaApproverBlackList;
-import domain.cla.ClaApproverType;
+import domain.cla.*;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -35,7 +19,6 @@ import persistence.cla.common.ClaApplySearchBean;
 import persistence.cla.common.ClaApprovalResult;
 import persistence.cla.common.ClaApprovalTdBean;
 import persistence.cla.common.ClaApproverTypeBean;
-import service.BaseMapper;
 import service.SpringProps;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
@@ -59,15 +42,7 @@ import sys.utils.IpUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ClaApplyService extends ClaBaseMapper {
@@ -667,14 +642,14 @@ public class ClaApplyService extends ClaBaseMapper {
                 && (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                 || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId()) == null) { // 必须是现任干部，且不在黑名单
-            MetaType postType = metaTypeMap.get(cadre.getPostId());
+            MetaType postType = metaTypeMap.get(cadre.getPostType());
             if (postType != null && postType.getBoolAttr()) {
                 unitIds.add(cadre.getUnitId());
             }
             if (postType == null) {
                 SysUserView uv = cadre.getUser();
                 logger.error(String.format("读取职务属性出错：%s %s postId=%s",
-                        uv.getUsername(), uv.getRealname(), cadre.getPostId()));
+                        uv.getUsername(), uv.getRealname(), cadre.getPostType()));
             }
         }
         {

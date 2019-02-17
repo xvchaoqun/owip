@@ -3,7 +3,7 @@
 <mapper namespace="persistence.unit.UnitPostCountViewMapper">
   <resultMap id="BaseResultMap" type="domain.unit.UnitPostCountView">
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="total" jdbcType="INTEGER" property="total" />
   </resultMap>
@@ -37,7 +37,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    unit_id, admin_level_id, num, total
+    unit_id, admin_level, num, total
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostCountViewExample" resultMap="BaseResultMap">
     select

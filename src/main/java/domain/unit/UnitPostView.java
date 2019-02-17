@@ -78,7 +78,7 @@ public class UnitPostView implements Serializable {
 
     private Boolean isMainPost;
 
-    private Integer cadreTypeId;
+    private Integer cadreAdminLevel;
 
     private Integer cadrePostYear;
 
@@ -278,12 +278,12 @@ public class UnitPostView implements Serializable {
         this.isMainPost = isMainPost;
     }
 
-    public Integer getCadreTypeId() {
-        return cadreTypeId;
+    public Integer getCadreAdminLevel() {
+        return cadreAdminLevel;
     }
 
-    public void setCadreTypeId(Integer cadreTypeId) {
-        this.cadreTypeId = cadreTypeId;
+    public void setCadreAdminLevel(Integer cadreAdminLevel) {
+        this.cadreAdminLevel = cadreAdminLevel;
     }
 
     public Integer getCadrePostYear() {

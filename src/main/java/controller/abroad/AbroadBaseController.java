@@ -3,6 +3,7 @@ package controller.abroad;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.abroad.*;
 import service.base.CountryService;
+import service.base.MetaTypeService;
 import service.base.ShortMsgService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreLeaderService;
@@ -33,6 +34,8 @@ public class AbroadBaseController extends AbroadBaseMapper implements HttpRespon
     protected ShortMsgService shortMsgService;
     @Autowired
     protected CadreCommonService cadreCommonService;
+    @Autowired
+    protected MetaTypeService metaTypeService;
     
     @Autowired
     protected AbroadService abroadService;

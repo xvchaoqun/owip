@@ -55,9 +55,9 @@ public class UnitPostService extends BaseMapper {
 
         UnitPostExample example = new UnitPostExample();
         UnitPostExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
-        List<UnitPost> unitPosts = unitPostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        List<UnitPost> records = unitPostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return unitPosts.size()==1?unitPosts.get(0):null;
+        return records.size()==1?records.get(0):null;
     }
     
     // 查询某单位下的所有岗位（包含已撤销）
@@ -73,12 +73,12 @@ public class UnitPostService extends BaseMapper {
     }
 
     // 单位、级别下的占职数的岗位
-    public List<UnitPostView> query(int unitId, int adminLevelId, Boolean displayEmpty) {
+    public List<UnitPostView> query(int unitId, int adminLevel, Boolean displayEmpty) {
 
         UnitPostViewExample example = new UnitPostViewExample();
         UnitPostViewExample.Criteria criteria = example.createCriteria()
                 .andUnitIdEqualTo(unitId)
-                .andAdminLevelEqualTo(adminLevelId)
+                .andAdminLevelEqualTo(adminLevel)
                 .andIsCpcEqualTo(true);
         example.setOrderByClause("sort_order desc");
 
@@ -98,7 +98,7 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public int importUnitPosts(List<UnitPost> records) {
+    public int bacthImport(List<UnitPost> records) {
 
         int addCount = 0;
         for (UnitPost record : records) {
@@ -265,10 +265,10 @@ public class UnitPostService extends BaseMapper {
             cell.setCellValue(record.getPost());
 
             cell = row.getCell(column++);
-            cell.setCellValue(metaTypeService.getName(record.getPostId()));
+            cell.setCellValue(metaTypeService.getName(record.getPostType()));
 
             cell = row.getCell(column++);
-            cell.setCellValue(metaTypeService.getName(record.getAdminLevelId()));
+            cell.setCellValue(metaTypeService.getName(record.getAdminLevel()));
 
             cell = row.getCell(column++);
             cell.setCellValue(DateUtils.formatDate(dispatch.getMeetingTime(), DateUtils.YYYY_MM_DD));

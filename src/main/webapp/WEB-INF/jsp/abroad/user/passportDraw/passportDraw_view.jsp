@@ -132,7 +132,7 @@
     <td class="bg-right">工作单位及现任职务</td>
     <td colspan="3" class="bg-left">${cadre.title}</td>
     <td class="bg-right">行政级别</td>
-    <td class="bg-left">${cm:getMetaType(cadre.typeId).name} </td>
+    <td class="bg-left">${cm:getMetaType(cadre.adminLevel).name} </td>
   </tr>
   <tr>
     <td rowspan="2" class="bg-right">申请</td>

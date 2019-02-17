@@ -19,9 +19,16 @@
                         <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
 
-                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm" >
-                        <i class="fa fa-edit"></i> 修改信息</a>
+                    <shiro:hasPermission name="party:edit">
+                        <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm" >
+                            <i class="fa fa-edit"></i> 修改信息</a>
 
+                        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                data-url="${ctx}/partyMemberGroup_import"
+                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                            批量导入
+                        </button>
+                    </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                     <c:if test="${status>=0}">

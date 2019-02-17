@@ -42,9 +42,9 @@ public class DispatchCadreView implements Serializable {
 
     private String post;
 
-    private Integer postId;
+    private Integer postType;
 
-    private Integer adminLevelId;
+    private Integer adminLevel;
 
     private Integer unitId;
 
@@ -142,20 +142,20 @@ public class DispatchCadreView implements Serializable {
         this.post = post == null ? null : post.trim();
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Integer getPostType() {
+        return postType;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setPostType(Integer postType) {
+        this.postType = postType;
     }
 
-    public Integer getAdminLevelId() {
-        return adminLevelId;
+    public Integer getAdminLevel() {
+        return adminLevel;
     }
 
-    public void setAdminLevelId(Integer adminLevelId) {
-        this.adminLevelId = adminLevelId;
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
     }
 
     public Integer getUnitId() {

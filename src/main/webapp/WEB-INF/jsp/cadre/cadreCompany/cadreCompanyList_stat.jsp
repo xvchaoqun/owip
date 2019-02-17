@@ -45,7 +45,7 @@
                     <td>${vs.count}</td>
                     <td>${cadre.realname}</td>
                     <td style="text-align: left">${cadre.title}</td>
-                    <td>${cm:getMetaType(cadre.typeId).name}</td>
+                    <td>${cm:getMetaType(cadre.adminLevel).name}</td>
                     <td>${stat.value.totalCount}</td>
                     <c:forEach items="${typeMap}" var="entity">
                         <c:set var="num" value="${stat.value.typeMap.get(entity.key)}"/>

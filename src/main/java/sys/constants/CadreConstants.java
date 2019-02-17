@@ -47,6 +47,16 @@ public class CadreConstants {
         CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_LEADER_LEAVE);
     }
 
+    // 中层干部类别
+    public final static byte CADRE_TYPE_CJ = 1; // 处级干部
+    public final static byte CADRE_TYPE_KJ = 2; // 科级干部
+    public final static Map<Byte, String> CADRE_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CADRE_TYPE_MAP.put(CADRE_TYPE_CJ, "处级干部");
+        CADRE_TYPE_MAP.put(CADRE_TYPE_KJ, "科级干部");
+    }
+
     // 干部党派类别
     public final static byte CADRE_PARTY_TYPE_NONE = 0; // 无，此时党派由党员库确认
     public final static byte CADRE_PARTY_TYPE_DP = 1; // 民主党派

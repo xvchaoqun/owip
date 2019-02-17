@@ -37,13 +37,17 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">岗位级别</label>
 				<div class="col-xs-6">
-					<select required class="form-control" data-rel="select2" name="adminLevel"
+					 <select  data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择">
+						<option></option>
+						<jsp:include page="/metaTypes?__code=mc_admin_level"/>
+					</select>
+					<%--<select required class="form-control" data-rel="select2" name="adminLevel"
 							data-width="272" data-placeholder="请选择行政级别">
 						<option></option>
 						<option value="${cm:getMetaTypeByCode('mt_admin_level_main').id}">正处级</option>
 						<option value="${cm:getMetaTypeByCode('mt_admin_level_vice').id}">副处级</option>
 						<option value="${cm:getMetaTypeByCode('mt_admin_level_none').id}">无行政级别</option>
-					</select>
+					</select>--%>
 					<script type="text/javascript">
 						$("#modalForm select[name=adminLevel]").val('${unitPost.adminLevel}');
 					</script>
@@ -52,7 +56,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务属性</label>
 				<div class="col-xs-6">
-					<select required name="postType" data-rel="select2" data-width="272" data-placeholder="请选择职务属性">
+					<select required name="postType" data-rel="select2" data-width="272" data-placeholder="请选择">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_post"/>
 					</select>

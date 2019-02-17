@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetUnitTrain implements Serializable {
-    
+
     public CadreView getCadre(){
         return CmTag.getCadreByUserId(userId);
     }
@@ -20,7 +20,7 @@ public class CetUnitTrain implements Serializable {
     public CetUnitProject getProject(){
         return CmTag.getBean(CetUnitProjectMapper.class).selectByPrimaryKey(projectId);
     }
-    
+
     private Integer id;
 
     private Integer projectId;
@@ -29,7 +29,7 @@ public class CetUnitTrain implements Serializable {
 
     private String title;
 
-    private Integer postId;
+    private Integer postType;
 
     private BigDecimal period;
 
@@ -83,12 +83,12 @@ public class CetUnitTrain implements Serializable {
         this.title = title == null ? null : title.trim();
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Integer getPostType() {
+        return postType;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setPostType(Integer postType) {
+        this.postType = postType;
     }
 
     public BigDecimal getPeriod() {

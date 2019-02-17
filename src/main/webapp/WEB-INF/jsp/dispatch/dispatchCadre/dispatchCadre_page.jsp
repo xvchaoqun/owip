@@ -14,7 +14,7 @@
                 <c:set var="_query" value="${not empty param.startYear ||not empty param.endYear||not empty param.year||not empty param.year ||not empty param.dispatchTypeId ||not empty param.code
                 || not empty param.type|| not empty param.dispatchId
             ||not empty param.wayId ||not empty param.procedureId ||not empty param.cadreId
-            ||not empty param.adminLevelId ||not empty param.unitId }"/>
+            ||not empty param.adminLevel ||not empty param.unitId }"/>
                 <div class="tabbable">
                     <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
                     <div class="tab-content">
@@ -99,7 +99,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>行政级别</label>
-                                                <select class="multiselect" multiple="" name="adminLevelId" data-placeholder="请选择">
+                                                <select class="multiselect" multiple="" name="adminLevel" data-placeholder="请选择">
                                                     <c:import url="/metaTypes?__code=mc_admin_level"/>
                                                 </select>
                                         </div>
@@ -151,7 +151,7 @@
 <script>
     $.register.multiselect($('#searchForm select[name=wayId]'), ${cm:toJSONArray(selectedWayIds)});
     $.register.multiselect($('#searchForm select[name=procedureId]'), ${cm:toJSONArray(selectedProcedureIds)});
-    $.register.multiselect($('#searchForm select[name=adminLevelId]'), ${cm:toJSONArray(selectedAdminLevelIds)});
+    $.register.multiselect($('#searchForm select[name=adminLevel]'), ${cm:toJSONArray(selectedAdminLevels)});
 
     $.register.date($('.date-picker'));
     $.register.dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));

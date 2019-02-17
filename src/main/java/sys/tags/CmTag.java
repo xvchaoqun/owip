@@ -303,7 +303,7 @@ public class CmTag {
     public static CadreAdminLevel getPresentByCadreId(int caderId) {
         CadrePost mainCadrePost = getCadreMainCadrePost(caderId);
         return cadreAdminLevelService.getPresentByCadreId(caderId,
-                mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null);
+                mainCadrePost != null ? mainCadrePost.getAdminLevel() : null);
     }
 
     public static CadreFamily getCadreFamily(Integer id) {

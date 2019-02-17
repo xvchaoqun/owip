@@ -96,20 +96,20 @@ public class DispatchWorkFileController extends DispatchBaseController {
         }*/
 
         boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN);
-        List<Integer> postIds = new ArrayList<>();
+        List<Integer> postTypes = new ArrayList<>();
         if(!isAdmin){
             CadreView cadreView = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
-            if(cadreView!=null) postIds.add(cadreView.getPostId());
+            if(cadreView!=null) postTypes.add(cadreView.getPostType());
         }
 
-        long count = iDispatchMapper.countDispatchWorkFileList(isAdmin, fileName, postIds, type, status,
+        long count = iDispatchMapper.countDispatchWorkFileList(isAdmin, fileName, postTypes, type, status,
                 unitTypes, startYear, endYear, workTypes, privacyTypes);
 
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DispatchWorkFile> records = iDispatchMapper.selectDispatchWorkFileList(isAdmin, fileName, postIds, type, status,
+        List<DispatchWorkFile> records = iDispatchMapper.selectDispatchWorkFileList(isAdmin, fileName, postTypes, type, status,
                 unitTypes, startYear, endYear, workTypes, privacyTypes, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -164,9 +164,9 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequiresPermissions("dispatchWorkFile:auth")
     @RequestMapping(value = "/dispatchWorkFileAuth", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dispatchWorkFileAuth(Integer id, @RequestParam(value = "postIds[]", required = false) Integer[] postIds) {
+    public Map do_dispatchWorkFileAuth(Integer id, @RequestParam(value = "postTypes[]", required = false) Integer[] postTypes) {
 
-        dispatchWorkFileService.updatePostIds(id, postIds);
+        dispatchWorkFileService.updatePostTypes(id, postTypes);
         return success(FormUtils.SUCCESS);
     }
 

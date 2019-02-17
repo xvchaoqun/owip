@@ -1637,63 +1637,63 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdIsNull() {
-            addCriterion("cadre_type_id is null");
+        public Criteria andCadreAdminLevelIsNull() {
+            addCriterion("cadre_admin_level is null");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdIsNotNull() {
-            addCriterion("cadre_type_id is not null");
+        public Criteria andCadreAdminLevelIsNotNull() {
+            addCriterion("cadre_admin_level is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdEqualTo(Integer value) {
-            addCriterion("cadre_type_id =", value, "cadreTypeId");
+        public Criteria andCadreAdminLevelEqualTo(Integer value) {
+            addCriterion("cadre_admin_level =", value, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdNotEqualTo(Integer value) {
-            addCriterion("cadre_type_id <>", value, "cadreTypeId");
+        public Criteria andCadreAdminLevelNotEqualTo(Integer value) {
+            addCriterion("cadre_admin_level <>", value, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdGreaterThan(Integer value) {
-            addCriterion("cadre_type_id >", value, "cadreTypeId");
+        public Criteria andCadreAdminLevelGreaterThan(Integer value) {
+            addCriterion("cadre_admin_level >", value, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("cadre_type_id >=", value, "cadreTypeId");
+        public Criteria andCadreAdminLevelGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_admin_level >=", value, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdLessThan(Integer value) {
-            addCriterion("cadre_type_id <", value, "cadreTypeId");
+        public Criteria andCadreAdminLevelLessThan(Integer value) {
+            addCriterion("cadre_admin_level <", value, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("cadre_type_id <=", value, "cadreTypeId");
+        public Criteria andCadreAdminLevelLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_admin_level <=", value, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdIn(List<Integer> values) {
-            addCriterion("cadre_type_id in", values, "cadreTypeId");
+        public Criteria andCadreAdminLevelIn(List<Integer> values) {
+            addCriterion("cadre_admin_level in", values, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdNotIn(List<Integer> values) {
-            addCriterion("cadre_type_id not in", values, "cadreTypeId");
+        public Criteria andCadreAdminLevelNotIn(List<Integer> values) {
+            addCriterion("cadre_admin_level not in", values, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("cadre_type_id between", value1, value2, "cadreTypeId");
+        public Criteria andCadreAdminLevelBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_admin_level between", value1, value2, "cadreAdminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andCadreTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("cadre_type_id not between", value1, value2, "cadreTypeId");
+        public Criteria andCadreAdminLevelNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_admin_level not between", value1, value2, "cadreAdminLevel");
             return (Criteria) this;
         }
 

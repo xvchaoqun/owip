@@ -80,7 +80,7 @@ public class ModifyCadreAuthService extends BaseMapper {
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
                 List<Cadre> list = null;
-                MetaType postType = postMap.get(cadre.getPostId());
+                MetaType postType = postMap.get(cadre.getPostType());
                 int postId = postType.getId();
                 if (postIdCadresMap.containsKey(postId)) {
                     list = postIdCadresMap.get(postId);

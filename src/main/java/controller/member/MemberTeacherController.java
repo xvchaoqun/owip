@@ -316,7 +316,7 @@ public class MemberTeacherController extends MemberBaseController {
             if(cadre!=null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)){
                 post = cadre.getTitle();
-                if(cadre.getTypeId()!=null) adminLevel = CmTag.getMetaType(cadre.getTypeId()).getName();
+                if(cadre.getAdminLevel()!=null) adminLevel = CmTag.getMetaType(cadre.getAdminLevel()).getName();
             }
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),

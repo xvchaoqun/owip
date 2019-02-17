@@ -82,7 +82,7 @@ public class CadreInfoFormService extends BaseMapper {
         bean.setCode(uv.getCode());
 
         // 行政级别
-        bean.setAdminLevel(cadre.getTypeId());
+        bean.setAdminLevel(cadre.getAdminLevel());
         // 管理岗位等级及分级时间
         bean.setManageLevel(cadre.getManageLevel());
         bean.setManageLevelTime(cadre.getManageLevelTime());

@@ -116,24 +116,24 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">职务属性</label>
           <div class="col-xs-6">
-            <select required name="postId" data-rel="select2" data-width="220" data-placeholder="请选择职务属性">
+            <select required name="postType" data-rel="select2" data-width="220" data-placeholder="请选择职务属性">
               <option></option>
               <c:import url="/metaTypes?__code=mc_post"/>
             </select>
             <script>
-              $("#cadreForm select[name=postId]").val('${dispatchCadre.postId}');
+              $("#cadreForm select[name=postType]").val('${dispatchCadre.postType}');
             </script>
           </div>
         </div>
         <div class="form-group">
           <label class="col-xs-3 control-label">行政级别</label>
           <div class="col-xs-6">
-            <select required class="form-control" data-rel="select2" data-width="220" name="adminLevelId" data-placeholder="请选择行政级别">
+            <select required class="form-control" data-rel="select2" data-width="220" name="adminLevel" data-placeholder="请选择行政级别">
               <option></option>
               <c:import url="/metaTypes?__code=mc_admin_level"/>
             </select>
             <script type="text/javascript">
-              $("#cadreForm select[name=adminLevelId]").val('${dispatchCadre.adminLevelId}');
+              $("#cadreForm select[name=adminLevel]").val('${dispatchCadre.adminLevel}');
             </script>
           </div>
         </div>
@@ -302,8 +302,8 @@
           }
 
           $('#cadreForm textarea[name=post]').val(up.name)
-          $("#cadreForm select[name=postId]").val(up.postType).trigger("change");
-          $("#cadreForm select[name=adminLevelId]").val(up.adminLevel).trigger("change");
+          $("#cadreForm select[name=postType]").val(up.postType).trigger("change");
+          $("#cadreForm select[name=adminLevel]").val(up.adminLevel).trigger("change");
           $("#cadreForm select[name=_unitStatus]").val(up.unitStatus).trigger("change");
 
           var option = new Option(up.unitName, up.unitId, true, true);

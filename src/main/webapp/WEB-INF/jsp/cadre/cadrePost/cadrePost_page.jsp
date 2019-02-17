@@ -209,10 +209,10 @@
                 if(rowObject.unitPostId==undefined)
                     return "class='warning'";
             }, frozen: true},
-            {label: '职务属性', width: 130, name: 'postId', formatter: $.jgrid.formatter.MetaType, frozen: true},
-            {label: '行政级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType, frozen: true},
+            {label: '职务属性', width: 130, name: 'postType', formatter: $.jgrid.formatter.MetaType, frozen: true},
+            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType, frozen: true},
             {
-                label: '是否正职', name: 'postId', formatter: function (cellvalue, options, rowObject) {
+                label: '是否正职', name: 'postType', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return _cMap.metaTypeMap[cellvalue].boolAttr ? "是" : "否"
             }
@@ -330,7 +330,7 @@
                     if(rowObject.unitPostId==undefined)
                         return "class='warning'";
                 }, frozen: true},
-            {label: '职务级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType},
+            {label: '职务级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '是否占职数', name: 'isCpc', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
@@ -343,7 +343,7 @@
                 formatoptions:{grid:'#jqGrid_subCadrePosts', url: "${ctx}/cadrePost_changeOrder"}, frozen: true
             },
             </shiro:lacksRole>
-            {label: '职务属性', width: 120, name: 'postId', formatter: $.jgrid.formatter.MetaType},
+            {label: '职务属性', width: 120, name: 'postType', formatter: $.jgrid.formatter.MetaType},
             {label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},
             {
                 label: '兼任职务任职日期',
@@ -415,7 +415,7 @@
                 width: 120
             }
         ]
-    });
+    }).jqGrid("setFrozenColumns");
 
     $(window).triggerHandler('resize.jqGrid4');
     </c:if>
@@ -458,11 +458,11 @@
         datatype: "local",
         data:${cm:toJSONArray(cadreAdminLevels)},
         colModel: [
-            {label: '行政级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType},
+            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '是否现任职级', width: 120, name: 'isNow', formatter: function (cellvalue, options, rowObject) {
-                return (rowObject.adminLevelId == '${cadre.typeId}') ? "是" : "否";
-                //return (rowObject.adminLevelId == mainCadrePost.adminLevelId) ? "是" : "否";
+                return (rowObject.adminLevel == '${cadre.adminLevel}') ? "是" : "否";
+                //return (rowObject.adminLevel == mainCadrePost.adminLevel) ? "是" : "否";
             }
             },
             {
@@ -506,7 +506,7 @@
                     var end;
                     if (rowObject.endDispatch != undefined)
                         end = rowObject.endDispatch.workTime;
-                    if (rowObject.adminLevelId == mainCadrePost.adminLevelId)
+                    if (rowObject.adminLevel == mainCadrePost.adminLevel)
                         end = new Date().format("yyyy-MM-dd");
                     if (rowObject.startDispatch == undefined || end == undefined) return '';
 
@@ -532,7 +532,7 @@
             }, width: 250 },
             {label: '备注', name: 'remark', width: 250}
         ]
-    });
+    }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     </c:if>
 

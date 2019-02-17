@@ -69,7 +69,7 @@ public class CrsPostRequireService extends CrsBaseMapper {
         String manageLevelTime = cv.getManageLevelTime() == null ? null : DateUtils.yearOffNow_cn(cv.getManageLevelTime());
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_GLGW,  combineTowString(manageLevel, manageLevelTime));
 
-        Integer adminLevelId = cv.getTypeId();
+        Integer adminLevel = cv.getAdminLevel();
         MetaType mainPost = codeKeyMap.get("mt_admin_level_main");
         MetaType vicePost = codeKeyMap.get("mt_admin_level_vice");
         String lpWorkTime = DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYY_MM_DD);
@@ -77,12 +77,12 @@ public class CrsPostRequireService extends CrsBaseMapper {
 
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZCJ, "--");
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_FCJ, "--");
-        if(adminLevelId != null) {
-            if (adminLevelId.intValue() == mainPost.getId()) {
+        if(adminLevel != null) {
+            if (adminLevel.intValue() == mainPost.getId()) {
                 String name = mainPost.getName();
                 resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZCJ,
                         combineTowString(name, lpWorkTime) + "，" +(lpWorkTimeOfYear==null?"--":lpWorkTimeOfYear));
-            } else if (adminLevelId.intValue() == vicePost.getId()) {
+            } else if (adminLevel.intValue() == vicePost.getId()) {
                 String name = vicePost.getName();
                 resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_FCJ,
                         combineTowString(name, lpWorkTime) + "，" +(lpWorkTimeOfYear==null?"--":lpWorkTimeOfYear));

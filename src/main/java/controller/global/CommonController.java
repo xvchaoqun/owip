@@ -183,7 +183,7 @@ public class CommonController extends BaseController {
                 }
                 option.put("text", uv.getRealname());
                 option.put("mobile", uv.getMobile());
-                option.put("postId", cadre.getPostId()+"");
+                option.put("postType", cadre.getPostType()+"");
                 option.put("title", cadre.getTitle());
                 option.put("status", cadre.getStatus() + "");
                 if (StringUtils.isNotBlank(uv.getCode())) {

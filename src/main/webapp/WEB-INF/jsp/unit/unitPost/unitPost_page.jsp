@@ -51,11 +51,10 @@
                      </button>
                  </shiro:hasPermission>
                 <shiro:hasPermission name="unitPost:edit">
-
-                    <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/unitPost_import"
                             data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                        导入
+                        批量导入
                     </button>
                 </shiro:hasPermission>
                 </c:if>

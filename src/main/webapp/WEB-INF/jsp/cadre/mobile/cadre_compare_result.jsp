@@ -37,7 +37,7 @@
         </a>
       </td>
       <td style="text-align: left">${cadre.title}</td>
-      <td>${cm:getMetaType(cadre.typeId).name}</td>
+      <td>${cm:getMetaType(cadre.adminLevel).name}</td>
       <td>${GENDER_MAP.get(cadre.gender)}</td>
       <td>${cadre.nation}</td>
       <td>${cm:formatDate(cadre.birth,'yyyy-MM-dd')}</td>

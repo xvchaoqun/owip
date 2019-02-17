@@ -7,7 +7,7 @@ public class DispatchWorkFileAuth implements Serializable {
 
     private Integer workFileId;
 
-    private Integer postId;
+    private Integer postType;
 
     private static final long serialVersionUID = 1L;
 
@@ -27,11 +27,11 @@ public class DispatchWorkFileAuth implements Serializable {
         this.workFileId = workFileId;
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Integer getPostType() {
+        return postType;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setPostType(Integer postType) {
+        this.postType = postType;
     }
 }

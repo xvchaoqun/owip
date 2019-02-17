@@ -28,7 +28,8 @@
   </div>
   <div class="modal-footer">
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-  <input type="submit" class="btn btn-primary" value="确定"/>
+ <button id="submitBtn" type="button" class="btn btn-primary"
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> 确定</button>
   </div>
 <script type="text/template" id="failed_tpl">
 	{{if(failedXlsRows.length>=1){}}
@@ -60,7 +61,7 @@
   <script>
 	  $.fileInput($('#modalForm input[type=file]'))
 	  $("#modalForm :checkbox").bootstrapSwitch();
-		$("#modalForm input[type=submit]").click(function(){$("#modalForm").submit();return false;});
+		$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 		$("#modalForm").validate({
 				messages: {
                     "xlsx": {
@@ -69,6 +70,7 @@
                     }
                 },
 				submitHandler: function (form) {
+					 var $btn = $("#submitBtn").button('loading');
 					$(form).ajaxSubmit({
 						dataType:"json",
 						success:function(ret){
@@ -83,6 +85,7 @@
 								$("#jqGrid2").trigger("reloadGrid");
 								SysMsg.success(result.format(ret.total, ret.successCount) + failed, '成功');
 							}
+							$btn.button('reset');
 						}
 					});
 				}

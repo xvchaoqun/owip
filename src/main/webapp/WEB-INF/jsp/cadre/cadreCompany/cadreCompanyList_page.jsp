@@ -5,8 +5,7 @@
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.code ||not empty param.name
-            ||not empty param.typeId || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.code ||not empty param.name  || not empty param.sort}"/>
 
             <jsp:include page="menu.jsp"/>
             <div class="space-4"></div>

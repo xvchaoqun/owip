@@ -61,6 +61,14 @@ pageEncoding="UTF-8" %>
                         data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
+                <shiro:hasPermission name="party:edit">
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                            data-url="${ctx}/party_import"
+                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                        批量导入
+                    </button>
+                </shiro:hasPermission>
+
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                 <c:if test="${status>=0}">

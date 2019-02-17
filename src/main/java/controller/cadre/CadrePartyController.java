@@ -2,6 +2,8 @@ package controller.cadre;
 
 import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreParty;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
@@ -63,8 +65,8 @@ public class CadrePartyController extends BaseController {
                                 byte type,
                                 Byte status,
                                 Integer userId,
-                                Integer typeId,
-                                Integer postId,
+                                Integer adminLevel,
+                                Integer postType,
                                 Integer dpTypeId,
                                 String title,
                                 Integer pageSize, Integer pageNo) throws IOException {
@@ -92,14 +94,14 @@ public class CadrePartyController extends BaseController {
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (typeId!=null) {
-            criteria.andTypeIdEqualTo(typeId);
+        if (adminLevel !=null) {
+            criteria.andAdminLevelEqualTo(adminLevel);
         }
         if (dpTypeId!=null) {
             criteria.andDpTypeIdEqualTo(dpTypeId);
         }
-        if (postId!=null) {
-            criteria.andPostIdEqualTo(postId);
+        if (postType !=null) {
+            criteria.andPostTypeEqualTo(postType);
         }
         if (StringUtils.isNotBlank(title)) {
             criteria.andTitleLike("%" + title + "%");
@@ -183,7 +185,7 @@ public class CadrePartyController extends BaseController {
     @RequiresPermissions("cadreParty:import")
     @RequestMapping(value = "/cadreParty_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreParty_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_cadreParty_import(byte type, HttpServletRequest request) throws InvalidFormatException, IOException {
 
         //User sessionUser = getAdminSessionUser(request);
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -194,19 +196,67 @@ public class CadrePartyController extends BaseController {
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
         List<CadreParty> records = new ArrayList<>();
-        for (Map<Integer, String> xlsRow : xlsRows) {
+        int row = 1;
 
-            String _code = StringUtils.trimToNull(xlsRow.get(0));
-            String _growTime = StringUtils.trimToNull(xlsRow.get(2));
-            if(_code == null) continue;
-            SysUserView uv = sysUserService.findByCode(_code);
-            if(uv==null) continue;
-            CadreParty record = new CadreParty();
-            record.setUserId(uv.getId());
-            record.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
-            record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYYMM));
-            records.add(record);
+        if(type== CadreConstants.CADRE_PARTY_TYPE_OW) {
+            for (Map<Integer, String> xlsRow : xlsRows) {
+
+                row++;
+                String _code = StringUtils.trimToNull(xlsRow.get(0));
+                String _growTime = StringUtils.trimToNull(xlsRow.get(2));
+                if (_code == null) {
+                    throw new OpException("第{0}行工作证号为空", row);
+                }
+                SysUserView uv = sysUserService.findByCode(_code);
+                if (uv == null) {
+                    throw new OpException("第{0}行工作证号[{1}]不存在", row, _code);
+                }
+                String remark = StringUtils.trimToNull(xlsRow.get(3));
+
+                CadreParty record = new CadreParty();
+                record.setUserId(uv.getId());
+                record.setType(type);
+                record.setGrowTime(DateUtils.parseStringToDate(_growTime));
+                record.setRemark(remark);
+
+                records.add(record);
+            }
+
+        }else if(type== CadreConstants.CADRE_PARTY_TYPE_DP) {
+            for (Map<Integer, String> xlsRow : xlsRows) {
+
+                row++;
+                String _code = StringUtils.trimToNull(xlsRow.get(0));
+                String _dpName = StringUtils.trimToNull(xlsRow.get(2));
+
+                MetaType dpType = metaTypeService.findByName("mc_democratic_party", _dpName);
+                if(dpType==null){
+                    throw new OpException("第{0}行民主党派[{1}]不存在", row, _dpName);
+                }
+
+                String _growTime = StringUtils.trimToNull(xlsRow.get(3));
+                if (_code == null) {
+                    throw new OpException("第{0}行工作证号为空", row);
+                }
+                SysUserView uv = sysUserService.findByCode(_code);
+                if (uv == null) {
+                    throw new OpException("第{0}行工作证号[{1}]不存在", row, _code);
+                }
+                String post = StringUtils.trimToNull(xlsRow.get(4));
+                String remark = StringUtils.trimToNull(xlsRow.get(5));
+
+                CadreParty record = new CadreParty();
+                record.setUserId(uv.getId());
+                record.setType(type);
+                record.setClassId(dpType.getId());
+                record.setGrowTime(DateUtils.parseStringToDate(_growTime));
+                record.setPost(post);
+                record.setRemark(remark);
+
+                records.add(record);
+            }
         }
+
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         if(records.size()>0) {
             cadreService.cadrePartyImport(records);

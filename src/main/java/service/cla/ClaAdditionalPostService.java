@@ -115,14 +115,14 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
         for (CadreView cadre : cadreMap.values()) {
             if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && BooleanUtils.isTrue(postMap.get(cadre.getPostId()).getBoolAttr())) {
+                    && BooleanUtils.isTrue(postMap.get(cadre.getPostType()).getBoolAttr())) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cadre.getUnitId();
                 if (unitIdCadresMap.containsKey(unitId)) {
                     list = unitIdCadresMap.get(unitId);
                 }
                 if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getPostId(), false);
+                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getPostType(), false);
                 list.add(bean);
 
                 unitIdCadresMap.put(unitId, list);

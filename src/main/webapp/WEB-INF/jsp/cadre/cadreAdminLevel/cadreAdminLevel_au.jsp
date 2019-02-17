@@ -17,12 +17,12 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">行政级别</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2" name="adminLevelId" data-placeholder="请选择">
+                    <select required data-rel="select2" name="adminLevel" data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_admin_level"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modal form select[name=adminLevelId]").val(${cadreAdminLevel.adminLevelId});
+                        $("#modal form select[name=adminLevel]").val(${cadreAdminLevel.adminLevel});
                     </script>
 				</div>
 			</div>

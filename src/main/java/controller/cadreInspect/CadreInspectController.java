@@ -1,14 +1,17 @@
 package controller.cadreInspect;
 
-import bean.XlsCadreInspect;
 import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectView;
 import domain.cadreInspect.CadreInspectViewExample;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -39,12 +42,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreInspectController extends BaseController {
@@ -73,8 +71,8 @@ public class CadreInspectController extends BaseController {
                                   @RequestParam(required = false, defaultValue =
                                           CadreConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
                                   Integer userId,
-                                  Integer typeId,
-                                  Integer postId,
+                                  Integer adminLevel,
+                                  Integer postType,
                                   String title,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -97,11 +95,11 @@ public class CadreInspectController extends BaseController {
             criteria.andUserIdEqualTo(userId);
         }
 
-        if (typeId != null) {
-            criteria.andTypeIdEqualTo(typeId);
+        if (adminLevel != null) {
+            criteria.andAdminLevelEqualTo(adminLevel);
         }
-        if (postId != null) {
-            criteria.andPostIdEqualTo(postId);
+        if (postType != null) {
+            criteria.andPostTypeEqualTo(postType);
         }
 
         if (StringUtils.isNotBlank(title)) {
@@ -146,7 +144,7 @@ public class CadreInspectController extends BaseController {
         record.setId(inspectId);
         record.setRemark(inspectRemark);
         if (inspectId == null) {
-            cadreInspectService.insertSelective(userId, record, cadreRecord);
+            cadreInspectService.insertOrUpdateSelective(userId, record, cadreRecord);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加考察对象：%s", record.getId()));
         } else {
             cadreInspectService.updateByPrimaryKeySelective(record, cadreRecord);
@@ -194,6 +192,7 @@ public class CadreInspectController extends BaseController {
         record.setId(inspectId);
         record.setRemark(inspectRemark);
 
+        cadreRecord.setState(BooleanUtils.isTrue(cadreRecord.getState()));
         Cadre cadre = cadreInspectService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();
@@ -230,35 +229,6 @@ public class CadreInspectController extends BaseController {
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-    /*public void cadreInspect_export(CadreInspectViewExample example, HttpServletResponse response) {
-
-        List<CadreInspectView> records = cadreInspectViewMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"工号","姓名","行政级别","职务属性","职务","所在单位及职务","手机号","办公电话","家庭电话","电子邮箱","备注"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            CadreInspectView record = records.get(i);
-            SysUserView sysUser =  record.getUser();
-            String[] values = {
-                    sysUser.getCode(),
-                    sysUser.getRealname(),
-                    metaTypeService.getName(record.getTypeId()),
-                    metaTypeService.getName(record.getPostId()),
-                    record.getPost(),
-                    record.getTitle(),
-                    record.getMobile(),
-                    record.getPhone(),
-                    record.getHomePhone(),
-                    record.getEmail(),
-                    record.getRemark()
-            };
-            valuesList.add(values);
-        }
-
-        String fileName = "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
-    }*/
-
     @RequiresPermissions("cadreInspect:import")
     @RequestMapping("/cadreInspect_import")
     public String cadreInspect_import() {
@@ -274,17 +244,59 @@ public class CadreInspectController extends BaseController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
-        List<XlsCadreInspect> cadreInspects = new ArrayList<XlsCadreInspect>();
-
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        cadreInspects.addAll(XlsUpload.fetchCadreInspects(sheet));
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
-        int successCount = cadreInspectService.importCadreInspects(cadreInspects);
+        List<Cadre> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            Cadre record = new Cadre();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(userCode)){
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            int userId = uv.getId();
+            record.setUserId(userId);
+
+            String adminLevel = StringUtils.trimToNull(xlsRow.get(2));
+            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
+            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
+            record.setAdminLevel(adminLevelType.getId());
+
+            String _postType = StringUtils.trimToNull(xlsRow.get(3));
+            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+            if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+            record.setPostType(postType.getId());
+
+            String unitCode = StringUtils.trimToNull(xlsRow.get(4));
+            if(StringUtils.isBlank(unitCode)){
+                throw new OpException("第{0}行单位编号为空", row);
+            }
+            Unit unit = unitService.findUnitByCode(unitCode);
+            if(unit==null){
+                throw new OpException("第{0}行单位编号[{1}]不存在", row, unitCode);
+            }
+            record.setUnitId(unit.getId());
+
+            record.setPost(StringUtils.trimToNull(xlsRow.get(5)));
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(6)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(7)));
+
+            records.add(record);
+        }
+
+        int successCount = cadreInspectService.batchImport(records);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
-        resultMap.put("total", cadreInspects.size());
+        resultMap.put("total", records.size());
 
         return resultMap;
     }

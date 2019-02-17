@@ -54,13 +54,13 @@
 
 		$("#modal form").validate({
 				submitHandler: function (form) {
-					var postIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
+					var postTypes = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
 						if(!node.data.isFolder && !node.data.hideCheckbox)
 						return node.data.key;
 					});
 					
 					$(form).ajaxSubmit({
-						data:{postIds:postIds, id:"${param.id}"},
+						data:{postTypes:postTypes, id:"${param.id}"},
 						success:function(data){
 							if(data.success){
 								$("#modal").modal('hide');

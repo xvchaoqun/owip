@@ -81,7 +81,7 @@
                 return $.cadre(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 300,frozen:true  },
-            {label: '行政级别', name: 'cadre.typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '行政级别', name: 'cadre.adminLevel', formatter:$.jgrid.formatter.MetaType},
             { label: '类别',  name: 'typeId', formatter: $.jgrid.formatter.MetaType},
             { label: '联系单位', name: 'unitId', width: 350, formatter: $.jgrid.formatter.unit}
         ]

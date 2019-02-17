@@ -48,8 +48,8 @@ pageEncoding="UTF-8" %>
                             <td nowrap>${cm:getMetaType(dispatchCadre.wayId).name}</td>
                             <td nowrap>${cm:getMetaType(dispatchCadre.procedureId).name}</td>
                             <td nowrap>${dispatchCadre.post}</td>
-                            <td nowrap>${cm:getMetaType(dispatchCadre.postId).name}</td>
-                            <td nowrap>${cm:getMetaType(dispatchCadre.adminLevelId).name}</td>
+                            <td nowrap>${cm:getMetaType(dispatchCadre.postType).name}</td>
+                            <td nowrap>${cm:getMetaType(dispatchCadre.adminLevel).name}</td>
                             <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
                             <td nowrap><c:if test="${not empty dispatch.fileName}">
                                 <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>

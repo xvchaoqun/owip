@@ -322,7 +322,7 @@ public class MemberApplyExportController extends MemberBaseController {
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus())){
                 post = cadre.getTitle();
-                adminLevel = CmTag.getMetaType(cadre.getTypeId()).getName();
+                adminLevel = CmTag.getMetaType(cadre.getAdminLevel()).getName();
             }
 
             String[] values = {
@@ -415,7 +415,7 @@ public class MemberApplyExportController extends MemberBaseController {
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus())){
                 post = cadre.getTitle();
-                adminLevel = CmTag.getMetaType(cadre.getTypeId()).getName();
+                adminLevel = CmTag.getMetaType(cadre.getAdminLevel()).getName();
             }
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{

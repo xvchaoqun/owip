@@ -65,13 +65,13 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务属性</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="postId" value="${scCommitteeVote.postId}">
+                        <input required class="form-control" type="text" name="postType" value="${scCommitteeVote.postType}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">行政级别</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="adminLevelId" value="${scCommitteeVote.adminLevelId}">
+                        <input required class="form-control" type="text" name="adminLevel" value="${scCommitteeVote.adminLevel}">
 				</div>
 			</div>
 			<div class="form-group">

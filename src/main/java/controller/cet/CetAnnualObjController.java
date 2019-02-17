@@ -341,7 +341,7 @@ public class CetAnnualObjController extends CetBaseController {
             
             Integer userId = cetAnnualObj.getUserId();
             CadreView cv = CmTag.getCadreByUserId(userId);
-            modelMap.put("latestAdminLevel", cv.getTypeId());
+            modelMap.put("latestAdminLevel", cv.getAdminLevel());
             
             return "cet/cetAnnualObj/cetAnnualObj_adminLevelChanged";
         }

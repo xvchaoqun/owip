@@ -42,7 +42,7 @@ public interface IDispatchMapper {
     public List<DispatchWorkFile> selectDispatchWorkFileList(
             @Param("isAdmin") boolean isAdmin,
             @Param("fileName") String fileName,
-            @Param("postIds") List<Integer> postIds,
+            @Param("postTypes") List<Integer> postTypes,
             @Param("type") Byte type,
             @Param("status") Boolean status,
             @Param("unitTypes") Integer[] unitTypes,
@@ -54,7 +54,7 @@ public interface IDispatchMapper {
     int countDispatchWorkFileList(
             @Param("isAdmin") boolean isAdmin,
             @Param("fileName") String fileName,
-            @Param("postIds") List<Integer> postIds,
+            @Param("postTypes") List<Integer> postTypes,
             @Param("type") Byte type,
             @Param("status") Boolean status,
             @Param("unitTypes") Integer[] unitTypes,

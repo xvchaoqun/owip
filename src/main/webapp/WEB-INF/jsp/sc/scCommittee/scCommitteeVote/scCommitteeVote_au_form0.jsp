@@ -134,12 +134,12 @@
                             <label class="col-xs-3 control-label">职务属性</label>
 
                             <div class="col-xs-7">
-                                <select required name="postId" data-rel="select2" data-placeholder="请选择职务属性">
+                                <select required name="postType" data-rel="select2" data-placeholder="请选择职务属性">
                                     <option></option>
                                     <c:import url="/metaTypes?__code=mc_post"/>
                                 </select>
                                 <script>
-                                    $("#voteForm select[name=postId]").val('${scCommitteeVote.postId}');
+                                    $("#voteForm select[name=postType]").val('${scCommitteeVote.postType}');
                                 </script>
                             </div>
                         </div>
@@ -147,13 +147,13 @@
                             <label class="col-xs-3 control-label">行政级别</label>
 
                             <div class="col-xs-7">
-                                <select required class="form-control" data-rel="select2" name="adminLevelId"
+                                <select required class="form-control" data-rel="select2" name="adminLevel"
                                         data-placeholder="请选择行政级别">
                                     <option></option>
                                     <c:import url="/metaTypes?__code=mc_admin_level"/>
                                 </select>
                                 <script type="text/javascript">
-                                    $("#voteForm select[name=adminLevelId]").val('${scCommitteeVote.adminLevelId}');
+                                    $("#voteForm select[name=adminLevel]").val('${scCommitteeVote.adminLevel}');
                                 </script>
                             </div>
                         </div>

@@ -76,7 +76,7 @@ public class ScBorderService extends ScBaseMapper {
                 record.setCadreId(cadreId);
                 CadreView cv = CmTag.getCadreById(cadreId);
                 record.setTitle(cv.getTitle());
-                record.setAdminLevel(cv.getTypeId());
+                record.setAdminLevel(cv.getAdminLevel());
 
                 scBorderItemMapper.insertSelective(record);
             }

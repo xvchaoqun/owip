@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
                         <jsp:include page="/metaTypes?__code=mc_admin_level"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modalForm select[name=typeId]").val(${cadre.typeId});
+                        $("#modalForm select[name=typeId]").val(${cadre.adminLevel});
                     </script>
 				</div>
 			</div>
@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
                         <jsp:include page="/metaTypes?__code=mc_post"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modalForm select[name=postId]").val(${cadre.postId});
+                        $("#modalForm select[name=postId]").val(${cadre.postType});
                     </script>
 				</div>
 			</div>

@@ -1,6 +1,5 @@
 package domain.cadre;
 
-import domain.base.MetaType;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUserView;
@@ -9,7 +8,6 @@ import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 public class CadreAdLog implements Serializable {
 
@@ -28,15 +26,7 @@ public class CadreAdLog implements Serializable {
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }
-    public MetaType getAdminLevelType(){
-        Map<Integer, MetaType> adminLevelMap = CmTag.getMetaTypes("mc_admin_level");
-        return adminLevelMap.get(typeId);
-    }
-    public MetaType getPostType(){
 
-        Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
-        return postMap.get(postId);
-    }
     // 离任文件
     public Dispatch getDispatch(){
         if(dispatchCadreId!=null){
@@ -51,9 +41,9 @@ public class CadreAdLog implements Serializable {
 
     private Integer cadreId;
 
-    private Integer typeId;
+    private Integer adminLevel;
 
-    private Integer postId;
+    private Integer postType;
 
     private Integer unitId;
 
@@ -97,20 +87,20 @@ public class CadreAdLog implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getAdminLevel() {
+        return adminLevel;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Integer getPostType() {
+        return postType;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setPostType(Integer postType) {
+        this.postType = postType;
     }
 
     public Integer getUnitId() {

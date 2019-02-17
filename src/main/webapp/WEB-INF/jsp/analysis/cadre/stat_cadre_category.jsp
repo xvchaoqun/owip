@@ -77,7 +77,7 @@
                 frozen: true
             },
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
-            {label: '行政级别', name: 'cadre.typeId', formatter: $.jgrid.formatter.MetaType},
+            {label: '行政级别', name: 'cadre.adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
             {label: '出生日期', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},

@@ -74,8 +74,10 @@
 									failedXlsRows: ret.failedXlsRows
 								});
 
-								$("#modal").modal('hide');
-								$("#jqGrid").trigger("reloadGrid");
+								$("#modal").modal("hide")
+								$.reloadMetaData(function(){
+                                    $("#jqGrid").trigger("reloadGrid");
+								});
 								SysMsg.success(result.format(ret.total, ret.successCount) + failed, '成功');
 							}
 							$btn.button('reset');

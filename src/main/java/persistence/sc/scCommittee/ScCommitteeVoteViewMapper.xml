@@ -11,8 +11,8 @@
     <result column="way_id" jdbcType="INTEGER" property="wayId" />
     <result column="procedure_id" jdbcType="INTEGER" property="procedureId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="agree_count" jdbcType="INTEGER" property="agreeCount" />
     <result column="abstain_count" jdbcType="INTEGER" property="abstainCount" />
@@ -67,7 +67,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, topic_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
-    post, post_id, admin_level_id, unit_id, agree_count, abstain_count, disagree_count, 
+    post, post_type, admin_level, unit_id, agree_count, abstain_count, disagree_count, 
     remark, sort_order, name, seq, content, committee_id, vote_file_path, original_post, 
     original_post_time, year, hold_date, committee_member_count, count, absent_count, 
     attend_users, file_path, log_file, dispatch_user_id

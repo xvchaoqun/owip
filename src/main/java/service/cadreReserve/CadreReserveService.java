@@ -1,6 +1,5 @@
 package service.cadreReserve;
 
-import bean.XlsCadreReserve;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
@@ -9,7 +8,6 @@ import domain.cadreInspect.CadreInspect;
 import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveExample;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
 import org.apache.ibatis.session.RowBounds;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,7 +119,7 @@ public class CadreReserveService extends BaseMapper {
     }
 
     // 直接添加后备干部时执行检查
-    public void directAddCheck(Integer id, int userId){
+    public void directAddCheck(Integer id, int type, int userId){
 
         // 不在干部库中，肯定可以添加
         CadreView cadre = cadreService.dbFindByUserId(userId);
@@ -147,7 +145,8 @@ public class CadreReserveService extends BaseMapper {
         List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
         if( cadreReserves.size() > 0){
             CadreReserve cadreReserve = cadreReserves.get(0);
-            if(cadreReserve.getStatus()==CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
+            if(cadreReserve.getStatus()==CadreConstants.CADRE_RESERVE_STATUS_NORMAL
+            && type != cadreReserve.getType()) {
                 throw new OpException(realname + "已经在"
                 +metaTypeService.getName(cadreReserve.getType()) + "中");
             }else if(cadreReserve.getStatus()==CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT){
@@ -156,8 +155,7 @@ public class CadreReserveService extends BaseMapper {
         }
 
         // 考察对象库检查
-        CadreInspect normalRecord = cadreInspectService.getNormalRecord(cadreId);
-        if(normalRecord!=null){
+        if(cadreInspectService.getNormalRecord(cadreId)!=null){
             throw new OpException(realname + "已经是考察对象");
         }
     }
@@ -202,10 +200,10 @@ public class CadreReserveService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public void insertSelective(int userId, CadreReserve record, Cadre cadreRecord){
+    public boolean insertOrUpdateSelective(int userId, CadreReserve record, Cadre cadreRecord){
 
         // 检查
-        directAddCheck(record.getId(), userId);
+        directAddCheck(record.getId(), record.getType(), userId);
 
         // 添加后备干部角色
         sysUserService.addRole(userId, RoleConstants.ROLE_CADRERESERVE);
@@ -247,15 +245,23 @@ public class CadreReserveService extends BaseMapper {
 
         Assert.isNotNull(metaTypeService.getName(record.getType())!=null);
 
-        record.setSortOrder(getNextSortOrder(TABLE_NAME,
-                "status=" + CadreConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+record.getType()));
-        record.setCadreId(cadreId);
-        record.setStatus(CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
-        cadreReserveMapper.insertSelective(record);
+        CadreReserve normalRecord = getNormalRecord(cadreId);
+        if(normalRecord==null) {
+            record.setSortOrder(getNextSortOrder(TABLE_NAME,
+                    "status=" + CadreConstants.CADRE_RESERVE_STATUS_NORMAL + " and type=" + record.getType()));
+            record.setCadreId(cadreId);
+            record.setStatus(CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+            cadreReserveMapper.insertSelective(record);
+        }else{
+            record.setId(normalRecord.getId());
+            cadreReserveMapper.updateByPrimaryKeySelective(record);
+        }
 
         // 记录任免日志
-        cadreAdLogService.addLog(cadreId, "添加后备干部",
+        cadreAdLogService.addLog(cadreId, normalRecord==null?"添加后备干部":"更新后备干部",
                 CadreConstants.CADRE_AD_LOG_MODULE_RESERVE, record.getId());
+
+        return normalRecord==null;
     }
 
     @Transactional
@@ -286,38 +292,23 @@ public class CadreReserveService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public int importCadreReserves(final List<XlsCadreReserve> beans, int reserveType) {
+    public int batchImport(final List<Cadre> records, int reserveType) {
 
-        int success = 0;
-        for(XlsCadreReserve uRow: beans){
+        int addCount = 0;
+        for (Cadre record : records) {
 
-            Cadre cadreRecord = new Cadre();
-            String userCode = uRow.getUserCode();
-            SysUserView uv = sysUserService.findByCode(userCode);
-            if(uv== null) throw  new OpException("工作证号："+userCode+"不存在");
-            int userId = uv.getId();
-            cadreRecord.setUserId(userId);
-            cadreRecord.setTypeId(uRow.getAdminLevel());
-            cadreRecord.setPostId(uRow.getPostId());
-            Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
-            if(unit==null){
-                throw  new OpException("单位编号："+uRow.getUnitCode()+"不存在");
-            }
-            cadreRecord.setUnitId(unit.getId());
-            cadreRecord.setPost(uRow.getPost());
-            cadreRecord.setTitle(uRow.getTitle());
+            int userId = record.getUserId();
+            CadreReserve cadreReserve = new CadreReserve();
+            cadreReserve.setType(reserveType);
+            cadreReserve.setStatus(CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+            cadreReserve.setRemark(record.getRemark());
+            record.setRemark(null);
 
-            CadreReserve record = new CadreReserve();
-            record.setType(reserveType);
-            record.setStatus(CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
-            record.setRemark(uRow.getReserveRemark());
-
-
-            insertSelective(userId, record, cadreRecord);
-            success++;
+            if(insertOrUpdateSelective(userId, cadreReserve, record))
+                addCount++;
         }
 
-        return success;
+        return addCount;
     }
 
     // 列为考察对象

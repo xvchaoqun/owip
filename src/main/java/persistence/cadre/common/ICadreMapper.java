@@ -105,12 +105,12 @@ public interface ICadreMapper {
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
     @Select("select cp.* from cadre_post cp , unit u, base_meta_type ut, cadre c " +
             "where (cp.is_main_post=1 or (cp.is_main_post=0 and cp.is_cpc=1)) " +
-            "and cp.is_main_post=#{isMainPost} and cp.admin_level_id=#{adminLevelId} " +
+            "and cp.is_main_post=#{isMainPost} and cp.admin_level=#{adminLevel} " +
             "and exists(select 1 from unit_post_count_view where unit_id=cp.unit_id) " +
             "and cp.unit_id=u.id and u.type_id=ut.id and ut.extra_attr=#{unitType} and cp.cadre_id=c.id " +
             "and c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
-    public List<CadrePost> findCadrePostsByUnitType(@Param("adminLevelId") Integer adminLevelId,
+    public List<CadrePost> findCadrePostsByUnitType(@Param("adminLevel") Integer adminLevel,
                                                     @Param("isMainPost") boolean isMainPost,
                                                     @Param("unitType") String unitType);
 

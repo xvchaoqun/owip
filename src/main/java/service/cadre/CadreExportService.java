@@ -96,7 +96,7 @@ public class CadreExportService extends BaseMapper {
 
         int count = records.size();
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{
-                "工作证号|100", "姓名|100", "部门属性|150", "所在单位|300", "现任职务|160",
+                "工作证号|100", "姓名|100", "干部类型|100", "是否涉密|100", "部门属性|150", "所在单位|300", "现任职务|160",
                 "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120", "性别|50",
                 "民族|100", "籍贯|100", "出生地|100", "身份证号|150", "出生时间|100",
                 "年龄|50", "党派|150", "党派加入时间|120", "参加工作时间|120", "到校时间|100",
@@ -109,10 +109,10 @@ public class CadreExportService extends BaseMapper {
                 "联系方式|100", "党委委员|100", "纪委委员|120", "电子信箱|200", "所属党组织|500",
                 "备注|500"}));
 
-        int[] exportCloumns_1 = new int[]{1, 2, 3, 4, 6, 7, 8, 10, 14, 15, 16, 17, 18, 20, 34, 41, 51, 54};
+        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 12, 16, 17, 18, 19, 20, 22, 36, 43, 53, 56};
         if (exportType == 1) {
             //新增一个角色，限制查看中层干部库权限，
-            // 字段为：工作证号，姓名，性别，身份证号、出生时间、年龄、学历、专业技术职务、任现职时间、
+            // 字段为：工作证号，姓名，干部类型，性别，身份证号、出生时间、年龄、学历、专业技术职务、任现职时间、
             // 部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
             List<String> _titles = new ArrayList<>();
             for (int exportCloumn : exportCloumns_1) {
@@ -152,8 +152,8 @@ public class CadreExportService extends BaseMapper {
 
             String isPositive = ""; // 是否正职
             CadrePost mainCadrePost = record.getMainCadrePost();
-            if (mainCadrePost != null && mainCadrePost.getPostId() != null) {
-                MetaType metaType = metaTypeMap.get(mainCadrePost.getPostId());
+            if (mainCadrePost != null && mainCadrePost.getPostType() != null) {
+                MetaType metaType = metaTypeMap.get(mainCadrePost.getPostType());
                 if (metaType != null) {
                     isPositive = (BooleanUtils.isTrue(metaType.getBoolAttr())) ? "是" : "否";
                 }
@@ -284,13 +284,15 @@ public class CadreExportService extends BaseMapper {
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     sysUser.getCode(),
                     sysUser.getRealname(),
+                    CadreConstants.CADRE_TYPE_MAP.get(record.getType()),
+                    BooleanUtils.isTrue(record.getState())?"是":"否",
                     unit == null ? "" : unit.getUnitType().getName(),
                     unit == null ? "" : unit.getName(),
                     record.getPost(),
 
                     record.getTitle(),
-                    metaTypeService.getName(record.getTypeId()),
-                    metaTypeService.getName(record.getPostId()),
+                    metaTypeService.getName(record.getAdminLevel()),
+                    metaTypeService.getName(record.getPostType()),
                     isPositive,
                     record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),
 

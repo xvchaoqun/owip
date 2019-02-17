@@ -1,6 +1,5 @@
 package service.cadreInspect;
 
-import bean.XlsCadreInspect;
 import controller.global.OpException;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
@@ -9,7 +8,6 @@ import domain.cadreInspect.CadreInspectExample;
 import domain.cadreReserve.CadreReserve;
 import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
 import org.apache.ibatis.session.RowBounds;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ import service.cadre.CadreService;
 import service.cadreReserve.CadreReserveService;
 import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
-import service.unit.UnitService;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
@@ -43,8 +40,6 @@ public class CadreInspectService extends BaseMapper {
     private CadreReserveService cadreReserveService;
     @Autowired
     private CadreAdLogService cadreAdLogService;
-    @Autowired
-    private UnitService unitService;
     @Autowired(required = false)
     protected ModifyCadreAuthService modifyCadreAuthService;
 
@@ -98,16 +93,26 @@ public class CadreInspectService extends BaseMapper {
         return (cadreInspects.size()==0)?null:cadreInspects.get(0);
     }
 
-    // 直接添加考察对象
+    /**
+     * 直接添加考察对象
+     * 返回: true 添加  false 更新
+     */
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public void insertSelective(int userId, CadreInspect record, Cadre cadreRecord) {
+    public boolean insertOrUpdateSelective(int userId, CadreInspect record, Cadre cadreRecord) {
 
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         // 检查
-        directAddCheck(record.getId(), userId);
+        if(cadre!=null) {
+            int cadreId = cadre.getId();
+            // 后备干部库检查
+            if (cadreReserveService.getNormalRecord(cadreId) != null) {
+                throw new OpException(cadre.getRealname() + "已经是后备干部");
+            }
+        }
 
         // 添加考察对象角色
         sysUserService.addRole(userId, RoleConstants.ROLE_CADREINSPECT);
@@ -119,7 +124,7 @@ public class CadreInspectService extends BaseMapper {
 
         Integer cadreId = null;
         {
-            CadreView cadre = cadreService.dbFindByUserId(userId);
+
             if (cadre == null) { // 不在干部库的情况
 
                 if (cadreRecord == null) cadreRecord = new Cadre();
@@ -145,16 +150,25 @@ public class CadreInspectService extends BaseMapper {
             }
         }
 
-        record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL
-                + " and type=" + CadreConstants.CADRE_INSPECT_TYPE_DEFAULT));
-        record.setCadreId(cadreId);
-        record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
-        record.setType(CadreConstants.CADRE_INSPECT_TYPE_DEFAULT);
-        cadreInspectMapper.insertSelective(record);
+        CadreInspect normalRecord = getNormalRecord(cadreId);
+        if(normalRecord==null) {
+            record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL
+                    + " and type=" + CadreConstants.CADRE_INSPECT_TYPE_DEFAULT));
+            record.setCadreId(cadreId);
+            record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
+            record.setType(CadreConstants.CADRE_INSPECT_TYPE_DEFAULT);
+            cadreInspectMapper.insertSelective(record);
+        }else{
+            record.setId(normalRecord.getId());
+            record.setType(CadreConstants.CADRE_INSPECT_TYPE_DEFAULT);
+            cadreInspectMapper.updateByPrimaryKeySelective(record);
+        }
 
         // 记录任免日志
-        cadreAdLogService.addLog(cadreId, "添加考察对象",
+        cadreAdLogService.addLog(cadreId, normalRecord==null?"添加考察对象":"更新考察对象",
                 CadreConstants.CADRE_AD_LOG_MODULE_INSPECT, record.getId());
+
+        return normalRecord==null;
     }
 
     @Transactional
@@ -185,36 +199,22 @@ public class CadreInspectService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public int importCadreInspects(final List<XlsCadreInspect> beans) {
+    public int batchImport(final List<Cadre> records) {
 
-        int success = 0;
-        for (XlsCadreInspect uRow : beans) {
+        int addCount = 0;
+        for (Cadre record : records) {
 
-            Cadre cadreRecord = new Cadre();
-            String userCode = uRow.getUserCode();
-            SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null) throw new OpException("工作证号：" + userCode + "不存在");
-            int userId = uv.getId();
-            cadreRecord.setUserId(userId);
-            cadreRecord.setTypeId(uRow.getAdminLevel());
-            cadreRecord.setPostId(uRow.getPostId());
-            Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
-            if (unit == null) {
-                throw new OpException("单位编号：" + uRow.getUnitCode() + "不存在");
-            }
-            cadreRecord.setUnitId(unit.getId());
-            //cadreRecord.setPost(uRow.getPost());
-            cadreRecord.setTitle(uRow.getTitle());
+            int userId = record.getUserId();
+            CadreInspect cadreInspect = new CadreInspect();
+            cadreInspect.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
+            cadreInspect.setRemark(record.getRemark());
+            record.setRemark(null);
 
-            CadreInspect record = new CadreInspect();
-            record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
-            record.setRemark(uRow.getInspectRemark());
-
-            insertSelective(userId, record, cadreRecord);
-            success++;
+            if(insertOrUpdateSelective(userId, cadreInspect, record))
+                addCount++;
         }
 
-        return success;
+        return addCount;
     }
 
    /* @Transactional

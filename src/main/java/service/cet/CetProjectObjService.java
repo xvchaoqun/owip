@@ -128,8 +128,8 @@ public class CetProjectObjService extends CetBaseMapper {
                 if (cv != null) {
                     record.setCadreId(cv.getId());
                     record.setTitle(cv.getTitle());
-                    record.setTypeId(cv.getTypeId());
-                    record.setPostId(cv.getPostId());
+                    record.setAdminLevel(cv.getAdminLevel());
+                    record.setPostType(cv.getPostType());
                     record.setIsOw(cv.getIsOw());
                     record.setOwGrowTime(cv.getOwGrowTime());
                     record.setDpGrowTime(cv.getDpGrowTime());

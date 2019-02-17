@@ -15,8 +15,8 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="is_ow" jdbcType="BIT" property="isOw" />
     <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
     <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
@@ -88,7 +88,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, finish_period, 
-    is_graduate, word_write, write_file_path, remark, cadre_id, title, type_id, post_id, 
+    is_graduate, word_write, write_file_path, remark, cadre_id, title, admin_level, post_type, 
     is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, email, 
     cadre_status, cadre_sort_order
   </sql>
@@ -130,18 +130,20 @@
       is_quit, should_finish_period, finish_period, 
       is_graduate, word_write, write_file_path, 
       remark, cadre_id, title, 
-      type_id, post_id, is_ow, ow_grow_time, 
-      dp_grow_time, dp_type_id, pro_post, 
-      lp_work_time, mobile, email, 
-      cadre_status, cadre_sort_order)
+      admin_level, post_type, is_ow, 
+      ow_grow_time, dp_grow_time, dp_type_id, 
+      pro_post, lp_work_time, mobile, 
+      email, cadre_status, cadre_sort_order
+      )
     values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
       #{isQuit,jdbcType=BIT}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, 
       #{isGraduate,jdbcType=BIT}, #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{cadreId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{typeId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{isOw,jdbcType=BIT}, #{owGrowTime,jdbcType=DATE}, 
-      #{dpGrowTime,jdbcType=DATE}, #{dpTypeId,jdbcType=INTEGER}, #{proPost,jdbcType=VARCHAR}, 
-      #{lpWorkTime,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{cadreStatus,jdbcType=TINYINT}, #{cadreSortOrder,jdbcType=INTEGER})
+      #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, #{isOw,jdbcType=BIT}, 
+      #{owGrowTime,jdbcType=DATE}, #{dpGrowTime,jdbcType=DATE}, #{dpTypeId,jdbcType=INTEGER}, 
+      #{proPost,jdbcType=VARCHAR}, #{lpWorkTime,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{cadreStatus,jdbcType=TINYINT}, #{cadreSortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -185,11 +187,11 @@
       <if test="title != null">
         title,
       </if>
-      <if test="typeId != null">
-        type_id,
+      <if test="adminLevel != null">
+        admin_level,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="postType != null">
+        post_type,
       </if>
       <if test="isOw != null">
         is_ow,
@@ -259,11 +261,11 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="typeId != null">
-        #{typeId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
       </if>
       <if test="isOw != null">
         #{isOw,jdbcType=BIT},
@@ -345,11 +347,11 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.typeId != null">
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
       </if>
       <if test="record.isOw != null">
         is_ow = #{record.isOw,jdbcType=BIT},
@@ -401,8 +403,8 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
-      type_id = #{record.typeId,jdbcType=INTEGER},
-      post_id = #{record.postId,jdbcType=INTEGER},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
       is_ow = #{record.isOw,jdbcType=BIT},
       ow_grow_time = #{record.owGrowTime,jdbcType=DATE},
       dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
@@ -456,11 +458,11 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="typeId != null">
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
       </if>
       <if test="isOw != null">
         is_ow = #{isOw,jdbcType=BIT},
@@ -509,8 +511,8 @@
       remark = #{remark,jdbcType=VARCHAR},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
-      type_id = #{typeId,jdbcType=INTEGER},
-      post_id = #{postId,jdbcType=INTEGER},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
       is_ow = #{isOw,jdbcType=BIT},
       ow_grow_time = #{owGrowTime,jdbcType=DATE},
       dp_grow_time = #{dpGrowTime,jdbcType=DATE},

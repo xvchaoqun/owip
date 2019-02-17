@@ -47,8 +47,8 @@
       {label: '所在单位', name: 'unit.name', width: 200},
       {label: '现任职务', name: 'post', align: 'left', width: 350},
       {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-      {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-      {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType}
+      {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+      {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType}
     ],gridComplete:function(){
       $(this).jqGrid("setFrozenColumns");
     }

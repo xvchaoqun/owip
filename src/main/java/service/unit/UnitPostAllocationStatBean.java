@@ -5,16 +5,16 @@ package service.unit;
  */
 public class UnitPostAllocationStatBean {
 
-    private Integer adminLevelId;
+    private Integer adminLevel;
     private boolean isMainPost;
     private long num;
 
-    public Integer getAdminLevelId() {
-        return adminLevelId;
+    public Integer getAdminLevel() {
+        return adminLevel;
     }
 
-    public void setAdminLevelId(Integer adminLevelId) {
-        this.adminLevelId = adminLevelId;
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
     }
 
     public boolean isMainPost() {

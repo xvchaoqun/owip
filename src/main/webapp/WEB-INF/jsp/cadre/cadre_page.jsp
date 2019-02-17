@@ -15,7 +15,7 @@
                 ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
-                ||not empty param.proPosts ||not empty param.postIds ||not empty param.proPostLevels
+                ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code }"/>
 
                 <div class="tabbable">
@@ -57,10 +57,7 @@
                                 </c:if>
                                 <shiro:hasPermission name="cadre:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
-                                       data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i>
-                                        <c:if test="${status==CADRE_STATUS_MIDDLE}">添加现任中层干部</c:if>
-                                        <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">添加离任中层干部</c:if>
-                                    </a>
+                                       data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i> 添加</a>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                             data-url="${ctx}/cadre_au"
                                             data-querystr="&status=${status}">
@@ -84,17 +81,17 @@
                                     </shiro:hasPermission>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:import">
-                                    <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
                                        data-url="${ctx}/cadre_import?status=${status}"
                                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                        导入</button>
+                                        批量导入</button>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:export">
                                     <div class="btn-group">
                                         <button data-toggle="dropdown"
                                                 data-rel="tooltip" data-placement="top" data-html="true"
                                                 title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
-                                                class="btn btn-success btn-sm dropdown-toggle tooltip-info">
+                                                class="btn btn-success btn-sm dropdown-toggle tooltip-success">
                                             <i class="fa fa-download"></i> 导出  <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-success" role="menu">
@@ -288,7 +285,7 @@
                                                 <tr>
                                                     <td class="name">职务属性</td>
                                                     <td class="input">
-                                                        <select class="multiselect" multiple="" name="postIds">
+                                                        <select class="multiselect" multiple="" name="postTypes">
                                                             <c:import url="/metaTypes?__code=mc_post"/>
                                                         </select>
                                                     </td>
@@ -423,7 +420,7 @@
     $.register.multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
     $.register.multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
     $.register.multiselect($('#searchForm select[name=maxEdus]'), ${cm:toJSONArray(selectMaxEdus)});
-    $.register.multiselect($('#searchForm select[name=postIds]'), ${cm:toJSONArray(selectPostIds)});
+    $.register.multiselect($('#searchForm select[name=postTypes]'), ${cm:toJSONArray(selectPostTypes)});
     $.register.multiselect($('#searchForm select[name=proPosts]'), ${cm:toJSONArray(selectProPosts)});
     $.register.multiselect($('#searchForm select[name=proPostLevels]'), ${cm:toJSONArray(selectProPostLevels)});
 

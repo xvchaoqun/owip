@@ -10,20 +10,13 @@ import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.sys.SysUserService;
 import sys.constants.CisConstants;
 import sys.constants.CrsConstants;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CrsExpertService extends CrsBaseMapper {
@@ -124,7 +117,7 @@ public class CrsExpertService extends CrsBaseMapper {
         for (CadreView cadre : cadreList) {
             if (CrsConstants.CRS_EXPERT_CADRE_STATUS_SET.contains(cadre.getStatus())) {
                 List<CadreView> list = null;
-                MetaType postType = postMap.get(cadre.getPostId());
+                MetaType postType = postMap.get(cadre.getPostType());
                 int postId = postType.getId();
                 if (postIdCadresMap.containsKey(postId)) {
                     list = postIdCadresMap.get(postId);

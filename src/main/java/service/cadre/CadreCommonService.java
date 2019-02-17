@@ -73,7 +73,7 @@ public class CadreCommonService extends BaseMapper {
                             CadreConstants.CADRE_STATUS_LEADER));
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
-                MetaType postType = metaTypeMap.get(cadre.getPostId());
+                MetaType postType = metaTypeMap.get(cadre.getPostType());
                 if (postType.getBoolAttr()) {
                     cadreList.add(cadre);
                 }
@@ -103,7 +103,7 @@ public class CadreCommonService extends BaseMapper {
 
             Dispatch dispatch = dispatchCadre.getDispatch();
             TreeNode node = new TreeNode();
-            MetaType postType = postMap.get(dispatchCadre.getPostId());
+            MetaType postType = postMap.get(dispatchCadre.getPostType());
             node.title = CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear())
                     + "-" + dispatchCadre.getPost() + (postType != null ? ("-" + postType.getName()) : "");
             node.key = dispatchCadre.getId() + "";
@@ -159,7 +159,7 @@ public class CadreCommonService extends BaseMapper {
         for (CadreView cadre : cadreList) {
             if (cadreStatusList.contains(cadre.getStatus())) {
                 List<CadreView> list = null;
-                MetaType postType = postMap.get(cadre.getPostId());
+                MetaType postType = postMap.get(cadre.getPostType());
 
                 int postId = -1;
                 if(postType!=null) postId = postType.getId();
@@ -252,7 +252,7 @@ public class CadreCommonService extends BaseMapper {
         for (CadreView cadre : cadreList) {
             if (cadreStatusList.contains(cadre.getStatus())) {
                 List<CadreView> list = null;
-                MetaType postType = postMap.get(cadre.getPostId());
+                MetaType postType = postMap.get(cadre.getPostType());
                 int postId = postType.getId();
                 if (postIdCadresMap.containsKey(postId)) {
                     list = postIdCadresMap.get(postId);
@@ -335,7 +335,7 @@ public class CadreCommonService extends BaseMapper {
 
         // 任现职级
         modelMap.put("cadreAdminLevel", cadreAdminLevelService.getPresentByCadreId(cadreId,
-                mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null));
+                mainCadrePost != null ? mainCadrePost.getAdminLevel() : null));
 
         // 兼职单位
         List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);

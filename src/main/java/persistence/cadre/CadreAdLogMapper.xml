@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.cadre.CadreAdLog">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
@@ -78,7 +78,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, 
+    id, cadre_id, admin_level, post_type, unit_id, title, dispatch_cadre_id, post, remark, 
     status, module, module_id, user_id, content, ip, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreAdLogExample" resultMap="BaseResultMap">
@@ -112,14 +112,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadreAdLog">
-    insert into cadre_ad_log (id, cadre_id, type_id, 
-      post_id, unit_id, title, 
+    insert into cadre_ad_log (id, cadre_id, admin_level, 
+      post_type, unit_id, title, 
       dispatch_cadre_id, post, remark, 
       status, module, module_id, 
       user_id, content, ip, 
       create_time)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
-      #{postId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, 
+      #{postType,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
       #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{module,jdbcType=TINYINT}, #{moduleId,jdbcType=INTEGER}, 
       #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
@@ -134,11 +134,11 @@
       <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="typeId != null">
-        type_id,
+      <if test="adminLevel != null">
+        admin_level,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="postType != null">
+        post_type,
       </if>
       <if test="unitId != null">
         unit_id,
@@ -184,11 +184,11 @@
       <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        #{typeId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
@@ -243,11 +243,11 @@
       <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.typeId != null">
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
       </if>
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
@@ -294,8 +294,8 @@
     update cadre_ad_log
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      type_id = #{record.typeId,jdbcType=INTEGER},
-      post_id = #{record.postId,jdbcType=INTEGER},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
@@ -318,11 +318,11 @@
       <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
@@ -366,8 +366,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreAdLog">
     update cadre_ad_log
     set cadre_id = #{cadreId,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
-      post_id = #{postId,jdbcType=INTEGER},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},

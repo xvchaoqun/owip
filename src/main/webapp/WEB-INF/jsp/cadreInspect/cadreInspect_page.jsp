@@ -14,8 +14,8 @@ pageEncoding="UTF-8" %>
                   data-url-co="${ctx}/cadreInspect_changeOrder"
                   data-url-export="${ctx}/cadreInspect_data"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.typeId
-            ||not empty param.postId ||not empty param.title || not empty param.code }"/>
+            <c:set var="_query" value="${not empty param.userId ||not empty param.adminLevel
+            ||not empty param.postType ||not empty param.title || not empty param.code }"/>
 
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -61,9 +61,9 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-reply"></i> 撤销
                         </button>
                         <shiro:hasPermission name="cadreInspect:edit">
-                        <a class="popupBtn btn btn-primary btn-sm tooltip-success"
+                        <a class="popupBtn btn btn-info btn-sm tooltip-info"
                            data-url="${ctx}/cadreInspect_import"
-                           data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
+                           data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
                         </shiro:hasPermission>
                         </c:if>
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -100,22 +100,22 @@ pageEncoding="UTF-8" %>
                                             </div>
                                             <div class="form-group">
                                                 <label>行政级别</label>
-                                                    <select data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
+                                                    <select data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
                                                         <option></option>
                                                         <jsp:include page="/metaTypes?__code=mc_admin_level"/>
                                                     </select>
                                                     <script type="text/javascript">
-                                                        $("#searchForm select[name=typeId]").val(${param.typeId});
+                                                        $("#searchForm select[name=adminLevel]").val(${param.adminLevel});
                                                     </script>
                                             </div>
                                             <div class="form-group">
                                                 <label>职务属性</label>
-                                                    <select data-rel="select2" name="postId" data-placeholder="请选择职务属性">
+                                                    <select data-rel="select2" name="postType" data-placeholder="请选择职务属性">
                                                         <option></option>
                                                         <jsp:include page="/metaTypes?__code=mc_post"/>
                                                     </select>
                                                     <script type="text/javascript">
-                                                        $("#searchForm select[name=postId]").val(${param.postId});
+                                                        $("#searchForm select[name=postType]").val(${param.postType});
                                                     </script>
                                             </div>
                                             <div class="form-group">
@@ -165,11 +165,11 @@ pageEncoding="UTF-8" %>
             <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
             {label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true},
             </c:if>
-            {label: '现所在单位', name: 'unit.name', width: 200},
-            {label: '现任职务', name: 'post', width: 350},
-            {label: '现所在单位及职务', name: 'title', width: 350},
-            {label: '现行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-            {label: '现职务属性', name: 'postType.name', width: 150},
+            {label: '现所在单位', name: 'unit.name', width: 200, align:'left'},
+            {label: '现任职务', name: 'post', width: 250, align:'left'},
+            {label: '现所在单位及职务', name: 'title', width: 350, align:'left'},
+            {label: '现行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+            {label: '现职务属性', name: 'postType', formatter:$.jgrid.formatter.MetaType, width: 150},
             {label: '手机号', name: 'mobile'},
             {label: '办公电话', name: 'phone'},
             {label: '家庭电话', name: 'homePhone'},

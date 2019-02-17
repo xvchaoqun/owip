@@ -11,8 +11,8 @@
     <result column="way_id" jdbcType="INTEGER" property="wayId" />
     <result column="procedure_id" jdbcType="INTEGER" property="procedureId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -56,8 +56,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, dispatch_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
-    post, post_id, admin_level_id, unit_id, remark, sort_order, post_team, category, 
-    year, pub_time, work_time, dispatch_type_id, code, has_checked
+    post, post_type, admin_level, unit_id, remark, sort_order, post_team, category, year, 
+    pub_time, work_time, dispatch_type_id, code, has_checked
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchCadreViewExample" resultMap="BaseResultMap">
     select

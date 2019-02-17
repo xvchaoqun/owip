@@ -682,123 +682,123 @@ public class ScCommitteeVoteViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIsNull() {
-            addCriterion("post_id is null");
+        public Criteria andPostTypeIsNull() {
+            addCriterion("post_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIsNotNull() {
-            addCriterion("post_id is not null");
+        public Criteria andPostTypeIsNotNull() {
+            addCriterion("post_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdEqualTo(Integer value) {
-            addCriterion("post_id =", value, "postId");
+        public Criteria andPostTypeEqualTo(Integer value) {
+            addCriterion("post_type =", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotEqualTo(Integer value) {
-            addCriterion("post_id <>", value, "postId");
+        public Criteria andPostTypeNotEqualTo(Integer value) {
+            addCriterion("post_type <>", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdGreaterThan(Integer value) {
-            addCriterion("post_id >", value, "postId");
+        public Criteria andPostTypeGreaterThan(Integer value) {
+            addCriterion("post_type >", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("post_id >=", value, "postId");
+        public Criteria andPostTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("post_type >=", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdLessThan(Integer value) {
-            addCriterion("post_id <", value, "postId");
+        public Criteria andPostTypeLessThan(Integer value) {
+            addCriterion("post_type <", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdLessThanOrEqualTo(Integer value) {
-            addCriterion("post_id <=", value, "postId");
+        public Criteria andPostTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("post_type <=", value, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIn(List<Integer> values) {
-            addCriterion("post_id in", values, "postId");
+        public Criteria andPostTypeIn(List<Integer> values) {
+            addCriterion("post_type in", values, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotIn(List<Integer> values) {
-            addCriterion("post_id not in", values, "postId");
+        public Criteria andPostTypeNotIn(List<Integer> values) {
+            addCriterion("post_type not in", values, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdBetween(Integer value1, Integer value2) {
-            addCriterion("post_id between", value1, value2, "postId");
+        public Criteria andPostTypeBetween(Integer value1, Integer value2) {
+            addCriterion("post_type between", value1, value2, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("post_id not between", value1, value2, "postId");
+        public Criteria andPostTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("post_type not between", value1, value2, "postType");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdIsNull() {
-            addCriterion("admin_level_id is null");
+        public Criteria andAdminLevelIsNull() {
+            addCriterion("admin_level is null");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdIsNotNull() {
-            addCriterion("admin_level_id is not null");
+        public Criteria andAdminLevelIsNotNull() {
+            addCriterion("admin_level is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdEqualTo(Integer value) {
-            addCriterion("admin_level_id =", value, "adminLevelId");
+        public Criteria andAdminLevelEqualTo(Integer value) {
+            addCriterion("admin_level =", value, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdNotEqualTo(Integer value) {
-            addCriterion("admin_level_id <>", value, "adminLevelId");
+        public Criteria andAdminLevelNotEqualTo(Integer value) {
+            addCriterion("admin_level <>", value, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdGreaterThan(Integer value) {
-            addCriterion("admin_level_id >", value, "adminLevelId");
+        public Criteria andAdminLevelGreaterThan(Integer value) {
+            addCriterion("admin_level >", value, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("admin_level_id >=", value, "adminLevelId");
+        public Criteria andAdminLevelGreaterThanOrEqualTo(Integer value) {
+            addCriterion("admin_level >=", value, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdLessThan(Integer value) {
-            addCriterion("admin_level_id <", value, "adminLevelId");
+        public Criteria andAdminLevelLessThan(Integer value) {
+            addCriterion("admin_level <", value, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdLessThanOrEqualTo(Integer value) {
-            addCriterion("admin_level_id <=", value, "adminLevelId");
+        public Criteria andAdminLevelLessThanOrEqualTo(Integer value) {
+            addCriterion("admin_level <=", value, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdIn(List<Integer> values) {
-            addCriterion("admin_level_id in", values, "adminLevelId");
+        public Criteria andAdminLevelIn(List<Integer> values) {
+            addCriterion("admin_level in", values, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdNotIn(List<Integer> values) {
-            addCriterion("admin_level_id not in", values, "adminLevelId");
+        public Criteria andAdminLevelNotIn(List<Integer> values) {
+            addCriterion("admin_level not in", values, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdBetween(Integer value1, Integer value2) {
-            addCriterion("admin_level_id between", value1, value2, "adminLevelId");
+        public Criteria andAdminLevelBetween(Integer value1, Integer value2) {
+            addCriterion("admin_level between", value1, value2, "adminLevel");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("admin_level_id not between", value1, value2, "adminLevelId");
+        public Criteria andAdminLevelNotBetween(Integer value1, Integer value2) {
+            addCriterion("admin_level not between", value1, value2, "adminLevel");
             return (Criteria) this;
         }
 

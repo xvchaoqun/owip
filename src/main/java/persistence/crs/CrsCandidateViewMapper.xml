@@ -24,9 +24,11 @@
     <result column="ppt" jdbcType="VARCHAR" property="ppt" />
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="state" jdbcType="BIT" property="state" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -145,19 +147,19 @@
     candidate_id, is_first, expert_count, crs_post_id, crs_post_type, crs_post_year, 
     crs_post_seq, crs_post_name, crs_post_job, crs_post_status, applicant_id, recommend_ow, 
     recommend_cadre, recommend_crowd, recommend_pdf, recommend_first_count, recommend_second_count, 
-    is_recommend, ppt_name, ppt, id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, 
-    post, remark, sort_order, status, is_committee_member, msg_title, mobile, phone, 
-    home_phone, email, code, realname, gender, nation, native_place, idcard, birth, party_id, 
-    branch_id, member_status, dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, 
-    is_ow, ow_grow_time, ow_remark, edu_id, finish_time, learn_style, school, dep, school_type, 
-    major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
-    pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, work_time, 
-    work_start_time, talent_title, main_cadre_post_id, is_double, double_unit_ids, is_principal_post, 
-    cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, np_file, np_work_time, 
-    lp_relate_id, lp_id, lp_file_name, lp_file, lp_work_time, s_dispatch_id, s_work_time, 
-    e_dispatch_id, e_work_time, admin_level_code, admin_level_name, max_ce_edu_attr, 
-    max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, 
-    unit_type_attr, verify_birth, verify_work_time
+    is_recommend, ppt_name, ppt, id, user_id, admin_level, post_type, unit_id, type, 
+    state, title, dispatch_cadre_id, post, remark, sort_order, status, is_committee_member, 
+    msg_title, mobile, phone, home_phone, email, code, realname, gender, nation, native_place, 
+    idcard, birth, party_id, branch_id, member_status, dp_id, dp_type_id, dp_post, dp_grow_time, 
+    dp_remark, ow_id, is_ow, ow_grow_time, ow_remark, edu_id, finish_time, learn_style, 
+    school, dep, school_type, major, degree, post_class, sub_post_class, main_post_level, 
+    pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, manage_level_time, 
+    arrive_time, work_time, work_start_time, talent_title, main_cadre_post_id, is_double, 
+    double_unit_ids, is_principal_post, cadre_post_year, admin_level_year, np_relate_id, 
+    np_id, np_file_name, np_file, np_work_time, lp_relate_id, lp_id, lp_file_name, lp_file, 
+    lp_work_time, s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, admin_level_code, 
+    admin_level_name, max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, 
+    unit_type_code, unit_type_name, unit_type_attr, verify_birth, verify_work_time
   </sql>
   <select id="selectByExample" parameterType="domain.crs.CrsCandidateViewExample" resultMap="BaseResultMap">
     select

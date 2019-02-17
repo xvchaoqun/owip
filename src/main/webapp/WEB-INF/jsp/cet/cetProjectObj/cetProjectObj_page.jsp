@@ -5,7 +5,7 @@
 <div class="space-4"></div>
 <c:set var="_query" value="${not empty param.hasChosen ||not empty param.isCurrentGroup
  ||not empty param.isFinish||not empty param.hasUploadWrite ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
-                ||not empty param.postIds || not empty param.code || not empty param.sort}"/>
+                ||not empty param.postTypes || not empty param.code || not empty param.sort}"/>
 <div class="jqgrid-vertical-offset buttons">
     <div class="type-select">
         <c:forEach items="${cetTraineeTypes}" var="cetTraineeType">
@@ -451,7 +451,7 @@
                 </div>
                 <div class="form-group">
                     <label>职务属性</label>
-                        <select class="multiselect" multiple="" name="postIds">
+                        <select class="multiselect" multiple="" name="postTypes">
                             <c:import url="/metaTypes?__code=mc_post"/>
                         </select>
                 </div>
@@ -510,7 +510,7 @@
     }
     $.register.multiselect($('#searchForm2 select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
     $.register.multiselect($('#searchForm2 select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
-    $.register.multiselect($('#searchForm2 select[name=postIds]'), ${cm:toJSONArray(selectPostIds)});
+    $.register.multiselect($('#searchForm2 select[name=postTypes]'), ${cm:toJSONArray(selectPostTypes)});
 
     $(".typeCheckbox").click(function () {
         var $input = $("input", $(this));
@@ -648,8 +648,8 @@
 
             }, frozen: true},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-            {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-            {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+            {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
             {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '专业技术职务', name: 'proPost', width: 120},
             {

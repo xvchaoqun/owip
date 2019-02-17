@@ -82,13 +82,13 @@ public class UnitPostController extends BaseController {
         List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
         List<UnitPost> records = new ArrayList<>();
-        int row = 0;
+        int row = 1;
         for (Map<Integer, String> xlsRow : xlsRows) {
 
             UnitPost record = new UnitPost();
             row++;
             String code = StringUtils.trimToNull(xlsRow.get(0));
-             if(StringUtils.isBlank(code)){
+            if(StringUtils.isBlank(code)){
                 throw new OpException("第{0}行岗位编号为空", row);
             }
             record.setCode(code);
@@ -119,9 +119,9 @@ public class UnitPostController extends BaseController {
             if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
             record.setAdminLevel(adminLevelType.getId());
 
-            String post = StringUtils.trimToNull(xlsRow.get(6));
-            MetaType postType = CmTag.getMetaTypeByName("mc_post", post);
-            if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, post);
+            String _postType = StringUtils.trimToNull(xlsRow.get(6));
+            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+            if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
             record.setPostType(postType.getId());
 
             String postClass = StringUtils.trimToNull(xlsRow.get(7));
@@ -133,7 +133,7 @@ public class UnitPostController extends BaseController {
             records.add(record);
         }
 
-        int addCount = unitPostService.importUnitPosts(records);
+        int addCount = unitPostService.bacthImport(records);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("addCount", addCount);
         resultMap.put("total", records.size());
@@ -143,9 +143,9 @@ public class UnitPostController extends BaseController {
 
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPosts")
-    public String unitPosts(int unitId, int adminLevelId, Boolean displayEmpty, ModelMap modelMap) {
+    public String unitPosts(int unitId, int adminLevel, Boolean displayEmpty, ModelMap modelMap) {
 
-        List<UnitPostView> unitPosts = unitPostService.query(unitId, adminLevelId, displayEmpty);
+        List<UnitPostView> unitPosts = unitPostService.query(unitId, adminLevel, displayEmpty);
         modelMap.put("unitPosts", unitPosts);
 
         return "unit/unitPost/unitPosts";
@@ -576,13 +576,13 @@ public class UnitPostController extends BaseController {
 
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPost_unitType_cadres")
-    public String unitPost_unitType_cadres(Integer adminLevelId, boolean isMainPost, String unitType, ModelMap modelMap) {
+    public String unitPost_unitType_cadres(Integer adminLevel, boolean isMainPost, String unitType, ModelMap modelMap) {
 
-        List<CadrePost> cadrePosts = iCadreMapper.findCadrePostsByUnitType(adminLevelId, isMainPost, unitType.trim());
+        List<CadrePost> cadrePosts = iCadreMapper.findCadrePostsByUnitType(adminLevel, isMainPost, unitType.trim());
         modelMap.put("cadrePosts", cadrePosts);
 
         modelMap.put("unitType", SystemConstants.UNIT_TYPE_ATTR_MAP.get(unitType.trim()));
-        modelMap.put("adminLevel", metaTypeService.findAll().get(adminLevelId));
+        modelMap.put("adminLevel", metaTypeService.findAll().get(adminLevel));
         modelMap.put("isMainPost", isMainPost);
 
         return "unit/unitPost/unitPost_unitType_cadres";

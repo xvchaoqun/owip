@@ -15,6 +15,31 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group">
+            <label class="col-xs-4 control-label">干部类型</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input required type="radio" name="type" id="type0" value="1" ${cadre.type!=2?"checked":""}>
+                        <label for="type0">
+                            处级干部
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input required type="radio" name="type" id="type1" value="2" ${cadre.type==2?"checked":""}>
+                        <label for="type1">
+                            科级干部
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否涉密</label>
+            <div class="col-xs-6">
+                <input type="checkbox" class="big" name="state" ${cadre.state?"checked":""}/>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">任职单位</label>
             <div class="col-xs-8">
                 <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
@@ -48,7 +73,7 @@ pageEncoding="UTF-8"%>
                     <jsp:include page="/metaTypes?__code=mc_post"/>
                 </select>
                 <script type="text/javascript">
-                    $("#modalForm select[name=postId]").val(${cadre.postId});
+                    $("#modalForm select[name=postId]").val(${cadre.postType});
                 </script>
             </div>
         </div>
@@ -60,7 +85,7 @@ pageEncoding="UTF-8"%>
                         <jsp:include page="/metaTypes?__code=mc_admin_level"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modalForm select[name=typeId]").val(${cadre.typeId});
+                        $("#modalForm select[name=typeId]").val(${cadre.adminLevel});
                     </script>
 				</div>
 			</div>
@@ -94,6 +119,7 @@ pageEncoding="UTF-8"%>
     });
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    $("#modal :checkbox").bootstrapSwitch();
 
     $.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

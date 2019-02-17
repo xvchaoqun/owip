@@ -14,11 +14,15 @@ public class Cadre implements Serializable {
 
     private Integer userId;
 
-    private Integer typeId;
+    private Integer adminLevel;
 
-    private Integer postId;
+    private Integer postType;
 
     private Integer unitId;
+
+    private Byte type;
+
+    private Boolean state;
 
     private String title;
 
@@ -50,20 +54,20 @@ public class Cadre implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getAdminLevel() {
+        return adminLevel;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Integer getPostType() {
+        return postType;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setPostType(Integer postType) {
+        this.postType = postType;
     }
 
     public Integer getUnitId() {
@@ -72,6 +76,22 @@ public class Cadre implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 
     public String getTitle() {

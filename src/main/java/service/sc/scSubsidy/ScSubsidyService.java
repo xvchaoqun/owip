@@ -132,7 +132,7 @@ public class ScSubsidyService extends ScBaseMapper {
             scSubsidyDc.setWorkTime(dispatchCadre.getDispatch().getWorkTime());
             scSubsidyDc.setType(dispatchCadre.getType());
             scSubsidyDc.setPost(dispatchCadre.getPost());
-            scSubsidyDc.setAdminLevel(dispatchCadre.getAdminLevelId());
+            scSubsidyDc.setAdminLevel(dispatchCadre.getAdminLevel());
 
             scSubsidyDcMapper.insertSelective(scSubsidyDc);
         }
@@ -146,7 +146,7 @@ public class ScSubsidyService extends ScBaseMapper {
             scSubsidyCadre.setTitle(cadre.getTitle());
             // 已离任行政级别显示为无
             if(CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus()))
-                scSubsidyCadre.setAdminLevel(cadre.getTypeId());
+                scSubsidyCadre.setAdminLevel(cadre.getAdminLevel());
 
             scSubsidyCadreMapper.insertSelective(scSubsidyCadre);
         }

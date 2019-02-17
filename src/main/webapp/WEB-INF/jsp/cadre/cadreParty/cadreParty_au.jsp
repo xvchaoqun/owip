@@ -45,7 +45,7 @@
                 <label class="col-xs-3 control-label">民主党派</label>
 
                 <div class="col-xs-6">
-                    <select required data-rel="select2" name="classId" data-placeholder="请选择民主党派">
+                    <select required data-rel="select2" name="classId" data-width="272" data-placeholder="请选择民主党派">
                         <option></option>
                         <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
                     </select>
@@ -59,7 +59,7 @@
             <label class="col-xs-3 control-label">党派加入时间</label>
 
             <div class="col-xs-6">
-                <div class="input-group" style="width: 150px">
+                <div class="input-group" style="width: 120px">
                     <input class="form-control date-picker" name="growTime" type="text"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadreParty.growTime,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

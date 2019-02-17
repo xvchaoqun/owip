@@ -35,31 +35,31 @@ public class DispatchWorkFileService extends BaseMapper {
         example.createCriteria().andWorkFileIdEqualTo(workFileId);
 
         List<DispatchWorkFileAuth> dispatchWorkFileAuths = dispatchWorkFileAuthMapper.selectByExample(example);
-        Set<Integer> postIds = new HashSet<>();
+        Set<Integer> postTypes = new HashSet<>();
         for (DispatchWorkFileAuth dispatchWorkFileAuth : dispatchWorkFileAuths) {
-            postIds.add(dispatchWorkFileAuth.getPostId());
+            postTypes.add(dispatchWorkFileAuth.getPostType());
         }
 
-        return postIds;
+        return postTypes;
     }
 
     @Transactional
-    public void updatePostIds(int workFileId, Integer[] postIds) {
+    public void updatePostTypes(int workFileId, Integer[] postTypes) {
 
         DispatchWorkFileAuthExample example = new DispatchWorkFileAuthExample();
         example.createCriteria().andWorkFileIdEqualTo(workFileId);
         dispatchWorkFileAuthMapper.deleteByExample(example);
 
         int postCount = 0;
-        if(postIds!=null) {
-            for (Integer postId : postIds) {
+        if(postTypes !=null) {
+            for (Integer postType : postTypes) {
 
                 DispatchWorkFileAuth record = new DispatchWorkFileAuth();
                 record.setWorkFileId(workFileId);
-                record.setPostId(postId);
+                record.setPostType(postType);
                 dispatchWorkFileAuthMapper.insert(record);
             }
-            postCount = postIds.length;
+            postCount = postTypes.length;
         }
 
         // 更新已设置职务属性数量

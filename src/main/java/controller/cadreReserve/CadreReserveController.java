@@ -1,16 +1,16 @@
 package controller.cadreReserve;
 
-import domain.base.MetaType;
-import persistence.cadre.common.CadreReserveCount;
-import bean.XlsCadreReserve;
 import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import persistence.cadre.common.CadreReserveCount;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -41,12 +42,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreReserveController extends BaseController {
@@ -151,8 +147,8 @@ public class CadreReserveController extends BaseController {
     @RequestMapping("/cadreReserve_data")
     public void cadreReserve_data(HttpServletResponse response, Byte status, Integer reserveType,
                                   Integer cadreId,
-                                  Integer typeId,
-                                  Integer postId,
+                                  Integer adminLevel,
+                                  Integer postType,
                                   String title,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -195,11 +191,11 @@ public class CadreReserveController extends BaseController {
             criteria.andIdEqualTo(cadreId);
         }
 
-        if (typeId != null) {
-            criteria.andTypeIdEqualTo(typeId);
+        if (adminLevel != null) {
+            criteria.andAdminLevelEqualTo(adminLevel);
         }
-        if (postId != null) {
-            criteria.andPostIdEqualTo(postId);
+        if (postType != null) {
+            criteria.andPostTypeEqualTo(postType);
         }
 
         if (StringUtils.isNotBlank(title)) {
@@ -250,7 +246,7 @@ public class CadreReserveController extends BaseController {
         record.setType(reserveType);
         record.setRemark(reserveRemark);
         if (reserveId == null) {
-            cadreReserveService.insertSelective(userId, record, cadreRecord);
+            cadreReserveService.insertOrUpdateSelective(userId, record, cadreRecord);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加后备干部：%s", record.getId()));
         } else {
             cadreReserveService.updateByPrimaryKeySelective(record, cadreRecord);
@@ -433,17 +429,59 @@ public class CadreReserveController extends BaseController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
-        List<XlsCadreReserve> cadreReserves = new ArrayList<XlsCadreReserve>();
-
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        cadreReserves.addAll(XlsUpload.fetchCadreReserves(sheet));
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
-        int successCount = cadreReserveService.importCadreReserves(cadreReserves, reserveType);
+        List<Cadre> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            Cadre record = new Cadre();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(userCode)){
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            int userId = uv.getId();
+            record.setUserId(userId);
+
+            String adminLevel = StringUtils.trimToNull(xlsRow.get(2));
+            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
+            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
+            record.setAdminLevel(adminLevelType.getId());
+
+            String _postType = StringUtils.trimToNull(xlsRow.get(3));
+            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+            if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+            record.setPostType(postType.getId());
+
+            String unitCode = StringUtils.trimToNull(xlsRow.get(4));
+            if(StringUtils.isBlank(unitCode)){
+                throw new OpException("第{0}行单位编号为空", row);
+            }
+            Unit unit = unitService.findUnitByCode(unitCode);
+            if(unit==null){
+                throw new OpException("第{0}行单位编号[{1}]不存在", row, unitCode);
+            }
+            record.setUnitId(unit.getId());
+
+            record.setPost(StringUtils.trimToNull(xlsRow.get(5)));
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(6)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(7)));
+
+            records.add(record);
+        }
+
+        int successCount = cadreReserveService.batchImport(records, reserveType);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
-        resultMap.put("total", cadreReserves.size());
+        resultMap.put("total", records.size());
 
         return resultMap;
     }

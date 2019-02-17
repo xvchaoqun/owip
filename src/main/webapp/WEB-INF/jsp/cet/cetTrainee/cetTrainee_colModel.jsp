@@ -37,8 +37,8 @@
       {label: '工作证号', name: 'cadre.code', width: 110, frozen: true},
       {label: '姓名', name: 'cadre.realname', width: 120, frozen: true},
       {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
-      {label: '行政级别', name: 'cadre.typeId', formatter:$.jgrid.formatter.MetaType},
-      {label: '职务属性', name: 'cadre.postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+      {label: '行政级别', name: 'cadre.adminLevel', formatter:$.jgrid.formatter.MetaType},
+      {label: '职务属性', name: 'cadre.postType', width: 150, formatter:$.jgrid.formatter.MetaType},
       {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
       {label: '专业技术职务', name: 'cadre.proPost', width: 120},
       {

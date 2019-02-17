@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
                 <label class="col-xs-3 control-label">上一届班子</label>
                 <div class="col-xs-6">
                     <div class="help-block">
-                        <select class="form-control" name="fid"
+                        <select class="form-control" name="fid" data-width="272"
                                 data-rel="select2-ajax" data-ajax-url="${ctx}/partyMemberGroup_selects?partyId=${party.id}"
                                 data-placeholder="请选择班子">
                             <option value="${fPartyMemberGroup.id}">${fPartyMemberGroup.name}</option>
@@ -80,7 +80,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">发文</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
+                    <select data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
                             name="dispatchUnitId" data-placeholder="请选择单位发文">
                         <option value="${partyMemberGroup.dispatchUnitId}">${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}</option>
                     </select>

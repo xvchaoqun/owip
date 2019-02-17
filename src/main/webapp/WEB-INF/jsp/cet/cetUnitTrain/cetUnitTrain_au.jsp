@@ -29,12 +29,12 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务属性</label>
 				<div class="col-xs-6">
-					<select  data-rel="select2" name="postId" data-placeholder="请选择职务属性" data-width="272">
+					<select  data-rel="select2" name="postType" data-placeholder="请选择职务属性" data-width="272">
                         <option></option>
                         <jsp:include page="/metaTypes?__code=mc_post"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modalForm select[name=postId]").val(${cetUnitTrain.postId});
+                        $("#modalForm select[name=postType]").val(${cetUnitTrain.postType});
                     </script>
 				</div>
 			</div>
@@ -103,10 +103,10 @@ pageEncoding="UTF-8"%>
     $selectCadre.on("change",function(){
         //console.log($(this).select2("data")[0])
         var title = $(this).select2("data")[0]['title']||'';
-        var postId = $(this).select2("data")[0]['postId']||'';
+        var postType = $(this).select2("data")[0]['postType']||'';
         $('#modalForm textarea[name=title]').val(title);
 
-        $("#modalForm select[name=postId]").val(postId).trigger("change");
+        $("#modalForm select[name=postType]").val(postType).trigger("change");
     });
     //$("#modalForm :checkbox").bootstrapSwitch();
     //$.register.user_select($('[data-rel="select2-ajax"]'));

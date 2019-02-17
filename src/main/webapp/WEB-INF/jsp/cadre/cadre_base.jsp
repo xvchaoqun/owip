@@ -379,7 +379,7 @@
 							行政级别
 						</td>
 						<td>
-								${cm:getMetaType(cadreAdminLevel.adminLevelId).name}
+								${cm:getMetaType(cadreAdminLevel.adminLevel).name}
 						</td>
 						<td>任现职级时间</td>
 						<td >

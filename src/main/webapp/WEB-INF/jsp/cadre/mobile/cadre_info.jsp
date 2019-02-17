@@ -81,7 +81,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 行政级别</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:getMetaType(cadreAdminLevel.adminLevelId).name}</span>
+            <span class="editable">${cm:getMetaType(cadreAdminLevel.adminLevel).name}</span>
           </div>
         </div>
 
@@ -405,7 +405,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 行政级别</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:getMetaType(cadreAdminLevel.adminLevelId).name}</span>
+            <span class="editable">${cm:getMetaType(cadreAdminLevel.adminLevel).name}</span>
           </div>
         </div>
         <div class="profile-info-row">

@@ -52,7 +52,7 @@ public class CetUpperTrainService extends CetBaseMapper {
             Cadre cadre = cadreMap.get(userId);
             if(cadre!=null){
                 record.setTitle(cadre.getTitle());
-                record.setPostId(cadre.getPostId());
+                record.setPostId(cadre.getPostType());
             }
 
             cetUpperTrainMapper.insertSelective(record);

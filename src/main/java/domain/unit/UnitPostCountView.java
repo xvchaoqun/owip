@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class UnitPostCountView implements Serializable {
     private Integer unitId;
 
-    private Integer adminLevelId;
+    private Integer adminLevel;
 
     private Integer num;
 
@@ -21,12 +21,12 @@ public class UnitPostCountView implements Serializable {
         this.unitId = unitId;
     }
 
-    public Integer getAdminLevelId() {
-        return adminLevelId;
+    public Integer getAdminLevel() {
+        return adminLevel;
     }
 
-    public void setAdminLevelId(Integer adminLevelId) {
-        this.adminLevelId = adminLevelId;
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
     }
 
     public Integer getNum() {

@@ -93,25 +93,25 @@
                         </td>
                         <td class="bg-right">职务属性</td>
                         <td class="bg-left">
-                            <select required name="postId" data-rel="select2" data-width="130"
+                            <select required name="postType" data-rel="select2" data-width="130"
                                     data-placeholder="请选择">
                                 <option></option>
                                 <c:import url="/metaTypes?__code=mc_post"/>
                             </select>
                             <script>
-                                $("#voteForm select[name=postId]").val('${scCommitteeVote.postId}');
+                                $("#voteForm select[name=postType]").val('${scCommitteeVote.postType}');
                             </script>
                         </td>
                         <td class="bg-right">行政级别</td>
                         <td class="bg-left">
                             <select required class="form-control" data-rel="select2" data-width="140"
-                                    name="adminLevelId"
+                                    name="adminLevel"
                                     data-placeholder="请选择">
                                 <option></option>
                                 <c:import url="/metaTypes?__code=mc_admin_level"/>
                             </select>
                             <script type="text/javascript">
-                                $("#voteForm select[name=adminLevelId]").val('${scCommitteeVote.adminLevelId}');
+                                $("#voteForm select[name=adminLevel]").val('${scCommitteeVote.adminLevel}');
                             </script>
                         </td>
                     </tr>
@@ -361,8 +361,8 @@
             }
 
             $('#voteForm textarea[name=post]').val(up.name)
-            $("#voteForm select[name=postId]").val(up.postType).trigger("change");
-            $("#voteForm select[name=adminLevelId]").val(up.adminLevel).trigger("change");
+            $("#voteForm select[name=postType]").val(up.postType).trigger("change");
+            $("#voteForm select[name=adminLevel]").val(up.adminLevel).trigger("change");
             $("#voteForm select[name=_unitStatus]").val(up.unitStatus).trigger("change");
 
             var option = new Option(up.unitName, up.unitId, true, true);

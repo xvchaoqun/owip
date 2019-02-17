@@ -116,8 +116,8 @@ public class CetAnnualObjService extends CetBaseMapper {
                 case "t_cadre": {
                     CadreView cv = CmTag.getCadreByUserId(userId);
                     record.setTitle(cv.getTitle());
-                    record.setAdminLevel(cv.getTypeId());
-                    record.setPostType(cv.getPostId());
+                    record.setAdminLevel(cv.getAdminLevel());
+                    record.setPostType(cv.getPostType());
                     record.setLpWorkTime(cv.getLpWorkTime());
                     record.setSortOrder(cv.getSortOrder());
                 }
@@ -350,8 +350,8 @@ public class CetAnnualObjService extends CetBaseMapper {
             
             CadreView cv = CmTag.getCadreByUserId(obj.getUserId());
             update.setTitle(cv.getTitle());
-            update.setAdminLevel(cv.getTypeId());
-            update.setPostType(cv.getPostId());
+            update.setAdminLevel(cv.getAdminLevel());
+            update.setPostType(cv.getPostType());
             update.setLpWorkTime(cv.getLpWorkTime());
             // 重置状态
             update.setNeedUpdateRequire(false);
@@ -521,7 +521,7 @@ public class CetAnnualObjService extends CetBaseMapper {
                     
                     int adminLevel = cetAnnualObj.getAdminLevel();
                     CadreView cv = CmTag.getCadreByUserId(userId);
-                    int latestAdminLevel = cv.getTypeId();
+                    int latestAdminLevel = cv.getAdminLevel();
                     
                     // 排序始终同步最新的
                     record.setSortOrder(cv.getSortOrder());
@@ -532,8 +532,8 @@ public class CetAnnualObjService extends CetBaseMapper {
                         adminLevelChangedCount++;
                     } else {
                         record.setTitle(cv.getTitle());
-                        record.setAdminLevel(cv.getTypeId());
-                        record.setPostType(cv.getPostId());
+                        record.setAdminLevel(cv.getAdminLevel());
+                        record.setPostType(cv.getPostType());
                         record.setLpWorkTime(cv.getLpWorkTime());
                     }
                     

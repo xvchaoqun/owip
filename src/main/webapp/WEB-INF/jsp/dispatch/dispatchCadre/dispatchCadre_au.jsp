@@ -115,24 +115,24 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务属性</label>
 				<div class="col-xs-6">
-                    <select name="postId" data-rel="select2" data-placeholder="请选择职务属性">
+                    <select name="postType" data-rel="select2" data-placeholder="请选择职务属性">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_post"/>
                     </select>
                     <script>
-                        $("#modalForm select[name=postId]").val('${dispatchCadre.postId}');
+                        $("#modalForm select[name=postType]").val('${dispatchCadre.postType}');
                     </script>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">行政级别</label>
 				<div class="col-xs-6">
-                    <select required class="form-control" data-rel="select2" name="adminLevelId" data-placeholder="请选择行政级别">
+                    <select required class="form-control" data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_admin_level"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modalForm select[name=adminLevelId]").val('${dispatchCadre.adminLevelId}');
+                        $("#modalForm select[name=adminLevel]").val('${dispatchCadre.adminLevel}');
                     </script>
 				</div>
 			</div>
@@ -226,8 +226,8 @@ pageEncoding="UTF-8"%>
             }
 
             $('#modalForm textarea[name=post]').val(up.name)
-            $("#modalForm select[name=postId]").val(up.postType).trigger("change");
-            $("#modalForm select[name=adminLevelId]").val(up.adminLevel).trigger("change");
+            $("#modalForm select[name=postType]").val(up.postType).trigger("change");
+            $("#modalForm select[name=adminLevel]").val(up.adminLevel).trigger("change");
             $("#modalForm select[name=_unitStatus]").val(up.unitStatus).trigger("change");
 
             var option = new Option(up.unitName, up.unitId, true, true);

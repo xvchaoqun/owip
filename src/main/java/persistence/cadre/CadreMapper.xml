@@ -4,9 +4,11 @@
   <resultMap id="BaseResultMap" type="domain.cadre.Cadre">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="state" jdbcType="BIT" property="state" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, sort_order, 
-    status
+    id, user_id, admin_level, post_type, unit_id, type, state, title, dispatch_cadre_id, 
+    post, remark, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreExample" resultMap="BaseResultMap">
     select
@@ -110,14 +112,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre (user_id, type_id, post_id, 
-      unit_id, title, dispatch_cadre_id, 
-      post, remark, sort_order, 
-      status)
-    values (#{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, 
-      #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{dispatchCadreId,jdbcType=INTEGER}, 
-      #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+    insert into cadre (user_id, admin_level, post_type, 
+      unit_id, type, state, title, 
+      dispatch_cadre_id, post, remark, 
+      sort_order, status)
+    values (#{userId,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
+      #{unitId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{state,jdbcType=BIT}, #{title,jdbcType=VARCHAR}, 
+      #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.Cadre">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -128,14 +130,20 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="typeId != null">
-        type_id,
+      <if test="adminLevel != null">
+        admin_level,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="postType != null">
+        post_type,
       </if>
       <if test="unitId != null">
         unit_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="state != null">
+        state,
       </if>
       <if test="title != null">
         title,
@@ -160,14 +168,20 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        #{typeId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIT},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -204,14 +218,20 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.typeId != null">
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
       </if>
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=BIT},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -240,9 +260,11 @@
     update cadre
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      type_id = #{record.typeId,jdbcType=INTEGER},
-      post_id = #{record.postId,jdbcType=INTEGER},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      state = #{record.state,jdbcType=BIT},
       title = #{record.title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
@@ -259,14 +281,20 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=BIT},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -292,9 +320,11 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadre.Cadre">
     update cadre
     set user_id = #{userId,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
-      post_id = #{postId,jdbcType=INTEGER},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      state = #{state,jdbcType=BIT},
       title = #{title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},

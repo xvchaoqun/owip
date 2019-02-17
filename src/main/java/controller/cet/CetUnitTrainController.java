@@ -186,7 +186,6 @@ public class CetUnitTrainController extends CetBaseController {
         
         return "cet/cetUnitTrain/cetUnitTrain_au";
     }
- 
     
     @RequiresPermissions("cetUnitTrain:edit")
     @RequestMapping("/cetUnitTrain_batchAdd")
@@ -309,7 +308,7 @@ public class CetUnitTrainController extends CetBaseController {
             String[] values = {
                     record.getUserId() + "",
                     record.getTitle(),
-                    record.getPostId() + "",
+                    record.getPostType() + "",
                     record.getPeriod() + "",
                     record.getWordNote(),
                     record.getAddType() + "",

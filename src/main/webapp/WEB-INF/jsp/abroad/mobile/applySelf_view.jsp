@@ -133,7 +133,7 @@
                 <div class="profile-info-name td"> 行政级别 </div>
 
                 <div class="profile-info-value td">
-                  <span class="editable" >${cm:getMetaType(cadre.typeId).name}</span>
+                  <span class="editable" >${cm:getMetaType(cadre.adminLevel).name}</span>
                 </div>
               </div>
             </div>

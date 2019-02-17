@@ -1,14 +1,7 @@
 package service.party;
 
 import domain.base.MetaType;
-import domain.party.Branch;
-import domain.party.BranchExample;
-import domain.party.Party;
-import domain.party.PartyExample;
-import domain.party.PartyMemberGroup;
-import domain.party.PartyMemberGroupExample;
-import domain.party.PartyView;
-import domain.party.PartyViewExample;
+import domain.party.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +14,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PartyService extends BaseMapper {
@@ -78,6 +66,15 @@ public class PartyService extends BaseMapper {
 
         List<PartyView> partyViews = partyViewMapper.selectByExample(example);
         return partyViews.size() == 0 ? null : partyViews.get(0);
+    }
+
+    public Party getByCode(String code){
+
+        PartyExample example = new PartyExample();
+        PartyExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+        List<Party> records = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return records.size()==1?records.get(0):null;
     }
 
     // 判断partyId和branchId的有效性
@@ -143,6 +140,26 @@ public class PartyService extends BaseMapper {
         record.setSortOrder(getNextSortOrder("ow_party", "is_deleted=0"));
         record.setIsDeleted(false);
         return partyMapper.insertSelective(record);
+    }
+
+    @Transactional
+    @CacheEvict(value = "Party:ALL", allEntries = true)
+    public int bacthImport(List<Party> records) {
+
+        int addCount = 0;
+        for (Party record : records) {
+            String code = record.getCode();
+            Party _record = getByCode(code);
+            if(_record==null){
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(_record.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
     }
 
     @Transactional
