@@ -7,11 +7,11 @@
     <li class="<c:if test="${cls==1}">active</c:if>">
         <a href="javascript:;" class="loadPage" data-load-el="#tab-content"
            data-url="${ctx}/unitPostList?cls=1&unitId=${param.unitId}"><i
-                class="fa fa-circle-o-notch"></i> 现有处级岗位</a>
+                class="fa fa-circle-o-notch"></i> 现有岗位</a>
     </li>
     <li class="<c:if test="${cls==2}">active</c:if>">
         <a href="javascript:;" class="loadPage" data-load-el="#tab-content"
-           data-url="${ctx}/unitPostList?cls=2&unitId=${param.unitId}"><i class="fa fa-history"></i> 撤销处级岗位</a>
+           data-url="${ctx}/unitPostList?cls=2&unitId=${param.unitId}"><i class="fa fa-history"></i> 撤销岗位</a>
     </li>
 </ul>
 <div class="space-4"></div>
@@ -91,13 +91,10 @@
                 </div>
                 <div class="form-group">
                     <label>行政级别</label>
-                    <select required class="form-control" data-rel="select2" name="adminLevel"
-                            data-placeholder="请选择行政级别">
-                        <option></option>
-                        <option value="${cm:getMetaTypeByCode('mt_admin_level_main').id}">正处级</option>
-                        <option value="${cm:getMetaTypeByCode('mt_admin_level_vice').id}">副处级</option>
-                        <option value="${cm:getMetaTypeByCode('mt_admin_level_none').id}">无行政级别</option>
-                    </select>
+                    <select  data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择">
+						<option></option>
+						<jsp:include page="/metaTypes?__code=mc_admin_level"/>
+					</select>
                     <script type="text/javascript">
                         $("#searchForm2 select[name=adminLevel]").val('${param.adminLevel}');
                     </script>

@@ -339,6 +339,6 @@ public class UnitPostService extends BaseMapper {
 
         }
 
-        ExportHelper.output(wb, schoolName + "空缺中层干部岗位列表.xlsx", response);
+        ExportHelper.output(wb, schoolName + "空缺干部岗位列表.xlsx", response);
     }
 }

@@ -143,20 +143,20 @@ public interface ICadreMapper {
             "order by field(cadre_status, 2,5,3,1,4,6) desc, cadre_sort_order desc")
     List<Map> cadreCompany_statMap(@Param("cadreStatus") String cadreStatus);
 
-    // 中层干部兼职汇总   兼职类型、是否双肩挑
+    // 干部兼职汇总   兼职类型、是否双肩挑
     @ResultType(java.util.HashMap.class)
     @Select("select is_double, type, count(*) num, count(distinct cadre_id) as person_num " +
             "from cadre_company_view cc where cadre_status=1 group by is_double, type")
     List<Map> cadreCompany_doubleStatMap();
 
-    // 中层干部兼职汇总   兼职类型、单位类型
+    // 干部兼职汇总   兼职类型、单位类型
     @ResultType(java.util.HashMap.class)
     @Select("select unit_type_attr, type, count(*) num, count(distinct cadre_id) as person_num " +
             "from cadre_company_view cc where cadre_status=1 and unit_type_attr in('xy','jg','fs') " +
             "group by unit_type_attr, type")
     List<Map> cadreCompany_unitTypeStatMap();
 
-    // 中层干部兼职汇总   兼职类型、行政级别
+    // 干部兼职汇总   兼职类型、行政级别
     @ResultType(java.util.HashMap.class)
     @Select("select admin_level, type, count(*) num, count(distinct cadre_id) as person_num " +
             "from cadre_company_view cc where cadre_status=1 " +
@@ -164,7 +164,7 @@ public interface ICadreMapper {
             "group by admin_level, type")
     List<Map> cadreCompany_adminLevelStatMap();
 
-    // 中层干部兼职汇总   合计
+    // 干部兼职汇总   合计
     @ResultType(java.util.HashMap.class)
     @Select("select type, count(*) num, count(distinct cadre_id) as person_num " +
             "from cadre_company_view cc where cadre_status=1 group by  type")

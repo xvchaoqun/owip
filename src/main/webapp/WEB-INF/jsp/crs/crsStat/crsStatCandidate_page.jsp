@@ -75,7 +75,7 @@
                                   </select>
                               </div>
                               <div class="form-group">
-                                  <label>是否现任中层干部</label>
+                                  <label>是否现任干部</label>
                                   <select data-rel="select2" name="isMiddle" data-placeholder="请选择">
                                       <option></option>
                                       <option value="1">是</option>
@@ -196,7 +196,7 @@
             return '<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
                     .format(rowObject.ppt, rowObject.pptName)
         }},
-        {label: '是否为现任中层干部', name: 'status', width: 180, formatter: function (cellvalue, options, rowObject) {
+        {label: '是否为现任干部', name: 'status', width: 180, formatter: function (cellvalue, options, rowObject) {
             return cellvalue==${CADRE_STATUS_MIDDLE}?"是":"否"
         }}, {name: 'candidateId', key:true, hidden:true}
     ]

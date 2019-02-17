@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/cadreCompanyFile_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '类型',name: 'type', width:150, formatter: $.jgrid.formatter.TRUEFALSE,
-                    formatoptions:{on:'校领导',off:'中层干部'}},
+                    formatoptions:{on:'校领导',off:'干部'}},
                 { label: '文件名称',name: 'dwf.fileName', width:650, align:'left', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue==undefined) return '-'
                     return $.trim(cellvalue)

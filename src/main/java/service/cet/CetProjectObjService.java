@@ -120,7 +120,7 @@ public class CetProjectObjService extends CetBaseMapper {
     private void appendTraineeInfo(String typeCode, int userId, CetProjectObj record){
 
         switch (typeCode) {
-            // 中层干部、后备干部
+            // 干部、后备干部
             case "t_cadre":
             case "t_reserve":
                 // 同步干部信息

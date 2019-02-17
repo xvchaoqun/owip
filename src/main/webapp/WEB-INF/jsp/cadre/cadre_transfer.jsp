@@ -25,8 +25,8 @@
                 data-width="300"
                 data-placeholder="请选择">
           <option></option>
-          <option value="${CADRE_STATUS_MIDDLE}">现任中层干部库</option>
-          <option value="${CADRE_STATUS_MIDDLE_LEAVE}">离任中层干部库</option>
+          <option value="${CADRE_STATUS_MIDDLE}">现任干部库</option>
+          <option value="${CADRE_STATUS_MIDDLE_LEAVE}">离任干部库</option>
           <option value="${CADRE_STATUS_LEADER}">现任校领导库</option>
           <option value="${CADRE_STATUS_LEADER_LEAVE}">离任校领导库</option>
         </select>

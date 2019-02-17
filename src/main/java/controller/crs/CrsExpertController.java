@@ -48,7 +48,7 @@ public class CrsExpertController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    // 职务属性-干部列表（现任中层、校领导）
+    // 职务属性-干部列表（现任干部、校领导）
     @RequiresPermissions("crsExpert:list")
     @RequestMapping("/crsExpert/selectCadres_tree")
     @ResponseBody

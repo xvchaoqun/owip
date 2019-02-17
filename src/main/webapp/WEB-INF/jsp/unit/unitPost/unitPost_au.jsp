@@ -41,13 +41,7 @@ pageEncoding="UTF-8"%>
 						<option></option>
 						<jsp:include page="/metaTypes?__code=mc_admin_level"/>
 					</select>
-					<%--<select required class="form-control" data-rel="select2" name="adminLevel"
-							data-width="272" data-placeholder="请选择行政级别">
-						<option></option>
-						<option value="${cm:getMetaTypeByCode('mt_admin_level_main').id}">正处级</option>
-						<option value="${cm:getMetaTypeByCode('mt_admin_level_vice').id}">副处级</option>
-						<option value="${cm:getMetaTypeByCode('mt_admin_level_none').id}">无行政级别</option>
-					</select>--%>
+
 					<script type="text/javascript">
 						$("#modalForm select[name=adminLevel]").val('${unitPost.adminLevel}');
 					</script>

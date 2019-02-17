@@ -65,7 +65,7 @@ public class CrsStatController extends CrsBaseController {
                                   Integer endAge,
                                   @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
                                   @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
-                                  Boolean isMiddle, // 是否现任中层干部
+                                  Boolean isMiddle, // 是否现任干部
                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {

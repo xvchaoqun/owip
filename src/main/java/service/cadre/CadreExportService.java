@@ -111,7 +111,7 @@ public class CadreExportService extends BaseMapper {
 
         int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 12, 16, 17, 18, 19, 20, 22, 36, 43, 53, 56};
         if (exportType == 1) {
-            //新增一个角色，限制查看中层干部库权限，
+            //新增一个角色，限制查看干部库权限，
             // 字段为：工作证号，姓名，干部类型，性别，身份证号、出生时间、年龄、学历、专业技术职务、任现职时间、
             // 部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
             List<String> _titles = new ArrayList<>();
@@ -354,7 +354,7 @@ public class CadreExportService extends BaseMapper {
             }));
 
             if (exportType == 1) {
-                //新增一个角色，限制查看中层干部库权限，
+                //新增一个角色，限制查看干部库权限，
                 // 字段为：工作证号，姓名，部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
                 List<String> _values = new ArrayList<>();
                 //int[] exportCloumns = new int[]{1, 2, 3, 4, 6, 7, 8, 17, 18, 51, 54};
@@ -380,7 +380,7 @@ public class CadreExportService extends BaseMapper {
         return wb;
     }
 
-    // 导出中层干部名单
+    // 导出干部名单
     public void exportCadres(CadreViewExample example, HttpServletResponse response) throws IOException {
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cadre/cadres.xlsx"));
@@ -541,7 +541,7 @@ public class CadreExportService extends BaseMapper {
             cell.setCellValue(adminLevelYear);
         }
 
-        String fileName = String.format("%s中层干部名单", schoolName);
+        String fileName = String.format("%s干部名单", schoolName);
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

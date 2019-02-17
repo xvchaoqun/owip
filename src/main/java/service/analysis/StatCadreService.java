@@ -106,7 +106,7 @@ public class StatCadreService extends BaseMapper {
         }
     }
 
-    // 中层干部统计
+    // 干部统计
     public Map<String, List> stat(String unitTypeAttr){
 
         unitTypeAttr = StringUtils.trimToNull(unitTypeAttr);

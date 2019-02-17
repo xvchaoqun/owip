@@ -95,7 +95,7 @@ public class CadreService extends BaseMapper {
         }
     }
 
-    // 提任（中层干部->校领导）
+    // 提任（处级干部->校领导）
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
@@ -143,7 +143,7 @@ public class CadreService extends BaseMapper {
 
             /**2016.11.08
              *
-             * 中层干部离任时，所有的在集中管理中的证件都移动到 取消集中管理证件库：
+             * 干部离任时，所有的在集中管理中的证件都移动到 取消集中管理证件库：
              *
              * 1、如果证件为“未借出”，就转移到“取消集中管理（未确认）”。
              * 2、如果证件“已借出”，直接转移到“取消集中管理证件（已确认）”中，最后一个字段“状态”为“免职前已领取”。

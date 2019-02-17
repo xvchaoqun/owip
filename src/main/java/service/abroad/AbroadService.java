@@ -43,7 +43,7 @@ public class AbroadService extends AbroadBaseMapper {
         return approverListMap;
     }
 
-    // 所有中层干部对应的审批人类型及所有的审批人
+    // 所有干部对应的审批人类型及所有的审批人
     public Map<Integer, Map<Integer, List<SysUserView>>> getCadreApproverListMap(){
 
         Map<Integer,  Map<Integer, List<SysUserView>>> cadreApproverListMap = new LinkedHashMap<>();

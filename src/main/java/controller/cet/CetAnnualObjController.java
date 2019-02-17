@@ -280,7 +280,7 @@ public class CetAnnualObjController extends CetBaseController {
         modelMap.put("cetTraineeType", cetTraineeType);
         String code = cetTraineeType.getCode();
         switch (code) {
-            // 中层干部
+            // 干部
             case "t_cadre":
                 return "cet/cetAnnualObj/cetAnnualObj_selectCadres";
         }

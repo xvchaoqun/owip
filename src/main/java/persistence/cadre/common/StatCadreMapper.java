@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by fafa on 2017/1/18.
  *
- * 中层干部统计
+ * 干部统计
  */
 public interface StatCadreMapper {
 

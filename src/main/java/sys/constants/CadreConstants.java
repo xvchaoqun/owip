@@ -28,8 +28,8 @@ public class CadreConstants {
     static {
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER, "现任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任中层干部");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任中层干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "年轻干部库"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RECRUIT, "应聘干部");
@@ -47,7 +47,7 @@ public class CadreConstants {
         CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_LEADER_LEAVE);
     }
 
-    // 中层干部类别
+    // 干部类别
     public final static byte CADRE_TYPE_CJ = 1; // 处级干部
     public final static byte CADRE_TYPE_KJ = 2; // 科级干部
     public final static Map<Byte, String> CADRE_TYPE_MAP = new LinkedHashMap<>();
@@ -78,8 +78,8 @@ public class CadreConstants {
     public final static Map<Byte, String> CADRE_STAT_HISTORY_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE, "中层干部信息表");
-        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CADRE, "中层干部情况统计表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE, "干部信息表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CADRE, "干部情况统计表");
         CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC, "干部职数配置情况统计表");
         CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT, "内设机构干部配备统计表");
 

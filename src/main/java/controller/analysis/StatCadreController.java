@@ -49,7 +49,7 @@ public class StatCadreController extends BaseController {
         if (export == 1) {
             XSSFWorkbook wb = statCadreService.toXlsx();
 
-            String fileName = sysConfigService.getSchoolName()+"中层领导干部情况统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
+            String fileName = sysConfigService.getSchoolName()+"领导干部情况统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
             ExportHelper.output(wb, fileName + ".xlsx", response);
             return null;
         }
@@ -100,7 +100,7 @@ public class StatCadreController extends BaseController {
 
         MetaType xyUnitMetaType = metaTypeService.codeKeyMap().get("mt_unit_type_xy");
 
-        searchBean.setCadreStatus(CadreConstants.CADRE_STATUS_MIDDLE); // 统计现任中层干部
+        searchBean.setCadreStatus(CadreConstants.CADRE_STATUS_MIDDLE); // 统计现任干部
         switch (type) {
             case 1: // 查找干部的（境外）学习经历
 

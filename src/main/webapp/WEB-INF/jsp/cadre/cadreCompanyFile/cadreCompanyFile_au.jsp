@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 							data-rel="select2" data-placeholder="请选择">
 						<option></option>
 						<option value="1">校领导</option>
-						<option value="0">中层干部</option>
+						<option value="0">干部</option>
 					</select>
 				</div>
 			</div>

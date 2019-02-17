@@ -7,7 +7,7 @@
             <div class="space-4"></div>
             <a href="${ctx}/cadreCompanyList_statByTypeExport"
                style="margin-left: 20px">
-                <i class="fa fa-download"></i> ${_school}中层干部兼职情况统计表（按类别统计）</a>
+                <i class="fa fa-download"></i> ${_school}干部兼职情况统计表（按类别统计）</a>
             <div class="space-4"></div>
             <c:set var="typeMap" value="${cm:getMetaTypes('mc_cadre_company_type')}"/>
             <table class="table table-bordered table-unhover2 table-center" data-offset-top="132">

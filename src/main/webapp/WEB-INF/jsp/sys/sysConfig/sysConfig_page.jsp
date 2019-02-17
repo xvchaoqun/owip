@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">附属单位说明(用于中层干部统计表格)</label>
+                <label class="col-xs-3 control-label">附属单位说明(用于干部统计表格)</label>
 
                 <div class="col-xs-6">
                     <textarea class="form-control"

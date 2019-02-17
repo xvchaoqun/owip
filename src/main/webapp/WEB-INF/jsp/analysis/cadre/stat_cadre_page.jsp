@@ -6,7 +6,7 @@
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${empty param.type}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type="><i class="fa fa-signal"></i> 所有中层干部</a>
+                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type="><i class="fa fa-signal"></i> 所有干部</a>
                 </li>
                 <li class="<c:if test="${param.type=='jg'}">active</c:if>">
                     <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=<%=SystemConstants.UNIT_TYPE_ATTR_JG%>"><i class="fa fa-signal"></i> 机关及直属单位</a>
@@ -28,8 +28,8 @@
                 <table id="statTable" border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;width:860pt'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
-                        <td colspan=14 height=41 class=xl97>${_school}中层领导干部情况统计表
-                            <c:if test="${empty param.type}">（所有中层干部）</c:if>
+                        <td colspan=14 height=41 class=xl97>${_school}领导干部情况统计表
+                            <c:if test="${empty param.type}">（所有干部）</c:if>
                             <c:if test="${not empty param.type}">（${UNIT_TYPE_ATTR_MAP.get(param.type)}）</c:if>
                             </td>
                     </tr>

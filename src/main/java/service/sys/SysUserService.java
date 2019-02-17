@@ -499,7 +499,7 @@ public class SysUserService extends BaseMapper {
         if (userRoles.contains(RoleConstants.ROLE_CADRE)) {
             CadreView cadre = CmTag.getCadreByUserId(userId);
 
-            //考察对象和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
+            //考察对象和离任干部不可以看到因私出国申请，现任干部和离任校领导可以
             if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER_LEAVE)) {

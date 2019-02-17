@@ -112,7 +112,7 @@ public class CetAnnualObjService extends CetBaseMapper {
             record.setAnnualId(annualId);
             record.setUserId(userId);
             switch (code) {
-                // 中层干部
+                // 干部
                 case "t_cadre": {
                     CadreView cv = CmTag.getCadreByUserId(userId);
                     record.setTitle(cv.getTitle());
@@ -513,7 +513,7 @@ public class CetAnnualObjService extends CetBaseMapper {
             Integer userId = cetAnnualObj.getUserId();
             
             switch (code) {
-                // 中层干部
+                // 干部
                 case "t_cadre": {
                     
                     CetAnnualObj record = new CetAnnualObj();

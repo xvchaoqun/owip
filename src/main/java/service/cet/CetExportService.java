@@ -266,7 +266,7 @@ public class CetExportService extends CetBaseMapper {
     
     
     /**
-     * xxxx中层干部年度培训学习情况统计表.xlsx
+     * xxxx干部年度培训学习情况统计表.xlsx
      */
     public void cetAnnual_exportObjs(int annualId, HttpServletResponse response) throws IOException {
         
@@ -388,7 +388,7 @@ public class CetExportService extends CetBaseMapper {
     }
     
     /**
-     * xxxx中层干部2018年度培训学习明细表.xlsx
+     * xxxx干部2018年度培训学习明细表.xlsx
      */
     public XSSFWorkbook cetAnnual_exportObjDetails(CetAnnualObj cetAnnualObj,
                                                    CetAnnual cetAnnual, String typeName) throws IOException {

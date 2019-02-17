@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${param.type==1?'校领导兼职管理文件':'中层干部兼职管理文件'}</h3>
+    <h3>${param.type==1?'校领导兼职管理文件':'干部兼职管理文件'}</h3>
 </div>
 <div class="modal-body">
     <table class="table table-striped table-bordered table-center table-condensed table-unhover2">

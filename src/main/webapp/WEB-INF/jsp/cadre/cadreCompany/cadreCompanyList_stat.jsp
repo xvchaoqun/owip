@@ -18,7 +18,7 @@
 <c:if test="${module==2}">
     <a href="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_MIDDLE%>"
        style="margin-left: 20px">
-        <i class="fa fa-download"></i> ${_school}中层干部兼职情况统计表</a>
+        <i class="fa fa-download"></i> ${_school}干部兼职情况统计表</a>
 </c:if>
             <div class="space-4"></div>
             <c:set var="typeMap" value="${cm:getMetaTypes('mc_cadre_company_type')}"/>

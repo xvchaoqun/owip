@@ -331,7 +331,7 @@ public class CadreController extends BaseController {
         return "cadre/cadre_base";
     }
 
-    // 提任（中层->校领导）
+    // 提任（干部->校领导）
     @RequiresPermissions("cadre:edit")
     @RequestMapping("/cadre_promote")
     public String cadre_promote(int id, ModelMap modelMap) {
@@ -400,7 +400,7 @@ public class CadreController extends BaseController {
         return resultMap;
     }
 
-    // 在“离任中层干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。
+    // 在“离任干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_re_assign", method = RequestMethod.POST)
     @ResponseBody
@@ -562,7 +562,7 @@ public class CadreController extends BaseController {
             int userId = uv.getId();
             record.setUserId(userId);
 
-            // 干部类型，仅针对中层干部
+            // 干部类型，仅针对干部
             String _type = StringUtils.trim(xlsRow.get(2));
             if(status==CadreConstants.CADRE_STATUS_MIDDLE
                     || status== CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {

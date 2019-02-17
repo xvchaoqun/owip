@@ -99,7 +99,7 @@ public class CetTraineeController extends CetBaseController {
         List records = null;
         int count = 0, total = 0;
         switch (code) {
-            // 中层干部、后备干部
+            // 干部、后备干部
             case "t_cadre":
             case "t_reserve":
                 CetTraineeViewExample example = new CetTraineeViewExample();
@@ -168,7 +168,7 @@ public class CetTraineeController extends CetBaseController {
         CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
         String code = cetTraineeType.getCode();
         switch (code) {
-            // 中层干部
+            // 干部
             case "t_cadre":
                 return "cet/cetTrainee/cetTrainee_selectCadres";
         }

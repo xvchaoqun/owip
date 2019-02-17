@@ -14,7 +14,7 @@
                 <shiro:hasPermission name="dispatchWorkFile:list">
                     <button class="popupBtn btn btn-warning btn-sm " data-width="750"
                             data-url="${ctx}/cadreCompanyFiles?type=${module==1?1:0}"><i class="fa fa-files-o"></i>
-                        ${module==1?'校领导兼职管理文件':'中层干部兼职管理文件'}
+                        ${module==1?'校领导兼职管理文件':'干部兼职管理文件'}
                     </button>
                 </shiro:hasPermission>
 

@@ -281,7 +281,7 @@ public class CadreCompanyService extends BaseMapper {
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
             cadreType = "离任校领导";
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER) {
-            cadreType = "中层干部";
+            cadreType = "干部";
         }
         List<CadreCompanyView> records = cadreCompanyViewMapper.selectByExample(example);
 
@@ -378,7 +378,7 @@ public class CadreCompanyService extends BaseMapper {
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
             cadreType = "离任校领导";
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_MIDDLE) {
-            cadreType = "中层干部";
+            cadreType = "干部";
         }
 
         InputStream is = new FileInputStream(ResourceUtils
@@ -485,7 +485,7 @@ public class CadreCompanyService extends BaseMapper {
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-    // 按类型导出中层干部汇总表
+    // 按类型导出干部汇总表
     public void exportStatByType(HttpServletResponse response) throws IOException {
 
         String schoolName = CmTag.getSysConfig().getSchoolName();
@@ -533,7 +533,7 @@ public class CadreCompanyService extends BaseMapper {
             }
         }
 
-        String fileName = String.format("%s中层干部兼职情况统计表", schoolName);
+        String fileName = String.format("%s干部兼职情况统计表", schoolName);
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
