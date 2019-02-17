@@ -88,8 +88,8 @@ LEFT JOIN `ow_member` `om` ON `om`.`user_id` = `c`.`user_id`
 LEFT JOIN `cadre_edu` `max_ce` ON  `max_ce`.`cadre_id` = `c`.`id` AND `max_ce`.`is_high_edu` = 1 and max_ce.status=0
 LEFT JOIN `cadre_edu` `max_degree` ON `max_degree`.`cadre_id` = `c`.`id` AND `max_degree`.`is_high_degree` = 1 and max_degree.status=0
 left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_main_post=1)
-left join base_meta_type main_cadre_post_type on(main_cadre_post_type.id=main_cadre_post.post_id)
-left join base_meta_type admin_level on(c.type_id=admin_level.id)
+left join base_meta_type main_cadre_post_type on(main_cadre_post_type.id=main_cadre_post.post_type)
+left join base_meta_type admin_level on(c.admin_level=admin_level.id)
 left join base_meta_type max_ce_edu on(max_ce.edu_id=max_ce_edu.id)
 left join unit u on(c.unit_id=u.id)
 left join base_meta_type unit_type on(u.type_id=unit_type.id)
@@ -100,15 +100,16 @@ left join
 (select * from (select distinct dcr.relate_id as lp_relate_id, d.id as lp_id, d.file_name as lp_file_name, d.file as lp_file, d.work_time as lp_work_time  from dispatch_cadre_relate dcr,
 dispatch_cadre dc ,dispatch d where dcr.relate_type=2 and dc.id=dcr.dispatch_cadre_id and d.id=dc.dispatch_id order by d.work_time desc)t group by lp_relate_id) lp on lp.lp_relate_id=main_cadre_post.id
 left join
-(select cal.cadre_id, cal.admin_level_id , sdc.dispatch_id as s_dispatch_id ,
+(select cal.cadre_id, cal.admin_level , sdc.dispatch_id as s_dispatch_id ,
 sd.work_time as s_work_time, edc.dispatch_id as e_dispatch_id,
 if(isnull(ed.work_time),now(),ed.work_time) as e_work_time  from cadre_admin_level cal
 left join dispatch_cadre sdc on sdc.id=cal.start_dispatch_cadre_id
 left join dispatch sd on sd.id=sdc.dispatch_id
 left join dispatch_cadre edc on edc.id=cal.end_dispatch_cadre_id
-left join dispatch ed on ed.id=edc.dispatch_id) nl on nl.cadre_id=c.id and nl.admin_level_id=main_cadre_post.admin_level_id
+left join dispatch ed on ed.id=edc.dispatch_id) nl on nl.cadre_id=c.id and nl.admin_level=main_cadre_post.admin_level
 left join (select cadre_id, verify_birth from verify_age where status=0) _va on _va.cadre_id=c.id
 left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id;
+
 
 -- ----------------------------
 --  View definition for `ow_party_view`
@@ -150,7 +151,7 @@ from ext_abroad ea , sys_user_view u, ow_member m where ea.gzzh=u.code and u.id=
 -- 只统计“现有处级岗位”中的“占干部职数”的岗位
 DROP VIEW IF EXISTS `unit_post_count_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `unit_post_count_view` AS
-select unit_id, admin_level as admin_level_id, count(is_cpc=1 or null) as num, count(*) as total
+select unit_id, admin_level, count(is_cpc=1 or null) as num, count(*) as total
 from unit_post where status=1 group by unit_id, admin_level ;
 
 -- 只统计“现有处级岗位”中的“占干部职数”的岗位
@@ -163,7 +164,7 @@ left join
 (select upc.unit_id, sum(if(bmt.code='mt_admin_level_main', num,0)) as main_count,
 sum(if(bmt.code='mt_admin_level_vice', num,0)) as vice_count,
 sum(if(bmt.code='mt_admin_level_none', num,0)) as none_count
-from unit_post_count_view upc , base_meta_type bmt where upc.admin_level_id=bmt.id group by upc.unit_id) cpc on cpc.unit_id=u.id;
+from unit_post_count_view upc , base_meta_type bmt where upc.admin_level=bmt.id group by upc.unit_id) cpc on cpc.unit_id=u.id;
 
 DROP VIEW IF EXISTS `cadre_leader_unit_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cadre_leader_unit_view` AS

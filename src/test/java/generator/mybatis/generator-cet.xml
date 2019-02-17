@@ -106,7 +106,7 @@
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="pub_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-        <!--<table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
+        <table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
          <table tableName="cet_project_obj_view" domainObjectName="cet.CetProjectObjView"
@@ -114,7 +114,7 @@
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>-->
+         </table>
         <!--<table tableName="cet_project_obj_plan" domainObjectName="cet.CetProjectObjPlan" mapperName="cet.CetProjectObjPlanMapper">
         </table>-->
         <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
@@ -210,12 +210,12 @@
         </table>-->
         <!--<table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
         </table>-->
-        <table tableName="cet_trainee_course_view" domainObjectName="cet.CetTraineeCourseView"
+        <!--<table tableName="cet_trainee_course_view" domainObjectName="cet.CetTraineeCourseView"
                mapperName="cet.CetTraineeCourseViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
         <!--<table tableName="cet_trainee_course_cadre_view" domainObjectName="cet.CetTraineeCourseCadreView"
                mapperName="cet.CetTraineeCourseCadreViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"

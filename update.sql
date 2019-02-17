@@ -1,4 +1,72 @@
 
+20190217
+
+更新 common-utils
+*sample_cadreParty ->  sample_cadreParty2
+
+ALTER TABLE `cadre`
+	CHANGE COLUMN `type_id` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据' AFTER `user_id`,
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性，关联元数据' AFTER `admin_level`,
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '中层干部类别，1 处级 2 科级' AFTER `unit_id`,
+	ADD COLUMN `state` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `type`;
+
+update cadre set type=1 where status in(1,3);
+
+ALTER TABLE `sc_passport_hand`
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性，关联元数据' AFTER `post`,
+	CHANGE COLUMN `type_id` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据' AFTER `post_type`;
+
+ALTER TABLE `cadre_ad_log`
+	CHANGE COLUMN `type_id` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据' AFTER `cadre_id`,
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性，关联元数据' AFTER `admin_level`;
+
+ALTER TABLE `cadre_post`
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性，关联元数据' AFTER `post`,
+	CHANGE COLUMN `admin_level_id` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据' AFTER `post_type`,
+	CHANGE COLUMN `double_unit_ids` `double_unit_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '双肩挑单位' AFTER `is_double`;
+
+ALTER TABLE `sc_committee_vote`
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NOT NULL COMMENT '职务属性，关联元数据' AFTER `post`,
+	CHANGE COLUMN `admin_level_id` `admin_level` INT(10) UNSIGNED NOT NULL COMMENT '行政级别，关联元数据' AFTER `post_type`;
+
+ALTER TABLE `dispatch_cadre`
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NOT NULL COMMENT '职务属性，关联元数据' AFTER `post`,
+	CHANGE COLUMN `admin_level_id` `admin_level` INT(10) UNSIGNED NOT NULL COMMENT '行政级别，关联元数据' AFTER `post_type`;
+
+ALTER TABLE `cadre_admin_level`
+	CHANGE COLUMN `admin_level_id` `admin_level` INT(10) UNSIGNED NOT NULL COMMENT '行政级别' AFTER `cadre_id`;
+
+ALTER TABLE `cet_unit_train`
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性' AFTER `title`;
+
+ALTER TABLE `dispatch_work_file_auth`
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NOT NULL COMMENT '职务属性，每个文件按照职务属性设置权限。' AFTER `work_file_id`;
+
+
+ALTER TABLE `cet_project_obj`
+	CHANGE COLUMN `type_id` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `title`,
+	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `admin_level`;
+
+更新
+sc_committee_vote_view
+
+dispatch_cadre_view
+
+unit_post_count_view
+
+unit_view
+
+cadre_view
+crs_candidate_view
+cadre_inspect_view
+cadre_reserve_view
+
+unit_post_view
+
+cet_project_obj_view
+
+
+*行政级别 增加 正科级、副科级
 
 
 20190215
@@ -78,13 +146,12 @@ drop view cet_trainee_course_cadre_view;
 
 更新 cet_trainee_course_view
 
-+ ow_branch_member_view
-
-
 ALTER TABLE `ow_branch_member`
   ADD COLUMN `assign_date` DATE NULL DEFAULT NULL COMMENT '任职时间，具体到月' AFTER `type_id`,
   ADD COLUMN `office_phone` VARCHAR(50) NULL DEFAULT NULL COMMENT '办公电话' AFTER `assign_date`,
   ADD COLUMN `mobile` VARCHAR(11) NULL DEFAULT NULL COMMENT '手机号' AFTER `office_phone`;
+
++ ow_branch_member_view
 
 更新 ow_branch_view
 ow_branch_member_group_view

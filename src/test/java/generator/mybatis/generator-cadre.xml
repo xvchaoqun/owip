@@ -25,10 +25,10 @@
         </javaClientGenerator>
 
         <!--干部库-->
-          <!--<table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
+          <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-          </table>-->
-         <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
+          </table>
+         <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
@@ -52,7 +52,7 @@
                  enableDeleteByExample="false">
               <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
               <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-          </table>
+          </table>-->
 
         <!--  <table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
           </table>-->
@@ -73,7 +73,7 @@
                enableDeleteByExample="false">
         </table>-->
 
-        <!-- <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
+         <!--<table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
          </table>-->
 
        <!-- <table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
@@ -136,7 +136,8 @@
         <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper" mapperName="cadre.CadrePaperMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
+        <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel"
+               mapperName="cadre.CadreAdminLevelMapper">
         </table>-->
          <!--<table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>

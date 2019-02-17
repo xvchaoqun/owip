@@ -187,10 +187,10 @@
         <!--<table tableName="sc_committee_topic_cadre" domainObjectName="sc.scCommittee.ScCommitteeTopicCadre"
               mapperName="sc.scCommittee.ScCommitteeTopicCadreMapper">
        </table>-->
-        <!-- <table tableName="sc_committee_vote" domainObjectName="sc.scCommittee.ScCommitteeVote"
+         <table tableName="sc_committee_vote" domainObjectName="sc.scCommittee.ScCommitteeVote"
                mapperName="sc.scCommittee.ScCommitteeVoteMapper">
-        </table>-->
-        <!--<table tableName="sc_committee_vote_view"
+        </table>
+        <table tableName="sc_committee_vote_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
@@ -198,7 +198,7 @@
             <columnOverride column="count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="absent_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
 
         <!--
        <table tableName="sc_committee_other_vote" domainObjectName="sc.scCommittee.ScCommitteeOtherVote"

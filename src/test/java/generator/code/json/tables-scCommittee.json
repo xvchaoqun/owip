@@ -34,7 +34,7 @@
       "table": "sc_committee_vote",
       "key": "id",
       "searchColumns": "topic_id,cadre_id",
-      "showColumns": "topic_id,cadre_id,sort_order,type,original_post,original_post_time,cadre_type_id,way_id,procedure_id,post,post_id,admin_level_id,unit_id,aggree_count,remark",
+      "showColumns": "topic_id,cadre_id,sort_order,type,original_post,original_post_time,cadre_type_id,way_id,procedure_id,post,post_type,admin_level,unit_id,aggree_count,remark",
       "excludeEditColumns": "id",
       "logType": "LogConstants.LOG_SC_COMMITTEE",
       "ignore": false

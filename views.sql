@@ -666,7 +666,7 @@ where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq de
 DROP VIEW IF EXISTS `dispatch_cadre_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_cadre_view` AS
 select dc.*, bmt.extra_attr as post_team, d.category, d.year, d.pub_time,d.work_time, d.dispatch_type_id, d.code , d.has_checked from dispatch_cadre dc
-left join base_meta_type bmt on bmt.id=dc.post_id, dispatch d, dispatch_type dt
+left join base_meta_type bmt on bmt.id=dc.post_type, dispatch d, dispatch_type dt
     where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc  ;
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_unit_view`;
@@ -687,8 +687,8 @@ DROP VIEW IF EXISTS `unit_post_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
 select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id,
 u.status as unit_status, u.sort_order as unit_sort_order,
-cp.cadre_id, cp.id as cadre_post_id, cp.admin_level_id as cp_admin_level, cp.is_main_post,
-cv.type_id as cadre_type_id, cv.cadre_post_year, cv.admin_level_year from unit_post up
+cp.cadre_id, cp.id as cadre_post_id, cp.admin_level as cp_admin_level, cp.is_main_post,
+cv.admin_level as cadre_admin_level, cv.cadre_post_year, cv.admin_level_year from unit_post up
 left join unit u on up.unit_id=u.id
 left join cadre_post cp on up.id=cp.unit_post_id
 left join cadre_view cv on cv.id=cp.cadre_id;

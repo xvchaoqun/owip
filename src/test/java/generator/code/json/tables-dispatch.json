@@ -26,8 +26,8 @@
     {
       "table": "dispatch_cadre",
       "key": "id",
-      "searchColumns": "dispatch_id,type_id,way_id,procedure_id,code,name, post_id,admin_level_id,unit_id",
-      "showColumns": "dispatch_id,type_id,way_id,procedure_id,code,name, post_id,admin_level_id,unit_id,remark",
+      "searchColumns": "dispatch_id,type_id,way_id,procedure_id,code,name, post_type,admin_level,unit_id",
+      "showColumns": "dispatch_id,type_id,way_id,procedure_id,code,name, post_type,admin_level,unit_id,remark",
       "excludeEditColumns": "id,sort_order",
       "logType":"LogConstants.LOG_ADMIN",
       "ignore": true
