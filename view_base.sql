@@ -11,7 +11,7 @@ AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_i
 DROP VIEW IF EXISTS `cadre_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS
 SELECT c.*
-	,if(!isnull(pcm.id), 1, 0) as is_committee_member
+	,if(!isnull(cm.id), 1, 0) as is_committee_member
 	,`uv`.`msg_title` AS `msg_title`
 	,`uv`.`mobile` AS `mobile`
 	,`uv`.`phone` AS `phone`
@@ -79,7 +79,7 @@ SELECT c.*
    ,_va.verify_birth as verify_birth
    ,_vwt.verify_work_time as verify_work_time
 FROM  cadre c
-left join (select pcm.* from pcs_committee_member pcm, base_meta_type pc_post where pcm.is_quit=0 and pcm.type=0 and pcm.post=pc_post.id and pc_post.bool_attr=1) as pcm on pcm.user_id=c.user_id
+left join (select cm.* from cm_member cm, base_meta_type pc_post where cm.is_quit=0 and cm.type=3 and cm.post=pc_post.id and pc_post.bool_attr=1) as cm on cm.user_id=c.user_id
 left join cadre_party dp on dp.user_id= c.user_id and dp.type = 1
 left join cadre_party ow on ow.user_id= c.user_id and ow.type = 2
 LEFT JOIN `sys_user_view` `uv` ON `uv`.`user_id` = `c`.`user_id`
@@ -166,8 +166,17 @@ sum(if(bmt.code='mt_admin_level_vice', num,0)) as vice_count,
 sum(if(bmt.code='mt_admin_level_none', num,0)) as none_count
 from unit_post_count_view upc , base_meta_type bmt where upc.admin_level=bmt.id group by upc.unit_id) cpc on cpc.unit_id=u.id;
 
-DROP VIEW IF EXISTS `cadre_leader_unit_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cadre_leader_unit_view` AS
-select clu.*, cl.cadre_id, cl.sort_order as leader_sort_order, u.sort_order as unit_sort_order from cadre_leader_unit clu
-left join cadre_leader cl on clu.leader_id=cl.id
-left join unit u on clu.unit_id=u.id ;
+DROP VIEW IF EXISTS `leader_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `leader_view` AS
+select l.*, c.status as cadre_status, if(!isnull(cm.id), 1, 0) as is_committee_member from leader l
+left join cadre c on c.user_id=l.user_id
+left join (select cm.* from cm_member cm, base_meta_type pc_post where cm.is_quit=0 and cm.type=3
+and cm.post=pc_post.id and pc_post.bool_attr=1) as cm on cm.user_id=l.user_id ;
+
+DROP VIEW IF EXISTS `leader_unit_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `leader_unit_view` AS
+select lu.*, c.id as cadre_id, l.id as leader_id,
+l.sort_order as leader_sort_order, u.sort_order as unit_sort_order from leader_unit lu
+left join cadre c on c.user_id=lu.user_id
+left join leader l on l.user_id=lu.user_id
+left join unit u on lu.unit_id=u.id ;

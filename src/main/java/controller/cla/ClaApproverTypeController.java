@@ -1,10 +1,10 @@
 package controller.cla;
 
-import domain.cadre.CadreLeader;
 import domain.cadre.CadreView;
 import domain.cla.ClaApproverBlackList;
 import domain.cla.ClaApproverType;
 import domain.cla.ClaApproverTypeExample;
+import domain.leader.Leader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -25,11 +25,7 @@ import sys.utils.FormUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cla")
@@ -61,8 +57,8 @@ public class ClaApproverTypeController extends ClaBaseController {
 
             Set<CadreView> cadreSet = new LinkedHashSet<>();
             Set<Integer> selectCadreSet = new HashSet<>();
-            Map<Integer, CadreLeader> leaderMap = cadreLeaderService.findAll();
-            for (CadreLeader leader : leaderMap.values()) {
+            Map<Integer, Leader> leaderMap = cadreLeaderService.findAll();
+            for (Leader leader : leaderMap.values()) {
                 CadreView cadre = leader.getCadre();
                 cadreSet.add(cadre);
                 if(!unselectCadreSet.contains(cadre.getId()))

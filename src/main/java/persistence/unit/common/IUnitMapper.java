@@ -54,6 +54,6 @@ public interface IUnitMapper {
 
     // 查找未分配校领导的单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
-    @Select("select * from unit where status=1 and id not in(select unit_id from cadre_leader_unit)")
+    @Select("select * from unit where status=1 and id not in(select unit_id from leader_unit)")
     public List<Unit> findLeaderUnitEscape();
 }

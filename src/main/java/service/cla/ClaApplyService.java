@@ -4,9 +4,9 @@ import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
-import domain.cadre.CadreLeader;
 import domain.cadre.CadreView;
 import domain.cla.*;
+import domain.leader.LeaderUnitView;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -127,13 +127,13 @@ public class ClaApplyService extends ClaBaseMapper {
 
                 List<SysUserView> users = new ArrayList<SysUserView>();
                 MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
-                List<CadreLeader> managerUnitLeaders = iCadreMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
-                for (CadreLeader managerUnitLeader : managerUnitLeaders) {
+                List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
+                for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
                     CadreView _cadre = managerUnitLeader.getCadre();
                     if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                             || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                             && leaderBlackList.get(_cadre.getId()) == null)  // 排除黑名单
-                        users.add(managerUnitLeader.getUser());
+                        users.add(_cadre.getUser());
                 }
                 return users;
             } else { // 查找其他身份下的审批人
@@ -682,7 +682,7 @@ public class ClaApplyService extends ClaBaseMapper {
                 || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId()) == null) { // 必须是现任干部，且不在黑名单
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
-            unitIds = iCadreMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
+            unitIds = iLeaderMapper.getLeaderManagerUnitId(cadre.getUserId(), leaderManagerType.getId());
         }
         return unitIds;
     }

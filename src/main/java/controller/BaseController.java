@@ -19,7 +19,8 @@ import service.crp.CrpRecordService;
 import service.ext.ExtService;
 import service.ext.SyncService;
 import service.global.CacheService;
-import service.member.MemberRegService;
+import service.leader.LeaderService;
+import service.leader.LeaderUnitService;
 import service.party.*;
 import service.partySchool.PartySchoolService;
 import service.sys.*;
@@ -103,11 +104,6 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected CadreTutorService cadreTutorService;
     @Autowired
     protected CadreReportService cadreReportService;
-
-    @Autowired
-    protected CadreLeaderService cadreLeaderService;
-    @Autowired
-    protected CadreLeaderUnitService cadreLeaderUnitService;
     @Autowired
     protected CadreStatHistoryService cadreStatHistoryService;
     @Autowired
@@ -126,6 +122,11 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected CadreReserveExportService cadreReserveExportService;
     @Autowired
     protected CadrePartyService cadrePartyService;
+
+    @Autowired
+    protected LeaderService leaderService;
+    @Autowired
+    protected LeaderUnitService leaderUnitService;
 
     @Autowired
     protected CrpRecordService crpRecordService;

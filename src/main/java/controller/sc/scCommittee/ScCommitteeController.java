@@ -165,17 +165,6 @@ public class ScCommitteeController extends ScBaseController {
                 // 已选常委
                 List<ScCommitteeMemberView> memberUserList = scCommitteeService.getMemberList(id, null);
                 modelMap.put("memberUserList", memberUserList);
-                /*List<Integer> selectUserIds = new ArrayList<>();
-                List<Integer> selectAbsentUserIds = new ArrayList<>();
-                for (ScCommitteeMemberView m : memberUserList) {
-                    if(m.getIsAbsent()){
-                     selectAbsentUserIds.add(m.getUserId());
-                    }else {
-                        selectUserIds.add(m.getUserId());
-                    }
-                }
-                modelMap.put("selectUserIds", memberUserList);
-                modelMap.put("selectAbsentUserIds", memberUserList);*/
             }
         }else{
             modelMap.put("committeeMemberCount", cadreService.countCommitteeMember());

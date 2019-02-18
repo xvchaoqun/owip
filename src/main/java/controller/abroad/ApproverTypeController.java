@@ -4,8 +4,8 @@ import domain.abroad.ApproverBlackList;
 import domain.abroad.ApproverType;
 import domain.abroad.ApproverTypeExample;
 import domain.abroad.ApproverTypeExample.Criteria;
-import domain.cadre.CadreLeader;
 import domain.cadre.CadreView;
+import domain.leader.Leader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -26,11 +26,7 @@ import sys.utils.FormUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/abroad")
@@ -59,8 +55,8 @@ public class ApproverTypeController extends AbroadBaseController {
 
             Set<CadreView> cadreSet = new LinkedHashSet<>();
             Set<String> selectCadreSet = new HashSet<>();
-            Map<Integer, CadreLeader> leaderMap = cadreLeaderService.findAll();
-            for (CadreLeader leader : leaderMap.values()) {
+            Map<Integer, Leader> leaderMap = cadreLeaderService.findAll();
+            for (Leader leader : leaderMap.values()) {
                 CadreView cadre = leader.getCadre();
                 cadreSet.add(cadre);
                 String key = cadre.getId() + "_" + cadre.getUnitId();

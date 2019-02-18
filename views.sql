@@ -420,16 +420,15 @@ left join cadre_view cv on otu.user_id = cv.user_id
 left join sys_user_view uv on otu.assign_user_id = uv.id
 left join sys_user_view ruv on otu.report_user_id = ruv.id;
 
-DROP VIEW IF EXISTS `pcs_committee_member_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `pcs_committee_member_view` AS
-select pcm.*, post_type.bool_attr as is_commmittee_member, pcs.name as pcs_name, uv.code, uv.realname, uv.gender, uv.birth,
-uv.nation, t.pro_post, m.grow_time, c.id as cadre_id,c.title from pcs_committee_member pcm
-left join pcs_config pcs on pcs.id=pcm.config_id
-left join base_meta_type post_type on pcm.post=post_type.id
-left join sys_user_view uv on pcm.user_id = uv.id
-left join sys_teacher_info t on t.user_id=pcm.user_id
-left join cadre c on c.user_id=pcm.user_id
-left join ow_member m on m.user_id= pcm.user_id ;
+DROP VIEW IF EXISTS `cm_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cm_member_view` AS
+select cm.*, pcs.name as pcs_name, uv.code, uv.realname, uv.gender, uv.birth,
+uv.nation, t.pro_post, m.grow_time, c.id as cadre_id,c.title from cm_member cm
+left join pcs_config pcs on pcs.id=cm.config_id
+left join sys_user_view uv on cm.user_id = uv.id
+left join sys_teacher_info t on t.user_id=cm.user_id
+left join cadre c on c.user_id=cm.user_id
+left join ow_member m on m.user_id= cm.user_id ;
 
 DROP VIEW IF EXISTS `pcs_proposal_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_proposal_view` AS select pp.*, pps1.invite_user_ids, pps1.invite_count, pps2.seconder_ids, pps2.seconder_count from pcs_proposal pp

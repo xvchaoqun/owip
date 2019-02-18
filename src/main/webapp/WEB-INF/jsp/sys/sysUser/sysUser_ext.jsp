@@ -1,15 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div id="userInfo">
-    <div class="profile-user-info profile-user-info-striped">
-        <c:forEach items="${columnBeanMap}" var="cbEntity">
-                <div class="profile-info-row">
-                    <div class="profile-info-name"> ${cbEntity.value.comments}</div>
-
-                    <div class="profile-info-value">
-                        <span class="editable">${valuesMap.get(cbEntity.key)}</span>
-                    </div>
-                </div>
-        </c:forEach>
-    </div>
+    <table class="table table-striped table-condensed table-bordered" data-offset-top="132">
+        <thead>
+            <th width="50" style="text-align: center">序号</th>
+            <th width="150">参数名称</th>
+            <th width="250">描述</th>
+            <th>值</th>
+        </thead>
+        <tbody>
+         <c:forEach items="${columnBeanMap}" var="cbEntity" varStatus="vs">
+            <tr>
+                <td style="text-align: center">${vs.index}</td>
+                <td>${cbEntity.value.name}</td>
+                <td>${cbEntity.value.comments}</td>
+                <td>${valuesMap.get(cbEntity.key)}</td>
+            </tr>
+         </c:forEach>
+        </tbody>
+    </table>
 </div>
+<script>
+  stickheader();
+</script>

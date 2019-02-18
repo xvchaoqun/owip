@@ -11,7 +11,7 @@
                       propertySeparator="," />
        </defaultCache>-->
 
-       <cache name="PcsCommitteeMembers"
+       <cache name="CmMembers"
            eternal="false"
            maxElementsInMemory="2000"
            overflowToDisk="false"

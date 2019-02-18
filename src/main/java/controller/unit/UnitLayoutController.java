@@ -2,8 +2,8 @@ package controller.unit;
 
 import controller.BaseController;
 import domain.base.MetaType;
-import domain.cadre.CadreLeader;
-import domain.cadre.CadreLeaderUnit;
+import domain.leader.Leader;
+import domain.leader.LeaderUnit;
 import domain.unit.Unit;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import persistence.unit.common.UnitAdminCadre;
 import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class UnitLayoutController extends BaseController {
@@ -53,21 +49,22 @@ public class UnitLayoutController extends BaseController {
         Map<Integer, MetaType> leaderTypeMap = metaTypeService.metaTypes("mc_leader_type");
 
         // key: leader.id
-        Map<Integer, List<CadreLeaderUnit>> contactLeaderUnitMap = new LinkedHashMap<>();
-        Map<Integer, List<CadreLeaderUnit>> managerLeaderUnitMap = new LinkedHashMap<>();
+        Map<Integer, List<LeaderUnit>> contactLeaderUnitMap = new LinkedHashMap<>();
+        Map<Integer, List<LeaderUnit>> managerLeaderUnitMap = new LinkedHashMap<>();
         Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
 
-        Map<MetaType, List<CadreLeader>> resultMap = new LinkedHashMap<>();
+        Map<MetaType, List<Leader>> resultMap = new LinkedHashMap<>();
         for (MetaType leaderType : leaderTypeMap.values()) {
 
-            List<CadreLeader> leaders = cadreLeaderService.findLeaderByType(leaderType.getId());
+            List<Leader> leaders = leaderService.findLeaderByType(leaderType.getId());
             resultMap.put(leaderType, leaders);
 
-            for (CadreLeader leader : leaders) {
+            for (Leader leader : leaders) {
+                int userId = leader.getUser().getId();
                 // 根据校领导id，类别获取关联单位
-                contactLeaderUnitMap.put(leader.getId(), cadreLeaderService.findLeaderUnitByType(leader.getId(),
+                contactLeaderUnitMap.put(leader.getId(), leaderService.findLeaderUnitByType(userId,
                         codeKeyMap.get("mt_leader_contact").getId()));
-                managerLeaderUnitMap.put(leader.getId(), cadreLeaderService.findLeaderUnitByType(leader.getId(),
+                managerLeaderUnitMap.put(leader.getId(), leaderService.findLeaderUnitByType(userId,
                         codeKeyMap.get("mt_leader_manager").getId()));
             }
         }

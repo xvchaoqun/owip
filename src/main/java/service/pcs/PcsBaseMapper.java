@@ -31,10 +31,6 @@ public class PcsBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected PcsConfigMapper pcsConfigMapper;
     @Autowired(required = false)
-    protected PcsCommitteeMemberMapper pcsCommitteeMemberMapper;
-    @Autowired(required = false)
-    protected PcsCommitteeMemberViewMapper pcsCommitteeMemberViewMapper;
-    @Autowired(required = false)
     protected PcsRecommendMapper pcsRecommendMapper;
     @Autowired(required = false)
     protected PcsPrAllocateMapper pcsPrAllocateMapper;

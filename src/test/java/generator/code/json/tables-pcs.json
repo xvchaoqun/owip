@@ -16,15 +16,6 @@
       "ignore": true
     },
     {
-      "table": "pcs_committee_member",
-      "key": "id",
-      "searchColumns": "type,user_id",
-      "showColumns": "type,config_id,user_id,post,post_date,post_file_path,is_quit,quit_date,quit_reason,sort_order,remark",
-      "excludeEditColumns": "id,sort_order,status",
-      "logType":"LogConstants.LOG_PCS",
-      "ignore": false
-    },
-    {
       "table": "pcs_admin",
       "key": "id",
       "searchColumns": "party_id,user_id",

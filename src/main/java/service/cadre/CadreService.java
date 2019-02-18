@@ -5,8 +5,8 @@ import domain.abroad.Passport;
 import domain.abroad.PassportExample;
 import domain.cadre.*;
 import domain.cadreInspect.CadreInspect;
+import domain.cm.CmMemberView;
 import domain.modify.ModifyCadreAuth;
-import domain.pcs.PcsCommitteeMemberView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -22,8 +22,8 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveService;
+import service.cm.CmMemberService;
 import service.modify.ModifyCadreAuthService;
-import service.pcs.PcsCommitteeMemberService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
@@ -56,7 +56,7 @@ public class CadreService extends BaseMapper {
     @Autowired(required = false)
     protected ModifyCadreAuthService modifyCadreAuthService;
     @Autowired(required = false)
-    protected PcsCommitteeMemberService pcsCommitteeMemberService;
+    protected CmMemberService cmMemberService;
 
     /*
         直接添加干部时执行的检查
@@ -538,17 +538,15 @@ public class CadreService extends BaseMapper {
     // 常委数量
     public int countCommitteeMember(){
 
-        Map<Integer, PcsCommitteeMemberView> committeeMemberMap
-                = pcsCommitteeMemberService.committeeMemberMap();
-
-        return committeeMemberMap.size();
+        Map<Integer, CmMemberView> resultMap
+                = cmMemberService.committeeMemberMap();
+        return resultMap.size();
     }
     // 常委
-    public List<PcsCommitteeMemberView> committeeMembers(){
+    public List<CmMemberView> committeeMembers(){
 
-        Map<Integer, PcsCommitteeMemberView> committeeMemberMap
-                = pcsCommitteeMemberService.committeeMemberMap();
-
-        return new ArrayList<>(committeeMemberMap.values());
+        Map<Integer, CmMemberView> resultMap
+                = cmMemberService.committeeMemberMap();
+        return new ArrayList<>(resultMap.values());
     }
 }

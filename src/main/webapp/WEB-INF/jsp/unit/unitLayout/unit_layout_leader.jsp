@@ -35,8 +35,8 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${leaders}" var="leader" varStatus="st">
-                        <c:set var="cadre" value="${cm:getCadreById(leader.cadreId)}"/>
-                        <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
+                        <c:set var="cadre" value="${leader.cadre}"/>
+                        <c:set var="sysUser" value="${leader.user}"/>
                         <c:set var="cLeaderUnits" value="${cLeaderUnitMap.get(leader.id)}"/>
                         <c:set var="mLeaderUnits" value="${mLeaderUnitMap.get(leader.id)}"/>
 

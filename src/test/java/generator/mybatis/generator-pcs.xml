@@ -33,14 +33,6 @@
         </table>-->
         <!--<table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
         </table>-->
-        <table tableName="pcs_committee_member" domainObjectName="pcs.PcsCommitteeMember" mapperName="pcs.PcsCommitteeMemberMapper">
-        </table>
-        <table tableName="pcs_committee_member_view" domainObjectName="pcs.PcsCommitteeMemberView" mapperName="pcs.PcsCommitteeMemberViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-        </table>
-
         <!--<table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
         </table>-->
         <!--<table tableName="pcs_admin_report" domainObjectName="pcs.PcsAdminReport" mapperName="pcs.PcsAdminReportMapper">

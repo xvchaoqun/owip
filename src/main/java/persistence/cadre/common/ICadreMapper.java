@@ -125,17 +125,6 @@ public interface ICadreMapper {
     // 查询干部学习经历
     List<CadreEdu> getCadreEdus(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
 
-    //查询校领导的分管单位
-    @Select("select blu.unit_id from cadre_leader_unit blu, cadre_leader bl " +
-            "where  bl.cadre_id = #{cadreId} and blu.leader_id = bl.id and blu.type_id=#{leaderTypeId}")
-    List<Integer> getLeaderManagerUnitId(@Param("cadreId") Integer cadreId, @Param("leaderTypeId") Integer leaderTypeId);
-
-    //查询分管当前单位的校领导
-    @ResultMap("persistence.cadre.CadreLeaderMapper.BaseResultMap")
-    @Select("select bl.* from cadre_leader_unit blu, cadre_leader bl " +
-            "where  blu.type_id=#{leaderTypeId} and blu.unit_id = #{unitId} and blu.leader_id = bl.id")
-    List<CadreLeader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);
-
     // 统计干部兼职情况  干部-兼职类别-数量
     @ResultType(java.util.HashMap.class)
     @Select("select cadre_id, type, count(*) as num from cadre_company_view " +

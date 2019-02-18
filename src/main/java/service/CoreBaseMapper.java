@@ -17,6 +17,11 @@ import persistence.cpc.common.ICpcMapper;
 import persistence.dispatch.*;
 import persistence.dispatch.common.IDispatchMapper;
 import persistence.ext.*;
+import persistence.leader.LeaderMapper;
+import persistence.leader.LeaderUnitMapper;
+import persistence.leader.LeaderUnitViewMapper;
+import persistence.leader.LeaderViewMapper;
+import persistence.leader.common.ILeaderMapper;
 import persistence.member.MemberMapper;
 import persistence.member.common.IMemberMapper;
 import persistence.member.common.StatMemberMapper;
@@ -169,11 +174,13 @@ public class CoreBaseMapper {
     protected CadreReportMapper cadreReportMapper;
     
     @Autowired(required = false)
-    protected CadreLeaderMapper cadreLeaderMapper;
+    protected LeaderMapper leaderMapper;
     @Autowired(required = false)
-    protected CadreLeaderUnitMapper cadreLeaderUnitMapper;
+    protected LeaderViewMapper leaderViewMapper;
     @Autowired(required = false)
-    protected CadreLeaderUnitViewMapper cadreLeaderUnitViewMapper;
+    protected LeaderUnitMapper leaderUnitMapper;
+    @Autowired(required = false)
+    protected LeaderUnitViewMapper leaderUnitViewMapper;
     @Autowired(required = false)
     protected CadreMapper cadreMapper;
     @Autowired(required = false)
@@ -215,6 +222,8 @@ public class CoreBaseMapper {
     
     @Autowired(required = false)
     protected persistence.common.IPropertyMapper iPropertyMapper;
+    @Autowired(required = false)
+    protected ILeaderMapper iLeaderMapper;
     @Autowired(required = false)
     protected ICadreMapper iCadreMapper;
     @Autowired(required = false)

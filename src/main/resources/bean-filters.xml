@@ -38,7 +38,6 @@
         <property name="includeFilters">
             <list>
                 <value>(persistence|service|controller)\.pcs\.PcsConfig.*</value>
-                <value>(persistence|service|controller)\.pcs\.PcsCommitteeMember.*</value>
             </list>
         </property>
     </bean>

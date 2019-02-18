@@ -1,0 +1,19 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "pcs",
+  "resFolder": "",
+  "tables": [
+    {
+      "table": "cm_member",
+      "key": "id",
+      "searchColumns": "type,user_id",
+      "showColumns": "type,config_id,user_id,post,post_date,post_file_path,is_quit,quit_date,quit_reason,sort_order,remark",
+      "excludeEditColumns": "id,sort_order,status",
+      "logType":"LogConstants.LOG_PCS",
+      "ignore": false
+    }
+  ]
+}

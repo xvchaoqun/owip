@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.base.CountryService;
 import service.base.ShortMsgService;
 import service.cadre.CadreCommonService;
-import service.cadre.CadreLeaderService;
+import service.leader.LeaderService;
 import service.cadre.CadreService;
 import service.cla.*;
 import service.sys.SysApprovalLogService;
@@ -21,7 +21,7 @@ public class ClaBaseController extends ClaBaseMapper implements HttpResponseMeth
     @Autowired
     protected CadreService cadreService;
     @Autowired
-    protected CadreLeaderService cadreLeaderService;
+    protected LeaderService cadreLeaderService;
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;
     @Autowired

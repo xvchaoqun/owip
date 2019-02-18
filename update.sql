@@ -1,4 +1,84 @@
 
+
+20190218
+
+ALTER TABLE `pcs_committee_member`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型，1 党委委员 2 纪委委员 3 党委常委' AFTER `id`;
+RENAME TABLE `pcs_committee_member` TO `cm_member`;
+ALTER TABLE `cm_member`
+	COMMENT='委员';
+
++ cm_member_view
+
+drop view pcs_committee_member_view;
+
+更新 cadre_view
+
+update cm_member set type=2 where type=1;
+
+update cm_member set type=1 where type=0;
+
+UPDATE `db_owip`.`sys_resource` SET `url`='/cmMember?type=2', `permission`='cmMember:list2' WHERE  `id`=861;
+UPDATE `db_owip`.`sys_resource` SET `url`='/cmMember?type=1', `permission`='cmMember:*' WHERE  `id`=860;
+UPDATE `db_owip`.`sys_resource` SET `permission`='cmMember:menu' WHERE  `id`=859;
+
+
+ALTER TABLE `cadre_leader_unit`
+	COMMENT='校级领导分工，校领导关联的单位，比如分管机关部门、联系部、院、系所',
+	ADD COLUMN `user_id` INT(10) UNSIGNED NOT NULL COMMENT '校级领导，从校领导和党委常委中选择' AFTER `leader_id`,
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NOT NULL COMMENT '分管单位' AFTER `user_id`,
+	DROP INDEX `leader_id_unit_id`,
+	DROP FOREIGN KEY `FK_cadre_leader_unit_cadre_leader`;
+
+RENAME TABLE `cadre_leader` TO `leader`;
+RENAME TABLE `cadre_leader_unit` TO `leader_unit`;
+drop view cadre_leader_unit_view;
+
+update leader_unit lu, leader l, cadre c set lu.user_id=c.user_id where lu.leader_id=l.id and l.cadre_id=c.id;
+
+ALTER TABLE `leader_unit`
+	DROP COLUMN `leader_id`;
+
+ALTER TABLE `leader_unit`
+	ADD UNIQUE INDEX `user_id_unit_id` (`user_id`, `unit_id`);
+
+ALTER TABLE `leader`
+	DROP INDEX `cadre_id_type_id`,
+	DROP INDEX `FK_base_leader_base_meta_type`,
+	DROP FOREIGN KEY `FK_base_leader_base_cadre`,
+	DROP FOREIGN KEY `FK_base_leader_base_meta_type`;
+
+ALTER TABLE `leader`
+	ADD COLUMN `user_id` INT(10) UNSIGNED NOT NULL COMMENT '校领导' AFTER `cadre_id`;
+update leader l , cadre c set l.user_id=c.user_id where c.id=l.cadre_id;
+
+ALTER TABLE `leader`
+	DROP COLUMN `cadre_id`,
+	ADD UNIQUE INDEX `user_id` (`user_id`);
+
+ALTER TABLE `leader`
+	CHANGE COLUMN `type_id` `type_id` INT(10) UNSIGNED NULL COMMENT '类别，关联元数据，党委、行政、校长助理等' AFTER `user_id`,
+	CHANGE COLUMN `job` `job` VARCHAR(200) NULL COMMENT '分管工作' AFTER `type_id`;
+
++ leader_view
++ leader_unit_view;
+
+UPDATE `db_owip`.`sys_resource` SET `url`='/leaderInfo', `permission`='leaderInfo:list' WHERE  `id`=373;
+
+UPDATE `db_owip`.`sys_resource` SET `permission`='leader:changeOrder' WHERE  `id`=135;
+UPDATE `db_owip`.`sys_resource` SET `permission`='leader:del' WHERE  `id`=134;
+UPDATE `db_owip`.`sys_resource` SET `permission`='leader:edit' WHERE  `id`=133;
+UPDATE `db_owip`.`sys_resource` SET `permission`='leader:list' WHERE  `id`=89;
+UPDATE `db_owip`.`sys_resource` SET `permission`='leader:menu' WHERE  `id`=372;
+UPDATE `db_owip`.`sys_resource` SET `permission`='leader:unit' WHERE  `id`=143;
+UPDATE `db_owip`.`sys_resource` SET `url`='/leader' WHERE  `id`=89;
+
+UPDATE `db_owip`.`sys_resource` SET `permission`='leaderUnit:del' WHERE  `id`=142;
+UPDATE `db_owip`.`sys_resource` SET `permission`='leaderUnit:edit' WHERE  `id`=141;
+UPDATE `db_owip`.`sys_resource` SET `permission`='leaderUnit:list' WHERE  `id`=140;
+
+20190217
+
 更新 common-utils
 
 ALTER TABLE `ow_party`
@@ -6,7 +86,7 @@ ALTER TABLE `ow_party`
 ALTER TABLE `ow_party`
 	CHANGE COLUMN `found_time` `found_time` DATE NULL COMMENT '成立时间' AFTER `email`;
 
-
+<><><><>
 
 20190217
 南航

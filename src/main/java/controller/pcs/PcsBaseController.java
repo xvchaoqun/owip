@@ -55,8 +55,6 @@ public class PcsBaseController extends PcsBaseMapper implements HttpResponseMeth
     @Autowired(required = false)
     protected PcsConfigService pcsConfigService;
     @Autowired(required = false)
-    protected PcsCommitteeMemberService pcsCommitteeMemberService;
-    @Autowired(required = false)
     protected PcsRecommendService pcsRecommendService;
     @Autowired(required = false)
     protected PcsOwService pcsOwService;

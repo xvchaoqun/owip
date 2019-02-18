@@ -4,8 +4,8 @@ import domain.abroad.*;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
-import domain.cadre.CadreLeader;
 import domain.cadre.CadreView;
+import domain.leader.LeaderUnitView;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -142,24 +142,24 @@ public class ApplySelfService extends AbroadBaseMapper {
                 String auth = approverType.getAuth();
                 if(ContentUtils.contains(auth, "1")) { // 分管部门
                     MetaType leaderType = CmTag.getMetaTypeByCode("mt_leader_manager");
-                    List<CadreLeader> managerUnitLeaders = iCadreMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderType.getId());
-                    for (CadreLeader managerUnitLeader : managerUnitLeaders) {
+                    List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderType.getId());
+                    for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
                         CadreView _cadre = managerUnitLeader.getCadre();
                         if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                                 || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                                 && approverBlackListMap.get(_cadre.getId()) == null)  // 排除黑名单
-                            users.add(managerUnitLeader.getUser());
+                            users.add(_cadre.getUser());
                     }
                 }
                 if(ContentUtils.contains(auth, "2")) { // 联系学院
                     MetaType leaderType = CmTag.getMetaTypeByCode("mt_leader_contact");
-                    List<CadreLeader> managerUnitLeaders = iCadreMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderType.getId());
-                    for (CadreLeader managerUnitLeader : managerUnitLeaders) {
+                    List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderType.getId());
+                    for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
                         CadreView _cadre = managerUnitLeader.getCadre();
                         if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                                 || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                                 && approverBlackListMap.get(_cadre.getId()) == null)  // 排除黑名单
-                            users.add(managerUnitLeader.getUser());
+                            users.add(_cadre.getUser());
                     }
                 }
 
@@ -661,6 +661,7 @@ public class ApplySelfService extends AbroadBaseMapper {
         }else if(type==AbroadConstants.ABROAD_APPROVER_TYPE_LEADER){
             // 审批类型为校领导
             CadreView cv = cadreService.findAll().get(cadreId);
+            int userId = cv.getUserId();
             Map<String, ApproverBlackList> approverBlackListMap = approverBlackListService.findAll(approverTypeId);
             // 1、找出分管的单位（确定是校领导且找出分管单位）
             List<Integer> unitIds = new ArrayList<>();
@@ -668,12 +669,12 @@ public class ApplySelfService extends AbroadBaseMapper {
             if(ContentUtils.contains(auth, "1")) { // 分管部门
                 MetaType leaderType = CmTag.getMetaTypeByCode("mt_leader_manager");
                 if(!approverBlackListMap.containsKey(cadreId + "_" + cv.getUnitId())) // 2、确定拥有该审批身份
-                    unitIds.addAll(iCadreMapper.getLeaderManagerUnitId(cadreId, leaderType.getId()));
+                    unitIds.addAll(iLeaderMapper.getLeaderManagerUnitId(userId, leaderType.getId()));
             }
             if(ContentUtils.contains(auth, "2")) { // 联系学院
                 MetaType leaderType = CmTag.getMetaTypeByCode("mt_leader_contact");
                 if(!approverBlackListMap.containsKey(cadreId + "_" + cv.getUnitId())) // 2、确定拥有该审批身份
-                    unitIds.addAll(iCadreMapper.getLeaderManagerUnitId(cadreId, leaderType.getId()));
+                    unitIds.addAll(iLeaderMapper.getLeaderManagerUnitId(userId, leaderType.getId()));
             }
             if(unitIds.size()==0) return cadreIds;
 

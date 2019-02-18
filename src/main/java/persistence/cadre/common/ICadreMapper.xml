@@ -76,7 +76,7 @@
             </foreach>
         </if>
         <if test="isCommitteeMember != null">
-            and if(!isnull(pcm.id), 1, 0)  = #{isCommitteeMember}
+            and if(!isnull(cm.id), 1, 0)  = #{isCommitteeMember}
         </if>
         <if test="cadreStatusList!=null and cadreStatusList.size>0">
             and c.status in
@@ -89,8 +89,8 @@
     <select id="selectCadreList" resultMap="persistence.cadre.CadreMapper.BaseResultMap" parameterType="map">
         select c.* from cadre c
         <if test="isCommitteeMember != null">
-        left join pcs_committee_member pcm on pcm.user_id=c.user_id and pcm.is_quit=0
-        left join base_meta_type pc_post on pcm.post=pc_post.id and pc_post.bool_attr=1
+        left join cm_member cm on cm.user_id=c.user_id and cm.is_quit=0
+        left join base_meta_type pc_post on cm.post=pc_post.id and pc_post.bool_attr=1
         </if>
         , sys_user_view u where c.user_id= u.id
         <include refid="cadreSearchSql" />
@@ -99,8 +99,8 @@
     <select id="countCadreList" parameterType="map" resultType="java.lang.Integer">
         select count(c.id) from cadre c
         <if test="isCommitteeMember != null">
-            left join pcs_committee_member pcm on pcm.user_id=c.user_id and pcm.is_quit=0
-            left join base_meta_type pc_post on pcm.post=pc_post.id and pc_post.bool_attr=1
+            left join cm_member cm on cm.user_id=c.user_id and cm.is_quit=0
+            left join base_meta_type pc_post on cm.post=pc_post.id and pc_post.bool_attr=1
         </if>
         , sys_user_view u where c.user_id= u.id
         <include refid="cadreSearchSql" />
