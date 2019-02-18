@@ -639,7 +639,7 @@ from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id left join sys
 
 DROP VIEW IF EXISTS `cadre_company_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cadre_company_view` AS
-select cc.*, c.`status` as cadre_status, c.type_id as admin_level, c.admin_level_code,
+select cc.*, c.`status` as cadre_status, c.admin_level, c.admin_level_code,
 c.is_double, c.unit_type_id, c.unit_type_attr,
 c.sort_order as cadre_sort_order from cadre_company cc
 left join cadre_view c on c.id=cc.cadre_id;
@@ -774,8 +774,8 @@ select u.code AS code,ui.realname AS realname,unit.code AS unit_code,
 unit.name AS unit_name,_unittype.name AS unit_type,
 posttype.name AS post, cadretype.name AS admin_level, c.lp_work_time as post_work_time from
 cadre_view c left join unit on c.unit_id = unit.id
-left join base_meta_type cadretype on cadretype.id = c.type_id
-left join base_meta_type posttype on posttype.id = c.post_id
+left join base_meta_type cadretype on cadretype.id = c.admin_level
+left join base_meta_type posttype on posttype.id = c.post_type
 left join base_meta_type _unittype on unit.type_id = _unittype.id
 , sys_user u, sys_user_info ui
 where c.user_id = u.id and c.status = 1 and ui.user_id = u.id;

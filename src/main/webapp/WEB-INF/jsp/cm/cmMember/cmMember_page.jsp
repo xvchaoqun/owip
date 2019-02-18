@@ -26,7 +26,7 @@
                 <shiro:hasPermission name="cmMember:edit">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/cmMember_au?type=${type}&isQuit=${isQuit?1:0}">
-                        <i class="fa fa-plus"></i> 个别添加
+                        <i class="fa fa-plus"></i> 添加
                     </button>
                     <c:if test="${!isQuit && type==CM_MEMBER_TYPE_CW}">
                     <button class="popupBtn btn btn-info btn-sm"

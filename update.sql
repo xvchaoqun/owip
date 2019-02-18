@@ -2,6 +2,9 @@
 
 20190218
 
+更新 ext_cadre_view
+cadre_company_view
+
 ALTER TABLE `pcs_committee_member`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型，1 党委委员 2 纪委委员 3 党委常委' AFTER `id`;
 RENAME TABLE `pcs_committee_member` TO `cm_member`;
@@ -18,9 +21,9 @@ update cm_member set type=2 where type=1;
 
 update cm_member set type=1 where type=0;
 
-UPDATE `db_owip`.`sys_resource` SET `url`='/cmMember?type=2', `permission`='cmMember:list2' WHERE  `id`=861;
-UPDATE `db_owip`.`sys_resource` SET `url`='/cmMember?type=1', `permission`='cmMember:*' WHERE  `id`=860;
-UPDATE `db_owip`.`sys_resource` SET `permission`='cmMember:menu' WHERE  `id`=859;
+UPDATE `sys_resource` SET `url`='/cmMember?type=2', `permission`='cmMember:list2' WHERE  `id`=861;
+UPDATE `sys_resource` SET `url`='/cmMember?type=1', `permission`='cmMember:*' WHERE  `id`=860;
+UPDATE `sys_resource` SET `permission`='cmMember:menu' WHERE  `id`=859;
 
 
 ALTER TABLE `cadre_leader_unit`
@@ -63,19 +66,26 @@ ALTER TABLE `leader`
 + leader_view
 + leader_unit_view;
 
-UPDATE `db_owip`.`sys_resource` SET `url`='/leaderInfo', `permission`='leaderInfo:list' WHERE  `id`=373;
+UPDATE `sys_resource` SET `url`='/leaderInfo', `permission`='leaderInfo:list' WHERE  `id`=373;
 
-UPDATE `db_owip`.`sys_resource` SET `permission`='leader:changeOrder' WHERE  `id`=135;
-UPDATE `db_owip`.`sys_resource` SET `permission`='leader:del' WHERE  `id`=134;
-UPDATE `db_owip`.`sys_resource` SET `permission`='leader:edit' WHERE  `id`=133;
-UPDATE `db_owip`.`sys_resource` SET `permission`='leader:list' WHERE  `id`=89;
-UPDATE `db_owip`.`sys_resource` SET `permission`='leader:menu' WHERE  `id`=372;
-UPDATE `db_owip`.`sys_resource` SET `permission`='leader:unit' WHERE  `id`=143;
-UPDATE `db_owip`.`sys_resource` SET `url`='/leader' WHERE  `id`=89;
+UPDATE `sys_resource` SET `permission`='leader:changeOrder' WHERE  `id`=135;
+UPDATE `sys_resource` SET `permission`='leader:del' WHERE  `id`=134;
+UPDATE `sys_resource` SET `permission`='leader:edit' WHERE  `id`=133;
+UPDATE `sys_resource` SET `permission`='leader:list' WHERE  `id`=89;
+UPDATE `sys_resource` SET `permission`='leader:menu' WHERE  `id`=372;
+UPDATE `sys_resource` SET `permission`='leader:unit' WHERE  `id`=143;
+UPDATE `sys_resource` SET `url`='/leader' WHERE  `id`=89;
 
-UPDATE `db_owip`.`sys_resource` SET `permission`='leaderUnit:del' WHERE  `id`=142;
-UPDATE `db_owip`.`sys_resource` SET `permission`='leaderUnit:edit' WHERE  `id`=141;
-UPDATE `db_owip`.`sys_resource` SET `permission`='leaderUnit:list' WHERE  `id`=140;
+UPDATE `sys_resource` SET `permission`='leaderUnit:del' WHERE  `id`=142;
+UPDATE `sys_resource` SET `permission`='leaderUnit:edit' WHERE  `id`=141;
+UPDATE `sys_resource` SET `permission`='leaderUnit:list' WHERE  `id`=140;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`,
+                            `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (900, 0, '党委常委信息', '', 'url', '', '/cmMember?type=3', 372,
+                                    '0/1/372/', 1, 'cmMember:list3', NULL, NULL, 1, 80);
+
 
 20190217
 
