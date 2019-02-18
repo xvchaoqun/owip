@@ -206,7 +206,7 @@
         }
         },
         </shiro:lacksRole>
-        {label: '备注', name: 'remark', width: 150}
+        {label: '备注', name: 'remark', width: 150, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
     ];
     colModels.cadre2 = [
         {label: '工作证号', name: 'code', width: 110, frozen: true},
@@ -271,7 +271,7 @@
         {label: '办公电话', name: 'phone'},
         {label: '家庭电话', name: 'homePhone'},
         {label: '电子邮箱', name: 'email', width: 150},
-        {label: '备注', name: 'remark', width: 150}
+        {label: '备注', name: 'remark', width: 150, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
     ];
     colModels.cadreLeave2 = [
         {label: '工作证号', name: 'code', width: 110, frozen: true},

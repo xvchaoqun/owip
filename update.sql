@@ -1,4 +1,13 @@
 
+更新 common-utils
+
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `url` `url` VARCHAR(200) NULL COMMENT '网址' AFTER `short_name`;
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `found_time` `found_time` DATE NULL COMMENT '成立时间' AFTER `email`;
+
+
+
 20190217
 南航
 

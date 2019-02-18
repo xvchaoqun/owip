@@ -351,6 +351,7 @@ public class PartyController extends BaseController {
             record.setFax(StringUtils.trimToNull(xlsRow.get(12)));
             record.setEmail(StringUtils.trimToNull(xlsRow.get(13)));
 
+            record.setCreateTime(new Date());
             records.add(record);
         }
 
