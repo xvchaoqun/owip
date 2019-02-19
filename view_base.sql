@@ -79,7 +79,7 @@ SELECT c.*
    ,_va.verify_birth as verify_birth
    ,_vwt.verify_work_time as verify_work_time
 FROM  cadre c
-left join (select cm.* from cm_member cm, base_meta_type pc_post where cm.is_quit=0 and cm.type=3 and cm.post=pc_post.id and pc_post.bool_attr=1) as cm on cm.user_id=c.user_id
+left join cm_member cm on cm.is_quit=0 and cm.type=3 and cm.user_id=c.user_id
 left join cadre_party dp on dp.user_id= c.user_id and dp.type = 1
 left join cadre_party ow on ow.user_id= c.user_id and ow.type = 2
 LEFT JOIN `sys_user_view` `uv` ON `uv`.`user_id` = `c`.`user_id`
@@ -170,8 +170,7 @@ DROP VIEW IF EXISTS `leader_view`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `leader_view` AS
 select l.*, c.status as cadre_status, if(!isnull(cm.id), 1, 0) as is_committee_member from leader l
 left join cadre c on c.user_id=l.user_id
-left join (select cm.* from cm_member cm, base_meta_type pc_post where cm.is_quit=0 and cm.type=3
-and cm.post=pc_post.id and pc_post.bool_attr=1) as cm on cm.user_id=l.user_id ;
+left join cm_member cm on cm.is_quit=0 and cm.type=3 and cm.user_id=l.user_id ;
 
 DROP VIEW IF EXISTS `leader_unit_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `leader_unit_view` AS
