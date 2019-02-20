@@ -21,7 +21,7 @@
               <a href="javascript:" data-url="${ctx}/stat_member_page">党建统计信息</a>
           </li>
           <li>
-              <a href="javascript:" data-url="${ctx}/stat_sys_page">系统统计信息</a>
+              <a href="javascript:" data-url="${ctx}/stat_sys_page">在线人数统计</a>
           </li>
           </shiro:hasAnyRoles>
         </ul>
