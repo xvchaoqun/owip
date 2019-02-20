@@ -206,7 +206,7 @@ public class PmdMonthService extends PmdBaseMapper {
                         .andPartyIdEqualTo(partyId).andBranchIdIsNull();
                 List<Member> members = memberMapper.selectByExample(example);
                 for (Member member : members) {
-                    addOrResetMember(null, currentMonth, member);
+                    addOrResetMember(null, currentMonth, member,false);
                 }
                 //Integer memberCount = members.size();
 
@@ -274,7 +274,7 @@ public class PmdMonthService extends PmdBaseMapper {
                 .andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
         List<Member> members = memberMapper.selectByExample(example);
         for (Member member : members) {
-            addOrResetMember(null, currentMonth, member);
+            addOrResetMember(null, currentMonth, member, false);
         }
 
         {
@@ -304,7 +304,9 @@ public class PmdMonthService extends PmdBaseMapper {
 
     // 添加或重置党员缴费记录
     @Transactional
-    public PmdMember addOrResetMember(Integer pmdMemberId, PmdMonth pmdMonth, Member member) {
+    public PmdMember addOrResetMember(Integer pmdMemberId,
+                                      PmdMonth pmdMonth,
+                                      Member member, boolean forceResetPmdConfigMember) {
 
         int monthId = pmdMonth.getId();
         int userId = member.getUserId();
@@ -329,6 +331,11 @@ public class PmdMonthService extends PmdBaseMapper {
         String duePayReason = null;
 
         Boolean isOnlinePay = true;
+
+        if(forceResetPmdConfigMember){ // 强制重置
+
+            pmdConfigMemberService.del(userId);
+        }
 
         PmdConfigMember pmdConfigMember = pmdConfigMemberMapper.selectByPrimaryKey(userId);
         if (pmdConfigMember != null && pmdConfigMember.getConfigMemberType() != null) {
@@ -550,7 +557,7 @@ public class PmdMonthService extends PmdBaseMapper {
                     pmdMemberId==null?"添加":"更新");
         }
 
-        PmdMember pmdMember = addOrResetMember(pmdMemberId, currentPmdMonth, member);
+        PmdMember pmdMember = addOrResetMember(pmdMemberId, currentPmdMonth, member, true);
 
         Date salaryMonth = pmdConfigResetService.getSalaryMonth();
         if(salaryMonth!=null) {
@@ -664,7 +671,7 @@ public class PmdMonthService extends PmdBaseMapper {
                     .andPartyIdEqualTo(partyId).andBranchIdIsNull();
             List<Member> members = memberMapper.selectByExample(example);
             for (Member member : members) {
-                addOrResetMember(null, currentPmdMonth, member);
+                addOrResetMember(null, currentPmdMonth, member, false);
             }
 
         } else {

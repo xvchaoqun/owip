@@ -39,6 +39,7 @@
         ];
 
         function drawPieChart(placeholder, data, position) {
+            if(data.length==0) return;
             $.plot(placeholder, data, {
                 series: {
                     pie: {

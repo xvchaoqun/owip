@@ -11,7 +11,7 @@
         <tbody>
          <c:forEach items="${columnBeanMap}" var="cbEntity" varStatus="vs">
             <tr>
-                <td style="text-align: center">${vs.index}</td>
+                <td style="text-align: center">${vs.count}</td>
                 <td>${cbEntity.value.name}</td>
                 <td>${cbEntity.value.comments}</td>
                 <td>${valuesMap.get(cbEntity.key)}</td>
