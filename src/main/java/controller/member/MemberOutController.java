@@ -260,7 +260,6 @@ public class MemberOutController extends MemberBaseController {
     }
 
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_approval")
     public String memberOut_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUserView loginUser, Integer id,
@@ -304,7 +303,6 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping("/memberOut_deny")
     public String memberOut_deny(Integer id, ModelMap modelMap) {
@@ -317,7 +315,6 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_deny";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_check", method = RequestMethod.POST)
     @ResponseBody
@@ -333,7 +330,6 @@ public class MemberOutController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping("/memberOut_back")
     public String memberOut_back() {
@@ -341,7 +337,6 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody

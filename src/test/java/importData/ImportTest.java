@@ -1,11 +1,13 @@
 package importData;
 
 import bean.XlsUpload;
-import bean.XlsUser;
 import domain.sys.SysUser;
 import domain.sys.SysUserExample;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import sys.shiro.SaltPassword;
 import sys.utils.IdcardValidator;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +52,68 @@ public class ImportTest {
 
         return (count==0)?code:genCode();
     }
+
+    public final static int userXLSColumnCount = 4;
+    public static List<XlsUser> fetchUsers(XSSFSheet sheet) {
+
+        List<XlsUser> rows = new ArrayList<XlsUser>();
+        XSSFRow rowTitle = sheet.getRow(0);
+        if (null == rowTitle)
+            return rows;
+        int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
+        if (cellCount < userXLSColumnCount)
+            return rows;
+
+        for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getLastRowNum(); i++) {
+
+            XSSFRow row = sheet.getRow(i);
+            if (row == null) {// 如果为空，不处理
+                continue;
+            }
+
+            XlsUser dataRow = new XlsUser();
+            XSSFCell cell = row.getCell(0);
+            if (null != cell) {
+                String realname = XlsUpload.getCell(cell);
+                if (StringUtils.isBlank(realname)) {
+                    continue;
+                }
+                dataRow.setRealname(realname);
+            } else {
+                continue;
+            }
+
+            cell = row.getCell(1);
+            if (null != cell) {
+                String _gender = XlsUpload.getCell(cell);
+                if (StringUtils.isBlank(_gender)) {
+                    continue;
+                }
+                dataRow.setGender((byte) (StringUtils.equals(_gender, "男") ? 1 : 2));
+            } else {
+                continue;
+            }
+
+            cell = row.getCell(2);
+            if (null != cell) {
+                String idcard = XlsUpload.getCell(cell);
+                if (StringUtils.isBlank(idcard)) {
+                    continue;
+                }
+                dataRow.setIdcard(idcard);
+            } else {
+                continue;
+            }
+
+            cell = row.getCell(3);
+            dataRow.setUnit(XlsUpload.getCell(cell));
+
+            rows.add(dataRow);
+        }
+
+        return rows;
+    }
+
     @Test
     public void get() throws Exception {
         File xlsx = new File("C:\\Users\\fafa\\Desktop\\教工党员问题汇总（已核实20160420） - 副本.xlsx");
@@ -56,7 +121,7 @@ public class ImportTest {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
 
-        List<XlsUser> xlsUsers = XlsUpload.fetchUsers(sheet);
+        List<XlsUser> xlsUsers = fetchUsers(sheet);
 
         for (XlsUser xlsUser : xlsUsers) {
             //System.out.print(xlsUser.getRealname() + " " + xlsUser.getGender() + " " + xlsUser.getIdcard());

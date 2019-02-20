@@ -11,9 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.sys.SysLoginLogService;
 import sys.helper.CetHelper;
-import sys.tags.CmTag;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -78,7 +76,7 @@ public class MobileCetEvaLoginController extends CetBaseController {
             logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), username, true, "登录成功"));
         }else if (trainId != null) {
             CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
-            CetTrainInspector trainInspector = cetTrainInspectorService.tryLogin(trainId, mobile);
+            CetTrainInspector trainInspector = cetTrainInspectorService.get(trainId, mobile);
             if (trainInspector == null) {
                 logger.info(sysLoginLogService.trainInspectorLoginlog(null, mobile, false,
                         String.format("【%s】登录失败，评课账号【%s】不存在", train.getName(), mobile)));

@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
     <h3>修改教职工党员人事信息</h3>
 	<hr/>
     <form class="form-horizontal" action="${ctx}/member_teacherInfo_au" id="modalForm" method="post">
-        <input type="hidden" name="userId" value="${teacher.userId}">
+        <input type="hidden" name="userId" value="${teacherInfo.userId}">
 		<div class="row">
 			<div class="col-xs-4">
 			<div class="form-group">
@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">手机号码</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="extPhone" value="${teacher.extPhone}">
+						<input class="form-control" type="text" name="extPhone" value="${teacherInfo.extPhone}">
 					</div>
 				</div>
 				<div class="form-group">
@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">学员结构</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="fromType" value="${teacher.fromType}">
+						<input class="form-control" type="text" name="fromType" value="${teacherInfo.fromType}">
 						<span class="help-block">例如：本校、境内、境外等</span>
 					</div>
 				</div>
@@ -90,13 +90,13 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">最高学历</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="education" value="${teacher.education}">
+						<input class="form-control" type="text" name="education" value="${teacherInfo.education}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">最高学位</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="degree" value="${teacher.degree}">
+						<input class="form-control" type="text" name="degree" value="${teacherInfo.degree}">
 					</div>
 				</div>
 				<div class="form-group">
@@ -104,7 +104,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 150px">
 							<input  class="form-control date-picker" name="_degreeTime" type="text"
-									data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacher.degreeTime, "yyyy-MM-dd")}" />
+									data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacherInfo.degreeTime, "yyyy-MM-dd")}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -115,25 +115,25 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">所学专业</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="major" value="${teacher.major}">
+							<input class="form-control" type="text" name="major" value="${teacherInfo.major}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">学历毕业学校</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="school" value="${teacher.school}">
+							<input class="form-control" type="text" name="school" value="${teacherInfo.school}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">毕业学校类型</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="schoolType" value="${teacher.schoolType}">
+							<input class="form-control" type="text" name="schoolType" value="${teacherInfo.schoolType}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">学位授予学校</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="degreeSchool" value="${teacher.degreeSchool}">
+							<input class="form-control" type="text" name="degreeSchool" value="${teacherInfo.degreeSchool}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -141,7 +141,7 @@ pageEncoding="UTF-8"%>
 						<div class="col-xs-6">
 							<div class="input-group" style="width: 150px">
 								<input  class="form-control date-picker" name="_arriveTime" type="text"
-										data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacher.arriveTime, "yyyy-MM-dd")}" />
+										data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacherInfo.arriveTime, "yyyy-MM-dd")}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
 						</div>
@@ -149,55 +149,55 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">编制类别</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="authorizedType" value="${teacher.authorizedType}">
+							<input class="form-control" type="text" name="authorizedType" value="${teacherInfo.authorizedType}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">人员分类</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="staffType" value="${teacher.staffType}">
+							<input class="form-control" type="text" name="staffType" value="${teacherInfo.staffType}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">人员状态</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="staffStatus" value="${teacher.staffStatus}">
+							<input class="form-control" type="text" name="staffStatus" value="${teacherInfo.staffStatus}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">岗位类别</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="postClass" value="${teacher.postClass}">
+							<input class="form-control" type="text" name="postClass" value="${teacherInfo.postClass}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">主岗等级</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="mainPostLevel" value="${teacher.mainPostLevel}">
+							<input class="form-control" type="text" name="mainPostLevel" value="${teacherInfo.mainPostLevel}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">在岗情况</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="onJob" value="${teacher.onJob}">
+							<input class="form-control" type="text" name="onJob" value="${teacherInfo.onJob}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">专业技术职务</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="proPost" value="${teacher.proPost}">
+							<input class="form-control" type="text" name="proPost" value="${teacherInfo.proPost}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">专技岗位等级</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="proPostLevel" value="${teacher.proPostLevel}">
+							<input class="form-control" type="text" name="proPostLevel" value="${teacherInfo.proPostLevel}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">职称级别</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="titleLevel" value="${teacher.titleLevel}">
+							<input class="form-control" type="text" name="titleLevel" value="${teacherInfo.titleLevel}">
 						</div>
 					</div>
 
@@ -206,50 +206,50 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">管理岗位等级</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="manageLevel" value="${teacher.manageLevel}">
+						<input class="form-control" type="text" name="manageLevel" value="${teacherInfo.manageLevel}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">工勤岗位等级</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="officeLevel" value="${teacher.officeLevel}">
+						<input class="form-control" type="text" name="officeLevel" value="${teacherInfo.officeLevel}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">行政职务</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="post" value="${teacher.post}">
+						<input class="form-control" type="text" name="post" value="${teacherInfo.post}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">任职级别</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="postLevel" value="${teacher.postLevel}">
+						<input class="form-control" type="text" name="postLevel" value="${teacherInfo.postLevel}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">人才类型</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="talentType" value="${teacher.talentType}">
+						<input class="form-control" type="text" name="talentType" value="${teacherInfo.talentType}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">人才/荣誉称号</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="talentTitle" value="${teacher.talentTitle}">
+						<input class="form-control" type="text" name="talentTitle" value="${teacherInfo.talentTitle}">
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="col-xs-3 control-label">居住地址</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="address" value="${teacher.address}">
+						<input class="form-control" type="text" name="address" value="${teacherInfo.address}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">婚姻状况</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="maritalStatus" value="${teacher.maritalStatus}">
+						<input class="form-control" type="text" name="maritalStatus" value="${teacherInfo.maritalStatus}">
 					</div>
 				</div>
 			<div class="form-group">
@@ -269,7 +269,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">是否退休</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isRetire" ${teacher.isRetire?"checked":""}  type="checkbox" />
+						<input name="isRetire" ${teacherInfo.isRetire?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>
@@ -279,7 +279,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group" style="width: 150px">
 						<input  class="form-control date-picker" name="_retireTime" type="text"
-								data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacher.retireTime,'yyyy-MM-dd')}" />
+								data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacherInfo.retireTime,'yyyy-MM-dd')}" />
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
@@ -288,7 +288,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">是否离休</label>
 				<div class="col-xs-6">
 					<label>
-						<input name="isHonorRetire" ${teacher.isHonorRetire?"checked":""}  type="checkbox" />
+						<input name="isHonorRetire" ${teacherInfo.isHonorRetire?"checked":""}  type="checkbox" />
 						<span class="lbl"></span>
 					</label>
 				</div>

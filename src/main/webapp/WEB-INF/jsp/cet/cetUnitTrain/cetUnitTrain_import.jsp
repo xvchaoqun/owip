@@ -11,7 +11,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">Excel文件</label>
 
-            <div class="col-xs-5">
+            <div class="col-xs-6">
                 <input type="hidden" name="projectId" value="${param.projectId}"/>
                 <input type="file" name="xlsx" required extension="xlsx"/>
             </div>

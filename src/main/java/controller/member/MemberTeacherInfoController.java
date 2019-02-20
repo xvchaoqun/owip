@@ -32,7 +32,7 @@ public class MemberTeacherInfoController extends MemberBaseController {
     @RequiresPermissions("memberTeacher:edit")
     @RequestMapping(value = "/member_teacherInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_member_teacherInfo_au(TeacherInfo teacherInfo, SysUserInfo userInfo,
+    public Map do_member_teacherInfo_au(TeacherInfo teacherInfo, SysUserInfo sysUserInfo,
                                  String _birth, String _degreeTime,
                                  String _arriveTime, String _retireTime, HttpServletRequest request) {
 
@@ -46,7 +46,7 @@ public class MemberTeacherInfoController extends MemberBaseController {
         }
 
         if(StringUtils.isNotBlank(_birth)){
-            userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
+            sysUserInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
         }
 
         if(StringUtils.isNotBlank(_degreeTime)){
@@ -70,7 +70,7 @@ public class MemberTeacherInfoController extends MemberBaseController {
         }
 
         // 更新基本信息
-        sysUserService.insertOrUpdateUserInfoSelective(userInfo);
+        sysUserService.insertOrUpdateUserInfoSelective(sysUserInfo);
 
         return success(FormUtils.SUCCESS);
     }
@@ -88,8 +88,8 @@ public class MemberTeacherInfoController extends MemberBaseController {
             throw new OpException("只能修改非人事库的账号信息");
         }
 
-        TeacherInfo teacher = teacherInfoMapper.selectByPrimaryKey(userId);
-        modelMap.put("teacher", teacher);
+        TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+        modelMap.put("teacherInfo", teacherInfo);
 
         return "sys/userInfo/member_teacherInfo_au";
     }

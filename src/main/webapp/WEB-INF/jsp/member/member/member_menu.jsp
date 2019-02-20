@@ -42,5 +42,16 @@
             data-url="${ctx}/member/search"><i class="fa fa-search"></i> 全校组织关系查询</a>
     </shiro:hasAnyRoles>
   </div>
-
+  <div class="buttons pull-right hidden-sm hidden-xs" style="padding-right: 15px;">
+    <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+        <a class="popupBtn btn btn-info btn-sm tooltip-info"
+           data-url="${ctx}/member_import?inSchool=1"
+           data-rel="tooltip" data-placement="top" title="批量导入校内账号的党员信息"><i class="fa fa-upload"></i>
+            批量导入(校内)</a>
+        <a class="popupBtn btn btn-warning btn-sm tooltip-warning"
+           data-url="${ctx}/member_import?inSchool=0"
+           data-rel="tooltip" data-placement="top" title="批量导入校外账号的党员信息"><i class="fa fa-upload"></i>
+            批量导入(校外)</a>
+    </shiro:hasAnyRoles>
+  </div>
 </ul>

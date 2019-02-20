@@ -5,6 +5,7 @@ import domain.member.*;
 import domain.party.EnterApply;
 import domain.party.EnterApplyExample;
 import domain.sys.SysUserView;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -66,22 +67,26 @@ public class EnterApplyService extends MemberBaseMapper{
         return enterApplyMapper.selectByExample(example);
     }
 
-    // 查询当前的有效申请
     public EnterApply getCurrentApply(int userId){
 
         EnterApplyExample example = new EnterApplyExample();
         example.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
         example.setOrderByClause("id asc");
-        List<EnterApply> enterApplies = enterApplyMapper.selectByExample(example);
-        if(enterApplies.size()>1) {
+        List<EnterApply> enterApplies = enterApplyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return enterApplies.size()>0?enterApplies.get(0):null;
+    }
+
+    // 查询当前的有效申请
+    public EnterApply checkCurrentApply(int userId, int type){
+
+        EnterApply currentApply = getCurrentApply(userId);
+        if(currentApply!=null && currentApply.getType()!=type){
             // 当前申请状态每个用户只允许一个，且是最新的一条
             throw new OpException("重复申请，已经申请了[{0}]。（申请入党、留学归国申请、转入申请、流入申请只能同时申请一个）",
-                    OwConstants.OW_ENTER_APPLY_TYPE_MAP.get(enterApplies.get(0).getType()));
+                    OwConstants.OW_ENTER_APPLY_TYPE_MAP.get(currentApply.getType()));
         }
-
-        if(enterApplies.size()==1) return enterApplies.get(0);
-
-        return null;
+        return currentApply;
     }
 
     // 申请入党、流入、留学归国申请权限判断
@@ -115,6 +120,7 @@ public class EnterApplyService extends MemberBaseMapper{
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#record.userId")
     public synchronized void memberApply(MemberApply record) {
+
         int userId = record.getUserId();
 
         checkMemberApplyAuth(userId);
@@ -126,16 +132,17 @@ public class EnterApplyService extends MemberBaseMapper{
         }else
             memberApplyMapper.updateByPrimaryKey(record);
 
-        EnterApply enterApply = new EnterApply();
-        enterApply.setUserId(record.getUserId());
-        enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
-        enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
-        enterApply.setCreateTime(new Date());
+        EnterApply currentApply = checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
+        if(currentApply==null) {
 
-        enterApplyMapper.insertSelective(enterApply);
+            EnterApply enterApply = new EnterApply();
+            enterApply.setUserId(userId);
+            enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
+            enterApply.setCreateTime(new Date());
 
-        // 确定申请不重复
-        getCurrentApply(userId);
+            enterApplyMapper.insertSelective(enterApply);
+        }
     }
 
     // 留学归国申请
@@ -157,16 +164,17 @@ public class EnterApplyService extends MemberBaseMapper{
             memberReturnMapper.updateByPrimaryKey(record);
         }
 
-        EnterApply enterApply = new EnterApply();
-        enterApply.setUserId(record.getUserId());
-        enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_RETURN);
-        enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
-        enterApply.setCreateTime(new Date());
+        EnterApply currentApply = checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_RETURN);
+        if(currentApply==null) {
 
-        enterApplyMapper.insertSelective(enterApply);
+            EnterApply enterApply = new EnterApply();
+            enterApply.setUserId(userId);
+            enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_RETURN);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
+            enterApply.setCreateTime(new Date());
 
-        // 确定申请不重复
-        getCurrentApply(userId);
+            enterApplyMapper.insertSelective(enterApply);
+        }
     }
 
     // 组织关系转入申请
@@ -191,18 +199,20 @@ public class EnterApplyService extends MemberBaseMapper{
             memberInMapper.updateByPrimaryKey(record);
         }
 
+        EnterApply currentApply = checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN);
+        if(currentApply==null) {
+
+            EnterApply enterApply = new EnterApply();
+            enterApply.setUserId(userId);
+            enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
+            enterApply.setCreateTime(new Date());
+
+            enterApplyMapper.insertSelective(enterApply);
+        }
+
         // 20160919出现过重复的记录
         // select * from ow_enter_apply where status=0 and user_id=97799;  2条记录
-        EnterApply enterApply = new EnterApply();
-        enterApply.setUserId(record.getUserId());
-        enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN);
-        enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
-        enterApply.setCreateTime(new Date());
-
-        enterApplyMapper.insertSelective(enterApply);
-
-        // 确定申请不重复
-        getCurrentApply(userId);
     }
 
     // 流入党员（不入党员库）
@@ -245,16 +255,17 @@ public class EnterApplyService extends MemberBaseMapper{
             memberInflowMapper.updateByPrimaryKey(record);
         }
 
-        EnterApply enterApply = new EnterApply();
-        enterApply.setUserId(record.getUserId());
-        enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW);
-        enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
-        enterApply.setCreateTime(new Date());
+        EnterApply currentApply = checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW);
+        if(currentApply==null) {
 
-        enterApplyMapper.insertSelective(enterApply);
+            EnterApply enterApply = new EnterApply();
+            enterApply.setUserId(userId);
+            enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
+            enterApply.setCreateTime(new Date());
 
-        // 确定申请不重复
-        getCurrentApply(userId);
+            enterApplyMapper.insertSelective(enterApply);
+        }
     }
 
     /*

@@ -43,8 +43,112 @@ public class MemberApplyService extends MemberBaseMapper {
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
 
+    @CacheEvict(value = "MemberApply", allEntries = true)
+    @Transactional
+    public int batchImport(List<MemberApply> records) {
+
+        if (records.size() == 0) return 0;
+
+        int addCount = 0;
+        int row = 1;
+        for (MemberApply record : records) {
+
+            row++;
+            SysUserView uv = record.getUser();
+            int userId = record.getUserId();
+            byte stage = record.getStage();
+
+            Member member = memberService.get(userId);
+            if(member!=null){
+                if(member.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE
+                    && stage < OwConstants.OW_APPLY_STAGE_POSITIVE){
+                     throw new OpException("第{0}行{1}已是正式党员", row, uv.getRealname());
+                }else if(member.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_GROW
+                    && stage < OwConstants.OW_APPLY_STAGE_GROW){
+                     throw new OpException("第{0}行{1}已是预备党员", row, uv.getRealname());
+                }
+            }
+
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if (memberApply == null) {
+
+                // 确定申请不重复
+                EnterApply enterApply = enterApplyService.checkCurrentApply(userId,
+                        OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
+                if (enterApply == null) {
+
+                    enterApply = new EnterApply();
+                    enterApply.setUserId(userId);
+                    enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
+                    enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
+                    enterApply.setCreateTime(new Date());
+
+                    enterApplyMapper.insertSelective(enterApply);
+                }
+
+                memberApplyMapper.insert(record);
+
+                // 判断是否是预备党员/正式党员
+                addMemberIfNeeded(record);
+
+                addCount++;
+            } else {
+
+                // 不允许 预备党员/正式党员 回退
+                if (memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW
+                        && stage < OwConstants.OW_APPLY_STAGE_GROW) {
+                    throw new OpException("第{0}行{1}处于[{2}]阶段，不允许更新为[{3}]", row, uv.getRealname(),
+                            OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()),
+                            OwConstants.OW_APPLY_STAGE_MAP.get(stage));
+                }
+
+                if (memberApply.getStage() < OwConstants.OW_APPLY_STAGE_GROW
+                        && stage >= OwConstants.OW_APPLY_STAGE_GROW) {
+
+                    addMemberIfNeeded(record);
+                }
+
+                memberApplyMapper.updateByPrimaryKey(record);
+            }
+        }
+
+        return addCount;
+    }
+
+    private void addMemberIfNeeded(MemberApply memberApply) {
+
+        byte stage = memberApply.getStage();
+        if (stage == OwConstants.OW_APPLY_STAGE_GROW
+                || stage == OwConstants.OW_APPLY_STAGE_POSITIVE) {
+
+            int userId = memberApply.getUserId();
+            Member member = new Member();
+            member.setUserId(userId);
+            member.setPartyId(memberApply.getPartyId());
+            member.setBranchId(memberApply.getBranchId());
+            if (stage == OwConstants.OW_APPLY_STAGE_GROW) {
+                member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
+            } else {
+                member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE); // 正式党员
+            }
+
+            member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
+            member.setSource(MemberConstants.MEMBER_SOURCE_IMPORT); // 导入
+            member.setApplyTime(memberApply.getApplyTime());
+            member.setActiveTime(memberApply.getActiveTime());
+            member.setCandidateTime(memberApply.getCandidateTime());
+            member.setGrowTime(memberApply.getGrowTime());
+
+            member.setCreateTime(new Date());
+
+            // 进入党员库
+            memberService.add(member);
+            memberService.addModify(userId, "批量导入党员发展信息");
+        }
+    }
+
     // 积极分子选择树
-    public TreeNode getActivistTree(Set<Integer> selectIdSet){
+    public TreeNode getActivistTree(Set<Integer> selectIdSet) {
 
         Map<Integer, List<MemberApplyView>> groupMap = new LinkedHashMap<>();
 
@@ -59,7 +163,7 @@ public class MemberApplyService extends MemberBaseMapper {
 
                 int partyId = mav.getPartyId();
                 List<MemberApplyView> uvs = groupMap.get(partyId);
-                if(uvs==null){
+                if (uvs == null) {
                     uvs = new ArrayList<>();
                     groupMap.put(partyId, uvs);
                 }
@@ -76,9 +180,9 @@ public class MemberApplyService extends MemberBaseMapper {
 
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
-        for(Map.Entry<Integer, List<MemberApplyView>> entry : groupMap.entrySet()) {
+        for (Map.Entry<Integer, List<MemberApplyView>> entry : groupMap.entrySet()) {
             List<MemberApplyView> entryValue = entry.getValue();
-            if(entryValue.size()>0) {
+            if (entryValue.size() > 0) {
 
                 TreeNode titleNode = new TreeNode();
                 titleNode.expand = false;
@@ -89,7 +193,7 @@ public class MemberApplyService extends MemberBaseMapper {
                 int selectCount = 0;
                 for (MemberApplyView mav : entryValue) {
 
-                    String branchName = (mav.getBranchId()==null)?null:branchMap.get(mav.getBranchId()).getName();
+                    String branchName = (mav.getBranchId() == null) ? null : branchMap.get(mav.getBranchId()).getName();
                     SysUserView uv = mav.getUser();
                     int userId = mav.getUserId();
                     TreeNode node = new TreeNode();
@@ -121,40 +225,41 @@ public class MemberApplyService extends MemberBaseMapper {
 
     /**
      * 已经是预备党员[状态：正常]的情况下，修改相关的入党申请记录
-     *
+     * <p>
      * 1、添加预备党员，需要加入入党申请（预备党员阶段）;
      * 2、入党申请已经存在，则修改为预备党员阶段
+     *
      * @param userId
      */
     @CacheEvict(value = "MemberApply", key = "#userId")
-    public void addOrChangeToGrowApply(int userId){
+    public void addOrChangeToGrowApply(int userId) {
         Member member = memberService.get(userId);
         Integer currentUserId = ShiroHelper.getCurrentUserId();
-        if(member!=null && member.getStatus()== MemberConstants.MEMBER_STATUS_NORMAL
-                && member.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_GROW){
+        if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL
+                && member.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
             Date now = new Date();
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
 
             MemberApply record = new MemberApply();
             record.setUserId(userId);
-            record.setType((member.getType()==MemberConstants.MEMBER_TYPE_TEACHER ?
+            record.setType((member.getType() == MemberConstants.MEMBER_TYPE_TEACHER ?
                     OwConstants.OW_APPLY_TYPE_TEACHER : OwConstants.OW_APPLY_TYPE_STU));
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
-            record.setApplyTime(member.getApplyTime()==null?now:member.getApplyTime());
+            record.setApplyTime(member.getApplyTime() == null ? now : member.getApplyTime());
             record.setActiveTime(member.getActiveTime());
             record.setCandidateTime(member.getCandidateTime());
             record.setGrowTime(member.getGrowTime());
             record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
             record.setStage(OwConstants.OW_APPLY_STAGE_GROW);
-            if(memberApply==null) { // 还没有入党申请
+            if (memberApply == null) { // 还没有入党申请
 
                 record.setRemark("预备党员信息添加后同步");
                 record.setFillTime(now);
                 record.setCreateTime(now);
                 record.setIsRemove(false);
                 memberApplyMapper.insertSelective(record);
-            }else{
+            } else {
 
                 record.setRemark("预备党员信息同步");
                 commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
@@ -174,26 +279,26 @@ public class MemberApplyService extends MemberBaseMapper {
     }
 
     // status=-1代表 isNULL
-    public int count(Integer partyId, Integer branchId, Byte  type, Byte stage, Byte status){
+    public int count(Integer partyId, Integer branchId, Byte type, Byte stage, Byte status) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
         MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type!=null){
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if(stage!=null) {
+        if (stage != null) {
             criteria.andStageEqualTo(stage);
             if (status != null) {
-                switch (stage){
+                switch (stage) {
                     case OwConstants.OW_APPLY_STAGE_ACTIVE:
-                        if(status==-1) criteria.andCandidateStatusIsNull();
+                        if (status == -1) criteria.andCandidateStatusIsNull();
                         else criteria.andCandidateStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_CANDIDATE:
-                        if(status==-1) criteria.andPlanStatusIsNull();
+                        if (status == -1) criteria.andPlanStatusIsNull();
                         else criteria.andPlanStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_PLAN:
@@ -202,43 +307,43 @@ public class MemberApplyService extends MemberBaseMapper {
                         criteria.andDrawStatusIsNull();
                         break;
                     case OwConstants.OW_APPLY_STAGE_DRAW:
-                        if(status==-1) criteria.andGrowStatusIsNull();
+                        if (status == -1) criteria.andGrowStatusIsNull();
                         else criteria.andGrowStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_GROW:
-                        if(status==-1) criteria.andPositiveStatusIsNull();
+                        if (status == -1) criteria.andPositiveStatusIsNull();
                         else criteria.andPositiveStatusEqualTo(status);
                         break;
                 }
             }
         }
-        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
-        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+        if (partyId != null) criteria.andPartyIdEqualTo(partyId);
+        if (branchId != null) criteria.andBranchIdEqualTo(branchId);
 
-        return (int)memberApplyViewMapper.countByExample(example);
+        return (int) memberApplyViewMapper.countByExample(example);
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
-    public MemberApply next(Byte type, Byte stage,Byte status, MemberApply memberApply){
+    public MemberApply next(Byte type, Byte stage, Byte status, MemberApply memberApply) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
         MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type!=null){
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if(stage!=null) {
+        if (stage != null) {
             criteria.andStageEqualTo(stage);
             if (status != null) {
-                switch (stage){
+                switch (stage) {
                     case OwConstants.OW_APPLY_STAGE_ACTIVE:
-                        if(status==-1) criteria.andCandidateStatusIsNull();
+                        if (status == -1) criteria.andCandidateStatusIsNull();
                         else criteria.andCandidateStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_CANDIDATE:
-                        if(status==-1) criteria.andPlanStatusIsNull();
+                        if (status == -1) criteria.andPlanStatusIsNull();
                         else criteria.andPlanStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_PLAN:
@@ -247,70 +352,70 @@ public class MemberApplyService extends MemberBaseMapper {
                         criteria.andDrawStatusIsNull();
                         break;
                     case OwConstants.OW_APPLY_STAGE_DRAW:
-                        if(status==-1) criteria.andGrowStatusIsNull();
+                        if (status == -1) criteria.andGrowStatusIsNull();
                         else criteria.andGrowStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_GROW:
-                        if(status==-1) criteria.andPositiveStatusIsNull();
+                        if (status == -1) criteria.andPositiveStatusIsNull();
                         else criteria.andPositiveStatusEqualTo(status);
                         break;
                 }
             }
         }
-        if(memberApply!=null)
+        if (memberApply != null)
             criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeLessThanOrEqualTo(memberApply.getCreateTime());
         example.setOrderByClause("create_time desc");
 
         List<MemberApplyView> memberApplies = memberApplyViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return (memberApplies.size()==0)?null:get(memberApplies.get(0).getUserId());
+        return (memberApplies.size() == 0) ? null : get(memberApplies.get(0).getUserId());
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
-    public MemberApply last(Byte type, Byte stage,Byte status, MemberApply memberApply){
+    public MemberApply last(Byte type, Byte stage, Byte status, MemberApply memberApply) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
         MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(type!=null){
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if(stage!=null) {
+        if (stage != null) {
             criteria.andStageEqualTo(stage);
             if (status != null) {
-                switch (stage){
+                switch (stage) {
                     case OwConstants.OW_APPLY_STAGE_ACTIVE:
-                        if(status==-1) criteria.andCandidateStatusIsNull();
+                        if (status == -1) criteria.andCandidateStatusIsNull();
                         else criteria.andCandidateStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_CANDIDATE:
-                        if(status==-1) criteria.andPlanStatusIsNull();
+                        if (status == -1) criteria.andPlanStatusIsNull();
                         else criteria.andPlanStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_PLAN:
-                        if(status==-1) criteria.andDrawStatusIsNull();
+                        if (status == -1) criteria.andDrawStatusIsNull();
                         else criteria.andDrawStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_DRAW:
-                        if(status==-1) criteria.andGrowStatusIsNull();
+                        if (status == -1) criteria.andGrowStatusIsNull();
                         else criteria.andGrowStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_GROW:
-                        if(status==-1) criteria.andPositiveStatusIsNull();
+                        if (status == -1) criteria.andPositiveStatusIsNull();
                         else criteria.andPositiveStatusEqualTo(status);
                         break;
                 }
             }
         }
 
-        if(memberApply!=null)
+        if (memberApply != null)
             criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberApply.getCreateTime());
         example.setOrderByClause("create_time asc");
 
         List<MemberApplyView> memberApplies = memberApplyViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        return (memberApplies.size()==0)?null:get(memberApplies.get(0).getUserId());
+        return (memberApplies.size() == 0) ? null : get(memberApplies.get(0).getUserId());
     }
 
     @Cacheable(value = "MemberApply", key = "#userId")
@@ -325,7 +430,7 @@ public class MemberApplyService extends MemberBaseMapper {
     public void updateWhenModifyMember(int userId, Integer partyId, Integer branchId) {
 
         MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(_memberApply!=null && _memberApply.getStage()>=OwConstants.OW_APPLY_STAGE_GROW && partyId!=null){
+        if (_memberApply != null && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW && partyId != null) {
 
             MemberApply record = new MemberApply();
             record.setUserId(userId);
@@ -334,7 +439,7 @@ public class MemberApplyService extends MemberBaseMapper {
 
             memberApplyMapper.updateByPrimaryKeySelective(record);
 
-            if(partyId!=null && branchId==null){
+            if (partyId != null && branchId == null) {
                 // 修改为直属党支部
                 Assert.isTrue(partyService.isDirectBranch(partyId), "not direct branch");
                 iMemberMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, partyId);
@@ -356,7 +461,7 @@ public class MemberApplyService extends MemberBaseMapper {
     public void modifyMemberToPositiveStatus(int userId) {
 
         Member member = memberMapper.selectByPrimaryKey(userId);
-        if(member.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
+        if (member.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
             MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if (_memberApply != null) {
 
@@ -383,19 +488,19 @@ public class MemberApplyService extends MemberBaseMapper {
 
         Member member = memberService.get(userId);
         // 修改入党申请人员的所在分党委和支部，如果是在预备或正式党员中修改，则相应的要修改党员信息
-        if(record.getPartyId()!=null){
+        if (record.getPartyId() != null) {
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-            if(member!=null && memberApply!=null) {
+            if (member != null && memberApply != null) {
 
-                if(record.getBranchId()==null){
+                if (record.getBranchId() == null) {
                     // 修改为直属党支部
                     Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
                     iMemberMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, record.getPartyId());
                 }
 
-                if (memberApply.getStage()==OwConstants.OW_APPLY_STAGE_GROW
-                        || memberApply.getStage()==OwConstants.OW_APPLY_STAGE_POSITIVE) {
+                if (memberApply.getStage() == OwConstants.OW_APPLY_STAGE_GROW
+                        || memberApply.getStage() == OwConstants.OW_APPLY_STAGE_POSITIVE) {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setPartyId(record.getPartyId());
@@ -405,9 +510,9 @@ public class MemberApplyService extends MemberBaseMapper {
             }
         }
 
-        if(record.getApplyTime()!=null){ // 如果修改了提交书面申请书时间，相应的党员信息的也要修改
-            if(member!=null) {
-                if (member.getApplyTime()==null || !member.getApplyTime().equals(record.getApplyTime())) {
+        if (record.getApplyTime() != null) { // 如果修改了提交书面申请书时间，相应的党员信息的也要修改
+            if (member != null) {
+                if (member.getApplyTime() == null || !member.getApplyTime().equals(record.getApplyTime())) {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setApplyTime(record.getApplyTime());
@@ -416,9 +521,9 @@ public class MemberApplyService extends MemberBaseMapper {
             }
         }
 
-        if(record.getActiveTime()!=null){ // 如果修改了确定为入党积极分子时间，相应的党员信息的也要修改
-            if(member!=null) {
-                if (member.getActiveTime()==null || !member.getActiveTime().equals(record.getActiveTime())) {
+        if (record.getActiveTime() != null) { // 如果修改了确定为入党积极分子时间，相应的党员信息的也要修改
+            if (member != null) {
+                if (member.getActiveTime() == null || !member.getActiveTime().equals(record.getActiveTime())) {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setActiveTime(record.getActiveTime());
@@ -426,9 +531,9 @@ public class MemberApplyService extends MemberBaseMapper {
                 }
             }
         }
-        if(record.getCandidateTime()!=null){ // 如果修改了确定为发展对象时间，相应的党员信息的也要修改
-            if(member!=null) {
-                if (member.getCandidateTime()==null || !member.getCandidateTime().equals(record.getCandidateTime())) {
+        if (record.getCandidateTime() != null) { // 如果修改了确定为发展对象时间，相应的党员信息的也要修改
+            if (member != null) {
+                if (member.getCandidateTime() == null || !member.getCandidateTime().equals(record.getCandidateTime())) {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setCandidateTime(record.getCandidateTime());
@@ -437,9 +542,9 @@ public class MemberApplyService extends MemberBaseMapper {
             }
         }
 
-        if(record.getGrowTime()!=null){ // 如果修改了入党时间，相应的党员信息的入党时间也要修改
-            if(member!=null) {
-                if (member.getGrowTime()==null || !member.getGrowTime().equals(record.getGrowTime())) {
+        if (record.getGrowTime() != null) { // 如果修改了入党时间，相应的党员信息的入党时间也要修改
+            if (member != null) {
+                if (member.getGrowTime() == null || !member.getGrowTime().equals(record.getGrowTime())) {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setGrowTime(record.getGrowTime());
@@ -447,9 +552,9 @@ public class MemberApplyService extends MemberBaseMapper {
                 }
             }
         }
-        if(record.getPositiveTime()!=null){ // 如果修改了转正时间
-            if(member!=null && member.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
-                if (member.getPositiveTime()==null || !member.getPositiveTime().equals(record.getPositiveTime())) {
+        if (record.getPositiveTime() != null) { // 如果修改了转正时间
+            if (member != null && member.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
+                if (member.getPositiveTime() == null || !member.getPositiveTime().equals(record.getPositiveTime())) {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setPositiveTime(record.getPositiveTime());
@@ -464,20 +569,21 @@ public class MemberApplyService extends MemberBaseMapper {
     // 分党委审核预备党员信息，跳过下一步的组织部审核
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
-    public void applyPositiveCheckByParty(int userId, MemberApply record, MemberApplyExample example){
+    public void applyPositiveCheckByParty(int userId, MemberApply record, MemberApplyExample example) {
 
-        if(memberApplyMapper.updateByExampleSelective(record, example)>0){
+        if (memberApplyMapper.updateByExampleSelective(record, example) > 0) {
             memberPositive(userId);
         }
     }
 
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
-    public void denyWhenDeleteMember(int userId){
+    public void denyWhenDeleteMember(int userId) {
         MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(_memberApply!=null && _memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DENY) {
+        if (_memberApply != null && _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY) {
             // 状态检查
-            EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+            EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
+                    OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
             if (_enterApply != null) {
                 EnterApply enterApply = new EnterApply();
                 enterApply.setId(_enterApply.getId());
@@ -507,10 +613,10 @@ public class MemberApplyService extends MemberBaseMapper {
 
     // 成为正式党员
     @Transactional
-    public void memberPositive(int userId){
+    public void memberPositive(int userId) {
 
         MemberApply memberApply = get(userId);
-        if(memberApply==null || memberApply.getIsRemove())
+        if (memberApply == null || memberApply.getIsRemove())
             throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
@@ -533,7 +639,7 @@ public class MemberApplyService extends MemberBaseMapper {
         _record.setPositiveTime(memberApply.getPositiveTime());
         //_record.setBranchId(member.getBranchId());
         // 2. 更新党员政治面貌
-        if(memberService.updateByPrimaryKeySelective(_record) == 0)
+        if (memberService.updateByPrimaryKeySelective(_record) == 0)
             throw new OpException("状态异常，请稍后再试");
     }
 
@@ -543,7 +649,7 @@ public class MemberApplyService extends MemberBaseMapper {
 
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
-        if(sysUser==null || memberApply==null || memberApply.getIsRemove())
+        if (sysUser == null || memberApply == null || memberApply.getIsRemove())
             throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
@@ -588,7 +694,7 @@ public class MemberApplyService extends MemberBaseMapper {
 
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
-        if(sysUser==null || memberApply==null || memberApply.getIsRemove())
+        if (sysUser == null || memberApply == null || memberApply.getIsRemove())
             throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
@@ -628,13 +734,13 @@ public class MemberApplyService extends MemberBaseMapper {
 
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
-    public void memberApply_back(int userId, byte stage){
+    public void memberApply_back(int userId, byte stage) {
 
-        switch (stage){
+        switch (stage) {
             case OwConstants.OW_APPLY_STAGE_GROW: // 党员(正式或预备)打回至预备党员初始状态
-                if(iMemberMapper.memberApplyBackToGrow(userId)==1) {
+                if (iMemberMapper.memberApplyBackToGrow(userId) == 1) {
 
-                    commonMapper.excuteSql("update ow_member set positive_time=null where user_id="+userId);
+                    commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
                     Member record = new Member();
                     record.setUserId(userId);
                     record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW);

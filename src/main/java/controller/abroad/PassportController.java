@@ -1,12 +1,8 @@
 package controller.abroad;
 
-import bean.XlsPassport;
 import bean.XlsUpload;
 import controller.global.OpException;
-import domain.abroad.Passport;
-import domain.abroad.PassportApply;
-import domain.abroad.PassportExample;
-import domain.abroad.TaiwanRecord;
+import domain.abroad.*;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
@@ -46,26 +42,14 @@ import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.DownloadUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.ImageUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PatternUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/abroad")
@@ -973,25 +957,65 @@ public class PassportController extends AbroadBaseController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
-        List<XlsPassport> passports = new ArrayList<XlsPassport>();
-
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
-        for (int k = 0; k < workbook.getNumberOfSheets(); k++) {
-            XSSFSheet sheet = workbook.getSheetAt(k);
 
-            String sheetName = sheet.getSheetName();
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
-            if (StringUtils.equals(sheetName, "证件")) {
+        List<Passport> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
 
-                passports.addAll(XlsUpload.fetchPassports(sheet));
+            row++;
+            Passport record = new Passport();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(userCode)){
+                throw new OpException("第{0}行工作证号为空", row);
             }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            CadreView cadre = cadreService.dbFindByUserId(uv.getId());
+            if (cadre == null){
+                throw new OpException("第{0}行[{1}]不是干部", userCode, uv.getRealname());
+            }
+            record.setCadreId(cadre.getId());
+
+
+            String _metaType = StringUtils.trimToNull(xlsRow.get(1));
+            MetaType metaType = CmTag.getMetaTypeByName("mc_passport_type", _metaType);
+            if (metaType == null) throw new OpException("第{0}行证件类型[{1}]不存在", row, _metaType);
+            record.setClassId(metaType.getId());
+
+            record.setCode(StringUtils.trimToNull(xlsRow.get(2)));
+            record.setAuthority(StringUtils.trimToNull(xlsRow.get(3)));
+            record.setIssueDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(4))));
+            record.setExpiryDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(5))));
+            record.setKeepDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(6))));
+
+            String safeCode = StringUtils.trimToNull(xlsRow.get(7));
+            if(StringUtils.isBlank(safeCode)){
+                throw new OpException("第{0}行保险柜编号为空", row);
+            }
+            SafeBox safeBox = safeBoxService.createIfNotExisted(safeCode);
+            record.setSafeBoxId(safeBox.getId());
+
+            record.setCreateTime(new Date());
+            record.setIsLent(false);
+            record.setCancelConfirm(false);
+            record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
+
+            records.add(record);
         }
 
-        int successCount = passportService.importPassports(passports, AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
+        int successCount = passportService.batchImport(records);
+
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
-        resultMap.put("total", passports.size());
+        resultMap.put("total", records.size());
 
         return resultMap;
     }

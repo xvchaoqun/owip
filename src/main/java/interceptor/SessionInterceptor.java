@@ -114,7 +114,8 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                     return false;
                 }
                 if(servletPath.startsWith("/cas")){
-                    WebUtils.issueRedirect(request, response, "/m/cas");
+
+                    WebUtils.issueRedirect(request, response, "/m/cas", RequestUtils.getParameterMap(request));
                     return false;
                 }
 

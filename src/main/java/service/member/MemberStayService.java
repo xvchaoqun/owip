@@ -356,17 +356,17 @@ public class MemberStayService extends MemberBaseMapper {
                 } else {
                     check1(memberStay.getId());
                 }
-            }
-            if (type == 2) {
+            }else if (type == 2) {
                 VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
                 memberStay = verifyAuth.entity;
 
                 check2(memberStay.getId(), branchId, orgBranchAdminId, orgBranchAdminPhone);
-            }
-            if (type == 3) {
+            }else if (type == 3) {
                 SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
                 memberStay = memberStayMapper.selectByPrimaryKey(id);
                 check3(memberStay.getId());
+            }else{
+                throw new UnauthorizedException();
             }
 
             int userId = memberStay.getUserId();

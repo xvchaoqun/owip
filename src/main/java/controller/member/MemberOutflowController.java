@@ -247,7 +247,6 @@ public class MemberOutflowController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_approval")
     public String memberOutflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
@@ -293,7 +292,6 @@ public class MemberOutflowController extends MemberBaseController {
         return "member/memberOutflow/memberOutflow_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping("/memberOutflow_deny")
     public String memberOutflow_deny(Integer id, ModelMap modelMap) {
@@ -306,7 +304,6 @@ public class MemberOutflowController extends MemberBaseController {
         return "member/memberOutflow/memberOutflow_deny";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping(value = "/memberOutflow_check", method = RequestMethod.POST)
     @ResponseBody
@@ -322,7 +319,6 @@ public class MemberOutflowController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping("/memberOutflow_back")
     public String memberOutflow_back() {
@@ -330,7 +326,6 @@ public class MemberOutflowController extends MemberBaseController {
         return "member/memberOutflow/memberOutflow_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
     @ResponseBody

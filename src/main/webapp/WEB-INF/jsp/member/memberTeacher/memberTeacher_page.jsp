@@ -298,7 +298,7 @@
             { label: '工作证号', name: 'code', width: 120,frozen:true },
             { label: '性别', name: 'gender', width: 55, formatter:$.jgrid.formatter.GENDER},
             { label: '民族',  name: 'nation'},
-            { label: '籍贯',  name: 'nativePlace', width: 80},
+            { label: '籍贯',  name: 'nativePlace', width: 120},
             {label: '年龄', name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE},
             { label: '最高学历', name: 'education' },
             { label: '编制类别', name: 'authorizedType' },
@@ -318,7 +318,7 @@
             <c:if test="${cls==7}">
             { label:'转出时间',  name: 'outHandleTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            { label:'联系手机', name: 'mobile'},
+            { label:'联系手机', name: 'mobile', width: 110},
             <c:if test="${cls>=3}">
             { label:'退休时间', name: 'retireTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'是否离休', name: 'isHonorRetire', formatter:$.jgrid.formatter.TRUEFALSE},

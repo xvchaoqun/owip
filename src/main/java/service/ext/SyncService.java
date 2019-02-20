@@ -607,9 +607,9 @@ public class SyncService extends BaseMapper {
 
         String code = uv.getCode();
         // 教工信息
-        TeacherInfo teacher = new TeacherInfo();
-        teacher.setUserId(userId);
-        teacher.setIsRetire(false); // 此值不能为空
+        TeacherInfo record = new TeacherInfo();
+        record.setUserId(userId);
+        record.setIsRetire(false); // 此值不能为空
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if(extJzg!=null){
@@ -634,34 +634,34 @@ public class SyncService extends BaseMapper {
 
             //+++++++++++++ 同步后面一系列属性
 
-            teacher.setExtPhone(extJzg.getYddh());
-            teacher.setEducation(extJzg.getZhxlmc());
-            teacher.setDegree(extJzg.getZhxw());
+            record.setExtPhone(extJzg.getYddh());
+            record.setEducation(extJzg.getZhxlmc());
+            record.setDegree(extJzg.getZhxw());
             //teacher.setDegreeTime(); 学位授予日期
             //teacher.setMajor(extJzg.getz); 所学专业
-            teacher.setSchool(extJzg.getXlbyxx()); // 学历毕业学校
-            teacher.setDegreeSchool(extJzg.getXwsyxx()); // 学位授予学校
+            record.setSchool(extJzg.getXlbyxx()); // 学历毕业学校
+            record.setDegreeSchool(extJzg.getXwsyxx()); // 学位授予学校
             //teacher.setSchoolType(); 毕业学校类型
             if(extJzg.getLxrq()!=null)
-                teacher.setArriveTime(extJzg.getLxrq());
-            teacher.setAuthorizedType(extJzg.getBzlx());
-            teacher.setStaffType(extJzg.getRylx());
-            teacher.setStaffStatus(extJzg.getRyzt()); // 离退
-            teacher.setPostClass(extJzg.getGwlx()); // 岗位类型
-            teacher.setSubPostClass(extJzg.getGwzlbmc()); // 岗位子类别
-            teacher.setMainPostLevel(extJzg.getZgdjmmc()); // 主岗等级
+                record.setArriveTime(extJzg.getLxrq());
+            record.setAuthorizedType(extJzg.getBzlx());
+            record.setStaffType(extJzg.getRylx());
+            record.setStaffStatus(extJzg.getRyzt()); // 离退
+            record.setPostClass(extJzg.getGwlx()); // 岗位类型
+            record.setSubPostClass(extJzg.getGwzlbmc()); // 岗位子类别
+            record.setMainPostLevel(extJzg.getZgdjmmc()); // 主岗等级
             if(StringUtils.isNotBlank(extJzg.getGlqsrq())) // 工龄起算日期
-                teacher.setWorkStartTime(DateUtils.parseStringToDate(extJzg.getGlqsrq()));
-            teacher.setWorkBreak(extJzg.getJdgl()); // 间断工龄
+                record.setWorkStartTime(DateUtils.parseStringToDate(extJzg.getGlqsrq()));
+            record.setWorkBreak(extJzg.getJdgl()); // 间断工龄
             if(StringUtils.isNotBlank(extJzg.getZzdjsj())) // 转正定级时间
-                teacher.setRegularTime(DateUtils.parseStringToDate(extJzg.getZzdjsj()));
-            teacher.setOnJob(extJzg.getSfzg());
-            teacher.setPersonnelStatus(extJzg.getRszf());
+                record.setRegularTime(DateUtils.parseStringToDate(extJzg.getZzdjsj()));
+            record.setOnJob(extJzg.getSfzg());
+            record.setPersonnelStatus(extJzg.getRszf());
             //teacher.setTitleLevel(extJzg.get); // 职称级别
             //teacher.setPost(extJzg.getXzjb());  行政职务
             // teacher.setPostLevel(); 任职级别
-            teacher.setTalentTitle(extJzg.getRcch());
-            teacher.setTalentType(extJzg.getRclx());
+            record.setTalentTitle(extJzg.getRcch());
+            record.setTalentType(extJzg.getRclx());
             // teacher.setAddress(extJzg.getjz); 居住地址
             // teacher.setMaritalStatus(); 婚姻状况
 
@@ -672,19 +672,19 @@ public class SyncService extends BaseMapper {
             /*teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
                     || StringUtils.equals(extJzg.getSfzg(), "离休") || StringUtils.equals(extJzg.getSfzg(), "内退")
                     || StringUtils.equals(extJzg.getSfzg(), "退休")); 2017-11-15 */
-            teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退"));
+            record.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退"));
 
             //teacher.setRetireTime(); 退休时间
-            teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
+            record.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
 
             syncFilter(ui);
             sysUserService.insertOrUpdateUserInfoSelective(ui);
         }
 
         if(teacherInfo==null)
-            teacherInfoMapper.insertSelective(teacher);
+            teacherInfoMapper.insertSelective(record);
         else
-            teacherInfoMapper.updateByPrimaryKeySelective(teacher);
+            teacherInfoMapper.updateByPrimaryKeySelective(record);
 
         // 干部档案页默认同步人事库信息，不启用系统本身的岗位过程信息； 如果是系统注册账号，则不同步人事库信息
         if(BooleanUtils.isNotTrue(CmTag.getSysConfig().getUseCadrePost()) && extJzg!=null) {
@@ -713,9 +713,9 @@ public class SyncService extends BaseMapper {
         StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(userId);
 
         String code = uv.getCode();
-        StudentInfo student = new StudentInfo();
-        student.setUserId(userId);
-        student.setCreateTime(new Date());
+        StudentInfo record = new StudentInfo();
+        record.setUserId(userId);
+        record.setCreateTime(new Date());
         byte userType = uv.getType();
 
         if(userType ==SystemConstants.USER_TYPE_BKS){  // 同步本科生信息
@@ -746,21 +746,21 @@ public class SyncService extends BaseMapper {
                 ui.setIdcard(extBks.getSfzh());
 
                 //+++++++++++++ 同步后面一系列属性
-                student.setType(extBks.getKslb());
+                record.setType(extBks.getKslb());
                 //student.setEduLevel(extBks.getPycc()); 培养层次
                 //student.setEduType(extBks.getPylx()); 培养类型
                 //student.setEduCategory(extBks.getJylb()); 培养级别
-                student.setEduWay(extBks.getPyfs());
+                record.setEduWay(extBks.getPyfs());
                 //student.setIsFullTime(extBks.get); 是否全日制
                 //student.setEnrolYear(extBks.getZsnd()+""); 招生年度
                 //student.setPeriod(extBks.getXz()+""); 学制
-                student.setGrade(extBks.getNj());
+                record.setGrade(extBks.getNj());
                 //student.setActualEnrolTime(DateUtils.parseStringToDate(extBks.getSjrxny())); 实际入学年月
                 //student.setExpectGraduateTime(DateUtils.parseStringToDate(extBks.getYjbyny())); 预计毕业年月
                 //student.setDelayYear(extBks.getYqbynx()); 预计毕业年限
                 //student.setActualGraduateTime(DateUtils.parseStringToDate(extBks.getSjbyny())); 实际毕业年月
-                student.setSyncSource(SystemConstants.USER_SOURCE_BKS);
-                student.setXjStatus(extBks.getXjzt());
+                record.setSyncSource(SystemConstants.USER_SOURCE_BKS);
+                record.setXjStatus(extBks.getXjzt());
 
                 syncFilter(ui);
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
@@ -787,22 +787,22 @@ public class SyncService extends BaseMapper {
                 //ui.setNativePlace(extYjs.get); 籍贯
 
                 //+++++++++++++ 同步后面一系列属性
-                student.setType(extYjs.getXslb());
-                student.setEduLevel(extYjs.getPycc());
-                student.setEduType(extYjs.getPylx());
-                student.setEduCategory(extYjs.getJylb());
-                student.setEduWay(extYjs.getPyfs());
+                record.setType(extYjs.getXslb());
+                record.setEduLevel(extYjs.getPycc());
+                record.setEduType(extYjs.getPylx());
+                record.setEduCategory(extYjs.getJylb());
+                record.setEduWay(extYjs.getPyfs());
                 //student.setIsFullTime(extYjs.get); 是否全日制
-                student.setEnrolYear(extYjs.getZsnd()+"");
-                student.setPeriod(extYjs.getXz() + "");
-                student.setGrade(extYjs.getNj() + "");
+                record.setEnrolYear(extYjs.getZsnd()+"");
+                record.setPeriod(extYjs.getXz() + "");
+                record.setGrade(extYjs.getNj() + "");
 
-                student.setActualEnrolTime(DateUtils.parseStringToDate(extYjs.getSjrxny()));
-                student.setExpectGraduateTime(DateUtils.parseStringToDate(extYjs.getYjbyny()));
-                student.setDelayYear(extYjs.getYqbynx());
-                student.setActualGraduateTime(DateUtils.parseStringToDate(extYjs.getSjbyny()));
-                student.setSyncSource(SystemConstants.USER_SOURCE_YJS);
-                student.setXjStatus(extYjs.getZt());
+                record.setActualEnrolTime(DateUtils.parseStringToDate(extYjs.getSjrxny()));
+                record.setExpectGraduateTime(DateUtils.parseStringToDate(extYjs.getYjbyny()));
+                record.setDelayYear(extYjs.getYqbynx());
+                record.setActualGraduateTime(DateUtils.parseStringToDate(extYjs.getSjbyny()));
+                record.setSyncSource(SystemConstants.USER_SOURCE_YJS);
+                record.setXjStatus(extYjs.getZt());
 
                 syncFilter(ui);
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
@@ -810,9 +810,9 @@ public class SyncService extends BaseMapper {
         }
 
         if(studentInfo==null)
-            studentInfoMapper.insertSelective(student);
+            studentInfoMapper.insertSelective(record);
         else
-            studentInfoMapper.updateByPrimaryKeySelective(student);
+            studentInfoMapper.updateByPrimaryKeySelective(record);
     }
 
     // 同步信息过滤（部分信息只同步第一次）

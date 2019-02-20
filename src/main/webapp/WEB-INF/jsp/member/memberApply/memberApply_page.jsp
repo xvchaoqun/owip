@@ -126,12 +126,16 @@
                                                             </c:if>
                                                         </a>
                                                     </li>
-                                                    <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
-                                                        <div class="buttons pull-right">
-                                                            <a href="javascript:" class="addBtn btn btn-info btn-sm">
-                                                                <i class="fa fa-plus"></i> 添加入党申请</a>
-                                                        </div>
-                                                    </shiro:hasAnyRoles>
+                                                    <div class="buttons pull-right">
+                                                        <a href="javascript:" class="addBtn btn btn-info btn-sm">
+                                                            <i class="fa fa-plus"></i> 添加入党申请</a>
+                                                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+                                                            <a class="popupBtn btn btn-primary btn-sm tooltip-primary"
+                                                               data-url="${ctx}/memberApply_import"
+                                                               data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                                                批量导入</a>
+                                                        </shiro:hasAnyRoles>
+                                                    </div>
                                                 </ul>
 
                                                 <div class="tab-content no-padding-bottom" >

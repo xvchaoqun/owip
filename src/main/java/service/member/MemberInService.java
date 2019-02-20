@@ -383,7 +383,8 @@ public class MemberInService extends MemberBaseMapper {
 
         if(status==MemberConstants.MEMBER_IN_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
             // 状态检查
-            EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+            EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
+                    OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN);
             //throw new OpException("系统错误");
             if (_enterApply != null) {
                 EnterApply enterApply = new EnterApply();

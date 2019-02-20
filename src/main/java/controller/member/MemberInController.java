@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
@@ -43,12 +42,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberInController extends MemberBaseController {
@@ -297,7 +291,6 @@ public class MemberInController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_approval")
     public String memberIn_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -341,7 +334,6 @@ public class MemberInController extends MemberBaseController {
         return "member/memberIn/memberIn_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_deny")
     public String memberIn_deny(Integer id, ModelMap modelMap) {
@@ -354,7 +346,6 @@ public class MemberInController extends MemberBaseController {
         return "member/memberIn/memberIn_deny";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
     @ResponseBody
@@ -393,7 +384,6 @@ public class MemberInController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_back")
     public String memberIn_back() {
@@ -401,7 +391,6 @@ public class MemberInController extends MemberBaseController {
         return "member/memberIn/memberIn_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody

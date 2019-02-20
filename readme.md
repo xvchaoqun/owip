@@ -30,6 +30,14 @@ left join pmd_norm pn on pn.id = pcmt.norm_id
 set pcm.has_reset=1, pm.due_pay = pcm.due_pay
 where pm.has_pay=0 and  pm.pay_month='2018-05-01' and pcm.has_reset=0 and pn.set_type=2;
 
+-- 把某个缴费账号替换成新账号 （ 用于党建账号错误的情况，先应做转出转入操作，保证新账号是党员）
+set @oriCode = '11312015116';
+set @destCode = '11122016032';
+set @oriUserId = (select id from sys_user where code=@oriCode);
+set @destUserId = (select id from sys_user where code=@destCode);
+update pmd_config_member set user_id=@destUserId where user_id=@origUserId;
+update pmd_member set user_id=@destUserId where user_id=@origUserId;
+
 
 ############
 ## 视图权限

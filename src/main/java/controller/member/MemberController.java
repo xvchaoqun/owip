@@ -1,15 +1,19 @@
 package controller.member;
 
+import bean.XlsUpload;
 import controller.global.OpException;
-import domain.member.Member;
-import domain.member.MemberApply;
-import domain.member.MemberExample;
-import domain.member.MemberStay;
-import domain.member.MemberTeacher;
+import domain.member.*;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
@@ -24,11 +28,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
-import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.*;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
@@ -37,23 +40,22 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 public class MemberController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresPermissions("member:list")
     @RequestMapping("/member/search")
-    public String member_search(){
+    public String member_search() {
 
         return "member/member/member_search";
     }
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+
+    @RequiresPermissions("member:list")
     @RequestMapping(value = "/member/search", method = RequestMethod.POST)
     @ResponseBody
     public Map do_member_search(int userId) {
@@ -65,50 +67,50 @@ public class MemberController extends MemberBaseController {
         String code = "";
         String status = "";
         SysUserView sysUser = sysUserService.findById(userId);
-        if(sysUser==null){
+        if (sysUser == null) {
             msg = "该用户不存在";
-        }else {
+        } else {
             code = sysUser.getCode();
             userType = sysUser.getType();
             realname = sysUser.getRealname();
             unit = extService.getUnit(userId);
             Member member = memberService.get(userId);
-            if(member==null){
+            if (member == null) {
                 msg = "该用户不是党员";
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-                if(memberApply!=null && memberApply.getStage()> OwConstants.OW_APPLY_STAGE_DENY){
-                    msg += "；已进入入党申请阶段【" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) +"】";
+                if (memberApply != null && memberApply.getStage() > OwConstants.OW_APPLY_STAGE_DENY) {
+                    msg += "；已进入入党申请阶段【" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) + "】";
                 }
-            }else{
+            } else {
                 Integer partyId = member.getPartyId();
                 Integer branchId = member.getBranchId();
                 Party party = partyService.findAll().get(partyId);
                 msg = party.getName();
-                if(branchId!=null){
+                if (branchId != null) {
                     Branch branch = branchService.findAll().get(branchId);
-                    if(branch!=null) msg += "-" + branch.getName();
+                    if (branch != null) msg += "-" + branch.getName();
                 }
 
                 // 查询状态
-                if(member.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
+                if (member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL) {
                     status = "正常";
-                }else if(member.getStatus()== MemberConstants.MEMBER_STATUS_TRANSFER){
+                } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
                     status = "已转出";
-                }else if(member.getStatus()==MemberConstants.MEMBER_STATUS_QUIT){
+                } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_QUIT) {
                     status = "已出党";
                 }
 
-                if(member.getType()==MemberConstants.MEMBER_TYPE_TEACHER){
+                if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER) {
                     MemberTeacher memberTeacher = memberTeacherService.get(userId);
-                    if(memberTeacher.getIsRetire())
+                    if (memberTeacher.getIsRetire())
                         status = "已退休";
                 }
 
                 MemberStay memberStay = memberStayService.get(userId);
-                if(memberStay!=null){
-                    if(memberStay.getStatus()==MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY){
+                if (memberStay != null) {
+                    if (memberStay.getStatus() == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
                         status = "出国暂留申请已完成审批";
-                    }else if(memberStay.getStatus()>=MemberConstants.MEMBER_STAY_STATUS_APPLY)
+                    } else if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_APPLY)
                         status = "已申请出国暂留，但还未审核通过";
                 }
             }
@@ -137,6 +139,305 @@ public class MemberController extends MemberBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequestMapping("/member_import")
+    public String member_import(boolean inSchool,
+                                ModelMap modelMap) {
+
+        modelMap.put("inSchool", inSchool);
+        return "member/member/member_import";
+    }
+
+    // 导入校内账号的党员信息
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequestMapping(value = "/member_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_member_import(boolean inSchool, HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<String, Party> runPartyMap = new HashMap<>();
+        for (Party party : partyMap.values()) {
+            if (BooleanUtils.isNotTrue(party.getIsDeleted())) {
+                runPartyMap.put(party.getCode(), party);
+            }
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<String, Branch> runBranchMap = new HashMap<>();
+        for (Branch branch : branchMap.values()) {
+            if (BooleanUtils.isNotTrue(branch.getIsDeleted())) {
+                runBranchMap.put(branch.getCode(), branch);
+            }
+        }
+
+        Map<String, Byte> politicalStatusMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : MemberConstants.MEMBER_POLITICAL_STATUS_MAP.entrySet()) {
+
+            politicalStatusMap.put(entry.getValue(), entry.getKey());
+        }
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        Map<String, Object> resultMap = null;
+
+        if (inSchool) {
+            resultMap = importInSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
+        } else {
+            resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
+        }
+
+        return resultMap;
+    }
+
+    // 导入校内账号的党员信息
+    private Map<String, Object> importInSchoolMember(List<Map<Integer, String>> xlsRows,
+                                                     Map<String, Party> runPartyMap,
+                                                     Map<String, Branch> runBranchMap,
+                                                     Map<String, Byte> politicalStatusMap) {
+
+        Date now = new Date();
+        List<Member> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            Member record = new Member();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)) {
+                continue;
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getId());
+
+            String partyCode = StringUtils.trim(xlsRow.get(2));
+            if (StringUtils.isBlank(partyCode)) {
+                throw new OpException("第{0}行分党委编码为空", row);
+            }
+            Party party = runPartyMap.get(partyCode);
+            if (party == null) {
+                throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
+            }
+            record.setPartyId(party.getId());
+            if (!partyService.isDirectBranch(party.getId())) {
+
+                String branchCode = StringUtils.trim(xlsRow.get(4));
+                if (StringUtils.isBlank(branchCode)) {
+                    throw new OpException("第{0}行党支部编码为空", row);
+                }
+                Branch branch = runBranchMap.get(branchCode);
+                if (branch == null) {
+                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
+                }
+                record.setBranchId(branch.getId());
+            }
+
+            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(6));
+            if (StringUtils.isBlank(_politicalStatus)) {
+                throw new OpException("第{0}行党籍状态为空", row);
+            }
+            Byte politicalStatus = politicalStatusMap.get(_politicalStatus);
+            if (politicalStatus == null) {
+                throw new OpException("第{0}行党籍状态[{1}]有误", row, _politicalStatus);
+            }
+            record.setPoliticalStatus(politicalStatus);
+
+            record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(7))));
+            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8))));
+            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
+            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(10))));
+            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(11))));
+            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
+
+            record.setPartyPost(StringUtils.trimToNull(xlsRow.get(13)));
+            record.setPartyReward(StringUtils.trimToNull(xlsRow.get(14)));
+            record.setOtherReward(StringUtils.trimToNull(xlsRow.get(15)));
+
+            record.setCreateTime(now);
+            records.add(record);
+        }
+
+        int successCount = memberService.batchImportInSchool(records);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
+    }
+
+    // 导入校外账号的党员信息
+    private Map<String, Object> importOutSchoolMember(List<Map<Integer, String>> xlsRows,
+                                                      Map<String, Party> runPartyMap,
+                                                      Map<String, Branch> runBranchMap,
+                                                      Map<String, Byte> politicalStatusMap) {
+
+        Date now = new Date();
+        List<Member> records = new ArrayList<>();
+        List<TeacherInfo> teacherInfos = new ArrayList<>();
+        List<SysUserInfo> sysUserInfos = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            Member record = new Member();
+            TeacherInfo teacherInfo = new TeacherInfo();
+            SysUserInfo sysUserInfo = new SysUserInfo();
+
+            int col = 0;
+            String userCode = StringUtils.trim(xlsRow.get(col++));
+            if (StringUtils.isBlank(userCode)) {
+                continue;
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            int userId = uv.getId();
+            if (uv == null) {
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            SysUserView sysUser = sysUserService.findById(userId);
+            Byte source = sysUser.getSource();
+            if(source==SystemConstants.USER_SOURCE_BKS || source==SystemConstants.USER_SOURCE_YJS
+                    || source==SystemConstants.USER_SOURCE_JZG){
+                throw new OpException("第{0}行学工号[{1}]是学校账号", row, userCode);
+            }
+            record.setUserId(userId);
+            teacherInfo.setUserId(userId);
+            sysUserInfo.setUserId(userId);
+
+            String realname = StringUtils.trim(xlsRow.get(col++));
+            if (StringUtils.isBlank(realname)) {
+                throw new OpException("第{0}行姓名为空", row);
+            }
+            sysUserInfo.setRealname(realname);
+
+            String gender = StringUtils.trim(xlsRow.get(col++));
+            if (StringUtils.contains(gender, "男")) {
+                sysUserInfo.setGender(SystemConstants.GENDER_MALE);
+            } else if (StringUtils.contains(gender, "女")) {
+                sysUserInfo.setGender(SystemConstants.GENDER_FEMALE);
+            } else {
+                sysUserInfo.setGender(SystemConstants.GENDER_UNKNOWN);
+            }
+
+            sysUserInfo.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            sysUserInfo.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            sysUserInfo.setNation(StringUtils.trimToNull(xlsRow.get(col++)));
+            sysUserInfo.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
+            sysUserInfo.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
+            sysUserInfo.setCountry(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setFromType(StringUtils.trimToNull(xlsRow.get(col++))); // 学员结构，本校、境内、京外等
+
+            sysUserInfo.setUnit(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setDegreeTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            teacherInfo.setMajor(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            teacherInfo.setSchool(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setSchoolType(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setDegreeSchool(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setArriveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            teacherInfo.setAuthorizedType(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            teacherInfo.setStaffType(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setStaffStatus(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setPostClass(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setMainPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setOnJob(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setTitleLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setManageLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setOfficeLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            teacherInfo.setPost(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setTalentType(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setTalentTitle(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            teacherInfo.setMaritalStatus(StringUtils.trimToNull(xlsRow.get(col++)));
+            sysUserInfo.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
+            sysUserInfo.setHomePhone(StringUtils.trimToNull(xlsRow.get(col++)));
+            teacherInfo.setIsRetire(StringUtils.equals(xlsRow.get(col++), "是"));
+            teacherInfo.setRetireTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+
+            teacherInfo.setIsHonorRetire(StringUtils.equals(xlsRow.get(col++), "是"));
+
+            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isBlank(_politicalStatus)) {
+                throw new OpException("第{0}行党籍状态为空", row);
+            }
+            Byte politicalStatus = politicalStatusMap.get(_politicalStatus);
+            if (politicalStatus == null) {
+                throw new OpException("第{0}行党籍状态[{1}]有误", row, _politicalStatus);
+            }
+            record.setPoliticalStatus(politicalStatus);
+
+            String partyCode = StringUtils.trim(xlsRow.get(col++));
+            if (StringUtils.isBlank(partyCode)) {
+                throw new OpException("第{0}行分党委编码为空", row);
+            }
+            Party party = runPartyMap.get(partyCode);
+            if (party == null) {
+                throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
+            }
+            record.setPartyId(party.getId());
+
+            col++;
+
+            if (!partyService.isDirectBranch(party.getId())) {
+
+                String branchCode = StringUtils.trim(xlsRow.get(col++));
+                if (StringUtils.isBlank(branchCode)) {
+                    throw new OpException("第{0}行党支部编码为空", row);
+                }
+                Branch branch = runBranchMap.get(branchCode);
+                if (branch == null) {
+                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
+                }
+                record.setBranchId(branch.getId());
+            }
+
+            col++;
+            record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+
+            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setPartyPost(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            record.setCreateTime(now);
+
+            records.add(record);
+            teacherInfos.add(teacherInfo);
+            sysUserInfos.add(sysUserInfo);
+        }
+
+        int successCount = memberService.batchImportOutSchool(records, teacherInfos, sysUserInfos);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     //@RequiresPermissions("member:edit")
@@ -192,8 +493,8 @@ public class MemberController extends MemberBaseController {
             SecurityUtils.getSubject().checkPermission("member:add");
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-            if(memberApply!=null && memberApply.getStage()>=OwConstants.OW_APPLY_STAGE_INIT){
-                return failed("该用户已经提交了入党申请[当前审批阶段："+OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage())+"]，不可以直接添加。");
+            if (memberApply != null && memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_INIT) {
+                return failed("该用户已经提交了入党申请[当前审批阶段：" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) + "]，不可以直接添加。");
             }
 
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常
@@ -295,6 +596,7 @@ public class MemberController extends MemberBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
     // 修改党籍状态
     @RequiresPermissions("member:modifyStatus")
     @RequestMapping("/member_modify_status")
@@ -305,6 +607,7 @@ public class MemberController extends MemberBaseController {
 
         return "member/member/member_modify_status";
     }
+
     @RequiresPermissions("member:modifyStatus")
     @RequestMapping(value = "/member_modify_status", method = RequestMethod.POST)
     @ResponseBody
@@ -421,7 +724,7 @@ public class MemberController extends MemberBaseController {
 
             memberService.batchDel(ids);
 
-            logger.info(addLog(LogConstants.LOG_MEMBER, "批量删除党员：%s", JSONUtils.toString(members,false)));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "批量删除党员：%s", JSONUtils.toString(members, false)));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -435,7 +738,7 @@ public class MemberController extends MemberBaseController {
          * cls=1 学生党员 member.type=3 member.status=1
          * cls=6 已转出的学生党员
          */
-        if (cls == 1 || cls==6) {
+        if (cls == 1 || cls == 6) {
             return "forward:/memberStudent";
         }
         /*
@@ -445,7 +748,7 @@ public class MemberController extends MemberBaseController {
                 （弃用）5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
                 cls=7 已转出的教工党员
          */
-         return "forward:/memberTeacher";
+        return "forward:/memberTeacher";
     }
 
     @RequestMapping("/member_view")
@@ -460,7 +763,7 @@ public class MemberController extends MemberBaseController {
             Integer loginUserId = loginUser.getId();
             boolean isBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, partyId, branchId);
             boolean isPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, partyId);
-            if(!isBranchAdmin && !isPartyAdmin){
+            if (!isBranchAdmin && !isPartyAdmin) {
                 throw new UnauthorizedException();
             }
         }

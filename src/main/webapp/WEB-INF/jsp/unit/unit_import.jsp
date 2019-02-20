@@ -10,7 +10,7 @@
 		  action="${ctx}/unit_import" method="post">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label">Excel文件</label>
-			<div class="col-xs-4">
+			<div class="col-xs-6">
 				<input type="file" name="xlsx" required extension="xlsx"/>
 			</div>
 		</div>

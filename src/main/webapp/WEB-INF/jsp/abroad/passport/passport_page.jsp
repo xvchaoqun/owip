@@ -51,8 +51,8 @@ pageEncoding="UTF-8" %>
                                        data-url="${ctx}/abroad/passport_batchDel" data-title="证件删除"
                                        data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
-                                <a class="importBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 导入</a>
+                                <a class="importBtn btn btn-info btn-sm tooltip-info"
+                                   data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 批量导入</a>
                             </c:if>
 
                             <c:if test="${status==ABROAD_PASSPORT_TYPE_CANCEL || status==4}">

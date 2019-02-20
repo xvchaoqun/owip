@@ -1,6 +1,5 @@
 package service.cet;
 
-import bean.XlsTrainCourse;
 import controller.global.OpException;
 import domain.cet.*;
 import org.apache.commons.lang3.BooleanUtils;
@@ -240,26 +239,18 @@ public class CetTrainCourseService extends CetBaseMapper {
         return 0;
     }
 
-
     @Transactional
     @CacheEvict(value = "CetTrainCourses", key = "#trainId")
-    public int imports(final List<XlsTrainCourse> beans, int trainId) {
+    public int batchImport(List<CetTrainCourse> records) {
 
-        int success = 0;
-        for (XlsTrainCourse uRow : beans) {
-
-            CetTrainCourse record = new CetTrainCourse();
-            record.setName(uRow.getName());
-            record.setTeacher(uRow.getTeacher());
-            record.setStartTime(uRow.getStartTime());
-            record.setEndTime(uRow.getEndTime());
-            record.setTrainId(trainId);
+        int addCount = 0;
+        for (CetTrainCourse record : records) {
 
             insertSelective(record);
-            success++;
+            addCount++;
         }
 
-        return success;
+        return addCount;
     }
 
     // 获取课程参训人（已选课学员） <userId, CetTraineeCourseView>

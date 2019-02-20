@@ -290,10 +290,10 @@ public class MemberTeacherController extends MemberBaseController {
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100","姓名|50",
                 "编制类别|80","人员类别|100","人员状态|80","在岗情况|80","岗位类别|80", "主岗等级|120",
                 "性别|50","出生日期|80", "年龄|50","年龄范围|80","民族|50", "国家/地区|80", "证件号码|150",
-                "政治面貌|80","所在分党委、党总支、直属党支部|300","所在党支部|300", "所在单位|200", "入党时间|80","到校日期|80",
+                "政治面貌|80","所在分党委、党总支、直属党支部|300","所在党支部|300", "所在单位|200", "入党时间|80","转正时间|80","到校日期|80",
                 "专业技术职务|120","专技岗位等级|120","管理岗位等级|120","任职级别|120",
                 "行政职务|180","学历|120","学历毕业学校|200","学位授予学校|200",
-                "学位|100","学员结构|100", "人才类型|100", "人才称号|200", "手机号码|80"}));
+                "学位|100","学员结构|100", "人才类型|100", "人才称号|200", "手机号码|100"}));
         if(cls==3){
             titles.add(6, "离退休时间|80");
         }
@@ -339,6 +339,7 @@ public class MemberTeacherController extends MemberBaseController {
                     branchId==null?"":branchMap.get(branchId).getName(),
                     uv.getUnit(), // 所在单位
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record.getProPost(), // 专业技术职务
                     record.getProPostLevel(), //专技岗位等级
@@ -361,7 +362,7 @@ public class MemberTeacherController extends MemberBaseController {
 
             valuesList.add(values);
         }
-        String fileName = (cls==7?"已转出":"")+"教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = (cls==7?"已转出":"")+"教职工党员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
 
         ExportHelper.export(titles, valuesList, fileName, response);
     }

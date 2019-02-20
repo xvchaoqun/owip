@@ -1,7 +1,7 @@
 package controller.cet;
 
-import bean.XlsTrainCourse;
 import bean.XlsUpload;
+import controller.global.OpException;
 import domain.cet.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -534,14 +534,38 @@ public class CetTrainCourseController extends CetBaseController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
-        List<XlsTrainCourse> records = new ArrayList<XlsTrainCourse>();
-
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        records.addAll(XlsUpload.fetchTrainCourses(sheet));
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
-        int successCount = cetTrainCourseService.imports(records, trainId);
+        List<CetTrainCourse> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            CetTrainCourse record = new CetTrainCourse();
+
+            String name = StringUtils.trimToNull(xlsRow.get(0));
+            if(StringUtils.isBlank(name)){
+                throw new OpException("第{0}行课程名称为空", row);
+            }
+            record.setName(name);
+
+            String teacher = StringUtils.trimToNull(xlsRow.get(1));
+            if(StringUtils.isBlank(teacher)){
+                throw new OpException("第{0}行教师姓名为空", row);
+            }
+            record.setTeacher(teacher);
+
+            record.setStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(2))));
+            record.setEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(3))));
+
+            record.setTrainId(trainId);
+            records.add(record);
+        }
+
+        int successCount = cetTrainCourseService.batchImport(records);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
         resultMap.put("total", records.size());

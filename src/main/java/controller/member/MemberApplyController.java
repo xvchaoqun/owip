@@ -1,5 +1,7 @@
 package controller.member;
 
+import bean.XlsUpload;
+import controller.global.OpException;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
 import domain.member.MemberApplyView;
@@ -11,10 +13,13 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -31,13 +36,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.member.common.MemberApplyCount;
 import service.member.MemberApplyOpService;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -60,12 +64,135 @@ public class MemberApplyController extends MemberBaseController {
         return super.checkVerityAuth(memberApply, memberApply.getPartyId(), memberApply.getBranchId());
     }
 
-    private VerifyAuth<MemberApply> checkVerityAuth2(int userId) {
-        MemberApply memberApply = memberApplyService.get(userId);
-        return super.checkVerityAuth2(memberApply, memberApply.getPartyId());
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:import")
+    @RequestMapping("/memberApply_import")
+    public String memberApply_import(ModelMap modelMap) {
+
+        return "member/memberApply/memberApply_import";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    // 导入
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:import")
+    @RequestMapping(value = "/memberApply_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<String, Party> runPartyMap = new HashMap<>();
+        for (Party party : partyMap.values()) {
+            if(BooleanUtils.isNotTrue(party.getIsDeleted())){
+                runPartyMap.put(party.getCode(), party);
+            }
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<String, Branch> runBranchMap = new HashMap<>();
+        for (Branch branch : branchMap.values()) {
+            if(BooleanUtils.isNotTrue(branch.getIsDeleted())){
+                runBranchMap.put(branch.getCode(), branch);
+            }
+        }
+
+        Map<String, Byte> stageMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : OwConstants.OW_APPLY_STAGE_MAP.entrySet()) {
+
+            stageMap.put(entry.getValue(), entry.getKey());
+        }
+
+        Date now = new Date();
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<MemberApply> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            MemberApply record = new MemberApply();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(userCode)){
+                continue;
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getId());
+
+            if(uv.getType()==SystemConstants.USER_TYPE_JZG){
+                record.setType(OwConstants.OW_APPLY_TYPE_TEACHER);
+            }else{
+                record.setType(OwConstants.OW_APPLY_TYPE_STU);
+            }
+
+            String partyCode = StringUtils.trim(xlsRow.get(2));
+            if(StringUtils.isBlank(partyCode)){
+                throw new OpException("第{0}行联系分党委编码为空", row);
+            }
+            Party party = runPartyMap.get(partyCode);
+            if (party == null){
+                throw new OpException("第{0}行联系分党委编码[{1}]不存在", row, partyCode);
+            }
+            record.setPartyId(party.getId());
+            if(!partyService.isDirectBranch(party.getId())){
+
+                String branchCode = StringUtils.trim(xlsRow.get(4));
+                if(StringUtils.isBlank(branchCode)){
+                    throw new OpException("第{0}行联系党支部编码为空", row);
+                }
+                Branch branch = runBranchMap.get(branchCode);
+                if (branch == null){
+                    throw new OpException("第{0}行联系党支部编码[{1}]不存在", row, partyCode);
+                }
+                record.setBranchId(branch.getId());
+            }
+
+            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(6))));
+            record.setFillTime(record.getApplyTime());
+
+            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(7))));
+            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8))));
+            record.setTrainTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
+            record.setPlanTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(10))));
+            record.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(11))));
+            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
+            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
+
+            String _stage = StringUtils.trimToNull(xlsRow.get(14));
+            if(StringUtils.isBlank(_stage)){
+                throw new OpException("第{0}行当前状态为空");
+            }
+            Byte stage = stageMap.get(_stage);
+            if(stage==null){
+                throw new OpException("第{0}行当前状态[{1}]不存在", row, _stage);
+            }
+            record.setStage(stage);
+
+            record.setIsRemove(false);
+            record.setCreateTime(now);
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(15)));
+
+            records.add(record);
+        }
+
+        int successCount = memberApplyService.batchImport(records);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
+    }
+
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_approval")
     public String memberApply_approval(@CurrentUser SysUserView loginUser, Integer userId,
@@ -130,7 +257,6 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply")
     public String memberApply(@RequestParam(defaultValue = "1") int cls,
@@ -214,7 +340,6 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_page";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_data")
     public void memberApply_data(HttpServletResponse response,
@@ -317,7 +442,6 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     // 后台添加入党申请
-    //@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequestMapping("/memberApply_au")
     public String memberApply_au(Integer userId, ModelMap modelMap) {
 
@@ -344,7 +468,6 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_au";
     }
 
-    //@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/memberApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply_au(@CurrentUser SysUserView loginUser, int userId, Integer partyId,
@@ -778,7 +901,6 @@ public class MemberApplyController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:update")
     @RequestMapping("/memberApply_back")
     public String memberApply_back() {
@@ -786,7 +908,6 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:update")
     @RequestMapping(value = "/memberApply_back", method = RequestMethod.POST)
     @ResponseBody
@@ -801,8 +922,6 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //移除记录（只允许移除未发展的）
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN,
-            RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:remove")
     @RequestMapping("/memberApply_remove")
     public String memberApply_remove() {
@@ -810,8 +929,6 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_remove";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN,
-            RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:remove")
     @RequestMapping(value = "/memberApply_remove", method = RequestMethod.POST)
     @ResponseBody
@@ -824,7 +941,6 @@ public class MemberApplyController extends MemberBaseController {
     }
 
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApplyLog")
     public String memberApplyLog(@RequestParam(defaultValue = "1") int cls,

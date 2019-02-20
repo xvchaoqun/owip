@@ -272,7 +272,6 @@ public class MemberInflowController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow_approval")
     public String memberInflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
@@ -318,7 +317,6 @@ public class MemberInflowController extends MemberBaseController {
         return "member/memberInflow/memberInflow_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:update")
     @RequestMapping("/memberInflow_deny")
     public String memberInflow_deny(Integer id, ModelMap modelMap) {
@@ -331,7 +329,6 @@ public class MemberInflowController extends MemberBaseController {
         return "member/memberInflow/memberInflow_deny";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:update")
     @RequestMapping(value = "/memberInflow_check", method = RequestMethod.POST)
     @ResponseBody
@@ -347,7 +344,6 @@ public class MemberInflowController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:update")
     @RequestMapping("/memberInflow_back")
     public String memberInflow_back() {
@@ -355,7 +351,6 @@ public class MemberInflowController extends MemberBaseController {
         return "member/memberInflow/memberInflow_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:update")
     @RequestMapping(value = "/memberInflow_back", method = RequestMethod.POST)
     @ResponseBody

@@ -320,7 +320,6 @@ public class MemberStayController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_approval")
     public String memberStay_approval(@RequestParam(defaultValue = "1") byte cls,
@@ -395,7 +394,6 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_deny")
     public String memberStay_deny(Integer id, ModelMap modelMap) {
@@ -408,7 +406,6 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_deny";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_check", method = RequestMethod.POST)
     @ResponseBody
@@ -424,7 +421,6 @@ public class MemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_back")
     public String memberStay_back() {
@@ -432,7 +428,6 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
@@ -448,7 +443,6 @@ public class MemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_transfer")
     public String memberStay_transfer(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -466,7 +460,6 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_transfer";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_transfer", method = RequestMethod.POST)
     @ResponseBody

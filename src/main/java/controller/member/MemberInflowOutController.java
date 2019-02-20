@@ -211,7 +211,6 @@ public class MemberInflowOutController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:list")
     @RequestMapping("/memberInflowOut_approval")
     public String memberInflowOut_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
@@ -257,7 +256,6 @@ public class MemberInflowOutController extends MemberBaseController {
         return "member/memberInflowOut/memberInflowOut_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping("/memberInflowOut_deny")
     public String memberInflowOut_deny(Integer id, ModelMap modelMap) {
@@ -270,7 +268,6 @@ public class MemberInflowOutController extends MemberBaseController {
         return "member/memberInflowOut/memberInflowOut_deny";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping(value = "/memberInflowOut_check", method = RequestMethod.POST)
     @ResponseBody
@@ -286,7 +283,6 @@ public class MemberInflowOutController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping("/memberInflowOut_back")
     public String memberInflowOut_back() {
@@ -294,7 +290,6 @@ public class MemberInflowOutController extends MemberBaseController {
         return "member/memberInflowOut/memberInflowOut_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody

@@ -4,7 +4,9 @@ import controller.global.OpException;
 import domain.member.*;
 import domain.party.Branch;
 import domain.party.EnterApply;
+import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
@@ -21,6 +23,7 @@ import service.member.MemberApplyService;
 import service.member.MemberBaseMapper;
 import service.sys.LogService;
 import service.sys.SysUserService;
+import service.sys.TeacherInfoService;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.tags.CmTag;
@@ -28,7 +31,6 @@ import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +38,7 @@ import java.util.Map;
 
 @Service
 public class MemberService extends MemberBaseMapper {
-    
+
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
@@ -48,10 +50,12 @@ public class MemberService extends MemberBaseMapper {
     private BranchService branchService;
     @Autowired
     private LogService logService;
+    @Autowired
+    private TeacherInfoService teacherInfoService;
 
     public Member get(int userId) {
 
-        if(memberMapper==null) return null;
+        if (memberMapper == null) return null;
         return memberMapper.selectByPrimaryKey(userId);
     }
 
@@ -79,9 +83,8 @@ public class MemberService extends MemberBaseMapper {
     public void dbUpdate(int userId) {
 
         EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
-
-        EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-        if (_enterApply != null && _enterApply.getType() != OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW) {
+        EnterApply _enterApply = enterApplyService.checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
+        if (_enterApply != null) {
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());
             enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
@@ -94,11 +97,8 @@ public class MemberService extends MemberBaseMapper {
 
             // 同步教职工信息到ow_member_teacher表
             syncService.snycTeacherInfo(userId, uv);
-        } else if (type == SystemConstants.USER_TYPE_BKS) {
-
-            // 同步本科生信息到 ow_member_student表
-            syncService.snycStudent(userId, uv);
-        } else if (type == SystemConstants.USER_TYPE_YJS) {
+        } else if (type == SystemConstants.USER_TYPE_BKS
+                || type == SystemConstants.USER_TYPE_YJS) {
 
             // 同步研究生信息到 ow_member_student表
             syncService.snycStudent(userId, uv);
@@ -110,13 +110,53 @@ public class MemberService extends MemberBaseMapper {
         sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
     }
 
+    // 批量导入
     @Transactional
-    public void add(Member record) {
+    public int batchImportInSchool(List<Member> records){
+
+        int addCount = 0;
+        for (Member record : records) {
+            if(add(record)){
+                addCount++;
+            }
+
+            addModify(record.getUserId(), "批量导入党员信息");
+        }
+
+        return addCount;
+    }
+    // 批量导入
+    @Transactional
+    public int batchImportOutSchool(List<Member> records,
+                                    List<TeacherInfo> teacherInfos,
+                                    List<SysUserInfo> sysUserInfos){
+
+        int addCount = 0;
+        for (Member record : records) {
+            if(add(record)){
+                addCount++;
+            }
+            addModify(record.getUserId(), "批量导入党员信息");
+        }
+
+        for (TeacherInfo teacherInfo : teacherInfos) {
+            teacherInfoService.updateByPrimaryKeySelective(teacherInfo);
+        }
+
+        for (SysUserInfo sysUserInfo : sysUserInfos) {
+            sysUserService.insertOrUpdateUserInfoSelective(sysUserInfo);
+        }
+
+        return addCount;
+    }
+
+    @Transactional
+    public boolean add(Member record) {
 
         EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
 
         EnterApply _enterApply = enterApplyService.getCurrentApply(record.getUserId());
-        if (_enterApply != null && _enterApply.getType() != OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW) {
+        if (_enterApply != null) {
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());
             enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
@@ -142,16 +182,18 @@ public class MemberService extends MemberBaseMapper {
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             syncService.snycStudent(userId, uv);
         } else {
-            throw new OpException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
+            throw new OpException("账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
         }
 
+        boolean isAdd = false;
         Member _member = get(userId);
-        if (_member != null ) {
+        if (_member != null) {
             // 允许转出后用原账号转入
             Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1, "db update failed");
         } else if (_member == null) {
             Assert.isTrue(memberMapper.insertSelective(record) == 1, "db insert failed");
-        } else throw new OpException("数据异常，入党失败（已是党员或已转出）。" + uv.getCode() + "," + uv.getRealname());
+            isAdd = true;
+        }
 
         // 如果是预备党员，则要进入申请入党预备党员阶段（直接添加预备党员时发生）
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
@@ -159,6 +201,8 @@ public class MemberService extends MemberBaseMapper {
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
+
+        return isAdd;
     }
 
 
@@ -253,7 +297,7 @@ public class MemberService extends MemberBaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
             if (memberOuts.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts,false)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts, false)));
                 memberOutMapper.deleteByExample(example);
             }
         }
@@ -262,7 +306,7 @@ public class MemberService extends MemberBaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberStay> memberStays = memberStayMapper.selectByExample(example);
             if (memberStays.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(memberStays,false)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(memberStays, false)));
                 memberStayMapper.deleteByExample(example);
             }
         }
@@ -271,7 +315,7 @@ public class MemberService extends MemberBaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
             if (memberTransfers.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers,false)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers, false)));
                 memberTransferMapper.deleteByExample(example);
             }
         }
@@ -280,7 +324,7 @@ public class MemberService extends MemberBaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExample(example);
             if (memberOutflows.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows,false)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows, false)));
                 memberOutflowMapper.deleteByExample(example);
             }
         }
@@ -332,13 +376,13 @@ public class MemberService extends MemberBaseMapper {
 
     public void addModify(int userId, String reason) {
 
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        if (member == null) return;
         MemberModify modify = new MemberModify();
         try {
             ConvertUtils.register(new DateConverter(null), java.util.Date.class);
-            BeanUtils.copyProperties(modify, memberMapper.selectByPrimaryKey(userId));
-        } catch (IllegalAccessException e) {
-            logger.error("异常", e);
-        } catch (InvocationTargetException e) {
+            BeanUtils.copyProperties(modify, member);
+        } catch (Exception e) {
             logger.error("异常", e);
         }
         modify.setReason(reason);

@@ -192,7 +192,6 @@ public class MemberQuitController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberQuit:list")
     @RequestMapping("/memberQuit_approval")
     public String memberQuit_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -245,7 +244,6 @@ public class MemberQuitController extends MemberBaseController {
         return "member/memberQuit/memberQuit_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberQuit:update")
     @RequestMapping("/memberQuit_deny")
     public String memberQuit_deny(Integer id, ModelMap modelMap) {
@@ -258,7 +256,6 @@ public class MemberQuitController extends MemberBaseController {
         return "member/memberQuit/memberQuit_deny";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberQuit:update")
     @RequestMapping(value = "/memberQuit_check", method = RequestMethod.POST)
     @ResponseBody
@@ -274,7 +271,6 @@ public class MemberQuitController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberQuit:update")
     @RequestMapping("/memberQuit_back")
     public String memberQuit_back() {
@@ -282,7 +278,6 @@ public class MemberQuitController extends MemberBaseController {
         return "member/memberQuit/memberQuit_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberQuit:update")
     @RequestMapping(value = "/memberQuit_back", method = RequestMethod.POST)
     @ResponseBody

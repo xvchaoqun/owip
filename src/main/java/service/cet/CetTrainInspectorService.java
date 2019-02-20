@@ -1,6 +1,5 @@
 package service.cet;
 
-import bean.XlsCetTrainInspector;
 import bean.XlsUpload;
 import controller.global.OpException;
 import domain.cadre.CadreView;
@@ -20,9 +19,7 @@ import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CetTrainInspectorService extends CetBaseMapper {
@@ -118,31 +115,36 @@ public class CetTrainInspectorService extends CetBaseMapper {
             OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
             XSSFWorkbook workbook = new XSSFWorkbook(pkg);
             XSSFSheet sheet = workbook.getSheetAt(0);
-            List<XlsCetTrainInspector> rowBeans = XlsUpload.fetchCetTrainInspectors(sheet);
+            List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
-            for (XlsCetTrainInspector rowBean : rowBeans) {
+            for (Map<Integer, String> xlsRow : xlsRows) {
 
-                String mobile = rowBean.getMobile();
-                CetTrainInspector cetTrainInspector = tryLogin(trainId, mobile);
+                String mobile = StringUtils.trimToNull(xlsRow.get(0));
+                if(StringUtils.isBlank(mobile)) continue;
+
+                String realname = StringUtils.trimToNull(xlsRow.get(1));
+                if(StringUtils.isBlank(realname)) continue;
+
+                CetTrainInspector cetTrainInspector = get(trainId, mobile);
                 if(cetTrainInspector!=null){
                     // 手机号存在则进行更新操作
-                    CetTrainInspector record = new CetTrainInspector();
-                    record.setId(cetTrainInspector.getId());
-                    record.setRealname(rowBean.getRealname());
-                    cetTrainInspectorMapper.updateByPrimaryKeySelective(record);
+                    CetTrainInspector _record = new CetTrainInspector();
+                    _record.setId(cetTrainInspector.getId());
+                    _record.setRealname(realname);
+                    cetTrainInspectorMapper.updateByPrimaryKeySelective(_record);
                 }else{
 
-                    CetTrainInspector record = new CetTrainInspector();
-                    record.setTrainId(trainId);
-                    record.setUsername(buildUsername());
-                    record.setPasswd(RandomStringUtils.randomNumeric(6));
-                    record.setMobile(mobile);
-                    record.setRealname(rowBean.getRealname());
-                    record.setType(type);
-                    record.setStatus(CetConstants.CET_TRAIN_INSPECTOR_STATUS_INIT);
-                    record.setCreateTime(now);
+                    CetTrainInspector _record = new CetTrainInspector();
+                    _record.setTrainId(trainId);
+                    _record.setUsername(buildUsername());
+                    _record.setPasswd(RandomStringUtils.randomNumeric(6));
+                    _record.setMobile(mobile);
+                    _record.setRealname(realname);
+                    _record.setType(type);
+                    _record.setStatus(CetConstants.CET_TRAIN_INSPECTOR_STATUS_INIT);
+                    _record.setCreateTime(now);
 
-                    cetTrainInspectorMapper.insert(record);
+                    cetTrainInspectorMapper.insert(_record);
                 }
             }
         }
@@ -185,7 +187,7 @@ public class CetTrainInspectorService extends CetBaseMapper {
             // 使用工作证号当做账号
             String mobile = cv.getCode();
             String realname = cv.getRealname();
-            CetTrainInspector cetTrainInspector = tryLogin(trainId, mobile);
+            CetTrainInspector cetTrainInspector = get(trainId, mobile);
             if (cetTrainInspector != null) {
                 // 存在则进行更新操作
                 CetTrainInspector record = new CetTrainInspector();
@@ -289,7 +291,7 @@ public class CetTrainInspectorService extends CetBaseMapper {
     }
 
     // 实名测评 登录
-    public CetTrainInspector tryLogin(int trainId, String mobile) {
+    public CetTrainInspector get(int trainId, String mobile) {
 
         mobile = StringUtils.trimToNull(mobile);
         if( mobile==null) return null;

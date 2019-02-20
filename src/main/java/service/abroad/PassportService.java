@@ -1,11 +1,8 @@
 package service.abroad;
 
-import bean.XlsPassport;
 import controller.global.OpException;
 import domain.abroad.*;
 import domain.base.MetaType;
-import domain.cadre.CadreView;
-import domain.sys.SysUserView;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -16,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.abroad.common.PassportSearchBean;
-import service.cadre.CadreService;
-import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
@@ -30,68 +25,27 @@ public class PassportService extends AbroadBaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SysUserService sysUserService;
-    @Autowired
-    private CadreService cadreService;
-    @Autowired
-    private SafeBoxService safeBoxService;
-    @Autowired
     private PassportApplyService passportApplyService;
 
     @Transactional
-    public int importPassports(final List<XlsPassport> passports, byte type) {
+    public int batchImport(List<Passport> records) {
 
-        //int duplicate = 0;
-        int success = 0;
-        for (XlsPassport uRow : passports) {
+        int addCount = 0;
+        for (Passport record : records) {
 
-            Passport record = new Passport();
-
-            String userCode = uRow.getUserCode();
-            SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null) throw new OpException("工作证号{0}不存在", userCode);
-            CadreView cadre = cadreService.dbFindByUserId(uv.getId());
-            if (cadre == null){
-                logger.error("工作证号：{} 姓名：{} 不是干部", userCode, uv.getRealname());
-                continue;
-                //throw new OpException("工作证号：{0} 姓名：{1} 不是干部", userCode, uv.getRealname());
+            Map<String, Object> passportResultMap = findPassportResultMap(record.getId(), record.getType(), record.getCadreId(),
+                    record.getClassId(), record.getCode());
+            Passport passport = (Passport)passportResultMap.get("passport");
+            if(passport==null) {
+                add(record, null, null);
+                addCount++;
+            }else{
+                record.setId(passport.getId());
+                updateByPrimaryKeySelective(record);
             }
-            record.setCadreId(cadre.getId());
-            record.setType(type);
-
-            int passportType = uRow.getPassportType();
-            record.setClassId(passportType);
-
-            record.setCode(uRow.getCode());
-
-            record.setAuthority(uRow.getAuthority());
-
-            record.setIssueDate(uRow.getIssueDate());
-            record.setExpiryDate(uRow.getExpiryDate());
-            record.setKeepDate(uRow.getKeepDate());
-
-            //
-            if(StringUtils.isBlank(uRow.getSafeCode())){
-                throw new OpException("工作证号：{0} 姓名：{1} 保险柜编号为空", userCode, uv.getRealname());
-            }
-            SafeBox safeBox = safeBoxService.createIfNotExisted(uRow.getSafeCode());
-
-            record.setSafeBoxId(safeBox.getId());
-            record.setCreateTime(new Date());
-            record.setIsLent(false);
-            record.setCancelConfirm(false);
-
-            if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()) > 0) {
-                MetaType mcPassportType = CmTag.getMetaType(passportType);
-                throw new OpException("导入失败，工作证号：" + uRow.getUserCode() + "[" + mcPassportType.getName() + "]重复");
-            }
-
-            add(record, null, null);
-
-            success++;
         }
 
-        return success;
+        return addCount;
     }
 
     // <passportClassId, Passport>
@@ -129,33 +83,46 @@ public class PassportService extends AbroadBaseMapper {
                 type = AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP; // 默认存入集中保管
         }
 
-        return updateIdDuplicate(id, type, cadreId, classId, code);
+        Map<String, Object> resultMap = findPassportResultMap(id, type, cadreId, classId, code);
+        return (int) resultMap.get("status");
     }
 
-    // 判断是否重复（修改类别） 0 不重复  1证件号码重复 2证件类别重复
-    public int updateIdDuplicate(Integer id, Byte type, int cadreId, int classId, String code) {
+    // 查找证件，用于判断是否重复  map.get("status")： 0 不重复  1证件号码重复 2证件类别重复
+    public Map<String, Object> findPassportResultMap(Integer id, Byte type, int cadreId, int classId, String code) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("status", 0); // 不重复
 
         if (StringUtils.isNotBlank(code)) {
             // 证件号码不允许重复
             PassportExample example = new PassportExample();
             PassportExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
             if (id != null) criteria.andIdNotEqualTo(id);
-            if (passportMapper.countByExample(example) > 0) return 1;
+
+            List<Passport> passports = passportMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+            if(passports.size()>0){
+                resultMap.put("status", 1); // 证件号码重复
+                resultMap.put("passport", passports.get(0));
+            }
         }
 
         if (type == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP) {
             //“集中管理证件”中不存在同一个人有两本护照（或者港澳通行证、台湾通行证）就可以。
             // 其他三个“取消集中管理、丢失证件、作废证件”中，一个人可以有两本护照。
-            PassportExample example2 = new PassportExample();
-            PassportExample.Criteria criteria2 =
-                    example2.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
+            PassportExample example = new PassportExample();
+            PassportExample.Criteria criteria =
+                    example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
                             .andClassIdEqualTo(classId);
-            if (id != null) criteria2.andIdNotEqualTo(id);
+            if (id != null) criteria.andIdNotEqualTo(id);
 
-            if (passportMapper.countByExample(example2) > 0) return 2;
+            List<Passport> passports = passportMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+            if(passports.size()>0){
+                resultMap.put("status", 2); // 证件类别重复
+                resultMap.put("passport", passports.get(0));
+            }
         }
 
-        return 0;
+        return resultMap;
     }
 
     @Transactional
@@ -258,8 +225,9 @@ public class PassportService extends AbroadBaseMapper {
         if (id != null) {
             Passport passport = passportMapper.selectByPrimaryKey(id);
 
-            if (updateIdDuplicate(id, AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP,
-                    passport.getCadreId(), passport.getClassId(), passport.getCode()) > 0) {
+            Map<String, Object> resultMap = findPassportResultMap(id, AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP,
+                    passport.getCadreId(), passport.getClassId(), passport.getCode());
+            if ( (int) resultMap.get("status") > 0) {
                 MetaType mcPassportType = CmTag.getMetaType(passport.getClassId());
                 throw new OpException("返回集中管理失败，" + passport.getUser().getRealname()
                         + "[" + mcPassportType.getName() + "]证件重复");
@@ -329,9 +297,11 @@ public class PassportService extends AbroadBaseMapper {
     //证件找回
     @Transactional
     public int back(Passport record) {
-        if (StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(0 == updateIdDuplicate(record.getId(), AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP,
-                    record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");
+        if (StringUtils.isNotBlank(record.getCode())) {
+            Map<String, Object> resultMap = findPassportResultMap(record.getId(), AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP,
+                    record.getCadreId(), record.getClassId(), record.getCode());
+            Assert.isTrue(0 == ( int)resultMap.get("status"), "duplicate");
+        }
 
         Passport passport = passportMapper.selectByPrimaryKey(record.getId());
         Assert.isTrue(passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_LOST, "wrong type");

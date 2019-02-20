@@ -13,7 +13,7 @@
         <input name="type" type="hidden" value="${param.type}">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label">Excel文件</label>
-			<div class="col-xs-4">
+			<div class="col-xs-6">
 				<input type="hidden" name="status" value="${status}"/>
 				<input type="file" name="xlsx" required extension="xlsx"/>
 			</div>

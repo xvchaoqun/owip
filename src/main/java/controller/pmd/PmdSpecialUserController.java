@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import bean.XlsPmdSpecialUser;
 import bean.XlsUpload;
 import domain.pmd.PmdSpecialUser;
 import domain.pmd.PmdSpecialUserExample;
@@ -33,12 +32,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/pmd")
@@ -164,14 +158,22 @@ public class PmdSpecialUserController extends PmdBaseController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
-        List<XlsPmdSpecialUser> records = new ArrayList<XlsPmdSpecialUser>();
-
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        records.addAll(XlsUpload.fetchPmdSpecialUsers(sheet));
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
-        int successCount = pmdSpecialUserService.imports(records);
+        List<PmdSpecialUser> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            PmdSpecialUser record = new PmdSpecialUser();
+
+            //......
+        }
+
+        int successCount = pmdSpecialUserService.batchImport(records);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
         resultMap.put("total", records.size());

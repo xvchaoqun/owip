@@ -226,7 +226,6 @@ public class MemberTransferController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:list")
     @RequestMapping("/memberTransfer_approval")
     public String memberTransfer_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -270,7 +269,6 @@ public class MemberTransferController extends MemberBaseController {
         return "member/memberTransfer/memberTransfer_approval";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping("/memberTransfer_deny")
     public String memberTransfer_deny(Integer id, ModelMap modelMap) {
@@ -282,7 +280,6 @@ public class MemberTransferController extends MemberBaseController {
 
         return "member/memberTransfer/memberTransfer_deny";
     }
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_check", method = RequestMethod.POST)
     @ResponseBody
@@ -298,7 +295,6 @@ public class MemberTransferController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping("/memberTransfer_back")
     public String memberTransfer_back() {
@@ -306,7 +302,6 @@ public class MemberTransferController extends MemberBaseController {
         return "member/memberTransfer/memberTransfer_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody

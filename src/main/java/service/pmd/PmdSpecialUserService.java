@@ -1,6 +1,5 @@
 package service.pmd;
 
-import bean.XlsPmdSpecialUser;
 import controller.global.OpException;
 import domain.pmd.PmdSpecialUser;
 import domain.pmd.PmdSpecialUserExample;
@@ -82,19 +81,14 @@ public class PmdSpecialUserService extends PmdBaseMapper {
 
     @Transactional
     @CacheEvict(value="PmdSpecialUser:ALL", allEntries = true)
-    public int imports(final List<XlsPmdSpecialUser> beans) {
+    public int batchImport(List<PmdSpecialUser> records) {
 
         int success = 0;
-        for (XlsPmdSpecialUser uRow : beans) {
+        for (PmdSpecialUser record : records) {
 
-            if(idDuplicate(null, uRow.getCode())){
+            if(idDuplicate(null, record.getCode())){
                 continue;
             }
-            PmdSpecialUser record = new PmdSpecialUser();
-            record.setCode(uRow.getCode());
-            record.setRealname(uRow.getRealname());
-            record.setUnit(uRow.getUnit());
-            record.setType(uRow.getType());
 
             insertSelective(record);
             success++;

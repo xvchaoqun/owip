@@ -178,7 +178,8 @@ public class MemberInflowService extends MemberBaseMapper {
         //record.setBranchId(memberInflow.getBranchId());
         updateByPrimaryKeySelective(record);
 
-        EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+        EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
+                OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW);
         if(_enterApply!=null && _enterApply.getType()== OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW) {
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());
@@ -332,7 +333,8 @@ public class MemberInflowService extends MemberBaseMapper {
 
         if(status==MemberConstants.MEMBER_INFLOW_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
             // 状态检查
-            EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+            EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
+                    OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW);
             if (_enterApply == null)
                 throw new OpException("系统错误");
 
