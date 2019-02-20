@@ -27,6 +27,7 @@ import shiro.ShiroUser;
 import sys.CasUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.utils.HttpRequestDeviceUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -163,6 +164,7 @@ public class CasController extends BaseController {
     private String loginRedirect(HttpServletRequest request){
 
         String url = request.getParameter("url");
-        return "redirect:/" + (StringUtils.isBlank(url)?"":("#"+url));
+        return "redirect:/" + (StringUtils.isBlank(url)?"":
+                ((HttpRequestDeviceUtils.isMobileDevice(request)?"":"#")+url));
     }
 }

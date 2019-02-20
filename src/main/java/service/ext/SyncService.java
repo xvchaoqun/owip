@@ -651,10 +651,10 @@ public class SyncService extends BaseMapper {
             teacher.setSubPostClass(extJzg.getGwzlbmc()); // 岗位子类别
             teacher.setMainPostLevel(extJzg.getZgdjmmc()); // 主岗等级
             if(StringUtils.isNotBlank(extJzg.getGlqsrq())) // 工龄起算日期
-                teacher.setWorkStartTime(DateUtils.parseDate(extJzg.getGlqsrq(), DateUtils.YYYY_MM_DD));
+                teacher.setWorkStartTime(DateUtils.parseStringToDate(extJzg.getGlqsrq()));
             teacher.setWorkBreak(extJzg.getJdgl()); // 间断工龄
             if(StringUtils.isNotBlank(extJzg.getZzdjsj())) // 转正定级时间
-                teacher.setRegularTime(DateUtils.parseDate(extJzg.getZzdjsj(), DateUtils.YYYY_MM_DD));
+                teacher.setRegularTime(DateUtils.parseStringToDate(extJzg.getZzdjsj()));
             teacher.setOnJob(extJzg.getSfzg());
             teacher.setPersonnelStatus(extJzg.getRszf());
             //teacher.setTitleLevel(extJzg.get); // 职称级别
@@ -737,7 +737,7 @@ public class SyncService extends BaseMapper {
                     ui.setGender(SystemConstants.GENDER_UNKNOWN);
 
                 if (StringUtils.isNotBlank(extBks.getCsrq()))
-                    ui.setBirth(DateUtils.parseDate(extBks.getCsrq(), DateUtils.YYYY_MM_DD));
+                    ui.setBirth(DateUtils.parseStringToDate(extBks.getCsrq()));
                 ui.setIdcard(StringUtils.trim(extBks.getSfzh()));
                 //ui.setMobile(StringUtils.trim(extBks.getYddh()));
                 //ui.setEmail(StringUtils.trim(extBks.getDzxx()));
@@ -755,10 +755,10 @@ public class SyncService extends BaseMapper {
                 //student.setEnrolYear(extBks.getZsnd()+""); 招生年度
                 //student.setPeriod(extBks.getXz()+""); 学制
                 student.setGrade(extBks.getNj());
-                //student.setActualEnrolTime(DateUtils.parseDate(extBks.getSjrxny(), DateUtils.YYYYMMDD)); 实际入学年月
-                //student.setExpectGraduateTime(DateUtils.parseDate(extBks.getYjbyny(), "yyyyMM")); 预计毕业年月
+                //student.setActualEnrolTime(DateUtils.parseStringToDate(extBks.getSjrxny())); 实际入学年月
+                //student.setExpectGraduateTime(DateUtils.parseStringToDate(extBks.getYjbyny())); 预计毕业年月
                 //student.setDelayYear(extBks.getYqbynx()); 预计毕业年限
-                //student.setActualGraduateTime(DateUtils.parseDate(extBks.getSjbyny(), "yyyyMM")); 实际毕业年月
+                //student.setActualGraduateTime(DateUtils.parseStringToDate(extBks.getSjbyny())); 实际毕业年月
                 student.setSyncSource(SystemConstants.USER_SOURCE_BKS);
                 student.setXjStatus(extBks.getXjzt());
 
@@ -779,7 +779,7 @@ public class SyncService extends BaseMapper {
                         StringUtils.trim(extYjs.getXmpy())));
                 ui.setGender(NumberUtils.toByte(extYjs.getXbm()));
                 if (StringUtils.isNotBlank(extYjs.getCsrq()))
-                    ui.setBirth(DateUtils.parseDate(StringUtils.substring(extYjs.getCsrq(), 0, 8), "yyyyMMdd"));
+                    ui.setBirth(DateUtils.parseStringToDate(extYjs.getCsrq()));
                 ui.setIdcard(StringUtils.trim(extYjs.getSfzh()));
                 //ui.setMobile(StringUtils.trim(extYjs.getYddh()));
                 //ui.setEmail(StringUtils.trim(extYjs.getDzxx()));
@@ -797,10 +797,10 @@ public class SyncService extends BaseMapper {
                 student.setPeriod(extYjs.getXz() + "");
                 student.setGrade(extYjs.getNj() + "");
 
-                student.setActualEnrolTime(DateUtils.parseDate(StringUtils.substring(extYjs.getSjrxny(), 0, 6), "yyyyMM"));
-                student.setExpectGraduateTime(DateUtils.parseDate(StringUtils.substring(extYjs.getYjbyny(), 0, 6), "yyyyMM"));
+                student.setActualEnrolTime(DateUtils.parseStringToDate(extYjs.getSjrxny()));
+                student.setExpectGraduateTime(DateUtils.parseStringToDate(extYjs.getYjbyny()));
                 student.setDelayYear(extYjs.getYqbynx());
-                student.setActualGraduateTime(DateUtils.parseDate(StringUtils.substring(extYjs.getSjbyny(), 0, 6), "yyyyMM"));
+                student.setActualGraduateTime(DateUtils.parseStringToDate(extYjs.getSjbyny()));
                 student.setSyncSource(SystemConstants.USER_SOURCE_YJS);
                 student.setXjStatus(extYjs.getZt());
 
