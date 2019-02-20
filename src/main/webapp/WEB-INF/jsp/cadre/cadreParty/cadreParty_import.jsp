@@ -22,13 +22,11 @@
         <div class="well">
             <c:if test="${cm:toByte(param.type)==CADRE_PARTY_TYPE_OW}">
                 <span class="help-inline">导入的文件请严格按照
-                    <a href="${ctx}/attach?code=sample_cadreParty_ow"
-                       target="_blank">党员录入样表.xlsx</a>（点击下载）的数据格式</span>
+                    <a href="${ctx}/attach?code=sample_cadreParty_ow">党员录入样表.xlsx</a>（点击下载）的数据格式</span>
             </c:if>
             <c:if test="${cm:toByte(param.type)==CADRE_PARTY_TYPE_DP}">
                 <span class="help-inline">导入的文件请严格按照
-                    <a href="${ctx}/attach?code=sample_cadreParty_dp"
-                       target="_blank">民主党派干部录入样表.xlsx</a>（点击下载）的数据格式</span>
+                    <a href="${ctx}/attach?code=sample_cadreParty_dp">民主党派干部录入样表.xlsx</a>（点击下载）的数据格式</span>
             </c:if>
         </div>
   </div>

@@ -15,8 +15,8 @@
 		</div>
         </form>
         <div class="well">
-        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_memberApply"
-                                               target="_blank">党员发展录入样表.xlsx</a>（点击下载）的数据格式</span>
+        <span class="help-inline">导入的文件请严格按照
+            <a href="${ctx}/attach?code=sample_memberApply">党员发展录入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">

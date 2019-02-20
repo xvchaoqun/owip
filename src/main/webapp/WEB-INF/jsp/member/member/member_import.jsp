@@ -17,8 +17,7 @@
         </form>
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
-            <a href="${ctx}/attach?code=sample_member_${inSchool?"inSchool":"outSchool"}"
-                                               target="_blank">
+            <a href="${ctx}/attach?code=sample_member_${inSchool?"inSchool":"outSchool"}">
                 党员录入样表（${inSchool?"校内人员":"校外人员"}）.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>

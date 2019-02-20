@@ -83,7 +83,7 @@ pageEncoding="UTF-8" %>
             { label: '文件名',name: 'filename', width: 400, align:'left',frozen:true, formatter:function(cellvalue, options, rowObject){
                 return rowObject.type=='<%=SystemConstants.ATTACH_FILE_TYPE_PDF%>'?$.swfPreview(rowObject.path, cellvalue):cellvalue;
             }},
-            { label: '唯一标识',name: 'code',frozen:true, align:'left', width: 180},
+            { label: '唯一标识',name: 'code',frozen:true, align:'left', width: 250},
             { label: '下载地址',name: 'id', width: 550, align:'left', formatter:function(cellvalue, options, rowObject){
                 return '<a href="{0}/attach?code={1}" target="_blank">{0}/attach?code={1}</a>'
                         .format('${_sysConfig.siteHome}', rowObject.code);
