@@ -31,7 +31,7 @@ public class SysJobListener implements JobListener {
 
         JobKey jobKey = context.getJobDetail().getKey();
         schedulerJobService.jobLog(jobKey, SystemConstants.SCHEDULER_JOB_TOBEEXECUTED);
-        logger.info("jobName={}, jobGroup={} to be executed.", jobKey.getName(), jobKey.getGroup());
+        logger.debug("jobName={}, jobGroup={} to be executed.", jobKey.getName(), jobKey.getGroup());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SysJobListener implements JobListener {
 
         JobKey jobKey = context.getJobDetail().getKey();
         schedulerJobService.jobLog(jobKey, SystemConstants.SCHEDULER_JOB_EXECUTIONVETOED);
-        logger.info("jobName={}, jobGroup={} to be execution vetoed.", jobKey.getName(), jobKey.getGroup());
+        logger.debug("jobName={}, jobGroup={} to be execution vetoed.", jobKey.getName(), jobKey.getGroup());
     }
 
     @Override
@@ -47,7 +47,7 @@ public class SysJobListener implements JobListener {
 
         JobKey jobKey = context.getJobDetail().getKey();
         schedulerJobService.jobLog(jobKey, SystemConstants.SCHEDULER_JOB_WASEXECUTED);
-        logger.info("jobName={}, jobGroup={} was executed. {}", jobKey.getName(), jobKey.getGroup(),
+        logger.debug("jobName={}, jobGroup={} was executed. {}", jobKey.getName(), jobKey.getGroup(),
                 jobException==null?"success":jobException.getMessage());
     }
 }
