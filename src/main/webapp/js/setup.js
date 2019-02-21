@@ -1152,7 +1152,7 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
     var url = $this.data("url");
     if (url != '') {
 
-        if (url == '-1' || $this.closest("li").hasClass("active")) return; // 不响应
+        //if (url == '-1' || $this.closest("li").hasClass("active")) return; // 不响应
 
         $.loadPage({
             url: url,

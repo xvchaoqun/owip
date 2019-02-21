@@ -6960,7 +6960,7 @@ fieldset[disabled] .btn-white.btn-grey.active {
 .btn.btn-round {
   border-bottom-width: 2px;
   border-radius: 4px !important;
-}
+}*/
 .btn.btn-app {
   display: inline-block;
   width: 100px;
@@ -7318,7 +7318,7 @@ fieldset[disabled] .btn-white.btn-grey.active {
 .btn.btn-app.btn-yellow {
   -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset !important;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset !important;
-}*/
+}
 .label {
   border-radius: 0;
   text-shadow: none;

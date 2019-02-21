@@ -33,8 +33,11 @@ where pm.has_pay=0 and  pm.pay_month='2018-05-01' and pcm.has_reset=0 and pn.set
 -- 把某个缴费账号替换成新账号 （ 用于党建账号错误的情况，先应做转出转入操作，保证新账号是党员）
 set @oriCode = '11312015116';
 set @destCode = '11122016032';
+-- 这里有问题，在sh下无法获取??
 set @oriUserId = (select id from sys_user where code=@oriCode);
+select @oriUserId;
 set @destUserId = (select id from sys_user where code=@destCode);
+select @destUserId;
 update pmd_config_member set user_id=@destUserId where user_id=@origUserId;
 update pmd_member set user_id=@destUserId where user_id=@origUserId;
 

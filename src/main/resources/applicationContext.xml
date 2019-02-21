@@ -95,13 +95,13 @@
     <bean id="jobFactory" class="sys.quartz.JobFactory"></bean>
     <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" autowire="no">
         <property name="jobFactory" ref="jobFactory"></property>
-        <!--<property name="globalJobListeners">
+        <property name="globalJobListeners">
             <list>
                 <ref bean="sysJobListener"/>
             </list>
-        </property>-->
+        </property>
     </bean>
-    <!--<bean id="sysJobListener" class="job.listener.SysJobListener"/>-->
+    <bean id="sysJobListener" class="job.listener.SysJobListener"/>
 
     <!-- service 可以实现接口-->
     <aop:config proxy-target-class="true"></aop:config>

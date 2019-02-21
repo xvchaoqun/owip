@@ -746,6 +746,11 @@ var _modal_width;
 
             // 关闭modal
             $("#modal").removeClass("fade").modal('hide').addClass("fade");
+
+            //console.log("$maskEl.attr(\"id\")="+$maskEl.attr("id"))
+            if($maskEl.attr("id")=="page-content"){
+                $maskEl = $maskEl.closest(".page-content")
+            }
             $maskEl.mask();
             $.ajax({
                 url: url, data: {}, cache: false, success: function (html) {
@@ -782,6 +787,10 @@ var _modal_width;
             // 关闭modal
             if(modal=='hide') {
                 $("#modal").removeClass("fade").modal('hide').addClass("fade");
+            }
+            //console.log("$mask.attr(\"id\")="+$mask.attr("id"))
+            if($mask.attr("id")=="page-content"){
+                $mask = $mask.closest(".page-content")
             }
             $mask.mask();
             $.get(url, {}, function (html) {
