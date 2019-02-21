@@ -834,6 +834,66 @@ public class SysResourceExample {
             return (Criteria) this;
         }
 
+        public Criteria andRoleCountIsNull() {
+            addCriterion("role_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountIsNotNull() {
+            addCriterion("role_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountEqualTo(Integer value) {
+            addCriterion("role_count =", value, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountNotEqualTo(Integer value) {
+            addCriterion("role_count <>", value, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountGreaterThan(Integer value) {
+            addCriterion("role_count >", value, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("role_count >=", value, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountLessThan(Integer value) {
+            addCriterion("role_count <", value, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountLessThanOrEqualTo(Integer value) {
+            addCriterion("role_count <=", value, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountIn(List<Integer> values) {
+            addCriterion("role_count in", values, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountNotIn(List<Integer> values) {
+            addCriterion("role_count not in", values, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountBetween(Integer value1, Integer value2) {
+            addCriterion("role_count between", value1, value2, "roleCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("role_count not between", value1, value2, "roleCount");
+            return (Criteria) this;
+        }
+
         public Criteria andCountCacheKeysIsNull() {
             addCriterion("count_cache_keys is null");
             return (Criteria) this;

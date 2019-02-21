@@ -8,9 +8,9 @@
 </head>
 <body class="no-skin">
 <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <%-- <script type="text/javascript">
-       try{ace.settings.check('navbar' , 'fixed')}catch(e){}
-     </script>--%>
+    <%--<script type="text/javascript">
+      try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+    </script>--%>
     <div class="navbar-container" id="navbar-container">
         <!-- #section:basics/sidebar.mobile.toggle -->
         <shiro:lacksRole name="reg">
@@ -41,13 +41,13 @@
     <div class="navbar-buttons navbar-header pull-right" role="navigation">
         <div style="position: absolute;top:10px;right: 35px;float: right;font-size: 14px">
             <shiro:hasPermission name="sysLogin:switch">
-            <c:if test="${empty sessionScope._switchUser}">
-                <a href="javascript:;"
-                   data-url="${ctx}/sysLogin_switch"
-                   class="popupBtn">
-                    <i class="fa fa-refresh"></i> 切换账号
-                </a>
-            </c:if>
+                <c:if test="${empty sessionScope._switchUser}">
+                    <a href="javascript:;"
+                       data-url="${ctx}/sysLogin_switch"
+                       class="popupBtn">
+                        <i class="fa fa-refresh"></i> 切换账号
+                    </a>
+                </c:if>
             </shiro:hasPermission>
             <c:if test="${not empty sessionScope._switchUser}">
                 <a href="${ctx}/sysLogin_switch_back">
@@ -58,19 +58,22 @@
 
         <ul class="nav nav-pills hidden-xs hidden-sm hidden-md" style="margin-left: 0px">
             <li class="">
-                <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user ${cm:isSuperAccount(_user.username)?'blue':''}"></i>
-                    <span class="${cm:isSuperAccount(_user.username)?'blue':''}">${_user.realname}<c:if test="${_user.code!=_user.realname}">(${_user.code})</c:if></span></a>
+                <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i
+                        class="fa fa-user ${cm:isSuperAccount(_user.username)?'blue':''}"></i>
+                    <span class="${cm:isSuperAccount(_user.username)?'blue':''}">${_user.realname}<c:if
+                            test="${_user.code!=_user.realname}">(${_user.code})</c:if></span></a>
             </li>
-        <c:if test="${!_hideHelp}">
-            <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
-                <li class="<c:if test="${_path=='/help'}">active</c:if>">
-                    <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
-                </li>
-            </shiro:hasAnyRoles>
-        </c:if>
+            <c:if test="${!_hideHelp}">
+                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+                    <li class="<c:if test="${_path=='/help'}">active</c:if>">
+                        <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
+                    </li>
+                </shiro:hasAnyRoles>
+            </c:if>
             <shiro:hasPermission name="shortMsgTpl:*">
                 <li>
-                    <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="fa fa-send"></i> 定向短信</a>
+                    <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="fa fa-send"></i>
+                        定向短信</a>
                 </li>
             </shiro:hasPermission>
             <li>
@@ -78,33 +81,36 @@
             </li>
         </ul>
         <ul class="nav nav-pills hidden-lg" style="margin-left: 0px">
-        <li class="dropdown">
+            <li class="dropdown">
 
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span> ${_user.realname}<c:if test="${_user.code!=_user.realname}">(${_user.code})</c:if></span>
-                 <i class="fa fa-caret-down"> </i></a>
-            <ul class="dropdown-menu">
-                <li class="">
-                    <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i> 个人信息
-                    </a>
-                </li>
-                <c:if test="${!_hideHelp}">
-                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
-                    <li class="<c:if test="${_path=='/help'}">active</c:if>">
-                        <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span> ${_user.realname}<c:if
+                        test="${_user.code!=_user.realname}">(${_user.code})</c:if></span>
+                    <i class="fa fa-caret-down"> </i></a>
+                <ul class="dropdown-menu">
+                    <li class="">
+                        <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i>
+                            个人信息
+                        </a>
                     </li>
-                </shiro:hasAnyRoles>
-                </c:if>
-                <shiro:hasPermission name="shortMsgTpl:*">
+                    <c:if test="${!_hideHelp}">
+                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+                            <li class="<c:if test="${_path=='/help'}">active</c:if>">
+                                <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
+                            </li>
+                        </shiro:hasAnyRoles>
+                    </c:if>
+                    <shiro:hasPermission name="shortMsgTpl:*">
+                        <li>
+                            <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i
+                                    class="fa fa-send"></i> 定向短信</a>
+                        </li>
+                    </shiro:hasPermission>
                     <li>
-                        <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="fa fa-send"></i> 定向短信</a>
+                        <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
                     </li>
-                </shiro:hasPermission>
-                <li>
-                    <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
-                </li>
-            </ul>
-        </li>
-            </ul>
+                </ul>
+            </li>
+        </ul>
     </div>
     <!-- /.navbar-container -->
 </div>
@@ -119,9 +125,57 @@
             <div class="breadcrumbs" id="breadcrumbs" style="display: none;">
 
             </div>
+            <div class="page-content">
+                <shiro:hasPermission name="cadre:list">
+                    <div class="ace-settings-container" id="ace-settings-container">
+                        <div class="btn btn-app btn-xs btn-info ace-settings-btn" id="ace-settings-btn">
+                            <i class="ace-icon fa fa-cog bigger-130"></i>
+                        </div>
+                        <div class="ace-settings-box clearfix" id="ace-settings-box">
+                            <div style="width: 600px; height: 400px;">
+                                <h4 class="header">干部电子档案查询</h4>
+                                <select data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                        name="userId" data-placeholder="请输入账号或姓名或工号">
+                                    <option></option>
+                                </select>
+                                <button class="searchBtn btn btn-primary btn-sm"
+                                        data-loading-text="<i class='fa fa-spinner fa-spin '></i> 查询中">
+                                    <i class="fa fa-search"></i> 查询
+                                </button>
+                                <div class="resultDiv row">
 
-            <div class="page-content" id="page-content">
-
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/template" id="result_tpl">
+                        <div class="space-4"></div>
+                        <div class="col-xs-12">
+                            <blockquote>
+                                <small>
+                                    姓名：<span>{{=ret.realname}}</span>
+                                </small>
+                                <small>
+                                    查询结果：<span>{{=ret.msg}}</span>
+                                    <div class="space-4"></div>
+                                    <div>
+                                    {{if(ret.cadreId>0){}}
+                                        &nbsp;&nbsp;<a href="javascript:;" onclick="_loadArchive(this)" class="btn btn-success btn-xs"
+                                                       data-url="{{=ret.url}}"><i
+                                            class="fa fa-hand-o-right"></i> 前往查看</a>
+                                    {{}else{}}
+                                        &nbsp;&nbsp;<a href="javascript:;" onclick="_loadArchive(this)" class="btn btn-warning btn-xs"
+                                                       data-url="{{=ret.url}}"><i
+                                            class="fa fa-hand-o-right"></i> 建立干部档案</a>
+                                    {{}}}
+                                    </div>
+                                </small>
+                            </blockquote>
+                        </div>
+                    </script>
+                </shiro:hasPermission>
+                <div id="page-content"></div>
             </div>
             <!-- /.page-content -->
         </div>
@@ -152,13 +206,54 @@
 <script src="${ctx}/js/extra.js"></script>
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <script type="text/javascript">
-     try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+    try {
+        ace.settings.check('sidebar', 'collapsed')
+    } catch (e) {
+    }
     window.onload = function () {
         $(".sidebar ul.submenu").each(function () {
             if ($("li", this).length == 0) $(this).remove();
         })
         $(window).trigger('hashchange');
     }
+
+    <shiro:hasPermission name="cadre:list">
+    $('#ace-settings-btn').on(ace.click_event, function(e){
+        e.preventDefault();
+        $(this).toggleClass('open');
+        $('#ace-settings-box').toggleClass('open');
+     })
+
+    $.register.user_select($('#ace-settings-box select[name=userId]'));
+    $('#ace-settings-box select[name=userId]').on("change", function(){
+        $("#ace-settings-box .resultDiv").html('')
+    })
+    function _loadArchive(btn){
+        $('#ace-settings-btn').click();
+        $.loadPage({url:$(btn).data("url")});
+    }
+    $('#ace-settings-box .searchBtn').click(function () {
+        var $select = $('#ace-settings-box select[name=userId]');
+        var userId = $select.val();
+        if (userId == '') {
+            $.tip({
+                $target: $select.closest("div").find(".select2-container"),
+                at: 'top center', my: 'bottom center', type: 'info',
+                msg: "请选择账号"
+            });
+            return;
+        }
+        var $btn = $(this).button('loading');
+        $.post("${ctx}/cadre_archive_search", {userId: userId}, function (ret) {
+            if (ret.success) {
+
+                ret.url = '${ctx}/cadre_archive?userId=' + ret.userId;
+                $("#ace-settings-box .resultDiv").html(_.template($("#result_tpl").html())({ret: ret}));
+            }
+            $btn.button('reset');
+        })
+    })
+    </shiro:hasPermission>
 </script>
 <!-- inline scripts related to this page -->
 <script src="${ctx}/assets/js/flot/jquery.flot.js"></script>
@@ -168,10 +263,12 @@
 <script src="${ctx}/extend/js/highcharts.js"></script>
 <script src="${ctx}/extend/js/exporting.js"></script>
 <script type="text/template" id="common_sort_tpl">
-    <a href="javascript:;" class="jqOrderBtn" data-grid-id="{{=grid}}" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+    <a href="javascript:;" class="jqOrderBtn" data-grid-id="{{=grid}}" data-url="{{=url}}" data-id="{{=id}}"
+       data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
     <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
            title="修改操作步长">
-    <a href="javascript:;" class="jqOrderBtn" data-grid-id="{{=grid}}" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+    <a href="javascript:;" class="jqOrderBtn" data-grid-id="{{=grid}}" data-url="{{=url}}" data-id="{{=id}}"
+       data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script type="text/template" id="breadcrumbs_tpl">
     <ul class="breadcrumb">

@@ -81,7 +81,11 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/shortMsgTpl_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '模板名称', name: 'name', width: 350, align:'left'},
+            {label: '模板名称', name: 'name', width: 350, align:'left',frozen:true},
+            {
+                label: '排序', align: 'center', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                formatoptions: {url: "${ctx}/shortMsgTpl_changeOrder"}
+            },
             {
                 label: '定向发送', name: '_verify', formatter: function (cellvalue, options, rowObject) {
                 return '<button class="popupBtn btn btn-success btn-xs" data-width="700" data-url="${ctx}/shortMsgTpl_send?id={0}"><i class="fa fa-check"></i> 定向发送</button>'

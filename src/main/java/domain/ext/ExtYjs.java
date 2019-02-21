@@ -161,6 +161,10 @@ public class ExtYjs implements Serializable {
 
     private String qzny;
 
+    private String hkszd;
+
+    private String syszd;
+
     private static final long serialVersionUID = 1L;
 
     public String getXh() {
@@ -793,5 +797,21 @@ public class ExtYjs implements Serializable {
 
     public void setQzny(String qzny) {
         this.qzny = qzny == null ? null : qzny.trim();
+    }
+
+    public String getHkszd() {
+        return hkszd;
+    }
+
+    public void setHkszd(String hkszd) {
+        this.hkszd = hkszd == null ? null : hkszd.trim();
+    }
+
+    public String getSyszd() {
+        return syszd;
+    }
+
+    public void setSyszd(String syszd) {
+        this.syszd = syszd == null ? null : syszd.trim();
     }
 }

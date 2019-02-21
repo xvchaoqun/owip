@@ -31,11 +31,17 @@
                 <input required class="form-control" type="text" name="cron" value="${schedulerJob.cron}">
             </div>
         </div>
-
         <div class="form-group">
             <label class="col-xs-3 control-label">任务描述</label>
             <div class="col-xs-6">
                 <textarea class="form-control limited" name="summary">${schedulerJob.summary}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">是否保存执行日志</label>
+            <div class="col-xs-6">
+                <input type="checkbox" class="big"
+                       name="needLog" ${(schedulerJob.needLog)?"checked":""}/>
             </div>
         </div>
     </form>
@@ -58,5 +64,6 @@
             });
         }
     });
+    $("#modalForm :checkbox").bootstrapSwitch();
     $('textarea.limited').inputlimiter();
 </script>

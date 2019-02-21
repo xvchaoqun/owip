@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.sys.common;
 
 import domain.sys.SysOnlineStatic;
 import domain.sys.SysUserView;
@@ -9,11 +9,10 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by lm on 2017/6/13.
- */
 public interface ISysMapper {
 
+    // 刷新权限的所属角色数量
+    void updateResourceRoleCount();
 
     List<SysUserView> selectUserList(@Param("query")String query, @Param("types") Byte[] types, RowBounds rowBounds);
     int countUserList(@Param("query")String query, @Param("types") Byte[] types);
@@ -23,5 +22,5 @@ public interface ISysMapper {
     List<Integer> selectDistinctLocationParentCode();
 
     // 每日最高在线人数流量图
-    List<SysOnlineStatic> online_static_day(@Param("start")Date start, @Param("end")Date end);
+    List<SysOnlineStatic> online_static_day(@Param("start") Date start, @Param("end")Date end);
 }

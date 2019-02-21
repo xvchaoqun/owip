@@ -71,7 +71,7 @@ public class ShortMsgTplController extends BaseController {
         ShortMsgExample.Criteria criteria = example.createCriteria()
                 .andRelateTypeEqualTo(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL);
         criteria.andSenderIdEqualTo(ShiroHelper.getCurrentUserId());
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("sort_order desc");
 
         if (receiverId != null) {
             criteria.andReceiverIdEqualTo(receiverId);
@@ -143,13 +143,13 @@ public class ShortMsgTplController extends BaseController {
 
         ShortMsgTplExample example = new ShortMsgTplExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(content)) {
             criteria.andContentLike("%" + content + "%");
         }
 
-        int count = shortMsgTplMapper.countByExample(example);
+        int count = (int) shortMsgTplMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -280,4 +280,14 @@ public class ShortMsgTplController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("shortMsgTpl:edit")
+	@RequestMapping(value = "/shortMsgTpl_changeOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public Map do_shortMsgTpl_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+		shortMsgTplService.changeOrder(id, addNum);
+		logger.info(addLog(LogConstants.LOG_ADMIN, "短信模板调序：%s,%s", id, addNum));
+		return success(FormUtils.SUCCESS);
+	}
 }

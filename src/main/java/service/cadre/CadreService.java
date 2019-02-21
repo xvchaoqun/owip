@@ -459,10 +459,10 @@ public class CadreService extends BaseMapper {
         CadreViewExample example = new CadreViewExample();
         example.createCriteria().andStatusIn(new ArrayList<>(cadreStatusSet));
         example.setOrderByClause("sort_order desc");
-        List<CadreView> cadrees = cadreViewMapper.selectByExample(example);
+        List<CadreView> records = cadreViewMapper.selectByExample(example);
         Map<Integer, CadreView> map = new LinkedHashMap<>();
-        for (CadreView cadre : cadrees) {
-            map.put(cadre.getId(), cadre);
+        for (CadreView record : records) {
+            map.put(record.getId(), record);
         }
 
         return map;

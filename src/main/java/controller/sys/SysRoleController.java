@@ -1,6 +1,7 @@
 package controller.sys;
 
 import controller.BaseController;
+import domain.sys.SysResource;
 import domain.sys.SysRole;
 import domain.sys.SysRoleExample;
 import domain.sys.SysUserView;
@@ -22,18 +23,12 @@ import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.Escape;
 import sys.utils.FormUtils;
-import sys.utils.HtmlEscapeUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class SysRoleController extends BaseController {
@@ -60,7 +55,10 @@ public class SysRoleController extends BaseController {
 	@RequiresPermissions("sysRole:list")
 	@RequestMapping("/sysRole_data")
 	@ResponseBody
-	public void sysRole_data(HttpServletRequest request, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+	public void sysRole_data(HttpServletRequest request,
+							 Integer resourceId,
+							 Integer pageSize,
+							 Integer pageNo) throws IOException {
 		
 		if (null == pageSize) {
 			pageSize = springProps.pageSize;
@@ -70,14 +68,19 @@ public class SysRoleController extends BaseController {
 		}
 		pageNo = Math.max(1, pageNo);
 		
-		searchStr = HtmlEscapeUtils.escape(Escape.unescape(searchStr), "UTF-8");
-		
 		SysRoleExample example = new SysRoleExample();
-		//example.createCriteria().andStatusEqualTo(0);
+		SysRoleExample.Criteria criteria = example.createCriteria();
 		example.setOrderByClause(" sort_order desc");
-		if(StringUtils.isNotBlank(searchStr)){
-			example.createCriteria().andRoleLike("%" + searchStr + "%");
+
+		if(resourceId!=null){
+			SysResource sysResource = sysResourceMapper.selectByPrimaryKey(resourceId);
+			if(sysResource.getIsMobile()) {
+				criteria.andMResourceIdsContain(resourceId);
+			}else{
+				criteria.andResourceIdsContain(resourceId);
+			}
 		}
+
 		long count = sysRoleMapper.countByExample(example);
 		if((pageNo-1)*pageSize >= count){
 			

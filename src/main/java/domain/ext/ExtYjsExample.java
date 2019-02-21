@@ -5583,6 +5583,146 @@ public class ExtYjsExample {
             addCriterion("qzny not between", value1, value2, "qzny");
             return (Criteria) this;
         }
+
+        public Criteria andHkszdIsNull() {
+            addCriterion("hkszd is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdIsNotNull() {
+            addCriterion("hkszd is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdEqualTo(String value) {
+            addCriterion("hkszd =", value, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdNotEqualTo(String value) {
+            addCriterion("hkszd <>", value, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdGreaterThan(String value) {
+            addCriterion("hkszd >", value, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdGreaterThanOrEqualTo(String value) {
+            addCriterion("hkszd >=", value, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdLessThan(String value) {
+            addCriterion("hkszd <", value, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdLessThanOrEqualTo(String value) {
+            addCriterion("hkszd <=", value, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdLike(String value) {
+            addCriterion("hkszd like", value, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdNotLike(String value) {
+            addCriterion("hkszd not like", value, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdIn(List<String> values) {
+            addCriterion("hkszd in", values, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdNotIn(List<String> values) {
+            addCriterion("hkszd not in", values, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdBetween(String value1, String value2) {
+            addCriterion("hkszd between", value1, value2, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andHkszdNotBetween(String value1, String value2) {
+            addCriterion("hkszd not between", value1, value2, "hkszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdIsNull() {
+            addCriterion("syszd is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdIsNotNull() {
+            addCriterion("syszd is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdEqualTo(String value) {
+            addCriterion("syszd =", value, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdNotEqualTo(String value) {
+            addCriterion("syszd <>", value, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdGreaterThan(String value) {
+            addCriterion("syszd >", value, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdGreaterThanOrEqualTo(String value) {
+            addCriterion("syszd >=", value, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdLessThan(String value) {
+            addCriterion("syszd <", value, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdLessThanOrEqualTo(String value) {
+            addCriterion("syszd <=", value, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdLike(String value) {
+            addCriterion("syszd like", value, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdNotLike(String value) {
+            addCriterion("syszd not like", value, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdIn(List<String> values) {
+            addCriterion("syszd in", values, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdNotIn(List<String> values) {
+            addCriterion("syszd not in", values, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdBetween(String value1, String value2) {
+            addCriterion("syszd between", value1, value2, "syszd");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyszdNotBetween(String value1, String value2) {
+            addCriterion("syszd not between", value1, value2, "syszd");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

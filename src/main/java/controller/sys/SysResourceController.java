@@ -7,7 +7,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.utils.FormUtils;
@@ -36,15 +35,18 @@ import java.util.Map;
 public class SysResourceController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
-/*
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
-	@RequestMapping("/sysResource")
-	public String sysResource(ModelMap modelMap) {
 
-		modelMap.put("sysResources", sysResourceService.getSortedSysResources().values());
-		return "sys/sysResource/sysResource_page";
-	}*/
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysResource:list")
+	@RequestMapping("/sysResource_roles")
+	public String sysResource_roles(int resourceId, ModelMap modelMap) {
+
+		SysResource sysResource = sysResourceMapper.selectByPrimaryKey(resourceId);
+		modelMap.put("sysResource", sysResource);
+
+		return "sys/sysResource/sysResource_roles";
+	}
+
+	@RequiresPermissions("sysResource:list")
 	@RequestMapping("/sysResource")
 	public String sysResource(@RequestParam(required = false, defaultValue = "0") boolean isMobile, ModelMap modelMap) {
 
@@ -52,7 +54,7 @@ public class SysResourceController extends BaseController {
 		return "sys/sysResource/sysResource_page";
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysResource:list")
 	@RequestMapping("/sysResource_data")
 	@ResponseBody
 	public Map sysResource_data(@RequestParam(required = false, defaultValue = "0") boolean isMobile,
@@ -77,7 +79,7 @@ public class SysResourceController extends BaseController {
 		return resultMap;
 	}
 	
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysResource:edit")
 	@RequestMapping(value="/sysResource_au", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysResource_au(@RequestParam(required = false, value = "countCacheKeys")Byte[] countCacheKeys,
@@ -120,7 +122,7 @@ public class SysResourceController extends BaseController {
 		return resultMap;
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysResource:edit")
 	@RequestMapping("/sysResource_au")
 	public String sysResource_au(Integer id, Boolean isMobile, Integer parentId, ModelMap modelMap) {
 
@@ -154,7 +156,7 @@ public class SysResourceController extends BaseController {
 		return "sys/sysResource/sysResource_au";
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysResource:del")
 	@RequestMapping(value="/sysResource_del", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysResource_del(Integer id, HttpServletRequest request) {
@@ -168,7 +170,7 @@ public class SysResourceController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysResource:list")
 	@RequestMapping("/sysResource_selects")
 	@ResponseBody
 	public Map sysResource_selects(boolean isMobile, String[] type, String searchStr,

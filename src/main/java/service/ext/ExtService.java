@@ -74,7 +74,10 @@ public class ExtService extends BaseMapper {
             }
         }
         if (source == SystemConstants.USER_SOURCE_YJS) {
-
+            ExtYjs extYjs = getExtYjs(code);
+            if (extYjs != null) {
+                return StringUtils.defaultIfBlank(extYjs.getSyszd(), extYjs.getHkszd());
+            }
         }
         return null;
     }

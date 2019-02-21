@@ -130,7 +130,7 @@ pageEncoding="UTF-8" %>
             }},
             {label: '导出账号', name: '_export', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.evaCount==undefined || rowObject.evaCount==0) return '-'
-                return '<a href="javascript:void(0)" class="linkBtn" data-target="_blank"' +
+                return '<a href="javascript:void(0)" class="downloadBtn" ' +
                         'data-url="${ctx}/cet/cetTrainInspector_list?export=1&trainId={0}">导出</a>'
                                 .format(rowObject.id);
             }},

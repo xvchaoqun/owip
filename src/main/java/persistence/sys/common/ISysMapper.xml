@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.common.ISysMapper">
+<mapper namespace="persistence.sys.common.ISysMapper">
+    <!-- 刷新权限的所属角色数量 -->
+    <update id="updateResourceRoleCount" parameterType="map">
+       update sys_resource re,
+        (select re.id as resource_id, count(r.id) as role_count from sys_role r, sys_resource re
+        where (!re.is_mobile and find_in_set(re.id, r.resource_ids))
+        or (re.is_mobile and find_in_set(re.id, r.m_resource_ids)) group by re.id) as tmp
+        set re.role_count=tmp.role_count where re.id=tmp.resource_id;
+    </update>
 
     <sql id="typesSearchSql">
         <if test="types != null and types.length>0">

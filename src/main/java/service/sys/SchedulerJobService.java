@@ -3,7 +3,10 @@ package service.sys;
 import controller.global.OpException;
 import domain.sys.SchedulerJob;
 import domain.sys.SchedulerJobExample;
+import domain.sys.SchedulerLog;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.sys.SchedulerJobMapper;
+import persistence.sys.SchedulerLogMapper;
 import service.BaseMapper;
 import sys.quartz.QuartzManager;
+import sys.utils.StringUtil;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -25,13 +30,56 @@ import java.util.Map;
  * Created by lm on 2017/9/17.
  */
 @Service
-public class SchedulerJobService  extends BaseMapper {
+public class SchedulerJobService extends BaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SchedulerJobMapper schedulerJobMapper;
     @Autowired
+    private SchedulerLogMapper schedulerLogMapper;
+    @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
+
+    // 执行日志
+    public void jobLog(JobKey jobKey, byte status) {
+
+        String jobGroup = jobKey.getGroup();
+        String jobName = jobKey.getName();
+
+        SchedulerLog record = new SchedulerLog();
+        record.setJobGroup(jobGroup);
+        record.setJobName(jobName);
+        record.setStatus(status);
+        record.setTriggerTime(new Date());
+
+        Integer jobId = null;
+        int idx = jobName.lastIndexOf("_");
+        if (idx > 0 && idx < jobName.length()) {
+            String idStr = jobName.substring(idx + 1);
+            try {
+                jobId = Integer.valueOf(idStr);
+            } catch (Exception ex) {
+                logger.error("error.", ex);
+            }
+        }
+        boolean needLog = false;
+        if (jobId != null) {
+            SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(jobId);
+            if (schedulerJob != null) {
+                // 将手动触发的任务也记入执行日志（手动触发的任务名命名规则：在原jobName前面添加随机数）
+                if (StringUtils.containsIgnoreCase(jobName, schedulerJob.getJobName())) {
+                    record.setJobId(jobId);
+                    record.setIsManualTrigger(!StringUtils.equalsIgnoreCase(jobName,
+                            schedulerJob.getJobName()));
+                }
+
+                needLog = schedulerJob.getNeedLog() || record.getIsManualTrigger();
+            }
+        }
+        if(needLog) {
+            schedulerLogMapper.insertSelective(record);
+        }
+    }
 
     public boolean idDuplicate(Integer id, String name) {
 
@@ -65,6 +113,26 @@ public class SchedulerJobService  extends BaseMapper {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
         return QuartzManager.queryRunJobs(scheduler);
+    }
+
+    // 手动触发执行任务一次
+    @Transactional
+    public void triggerJob(Integer id) {
+
+        SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        String clazz = schedulerJob.getClazz();
+        Class cls = null;
+        try {
+            cls = Class.forName(clazz);
+        } catch (ClassNotFoundException e) {
+            logger.error("类不存在", e);
+            throw new OpException("类{0}不存在", schedulerJob.getClazz());
+        }
+
+        String jobName = StringUtil.getUUID() + "_" + schedulerJob.getJobName();
+
+        QuartzManager.startJob(scheduler, jobName, cls);
     }
 
     @Transactional
@@ -108,7 +176,7 @@ public class SchedulerJobService  extends BaseMapper {
         for (SchedulerJob schedulerJob : schedulerJobs) {
 
             try {
-                String clazz =  schedulerJob.getClazz();
+                String clazz = schedulerJob.getClazz();
                 QuartzManager.addJob(scheduler, schedulerJob.getJobName(),
                         Class.forName(clazz), schedulerJob.getCron());
                 success++;
@@ -157,7 +225,7 @@ public class SchedulerJobService  extends BaseMapper {
     @Transactional
     public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return ;
+        if (ids == null || ids.length == 0) return;
 
         for (Integer id : ids) {
             stopJob(id);
@@ -170,7 +238,7 @@ public class SchedulerJobService  extends BaseMapper {
 
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         SchedulerJob entity = schedulerJobMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
@@ -180,16 +248,16 @@ public class SchedulerJobService  extends BaseMapper {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
         List<SchedulerJob> overEntities = schedulerJobMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            SchedulerJob targetEntity = overEntities.get(overEntities.size()-1);
+            SchedulerJob targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
                 commonMapper.downOrder("sys_scheduler_job", null, baseSortOrder, targetEntity.getSortOrder());

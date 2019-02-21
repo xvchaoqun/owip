@@ -62,7 +62,7 @@ public class AttachFileController extends BaseController {
 
         AttachFileExample example = new AttachFileExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("sort_order desc");
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -71,7 +71,7 @@ public class AttachFileController extends BaseController {
             criteria.andTypeEqualTo(type);
         }
 
-        int count = attachFileMapper.countByExample(example);
+        int count = (int) attachFileMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -174,4 +174,14 @@ public class AttachFileController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+     @RequiresPermissions("attachFile:edit")
+	@RequestMapping(value = "/attachFile_changeOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public Map do_attachFile_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+		attachFileService.changeOrder(id, addNum);
+		logger.info(addLog(LogConstants.LOG_ADMIN, "系统附件调序：%s,%s", id, addNum));
+		return success(FormUtils.SUCCESS);
+	}
 }

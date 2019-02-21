@@ -2,13 +2,12 @@ package persistence.sys;
 
 import domain.sys.AttachFile;
 import domain.sys.AttachFileExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface AttachFileMapper {
-    int countByExample(AttachFileExample example);
+    long countByExample(AttachFileExample example);
 
     int deleteByExample(AttachFileExample example);
 

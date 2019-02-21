@@ -44,8 +44,8 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/sysRole_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '系统代码', name: 'role', width:200, align:'left'},
-            { label: '角色名称', name: 'description', width: 300, align:'left'},
+            { label: '系统代码', name: 'role', width:200, align:'left',frozen:true},
+            { label: '角色名称', name: 'description', width: 300, align:'left',frozen:true},
             {
                 label: '排序', align: 'center', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/sysRole_changeOrder"}
@@ -55,7 +55,7 @@
                     off:'<span class="text-success bolder">手动设定</span>'}},
             {label:'权限拥有人', name:'userCount', width: 110, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '-'
-                return ('<button class="popupBtn btn btn-primary btn-xs" data-width="950" data-url="${ctx}/sysRole_users?roleId={0}">' +
+                return ('<button class="popupBtn btn btn-warning btn-xs" data-width="950" data-url="${ctx}/sysRole_users?roleId={0}">' +
                     '<i class="fa fa-search"></i> 查看({1})</button>')
                     .format(rowObject.id, cellvalue);
             }},

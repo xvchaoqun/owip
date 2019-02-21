@@ -25,6 +25,8 @@ public class AttachFile implements Serializable {
 
     private Byte type;
 
+    private Integer sortOrder;
+
     private String remark;
 
     private Date createTime;
@@ -85,6 +87,14 @@ public class AttachFile implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public String getRemark() {

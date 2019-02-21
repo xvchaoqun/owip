@@ -24,6 +24,8 @@ public class SchedulerJob implements Serializable {
 
     private Boolean isStarted;
 
+    private Boolean needLog;
+
     private Integer sortOrder;
 
     private Date createTime;
@@ -76,6 +78,14 @@ public class SchedulerJob implements Serializable {
 
     public void setIsStarted(Boolean isStarted) {
         this.isStarted = isStarted;
+    }
+
+    public Boolean getNeedLog() {
+        return needLog;
+    }
+
+    public void setNeedLog(Boolean needLog) {
+        this.needLog = needLog;
     }
 
     public Integer getSortOrder() {

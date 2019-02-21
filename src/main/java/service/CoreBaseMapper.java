@@ -11,8 +11,7 @@ import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveOriginMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
 import persistence.common.CommonMapper;
-import persistence.common.IPartyMapper;
-import persistence.common.ISysMapper;
+import persistence.common.IPropertyMapper;
 import persistence.cpc.common.ICpcMapper;
 import persistence.dispatch.*;
 import persistence.dispatch.common.IDispatchMapper;
@@ -27,7 +26,9 @@ import persistence.member.common.IMemberMapper;
 import persistence.member.common.StatMemberMapper;
 import persistence.modify.common.IModifyMapper;
 import persistence.party.*;
+import persistence.party.common.IPartyMapper;
 import persistence.sys.*;
+import persistence.sys.common.ISysMapper;
 import persistence.unit.*;
 import persistence.unit.common.IUnitMapper;
 
@@ -219,9 +220,9 @@ public class CoreBaseMapper {
     protected ExtRetireSalaryMapper extRetireSalaryMapper;
     @Autowired(required = false)
     protected ExtJzgSalaryMapper extJzgSalaryMapper;
-    
+
     @Autowired(required = false)
-    protected persistence.common.IPropertyMapper iPropertyMapper;
+    protected IPropertyMapper iPropertyMapper;
     @Autowired(required = false)
     protected ILeaderMapper iLeaderMapper;
     @Autowired(required = false)

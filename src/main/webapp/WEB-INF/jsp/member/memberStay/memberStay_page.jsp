@@ -110,8 +110,8 @@
                         </li>
                         <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
-                                <a class="btn btn-success btn-sm"
-                                   href="${ctx}/memberStay?export=2&type=${param.type}" target="_blank">
+                                <a class="downloadBtn btn btn-success btn-sm"
+                                   href="javascript:;" data-url="${ctx}/memberStay?export=2&type=${param.type}">
                                     <i class="fa fa-download"></i> 汇总导出</a>
                         </div>
                         </shiro:hasAnyRoles>

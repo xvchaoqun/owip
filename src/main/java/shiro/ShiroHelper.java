@@ -27,7 +27,6 @@ public class ShiroHelper extends BaseShiroHelper{
 	private static SysUserService userService;
 	private static SysRoleService roleService;
 
-
 	public static Boolean hasAnyRoles(String roleIds){
 
 		if(StringUtils.isBlank(roleIds)) return false;
@@ -43,10 +42,9 @@ public class ShiroHelper extends BaseShiroHelper{
 		return hasAnyRoles(roles.toArray(_roles));
 	}
 
-
 	public static SysUserView getCurrentUser() {
 
-		if (!hasAuthenticated()) {
+		if (!getSubject().isRemembered() && !hasAuthenticated()) {
 			logger.debug("unAuthenticated, getCurrentUser is null.");
 			return null;
 		}

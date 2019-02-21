@@ -354,7 +354,7 @@
 <div class="clearfix form-actions center">
 
 	<c:if test="${sysUser.source==USER_SOURCE_JZG}">
-	<button class="btn btn-info  btn-pink" onclick="sync_user(${param.userId}, this)" type="button"
+	<button class="btn btn-info  btn-pink" onclick="_sync(${param.userId}, this)" type="button"
 			data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步中..." autocomplete="off">
 		<i class="ace-icon fa fa-random "></i>
 		同步学校信息
@@ -373,7 +373,7 @@
 		$("#body-content-view #view-box .nav-tabs li.active a").click();
 	}
 
-	function sync_user(userId, btn){
+	function _sync(userId, btn){
 
 		var $btn = $(btn).button('loading')
 		var $container = $("#view-box");
@@ -382,7 +382,7 @@
 					setTimeout( function(){
 						$container.hideLoading();
 						$btn.button('reset');
-					}, 2000 );
+					}, 10000 );
 				}});
 		$.post("${ctx}/sync_user",{userId:userId},function(ret){
 

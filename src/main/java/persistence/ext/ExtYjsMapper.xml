@@ -81,6 +81,8 @@
     <result column="qzdwm" jdbcType="VARCHAR" property="qzdwm" />
     <result column="qzdw" jdbcType="VARCHAR" property="qzdw" />
     <result column="qzny" jdbcType="VARCHAR" property="qzny" />
+    <result column="hkszd" jdbcType="VARCHAR" property="hkszd" />
+    <result column="syszd" jdbcType="VARCHAR" property="syszd" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -147,7 +149,7 @@
     blzgm, nj, xz, yjrxny, sjrxny, yjbyny, yqbynx, sjbyny, sjxwny, xjglm, xjglmc, xjglny, 
     xjbz, xjydbz, qtbz, hkszdm, syszdm, xxgzdw, zslqlbm, zslqlb, zxjhm, ksfsm, ksfs, 
     kslym, ksly, pyzxjhm, pyzxjh, zzmmm, hfm, xyjrm, xslbm5, tjzydm, tjzymc, ksh16, sjcqsj, 
-    qzdwm, qzdw, qzny
+    qzdwm, qzdw, qzny, hkszd, syszd
   </sql>
   <select id="selectByExample" parameterType="domain.ext.ExtYjsExample" resultMap="BaseResultMap">
     select
@@ -204,7 +206,8 @@
       pyzxjh, zzmmm, hfm, 
       xyjrm, xslbm5, tjzydm, 
       tjzymc, ksh16, sjcqsj, 
-      qzdwm, qzdw, qzny)
+      qzdwm, qzdw, qzny, 
+      hkszd, syszd)
     values (#{xh,jdbcType=VARCHAR}, #{ztm,jdbcType=VARCHAR}, #{zt,jdbcType=VARCHAR}, 
       #{gbm,jdbcType=VARCHAR}, #{gb,jdbcType=VARCHAR}, #{xslbm2,jdbcType=VARCHAR}, #{xslb,jdbcType=VARCHAR}, 
       #{xm,jdbcType=VARCHAR}, #{xmpy,jdbcType=VARCHAR}, #{xbm,jdbcType=VARCHAR}, #{xb,jdbcType=VARCHAR}, 
@@ -229,7 +232,8 @@
       #{pyzxjh,jdbcType=VARCHAR}, #{zzmmm,jdbcType=VARCHAR}, #{hfm,jdbcType=VARCHAR}, 
       #{xyjrm,jdbcType=VARCHAR}, #{xslbm5,jdbcType=VARCHAR}, #{tjzydm,jdbcType=VARCHAR}, 
       #{tjzymc,jdbcType=VARCHAR}, #{ksh16,jdbcType=VARCHAR}, #{sjcqsj,jdbcType=VARCHAR}, 
-      #{qzdwm,jdbcType=VARCHAR}, #{qzdw,jdbcType=VARCHAR}, #{qzny,jdbcType=VARCHAR})
+      #{qzdwm,jdbcType=VARCHAR}, #{qzdw,jdbcType=VARCHAR}, #{qzny,jdbcType=VARCHAR}, 
+      #{hkszd,jdbcType=VARCHAR}, #{syszd,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.ext.ExtYjs">
     insert into ext_yjs
@@ -471,6 +475,12 @@
       <if test="qzny != null">
         qzny,
       </if>
+      <if test="hkszd != null">
+        hkszd,
+      </if>
+      <if test="syszd != null">
+        syszd,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="xh != null">
@@ -709,6 +719,12 @@
       </if>
       <if test="qzny != null">
         #{qzny,jdbcType=VARCHAR},
+      </if>
+      <if test="hkszd != null">
+        #{hkszd,jdbcType=VARCHAR},
+      </if>
+      <if test="syszd != null">
+        #{syszd,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -958,6 +974,12 @@
       <if test="record.qzny != null">
         qzny = #{record.qzny,jdbcType=VARCHAR},
       </if>
+      <if test="record.hkszd != null">
+        hkszd = #{record.hkszd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syszd != null">
+        syszd = #{record.syszd,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -1043,7 +1065,9 @@
       sjcqsj = #{record.sjcqsj,jdbcType=VARCHAR},
       qzdwm = #{record.qzdwm,jdbcType=VARCHAR},
       qzdw = #{record.qzdw,jdbcType=VARCHAR},
-      qzny = #{record.qzny,jdbcType=VARCHAR}
+      qzny = #{record.qzny,jdbcType=VARCHAR},
+      hkszd = #{record.hkszd,jdbcType=VARCHAR},
+      syszd = #{record.syszd,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -1285,6 +1309,12 @@
       <if test="qzny != null">
         qzny = #{qzny,jdbcType=VARCHAR},
       </if>
+      <if test="hkszd != null">
+        hkszd = #{hkszd,jdbcType=VARCHAR},
+      </if>
+      <if test="syszd != null">
+        syszd = #{syszd,jdbcType=VARCHAR},
+      </if>
     </set>
     where xh = #{xh,jdbcType=VARCHAR}
   </update>
@@ -1367,7 +1397,9 @@
       sjcqsj = #{sjcqsj,jdbcType=VARCHAR},
       qzdwm = #{qzdwm,jdbcType=VARCHAR},
       qzdw = #{qzdw,jdbcType=VARCHAR},
-      qzny = #{qzny,jdbcType=VARCHAR}
+      qzny = #{qzny,jdbcType=VARCHAR},
+      hkszd = #{hkszd,jdbcType=VARCHAR},
+      syszd = #{syszd,jdbcType=VARCHAR}
     where xh = #{xh,jdbcType=VARCHAR}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.ext.ExtYjsExample" resultMap="BaseResultMap">

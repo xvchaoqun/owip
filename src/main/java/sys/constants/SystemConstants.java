@@ -110,6 +110,18 @@ public class SystemConstants {
     public static final byte AVAILABLE = 1;
     public static final byte UNAVAILABLE = 0;
 
+    // 定时任务状态, 1 jobToBeExecuted 2 jobExecutionVetoed 3 jobWasExecuted
+    public static final byte SCHEDULER_JOB_TOBEEXECUTED = 1;
+    public static final byte SCHEDULER_JOB_EXECUTIONVETOED = 2;
+    public static final byte SCHEDULER_JOB_WASEXECUTED = 3;
+    public final static Map<Byte, String> SCHEDULER_JOB_MAP = new LinkedHashMap<>();
+
+    static {
+        SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_TOBEEXECUTED, "即将执行");
+        SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_EXECUTIONVETOED, "已取消");
+        SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_WASEXECUTED, "已执行");
+    }
+
     // 性别， 1男 2女 0未知
     public static final byte GENDER_MALE = 1;
     public static final byte GENDER_FEMALE = 2;

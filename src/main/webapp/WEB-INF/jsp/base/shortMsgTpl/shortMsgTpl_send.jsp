@@ -24,6 +24,12 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-2 control-label">模板名称</label>
+				<div class="col-xs-5 label-text">
+					${shortMsgTpl.name}
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-2 control-label">短信内容</label>
 				<div class="col-xs-9 label-text">
                    <textarea required class="form-control limited" type="text"

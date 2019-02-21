@@ -22,6 +22,8 @@ public class ShortMsgTpl implements Serializable {
 
     private String remark;
 
+    private Integer sortOrder;
+
     private Date createTime;
 
     private String ip;
@@ -68,6 +70,14 @@ public class ShortMsgTpl implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Date getCreateTime() {

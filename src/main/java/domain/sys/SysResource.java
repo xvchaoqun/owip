@@ -31,6 +31,8 @@ public class SysResource implements Serializable {
 
     private String permission;
 
+    private Integer roleCount;
+
     private String countCacheKeys;
 
     private String countCacheRoles;
@@ -127,6 +129,14 @@ public class SysResource implements Serializable {
 
     public void setPermission(String permission) {
         this.permission = permission == null ? null : permission.trim();
+    }
+
+    public Integer getRoleCount() {
+        return roleCount;
+    }
+
+    public void setRoleCount(Integer roleCount) {
+        this.roleCount = roleCount;
     }
 
     public String getCountCacheKeys() {

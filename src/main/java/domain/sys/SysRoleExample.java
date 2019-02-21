@@ -374,6 +374,16 @@ public class SysRoleExample {
             return (Criteria) this;
         }
 
+        public Criteria andResourceIdsContain(int resourceId) {
+            addCriterion("find_in_set("+ resourceId +", resource_ids)");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResourceIdsContain(int resourceId) {
+            addCriterion("find_in_set("+ resourceId +", m_resource_ids)");
+            return (Criteria) this;
+        }
+
         public Criteria andMResourceIdsIsNull() {
             addCriterion("m_resource_ids is null");
             return (Criteria) this;

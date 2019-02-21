@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.party.common;
 
 import domain.party.BranchMember;
 import domain.party.OrgAdmin;

@@ -505,6 +505,66 @@ public class SchedulerJobExample {
             return (Criteria) this;
         }
 
+        public Criteria andNeedLogIsNull() {
+            addCriterion("need_log is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogIsNotNull() {
+            addCriterion("need_log is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogEqualTo(Boolean value) {
+            addCriterion("need_log =", value, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogNotEqualTo(Boolean value) {
+            addCriterion("need_log <>", value, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogGreaterThan(Boolean value) {
+            addCriterion("need_log >", value, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("need_log >=", value, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogLessThan(Boolean value) {
+            addCriterion("need_log <", value, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogLessThanOrEqualTo(Boolean value) {
+            addCriterion("need_log <=", value, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogIn(List<Boolean> values) {
+            addCriterion("need_log in", values, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogNotIn(List<Boolean> values) {
+            addCriterion("need_log not in", values, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_log between", value1, value2, "needLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedLogNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_log not between", value1, value2, "needLog");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

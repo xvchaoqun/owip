@@ -25,7 +25,7 @@ public class AttachFileService extends BaseMapper {
             code = prefix + "_" + RandomStringUtils.randomAlphanumeric(6).toLowerCase();
             AttachFileExample example = new AttachFileExample();
             example.createCriteria().andCodeEqualTo(code);
-            count = attachFileMapper.countByExample(example);
+            count = (int) attachFileMapper.countByExample(example);
         } while (count > 0);
         return code;
     }
@@ -55,6 +55,8 @@ public class AttachFileService extends BaseMapper {
     public int insertSelective(AttachFile record) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
+
+         record.setSortOrder(getNextSortOrder("sys_attach_file", null));
         return attachFileMapper.insertSelective(record);
     }
 
@@ -80,4 +82,40 @@ public class AttachFileService extends BaseMapper {
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");
         return attachFileMapper.updateByPrimaryKeySelective(record);
     }
+    
+    @Transactional
+	public void changeOrder(int id, int addNum) {
+
+		if(addNum == 0) return ;
+		byte orderBy = ORDER_BY_DESC;
+		AttachFile entity = attachFileMapper.selectByPrimaryKey(id);
+		Integer baseSortOrder = entity.getSortOrder();
+
+		AttachFileExample example = new AttachFileExample();
+		if (addNum*orderBy > 0) {
+
+			example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+			example.setOrderByClause("sort_order asc");
+		}else {
+
+			example.createCriteria().andSortOrderLessThan(baseSortOrder);
+			example.setOrderByClause("sort_order desc");
+		}
+
+		List<AttachFile> overEntities = attachFileMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+		if(overEntities.size()>0) {
+
+			AttachFile targetEntity = overEntities.get(overEntities.size()-1);
+
+			if (addNum*orderBy > 0)
+				commonMapper.downOrder("sys_attach_file", null, baseSortOrder, targetEntity.getSortOrder());
+			else
+				commonMapper.upOrder("sys_attach_file", null, baseSortOrder, targetEntity.getSortOrder());
+
+			AttachFile record = new AttachFile();
+			record.setId(id);
+			record.setSortOrder(targetEntity.getSortOrder());
+			attachFileMapper.updateByPrimaryKeySelective(record);
+		}
+	}
 }

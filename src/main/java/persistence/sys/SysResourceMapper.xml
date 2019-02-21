@@ -13,6 +13,7 @@
     <result column="parent_ids" jdbcType="VARCHAR" property="parentIds" />
     <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
     <result column="permission" jdbcType="VARCHAR" property="permission" />
+    <result column="role_count" jdbcType="INTEGER" property="roleCount" />
     <result column="count_cache_keys" jdbcType="VARCHAR" property="countCacheKeys" />
     <result column="count_cache_roles" jdbcType="VARCHAR" property="countCacheRoles" />
     <result column="available" jdbcType="TINYINT" property="available" />
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, is_mobile, name, remark, type, menu_css, url, parent_id, parent_ids, is_leaf, 
-    permission, count_cache_keys, count_cache_roles, available, sort_order
+    permission, role_count, count_cache_keys, count_cache_roles, available, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysResourceExample" resultMap="BaseResultMap">
     select
@@ -117,13 +118,15 @@
     insert into sys_resource (is_mobile, name, remark, 
       type, menu_css, url, 
       parent_id, parent_ids, is_leaf, 
-      permission, count_cache_keys, count_cache_roles, 
-      available, sort_order)
+      permission, role_count, count_cache_keys, 
+      count_cache_roles, available, sort_order
+      )
     values (#{isMobile,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{menuCss,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR}, #{isLeaf,jdbcType=BIT}, 
-      #{permission,jdbcType=VARCHAR}, #{countCacheKeys,jdbcType=VARCHAR}, #{countCacheRoles,jdbcType=VARCHAR}, 
-      #{available,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER})
+      #{permission,jdbcType=VARCHAR}, #{roleCount,jdbcType=INTEGER}, #{countCacheKeys,jdbcType=VARCHAR}, 
+      #{countCacheRoles,jdbcType=VARCHAR}, #{available,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysResource">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -160,6 +163,9 @@
       </if>
       <if test="permission != null">
         permission,
+      </if>
+      <if test="roleCount != null">
+        role_count,
       </if>
       <if test="countCacheKeys != null">
         count_cache_keys,
@@ -204,6 +210,9 @@
       </if>
       <if test="permission != null">
         #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCount != null">
+        #{roleCount,jdbcType=INTEGER},
       </if>
       <if test="countCacheKeys != null">
         #{countCacheKeys,jdbcType=VARCHAR},
@@ -261,6 +270,9 @@
       <if test="record.permission != null">
         permission = #{record.permission,jdbcType=VARCHAR},
       </if>
+      <if test="record.roleCount != null">
+        role_count = #{record.roleCount,jdbcType=INTEGER},
+      </if>
       <if test="record.countCacheKeys != null">
         count_cache_keys = #{record.countCacheKeys,jdbcType=VARCHAR},
       </if>
@@ -291,6 +303,7 @@
       parent_ids = #{record.parentIds,jdbcType=VARCHAR},
       is_leaf = #{record.isLeaf,jdbcType=BIT},
       permission = #{record.permission,jdbcType=VARCHAR},
+      role_count = #{record.roleCount,jdbcType=INTEGER},
       count_cache_keys = #{record.countCacheKeys,jdbcType=VARCHAR},
       count_cache_roles = #{record.countCacheRoles,jdbcType=VARCHAR},
       available = #{record.available,jdbcType=TINYINT},
@@ -332,6 +345,9 @@
       <if test="permission != null">
         permission = #{permission,jdbcType=VARCHAR},
       </if>
+      <if test="roleCount != null">
+        role_count = #{roleCount,jdbcType=INTEGER},
+      </if>
       <if test="countCacheKeys != null">
         count_cache_keys = #{countCacheKeys,jdbcType=VARCHAR},
       </if>
@@ -359,6 +375,7 @@
       parent_ids = #{parentIds,jdbcType=VARCHAR},
       is_leaf = #{isLeaf,jdbcType=BIT},
       permission = #{permission,jdbcType=VARCHAR},
+      role_count = #{roleCount,jdbcType=INTEGER},
       count_cache_keys = #{countCacheKeys,jdbcType=VARCHAR},
       count_cache_roles = #{countCacheRoles,jdbcType=VARCHAR},
       available = #{available,jdbcType=TINYINT},

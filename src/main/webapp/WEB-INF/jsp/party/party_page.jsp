@@ -26,8 +26,8 @@ pageEncoding="UTF-8" %>
                     </li>
                     <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
                     <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
-                            <a class="btn btn-success btn-sm"
-                               href="${ctx}/party?export=2" target="_blank">
+                            <a class="downloadBtn btn btn-success btn-sm"
+                               href="javascript:;" data-url="${ctx}/party?export=2">
                                 <i class="fa fa-download"></i> 汇总导出基本情况表</a>
                     </div>
                     </shiro:hasAnyRoles>
