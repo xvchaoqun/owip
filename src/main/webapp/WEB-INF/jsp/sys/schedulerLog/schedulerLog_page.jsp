@@ -71,8 +71,8 @@
         colModel: [
             { label: '任务名称', name: 'job.name', width:300, align:'left'},
             { label: '触发方式', name: 'isManualTrigger', width: 80, formatter: $.jgrid.formatter.TRUEFALSE,
-                formatoptions:{on: '<span class="text text-success bolder">自动</span>',
-                    off: '<span class="text text-danger bolder">手动</span>'}},
+                formatoptions:{on: '<span class="text text-danger bolder">手动</span>',
+                    off: '<span class="text text-success bolder">自动</span>'}},
             { label: '执行时间', name: 'triggerTime', width:160},
             { label: 'jobName', name: 'jobName', width:550, align:'left'},
             { label: 'JobGroup', name: 'jobGroup', width:250, align:'left'},
