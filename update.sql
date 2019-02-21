@@ -5,8 +5,8 @@
 移动IPartyMapper, ISysMapper
 
 ALTER TABLE `ext_yjs`
-	ADD COLUMN `hkszd` VARCHAR(6) NULL DEFAULT NULL COMMENT '户口所在地' AFTER `qzny`,
-	ADD COLUMN `syszd` VARCHAR(6) NULL DEFAULT NULL COMMENT '生源所在地' AFTER `hkszd`;
+	ADD COLUMN `hkszd` VARCHAR(120) NULL DEFAULT NULL COMMENT '户口所在地' AFTER `qzny`,
+	ADD COLUMN `syszd` VARCHAR(120) NULL DEFAULT NULL COMMENT '生源所在地' AFTER `hkszd`;
 
 
 ALTER TABLE `sys_resource`
