@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import sys.constants.CmConstants;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CmMemberService extends CmBaseMapper {
@@ -84,7 +81,10 @@ public class CmMemberService extends CmBaseMapper {
 
         if(memberIds ==null || memberIds.length==0) return;
 
-        for (Integer memberId : memberIds) {
+        List<Integer> memberIdList = Arrays.asList(memberIds); // 保证和党委委员的顺序一致
+        Collections.reverse(memberIdList);
+
+        for (Integer memberId : memberIdList) {
 
             CmMember cmMember = cmMemberMapper.selectByPrimaryKey(memberId);
             if(cmMember==null || cmMember.getType()!=CmConstants.CM_MEMBER_TYPE_DW

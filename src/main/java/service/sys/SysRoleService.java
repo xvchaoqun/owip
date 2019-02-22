@@ -85,7 +85,9 @@ public class SysRoleService extends BaseMapper {
 	@Cacheable(value = "SysRoles")
 	public Map<Integer, SysRole> findAll(){
 
-		List<SysRole> sysRoles = sysRoleMapper.selectByExample(new SysRoleExample());
+		SysRoleExample example = new SysRoleExample();
+		example.setOrderByClause("sort_order desc");
+		List<SysRole> sysRoles = sysRoleMapper.selectByExample(example);
 		Map<Integer, SysRole> sysRoleMap = new LinkedHashMap<Integer, SysRole>();
 		for (SysRole sysRole : sysRoles) {
 			sysRoleMap.put(sysRole.getId(), sysRole);
@@ -171,8 +173,10 @@ public class SysRoleService extends BaseMapper {
 		root.isFolder = true;
 		root.hideCheckbox = true;
 		root.children =  new ArrayList<TreeNode>();
-		
-		List<SysRole> sysRoles = sysRoleMapper.selectByExample(new SysRoleExample());
+
+		SysRoleExample example = new SysRoleExample();
+		example.setOrderByClause("sort_order desc");
+		List<SysRole> sysRoles = sysRoleMapper.selectByExample(example);
 		boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
 
 		for(SysRole sysRole:sysRoles){
@@ -182,24 +186,24 @@ public class SysRoleService extends BaseMapper {
 				continue;
 			}
 
-			TreeNode node2 = new TreeNode();
-			node2.title = sysRole.getDescription();
-			node2.key = sysRole.getId() + "";
-			node2.expand = false;
-			node2.isFolder = false;
-			node2.hideCheckbox = false;
+			TreeNode node = new TreeNode();
+			node.title = sysRole.getDescription();
+			node.key = sysRole.getId() + "";
+			node.expand = false;
+			node.isFolder = false;
+			node.hideCheckbox = false;
 			if (checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold())) {
 
-				if (!superAccount) node2.unselectable = true;
-				node2.addClass = "unselectable";
+				if (!superAccount) node.unselectable = true;
+				node.addClass = "unselectable";
 			}
-			node2.children = new ArrayList<TreeNode>();
+			node.children = new ArrayList<TreeNode>();
 
 			if (selectIdSet.contains(sysRole.getId().intValue())) {
-				node2.select = true;
+				node.select = true;
 			}
 
-			root.children.add(node2);
+			root.children.add(node);
 		}
 		
 		return  root;

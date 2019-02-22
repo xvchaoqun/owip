@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.sys.SchedulerJobMapper;
 import persistence.sys.SchedulerLogMapper;
-import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
@@ -58,6 +57,7 @@ public class SchedulerLogController extends BaseController {
 	@ResponseBody
 	public void schedulerLog_data(HttpServletRequest request, Integer pageSize, Integer pageNo,
 								  Integer jobId,
+								  Byte status,
 								  @RequestDateRange DateRange triggerTime) throws IOException {
 		
 		if (null == pageSize) {
@@ -69,10 +69,11 @@ public class SchedulerLogController extends BaseController {
 		pageNo = Math.max(1, pageNo);
 		
 		SchedulerLogExample example = new SchedulerLogExample();
-		SchedulerLogExample.Criteria criteria = example.createCriteria()
-				.andStatusEqualTo(SystemConstants.SCHEDULER_JOB_WASEXECUTED);
+		SchedulerLogExample.Criteria criteria = example.createCriteria();
 		example.setOrderByClause(" id desc");
-
+		if(status!=null){
+			criteria.andStatusEqualTo(status);
+		}
 		if(jobId!=null){
 			criteria.andJobIdEqualTo(jobId);
 		}

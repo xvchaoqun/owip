@@ -209,57 +209,63 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUser_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_au(@Validated SysUser sysUser, BindingResult result, HttpServletRequest request) {
+    public Map do_sysUser_au(@Validated SysUser record, BindingResult result, HttpServletRequest request) {
         
         if (result.hasErrors()) {
             FieldError fieldError = result.getFieldError();
             return formValidError(fieldError.getField(), fieldError.getDefaultMessage());
         }
         
-        sysUser.setUsername(StringUtils.lowerCase(StringUtils.trimToNull(sysUser.getUsername())));
-        sysUser.setCode(StringUtils.lowerCase(StringUtils.trimToNull(sysUser.getCode())));
-        Integer id = sysUser.getId();
+        record.setUsername(StringUtils.lowerCase(StringUtils.trimToNull(record.getUsername())));
+        record.setCode(StringUtils.lowerCase(StringUtils.trimToNull(record.getCode())));
+        Integer id = record.getId();
         
-        if (sysUser.getUsername() != null) {
-            if (!FormUtils.usernameFormatRight(sysUser.getUsername())) {
+        if (record.getUsername() != null) {
+            if (!FormUtils.usernameFormatRight(record.getUsername())) {
                 return formValidError("username", "用户名由4-19位的字母、下划线和数字组成，且不能以数字或下划线开头。");
             }
-            if (sysUserService.idDuplicate(id, sysUser.getUsername(), sysUser.getCode())) {
+            if (sysUserService.idDuplicate(id, record.getUsername(), record.getCode())) {
                 
                 return formValidError("code", "用户名或学工号重复");
             }
         }
         
         if (id == null) {
-            if (StringUtils.isBlank(sysUser.getUsername())) {
+            if (StringUtils.isBlank(record.getUsername())) {
                 return formValidError("username", "用户名不能为空");
             }
-            if (StringUtils.isBlank(sysUser.getPasswd())) {
+            if (StringUtils.isBlank(record.getPasswd())) {
                 return formValidError("passwd", "密码不能为空");
             }
-            sysUser.setLocked(false);
-            SaltPassword encrypt = passwordHelper.encryptByRandomSalt(sysUser.getPasswd());
-            sysUser.setSalt(encrypt.getSalt());
-            sysUser.setPasswd(encrypt.getPassword());
-            sysUser.setCreateTime(new Date());
-            sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
-            sysUserService.insertSelective(sysUser);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加用户：%s", sysUser.getId()));
+            record.setLocked(false);
+            SaltPassword encrypt = passwordHelper.encryptByRandomSalt(record.getPasswd());
+            record.setSalt(encrypt.getSalt());
+            record.setPasswd(encrypt.getPassword());
+            record.setCreateTime(new Date());
+            record.setSource(SystemConstants.USER_SOURCE_ADMIN);
+            sysUserService.insertSelective(record);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加用户：%s", record.getId()));
         } else {
-            if (StringUtils.isBlank(sysUser.getPasswd())) {
+            if (StringUtils.isBlank(record.getPasswd())) {
                 // 密码不变
-                sysUser.setPasswd(null);
+                record.setPasswd(null);
             } else {
-                SaltPassword encrypt = passwordHelper.encryptByRandomSalt(sysUser.getPasswd());
-                sysUser.setSalt(encrypt.getSalt());
-                sysUser.setPasswd(encrypt.getPassword());
+                SaltPassword encrypt = passwordHelper.encryptByRandomSalt(record.getPasswd());
+                record.setSalt(encrypt.getSalt());
+                record.setPasswd(encrypt.getPassword());
+            }
+
+            SysUserView uv = sysUserService.findById(id);
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_SUPER)
+                    && CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_SUPER)) {
+                return failed("该账号不允许更新。");
             }
             
-            if (sysUser.getTimeout() == null) {
+            if (record.getTimeout() == null) {
                 commonMapper.excuteSql("update sys_user set timeout=null where id=" + id);
             }
-            sysUserService.updateByPrimaryKeySelective(sysUser);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
+            sysUserService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户：%s", record.getId()));
         }
         
         return success(FormUtils.SUCCESS);
@@ -335,7 +341,7 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUserRole", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserRole(SysUser sysUser,
+    public Map do_sysUserRole(SysUser record,
                               @RequestParam(value = "rIds[]", required = false) Integer[] rIds,
                               HttpServletRequest request) {
         
@@ -343,19 +349,17 @@ public class SysUserController extends BaseController {
             rIds = new Integer[1];
             rIds[0] = -1;
         }
-        Set<Integer> roleIdSet = new HashSet<>(Arrays.asList(rIds));
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        // 只有超级管理员允许修改为系统管理员，如果不是则不选项系统管理员的选项
-        if (!superAccount) {
-            SysRole admin = sysRoleService.getByRole(RoleConstants.ROLE_ADMIN);
-            if (admin != null) {
-                roleIdSet.remove(admin.getId());
-            }
+        int userId = record.getId();
+        SysUserView uv = sysUserService.findById(userId);
+        if (!superAccount && ShiroHelper.lackRole(RoleConstants.ROLE_SUPER)
+                && CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_SUPER)) {
+            return failed("该账号不允许更新。");
         }
+
+        sysUserService.updateUserRoles(userId, "," + StringUtils.join(rIds, ",") + ",");
         
-        sysUserService.updateUserRoles(sysUser.getId(), "," + StringUtils.join(rIds, ",") + ",");
-        
-        logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", sysUser.getUsername(), StringUtils.join(rIds, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", record.getUsername(), StringUtils.join(rIds, ",")));
         return success(FormUtils.SUCCESS);
     }
     

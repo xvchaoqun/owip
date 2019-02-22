@@ -117,9 +117,9 @@ public class SystemConstants {
     public final static Map<Byte, String> SCHEDULER_JOB_MAP = new LinkedHashMap<>();
 
     static {
-        SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_TOBEEXECUTED, "即将执行");
+        SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_TOBEEXECUTED, "准备执行");
         SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_EXECUTIONVETOED, "已取消");
-        SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_WASEXECUTED, "已执行");
+        SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_WASEXECUTED, "执行完毕");
     }
 
     // 性别， 1男 2女 0未知

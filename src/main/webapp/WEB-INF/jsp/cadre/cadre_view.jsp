@@ -3,11 +3,14 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <c:if test="${param._auth!='self'}">
-    <div class="hidden-xs hidden-sm" title="${cadre.title}" style="position:fixed; top: 95px; width: 450px;
-    left:50%;margin-left:-225px; font-size: 16pt; font-weight: bolder;white-space:nowrap;
+    <div id="cadreTitleDiv" class="hidden-xs hidden-sm" title="${cadre.title}" style="position:fixed; top: 95px; width: 450px;
+    /*left:50%;margin-left:-190px;*/font-size: 16pt; font-weight: bolder;white-space:nowrap;
     /*overflow:hidden;text-overflow:ellipsis;*/z-index: 1001">
         【${cadre.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
     </div>
+    <script>
+       $("#cadreTitleDiv").css("left", ($("#breadcrumbs").position().left + $("#breadcrumbs ul.breadcrumb").outerWidth(true)) + "px")
+    </script>
     <c:if test="${param.hideBack!=1}">
     <h4 class="widget-title lighter smaller"
         style="position:fixed; top: 91px; right: 50px;z-index: 1001 ">

@@ -229,8 +229,7 @@
         $("#ace-settings-box .resultDiv").html('')
     })
     function _loadArchive(btn){
-        $('#ace-settings-btn').click();
-        $.loadPage({url:$(btn).data("url")});
+        $.loadPage({url:$(btn).data("url"), callback:function(){$('#ace-settings-btn').click();}});
     }
     $('#ace-settings-box .searchBtn').click(function () {
         var $select = $('#ace-settings-box select[name=userId]');
