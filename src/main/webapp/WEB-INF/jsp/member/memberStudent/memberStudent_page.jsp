@@ -21,13 +21,13 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="member:modifyStatus">
-                                <a href="javascript:" class="jqEditBtn btn btn-info btn-sm"
+                                <a href="javascript:;" class="jqEditBtn btn btn-info btn-sm"
                                    data-url="${ctx}/member_modify_status"
                                    data-id-name="userId">
                                     <i class="fa fa-edit"></i> 修改党籍状态</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="member:edit">
-                            <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"
+                            <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
                                data-open-by="page" data-id-name="userId">
                                 <i class="fa fa-edit"></i> 修改党籍信息</a>
                                 <button class="jqOpenViewBtn btn btn-success btn-sm"

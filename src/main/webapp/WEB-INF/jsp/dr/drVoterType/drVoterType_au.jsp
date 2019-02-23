@@ -32,7 +32,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <a href="javascript:" onclick="openView(${drVoterType.tplId})" class="btn btn-default">取消</a>
+    <a href="javascript:;" onclick="openView(${drVoterType.tplId})" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${drVoterType!=null}">确定</c:if><c:if test="${drVoterType==null}">添加</c:if>"/>
 </div>
 

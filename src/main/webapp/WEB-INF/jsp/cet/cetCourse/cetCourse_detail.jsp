@@ -6,7 +6,7 @@
         <div class="widget-box transparent">
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller  jqgrid-vertical-offset">
-                    <a href="javascript:" class="hideView btn btn-xs btn-success">
+                    <a href="javascript:;" class="hideView btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>
                 </h4>

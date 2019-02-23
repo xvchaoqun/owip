@@ -20,7 +20,7 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/unit?status=4"><i class="fa fa-list"></i> 班子年度考核情况</a>
     </li>--%>
     <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative;margin-top: 3px;">
-        <a href="javascript:"
+        <a href="javascript:;"
            data-load-el="#div-content" data-hide-el="#div-content-view"
            class="hideView btn btn-xs btn-warning">
             <i class="ace-icon fa fa-reply"></i>

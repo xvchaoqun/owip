@@ -34,7 +34,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberTransfer:edit">
                                     <c:if test="${cls==1}">
-                                    <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/memberTransfer_au">
+                                    <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberTransfer_au">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
                                     <c:if test="${cls==1||cls==2}">

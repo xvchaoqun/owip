@@ -6,7 +6,7 @@
     <c:if test="${not empty param.objId}">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
-            <a href="javascript:" class="openView btn btn-xs btn-success"
+            <a href="javascript:;" class="openView btn btn-xs btn-success"
                data-url="${ctx}/cet/cetAnnual_detail?annualId=${cetAnnual.id}&_pageNo=${param._pageNo}">
                 <i class="ace-icon fa fa-backward"></i> 返回</a>
         </h4>

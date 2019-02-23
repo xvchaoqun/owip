@@ -14,29 +14,29 @@
 
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY?"active":""}">
-        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}')"><i
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}')"><i
                 class="fa fa-flag"></i> 主持科研项目</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY?"active":""}">
-        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}')"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}')"><i class="fa fa-flag"></i>
             参与科研项目</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_BOOK_SUMMARY?"active":""}">
-        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_SUMMARY}')"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_SUMMARY}')"><i class="fa fa-flag"></i>
             出版著作</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_PAPER_SUMMARY?"active":""}">
-        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_PAPER_SUMMARY}')"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_PAPER_SUMMARY}')"><i class="fa fa-flag"></i>
             发表论文</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_RESEARCH_REWARD?"active":""}">
-        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_REWARD}')"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_REWARD}')"><i class="fa fa-flag"></i>
             科研成果及获奖</a>
     </li>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
-        <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </shiro:lacksRole>
     </shiro:hasPermission>
@@ -89,7 +89,7 @@
                 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                     <div class="modal-footer center">
-                            <a href="javascript:" onclick="copyOrginal()" class="btn btn-success">
+                            <a href="javascript:;" onclick="copyOrginal()" class="btn btn-success">
                                 <i class="ace-icon fa fa-copy"></i>
                                 同步初始数据
                             </a>

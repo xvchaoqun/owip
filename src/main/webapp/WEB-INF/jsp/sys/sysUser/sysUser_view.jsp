@@ -6,17 +6,17 @@
     <div class="widget-box transparent" id="view-box">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
-                <a href="javascript:" class="hideView btn btn-xs btn-success">
+                <a href="javascript:;" class="hideView btn btn-xs btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
             </h4>
             <div class="widget-toolbar no-border">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="javascript:" data-url="${ctx}/sysUser_info?userId=${param.userId}">账号详情</a>
+                        <a href="javascript:;" data-url="${ctx}/sysUser_info?userId=${param.userId}">账号详情</a>
                     </li>
                     <li>
-                        <a href="javascript:" data-url="${ctx}/sysUser_ext?userId=${param.userId}">账号同步信息</a>
+                        <a href="javascript:;" data-url="${ctx}/sysUser_ext?userId=${param.userId}">账号同步信息</a>
                     </li>
                 </ul>
             </div>

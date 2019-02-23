@@ -6,7 +6,7 @@
     <div style="margin-bottom: 8px">
 
       <div class="buttons">
-        <a href="javascript:" class="hideView btn btn-sm btn-success">
+        <a href="javascript:;" class="hideView btn btn-sm btn-success">
           <i class="ace-icon fa fa-backward"></i>
           返回
         </a>
@@ -21,7 +21,7 @@
                   title="点击即提交签字拍照文件"><i class="fa fa-upload"></i>  确认办理</button>
         </shiro:hasAnyRoles>
         <div class="pull-right" style="margin-right: 450px;">
-          <a href="javascript:" onclick="opencam()" class="btn btn-primary btn-sm">
+          <a href="javascript:;" onclick="opencam()" class="btn btn-primary btn-sm">
             <i class="fa fa-camera"></i>
             点此拍照</a>
           <a class="btn btn-warning btn-sm" onclick="_rotate()"><i class="fa fa-rotate-right"></i> 旋转</a>
@@ -56,8 +56,8 @@
     <div id="my_camera"></div>
   </div>
   <div class="modal-footer">
-    <a href="javascript:" class="btn btn-success" onclick="snap()"><i class="fa fa-camera" aria-hidden="true" ></i> 拍照</a>
-    <a href="javascript:" class="btn btn-default" onclick="closecam()"><i class="fa fa-close" aria-hidden="true" ></i> 取消</a>
+    <a href="javascript:;" class="btn btn-success" onclick="snap()"><i class="fa fa-camera" aria-hidden="true" ></i> 拍照</a>
+    <a href="javascript:;" class="btn btn-default" onclick="closecam()"><i class="fa fa-close" aria-hidden="true" ></i> 取消</a>
   </div>
 </div>
 <style>

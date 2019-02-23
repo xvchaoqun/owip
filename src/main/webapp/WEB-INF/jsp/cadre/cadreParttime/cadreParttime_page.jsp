@@ -5,10 +5,10 @@
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 兼职情况</a>
+        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 兼职情况</a>
     </li>
     <li class="${type==2?"active":""}">
-        <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
+        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
     </shiro:lacksRole>
@@ -87,7 +87,7 @@
                         <input type="hidden" name="content">
                     </div>
                     <div class="modal-footer center">
-                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
+                        <a href="javascript:;" onclick="copyOrginal()" class="btn btn-sm btn-success">
                             <i class="ace-icon fa fa-copy"></i>
                             同步自动生成的数据
                         </a>

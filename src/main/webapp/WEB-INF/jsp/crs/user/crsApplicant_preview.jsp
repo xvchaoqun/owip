@@ -503,7 +503,7 @@ td.padding10 {
         <div class="widget-box transparent">
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller">
-                    <a href="javascript:"
+                    <a href="javascript:;"
                        data-load-el="#${param.loadEl}" data-hide-el="#${param.hideEl}"
                        class="hideView btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>

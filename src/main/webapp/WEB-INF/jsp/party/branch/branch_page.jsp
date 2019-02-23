@@ -53,10 +53,10 @@
         <i class="fa fa-user"></i> 编辑管理员
     </button>
     </c:if>
-                <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
+                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
                 <shiro:hasPermission name="branch:transfer">
-                <a href="javascript:" class="jqOpenViewBatchBtn btn btn-danger btn-sm" data-url="${ctx}/branch_batchTransfer">
+                <a href="javascript:;" class="jqOpenViewBatchBtn btn btn-danger btn-sm" data-url="${ctx}/branch_batchTransfer">
                     <i class="fa fa-random"></i> 支部转移</a>
                 </shiro:hasPermission>
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"

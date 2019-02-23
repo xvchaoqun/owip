@@ -40,7 +40,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberQuit:edit">
                                     <c:if test="${cls==1}">
-                                    <a href="javascript:" class="editBtn btn btn-info btn-sm">
+                                    <a href="javascript:;" class="editBtn btn btn-info btn-sm">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
                                     <c:if test="${cls!=3}">

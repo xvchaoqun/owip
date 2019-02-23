@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
+            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
                        data-url="${ctx}/unitPost?cls=1"><i

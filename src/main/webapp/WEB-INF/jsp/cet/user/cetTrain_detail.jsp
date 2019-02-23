@@ -8,21 +8,21 @@
             <div class="widget-header">
                 <c:if test="${param.cls==1}">
                 <h4 class="widget-title lighter smaller  jqgrid-vertical-offset">
-                    <a href="javascript:" class="hideView btn btn-xs btn-success">
+                    <a href="javascript:;" class="hideView btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>
                 </h4>
                 </c:if>
                 <c:if test="${param.cls==2}">
                     <h4 class="widget-title lighter smaller">
-                        <a href="javascript:" class="openView btn btn-xs btn-success"
+                        <a href="javascript:;" class="openView btn btn-xs btn-success"
                            data-url="${ctx}/user/cet/cetTrain?planId=${cetTrain.planId}">
                             <i class="ace-icon fa fa-backward"></i> 返回</a>
                     </h4>
                 </c:if>
                 <c:if test="${param.cls==3}">
                     <h4 class="widget-title lighter smaller">
-                        <a href="javascript:" class="openView btn btn-xs btn-success"
+                        <a href="javascript:;" class="openView btn btn-xs btn-success"
                            data-url="${ctx}/user/cet/cetProjectPlan?projectId=${cetProject.id}">
                             <i class="ace-icon fa fa-backward"></i> 返回</a>
                     </h4>

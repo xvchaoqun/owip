@@ -16,14 +16,14 @@
     <div class="widget-box transparent">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
-                <a href="javascript:" class="hashchange btn btn-xs btn-success">
+                <a href="javascript:;" class="hashchange btn btn-xs btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
             </h4>
             <div class="widget-toolbar no-border">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="javascript:">申请详情</a>
+                        <a href="javascript:;">申请详情</a>
                     </li>
                 </ul>
             </div>

@@ -11,17 +11,17 @@
       <div class="widget-toolbar no-border">
         <ul class="nav nav-tabs">
             <li>
-                <a href="javascript:" data-url="${ctx}/sitemap_view">功能导航</a>
+                <a href="javascript:;" data-url="${ctx}/sitemap_view">功能导航</a>
             </li>
           <li class="${(!cm:hasRole(ROLE_ADMIN) && !cm:hasRole(ROLE_ODADMIN))?'active':''}">
-            <a href="javascript:" data-url="${ctx}/user_base">个人基本信息</a>
+            <a href="javascript:;" data-url="${ctx}/user_base">个人基本信息</a>
           </li>
           <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
           <li class="active">
-              <a href="javascript:" data-url="${ctx}/stat_member_page">党建统计信息</a>
+              <a href="javascript:;" data-url="${ctx}/stat_member_page">党建统计信息</a>
           </li>
           <li>
-              <a href="javascript:" data-url="${ctx}/stat_sys_page">在线人数统计</a>
+              <a href="javascript:;" data-url="${ctx}/stat_sys_page">在线人数统计</a>
           </li>
           </shiro:hasAnyRoles>
         </ul>

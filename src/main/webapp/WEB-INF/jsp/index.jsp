@@ -55,12 +55,12 @@
                 </a>
             </c:if>
         </div>
-
+        <c:set var="isSuperAccount" value="${cm:isSuperAccount(_user.username)}"/>
         <ul class="nav nav-pills hidden-xs hidden-sm hidden-md" style="margin-left: 0px">
             <li class="">
                 <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i
-                        class="fa fa-user ${cm:isSuperAccount(_user.username)?'blue':''}"></i>
-                    <span class="${cm:isSuperAccount(_user.username)?'blue':''}">${_user.realname}<c:if
+                        class="fa fa-user ${isSuperAccount?'light-green':''}"></i>
+                    <span class="${isSuperAccount?'light-green':''}">${_user.realname}<c:if
                             test="${_user.code!=_user.realname}">(${_user.code})</c:if></span></a>
             </li>
             <c:if test="${!_hideHelp}">
@@ -139,10 +139,11 @@
                                         name="userId" data-placeholder="请输入账号或姓名或工号">
                                     <option></option>
                                 </select>
-                                <button class="searchBtn btn btn-primary btn-sm"
+                                <!-- 不能使用button，干部档案页可能会disabled -->
+                                <a href="javascript:;" class="searchBtn btn btn-primary btn-sm"
                                         data-loading-text="<i class='fa fa-spinner fa-spin '></i> 查询中">
                                     <i class="fa fa-search"></i> 查询
-                                </button>
+                                </a>
                                 <div class="resultDiv row">
 
                                 </div>

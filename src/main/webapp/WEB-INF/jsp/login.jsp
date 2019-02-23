@@ -55,7 +55,7 @@
                 <dd><input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span></dd>
                 </dt>
                 <dt></dt>
-                <dd><a href="javascript:" class="submit_btn" id="login_btn"></a></dd>
+                <dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
                 <dt></dt>
                 <dd>
                     <a href="${ctx}/jsp/browsers.jsp" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
@@ -132,7 +132,7 @@
                            <c:if test="${!useCaptcha}">value="test"</c:if> />
                     <img class="captcha" src="${ctx}/captcha" title="点击刷新" alt="验证码"/></dd>
                 <dt></dt>
-                <dd><a href="javascript:" class="submit_btn" id="reg_btn"></a></dd>
+                <dd><a href="javascript:;" class="submit_btn" id="reg_btn"></a></dd>
                 <dt></dt>
                 <dd><a href="" class="to_login_btn" data-target="#login">返回登录</a></dd>
             </form>

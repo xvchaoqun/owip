@@ -127,7 +127,7 @@
                                                         </a>
                                                     </li>
                                                     <div class="buttons pull-right">
-                                                        <a href="javascript:" class="addBtn btn btn-info btn-sm">
+                                                        <a href="javascript:;" class="addBtn btn btn-info btn-sm">
                                                             <i class="fa fa-plus"></i> 添加入党申请</a>
                                                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                                                             <a class="popupBtn btn btn-primary btn-sm tooltip-primary"

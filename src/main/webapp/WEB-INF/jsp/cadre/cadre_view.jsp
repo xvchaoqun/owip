@@ -9,12 +9,14 @@
         【${cadre.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
     </div>
     <script>
-       $("#cadreTitleDiv").css("left", ($("#breadcrumbs").position().left + $("#breadcrumbs ul.breadcrumb").outerWidth(true)) + "px")
+        $("#breadcrumbs").show();
+        var _w = $("#breadcrumbs").position().left + $("#breadcrumbs ul.breadcrumb").outerWidth(true);
+        $("#cadreTitleDiv").css("left", _w + "px")
     </script>
     <c:if test="${param.hideBack!=1}">
     <h4 class="widget-title lighter smaller"
         style="position:fixed; top: 91px; right: 50px;z-index: 1001 ">
-        <a href="javascript:"
+        <a href="javascript:;"
            data-load-el="#${param.loadEl}" data-hide-el="#${param.hideEl}"
            class="hideView btn btn-xs btn-success">
             <i class="ace-icon fa fa-reply"></i>
@@ -33,114 +35,114 @@
             <ul class="nav nav-tabs">
                 <shiro:hasPermission name="cadreAdform:*">
                     <li class="${to=='cadreAdform_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreAdform_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部任免审批表</a>
                     </li>
                 </shiro:hasPermission>
                 <li class="${to=='cadre_base'?'active':''}">
-                    <a href="javascript:" data-url="${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}">基本信息</a>
+                    <a href="javascript:;" data-url="${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}">基本信息</a>
                 </li>
                 <shiro:hasPermission name="cadreEdu:*">
                     <li class="${to=='cadreEdu_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreEdu_page?cadreId=${param.cadreId}&_auth=${param._auth}">学习经历</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreWork:*">
                     <li class="${to=='cadreWork_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreWork_page?cadreId=${param.cadreId}&_auth=${param._auth}">工作经历</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadrePost:*">
                     <li class="${to=='cadrePost_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadrePost_page?cadreId=${param.cadreId}&_auth=${param._auth}">任职情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadrePostInfo:*">
                     <li class="${to=='cadrePostInfo_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadrePostInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">岗位过程信息</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreParttime:*">
                     <li class="${to=='cadreParttime_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreParttime_page?cadreId=${param.cadreId}&_auth=${param._auth}">学术兼职</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreTrain:*">
                     <li class="${to=='cadreTrain_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreTrain_page?cadreId=${param.cadreId}&_auth=${param._auth}">培训情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreCourse:*">
                     <li class="${to=='cadreCourse_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreCourse_page?cadreId=${param.cadreId}&_auth=${param._auth}">教学经历</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreResearch:*">
                     <li class="${to=='cadreResearch_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreResearch_page?cadreId=${param.cadreId}&_auth=${param._auth}">科研情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreReward:*">
                     <li class="${to=='cadreReward_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreReward_page?cadreId=${param.cadreId}&_auth=${param._auth}">其他奖励情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreFamily:*">
                     <li class="${to=='cadreFamily_page'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreFamily_page?cadreId=${param.cadreId}&_auth=${param._auth}">家庭成员信息</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreCompany:*">
                     <li class="${to=='cadreCompany'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团兼职</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreConcat:*">
                     <li>
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreConcat_page?cadreId=${param.cadreId}&_auth=${param._auth}">联系方式</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreInspectInfo:*">
                     <li>
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreInspectInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">考察情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreEva:*">
                     <li>
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreEva_page?cadreId=${param.cadreId}&_auth=${param._auth}">年度考核记录</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreInfo:check">
                     <li class="${to=='cadreInfoCheck_table'?'active':''}">
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreInfoCheck_table?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息完整性校验表</a>
                     </li>
                 </shiro:hasPermission>
 
                 <shiro:hasPermission name="cadreInfoForm:*">
                     <li>
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息采集表</a>
                     </li>
                 </shiro:hasPermission>
                 <%--<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                     <li>
 
-                        <a href="javascript:"
+                        <a href="javascript:;"
                            data-url="${ctx}/cadreModifyHelp?cadreId=${param.cadreId}&_auth=${param._auth}"
                            style="padding-bottom: 5px;">
                         <span class="label label-info">

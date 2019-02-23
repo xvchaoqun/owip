@@ -6,7 +6,7 @@
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <c:if test="${param.detail!=1}">
                 <li>
-                <a href="javascript:" class="hideView btn btn-xs btn-success" style="background-position: inherit">
+                <a href="javascript:;" class="hideView btn btn-xs btn-success" style="background-position: inherit">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
                 </li>

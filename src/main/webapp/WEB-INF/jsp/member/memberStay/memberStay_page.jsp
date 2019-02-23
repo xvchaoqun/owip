@@ -127,7 +127,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberStay:edit">
                                     <c:if test="${cls==1}">
-                                        <a href="javascript:" class="popupBtn btn btn-info btn-sm"
+                                        <a href="javascript:;" class="popupBtn btn btn-info btn-sm"
                                            data-url="${ctx}/memberStay_au?type=${param.type}">
                                             <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>

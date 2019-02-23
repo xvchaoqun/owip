@@ -65,7 +65,7 @@
     </button>
 </script>
 <script type="text/template" id="applyId_tpl">
-    <a class="openView" href="javascript:"
+    <a class="openView" href="javascript:;"
        data-url="${ctx}/user/abroad/applySelf_view?id={{=id}}"> S{{=id}}</a>
 </script>
 <script>

@@ -194,7 +194,7 @@
                         <input type="hidden" name="_base64">
                         <input type="hidden" name="_rotate">
                         <div class="pull-right">或
-                            <a href="javascript:" onclick="opencam()" class="btn btn-primary btn-xs">
+                            <a href="javascript:;" onclick="opencam()" class="btn btn-primary btn-xs">
                                 <i class="fa fa-camera"></i>
                                 点此拍照</a>
                             <a class="btn btn-warning btn-xs" onclick="_rotate()"><i class="fa fa-rotate-right"></i> 旋转</a>
@@ -224,8 +224,8 @@
     <div id="my_camera"></div>
         </div>
     <div class="modal-footer">
-        <a href="javascript:" class="btn btn-success" onclick="snap()"><i class="fa fa-camera" aria-hidden="true" ></i> 拍照</a>
-        <a href="javascript:" class="btn btn-default" onclick="closecam()"><i class="fa fa-close" aria-hidden="true" ></i> 取消</a>
+        <a href="javascript:;" class="btn btn-success" onclick="snap()"><i class="fa fa-camera" aria-hidden="true" ></i> 拍照</a>
+        <a href="javascript:;" class="btn btn-default" onclick="closecam()"><i class="fa fa-close" aria-hidden="true" ></i> 取消</a>
     </div>
 </div>
 

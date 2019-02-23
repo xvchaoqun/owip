@@ -4,15 +4,15 @@
 
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:" onclick="_innerPage(1)"><i
+        <a href="javascript:;" onclick="_innerPage(1)"><i
                 class="fa fa-flag"></i> 干部考察报告</a>
     </li>
     <li class="${type==2?"active":""}">
-        <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i>
             现实表现材料和评价</a>
     </li>
     <li class="${type==3?"active":""}">
-        <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-flag"></i>
             本人工作总结</a>
     </li>
 </ul>

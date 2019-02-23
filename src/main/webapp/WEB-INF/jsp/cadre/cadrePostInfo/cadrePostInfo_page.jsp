@@ -3,13 +3,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:" onclick="_innerPage2(1)"><i class="fa fa-flag"></i> 专技岗位过程信息</a>
+        <a href="javascript:;" onclick="_innerPage2(1)"><i class="fa fa-flag"></i> 专技岗位过程信息</a>
     </li>
     <li class="${type==2?"active":""}">
-        <a href="javascript:" onclick="_innerPage2(2)"><i class="fa fa-flag"></i> 管理岗位过程信息</a>
+        <a href="javascript:;" onclick="_innerPage2(2)"><i class="fa fa-flag"></i> 管理岗位过程信息</a>
     </li>
     <li class="${type==3?"active":""}">
-        <a href="javascript:" onclick="_innerPage2(3)"><i class="fa fa-flag"></i> 工勤岗位过程信息</a>
+        <a href="javascript:;" onclick="_innerPage2(3)"><i class="fa fa-flag"></i> 工勤岗位过程信息</a>
     </li>
 <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="buttons" style="position:absolute;left: 520px;">

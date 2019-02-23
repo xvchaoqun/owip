@@ -70,7 +70,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberOut:edit">
                                     <c:if test="${cls==1}">
-                                    <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
+                                    <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberOut_au">
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
                                     <c:if test="${cls!=2 &&cls!=5}">

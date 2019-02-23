@@ -7,7 +7,7 @@
         <h4 class="widget-title lighter smaller"
             style="position:absolute; top: -50px; left: 550px;">
             <c:if test="${param.admin==1}">
-                <a href="javascript:" style="color: red;font-weight: bolder;line-height: 30px"
+                <a href="javascript:;" style="color: red;font-weight: bolder;line-height: 30px"
                    data-load-el="#step-body-content-view"
                    data-url="${ctx}/pcsOw_party_branch_page?stage=${param.stage}&partyId=${param.partyId}"
                    class="loadPage">
@@ -15,7 +15,7 @@
                     返回支部列表</a>
             </c:if>
             <c:if test="${param.admin!=1}">
-                <a href="javascript:" class="hideView btn btn-xs btn-success">
+                <a href="javascript:;" class="hideView btn btn-xs btn-success">
                     <i class="ace-icon fa fa-reply"></i>
                     返回</a>
             </c:if>

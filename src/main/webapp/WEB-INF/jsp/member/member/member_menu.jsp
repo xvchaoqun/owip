@@ -33,7 +33,7 @@
   </li>
   <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
     <shiro:hasPermission name="member:add">
-      <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
+      <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
         <i class="fa fa-plus"></i> 添加党员</a>
     </shiro:hasPermission>
     <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">

@@ -3,17 +3,17 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 任现职情况</a>
+        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 任现职情况</a>
     </li>
     <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <li class="${type==2?"active":""}">
-        <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 任职经历</a>
+        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 任职经历</a>
     </li>
         </shiro:lacksRole>
     </shiro:hasPermission>
     <li class="${type==3?"active":""}">
-        <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 任职级经历</a>
+        <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 任职级经历</a>
     </li>
 <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="buttons" style="position:absolute;left: 360px;">
