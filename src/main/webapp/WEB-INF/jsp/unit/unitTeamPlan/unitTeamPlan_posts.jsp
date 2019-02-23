@@ -9,10 +9,10 @@ pageEncoding="UTF-8"%>
     <table class="table table-striped table-bordered table-center table-condensed table-unhover2">
         <thead>
         <tr>
-            <td>序号</td>
-            <td>岗位编号</td>
-            <td>岗位名称</td>
-            <td>岗位级别</td>
+            <th>序号</th>
+            <th>岗位编号</th>
+            <th>岗位名称</th>
+            <th>岗位级别</th>
         </tr>
         </thead>
         <tbody>

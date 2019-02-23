@@ -81,7 +81,7 @@
         </div>
     </div>
 </c:forEach>
-<div class="footer-margin"/>
+<div class="footer-margin lower"/>
 <style>
     #body-content  .widget-main.no-padding .table{
 

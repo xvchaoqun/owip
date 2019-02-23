@@ -2,7 +2,7 @@
 
 order by field(c.status, 2,5,3,1,4,6) desc
 
-<div class="footer-margin"/>
+<div class="footer-margin lower"/>
 
 $.register.class_party_branch_select($("#modalForm"), "party", "branch",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}')
