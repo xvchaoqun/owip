@@ -3,12 +3,17 @@
 <html>
 <head><title>cmd</title>
     <script src='/assets/js/jquery.js'></script>
+    <script src='/extend/js/nprogress.js'></script>
+
+    <link rel="stylesheet" href="/extend/css/nprogress.css"/>
     <script>
         function _restart(){
-
-            $.post("restart.jsp",function(){
+                NProgress.start();
+            /*$.post("restart.jsp",function(){
+                NProgress.done();
                 location.reload();
-            });
+
+            });*/
         }
     </script>
 </head>

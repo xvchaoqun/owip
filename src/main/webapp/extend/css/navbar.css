@@ -16,7 +16,7 @@
     color: #393939;
     line-height: 1.5;
     position: fixed;
-    z-index: 1039;
+    z-index: 1030; /* NProgress 1031 */
 }
 
 #navbar-container {

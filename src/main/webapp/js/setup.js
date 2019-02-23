@@ -141,11 +141,14 @@ $(window).on('resize.jqGrid2', function () {
         $jqgrid.jqGrid('setGridWidth', gridWidth);
         var height = 0, navHeight=0;
         var _thisGrid = this;
-        $("#body-content-view, #body-content-view2").each(function(){
-            if($(this).is(":visible") && $(this).find(_thisGrid).length>0) {
+        var $container = $("#body-content-view, #body-content-view2");
+        if(!$container.is(":visible")){
+            $container = $("#page-content");
+        }
+        $container.each(function(){
+            if($(this).find(_thisGrid).length>0) {
                 $(".jqgrid-vertical-offset", this).each(function () {
                     height += $(this).height();
-                    //console.log(this.id + "---" + $("#body-content-view").is(":visible"))
                     //console.log(this.id + "---" + height)
                 });
 
@@ -1027,7 +1030,7 @@ $(window).bind("hashchange", function () {
                 } catch (e) {
                 }
             } else {
-                $("#breadcrumbs").hide();
+                //$("#breadcrumbs").hide();
             }
             $("#modal").modal('hide');
             clearJqgridSelected();
@@ -1046,19 +1049,24 @@ $(window).bind("hashchange", function () {
                     //location.href = ctx + "/";
                 });
             } else {
-                SysMsg.info("系统错误，请稍后再试。");
+                //SysMsg.info("系统错误，请稍后再试。");
+                if(_hasLoginPage) {
+                    SysMsg.info("系统错误({0})，请稍后再试。".format(jqXHR.status));
+                }else{
+                    location.reload();
+                }
             }
 
             NProgress.done();
         });
-    }).fail(function () {
+    })/*.fail(function () {
         if(_hasLoginPage) {
             SysMsg.info("系统错误，请稍后再试。");
         }else{
             location.reload();
         }
         NProgress.done();
-    });
+    });*/
 
 });
 
