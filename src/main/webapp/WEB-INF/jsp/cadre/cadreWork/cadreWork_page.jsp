@@ -34,7 +34,7 @@
                        data-url="${ctx}/cadreWork_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                         添加工作经历</a>
 
-                    <a class="jqOpenViewBtn btn btn-success btn-sm"
+                    <a class="jqOpenViewBtn btn btn-info btn-sm"
                        data-grid-id="#jqGrid_cadreWork"
                        data-url="${ctx}/cadreWork_au"
                        data-id-name="fid"

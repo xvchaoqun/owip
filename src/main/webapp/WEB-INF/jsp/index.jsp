@@ -230,7 +230,12 @@
         $("#ace-settings-box .resultDiv").html('')
     })
     function _loadArchive(btn){
-        $.loadPage({url:$(btn).data("url"), callback:function(){$('#ace-settings-btn').click();}});
+        var breadcrumbs = _.template($("#breadcrumbs_tpl").html())({data: {cur:{'name':'干部电子档案'}, parents:[{}]}});
+        $("#breadcrumbs").html(breadcrumbs)
+        $.loadPage({url:$(btn).data("url"), callback:function(){
+            $("#sidebar .nav-list li").removeClass("active open");
+            $("#sidebar .nav-list li .submenu").hide();
+            $('#ace-settings-btn').click();}});
     }
     $('#ace-settings-box .searchBtn').click(function () {
         var $select = $('#ace-settings-box select[name=userId]');

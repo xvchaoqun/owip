@@ -10,6 +10,8 @@
     </div>
     <script>
         $("#breadcrumbs").show();
+        //console.log('$("#breadcrumbs").position().left=' + $("#breadcrumbs").position().left)
+        //console.log('$("#breadcrumbs ul.breadcrumb").outerWidth(true)=' + $("#breadcrumbs ul.breadcrumb").outerWidth(true))
         var _w = $("#breadcrumbs").position().left + $("#breadcrumbs ul.breadcrumb").outerWidth(true);
         $("#cadreTitleDiv").css("left", _w + "px")
     </script>
