@@ -15,12 +15,12 @@
 
             <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/flush_metadata_JSON"  data-callback="_reload"
                     data-msg="重新生成元数据资源文件？">
-                重新生成元数据资源文件（metadata.js）
+                刷新元数据资源文件（metadata.js）
             </button>
 
             <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/flush_location_JSON"  data-callback="_reload"
                     data-msg="重新生成省地市资源文件？">
-                重新生成省地市资源文件（location.js）
+                刷新省地市资源文件（location.js）
             </button>
         </div>
     </div>

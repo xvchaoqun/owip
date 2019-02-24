@@ -49,6 +49,7 @@ public class CadreAdformController extends BaseController {
         //输出文件
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();
+        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
         response.setContentType("application/msword;charset=UTF-8");
@@ -66,6 +67,7 @@ public class CadreAdformController extends BaseController {
         //输出文件
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();
+        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + new String((filename + ".lrmx").getBytes(), "iso-8859-1"));
         response.setContentType("text/xml;charset=UTF-8");

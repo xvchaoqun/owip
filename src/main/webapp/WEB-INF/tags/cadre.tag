@@ -3,6 +3,6 @@
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
 <%@ attribute name="cadreId" type="java.lang.Integer" required="true" %>
 <%@ attribute name="realname" type="java.lang.String" required="true" %>
-<a href="javascript:" class="openView" data-url="${ctx}/cadre_view?cadreId=${cadreId}">
+<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId=${cadreId}">
     ${realname}
 </a>

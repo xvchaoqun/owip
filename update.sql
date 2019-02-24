@@ -1,8 +1,9 @@
 
-
+20190224
 修改资源：
 个人信息(profile:view) -> 账号信息 /profile
 
+更新common-utils
 
 20190222
 

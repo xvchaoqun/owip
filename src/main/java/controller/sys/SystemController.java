@@ -174,7 +174,7 @@ public class SystemController extends BaseController {
                     new String[]{"/bin/sh", "-c", cmd.trim()});
             process.waitFor();
 
-            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+            //response.setHeader("Set-Cookie", "fileDownload=true; path=/");
             DownloadUtils.download(request, response, tmpFile);
             return;
 
@@ -274,6 +274,7 @@ public class SystemController extends BaseController {
         return success();
     }
 
+    @RequiresPermissions("system:db")
     @RequestMapping(value = "/db_backup")
     public void db_backup(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
 
@@ -286,23 +287,23 @@ public class SystemController extends BaseController {
 
         String dbName = PropertiesUtils.getString("db.schema");
         String fileName = dbName + "(" + DateUtils.formatDate(new Date(), "YYYYMMddHHmmss") + ").sql";
-        String savePath = PropertiesUtils.getString("upload.path") + File.separator + "backup";
-        if (!FileUtils.exists(savePath)) {
-            new File(savePath).mkdir();
-        }
+
+        String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "dbbackup";
+        FileUtils.mkdirs(tmpdir, false);
 
         boolean backup = MySqlUtils.backup("localhost", PropertiesUtils.getString("jdbc_user"),
-                PropertiesUtils.getString("jdbc_password"), savePath, fileName, dbName);
-        if (backup) {
-            // 打成压缩包下载
-            Map<String, File> fileMap = new LinkedHashMap<>();
-            fileMap.put(fileName, new File(savePath + File.separator + fileName));
-            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
-            DownloadUtils.zip(fileMap, fileName, request, response);
+                PropertiesUtils.getString("jdbc_password"), tmpdir, fileName, dbName);
 
-            // 下载后从服务器删除
-            FileUtils.delFile(savePath + File.separator + fileName);
+        // 打成压缩包下载
+        Map<String, File> fileMap = new LinkedHashMap<>();
+        fileMap.put(fileName, new File(tmpdir + File.separator + fileName));
+        if(backup) {
+            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
         }
+        DownloadUtils.zip(fileMap, fileName, request, response);
+        // 下载后从服务器删除
+        FileUtils.deleteDir(new File(tmpdir));
 
         logger.debug(addLog(LogConstants.LOG_ADMIN, "下载备份数据库"));
     }

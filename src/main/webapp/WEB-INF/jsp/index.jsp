@@ -281,7 +281,7 @@
         {{if(idx==0){}}
         <li>
             <i class="ace-icon fa fa-home home-icon"></i>
-            <a href="#">回到首页</a>
+            <a href="${ctx}/">回到首页</a>
         </li>
         {{}}}
         {{if(idx>=1){}}
