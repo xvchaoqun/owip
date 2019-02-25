@@ -62,7 +62,7 @@ pageEncoding="UTF-8" %>
                             data-querystr="&isSelf=0"
                             data-id-name="pmdMemberId">
                         <i class="fa fa-rmb"></i> 修改党费应交额</button>
-                    <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                    <button id="showSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
                             data-width="600"
                             data-url="${ctx}/user/pmd/pmdMember_setSalary"
                             data-grid-id="#jqGrid"
@@ -249,7 +249,7 @@ pageEncoding="UTF-8" %>
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#delBtn,#helpSetSalaryBtn, #orderBtn").prop("disabled", true);
+            $("#delBtn,#helpSetSalaryBtn, #showSalaryBtn, #orderBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var hasPay = (rowData.hasPay == "true");
@@ -258,7 +258,7 @@ pageEncoding="UTF-8" %>
             var isOnlinePay = (rowData.isOnlinePay == "true");
 
             $("#delBtn").prop("disabled", hasPay);
-            $("#helpSetSalaryBtn").prop("disabled",
+            $("#helpSetSalaryBtn, #showSalaryBtn").prop("disabled",
                     (rowData.formulaType!=${PMD_FORMULA_TYPE_ONJOB}
                     &&rowData.formulaType!=${PMD_FORMULA_TYPE_EXTERNAL}
                     &&rowData.formulaType!=${PMD_FORMULA_TYPE_RETIRE}) ||
