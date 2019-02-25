@@ -10,6 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -255,6 +256,7 @@ public class SyncService extends BaseMapper {
     }
 
     // 同步教职工人事库
+    @Async
     public synchronized void syncAllJZG(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG)) {
@@ -382,6 +384,7 @@ public class SyncService extends BaseMapper {
     }
 
     // 同步研究生库
+    @Async
     public synchronized void syncAllYJS(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS)) {
@@ -512,6 +515,7 @@ public class SyncService extends BaseMapper {
     }
 
     // 同步本科生库
+    @Async
     public synchronized void syncAllBks(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS)) {

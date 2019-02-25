@@ -1,7 +1,6 @@
 
 20190224
-修改资源：
-个人信息(profile:view) -> 账号信息 /profile
+UPDATE `sys_resource` SET `name`='账号信息', `url`='/profile' WHERE  `id`=207;
 
 更新common-utils
 
