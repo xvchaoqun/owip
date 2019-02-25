@@ -21,7 +21,7 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     protected CadreService cadreService;
     @Autowired
     protected CadreReserveService cadreReserveService;
-    @Autowired
+    @Autowired(required = false)
     protected MemberApplyService memberApplyService;
     @Autowired
     protected PartyMemberService partyMemberService;

@@ -1,4 +1,19 @@
 
+20190226
+ALTER TABLE `cet_expert`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '专家类型，1 校内专家 2 校外专家' AFTER `id`,
+	ADD COLUMN `code` INT(10) UNSIGNED NULL COMMENT '编码，用于校外专家' AFTER `type`,
+	ADD COLUMN `user_id` INT(10) UNSIGNED NULL COMMENT '关联账号，用于校内专家' AFTER `code`;
+
+更新 cet_expert_view
+
+update cet_expert set type=1;
+
+
+20190225
+更新 南航
+
+
 20190224
 UPDATE `sys_resource` SET `name`='账号信息', `url`='/profile' WHERE  `id`=207;
 

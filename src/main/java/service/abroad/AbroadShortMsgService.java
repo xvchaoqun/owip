@@ -1,15 +1,7 @@
 package service.abroad;
 
 import bean.ShortMsgBean;
-import domain.abroad.ApplySelf;
-import domain.abroad.ApplySelfExample;
-import domain.abroad.ApproverType;
-import domain.abroad.Passport;
-import domain.abroad.PassportApply;
-import domain.abroad.PassportApplyExample;
-import domain.abroad.PassportDraw;
-import domain.abroad.PassportDrawExample;
-import domain.abroad.TaiwanRecord;
+import domain.abroad.*;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
@@ -26,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import persistence.abroad.common.ApprovalResult;
-import service.BaseMapper;
 import service.base.ContentTplService;
 import service.base.ShortMsgService;
 import service.cadre.CadreService;
@@ -678,9 +669,6 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             String mobile = userBeanService.getMsgMobile(uv.getId());
 
             String msg = MessageFormat.format(tpl.getContent(), msgTitle,
-                    DateUtils.formatDate(taiwanRecord.getRecordDate(), DateUtils.YYYY_MM_DD_CHINA),
-                    DateUtils.formatDate(taiwanRecord.getStartDate(), DateUtils.YYYY_MM_DD_CHINA),
-                    DateUtils.formatDate(taiwanRecord.getEndDate(), DateUtils.YYYY_MM_DD_CHINA),
                     DateUtils.formatDate(taiwanRecord.getExpectDate(), DateUtils.YYYY_MM_DD_CHINA));
             bean.setContent(msg);
             bean.setMobile(mobile);

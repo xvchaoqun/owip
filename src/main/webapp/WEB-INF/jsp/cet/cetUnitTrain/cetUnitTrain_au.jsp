@@ -99,8 +99,8 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    var $selectCadre = $.register.user_select($('#modalForm select[name=userId]'));
-    $selectCadre.on("change",function(){
+    var $select = $.register.user_select($('#modalForm select[name=userId]'));
+    $select.on("change",function(){
         //console.log($(this).select2("data")[0])
         var title = $(this).select2("data")[0]['title']||'';
         var postType = $(this).select2("data")[0]['postType']||'';

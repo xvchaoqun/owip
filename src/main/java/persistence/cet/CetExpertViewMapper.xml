@@ -3,6 +3,9 @@
 <mapper namespace="persistence.cet.CetExpertViewMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetExpertView">
     <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -42,7 +45,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, realname, unit, post, contact, sort_order, remark, course_num, trainee_num
+    id, type, code, user_id, realname, unit, post, contact, sort_order, remark, course_num, 
+    trainee_num
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetExpertViewExample" resultMap="BaseResultMap">
     select

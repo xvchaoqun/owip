@@ -3,6 +3,9 @@
 <mapper namespace="persistence.cet.CetExpertMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetExpert">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -69,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, realname, unit, post, contact, sort_order, remark
+    id, type, code, user_id, realname, unit, post, contact, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetExpertExample" resultMap="BaseResultMap">
     select
@@ -102,10 +105,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetExpert">
-    insert into cet_expert (id, realname, unit, 
+    insert into cet_expert (id, type, code, 
+      user_id, realname, unit, 
       post, contact, sort_order, 
       remark)
-    values (#{id,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{post,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
@@ -114,6 +119,15 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="realname != null">
         realname,
@@ -137,6 +151,15 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="realname != null">
         #{realname,jdbcType=VARCHAR},
@@ -170,6 +193,15 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
       <if test="record.realname != null">
         realname = #{record.realname,jdbcType=VARCHAR},
       </if>
@@ -196,6 +228,9 @@
   <update id="updateByExample" parameterType="map">
     update cet_expert
     set id = #{record.id,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
       realname = #{record.realname,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
@@ -209,6 +244,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetExpert">
     update cet_expert
     <set>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
       <if test="realname != null">
         realname = #{realname,jdbcType=VARCHAR},
       </if>
@@ -232,7 +276,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetExpert">
     update cet_expert
-    set realname = #{realname,jdbcType=VARCHAR},
+    set type = #{type,jdbcType=TINYINT},
+      code = #{code,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      realname = #{realname,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
       contact = #{contact,jdbcType=VARCHAR},

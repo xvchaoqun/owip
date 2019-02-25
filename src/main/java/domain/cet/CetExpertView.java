@@ -1,9 +1,25 @@
 package domain.cet;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 
 public class CetExpertView implements Serializable {
+
+    public SysUserView getUser(){
+        if(userId!=null)
+            return CmTag.getUserById(userId);
+        return null;
+    }
+
     private Integer id;
+
+    private Byte type;
+
+    private String code;
+
+    private Integer userId;
 
     private String realname;
 
@@ -29,6 +45,30 @@ public class CetExpertView implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getRealname() {

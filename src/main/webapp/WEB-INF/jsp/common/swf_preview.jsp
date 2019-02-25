@@ -36,8 +36,8 @@
          data-url="${ctx}/pdf?path=${cm:encodeURI(path)}"><i class="fa fa-print"></i> 打印</a>
       </c:if>
       <c:if test="${!nd}">
-      <a href="${ctx}/attach/download?path=${cm:encodeURI(path)}&filename=${filename}"
-      class="btn btn-success"><i class="fa fa-download"></i> 下载</a>
+      <a href="javascript:;" data-url="${ctx}/attach/download?path=${cm:encodeURI(path)}&filename=${filename}"
+      class="downloadBtn btn btn-success"><i class="fa fa-download"></i> 下载</a>
       </c:if>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 关闭</a>
   </div>

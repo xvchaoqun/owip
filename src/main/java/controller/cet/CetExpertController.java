@@ -5,6 +5,7 @@ import domain.cet.CetExpertExample;
 import domain.cet.CetExpertExample.Criteria;
 import domain.cet.CetExpertView;
 import domain.cet.CetExpertViewExample;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CetConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -104,6 +107,11 @@ public class CetExpertController extends CetBaseController {
     public Map do_cetExpert_au(CetExpert record, HttpServletRequest request) {
 
         Integer id = record.getId();
+
+        if(record.getType()== CetConstants.CET_EXPERT_TYPE_IN){
+            SysUserView uv = CmTag.getUserById(record.getUserId());
+            record.setRealname(uv.getRealname());
+        }
 
         if (id == null) {
             cetExpertService.insertSelective(record);

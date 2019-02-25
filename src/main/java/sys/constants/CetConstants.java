@@ -18,6 +18,15 @@ public class CetConstants {
         CET_DISCUSS_UNIT_TYPE_MAP.put(CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL, "二级党校");
     }
 
+    // 专家类型， 1 校内专家 2 校外专家
+    public final static byte CET_EXPERT_TYPE_IN = 1;
+    public final static byte CET_EXPERT_TYPE_OUT = 2;
+    public static Map<Byte, String> CET_EXPERT_TYPE_MAP = new LinkedHashMap<Byte, String>();
+    static {
+        CET_EXPERT_TYPE_MAP.put(CET_EXPERT_TYPE_IN, "校内专家");
+        CET_EXPERT_TYPE_MAP.put(CET_EXPERT_TYPE_OUT, "校外专家");
+    }
+
     // 培训类型， 1 专题培训 2 年度培训
     public final static byte CET_PROJECT_TYPE_ZT = 1;
     public final static byte CET_PROJECT_TYPE_ND = 2;

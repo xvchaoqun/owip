@@ -73,10 +73,26 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/cet/cetExpert_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '姓名',name: 'realname'},
+            { label: '专家类别',name: 'type', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '--';
+                return '<div class="bolder text {0}">{1}</div>'.format(
+                    rowObject.type=='<%=CetConstants.CET_EXPERT_TYPE_IN%>'?'text-success':'text-primary',
+                    _cMap.CET_EXPERT_TYPE_MAP[cellvalue]);
+            }, frozen:true},
+            { label: '专家编号',name: 'code', width:110, formatter:function(cellvalue, options, rowObject){
+
+                //console.log("rowObject.type="+rowObject.type)
+                if(rowObject.type=='<%=CetConstants.CET_EXPERT_TYPE_IN%>'
+                    && rowObject.user!=undefined){
+                    return rowObject.user.code;
+                }
+                if(cellvalue==undefined) return '--';
+                return cellvalue;
+            }, frozen:true},
+            { label: '姓名',name: 'realname', frozen:true},
             {
                 label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/cet/cetExpert_changeOrder"}
+                formatoptions:{url: "${ctx}/cet/cetExpert_changeOrder"}, frozen:true
             },
             { label: '所在单位',name: 'unit', width:300, align:'left'},
             { label: '职务和职称',name: 'post', width:150, align:'left'},

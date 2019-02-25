@@ -106,7 +106,7 @@
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="pub_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-        <table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
+        <!--<table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
          <table tableName="cet_project_obj_view" domainObjectName="cet.CetProjectObjView"
@@ -114,7 +114,7 @@
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>
+         </table>-->
         <!--<table tableName="cet_project_obj_plan" domainObjectName="cet.CetProjectObjPlan" mapperName="cet.CetProjectObjPlanMapper">
         </table>-->
         <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
@@ -124,19 +124,18 @@
         <!--<table tableName="cet_course_item" domainObjectName="cet.CetCourseItem" mapperName="cet.CetCourseItemMapper">
         </table>-->
 
-
-        <!--<table tableName="cet_expert" domainObjectName="cet.CetExpert" mapperName="cet.CetExpertMapper">
-       </table>-->
         <!--<table tableName="cet_column" domainObjectName="cet.CetColumn" mapperName="cet.CetColumnMapper">
         </table>-->
 
-        <!--<table tableName="cet_expert_view" domainObjectName="cet.CetExpertView" mapperName="cet.CetExpertViewMapper"
+        <table tableName="cet_expert" domainObjectName="cet.CetExpert" mapperName="cet.CetExpertMapper">
+       </table>
+        <table tableName="cet_expert_view" domainObjectName="cet.CetExpertView" mapperName="cet.CetExpertViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="course_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="trainee_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="cet_column_view" domainObjectName="cet.CetColumnView" mapperName="cet.CetColumnViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
