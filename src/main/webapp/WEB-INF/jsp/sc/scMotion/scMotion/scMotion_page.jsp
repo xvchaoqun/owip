@@ -124,7 +124,7 @@
         url: '${ctx}/sc/scMotion_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '年份', name: 'year', width: 80, frozen:true},
-            {label: '动议编号', name: 'code', width: 180, align: 'left', frozen:true},
+            {label: '动议编号', name: 'code', width: 200, frozen:true},
             {label: '动议记录', name: '_log', width: 90, formatter: function (cellvalue, options, rowObject) {
 
                     if (rowObject.way == '<%=ScConstants.SC_MOTION_WAY_OTHER%>') {

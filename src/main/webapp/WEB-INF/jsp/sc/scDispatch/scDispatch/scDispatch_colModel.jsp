@@ -9,10 +9,10 @@
           return cellvalue.name;
       }, frozen: true
       },*/
-      {label: '发文号', name: 'dispatchCode', width: 150},
+      {label: '发文号', name: 'dispatchCode', width: 190},
       {label: '标题', name: 'title', width: 350, align:'left'},
       {
-          label: '党委常委会', name: 'scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
+          label: '党委常委会', name: 'scCommittees', width:210, formatter: function (cellvalue, options, rowObject) {
 
           if(cellvalue==undefined || cellvalue.length==0) return '-'
 
@@ -73,7 +73,7 @@
           return ret;
       }},
       {
-          label: '红头文件', name: 'dispatchCode', width: 180, formatter: function (cellvalue, options, rowObject) {
+          label: '红头文件', name: 'dispatchCode', width: 190, formatter: function (cellvalue, options, rowObject) {
 
               if(rowObject.dispatchId==undefined){
 

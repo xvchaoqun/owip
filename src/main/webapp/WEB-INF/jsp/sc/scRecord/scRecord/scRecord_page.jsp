@@ -106,7 +106,7 @@ pageEncoding="UTF-8" %>
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                     return _cMap.SC_RECORD_STATUS_MAP[cellvalue]
             }},
-            {label: '纪实编号', name: 'code', width: 180, align: 'left', frozen:true},
+            {label: '纪实编号', name: 'code', width: 200, frozen:true},
             { label: '纪实详情',name: '_detail'},
             { label: '纪实进度',name: '_progress'},
             {label: '选任启动日期', name: 'holdDate', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},

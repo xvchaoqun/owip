@@ -107,7 +107,7 @@
         colModel: [
             {label: '年份', name: 'year', width: 60, frozen: true},
             {
-                label: '编号', name: '_num', width: 190, formatter: function (cellvalue, options, rowObject) {
+                label: '编号', name: '_num', width: 210, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
                 var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 if($.trim(rowObject.filePath)=='') return _num;

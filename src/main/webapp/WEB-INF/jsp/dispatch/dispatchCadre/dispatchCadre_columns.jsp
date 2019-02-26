@@ -4,7 +4,7 @@
 <script>
         var colModel= [
             { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
-            { label:'发文号',  name: 'dispatch.dispatchCode', width: 140, align:'left',formatter:function(cellvalue, options, rowObject){
+            { label:'发文号',  name: 'dispatch.dispatchCode', width: 190,formatter:function(cellvalue, options, rowObject){
 
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                     cellvalue, cellvalue, '${param.type eq 'all'?'modal':'url'}');
@@ -32,7 +32,7 @@
             { label:'发文类型', name: 'dispatch.dispatchType.name', width: 80},
             <c:if test="${param.type eq 'all' || param.type1 eq 'team'}">
             {
-                label: '党委常委会', name: 'dispatch.scDispatch.scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
+                label: '党委常委会', name: 'dispatch.scDispatch.scCommittees', width:210, formatter: function (cellvalue, options, rowObject) {
 
                 if(cellvalue==undefined || cellvalue.length==0) return '--'
 

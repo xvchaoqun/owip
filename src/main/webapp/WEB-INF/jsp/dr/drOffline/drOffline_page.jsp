@@ -92,7 +92,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/drOffline_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '年份',name: 'year', frozen:true},
-                { label: '编号',name: 'code', width: 180, align: 'left', frozen:true},
+                { label: '编号',name: 'code', width: 210, frozen:true},
                 {
                     label: '推荐结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.needVoterType !=undefined){
@@ -113,7 +113,7 @@ pageEncoding="UTF-8" %>
                 {label: '职务属性', name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},
                 {label: '所属单位', name: 'unitId', width: 200, align: 'left', formatter: $.jgrid.formatter.unit},
                 {label: '单位类型', name: 'unitType', width: 120, formatter: $.jgrid.formatter.MetaType},
-                {label: '所属纪实', name: 'srCode', width: 180, align: 'left'},
+                {label: '所属纪实', name: 'srCode', width: 190},
                 {label: '推荐组负责人', name: 'chiefMember.user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 
                     var val = $.trim(cellvalue);

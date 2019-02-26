@@ -196,7 +196,7 @@
             }, frozen: true
             },
             {
-                label: '发文号', name: 'dispatchCode', width: 160, align:'left', formatter: function (cellvalue, options, rowObject) {
+                label: '发文号', name: 'dispatchCode', width: 190, formatter: function (cellvalue, options, rowObject) {
 
                 return $.swfPreview(rowObject.file, rowObject.fileName, cellvalue, cellvalue);
             }, frozen: true
@@ -209,7 +209,7 @@
                     })
             }},
             {
-                label: '党委常委会', name: 'scDispatch.scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
+                label: '党委常委会', name: 'scDispatch.scCommittees', width:210, formatter: function (cellvalue, options, rowObject) {
 
                 if(cellvalue==undefined || cellvalue.length==0) return '--'
 
@@ -311,7 +311,7 @@
                         .format(rowObject.year, rowObject.dispatchTypeId, rowObject.code);
             }},
             {
-                label: '文件签发信息', name: 'scDispatch', width:140, formatter: function (cellvalue, options, rowObject) {
+                label: '文件签发信息', name: 'scDispatch', width:190, formatter: function (cellvalue, options, rowObject) {
 
                 if(cellvalue==undefined) return '--'
 

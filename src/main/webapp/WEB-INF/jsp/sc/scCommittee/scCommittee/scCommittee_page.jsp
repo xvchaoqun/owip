@@ -106,7 +106,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             {label: '年份', name: 'year', width: 60, frozen: true},
             {
-                label: '编号', name: 'code', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '编号', name: 'code', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return ''
                 if($.trim(rowObject.filePath)=='') return cellvalue;
                 return $.swfPreview(rowObject.filePath, cellvalue);
