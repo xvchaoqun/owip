@@ -90,7 +90,7 @@
                 var type = _cMap.CRS_POST_TYPE_MAP[rowObject.type];
                 return type + "〔" + rowObject.year + "〕" + rowObject.seq + "号";
 
-            }, width: 180, frozen: true
+            }, width: 190, frozen: true
             },
             {label: '招聘岗位', name: 'name', width: '300', frozen: true, align:'left'},
             {label: '分管工作', name: 'job', width: '300', align:'left', formatter: $.jgrid.formatter.NoMultiSpace},

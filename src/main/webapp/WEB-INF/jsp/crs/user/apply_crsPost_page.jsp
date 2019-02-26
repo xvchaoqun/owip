@@ -79,7 +79,7 @@
                 var type = _cMap.CRS_POST_TYPE_MAP[rowObject.type];
                 return type + "〔" + rowObject.year + "〕" + rowObject.seq + "号";
 
-            }, width: 150, frozen: true
+            }, width: 160, frozen: true
             },
             {label: '招聘岗位', name: 'name', width: '300', frozen: true},
             <c:if test="${cls==1}">

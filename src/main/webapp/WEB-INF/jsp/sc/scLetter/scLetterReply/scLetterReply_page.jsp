@@ -117,14 +117,14 @@
         colModel: [
             {label: '年份', name: 'letterYear', width: 80},
             {
-                label: '函询编号', name: 'letterNum', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '函询编号', name: 'letterNum', width: 190, formatter: function (cellvalue, options, rowObject) {
                 var _num = _cMap.metaTypeMap[rowObject.letterType].name+"〔{0}〕{1}号".format(rowObject.letterYear, rowObject.letterNum)
                 return $.swfPreview(rowObject.letterFilePath, rowObject.letterFileName, _num, _num);
             }, frozen: true
             },
             {label: '函询日期', name: 'letterQueryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
-                label: '纪委回复文件编号', name: 'num', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '纪委回复文件编号', name: 'num', width: 190, formatter: function (cellvalue, options, rowObject) {
                 var _num = _cMap.metaTypeMap[rowObject.type].name+"〔{0}〕{1}号".format(rowObject.letterYear, rowObject.num)
                 return $.swfPreview(rowObject.filePath, rowObject.fileName, _num, _num);
             }},

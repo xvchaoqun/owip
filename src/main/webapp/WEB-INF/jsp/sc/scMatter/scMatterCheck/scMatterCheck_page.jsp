@@ -111,7 +111,7 @@
         colModel: [
             {label: '年份', name: 'year', width: 80, frozen: true},
             {
-                label: '核查编号', name: 'num', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '核查编号', name: 'num', width: 190, formatter: function (cellvalue, options, rowObject) {
                 var _num = "个人事项核查〔{0}〕{1}号".format(rowObject.year, rowObject.num)
                 return $.swfPreview(rowObject.checkFile, rowObject.checkFileName, _num, _num);
             }, frozen: true

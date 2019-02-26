@@ -145,7 +145,7 @@
                 return ret;
             }},
             {
-                label: '党委常委会编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '党委常委会编号', name: '_num', width: 190, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
                 var _num = "党委常委会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 return _num;

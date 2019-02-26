@@ -200,7 +200,7 @@
                 var type = _cMap.CRS_POST_TYPE_MAP[rowObject.type];
                 return type + "〔" + rowObject.year + "〕" + rowObject.seq + "号";
 
-            }, width: 180, frozen: true
+            }, width: 190, frozen: true
             },
             {label: '招聘岗位', name: 'name', align:'left', width:'300', formatter: function (cellvalue, options, rowObject) {
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/crsPost_detail?id={0}">{1}</a>'

@@ -107,7 +107,7 @@
         colModel: [
             {label: '年份', name: 'year', width: 60, frozen: true},
             {
-                label: '编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '编号', name: '_num', width: 190, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
                 var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 if($.trim(rowObject.filePath)=='') return _num;
@@ -116,7 +116,7 @@
             {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '议题数量', name: 'topicNum'},
 
-            {label: '议题word版', name: 'wordFilePath', width: 95, formatter: function (cellvalue, options, rowObject) {
+            {label: '议题word版', name: 'wordFilePath', width: 105, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
                 var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"));
                 return '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="linkBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> 下载</button>'

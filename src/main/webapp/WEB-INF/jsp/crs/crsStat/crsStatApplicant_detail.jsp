@@ -41,7 +41,7 @@
                 var type = _cMap.CRS_POST_TYPE_MAP[rowObject.crsPostType];
                 return type + "〔" + rowObject.crsPostYear + "〕" + rowObject.crsPostSeq + "号";
 
-            }, width: 180, frozen: true
+            }, width: 190, frozen: true
             },
             {label: '应聘岗位', name: 'crsPostName', width:'300', frozen: true, formatter: function (cellvalue, options, rowObject) {
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/crsPost_detail?id={0}">{1}</a>'
