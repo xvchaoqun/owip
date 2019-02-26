@@ -132,7 +132,7 @@
 					<label class="col-xs-4 control-label">学位</label>
 					<div class="col-xs-8">
 						<input disabled class="form-control" type="text" name="degree" value="${cadreEdu.degree}">
-						<span class="help-block">例如：文学学士、管理学硕士、教育学博士</span>
+						<span class="help-block" style="font-size: 10px;">例如：文学学士、管理学硕士、教育学博士</span>
 					</div>
 				</div>
 
@@ -187,20 +187,20 @@
 								<input class="form-control" type="file" name="_files[]"/>
 								<input class="form-control" type="file" name="_files[]" />
 							</div>
-							<span class="help-block">*每张图片大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
+							<span class="help-block" style="font-size: 10px;">*每张图片大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
 						</div>
 					</div>
 				<div class="form-group">
 					<label class="col-xs-4 control-label">补充说明</label>
 					<div class="col-xs-8">
-						<input class="form-control" type="text" name="note" maxlength="50" value="${cadreEdu.note}"/>
-						<span class="help-block">例如：硕博连读、美国哈佛大学联合培养一年等</span>
+						<textarea class="form-control noEnter" name="note" maxlength="50">${cadreEdu.note}</textarea>
+						<span class="help-block" style="font-size: 10px;">例如：硕博连读、美国哈佛大学联合培养一年等</span>
 					</div>
 				</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">备注</label>
 						<div class="col-xs-8">
-							<textarea class="form-control" name="remark" rows="2" maxlength="100">${cadreEdu.remark}</textarea>
+							<textarea class="form-control noEnter" name="remark" rows="2" maxlength="100">${cadreEdu.remark}</textarea>
 						</div>
 					</div>
 

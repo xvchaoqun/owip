@@ -449,7 +449,7 @@ public class CmTag {
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
 
-        return String.format("%s[%s]%s号", dispatchType.getName(), year, StringUtils.trimToEmpty(numStr));
+        return String.format("%s〔%s〕%s号", dispatchType.getName(), year, StringUtils.trimToEmpty(numStr));
     }
 
     public static DispatchType getDispatchType(Integer dispatchTypeId) {

@@ -18,7 +18,7 @@ public class BaseCetTrain {
         MetaType metaType = CmTag.getMetaType(type);
         if(metaType==null) return null;
 
-        return String.format("%s[%s]%s号",
+        return String.format("%s〔%s〕%s号",
                 metaType.getName(),
                 year, num);
     }

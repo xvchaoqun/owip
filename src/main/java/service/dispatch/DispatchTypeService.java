@@ -84,12 +84,13 @@ public class DispatchTypeService extends BaseMapper {
      */
     @Transactional
     @CacheEvict(value = "DispatchType:ALL",allEntries = true)
-    public void changeOrder(int id, int addNum, short year) {
+    public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
 
         DispatchType entity = dispatchTypeMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        short year = entity.getYear();
 
         DispatchTypeExample example = new DispatchTypeExample();
         if (addNum > 0) {

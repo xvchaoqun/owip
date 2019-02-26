@@ -24,6 +24,12 @@
                                    data-grid-id="#jqGrid"
                                    ><i class="fa fa-edit"></i>
                                     修改</a>
+                                <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE}">
+                                <a class="popupBtn btn btn-info btn-sm tooltip-info"
+                               data-url="${ctx}/cet/cetCourse_import"
+                               data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                批量导入</a>
+                                </c:if>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="cetCourse:del">
                                 <button data-url="${ctx}/cet/cetCourse_fakeDel?del=1"

@@ -9,7 +9,7 @@ import java.util.Date;
 public class ScBorder implements Serializable {
 
     public String getCode(){
-        return String.format("出入境报备[%s]号", DateUtils.formatDate(recordDate, "yyyyMMdd"));
+        return String.format("出入境报备〔%s〕号", DateUtils.formatDate(recordDate, "yyyyMMdd"));
     }
 
     private Integer id;

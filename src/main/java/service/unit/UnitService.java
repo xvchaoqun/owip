@@ -294,10 +294,8 @@ public class UnitService extends BaseMapper {
                 record.setName(name);
                 record.setTypeId(unitType.getId());
                 String workTime = xlsRow.get(3);
-                //System.out.println(workTime);
-                if(StringUtils.isNotBlank(workTime)) {
-                    record.setWorkTime(DateUtils.parseDate(workTime, DateUtils.YYYY_MM_DD));
-                }
+                record.setWorkTime(DateUtils.parseStringToDate(workTime));
+
                 record.setUrl(xlsRow.get(4));
                 record.setRemark(xlsRow.get(5));
                 int ret = 0;

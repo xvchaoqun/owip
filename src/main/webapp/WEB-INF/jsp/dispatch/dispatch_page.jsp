@@ -196,7 +196,7 @@
             }, frozen: true
             },
             {
-                label: '发文号', name: 'dispatchCode', width: 140, align:'left', formatter: function (cellvalue, options, rowObject) {
+                label: '发文号', name: 'dispatchCode', width: 160, align:'left', formatter: function (cellvalue, options, rowObject) {
 
                 return $.swfPreview(rowObject.file, rowObject.fileName, cellvalue, cellvalue);
             }, frozen: true

@@ -365,7 +365,8 @@
 
                 return filesArray.join("，");
             }
-        }, {label: '备注', name: 'remark', width: 180, align:'left'}, {label: '补充说明', name: 'note', width: 180}, {hidden: true, key: true, name: 'id'}];
+        },{label: '补充说明', name: 'note', width: 280},
+        {label: '备注', name: 'remark', width: 180, align:'left'},  {hidden: true, key: true, name: 'id'}];
 
     colModels.cadreBook = [
         {label: '出版日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},

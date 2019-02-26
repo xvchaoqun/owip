@@ -12,7 +12,7 @@ public class CisInspectObjView implements Serializable {
 
     public String getSn(){
         String type = CmTag.getMetaType(typeId).getName();
-        return String.format("%s[%s]%s号", type, year, seq);
+        return String.format("%s〔%s〕%s号", type, year, seq);
     }
 
     public CadreView getCadre(){

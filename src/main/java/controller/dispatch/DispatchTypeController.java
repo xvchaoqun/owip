@@ -3,8 +3,6 @@ package controller.dispatch;
 import domain.dispatch.DispatchType;
 import domain.dispatch.DispatchTypeExample;
 import domain.dispatch.DispatchTypeExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -28,11 +26,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class DispatchTypeController extends DispatchBaseController {
@@ -49,8 +43,6 @@ public class DispatchTypeController extends DispatchBaseController {
     @RequestMapping("/dispatchType_data")
     @ResponseBody
     public void dispatchType_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_type") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Short year,
                                     String name,
                                     String attr,
@@ -67,7 +59,7 @@ public class DispatchTypeController extends DispatchBaseController {
 
         DispatchTypeExample example = new DispatchTypeExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("year desc, sort_order desc");
 
         if(year!=null){
             criteria.andYearEqualTo(year);
@@ -170,8 +162,7 @@ public class DispatchTypeController extends DispatchBaseController {
     @ResponseBody
     public Map do_dispatchType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        DispatchType dispatchType = dispatchTypeMapper.selectByPrimaryKey(id);
-        dispatchTypeService.changeOrder(id, addNum, dispatchType.getYear());
+        dispatchTypeService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "发文类型调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
@@ -214,7 +205,7 @@ public class DispatchTypeController extends DispatchBaseController {
 
         DispatchTypeExample example = new DispatchTypeExample();
         Criteria criteria = example.createCriteria().andYearEqualTo(year);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("year desc, sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");

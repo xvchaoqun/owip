@@ -117,7 +117,7 @@
         {
             label: '编号', name: 'crsPostSeq', formatter: function (cellvalue, options, rowObject) {
             var type = _cMap.CRS_POST_TYPE_MAP[rowObject.crsPostType];
-            return type + "[" + rowObject.crsPostYear + "]" + rowObject.crsPostSeq + "号";
+            return type + "〔" + rowObject.crsPostYear + "〕" + rowObject.crsPostSeq + "号";
 
         }, width: 180, frozen: true
         },

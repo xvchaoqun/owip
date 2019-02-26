@@ -1,14 +1,19 @@
 package controller.cet;
 
-import domain.cet.CetCourse;
-import domain.cet.CetCourseExample;
+import bean.XlsUpload;
+import controller.global.OpException;
+import domain.base.MetaType;
+import domain.cet.*;
 import domain.cet.CetCourseExample.Criteria;
-import domain.cet.CetTraineeCourse;
-import domain.cet.CetTraineeCourseView;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,27 +23,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.NumberUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -163,6 +163,120 @@ public class CetCourseController extends CetBaseController {
         }
 
         return null;
+    }
+
+    // 线下课程导入
+    @RequiresPermissions("cetCourse:import")
+    @RequestMapping("/cetCourse_import")
+    public String cetCourse_import(ModelMap modelMap) {
+
+        return "cet/cetCourse/cetCourse_import";
+    }
+
+    @RequiresPermissions("cetCourse:import")
+    @RequestMapping(value = "/cetCourse_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetCourse_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<CetCourse> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            CetCourse record = new CetCourse();
+            row++;
+
+            String foundDate = StringUtils.trimToNull(xlsRow.get(0));
+            record.setFoundDate(DateUtils.parseStringToDate(foundDate));
+
+            record.setYear(DateUtils.getYear(record.getFoundDate()));
+            record.setType(CetConstants.CET_COURSE_TYPE_OFFLINE);
+
+            String _num = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.isBlank(_num)) {
+                record.setNum(cetCourseService.genNum(record.getYear(), record.getType()));
+            } else {
+                if (!org.apache.commons.lang3.math.NumberUtils.isDigits(_num)) {
+                    throw new OpException("第{0}行课程编号[{1}]不是整数", _num);
+                }
+                record.setNum(Integer.valueOf(_num));
+            }
+
+             record.setName(StringUtils.trimToNull(xlsRow.get(2)));
+
+             byte expertType ;
+             String _expertType = StringUtils.trimToNull(xlsRow.get(3));
+            if (StringUtils.isBlank(_expertType)) {
+                throw new OpException("第{0}行专家类别为空", row);
+            }
+            if (StringUtils.contains(_expertType, "校内")) {
+                expertType = CetConstants.CET_EXPERT_TYPE_IN;
+            } else if (StringUtils.contains(_expertType, "校外")) {
+                expertType = CetConstants.CET_EXPERT_TYPE_OUT;
+            } else {
+                throw new OpException("第{0}行专家类别[{1}]有误", _expertType);
+            }
+
+            String code = StringUtils.trimToNull(xlsRow.get(4));
+            if (StringUtils.isBlank(code)) {
+                throw new OpException("第{0}行工号/编号为空", row);
+            }
+            if (expertType == CetConstants.CET_EXPERT_TYPE_IN) {
+
+                SysUserView uv = sysUserService.findByCode(code);
+                if (uv == null) {
+                    throw new OpException("第{0}行工号[{1}]不存在", row, code);
+                }
+                int userId = uv.getId();
+                CetExpert cetExpert = cetExpertService.getByUserId(userId);
+                if(cetExpert==null){
+                    throw new OpException("第{0}行专家[{1}]不存在", row, code);
+                }
+                record.setExpertId(cetExpert.getId());
+            } else {
+                CetExpert cetExpert = cetExpertService.getByCode(code);
+                if(cetExpert==null){
+                    throw new OpException("第{0}行专家[{1}]不存在", row, code);
+                }
+                 record.setExpertId(cetExpert.getId());
+            }
+
+             String teachMethod = StringUtils.trimToNull(xlsRow.get(6));
+            MetaType teachMethodType = CmTag.getMetaTypeByName("mc_cet_teach_method", teachMethod);
+            if (teachMethodType == null) throw new OpException("第{0}行授课方式[{1}]不存在", row, teachMethod);
+            record.setTeachMethod(teachMethodType.getId());
+
+            String period = StringUtils.trimToNull(xlsRow.get(7));
+            String periodReg = "^\\d*(\\.(5|0))?$";
+            if(!PatternUtils.match(periodReg, period)){
+                throw new OpException("第{0}行课时[{1}]有误，课时最小单位为0.5小时", row, period);
+            }
+            record.setPeriod(new BigDecimal(period));
+
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(8)));
+
+            /*if(cetCourseService.get(record.getYear(), record.getType(), record.getNum())!=null){
+                throw new OpException("第{0}行课程编号[{1}]重复", row, record.getNum());
+            }*/
+
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = cetCourseService.bacthImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     @RequiresPermissions("cetCourse:edit")

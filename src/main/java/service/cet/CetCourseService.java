@@ -28,6 +28,18 @@ public class CetCourseService extends CetBaseMapper {
         return cetCourseMapper.countByExample(example) > 0;
     }
 
+    public CetCourse get(int year, byte type, int num){
+
+        CetCourseExample example = new CetCourseExample();
+        example.createCriteria()
+                .andYearEqualTo(year)
+                .andTypeEqualTo(type).andNumEqualTo(num);
+
+        List<CetCourse> cetCourses = cetCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return cetCourses.size()==1?cetCourses.get(0):null;
+
+    }
+
     // C20181001
     public int genNum(int year, byte type){
 
@@ -125,6 +137,27 @@ public class CetCourseService extends CetBaseMapper {
         record.setNum(null);
 
         return cetCourseMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 导入线下课程
+    @Transactional
+    @CacheEvict(value="CetCourse", allEntries = true)
+    public int bacthImport(List<CetCourse> records) {
+
+        int addCount = 0;
+        for (CetCourse record : records) {
+
+            CetCourse cetCourse = get(record.getYear(), record.getType(), record.getNum());
+            if(cetCourse==null){
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(cetCourse.getId());
+                updateByPrimaryKeySelectiveWithoutNum(record);
+            }
+        }
+
+        return addCount;
     }
 
     /**

@@ -78,8 +78,9 @@
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cetExpert!=null}">确定</c:if><c:if
-            test="${cetExpert==null}">添加</c:if></button>
+    <button id="submitBtn" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+        <i class="fa fa-check"></i> ${cetExpert==null?"添加":"确定"}</button>
 </div>
 
 <script>
@@ -88,15 +89,15 @@
             $("#inDiv").show();
             $("#outDiv").hide();
             $("#modalForm select[name=userId]").prop("disabled", false).attr("required", "required");
-            $("input[name=code], input[name=realname]", "#modalForm")
-                .val('').prop("disabled", true).removeAttr("required");
+            $("#modalForm input[name=code]")
+                .val('').removeAttr("required");
         } else {
             $("#inDiv").hide();
             $("#outDiv").show();
             $("#modalForm select[name=userId]").val(null).trigger("change")
                 .prop("disabled", true).removeAttr("required");
-              $("input[name=code], input[name=realname]", "#modalForm")
-                  .prop("disabled", false).attr("required", "required");
+              $("#modalForm input[name=code]")
+                  .attr("required", "required");
         }
     });
     <c:if test="${not empty cetExpert.id}">
@@ -104,9 +105,11 @@
 	</c:if>
     var $select = $.register.user_select($("#modalForm select[name=userId]"))
     $select.on("change",function(){
-        //console.log($(this).select2("data")[0])
-        var unit = $(this).select2("data")[0]['unit']||'';
-        $('#modalForm input[name=unit]').val(unit);
+        if($(this).val()>0) {
+            //console.log($(this).select2("data")[0])
+            var unit = $(this).select2("data")[0]['unit'] || '';
+            $('#modalForm input[name=unit]').val(unit);
+        }
     });
 
     $("#submitBtn").click(function () {
@@ -115,12 +118,14 @@
     });
     $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal('hide');
                         $("#jqGrid").trigger("reloadGrid");
                     }
+                    $btn.button('reset');
                 }
             });
         }

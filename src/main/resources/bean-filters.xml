@@ -23,7 +23,7 @@
 
                 <!--干部选拔-->
                 <value>(persistence|service|controller)\.sc\..*</value>
-                <value>(persistence|service|controller)\.dispatch\..*</value>
+                <!--<value>(persistence|service|controller)\.dispatch\..*</value>-->
 
                 <value>(persistence|service|controller)\.dr\..*</value>
 

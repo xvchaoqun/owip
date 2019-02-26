@@ -93,7 +93,7 @@
         {
             label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
             var type = _cMap.CRS_POST_TYPE_MAP[rowObject.type];
-            return type + "[" + rowObject.year + "]" + rowObject.seq + "号";
+            return type + "〔" + rowObject.year + "〕" + rowObject.seq + "号";
 
         }, width: 180, frozen: true
         },

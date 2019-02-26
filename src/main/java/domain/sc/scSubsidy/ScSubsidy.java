@@ -21,7 +21,7 @@ public class ScSubsidy implements Serializable {
             AnnualType annualType = annualTypeMap.get(hrType);
             String name = annualType.getName();
 
-            return String.format("%s[%s]%s号", name, year, hrNum);
+            return String.format("%s〔%s〕%s号", name, year, hrNum);
         }
 
         return null;
@@ -42,7 +42,7 @@ public class ScSubsidy implements Serializable {
             AnnualType annualType = annualTypeMap.get(feType);
             String name = annualType.getName();
 
-            return String.format("%s[%s]%s号", name, year, feNum);
+            return String.format("%s〔%s〕%s号", name, year, feNum);
         }
 
         return null;

@@ -8,15 +8,19 @@ pageEncoding="UTF-8" %>
                  data-url-page="${ctx}/cet/cetExpert"
                  data-url-export="${ctx}/cet/cetExpert_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.realname || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.type ||not empty param.userId || not empty param.realname
+            || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetExpert:edit">
                     <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetExpert_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/cet/cetExpert_au"
-                       data-grid-id="#jqGrid"
-                       ><i class="fa fa-edit"></i>
-                        修改</a>
+                       data-grid-id="#jqGrid" ><i class="fa fa-edit"></i> 修改</a>
+
+                    <a class="popupBtn btn btn-info btn-sm tooltip-info"
+                               data-url="${ctx}/cet/cetExpert_import"
+                               data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                批量导入</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cetExpert:del">
                     <button data-url="${ctx}/cet/cetExpert_batchDel"
@@ -27,6 +31,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
+
                 <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</a>--%>
@@ -45,19 +50,45 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
-                            <label>姓名</label>
-                            <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
-                                   placeholder="请输入姓名">
+                            <label>专家类型</label>
+                            <select data-rel="select2" name="type" data-width="120" data-placeholder="请选择">
+                                <option></option>
+                                <c:forEach items="<%=CetConstants.CET_EXPERT_TYPE_MAP%>" var="entity">
+                                    <option value="${entity.key}">${entity.value}</option>
+                                </c:forEach>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=type]").val("${param.type}")
+                            </script>
                         </div>
-                            <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                        <div class="form-group inDiv">
+                            <label>选择专家</label>
+                            <c:set var="sysUser" value="${cm:getUserById(cm:toInt(param.userId))}"/>
+                            <select name="userId" data-rel="select2-ajax" data-width="272"
+                                    data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                    data-placeholder="请输入账号或姓名或教工号">
+                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                            </select>
+                        </div>
+                        <div class="form-group outDiv">
+                            <label>专家姓名</label>
+                            <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
+                                   placeholder="请输入专家姓名">
+                        </div>
+                        <div class="form-group outDiv">
+                            <label>专家编号</label>
+                            <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                   placeholder="请输入专家编号">
+                        </div>
+                        <div class="clearfix form-actions center">
+                            <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
-                                <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="reloadBtn btn btn-warning btn-sm">
-                                        <i class="fa fa-reply"></i> 重置
-                                    </button>
-                                </c:if>
-                            </div>
+                            <c:if test="${_query}">&nbsp;
+                                <button type="button" class="reloadBtn btn btn-warning btn-sm">
+                                    <i class="fa fa-reply"></i> 重置
+                                </button>
+                            </c:if>
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -70,6 +101,19 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    $("#searchForm select[name=type]").on("change", function () {
+        if ($(this).val() == '<%=CetConstants.CET_EXPERT_TYPE_IN%>') {
+            $(".inDiv").show();
+            $(".outDiv").hide();
+        } else if ($(this).val() == '<%=CetConstants.CET_EXPERT_TYPE_OUT%>')  {
+            $(".inDiv").hide();
+            $(".outDiv").show();
+        } else{
+            $(".inDiv").hide();
+            $(".outDiv").hide();
+        }
+    }).change();
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/cet/cetExpert_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -79,7 +123,7 @@ pageEncoding="UTF-8" %>
                     rowObject.type=='<%=CetConstants.CET_EXPERT_TYPE_IN%>'?'text-success':'text-primary',
                     _cMap.CET_EXPERT_TYPE_MAP[cellvalue]);
             }, frozen:true},
-            { label: '专家编号',name: 'code', width:110, formatter:function(cellvalue, options, rowObject){
+            { label: '工号/编号',name: 'code', width:110, formatter:function(cellvalue, options, rowObject){
 
                 //console.log("rowObject.type="+rowObject.type)
                 if(rowObject.type=='<%=CetConstants.CET_EXPERT_TYPE_IN%>'
@@ -106,5 +150,6 @@ pageEncoding="UTF-8" %>
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
+    $.register.user_select($("#searchForm select[name=userId]"))
     $('[data-rel="tooltip"]').tooltip();
 </script>

@@ -10,6 +10,7 @@ import service.party.BranchMemberService;
 import service.party.PartyMemberService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysLoginLogService;
+import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import sys.HttpResponseMethod;
 
@@ -17,6 +18,8 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
 
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    protected SysUserService sysUserService;
     @Autowired
     protected CadreService cadreService;
     @Autowired

@@ -7,7 +7,7 @@
         <div class="tab-content">
             <div class="tab-pane in active">
                 <div class="buttons">
-                    <button type="button" class="linkBtn btn btn-info btn-sm tooltip-success"
+                    <button type="button" class="linkBtn btn btn-success btn-sm tooltip-success"
                        data-url="${ctx}/unit?status=3&export=1"
                        data-rel="tooltip" data-placement="top" title="导出学校单位信息">
                         <i class="fa fa-download"></i> 导出</button>
