@@ -5,7 +5,7 @@
       {label: '年份', name: 'year', width: 60, frozen: true},
       {
           label: '编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
-              var _num = "干部小组会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"))
+              var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
               if(rowObject.groupFilePath==undefined) return _num;
               return $.swfPreview(rowObject.groupFilePath, _num);
           }, frozen: true},

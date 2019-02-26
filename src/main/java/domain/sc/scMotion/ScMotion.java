@@ -9,7 +9,7 @@ import java.util.Date;
 public class ScMotion implements Serializable {
 
     public String getCode(){
-        return "动议["+seq+"]号";
+        return "动议〔"+seq+"〕号";
     }
 
     private Integer id;

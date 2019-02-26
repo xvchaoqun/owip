@@ -138,7 +138,7 @@
             {label: '年份', name: 'year', width: 80, frozen: true},
             {
                 label: '核查编号', name: 'num', width: 180, formatter: function (cellvalue, options, rowObject) {
-                return "个人事项核查[{0}]{1}号".format(rowObject.year, rowObject.num)
+                return "个人事项核查〔{0}〕{1}号".format(rowObject.year, rowObject.num)
             }, frozen: true
             },
             {label: '核查日期', name: 'checkDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

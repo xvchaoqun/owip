@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ScRecord implements Serializable {
 
     public String getCode(){
-        return "纪实["+seq+"]号";
+        return "纪实〔"+seq+"〕号";
     }
 
     private Integer id;

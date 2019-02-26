@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ScRecordView implements Serializable {
     public String getCode(){
-        return "纪实["+seq+"]号";
+        return "纪实〔"+seq+"〕号";
     }
 
     private Integer id;

@@ -10,7 +10,7 @@ public class ScPublic implements Serializable {
 
     /*public String getCode(){
         if(year==null || num==null) return null;
-        return MessageFormat.format("公示[{0}]{1}号", year, num);
+        return MessageFormat.format("公示〔{0}〕{1}号", year, num);
     }*/
     public String getCode(){
         return String.format("公示〔%s〕号", DateUtils.formatDate(publishDate, "yyyyMMdd"));

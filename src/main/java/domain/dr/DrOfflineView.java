@@ -13,11 +13,11 @@ import java.util.List;
 public class DrOfflineView implements Serializable {
 
     public String getSrCode(){
-        return "纪实["+srSeq+"]号";
+        return "纪实〔"+srSeq+"〕号";
     }
 
     public String getCode(){
-        return String.format("民主推荐[%s%s]号",
+        return String.format("民主推荐〔%s%s〕号",
                 DateUtils.formatDate(recommendDate, "yyyyMMdd"),
                 String.format("%02d", seq));
     }

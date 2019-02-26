@@ -147,7 +147,7 @@
             {
                 label: '党委常委会编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
-                var _num = "党委常委会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"))
+                var _num = "党委常委会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 return _num;
             }, frozen: true},
             {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

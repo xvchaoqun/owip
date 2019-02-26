@@ -95,7 +95,7 @@
                 label: '党委常委会', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
                 var holdDate = $.date(rowObject.holdDate, "yyyyMMdd");
-                var code = "党委常委会[{0}]号".format(holdDate)
+                var code = "党委常委会〔{0}〕号".format(holdDate)
                 /*
                 if($.trim(rowObject.committeeFilePath)=='') return _num;
                 return $.swfPreview(rowObject.committeeFilePath, _num);*/
