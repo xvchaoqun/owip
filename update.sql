@@ -9,6 +9,7 @@ ALTER TABLE `cet_expert`
 
 update cet_expert set type=1;
 
+更新common-utils
 
 20190225
 更新 南航
