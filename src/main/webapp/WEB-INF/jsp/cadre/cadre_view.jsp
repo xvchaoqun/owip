@@ -3,9 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <c:if test="${param._auth!='self'}">
-    <div id="cadreTitleDiv" class="hidden-xs hidden-sm" title="${cadre.title}" style="position:fixed; top: 95px; width: 450px;
-    /*left:50%;margin-left:-190px;*/font-size: 16pt; font-weight: bolder;white-space:nowrap;
-    /*overflow:hidden;text-overflow:ellipsis;*/z-index: 1001">
+    <div id="cadreTitleDiv" class="breadcrumb-title hidden-xs hidden-sm" title="${cadre.title}">
         【${cadre.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
     </div>
     <script>
@@ -16,8 +14,7 @@
         $("#cadreTitleDiv").css("left", _w + "px")
     </script>
     <c:if test="${param.hideBack!=1}">
-    <h4 class="widget-title lighter smaller"
-        style="position:fixed; top: 91px; right: 50px;z-index: 1001 ">
+    <h4 class="widget-title lighter smaller breadcrumb-back">
         <a href="javascript:;"
            data-load-el="#${param.loadEl}" data-hide-el="#${param.hideEl}"
            class="hideView btn btn-xs btn-success">
