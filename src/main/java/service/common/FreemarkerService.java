@@ -239,7 +239,7 @@ public class FreemarkerService {
             //String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
             String text = StringUtils.trimToEmpty(pElement.text());
 
-            // 需要换行的期间经历
+            // 需要换行的其间经历
             String _text = null;
             String[] texts = text.split("） （"); // 中间包含一个空格
             if(texts.length==2){

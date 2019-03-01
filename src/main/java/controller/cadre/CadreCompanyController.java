@@ -1,7 +1,10 @@
 package controller.cadre;
 
+import bean.XlsUpload;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreCompany;
 import domain.cadre.CadreCompanyView;
 import domain.cadre.CadreCompanyViewExample;
@@ -11,6 +14,10 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +29,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.cadre.common.CadreCompanyStatBean;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -35,16 +44,104 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreCompanyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("cadreCompany:import")
+    @RequestMapping("/cadreCompany_import")
+    public String cadreCompany_import(ModelMap modelMap) {
+
+        return "cadre/cadreCompany/cadreCompany_import";
+    }
+
+    @RequiresPermissions("cadreCompany:import")
+    @RequestMapping(value = "/cadreCompany_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreCompany_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<CadreCompany> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            CadreCompany record = new CadreCompany();
+            row++;
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(userCode)){
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            int userId = uv.getId();
+            CadreView cv = cadreService.dbFindByUserId(userId);
+            if(cv == null){
+                throw new OpException("第{0}行工作证号[{1}]不是干部", row, userCode);
+            }
+            record.setCadreId(cv.getId());
+
+            String _type = StringUtils.trimToNull(xlsRow.get(2));
+            MetaType metaType = CmTag.getMetaTypeByName("mc_cadre_company_type", _type);
+            if (metaType == null) throw new OpException("第{0}行兼职类型[{1}]不存在", row, _type);
+            record.setType(metaType.getId());
+
+            MetaType otherType = CmTag.getMetaTypeByCode("mt_cadre_company_other");
+            if(otherType.getId().intValue()==metaType.getId()){
+                record.setTypeOther(StringUtils.trimToNull(xlsRow.get(3)));
+            }
+
+            record.setUnit(StringUtils.trimToNull(xlsRow.get(4)));
+            if(StringUtils.isBlank(record.getUnit())){
+                throw new OpException("第{0}行兼职单位为空", row);
+            }
+
+            record.setPost(StringUtils.trimToNull(xlsRow.get(5)));
+
+            Date startTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(6)));
+            record.setStartTime(startTime);
+            Date finishTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(7)));
+            if(finishTime!=null && startTime != null && finishTime.before(startTime)){
+                throw new OpException("第{0}行结束时间在起始时间之前", row);
+            }
+            if(finishTime!=null && finishTime.after(new Date())){
+                throw new OpException("第{0}行结束时间超出了今天", row);
+            }
+            if(finishTime!=null) {
+                record.setFinishTime(finishTime);
+                record.setIsFinished(true);
+            }
+
+            record.setApprovalUnit(StringUtils.trimToNull(xlsRow.get(8)));
+            record.setApprovalDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
+
+            record.setHasPay(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(10)), "是"));
+            record.setHasHand(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(11)), "是"));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(12)));
+
+            record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+            records.add(record);
+        }
+
+        int addCount = cadreCompanyService.bacthImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
+    }
 
     @RequiresPermissions("cadreCompanyList:list")
     @RequestMapping("/cadreCompanyList")
@@ -121,6 +218,12 @@ public class CadreCompanyController extends BaseController {
                                   Integer cadreId,
                                   Byte module, // 1 校领导 2干部
                                   Byte cadreStatus,
+                                  Integer type,
+                                  String unit,
+                                  String post,
+                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date startTime,
+                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date finishTime,
+                                  Boolean hasPay,
                                   @RequestParam(defaultValue = "1") Byte cls,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -137,6 +240,25 @@ public class CadreCompanyController extends BaseController {
         CadreCompanyViewExample.Criteria criteria = example.createCriteria()
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("field(cadre_status, 2,5,3,1,4,6) desc, cadre_sort_order desc, start_time desc");
+
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+        if(StringUtils.isNotBlank(unit)){
+            criteria.andUnitLike("%"+unit+"%");
+        }
+        if(StringUtils.isNotBlank(post)){
+            criteria.andPostLike("%"+post+"%");
+        }
+        if(startTime!=null){
+            criteria.andStartTimeGreaterThanOrEqualTo(startTime);
+        }
+        if(finishTime!=null){
+            criteria.andFinishTimeLessThanOrEqualTo(finishTime);
+        }
+        if(hasPay!=null){
+            criteria.andHasPayEqualTo(hasPay);
+        }
 
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);

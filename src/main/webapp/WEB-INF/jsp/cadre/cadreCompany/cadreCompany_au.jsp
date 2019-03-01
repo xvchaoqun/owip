@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group" id="typeOtherDiv">
             <label class="col-xs-3 control-label">其他兼职类型</label>
             <div class="col-xs-6">
-                <input  type="text" name="typeOther" placeholder="请输入其他兼职类型" value="${cadreCompany.typeOther}">
+                <input class="form-control" type="text" name="typeOther" placeholder="请输入其他兼职类型" value="${cadreCompany.typeOther}">
             </div>
         </div>
         <div class="form-group">

@@ -295,21 +295,21 @@ public class CadreWorkService extends BaseMapper {
         updateSubWorkCount(record.getFid()); // 必须放插入之后
     }
 
-    // 期间工作经历转移至主要工作经历
+    // 其间工作经历转移至主要工作经历
     @Transactional
     public void transfer(Integer id) {
 
         CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
         Integer fid = cadreWork.getFid();
         if (fid == null) {
-            throw new OpException("非期间工作经历，不允许转移。");
+            throw new OpException("非其间工作经历，不允许转移。");
         }
         commonMapper.excuteSql("update cadre_work set fid=null where id=" + id);
 
         updateSubWorkCount(fid);
     }
 
-    // 主要工作经历修改为期间工作经历
+    // 主要工作经历修改为其间工作经历
     @Transactional
     public void transferToSubWork(int id, int fid) {
 
@@ -318,7 +318,7 @@ public class CadreWorkService extends BaseMapper {
             throw new OpException("非主要工作经历，不允许转移。");
         }
         if(cadreWork.getSubWorkCount()>0){
-            throw new OpException("存在期间工作经历，不允许转移。");
+            throw new OpException("存在其间工作经历，不允许转移。");
         }
 
         CadreWork topCadreWork = cadreWorkMapper.selectByPrimaryKey(fid);
@@ -348,7 +348,7 @@ public class CadreWorkService extends BaseMapper {
             }
         }
 
-        {  // 先删除下面的期间工作经历（如果有）（不包括修改申请生成的记录，它们的fid将会更新为null）
+        {  // 先删除下面的其间工作经历（如果有）（不包括修改申请生成的记录，它们的fid将会更新为null）
             CadreWorkExample example = new CadreWorkExample();
             example.createCriteria().andFidIn(Arrays.asList(ids))
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -366,10 +366,10 @@ public class CadreWorkService extends BaseMapper {
             }
         }
 
-        //  如果待删除的记录是期间工作经历，则在删除之后，需要更新它的父工作经历的期间工作经历数量
+        //  如果待删除的记录是其间工作经历，则在删除之后，需要更新它的父工作经历的其间工作经历数量
         List<CadreWork> subCadreWorks = null;
         {
-            // 1、读取待删除的记录中是期间工作经历的记录
+            // 1、读取待删除的记录中是其间工作经历的记录
             CadreWorkExample example = new CadreWorkExample();
             example.createCriteria().andIdIn(Arrays.asList(ids)).andFidIsNotNull();
             subCadreWorks = cadreWorkMapper.selectByExample(example);
@@ -380,7 +380,7 @@ public class CadreWorkService extends BaseMapper {
             example.createCriteria().andIdIn(Arrays.asList(ids));
             cadreWorkMapper.deleteByExample(example);
 
-            // 3、更新父工作经历的期间工作数量
+            // 3、更新父工作经历的其间工作数量
             if (subCadreWorks != null) {
                 for (CadreWork subCadreWork : subCadreWorks) {
                     updateSubWorkCount(subCadreWork.getFid());
@@ -522,7 +522,7 @@ public class CadreWorkService extends BaseMapper {
                 modify.setId(originalId);
 
                 CadreWork original = cadreWorkMapper.selectByPrimaryKey(originalId);
-                modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加期间工作经历
+                modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加其间工作经历
 
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 

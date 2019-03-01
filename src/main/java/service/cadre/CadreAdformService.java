@@ -368,7 +368,7 @@ public class CadreAdformService extends BaseMapper {
 
     private String process(String text){
 
-        // 需要换行的期间经历
+        // 需要换行的其间经历
         String[] texts = text.split("） （"); // 中间包含一个空格
         if(texts.length==2){
             text = texts[0] + "）\r\n（" + texts[1];

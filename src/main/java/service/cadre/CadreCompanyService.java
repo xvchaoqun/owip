@@ -2,15 +2,12 @@ package service.cadre;
 
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.cadre.CadreCompany;
-import domain.cadre.CadreCompanyExample;
-import domain.cadre.CadreCompanyView;
-import domain.cadre.CadreCompanyViewExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -26,24 +23,13 @@ import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.ExcelUtils;
-import sys.utils.ExportHelper;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CadreCompanyService extends BaseMapper {
@@ -78,6 +64,40 @@ public class CadreCompanyService extends BaseMapper {
     public int updateByPrimaryKeySelective(CadreCompany record) {
         record.setStatus(null);
         return cadreCompanyMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 导入时使用，用来判断是否覆盖
+    public CadreCompany getCadreCompany(int cadreId, int type, String unit, Date startTime){
+
+        CadreCompanyExample example = new CadreCompanyExample();
+        CadreCompanyExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
+                .andUnitEqualTo(unit);
+        if(startTime!=null){
+            criteria.andStartTimeEqualTo(startTime);
+        }
+
+        List<CadreCompany> cadreCompanies = cadreCompanyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cadreCompanies.size()==1?cadreCompanies.get(0):null;
+    }
+
+    @Transactional
+    public int bacthImport(List<CadreCompany> records) {
+
+        int addCount = 0;
+        for (CadreCompany record : records) {
+            CadreCompany cadreCompany = getCadreCompany(record.getCadreId(), record.getType(),
+                    record.getUnit(), record.getStartTime());
+            if(cadreCompany==null){
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(cadreCompany.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
     }
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
