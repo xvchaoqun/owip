@@ -33,7 +33,7 @@ public class CadreConstants {
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "年轻干部库"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RECRUIT, "应聘干部");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_NOT_CADRE, "非干部"); // 无角色
+        CADRE_STATUS_MAP.put(CADRE_STATUS_NOT_CADRE, "临时干部档案"); // 无角色
 
         CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE);
         CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE_LEAVE);

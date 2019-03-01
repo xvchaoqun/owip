@@ -129,10 +129,12 @@
 
                                 </shiro:hasPermission>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                    <shiro:hasPermission name="cadre:list">
                                     <button class="openView btn btn-primary btn-sm"
                                             data-url="${ctx}/cadre_search_brief">
                                         <i class="fa fa-search"></i> 提取简介
                                     </button>
+                                    </shiro:hasPermission>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"

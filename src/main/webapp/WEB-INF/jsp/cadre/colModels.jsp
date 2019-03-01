@@ -231,7 +231,7 @@
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
         {label: '联系方式', name: 'mobile', width: 120},
-        {label: '电子邮箱', name: 'email', width: 150}
+        {label: '电子邮箱', name: 'email', width: 180}
     ];
 
     colModels.cadreLeave = [
@@ -270,7 +270,7 @@
         {label: '手机号', name: 'mobile', width: 120},
         {label: '办公电话', name: 'phone'},
         {label: '家庭电话', name: 'homePhone'},
-        {label: '电子邮箱', name: 'email', width: 150},
+        {label: '电子邮箱', name: 'email', width: 180},
         {label: '备注', name: 'remark', width: 150, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
     ];
     colModels.cadreLeave2 = [
@@ -281,7 +281,7 @@
         {label: '原行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '原职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '手机号', name: 'mobile', width: 120},
-        {label: '电子邮箱', name: 'email', width: 150}
+        {label: '电子邮箱', name: 'email', width: 180}
     ];
 
     colModels.cadreEdu = [
