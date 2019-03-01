@@ -51,7 +51,7 @@
             formatoptions: {newformat: 'Y.m'}
         },
         </c:if>
-        {label: '审批单位', name: 'approvalUnit', width: 280},
+        {label: '审批单位', name: 'approvalUnit',align:'left', width: 280},
         {label: '批复日期', name: 'approvalDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
         {
             label: '批复文件', name: 'approvalFile', width: 80,

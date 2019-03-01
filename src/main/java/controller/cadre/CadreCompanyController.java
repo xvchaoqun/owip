@@ -224,6 +224,7 @@ public class CadreCompanyController extends BaseController {
                                   @DateTimeFormat(pattern = DateUtils.YYYYMM) Date startTime,
                                   @DateTimeFormat(pattern = DateUtils.YYYYMM) Date finishTime,
                                   Boolean hasPay,
+                                  String approvalUnit,
                                   @RequestParam(defaultValue = "1") Byte cls,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -246,6 +247,9 @@ public class CadreCompanyController extends BaseController {
         }
         if(StringUtils.isNotBlank(unit)){
             criteria.andUnitLike("%"+unit+"%");
+        }
+        if(StringUtils.isNotBlank(approvalUnit)){
+            criteria.andApprovalUnitLike("%"+approvalUnit+"%");
         }
         if(StringUtils.isNotBlank(post)){
             criteria.andPostLike("%"+post+"%");

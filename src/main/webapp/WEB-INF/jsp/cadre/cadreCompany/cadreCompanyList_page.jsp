@@ -7,7 +7,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.type
              ||not empty param.unit ||not empty param.post ||not empty param.startTime
-              ||not empty param.finishTime||not empty param.hasPay  || not empty param.sort}"/>
+              ||not empty param.finishTime||not empty param.approvalUnit ||not empty param.hasPay  || not empty param.sort}"/>
 
             <jsp:include page="menu.jsp"/>
             <div class="space-4"></div>
@@ -19,7 +19,6 @@
                             ${module==1?'校领导兼职管理文件':'干部兼职管理文件'}
                     </button>
                 </shiro:hasPermission>
-
                 <c:if test="${cls==1}">
                     <c:if test="${module==1}">
                         <div class="btn-group">
@@ -126,6 +125,11 @@
                                            value="${param.finishTime}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label>审批单位</label>
+                                <input class="form-control" type="text" name="approvalUnit"
+                                       value="${param.approvalUnit}">
                             </div>
                             <div class="form-group">
                                 <label>是否取酬</label>

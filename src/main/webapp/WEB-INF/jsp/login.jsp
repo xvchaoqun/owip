@@ -70,12 +70,12 @@
         </div>
         <div class="login-layout" id="reg">
             <div class="reg-tip">
-                <ol>
+                <ul>
                     <li>
-                        如果您已经有信息门户的账号，请不要在此注册。
+                        <i class="ace-icon fa fa-exclamation-triangle"></i> 如果您已经有信息门户的账号，请不要在此注册。
                     </li>
-                    <li>手机号码可用于密码找回，请正确填写。</li>
-                </ol>
+                    <li><i class="ace-icon fa fa-phone"></i> 手机号码可用于密码找回，请正确填写。</li>
+                </ul>
             </div>
             <form id="reg-form" method="POST" action="${ctx}/member_reg">
                 <dt>登录账号</dt>

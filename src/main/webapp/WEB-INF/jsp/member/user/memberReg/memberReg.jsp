@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <td class="bg-right">
-                        所属组织机构
+                        联系党委
                     </td>
                     <td class="bg-left" style="min-width: 80px">
                             ${cm:displayParty(memberReg.partyId, null)}
