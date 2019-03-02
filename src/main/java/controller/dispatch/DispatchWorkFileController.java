@@ -127,7 +127,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     }
 
     // 查看文件对应的查看权限（职务属性）
-    @RequiresPermissions("dispatchWorkFile:auth")
+    @RequiresPermissions("dispatchWorkFile:list")
     @RequestMapping("/dispatchWorkFileAuth")
     public String dispatchWorkFileAuth(int id, ModelMap modelMap) throws IOException {
 
@@ -138,14 +138,14 @@ public class DispatchWorkFileController extends DispatchBaseController {
     }
 
     // 查询文件所属类型
-    @RequiresPermissions("dispatchWorkFile:auth")
+    @RequiresPermissions("dispatchWorkFile:list")
     @RequestMapping("/dispatchWorkFile_search")
     public String dispatchWorkFile_search() throws IOException {
 
         return "dispatch/dispatchWorkFile/dispatchWorkFile_search";
     }
 
-    @RequiresPermissions("dispatchWorkFile:auth")
+    @RequiresPermissions("dispatchWorkFile:list")
     @RequestMapping(value = "/dispatchWorkFile_search", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dispatchWorkFile_search(String fileName) {
