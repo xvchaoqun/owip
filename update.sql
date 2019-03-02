@@ -20,6 +20,10 @@ unit:* -> unit:list
 
 + unit:*
 
+cmMember:* -> cmMember:list1
++ cmMember:* 两委委员管理
+
+
 unit:history->历史单位管理
 
 + party:viewAll 党建全部查看权限
