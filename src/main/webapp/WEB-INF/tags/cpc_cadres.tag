@@ -1,8 +1,11 @@
+<%@ tag import="sys.constants.SystemConstants" %>
 <%@ tag description="干部职数配置" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
 <%@ attribute name="cadrePosts" type="java.util.List" required="true" %>
+<c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
+
 <c:set var="hasCadreViewAuth" value="${cm:isPermitted('cadre:view') && cm:isPermitted(PERMISSION_CADREADMIN)}"/>
 <c:forEach items="${cadrePosts}" var="p" varStatus="_vs"><c:if test="${p.isMainPost}">
     <a href="javascript:;" class="${hasCadreViewAuth?'openView':''}"
