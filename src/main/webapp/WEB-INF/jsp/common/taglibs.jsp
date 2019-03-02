@@ -1,16 +1,16 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8" %>
 <%@ page import="sys.constants.*" %>
 <%@ page import="sys.shiro.Constants" %>
 <%@ page import="sys.utils.RequestUtils" %>
 <%@ page import="java.util.Date" %>
-<%@ page trimDirectiveWhitespaces="true"  %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="wo" uri="/wo-tags" %>
-<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="_homeUrl" value="<%=RequestUtils.getHomeURL(request)%>"/>
 <c:set var="_path" value="${fn:escapeXml(requestScope['javax.servlet.forward.servlet_path'])}"/>
