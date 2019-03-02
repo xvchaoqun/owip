@@ -150,7 +150,7 @@
                             </div>
                         </div>
                     </div>
-                    <script type="text/template" id="result_tpl">
+                    <script type="text/template" id="archive_search_tpl">
                         <div class="space-4"></div>
                         <div class="col-xs-12">
                             <blockquote>
@@ -255,7 +255,7 @@
             if (ret.success) {
 
                 ret.url = '${ctx}/cadre_archive?userId=' + ret.userId;
-                $("#ace-settings-box .resultDiv").html(_.template($("#result_tpl").html())({ret: ret}));
+                $("#ace-settings-box .resultDiv").html(_.template($("#archive_search_tpl").html())({ret: ret}));
             }
             $btn.button('reset');
         })
