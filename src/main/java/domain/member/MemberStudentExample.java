@@ -3,7 +3,7 @@ package domain.member;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -2837,8 +2837,7 @@ public class MemberStudentExample {
         public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             Subject subject = SecurityUtils.getSubject();
-            if(subject.hasRole(RoleConstants.ROLE_ADMIN)
-                    || subject.hasRole(RoleConstants.ROLE_ODADMIN))
+            if(subject.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();

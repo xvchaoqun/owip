@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="tabbable myTableDiv">
-    <shiro:hasRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:hasPermission name="${PERMISSION_CADREONLYVIEW}">
             <a href="javascript:;" class="downloadBtn btn btn-primary" data-url="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
                 <i class="ace-icon fa fa-download "></i>
                 下载(WORD)
@@ -11,8 +11,8 @@
                 <i class="ace-icon fa fa-download "></i>
                 下载(中组部格式)
             </a>
-    </shiro:hasRole>
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    </shiro:hasPermission>
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
             <li class="${type==1?"active":""}">
                 <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 最新审批表</a>
@@ -33,7 +33,7 @@
             </div>
             </c:if>
         </ul>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     <c:if test="${type==1}">
         <jsp:include page="adForm.jsp"/>
 

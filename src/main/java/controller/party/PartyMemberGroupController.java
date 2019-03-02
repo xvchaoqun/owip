@@ -59,10 +59,10 @@ public class PartyMemberGroupController extends BaseController {
 
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup")
-    public String partyMemberGroup(@RequestParam(required = false, defaultValue = "1")Byte status,
+    public String partyMemberGroup(@RequestParam(required = false, defaultValue = "1") Byte status,
                                    Integer partyId,
-                                        @RequestParam(required = false, value = "typeIds")Integer[] typeIds,
-                                        ModelMap modelMap) {
+                                   @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                   ModelMap modelMap) {
 
         modelMap.put("status", status);
 
@@ -70,8 +70,8 @@ public class PartyMemberGroupController extends BaseController {
             modelMap.put("party", partyService.findAll().get(partyId));
         }
 
-        if(status==2){
-            if (typeIds!=null) {
+        if (status == 2) {
+            if (typeIds != null) {
                 List<Integer> _typeIds = Arrays.asList(typeIds);
                 modelMap.put("selectedTypeIds", _typeIds);
             }
@@ -80,16 +80,17 @@ public class PartyMemberGroupController extends BaseController {
 
         return "party/partyMemberGroup/partyMemberGroup_page";
     }
+
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup_data")
     public void partyMemberGroup_data(HttpServletResponse response,
-
-                                      @RequestParam(required = false, defaultValue = "1")Byte status,
-                                    String name,
-                                    Integer partyId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                                      @RequestParam(required = false, defaultValue = "1") Byte status,
+                                      String name,
+                                      Integer partyId,
+                                      Boolean isPresent,
+                                      @RequestParam(required = false, defaultValue = "0") int export,
+                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                      Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -101,19 +102,23 @@ public class PartyMemberGroupController extends BaseController {
 
         PartyMemberGroupViewExample example = new PartyMemberGroupViewExample();
         PartyMemberGroupViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("party_sort_order desc");
+        example.setOrderByClause("is_present desc, party_sort_order desc, appoint_time desc");
 
-        criteria.andIsDeletedEqualTo(status==-1);
+        criteria.andIsDeletedEqualTo(status == -1);
+
+        if (isPresent != null) {
+            criteria.andIsPresentEqualTo(isPresent);
+        }
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }
-        if(partyId!=null){
+        if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             partyMemberGroup_export(example, response);
             return;
@@ -150,13 +155,13 @@ public class PartyMemberGroupController extends BaseController {
 
         Integer id = record.getId();
 
-        if(StringUtils.isNotBlank(_tranTime)){
+        if (StringUtils.isNotBlank(_tranTime)) {
             record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_actualTranTime)){
+        if (StringUtils.isNotBlank(_actualTranTime)) {
             record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_appointTime)){
+        if (StringUtils.isNotBlank(_appointTime)) {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
         }
 
@@ -167,7 +172,7 @@ public class PartyMemberGroupController extends BaseController {
             logger.info(addLog(LogConstants.LOG_PARTY, "添加基层党组织领导班子：%s", record.getId()));
         } else {
 
-            if(record.getFid()!=null && record.getFid().intValue()==record.getId()){
+            if (record.getFid() != null && record.getFid().intValue() == record.getId()) {
                 return failed("不能选择自身为上一届班子");
             }
 
@@ -188,21 +193,21 @@ public class PartyMemberGroupController extends BaseController {
         if (id != null) {
             PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(id);
             modelMap.put("partyMemberGroup", partyMemberGroup);
-            if(partyMemberGroup.getFid()!=null){
+            if (partyMemberGroup.getFid() != null) {
                 modelMap.put("fPartyMemberGroup", partyMemberGroupMapper.selectByPrimaryKey(partyMemberGroup.getFid()));
             }
 
             Party party = partyMap.get(partyMemberGroup.getPartyId());
             modelMap.put("party", party);
             Integer dispatchUnitId = partyMemberGroup.getDispatchUnitId();
-            if(dispatchUnitId != null) {
+            if (dispatchUnitId != null) {
                 DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
-                if(dispatchUnit!= null) {
+                if (dispatchUnit != null) {
                     modelMap.put("dispatch", dispatchUnit.getDispatch());
                 }
             }
-        }else{
-            if(partyId == null) throw  new IllegalArgumentException("参数错误");
+        } else {
+            if (partyId == null) throw new IllegalArgumentException("参数错误");
             Party party = partyMap.get(partyId);
             modelMap.put("party", party);
         }
@@ -210,7 +215,7 @@ public class PartyMemberGroupController extends BaseController {
         return "party/partyMemberGroup/partyMemberGroup_au";
     }
 
-     @RequiresPermissions("partyMemberGroup:edit")
+    @RequiresPermissions("partyMemberGroup:edit")
     @RequestMapping("/partyMemberGroup_import")
     public String partyMemberGroup_import(ModelMap modelMap) {
 
@@ -237,28 +242,34 @@ public class PartyMemberGroupController extends BaseController {
             PartyMemberGroup record = new PartyMemberGroup();
             row++;
             String name = StringUtils.trimToNull(xlsRow.get(0));
-             if(StringUtils.isBlank(name)){
+            if (StringUtils.isBlank(name)) {
                 throw new OpException("第{0}行班子名称为空", row);
             }
             record.setName(name);
 
             String partyCode = StringUtils.trimToNull(xlsRow.get(1));
-            if(StringUtils.isBlank(partyCode)){
+            if (StringUtils.isBlank(partyCode)) {
                 throw new OpException("第{0}行单位编码为空", row);
             }
             Party party = partyService.getByCode(partyCode);
-            if(party==null){
+            if (party == null) {
                 throw new OpException("第{0}行所属基层党组织编码[{1}]不存在", row, partyCode);
             }
             record.setPartyId(party.getId());
 
-            String tranTime = StringUtils.trimToNull(xlsRow.get(2));
+            record.setIsPresent(StringUtils.contains(xlsRow.get(2), "是"));
+
+            String tranTime = StringUtils.trimToNull(xlsRow.get(3));
             record.setTranTime(DateUtils.parseStringToDate(tranTime));
 
-            String appointTime = StringUtils.trimToNull(xlsRow.get(3));
+            if (record.getIsPresent()) {
+                String actualTranTime = StringUtils.trimToNull(xlsRow.get(4));
+                record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
+            }
+
+            String appointTime = StringUtils.trimToNull(xlsRow.get(5));
             record.setAppointTime(DateUtils.parseStringToDate(appointTime));
 
-            record.setIsPresent(true);
             record.setIsDeleted(false);
             records.add(record);
         }
@@ -290,13 +301,28 @@ public class PartyMemberGroupController extends BaseController {
     @RequestMapping(value = "/partyMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map partyMemberGroup_batchDel(HttpServletRequest request,
-                        @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
-                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                         @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
+                                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             partyMemberGroupService.batchDel(ids, isDeleted);
-            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除基层党组织领导班子：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "撤销基层党组织领导班子：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 完全删除已撤销的班子
+    @RequiresPermissions("partyMemberGroup:realDel")
+    @RequestMapping(value = "/partyMemberGroup_realDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map partyMemberGroup_realDel(HttpServletRequest request,
+                                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length > 0) {
+            partyMemberGroupService.realDel(ids);
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除基层党组织领导班子：%s",
+                    StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -316,7 +342,7 @@ public class PartyMemberGroupController extends BaseController {
 
         List<PartyMemberGroupView> records = partyMemberGroupViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称|350|left","所属分党委|350|left", "是否现任班子|70","应换届时间|100","实际换届时间|110","任命时间|100"};
+        String[] titles = {"名称|350|left", "所属分党委|350|left", "是否现任班子|70", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyMemberGroupView record = records.get(i);
@@ -324,15 +350,15 @@ public class PartyMemberGroupController extends BaseController {
 
             String dispatchCode = "";
             DispatchUnit dispatchUnit = CmTag.getDispatchUnit(record.getDispatchUnitId());
-            if(dispatchUnit!=null) {
+            if (dispatchUnit != null) {
                 Dispatch dispatch = dispatchUnit.getDispatch();
-               if(dispatch!=null)
-                   dispatchCode = CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear());
+                if (dispatch != null)
+                    dispatchCode = CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear());
             }
             String[] values = {
                     record.getName(),
-                    partyId==null?"":partyService.findAll().get(partyId).getName(),
-                    BooleanUtils.isTrue(record.getIsPresent())?"是":"否",
+                    partyId == null ? "" : partyService.findAll().get(partyId).getName(),
+                    BooleanUtils.isTrue(record.getIsPresent()) ? "是" : "否",
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD)
@@ -345,7 +371,7 @@ public class PartyMemberGroupController extends BaseController {
 
     @RequestMapping("/partyMemberGroup_selects")
     @ResponseBody
-    public Map partyMemberGroup_selects(int partyId, Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map partyMemberGroup_selects(int partyId, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -359,21 +385,21 @@ public class PartyMemberGroupController extends BaseController {
         Criteria criteria = example.createCriteria().andPartyIdEqualTo(partyId);
         example.setOrderByClause("sort_order desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andNameLike("%" + searchStr + "%");
         }
 
         int count = partyMemberGroupMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<PartyMemberGroup> partyMemberGroups = partyMemberGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<PartyMemberGroup> partyMemberGroups = partyMemberGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != partyMemberGroups && partyMemberGroups.size()>0){
+        if (null != partyMemberGroups && partyMemberGroups.size() > 0) {
 
-            for(PartyMemberGroup partyMemberGroup:partyMemberGroups){
+            for (PartyMemberGroup partyMemberGroup : partyMemberGroups) {
 
                 Select2Option option = new Select2Option();
                 option.setText(partyMemberGroup.getName());

@@ -41,8 +41,8 @@
 <c:set var="ROLE_CADRERECRUIT" value="<%=RoleConstants.ROLE_CADRERECRUIT%>"/>
 <c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
-<c:set var="ROLE_ONLY_CADRE_VIEW" value="role_cadre_view"/>
 
+<c:set var="PERMISSION_CADREONLYVIEW" value="<%=SystemConstants.PERMISSION_CADREONLYVIEW%>"/>
 <c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
 
 <c:set var="USER_SOURCE_JZG" value="<%=SystemConstants.USER_SOURCE_JZG%>"/>

@@ -9,6 +9,6 @@
     <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=2"><i class="fa fa-users"></i> 分党委委员库</a>
   </li>
   <li  class="<c:if test="${status==-1}">active</c:if>">
-    <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=-1"><i class="fa fa-trash"></i> 已删除领导班子</a>
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=-1"><i class="fa fa-trash"></i> 已撤销领导班子</a>
   </li>
 </ul>

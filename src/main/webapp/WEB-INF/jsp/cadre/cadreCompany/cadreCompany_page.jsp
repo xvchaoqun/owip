@@ -13,19 +13,19 @@ pageEncoding="UTF-8" %>
            data-load-el="#view-box .tab-content"
            data-url="${ctx}/cadreCompany?cls=2&cadreId=${param.cadreId}"><i class="fa fa-history"></i> 历史兼职</a>
     </li>
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <div class="buttons" style="position:absolute;left:250px;">
             <a class="popupBtn btn btn-warning btn-sm"
                data-width="800"
                data-url="${ctx}/hf_content?code=hf_cadre_company">
                 <i class="fa fa-info-circle"></i> 填写说明</a>
         </div>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
 </ul>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
     <%--<a class="popupBtn btn btn-warning btn-sm"
        data-width="800"
        data-url="${ctx}/hf_content?code=hf_cadre_company">
@@ -73,12 +73,12 @@ pageEncoding="UTF-8" %>
             <i class="fa fa-times"></i> 删除
         </button>
     </shiro:hasPermission>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     </c:if>
 <c:if test="${cls==1}">
-<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+<shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
     <input type="checkbox" data-name="company" name="check" class="cadre-info-check"> 无此类情况
-</shiro:lacksRole>
+</shiro:lacksPermission>
 </c:if>
 </div>
 <div class="space-4"></div>

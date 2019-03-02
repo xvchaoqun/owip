@@ -4,6 +4,8 @@
 <div class="row">
     <div class="col-xs-12">
         <c:set var="_query" value="${not empty param.cadreId || not empty param.code || not empty param.sort}"/>
+        <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN)}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <div class="jqgrid-vertical-offset buttons">
             <shiro:hasPermission name="cadreEva:edit">
                 <button class="popupBtn btn btn-success btn-sm"
@@ -31,6 +33,8 @@
                 <i class="fa fa-download"></i> 导出
             </button>--%>
         </div>
+        </shiro:lacksPermission>
+        </c:if>
         <div class="space-4"></div>
         <table id="jqGrid_eva" class="jqGrid2"></table>
         <div id="jqGridPager_eva"></div>

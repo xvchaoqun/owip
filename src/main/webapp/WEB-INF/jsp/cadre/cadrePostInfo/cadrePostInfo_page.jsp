@@ -11,21 +11,21 @@
     <li class="${type==3?"active":""}">
         <a href="javascript:;" onclick="_innerPage2(3)"><i class="fa fa-flag"></i> 工勤岗位过程信息</a>
     </li>
-<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+<shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
     <div class="buttons" style="position:absolute;left: 520px;">
     <a class="popupBtn btn btn-warning btn-sm"
        data-width="800"
        data-url="${ctx}/hf_content?code=hf_cadre_post_info">
         <i class="fa fa-info-circle"></i> 填写说明</a>
     </div>
-</shiro:lacksRole>
+</shiro:lacksPermission>
 </ul>
 
 <c:if test="${type==1}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <shiro:hasPermission name="cadrePostInfo:edit">
                 <button class="popupBtn btn btn-success btn-sm"
                    data-url="${ctx}/cadrePostPro_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -46,11 +46,11 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
             </shiro:hasPermission>
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
     </c:if>
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="post_pro" name="check" class="cadre-info-check"> 无此类情况
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
     </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadrePostPro" data-width-reduce="60" class="jqGrid2"></table>
@@ -60,7 +60,7 @@
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
 
             <shiro:hasPermission name="cadrePostInfo:edit">
                 <button class="popupBtn btn btn-success btn-sm"
@@ -82,11 +82,11 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
             </shiro:hasPermission>
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
     </c:if>
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="post_admin" name="check" class="cadre-info-check"> 无此类情况
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadrePostAdmin" data-width-reduce="60" class="jqGrid2"></table>
@@ -96,7 +96,7 @@
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
 
             <shiro:hasPermission name="cadrePostInfo:edit">
                 <button class="popupBtn btn btn-success btn-sm"
@@ -119,11 +119,11 @@
                 </button>
             </shiro:hasPermission>
 
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
     </c:if>
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <input type="checkbox" data-name="post_work" name="check" class="cadre-info-check"> 无此类情况
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
     </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadrePostWork" data-width-reduce="60" class="jqGrid2"></table>

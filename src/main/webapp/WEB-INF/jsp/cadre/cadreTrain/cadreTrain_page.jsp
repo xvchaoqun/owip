@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 培训情况</a>
@@ -11,13 +11,13 @@
         <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     </shiro:hasPermission>
 <c:if test="${type==1}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
 
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
@@ -44,11 +44,11 @@
             </button>
         </shiro:hasPermission>
 
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
         </c:if>
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="train" name="check" class="cadre-info-check"> 无此类情况
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadreTrain" class="jqGrid2"></table>

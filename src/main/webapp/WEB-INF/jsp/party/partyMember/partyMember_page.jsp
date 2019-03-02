@@ -70,16 +70,20 @@
                 return (rowObject.isAdmin?str:'')+ cellvalue;
             }, frozen: true
             },
+             <shiro:hasPermission name="partyMember:changeOrder">
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2', url: "${ctx}/partyMember_changeOrder"}, frozen: true
             },
+             </shiro:hasPermission>
+            <shiro:hasPermission name="partyMember:edit">
             {label: '管理员', name: 'isAdmin',align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                  return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
                 else
                     return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
             }},
+            </shiro:hasPermission>
             {label: '所在单位', name: 'unitId', width: 350,align:'left', formatter: $.jgrid.formatter.unit},
             {label: '所属分党委', name: 'groupPartyId', width: 400, align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';

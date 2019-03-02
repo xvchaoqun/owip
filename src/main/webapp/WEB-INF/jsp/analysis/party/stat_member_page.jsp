@@ -20,7 +20,7 @@
             <i class="ace-icon fa fa-check green"></i>
             欢迎使用${_plantform_name}
           </div>--%>
-<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+<shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
           <div class="row">
             <div class="col-sm-12">
               <div class="widget-box transparent">
@@ -130,7 +130,7 @@
             </div>
             <!-- /.col -->
           </div>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
           <!-- /.row -->
 
           <div class="row">

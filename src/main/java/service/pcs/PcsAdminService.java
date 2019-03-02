@@ -85,6 +85,8 @@ public class PcsAdminService extends PcsBaseMapper {
             example.createCriteria()
                     .andPostIdIn(Arrays.asList(partySecretaryType.getId(),
                             partyViceSecretaryType.getId()))
+                    .andIsPresentEqualTo(true)
+                    .andIsDeletedEqualTo(false)
                     .andIsAdminEqualTo(true);
 
             partyMemberViews = partyMemberViewMapper.selectByExample(example);

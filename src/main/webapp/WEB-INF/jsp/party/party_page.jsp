@@ -39,10 +39,10 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="party:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
-                </shiro:hasPermission>
+
                 <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
-
+                </shiro:hasPermission>
                 <shiro:hasPermission name="member:edit">
                     <button data-url="${ctx}/member_au"
                             data-id-name="partyId"
@@ -57,10 +57,12 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-users"></i> 添加分党委班子
                     </button>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="orgAdmin:list">
                 <button data-url="${ctx}/org_admin"
                         data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
+                    </shiro:hasPermission>
                 <shiro:hasPermission name="party:edit">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/party_import"
@@ -228,9 +230,11 @@ pageEncoding="UTF-8" %>
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.id);
             },frozen:true },
+            <shiro:hasPermission name="party:changeOrder">
             <c:if test="${status==1 && !_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
+            </shiro:hasPermission>
             { label:'支部数量', name: 'branchCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
@@ -242,15 +246,30 @@ pageEncoding="UTF-8" %>
             }},
             { label:'在职教职工', name: 'teacherMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                return '<a href="#${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                <shiro:hasPermission name="memberTeacher:list">
+                    return '<a href="#${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                </shiro:hasPermission>
+                <shiro:lacksPermission name="memberTeacher:list">
+                    return cellvalue;
+                </shiro:lacksPermission>
             }},
             { label:'离退休党员', name: 'retireMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                return '<a href="#${ctx}/member?cls=3&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                <shiro:hasPermission name="memberTeacher:list">
+                    return '<a href="#${ctx}/member?cls=3&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                </shiro:hasPermission>
+                <shiro:lacksPermission name="memberTeacher:list">
+                    return cellvalue;
+                </shiro:lacksPermission>
             }},
             { label:'学生', name: 'studentMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                return '<a href="#${ctx}/member?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                <shiro:hasPermission name="memberStudent:list">
+                    return '<a href="#${ctx}/member?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                </shiro:hasPermission>
+                <shiro:lacksPermission name="memberStudent:list">
+                    return cellvalue;
+                </shiro:lacksPermission>
             }},
             { label:'委员会总数', name: 'groupCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;

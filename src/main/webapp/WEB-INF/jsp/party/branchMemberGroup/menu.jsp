@@ -9,6 +9,6 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/branchMemberGroup?status=2"><i class="fa fa-users"></i> 支部委员库</a>
     </li>
     <li  class="<c:if test="${status==-1}">active</c:if>">
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/branchMemberGroup?status=-1"><i class="fa fa-trash"></i> 已删除支部委员会</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/branchMemberGroup?status=-1"><i class="fa fa-trash"></i> 已撤销支部委员会</a>
     </li>
 </ul>

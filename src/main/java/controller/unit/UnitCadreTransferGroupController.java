@@ -4,8 +4,6 @@ import controller.BaseController;
 import domain.unit.UnitCadreTransferGroup;
 import domain.unit.UnitCadreTransferGroupExample;
 import domain.unit.UnitCadreTransferGroupExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
-import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -45,15 +42,13 @@ public class UnitCadreTransferGroupController extends BaseController {
 
     @RequiresPermissions("unitCadreTransferGroup:list")
     @RequestMapping("/unitCadreTransferGroup")
-    public String unitCadreTransferGroup(HttpServletResponse response,
-                                         @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer_group") String sort,
-                                         @OrderParam(required = false, defaultValue = "desc") String order,
+    public String unitCadreTransferGroup(/*HttpServletResponse response,
                                          Integer unitId,
                                          String name,
                                          @RequestParam(required = false, defaultValue = "0") int export,
-                                         Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                         Integer pageSize, Integer pageNo, ModelMap modelMap*/) {
 
-        if (null == pageSize) {
+       /* if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
         if (null == pageNo) {
@@ -104,7 +99,7 @@ public class UnitCadreTransferGroupController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("unitMap", unitService.findAll());
+        modelMap.put("unitMap", unitService.findAll());*/
 
         return "unit/unitCadreTransferGroup/unitCadreTransferGroup_page";
     }

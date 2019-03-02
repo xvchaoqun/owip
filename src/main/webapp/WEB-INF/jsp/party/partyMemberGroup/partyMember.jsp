@@ -5,8 +5,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/partyMemberGroup"
-             data-url-export="${ctx}/partyMember_data"
+             data-url-export="${ctx}/partyMember_data?isDeleted=0&isPresent=1"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.partyId
                 ||not empty param.postId || not empty param.typeIds}"/>
@@ -17,7 +16,8 @@
                         <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                        <i class="fa fa-download"></i> 导出</a>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
@@ -106,7 +106,7 @@
         $("#jqGrid").trigger("reloadGrid");
     }
     $("#jqGrid").jqGrid({
-        url: '${ctx}/partyMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/partyMember_data?callback=?&isDeleted=0&isPresent=1&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:[
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {
@@ -116,12 +116,14 @@
                 return (rowObject.isAdmin?str:'')+ cellvalue;
             }, frozen: true
             },
+            <shiro:hasPermission name="partyMember:edit">
             {label: '管理员', name: 'isAdmin',align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                     return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
                 else
                     return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
             }},
+            </shiro:hasPermission>
             {label: '所在单位', name: 'unitId', width: 350,align:'left', formatter: $.jgrid.formatter.unit},
             {label: '所属分党委', name: 'groupPartyId', width: 400, align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';

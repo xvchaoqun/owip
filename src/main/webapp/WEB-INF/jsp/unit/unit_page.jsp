@@ -1,3 +1,4 @@
+<%@ taglib prefix="shrio" uri="http://shiro.apache.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
@@ -27,16 +28,14 @@
                                 <button class="jqEditBtn btn btn-primary btn-sm">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
-                            </shiro:hasPermission>
-                            <a class="popupBtn btn btn-info btn-sm tooltip-info"
+                                <a class="popupBtn btn btn-info btn-sm tooltip-info"
                                data-url="${ctx}/unit_import?status=${status}"
                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                                 批量导入</a>
-
+                            </shiro:hasPermission>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>
-
                             <c:if test="${status==1}">
                                 <shiro:hasPermission name="unit:abolish">
                                 <button class="jqBatchBtn btn btn-warning btn-sm"
@@ -119,18 +118,20 @@
         //forceFit:true,
         url: '${ctx}/unit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            <shrio:hasPermission name="unit:view">
             { label: '详情', name: '_detail', width: 80, formatter:function(cellvalue, options, rowObject){
+
                 return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/unit_view?id={0}"><i class="fa fa-search"></i> {1}</button>'
                         .format(rowObject.id, '详情');
             },frozen:true },
+            </shrio:hasPermission>
             { label: '单位编号', name: 'code', width: 80,frozen:true },
-            { label: '单位名称', name: 'name', width: 350, align:'left', formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
-            },frozen:true },
+            { label: '单位名称', name: 'id', width: 350, align:'left', formatter:$.jgrid.formatter.unit,frozen:true },
+             <shrio:hasPermission name="unit:changeOrder">
             <c:if test="${!_query}">
-            { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,frozen:true },
+            { label:'排序',align:'center', width: 80, formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
+            </shrio:hasPermission>
             { label: '单位类型', name: 'typeId', width: 250, formatter: $.jgrid.formatter.MetaType },
             <c:if test="${status==1}">
             <shiro:hasPermission name="unitPost:*">

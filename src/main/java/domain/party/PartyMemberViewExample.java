@@ -3,7 +3,7 @@ package domain.party;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1554,6 +1554,126 @@ public class PartyMemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsPresentIsNull() {
+            addCriterion("is_present is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentIsNotNull() {
+            addCriterion("is_present is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentEqualTo(Boolean value) {
+            addCriterion("is_present =", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotEqualTo(Boolean value) {
+            addCriterion("is_present <>", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentGreaterThan(Boolean value) {
+            addCriterion("is_present >", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_present >=", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentLessThan(Boolean value) {
+            addCriterion("is_present <", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_present <=", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentIn(List<Boolean> values) {
+            addCriterion("is_present in", values, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotIn(List<Boolean> values) {
+            addCriterion("is_present not in", values, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_present between", value1, value2, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_present not between", value1, value2, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
         public Criteria andUnitIdIsNull() {
             addCriterion("unit_id is null");
             return (Criteria) this;
@@ -2713,8 +2833,7 @@ public class PartyMemberViewExample {
         public Criteria addPermits(List<Integer> partyIdList) {
 
             Subject subject = SecurityUtils.getSubject();
-            if(subject.hasRole(RoleConstants.ROLE_ADMIN)
-                    || subject.hasRole(RoleConstants.ROLE_ODADMIN))
+            if(subject.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();

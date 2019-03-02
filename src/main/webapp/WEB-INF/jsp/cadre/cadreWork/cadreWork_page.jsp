@@ -10,19 +10,19 @@
    <%-- <li class="${type==3?"active":""}">
         <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 挂职锻炼经历</a>
     </li>--%>
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <li class="${type==2?"active":""}">
                 <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
             </li>
             <li class="${type==3?"active":""}">
                 <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 干部任免审批表简历预览</a>
             </li>
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
 </ul>
 </shiro:hasPermission>
 <c:if test="${type==1}">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
                 <a class="popupBtn btn btn-warning btn-sm"
@@ -44,7 +44,7 @@
 
                     <%--<span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏其间工作经历 </span>--%>
             </div>
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
     </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreWork" class="jqGrid2"></table>
@@ -324,7 +324,7 @@
                 },
 
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                 {
                     label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                     //alert(rowObject.id)
@@ -332,7 +332,7 @@
                     ({id: rowObject.id, parentRowKey: null, subWorkCount: rowObject.subWorkCount, cadreId: rowObject.cadreId})
                 }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
                 }
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
         </c:if>
             ],
             rowattr: function (rowData, currentObj, rowId) {
@@ -430,7 +430,7 @@
                         width: 120
                     },
                     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                     {
                         label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                         //alert(rowObject.id)
@@ -438,7 +438,7 @@
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
                     }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
                     }
-                    </shiro:lacksRole>
+                    </shiro:lacksPermission>
                     </c:if>
                 ],
                 pager: null

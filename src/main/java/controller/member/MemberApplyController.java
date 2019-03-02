@@ -315,9 +315,8 @@ public class MemberApplyController extends MemberBaseController {
 
         Map<Byte, Integer> stageCountMap = new HashMap<>();
         Map<String, Integer> stageTypeCountMap = new HashMap<>();
-        Subject subject = SecurityUtils.getSubject();
-        boolean addPermits = !(subject.hasRole(RoleConstants.ROLE_ADMIN)
-                || subject.hasRole(RoleConstants.ROLE_ODADMIN));
+
+        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
         List<MemberApplyCount> memberApplyCounts = iMemberMapper.selectMemberApplyCount(addPermits, adminPartyIdList, adminBranchIdList);

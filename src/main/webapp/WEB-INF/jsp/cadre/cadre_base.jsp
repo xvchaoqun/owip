@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set value="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="CADRE_SCHOOL_TYPE_MAP"/>
 
-<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+<shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
 	<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
 		<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
 			<li class="${empty param.type?"active":""}">
@@ -15,7 +15,7 @@
 
 		</ul>
 	</c:if>
-</shiro:lacksRole>
+</shiro:lacksPermission>
 <c:if test="${empty param.type}">
 	<div class="widget-box transparent">
 		<div class="widget-header widget-header-flat">

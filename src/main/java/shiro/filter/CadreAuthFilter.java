@@ -10,7 +10,6 @@ import service.cadre.CadreService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.PatternUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -34,19 +33,19 @@ public class CadreAuthFilter extends AuthorizationFilter{
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 
         // 干部库特殊访问权限
-        if(PatternUtils.match("/cadre|/cadre_data", WebUtils.getRequestUri((HttpServletRequest) request))
+        /*if(PatternUtils.match("/cadre|/cadre_data", WebUtils.getRequestUri((HttpServletRequest) request))
                 && ShiroHelper.isPermitted("cadre:list2")){
             return true;
-        }
+        }*/
 
-        // 拥有管理干部信息或管理干部本人信息的权限，才允许访问
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
+        // 拥有查看干部档案或管理干部本人信息的权限，才允许访问
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)
                 && !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
             return false;
         }
 
         // 只有修改干部本人信息的权限，需要判断一下是否是本人和读取更新的权限
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) &&
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE) &&
                 ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
 
             Integer userId = ShiroHelper.getCurrentUserId();

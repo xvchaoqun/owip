@@ -5,7 +5,7 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员信息
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <div class="buttons">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
@@ -32,7 +32,7 @@
                     </a>
                 </shiro:hasPermission>
             </div>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     </c:if>
         </h4>
 
@@ -55,13 +55,13 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员移居国（境）外的情况
 
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <span style="color: #000;font-size: 14px; font-weight: normal">
             <input type="checkbox" data-name="family_abroad" name="check" class="cadre-info-check"> 无此类情况
                 </span>
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <div class="buttons">
                 <shiro:hasPermission name="cadreFamily:edit">
                     <button class="popupBtn btn btn-success btn-sm"
@@ -84,7 +84,7 @@
                     </button>
                 </shiro:hasPermission>
             </div>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     </c:if>
         </h4>
 

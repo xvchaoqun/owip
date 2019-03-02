@@ -180,6 +180,19 @@ public class BranchMemberGroupService extends BaseMapper {
         record.setIsDeleted(isDeleted);
         branchMemberGroupMapper.updateByExampleSelective(record, example);
     }
+
+    // 删除已撤销的班子
+    @Transactional
+    public void realDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        BranchMemberGroupExample example = new BranchMemberGroupExample();
+        example.createCriteria()
+                .andIdIn(Arrays.asList(ids))
+                .andIsDeletedEqualTo(true);
+        branchMemberGroupMapper.deleteByExample(example);
+    }
     
     @Transactional
     public int updateByPrimaryKeySelective(BranchMemberGroup record) {

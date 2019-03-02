@@ -30,14 +30,14 @@ public class CadreSearchController  extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 提取简介
-    @RequiresPermissions("cadre:list")
+    @RequiresPermissions("cadre:archive")
     @RequestMapping("/cadre_search_brief")
     public String cadre_search_brief() {
 
         return "cadre/cadreSearch/cadre_search_brief";
     }
 
-    @RequiresPermissions("cadre:list")
+    @RequiresPermissions("cadre:archive")
     @RequestMapping(value = "/cadre_search_brief", method = RequestMethod.POST)
     public String do_cadre_search_brief(@RequestParam(name = "userIds[]")Integer[] userIds, ModelMap modelMap) {
 
@@ -51,14 +51,14 @@ public class CadreSearchController  extends BaseController {
     }
 
     // 查询干部所在库
-    @RequiresPermissions("cadre:list")
+    @RequiresPermissions("cadre:archive")
     @RequestMapping("/cadre_search")
     public String cadre_search() {
 
         return "cadre/cadreSearch/cadre_search";
     }
 
-    @RequiresPermissions("cadre:list")
+    @RequiresPermissions("cadre:archive")
     @RequestMapping(value = "/cadre_search", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadre_search(int cadreId) {
@@ -84,7 +84,7 @@ public class CadreSearchController  extends BaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("cadre:list")
+    @RequiresPermissions("cadre:archive")
     @RequestMapping(value = "/cadre_archive_search", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadre_archive_search(int userId) {
@@ -112,7 +112,7 @@ public class CadreSearchController  extends BaseController {
     }
 
     // 转到干部档案。如果是普通教师，则建立“非干部”档案
-    @RequiresPermissions("cadre:list")
+    @RequiresPermissions("cadre:archive")
     @RequestMapping("/cadre_archive")
     public String cadre_archive(int userId) {
 

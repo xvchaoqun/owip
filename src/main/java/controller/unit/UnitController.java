@@ -57,7 +57,7 @@ public class UnitController extends BaseController {
     private ExtUnitService extUnitService;
 
     // 基本信息
-    @RequiresPermissions("unit:info")
+    @RequiresPermissions("unit:view")
     @RequestMapping("/unit_base")
     public String unit_base(Integer id, ModelMap modelMap) {
 
@@ -79,7 +79,7 @@ public class UnitController extends BaseController {
         return "unit/unit_base";
     }
 
-    @RequiresPermissions("unit:info")
+    @RequiresPermissions("unit:view")
     @RequestMapping("/unit_view")
     public String unit_view(HttpServletResponse response, int id, ModelMap modelMap) {
 
@@ -120,6 +120,7 @@ public class UnitController extends BaseController {
                                     String name,
                                     Integer typeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -146,6 +147,8 @@ public class UnitController extends BaseController {
 
         if (export == 1) {
 
+             if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             XSSFWorkbook wb = unitExportService.toXlsx(example);
             ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() + "单位一览表.xlsx", response);
             return;

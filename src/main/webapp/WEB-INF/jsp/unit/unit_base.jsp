@@ -117,9 +117,7 @@
                     <tr>
                         <td>${unit.code}</td>
                         <td>
-                            <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
-                                    ${unit.name}
-                            </a>
+                            <t:unit unit="${unit}"/>
                         </td>
                         <td class="hidden-480 hidden-xs">${cm:getMetaType(unit.typeId).name}</td>
                         <td class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
@@ -165,9 +163,7 @@
                     <tr>
                         <td>${unit.code}</td>
                         <td>
-                            <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
-                                    ${unit.name}
-                            </a>
+                            <t:unit unit="${unit}"/>
                         </td>
                         <td class="hidden-480 hidden-xs">${cm:getMetaType(unit.typeId).name}</td>
                         <td class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>

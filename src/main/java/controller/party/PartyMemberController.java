@@ -83,6 +83,8 @@ public class PartyMemberController extends BaseController {
                                  Integer unitId,
                                  Integer partyId,
                                  Boolean isAdmin,
+                                 Boolean isDeleted,
+                                 Boolean isPresent,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
@@ -100,6 +102,13 @@ public class PartyMemberController extends BaseController {
         example.setOrderByClause("party_sort_order desc, sort_order desc");
 
         criteria.addPermits(loginUserService.adminPartyIdList());
+
+        if (isDeleted != null) {
+            criteria.andIsDeletedEqualTo(isDeleted);
+        }
+        if (isPresent != null) {
+            criteria.andIsPresentEqualTo(isPresent);
+        }
 
         if (groupId != null) {
             criteria.andGroupIdEqualTo(groupId);
@@ -236,7 +245,7 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("partyMember:edit")
+    @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyAdmin_del", method = RequestMethod.POST)
     @ResponseBody
     public Map partyAdmin_del(Integer userId, Integer partyId) {

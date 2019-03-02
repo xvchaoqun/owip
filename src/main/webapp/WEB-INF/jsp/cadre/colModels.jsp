@@ -194,7 +194,7 @@
             }
         },
         </c:if>
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         {
             label: '短信称谓', name: 'msgTitle', width: 80, formatter: function (cellvalue, options, rowObject) {
             // 短信称谓
@@ -205,12 +205,16 @@
             return msgTitle;
         }
         },
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
         {label: '备注', name: 'remark', width: 150, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
     ];
     colModels.cadre2 = [
         {label: '工作证号', name: 'code', width: 110, frozen: true},
-        {label: '姓名', name: 'realname', width: 120, frozen: true},
+        {
+            label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+            return $.cadre(rowObject.id, cellvalue);
+        }, frozen: true
+        },
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
@@ -241,9 +245,11 @@
             return $.cadre(rowObject.id, cellvalue);
         }, frozen: true
         },
+        <shiro:hasPermission name="cadre:changeOrder">
         {
             label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true
         },
+        </shiro:hasPermission>
         <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
         {label: '类型', name: 'type', width: 90, formatter: function (cellvalue, options, rowObject) {
             if($.trim(cellvalue)=='') return '--';

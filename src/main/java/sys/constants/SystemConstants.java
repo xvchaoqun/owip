@@ -49,8 +49,12 @@ public class SystemConstants {
     public static final String USER_ROLEIDS_SEPARTOR = ",";
 
     // 系统特殊的权限（与数据库对应）
+    public static final String PERMISSION_CADREARCHIVE = "cadre:archive"; // 干部档案查看权限
     public static final String PERMISSION_CADREADMIN = "cadre:admin";
     public static final String PERMISSION_CADREADMINSELF = "cadre:adminSelf";
+    public static final String PERMISSION_CADREONLYVIEW = "cadre:onlyView"; // 仅允许查看干部信息的权限
+
+    public static final String PERMISSION_PARTYVIEWALL = "party:viewAll"; // 查看所有党委、支部的权限
 
     // 系统配置字段：
     // 因私出国（境）申请说明

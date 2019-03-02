@@ -4,14 +4,12 @@ import domain.member.MemberModify;
 import domain.member.MemberModifyExample;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -25,19 +23,19 @@ public class MemberModifyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresPermissions("member:list")
     @RequestMapping("/memberModify")
     public String memberModify() {
 
         return "member/member/memberModify_page";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresPermissions("member:list")
     @RequestMapping("/memberModify_data")
     @ResponseBody
     public void memberModify_data(
-                                 int userId,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+            int userId,
+            Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;

@@ -11,14 +11,14 @@ pageEncoding="UTF-8" %>
                     <thead>
                     <tr>
                         <c:if test="${type=='edit'}">
-                            <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                            <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                         <th class="center">
                             <label class="pos-rel">
                                 <input type="checkbox" class="ace checkAll">
                                 <span class="lbl"></span>
                             </label>
                         </th>
-                            </shiro:lacksRole>
+                            </shiro:lacksPermission>
                         </c:if>
                         <th nowrap>年份</th>
                         <th nowrap>发文号</th>
@@ -37,7 +37,7 @@ pageEncoding="UTF-8" %>
                     <c:forEach items="${dispatchCadres}" var="dispatchCadre" varStatus="st">
                         <tr>
                             <c:if test="${type=='edit'}">
-                                <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                                <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                             <td class="center">
                                 <c:if test="${!otherDispatchCadreRelateSet.contains(dispatchCadre.id)}">
                                 <label class="pos-rel">
@@ -47,7 +47,7 @@ pageEncoding="UTF-8" %>
                                 </label>
                                 </c:if>
                             </td>
-                                </shiro:lacksRole>
+                                </shiro:lacksPermission>
                             </c:if>
                                 <c:set value="${cm:getDispatch(dispatchCadre.dispatchId)}" var="dispatch"/>
 								<td nowrap>${dispatch.year}</td>
@@ -80,7 +80,7 @@ pageEncoding="UTF-8" %>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
 <c:if test="${type=='edit'}">
     <input type="button" onclick="addDispatch()" class="btn btn-primary" value="保存"/>
     </c:if>
@@ -105,7 +105,7 @@ pageEncoding="UTF-8" %>
 
         }
     </script>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     </shiro:hasPermission>
 </div>
 </div>

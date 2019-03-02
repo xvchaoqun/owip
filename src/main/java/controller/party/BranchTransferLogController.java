@@ -4,13 +4,11 @@ import controller.BaseController;
 import domain.party.BranchTransferLog;
 import domain.party.BranchTransferLogExample;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -22,8 +20,7 @@ import java.util.Map;
 @Controller
 public class BranchTransferLogController extends BaseController {
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN,
-            RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresPermissions("branch:list")
     @RequestMapping("/branchTransferLog")
     public String branchTransferLog(Integer branchId, ModelMap modelMap) {
 
@@ -31,10 +28,7 @@ public class BranchTransferLogController extends BaseController {
         return "party/branchTransferLog/branchTransferLog_page";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,
-            RoleConstants.ROLE_ODADMIN,
-            RoleConstants.ROLE_PARTYADMIN,
-            RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresPermissions("branch:list")
     @RequestMapping("/branchTransferLog_data")
     @ResponseBody
     public void branchTransferLog_data(Integer branchId,

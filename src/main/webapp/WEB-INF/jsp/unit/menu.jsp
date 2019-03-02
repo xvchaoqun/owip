@@ -8,7 +8,9 @@
   <li class="<c:if test="${status==2}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/unit?status=2"><i class="fa fa-history"></i> 历史单位</a>
   </li>
+  <shiro:hasPermission name="unit:edit">
   <li class="<c:if test="${status==3}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/unit?status=3"><i class="fa fa-list"></i> 学校单位列表</a>
   </li>
+  </shiro:hasPermission>
 </ul>

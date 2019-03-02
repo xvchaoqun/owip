@@ -28,7 +28,7 @@
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i> 编辑信息</a>
                     </shiro:hasPermission>
-                    <shiro:hasPermission name="leaderUnit:list">
+                    <shiro:hasPermission name="leader:unit">
                         <button  class="jqOpenViewBtn btn btn-sm btn-warning"
                                  data-url="${ctx}/leader_unit">
                             <i class="fa fa-sitemap"></i> 编辑联系单位
@@ -108,9 +108,11 @@
                 return $.cadre(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 300,frozen:true  },
+            <shiro:hasPermission name="cadre:changeOrder">
             <c:if test="${!_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
+            </shiro:hasPermission>
             {label: '行政级别', name: 'cadre.adminLevel', formatter:$.jgrid.formatter.MetaType},
             { label: '类别',  name: 'typeId', formatter: $.jgrid.formatter.MetaType},
             {label: '是否校领导', name: 'cadreStatus', formatter:function(cellvalue, options, rowObject){

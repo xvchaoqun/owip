@@ -19,29 +19,29 @@
                 ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code }"/>
 
                 <div class="tabbable">
-                    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
-                        <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                            <li class="<c:if test="${status==CADRE_STATUS_MIDDLE}">active</c:if>">
-                                <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE}" class="loadPage"><i
-                                        class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE)}</a>
-                            </li>
 
-                            <li class="<c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">active</c:if>">
-                                <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE_LEAVE}"
-                                   class="loadPage"><i class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
-                            </li>
-                            <shiro:hasPermission name="cadre:list">
-                            <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
-                                <button type="button" class="popupBtn btn btn-danger btn-sm"
-                                   data-url="${ctx}/cadre_search"><i class="fa fa-search"></i> 查询账号所属干部库</button>
-                                <shiro:hasPermission name="cadre:edit">
-                                <button type="button" class="popupBtn btn btn-info btn-sm"
-                                   data-url="${ctx}/cadre_transfer"><i class="fa fa-recycle"></i> 干部库转移</button>
-                                </shiro:hasPermission>
-                            </div>
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="<c:if test="${status==CADRE_STATUS_MIDDLE}">active</c:if>">
+                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE}" class="loadPage"><i
+                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE)}</a>
+                        </li>
+
+                        <li class="<c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">active</c:if>">
+                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE_LEAVE}"
+                               class="loadPage"><i class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
+                        </li>
+                        <shiro:hasPermission name="cadre:list">
+                        <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                            <button type="button" class="popupBtn btn btn-danger btn-sm"
+                               data-url="${ctx}/cadre_search"><i class="fa fa-search"></i> 查询账号所属干部库</button>
+                            <shiro:hasPermission name="cadre:edit">
+                            <button type="button" class="popupBtn btn btn-info btn-sm"
+                               data-url="${ctx}/cadre_transfer"><i class="fa fa-recycle"></i> 干部库转移</button>
                             </shiro:hasPermission>
-                        </ul>
-                    </shiro:lacksRole>
+                        </div>
+                        </shiro:hasPermission>
+                    </ul>
+
                     <div class="tab-content">
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
@@ -129,7 +129,7 @@
 
                                 </shiro:hasPermission>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                    <shiro:hasPermission name="cadre:list">
+                                    <shiro:hasPermission name="cadre:archive">
                                     <button class="openView btn btn-primary btn-sm"
                                             data-url="${ctx}/cadre_search_brief">
                                         <i class="fa fa-search"></i> 提取简介

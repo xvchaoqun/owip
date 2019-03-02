@@ -13,6 +13,7 @@ import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +37,21 @@ public class PartyMemberGroupService extends BaseMapper {
 
         return null;
     }
+
+    // 查找历任班子（根据任命时间查找，用于导入数据）
+    public PartyMemberGroup getHistoryGroup(int partyId, Date appointTime){
+
+        PartyMemberGroupExample _example = new PartyMemberGroupExample();
+        _example.createCriteria().andPartyIdEqualTo(partyId)
+                .andIsPresentEqualTo(false)
+                .andAppointTimeEqualTo(appointTime);
+        List<PartyMemberGroup> partyMemberGroups =
+                partyMemberGroupMapper.selectByExampleWithRowbounds(_example, new RowBounds(0,1));
+
+        return partyMemberGroups.size()==1?partyMemberGroups.get(0):null;
+    }
+
+
     // 查找班子的所有管理员
     public List<PartyMember> getGroupAdmins(int groupId){
 
@@ -98,13 +114,26 @@ public class PartyMemberGroupService extends BaseMapper {
         int addCount = 0;
         for (PartyMemberGroup record : records) {
 
-            PartyMemberGroup _record = getPresentGroup(record.getPartyId());
+            PartyMemberGroup _record = null;
+            if(record.getIsPresent()) {
+                _record = getPresentGroup(record.getPartyId());
+            }else if(record.getAppointTime()!=null){
+
+                _record = getHistoryGroup(record.getPartyId(), record.getAppointTime());
+            }
+
             if(_record==null){
+
                 insertSelective(record);
                 addCount++;
             }else{
                 record.setId(_record.getId());
                 updateByPrimaryKeySelective(record);
+
+                if(record.getIsPresent()==false){
+                    commonMapper.excuteSql("update ow_party_member_group " +
+                            "set actual_tran_time=null where id="+_record.getId());
+                }
             }
         }
 
@@ -142,6 +171,19 @@ public class PartyMemberGroupService extends BaseMapper {
         PartyMemberGroup record = new PartyMemberGroup();
         record.setIsDeleted(isDeleted);
         partyMemberGroupMapper.updateByExampleSelective(record, example);
+    }
+
+    // 删除已撤销的班子
+    @Transactional
+    public void realDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        PartyMemberGroupExample example = new PartyMemberGroupExample();
+        example.createCriteria()
+                .andIdIn(Arrays.asList(ids))
+                .andIsDeletedEqualTo(true);
+        partyMemberGroupMapper.deleteByExample(example);
     }
 
     @Transactional

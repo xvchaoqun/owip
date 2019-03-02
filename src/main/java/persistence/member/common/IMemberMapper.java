@@ -13,11 +13,19 @@ import sys.constants.OwConstants;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lm on 2017/6/13.
  */
 public interface IMemberMapper {
+
+    Map selectMemberTeacherCount(@Param("addPermits")Boolean addPermits,
+                                                  @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                                                  @Param("adminBranchIdList")List<Integer> adminBranchIdList);
+    Map selectMemberStudentCount(@Param("addPermits")Boolean addPermits,
+                                                  @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                                                  @Param("adminBranchIdList")List<Integer> adminBranchIdList);
 
     @Select("select max(code) from ow_member_stay where left(code, 4)=#{year}")
     String getMemberStayMaxCode(@Param("year") int year);

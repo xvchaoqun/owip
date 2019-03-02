@@ -10,9 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +64,8 @@ public class BranchMemberController extends BaseController {
                                Integer userId,
                                Integer typeId,
                                Boolean isAdmin,
+                               Boolean isDeleted,
+                               Boolean isPresent,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
@@ -83,6 +83,13 @@ public class BranchMemberController extends BaseController {
         example.setOrderByClause("party_sort_order desc, branch_sort_order desc, sort_order desc");
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if(isDeleted!=null){
+            criteria.andIsDeletedEqualTo(isDeleted);
+        }
+        if(isPresent!=null){
+            criteria.andIsPresentEqualTo(isPresent);
+        }
 
         if (groupId != null) {
             criteria.andGroupIdEqualTo(groupId);
@@ -122,7 +129,6 @@ public class BranchMemberController extends BaseController {
         return;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -152,7 +158,6 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping("/branchMember_au")
     public String branchMember_au(Integer id, ModelMap modelMap) {
@@ -164,7 +169,6 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_au";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchAdmin_del", method = RequestMethod.POST)
     @ResponseBody
@@ -191,7 +195,6 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_del", method = RequestMethod.POST)
     @ResponseBody
@@ -204,7 +207,6 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -219,7 +221,6 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:changeOrder")
     @RequestMapping(value = "/branchMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -230,7 +231,6 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody

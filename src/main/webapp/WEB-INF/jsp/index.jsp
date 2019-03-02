@@ -126,7 +126,7 @@
 
             </div>
             <div class="page-content">
-                <shiro:hasPermission name="cadre:list">
+                <shiro:hasPermission name="cadre:archive">
                     <div class="ace-settings-container" id="ace-settings-container">
                         <div class="btn btn-app btn-xs btn-info ace-settings-btn" id="ace-settings-btn">
                             <i class="ace-icon fa fa-cog bigger-130"></i>
@@ -220,7 +220,7 @@
         $(window).trigger('hashchange');
     }
 
-    <shiro:hasPermission name="cadre:list">
+    <shiro:hasPermission name="cadre:archive">
     $('#ace-settings-btn').on(ace.click_event, function(e){
         e.preventDefault();
         $(this).toggleClass('open');

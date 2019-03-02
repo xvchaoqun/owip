@@ -40,7 +40,9 @@ public class PartyMemberService extends BaseMapper {
 
         {
             PartyMemberViewExample example = new PartyMemberViewExample();
-            PartyMemberViewExample.Criteria criteria = example.createCriteria();
+            example.createCriteria()
+                    .andIsDeletedEqualTo(false)
+                    .andIsPresentEqualTo(true);
             example.setOrderByClause("party_sort_order desc, sort_order desc");
 
             List<PartyMemberView> partyMemberViews = partyMemberViewMapper.selectByExample(example);

@@ -22,17 +22,12 @@ import service.abroad.PassportService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by fafa on 2015/11/27.
@@ -404,8 +399,7 @@ public class CommonController extends BaseController {
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
             Subject subject = SecurityUtils.getSubject();
-            addPermits = !(subject.hasRole(RoleConstants.ROLE_ADMIN)
-                    || subject.hasRole(RoleConstants.ROLE_ODADMIN));
+            addPermits = !subject.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
             adminPartyIdList = loginUserService.adminPartyIdList();
             adminBranchIdList = loginUserService.adminBranchIdList();
         }
@@ -476,8 +470,7 @@ public class CommonController extends BaseController {
         if (searchStr != null) searchStr = searchStr + "%";
 
         Subject subject = SecurityUtils.getSubject();
-        boolean addPermits = !(subject.hasRole(RoleConstants.ROLE_ADMIN)
-                || subject.hasRole(RoleConstants.ROLE_ODADMIN));
+        boolean addPermits = !subject.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 

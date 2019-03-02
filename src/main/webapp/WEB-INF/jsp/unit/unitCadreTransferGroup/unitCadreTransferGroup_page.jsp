@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
         pager: "#jqGridPager_dispatchCadre",
         url: '${ctx}/dispatchCadre_data?unitId=${param.unitId}',
         colModel:colModel
-    });
+    }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid_dispatchCadre", "jqGridPager_dispatchCadre");
     $(window).triggerHandler('resize.jqGrid2');
 </script>

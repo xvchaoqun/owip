@@ -29,11 +29,11 @@
                     <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
 <c:if test="${status>=0}">
-                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                 <shiro:hasPermission name="branch:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
+                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
+                    <i class="fa fa-edit"></i> 修改信息</a>
                 </shiro:hasPermission>
-                </shiro:hasAnyRoles>
     <shiro:hasPermission name="member:edit">
         <button data-url="${ctx}/member_au"
                 data-id-name="branchId"
@@ -48,13 +48,14 @@
             <i class="fa fa-users"></i> 添加支部委员会
         </button>
     </shiro:hasPermission>
+    <shiro:hasPermission name="orgAdmin:list">
     <button data-url="${ctx}/org_admin"
             data-id-name="branchId" class="jqOpenViewBtn btn btn-warning btn-sm">
         <i class="fa fa-user"></i> 编辑管理员
     </button>
+    </shiro:hasPermission>
     </c:if>
-                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
-                    <i class="fa fa-edit"></i> 修改信息</a>
+
                 <shiro:hasPermission name="branch:transfer">
                 <a href="javascript:;" class="jqOpenViewBatchBtn btn btn-danger btn-sm" data-url="${ctx}/branch_batchTransfer">
                     <i class="fa fa-random"></i> 支部转移</a>
@@ -207,11 +208,11 @@
         url: '${ctx}/branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号',align:'center', name: 'code', frozen:true },
-            { label: '名称',  name: 'name',align:'left', width: 250,formatter:function(cellvalue, options, rowObject){
+            { label: '名称',  name: 'name',align:'left', width: 550,formatter:function(cellvalue, options, rowObject){
 
                 return $.party(null, rowObject.id);
             }, frozen:true },
-            { label: '所属分党委', name: 'partyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
+            { label: '所属分党委', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
                 //return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
             }},

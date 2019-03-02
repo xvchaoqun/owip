@@ -26,7 +26,7 @@
                                         ${_type.value.name}(${normalCountMap.get(_type.key)})</a>
                             </li>
                         </c:forEach>
-                        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                         <c:forEach var="_status" items="<%=CadreConstants.CADRE_RESERVE_STATUS_MAP%>">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
                                 <li class="<c:if test="${status==_status.key}">active</c:if>">
@@ -48,12 +48,12 @@
                                 <a class="popupBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属类别</a>
                             </div>
-                        </shiro:lacksRole>
+                        </shiro:lacksPermission>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
-                                <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                                <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                                 <c:if test="${status==CADRE_RESERVE_STATUS_NORMAL}">
                                     <shiro:hasPermission name="cadreReserve:edit">
                                         <a class="popupBtn btn btn-info btn-sm btn-success"
@@ -108,7 +108,7 @@
                                        data-url="${ctx}/cadreReserve_batchDel" data-title="删除"
                                        data-msg="确定删除这{0}条记录吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </c:if>
-                                </shiro:lacksRole>
+                                </shiro:lacksPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm"
                                    data-rel="tooltip" data-placement="bottom"
                                    title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
@@ -355,7 +355,7 @@
                 }
             },
             </c:if>
-            <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+            <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             {
                 label: '短信称谓', name: 'msgTitle', width: 80, formatter: function (cellvalue, options, rowObject) {
                 // 短信称谓
@@ -366,7 +366,7 @@
                 return msgTitle;
             }
             },
-            </shiro:lacksRole>
+            </shiro:lacksPermission>
             {label: '备注', name: 'reserveRemark', width: 150}, {hidden: true, key: true, name: 'reserveId'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {

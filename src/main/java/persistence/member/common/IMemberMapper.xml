@@ -138,6 +138,20 @@
         group by type, stage
     </select>
 
+    <select id="selectMemberTeacherCount" parameterType="map" resultType="map">
+        select sum(if(status=1 and is_retire=0, 1, 0)) as teacher_normalCount,
+        sum(if(status=1 and is_retire=1, 1, 0)) as teacher_retireCount,
+        sum(if(status=4, 1, 0)) as teacher_transferCount, sum(if(status=1 or status=4, 1, 0)) total from ow_member_teacher m
+        where 1=1
+        <include refid="member_selects_permits"/>
+    </select>
+
+    <select id="selectMemberStudentCount" parameterType="map" resultType="map">
+        select sum(if(status=1, 1, 0)) as student_normalCount, sum(if(status=4, 1, 0)) as student_transferCount from ow_member_student m
+        where 1=1
+        <include refid="member_selects_permits"/>
+    </select>
+
     <sql id="userSearchSql">
         select * from sys_user_view
         <if test="query != null">

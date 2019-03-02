@@ -174,12 +174,14 @@
                 return $.cadre(rowObject.cadreId, cellvalue);
             }, frozen: true
             },
+            <shiro:hasPermission name="cmMember:changeOrder">
             <c:if test="${!_query}">
             {
                 label: '排序', align: 'center', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: '${ctx}/cmMember_changeOrder'}, frozen: true
             },
             </c:if>
+            </shiro:hasPermission>
             {label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation', width: 60},
             {label: '职称', name: 'proPost'},

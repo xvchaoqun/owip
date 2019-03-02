@@ -42,7 +42,9 @@ public class BranchMemberService extends BaseMapper {
 
         {
             BranchMemberViewExample example = new BranchMemberViewExample();
-            BranchMemberViewExample.Criteria criteria = example.createCriteria();
+            example.createCriteria()
+                    .andIsDeletedEqualTo(false)
+                    .andIsPresentEqualTo(true);
             example.setOrderByClause("party_sort_order desc, branch_sort_order desc,sort_order desc");
 
             List<BranchMemberView> branchMemberViews = branchMemberViewMapper.selectByExample(example);

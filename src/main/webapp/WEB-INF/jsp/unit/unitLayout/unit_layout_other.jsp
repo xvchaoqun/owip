@@ -26,9 +26,8 @@
 
                     <c:set var="pUnitAdminCadres" value="${pUnitAdminCadreMap.get(unit.id)}"/>
                     <c:set var="npUnitAdminCadres" value="${npUnitAdminCadreMap.get(unit.id)}"/>
-                         <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
-                    ${unit.name}
-                        </a><c:if test="${fn:length(pUnitAdminCadres)>0 || fn:length(npUnitAdminCadres)>0}">
+                         <t:unit unit="${unit}"/>
+                         <c:if test="${fn:length(pUnitAdminCadres)>0 || fn:length(npUnitAdminCadres)>0}">
                          ： </c:if>
                     <c:forEach items="${pUnitAdminCadres}" var="pUnitAdminCadre">
                         <c:set var="cadre" value="${cm:getCadreById(pUnitAdminCadre.cadreId)}"/>
@@ -77,9 +76,7 @@
                 <tr>
                     <c:forEach items="${historyUnits}" var="unit" varStatus="vs">
                     <td width="50%">
-                        <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
-                                ${unit.name}
-                        </a>
+                        <t:unit unit="${unit}"/>
                         <c:if test="${vs.count%2==0}">
                     </td></tr>
                     ${vs.last?"":"<tr>"}

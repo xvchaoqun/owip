@@ -55,6 +55,10 @@ public class PartyMemberView implements Serializable {
 
     private Integer groupPartyId;
 
+    private Boolean isPresent;
+
+    private Boolean isDeleted;
+
     private Integer unitId;
 
     private Integer partySortOrder;
@@ -267,6 +271,22 @@ public class PartyMemberView implements Serializable {
 
     public void setGroupPartyId(Integer groupPartyId) {
         this.groupPartyId = groupPartyId;
+    }
+
+    public Boolean getIsPresent() {
+        return isPresent;
+    }
+
+    public void setIsPresent(Boolean isPresent) {
+        this.isPresent = isPresent;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Integer getUnitId() {

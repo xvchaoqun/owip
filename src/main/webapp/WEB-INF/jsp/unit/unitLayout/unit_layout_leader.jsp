@@ -51,11 +51,8 @@
                             <td>
                                 <ul>
                                     <c:forEach items="${mLeaderUnits}" var="leaderUnit">
-                                        <c:set var="unit" value="${unitMap.get(leaderUnit.unitId)}"/>
                                         <li>
-                                            <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
-                                                <span class="${unit.status==UNIT_STATUS_HISTORY?'delete':''}">${unit.name}</span>
-                                            </a>
+                                            <t:unit unit="${unitMap.get(leaderUnit.unitId)}"/>
                                         </li>
                                     </c:forEach>
                                 </ul>
@@ -64,11 +61,8 @@
                             <td>
                                 <ul>
                                     <c:forEach items="${cLeaderUnits}" var="leaderUnit">
-                                        <c:set var="unit" value="${unitMap.get(leaderUnit.unitId)}"/>
                                     <li>
-                                        <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
-                                            <span class="${unit.status==UNIT_STATUS_HISTORY?'delete':''}">${unit.name}</span>
-                                        </a>
+                                        <t:unit unit="${unitMap.get(leaderUnit.unitId)}"/>
                                     </li>
                                     </c:forEach>
                                 </ul>

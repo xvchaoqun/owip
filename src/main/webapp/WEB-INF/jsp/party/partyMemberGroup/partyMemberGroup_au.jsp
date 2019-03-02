@@ -37,15 +37,13 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">是否现任班子</label>
-				<div class="col-xs-8">
-                    <div class="col-xs-3">
-                        <label>
-                            <input name="isPresent" ${partyMemberGroup.isPresent?"checked":""}  type="checkbox" />
-                            <span class="lbl"></span>
-                        </label>
-                    </div>
-                    <div class="col-xs-offset-3">（提示：每个分党委的“现任班子”只有一个）</div>
-				</div>
+                <div class="col-xs-6">
+                    <label>
+                        <input name="isPresent" ${partyMemberGroup.isPresent?"checked":""}  type="checkbox" />
+                        <span class="lbl"></span>
+                    </label>
+                    <span class="help-block">注：每个分党委的“现任班子”只有一个</span>
+                </div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">应换届时间</label>

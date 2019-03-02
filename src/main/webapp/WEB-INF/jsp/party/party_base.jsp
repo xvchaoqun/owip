@@ -97,15 +97,16 @@ pageEncoding="UTF-8"%>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 
-			<table class="table table-unhover table-striped table-bordered">
+			<table class="table table-unhover2 table-center table-striped table-bordered">
 				<thead>
 				<tr>
-					<th style="width: 200px">姓名</th>
+					<th width="150">姓名</th>
 					<th width="150">职务</th>
-					<th width="200">分工</th>
+					<th width="150">分工</th>
 					<th width="100">任职时间</th>
-					<th width="200">办公电话</th>
-					<th>手机号</th>
+					<th width="100">办公电话</th>
+					<th width="100">手机号</th>
+					<th></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -114,17 +115,19 @@ pageEncoding="UTF-8"%>
 						<td ><c:if test="${partyMember.isAdmin}">
 							<span class="label label-success arrowed-in arrowed-in-right">管理员</span>
 						</c:if>${cm:getUserById(partyMember.userId).realname}</td>
-						<td class="bg-left">
+						<td>
 								${cm:getMetaType(partyMember.postId).name}
 						</td>
-						<td class="bg-left">
-							<c:forEach items="${fn:split(type_ids, ',')}" var="typeId">
+						<td>
+							<c:forEach items="${fn:split(partyMember.typeIds, ',')}" var="typeId" varStatus="vs">
 								${cm:getMetaType(typeId).name}
+								${vs.last?"":"、"}
 							</c:forEach>
 						</td>
-						<td class="bg-left">${cm:formatDate(partyMember.assignDate, "yyyy.MM")}</td>
-						<td class="bg-left">${partyMember.officePhone}</td>
-						<td class="bg-left">${partyMember.mobile}</td>
+						<td>${cm:formatDate(partyMember.assignDate, "yyyy.MM")}</td>
+						<td>${partyMember.officePhone}</td>
+						<td>${partyMember.mobile}</td>
+						<td></td>
 					</tr>
 				</c:forEach>
 				</tbody>
@@ -149,11 +152,12 @@ pageEncoding="UTF-8"%>
 
 	<div class="widget-body">
 		<div class="widget-main no-padding">
-
-			<table class="table table-unhover table-striped table-bordered">
+			<table class="table table-unhover2 table-center table-striped table-bordered">
 				<thead>
 				<tr>
-					<th style="width: 200px">姓名</th>
+					<th width="100">姓名</th>
+					<th width="150">学工号</th>
+					<th width="150">联系方式</th>
 					<th></th>
 				</tr>
 				</thead>
@@ -161,12 +165,16 @@ pageEncoding="UTF-8"%>
 				<c:forEach items="${adminIds}" var="adminId" varStatus="st">
 					<c:set var="user" value="${cm:getUserById(adminId)}"/>
 					<tr>
-						<td >${user.realname}（${user.code}）</td>
-						<td >
+						<td>${user.realname}</td>
+						<td>${user.code}</td>
+						<td>${user.mobile}</td>
+						<td class="bg-left">
+							<shiro:hasPermission name="partyMember:del">
 							<a class="confirm btn btn-danger btn-xs"
 							   data-url="${ctx}/partyAdmin_del?userId=${adminId}&partyId=${party.id}"
 							   data-msg="确定删除该管理员？"
 							   data-callback="_delAdminCallback">删除</a>
+							</shiro:hasPermission>
 						</td>
 					</tr>
 				</c:forEach>

@@ -64,7 +64,7 @@ public class CadreController extends BaseController {
                              @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
                              Integer cadreId, ModelMap modelMap) {
 
-        if (!ShiroHelper.isPermitted("cadre:list") && !ShiroHelper.isPermitted("cadre:list2")) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
             throw new UnauthorizedException("没有权限访问");
         }
 
@@ -153,7 +153,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                            Integer pageSize, Integer pageNo) throws IOException {
 
-        if (!ShiroHelper.isPermitted("cadre:list") && !ShiroHelper.isPermitted("cadre:list2")) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
             throw new UnauthorizedException("没有权限访问");
         }
 
@@ -279,7 +279,7 @@ public class CadreController extends BaseController {
             JSONUtils.jsonpAntPathFilters(resultMap, "id", "code", "realname", "gender",
                     "idcard", "birth", "eduId", "proPost", "lpWorkTime","unitId",
                     "unit", "unit.unitType", "unit.unitType.name",
-                    "unit.name", "title", "typeId", "postId", "dpTypeId", "dpGrowTime", "isOw", "owGrowTime", "mobile", "email");
+                    "unit.name", "title", "adminLevel", "postType", "dpTypeId", "dpGrowTime", "isOw", "owGrowTime", "mobile", "email");
         }
     }
 

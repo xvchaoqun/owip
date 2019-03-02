@@ -3,13 +3,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
   <li class="${cls==1?'active':''}">
-  <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1"}><i class="fa fa-th${cls==1?'-large':''}"></i> 学生党员</a>
+  <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=1"}><i class="fa fa-th${cls==1?'-large':''}"></i> 学生党员（${cm:trimToZero(student_normalCount)}）</a>
   </li>
   <li class="${cls==2?'active':''}">
-  <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=2"}><i class="fa fa-th${cls==2?'-large':''}"></i> 在职教职工党员</a>
+  <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=2"}><i class="fa fa-th${cls==2?'-large':''}"></i> 在职教职工党员（${cm:trimToZero(teacher_normalCount)}）</a>
   </li>
   <li class="${cls==3?'active':''}">
-  <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=3"}><i class="fa fa-th${cls==3?'-large':''}"></i> 离退休党员</a>
+  <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=3"}><i class="fa fa-th${cls==3?'-large':''}"></i> 离退休党员（${cm:trimToZero(teacher_retireCount)}）</a>
   </li>
   <%--<li class="${cls==4?'active':''}">
     <a ${cls!=4?'href="?cls=4"':''}><i class="fa fa-th${cls==4?'-large':''}"></i> 应退休党员</a>
@@ -24,10 +24,10 @@
     </a>
     <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
       <li>
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=6">学生</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=6">学生（${cm:trimToZero(student_transferCount)}）</a>
       </li>
       <li>
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=7">教职工</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=7">教职工（${cm:trimToZero(teacher_transferCount)}）</a>
       </li>
     </ul>
   </li>

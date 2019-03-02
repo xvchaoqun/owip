@@ -41,6 +41,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -307,8 +308,8 @@ public class MemberController extends MemberBaseController {
             }
             SysUserView sysUser = sysUserService.findById(userId);
             Byte source = sysUser.getSource();
-            if(source==SystemConstants.USER_SOURCE_BKS || source==SystemConstants.USER_SOURCE_YJS
-                    || source==SystemConstants.USER_SOURCE_JZG){
+            if (source == SystemConstants.USER_SOURCE_BKS || source == SystemConstants.USER_SOURCE_YJS
+                    || source == SystemConstants.USER_SOURCE_JZG) {
                 throw new OpException("第{0}行学工号[{1}]是学校账号", row, userCode);
             }
             record.setUserId(userId);
@@ -730,16 +731,57 @@ public class MemberController extends MemberBaseController {
     }
 
     @RequestMapping("/member")
-    public String member(HttpServletResponse response, @RequestParam(defaultValue = "1") Integer cls, ModelMap
+    public String member(HttpServletResponse response, Integer cls, ModelMap
             modelMap) {
 
         modelMap.put("cls", cls);
+
+        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+        Map memberStudentCount = iMemberMapper.selectMemberStudentCount(addPermits, adminPartyIdList, adminBranchIdList);
+        if (memberStudentCount != null) {
+            modelMap.putAll(memberStudentCount);
+        }
+
+        Map memberTeacherCount = iMemberMapper.selectMemberTeacherCount(addPermits, adminPartyIdList, adminBranchIdList);
+        if (memberTeacherCount != null) {
+            modelMap.putAll(memberTeacherCount);
+        }
+
+        // 确认默认显示党员人数最多的标签页
+        if (cls == null) {
+            int studentNormalCount = 0;
+            if (memberStudentCount != null) {
+                studentNormalCount = ((BigDecimal) memberStudentCount.get("student_normalCount")).intValue();
+            }
+            int teacherNormalCount = 0;
+            int teacherRetireCount = 0;
+
+            if (memberTeacherCount != null) {
+                teacherNormalCount = ((BigDecimal) memberTeacherCount.get("teacher_normalCount")).intValue();
+                teacherRetireCount = ((BigDecimal) memberTeacherCount.get("teacher_retireCount")).intValue();
+            }
+
+            if (studentNormalCount >= teacherNormalCount
+                    && studentNormalCount >= teacherRetireCount) {
+                cls = 1;
+            } else if (teacherNormalCount > studentNormalCount
+                    && teacherNormalCount >= teacherRetireCount) {
+                cls = 2;
+            } else {
+
+                cls = 3;
+            }
+        }
         /**
          * cls=1 学生党员 member.type=3 member.status=1
          * cls=6 已转出的学生党员
          */
         if (cls == 1 || cls == 6) {
-            return "forward:/memberStudent";
+
+            return "forward:/memberStudent?cls=" + cls;
         }
         /*
             cls=2教职工   =>  member.type=1 member.status=1
@@ -748,7 +790,7 @@ public class MemberController extends MemberBaseController {
                 （弃用）5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
                 cls=7 已转出的教工党员
          */
-        return "forward:/memberTeacher";
+        return "forward:/memberTeacher?cls=" + cls;
     }
 
     @RequestMapping("/member_view")
