@@ -913,7 +913,7 @@ select opm.*,
 	,`om`.`party_id` AS `party_id`
 	,`om`.`branch_id` AS `branch_id`
 	,`om`.`status` AS `member_status`
-	, opmg.party_id as group_party_id
+	, opmg.party_id as group_party_id, opmg.is_present, opmg.is_deleted
 	, op.unit_id
 	, op.sort_order as party_sort_order
 	,`t`.`post_class` AS `post_class`
@@ -934,7 +934,7 @@ select opm.*,
 	, ow.remark as ow_remark
 	, dp.grow_time as dp_grow_time
   , dp.class_id as dp_type_id
-	 from  ow_party_member opm  join ow_party_member_group opmg on opmg.is_present=1 and opmg.is_deleted=0 and opm.group_id=opmg.id
+	 from  ow_party_member opm  join ow_party_member_group opmg on opm.group_id=opmg.id
  left join sys_user_info ui on opm.user_id=ui.user_id
  left join ow_member om on opm.user_id=om.user_id
  left join ow_party op on opmg.party_id=op.id
@@ -959,7 +959,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_branch_member_view` A
 ,`om`.`party_id` AS `party_id`
 ,`om`.`branch_id` AS `branch_id`
 ,`om`.`status` AS `member_status`
-, obmg.branch_id as group_branch_id
+, obmg.branch_id as group_branch_id, obmg.is_present,obmg.is_deleted
 , op.id as group_party_id
 , op.unit_id
 , op.sort_order as party_sort_order
@@ -982,7 +982,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_branch_member_view` A
 , ow.remark as ow_remark
 , dp.grow_time as dp_grow_time
 , dp.class_id as dp_type_id
-from  ow_branch_member obm  join ow_branch_member_group obmg on obmg.is_present=1 and obmg.is_deleted=0 and obm.group_id=obmg.id
+from  ow_branch_member obm  join ow_branch_member_group obmg on obm.group_id=obmg.id
 left join sys_user_info ui on obm.user_id=ui.user_id
 left join ow_member om on obm.user_id=om.user_id
 left join ow_branch ob on obmg.branch_id=ob.id

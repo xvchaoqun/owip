@@ -529,10 +529,8 @@ var _modal_width;
                 console.log("illegal cadreId:" + cadreId);
                 return $.trim(realname);
             }
-
-            if( $.trim(realname) != ''
-                && $.inArray("cadre:admin", _permissions) >= 0
-                && $.inArray("cadre:view", _permissions) >= 0 ) {
+            //console.log("==="+$.inArray("cadre:archive", _permissions))
+            if( $.trim(realname) != '' && $.inArray("cadre:archive", _permissions) >= 0 ) {
 
                 if (params=='_blank') {
                     return ('<a href="{2}/#{2}/cadre_view?cadreId={0}&hideBack=1" target="_blank">{1}</a>')
@@ -1159,7 +1157,7 @@ if ($.jgrid) {
 
             if($.trim(name)=='') return '-'
 
-            if($.inArray("unit:info", _permissions) >= 0 || $.inArray("unit:*", _permissions) >= 0) {
+            if($.inArray("unit:view", _permissions) >= 0 || $.inArray("unit:*", _permissions) >= 0) {
                 return ('<a href="javascript:;" class="openView" data-url="{3}/unit_view?id={0}"><span class="{1}">{2}</span></a>'
                     .format(unit.id, unit.status == 2 ? 'delete' : '', name, ctx));
             }
