@@ -44,6 +44,7 @@
 
 <c:set var="PERMISSION_CADREONLYVIEW" value="<%=SystemConstants.PERMISSION_CADREONLYVIEW%>"/>
 <c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
+<c:set var="PERMISSION_CADREADMINSELF" value="<%=SystemConstants.PERMISSION_CADREADMINSELF%>"/>
 
 <c:set var="USER_SOURCE_JZG" value="<%=SystemConstants.USER_SOURCE_JZG%>"/>
 <c:set var="USER_SOURCE_BKS" value="<%=SystemConstants.USER_SOURCE_BKS%>"/>

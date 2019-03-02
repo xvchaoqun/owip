@@ -45,21 +45,25 @@ public class CadreAuthFilter extends AuthorizationFilter{
         }
 
         // 只有修改干部本人信息的权限，需要判断一下是否是本人和读取更新的权限
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE) &&
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) &&
                 ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
 
             Integer userId = ShiroHelper.getCurrentUserId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
-            String _cadreId = WebUtils.getCleanParam(request, PARAM_CADERID);
-            if(!NumberUtils.isDigits(_cadreId)) return false;
-            Integer cadreId = Integer.valueOf(_cadreId);
-            if(cadre==null || cadre.getId().intValue()!=cadreId){
-                return false;
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
+                String _cadreId = WebUtils.getCleanParam(request, PARAM_CADERID);
+                if (!NumberUtils.isDigits(_cadreId)) return false;
+                Integer cadreId = Integer.valueOf(_cadreId);
+                if (cadre == null || cadre.getId().intValue() != cadreId) {
+                    return false;
+                }
             }
 
             boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadre.getId());
             request.setAttribute("hasDirectModifyCadreAuth", hasDirectModifyCadreAuth);
-            if(!hasDirectModifyCadreAuth){
+
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)
+                    && !hasDirectModifyCadreAuth){
                 HttpServletRequest req = (HttpServletRequest) request;
                 // 如果没有直接修改权限，则POST直接修改数据是不合法的，必须携带修改申请参数toApply=1
                 if(req.getMethod().equalsIgnoreCase("POST")){

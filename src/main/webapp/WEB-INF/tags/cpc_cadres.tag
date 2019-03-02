@@ -3,7 +3,7 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
 <%@ attribute name="cadrePosts" type="java.util.List" required="true" %>
-<c:set var="hasCadreViewAuth" value="${cm:isPermitted('cadre:view') && cm:isPermitted('cadre:admin')}"/>
+<c:set var="hasCadreViewAuth" value="${cm:isPermitted('cadre:view') && cm:isPermitted(PERMISSION_CADREADMIN)}"/>
 <c:forEach items="${cadrePosts}" var="p" varStatus="_vs"><c:if test="${p.isMainPost}">
     <a href="javascript:;" class="${hasCadreViewAuth?'openView':''}"
        data-url="${ctx}/cadre_view?cadreId=${p.cadre.id}" data-tooltip="tooltip"
