@@ -1,3 +1,5 @@
+20190302
+更新南航
 
 20190302
 
@@ -9,26 +11,24 @@ ALTER TABLE `sys_resource`
 	CHECKSUM=1,
 	AUTO_INCREMENT=1000;
 
-partyMemberGroup:del -> 撤销
-
-branchMemberGroup:del ——》 撤销
 
 + branchMemberGroup:realDel
 + partyMemberGroup:realDel
 
-unit:* -> unit:list
+
+update sys_resource set permission='unit:list' where permission='unit:*';
+update sys_resource set permission='cmMember:list1' where permission='cmMember:*';
+update sys_resource set permission='cmMember:list' where permission='cmMember:list3';
+
+update sys_resource set name='撤销' where permission='partyMemberGroup:del';
+update sys_resource set name='撤销' where permission='branchMemberGroup:del';
+update sys_resource set name='历史单位管理' where permission='unit:history';
 
 + unit:*
 
-cmMember:* -> cmMember:list1
 + cmMember:* 两委委员管理
 
-
-unit:history->历史单位管理
-
 + party:viewAll 党建全部查看权限
-
-cmMember:list3 -> cmMember:list
 
 + cadre:archive 查询干部电子档案
 + cadre:onlyView 仅允许查看干部信息
