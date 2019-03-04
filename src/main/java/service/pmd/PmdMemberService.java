@@ -198,8 +198,8 @@ public class PmdMemberService extends PmdBaseMapper {
         int currentMonthId = currentPmdMonth.getId();
 
         PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
-        if(pmdConfigMemberType==null && pmdConfigMemberType.getType()!=configMemberType){
-            throw new OpException("参数有误。");
+        if(pmdConfigMemberType==null || pmdConfigMemberType.getType()!=configMemberType){
+            throw new OpException("参数有误（党员分类异常）。");
         }
 
         PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
@@ -345,7 +345,7 @@ public class PmdMemberService extends PmdBaseMapper {
         Integer normValueId = null;
         PmdNorm pmdNorm = pmdNormMapper.selectByPrimaryKey(normId);
         if(pmdNorm==null && pmdNorm.getType()!=PmdConstants.PMD_NORM_TYPE_REDUCE){
-            throw new OpException("参数有误。");
+            throw new OpException("参数有误（选择减免标准异常）。");
         }
         if(pmdNorm.getSetType()==PmdConstants.PMD_NORM_SET_TYPE_FIXED){
             PmdNormValue pmdNormValue = pmdNorm.getPmdNormValue();

@@ -19,8 +19,8 @@
                 </li>
 
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
-                    <a class="btn btn-success btn-sm"
-                       href="${ctx}/stat_cadre?export=1"><i class="fa fa-download"></i> 导出</a>
+                    <a href="javascript:;" class="downloadBtn btn btn-success btn-sm"
+                       data-url="${ctx}/stat_cadre?export=1"><i class="fa fa-download"></i> 导出</a>
                 </div>
             </ul>
 

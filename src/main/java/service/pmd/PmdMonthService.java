@@ -525,8 +525,11 @@ public class PmdMonthService extends PmdBaseMapper {
         if(!isOnlinePay){
 
             if(pmdMemberId != null || duePay == null){
+
+                PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
+                SysUserView u = pmdMember.getUser();
                 // 重置缴费信息时，不可能为现金缴费
-                throw new OpException("参数有误");
+                throw new OpException("参数有误（重置缴费信息时，不可能为现金缴费），{0}, {1}", u.getRealname(), u.getCode());
             }
 
             commonMapper.excuteSql(String.format("update pmd_member set real_pay=%s, has_pay=1, " +

@@ -138,7 +138,7 @@
                 label: '名称',
                 name: 'name',
                 align: 'left',
-                width: 400,
+                width: 550,
                 formatter: function (cellvalue, options, rowObject) {
                     var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任班子</span>&nbsp;';
                     return (rowObject.isPresent) ? str + cellvalue : cellvalue;
