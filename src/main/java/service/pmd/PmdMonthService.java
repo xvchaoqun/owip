@@ -505,6 +505,11 @@ public class PmdMonthService extends PmdBaseMapper {
                 _pmdMember.setId(pmdMemberId);
                 _pmdMember.setRealPay(new BigDecimal(0));
                 pmdMemberMapper.updateByPrimaryKeySelective(_pmdMember);
+
+                if(duePay==null){ //  防止 现金 改为 线上 缴费时，pmd_config_member的due_pay变为null
+                    commonMapper.excuteSql(String.format("update pmd_member set due_pay=null " +
+                    " where id=%s", pmdMemberId));
+                }
             }
         }
 
@@ -524,12 +529,10 @@ public class PmdMonthService extends PmdBaseMapper {
         // 当党员默认为现金缴费时，同步添加当月的缴费记录时，需要更新为已缴费
         if(!isOnlinePay){
 
-            if(pmdMemberId != null || duePay == null){
+            if(/*pmdMemberId != null || */duePay == null){
 
-                PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
-                SysUserView u = pmdMember.getUser();
                 // 重置缴费信息时，不可能为现金缴费
-                throw new OpException("参数有误（重置缴费信息时，不可能为现金缴费），{0}, {1}", u.getRealname(), u.getCode());
+                throw new OpException("参数有误（重置缴费信息时，不可能为现金缴费），{0}, {1}", uv.getRealname(), uv.getCode());
             }
 
             commonMapper.excuteSql(String.format("update pmd_member set real_pay=%s, has_pay=1, " +
