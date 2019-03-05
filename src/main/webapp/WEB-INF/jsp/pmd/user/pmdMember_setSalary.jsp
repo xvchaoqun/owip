@@ -11,6 +11,8 @@
         <input name="isPreview" type="hidden" value="1">
         <input name="pmdMemberId" type="hidden" value="${param.pmdMemberId}">
         <input name="isSelf" type="hidden" value="${param.isSelf}">
+        <input name="userId" type="hidden" value="${pmdConfigMember.user.id}">
+        <div style="margin-bottom:10px">缴费人姓名：${pmdConfigMember.user.realname}&nbsp;&nbsp;&nbsp;工号： ${pmdConfigMember.user.code}</div>
         <table class="table table-bordered table-unhover">
             <c:if test="${pmdNorm.formulaType==PMD_FORMULA_TYPE_ONJOB}">
                 <tr>
@@ -303,7 +305,12 @@
                     success: function (ret) {
                         if (ret.success) {
                             if (isPreview == 1) {
-                                $("#duePaySpan").html(ret.duePay);
+                                console.log(ret.duePay)
+                                if(ret.duePay==undefined || ret.duePay<=0){
+                                    $("#duePaySpan").html('<span style="color:red;font-size: 14px">工资数据有误，请核对后调整</span>');
+                                }else {
+                                    $("#duePaySpan").html(ret.duePay);
+                                }
                             } else {
                                 $("#modal").modal('hide');
                                 <c:if test="${param.isBranchAdmin==1}">

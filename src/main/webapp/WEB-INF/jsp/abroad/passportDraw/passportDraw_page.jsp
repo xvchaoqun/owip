@@ -3,8 +3,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW%>"/>
-<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
-<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER%>"/>
+<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF"
+       value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
+<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER"
+       value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER%>"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -15,16 +17,21 @@
                     <c:set var="countCacheKeys" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_SELF%>"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_SELF}"><i
+                                class="fa fa-credit-card"></i> 因私出国（境）
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
                         </a>
                     </li>
-                    <c:set var="countCacheKeys" value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
+                    <c:set var="countCacheKeys"
+                           value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_TW}"><i
+                                class="fa fa-credit-card"></i> 因公赴台、长期因公出国
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
@@ -33,14 +40,17 @@
                     <c:set var="countCacheKeys" value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_OTHER}"><i
+                                class="fa fa-credit-card"></i> 处理其他事务
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
                         </a>
                     </li>
                     <li class="<c:if test="${type==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=-1"><i
+                                class="fa fa-trash"></i> 已删除</a>
                     </li>
                 </ul>
 
@@ -48,10 +58,10 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${type!=-1}">
-                            <button data-url="${ctx}/abroad/passportDraw_au?type=${type}"
-                                    class="popupBtn btn btn-primary btn-sm">
-                                <i class="fa fa-plus"></i> 申请
-                            </button>
+                                <button data-url="${ctx}/abroad/passportDraw_au?type=${type}"
+                                        class="popupBtn btn btn-primary btn-sm">
+                                    <i class="fa fa-plus"></i> 申请
+                                </button>
                             </c:if>
                             <button data-url="${ctx}/abroad/passportDraw_view" data-open-by="page"
                                     class="jqOpenViewBtn btn btn-success btn-sm">
@@ -82,8 +92,9 @@
                                 <shiro:hasPermission name="passportDraw:del">
                                     <button id="delBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                             data-rel="tooltip" data-placement="top" title="证件未领取才可以删除"
-                                       data-url="${ctx}/abroad/passportDraw_batchDel" data-title="删除申请使用证件申请"
-                                       data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</button>
+                                            data-url="${ctx}/abroad/passportDraw_batchDel" data-title="删除申请使用证件申请"
+                                            data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除
+                                    </button>
                                 </shiro:hasPermission>
                             </c:if>
                             <c:if test="${type==-1}">
@@ -96,16 +107,18 @@
                                 <shiro:hasPermission name="passportDraw:del">
                                     <button id="realDelBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                             data-rel="tooltip" data-placement="top" title="未审批的记录可以删除"
-                                            data-url="${ctx}/abroad/passportDraw_batchDel?isReal=1" data-title="删除申请使用证件申请"
-                                            data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 完全删除</button>
+                                            data-url="${ctx}/abroad/passportDraw_batchDel?isReal=1"
+                                            data-title="删除申请使用证件申请"
+                                            data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 完全删除
+                                    </button>
                                 </shiro:hasPermission>
                             </c:if>
-                        <c:if test="${type!=-1}">
-                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                               data-url="${ctx}/abroad/passportDraw_data?export=1&exportType=${type}"
-                               data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
-                                    class="fa fa-download"></i> 导出</a>
-                        </c:if>
+                            <c:if test="${type!=-1}">
+                                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                   data-url="${ctx}/abroad/passportDraw_data?export=1&exportType=${type}"
+                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                        class="fa fa-download"></i> 导出</a>
+                            </c:if>
                         </div>
                         <div class="myTableDiv"
                              data-url-page="${ctx}/abroad/passportDraw"
@@ -114,7 +127,8 @@
                              data-url-co="${ctx}/abroad/passportDraw_changeOrder"
                              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                             <c:set var="_query"
-                                   value="${not empty param.cadreId ||not empty param._applyDate || not empty param.code}"/>
+                                   value="${not empty param.cadreId ||not empty param._applyDate
+                                   ||not empty param.status ||not empty param.drawStatus || not empty param.code}"/>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4>
@@ -152,6 +166,32 @@
                                                            name="_applyDate" value="${param._applyDate}"/>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label>审批状态</label>
+                                                <select name="status" data-rel="select2" data-width="140" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <c:forEach items="${ABROAD_PASSPORT_DRAW_STATUS_MAP}" var="entity">
+                                                        <option value="${entity.key}">${entity.value}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=status]").val('${param.status}');
+                                                </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>领取状态</label>
+                                                <select name="drawStatus" data-rel="select2" data-width="100" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <c:forEach items="${ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP}"
+                                                               var="entity">
+                                                        <option value="${entity.key}">${entity.value}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=drawStatus]").val('${param.drawStatus}');
+                                                </script>
+                                            </div>
+
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>
@@ -207,12 +247,19 @@
                 },
                 frozen: true
             },
-            {label: '申请日期', align: 'center', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {
+                label: '申请日期',
+                align: 'center',
+                name: 'applyDate',
+                frozen: true,
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
             {
                 label: '申请类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.ABROAD_PASSPORT_DRAW_TYPE_MAP[cellvalue];
-            }, frozen: true
+                    return _cMap.ABROAD_PASSPORT_DRAW_TYPE_MAP[cellvalue];
+                }, frozen: true
             },
             </c:if>
             {label: '工作证号', align: 'center', name: 'user.code', frozen: true},
@@ -226,11 +273,17 @@
                 },
                 frozen: true
             },
-            {label: '所在单位及职务', name: 'cadre.title', width: 250, align:'left'},
+            {label: '所在单位及职务', name: 'cadre.title', width: 250, align: 'left'},
             {label: '申请领取证件名称', align: 'center', name: 'passportClass.name', width: 180},
-            {label: '证号号码', align: 'center', name: 'passport.code', title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {
-                return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="所在保险柜：' + rawObject.passport.safeBox.code + '<br> (过期时间：' + rawObject.passport.expiryDate.substr(0,10) + ')"';
-            }},
+            {
+                label: '证号号码',
+                align: 'center',
+                name: 'passport.code',
+                title: false,
+                cellattr: function (rowId, val, rawObject, cm, rdata) {
+                    return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="所在保险柜：' + rawObject.passport.safeBox.code + '<br> (过期时间：' + rawObject.passport.expiryDate.substr(0, 10) + ')"';
+                }
+            },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">
             {
                 label: '因私出国（境）行程',
@@ -239,16 +292,27 @@
                 width: 150,
                 formatter: function (cellvalue, options, rowObject) {
                     return '<a class="openView" href="javascript:;" ' +
-                            'data-url="${ctx}/abroad/applySelf_view?id={0}">S{1}</a>'.format(cellvalue, cellvalue);
-                }, title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {
-                return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="出行时间：'
+                        'data-url="${ctx}/abroad/applySelf_view?id={0}">S{1}</a>'.format(cellvalue, cellvalue);
+                }, title: false, cellattr: function (rowId, val, rawObject, cm, rdata) {
+                    return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="出行时间：'
                         + rawObject.applySelf.startDate + '<br> 前往国家或地区：' + rawObject.applySelf.toCountry
-                        + '<br> 出国境事由：'+ rawObject.applySelf.reason.replace(/\+\+\+/g, ',') +'"';
-            }},
+                        + '<br> 出国境事由：' + rawObject.applySelf.reason.replace(/\+\+\+/g, ',') + '"';
+                }
+            },
             </c:if>
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW || type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">
-            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {
+                label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}',
+                name: 'startDate',
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
+            {
+                label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}',
+                name: 'endDate',
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
                 name: 'day',
@@ -263,10 +327,10 @@
                 width: 200,
                 formatter: function (cellvalue, options, rowObject) {
                     return cellvalue.replace(/\+\+\+/g, ',');
-                }, align:'left'
+                }, align: 'left'
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
-            {label: '费用来源', name: 'costSource',  align:'left',width: 150},
+            {label: '费用来源', name: 'costSource', align: 'left', width: 150},
             </c:if>
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"说明材料"}',
@@ -275,15 +339,9 @@
                 formatter: function (cellvalue, options, rowObject) {
 
                     var filesArray = [];
-                    /*for (var i in rowObject.files) {
-                        if (rowObject.files.hasOwnProperty(i)) {
-                            var file = rowObject.files[i];
-                            //filesArray.push('<a class="various" href="${ctx}/attach/passportDrawFile?id={0}">${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
-                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="{ctx}/pic?path={0}">${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
-                        }
-                    }*/
-                    rowObject.files.forEach(function(file,i){
-                        filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
+
+                    rowObject.files.forEach(function (file, i) {
+                        filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1, rowObject.id, file.fileName, file.id));
                     })
                     return filesArray.join("，");
                 }
@@ -304,90 +362,98 @@
             },
             {
                 label: '签注申请表', align: 'center', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
-                    return '-';
+                    if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
+                        return '-';
+                    }
+                    return '<a href="${ctx}/report/passportSign?id={0}" target="_blank">签注申请表 </a>'.format(rowObject.id);
                 }
-                return '<a href="${ctx}/report/passportSign?id={0}" target="_blank">签注申请表 </a>'.format(rowObject.id);
-            }
             },
             {
                 label: '打印签注申请表', align: 'center', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
-                    return '-';
-                }
-                return '<button onclick="$.print(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
+                    if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
+                        return '-';
+                    }
+                    return '<button onclick="$.print(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
                         .format(rowObject.id);
-            }
+                }
             },
             </c:if>
             {
                 label: '组织部审批', align: 'center', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}')
-                    return '<button data-url="${ctx}/abroad/passportDraw_check?id={0}"  class="openView btn btn-success btn-xs">'
-                                    .format(rowObject.id)
+                    if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}')
+                        return '<button data-url="${ctx}/abroad/passportDraw_check?id={0}"  class="openView btn btn-success btn-xs">'
+                                .format(rowObject.id)
                             + '<i class="fa fa-check"></i> 组织部审批</button>';
-                else
-                    return rowObject.statusName;
-            }
+                    else
+                        return rowObject.statusName;
+                }
             },
             {
                 label: '短信通知', align: 'center', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}') {
-                 return '-';
-                 }
-                if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
-                    return '<button data-url="${ctx}/abroad/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-xs">'
-                                    .format(rowObject.id)
+                    if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}') {
+                        return '-';
+                    }
+                    if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
+                        return '<button data-url="${ctx}/abroad/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-xs">'
+                                .format(rowObject.id)
                             + '<i class="fa fa-info"></i> 短信通知</button>';
+                    }
+                    return '-'
                 }
-                return '-'
-            }
             },
             {
                 label: '领取证件', align: 'center', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.status != '${ABROAD_PASSPORT_DRAW_STATUS_PASS}') {
-                    return '-';
-                }
-                if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
-                    return '<button data-url="${ctx}/abroad/passportDraw_draw?id={0}" class="openView btn btn-info btn-xs">'
-                                    .format(rowObject.id)
+                    if (rowObject.status != '${ABROAD_PASSPORT_DRAW_STATUS_PASS}') {
+                        return '-';
+                    }
+                    if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
+                        return '<button data-url="${ctx}/abroad/passportDraw_draw?id={0}" class="openView btn btn-info btn-xs">'
+                                .format(rowObject.id)
                             + '<i class="fa fa-hand-lizard-o"></i> 领取证件</button>'
+                    }
+                    return _cMap.ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP[rowObject.drawStatus];
                 }
-                return _cMap.ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP[rowObject.drawStatus];
-            }
             },
-            {label: '应交组织部日期', align: 'center', name: 'returnDate', width: 130,cellattr:function(rowId, val, rowObject, cm, rdata) {
-                if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}'
-                 && (rowObject.passport.type=='${ABROAD_PASSPORT_TYPE_KEEP}' ||
-                        (rowObject.passport.type=='${ABROAD_PASSPORT_TYPE_CANCEL}' && !rowObject.passport.cancelConfirm)))  {
-                    var _date = rowObject.returnDate;
-                    if (_date <= new Date().format('yyyy-MM-dd'))
-                        return "class='danger'";
-                }
-            }, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {
+                label: '应交组织部日期',
+                align: 'center',
+                name: 'returnDate',
+                width: 130,
+                cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}'
+                        && (rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_KEEP}' ||
+                            (rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_CANCEL}' && !rowObject.passport.cancelConfirm))) {
+                        var _date = rowObject.returnDate;
+                        if (_date <= new Date().format('yyyy-MM-dd'))
+                            return "class='danger'";
+                    }
+                },
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
             {
                 label: '催交证件',
                 align: 'center',
                 width: 110,
                 formatter: function (cellvalue, options, rowObject) {
 
-                    if(rowObject.usePassport=='${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
+                    if (rowObject.usePassport == '${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}') {
                         return '-'
                     }
 
-                    if(rowObject.passport.type=='${ABROAD_PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
+                    if (rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
                         return '-';
 
-                    if(rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&
-                            rowObject.passport.type=='${ABROAD_PASSPORT_TYPE_LOST}')
+                    if (rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&
+                        rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_LOST}')
                         return '证件丢失';
 
                     if (rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}' || rowObject.returnDateNotNow) {
                         return '-';
                     }
                     return '<button data-url="${ctx}/abroad/shortMsg_view?id={0}&type=passportDrawReturn" class="popupBtn btn btn-danger btn-xs">'
-                                    .format(rowObject.id)
-                            + '<i class="fa fa-hand-paper-o"></i> 催交证件</button>';
+                            .format(rowObject.id)
+                        + '<i class="fa fa-hand-paper-o"></i> 催交证件</button>';
                 }
             },
             {
@@ -396,77 +462,85 @@
 
                 formatter: function (cellvalue, options, rowObject) {
 
-                    if( rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}'){
+                    if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}') {
 
-                        if(rowObject.useRecord==undefined) return '-';
+                        if (rowObject.useRecord == undefined) return '-';
 
                         return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
-                                .format(encodeURI(rowObject.useRecord), "使用记录.jpg");
+                            .format(encodeURI(rowObject.useRecord), "使用记录.jpg");
                     }
 
-                    if((rowObject.passport.type=='${ABROAD_PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
-                            rowObject.passport.type=='${ABROAD_PASSPORT_TYPE_LOST}' ||
-                            rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
+                    if ((rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
+                        rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_LOST}' ||
+                        rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
                         return '-';
                     }
 
-                    if(rowObject.usePassport=='${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
+                    if (rowObject.usePassport == '${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}') {
                         return '拒不交回'
                     }
 
                     return '<button data-url="${ctx}/abroad/passportDraw_return?id={0}" class="openView btn btn-default btn-xs">'
-                                    .format(rowObject.id)
-                            + '<i class="fa fa-reply"></i> 归还证件</button>'
-                }, title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {
-                    if(rawObject.usePassport=='${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
-                        return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="'+rawObject.returnRemark+'"';
+                            .format(rowObject.id)
+                        + '<i class="fa fa-reply"></i> 归还证件</button>'
+                }, title: false, cellattr: function (rowId, val, rawObject, cm, rdata) {
+                    if (rawObject.usePassport == '${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}') {
+                        return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="' + rawObject.returnRemark + '"';
                     }
                 }
             },
-            {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130,formatter: function (cellvalue, options, rowObject) {
+            {
+                label: '实交组织部日期',
+                align: 'center',
+                name: 'realReturnDate',
+                width: 130,
+                formatter: function (cellvalue, options, rowObject) {
 
-                if(rowObject.usePassport=='${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
+                    if (rowObject.usePassport == '${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}') {
 
-                    return '<button data-url="${ctx}/abroad/passportDraw_return?id={0}" class="openView btn btn-default btn-xs">'
-                                    .format(rowObject.id)
+                        return '<button data-url="${ctx}/abroad/passportDraw_return?id={0}" class="openView btn btn-default btn-xs">'
+                                .format(rowObject.id)
                             + '<i class="fa fa-reply"></i> 重新交回</button>'
-                }
-
-                if(rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&
-                        rowObject.passport.type=='${ABROAD_PASSPORT_TYPE_LOST}'){
-
-                    return '证件丢失'
-                }
-
-                if(rowObject.passport.type=='${ABROAD_PASSPORT_TYPE_CANCEL}'){
-
-                    var ret = _cMap.ABROAD_PASSPORT_CANCEL_TYPE_MAP[rowObject.passport.cancelType];
-                    if(rowObject.passport.cancelType=='${ABROAD_PASSPORT_CANCEL_TYPE_OTHER}'
-                       && $.trim(rowObject.passport.cancelTypeOther)!=''){
-                        ret = ret + ":" + $.trim(rowObject.passport.cancelTypeOther);
                     }
-                    return ret;
+
+                    if (rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&
+                        rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_LOST}') {
+
+                        return '证件丢失'
+                    }
+
+                    if (rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_CANCEL}') {
+
+                        var ret = _cMap.ABROAD_PASSPORT_CANCEL_TYPE_MAP[rowObject.passport.cancelType];
+                        if (rowObject.passport.cancelType == '${ABROAD_PASSPORT_CANCEL_TYPE_OTHER}'
+                            && $.trim(rowObject.passport.cancelTypeOther) != '') {
+                            ret = ret + ":" + $.trim(rowObject.passport.cancelTypeOther);
+                        }
+                        return ret;
+                    }
+
+                    if (cellvalue == undefined) return ''
+
+                    return $.date(cellvalue, "yyyy-MM-dd");
                 }
-
-                if(cellvalue==undefined) return ''
-
-                return $.date(cellvalue, "yyyy-MM-dd");
-            }},
-            { label: '附件', formatter:function(cellvalue, options, rowObject){
-                //console.log(rowObject.attachmentFilename)
-                return $.swfPreview(rowObject.attachment, rowObject.attachmentFilename, "查看");
-            }},{hidden:true, name:'drawStatus'}
+            },
+            {
+                label: '附件', formatter: function (cellvalue, options, rowObject) {
+                    //console.log(rowObject.attachmentFilename)
+                    return $.swfPreview(rowObject.attachment, rowObject.attachmentFilename, "查看");
+                }
+            }, {hidden: true, name: 'drawStatus'}
         ],
-        onSelectRow: function(id,status){
-            saveJqgridSelected("#"+this.id);
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id);
 
             var rowData = $(this).getRowData(id);
-            $("#resetReturnDateBtn").prop("disabled",(rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}'));
-            $("#resetDrawStatusBtn").prop("disabled",(rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}'));
-            $("#delBtn").prop("disabled",(rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}'));
+            $("#resetReturnDateBtn").prop("disabled", (rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}'));
+            $("#resetDrawStatusBtn").prop("disabled", (rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}'));
+            $("#delBtn").prop("disabled", (rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}'));
         }
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $('[data-tooltip="tooltip"]').tooltip({html:true});
+        $('[data-tooltip="tooltip"]').tooltip({html: true});
     });
 
 
@@ -476,7 +550,7 @@
     $.register.fancybox(function () {
         //console.log(this)
         this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
-                        .format($(this.element).data('path'), this.title);
+            .format($(this.element).data('path'), this.title);
     });
 
     $('#searchForm [data-rel="select2"]').select2();
