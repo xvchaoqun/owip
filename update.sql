@@ -1,3 +1,32 @@
+
+
+20190306
+
+ALTER TABLE `ow_member`
+	ADD COLUMN `add_type` INT UNSIGNED NULL COMMENT '增加类型' AFTER `source`;
+
+ALTER TABLE `ow_member_modify`
+	ADD COLUMN `add_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '增加类型' AFTER `source`;
+
+
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (83, NULL, '增加类型', '党建', '党员信息', 'mc_member_add_type', '', '', '', 83, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '原有', 'mt_member_add_type_old', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '新发展', 'mt_member_add_type_new', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '停止党籍人员恢复党籍', 'mt_anjl6t', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '错误开除党籍人员恢复党籍', 'mt_skyiyx', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '其他恢复党籍', 'mt_tijaau', NULL, '', '', 6, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '其他原因添加', 'mt_n1tdpz', NULL, '', '', 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '恢复党籍', 'mt_member_add_type_return', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '转入', 'mt_member_add_type_tran', NULL, '', '', 8, 1);
+
+update sys_resource set permission = 'unitTeam:list1' where permission = 'unitTeam:list';
+update sys_resource set name='查看干部任免事项', permission = 'unitCadreTransferGroup:list' where permission = 'unitCadreTransferGroup:*';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1010, 0, '查看班子', '', 'function', '', NULL, 85, '0/1/85/', 1, 'unitTeam:list', NULL, NULL, NULL, 1, NULL);
+
+
+更新 ow_member_student、ow_member_teacher
+
 20190302
 更新南航
 

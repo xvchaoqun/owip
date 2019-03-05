@@ -80,21 +80,21 @@
 
         <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
         </table>-->
-        <!--<table tableName="ow_member_student" domainObjectName="member.MemberStudent" mapperName="member.MemberStudentMapper"
+        <table tableName="ow_member_student" domainObjectName="member.MemberStudent" mapperName="member.MemberStudentMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>-->
-        <!-- <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher" mapperName="member.MemberTeacherMapper"
+        </table>
+         <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher" mapperName="member.MemberTeacherMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
              <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
-        <!-- <table tableName="ow_member" domainObjectName="member.Member">
+         </table>
+         <!--<table tableName="ow_member" domainObjectName="member.Member">
              <ignoreColumn column="update_time"/>
-         </table>-->
-        <!--<table tableName="ow_member_modify" domainObjectName="member.MemberModify">
+         </table>
+        <table tableName="ow_member_modify" domainObjectName="member.MemberModify">
         </table>-->
         <!--<table tableName="ow_apply_log" domainObjectName="member.ApplyLog">
         </table>-->
@@ -116,7 +116,7 @@
         <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
+        <!--<table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
         mapperName="party.BranchMemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -124,7 +124,7 @@
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="ow_party" domainObjectName="party.Party">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -140,14 +140,14 @@
         <!--<table tableName="ow_party_member" domainObjectName="party.PartyMember">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-           <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
+           <!--<table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
                   enableInsert="false" enableUpdateByPrimaryKey="false"
                   enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                   enableDeleteByExample="false">
                <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
                <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
                <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-           </table>
+           </table>-->
         <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

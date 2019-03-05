@@ -64,6 +64,11 @@ set @applyId=419;
 delete from abroad_approval_log where apply_id=@applyId;
 update abroad_apply_self set status=1, is_finish=0, flow_node=-1, flow_nodes=null where id=@applyId;
 
+# 重置 “领取证件” 操作
+@drawId = 804;
+update abroad_passport_draw set return_date=null, draw_record=null, draw_user_id=null, draw_status=0  where id=@drawId;
+update abroad_passport_draw d, abroad_passport p set p.is_lent=0 where d.passport_id=p.id and d.id=@drawId;
+
 ## 因私审批误操作为不同意，更新为同意
 select id, status,approval_remark,is_finish,flow_node,flow_nodes,flow_users,is_agreed from abroad_apply_self where id=498;
 select id, user_id, type_id, od_type,status from abroad_approval_log where apply_id=498;
