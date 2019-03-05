@@ -12,17 +12,19 @@ ALTER TABLE `ow_member_modify`
 INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (83, NULL, '增加类型', '党建', '党员信息', 'mc_member_add_type', '', '', '', 83, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '原有', 'mt_member_add_type_old', NULL, '', '', 1, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '新发展', 'mt_member_add_type_new', NULL, '', '', 3, 1);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '停止党籍人员恢复党籍', 'mt_anjl6t', NULL, '', '', 4, 1);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '错误开除党籍人员恢复党籍', 'mt_skyiyx', NULL, '', '', 5, 1);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '其他恢复党籍', 'mt_tijaau', NULL, '', '', 6, 1);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '其他原因添加', 'mt_n1tdpz', NULL, '', '', 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '停止党籍人员恢复党籍', 'mt_anjl6t', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '错误开除党籍人员恢复党籍', 'mt_skyiyx', NULL, '', '', 6, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '其他恢复党籍', 'mt_tijaau', NULL, '', '', 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '其他原因添加', 'mt_n1tdpz', NULL, '', '', 8, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '恢复党籍', 'mt_member_add_type_return', NULL, '', '', 2, 1);
-INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '转入', 'mt_member_add_type_tran', NULL, '', '', 8, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (83, '转入', 'mt_member_add_type_tran', NULL, '', '', 4, 1);
 
 update sys_resource set permission = 'unitTeam:list1' where permission = 'unitTeam:list';
 update sys_resource set name='查看干部任免事项', permission = 'unitCadreTransferGroup:list' where permission = 'unitCadreTransferGroup:*';
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1010, 0, '查看班子', '', 'function', '', NULL, 85, '0/1/85/', 1, 'unitTeam:list', NULL, NULL, NULL, 1, NULL);
+
+REPLACE INTO `sys_role` (`id`, `role`, `description`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES (61, 'role_cadre_view3', '查看干部、单位、岗位、组织机构、兼职信息', '85,245,84,87,1003,1010,260,106,181,189,182,203,196,836,838,423,372,373,900,89,140,88,90,306,307,309,310,311,316,317,319,852,231,232,234,235,236,237,238,239,240,241,242,374,318,395,453,1005,1006,862,863,864,1004,312', '-1', 0, 0, 0, 44, '查看干部、单位、岗位、组织机构、兼职信息');
 
 
 更新 ow_member_student、ow_member_teacher
