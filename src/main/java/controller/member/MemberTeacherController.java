@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
@@ -49,6 +50,20 @@ public class MemberTeacherController extends MemberBaseController {
             @RequestParam(required = false, value = "nation")String[] nation,
             @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
             ModelMap modelMap) {
+
+        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+        Map memberStudentCount = iMemberMapper.selectMemberStudentCount(addPermits, adminPartyIdList, adminBranchIdList);
+        if (memberStudentCount != null) {
+            modelMap.putAll(memberStudentCount);
+        }
+
+        Map memberTeacherCount = iMemberMapper.selectMemberTeacherCount(addPermits, adminPartyIdList, adminBranchIdList);
+        if (memberTeacherCount != null) {
+            modelMap.putAll(memberTeacherCount);
+        }
 
         modelMap.put("cls", cls);
         if (userId != null) {
@@ -152,22 +167,22 @@ public class MemberTeacherController extends MemberBaseController {
         }
         if(age!=null){
             switch (age){
-                case MemberConstants.MEMBER_AGE_20: // 20岁以下
-                    criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
+                case MemberConstants.MEMBER_AGE_20: // 20及以下
+                    criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
                 case MemberConstants.MEMBER_AGE_21_30:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
+                     criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -31))
+                            .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
                 case MemberConstants.MEMBER_AGE_31_40:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
+                    criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -41))
+                            .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
                     break;
                 case MemberConstants.MEMBER_AGE_41_50:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
+                    criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -51))
+                            .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
                     break;
-                case MemberConstants.MEMBER_AGE_51:
+                case MemberConstants.MEMBER_AGE_51: // 51及以上
                     criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
                     break;
                 case MemberConstants.MEMBER_AGE_0:
@@ -305,7 +320,7 @@ public class MemberTeacherController extends MemberBaseController {
             Date birth = record.getBirth();
             String ageRange = "";
             if(birth!=null){
-                byte memberAgeRange = MemberConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                byte memberAgeRange = MemberConstants.getMemberAgeRange(birth);
                 if(memberAgeRange>0)
                     ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }

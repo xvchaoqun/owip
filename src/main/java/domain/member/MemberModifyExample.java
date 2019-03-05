@@ -612,6 +612,66 @@ public class MemberModifyExample {
             return (Criteria) this;
         }
 
+        public Criteria andAddTypeIsNull() {
+            addCriterion("add_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeIsNotNull() {
+            addCriterion("add_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeEqualTo(Integer value) {
+            addCriterion("add_type =", value, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeNotEqualTo(Integer value) {
+            addCriterion("add_type <>", value, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeGreaterThan(Integer value) {
+            addCriterion("add_type >", value, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("add_type >=", value, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeLessThan(Integer value) {
+            addCriterion("add_type <", value, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("add_type <=", value, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeIn(List<Integer> values) {
+            addCriterion("add_type in", values, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeNotIn(List<Integer> values) {
+            addCriterion("add_type not in", values, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeBetween(Integer value1, Integer value2) {
+            addCriterion("add_type between", value1, value2, "addType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("add_type not between", value1, value2, "addType");
+            return (Criteria) this;
+        }
+
         public Criteria andTransferTimeIsNull() {
             addCriterion("transfer_time is null");
             return (Criteria) this;

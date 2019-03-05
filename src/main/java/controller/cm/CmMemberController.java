@@ -230,7 +230,7 @@ public class CmMemberController extends CmBaseController {
     @RequiresPermissions("cmMember:leave")
     @RequestMapping(value = "/cmMember_leave", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cmMember_leave(int id, boolean type, boolean isQuit,
+    public Map do_cmMember_leave(int id, byte type, boolean isQuit,
                                      @DateTimeFormat(pattern = "yyyy-MM-dd") Date quitDate,
                                            MultipartFile _quitFilePath,
                                      String quitReason,

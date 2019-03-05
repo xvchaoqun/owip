@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
@@ -29,12 +30,7 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberStudentController extends MemberBaseController {
@@ -51,6 +47,21 @@ public class MemberStudentController extends MemberBaseController {
                                   @RequestParam(required = false, value = "nation")String[] nation,
                                   @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
                                   ModelMap modelMap) {
+
+        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+        Map memberStudentCount = iMemberMapper.selectMemberStudentCount(addPermits, adminPartyIdList, adminBranchIdList);
+        if (memberStudentCount != null) {
+            modelMap.putAll(memberStudentCount);
+        }
+
+        Map memberTeacherCount = iMemberMapper.selectMemberTeacherCount(addPermits, adminPartyIdList, adminBranchIdList);
+        if (memberTeacherCount != null) {
+            modelMap.putAll(memberTeacherCount);
+        }
+
 
         modelMap.put("cls", cls);
         if (userId != null) {
@@ -162,22 +173,22 @@ public class MemberStudentController extends MemberBaseController {
 
         if(age!=null){
             switch (age){
-                case MemberConstants.MEMBER_AGE_20: // 20岁以下
-                    criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
+                case MemberConstants.MEMBER_AGE_20: // 20及以下
+                    criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
                 case MemberConstants.MEMBER_AGE_21_30:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
+                     criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -31))
+                            .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
                 case MemberConstants.MEMBER_AGE_31_40:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
+                    criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -41))
+                            .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
                     break;
                 case MemberConstants.MEMBER_AGE_41_50:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
+                    criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -51))
+                            .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
                     break;
-                case MemberConstants.MEMBER_AGE_51:
+                case MemberConstants.MEMBER_AGE_51: // 51及以上
                     criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
                     break;
                 case MemberConstants.MEMBER_AGE_0:

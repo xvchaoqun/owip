@@ -50,8 +50,7 @@
         select sum(if(type=1, 1, 0)) pro_count, sum(if(type=2, 1, 0)) stu_count,
         sum(if(type=3, 1, 0)) retire_count, sum(if(gender=2, 1, 0)) female_count,
         sum(if(nation not like '%汉%', 1,0)) minority_count,
-        sum(if( (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d')
-        <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d')) <![CDATA[<]]> 50, 1, 0)) under_fifty_count
+        sum(if( TIMESTAMPDIFF(YEAR, birth, now()) <![CDATA[<]]> 50, 1, 0)) under_fifty_count
         from pcs_pr_candidate_view where config_id=#{configId} and stage=#{stage}
         <if test="partyId!=null">
             and party_id=#{partyId}

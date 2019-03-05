@@ -300,7 +300,7 @@ public class MemberApplyExportController extends MemberBaseController {
             Date birth = uv.getBirth();
             String ageRange = "";
             if(birth!=null){
-                byte memberAgeRange = MemberConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                byte memberAgeRange = MemberConstants.getMemberAgeRange(birth);
                 if(memberAgeRange>0)
                     ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
@@ -393,7 +393,7 @@ public class MemberApplyExportController extends MemberBaseController {
             Date birth = userBean==null?null:userBean.getBirth();
             String ageRange = "";
             if(birth!=null){
-                byte memberAgeRange = MemberConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                byte memberAgeRange = MemberConstants.getMemberAgeRange(birth);
                 if(memberAgeRange>0)
                     ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }

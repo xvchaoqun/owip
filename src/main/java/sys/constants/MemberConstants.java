@@ -2,6 +2,7 @@ package sys.constants;
 
 import sys.utils.DateUtils;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,18 +29,37 @@ public class MemberConstants {
         MEMBER_AGE_MAP.put(MEMBER_AGE_0, "未知");
     }
 
-    public static byte getMemberAgeRange(Integer birthYear) {
+    public static byte getMemberAgeRange(Date birth) {
 
-        int currentYear = DateUtils.getCurrentYear();
+        Date now = new Date();
         byte key = MEMBER_AGE_0; // 未知年龄
-        if (birthYear != null) {
-            if (birthYear > currentYear - 20) { // 20岁及以下
+        if (birth != null) {
+            if(birth.after(DateUtils.getDateBeforeOrAfterYears(now, -21))){ // 20及以下
                 key = MEMBER_AGE_20;
-            } else if (birthYear > currentYear - 30) { // 21~30
+            } else if (birth.after(DateUtils.getDateBeforeOrAfterYears(now, -31))) { // 21~30
                 key = MEMBER_AGE_21_30;
-            } else if (birthYear > currentYear - 40) { // 31~40
+            } else if (birth.after(DateUtils.getDateBeforeOrAfterYears(now, -41))) { // 31~40
                 key = MEMBER_AGE_31_40;
-            } else if (birthYear > currentYear - 50) { // 41~50
+            } else if (birth.after(DateUtils.getDateBeforeOrAfterYears(now, -51))) { // 41~50
+                key = MEMBER_AGE_41_50;
+            } else { // 51及以上
+                key = MEMBER_AGE_51;
+            }
+        }
+        return key;
+    }
+
+    public static byte getMemberAgeRange(Integer age) {
+
+        byte key = MEMBER_AGE_0; // 未知年龄
+        if (age != null) {
+            if (age <= 20) { // 20岁及以下
+                key = MEMBER_AGE_20;
+            } else if (age <= 30) { // 21~30
+                key = MEMBER_AGE_21_30;
+            } else if (age <= 40) { // 31~40
+                key = MEMBER_AGE_31_40;
+            } else if (age <= 50) { // 31~40
                 key = MEMBER_AGE_41_50;
             } else { // 51及以上
                 key = MEMBER_AGE_51;

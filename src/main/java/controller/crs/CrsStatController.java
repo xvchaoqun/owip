@@ -88,7 +88,7 @@ public class CrsStatController extends CrsBaseController {
             criteria.andIsFirstEqualTo(isFirst);
         }
         if (endAge != null) {
-            criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * endAge));
+            criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endAge+1)));
         }
         if (startAge != null) {
             criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge));

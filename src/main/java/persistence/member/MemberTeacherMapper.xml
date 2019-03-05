@@ -46,6 +46,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="apply_time" jdbcType="DATE" property="applyTime" />
     <result column="member_source" jdbcType="TINYINT" property="memberSource" />
+    <result column="add_type" jdbcType="INTEGER" property="addType" />
     <result column="source" jdbcType="TINYINT" property="source" />
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="active_time" jdbcType="DATE" property="activeTime" />
@@ -109,10 +110,11 @@
     on_job, personnel_status, pro_post, pro_post_time, pro_post_level, pro_post_level_time, 
     title_level, manage_level, manage_level_time, office_level, office_level_time, post, 
     post_level, talent_type, talent_title, address, marital_status, is_retire, retire_time, 
-    is_honor_retire, create_time, apply_time, member_source, source, positive_time, active_time, 
-    political_status, transfer_time, branch_id, candidate_time, party_id, grow_time, 
-    status, party_post, party_reward, other_reward, code, gender, nation, email, mobile, 
-    birth, realname, native_place, phone, idcard, unit_id, out_status, out_handle_time
+    is_honor_retire, create_time, apply_time, member_source, add_type, source, positive_time, 
+    active_time, political_status, transfer_time, branch_id, candidate_time, party_id, 
+    grow_time, status, party_post, party_reward, other_reward, code, gender, nation, 
+    email, mobile, birth, realname, native_place, phone, idcard, unit_id, out_status, 
+    out_handle_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberTeacherExample" resultMap="BaseResultMap">
     select

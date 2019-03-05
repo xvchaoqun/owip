@@ -239,17 +239,21 @@ pageEncoding="UTF-8"%>
 	</tr>
 	<tr>
 		<td class="bg-right">
+			增加类型
+		</td>
+		<td class="bg-left">
+			${cm:getMetaType(memberStudent.addType).name}
+		</td>
+		<td class="bg-right">
 			党内奖励
 		</td>
-		<td class="bg-left" colspan="5">
+		<td class="bg-left">
 			${memberStudent.partyReward}
 		</td>
-	</tr>
-	<tr>
 		<td class="bg-right">
 			其他奖励
 		</td>
-		<td class="bg-left" colspan="5">
+		<td class="bg-left">
 			${memberStudent.otherReward}
 		</td>
 	</tr>

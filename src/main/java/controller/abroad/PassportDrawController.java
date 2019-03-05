@@ -140,6 +140,8 @@ public class PassportDrawController extends AbroadBaseController {
                                     // -1:已删除
                                     @RequestParam(required = false, defaultValue = "1") byte type,
                                     @RequestDateRange DateRange _applyDate,
+                                    Byte status,
+                                    Byte drawStatus,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     // 导出类型：1：因私出国境 2： 台湾、长期 3： 处理其他事务
                                     @RequestParam(required = false, defaultValue = "1") byte exportType,
@@ -187,6 +189,12 @@ public class PassportDrawController extends AbroadBaseController {
 
         if (_applyDate.getEnd()!=null) {
             criteria.andApplyDateLessThanOrEqualTo(_applyDate.getEnd());
+        }
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+        if(drawStatus!=null){
+            criteria.andDrawStatusEqualTo(drawStatus);
         }
 
         if (export == 1) {

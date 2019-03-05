@@ -21,6 +21,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -134,6 +135,7 @@ public class MemberApplyService extends MemberBaseMapper {
 
             member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
             member.setSource(MemberConstants.MEMBER_SOURCE_IMPORT); // 导入
+            member.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_old").getId());
             member.setApplyTime(memberApply.getApplyTime());
             member.setActiveTime(memberApply.getActiveTime());
             member.setCandidateTime(memberApply.getCandidateTime());
@@ -677,6 +679,7 @@ public class MemberApplyService extends MemberBaseMapper {
 
         member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(MemberConstants.MEMBER_SOURCE_GROW); // 本校发展党员
+        member.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_new").getId());
         member.setApplyTime(memberApply.getApplyTime());
         member.setActiveTime(memberApply.getActiveTime());
         member.setCandidateTime(memberApply.getCandidateTime());
@@ -721,6 +724,7 @@ public class MemberApplyService extends MemberBaseMapper {
 
         member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(MemberConstants.MEMBER_SOURCE_GROW); // 本校发展党员
+        member.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_new").getId());
         member.setApplyTime(memberApply.getApplyTime());
         member.setActiveTime(memberApply.getActiveTime());
         member.setCandidateTime(memberApply.getCandidateTime());

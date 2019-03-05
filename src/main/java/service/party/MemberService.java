@@ -221,7 +221,7 @@ public class MemberService extends MemberBaseMapper {
         MemberExample example = new MemberExample();
         example.createCriteria().andPartyIdEqualTo(partyId).andUserIdIn(Arrays.asList(userIds))
                 .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
-        int count = memberMapper.countByExample(example);
+        int count = (int) memberMapper.countByExample(example);
         if (count != userIds.length) {
             throw new OpException("数据异常，请重新选择");
         }
@@ -250,7 +250,7 @@ public class MemberService extends MemberBaseMapper {
         MemberExample example = new MemberExample();
         example.createCriteria().andUserIdIn(Arrays.asList(userIds))
                 .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
-        int count = memberMapper.countByExample(example);
+        int count = (int) memberMapper.countByExample(example);
         if (count != userIds.length) {
             throw new OpException("数据异常，请重新选择[0]");
         }

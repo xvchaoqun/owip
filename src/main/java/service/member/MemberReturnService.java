@@ -17,6 +17,7 @@ import service.party.PartyService;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -176,6 +177,7 @@ public class MemberReturnService extends MemberBaseMapper {
 
         member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(MemberConstants.MEMBER_SOURCE_RETURNED); //  恢复党员
+        member.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_return").getId());
         member.setApplyTime(memberReturn.getApplyTime());
         member.setActiveTime(memberReturn.getActiveTime());
         member.setCandidateTime(memberReturn.getCandidateTime());

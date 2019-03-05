@@ -95,22 +95,8 @@ public class StatService extends BaseMapper{
 
         //int year = DateUtils.getCurrentYear();
         for (StatIntBean statIntBean : statIntBeans) {
-            Integer _year = statIntBean.getType();
-            /*byte key = MemberConstants.MEMBER_AGE_0; // 未知年龄
-            if(_year!=null){
-                if(_year > year-20){ // 20岁及以下
-                    key = MemberConstants.MEMBER_AGE_20;
-                }else if(_year > year-30){ // 21~30
-                    key = MemberConstants.MEMBER_AGE_21_30;
-                }else if(_year > year-40){ // 31~40
-                    key = MemberConstants.MEMBER_AGE_31_40;
-                }else if(_year > year-50){ // 41~50
-                    key = MemberConstants.MEMBER_AGE_41_50;
-                }else{ // 51及以上
-                    key = MemberConstants.MEMBER_AGE_51;
-                }
-            }*/
-            byte key = MemberConstants.getMemberAgeRange(_year);
+            Integer age = statIntBean.getType();
+            byte key = MemberConstants.getMemberAgeRange(age);
             Integer total = _ageMap.get(key);
             total = (total==null)?statIntBean.getNum():(total+statIntBean.getNum());
             _ageMap.put(key, total);

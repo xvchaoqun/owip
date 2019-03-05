@@ -5,6 +5,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="apply_time" jdbcType="DATE" property="applyTime" />
     <result column="member_source" jdbcType="TINYINT" property="memberSource" />
+    <result column="add_type" jdbcType="INTEGER" property="addType" />
     <result column="source" jdbcType="TINYINT" property="source" />
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="active_time" jdbcType="DATE" property="activeTime" />
@@ -75,12 +76,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    create_time, apply_time, member_source, source, positive_time, active_time, political_status, 
-    transfer_time, user_id, branch_id, candidate_time, party_id, grow_time, status, party_post, 
-    party_reward, other_reward, delay_year, period, code, edu_category, gender, birth, 
-    nation, actual_graduate_time, expect_graduate_time, actual_enrol_time, sync_source, 
-    type, is_full_time, realname, enrol_year, native_place, edu_way, idcard, edu_level, 
-    grade, edu_type, xj_status, unit_id, out_status, out_handle_time
+    create_time, apply_time, member_source, add_type, source, positive_time, active_time, 
+    political_status, transfer_time, user_id, branch_id, candidate_time, party_id, grow_time, 
+    status, party_post, party_reward, other_reward, delay_year, period, code, edu_category, 
+    gender, birth, nation, actual_graduate_time, expect_graduate_time, actual_enrol_time, 
+    sync_source, type, is_full_time, realname, enrol_year, native_place, edu_way, idcard, 
+    edu_level, grade, edu_type, xj_status, unit_id, out_status, out_handle_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberStudentExample" resultMap="BaseResultMap">
     select

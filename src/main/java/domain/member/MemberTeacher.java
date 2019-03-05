@@ -92,6 +92,8 @@ public class MemberTeacher implements Serializable {
 
     private Byte memberSource;
 
+    private Integer addType;
+
     private Byte source;
 
     private Date positiveTime;
@@ -496,6 +498,14 @@ public class MemberTeacher implements Serializable {
 
     public void setMemberSource(Byte memberSource) {
         this.memberSource = memberSource;
+    }
+
+    public Integer getAddType() {
+        return addType;
+    }
+
+    public void setAddType(Integer addType) {
+        this.addType = addType;
     }
 
     public Byte getSource() {

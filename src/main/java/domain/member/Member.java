@@ -18,6 +18,8 @@ public class Member implements Serializable {
 
     private Byte source;
 
+    private Integer addType;
+
     private Date transferTime;
 
     private Date applyTime;
@@ -94,6 +96,14 @@ public class Member implements Serializable {
 
     public void setSource(Byte source) {
         this.source = source;
+    }
+
+    public Integer getAddType() {
+        return addType;
+    }
+
+    public void setAddType(Integer addType) {
+        this.addType = addType;
     }
 
     public Date getTransferTime() {

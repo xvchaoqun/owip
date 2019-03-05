@@ -92,7 +92,7 @@
         ,sum(if(age>55, num,0)) as num_7
         ]]>
         from (
-        select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, count(*) as num from cadre_view  where status=1
+        select TIMESTAMPDIFF(YEAR, birth,now()) as age, count(*) as num from cadre_view  where status=1
          <include refid="andSql" />
          and birth is not null group by age
         ) tmp
@@ -111,7 +111,7 @@
         ,sum(if(age>55, num,0)) as num_7
         ]]>
          from (
-        select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, admin_level_code, count(*) as num from cadre_view  where status=1
+        select TIMESTAMPDIFF(YEAR, birth,now()) as age, admin_level_code, count(*) as num from cadre_view  where status=1
         <include refid="andSql" />
          and birth is not null and admin_level_code is not null group by age,admin_level_code
         ) tmp group by admin_level_code
@@ -131,7 +131,7 @@
         ,sum(if(age>55, num,0)) as num_7
         ]]>
          from (
-        select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, gender, count(*) as num from cadre_view  where status=1
+        select TIMESTAMPDIFF(YEAR, birth,now()) as age, gender, count(*) as num from cadre_view  where status=1
         <include refid="andSql" />
          and birth is not null and gender is not null group by age,gender
         ) tmp group by gender

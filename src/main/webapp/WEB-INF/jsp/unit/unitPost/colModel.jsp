@@ -8,10 +8,12 @@
     <c:if test="${cls==2}">
     {label: '撤销日期', name: 'abolishDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
     </c:if>
+       <shiro:hasPermission name="unitPost:changeOrder">
     <c:if test="${param.list==1 && !_query}">
     { label:'排序',align:'center', width: 85, formatter: $.jgrid.formatter.sortOrder,
       formatoptions:{grid:'#jqGrid2',url:'${ctx}/unitPost_changeOrder'},frozen:true },
     </c:if>
+      </shiro:hasPermission>
     <c:if test="${param.list==0}">
     { label: '单位编号', name: 'unitCode', width: 80},
     {label: '单位名称', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},

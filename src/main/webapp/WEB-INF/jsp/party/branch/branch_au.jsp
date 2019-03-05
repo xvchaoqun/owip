@@ -32,7 +32,9 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">所属分党委</label>
 				<div class="col-xs-8">
-					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1&notBranchAdmin=1"
+					<select required data-rel="select2-ajax"
+							data-width="372"
+							data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1&notBranchAdmin=1"
 							name="partyId" data-placeholder="请选择">
 						<option value="${party.id}">${party.name}</option>
 					</select>
@@ -41,7 +43,9 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">类别</label>
 				<div class="col-xs-8">
-					<select required class="form-control" name="typeId" data-rel="select2" data-placeholder="请选择类别">
+					<select required class="form-control" name="typeId"
+							data-width="372"
+							data-rel="select2" data-placeholder="请选择类别">
 						<option></option>
 						<c:forEach items="${typeMap}" var="type">
 							<option value="${type.key}">${type.value.name}</option>
@@ -61,7 +65,7 @@ pageEncoding="UTF-8"%>
 					</label>
 				</div>
 			</div>
-				<div class="form-group">
+				<div class="form-group isPrefessional">
 					<label class="col-xs-4 control-label">是否是专业教师党支部</label>
 					<div class="col-xs-8">
 						<label>
@@ -70,7 +74,7 @@ pageEncoding="UTF-8"%>
 						</label>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group isBaseTeam">
 					<label class="col-xs-4 control-label">是否建立在团队</label>
 					<div class="col-xs-8">
 						<label>
@@ -82,7 +86,9 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">单位属性</label>
 				<div class="col-xs-8">
-					<select required class="form-control" name="unitTypeId" data-rel="select2" data-placeholder="请选择单位属性">
+					<select required class="form-control" name="unitTypeId"
+							data-width="372"
+							data-rel="select2" data-placeholder="请选择单位属性">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_branch_unit_type"/>
 					</select>
@@ -114,11 +120,8 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">成立时间</label>
 					<div class="col-xs-6">
-						<div class="input-group">
 							<input required class="form-control date-picker" name="_foundTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}" />
-							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-						</div>
 					</div>
 				</div>
 
@@ -156,7 +159,6 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-	<input type="reset" class="btn btn-default"  value="重置">
     <input type="submit" class="btn btn-primary" value="<c:if test="${branch!=null}">确定</c:if><c:if test="${branch==null}">添加</c:if>"/>
 </div>
 </form>
@@ -166,7 +168,39 @@ pageEncoding="UTF-8"%>
 	}
 </style>
 <script>
+
 	$("#modal :checkbox").bootstrapSwitch();
+
+	function isStaffChange(){
+		if(!$("input[name=isStaff]").bootstrapSwitch("state")) {
+			$("input[name=isPrefessional]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("input[name=isBaseTeam]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$(".form-group.isPrefessional, .form-group.isBaseTeam").hide();
+		}else {
+			$("input[name=isPrefessional]").bootstrapSwitch('disabled', false);
+			$(".form-group.isPrefessional").show();
+		}
+	}
+	$('input[name=isStaff]').on('switchChange.bootstrapSwitch', function(event, state) {
+		isStaffChange();
+	});
+	isStaffChange();
+
+	function isPrefessionalChange(){
+		if(!$("input[name=isPrefessional]").bootstrapSwitch("state")) {
+			$("input[name=isBaseTeam]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$(".form-group.isBaseTeam").hide();
+		}else {
+			$("input[name=isBaseTeam]").bootstrapSwitch('disabled', false);
+			$(".form-group.isBaseTeam").show();
+		}
+	}
+	$('input[name=isPrefessional]').on('switchChange.bootstrapSwitch', function(event, state) {
+		isPrefessionalChange();
+	});
+	isPrefessionalChange();
+
+
 	$.register.date($('.date-picker'), {endDate:'${_today}'});
     $("#modal form").validate({
         submitHandler: function (form) {

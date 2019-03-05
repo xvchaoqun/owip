@@ -226,12 +226,13 @@ public class BranchController extends BaseController {
             record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
         }
 
-        record.setIsEnterpriseBig((record.getIsEnterpriseBig() == null) ? false : record.getIsEnterpriseBig());
-        record.setIsEnterpriseNationalized((record.getIsEnterpriseNationalized() == null) ? false : record.getIsEnterpriseNationalized());
-        record.setIsUnion((record.getIsUnion() == null) ? false : record.getIsUnion());
-        record.setIsStaff((record.getIsStaff() == null) ? false : record.getIsStaff());
-        record.setIsPrefessional((record.getIsPrefessional() == null) ? false : record.getIsPrefessional());
-        record.setIsBaseTeam((record.getIsBaseTeam() == null) ? false : record.getIsBaseTeam());
+        record.setIsEnterpriseBig(BooleanUtils.isTrue(record.getIsEnterpriseBig()));
+        record.setIsEnterpriseNationalized(BooleanUtils.isTrue(record.getIsEnterpriseNationalized()));
+        record.setIsUnion(BooleanUtils.isTrue(record.getIsUnion()));
+        record.setIsStaff(BooleanUtils.isTrue(record.getIsStaff()));
+        record.setIsPrefessional(BooleanUtils.isTrue(record.getIsPrefessional()));
+        record.setIsBaseTeam(BooleanUtils.isTrue(record.getIsBaseTeam()));
+
         if (!record.getIsStaff()) {
             record.setIsPrefessional(false);
         }
@@ -448,7 +449,7 @@ public class BranchController extends BaseController {
                 Date birth = (extJzg!=null)?extJzg.getCsrq():null;
                 String ageRange = "";
                 if(birth!=null){
-                    byte memberAgeRange = MemberConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                    byte memberAgeRange = MemberConstants.getMemberAgeRange(birth);
                     if(memberAgeRange>0)
                         ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
                 }

@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.List;
 
 public interface MemberMapper {
-    int countByExample(MemberExample example);
+    long countByExample(MemberExample example);
 
     int deleteByExample(MemberExample example);
 

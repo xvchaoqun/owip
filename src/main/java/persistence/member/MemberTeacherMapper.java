@@ -2,9 +2,8 @@ package persistence.member;
 
 import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;
-import org.apache.ibatis.session.RowBounds;
-
 import java.util.List;
+import org.apache.ibatis.session.RowBounds;
 
 public interface MemberTeacherMapper {
     long countByExample(MemberTeacherExample example);

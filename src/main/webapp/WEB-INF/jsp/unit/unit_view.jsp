@@ -23,7 +23,7 @@
                             <a href="javascript:;" data-url="${ctx}/unitTeam?unitId=${param.id}">行政班子</a>
                         </li>
                         </shiro:hasPermission>
-                        <shiro:hasPermission name="unitPost:*">
+                        <shiro:hasPermission name="unitPost:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/unitPostList?unitId=${param.id}">干部岗位</a>
                         </li>

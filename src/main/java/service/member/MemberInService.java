@@ -198,6 +198,7 @@ public class MemberInService extends MemberBaseMapper {
 
         member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(MemberConstants.MEMBER_SOURCE_TRANSFER); // 转入党员
+        member.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_tran").getId());
         member.setApplyTime(memberIn.getApplyTime());
         member.setActiveTime(memberIn.getActiveTime());
         member.setCandidateTime(memberIn.getCandidateTime());

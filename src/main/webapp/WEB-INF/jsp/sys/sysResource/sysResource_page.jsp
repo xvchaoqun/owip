@@ -3,20 +3,59 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div class="tabbable">
-            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <li class="${!isMobile?'active':''}">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=0">
-                        <i class="fa fa-internet-explorer ${!isMobile?'fa-1g':''}"></i> 网页端</a>
-                </li>
-                <li class="${isMobile?'active':''}">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=1">
-                        <i class="fa fa-mobile ${isMobile?'fa-1g':''}"></i> 手机端</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane in active">
-                    <table id="jqGrid" class="jqGrid table-striped"></table>
+        <div id="body-content">
+            <div class="tabbable">
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                    <li class="${!isMobile?'active':''}">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=0">
+                            <i class="fa fa-internet-explorer ${!isMobile?'fa-1g':''}"></i> 网页端</a>
+                    </li>
+                    <li class="${isMobile?'active':''}">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=1">
+                            <i class="fa fa-mobile ${isMobile?'fa-1g':''}"></i> 手机端</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <c:set var="_query" value="${not empty param.permission}"/>
+                    <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                        <div class="widget-header">
+                            <h4 class="widget-title">搜索</h4>
+                            <div class="widget-toolbar">
+                                <a href="javascript:;" data-action="collapse">
+                                    <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <form class="form-inline search-form" id="searchForm">
+                                    <div class="form-group">
+                                        <label>权限字符串</label>
+                                        <input class="form-control search-query search-input"
+                                               name="permission" type="text"
+                                               value="${param.permission}" placeholder="请输入">
+                                    </div>
+
+                                    <div class="clearfix form-actions center">
+                                        <a class="jqSearchBtn btn btn-default btn-sm"
+                                           data-url="${ctx}/sysResource?isMobile=${isMobile}"
+                                           data-target="#page-content"
+                                           data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
+                                        <c:if test="${_query}">&nbsp;
+                                            <button type="button" class="reloadBtn btn btn-warning btn-sm"
+                                                    data-url="${ctx}/sysResource?isMobile=${isMobile}"
+                                                    data-target="#page-content">
+                                                <i class="fa fa-reply"></i> 重置
+                                            </button>
+                                        </c:if>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane in active">
+                        <table id="jqGrid" class="jqGrid table-striped"></table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,10 +71,10 @@
             {"name": "sortOrder", "label": "排序", "width": 50},
             {
                 "name": "menuCss", "label": "菜单样式", "width": 70, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return ""
-                return '<i class="{0}"></i>'
+                    if (cellvalue == undefined) return ""
+                    return '<i class="{0}"></i>'
                         .format(cellvalue);
-            }
+                }
             },
             {"name": "url", "label": "URL路径", "width": 320, align: 'left'},
             {"name": "permission", "label": "权限字符串", "width": 180, align: 'left'},
@@ -43,30 +82,33 @@
             {
                 "name": "_add", "label": "添加子节点", "width": 100, formatter: function (cellvalue, options, rowObject) {
 
-                return '<button href="javascript:;" onclick="_appendChild({0})" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加子节点</button>'
+                    return '<button href="javascript:;" onclick="_appendChild({0})" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加子节点</button>'
                         .format(rowObject.id);
-            }},
+                }
+            },
             {
                 "name": "_update", "label": "修改", "width": 80, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.parentId > 0)
-                return '<button data-url="${ctx}/sysResource_au?id={0}" class="popupBtn btn btn-primary btn-xs"><i class="fa fa-edit"></i> 修改</button>'
-                        .format(rowObject.id);
-                return "-"
-            }
+                    if (rowObject.parentId > 0)
+                        return '<button data-url="${ctx}/sysResource_au?id={0}" class="popupBtn btn btn-primary btn-xs"><i class="fa fa-edit"></i> 修改</button>'
+                            .format(rowObject.id);
+                    return "-"
+                }
             },
-            {label:'所属角色', name:'roleCount', width: 110, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '-'
-                return ('<button class="popupBtn btn btn-warning btn-xs" data-width="650" data-url="${ctx}/sysResource_roles?resourceId={0}">' +
-                    '<i class="fa fa-search"></i> 查看({1})</button>')
-                    .format(rowObject.id, cellvalue);
-            }},
+            {
+                label: '所属角色', name: 'roleCount', width: 110, formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '-'
+                    return ('<button class="popupBtn btn btn-warning btn-xs" data-width="650" data-url="${ctx}/sysResource_roles?resourceId={0}">' +
+                        '<i class="fa fa-search"></i> 查看({1})</button>')
+                        .format(rowObject.id, cellvalue);
+                }
+            },
             {
                 "name": "_del", "label": "删除", "width": 80, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.parentId > 0)
-                    return '<button href="javascript:;" onclick="_del({0},{1})" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> 删除</button>'
+                    if (rowObject.parentId > 0)
+                        return '<button href="javascript:;" onclick="_del({0},{1})" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> 删除</button>'
                             .format(rowObject.id, rowObject.parentId);
-                return "-";
-            }
+                    return "-";
+                }
             },
             {"name": "countCacheKeys", "label": "缓存数量", "width": 170},
             {"name": "countCacheRoles", "label": "缓存数量所属角色", "width": 170}

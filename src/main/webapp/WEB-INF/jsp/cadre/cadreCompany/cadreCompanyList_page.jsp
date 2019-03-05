@@ -45,6 +45,7 @@
                         </div>
                     </c:if>
                     <c:if test="${module==2}">
+                         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                         <shiro:hasPermission name="cadreCompany:import">
                             <button class="popupBtn btn btn-info btn-sm tooltip-info"
                                     data-url="${ctx}/cadreCompany_import"
@@ -52,7 +53,7 @@
                                 批量导入
                             </button>
                         </shiro:hasPermission>
-
+                        </shiro:lacksPermission>
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-url="${ctx}/cadreCompany_data"
                            data-querystr="module=${module}"
