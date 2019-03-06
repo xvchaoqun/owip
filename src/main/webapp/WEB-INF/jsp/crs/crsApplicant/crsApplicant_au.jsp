@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/crsApplicant_au" id="modalForm" method="post">
             <input type="hidden" name="postId" value="${param.postId}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">用户</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>用户</label>
 				<div class="col-xs-8">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
                             data-width="280"

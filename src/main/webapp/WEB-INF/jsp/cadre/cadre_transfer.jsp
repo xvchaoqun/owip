@@ -8,9 +8,9 @@
 <div class="modal-body">
   <form id="modalForm" class="form-horizontal" method="post" action="${ctx}/cadre_transfer">
   <div class="form-group">
-      <label class="col-xs-3 control-label">选择干部</label>
+      <label class="col-xs-3 control-label"><span class="star">*</span>选择干部</label>
       <div class="col-xs-6">
-        <select data-rel="select2-ajax"
+        <select required data-rel="select2-ajax"
                 data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_MIDDLE_LEAVE},${CADRE_STATUS_LEADER},${CADRE_STATUS_LEADER_LEAVE}"
                 data-width="300"
                 name="cadreId" data-placeholder="请输入账号或姓名或工号">
@@ -19,9 +19,9 @@
       </div>
     </div>
   <div class="form-group">
-      <label class="col-xs-3 control-label">转移至</label>
+      <label class="col-xs-3 control-label"><span class="star">*</span>转移至</label>
       <div class="col-xs-6">
-        <select data-rel="select2" name="status"
+        <select required data-rel="select2" name="status"
                 data-width="300"
                 data-placeholder="请选择">
           <option></option>

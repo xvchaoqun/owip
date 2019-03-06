@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">奖励级别</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>奖励级别</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="rewardLevel"
                         data-placeholder="请选择">
@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">获奖年份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>获奖年份</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_rewardTime" type="text"
@@ -43,14 +43,14 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">获得奖项</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>获得奖项</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cadreReward.name}">
                     <span class="help-block">注：不要加书名号。</span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">颁奖单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>颁奖单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unit" value="${cadreReward.unit}">
 				</div>

@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">项目起始时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>项目起始时间</label>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_startTime" type="text"
@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">项目结题时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>项目结题时间</label>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_endTime" type="text"
@@ -43,14 +43,14 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">项目名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>项目名称</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${cadreResearch.name}">
                 <span class="help-block">注：不要加书名号。</span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">项目类型
+            <label class="col-xs-3 control-label"><span class="star">*</span>项目类型
                </label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="type" value="${cadreResearch.type}">
@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">委托单位</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>委托单位</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="unit" value="${cadreResearch.unit}">
             </div>

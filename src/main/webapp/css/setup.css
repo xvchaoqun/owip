@@ -898,6 +898,13 @@ form .form-actions {
     margin-top: 0px;
 }
 
+form .star{
+    margin: 0 1px;
+    color: red;
+    font-size: larger;
+    font-weight: bolder;
+}
+
 /*search form*/
 .widget-main.no-padding > form .row {
     padding-top: 16px;

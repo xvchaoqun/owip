@@ -55,7 +55,7 @@
                                 <input type="hidden" name="fileName" value="${scLetter.fileName}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">年份</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">函询日期</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>函询日期</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">

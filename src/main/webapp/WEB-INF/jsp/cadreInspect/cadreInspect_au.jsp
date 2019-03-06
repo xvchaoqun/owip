@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cadreInspect_au" id="modalForm" method="post">
         <input type="hidden" name="inspectId" value="${cadreInspect.id}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">账号</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>账号</label>
                 <div class="col-xs-6 ${cadre!=null?'label-text':''}">
                     <c:if test="${cadre==null}">
                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"

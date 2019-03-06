@@ -26,7 +26,7 @@
 
         <div class="page-header center" style="margin-top: 10px">
           <h1 style="font-size: 30px; font-weight: bolder">
-            管理工作经历
+            *管理工作经历
           </h1>
         </div>
         <form class="form-horizontal" action="${ctx}/user/crsPost_apply" id="applyForm" method="post">

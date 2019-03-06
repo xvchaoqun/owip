@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 		<div class="row">
 			<div class="col-xs-6">
 			<div class="form-group">
-				<label class="col-xs-5 control-label">用户</label>
+				<label class="col-xs-5 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>用户</label>
 				<c:if test="${not empty userBean}">
 					<div class="col-xs-6 label-text">
 						<input type="hidden" name="userId" value="${userBean.userId}">
@@ -81,7 +81,7 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-6">
 
 				<div class="form-group">
-					<label class="col-xs-5 control-label">转入分党委</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>转入分党委</label>
 					<div class="col-xs-6">
 						<select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
 								name="toPartyId" data-placeholder="请选择" >
@@ -104,19 +104,19 @@ pageEncoding="UTF-8"%>
 							"${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId");
 				</script>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">转出单位联系电话</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>转出单位联系电话</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="fromPhone" value="${memberTransfer.fromPhone}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">转出单位传真</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>转出单位传真</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="fromFax" value="${memberTransfer.fromFax}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">党费缴纳至年月</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>党费缴纳至年月</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" name="_payTime" type="text"
@@ -127,13 +127,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">介绍信有效期天数</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>介绍信有效期天数</label>
 				<div class="col-xs-6">
                         <input required class="form-control digits" type="text" name="validDays" value="${memberTransfer.validDays}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">转出办理时间</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>转出办理时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" name="_fromHandleTime" type="text"

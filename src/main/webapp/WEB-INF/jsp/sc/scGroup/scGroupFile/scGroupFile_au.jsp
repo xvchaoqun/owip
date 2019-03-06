@@ -9,25 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scGroupFile_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scGroupFile.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">文件</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>文件</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="filePath" value="${scGroupFile.filePath}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">文件名</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>文件名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="fileName" value="${scGroupFile.fileName}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否当前显示的文件</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否当前显示的文件</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isCurrent" value="${scGroupFile.isCurrent}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>排序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${scGroupFile.sortOrder}">
 				</div>

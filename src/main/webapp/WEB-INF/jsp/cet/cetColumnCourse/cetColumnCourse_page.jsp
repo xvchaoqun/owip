@@ -18,7 +18,7 @@
                     <form class="form-horizontal no-footer" action="${ctx}/cet/cetColumnCourse_au" id="modalForm" method="post">
                         <input type="hidden" name="columnId" value="${param.columnId}">
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">包含课程</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>包含课程</label>
                             <div class="col-xs-6">
                                 <select required data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/cet/cetCourse_selects?type=${cetColumn.isOnline?CET_COURSE_TYPE_ONLINE:CET_COURSE_TYPE_OFFLINE}"

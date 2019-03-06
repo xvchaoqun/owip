@@ -10,16 +10,16 @@
     <form class="form-horizontal" action="${ctx}/abroad/abroadAdditionalPost_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${abroadAdditionalPost.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">选择干部</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>选择干部</label>
             <div class="col-xs-6">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=1" data-width="272"
+                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=1" data-width="272"
                         name="cadreId" data-placeholder="请选择">
                     <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">兼审单位</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>兼审单位</label>
             <div class="col-xs-8">
                 <select required class="form-control" name="unitId" data-rel="select2"
                         data-width="272"
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">兼审单位职务属性</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>兼审单位职务属性</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2" name="postId"

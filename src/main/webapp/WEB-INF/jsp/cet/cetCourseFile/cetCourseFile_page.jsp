@@ -19,7 +19,7 @@
                     <form class="form-horizontal no-footer" action="${ctx}/cet/cetCourseFile_au" id="modalForm" method="post">
                         <input type="hidden" name="courseId" value="${param.courseId}">
                         <div class="form-group">
-                            <label class="col-xs-4 control-label">材料名称</label>
+                            <label class="col-xs-4 control-label"><span class="star">*</span>材料名称</label>
                             <div class="col-xs-6 label-text">
                                 <input required class="form-control" type="text" name="fileName">
                             </div>

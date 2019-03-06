@@ -15,7 +15,7 @@
         <input type="hidden" name="isQuit" value="${isQuit}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">届数</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>届数</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="configId" data-width="272" data-placeholder="请选择">
                     <option></option>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">委员</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>委员</label>
 
             <div class="col-xs-6">
                 <c:set var="sysUser" value="${cm:getUserById(cmMember.userId)}"/>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">职务</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>职务</label>
             <div class="col-xs-6">
                 <c:set var="metaTypeMap" value="${cm:getMetaTypes(type==CM_MEMBER_TYPE_JW?'mc_committee_member_jw'
                     :'mc_committee_member_dw')}"/>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">任职日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>任职日期</label>
 
             <div class="col-xs-6">
                 <div class="input-group">

@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberInflowOut_au" id="modalForm" method="post">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">用户</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>用户</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax"
 							data-ajax-url="${ctx}/memberInflow_selects?hasOutApply=0&status=<%=MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY%>"
@@ -19,21 +19,21 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">转出单位</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>转出单位</label>
 					<div class="col-xs-6" >
 						<textarea required class="form-control"
 								  type="text" name="outUnit">${memberInflow.outUnit}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">转出地</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>转出地</label>
 					<div class="col-xs-6">
 						<select required class="loc_province" name="outLocation" style="width:120px;" data-placeholder="请选择">
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">转出时间</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>转出时间</label>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 200px">
 							<input required class="form-control date-picker" name="_outTime" type="text"

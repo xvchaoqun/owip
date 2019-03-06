@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="userId" value="${memberReg.userId}">
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">联系分党委</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>联系分党委</label>
 				<div class="col-xs-6">
 					<select required name="partyId" data-rel="select2"
 							data-placeholder="请选择联系分党委" data-width="350">
@@ -57,20 +57,20 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">真实姓名</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>真实姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="realname" value="${memberReg.realname}">
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">身份证</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>身份证</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="idcard" value="${memberReg.idcard}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">手机</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>手机</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="phone" value="${memberReg.phone}">
 				</div>

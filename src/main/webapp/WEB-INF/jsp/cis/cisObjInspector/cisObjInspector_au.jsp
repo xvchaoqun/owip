@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cisObjInspector_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cisObjInspector.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">obj_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>obj_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="objId" value="${cisObjInspector.objId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">inspector_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>inspector_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="inspectorId" value="${cisObjInspector.inspectorId}">
 				</div>

@@ -10,7 +10,7 @@
         <input type="hidden" name="id" value="${scMatterAccess.id}">
 
         <div class="form-group">
-            <label class="col-xs-4 control-label">归还时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>归还时间</label>
             <div class="col-xs-6">
                 <div class="input-group" style="width:150px">
                     <input required class="form-control date-picker" name="returnDate"

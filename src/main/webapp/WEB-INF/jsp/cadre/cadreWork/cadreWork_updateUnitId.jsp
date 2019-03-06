@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
                     <div class="space-4"/>
                 </div>
 			</div>
-        <span class="help-block">* 留空则删除对应工作单位</span>
+        <span class="help-block"><span class="star">*</span> 留空则删除对应工作单位</span>
     </form>
 </div>
 <div class="modal-footer">

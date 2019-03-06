@@ -132,7 +132,7 @@
                                 </script>
                                         <div class="form-group">
                                             <label>类别</label>
-                                                <select required data-rel="select2" name="type" data-placeholder="请选择">
+                                                <select data-rel="select2" name="type" data-placeholder="请选择">
                                                     <option></option>
                                                     <c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
                                                         <option value="${_type.key}">${_type.value}</option>

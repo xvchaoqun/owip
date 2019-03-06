@@ -21,7 +21,7 @@
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-3 control-label">用户</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>用户</label>
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax"
                         data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${param.partyId}&status=${MEMBER_STATUS_NORMAL}"
@@ -31,11 +31,11 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">手机号码</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>手机号码</label>
 
             <div class="col-xs-8" >
                 <input required class="form-control" style="width: 200px" type="text" name="mobile" value="${sysUser.mobile}">
-                <span class="help-block">* 该手机号码将用于各类通知，请确保真实有效</span>
+                <span class="help-block"><span class="star">*</span> 该手机号码将用于各类通知，请确保真实有效</span>
             </div>
         </div>
         <div class="form-group">

@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/oa/oaTaskRemind_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${oaTaskRemind.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">任务</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>任务</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="taskId" value="${oaTaskRemind.taskId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">任务对象</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>任务对象</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="userId" value="${oaTaskRemind.userId}">
 				</div>
@@ -27,13 +27,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">提醒时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>提醒时间</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="startTime" value="${oaTaskRemind.startTime}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否结束</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否结束</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isFinish" value="${oaTaskRemind.isFinish}">
 				</div>

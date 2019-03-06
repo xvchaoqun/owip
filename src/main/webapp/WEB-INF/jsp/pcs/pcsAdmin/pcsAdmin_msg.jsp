@@ -11,7 +11,7 @@
         <input type="hidden" name="type" value="${param.type}">
         <input type="hidden" name="stage" value="${param.stage}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">发送对象</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>发送对象</label>
             <div class="col-xs-8 label-text">
                 <div class="input-group">
                 <c:forEach items="${PCS_ADMIN_TYPE_MAP}" var="_type">
@@ -27,14 +27,14 @@
             <label class="col-xs-3 control-label">手机号码</label>
             <div class="col-xs-8">
                 <input class="form-control" type="text" name="mobile" value="${uv.mobile}">
-                <span class="help-block">* 发送给指定手机号码，留空则发给全部管理员</span>
+                <span class="help-block"><span class="star">*</span> 发送给指定手机号码，留空则发给全部管理员</span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">短信内容</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>短信内容</label>
             <div class="col-xs-8">
                 <textarea required class="form-control" type="text" name="msg" rows="8"></textarea>
-                <span class="help-block">* 短信内容可修改</span>
+                <span class="help-block"><span class="star">*</span> 短信内容可修改</span>
             </div>
         </div>
     </form>

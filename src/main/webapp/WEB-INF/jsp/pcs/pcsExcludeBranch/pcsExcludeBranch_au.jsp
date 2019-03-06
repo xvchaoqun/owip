@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${pcsExcludeBranch.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">选择分党委</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>选择分党委</label>
             <div class="col-xs-6">
                 <select required class="form-control"  data-rel="select2-ajax"
                         data-ajax-url="${ctx}/party_selects?del=0&notDirect=1"

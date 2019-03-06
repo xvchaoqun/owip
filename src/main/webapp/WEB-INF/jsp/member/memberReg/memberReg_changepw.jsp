@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">新密码</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>新密码</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" autocomplete="off" type="text" onfocus="this.type='password'" name="password"  style="width: 150px">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">密码确认</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>密码确认</label>
             <div class="col-xs-6">
                 <input required class="form-control" autocomplete="off" type="text" onfocus="this.type='password'" name="repassword"  style="width: 150px">
             </div>

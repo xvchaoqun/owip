@@ -9,7 +9,7 @@
 	<form class="form-horizontal" action="${ctx}/oaTaskUser_clockMsg" id="modalForm" method="post">
 		<input type="hidden" name="taskId" value="${param.taskId}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">提醒时间</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>提醒时间</label>
 			<div class="col-xs-8">
 				<div class="input-group">
 					<input required class="form-control datetime-picker" type="text" name="deadline"
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">提醒内容</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>提醒内容</label>
 			<div class="col-xs-8">
 				<textarea required class="form-control limit" maxlength="200" name="msg" rows="5"></textarea>
 			</div>

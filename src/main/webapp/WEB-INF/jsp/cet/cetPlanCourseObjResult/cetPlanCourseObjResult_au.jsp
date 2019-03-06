@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">提交学习心得数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>提交学习心得数</label>
 				<div class="col-xs-6">
                     <input required class="form-control digits" type="text" name="num" value="${cetPlanCourseObj.num}">
 				</div>
@@ -30,13 +30,13 @@ pageEncoding="UTF-8"%>
             <c:forEach items="${cetCourseItemMap}" var="entity" varStatus="vs">
                 <c:set var="cetPlanCourseObjResult" value="${resultMap.get(entity.key)}"/>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">专题班${vs.count}完成课程</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>专题班${vs.count}完成课程</label>
 				<div class="col-xs-6">
                     <input required class="form-control digits" type="text" name="courseNum_${entity.key}" value="${cetPlanCourseObjResult.courseNum}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">专题班${vs.count}完成学时数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>专题班${vs.count}完成学时数</label>
 				<div class="col-xs-6">
                     <input required class="form-control period" type="text" name="period_${entity.key}" value="${cetPlanCourseObjResult.period}">
 				</div>

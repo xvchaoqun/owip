@@ -138,7 +138,7 @@
                             </div>
                             <div class="form-group">
                                 <label>职务类别</label>
-                                <select required data-rel="select2" name="postClass" data-width="100"
+                                <select data-rel="select2" name="postClass" data-width="100"
                                         data-placeholder="请选择">
                                     <option></option>
                                     <c:import url="/metaTypes?__code=mc_post_class"/>

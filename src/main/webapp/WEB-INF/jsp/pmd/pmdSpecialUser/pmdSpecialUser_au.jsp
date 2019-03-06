@@ -9,25 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pmd/pmdSpecialUser_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${pmdSpecialUser.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="type" value="${pmdSpecialUser.type}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">工作证号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>工作证号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="code" value="${pmdSpecialUser.code}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">姓名</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="realname" value="${pmdSpecialUser.realname}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所在单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所在单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unit" value="${pmdSpecialUser.unit}">
 				</div>

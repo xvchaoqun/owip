@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="projectId" value="${cetUnitProject.id}">
 		 <input type="hidden" name="addType" value="${addType}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">参训人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>参训人</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=2&key=1&unitIds=${unitIds}"
 							name="userId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">完成培训学时</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>完成培训学时</label>
 				<div class="col-xs-6">
                         <input required class="form-control period" type="text"
 							   name="period" value="${empty cetUnitTrain?cetUnitProject.period:cetUnitTrain.period}">

@@ -38,13 +38,13 @@
                                           id="resultForm" method="post">
                                         <input type="hidden" name="id" value="${param.id}">
                                         <div class="form-group">
-                                            <label class="col-xs-4 control-label">民主推荐统计表标题</label>
+                                            <label class="col-xs-4 control-label"><span class="star">*</span>民主推荐统计表标题</label>
                                             <div class="col-xs-7">
                                                 <textarea required class="form-control noEnter" name="title">${drOffline.title}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-4 control-label">参加推荐范围</label>
+                                            <label class="col-xs-4 control-label"><span class="star">*</span>参加推荐范围</label>
                                             <div class="col-xs-7">
                                                 <textarea required class="form-control noEnter" name="scope">${drOffline.scope}</textarea>
                                             </div>
@@ -115,7 +115,7 @@
                                         </div>
                                         <div id="voterTypeSelectDiv">
                                         <div class="form-group">
-                                            <label class="col-xs-6 control-label">请选择填表人类别模板</label>
+                                            <label class="col-xs-6 control-label"><span class="star">*</span>请选择填表人类别模板</label>
                                             <div class="col-xs-4">
                                                 <select required data-rel="select2"
                                                 data-width="160"

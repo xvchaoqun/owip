@@ -9,19 +9,19 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/unit_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${unit.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">单位编号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>单位编号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="code" value="${unit.code}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">单位名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>单位名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${unit.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">单位类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>单位类型</label>
 				<div class="col-xs-6">
                         <select required data-rel="select2" name="typeId"
 								data-width="272"

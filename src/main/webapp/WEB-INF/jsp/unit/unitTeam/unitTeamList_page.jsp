@@ -23,7 +23,7 @@
                         <input type="hidden" name="displayEmpty" value="${param.displayEmpty}">
                         <div class="form-group">
                             <label>换届时间</label>
-                            <select required class="form-control" data-rel="select2" name="timeLevel"
+                            <select class="form-control" data-rel="select2" name="timeLevel"
                                     data-placeholder="请选择行政级别">
                                 <option></option>
                                 <option value="1">本年度应启动换届单位</option>

@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="type" value="${param.type}">
         <input type="hidden" name="isQuit" value="1">
         <div class="form-group">
-            <label class="col-xs-3 control-label">离任日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>离任日期</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="quitDate"

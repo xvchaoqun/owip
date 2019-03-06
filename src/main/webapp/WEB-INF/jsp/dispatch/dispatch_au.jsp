@@ -38,7 +38,7 @@
                     <input type="hidden" name="scDispatchId" value="${scDispatchId}">
 
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">年份</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>年份</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">发文类型</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>发文类型</label>
 
                         <div class="col-xs-6">
                             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchType_selects"
@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">发文日期</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>发文日期</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
@@ -144,7 +144,7 @@
                     </div>
                     <div id="cadreDispatchDiv">
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">任免日期</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>任免日期</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
@@ -156,7 +156,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">任命人数</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>任命人数</label>
 
                         <div class="col-xs-6">
                             <input required class="form-control digits" type="text" name="appointCount"
@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">免职人数</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>免职人数</label>
 
                         <div class="col-xs-6">
                             <input required class="form-control digits" type="text" name="dismissCount"

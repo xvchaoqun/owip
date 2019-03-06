@@ -9,25 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetCourseFile_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetCourseFile.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属课程</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属课程</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="courseId" value="${cetCourseFile.courseId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">材料名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>材料名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="fileName" value="${cetCourseFile.fileName}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">材料</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>材料</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="filePath" value="${cetCourseFile.filePath}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>排序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${cetCourseFile.sortOrder}">
 				</div>

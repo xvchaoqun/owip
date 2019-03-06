@@ -11,13 +11,13 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-6">
 		<input type="hidden" name="id" value="${party.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">编号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>编号</label>
 				<div class="col-xs-8">
                         <input required class="form-control" type="text" name="code" value="${party.code}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-8">
                         <input required class="form-control" type="text" name="name" value="${party.name}">
 				</div>
@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">成立时间</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
 					<div class="col-xs-8">
 						<div class="input-group">
 							<input required class="form-control date-picker" name="_foundTime" type="text"
@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="col-xs-6">
 				<div class="form-group">
-					<label class="col-xs-3 control-label">所属单位</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
 					<div class="col-xs-8">
 						<select required class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
 							<option></option>
@@ -80,7 +80,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">党总支类别</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>党总支类别</label>
 					<div class="col-xs-8">
 						<select required class="form-control" name="classId" data-rel="select2" data-placeholder="请选择分类">
 							<option></option>
@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
 				</div>
 
 				<div class="form-group">
-					<label class="col-xs-3 control-label">组织类型</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>组织类型</label>
 					<div class="col-xs-8">
 						<select required data-rel="select2" name="typeId" data-placeholder="请选择组织类型">
 							<option></option>
@@ -105,7 +105,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">所在单位属性</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>所在单位属性</label>
 					<div class="col-xs-8">
 						<select required class="form-control" name="unitTypeId" data-rel="select2" data-placeholder="请选择">
 							<option></option>

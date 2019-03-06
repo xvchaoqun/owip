@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cisObjUnit_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cisObjUnit.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">obj_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>obj_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="objId" value="${cisObjUnit.objId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">记录考察单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>记录考察单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unitId" value="${cisObjUnit.unitId}">
 				</div>

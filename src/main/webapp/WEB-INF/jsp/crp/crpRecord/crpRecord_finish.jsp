@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">挂职实际结束时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>挂职实际结束时间</label>
 				<div class="col-xs-6">
 					<div class="input-group" style="width: 200px">
 						<input class="form-control date-picker required" type="text"  name="realEndDate"

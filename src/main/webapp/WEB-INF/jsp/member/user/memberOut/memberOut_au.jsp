@@ -29,13 +29,13 @@
 
 					<div class="col-xs-6">
 						<div class="form-group">
-							<label class="col-xs-5 control-label"> 党员本人联系电话</label>
+							<label class="col-xs-5 control-label"><span class="star">*</span>党员本人联系电话</label>
 							<div class="col-xs-7">
 								<input required class="form-control" maxlength="20" type="text" name="phone" value="${memberOut.phone}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">类别</label>
+							<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
 							<div class="col-xs-7">
 								<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100%">
 									<option></option>
@@ -49,13 +49,13 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">转入单位</label>
+							<label class="col-xs-5 control-label"><span class="star">*</span>转入单位</label>
 							<div class="col-xs-7">
 								<textarea required class="form-control limited" rows="4" type="text" name="toUnit">${memberOut.toUnit}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">转入单位抬头</label>
+							<label class="col-xs-5 control-label"><span class="star">*</span>转入单位抬头</label>
 							<div class="col-xs-7">
 								<textarea required class="form-control limited"
 										  rows="4" type="text" name="toTitle">${memberOut.toTitle}</textarea>
@@ -63,7 +63,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">转出单位</label>
+							<label class="col-xs-5 control-label"><span class="star">*</span>转出单位</label>
 							<div class="col-xs-7">
 								<c:set var="defaultAddress" value="${userBean.party.name}"/>
 								<textarea required class="form-control limited" rows="4"
@@ -71,7 +71,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label">转出单位地址</label>
+							<label class="col-xs-5 control-label"><span class="star">*</span>转出单位地址</label>
 							<div class="col-xs-7">
 								<textarea required class="form-control limited"  rows="4" name="fromAddress">${empty memberOut?defaultAddress:memberOut.fromAddress}</textarea>
 							</div>
@@ -80,26 +80,26 @@
 					</div>
 					<div class="col-xs-5">
 						<div class="form-group">
-							<label class="col-xs-8 control-label">转出单位联系电话（${_sysConfig.schoolShortName}）</label>
+							<label class="col-xs-8 control-label"><span class="star">*</span>转出单位联系电话（${_sysConfig.schoolShortName}）</label>
 							<div class="col-xs-4">
 								<input required class="form-control" maxlength="20" type="text" name="fromPhone" value="${memberOut.fromPhone}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-8 control-label">转出单位传真（${_sysConfig.schoolShortName}）</label>
+							<label class="col-xs-8 control-label"><span class="star">*</span>转出单位传真（${_sysConfig.schoolShortName}）</label>
 							<div class="col-xs-4">
 								<input required class="form-control" maxlength="20" type="text" name="fromFax" value="${memberOut.fromFax}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-8 control-label">转出单位邮编（${_sysConfig.schoolShortName}）</label>
+							<label class="col-xs-8 control-label"><span class="star">*</span>转出单位邮编（${_sysConfig.schoolShortName}）</label>
 							<div class="col-xs-4">
 								<input required class="form-control" type="text" name="fromPostCode"
 									   value="${empty memberOut.fromPostCode?"100875":memberOut.fromPostCode}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-8 control-label">党费缴纳至年月</label>
+							<label class="col-xs-8 control-label"><span class="star">*</span>党费缴纳至年月</label>
 							<div class="col-xs-4">
 								<div class="input-group">
 									<input required class="form-control date-picker" name="_payTime" type="text"
@@ -112,13 +112,13 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-xs-8 control-label">介绍信有效期天数</label>
+							<label class="col-xs-8 control-label"><span class="star">*</span>介绍信有效期天数</label>
 							<div class="col-xs-4">
 								<input required class="form-control digits" type="text" name="validDays" value="${memberOut.validDays}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-8 control-label">办理时间</label>
+							<label class="col-xs-8 control-label"><span class="star">*</span>办理时间</label>
 							<div class="col-xs-4">
 								<div class="input-group">
 									<input required class="form-control date-picker" name="_handleTime" type="text"

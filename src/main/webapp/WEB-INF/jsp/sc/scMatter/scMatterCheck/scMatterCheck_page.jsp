@@ -57,7 +57,7 @@
                                             <label>年份</label>
 
                                             <div class="input-group" style="width: 150px">
-                                                <input required class="form-control date-picker" placeholder="请选择年份"
+                                                <input class="form-control date-picker" placeholder="请选择年份"
                                                        name="year"
                                                        type="text"
                                                        data-date-format="yyyy" data-date-min-view-mode="2"
@@ -68,7 +68,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>核查类型</label>
-                                            <select required data-rel="select2"
+                                            <select data-rel="select2"
                                                     name="isRandom" data-placeholder="请选择" data-width="240">
                                                 <option></option>
                                                 <option value="1">年度随机抽查</option>

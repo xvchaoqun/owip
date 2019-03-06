@@ -10,13 +10,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/abroad/approverType_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${approverType.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${approverType.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类型</label>
 				<div class="col-xs-6">
                     <select required name="type" data-rel="select2" data-placeholder="请选择"> 
                         <option></option>
@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
             <div class="form-group" id="leaderAuth">
-                <label class="col-xs-3 control-label">审批范围</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>审批范围</label>
                 <div class="col-xs-6">
                     <div class="input-group">
                     <input required name="auth" type="checkbox" value="1" class="big chkBox"> 分管部门

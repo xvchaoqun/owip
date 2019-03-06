@@ -10,7 +10,7 @@
         <input type="hidden" name="partyId" value="${param.partyId}">
         <input type="hidden" name="branchId" value="${param.branchId}">
         <%--<div class="form-group">
-            <label class="col-xs-3 control-label">手机号码</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>手机号码</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="mobile" value="${shortMsgBean.mobile}">
             </div>

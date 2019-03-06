@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-xs-4 control-label">选择所属主要工作经历</label>
+      <label class="col-xs-4 control-label"><span class="star">*</span>选择所属主要工作经历</label>
       <div class="col-xs-8">
         <select required data-rel="select2" name="fid" data-placeholder="请选择" data-width="320">
           <option></option>

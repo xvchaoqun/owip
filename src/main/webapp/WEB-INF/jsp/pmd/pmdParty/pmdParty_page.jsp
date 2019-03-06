@@ -55,7 +55,7 @@ pageEncoding="UTF-8" %>
                             <div class="form-group">
                                 <label>缴纳月份</label>
                                 <div class="input-group" style="width: 120px;">
-                                    <input required class="form-control date-picker" name="payMonth" type="text"
+                                    <input class="form-control date-picker" name="payMonth" type="text"
                                            data-date-format="yyyy-mm"
                                            data-date-min-view-mode="1" value="${param.payMonth}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

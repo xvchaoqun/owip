@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/crsTemplate_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${crsTemplate.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2" name="type" data-placeholder="请选择">
                         <option></option>
@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">模板名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>模板名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${crsTemplate.name}">
 				</div>

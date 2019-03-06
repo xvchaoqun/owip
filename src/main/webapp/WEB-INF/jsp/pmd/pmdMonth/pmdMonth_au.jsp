@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${pmdMonth.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">缴费月份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>缴费月份</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 150px;">
                         <input  class="form-control date-picker required" name="month"

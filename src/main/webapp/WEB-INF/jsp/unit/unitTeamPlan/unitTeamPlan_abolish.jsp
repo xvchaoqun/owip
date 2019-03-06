@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${unitTeamPlan.id}">
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">废止时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>废止时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
                     <input required class="form-control date-picker" name="endDate" type="text"

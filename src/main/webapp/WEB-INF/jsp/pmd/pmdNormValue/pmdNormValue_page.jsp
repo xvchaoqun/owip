@@ -21,7 +21,7 @@
                         <input type="hidden" name="normId" value="${pmdNorm.id}">
 
                         <div class="form-group">
-                            <label class="col-xs-4 control-label">额度</label>
+                            <label class="col-xs-4 control-label"><span class="star">*</span>额度</label>
 
                             <div class="col-xs-6">
                                 <input required class="form-control float" type="text"

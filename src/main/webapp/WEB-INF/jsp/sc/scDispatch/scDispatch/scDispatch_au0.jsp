@@ -9,49 +9,49 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scDispatch_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scDispatch.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">年份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="year" value="${scDispatch.year}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">发文类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>发文类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="dispatchTypeId" value="${scDispatch.dispatchTypeId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">发文号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>发文号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="code" value="${scDispatch.code}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党委常委会日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>党委常委会日期</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="meetingTime" value="${scDispatch.meetingTime}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">起草日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>起草日期</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="pubTime" value="${scDispatch.pubTime}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">文件签发稿</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>文件签发稿</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="filePath" value="${scDispatch.filePath}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">签发单</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>签发单</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="signFilePath" value="${scDispatch.signFilePath}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${scDispatch.remark}">
 				</div>

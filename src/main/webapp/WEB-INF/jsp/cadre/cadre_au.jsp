@@ -12,7 +12,7 @@
         <input type="hidden" name="id" value="${cadre.id}">
         <input type="hidden" name="status" value="${status}">
         <div class="form-group">
-            <label class="col-xs-4 control-label">账号<c:if test="${cadre==null}">(不在干部库中)</c:if></label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>账号<c:if test="${cadre==null}">(不在干部库中)</c:if></label>
             <div class="col-xs-6 ${cadre!=null?'label-text':''}">
                 <c:if test="${cadre==null}">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
@@ -28,7 +28,7 @@
         </div>
         <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
         <div class="form-group">
-            <label class="col-xs-4 control-label">干部类型</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>干部类型</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">

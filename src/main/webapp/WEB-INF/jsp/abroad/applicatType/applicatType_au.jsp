@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/abroad/applicatType_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${applicatType.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">申请人身份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>申请人身份</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${applicatType.name}">
 				</div>

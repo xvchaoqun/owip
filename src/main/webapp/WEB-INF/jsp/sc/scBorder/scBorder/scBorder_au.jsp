@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scBorder_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scBorder.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">年度</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" placeholder="请选择年份" name="year"
@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">报备日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>报备日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="recordDate"

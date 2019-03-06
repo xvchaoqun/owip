@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scRecord_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scRecord.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">年份</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -21,9 +21,9 @@ pageEncoding="UTF-8"%>
         </div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">调整岗位名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>调整岗位名称</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2" name="motionId" data-width="273" data-placeholder="请选择动议">
+                    <select required data-rel="select2" name="motionId" data-width="273" data-placeholder="请选择动议">
                         <option></option>
                         <c:forEach var="scMotion" items="${scMotions}">
                             <option value="${scMotion.id}">${scMotion.code}</option>

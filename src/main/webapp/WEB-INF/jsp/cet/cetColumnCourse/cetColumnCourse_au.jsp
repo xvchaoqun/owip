@@ -9,25 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetColumnCourse_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetColumnCourse.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">栏目</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>栏目</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="columnId" value="${cetColumnCourse.columnId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">课程</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>课程</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="courseId" value="${cetColumnCourse.courseId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>排序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${cetColumnCourse.sortOrder}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${cetColumnCourse.remark}">
 				</div>

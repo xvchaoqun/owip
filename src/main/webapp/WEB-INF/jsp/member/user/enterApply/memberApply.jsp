@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right"> 提交申请书时间</label>
+        <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>提交申请书时间</label>
         <div class="col-sm-2 col-xs-4">
           <div class="input-group" style="width: 150px">
             <input required class="form-control date-picker" name="_applyTime" type="text"
@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right"> 请选择组织机构</label>
+        <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>请选择组织机构</label>
         <div class="col-sm-9">
           <select required name="classId" data-rel="select2" data-placeholder="请选择" data-width="150">
             <option></option>

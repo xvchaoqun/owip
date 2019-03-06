@@ -9,7 +9,7 @@
     <form class="form-horizontal" action="${ctx}/unitTeam_term" id="modalForm" method="post">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">起始时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>起始时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="termStartDate" type="text"
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">结束时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>结束时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="termEndDate" type="text"

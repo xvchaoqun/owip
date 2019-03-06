@@ -43,7 +43,7 @@ pageEncoding="UTF-8" %>
                                    placeholder="请输入缴费订单号">
                         </div>--%>
                         <div class="form-group">
-                            <label>缴纳月份</label>
+                            <label><span class="star">*</span>缴纳月份</label>
                             <div class="input-group" style="width: 120px;">
                                 <input required class="form-control date-picker" name="payMonth" type="text"
                                        data-date-format="yyyy-mm"

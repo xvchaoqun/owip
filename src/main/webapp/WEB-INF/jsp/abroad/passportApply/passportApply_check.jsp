@@ -53,7 +53,7 @@ pageEncoding="UTF-8"%>
         <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">证件应交回日期</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>证件应交回日期</label>
                     <div class="col-xs-6">
                         <div class="input-group">
                             <input ${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_PASS?"disabled":""} required class="form-control date-picker" name="_expectDate" type="text"

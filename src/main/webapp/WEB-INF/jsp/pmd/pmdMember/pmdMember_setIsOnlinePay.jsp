@@ -28,7 +28,7 @@
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-4 control-label">缴费方式</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>缴费方式</label>
             <c:if test="${param.isDelay!=1}">
             <div class="col-xs-6">
                 <select required data-rel="select2" name="isOnlinePay"
@@ -48,7 +48,7 @@
             </c:if>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">${param.isDelay!=1?"修改原因":"补缴说明"}</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>${param.isDelay!=1?"修改原因":"补缴说明"}</label>
             <div class="col-xs-6">
             <textarea required class="form-control limited" type="text"
                       name="remark" maxlength="100"></textarea>

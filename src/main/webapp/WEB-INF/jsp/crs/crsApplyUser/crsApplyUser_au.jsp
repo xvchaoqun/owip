@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
                  </c:if>
 			</div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">补报开始时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>补报开始时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text"  name="startTime"
@@ -47,7 +47,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">补报结束时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>补报结束时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text"  name="endTime"

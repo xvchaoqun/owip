@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">出版日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>出版日期</label>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 120px">
                     <input required class="form-control date-picker" name="_pubTime" type="text"
@@ -27,14 +27,14 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">著作名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>著作名称</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${cadreBook.name}">
                 <span class="help-block">注：不要加书名号。</span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>类型</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="type"
                         data-placeholder="请选择" data-width="162">
@@ -49,7 +49,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">出版社</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>出版社</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="publisher" value="${cadreBook.publisher}">
             </div>

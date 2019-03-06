@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">上传文件(批量)</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>上传文件(批量)</label>
                             <div class="col-xs-6">
                                 <input required class="form-control" multiple="multiple" type="file" name="_files"/>
                             </div>

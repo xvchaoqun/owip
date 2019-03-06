@@ -34,7 +34,7 @@
         </c:if>
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">干部</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>干部</label>
 
             <div class="col-xs-6">
                 <select required ${isHandle?"disabled":""} data-rel="select2-ajax"
@@ -46,7 +46,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">证件名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>证件名称</label>
 
             <div class="col-xs-6">
                 <c:if test="${isHandle}">
@@ -123,7 +123,7 @@
         </c:if>
         <c:if test="${param.op=='back' || type!=ABROAD_PASSPORT_TYPE_LOST}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">存放保险柜</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>存放保险柜</label>
 
                 <div class="col-xs-6">
                     <select required data-rel="select2" name="safeBoxId" data-width="273" data-placeholder="保险柜">
@@ -140,7 +140,7 @@
         </c:if>
         <c:if test="${param.op!='back' && type==ABROAD_PASSPORT_TYPE_LOST}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">登记丢失日期</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>登记丢失日期</label>
 
                 <div class="col-xs-6">
                     <div class="input-group">

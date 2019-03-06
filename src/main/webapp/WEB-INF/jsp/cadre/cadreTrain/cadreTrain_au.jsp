@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">起始时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>起始时间</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_startTime" type="text"
@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">结束时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>结束时间</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_endTime" type="text"
@@ -37,13 +37,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训内容</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训内容</label>
 				<div class="col-xs-6">
                     <textarea required class="form-control noEnter" name="content">${cadreTrain.content}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">主办单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>主办单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unit" value="${cadreTrain.unit}">
 				</div>

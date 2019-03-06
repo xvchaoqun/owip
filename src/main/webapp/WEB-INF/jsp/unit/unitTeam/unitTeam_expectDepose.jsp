@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">应换届时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>应换届时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="expectDeposeDate" type="text"

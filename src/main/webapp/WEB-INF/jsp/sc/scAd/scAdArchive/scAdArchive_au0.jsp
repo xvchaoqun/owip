@@ -9,43 +9,43 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scAdArchive_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scAdArchive.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党委常委会</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>党委常委会</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="committeeId" value="${scAdArchive.committeeId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">干部</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>干部</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cadreId" value="${scAdArchive.cadreId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">干部任免审批表归档</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>干部任免审批表归档</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="filePath" value="${scAdArchive.filePath}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">干部任免审批表签字扫描件</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>干部任免审批表签字扫描件</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="signFilePath" value="${scAdArchive.signFilePath}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">干部考察材料归档</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>干部考察材料归档</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cisFilePath" value="${scAdArchive.cisFilePath}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">干部考察材料签字扫描件</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>干部考察材料签字扫描件</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cisSignFilePath" value="${scAdArchive.cisSignFilePath}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${scAdArchive.remark}">
 				</div>

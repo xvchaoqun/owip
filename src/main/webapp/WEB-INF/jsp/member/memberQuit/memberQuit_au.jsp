@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="resubmit">
         </c:if>
         <div class="form-group">
-				<label class="col-xs-3 control-label">账号</label>
+				<label class="col-xs-3 control-label"><c:if test="${empty memberQuit}"><span class="star">*</span></c:if>账号</label>
 				<div class="col-xs-6">
                     <c:if test="${empty memberQuit}">
                     <select required  class="form-control" data-rel="select2-ajax"
@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">减员原因</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>减员原因</label>
 				<div class="col-xs-6">
                         <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                             <option></option>
@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">减员时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>减员时间</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 200px">
                         <input required class="form-control date-picker" name="_quitTime" type="text"

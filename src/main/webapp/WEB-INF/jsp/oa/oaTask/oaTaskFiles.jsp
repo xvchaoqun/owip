@@ -10,7 +10,7 @@
         <form class="form-horizontal" action="${ctx}/oa/oaTaskFile_au" id="modalForm" method="post">
             <input type="hidden" name="taskId" value="${oaTask.id}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">上传附件(批量)</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>上传附件(批量)</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="file" name="files" multiple="multiple"/>
                 </div>

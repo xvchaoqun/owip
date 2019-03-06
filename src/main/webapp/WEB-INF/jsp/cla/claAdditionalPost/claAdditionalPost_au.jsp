@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">兼审单位</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>兼审单位</label>
             <div class="col-xs-8">
                 <select required class="form-control" name="unitId" data-rel="select2"
                         data-width="272"
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">兼审单位职务属性</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>兼审单位职务属性</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2" name="postId"

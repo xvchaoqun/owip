@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cadreReport_au" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cadreReport.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">形成日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>形成日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input  class="form-control date-picker required" name="_createDate"
@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">材料内容</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>材料内容</label>
 				<div class="col-xs-6">
                     <input ${cadreReport==null?'required':''} class="form-control" type="file" name="_file" />
 				</div>

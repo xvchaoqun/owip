@@ -56,7 +56,7 @@
                                         </li>
                                         <li class="<c:if test="${stage==OW_APPLY_STAGE_OUT}">active</c:if>">
                                             <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=${OW_APPLY_STAGE_OUT}'>
-                                                <span class="badge badge-light">*</span> 已转出的申请
+                                                <span class="badge badge-light"><span class="star">*</span></span> 已转出的申请
                                             </a>
                                         </li>
                                         <c:forEach items="#{OW_APPLY_STAGE_MAP}" var="applyStage">

@@ -26,21 +26,21 @@
             <form class="form-horizontal" action="${ctx}/user/memberInflowOut" id="modalForm" method="post">
                 <input type="hidden" name="id" value="${memberInflow.id}">
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">转出单位</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>转出单位</label>
                             <div class="col-xs-6" style="width: 300px">
                                 <textarea required class="form-control"
                                           type="text" name="outUnit">${memberInflow.outUnit}</textarea>
                             </div>
                         </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">转出地</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>转出地</label>
                     <div class="col-xs-6">
                         <select required class="loc_province" name="outLocation" style="width:120px;" data-placeholder="请选择">
                         </select>
                     </div>
                 </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">转出时间</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>转出时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group" style="width: 200px">
                                     <input required class="form-control date-picker" name="_outTime" type="text"

@@ -9,37 +9,37 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scSubsidyDc_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scSubsidyDc.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">subsidy_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>subsidy_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="subsidyId" value="${scSubsidyDc.subsidyId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">cadre_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>cadre_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cadreId" value="${scSubsidyDc.cadreId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">任免日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>任免日期</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="workTime" value="${scSubsidyDc.workTime}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="type" value="${scSubsidyDc.type}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职务</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>职务</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="post" value="${scSubsidyDc.post}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>行政级别</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="adminLevel" value="${scSubsidyDc.adminLevel}">
 				</div>

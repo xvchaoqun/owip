@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/unitPost_abolish" id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitPost.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">撤销日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>撤销日期</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 150px;">
                         <input  class="form-control date-picker required" name="abolishDate"

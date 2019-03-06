@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/crsPost_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${crsPost.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">年度</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" placeholder="请选择年份" name="year"
@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">招聘岗位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>招聘岗位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${crsPost.name}">
 				</div>
@@ -57,7 +57,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>行政级别</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" data-width="273"
 							name="adminLevel" data-placeholder="请选择行政级别">
@@ -70,7 +70,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax"
 							data-width="273" data-ajax-url="${ctx}/unit_selects?status=1"

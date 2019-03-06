@@ -55,7 +55,7 @@
                                 <input type="hidden" name="checkFileName" value="${scMatterCheck.checkFileName}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">年份</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -79,7 +79,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">核查日期</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>核查日期</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">核查类型</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>核查类型</label>
 
                                     <div class="col-xs-6">
                                         <select required data-rel="select2"

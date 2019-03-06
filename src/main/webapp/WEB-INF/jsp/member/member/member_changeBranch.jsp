@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">选择党支部</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>选择党支部</label>
 				<div class="col-xs-6">
                     <select required class="form-control"  data-rel="select2-ajax"
                             data-ajax-url="${ctx}/branch_selects?partyId=${party.id}"

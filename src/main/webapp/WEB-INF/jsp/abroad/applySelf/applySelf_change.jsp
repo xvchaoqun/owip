@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/abroad/applySelf_change" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${applySelf.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">干部</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>干部</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
 							name="cadreId" data-placeholder="请选择干部">
@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">申请日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>申请日期</label>
 				<div class="col-xs-6">
 					<div class="input-group" style="width: 200px">
 						<input required class="form-control date-picker" name="_applyDate" type="text"
@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">出行时间范围</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>出行时间范围</label>
 				<div class="col-xs-6">
 					<select required name="type" data-rel="select2" data-placeholder="请选择出行时间范围">
 						<option></option>
@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">出发时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>出发时间</label>
 				<div class="col-xs-6">
 					<div class="input-group"  style="width: 200px">
 						<input required class="form-control date-picker" name="_startDate" type="text"
@@ -49,7 +49,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">返回时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>返回时间</label>
 				<div class="col-xs-6">
 					<div class="input-group"  style="width: 200px">
 						<input required class="form-control date-picker" name="_endDate" type="text"

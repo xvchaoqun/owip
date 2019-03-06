@@ -61,7 +61,7 @@
                                 </div>
                                 <h4 class="form-header"><i class="fa fa-caret-right"></i> 干部监督机构核查结果</h4>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">比对日期</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>比对日期</label>
                                     <div class="col-xs-6">
                                         <div class="input-group">
                                             <input required class="form-control date-picker" name="compareDate" type="text"
@@ -87,7 +87,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">认定结果</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>认定结果</label>
                                     <div class="col-xs-6">
                                         <select required data-rel="select2"
                                                 name="confirmType" data-placeholder="请选择" data-width="120">
@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">认定日期</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>认定日期</label>
                                     <div class="col-xs-6">
                                         <div class="input-group">
                                             <input required class="form-control date-picker" name="confirmDate" type="text"

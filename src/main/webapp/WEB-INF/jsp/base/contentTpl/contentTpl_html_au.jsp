@@ -10,13 +10,13 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${contentTpl.id}">
         <input type="hidden" name="contentType" value="${contentType}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">模板名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>模板名称</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${contentTpl.name}">
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类型</label>
 				<div class="col-xs-6">
                     <select required name="type" data-rel="select2" data-width="200"
                             data-placeholder="请选择">
@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">模板引擎</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>模板引擎</label>
 				<div class="col-xs-6">
                     <select required name="engine" data-rel="select2" data-width="200"
                             data-placeholder="请选择">

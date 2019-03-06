@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
 		<input type="hidden" name="isOnCampus" value="1">
 
 		<div class="form-group">
-			<label class="col-xs-3 control-label">培训班类型</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>培训班类型</label>
 
 			<div class="col-xs-6">
 				<select required data-rel="select2" name="type" data-placeholder="请选择" data-width="275">
@@ -26,14 +26,14 @@ pageEncoding="UTF-8"%>
 		</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训班名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训班名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetTrain.name}">
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">开课日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>开课日期</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" name="startDate"
@@ -46,7 +46,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">结课日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>结课日期</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" name="endDate"

@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-3 control-label">调整方式</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>调整方式</label>
           <div class="col-xs-6">
             <select required data-rel="select2" name="type" data-width="150" data-placeholder="请选择">
               <option></option>
@@ -38,7 +38,7 @@
     <c:set var="unitIsDelete" value="${isUnit?unit.status==UNIT_STATUS_HISTORY:unit.isDeleted}"/>
 <c:set var="oldUnitIsDelete" value="${isUnit?oldUnit.status==UNIT_STATUS_HISTORY:oldUnit.isDeleted}"/>
         <div class="form-group">
-          <label class="col-xs-3 control-label">新成立机构名称</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>新成立机构名称</label>
           <div class="col-xs-6">
             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/${isUnit?'unit_selects':'party_selects'}"
                     name="unitId" data-width="340" data-placeholder="请选择">
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-3 control-label">撤销机构名称</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>撤销机构名称</label>
           <div class="col-xs-6">
             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/${isUnit?'unit_selects':'party_selects'}"
                     name="oldUnitId" data-width="340" data-placeholder="请选择">

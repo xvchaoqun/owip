@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">年份</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 
                                             <div class="col-xs-7">
                                                 <div class="input-group">
@@ -82,7 +82,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">发文类型</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span>发文类型</label>
 
                                             <div class="col-xs-7">
                                                 <c:set var="dispatchType"
@@ -118,7 +118,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">起草日期</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span>起草日期</label>
 
                                             <div class="col-xs-7">
                                                 <div class="input-group">

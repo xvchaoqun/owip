@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scMotion_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMotion.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">年份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">动议日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>动议日期</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" autocomplete="off" name="holdDate" type="text"
@@ -54,13 +54,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<%--<div class="form-group">
-				<label class="col-xs-3 control-label">动议编号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>动议编号</label>
 				<div class="col-xs-6">
                         <input required class="form-control num" type="text" name="num" value="${scMotion.num}">
 				</div>
 			</div>--%>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">选拔任用方式</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>选拔任用方式</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" data-width="273"
 							name="scType" data-placeholder="请选择">
@@ -73,7 +73,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">动议形式</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>动议形式</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="way"
 							data-placeholder="请选择" data-width="273">
@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group" id="wayOtherDiv">
-				<label class="col-xs-3 control-label">其他动议形式</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>其他动议形式</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="wayOther" value="${scMotion.wayOther}">
 				</div>

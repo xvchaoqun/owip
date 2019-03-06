@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scAdArchiveVote_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scAdArchiveVote.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">归档</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>归档</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="archiveId" value="${scAdArchiveVote.archiveId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">表决</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>表决</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="voteId" value="${scAdArchiveVote.voteId}">
 				</div>

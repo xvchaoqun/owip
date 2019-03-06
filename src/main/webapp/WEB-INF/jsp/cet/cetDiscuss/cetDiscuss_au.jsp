@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${cetDiscuss.id}">
 		<input type="hidden" name="planId" value="${planId}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">开始日期</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>开始日期</label>
 			<div class="col-xs-6">
 				<div class="input-group">
 					<input required class="form-control date-picker" name="startDate"
@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">结束日期</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>结束日期</label>
 			<div class="col-xs-6">
 				<div class="input-group">
 					<input required class="form-control date-picker" name="endDate"
@@ -37,13 +37,13 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">研讨会名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>研讨会名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetDiscuss.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">负责单位类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>负责单位类型</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="unitType" data-placeholder="请选择" data-width="272">
 						<option></option>
@@ -57,7 +57,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">学时</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>学时</label>
 				<div class="col-xs-6">
                         <input required class="form-control period" type="text" name="period" value="${cetDiscuss.period}">
 				</div>

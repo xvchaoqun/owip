@@ -9,21 +9,21 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/location_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${location.id}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">上级节点编码</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>上级节点编码</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" disabled value="${location.parentCode}">
                     <input type="hidden" name="parentCode" value="${location.parentCode}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">编码</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>编码</label>
                 <div class="col-xs-6">
                     <input required class="form-control digits" type="text" name="code" value="${location.code}">
                 </div>
             </div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${location.name}">
 				</div>

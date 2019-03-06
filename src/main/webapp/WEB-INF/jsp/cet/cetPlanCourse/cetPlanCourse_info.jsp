@@ -10,7 +10,7 @@
     <form class="form-horizontal" action="${ctx}/cet/cetPlanCourse_info" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetPlanCourse.id}">
         <div class="form-group" id="_startTime">
-            <label class="col-xs-4 control-label">开始时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>开始时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text" name="startTime"
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="form-group" id="_endTime">
-            <label class="col-xs-4 control-label">结束时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>结束时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text" name="endTime"

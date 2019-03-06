@@ -9,91 +9,91 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scCommitteeVote_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scCommitteeVote.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">议题</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>议题</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="topicId" value="${scCommitteeVote.topicId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属干部</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属干部</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cadreId" value="${scCommitteeVote.cadreId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="type" value="${scCommitteeVote.type}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">原任职务</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>原任职务</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="originalPost" value="${scCommitteeVote.originalPost}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">原任职务任职时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>原任职务任职时间</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="originalPostTime" value="${scCommitteeVote.originalPostTime}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">干部类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>干部类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cadreTypeId" value="${scCommitteeVote.cadreTypeId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">任免方式</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>任免方式</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="wayId" value="${scCommitteeVote.wayId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">任免程序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>任免程序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="procedureId" value="${scCommitteeVote.procedureId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职务</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>职务</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="post" value="${scCommitteeVote.post}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职务属性</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>职务属性</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="postType" value="${scCommitteeVote.postType}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>行政级别</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="adminLevel" value="${scCommitteeVote.adminLevel}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unitId" value="${scCommitteeVote.unitId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">参会同意人数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>参会同意人数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="aggreeCount" value="${scCommitteeVote.aggreeCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${scCommitteeVote.remark}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>排序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${scCommitteeVote.sortOrder}">
 				</div>

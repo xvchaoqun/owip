@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
             </div>
         </c:if>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">确定为发展对象时间</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>确定为发展对象时间</label>
 				<div class="col-xs-4">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_candidateTime" type="text"
@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-5 control-label">参加培训时间</label>
+            <label class="col-xs-5 control-label"><span class="star">*</span>参加培训时间</label>
             <div class="col-xs-4">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="_trainTime" type="text"

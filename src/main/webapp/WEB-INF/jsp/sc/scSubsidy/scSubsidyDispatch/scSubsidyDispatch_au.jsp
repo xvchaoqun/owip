@@ -9,19 +9,19 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scSubsidyDispatch_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scSubsidyDispatch.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">subsidy_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>subsidy_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="subsidyId" value="${scSubsidyDispatch.subsidyId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">dispatch_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>dispatch_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="dispatchId" value="${scSubsidyDispatch.dispatchId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${scSubsidyDispatch.remark}">
 				</div>

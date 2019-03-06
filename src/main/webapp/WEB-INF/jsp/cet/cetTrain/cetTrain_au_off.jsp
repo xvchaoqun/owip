@@ -11,7 +11,7 @@
         <input type="hidden" name="isOnCampus" value="0">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${cetTrain.name}">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">开始日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>开始日期</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">结束日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>结束日期</label>
 
             <div class="col-xs-6">
                 <div class="input-group">

@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/abroad/updateLostProof" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${passport.id}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">登记丢失日期</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>登记丢失日期</label>
                 <div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_lostTime" type="text"
@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">丢失证明</label>
+                <label class="col-xs-3 control-label">${passport==null?'*':''}丢失证明</label>
                 <div class="col-xs-6">
                     <input  ${passport==null?'required':''} class="form-control" type="file" name="_lostProof" />
                 </div>

@@ -9,43 +9,43 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scPassportHand_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scPassportHand.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">关联账号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>关联账号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="userId" value="${scPassportHand.userId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">新提任日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>新提任日期</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="appointDate" value="${scPassportHand.appointDate}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">添加方式</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>添加方式</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="addType" value="${scPassportHand.addType}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${scPassportHand.remark}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">状态</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>状态</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="status" value="${scPassportHand.status}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">证件是否已入库</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>证件是否已入库</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isKeep" value="${scPassportHand.isKeep}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">添加时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>添加时间</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="addTime" value="${scPassportHand.addTime}">
 				</div>

@@ -9,7 +9,7 @@
     <form class="form-horizontal" id="modalForm" enctype="multipart/form-data" action="${ctx}/member_import" method="post">
         <input type="hidden" value="${inSchool?1:0}" name="inSchool">
 		<div class="form-group">
-			<label class="col-xs-offset-1 col-xs-2 control-label">Excel文件</label>
+			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
 				<input type="file" name="xlsx" required extension="xlsx"/>
 			</div>

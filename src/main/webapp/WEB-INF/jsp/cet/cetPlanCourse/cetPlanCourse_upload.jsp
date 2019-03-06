@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetPlanCourse_upload" id="modalForm" method="post">
         <input type="hidden" name="planCourseId" value="${param.planCourseId}">
         <div class="form-group">
-            <label class=" col-xs-4 control-label">附件</label>
+            <label class=" col-xs-4 control-label"><span class="star">*</span>附件</label>
             <div class="col-xs-6">
                 <input type="file" name="_file" required/>
             </div>

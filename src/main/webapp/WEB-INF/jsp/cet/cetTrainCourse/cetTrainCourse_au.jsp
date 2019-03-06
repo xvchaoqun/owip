@@ -27,13 +27,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group" id="_name">
-				<label class="col-xs-3 control-label">课程名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>课程名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetTrainCourse.name}">
 				</div>
 			</div>
 			<div class="form-group" id="_teacher">
-				<label class="col-xs-3 control-label">教师姓名</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>教师姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="teacher" value="${cetTrainCourse.teacher}">
 				</div>
@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			</c:if>
 			<div class="form-group" id="_startTime">
-				<label class="col-xs-3 control-label">开始时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>开始时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input class="form-control datetime-picker" required type="text"  name="startTime"
@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group" id="_endTime">
-				<label class="col-xs-3 control-label">结束时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>结束时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input class="form-control datetime-picker" required type="text"  name="endTime"

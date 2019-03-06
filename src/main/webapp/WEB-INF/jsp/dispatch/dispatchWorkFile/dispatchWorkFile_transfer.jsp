@@ -19,7 +19,7 @@
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-3 control-label">转移至分类</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>转移至分类</label>
 
             <div class="col-xs-4">
                 <select required data-rel="select2" name="type" data-placeholder="请选择" data-width="125">

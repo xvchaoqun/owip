@@ -9,19 +9,19 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scPublicUser_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scPublicUser.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属公示</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属公示</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="publicId" value="${scPublicUser.publicId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">关联表决记录</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>关联表决记录</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="voteId" value="${scPublicUser.voteId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>排序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${scPublicUser.sortOrder}">
 				</div>

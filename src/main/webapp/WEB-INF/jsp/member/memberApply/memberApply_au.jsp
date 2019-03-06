@@ -18,11 +18,11 @@
     <form class="form-horizontal" id="modalForm" method="post" action="${ctx}/memberApply_au">
         <c:if test="${empty memberApply}">
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">账号</label>
+                <label class="col-sm-4 control-label no-padding-right"><span class="star">*</span>账号</label>
 
-                <div class="col-sm-9">
+                <div class="col-sm-7">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notMember_selects"
-                            data-width="350"
+                            data-width="300"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
@@ -30,24 +30,24 @@
             </div>
 
             <div class="form-group" id="party" >
-                <label class="col-sm-3 control-label no-padding-right">所属党组织</label>
-                <div class="col-sm-9">
-                    <select data-rel="select2-ajax" data-width="350"  data-ajax-url="${ctx}/party_selects?auth=1"
+                <label class="col-sm-4 control-label no-padding-right">所属党组织</label>
+                <div class="col-sm-7">
+                    <select data-rel="select2-ajax" data-width="300"  data-ajax-url="${ctx}/party_selects?auth=1"
                             name="partyId" data-placeholder="请选择分党委">
                         <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                     </select>
                 </div>
             </div>
             <div class="form-group" id="branch" style="${empty branch?'display: none;':''}">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <select data-rel="select2-ajax" data-width="350"  data-ajax-url="${ctx}/branch_selects?auth=1"
+                <div class="col-sm-offset-4 col-sm-7">
+                    <select data-rel="select2-ajax" data-width="300"  data-ajax-url="${ctx}/branch_selects?auth=1"
                             name="branchId" data-placeholder="请选择党支部">
                         <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right"> 提交书面申请书时间</label>
+                <label class="col-sm-4 control-label no-padding-right"><span class="star">*</span>提交书面申请书时间</label>
 
                 <div class="col-sm-3">
                     <div class="input-group">
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-6 control-label no-padding-right"> 提交书面申请书时间</label>
+                <label class="col-sm-6 control-label no-padding-right"><span class="star">*</span>提交书面申请书时间</label>
 
                 <div class="col-sm-3">
                     <div class="input-group" style="width: 150px">
@@ -199,9 +199,9 @@
         </c:if>
         <c:if test="${empty memberApply}">
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right"> 备注</label>
+                <label class="col-sm-4 control-label no-padding-right"> 备注</label>
 
-                <div class="col-sm-6">
+                <div class="col-sm-7">
                     <textarea name="remark" class="form-control" rows="5">${memberApply.remark}</textarea>
                 </div>
             </div>

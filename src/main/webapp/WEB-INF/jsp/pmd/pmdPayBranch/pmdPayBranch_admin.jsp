@@ -18,7 +18,7 @@
                     <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdBranchAdmin_add" id="modalForm" method="post">
                         <input type="hidden" name="branchId" value="${branch.id}">
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">账号</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
                             <div class="col-xs-6">
                                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">

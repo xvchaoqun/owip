@@ -10,21 +10,21 @@
         <input type="hidden" name="id" value="${pcsVoteGroup.id}">
         <input type="hidden" name="type" value="${param.type}">
         <div class="form-group">
-            <label class="col-xs-4 control-label">小组名称</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>小组名称</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${pcsVoteGroup.name}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label"> 小组负责人</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>小组负责人</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="leader" value="${pcsVoteGroup.leader}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">小组成员</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>小组成员</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="member" value="${pcsVoteGroup.member}">

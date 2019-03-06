@@ -50,7 +50,7 @@
                 <input type="hidden" name="traineeTypeId" value="${traineeTypeId}">
                 <div class="form-group">
                     <label>姓名</label>
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${param.projectId}"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${param.projectId}"
                             data-width="280"
                             name="userId" data-placeholder="请输入账号或姓名或教工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>

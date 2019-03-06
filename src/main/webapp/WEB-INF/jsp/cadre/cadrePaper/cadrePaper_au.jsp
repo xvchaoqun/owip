@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">发表日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>发表日期</label>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_pubTime" type="text"
@@ -27,14 +27,14 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">论文题目</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>论文题目</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${cadrePaper.name}">
                 <span class="help-block">注：不要加书名号。</span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">期刊名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>期刊名称</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="press" value="${cadrePaper.press}">
             </div>

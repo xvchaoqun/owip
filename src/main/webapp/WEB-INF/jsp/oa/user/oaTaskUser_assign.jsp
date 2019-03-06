@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">负责人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>负责人</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
                             data-width="275"
@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">手机号码</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>手机号码</label>
 				<div class="col-xs-6">
                     <input required class="form-control" type="text" name="mobile" value="${oaTaskUser.assignUserMobile}">
 				</div>

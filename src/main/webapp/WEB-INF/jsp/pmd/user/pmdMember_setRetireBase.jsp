@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-xs-4 control-label">离退休人员党费计算基数(¥)</label>
+      <label class="col-xs-4 control-label"><c:if test="${param.view!=1 && param.view!=2}"><span class="star">*</span></c:if>离退休人员党费计算基数(¥)</label>
       <div class="col-xs-8 label-text">
         <c:if test="${param.view==1 || param.view==2}">
           ${cm:stripTrailingZeros(pmdConfigMember.retireSalary)}

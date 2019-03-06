@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
             <input type="hidden" name="userId" value="${memberAbroad.userId}">
         </c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党员</label>
+				<label class="col-xs-3 control-label"><c:if test="${empty memberAbroad}"><span class="star">*</span></c:if>党员</label>
 				<div class="col-xs-6">
                     <c:if test="${empty memberAbroad}">
                         <select required  class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">出国时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>出国时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_abroadTime" type="text"
@@ -37,13 +37,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">出国缘由</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>出国缘由</label>
 				<div class="col-xs-6">
                         <textarea required class="form-control" type="text" name="reason">${memberAbroad.reason}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">预计归国时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>预计归国时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_expectReturnTime" type="text"
@@ -53,7 +53,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">实际归国时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>实际归国时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_actualReturnTime" type="text"

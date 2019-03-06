@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scGroupParticipant_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scGroupParticipant.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">小组会</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>小组会</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="groupId" value="${scGroupParticipant.groupId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">参会人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>参会人</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="memberId" value="${scGroupParticipant.memberId}">
 				</div>

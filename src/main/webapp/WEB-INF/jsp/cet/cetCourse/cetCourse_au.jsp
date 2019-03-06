@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="type" value="${type}">
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">设立时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>设立时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" name="foundDate"
@@ -25,20 +25,20 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">编号</label>
+				<label class="col-xs-3 control-label">${empty cetCourse?'':'*'}编号</label>
 				<div class="col-xs-6">
 					<input ${empty cetCourse?'':'required'} class="form-control num" type="text" name="num" value="${cetCourse.num}">
 					<c:if test="${empty cetCourse}"><span class="label-inline"> * 留空自动生成</span></c:if>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">课程名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>课程名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetCourse.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">主讲人</label>
+				<label class="col-xs-3 control-label">${type==CET_COURSE_TYPE_ONLINE?'':'*'}主讲人</label>
 				<div class="col-xs-6">
 					<select ${type==CET_COURSE_TYPE_ONLINE?'':'required'} data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetExpert_selects"
 							name="expertId" data-placeholder="请输入姓名">
@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		<c:if test="${type==CET_COURSE_TYPE_OFFLINE}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">授课方式</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>授课方式</label>
 
 			<div class="col-xs-6">
 				<select required data-rel="select2" name="teachMethod" data-placeholder="请选择" data-width="275">
@@ -63,21 +63,21 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		<c:if test="${type==CET_COURSE_TYPE_ONLINE}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">视频地址</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>视频地址</label>
 			<div class="col-xs-6">
 				<input required class="form-control" type="text" name="_url" value="${cetCourse.url}">
 			</div>
 		</div>
 		</c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">学时</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>学时</label>
 				<div class="col-xs-6">
                         <input required class="form-control period" type="text" name="period" value="${cetCourse.period}">
 				</div>
 			</div>
 		<c:if test="${type==CET_COURSE_TYPE_ONLINE}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">时长</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>时长</label>
 				<div class="col-xs-6">
                         <input required class="form-control period" type="text" name="duration" value="${cetCourse.duration}">
 				</div>

@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/dispatchType_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${dispatchType.id}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">年份</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
                 <div class="col-xs-6">
                     <div class="input-group">
                         <input required autocomplete="off" class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
@@ -19,13 +19,13 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${dispatchType.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">发文属性</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>发文属性</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="attr" value="${dispatchType.attr}">
 				</div>

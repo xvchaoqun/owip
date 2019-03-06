@@ -66,7 +66,7 @@
                                         <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
                                             <label>调阅类型</label>
-                                            <select required data-rel="select2"
+                                            <select data-rel="select2"
                                                     name="isCopy" data-placeholder="请选择" data-width="140">
                                                 <option></option>
                                                 <option value="0">原件</option>

@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>类型</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" class="form-control" name="type" data-placeholder="请选择">
                     <option></option>
@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
         </div>
         <c:if test="${empty cadreCourse && param.toApply!=1}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label" style="padding-top: 100px">课程名称（多门课程以#号分隔）</label>
+				<label class="col-xs-3 control-label" style="padding-top: 100px"><span class="star">*</span>课程名称（多门课程以#号分隔）</label>
 				<div class="col-xs-8">
                         <textarea required class="form-control" name="names" rows="10"></textarea>
                     <span class="help-block">注：不要加书名号。</span>
@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
         </c:if>
         <c:if test="${not empty cadreCourse || param.toApply==1}">
             <div class="form-group">
-                <label class="col-xs-3 control-label" >课程名称</label>
+                <label class="col-xs-3 control-label" ><span class="star">*</span>课程名称</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="name" value="${cadreCourse.name}">
                     <span class="help-block">注：不要加书名号。</span>

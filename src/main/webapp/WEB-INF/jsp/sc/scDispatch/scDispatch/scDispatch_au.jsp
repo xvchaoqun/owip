@@ -59,7 +59,7 @@
                             <input type="hidden" name="filePath" value="${scDispatch.filePath}">
 
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">年度</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
                                 <div class="col-xs-7">
                                     <div class="input-group">
                                         <input required class="form-control date-picker" placeholder="请选择年份"
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">发文类型</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>发文类型</label>
                                 <div class="col-xs-7">
                                     <c:set var="dispatchType"
                                            value="${dispatchTypeMap.get(scDispatch.dispatchTypeId)}"/>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">发文号</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>发文号</label>
 
                                 <div class="col-xs-7">
                                     <input required class="form-control digits" type="text" name="code"
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">标题</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>标题</label>
 
                                 <div class="col-xs-7">
                                     <input required class="form-control" type="text" name="title"
@@ -127,7 +127,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">党委常委会日期</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>党委常委会日期</label>
 
                                 <div class="col-xs-7">
                                     <div class="input-group">
@@ -141,7 +141,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">起草日期</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>起草日期</label>
 
                                 <div class="col-xs-7">
                                     <div class="input-group">

@@ -39,7 +39,7 @@
                         <c:if test="${type==MEMBER_STAY_TYPE_ABROAD}">
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">人员类别</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>人员类别</label>
 
                                     <div class="col-xs-6">
                                         <select required data-rel="select2" name="userType" data-placeholder="请选择">
@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">手机</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>手机</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control" maxlength="20" type="text" name="mobile"
@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">家庭电话</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>家庭电话</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control" maxlength="20" type="text" name="phone"
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">微信</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>微信</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control" type="text" maxlength="20" name="weixin"
@@ -76,7 +76,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">电子邮箱</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>电子邮箱</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control email" maxlength="50" type="text"
@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">QQ号</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>QQ号</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control" maxlength="20" type="text" name="qq"
@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">申请保留组织关系起始时间</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>申请保留组织关系起始时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">申请保留组织关系截止时间</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>申请保留组织关系截止时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">党费交纳截止时间</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>党费交纳截止时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -138,7 +138,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">接收函/邀请函<c:if
+                                    <label class="col-xs-6 control-label">${empty memberStay.letter?'*':''}接收函/邀请函<c:if
                                             test="${not empty memberStay.letter}">
                                         <a class="various" title="接收函/邀请函"
                                            data-path="${cm:encodeURI(memberStay.letter)}"
@@ -154,7 +154,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">去往国家</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>去往国家</label>
 
                                     <div class="col-xs-6">
                                         <select required name="country" data-rel="select2" data-placeholder="请选择">
@@ -182,7 +182,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">国内通讯地址</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>国内通讯地址</label>
 
                                     <div class="col-xs-6">
                                     <input required class="form-control" name="inAddress"
@@ -190,7 +190,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">国外通讯地址</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>国外通讯地址</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control" name="outAddress"
@@ -198,7 +198,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">留学方式</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>留学方式</label>
 
                                     <div class="col-xs-6">
                                         <select required data-rel="select2" name="abroadType" data-placeholder="请选择"
@@ -214,7 +214,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">留学学校或工作单位</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>留学学校或工作单位</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control" maxlength="50" type="text" name="school"
@@ -226,7 +226,7 @@
                             </div>
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">出国起始时间</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>出国起始时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -241,7 +241,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">出国截止时间</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>出国截止时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -255,7 +255,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">预计回国时间</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>预计回国时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -273,7 +273,7 @@
                                 <fieldset>
                                     <legend>国内第一联系人</legend>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">姓名</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>姓名</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="20" type="text" name="name1"
@@ -281,7 +281,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">与本人关系</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>与本人关系</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="20" type="text"
@@ -290,7 +290,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">单位</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>单位</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="100" type="text"
@@ -299,7 +299,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">职务</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>职务</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="50" type="text" name="post1"
@@ -307,7 +307,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">办公电话</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>办公电话</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="20" type="text"
@@ -316,7 +316,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">手机号</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>手机号</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="20" type="text"
@@ -325,7 +325,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">电子邮箱</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>电子邮箱</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control email" maxlength="150" type="text"
@@ -336,7 +336,7 @@
                                 <fieldset style="margin-bottom: 10px">
                                     <legend>国内第二联系人</legend>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">姓名</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>姓名</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="20" type="text" name="name2"
@@ -344,7 +344,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">与本人关系</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>与本人关系</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="20" type="text"
@@ -353,7 +353,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">单位</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>单位</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="100" type="text"
@@ -362,7 +362,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">职务</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>职务</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="50" type="text" name="post2"
@@ -370,7 +370,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">办公电话</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>办公电话</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="20" type="text"
@@ -379,7 +379,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">手机号</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>手机号</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control" maxlength="20" type="text"
@@ -388,7 +388,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">电子邮箱</label>
+                                        <label class="col-xs-4 control-label"><span class="star">*</span>电子邮箱</label>
 
                                         <div class="col-xs-6">
                                             <input required class="form-control email" maxlength="50" type="text"
@@ -403,7 +403,7 @@
 
                             <div class="col-xs-5">
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">人员类别</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>人员类别</label>
 
                                     <div class="col-xs-7">
                                         <select required data-rel="select2" name="userType" data-placeholder="请选择">
@@ -416,7 +416,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">手机</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>手机</label>
 
                                     <div class="col-xs-7">
                                         <input required class="form-control" maxlength="20" type="text" name="mobile"
@@ -424,7 +424,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">家庭电话</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>家庭电话</label>
 
                                     <div class="col-xs-7">
                                         <input required class="form-control" maxlength="20" type="text" name="phone"
@@ -432,7 +432,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">微信</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>微信</label>
 
                                     <div class="col-xs-7">
                                         <input required class="form-control" type="text" maxlength="20" name="weixin"
@@ -440,7 +440,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">电子邮箱</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>电子邮箱</label>
 
                                     <div class="col-xs-7">
                                         <input required class="form-control email" maxlength="50" type="text"
@@ -450,7 +450,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">QQ号</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>QQ号</label>
 
                                     <div class="col-xs-7">
                                         <input required class="form-control" maxlength="20" type="text" name="qq"
@@ -458,7 +458,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">暂留原因</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>暂留原因</label>
                                     <div class="col-xs-7">
                                     <textarea required class="form-control limited" rows="3" name="stayReason"
                                               maxlength="200">${memberStay.stayReason}</textarea>
@@ -467,7 +467,7 @@
                             </div>
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">户档暂留证明<c:if
+                                    <label class="col-xs-6 control-label">${empty memberStay.letter?'*':''}户档暂留证明<c:if
                                             test="${not empty memberStay.letter}">
                                         <a class="various" title="户档暂留证明"
                                            data-path="${cm:encodeURI(memberStay.letter)}"
@@ -484,7 +484,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">申请保留组织关系起始时间</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>申请保留组织关系起始时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -499,7 +499,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">申请保留组织关系截止时间</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>申请保留组织关系截止时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -514,7 +514,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">党费交纳截止时间</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>党费交纳截止时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -529,7 +529,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">预计转出时间</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>预计转出时间</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -544,7 +544,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">联系人姓名</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>联系人姓名</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control" maxlength="20" type="text" name="name1"
@@ -552,7 +552,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">联系人手机号</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span>联系人手机号</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control" maxlength="20" type="text"

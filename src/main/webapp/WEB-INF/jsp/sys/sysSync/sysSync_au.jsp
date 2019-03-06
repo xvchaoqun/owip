@@ -9,79 +9,79 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sysSync_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${sysSync.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="type" value="${sysSync.type}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">触发账号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>触发账号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="userId" value="${sysSync.userId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否自动触发</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否自动触发</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="autoStart" value="${sysSync.autoStart}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否正常结束</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否正常结束</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="autoStop" value="${sysSync.autoStop}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否结束</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否结束</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isStop" value="${sysSync.isStop}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">总页码</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>总页码</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="totalPage" value="${sysSync.totalPage}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">总记录数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>总记录数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="totalCount" value="${sysSync.totalCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">当前页码</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>当前页码</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="currentPage" value="${sysSync.currentPage}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">当前记录数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>当前记录数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="currentCount" value="${sysSync.currentCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">插入数量</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>插入数量</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="insertCount" value="${sysSync.insertCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">更新数量</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>更新数量</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="updateCount" value="${sysSync.updateCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">开始时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>开始时间</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="startTime" value="${sysSync.startTime}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">结束时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>结束时间</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="endTime" value="${sysSync.endTime}">
 				</div>

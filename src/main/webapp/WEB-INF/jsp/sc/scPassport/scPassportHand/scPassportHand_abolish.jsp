@@ -10,7 +10,7 @@
         <input type="hidden" name="id" value="${param.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">撤销原因</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>撤销原因</label>
             <div class="col-xs-6">
                 <textarea required class="form-control limited" name="remark">${scPassportHand.remark}</textarea>
             </div>

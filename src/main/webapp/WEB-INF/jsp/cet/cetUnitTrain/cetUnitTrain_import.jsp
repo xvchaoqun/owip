@@ -9,7 +9,7 @@
     <form class="form-horizontal" id="modalForm" enctype="multipart/form-data"
           action="${ctx}/cet/cetUnitTrain_import" method="post">
         <div class="form-group">
-            <label class="col-xs-3 control-label">Excel文件</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>Excel文件</label>
 
             <div class="col-xs-6">
                 <input type="hidden" name="projectId" value="${param.projectId}"/>

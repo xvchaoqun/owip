@@ -9,31 +9,31 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scSubsidyCadre_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scSubsidyCadre.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">subsidy_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>subsidy_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="subsidyId" value="${scSubsidyCadre.subsidyId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">干部</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>干部</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cadreId" value="${scSubsidyCadre.cadreId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所在单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所在单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unitId" value="${scSubsidyCadre.unitId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">现任职务</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>现任职务</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="post" value="${scSubsidyCadre.post}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>行政级别</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="adminLevel" value="${scSubsidyCadre.adminLevel}">
 				</div>

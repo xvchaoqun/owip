@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/abroad/safeBox_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${safeBox.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">保险柜编号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>保险柜编号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="code" value="${safeBox.code}">
 				</div>

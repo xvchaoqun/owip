@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cadreReserveOrigin_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreReserveOrigin.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">产生方式</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>产生方式</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="way" data-width="272" data-placeholder="请选择">
 						<option></option>
@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">推荐人选</label>
+				<label class="col-xs-3 control-label"><c:if test="${empty cadreReserveOrigin}"><span class="star">*</span></c:if>推荐人选</label>
 				<c:if test="${not empty cadreReserveOrigin}">
 					<div class="col-xs-6 label-text">
 							${cadreReserveOrigin.cadre.realname}
@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 				</c:if>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="reserveType" data-width="272" data-placeholder="请选择">
 						<option></option>
@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">推荐单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>推荐单位</label>
 				<div class="col-xs-6">
                     <input required class="form-control" type="text" name="recommendUnit" value="${cadreReserveOrigin.recommendUnit}">
 				</div>

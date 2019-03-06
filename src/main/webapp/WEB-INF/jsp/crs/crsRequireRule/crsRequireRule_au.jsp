@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${crsRequireRule.id}">
         <input type="hidden" name="postRequireId" value="${crsPostRequire.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类别名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类别名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${crsRequireRule.name}">
 				</div>

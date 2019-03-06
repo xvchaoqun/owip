@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">工勤岗位等级</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>工勤岗位等级</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2" name="level"

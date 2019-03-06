@@ -66,7 +66,7 @@
                 </div>
                 <div class="form-group">
                     <label>岗位级别</label>
-                    <select required class="form-control" data-rel="select2" name="adminLevel"
+                    <select class="form-control" data-rel="select2" name="adminLevel"
                             data-placeholder="请选择行政级别">
                         <option></option>
                         <option value="${cm:getMetaTypeByCode('mt_admin_level_main').id}">正处级</option>
@@ -89,7 +89,7 @@
                 </div>
                 <div class="form-group">
                     <label>职务类别</label>
-                    <select required data-rel="select2" name="postClass" data-placeholder="请选择">
+                    <select data-rel="select2" name="postClass" data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_post_class"/>
                     </select>

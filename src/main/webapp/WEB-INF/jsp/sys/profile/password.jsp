@@ -17,14 +17,14 @@
             <div class="space-10"></div>
 
               <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right">原密码</label>
+                  <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>原密码</label>
                   <div class="col-sm-9">
                     <input required type="password" name="oldPassword">
                   </div>
               </div>
 
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right">新密码</label>
+              <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>新密码</label>
               <div class="col-sm-9">
                 <input required type="password"  name="password" id="password">
               </div>
@@ -33,7 +33,7 @@
             <div class="space-4"></div>
 
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right">新密码确认</label>
+              <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>新密码确认</label>
 
               <div class="col-sm-9">
                 <input required type="password" name="repassword">

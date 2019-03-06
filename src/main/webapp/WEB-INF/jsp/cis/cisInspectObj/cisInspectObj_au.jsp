@@ -13,7 +13,7 @@
         <input type="hidden" name="id" value="${cisInspectObj.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">年份</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" placeholder="请选择年份" name="year"
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">考察类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>考察类型</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2" name="typeId" data-placeholder="请选择" data-width="270">
@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">考察日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>考察日期</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input  class="form-control date-picker required" name="inspectDate"
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">考察对象</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>考察对象</label>
             <c:if test="${empty cisInspectObj}">
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">考察主体</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>考察主体</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="inspectorType" data-placeholder="请选择"  data-width="270">
                     <option></option>
@@ -101,14 +101,14 @@
             </div>
         </div>
         <div class="form-group" id="otherInspectorTypeDiv" style="display: none">
-            <label class="col-xs-3 control-label">其他考察主体</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>其他考察主体</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="otherInspectorType"
                        value="${cisInspectObj.otherInspectorType}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">考察组负责人</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>考察组负责人</label>
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cisInspector_selects"
                         name="chiefInspectorId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
@@ -118,7 +118,7 @@
         </div>
 
         <%--<div class="form-group">
-            <label class="col-xs-3 control-label">谈话人数</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>谈话人数</label>
             <div class="col-xs-6">
                 <input required class="form-control digits" type="text" name="talkUserCount"
                        value="${cisInspectObj.talkUserCount}">

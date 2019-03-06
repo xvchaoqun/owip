@@ -18,7 +18,7 @@
 			</div>
 		</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${drVoterType.name}">
 				</div>

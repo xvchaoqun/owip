@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">丢失日期</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>丢失日期</label>
                 <div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_lostTime" type="text"

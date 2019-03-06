@@ -9,19 +9,19 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/orgAdmin_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${orgAdmin.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">用户</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>用户</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="userId" value="${orgAdmin.userId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属分党委</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属分党委</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="partyId" value="${orgAdmin.partyId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属党支部</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属党支部</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="branchId" value="${orgAdmin.branchId}">
 				</div>

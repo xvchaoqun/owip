@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">评课结束时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>评课结束时间</label>
 				<div class="col-xs-6">
 					<div class="input-group" style="width: 200px">
 						<input class="form-control datetime-picker required" type="text"  name="_evaCloseTime"

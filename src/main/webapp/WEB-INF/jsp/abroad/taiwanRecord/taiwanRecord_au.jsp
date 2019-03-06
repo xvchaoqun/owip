@@ -11,7 +11,7 @@
         <input type="hidden" name="id" value="${taiwanRecord.id}">
 
         <div class="form-group">
-            <label class="col-xs-4 control-label">备案时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>备案时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">干部</label>
+            <label class="col-xs-4 control-label"> <c:if test="${empty taiwanRecord.cadre}"><span class="star">*</span></c:if>干部</label>
             <c:if test="${not empty taiwanRecord.cadre}">
                 <div class="col-xs-6 label-text">
                 ${taiwanRecord.user.realname}-${taiwanRecord.user.code}
@@ -39,7 +39,7 @@
             </c:if>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">离境时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>离境时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">回国时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>回国时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group">

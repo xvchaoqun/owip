@@ -10,7 +10,7 @@
 		<input type="hidden" name="id" value="${claApply.id}">
 		<input type="hidden" name="cadreId" value="${claApply.cadreId}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">实际出发时间</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>实际出发时间</label>
 			<div class="col-xs-6">
 				<div class="input-group">
 					<input required class="form-control datetime-picker" name="realStartTime" type="text"
@@ -20,7 +20,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">实际返校时间</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>实际返校时间</label>
 			<div class="col-xs-6">
 				<div class="input-group">
 					<input required class="form-control datetime-picker" name="realEndTime" type="text"

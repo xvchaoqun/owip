@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/retireApply_au" id="modalForm" method="post">
         <input type="hidden" name="userId" value="${param.userId}">
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right"> 选择党支部</label>
+            <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>选择党支部</label>
             <div class="col-sm-9">
                 <select required name="classId" data-rel="select2" data-placeholder="请选择">
                     <option></option>

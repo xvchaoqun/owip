@@ -11,7 +11,7 @@
         <input type="hidden" name="id" value="${oaTask.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">工作类型</label>
+            <label class="col-xs-3 control-label"><c:if test="${fn:length(adminTypes)>1}"><span class="star">*</span></c:if>工作类型</label>
 
             <div class="col-xs-6">
                 <c:if test="${fn:length(adminTypes)==1}">
@@ -35,14 +35,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">标题</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>标题</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${oaTask.name}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">应完成时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>应完成时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">联系方式</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>联系方式</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="contact" value="${oaTask.contact}">

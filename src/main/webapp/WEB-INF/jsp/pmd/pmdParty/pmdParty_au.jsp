@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pmdParty_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${pmdParty.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">月份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>月份</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="payMonth" value="${pmdParty.payMonth}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党委</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>党委</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="partyId" value="${pmdParty.partyId}">
 				</div>

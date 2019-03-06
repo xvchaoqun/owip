@@ -16,7 +16,7 @@
         <table class="table table-bordered table-unhover">
             <c:if test="${pmdNorm.formulaType==PMD_FORMULA_TYPE_ONJOB}">
                 <tr>
-                    <td>岗位工资</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>岗位工资</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.gwgz)}
@@ -26,7 +26,7 @@
                                    type="text" name="gwgz" value="${cm:stripTrailingZeros(pmdConfigMember.gwgz)}">
                         </c:if>
                     </td>
-                    <td>薪级工资</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>薪级工资</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.xjgz)}
@@ -38,7 +38,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>岗位津贴</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>岗位津贴</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.gwjt)}
@@ -48,7 +48,7 @@
                                    type="text" name="gwjt" value="${cm:stripTrailingZeros(pmdConfigMember.gwjt)}">
                         </c:if>
                     </td>
-                    <td>职务补贴</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>职务补贴</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.zwbt)}
@@ -60,7 +60,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>职务补贴1</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>职务补贴1</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.zwbt1)}
@@ -70,7 +70,7 @@
                                    type="text" name="zwbt1" value="${cm:stripTrailingZeros(pmdConfigMember.zwbt1)}">
                         </c:if>
                     </td>
-                    <td>生活补贴</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>生活补贴</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.shbt)}
@@ -82,7 +82,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>书报费</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>书报费</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.sbf)}
@@ -92,7 +92,7 @@
                                    type="text" name="sbf" value="${cm:stripTrailingZeros(pmdConfigMember.sbf)}">
                         </c:if>
                     </td>
-                    <td>洗理费</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>洗理费</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.xlf)}
@@ -104,7 +104,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>工资冲销</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>工资冲销</td>
                     <td colspan="3">
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.gzcx)}
@@ -117,7 +117,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>扣个人失业保险</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人失业保险</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.shiyebx)}
@@ -127,7 +127,7 @@
                                    type="text" name="shiyebx" value="${cm:stripTrailingZeros(pmdConfigMember.shiyebx)}">
                         </c:if>
                     </td>
-                    <td>扣个人养老保险</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人养老保险</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.yanglaobx)}
@@ -140,7 +140,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>扣个人职业年金</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人职业年金</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.zynj)}
@@ -150,7 +150,7 @@
                                    type="text" name="zynj" value="${cm:stripTrailingZeros(pmdConfigMember.zynj)}">
                         </c:if>
                     </td>
-                    <td>扣住房公积金</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣住房公积金</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.gjj)}
@@ -164,7 +164,7 @@
             </c:if>
             <c:if test="${pmdNorm.formulaType==PMD_FORMULA_TYPE_EXTERNAL}">
                 <tr>
-                    <td>校聘工资</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>校聘工资</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.gwgz)}
@@ -174,7 +174,7 @@
                                    type="text" name="gwgz" value="${cm:stripTrailingZeros(pmdConfigMember.gwgz)}">
                         </c:if>
                     </td>
-                    <td>岗位津贴</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>岗位津贴</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.gwjt)}
@@ -186,7 +186,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>扣个人失业保险</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人失业保险</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.shiyebx)}
@@ -196,7 +196,7 @@
                                    type="text" name="shiyebx" value="${cm:stripTrailingZeros(pmdConfigMember.shiyebx)}">
                         </c:if>
                     </td>
-                    <td>扣个人养老保险</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人养老保险</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.yanglaobx)}
@@ -209,7 +209,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>扣个人医疗保险</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣个人医疗保险</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.yiliaobx)}
@@ -220,7 +220,7 @@
                                    value="${cm:stripTrailingZeros(pmdConfigMember.yiliaobx)}">
                         </c:if>
                     </td>
-                    <td>扣住房公积金</td>
+                    <td><c:if test="${param.view!=1}"><span class="star">*</span></c:if>扣住房公积金</td>
                     <td>
                         <c:if test="${param.view==1}">
                             ${cm:stripTrailingZeros(pmdConfigMember.gjj)}

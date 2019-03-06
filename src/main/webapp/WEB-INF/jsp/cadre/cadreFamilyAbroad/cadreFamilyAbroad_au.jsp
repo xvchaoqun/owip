@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">家庭成员</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>家庭成员</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2-ajax"
                             data-ajax-url="${ctx}/cadreFamily_selects?cadreId=${cadre.id}" name="familyId" data-placeholder="请选择">
@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">移居类别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>移居类别</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2" name="type" data-placeholder="请选择">
                         <option></option>
@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">移居时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>移居时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_abroadTime" type="text"
@@ -49,13 +49,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">移居国家</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>移居国家</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="country" value="${cadreFamilyAbroad.country}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">现居住城市</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>现居住城市</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="city" value="${cadreFamilyAbroad.city}">
 				</div>

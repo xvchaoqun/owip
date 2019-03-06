@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pcsConfig_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${pcsConfig.id}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">党代会名称</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>党代会名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${pcsConfig.name}">
 				</div>

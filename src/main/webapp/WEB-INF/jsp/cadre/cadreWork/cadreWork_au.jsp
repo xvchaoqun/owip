@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">开始日期</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>开始日期</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 120px">
                         <input required autocomplete="off" disableautocomplete
@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">结束日期</label>
+				<label class="col-xs-4 control-label">${not empty topCadreWork.endTime?"*":""}结束日期</label>
 				<div class="col-xs-7">
                     <div class="input-group date date-picker" style="width: 120px"
                          data-date-min-view-mode="1"
@@ -49,13 +49,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">工作单位及担任职务<br/>（或专技职务）</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>工作单位及担任职务<br/>（或专技职务）</label>
 				<div class="col-xs-7">
                     <input required class="form-control" type="text" name="detail" value="${cadreWork.detail}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">工作类型</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>工作类型</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2" name="workType" data-placeholder="请选择">
                         <option></option>

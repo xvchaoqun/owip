@@ -19,7 +19,7 @@
                     <th nowrap>名称</th>
                     <th nowrap width="80">${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
                     <shiro:hasRole name="${ROLE_ADMIN}">
-                    <th>代码</th>
+                    <th nowrap>代码</th>
                     <th nowrap>${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</th>
                     <th nowrap>备注</th>
                     </shiro:hasRole>
@@ -34,14 +34,14 @@
                 <tbody>
                 <c:forEach items="${metaTypes}" var="metaType" varStatus="st">
                     <tr>
-                        <td>${metaType.name}</td>
+                        <td nowrap>${metaType.name}</td>
                         <td nowrap>
                             <c:if test="${not empty metaType.boolAttr}">
                                 ${metaType.boolAttr?"是":"否"}
                             </c:if>
                         </td>
                         <shiro:hasRole name="${ROLE_ADMIN}">
-                        <td>${metaType.code}</td>
+                        <td nowrap>${metaType.code}</td>
 
                         <td nowrap>${fn:length(metaClass.options)>0?
 								metaClass.options.get(metaType.extraAttr):metaType.extraAttr}</td>

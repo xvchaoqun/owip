@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="approvalTypeId" value="${param.approvalTypeId}">
         <input type="hidden" name="pass" value="${param.pass}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${param.pass==1?'审批意见':'原因'}</label>
+				<label class="col-xs-3 control-label">${param.pass==1?'审批意见':'*原因'}</label>
 				<div class="col-xs-6">
 					<textarea ${param.pass==1?'':'required'} class="form-control limited" type="text" name="remark" rows="5"></textarea>
 				</div>

@@ -9,139 +9,139 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pmdBranch_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${pmdBranch.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属月份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属月份</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="monthId" value="${pmdBranch.monthId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属党委</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属党委</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="partyId" value="${pmdBranch.partyId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党支部</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>党支部</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="branchId" value="${pmdBranch.branchId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属党委</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属党委</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="partyName" value="${pmdBranch.partyName}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">支部名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>支部名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="branchName" value="${pmdBranch.branchName}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党委的顺序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>党委的顺序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${pmdBranch.sortOrder}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">往月延迟缴费党员数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>往月延迟缴费党员数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="historyDelayMemberCount" value="${pmdBranch.historyDelayMemberCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">应补缴往月党费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>应补缴往月党费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="historyDelayPay" value="${pmdBranch.historyDelayPay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否报送</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否报送</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="hasReport" value="${pmdBranch.hasReport}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党员总数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>党员总数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="memberCount" value="${pmdBranch.memberCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">本月应交党费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>本月应交党费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="duePay" value="${pmdBranch.duePay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">本月按时缴费党员数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>本月按时缴费党员数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="finishMemberCount" value="${pmdBranch.finishMemberCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">本月实缴党费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>本月实缴党费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="realPay" value="${pmdBranch.realPay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">本月线上缴费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>本月线上缴费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="onlineRealPay" value="${pmdBranch.onlineRealPay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">本月现金缴费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>本月现金缴费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cashRealPay" value="${pmdBranch.cashRealPay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">本月延迟缴费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>本月延迟缴费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="delayPay" value="${pmdBranch.delayPay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">本月延迟缴费党员数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>本月延迟缴费党员数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="delayMemberCount" value="${pmdBranch.delayMemberCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">实补缴往月党费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>实补缴往月党费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="realDelayPay" value="${pmdBranch.realDelayPay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">线上补缴往月党费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>线上补缴往月党费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="onlineRealDelayPay" value="${pmdBranch.onlineRealDelayPay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">现金补缴往月党费数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>现金补缴往月党费数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="cashRealDelayPay" value="${pmdBranch.cashRealDelayPay}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">report_user_id</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>report_user_id</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="reportUserId" value="${pmdBranch.reportUserId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">report_time</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>report_time</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="reportTime" value="${pmdBranch.reportTime}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">report_ip</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>report_ip</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="reportIp" value="${pmdBranch.reportIp}">
 				</div>

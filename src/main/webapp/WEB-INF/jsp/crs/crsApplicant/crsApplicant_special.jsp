@@ -54,7 +54,7 @@
                 <input type="hidden" name="filePath" value="${crsApplicant.specialPdf}">
                 <input type="hidden" name="specialStatus" value="1">
                 <div class="form-group">
-                  <label class="col-xs-3 control-label">备注</label>
+                  <label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 
                   <div class="col-xs-6">
                     <textarea required class="form-control limited" name="specialRemark" rows="10">${crsApplicant.specialRemark}</textarea>

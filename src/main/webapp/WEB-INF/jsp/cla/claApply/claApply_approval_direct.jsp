@@ -12,7 +12,7 @@
     <input type="hidden" name="pass" value="1">
     <input type="hidden" name="isAdmin" value="1">
     <div class="form-group">
-      <label class="col-xs-3 control-label">审批人</label>
+      <label class="col-xs-3 control-label"><span class="star">*</span>审批人</label>
       <div class="col-xs-6">
         <select required data-rel="select2" name="approvalUserId" data-placeholder="请选择">
           <option></option>

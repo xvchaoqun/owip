@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">文件</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>文件</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchWorkFile_selects"
 							name="dispatchWorkFileId" data-placeholder="请选择"  data-width="272">

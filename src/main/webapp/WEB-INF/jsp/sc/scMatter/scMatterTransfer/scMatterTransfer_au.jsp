@@ -10,7 +10,7 @@
         <input type="hidden" name="id" value="${scMatterTransfer.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">移交对象</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>移交对象</label>
             <c:if test="${empty scMatterTransfer}">
                 <div class="col-xs-6">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sc/scMatterUser_selects"
@@ -26,7 +26,7 @@
             </c:if>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">移交日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>移交日期</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">移交地点</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>移交地点</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="location" value="${scMatterTransfer.location}">

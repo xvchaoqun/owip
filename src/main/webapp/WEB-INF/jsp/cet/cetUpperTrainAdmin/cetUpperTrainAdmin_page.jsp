@@ -61,7 +61,7 @@ pageEncoding="UTF-8" %>
                         <div class="form-group">
                             <div class="form-group">
                                 <label>类型</label>
-                                <select required data-rel="select2"
+                                <select data-rel="select2"
                                         name="type" data-placeholder="请选择">
                                     <option value="0">单位管理员</option>
                                     <option value="1">校领导管理员</option>

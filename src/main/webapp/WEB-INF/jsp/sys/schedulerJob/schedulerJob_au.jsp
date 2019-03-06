@@ -11,21 +11,21 @@
         <input type="hidden" name="id" value="${schedulerJob.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${schedulerJob.name}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">执行任务类</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>执行任务类</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="clazz" value="${schedulerJob.clazz}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">cron表达式</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>cron表达式</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="cron" value="${schedulerJob.cron}">

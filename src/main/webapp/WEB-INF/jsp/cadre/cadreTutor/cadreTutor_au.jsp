@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">类型</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>类型</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="type"
                         data-placeholder="请选择" data-width="200">
@@ -30,13 +30,13 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-				<label class="col-xs-4 control-label">导师姓名</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>导师姓名</label>
 				<div class="col-xs-3">
                         <input required class="form-control" type="text" name="name" value="${cadreTutor.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">所在单位及职务（职称）</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>所在单位及职务（职称）</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="title" value="${cadreTutor.title}">
 				</div>

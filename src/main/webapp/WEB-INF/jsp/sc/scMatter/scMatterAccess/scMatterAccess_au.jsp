@@ -54,7 +54,7 @@
                                 <input type="hidden" name="accessFile" value="${scMatterAccess.accessFile}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">年份</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>年份</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">调阅日期</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>调阅日期</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">调阅单位</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>调阅单位</label>
 
                                     <div class="col-xs-6">
                                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4 control-label">调阅类型</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>调阅类型</label>
 
                                     <div class="col-xs-6">
                                         <select required data-rel="select2"

@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>兼审单位</label>
-                                    <select required class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                                    <select class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                                         <option></option>
                                         <c:forEach items="${unitMap}" var="unit">
                                             <option value="${unit.key}">${unit.value.name}</option>
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>兼审单位职务属性</label>
-                                    <select required data-rel="select2" name="postId" data-placeholder="请选择职务属性">
+                                    <select data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                                         <option></option>
                                         <jsp:include page="/metaTypes?__code=mc_post"/>
                                     </select>

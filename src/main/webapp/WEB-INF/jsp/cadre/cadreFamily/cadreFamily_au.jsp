@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">称谓</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>称谓</label>
                         <div class="col-xs-3">
                             <select required data-rel="select2" name="title" data-placeholder="请选择" data-width="125">
                                 <option></option>
@@ -37,14 +37,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">姓名</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>姓名</label>
                         <div class="col-xs-4">
                             <input required class="form-control" type="text" name="realname"
                                    value="${cadreFamily.realname}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">出生年月</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>出生年月</label>
                         <div class="col-xs-4">
                             <div class="input-group">
                                 <input ${cadreFamily.withGod?'disabled':'required'}
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">政治面貌</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>政治面貌</label>
                         <div class="col-xs-6">
                             <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"
                                     data-width="125">
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">工作单位及职务</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>工作单位及职务</label>
                         <div class="col-xs-8">
                             <textarea required class="form-control noEnter" rows="3" maxlength="100"
                                       name="unit">${cadreFamily.unit}</textarea>

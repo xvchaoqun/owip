@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${cetUpperTrainAdmin.id}">
         <input type="hidden" name="upperType" value="${upperType}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">管理员类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>管理员类型</label>
                 <div class="col-xs-6 choice label-text">
                     <div class="input-group">
                         <input required name="type" type="checkbox" class="big" value="0"
@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
             <c:set var="isUnitAdmin" value="${not empty cetUpperTrainAdmin && !cetUpperTrainAdmin.type}"/>
             <c:set var="isLeaderAdmin" value="${cetUpperTrainAdmin.type}"/>
 			<div class="form-group" id="unitDiv" style="display: ${isUnitAdmin?'block':'none'}">
-				<label class="col-xs-3 control-label">所属单位</label>
+				<label class="col-xs-3 control-label">${isUnitAdmin?'*':''}所属单位</label>
 				<div class="col-xs-6">
                     <select ${isUnitAdmin?'required':''} data-rel="select2-ajax"
                                                                 data-width="273" data-ajax-url="${ctx}/unit_selects"
@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group" id="cadreDiv" style="display: ${isLeaderAdmin?'block':'none'}">
-				<label class="col-xs-3 control-label">所属校领导</label>
+				<label class="col-xs-3 control-label">${isLeaderAdmin?'*':''}所属校领导</label>
 				<div class="col-xs-6">
                     <select ${isLeaderAdmin?'required':''} data-rel="select2-ajax"
                             data-width="273" data-ajax-url="${ctx}/cadre_selects?key=1&status=<%=CadreConstants.CADRE_STATUS_LEADER%>"
@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">管理员</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>管理员</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2-ajax"
                             data-width="273" data-ajax-url="${ctx}/sysUser_selects?types=<%=SystemConstants.USER_TYPE_JZG%>"

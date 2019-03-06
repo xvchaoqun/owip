@@ -27,13 +27,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">最多同时报名个数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>最多同时报名个数</label>
 				<div class="col-xs-6">
                         <input required class="form-control num" type="text" name="num" value="${crsApplyRule.num}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">有效期起始时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>有效期起始时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input class="form-control datetime-picker" required type="text" name="startTime"
@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">有效期截止时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>有效期截止时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input class="form-control datetime-picker" required type="text" name="endTime"

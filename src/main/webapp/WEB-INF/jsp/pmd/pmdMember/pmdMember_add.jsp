@@ -9,7 +9,7 @@
     <form class="form-horizontal" action="${ctx}/pmd/pmdMember_add" id="modalForm" method="post">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">缴费月份</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>缴费月份</label>
             <div class="col-xs-6 label-text">
                ${cm:formatDate(pmdMonth.payMonth, "yyyy年MM月")}
             </div>

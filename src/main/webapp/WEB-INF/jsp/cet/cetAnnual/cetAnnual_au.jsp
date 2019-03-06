@@ -9,7 +9,7 @@
     <form class="form-horizontal" action="${ctx}/cet/cetAnnual_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetAnnual.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">年度</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" placeholder="请选择年份"
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">培训对象类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>培训对象类型</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="traineeTypeId" data-placeholder="请选择" data-width="275">
                     <option></option>

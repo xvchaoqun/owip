@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 		<div class="col-xs-12">
 			<div class="col-xs-5">
 				<div class="form-group">
-					<label class="col-xs-3 control-label" style="white-space: nowrap">党委常委会</label>
+					<label class="col-xs-3 control-label" style="white-space: nowrap"><span class="star">*</span>党委常委会</label>
 					<div class="col-xs-9">
 						<select required name="committeeId" data-rel="select2"
 								data-width="240"
@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">议题名称</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>议题名称</label>
 					<div class="col-xs-9">
 						<input required class="form-control" type="text" name="name" value="${scCommitteeTopic.name}">
 					</div>

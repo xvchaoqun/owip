@@ -9,31 +9,31 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetDiscussGroupObj_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetDiscussGroupObj.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">分组讨论</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>分组讨论</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="discussId" value="${cetDiscussGroupObj.discussId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">研讨小组</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>研讨小组</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="discussGroupId" value="${cetDiscussGroupObj.discussGroupId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">小组成员</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>小组成员</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="objId" value="${cetDiscussGroupObj.objId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否实际完成</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否实际完成</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isFinished" value="${cetDiscussGroupObj.isFinished}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${cetDiscussGroupObj.remark}">
 				</div>

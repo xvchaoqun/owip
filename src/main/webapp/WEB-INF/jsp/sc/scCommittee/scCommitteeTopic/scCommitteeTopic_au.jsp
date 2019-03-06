@@ -33,7 +33,7 @@
                                     <div class="row">
                                         <input type="hidden" name="id" value="${scCommitteeTopic.id}">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label" style="white-space: nowrap">党委常委会</label>
+                                            <label class="col-xs-3 control-label" style="white-space: nowrap"><span class="star">*</span>党委常委会</label>
                                             <div class="col-xs-8">
                                                 <select required name="committeeId" data-rel="select2"
                                                         data-width="324"
@@ -49,10 +49,10 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">议题序号</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span>议题序号</label>
                                             <div class="col-xs-8">
                                                  <input required class="form-control digits" name="seq" value="${scCommitteeTopic.seq}"/>
-                                                <span class="help-block">* 留空自动生成</span>
+                                                <span class="help-block"><span class="star">*</span> 留空自动生成</span>
                                             </div>
                                         </div>
                                         <div class="form-group">

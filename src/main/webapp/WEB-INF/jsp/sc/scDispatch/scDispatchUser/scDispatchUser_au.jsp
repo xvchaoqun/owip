@@ -9,25 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scDispatchUser_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scDispatchUser.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">文件起草签发</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>文件起草签发</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="dispatchId" value="${scDispatchUser.dispatchId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">关联表决记录</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>关联表决记录</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="voteId" value="${scDispatchUser.voteId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="type" value="${scDispatchUser.type}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>排序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${scDispatchUser.sortOrder}">
 				</div>

@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
           id="modalForm" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="${record.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${record.name}</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>${record.name}</label>
 				<div class="col-xs-6">
                     <c:choose>
                         <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_INT && record.code=='health'}">

@@ -25,7 +25,7 @@
             </c:if>
             <div class="page-header center" style="margin-top: 10px">
                 <h1 style="font-size: 30px; font-weight: bolder">
-                    工作设想和预期目标
+                    *工作设想和预期目标
                 </h1>
             </div>
             <form class="form-horizontal" action="${ctx}/user/crsPost_apply" id="applyForm" method="post">

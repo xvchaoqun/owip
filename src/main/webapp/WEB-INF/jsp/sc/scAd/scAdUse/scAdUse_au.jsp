@@ -10,7 +10,7 @@
         <input type="hidden" name="id" value="${scAdUse.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">年份</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>日期</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">使用单位类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>使用单位类型</label>
 
             <div class="col-xs-6">
                 <label class="label-text">
@@ -72,14 +72,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">用途</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>用途</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="useage" value="${scAdUse.useage}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">干部</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>干部</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax"

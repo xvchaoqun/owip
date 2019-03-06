@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/dfOffline_uploadBallotSample" id="modalForm" method="post">
         <input type="hidden" name="offlineId" value="${param.offlineId}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">推荐票样</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>推荐票样</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="file" name="_ballotSample"/>
             </div>

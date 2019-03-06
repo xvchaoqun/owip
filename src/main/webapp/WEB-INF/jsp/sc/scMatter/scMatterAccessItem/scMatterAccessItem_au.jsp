@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scMatterAccessItem_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMatterAccessItem.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">调阅记录</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>调阅记录</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="accessId" value="${scMatterAccessItem.accessId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">填报记录</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>填报记录</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="matterItemId" value="${scMatterAccessItem.matterItemId}">
 				</div>

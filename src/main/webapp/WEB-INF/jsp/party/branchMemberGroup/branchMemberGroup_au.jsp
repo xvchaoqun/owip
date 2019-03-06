@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${branchMemberGroup.name}">
 				</div>
@@ -46,7 +46,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">应换届时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>应换届时间</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_tranTime" type="text"
@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">任命时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>任命时间</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_appointTime" type="text"

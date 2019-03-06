@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/dispatchUnitRelate_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${dispatchUnitRelate.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">单位发文</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>单位发文</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="dispatchUnitId" value="${dispatchUnitRelate.dispatchUnitId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">关联单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>关联单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unitId" value="${dispatchUnitRelate.unitId}">
 				</div>

@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${cetProjectPlan.id}">
         <input type="hidden" name="projectId" value="${projectId}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">培训时间</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>培训时间</label>
 			<div class="col-xs-6">
 				<input required class="form-control date-picker" name="startDate"
 					   type="text" style="width: 120px;float: left"
@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训形式</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训形式</label>
 				<div class="col-xs-6">
 					<select required name="type" data-rel="select2"
 							data-width="275"
@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">学时</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>学时</label>
 			<div class="col-xs-6">
 				<input required class="form-control period" type="text" name="period" value="${cetProjectPlan.period}">
 			</div>

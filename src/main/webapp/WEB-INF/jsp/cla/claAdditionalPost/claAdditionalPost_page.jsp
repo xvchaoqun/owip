@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>兼审单位</label>
-                                    <select required class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                                    <select class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                                         <option></option>
                                         <c:forEach items="${unitMap}" var="unit">
                                             <option value="${unit.key}">${unit.value.name}</option>

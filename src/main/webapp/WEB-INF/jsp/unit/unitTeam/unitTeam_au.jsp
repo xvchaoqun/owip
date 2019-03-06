@@ -16,13 +16,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">行政班子名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>行政班子名称</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${empty unitTeam?unit.name:unitTeam.name}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">届数</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>届数</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" placeholder="请选择年份"
@@ -42,7 +42,7 @@
             </div>
         </div>
         <%--<div class="form-group">
-            <label class="col-xs-3 control-label">应换届时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>应换届时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="expectDeposeDate" type="text"
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">任命时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>任命时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="appointDate" type="text"

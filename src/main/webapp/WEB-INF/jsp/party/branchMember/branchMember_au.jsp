@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${branchMember.id}">
         <c:set var="sysUser" value="${cm:getUserById(branchMember.userId)}"/>
         <div class="form-group">
-            <label class="col-xs-3 control-label">账号</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/sysUser_selects"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
                 </select></div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">选择类别</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>选择类别</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" data-width="272" name="typeId" data-placeholder="请选择类别">
                     <option></option>

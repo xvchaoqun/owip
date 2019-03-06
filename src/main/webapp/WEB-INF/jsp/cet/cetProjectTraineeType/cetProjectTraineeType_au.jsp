@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetProjectTraineeType_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetProjectTraineeType.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训班</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训班</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="trainId" value="${cetProjectTraineeType.trainId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">参训人员类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>参训人员类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="traineeTypeId" value="${cetProjectTraineeType.traineeTypeId}">
 				</div>

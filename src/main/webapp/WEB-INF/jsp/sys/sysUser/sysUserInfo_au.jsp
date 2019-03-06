@@ -16,14 +16,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">*姓名</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>姓名</label>
 
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="realname" value="${ui.realname}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">*性别</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>性别</label>
 
                 <div class="col-xs-6">
                     <div class="input-group">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">*出生日期</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>出生日期</label>
 
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">*身份证号码</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>身份证号码</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="idcard" value="${ui.idcard}">
@@ -60,18 +60,18 @@
         </div>
         <div class="col-xs-4">
             <div class="form-group">
-                <label class="col-xs-3 control-label">*民族</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>民族</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="nation" value="${ui.nation}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">*籍贯</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>籍贯</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="nativePlace" value="${ui.nativePlace}">
-                    <%--<span class="help-block">* 研究生不同步籍贯</span>--%>
+                    <%--<span class="help-block"><span class="star">*</span> 研究生不同步籍贯</span>--%>
                 </div>
             </div>
             <div class="form-group">

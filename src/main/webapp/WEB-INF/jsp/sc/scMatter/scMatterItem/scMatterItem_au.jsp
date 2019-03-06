@@ -9,7 +9,7 @@
     <form class="form-horizontal" action="${ctx}/sc/scMatterItem_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMatterItem.id}">
         <div class="form-group">
-            <label class="col-xs-4 control-label">实交回日期</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>实交回日期</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="realHandTime" type="text"
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">封面填表日期</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>封面填表日期</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="fillTime" type="text"

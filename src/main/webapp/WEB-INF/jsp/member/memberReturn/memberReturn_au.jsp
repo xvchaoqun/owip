@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/memberReturn_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberReturn.id}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">用户</label>
+				<label class="col-xs-4 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>用户</label>
                 <c:if test="${not empty userBean}">
                     <div class="col-xs-6 label-text">
                         <input type="hidden" name="userId" value="${userBean.userId}">
@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
                 </c:if>
 			</div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">分党委</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>分党委</label>
             <div class="col-xs-6">
                 <select required class="form-control"  data-rel="select2-ajax"
                         data-ajax-url="${ctx}/party_selects?auth=1" data-width="350"
@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
         </script>
         <div class="form-group">
-            <label class="col-xs-4 control-label">政治${memberReturn.politicalStatus}面貌</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>政治${memberReturn.politicalStatus}面貌</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
                     <option></option>
@@ -65,7 +65,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">提交恢复组织生活申请时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>提交恢复组织生活申请时间</label>
             <div class="col-xs-6" style="width: 220px">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="_returnApplyTime" type="text"
@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">提交书面申请书时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>提交书面申请书时间</label>
             <div class="col-xs-6" style="width: 220px">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="_applyTime" type="text"
@@ -85,7 +85,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">确定为入党积极分子时间</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>确定为入党积极分子时间</label>
 				<div class="col-xs-6" style="width: 220px">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_activeTime" type="text"
@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">确定为发展对象时间</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>确定为发展对象时间</label>
 				<div class="col-xs-6" style="width: 220px">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_candidateTime" type="text"
@@ -105,7 +105,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">入党时间</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>入党时间</label>
 				<div class="col-xs-6" style="width: 220px">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_growTime" type="text"
@@ -115,7 +115,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">转正时间</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>转正时间</label>
 				<div class="col-xs-6" style="width: 220px">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_positiveTime" type="text"

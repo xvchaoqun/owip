@@ -11,7 +11,7 @@
                   enctype="multipart/form-data">
                     <input type="hidden" name="id" value="${pcsPrFileTemplate.id}">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">材料名称</label>
+                        <label class="col-xs-3 control-label"><span class="star">*</span>材料名称</label>
 
                         <div class="col-xs-6">
                             <input required class="form-control" type="text" name="name"
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">上传材料</label>
+                        <label class="col-xs-3 control-label">${empty pcsPrFileTemplate.filePath?"*":""}上传材料</label>
 
                         <div class="col-xs-6">
                             <input ${empty pcsPrFileTemplate.filePath?"required":""}

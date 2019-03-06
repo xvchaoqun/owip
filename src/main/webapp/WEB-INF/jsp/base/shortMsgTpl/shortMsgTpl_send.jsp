@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-2 control-label">手机号码</label>
+				<label class="col-xs-2 control-label"><span class="star">*</span>手机号码</label>
 				<div class="col-xs-5" style="width: 225px;">
                     <input required class="form-control" type="text" name="mobile">
 				</div>
@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-2 control-label">短信内容</label>
+				<label class="col-xs-2 control-label"><span class="star">*</span>短信内容</label>
 				<div class="col-xs-9 label-text">
                    <textarea required class="form-control limited" type="text"
                              name="content" rows="10" maxlength="500">${shortMsgTpl.content}</textarea>

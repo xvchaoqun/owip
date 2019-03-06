@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/user/cet/cetProjectObj_uploadWrite" id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">心得体会</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>心得体会</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="file" name="_writeFilePath"/>
             </div>

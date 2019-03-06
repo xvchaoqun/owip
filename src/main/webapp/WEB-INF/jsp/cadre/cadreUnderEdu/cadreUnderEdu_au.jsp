@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">在读学历</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>在读学历</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2" name="eduId" data-placeholder="请选择">
@@ -29,28 +29,28 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">在读学校</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>在读学校</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="school" value="${cadreUnderEdu.school}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">院系</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>院系</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="dep" value="${cadreUnderEdu.dep}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">所学专业</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>所学专业</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="major" value="${cadreUnderEdu.major}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">学校类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>学校类型</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2" name="schoolType" data-placeholder="请选择">
@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">入学时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>入学时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group" style="width:200px">
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">学习方式</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>学习方式</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2" name="learnStyle" data-placeholder="请选择">

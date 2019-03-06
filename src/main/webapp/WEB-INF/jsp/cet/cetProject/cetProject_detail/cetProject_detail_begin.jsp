@@ -13,7 +13,7 @@
                 <form class="form-horizontal" action="${ctx}/cet/cetProject_detail_begin" id="beginForm" method="post">
                     <input type="hidden" name="projectId" value="${param.projectId}">
                     <div class="form-group" id="_startTime">
-                        <label class="col-xs-3 control-label">开班仪式时间</label>
+                        <label class="col-xs-3 control-label"><span class="star">*</span>开班仪式时间</label>
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <input class="form-control datetime-picker" required type="text"  name="openTime"
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">开班仪式地点</label>
+                        <label class="col-xs-3 control-label"><span class="star">*</span>开班仪式地点</label>
                         <div class="col-xs-6">
                             <input required class="form-control" type="text" name="openAddress" value="${cetProject.openAddress}">
                         </div>

@@ -11,14 +11,9 @@ pageEncoding="UTF-8"%>
         	<input type="hidden" name="id" value="${branch.id}">
 		<div class="row">
 			<div class="col-xs-8">
-			<%--<div class="form-group">
-				<label class="col-xs-5 control-label">编号</label>
-				<div class="col-xs-7">
-                        <input required class="form-control" type="text" name="code" value="${branch.code}">
-				</div>
-			</div>--%>
+
 			<div class="form-group">
-				<label class="col-xs-4 control-label">名称</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-8">
                         <input required class="form-control" type="text" name="name" value="${branch.name}">
 				</div>
@@ -30,7 +25,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">所属分党委</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>所属分党委</label>
 				<div class="col-xs-8">
 					<select required data-rel="select2-ajax"
 							data-width="372"
@@ -41,7 +36,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">类别</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-8">
 					<select required class="form-control" name="typeId"
 							data-width="372"
@@ -84,7 +79,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">单位属性</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>单位属性</label>
 				<div class="col-xs-8">
 					<select required class="form-control" name="unitTypeId"
 							data-width="372"
@@ -118,7 +113,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">成立时间</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>成立时间</label>
 					<div class="col-xs-6">
 							<input required class="form-control date-picker" name="_foundTime" type="text"
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}" />

@@ -9,7 +9,7 @@
   <input type="hidden" name="groupId" value="${partyMemberGroup.id}">
   <input type="hidden" name="id" value="${partyMember.id}">
   <div class="form-group">
-    <label class="col-xs-3 control-label">账号</label>
+    <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
     <div class="col-xs-6">
       <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="260"
               name="userId" data-placeholder="请输入账号或姓名或学工号">
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label">职务</label>
+    <label class="col-xs-3 control-label"><span class="star">*</span>职务</label>
     <div class="col-xs-6">
       <select required data-rel="select2" name="postId" data-placeholder="请选择"  data-width="260">
         <option></option>

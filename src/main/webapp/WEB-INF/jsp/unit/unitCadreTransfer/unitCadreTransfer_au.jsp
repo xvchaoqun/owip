@@ -27,13 +27,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">姓名</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${unitCadreTransfer.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职务属性</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>职务属性</label>
 				<div class="col-xs-6">
                     <select required class="form-control"  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                         <option></option>
@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">任职日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>任职日期</label>
 				<div class="col-xs-6">
                     <div  class="input-group">
                         <input required class="form-control date-picker" name="_appointTime" type="text"
@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">免职日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>免职日期</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_dismissTime" type="text"

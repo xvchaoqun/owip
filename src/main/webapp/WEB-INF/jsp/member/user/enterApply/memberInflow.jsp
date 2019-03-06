@@ -33,7 +33,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-xs-4 control-label">分党委</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>分党委</label>
 
                 <div class="col-xs-6">
                     <select required class="form-control" data-rel="select2-ajax"
@@ -58,7 +58,7 @@
                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", null, null, true);
             </script>
             <div class="form-group">
-                <label class="col-xs-4 control-label">原职业</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>原职业</label>
 
                 <div class="col-xs-6">
                     <select required data-rel="select2" name="originalJob" data-placeholder="请选择">
@@ -71,7 +71,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">流入前所在省份</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>流入前所在省份</label>
 
                 <div class="col-xs-6" id="loc_province_container1">
                     <select required class="loc_province" name="province" style="width:120px;" data-placeholder="请选择">
@@ -80,7 +80,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-xs-4 control-label">流入原因</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>流入原因</label>
 
                 <div class="col-xs-6">
           <textarea required class="form-control limited" maxlength="100"
@@ -91,7 +91,7 @@
         <div class="col-xs-6">
 
             <div class="form-group">
-                <label class="col-xs-4 control-label">流入时间</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>流入时间</label>
 
                 <div class="col-xs-6">
                     <div class="input-group">
@@ -104,7 +104,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-xs-4 control-label">入党时间</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>入党时间</label>
 
                 <div class="col-xs-6">
                     <div class="input-group">
@@ -116,7 +116,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">组织关系所在地</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>组织关系所在地</label>
 
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="orLocation"

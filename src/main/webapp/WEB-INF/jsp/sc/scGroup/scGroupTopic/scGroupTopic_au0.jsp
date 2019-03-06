@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scGroupTopic_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scGroupTopic.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">小组会</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>小组会</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="groupId" value="${scGroupTopic.groupId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">议题名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>议题名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${scGroupTopic.name}">
 				</div>
@@ -33,13 +33,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${scGroupTopic.remark}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否删除</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否删除</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isDeleted" value="${scGroupTopic.isDeleted}">
 				</div>

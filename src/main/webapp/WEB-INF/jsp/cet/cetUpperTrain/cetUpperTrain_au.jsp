@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
 	</div>
 	</c:if>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">年度</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>年度</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input required class="form-control date-picker" placeholder="请选择年份"
@@ -57,7 +57,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-					<label class="col-xs-4 control-label">培训班主办方</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>培训班主办方</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="organizer" data-placeholder="请选择" data-width="${selectWidth}">
 							<option></option>
@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">培训班类型</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>培训班类型</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="trainType" data-placeholder="请选择" data-width="${selectWidth}">
 							<option></option>
@@ -87,7 +87,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">专项培训班</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>专项培训班</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="specialType" data-placeholder="请选择" data-width="${selectWidth}">
 							<option></option>
@@ -100,14 +100,14 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">培训班名称</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>培训班名称</label>
 					<div class="col-xs-6">
 						<textarea required class="form-control noEnter" rows="3"
 								  name="trainName">${cetUpperTrain.trainName}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">培训开始时间</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>培训开始时间</label>
 					<div class="col-xs-6">
 						<div class="input-group">
 							<input required class="form-control date-picker" name="startDate"
@@ -120,7 +120,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">培训结束时间</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>培训结束时间</label>
 					<div class="col-xs-6">
 						<div class="input-group">
 							<input required class="form-control date-picker" name="endDate"
@@ -133,13 +133,13 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">培训学时</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>培训学时</label>
 					<div class="col-xs-6">
 						<input required class="form-control period" type="text" name="period" value="${cetUpperTrain.period}">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">培训地点</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>培训地点</label>
 					<div class="col-xs-6">
 						<input required class="form-control" type="text" name="address" value="${cetUpperTrain.address}">
 					</div>
@@ -160,7 +160,7 @@ pageEncoding="UTF-8"%>
 				</c:if>
 				<c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label">${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位</label>
 					<div class="col-xs-8">
 						<div class="input-group">
 							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
@@ -196,7 +196,7 @@ pageEncoding="UTF-8"%>
 				</c:if>
 				<c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label">${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span>${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位</label>
 					<div class="col-xs-8">
 						<input type="hidden" name="type" value="1">
 
@@ -232,7 +232,7 @@ pageEncoding="UTF-8"%>
 			</c:if>
 			<c:if test="${param.check==1 && cetUpperTrain.status==CET_UPPER_TRAIN_STATUS_INIT}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">审批结果</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>审批结果</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">

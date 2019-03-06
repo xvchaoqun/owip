@@ -18,13 +18,13 @@
                     <form class="form-horizontal no-footer" action="${ctx}/cet/cetCourseItem_au" id="modalForm" method="post">
                         <input type="hidden" name="courseId" value="${param.courseId}">
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">专题班名称</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>专题班名称</label>
                             <div class="col-xs-6 label-text">
                                 <input required class="form-control" type="text" name="name">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">学时</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>学时</label>
                             <div class="col-xs-6">
                                 <input required class="form-control period" type="text" name="period">
                             </div>

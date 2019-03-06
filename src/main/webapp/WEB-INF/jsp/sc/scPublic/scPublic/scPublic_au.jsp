@@ -60,7 +60,7 @@
                             <input type="hidden" name="pdfFilePath" value="${scPublic.pdfFilePath}">
 
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">年度</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
                                 <div class="col-xs-7">
                                     <div class="input-group">
                                         <input required class="form-control date-picker" placeholder="请选择年份"
@@ -75,7 +75,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-3 control-label"
-                                       style="white-space: nowrap">党委常委会</label>
+                                       style="white-space: nowrap"><span class="star">*</span>党委常委会</label>
                                 <div class="col-xs-9">
                                     <select required name="committeeId" data-rel="select2"
                                             data-width="272"
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">公示发布时间</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>公示发布时间</label>
 
                                 <div class="col-xs-7">
                                     <div class="input-group">
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">公示开始时间</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>公示开始时间</label>
                                 <div class="col-xs-7">
                                     <div class="input-group">
                                         <input class="form-control datetime-picker required" type="text"  name="publicStartDate"
@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">公示结束时间</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>公示结束时间</label>
                                 <div class="col-xs-7">
                                     <div class="input-group">
                                         <input class="form-control datetime-picker required" type="text"  name="publicEndDate"

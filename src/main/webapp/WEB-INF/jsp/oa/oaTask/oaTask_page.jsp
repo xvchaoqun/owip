@@ -85,7 +85,7 @@
 
                                         <div class="form-group">
                                             <label>工作类型</label>
-                                            <select required class="form-control" name="type"
+                                            <select class="form-control" name="type"
                                                     data-rel="select2"
                                                     data-width="150"
                                                     data-placeholder="请选择">

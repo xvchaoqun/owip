@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/shortMsgTpl_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${shortMsgTpl.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属角色</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属角色</label>
 				<div class="col-xs-8">
                     <select required name="roleId" data-rel="select2" data-placeholder="请选择" data-width="370">
                         <option></option>
@@ -23,13 +23,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">模板名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>模板名称</label>
 				<div class="col-xs-8">
                         <input required class="form-control" type="text" name="name" value="${shortMsgTpl.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">短信内容</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>短信内容</label>
 				<div class="col-xs-8">
                     <textarea required class="form-control limited" type="text"
                               name="content" rows="8" maxlength="500">${shortMsgTpl.content}</textarea>

@@ -13,7 +13,7 @@
 </div>
 <div class="page-header" style="margin-top: 30px">
     <h1>
-        提交意见与建议
+        *提交意见与建议
     </h1>
 </div>
 <form class="form-horizontal" id="modalForm" method="post" action="${ctx}/user/feedback_au">

@@ -174,7 +174,7 @@
                                             <div class="form-group">
                                             <label>人员类别</label>
                                             <div class="input-group">
-                                                <select required data-rel="select2" name="userType" data-placeholder="请选择">
+                                                <select data-rel="select2" name="userType" data-placeholder="请选择">
                                                     <option></option>
                                                     <option value="1">学生</option>
                                                     <option value="2">在职教工</option>

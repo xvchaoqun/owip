@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${scPassport.id}">
         <input type="hidden" name="handId" value="${handId}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">证件名称</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>证件名称</label>
 
 			<div class="col-xs-6">
 				<select required data-rel="select2" data-width="273"

@@ -19,7 +19,7 @@
 <form class="form-horizontal" action="${ctx}/user/abroad/passportDraw_other_au" id="applyForm" method="post" enctype="multipart/form-data">
   <input type="hidden" name="cadreId" value="${param.cadreId}">
   <div class="form-group">
-    <label class="col-xs-3 control-label">所需证件</label>
+    <label class="col-xs-3 control-label"><span class="star">*</span>所需证件</label>
     <div class="col-xs-6">
       <select required data-rel="select2" name="passportId" data-placeholder="请选择" data-width="260">
         <option></option>
@@ -31,13 +31,13 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label">申请事由</label>
+    <label class="col-xs-3 control-label"><span class="star">*</span>申请事由</label>
     <div class="col-xs-3">
       <textarea required class="form-control limited right-put" type="text" name="reason" rows="3"></textarea>
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label">开始日期</label>
+    <label class="col-xs-3 control-label"><span class="star">*</span>开始日期</label>
     <div class="col-xs-2">
       <div class="input-group">
         <input required class="form-control date-picker" name="_startDate" type="text"
@@ -47,7 +47,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label">结束日期</label>
+    <label class="col-xs-3 control-label"><span class="star">*</span>结束日期</label>
     <div class="col-xs-2">
       <div class="input-group">
         <input required class="form-control date-picker" name="_endDate" type="text"

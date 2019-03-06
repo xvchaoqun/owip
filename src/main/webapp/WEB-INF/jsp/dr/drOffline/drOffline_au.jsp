@@ -10,7 +10,7 @@
     <form class="form-horizontal" action="${ctx}/drOffline_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${drOffline.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">年份</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">推荐类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>推荐类型</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" data-width="273"
                         name="type" data-placeholder="请选择">
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">推荐日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>推荐日期</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker"
@@ -60,7 +60,7 @@
             </button>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">推荐组负责人</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>推荐组负责人</label>
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/drMember_selects"
                         name="chiefMemberId" data-placeholder="请输入账号或姓名或学工号" data-width="270">

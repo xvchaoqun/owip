@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 		<div class="row">
 			<div class="col-xs-5">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">用户</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>用户</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
 							name="userId" data-placeholder="请输入账号或姓名或学工号">
@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 				<div class="form-group">
-					<label class="col-xs-3 control-label">原职业</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>原职业</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="originalJob" data-placeholder="请选择">
 							<option></option>
@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">外出流向</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>外出流向</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="direction" data-placeholder="请选择">
 							<option></option>
@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">流出时间</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>流出时间</label>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 200px">
 							<input required class="form-control date-picker" name="_flowTime" type="text"
@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">流出省份</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>流出省份</label>
 					<div class="col-xs-6">
 						<select required class="loc_province" name="province" style="width:120px;" data-placeholder="请选择">
 						</select>
@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-xs-7">
 			<div class="form-group">
-				<label class="col-xs-5 control-label">流出原因</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>流出原因</label>
 				<div class="col-xs-6">
                         <textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOutflow.reason}</textarea>
 				</div>
@@ -79,7 +79,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">组织关系状态</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>组织关系状态</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="orStatus" data-placeholder="请选择">
 						<option></option>

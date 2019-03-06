@@ -22,7 +22,7 @@
             <form class="form-horizontal" action="${ctx}/user/retireApply_au" id="modalForm" method="post">
                 <input type="hidden" name="userId" value="${param.userId}">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right"> 请选择退休后所在的组织结构类别</label>
+                    <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>请选择退休后所在的组织结构类别</label>
                     <div class="col-sm-9">
                         <select required name="classId" data-rel="select2" data-placeholder="请选择">
                             <option></option>

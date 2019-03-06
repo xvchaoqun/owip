@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cisEvaluate_au" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cisEvaluate.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">形成日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>形成日期</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<input  class="form-control date-picker required" name="_createDate"
@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">材料类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>材料类型</label>
 				<div class="col-xs-6">
 						<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="270">
 							<option></option>
@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">材料内容</label>
+				<label class="col-xs-3 control-label">${cisEvaluate==null?'*':''}材料内容</label>
 				<div class="col-xs-6">
 					<input ${cisEvaluate==null?'required':''} class="form-control" type="file" name="_file" />
 				</div>

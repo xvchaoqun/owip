@@ -26,7 +26,7 @@
             <form class="form-horizontal" action="${ctx}/user/memberOutflow_au" id="modalForm" method="post">
                 <input type="hidden" name="id" value="${memberOutflow.id}">
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">组织关系状态</label>
+                            <label class="col-xs-5 control-label"><span class="star">*</span>组织关系状态</label>
                             <div class="col-xs-6">
                                 <select required data-rel="select2" name="orStatus" data-placeholder="请选择">
                                     <option></option>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">原职业</label>
+                            <label class="col-xs-5 control-label"><span class="star">*</span>原职业</label>
                             <div class="col-xs-6">
                                 <select required data-rel="select2" name="originalJob" data-placeholder="请选择">
                                     <option></option>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">外出流向</label>
+                            <label class="col-xs-5 control-label"><span class="star">*</span>外出流向</label>
                             <div class="col-xs-6">
                                 <select required data-rel="select2" name="direction" data-placeholder="请选择">
                                     <option></option>
@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">流出时间</label>
+                            <label class="col-xs-5 control-label"><span class="star">*</span>流出时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group" style="width: 200px">
                                     <input required class="form-control date-picker" name="_flowTime" type="text"
@@ -74,14 +74,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">流出省份</label>
+                            <label class="col-xs-5 control-label"><span class="star">*</span>流出省份</label>
                             <div class="col-xs-6">
                                 <select required class="loc_province" name="province" style="width:120px;" data-placeholder="请选择">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-5 control-label">流出原因</label>
+                            <label class="col-xs-5 control-label"><span class="star">*</span>流出原因</label>
                             <div class="col-xs-6" style="width: 300px">
                                 <textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOutflow.reason}</textarea>
                             </div>

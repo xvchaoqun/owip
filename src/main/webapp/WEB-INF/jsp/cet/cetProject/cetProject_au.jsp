@@ -54,7 +54,7 @@
                             <input type="hidden" name="fileName" value="${cetProject.fileName}">
                             <input type="hidden" name="pdfFilePath" value="${cetProject.pdfFilePath}">
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">年度</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
                                 <div class="col-xs-8">
                                     <div class="input-group">
                                         <input required class="form-control date-picker" placeholder="请选择年份"
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">培训时间</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>培训时间</label>
                                 <div class="col-xs-8">
                                     <input required class="form-control date-picker" name="startDate"
                                            type="text" style="width: 140px;float: left"
@@ -82,13 +82,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">培训班名称</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>培训班名称</label>
                                 <div class="col-xs-8">
                                     <input required class="form-control" type="text" name="name" value="${cetProject.name}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">专题分类</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>专题分类</label>
                                 <div class="col-xs-8">
                                     <select required name="projectTypeId" data-rel="select2"
                                             data-width="308"
@@ -117,7 +117,7 @@
                                 </div>
                             </div>
                             <%--<div class="form-group">
-                                <label class="col-xs-3 control-label">文件名</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>文件名</label>
                                 <div class="col-xs-6">
                                         <input required class="form-control" type="text" name="fileName" value="${cetProject.fileName}">
                                 </div>
@@ -130,13 +130,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">总学时</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>总学时</label>
                                 <div class="col-xs-8">
                                     <input required class="form-control period" type="text" name="period" value="${cetProject.period}">
                                 </div>
                             </div>
                             <%--<div class="form-group">
-                                <label class="col-xs-3 control-label">达到结业要求的学时数</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>达到结业要求的学时数</label>
                                 <div class="col-xs-6">
                                         <input required class="form-control period" type="text" name="requirePeriod" value="${cetProject.requirePeriod}">
                                 </div>

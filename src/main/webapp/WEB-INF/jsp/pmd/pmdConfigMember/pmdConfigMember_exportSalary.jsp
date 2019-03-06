@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">选择工资月份</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>选择工资月份</label>
             <div class="col-xs-6">
                 <select required data-rel="select2"
                         name="salaryMonth" data-placeholder="请选择">

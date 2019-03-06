@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_addParty" id="modalForm" method="post">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">选择党委</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>选择党委</label>
 				<div class="col-xs-6">
                     <select name="partyId" required data-rel="select2" data-placeholder="请选择" data-width="350">
                         <option></option>

@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 		</c:if>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">评估表</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>评估表</label>
 				<div class="col-xs-6">
 					<div class="input-group">
 						<select required data-rel="select2" name="evaTableId" data-placeholder="请选择"  data-width="270">

@@ -53,7 +53,7 @@
 
                                         <div class="form-group">
                                             <label>议题</label>
-                                            <select required name="topicId" data-rel="select2"
+                                            <select name="topicId" data-rel="select2"
                                                     data-width="240"
                                                     data-placeholder="请选择">
                                                 <option></option>

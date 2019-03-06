@@ -54,7 +54,7 @@
                                 <input type="hidden" name="filePath" value="${scGroup.filePath}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">年份</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">干部小组会日期</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>干部小组会日期</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">议题数量</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>议题数量</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control num" type="text" name="topicNum" value="${scGroup.topicNum}">

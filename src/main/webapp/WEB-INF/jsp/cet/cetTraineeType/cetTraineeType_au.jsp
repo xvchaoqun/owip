@@ -10,20 +10,20 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetTraineeType_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTraineeType.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">参训人员类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>参训人员类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetTraineeType.name}">
 				</div>
 			</div>
             <div class="form-group">
-				<label class="col-xs-3 control-label">类型代码</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类型代码</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="code" value="${cetTraineeType.code}">
                         <span class="label-inline"> * 由开发人员维护</span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">信息模板</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>信息模板</label>
 				<div class="col-xs-6">
                     <select required name="templateId" data-rel="select2"
                             data-width="275"

@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
 
         <div id="un_anonymous" style="${(cetTrain.evaCount>0&&cetTrain.evaAnonymous)?'display:none':''}">
         <div class="form-group">
-            <label class="col-xs-offset-1 col-xs-2 control-label">Excel文件</label>
+            <label class="col-xs-offset-1 col-xs-2 control-label">${(cetTrain.evaCount>0&&cetTrain.evaAnonymous)?'':'*'}Excel文件</label>
             <div class="col-xs-4">
                 <input type="file" name="xlsx" ${(cetTrain.evaCount>0&&cetTrain.evaAnonymous)?'':'required'} extension="xlsx"/>
             </div>
@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div id="anonymous"  style="${(cetTrain.evaCount>0&&!cetTrain.evaAnonymous)?'display:none':''}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">生成账号数量</label>
+            <label class="col-xs-3 control-label">${(cetTrain.evaCount>0&&!cetTrain.evaAnonymous)?'':'*'}生成账号数量</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input ${(cetTrain.evaCount>0&&!cetTrain.evaAnonymous)?'':'required'} class="form-control digits" data-rule-min="${cetTrain.evaCount}"

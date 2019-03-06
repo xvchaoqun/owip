@@ -21,7 +21,7 @@
     <div class="row">
       <div class="col-xs-6">
         <div class="form-group">
-          <label class="col-xs-3 control-label">类别</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
           <div class="col-xs-6">
             <c:forEach var="DISPATCH_CADRE_TYPE" items="${DISPATCH_CADRE_TYPE_MAP}">
               <label class="label-text">
@@ -52,13 +52,13 @@
         <input type="hidden" name="id" value="${dispatchCadre.id}">
         <input type="hidden" name="dispatchId" value="${dispatch.id}">
         <div class="form-group">
-          <label class="col-xs-3 control-label" id="typeNameTd">任命职务</label>
+          <label class="col-xs-3 control-label" id="typeNameTd"><span class="star">*</span>任命职务</label>
           <div class="col-xs-8">
             <textarea required class="form-control noEnter" name="post" rows="2">${dispatchCadre.post}</textarea>
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-3 control-label">干部类型</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>干部类型</label>
           <div class="col-xs-6">
             <select required data-rel="select2" name="cadreTypeId" data-width="220" data-placeholder="请选择干部类型">
               <option></option>
@@ -94,7 +94,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-3 control-label">工作证号</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>工作证号</label>
           <div class="col-xs-8">
             <select required data-ajax-url="${ctx}/cadre_selects?type=0"
                     name="cadreId" data-width="220" data-placeholder="请选择干部">
@@ -114,7 +114,7 @@
       <div class="col-xs-6">
 
         <div class="form-group">
-          <label class="col-xs-3 control-label">职务属性</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>职务属性</label>
           <div class="col-xs-6">
             <select required name="postType" data-rel="select2" data-width="220" data-placeholder="请选择职务属性">
               <option></option>
@@ -126,7 +126,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-3 control-label">行政级别</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>行政级别</label>
           <div class="col-xs-6">
             <select required class="form-control" data-rel="select2" data-width="220" name="adminLevel" data-placeholder="请选择行政级别">
               <option></option>
@@ -138,7 +138,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-3 control-label">单位类别</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>单位类别</label>
           <div class="col-xs-6">
             <select required class="form-control" name="_unitStatus" data-width="220" data-rel="select2" data-placeholder="请选择单位类别">
               <option></option>
@@ -148,7 +148,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-3 control-label">所属单位</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
           <div class="col-xs-6">
             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                     name="unitId" data-width="220" data-placeholder="请选择单位">

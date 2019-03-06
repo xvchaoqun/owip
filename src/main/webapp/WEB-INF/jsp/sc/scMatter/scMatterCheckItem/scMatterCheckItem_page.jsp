@@ -59,7 +59,7 @@
                                         <div class="form-group">
                                             <label>年份</label>
                                             <div class="input-group" style="width: 150px">
-                                                <input required class="form-control date-picker" placeholder="请选择年份" name="year"
+                                                <input class="form-control date-picker" placeholder="请选择年份" name="year"
                                                        type="text"
                                                        data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}"/>
                                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>核查类型</label>
-                                            <select required data-rel="select2"
+                                            <select data-rel="select2"
                                                     name="isRandom" data-placeholder="请选择" data-width="150">
                                                 <option></option>
                                                 <option value="1">年度随机抽查</option>
@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>认定结果</label>
-                                            <select required data-rel="select2"
+                                            <select data-rel="select2"
                                                     name="confirmType" data-placeholder="请选择" data-width="120">
                                                 <option></option>
                                                 <c:forEach items="<%=ScConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="_type">

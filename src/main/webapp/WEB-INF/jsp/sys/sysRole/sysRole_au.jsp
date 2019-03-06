@@ -27,7 +27,7 @@
                                 <input type="hidden" name="id" value="${sysRole.id}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-2 control-label">代码</label>
+                                    <label class="col-xs-2 control-label"><span class="star">*</span>代码</label>
 
                                     <div class="col-xs-9">
                                         <input required class="form-control" ${(!cm:isSuperAccount(_user.username) && sysRole.role eq 'admin')?'disabled':''}
@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label required class="col-xs-2 control-label">名称</label>
+                                    <label required class="col-xs-2 control-label"><span class="star">*</span>名称</label>
 
                                     <div class="col-xs-9">
                                         <input class="form-control" type="text" name="description"

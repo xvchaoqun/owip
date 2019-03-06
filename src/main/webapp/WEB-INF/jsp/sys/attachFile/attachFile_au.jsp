@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${attachFile.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">附件</label>
+            <label class="col-xs-3 control-label">${empty attachFile.id?"*":""}附件</label>
             <div class="col-xs-6">
                 <input ${empty attachFile.id?"required":""} class="form-control" type="file" name="_file" />
             </div>
@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">类别</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
             <div class="col-xs-6">
                 <select required name="type" data-placeholder="请选择" class="select2 tag-input-style" data-rel="select2">
                     <option></option>

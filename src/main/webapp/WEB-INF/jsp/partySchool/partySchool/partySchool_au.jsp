@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/partySchool_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${partySchool.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">二级党校名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>二级党校名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${partySchool.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">设立日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>设立日期</label>
 				<div class="col-xs-6">
                     <input  class="form-control date-picker required" name="foundDate"
                             type="text" data-date-format="yyyy-mm-dd"

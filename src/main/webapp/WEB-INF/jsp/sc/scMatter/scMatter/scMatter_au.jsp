@@ -10,7 +10,7 @@
         <input type="hidden" name="id" value="${scMatter.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">年度</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">领表时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>领表时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group">
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">应交回时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>应交回时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group">

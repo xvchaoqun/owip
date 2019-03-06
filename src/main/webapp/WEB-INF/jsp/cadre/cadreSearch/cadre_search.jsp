@@ -8,9 +8,9 @@
 <div class="modal-body">
   <form>
   <div class="form-group">
-      <label class="col-xs-3 control-label" style="text-align: right; line-height: 34px">选择干部</label>
+      <label class="col-xs-3 control-label" style="text-align: right; line-height: 34px"><span class="star">*</span>选择干部</label>
       <div class="col-xs-6">
-        <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects" data-width="350"
+        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects" data-width="350"
                 name="cadreId" data-placeholder="请输入账号或姓名或学工号">
           <option></option>
         </select>

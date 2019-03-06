@@ -9,25 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetPlanCourseObj_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetPlanCourseObj.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属培训课程</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属培训课程</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="trainCourseId" value="${cetPlanCourseObj.trainCourseId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训对象</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训对象</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="objId" value="${cetPlanCourseObj.objId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">提交学习心得数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>提交学习心得数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="num" value="${cetPlanCourseObj.num}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否结业</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否结业</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isFinished" value="${cetPlanCourseObj.isFinished}">
 				</div>

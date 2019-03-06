@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
         	<input type="hidden" name="discussId" value="${cetDiscuss.id}">
         	<input type="hidden" name="adminUserId" value="${cetDiscussGroup.adminUserId}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">组别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>组别</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetDiscussGroup.name}">
 				</div>
@@ -57,7 +57,7 @@ pageEncoding="UTF-8"%>
 
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">研讨主题</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>研讨主题</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="subject" value="${cetDiscussGroup.subject}">
 				</div>

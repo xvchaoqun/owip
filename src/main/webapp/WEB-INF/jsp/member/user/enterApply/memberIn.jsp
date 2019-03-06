@@ -27,13 +27,13 @@
   <div class="row">
     <div class="col-xs-6">
       <div class="form-group">
-        <label class="col-xs-5 control-label">介绍信抬头</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>介绍信抬头</label>
         <div class="col-xs-6">
           <input required class="form-control left-input" type="text" name="fromTitle" value="${memberIn.fromTitle}">
         </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-5 control-label">介绍信有效期天数</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>介绍信有效期天数</label>
         <div class="col-xs-6">
           <input required id="spinner" class="form-control digits input-group"
                  data-rule-min="1" style="width: 100px"
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-5 control-label">类别</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
         <div class="col-xs-6">
           <select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="168">
             <option></option>
@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-5 control-label">党籍状态</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>党籍状态</label>
         <div class="col-xs-6">
           <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="168">
             <option></option>
@@ -71,7 +71,7 @@
 
 
       <div class="form-group">
-        <label class="col-xs-5 control-label">请选择分党委</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>请选择分党委</label>
         <div class="col-xs-6">
           <select required class="form-control"  data-rel="select2-ajax" data-width="260"
                   data-ajax-url="${ctx}/party_selects?del=0"
@@ -95,32 +95,32 @@
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", null,null, true );
       </script>
         <div class="form-group">
-          <label class="col-xs-5 control-label">转出单位</label>
+          <label class="col-xs-5 control-label"><span class="star">*</span>转出单位</label>
           <div class="col-xs-6">
             <input required class="form-control left-input" type="text" name="fromUnit" value="${memberIn.fromUnit}">
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-xs-5 control-label">转出单位地址</label>
+          <label class="col-xs-5 control-label"><span class="star">*</span>转出单位地址</label>
           <div class="col-xs-6">
             <input required class="form-control left-input" type="text" name="fromAddress" value="${memberIn.fromAddress}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-5 control-label">转出单位联系电话</label>
+          <label class="col-xs-5 control-label"><span class="star">*</span>转出单位联系电话</label>
           <div class="col-xs-6">
             <input required class="form-control left-input" maxlength="20" type="text" name="fromPhone" value="${memberIn.fromPhone}">
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-5 control-label">转出单位传真</label>
+          <label class="col-xs-5 control-label"><span class="star">*</span>转出单位传真</label>
           <div class="col-xs-6">
             <input required class="form-control left-input" byteMaxLength="20" maxlength="20" type="text" name="fromFax" value="${memberIn.fromFax}">
           </div>
         </div>
       <div class="form-group">
-        <label class="col-xs-5 control-label">转出单位邮编</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>转出单位邮编</label>
         <div class="col-xs-6">
           <input required class="form-control left-input isZipCode"
                  maxlength="6"
@@ -131,7 +131,7 @@
     <div class="col-xs-6 right-div">
 
       <div class="form-group">
-        <label class="col-xs-5 control-label">党费缴纳至年月</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>党费缴纳至年月</label>
         <div class="col-xs-6">
           <div class="input-group">
             <input required class="form-control date-picker" name="_payTime" type="text"
@@ -145,7 +145,7 @@
       </div>
 
       <div class="form-group">
-        <label class="col-xs-5 control-label">转出办理时间</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>转出办理时间</label>
         <div class="col-xs-6">
           <div class="input-group">
             <input required class="form-control date-picker" name="_fromHandleTime" type="text"

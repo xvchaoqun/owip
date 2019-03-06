@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">干部类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>干部类型</label>
             <div class="col-xs-8">
                 <div class="input-group">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">

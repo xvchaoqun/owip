@@ -11,7 +11,7 @@
         <input type="hidden" name="type" value="${type}">
         <c:if test="${empty sysUser}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">账号</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
 
                 <div class="col-xs-6">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
@@ -42,7 +42,7 @@
         </c:if>
         <c:if test="${type==1}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">民主党派</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>民主党派</label>
 
                 <div class="col-xs-6">
                     <select required data-rel="select2" name="classId" data-width="272" data-placeholder="请选择民主党派">

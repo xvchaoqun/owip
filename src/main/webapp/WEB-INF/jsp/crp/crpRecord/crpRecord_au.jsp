@@ -50,7 +50,7 @@
                 </c:if>
                 <c:if test="${type==CRP_RECORD_TYPE_TRANSFER}">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">姓名</label>
+                        <label class="col-xs-3 control-label"><span class="star">*</span>姓名</label>
 
                         <div class="col-xs-7">
                             <input required class="form-control" type="text" name="realname" value="${crpRecord.realname}">
@@ -58,7 +58,7 @@
                     </div>
                 </c:if>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">时任职务</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>时任职务</label>
 
                     <div class="col-xs-7">
                 <textarea required class="form-control limited" type="text"
@@ -92,7 +92,7 @@
                 </c:if>
                 <c:if test="${type!=CRP_RECORD_TYPE_IN}">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">委派单位</label>
+                        <label class="col-xs-3 control-label"><span class="star">*</span>委派单位</label>
 
                         <div class="col-xs-7">
                             <select required data-rel="select2" name="toUnitType" data-width="220" data-placeholder="请选择">
@@ -122,7 +122,7 @@
                     </div>
                 </c:if>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">挂职类别</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>挂职类别</label>
 
                     <div class="col-xs-7">
                         <select required data-rel="select2" name="tempPostType" data-width="220" data-placeholder="请选择">
@@ -151,19 +151,19 @@
             </div>
             <div class="col-xs-6">
                 <div class="form-group">
-                    <label class="col-xs-4 control-label">挂职单位</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>挂职单位</label>
                     <div class="col-xs-7">
                         <input required class="form-control" type="text" name="unit" value="${crpRecord.unit}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label">所任职务</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>所任职务</label>
                     <div class="col-xs-7">
                         <input required class="form-control" type="text" name="post" value="${crpRecord.post}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label">挂职开始时间</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>挂职开始时间</label>
 
                     <div class="col-xs-7">
                         <div class="input-group">
@@ -175,7 +175,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label">挂职拟结束时间</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>挂职拟结束时间</label>
 
                     <div class="col-xs-7">
                         <div class="input-group">
@@ -189,7 +189,7 @@
 
                 <c:if test="${param.isFinished==1}">
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">挂职实际结束时间</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>挂职实际结束时间</label>
                         <div class="col-xs-7">
                             <div class="input-group">
                                 <input class="form-control date-picker required" type="text"  name="realEndDate"

@@ -10,7 +10,7 @@
         <input type="hidden" name="id" value="${cetDiscussGroup.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">研讨主题</label>
+            <label class="col-xs-3 control-label"><c:if test="${empty cetDiscussGroup.subject}"><span class="star">*</span></c:if>研讨主题</label>
             <c:if test="${not empty cetDiscussGroup.subject}">
                 <div class="col-xs-6 label-text">
                         ${cetDiscussGroup.subject}
@@ -23,7 +23,7 @@
             </c:if>
         </div>
         <div class="form-group" id="_startTime">
-            <label class="col-xs-3 control-label">召开时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>召开时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text" name="discussTime"
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">召开地点</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>召开地点</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="discussAddress"
                        value="${cetDiscussGroup.discussAddress}">

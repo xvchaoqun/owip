@@ -16,19 +16,19 @@ pageEncoding="UTF-8"%>
 			<div class="row">
 				<div class="col-xs-4">
 					<div class="form-group">
-						<label class="col-xs-5 control-label">介绍信抬头</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>介绍信抬头</label>
 						<div class="col-xs-6">
 							<input required class="form-control" type="text" name="fromTitle" value="${memberIn.fromTitle}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">介绍信有效期天数</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>介绍信有效期天数</label>
 						<div class="col-xs-6">
 							<input required class="form-control digits" type="text" name="validDays" value="${memberIn.validDays}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">类别</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
 						<div class="col-xs-6">
 							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
 								<option></option>
@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">党籍状态</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>党籍状态</label>
 						<div class="col-xs-6">
 							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
 								<option></option>
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">用户</label>
+						<label class="col-xs-5 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>用户</label>
 						<c:if test="${not empty userBean}">
 						<div class="col-xs-6 label-text">
 							<input type="hidden" name="userId" value="${userBean.userId}">
@@ -104,7 +104,7 @@ pageEncoding="UTF-8"%>
 
 
 					<div class="form-group">
-						<label class="col-xs-5 control-label">分党委</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>分党委</label>
 						<div class="col-xs-6">
 							<select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1"
 									name="partyId" data-placeholder="请选择">
@@ -129,38 +129,38 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-xs-4">
 					<div class="form-group">
-						<label class="col-xs-5 control-label">转出单位</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位</label>
 						<div class="col-xs-6">
 							<input required class="form-control" type="text" name="fromUnit" value="${memberIn.fromUnit}">
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label class="col-xs-5 control-label">转出单位地址</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位地址</label>
 						<div class="col-xs-6">
 							<input required class="form-control" type="text" name="fromAddress" value="${memberIn.fromAddress}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">转出单位联系电话</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位联系电话</label>
 						<div class="col-xs-6">
 							<input required class="form-control" type="text" name="fromPhone" value="${memberIn.fromPhone}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">转出单位传真</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位传真</label>
 						<div class="col-xs-6">
 							<input required class="form-control" type="text" name="fromFax" value="${memberIn.fromFax}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">转出单位邮编</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位邮编</label>
 						<div class="col-xs-6">
 							<input required class="form-control" type="text" name="fromPostCode" value="${memberIn.fromPostCode}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">党费缴纳至年月</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>党费缴纳至年月</label>
 						<div class="col-xs-6">
 							<div class="input-group">
 								<input required class="form-control date-picker" name="_payTime" type="text"
@@ -172,7 +172,7 @@ pageEncoding="UTF-8"%>
 					</div>
 
 					<div class="form-group">
-						<label class="col-xs-5 control-label">转出办理时间</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>转出办理时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
 								<input required class="form-control date-picker" name="_fromHandleTime" type="text"
@@ -182,7 +182,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label">转入办理时间</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>转入办理时间</label>
 						<div class="col-xs-6">
 							<div class="input-group">
 								<c:set var="handleTime" value="${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}"/>

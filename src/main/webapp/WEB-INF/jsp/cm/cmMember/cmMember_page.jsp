@@ -88,7 +88,7 @@
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
                                 <label>职务</label>
-                                <select required data-rel="select2" name="post"
+                                <select data-rel="select2" name="post"
                                         data-width="272" data-placeholder="请选择职务">
                                     <option></option>
                                     <jsp:include

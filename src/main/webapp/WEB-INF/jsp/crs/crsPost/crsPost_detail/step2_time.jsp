@@ -40,7 +40,7 @@
                             <input type="hidden" name="id" value="${crsPost.id}">
 
                             <div class="form-group">
-                                <label class="col-xs-4 control-label">报名开始时间</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span>报名开始时间</label>
 
                                 <div class="col-xs-6">
                                     <div class="input-group">
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-4 control-label">报名结束时间</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span>报名结束时间</label>
 
                                 <div class="col-xs-6">
                                     <div class="input-group">

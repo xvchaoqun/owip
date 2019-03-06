@@ -9,32 +9,32 @@
     <form class="form-horizontal" action="${ctx}/sysUser_au" id="modalForm" method="post">
     	<input type="hidden" name="id" value="${sysUser.id}">
     	<div class="form-group">
-          <label class="col-xs-3 control-label">用户名</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>用户名</label>
           <div class="col-xs-6">
 			<c:if test="${not empty sysUser}">
 			  <div class="label-text">${sysUser.username}</div>
 			</c:if>
 			  <c:if test="${empty sysUser}">
-			  <input class="form-control" autocomplete="off" disableautocomplete type="text" name="username" value="${sysUser.username}">
+			  <input required class="form-control" autocomplete="off" disableautocomplete type="text" name="username" value="${sysUser.username}">
 			  <span class="help-block">由5~15数字和小写字母组成</span>
 			  </c:if>
           </div>
         </div>
         <c:if test="${sysUser==null || sysUser.source==USER_SOURCE_ADMIN||sysUser.source==USER_SOURCE_REG}">
         <div class="form-group">
-          <label class="col-xs-3 control-label">密码</label>
+          <label class="col-xs-3 control-label">${empty sysUser?'<span class="star">*</span>':''}密码</label>
           <div class="col-xs-6">
-			   <input class="form-control" autocomplete="off" disableautocomplete type="text" name="passwd" >
+			   <input ${empty sysUser?'required':''} class="form-control" autocomplete="off" disableautocomplete type="text" name="passwd" >
           </div>
         </div>
         </c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">类别</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 			<div class="col-xs-6 label-text">
 				<div class="input-group">
 					<c:forEach var="userType" items="${USER_TYPE_MAP}">
 					<label>
-						<input name="type" type="radio" class="ace" value="${userType.key}"
+						<input required name="type" type="radio" class="ace" value="${userType.key}"
 							   <c:if test="${sysUser.type==userType.key}">checked</c:if>/>
 						<span class="lbl" style="padding-right: 5px;"> ${userType.value}</span>
 					</label>
@@ -43,7 +43,7 @@
 			</div>
 		</div>
     	<div class="form-group">
-          <label class="col-xs-3 control-label">学工号</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>学工号</label>
           <div class="col-xs-6">
 			   <input required class="form-control" autocomplete="off" disableautocomplete type="text" name="code" value="${sysUser.code}">
           </div>
@@ -70,19 +70,7 @@
 
 		$("#modal input[type=submit]").click(function(){$("#modal form").submit();return false;});
 		$("#modal form").validate({
-				rules: {
-					username:{
-						required:true
-					},
-					type:{
-						required:true
-					}
-				},
 				submitHandler: function (form) {
-
-					/*var $passwd = $("input[name=passwd]");
-					$passwd.val(hex_md5($passwd.val()));*/
-
 					$(form).ajaxSubmit({
 						success:function(ret){
 							if(ret.success){

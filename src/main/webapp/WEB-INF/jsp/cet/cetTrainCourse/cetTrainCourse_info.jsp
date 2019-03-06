@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">开始时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>开始时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text" name="startTime"
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">结束时间</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>结束时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text" name="endTime"
@@ -48,7 +48,7 @@
         </div>
         <c:if test="${cetTrainCourse.cetCourse.type==CET_COURSE_TYPE_OFFLINE}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">上课地点</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>上课地点</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="address" value="${cetTrainCourse.address}">
             </div>

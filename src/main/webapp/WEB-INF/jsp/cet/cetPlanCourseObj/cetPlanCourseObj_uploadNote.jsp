@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">学习心得</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>学习心得</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="file" name="_file"/>
             </div>

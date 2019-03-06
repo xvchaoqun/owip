@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-4 control-label">请选择暂留所在党支部</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>请选择暂留所在党支部</label>
             <div class="col-xs-6">
                 <select required class="form-control"  data-rel="select2-ajax"
                         data-ajax-url="${ctx}/branch_selects?partyId=${party.id}&del=0"
@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">原支部负责人</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>原支部负责人</label>
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                         name="orgBranchAdminId" data-placeholder="请输入账号或姓名或学工号">
@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">原支部负责人联系电话</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>原支部负责人联系电话</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="orgBranchAdminPhone">
             </div>

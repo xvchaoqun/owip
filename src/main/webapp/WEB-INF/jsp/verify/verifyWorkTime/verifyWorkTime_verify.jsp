@@ -11,7 +11,7 @@
                 <form class="form-horizontal" action="${ctx}/verifyWorkTime_verify" id="modalForm" method="post">
                     <input type="hidden" name="id" value="${verifyWorkTime.id}">
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">认定类别</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>认定类别</label>
                         <div class="col-xs-6">
                             <select required name="type" data-rel="select2" data-placeholder="请选择" data-width="270">
                                 <option></option>
@@ -79,7 +79,7 @@
                         </div>
                     </fieldset>
                     <div class="form-group well" style="margin: 10px;">
-                        <label class="col-xs-4 control-label" style="font-weight: bolder; font-size: large">组织认定参加工作时间</label>
+                        <label class="col-xs-4 control-label" style="font-weight: bolder; font-size: large"><span class="star">*</span>组织认定参加工作时间</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">

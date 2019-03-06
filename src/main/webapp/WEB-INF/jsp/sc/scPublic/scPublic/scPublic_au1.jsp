@@ -38,7 +38,7 @@
 
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label"
-                                                   style="white-space: nowrap">党委常委会</label>
+                                                   style="white-space: nowrap"><span class="star">*</span>党委常委会</label>
 
                                             <div class="col-xs-9">
                                                 <select required name="committeeId" data-rel="select2"
@@ -57,7 +57,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">公示时间</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span>公示时间</label>
 
                                             <div class="row col-xs-9">
 
@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">发布时间</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span>发布时间</label>
 
                                             <div class="col-xs-6">
                                                 <div class="input-group" style="width: 230px;">

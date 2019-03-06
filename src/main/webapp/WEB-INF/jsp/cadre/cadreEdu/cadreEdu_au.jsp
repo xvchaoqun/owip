@@ -19,7 +19,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">学历</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>学历</label>
 					<div class="col-xs-7">
 						<select required data-rel="select2" name="eduId"
 								data-placeholder="请选择" data-width="162">
@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">入学时间</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>入学时间</label>
 					<div class="col-xs-7">
 						<div class="input-group">
 							<input required autocomplete="off" disableautocomplete
@@ -44,7 +44,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">毕业时间</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>毕业时间</label>
 					<div class="col-xs-7">
 						<div class="input-group">
 							<input required autocomplete="off" disableautocomplete
@@ -71,25 +71,25 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">毕业/在读学校</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>毕业/在读学校</label>
 					<div class="col-xs-7">
 						<input required class="form-control" type="text" name="school" value="${cadreEdu.school}">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">院系</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>院系</label>
 					<div class="col-xs-7">
 						<input required class="form-control" type="text" name="dep" value="${cadreEdu.dep}">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">所学专业</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>所学专业</label>
 					<div class="col-xs-7">
 						<input required class="form-control" type="text" name="major" value="${cadreEdu.major}">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">学校类型</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>学校类型</label>
 					<div class="col-xs-7">
 						<select required data-rel="select2" name="schoolType"
 								data-placeholder="请选择" data-width="162">
@@ -104,7 +104,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label">学习方式</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>学习方式</label>
 					<div class="col-xs-7">
 						<select required data-rel="select2" name="learnStyle"
 								data-placeholder="请选择" data-width="162">
@@ -152,13 +152,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-4 control-label">学位授予单位</label>
+						<label class="col-xs-4 control-label"><span class="star">*</span>学位授予单位</label>
 						<div class="col-xs-8">
 							<input required class="form-control" type="text" name="degreeUnit" value="${cadreEdu.degreeUnit}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-4 control-label">学位授予日期</label>
+						<label class="col-xs-4 control-label"><span class="star">*</span>学位授予日期</label>
 						<div class="col-xs-8">
 							<div class="input-group">
 								<input  required class="form-control date-picker" name="degreeTime" type="text"
@@ -187,7 +187,7 @@
 								<input class="form-control" type="file" name="_files[]"/>
 								<input class="form-control" type="file" name="_files[]" />
 							</div>
-							<span class="help-block" style="font-size: 10px;">*每张图片大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
+							<span class="help-block" style="font-size: 10px;"><span class="star">*</span>每张图片大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
 						</div>
 					</div>
 				<div class="form-group">

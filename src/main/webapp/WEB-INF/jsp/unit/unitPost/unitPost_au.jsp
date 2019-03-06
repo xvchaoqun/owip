@@ -11,13 +11,13 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="unitId" value="${unitId}">
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">岗位编号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>岗位编号</label>
 				<div class="col-xs-6">
                     <input required class="form-control" type="text" name="code" value="${unitPost.code}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">岗位名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>岗位名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${unitPost.name}">
 				</div>
@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职务属性</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>职务属性</label>
 				<div class="col-xs-6">
 					<select required name="postType" data-rel="select2" data-width="272" data-placeholder="请选择">
 						<option></option>
@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职务类别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>职务类别</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="postClass"
 							data-width="272" data-placeholder="请选择">

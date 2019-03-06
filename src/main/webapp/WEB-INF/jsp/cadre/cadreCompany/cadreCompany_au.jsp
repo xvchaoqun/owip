@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">兼职类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>兼职类型</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="type"
                         data-placeholder="请选择" data-width="272">
@@ -37,13 +37,13 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">兼职单位</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>兼职单位</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="unit" value="${cadreCompany.unit}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">兼任职务</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>兼任职务</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="post" value="${cadreCompany.post}">
             </div>

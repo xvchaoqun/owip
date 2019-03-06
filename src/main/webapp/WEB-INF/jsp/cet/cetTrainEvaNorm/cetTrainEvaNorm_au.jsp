@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
                 </div>
             </c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${empty fid?"评估内容":"评估指标"}</label>
+				<label class="col-xs-3 control-label">${empty fid?"*评估内容":"*评估指标"}</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetTrainEvaNorm.name}">
 				</div>

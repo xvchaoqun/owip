@@ -9,79 +9,79 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetAnnualRequire_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetAnnualRequire.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属档案</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属档案</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="annualId" value="${cetAnnualRequire.annualId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>行政级别</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="adminLevel" value="${cetAnnualRequire.adminLevel}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">年度学习任务</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>年度学习任务</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="period" value="${cetAnnualRequire.period}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党校专题培训学时上限</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>党校专题培训学时上限</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="maxSpecialPeriod" value="${cetAnnualRequire.maxSpecialPeriod}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">党校日常培训学时上限</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>党校日常培训学时上限</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="maxDailyPeriod" value="${cetAnnualRequire.maxDailyPeriod}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">二级党校培训学时上限</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>二级党校培训学时上限</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="maxPartyPeriod" value="${cetAnnualRequire.maxPartyPeriod}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">二级单位培训学时上限</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>二级单位培训学时上限</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="maxUnitPeriod" value="${cetAnnualRequire.maxUnitPeriod}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">上级调训学时上限</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>上级调训学时上限</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="maxUpperPeriod" value="${cetAnnualRequire.maxUpperPeriod}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${cetAnnualRequire.remark}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">影响人数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>影响人数</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="relateCount" value="${cetAnnualRequire.relateCount}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">操作时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>操作时间</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="opTime" value="${cetAnnualRequire.opTime}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">操作人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>操作人</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="opUserId" value="${cetAnnualRequire.opUserId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">ip</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>ip</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="ip" value="${cetAnnualRequire.ip}">
 				</div>

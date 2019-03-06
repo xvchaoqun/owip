@@ -39,7 +39,7 @@
                             <input type="hidden" name="trainId" value="${cetTrain.id}">
 
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">选课开始时间</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>选课开始时间</label>
 
                                 <div class="col-xs-6">
                                     <div class="input-group">
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">选课结束时间</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>选课结束时间</label>
 
                                 <div class="col-xs-6">
                                     <div class="input-group">

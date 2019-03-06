@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/abroad/applicatPost_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${applicatPost.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">申请人身份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>申请人身份</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="typeId" value="${applicatPost.typeId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职务属性</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>职务属性</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="postId" value="${applicatPost.postId}">
 				</div>

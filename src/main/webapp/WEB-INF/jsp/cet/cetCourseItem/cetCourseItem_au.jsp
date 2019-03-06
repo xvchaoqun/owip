@@ -9,25 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetCourseItem_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetCourseItem.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属课程</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属课程</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="courseId" value="${cetCourseItem.courseId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">专题班名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>专题班名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetCourseItem.name}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">学时</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>学时</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="period" value="${cetCourseItem.period}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>排序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${cetCourseItem.sortOrder}">
 				</div>

@@ -9,7 +9,7 @@
   <form class="form-horizontal"  action="${ctx}/sc/scBorder_selectCadres" id="modalForm" method="post">
       <input type="hidden" name="borderId" value="${param.borderId}">
       <div class="form-group">
-          <label class="col-xs-3 control-label">报备类别</label>
+          <label class="col-xs-3 control-label"><span class="star">*</span>报备类别</label>
           <div class="col-xs-6">
               <c:forEach var="_type" items="<%=ScConstants.SC_BORDER_ITEM_TYPE_MAP%>">
                   <label class="label-text" style="padding-right: 15px;">

@@ -9,13 +9,13 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scGroupTopicUnit_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scGroupTopicUnit.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">议题</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>议题</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="topicId" value="${scGroupTopicUnit.topicId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">涉及单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>涉及单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unitId" value="${scGroupTopicUnit.unitId}">
 				</div>

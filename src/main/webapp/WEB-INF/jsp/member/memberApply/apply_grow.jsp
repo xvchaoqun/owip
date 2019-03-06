@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
             </div>
         </c:if>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">发展时间</label>
+				<label class="col-xs-5 control-label"><span class="star">*</span>发展时间</label>
 				<div class="col-xs-4">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_growTime" type="text"

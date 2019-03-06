@@ -12,7 +12,7 @@
                 <form class="form-horizontal" action="${ctx}/cet/cetProject_detail_setting" id="timeForm" method="post">
                     <input type="hidden" name="projectId" value="${param.projectId}">
                     <div class="form-group">
-                        <label class="col-xs-5 control-label">达到结业要求的学时数</label>
+                        <label class="col-xs-5 control-label"><span class="star">*</span>达到结业要求的学时数</label>
                         <div class="col-xs-5">
                             <input required class="form-control period" type="text" name="requirePeriod" value="${cetProject.requirePeriod}">
                         </div>

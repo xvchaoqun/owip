@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${cadreEva.id}">
         <input type="hidden" name="cadreId" value="${param.cadreId}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">年份</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input required autocomplete="off" disableautocomplete
@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">考核情况</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>考核情况</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2" data-width="273"
                             name="type" data-placeholder="请选择">

@@ -11,7 +11,7 @@
         <div class="col-xs-12">
             <div class="col-xs-6">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">年份</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
                     <div class="col-xs-8">
                         <div class="input-group">
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">通知日期</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>通知日期</label>
 
                     <div class="col-xs-8">
                         <div class="input-group">

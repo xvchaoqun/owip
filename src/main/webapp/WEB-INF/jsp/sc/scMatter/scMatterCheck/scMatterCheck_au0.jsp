@@ -9,31 +9,31 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scMatterCheck_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMatterCheck.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">核查日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>核查日期</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="checkDate" value="${scMatterCheck.checkDate}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">核查文件</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>核查文件</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="checkFile" value="${scMatterCheck.checkFile}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">核查编号</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>核查编号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="num" value="${scMatterCheck.num}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">核查类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>核查类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isRandom" value="${scMatterCheck.isRandom}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${scMatterCheck.remark}">
 				</div>

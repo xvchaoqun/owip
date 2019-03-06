@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${cetUnitProject.id}">
         <input type="hidden" name="addType" value="${addType}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">年度</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
 				<div class="col-xs-6">
 					<div class="input-group">
                                 <input required class="form-control date-picker" placeholder="请选择年份" name="year"
@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训班主办方</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训班主办方</label>
 				<div class="col-xs-6">
 					<select required
 								data-rel="select2" data-width="272" name="unitId" data-placeholder="请选择单位">
@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训开始时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训开始时间</label>
 				<div class="col-xs-6">
                         <div class="input-group">
 							<input required class="form-control date-picker" name="startDate"
@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		<div class="form-group">
-				<label class="col-xs-3 control-label">培训结束时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训结束时间</label>
 				<div class="col-xs-6">
                         <div class="input-group">
 							<input required class="form-control date-picker" name="endDate"
@@ -63,13 +63,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训班名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训班名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="projectName" value="${cetUnitProject.projectName}">
 				</div>
 			</div>
 		<div class="form-group">
-					<label class="col-xs-3 control-label">培训班类型</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>培训班类型</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="projectType" data-placeholder="请选择" data-width="272">
 							<option></option>
@@ -82,7 +82,7 @@ pageEncoding="UTF-8"%>
 				</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属专项培训</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属专项培训</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="specialType" data-placeholder="请选择" data-width="272">
 							<option></option>
@@ -95,14 +95,14 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训学时</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训学时</label>
 				<div class="col-xs-6">
                         <input required class="form-control period" type="text" name="period" value="${cetUnitProject.period}">
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训地点</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训地点</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="address" value="${cetUnitProject.address}">
 				</div>

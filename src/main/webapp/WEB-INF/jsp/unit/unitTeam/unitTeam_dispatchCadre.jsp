@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 				<table id="jqGridPager_popup" class="table-striped"></table>
 			</div>
 		<div class="form-group">
-			<label class="col-xs-2 control-label" style="font-size: 18px; font-weight: bolder;">${param.auType==2?'任职时间':'免职时间'}</label>
+			<label class="col-xs-2 control-label" style="font-size: 18px; font-weight: bolder;">${param.auType==2?'*任职时间':'*免职时间'}</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 200px;margin-top: 6px;">
 					<input required class="form-control date-picker" name="dispatchCadreDate"

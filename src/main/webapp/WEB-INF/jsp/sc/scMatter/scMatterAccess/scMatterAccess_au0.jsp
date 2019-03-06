@@ -9,73 +9,73 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scMatterAccess_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMatterAccess.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">调阅日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>调阅日期</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="accessDate" value="${scMatterAccess.accessDate}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">调阅函</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>调阅函</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="accessFile" value="${scMatterAccess.accessFile}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">调阅单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>调阅单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unitId" value="${scMatterAccess.unitId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">调阅类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>调阅类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isCopy" value="${scMatterAccess.isCopy}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">调阅用途</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>调阅用途</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="purpose" value="${scMatterAccess.purpose}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">办理日期</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>办理日期</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="handleDate" value="${scMatterAccess.handleDate}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">经办人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>经办人</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="handleUserId" value="${scMatterAccess.handleUserId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">接收人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>接收人</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="receiver" value="${scMatterAccess.receiver}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">接收手续</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>接收手续</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="receivePdf" value="${scMatterAccess.receivePdf}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">归还时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>归还时间</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="returnDate" value="${scMatterAccess.returnDate}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">归还接收人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>归还接收人</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="returnUserId" value="${scMatterAccess.returnUserId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${scMatterAccess.remark}">
 				</div>

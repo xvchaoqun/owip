@@ -146,7 +146,7 @@
             <form class="form-inline search-form" id="searchForm2">
                 <div class="form-group">
                     <label>用户</label>
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>

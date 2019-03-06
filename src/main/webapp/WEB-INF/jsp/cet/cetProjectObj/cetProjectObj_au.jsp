@@ -9,31 +9,31 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetProjectObj.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属专题培训</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属专题培训</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="projectId" value="${cetProjectObj.projectId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训对象</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训对象</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="userId" value="${cetProjectObj.userId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训对象类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训对象类型</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="type" value="${cetProjectObj.type}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否退出培训</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否退出培训</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isQuit" value="${cetProjectObj.isQuit}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${cetProjectObj.remark}">
 				</div>

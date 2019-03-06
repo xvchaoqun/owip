@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-6">
                     <select required data-rel="select2" data-width="272" name="typeId" data-placeholder="请选择类别">
                         <option></option>
@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">分管工作</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>分管工作</label>
 				<div class="col-xs-6">
                         <textarea required class="form-control limited" name="job" rows="5">${leader.job}</textarea>
 				</div>

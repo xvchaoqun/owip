@@ -13,7 +13,7 @@
         <input type="hidden" name="type" value="${param.type}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">标准名称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>标准名称</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${pmdNorm.name}">

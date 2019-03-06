@@ -35,13 +35,13 @@
                         <td>${cm:formatDate(empty pcsProposal?now:pcsProposal.createTime, "yyyy-MM-dd")}</td>
                     </tr>
                     <tr>
-                        <td>标 题</td>
+                        <td><span class="star">*</span>标 题</td>
                         <td colspan="3">
                             <input required class="form-control" type="text" name="name" value="${pcsProposal.name}">
                         </td>
                     </tr>
                     <tr>
-                        <td>关 键 字</td>
+                        <td><span class="star">*</span>关 键 字</td>
                         <td colspan="3">
                             <div class="input-group">
                             <input required class="form-control" data-role="tagsinput" type="text" name="keywords"
@@ -50,7 +50,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>提案类型</td>
+                        <td><span class="star">*</span>提案类型</td>
                         <td colspan="3">
                             <div class="input-group">
                                 <c:forEach items="${prTypes}" var="_type">
@@ -64,7 +64,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding: 50px">提案内容及建议</td>
+                        <td style="padding: 50px"><span class="star">*</span>提案内容及建议</td>
                         <td colspan="3">
                             <textarea required name="content" rows="10" style="width: 100%">${pcsProposal.content}</textarea>
                         </td>

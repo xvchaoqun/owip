@@ -23,7 +23,7 @@
 		</div>
 
 		<div class="form-group">
-			<label class="col-xs-3 control-label">学工号</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>学工号</label>
 			<div class="col-xs-6">
 				<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
 					<option></option>

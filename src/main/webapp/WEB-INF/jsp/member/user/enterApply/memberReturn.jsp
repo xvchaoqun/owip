@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right"> 请选择组织机构</label>
+            <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>请选择组织机构</label>
             <div class="col-sm-9">
               <select required name="classId" data-rel="select2" data-placeholder="请选择">
                 <option></option>
@@ -61,7 +61,7 @@
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}', null,null,null,true)
           </script>
           <div class="form-group">
-            <label class="col-xs-3 control-label">党籍状态</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>党籍状态</label>
             <div class="col-xs-6">
               <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
                 <option></option>
@@ -83,7 +83,7 @@
         </div>
         <div class="col-xs-6">
           <div class="form-group">
-            <label class="col-xs-6 control-label">提交恢复组织生活申请时间</label>
+            <label class="col-xs-6 control-label"><span class="star">*</span>提交恢复组织生活申请时间</label>
             <div class="col-xs-6">
               <div class="input-group">
                 <input required class="form-control date-picker" name="_returnApplyTime" type="text"

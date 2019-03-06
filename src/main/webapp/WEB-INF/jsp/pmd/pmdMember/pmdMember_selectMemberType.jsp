@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">党员分类别</label>
+            <label class="col-xs-4 control-label"><c:if test="${param.confirm!=1}"><span class="star">*</span></c:if>党员分类别</label>
 
             <div class="col-xs-6">
                 <c:if test="${param.confirm!=1}">
@@ -61,7 +61,7 @@
         </div>
         <c:if test="${param.configMemberType==PMD_MEMBER_TYPE_STUDENT}">
             <div class="form-group">
-                <label class="col-xs-4 control-label">是否带薪就读</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>是否带薪就读</label>
 
                 <div class="col-xs-6">
                     <select required data-rel="select2" name="hasSalary"

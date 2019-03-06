@@ -15,7 +15,7 @@
             method="post">
         <input type="hidden" name="id" value="${crsPost.id}">
         <div class="form-group">
-          <label class="col-xs-4 control-label">招聘会人数要求</label>
+          <label class="col-xs-4 control-label"><span class="star">*</span>招聘会人数要求</label>
 
           <div class="col-xs-6">
             <input required class="form-control digits" type="text" name="meetingApplyCount"

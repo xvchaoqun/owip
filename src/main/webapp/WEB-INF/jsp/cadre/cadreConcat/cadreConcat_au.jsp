@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">短信称谓</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>短信称谓</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="msgTitle" value="${empty cadre.msgTitle?cadre.realname:cadre.msgTitle}">
                 </div>

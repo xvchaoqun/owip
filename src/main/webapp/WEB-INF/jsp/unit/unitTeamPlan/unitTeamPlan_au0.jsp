@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="unitTeamId" value="${param.unitTeamId}">
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">起始时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>起始时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
                     <input required class="form-control date-picker" name="startDate" type="text"

@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>产生方式</label>
-                            <select required data-rel="select2" name="way" data-placeholder="请选择">
+                            <select data-rel="select2" name="way" data-placeholder="请选择">
                                 <option></option>
                                 <c:forEach items="${CADRE_RESERVE_ORIGIN_WAY_MAP}" var="entity">
                                     <option value="${entity.key}">${entity.value}</option>
@@ -61,14 +61,14 @@ pageEncoding="UTF-8" %>
                         <div class="form-group">
                             <label>推荐人选</label>
                             <c:set var="user" value="${cm:getUserById(param.userId)}"/>
-                            <select required data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/cadre_selects?key=1&type=0"
+                            <select data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/cadre_selects?key=1&type=0"
                                     name="userId" data-placeholder="请输入账号或姓名或学工号">
                                 <option value="${user.id}">${user.realname}-${user.code}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>类别</label>
-                            <select required data-rel="select2" name="reserveType" data-placeholder="请选择">
+                            <select data-rel="select2" name="reserveType" data-placeholder="请选择">
                                 <option></option>
                                 <c:forEach items="${cm:getMetaTypes('mc_cadre_reserve_type')}" var="entity">
                                     <option value="${entity.key}">${entity.value.name}</option>

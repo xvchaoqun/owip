@@ -24,13 +24,13 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">兼任职务</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>兼任职务</label>
 					<div class="col-xs-6">
 						<textarea required class="form-control noEnter" name="post" rows="2">${cadrePost.post}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">职务属性</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>职务属性</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="postType"
 								data-width="272" data-placeholder="请选择">
@@ -43,7 +43,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">职务级别</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>职务级别</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="adminLevel"
 								data-width="272" data-placeholder="请选择">
@@ -56,7 +56,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">职务类别</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>职务类别</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="postClassId"
 								data-width="272" data-placeholder="请选择">
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">兼任单位</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>兼任单位</label>
 			<div class="col-xs-6">
 				<select required data-rel="select2-ajax"
 						data-width="272" data-ajax-url="${ctx}/unit_selects"

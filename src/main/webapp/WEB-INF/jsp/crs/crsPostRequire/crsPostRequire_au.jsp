@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/crsPostRequire_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${crsPostRequire.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">模板名称</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>模板名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${crsPostRequire.name}">
 				</div>

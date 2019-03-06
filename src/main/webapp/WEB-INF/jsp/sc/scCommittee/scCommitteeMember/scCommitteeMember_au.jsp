@@ -9,19 +9,19 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/sc/scCommitteeMember_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${scCommitteeMember.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">成员</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>成员</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="userId" value="${scCommitteeMember.userId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否请假</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否请假</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isAbsent" value="${scCommitteeMember.isAbsent}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>排序</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="sortOrder" value="${scCommitteeMember.sortOrder}">
 				</div>

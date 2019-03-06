@@ -8,7 +8,7 @@
 <div class="modal-body">
     <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdConfigReset_au" id="modalForm" method="post">
         <div class="form-group">
-            <label class="col-xs-4 control-label">选择工资月份（缴费计算基数）</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>选择工资月份（缴费计算基数）</label>
             <div class="col-xs-6">
                 <select required data-rel="select2"
                         name="salaryMonth" data-placeholder="请选择">

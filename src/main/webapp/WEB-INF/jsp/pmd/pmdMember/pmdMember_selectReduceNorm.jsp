@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
         </c:if>
 
         <div class="form-group">
-            <label class="col-xs-4 control-label">党费减免标准</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>党费减免标准</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="normId"
                         data-width="270"

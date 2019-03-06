@@ -56,7 +56,7 @@ pageEncoding="UTF-8" %>
                             <div class="form-group">
                                 <label>年份</label>
                                 <div class="input-group" style="width: 150px">
-                                    <input required class="form-control date-picker" placeholder="请选择年份"
+                                    <input class="form-control date-picker" placeholder="请选择年份"
                                            name="year"
                                            type="text"
                                            data-date-format="yyyy" data-date-min-view-mode="2"
@@ -67,7 +67,7 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>编号</label>
-                                <select required name="committeeId" data-rel="select2"
+                                <select name="committeeId" data-rel="select2"
                                         data-width="240"
                                         data-placeholder="请选择">
                                     <option></option>
@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>干部小组会日期</label>
-                                <input required class="form-control date-picker" name="holdDate"
+                                <input class="form-control date-picker" name="holdDate"
                                        type="text"
                                        data-date-format="yyyy-mm-dd"
                                        value="${param.holdDate}"/>

@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-xs-7">
             <div class="form-group">
-                <label class="col-xs-4 control-label">账号</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>账号</label>
                 <div class="col-xs-6">
                     <c:if test="${not empty member}">
                         <input type="hidden" value="${member.userId}" name="userId">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">所属分党委</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>所属分党委</label>
                 <div class="col-xs-6">
                     <select required class="form-control" data-rel="select2-ajax"
                             data-ajax-url="${ctx}/party_selects?auth=1"
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                <label class="col-xs-4 control-label">所属党支部</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>所属党支部</label>
                 <div class="col-xs-6">
                     <select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
                             name="branchId" data-placeholder="请选择" data-width="320">
@@ -45,7 +45,7 @@
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
             </script>
             <div class="form-group">
-                <label class="col-xs-4 control-label">党籍状态</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>党籍状态</label>
                 <c:if test="${not empty member.politicalStatus}">
                     <div class="col-xs-6 label-text">
                             ${MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
@@ -67,20 +67,7 @@
                     </div>
                 </c:if>
             </div>
-            <%--<div class="form-group">
-                <label class="col-xs-3 control-label">状态</label>
-                <div class="col-xs-6">
-                    <select required data-rel="select2" name="status" data-placeholder="请选择"  data-width="120">
-                        <option></option>
-                        <c:forEach items="${MEMBER_STATUS_MAP}" var="_status">
-                            <option value="${_status.key}">${_status.value}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=status]").val(${member.status});
-                    </script>
-                </div>
-            </div>--%>
+
             <div class="form-group">
                 <label class="col-xs-4 control-label">组织关系转入时间</label>
                 <div class="col-xs-6">
@@ -169,7 +156,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">增加类型</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>增加类型</label>
                 <div class="col-xs-8">
                     <select required data-rel="select2" name="addType"
                             data-width="235"
@@ -183,7 +170,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">添加/更新<br/>原因</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>添加/更新<br/>原因</label>
                 <div class="col-xs-8">
 						<textarea required class="form-control limited noEnter" type="text"
                                   name="reason" rows="3"></textarea>

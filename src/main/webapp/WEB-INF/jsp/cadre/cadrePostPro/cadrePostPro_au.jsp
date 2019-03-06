@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">岗位类别</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>岗位类别</label>
 
             <div class="col-xs-6">
                 <select required data-rel="select2" name="type"
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">职级</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>职级</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="postLevel"
                         data-placeholder="请选择">
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">专业技术职务</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>专业技术职务</label>
             <div class="col-xs-6">
                 <c:set value="${cm:getMetaType(cadrePostPro.post)}" var="post"/>
                 <select required data-rel="select2" name="post" data-placeholder="请选择">
@@ -67,7 +67,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">专技职务任职时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>专技职务任职时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group" style="width: 130px">
@@ -79,7 +79,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">专技岗位等级</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>专技岗位等级</label>
 
             <div class="col-xs-6">
                 <c:set value="${cm:getMetaType(cadrePostPro.level)}" var="level"/>

@@ -9,7 +9,7 @@
     <form class="form-horizontal" action="${ctx}/cet/cetExpert_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetExpert.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">专家类别</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>专家类别</label>
             <div class="col-xs-8">
                 <div class="input-group">
                     <c:forEach items="<%=CetConstants.CET_EXPERT_TYPE_MAP%>" var="entity">
@@ -50,19 +50,19 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">所在单位</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>所在单位</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="unit" value="${cetExpert.unit}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">职务和职称</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>职务和职称</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="post" value="${cetExpert.post}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">联系方式</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>联系方式</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="contact" value="${cetExpert.contact}">
             </div>

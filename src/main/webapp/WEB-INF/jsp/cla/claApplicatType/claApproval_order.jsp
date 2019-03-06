@@ -17,7 +17,7 @@
                     <form class="form-horizontal no-footer" action="${ctx}/cla/claApplicatType/claApprovalOrder" id="modalForm" method="post">
                         <input type="hidden" name="applicatTypeId" value="${applicatType.id}">
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">审批人身份</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>审批人身份</label>
                             <div class="col-xs-6">
                                 <select required name="approverTypeId" data-rel="select2" data-placeholder="请选择"> 
                                     <option></option>

@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">短信内容</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>短信内容</label>
 
             <div class="col-xs-8">
                 <textarea required class="form-control" name="msg" rows="8"></textarea>

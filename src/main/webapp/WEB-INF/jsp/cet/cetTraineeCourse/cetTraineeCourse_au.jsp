@@ -9,25 +9,25 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetTraineeCourse_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTraineeCourse.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">参训人员</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>参训人员</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="traineeId" value="${cetTraineeCourse.traineeId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">培训班课程</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>培训班课程</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="trainCourseId" value="${cetTraineeCourse.trainCourseId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否实际完成</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否实际完成</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="isFinished" value="${cetTraineeCourse.isFinished}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="remark" value="${cetTraineeCourse.remark}">
 				</div>

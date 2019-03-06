@@ -138,7 +138,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>减员原因</label>
-                                                            <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
+                                                            <select class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                                                                 <option></option>
                                                                 <c:forEach items="<%=MemberConstants.MEMBER_QUIT_TYPE_MAP%>" var="quitType">
                                                                     <option value="${quitType.key}">${quitType.value}</option>

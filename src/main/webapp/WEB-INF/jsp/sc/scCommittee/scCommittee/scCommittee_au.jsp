@@ -54,7 +54,7 @@
                                 <input type="hidden" name="filePath" value="${scCommittee.filePath}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">年份</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">党委常委会日期</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>党委常委会日期</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -84,7 +84,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">常委总数</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>常委总数</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control digits"
@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">议题数量</label>
+                                    <label class="col-xs-3 control-label"><span class="star">*</span>议题数量</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control digits"

@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">转入分党委</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>转入分党委</label>
                             <div class="col-xs-9">
                                 <select required class="form-control"  data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/party_selects?del=0" data-width="100%"
@@ -61,19 +61,19 @@
                         </script>
 
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">转出单位联系电话</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>转出单位联系电话</label>
                             <div class="col-xs-9" style="width:200px;">
                                 <input required class="form-control" type="text" name="fromPhone" value="${memberTransfer.fromPhone}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">转出单位传真</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>转出单位传真</label>
                             <div class="col-xs-9"  style="width:200px;">
                                 <input required class="form-control" type="text" name="fromFax" value="${memberTransfer.fromFax}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">党费缴纳至年月</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>党费缴纳至年月</label>
                             <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_payTime" type="text"
@@ -85,13 +85,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">介绍信有效期天数</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>介绍信有效期天数</label>
                             <div class="col-xs-9"  style="width:200px;">
                                 <input required class="form-control digits" type="text" name="validDays" value="${memberTransfer.validDays}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">转出办理时间</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>转出办理时间</label>
                             <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_fromHandleTime" type="text"

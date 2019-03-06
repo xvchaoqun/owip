@@ -52,7 +52,7 @@
                             <div class="form-group">
                             <label>年度</label>
                             <div class="input-group" style="width: 120px">
-                                <input required class="form-control date-picker" placeholder="请选择"
+                                <input class="form-control date-picker" placeholder="请选择"
                                        name="year"
                                        type="text"
                                        data-date-format="yyyy" data-date-min-view-mode="2"

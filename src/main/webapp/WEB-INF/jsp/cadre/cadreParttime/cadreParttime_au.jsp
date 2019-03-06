@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">起始时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>起始时间</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_startTime" type="text"
@@ -39,13 +39,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">兼职单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>兼职单位</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="unit" value="${cadreParttime.unit}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">兼任职务</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>兼任职务</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="post" value="${cadreParttime.post}">
 				</div>
