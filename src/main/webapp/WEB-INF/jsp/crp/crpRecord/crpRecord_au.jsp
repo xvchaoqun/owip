@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="cadreSelectsDiv">
-                        <label class="col-xs-3 control-label">选择干部</label>
+                        <label class="col-xs-4 control-label">选择干部</label>
 
                         <div class="col-xs-7">
                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects" data-width="220"
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="userSelectsDiv">
-                        <label class="col-xs-3 control-label">选择教职工</label>
+                        <label class="col-xs-4 control-label">选择教职工</label>
 
                         <div class="col-xs-7">
                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
@@ -50,7 +50,7 @@
                 </c:if>
                 <c:if test="${type==CRP_RECORD_TYPE_TRANSFER}">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label"><span class="star">*</span>姓名</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>姓名</label>
 
                         <div class="col-xs-7">
                             <input required class="form-control" type="text" name="realname" value="${crpRecord.realname}">
@@ -58,15 +58,15 @@
                     </div>
                 </c:if>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label"><span class="star">*</span>时任职务</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>时任职务</label>
 
                     <div class="col-xs-7">
-                <textarea required class="form-control limited" type="text"
+                <textarea required class="form-control limited noEnter" type="text"
                           name="presentPost" maxlength="100">${crpRecord.presentPost}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">联系电话</label>
+                    <label class="col-xs-4 control-label">联系电话</label>
 
                     <div class="col-xs-7">
                         <input class="form-control" type="text" name="phone" value="${crpRecord.phone}">
@@ -92,7 +92,7 @@
                 </c:if>
                 <c:if test="${type!=CRP_RECORD_TYPE_IN}">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label"><span class="star">*</span>委派单位</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>委派单位</label>
 
                         <div class="col-xs-7">
                             <select required data-rel="select2" name="toUnitType" data-width="220" data-placeholder="请选择">
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="toUnitDiv">
-                        <label class="col-xs-3 control-label">单位名称</label>
+                        <label class="col-xs-4 control-label">单位名称</label>
 
                         <div class="col-xs-7">
                             <input class="form-control" type="text" name="toUnit" value="${crpRecord.toUnit}">
@@ -114,7 +114,7 @@
                 </c:if>
                 <c:if test="${type==CRP_RECORD_TYPE_IN}">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">委派单位</label>
+                        <label class="col-xs-4 control-label">委派单位</label>
 
                         <div class="col-xs-7">
                             <input class="form-control" type="text" name="toUnit" value="${crpRecord.toUnit}">
@@ -122,7 +122,7 @@
                     </div>
                 </c:if>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label"><span class="star">*</span>挂职类别</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>挂职类别</label>
 
                     <div class="col-xs-7">
                         <select required data-rel="select2" name="tempPostType" data-width="220" data-placeholder="请选择">
@@ -135,17 +135,18 @@
                     </div>
                 </div>
                 <div class="form-group" id="tempPostDiv">
-                    <label class="col-xs-3 control-label">挂职类型</label>
+                    <label class="col-xs-4 control-label">挂职类型</label>
 
                     <div class="col-xs-7">
                         <input class="form-control" type="text" name="tempPost" value="${crpRecord.tempPost}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">挂职项目</label>
+                    <label class="col-xs-4 control-label">挂职项目</label>
 
                     <div class="col-xs-7">
-                        <input class="form-control" type="text" name="project" value="${crpRecord.project}">
+                         <textarea class="form-control noEnter" type="text"
+                          name="project">${crpRecord.project}</textarea>
                     </div>
                 </div>
             </div>
@@ -153,7 +154,21 @@
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>挂职单位</label>
                     <div class="col-xs-7">
-                        <input required class="form-control" type="text" name="unit" value="${crpRecord.unit}">
+                        <c:if test="${type==CRP_RECORD_TYPE_OUT}">
+                            <textarea required class="form-control noEnter" type="text"
+                          name="unit">${crpRecord.unit}</textarea>
+                        </c:if>
+                        <c:if test="${type!=CRP_RECORD_TYPE_OUT}">
+                        <select required name="unitId" data-rel="select2-ajax"
+                                data-width="222"
+                                data-ajax-url="${ctx}/unit_selects?status=<%=SystemConstants.UNIT_STATUS_RUN%>"
+                                data-placeholder="请选择">
+                            <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                        </select>
+                        <script>
+                            $.register.del_select($("#modalForm select[name=unitId]"), 350)
+                        </script>
+                        </c:if>
                     </div>
                 </div>
                 <div class="form-group">

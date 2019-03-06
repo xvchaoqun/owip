@@ -179,6 +179,9 @@ public class CrpRecordController extends BaseController {
             modelMap.put("sysUser", crpRecord.getUser());
             modelMap.put("cadre", crpRecord.getCadre());
 
+            if(crpRecord.getUnitId()!=null) {
+                modelMap.put("unit", CmTag.getUnit(crpRecord.getUnitId()));
+            }
         }
 
         modelMap.put("type", type);

@@ -41,6 +41,8 @@ public class CrpRecord implements Serializable {
 
     private String project;
 
+    private Integer unitId;
+
     private String unit;
 
     private String post;
@@ -150,6 +152,14 @@ public class CrpRecord implements Serializable {
 
     public void setProject(String project) {
         this.project = project == null ? null : project.trim();
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 
     public String getUnit() {

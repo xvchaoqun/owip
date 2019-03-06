@@ -2,6 +2,17 @@
 
 20190306
 
+ALTER TABLE `crp_record`
+	ADD COLUMN `unit_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '挂职单位，针对校内和外单位到本校挂职' AFTER `project`,
+	CHANGE COLUMN `unit` `unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '挂职单位，针对校外挂职' AFTER `unit_id`;
+
+
+
+20190306
+南航
+
+20190306
+
 ALTER TABLE `ow_member`
 	ADD COLUMN `add_type` INT UNSIGNED NULL COMMENT '增加类型' AFTER `source`;
 

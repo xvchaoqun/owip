@@ -13,6 +13,7 @@
     <result column="temp_post_type" jdbcType="INTEGER" property="tempPostType" />
     <result column="temp_post" jdbcType="VARCHAR" property="tempPost" />
     <result column="project" jdbcType="VARCHAR" property="project" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
@@ -83,7 +84,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, realname, is_present_cadre, present_post, phone, to_unit_type, to_unit, 
-    temp_post_type, temp_post, project, unit, post, start_date, end_date, is_finished, 
+    temp_post_type, temp_post, project, unit_id, unit, post, start_date, end_date, is_finished, 
     real_end_date, type, is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.crp.CrpRecordExample" resultMap="BaseResultMap">
@@ -120,17 +121,19 @@
     insert into crp_record (id, user_id, realname, 
       is_present_cadre, present_post, phone, 
       to_unit_type, to_unit, temp_post_type, 
-      temp_post, project, unit, 
-      post, start_date, end_date, 
-      is_finished, real_end_date, type, 
-      is_deleted, remark)
+      temp_post, project, unit_id, 
+      unit, post, start_date, 
+      end_date, is_finished, real_end_date, 
+      type, is_deleted, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
       #{isPresentCadre,jdbcType=BIT}, #{presentPost,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{toUnitType,jdbcType=INTEGER}, #{toUnit,jdbcType=VARCHAR}, #{tempPostType,jdbcType=INTEGER}, 
-      #{tempPost,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{post,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
-      #{isFinished,jdbcType=BIT}, #{realEndDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, 
-      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+      #{tempPost,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
+      #{unit,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{isFinished,jdbcType=BIT}, #{realEndDate,jdbcType=DATE}, 
+      #{type,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.crp.CrpRecord">
     insert into crp_record
@@ -167,6 +170,9 @@
       </if>
       <if test="project != null">
         project,
+      </if>
+      <if test="unitId != null">
+        unit_id,
       </if>
       <if test="unit != null">
         unit,
@@ -229,6 +235,9 @@
       </if>
       <if test="project != null">
         #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
@@ -301,6 +310,9 @@
       <if test="record.project != null">
         project = #{record.project,jdbcType=VARCHAR},
       </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
       <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
@@ -346,6 +358,7 @@
       temp_post_type = #{record.tempPostType,jdbcType=INTEGER},
       temp_post = #{record.tempPost,jdbcType=VARCHAR},
       project = #{record.project,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
       unit = #{record.unit,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
       start_date = #{record.startDate,jdbcType=DATE},
@@ -392,6 +405,9 @@
       <if test="project != null">
         project = #{project,jdbcType=VARCHAR},
       </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
@@ -434,6 +450,7 @@
       temp_post_type = #{tempPostType,jdbcType=INTEGER},
       temp_post = #{tempPost,jdbcType=VARCHAR},
       project = #{project,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=DATE},

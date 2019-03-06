@@ -207,14 +207,22 @@
             }, width: 150
             },
             {
-                label: '挂职类别', name: 'tempPostType', formatter: function (cellvalue, options, rowObject) {
+                label: '挂职类别', name: 'tempPostType', width: 180, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(postCodeOther).id}') ? ("：" + rowObject.tempPost) : "");
             }
             },
             {label: '挂职项目', name: 'project', width: 300, align:'left'},
-            {label: '挂职单位', name: 'unit', width: 200, align:'left'},
+            {label: 'unit', name: 'unit', width: 300, align:'left'},
+            {label: '挂职单位', name: '_unit', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
+                <c:if test="${param.type==CRP_RECORD_TYPE_OUT}">
+                    return $.trim(rowObject.unit);
+                </c:if>
+                    <c:if test="${param.type!=CRP_RECORD_TYPE_OUT}">
+                    return $.jgrid.formatter.unit(rowObject.unitId)
+                </c:if>
+            }},
             {label: '所任职务', name: 'post', width: 150, align:'left'},
             {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             <c:if test="${!isFinished}">

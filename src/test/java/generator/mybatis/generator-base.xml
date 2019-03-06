@@ -61,8 +61,8 @@
          </table>-->
 
         <!--干部挂职锻炼-->
-        <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
-        </table>-->
+        <table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
+        </table>
 
         <!--二级党校-->
         <!--<table tableName="party_school" domainObjectName="partySchool.PartySchool"
@@ -129,8 +129,8 @@
         <!--<table tableName="sys_sync" domainObjectName="sys.SysSync" mapperName="sys.SysSyncMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-           <table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
-           </table>
+           <!--<table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
+           </table>-->
            <!--<table tableName="sys_scheduler_log" domainObjectName="sys.SchedulerLog"  mapperName="sys.SchedulerLogMapper">
            </table>-->
 

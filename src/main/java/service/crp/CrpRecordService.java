@@ -59,7 +59,13 @@ public class CrpRecordService extends BaseMapper {
             commonMapper.excuteSql("update crp_record set to_unit=null where id=" + record.getId());
         }
         if(record.getType()== CrpConstants.CRP_RECORD_TYPE_IN){
-            commonMapper.excuteSql("update crp_record set to_unit_type=null where id=" + record.getId());
+            commonMapper.excuteSql("update crp_record set to_unit_type=null, unit=null where id=" + record.getId());
+        }
+        if(record.getType()== CrpConstants.CRP_RECORD_TYPE_TRANSFER){
+            commonMapper.excuteSql("update crp_record set unit=null where id=" + record.getId());
+        }
+        if(record.getType()== CrpConstants.CRP_RECORD_TYPE_OUT){
+            commonMapper.excuteSql("update crp_record set unit_id=null where id=" + record.getId());
         }
 
         if((record.getType()== CrpConstants.CRP_RECORD_TYPE_OUT &&
