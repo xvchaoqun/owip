@@ -214,7 +214,6 @@
             }
             },
             {label: '挂职项目', name: 'project', width: 300, align:'left'},
-            {label: 'unit', name: 'unit', width: 300, align:'left'},
             {label: '挂职单位', name: '_unit', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
                 <c:if test="${param.type==CRP_RECORD_TYPE_OUT}">
                     return $.trim(rowObject.unit);
