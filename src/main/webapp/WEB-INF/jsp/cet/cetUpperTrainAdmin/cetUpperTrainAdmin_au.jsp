@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
             <c:set var="isUnitAdmin" value="${not empty cetUpperTrainAdmin && !cetUpperTrainAdmin.type}"/>
             <c:set var="isLeaderAdmin" value="${cetUpperTrainAdmin.type}"/>
 			<div class="form-group" id="unitDiv" style="display: ${isUnitAdmin?'block':'none'}">
-				<label class="col-xs-3 control-label">${isUnitAdmin?'*':''}所属单位</label>
+				<label class="col-xs-3 control-label">${isUnitAdmin?'<span class="star">*</span>':''}所属单位</label>
 				<div class="col-xs-6">
                     <select ${isUnitAdmin?'required':''} data-rel="select2-ajax"
                                                                 data-width="273" data-ajax-url="${ctx}/unit_selects"
@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group" id="cadreDiv" style="display: ${isLeaderAdmin?'block':'none'}">
-				<label class="col-xs-3 control-label">${isLeaderAdmin?'*':''}所属校领导</label>
+				<label class="col-xs-3 control-label">${isLeaderAdmin?'<span class="star">*</span>':''}所属校领导</label>
 				<div class="col-xs-6">
                     <select ${isLeaderAdmin?'required':''} data-rel="select2-ajax"
                             data-width="273" data-ajax-url="${ctx}/cadre_selects?key=1&status=<%=CadreConstants.CADRE_STATUS_LEADER%>"

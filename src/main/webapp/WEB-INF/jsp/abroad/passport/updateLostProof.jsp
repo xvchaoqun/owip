@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">${passport==null?'*':''}丢失证明</label>
+                <label class="col-xs-3 control-label">${passport==null?'<span class="star">*</span>':''}丢失证明</label>
                 <div class="col-xs-6">
                     <input  ${passport==null?'required':''} class="form-control" type="file" name="_lostProof" />
                 </div>

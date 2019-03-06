@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${cisEvaluate==null?'*':''}材料内容</label>
+				<label class="col-xs-3 control-label">${cisEvaluate==null?'<span class="star">*</span>':''}材料内容</label>
 				<div class="col-xs-6">
 					<input ${cisEvaluate==null?'required':''} class="form-control" type="file" name="_file" />
 				</div>

@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">${passport==null?'*':''}确认单</label>
+                <label class="col-xs-4 control-label">${passport==null?'<span class="star">*</span>':''}确认单</label>
                 <div class="col-xs-5">
                     <input  ${passport==null?'required':''} class="form-control" type="file" name="_cancelPic" />
                 </div>

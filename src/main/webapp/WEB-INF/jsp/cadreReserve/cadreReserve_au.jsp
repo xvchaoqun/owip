@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div id="_isCadreDiv" style="${CADRE_STATUS_SET.get(cadre.status)==null?'display: none':''}">
             <div class="form-group">
-                <label class="col-xs-4 control-label">${CADRE_STATUS_SET.get(cadre.status)!=null?'*':''}选择干部</label>
+                <label class="col-xs-4 control-label">${CADRE_STATUS_SET.get(cadre.status)!=null?'<span class="star">*</span>':''}选择干部</label>
                 <div class="col-xs-6">
                     <select ${CADRE_STATUS_SET.get(cadre.status)!=null?'required':''} data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请输入账号或姓名或学工号">
@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div id="_notCadreDiv" style="${CADRE_STATUS_SET.get(cadre.status)!=null?'display: none':''}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">${CADRE_STATUS_SET.get(cadre.status)==null?'*':''}账号</label>
+				<label class="col-xs-4 control-label">${CADRE_STATUS_SET.get(cadre.status)==null?'<span class="star">*</span>':''}账号</label>
 				<div class="col-xs-6">
                     <select ${CADRE_STATUS_SET.get(cadre.status)==null?'required':''} data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
