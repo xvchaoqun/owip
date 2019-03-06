@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">党员</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>党员</label>
             <div class="col-xs-6">
                 <select required name="userId"  class="form-control"
                         data-rel="select2-ajax" data-width="350"
