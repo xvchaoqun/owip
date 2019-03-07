@@ -1,6 +1,10 @@
 
 
 20190306
+南航
+
+
+20190306
 
 ALTER TABLE `crp_record`
 	ADD COLUMN `unit_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '挂职单位，针对校内和外单位到本校挂职' AFTER `project`,
