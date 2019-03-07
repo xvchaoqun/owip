@@ -212,6 +212,9 @@
 
                 return $.party(null, rowObject.id);
             }, frozen:true },
+            <c:if test="${status==1 && !_query}">
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
+            </c:if>
             { label: '所属分党委', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
                 //return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;

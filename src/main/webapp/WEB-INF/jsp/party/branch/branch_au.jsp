@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
 					</label>
 				</div>
 			</div>
-				<div class="form-group isPrefessional">
+				<div class="form-group">
 					<label class="col-xs-4 control-label">是否是专业教师党支部</label>
 					<div class="col-xs-8">
 						<label>
@@ -69,7 +69,7 @@ pageEncoding="UTF-8"%>
 						</label>
 					</div>
 				</div>
-				<div class="form-group isBaseTeam">
+				<div class="form-group">
 					<label class="col-xs-4 control-label">是否建立在团队</label>
 					<div class="col-xs-8">
 						<label>
@@ -154,7 +154,8 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${branch!=null}">确定</c:if><c:if test="${branch==null}">添加</c:if>"/>
+	 <button id="submitBtn" type="button" class="btn btn-primary"
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> ${not empty branch?"确定":"添加"}</button>
 </div>
 </form>
 <style>
@@ -166,7 +167,7 @@ pageEncoding="UTF-8"%>
 
 	$("#modal :checkbox").bootstrapSwitch();
 
-	function isStaffChange(){
+	/*function isStaffChange(){
 		if(!$("input[name=isStaff]").bootstrapSwitch("state")) {
 			$("input[name=isPrefessional]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
 			$("input[name=isBaseTeam]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
@@ -193,18 +194,23 @@ pageEncoding="UTF-8"%>
 	$('input[name=isPrefessional]').on('switchChange.bootstrapSwitch', function(event, state) {
 		isPrefessionalChange();
 	});
-	isPrefessionalChange();
+	isPrefessionalChange();*/
 
 
 	$.register.date($('.date-picker'), {endDate:'${_today}'});
-    $("#modal form").validate({
+
+	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
+        	var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
 						$.reloadMetaData(function(){
 							$("#modal").modal("hide")
 							$("#jqGrid").trigger("reloadGrid");
+
+							$btn.button('reset');
 						});
                     }
                 }

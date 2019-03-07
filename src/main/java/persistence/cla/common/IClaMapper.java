@@ -29,25 +29,25 @@ public interface IClaMapper {
     List<ClaApplyModifyBean> getApplyModifyList(@Param("applyId") Integer applyId);
 
     // 其他审批人身份的干部，查找他需要审批的干部
-    @Select("select bc.id from cla_applicat_cadre aac, cla_applicat_type aat, cadre bc where aat.id in(" +
+    @Select("select c.id from cla_applicat_cadre aac, cla_applicat_type aat, cadre c where aat.id in(" +
             "select aao.applicat_type_id from cla_approver_type aat, cla_approver aa, cla_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
-            "and bc.id = aac.cadre_id")
+            "and c.id = aac.cadre_id")
     List<Integer> getApprovalCadreIds(@Param("cadreId") Integer cadreId);
 
 
     // 其他审批人身份 的所在单位 给定一个干部id， 和审批人类别，查找他可以审批的干部
-    @Select("select bc.id from cla_applicat_cadre aac, cla_applicat_type aat, cadre bc where aat.id in(" +
+    @Select("select c.id from cla_applicat_cadre aac, cla_applicat_type aat, cadre c where aat.id in(" +
             "select aao.applicat_type_id from cla_approver_type aat, cla_approver aa, cla_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
-            "and bc.id = aac.cadre_id")
+            "and c.id = aac.cadre_id")
     List<Integer> getApprovalCadreIds_approverTypeId(@Param("cadreId") Integer cadreId, @Param("approverTypeId") Integer approverTypeId);
 
     // 其他审批人身份 的所在单位 给定一个干部id， 和审批人类别，查找他可以审批的干部的职务属性
-    @Select("select distinct bc.post_id from cla_applicat_cadre aac, cla_applicat_type aat, cadre bc where aat.id in(" +
+    @Select("select distinct c.post_type from cla_applicat_cadre aac, cla_applicat_type aat, cadre c where aat.id in(" +
             "select aao.applicat_type_id from cla_approver_type aat, cla_approver aa, cla_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
-            "and bc.id = aac.cadre_id")
+            "and c.id = aac.cadre_id")
     List<Integer> getApprovalPostIds_approverTypeId(@Param("cadreId") Integer cadreId, @Param("approverTypeId") Integer approverTypeId);
 
 

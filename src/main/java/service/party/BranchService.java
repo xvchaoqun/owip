@@ -1,12 +1,7 @@
 package service.party;
 
 import controller.global.OpException;
-import domain.party.Branch;
-import domain.party.BranchExample;
-import domain.party.BranchMemberGroup;
-import domain.party.BranchMemberGroupExample;
-import domain.party.BranchTransferLog;
-import domain.party.Party;
+import domain.party.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -25,12 +20,7 @@ import shiro.ShiroUser;
 import sys.constants.RoleConstants;
 import sys.utils.ContextHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BranchService extends BaseMapper {
@@ -144,18 +134,16 @@ public class BranchService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value = "Branch:ALL", allEntries = true)
-    public int insertSelective(Branch record) {
+    public void insertSelective(Branch record) {
 
         checkAuth(record.getPartyId());
 
         record.setIsDeleted(false);
         record.setCode(genCode(record.getPartyId()));
+        record.setSortOrder(getNextSortOrder("ow_branch",
+                "is_deleted=0 and party_id=" + record.getPartyId()));
+
         branchMapper.insertSelective(record);
-        Integer id = record.getId();
-        Branch _record = new Branch();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return branchMapper.updateByPrimaryKeySelective(_record);
     }
 
     /*@Transactional
@@ -177,13 +165,17 @@ public class BranchService extends BaseMapper {
             Branch branch = branchMapper.selectByPrimaryKey(id);
             checkAuth(branch.getPartyId());
 
+            Branch record = new Branch();
+            record.setIsDeleted(isDeleted);
+
             if(!isDeleted){ // 恢复支部
                 Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
                 if(party.getIsDeleted())
                     throw new OpException(String.format("恢复支部失败，支部所属的分党委【%s】已删除。", party.getName()));
-            }
 
-            if(isDeleted) {
+                record.setSortOrder(getNextSortOrder("ow_branch",
+                "is_deleted=0 and party_id=" + record.getPartyId()));
+            }else {
                 // 删除所有的支部委员会
                 BranchMemberGroupExample example = new BranchMemberGroupExample();
                 example.createCriteria().andBranchIdEqualTo(id);
@@ -199,13 +191,9 @@ public class BranchService extends BaseMapper {
                 // 删除所有的支部管理员
                 orgAdminService.delAllOrgAdmin(null, id);
             }
-        }
 
-        BranchExample example = new BranchExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        Branch record = new Branch();
-        record.setIsDeleted(isDeleted);
-        branchMapper.updateByExampleSelective(record, example);
+            branchMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     @Transactional
@@ -232,5 +220,47 @@ public class BranchService extends BaseMapper {
         }
 
         return map;
+    }
+
+    @Transactional
+    @CacheEvict(value = "Branch:ALL", allEntries = true)
+    public void changeOrder(int id, int addNum) {
+
+        if (addNum == 0) return;
+
+        Branch entity = branchMapper.selectByPrimaryKey(id);
+        Boolean isDeleted = entity.getIsDeleted();
+        Integer partyId = entity.getPartyId();
+        Integer baseSortOrder = entity.getSortOrder();
+
+        BranchExample example = new BranchExample();
+        if (addNum > 0) {
+
+            example.createCriteria().andPartyIdEqualTo(partyId)
+                    .andIsDeletedEqualTo(isDeleted).andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        } else {
+
+            example.createCriteria().andPartyIdEqualTo(partyId)
+                    .andIsDeletedEqualTo(isDeleted).andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<Branch> overEntities = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if (overEntities.size() > 0) {
+
+            Branch targetEntity = overEntities.get(overEntities.size() - 1);
+
+            String whereSql = "is_deleted=" + isDeleted + " and party_id="+partyId;
+            if (addNum > 0)
+                commonMapper.downOrder("ow_branch", whereSql, baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("ow_branch", whereSql, baseSortOrder, targetEntity.getSortOrder());
+
+            Branch record = new Branch();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            branchMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

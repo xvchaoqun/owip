@@ -69,7 +69,7 @@ public interface IAbroadMapper {
                                                              @Param("unitIdStr") String unitIdStr);
 
     // 其他审批人身份 的所在单位 给定一个干部id， 和审批人类别，查找他可以审批的干部的职务属性
-    /*@Select("select distinct bc.post_id from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre bc where aat.id in(" +
+    /*@Select("select distinct bc.post_type from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
             "and bc.id = aac.cadre_id")

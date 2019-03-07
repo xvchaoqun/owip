@@ -45,7 +45,7 @@
                         </li>
                         <li class="${cls==2?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=2" }><i
-                                    class="fa fa-times"></i> 未通过</a>
+                                    class="fa fa-times"></i> 未通过/已撤销</a>
                         </li>
                         <li class="${cls==3?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=3" }><i

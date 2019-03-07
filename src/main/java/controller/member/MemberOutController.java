@@ -388,12 +388,15 @@ public class MemberOutController extends MemberBaseController {
             }
         }
 
-
         Integer id = record.getId();
-
-        if (memberOutService.idDuplicate(id, record.getUserId())) {
-            return failed("添加重复");
+        if(id==null) {
+            MemberOut memberOut = memberOutService.getLatest(record.getUserId());
+            if (memberOut != null || memberOut.getStatus() <= MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+                return failed(String.format("存在未完成审批的记录（状态：%s）",
+                        MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus())));
+            }
         }
+
         if (StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }

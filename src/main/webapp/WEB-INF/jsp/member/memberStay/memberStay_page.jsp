@@ -91,7 +91,7 @@
                             </li>--%>
                         <li class="${cls==4?'active':''}">
                             <a href="javascript:;" class="hashchange" data-querystr="cls=4" }><i
-                                    class="fa fa-times"></i> 未通过</a>
+                                    class="fa fa-times"></i> 未通过/已撤销</a>
                         </li>
 
                         <li class="dropdown <c:if test="${cls==5||cls==6}">active</c:if>">

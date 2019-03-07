@@ -22,9 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -133,17 +134,15 @@ public class BranchController extends BaseController {
 
         //===========权限（只有分党委管理员，才可以管理党支部）
         //criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
-            if(!subject.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的支部
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
+            //if(!ShiroHelper.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的支部
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
                 if (partyIdList.size() > 0)
                     criteria.andPartyIdIn(partyIdList);
                 else criteria.andPartyIdIsNull();
-            }
+            //}
         }
 
         if (typeId != null) {
@@ -208,9 +207,7 @@ public class BranchController extends BaseController {
         Integer id = record.getId();
 
         // 权限控制
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             // 要求是分党委管理员
             Integer partyId = record.getPartyId();
             if (id != null) {
@@ -233,12 +230,12 @@ public class BranchController extends BaseController {
         record.setIsPrefessional(BooleanUtils.isTrue(record.getIsPrefessional()));
         record.setIsBaseTeam(BooleanUtils.isTrue(record.getIsBaseTeam()));
 
-        if (!record.getIsStaff()) {
+        /*if (!record.getIsStaff()) {
             record.setIsPrefessional(false);
         }
         if (!record.getIsPrefessional()) {
             record.setIsBaseTeam(false);
-        }
+        }*/
 
         if (id == null) {
             record.setCreateTime(new Date());
@@ -312,15 +309,14 @@ public class BranchController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresPermissions("branch:changeOrder")
+    @RequiresPermissions("branch:changeOrder")
     @RequestMapping(value = "/branch_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branch_changeOrder(@CurrentUser SysUserView loginUser, Integer id, Integer addNum, HttpServletRequest request) {
 
         // 权限控制
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             // 要求是分党委管理员
             Branch branch = branchService.findAll().get(id);
             int partyId = branch.getPartyId();
@@ -332,7 +328,7 @@ public class BranchController extends BaseController {
         branchService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_PARTY, "党支部调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
-    }*/
+    }
 
     @RequiresPermissions("branch:transfer")
     @RequestMapping(value = "/branch_batchTransfer")
@@ -534,9 +530,8 @@ public class BranchController extends BaseController {
 
         //===========权限
         if (BooleanUtils.isTrue(auth)) {
-            Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                    && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
                 Set<Integer> partyIdSet = new HashSet<>();

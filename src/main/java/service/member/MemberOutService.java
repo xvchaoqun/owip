@@ -135,14 +135,14 @@ public class MemberOutService extends MemberBaseMapper {
         return (memberApplies.size() == 0) ? null : memberApplies.get(0);
     }
 
-    public boolean idDuplicate(Integer id, Integer userId) {
+   /* public boolean idDuplicate(Integer id, Integer userId) {
 
         MemberOutExample example = new MemberOutExample();
         MemberOutExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
         if (id != null) criteria.andIdNotEqualTo(id);
 
         return memberOutMapper.countByExample(example) > 0;
-    }
+    }*/
 
     // 上一次转出记录（已完成或者还在申请过程中）
     public MemberOut getLatest(int userId) {

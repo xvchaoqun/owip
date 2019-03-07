@@ -42,7 +42,7 @@
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflowOut?cls=6"}><i class="fa fa-circle-o"></i> 分党委审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflowOut?cls=2"}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflowOut?cls=2"}><i class="fa fa-times"></i> 未通过/已撤销</a>
                         </li>
                         <li class="${cls==3?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflowOut?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
