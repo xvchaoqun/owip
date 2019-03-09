@@ -60,7 +60,7 @@ td.bolder{font-weight: bolder}
 </style>
 <c:if test="${param.mobile=='1'}">
     <button type="button"
-            style="padding: 15px; position: absolute;right: 0;top: -10px;z-index: 2222"
+            style="padding: 15px; position: sticky;right: 0;top: -10px;z-index: 2222"
             data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
 </c:if>
 <div id="preview">

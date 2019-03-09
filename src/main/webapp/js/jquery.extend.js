@@ -410,7 +410,7 @@ var _modal_width;
                 $("#modal").addClass(direction);
             }
             //     position: sticky;right: 20px;top: 20px;z-index: 2222;
-            var close = '<button type="button" style="padding: 20px; position: absolute;right: 0;top: -10px;z-index: 2222"'
+            var close = '<button type="button" style="padding: 20px; position: sticky;right: 0;top: -10px;z-index: 2222"'
            // var close = '<button type="button" style="position: sticky;padding: 20px;top: 0px;z-index: 2222;"'
              +'data-dismiss="modal" aria-hidden="true" class="close">&times;</button>'
             $('#modal .modal-content').html(close+"<div id='preview'><img src='"+url+"'></div>")

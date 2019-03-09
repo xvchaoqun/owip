@@ -49,7 +49,7 @@
                                             data-msg="确定作废这{0}条数据？"
                                             data-grid-id="#jqGrid"
                                             class="jqBatchBtn btn btn-warning btn-sm">
-                                        <i class="fa fa-trash"></i> 过期作废
+                                        <i class="fa fa-history"></i> 过期作废
                                     </button>
                                 </c:if>
                                 <button data-url="${ctx}/dispatchWorkFile_transfer"
@@ -65,7 +65,7 @@
                                         data-msg="确定删除这{0}条数据？"
                                         data-grid-id="#jqGrid"
                                         class="jqBatchBtn btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i> 删除
+                                    <i class="fa fa-times"></i> 删除
                                 </button>
                             </shiro:hasPermission>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -154,7 +154,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchWorkFile_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '文件名', width: 360, name: 'fileName', align:'left', frozen: true},
+            {label: '文件名', width: 420, name: 'fileName', align:'left', frozen: true},
             {
                 label: '文件', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 
