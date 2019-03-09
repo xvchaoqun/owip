@@ -33,9 +33,11 @@ public class PcsPrAllocateController extends PcsBaseController {
     public String pcsPrAllocate(ModelMap modelMap) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
-        int configId = currentPcsConfig.getId();
-        List<PcsPrAllocateBean> records = iPcsMapper.selectPcsPrAllocateBeanList(configId, null, new RowBounds());
-        modelMap.put("records", records);
+        if(currentPcsConfig!=null) {
+            int configId = currentPcsConfig.getId();
+            List<PcsPrAllocateBean> records = iPcsMapper.selectPcsPrAllocateBeanList(configId, null, new RowBounds());
+            modelMap.put("records", records);
+        }
 
         return "pcs/pcsPrAllocate/pcsPrAllocate_au";
     }

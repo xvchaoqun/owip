@@ -138,14 +138,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">登录页LOGO（269*58，PNG格式）</label>
+                <label class="col-xs-3 control-label">登录页LOGO（heigh<=70px，PNG格式）</label>
 
                 <div class="col-xs-6">
                     <input type="file" name="_logo" id="_logo"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">后台LOGO（269*58，透明PNG格式）</label>
+                <label class="col-xs-3 control-label">后台LOGO（heigh<=70px，透明PNG格式）</label>
 
                 <div class="col-xs-6">
                     <input type="file" name="_logoWhite" id="_logoWhite"/>
@@ -303,7 +303,7 @@
         no_icon: 'ace-icon fa fa-picture-o',
         thumbnail: 'large',
         droppable: true,
-        previewWidth: 269,
+        //previewWidth: 269,
         previewHeight: 58,
         allowExt: ['png'],
         allowMime: ['image/png'],
@@ -317,7 +317,7 @@
         no_icon: 'ace-icon fa fa-picture-o',
         thumbnail: 'large',
         droppable: true,
-        previewWidth: 269,
+        //previewWidth: 269,
         previewHeight: 58,
         allowExt: ['png'],
         allowMime: ['image/png'],

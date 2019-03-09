@@ -131,14 +131,21 @@
 .navbar .navbar-header .logo {
     padding-right: 25px;
     float: left;
+    height: 70px;
+    line-height: 70px;
+    /*border-right: 1px solid #fff;*/
+}
+.navbar .navbar-header .separator {
+    border-left: 1px solid #fff;
     height: 58px;
-    border-right: 1px solid #fff;
+    margin-top: 6px;
+    float: left;
 }
 
 .navbar .navbar-header .txt {
     float: left;
-    height: 58px;
-    line-height: 58px;
+    height: 70px;
+    line-height: 70px;
     font-size: 30px;
     margin-left: 25px;
     font-weight: bold;
