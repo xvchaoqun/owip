@@ -471,7 +471,7 @@ var _modal_width;
             }
             //console.log($target)
             //console.log($container)
-            $target.qtip({
+            return $target.qtip({
                 content: label + msg,
                 show: true, hide: {
                     event: 'unfocus',
@@ -1005,11 +1005,16 @@ var _modal_width;
                 prepareCallback:function(url){},
                 successCallback: function (url) {
                     $('[data-rel="tooltip"]').tooltip('hide');
-                    $.tip({
+                    var $tip = $.tip({
                         $target: $this,
                         at: 'top center', my: 'bottom center', type: 'success',
                         msg: "导出成功。"
                     });
+                    setTimeout(function(){
+                        $tip.qtip('destroy', true);
+                        //console.log($tip)
+                        $this.closest(".btn-group").removeClass("open");
+                    }, 3000)
                     $btn.button('reset');
                 },
                 failCallback: function (responseHtml, url, error) {
@@ -1017,11 +1022,15 @@ var _modal_width;
                     //console.log("url="+url)
                     //console.log("error="+error)
                     $('[data-rel="tooltip"]').tooltip('hide');
-                    $.tip({
+                    var $tip = $.tip({
                         $target: $this,
                         at: 'top center', my: 'bottom center',
                         msg: "导出失败，请稍后重试。"
                     });
+                    setTimeout(function(){
+                        $tip.qtip('destroy', true);
+                        //console.log($tip)
+                    }, 3000)
                     $btn.button('reset');
                 }
             });

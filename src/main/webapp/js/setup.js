@@ -827,6 +827,8 @@ $(document).on("click", ".jqExportBtn", function () {
     var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var ids = grid.getGridParam("selarrrow");
+    var idsName = $(this).data("ids-name") || 'ids[]';
+    var _export = $(this).data("export") || '1';
 
     var url = $this.data("url") || $(this).closest(".myTableDiv").data("url-export");
     var queryString = $this.data("querystr");
@@ -834,8 +836,8 @@ $(document).on("click", ".jqExportBtn", function () {
 
     var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
 
-    url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&"+
-        encodeURI('ids[]')+"=" + ids + "&" + $(searchFormId).serialize();
+    url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export="+ _export +"&"+
+        encodeURI(idsName)+"=" + ids + "&" + $(searchFormId).serialize();
 
     $this.download(url);
     return false;
