@@ -24,6 +24,7 @@
      style="background:url(${ctx}/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) ${_sysConfig.loginTopBgColor} top right no-repeat">
     <div class="w1000">
         <div class="logo"><t:img src="/img/logo.png"/></div>
+        <div class="separator"></div>
         <div class="txt">${_plantform_name}</div>
     </div>
 </div>
