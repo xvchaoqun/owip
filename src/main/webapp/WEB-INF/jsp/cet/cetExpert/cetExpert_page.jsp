@@ -135,7 +135,7 @@ pageEncoding="UTF-8" %>
             }, frozen:true},
             { label: '姓名',name: 'realname', frozen:true},
             {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/cet/cetExpert_changeOrder"}, frozen:true
             },
             { label: '所在单位',name: 'unit', width:300, align:'left'},

@@ -38,7 +38,7 @@
                                                 class="fa fa-plus"></i> 选择
                                         </button>
                                         <div style="padding-top: 10px;width:270px;">
-                                            <div id="itemList" style="max-height: 300px;overflow-y: auto;">
+                                            <div id="itemList" style="max-height: 550px;overflow-y: auto;">
 
                                             </div>
                                         </div>
@@ -46,7 +46,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div style="float: left;font-size: 14pt;margin-bottom: 20px;" id="resultDiv">
+                        <div style="float: left;font-size: 14pt;margin-bottom: 20px;max-width: 1000px;max-height: 590px;overflow-y: auto;" id="resultDiv">
                         </div>
                     </div>
                 </div>
@@ -57,6 +57,7 @@
 <div class="modal-footer center">
     <button id="copyBtn" class="btn btn-success" data-clipboard-target="#resultDiv"><i class="fa fa-copy"></i> 复制到剪贴板</button>
 </div>
+<div class="footer-margin lower"/>
 <script type="text/template" id="itemListTpl">
     <table id="itemTable" class="table table-striped table-bordered table-condensed table-unhover2 table-center">
         <thead class="multi">
@@ -91,7 +92,7 @@
         if($.trim(e.text)!='') {
             $.tip({
                 $target: $("#copyBtn"),
-                at: 'bottom center', my: 'top center', type: 'success',
+                at: 'top center', my: 'bottom center', type: 'success',
                 msg: "内容已经复制剪贴板，请粘贴。"
             })
         }
@@ -108,8 +109,10 @@
     });
 
     $.register.user_select($('[data-rel="select2-ajax"]'));
-    var selectedItems = [];
+    var selectedItems = ${cm:toJSONArray(selectedItems)};
     $("#itemList").append(_.template($("#itemListTpl").html())({users: selectedItems}));
+    getCopyStr();
+
     function _selectUser() {
 
         var $select = $("#modalForm select[name=userId]");
@@ -122,6 +125,7 @@
             });
             return;
         }
+
         var hasSelected = false;
         $.each(selectedItems, function (i, user) {
             if (user.userId == userId) {
@@ -146,6 +150,7 @@
         selectedItems.push(user);
         $("#itemList").empty().append(_.template($("#itemListTpl").html())({users: selectedItems}));
 
+        $select.val(null).trigger("change");
         getCopyStr();
     }
 
@@ -169,11 +174,14 @@
         var userIds = $.map(selectedItems, function (user) {
             return user.userId;
         });
+        if(userIds.length==0){
+            $("#resultDiv").html('');
+            return;
+        }
         $.post("${ctx}/cadre_search_brief", {userIds: userIds}, function (ret) {
 
             $("#resultDiv").html(ret);
             //clip.setData("设置用于复制的文本内容");
         })
-
     }
 </script>

@@ -75,7 +75,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '专题分类',name: 'name', width:200},
             {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/cet/cetProjectType_changeOrder"}
             },
             /*{ label: '课程',name: 'courseNum'},

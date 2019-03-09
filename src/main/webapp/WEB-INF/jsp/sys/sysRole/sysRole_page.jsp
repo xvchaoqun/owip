@@ -47,7 +47,7 @@
             { label: '系统代码', name: 'role', width:200, align:'left',frozen:true},
             { label: '角色名称', name: 'description', width: 300, align:'left',frozen:true},
             {
-                label: '排序', align: 'center', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/sysRole_changeOrder"}
             },
             { label: '设定级别', name: 'isSysHold', width: 120, formatter: $.jgrid.formatter.TRUEFALSE,

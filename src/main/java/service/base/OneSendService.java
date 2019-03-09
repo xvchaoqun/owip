@@ -1,7 +1,6 @@
 package service.base;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import domain.base.OneSend;
@@ -16,6 +15,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import persistence.base.OneSendMapper;
 import shiro.ShiroHelper;
+import sys.gson.GsonUtils;
 import sys.utils.JSONUtils;
 
 import java.util.Date;
@@ -83,9 +83,8 @@ public class OneSendService {
 
             oneSendResult.setRet((String) results[0]);
 
-            Gson gson = new Gson();
             // {"result":true,"msg_id":"11638347911168","msg":"发布成功"}
-            JsonObject jsonObject = gson.fromJson(oneSendResult.getRet(), JsonObject.class);
+            JsonObject jsonObject = GsonUtils.toJsonObject(oneSendResult.getRet());
             JsonElement result = jsonObject.get("result");
 
             oneSendResult.setSuccess(BooleanUtils.isTrue(result.getAsBoolean()));
@@ -122,9 +121,8 @@ public class OneSendService {
 
             oneSendResult.setRet((String) results[0]);
 
-            Gson gson = new Gson();
             // {"result":true,"msg_id":"13006982860800","msg":"发布成功"}
-            JsonObject jsonObject = gson.fromJson(oneSendResult.getRet(), JsonObject.class);
+            JsonObject jsonObject = GsonUtils.toJsonObject(oneSendResult.getRet());
             JsonElement result = jsonObject.get("result");
 
             oneSendResult.setSuccess(BooleanUtils.isTrue(result.getAsBoolean()));

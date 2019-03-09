@@ -446,7 +446,7 @@ public class CetAnnualObjController extends CetBaseController {
         
         String filename = String.format("%s%s%s年度培训学习明细表.xlsx",
                     CmTag.getSysConfig().getSchoolName(), typeName, cetAnnual.getYear());
-        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+        DownloadUtils.addFileDownloadCookieHeader(response);
         DownloadUtils.zip(fileMap, filename, request, response);
         
         FileUtils.deleteDir(new File(tmpdir));

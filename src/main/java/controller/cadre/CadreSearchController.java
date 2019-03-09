@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CadreConstants;
 import sys.utils.FormUtils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lm on 2018/5/28.
@@ -32,7 +30,27 @@ public class CadreSearchController  extends BaseController {
     // 提取简介
     @RequiresPermissions("cadre:archive")
     @RequestMapping("/cadre_search_brief")
-    public String cadre_search_brief() {
+    public String cadre_search_brief(Integer[] cadreIds, ModelMap modelMap) {
+
+        if(cadreIds!=null && cadreIds.length>0) {
+            CadreViewExample example = new CadreViewExample();
+            example.createCriteria().andIdIn(Arrays.asList(cadreIds));
+            example.setOrderByClause("sort_order desc");
+            List<CadreView> cadres = cadreViewMapper.selectByExample(example);
+
+            List<Map<String, Object>> selectedItems = new ArrayList<>();
+            for (CadreView cadre : cadres) {
+
+                Map<String, Object> u = new HashMap<>();
+                u.put("userId", cadre.getUserId());
+                u.put("realname", cadre.getRealname());
+                u.put("code", cadre.getCode());
+
+                selectedItems.add(u);
+            }
+
+            modelMap.put("selectedItems", selectedItems);
+        }
 
         return "cadre/cadreSearch/cadre_search_brief";
     }

@@ -27,6 +27,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
+import sys.gson.GsonUtils;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -364,8 +365,7 @@ public class PmdOrderCampusCardService extends PmdBaseMapper {
                     
                     if (StringUtils.isNotBlank(queryRet)) { // 支付系统查询订单号不存在的话，接口返回的内容为空
                         
-                        Gson gson = new Gson();
-                        JsonObject jsonObject = gson.fromJson(queryRet, JsonObject.class);
+                        JsonObject jsonObject = GsonUtils.toJsonObject(queryRet);
                         JsonElement paid = jsonObject.get("paid");
                         JsonElement payer = jsonObject.get("payer");
                         
@@ -830,8 +830,7 @@ public class PmdOrderCampusCardService extends PmdBaseMapper {
             if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 
                 String ret = EntityUtils.toString(res.getEntity());
-                Gson gson = new Gson();
-                JsonObject jsonObject = gson.fromJson(ret, JsonObject.class);
+                JsonObject jsonObject = GsonUtils.toJsonObject(ret);
                 JsonElement code = jsonObject.get("code");
                 if (code != null &&
                         (StringUtils.equals(code.getAsString(), "0000")

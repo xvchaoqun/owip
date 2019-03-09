@@ -80,7 +80,7 @@
             { label: '课程',name: 'courseName',width:280},
             {label: '主讲人', name: 'realname',width:90},
             {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid_popup', url: "${ctx}/cet/cetColumnCourse_changeOrder"},width:90
             },
             { label: '操作',name: '_op',width:80,formatter: function(cellvalue, options, rowObject){

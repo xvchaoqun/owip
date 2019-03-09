@@ -207,7 +207,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号',align:'center', name: 'code', frozen:true },
+            { label: '编号', name: 'code', frozen:true },
             { label: '名称',  name: 'name',align:'left', width: 550,formatter:function(cellvalue, options, rowObject){
 
                 return $.party(null, rowObject.id);

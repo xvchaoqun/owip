@@ -25,6 +25,7 @@ import service.sc.ScBaseMapper;
 import shiro.ShiroHelper;
 import sys.tool.office.WordTemplate;
 import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -173,7 +174,7 @@ public class ScDispatchService extends ScBaseMapper {
         //long end = System.currentTimeMillis();
         //System.out.println("use time:" + (end-start));
 
-        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+        DownloadUtils.addFileDownloadCookieHeader(response);
         OutputStream out = new BufferedOutputStream(response.getOutputStream());
         doc.write(out);
         out.flush();

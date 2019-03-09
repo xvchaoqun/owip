@@ -255,7 +255,7 @@ public class CetProjectObjController extends CetBaseController {
                 fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(writeFilePath),
                         new File(springProps.uploadPath + writeFilePath));
             }
-            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+            DownloadUtils.addFileDownloadCookieHeader(response);
 
             CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
             DownloadUtils.zip(fileMap, String.format("[%s]心得体会（%s）", cetProject.getName(),

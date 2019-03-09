@@ -177,12 +177,12 @@
                 return "S{0}".format(rowObject.id);
             }, frozen: true
             },
-            {label: '申请日期', align: 'center', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '工作证号', align: 'center', name: 'user.code', width: 110, frozen: true},
-            {label: '姓名', align: 'center', name: 'user.realname', width: 75, frozen: true},
+            {label: '申请日期', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
+            {label: '姓名', name: 'user.realname', width: 75, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', width: 250, align:'left'},
-            {label: '出行时间', align: 'center', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '回国时间', align: 'center', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出行时间', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '回国时间', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '出行天数',
                 align: 'center',
@@ -194,7 +194,7 @@
                     return $.dayDiff(rowObject.startDate, rowObject.endDate);
                 }
             },
-            {label: '前往国家或地区', align: 'center', name: 'toCountry', width: 180},
+            {label: '前往国家或地区', name: 'toCountry', width: 180},
             {
                 label: '因私出国（境）事由',
                 align: 'center',
@@ -216,7 +216,7 @@
             },
             <c:forEach items="${approverTypeMap}" var="type">
             {
-                label: '${type.value.name}审批', align: 'center', name: 'approver${type.key}', width: 150,
+                label: '${type.value.name}审批', name: 'approver${type.key}', width: 150,
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
                     if (tdBean!=undefined && tdBean.tdType == 2)

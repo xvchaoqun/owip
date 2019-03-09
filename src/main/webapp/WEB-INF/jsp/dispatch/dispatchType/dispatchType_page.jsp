@@ -82,10 +82,8 @@
         colModel: [
             { label: '名称', name: 'name', width: 250,frozen:true },
             { label: '发文属性', name: 'attr', width: 150,frozen:true },
-            <c:if test="${not empty param.year}">
-            { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,
             formatoptions:{url: "${ctx}/dispatchType_changeOrder"},frozen:true },
-            </c:if>
             { label: '所属年份', name: 'year' },
             { label: '添加时间',  name: 'createTime', width: 180 }
         ]

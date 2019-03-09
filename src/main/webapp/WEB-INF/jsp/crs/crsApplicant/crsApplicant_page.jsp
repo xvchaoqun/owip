@@ -213,7 +213,7 @@
 
             }, frozen: true},
             <c:if test="${cls==2}">
-            {label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+            {label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:"#jqGrid2",url: "${ctx}/crsApplicant_changeOrder"}, frozen: true},
             </c:if>
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200, frozen: true},

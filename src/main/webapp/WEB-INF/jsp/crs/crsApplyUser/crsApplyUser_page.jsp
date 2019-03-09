@@ -83,7 +83,7 @@ pageEncoding="UTF-8" %>
                 { label: 'remark',name: 'remark'},
                 { label: 'create_time',name: 'createTime'},
                 <c:if test="${!_query}">
-                { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,
+                { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{url:'${ctx}/crsApplyUser_changeOrder'},frozen:true },
                 </c:if>
                 { label: '状态',name: 'status'}

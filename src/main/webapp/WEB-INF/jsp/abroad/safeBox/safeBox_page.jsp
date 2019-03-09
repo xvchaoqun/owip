@@ -53,7 +53,7 @@
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/abroad/safeBoxPassportList?safeBoxId={0}">{1}</a>'
                         .format(rowObject.id, rowObject.totalCount)
             },frozen:true},
-            { label: '有效证件数量',align:'center',  name: 'keepCount', width: 120 , formatter:function(cellvalue, options, rowObject){
+            { label: '有效证件数量',  name: 'keepCount', width: 120 , formatter:function(cellvalue, options, rowObject){
                     return '<a href="javascript:;" class="openView" data-url="${ctx}/abroad/safeBoxPassportList?safeBoxId={0}&type=1">{1}</a>'
                         .format(rowObject.id, rowObject.keepCount)
             },frozen:true},
@@ -64,7 +64,7 @@
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/abroad/safeBoxPassportList?safeBoxId={0}&type=2&cancelConfirm=0">{1}</a>'
                         .format(rowObject.id, count)
             },frozen:true},
-            { label:'排序',align:'center', width: 80, formatter: $.jgrid.formatter.sortOrder,frozen:true },
+            { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,frozen:true },
             { label: '证件所属单位', name: 'units', width: 500, align:'left' },
             { label: '备注', name: 'remark', width: 250 }
         ]}).jqGrid("setFrozenColumns");

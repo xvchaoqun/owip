@@ -129,7 +129,7 @@
             { label: '单位名称', name: 'id', width: 350, align:'left', formatter:$.jgrid.formatter.unit,frozen:true },
              <shrio:hasPermission name="unit:changeOrder">
             <c:if test="${!_query}">
-            { label:'排序',align:'center', width: 80, formatter: $.jgrid.formatter.sortOrder,frozen:true },
+            { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             </shrio:hasPermission>
             { label: '单位类型', name: 'typeId', width: 250, formatter: $.jgrid.formatter.MetaType },

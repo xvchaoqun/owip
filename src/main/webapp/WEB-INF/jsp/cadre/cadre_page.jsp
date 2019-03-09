@@ -95,6 +95,7 @@
                                             <i class="fa fa-download"></i> 导出  <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-success" role="menu">
+
                                             <li>
                                                 <a href="javascript:;" class="jqExportBtn"
                                                    data-need-id="false" data-url="${ctx}/cadre_data" data-querystr="format=1">
@@ -112,7 +113,7 @@
                                                     <li>
                                                         <a href="javascript:;" class="jqExportBtn"
                                                            data-need-id="false" data-url="${ctx}/cadreEdu_data">
-                                                            <i class="fa fa-file-excel-o"></i> 导出学习经历（所有${CADRE_STATUS_MAP.get(status)}）</a>
+                                                            <i class="fa fa-file-excel-o"></i> 导出学习经历（批量）</a>
                                                     </li>
                                                 </shiro:hasPermission>
                                                 <shiro:hasPermission name="cadre:exportFamily">
@@ -120,17 +121,36 @@
                                                     <li>
                                                         <a href="javascript:;" class="jqExportBtn"
                                                            data-need-id="false" data-url="${ctx}/cadreFamily_data">
-                                                            <i class="fa fa-file-excel-o"></i> 导出家庭成员（所有${CADRE_STATUS_MAP.get(status)}）</a>
+                                                            <i class="fa fa-file-excel-o"></i> 导出家庭成员（批量）</a>
                                                     </li>
                                                 </shiro:hasPermission>
                                             </c:if>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false"
+                                                   data-export="2"
+                                                   data-url="${ctx}/cadre_data">
+                                                    <i class="fa fa-file-excel-o"></i> 导出任免审批表（批量）</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false"
+                                                   data-export="3"
+                                                   data-url="${ctx}/cadre_data">
+                                                    <i class="fa fa-file-excel-o"></i> 导出信息采集表（批量）</a>
+                                            </li>
                                         </ul>
                                     </div>
 
                                 </shiro:hasPermission>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
                                     <shiro:hasPermission name="cadre:archive">
-                                    <button class="openView btn btn-primary btn-sm"
+                                    <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                                            data-need-id="false"
+                                            data-ids-name="cadreIds"
+                                            data-open-by="page"
                                             data-url="${ctx}/cadre_search_brief">
                                         <i class="fa fa-search"></i> 提取简介
                                     </button>

@@ -80,7 +80,7 @@
                         .format(rowObject.cetCourse.id)
             }},
             {
-                label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+                label: '排序',formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/cet/cetPlanCourse_changeOrder"}
             },
             {label: '学时', name: 'cetCourse.period', width: 70},
@@ -100,7 +100,7 @@
             {label: '编号', name: 'cetCourse.sn', frozen: true},
             {label: '网上专题培训班名称', name: 'cetCourse.name', width: 300, align: 'left', frozen: true},
             {
-                label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+                label: '排序',formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/cet/cetPlanCourse_changeOrder"}, frozen: true
             },
             {label: '上级单位名称', name: 'cetCourse.address', width: 300, align: 'left'},

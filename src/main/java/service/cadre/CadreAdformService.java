@@ -33,9 +33,13 @@ import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
+import sys.utils.FileUtils;
 import sys.utils.ImageUtils;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
@@ -68,6 +72,55 @@ public class CadreAdformService extends BaseMapper {
     protected CadreRewardService cadreRewardService;
     @Autowired
     protected SysConfigService sysConfigService;
+
+    public void export(Integer[] cadreIds, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
+
+        if(cadreIds == null) return;
+
+        if (cadreIds.length == 1) {
+
+            int cadreId = cadreIds[0];
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
+            //输出文件
+            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                    + " 干部任免审批表 " + cadre.getUser().getRealname() + ".doc";
+            response.reset();
+            DownloadUtils.addFileDownloadCookieHeader(response);
+
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
+            response.setContentType("application/msword;charset=UTF-8");
+
+            CadreInfoForm adform = getCadreAdform(cadreId);
+            process(adform, response.getWriter());
+        } else {
+
+            Map<String, File> fileMap = new LinkedHashMap<>();
+            String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                    DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "adforms";
+            FileUtils.mkdirs(tmpdir, false);
+            for (int cadreId : cadreIds) {
+                CadreView cadre = iCadreMapper.getCadre(cadreId);
+                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                        + " 干部任免审批表 " + cadre.getUser().getRealname() + ".doc";
+
+                String filepath = tmpdir + FILE_SEPARATOR + filename;
+                FileOutputStream output = new FileOutputStream(new File(filepath));
+                OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+
+                CadreInfoForm adform = getCadreAdform(cadreId);
+                process(adform, osw);
+
+                fileMap.put(filename, new File(filepath));
+            }
+
+            String filename = String.format("%s干部任免审批表.xlsx",
+                    CmTag.getSysConfig().getSchoolName());
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            DownloadUtils.zip(fileMap, filename, request, response);
+            FileUtils.deleteDir(new File(tmpdir));
+        }
+    }
 
     // 获取任免审批表属性值
     public CadreInfoForm getCadreAdform(int cadreId){

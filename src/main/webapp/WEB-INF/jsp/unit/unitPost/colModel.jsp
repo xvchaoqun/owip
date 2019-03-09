@@ -10,7 +10,7 @@
     </c:if>
        <shiro:hasPermission name="unitPost:changeOrder">
     <c:if test="${param.list==1 && !_query}">
-    { label:'排序',align:'center', width: 85, formatter: $.jgrid.formatter.sortOrder,
+    { label:'排序', width: 85, formatter: $.jgrid.formatter.sortOrder,
       formatoptions:{grid:'#jqGrid2',url:'${ctx}/unitPost_changeOrder'},frozen:true },
     </c:if>
       </shiro:hasPermission>

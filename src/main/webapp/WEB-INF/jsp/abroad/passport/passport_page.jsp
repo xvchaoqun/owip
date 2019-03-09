@@ -230,7 +230,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/abroad/passport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '工作证号', name: 'user.code',frozen:true },
-            { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.cadre(rowObject.cadre.id, cellvalue);},frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250, align:'left' },
             { label: '职务属性', name: 'cadre.postType', width: 150, formatter:$.jgrid.formatter.MetaType},

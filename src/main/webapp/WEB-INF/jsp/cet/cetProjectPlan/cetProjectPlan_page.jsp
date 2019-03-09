@@ -94,7 +94,7 @@
             }},
             {label: '学时', name: 'period'},
             {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2',url: "${ctx}/cet/cetProjectPlan_changeOrder"}
             },
             {label: '备注', name: 'remark', width: 400}

@@ -517,7 +517,7 @@ td.padding10 {
                 <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
                     <div class="tab-content padding-4" id="step-content">
                         <div style="position: absolute; top:25px; left:10px;">
-                            <%--<a class="btn btn-primary" href="${ctx}/cadreInfoForm_download?cadreId=${param.cadreId}">
+                            <%--<a class="btn btn-primary" href="${ctx}/cadreInfoForm_download?cadreIds=${param.cadreId}">
                                 <i class="ace-icon fa fa-download "></i>
                                 下载(WORD)
                             </a>--%>

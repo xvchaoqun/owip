@@ -83,7 +83,7 @@
         colModel: [
             {label: '模板名称', name: 'name', width: 350, align:'left',frozen:true},
             {
-                label: '排序', align: 'center', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/shortMsgTpl_changeOrder"}
             },
             {

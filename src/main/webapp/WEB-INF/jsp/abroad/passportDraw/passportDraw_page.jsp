@@ -262,7 +262,7 @@
                 }, frozen: true
             },
             </c:if>
-            {label: '工作证号', align: 'center', name: 'user.code', frozen: true},
+            {label: '工作证号', name: 'user.code', frozen: true},
             {
                 label: '姓名',
                 align: 'center',
@@ -274,7 +274,7 @@
                 frozen: true
             },
             {label: '所在单位及职务', name: 'cadre.title', width: 250, align: 'left'},
-            {label: '申请领取证件名称', align: 'center', name: 'passportClass.name', width: 180},
+            {label: '申请领取证件名称', name: 'passportClass.name', width: 180},
             {
                 label: '证号号码',
                 align: 'center',
@@ -361,7 +361,7 @@
                 }
             },
             {
-                label: '签注申请表', align: 'center', formatter: function (cellvalue, options, rowObject) {
+                label: '签注申请表', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
                         return '-';
                     }
@@ -369,7 +369,7 @@
                 }
             },
             {
-                label: '打印签注申请表', align: 'center', width: 150, formatter: function (cellvalue, options, rowObject) {
+                label: '打印签注申请表', width: 150, formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
                         return '-';
                     }
@@ -379,7 +379,7 @@
             },
             </c:if>
             {
-                label: '组织部审批', align: 'center', formatter: function (cellvalue, options, rowObject) {
+                label: '组织部审批', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}')
                         return '<button data-url="${ctx}/abroad/passportDraw_check?id={0}"  class="openView btn btn-success btn-xs">'
                                 .format(rowObject.id)
@@ -389,7 +389,7 @@
                 }
             },
             {
-                label: '短信通知', align: 'center', formatter: function (cellvalue, options, rowObject) {
+                label: '短信通知', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}') {
                         return '-';
                     }
@@ -402,7 +402,7 @@
                 }
             },
             {
-                label: '领取证件', align: 'center', formatter: function (cellvalue, options, rowObject) {
+                label: '领取证件', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.status != '${ABROAD_PASSPORT_DRAW_STATUS_PASS}') {
                         return '-';
                     }

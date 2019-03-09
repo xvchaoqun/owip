@@ -85,7 +85,7 @@ pageEncoding="UTF-8" %>
             }},
             { label: '唯一标识',name: 'code',frozen:true, align:'left', width: 250},
             {
-                label: '排序', align: 'center', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/attachFile_changeOrder"}
             },
             { label: '下载地址',name: 'id', width: 550, align:'left', formatter:function(cellvalue, options, rowObject){

@@ -138,7 +138,7 @@
             }, width: 140},
             {label: '${typeName}', name: 'name', width:400,align:'left'},
             {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/cet/cetColumn_changeOrder"}
             },
             {label: '备注', name: 'remark', width:400,align:'left'}
@@ -210,7 +210,7 @@
             colModel: [
                 {label: '${typeName}', name: 'name', width:300,align:'left'},
                 {
-                    label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                    label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{url: "${ctx}/cet/cetColumn_changeOrder"}
                 },
                 {label: '备注', name: 'remark', width:150,align:'left'},

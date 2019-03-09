@@ -123,7 +123,7 @@
             </c:if>
             <c:if test="${cls==1}">
             {
-                label: '排序', width: 80, align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', width: 80, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
             },
             {label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -212,7 +212,7 @@
                 align: 'left', frozen:true
             },
             {
-                label: '排序', width: 80, align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', width: 80, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
             },
             {label: '学时', name: 'cetCourse.period', width: 70},

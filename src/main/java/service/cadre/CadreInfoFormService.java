@@ -2,13 +2,7 @@ package service.cadre;
 
 import bean.CadreInfoForm;
 import domain.base.MetaType;
-import domain.cadre.CadreCompany;
-import domain.cadre.CadreCompanyExample;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreFamily;
-import domain.cadre.CadreFamilyAbroad;
-import domain.cadre.CadreFamilyAbroadExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
@@ -25,13 +19,13 @@ import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
+import sys.utils.FileUtils;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
 
 @Service
 public class CadreInfoFormService extends BaseMapper {
@@ -70,6 +64,53 @@ public class CadreInfoFormService extends BaseMapper {
     protected CadrePostService cadrePostService;
     @Autowired
     protected SysConfigService sysConfigService;
+
+    public void export(Integer[] cadreIds, HttpServletRequest request,
+                       HttpServletResponse response) throws IOException, TemplateException {
+
+        if (cadreIds == null) return;
+
+        if (cadreIds.length == 1) {
+
+            int cadreId = cadreIds[0];
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
+            //输出文件
+            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                    + " 干部信息采集表 " + cadre.getUser().getRealname()  + ".doc";
+            response.reset();
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
+            response.setContentType("application/msword;charset=UTF-8");
+
+            process(cadreId, response.getWriter());
+        }else {
+
+            Map<String, File> fileMap = new LinkedHashMap<>();
+            String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                    DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "infoForms";
+            FileUtils.mkdirs(tmpdir, false);
+            for (int cadreId : cadreIds) {
+                CadreView cadre = iCadreMapper.getCadre(cadreId);
+                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                        + " 干部信息采集表 " + cadre.getUser().getRealname() + ".doc";
+
+                String filepath = tmpdir + FILE_SEPARATOR + filename;
+                FileOutputStream output = new FileOutputStream(new File(filepath));
+                OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+
+                process(cadreId, osw);
+
+                fileMap.put(filename, new File(filepath));
+            }
+
+            String filename = String.format("%s干部信息采集表.xlsx",
+                    CmTag.getSysConfig().getSchoolName());
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            DownloadUtils.zip(fileMap, filename, request, response);
+            FileUtils.deleteDir(new File(tmpdir));
+        }
+    }
 
     // 获取干部信息采集表属性值
     public CadreInfoForm getCadreInfoForm(int cadreId) {
@@ -286,7 +327,7 @@ public class CadreInfoFormService extends BaseMapper {
 
         dataMap.put("isOw", bean.getIsOw());
         dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), DateUtils.YYYYMM));
-        if(bean.getDpTypeId()!=null && bean.getDpTypeId()>0) {
+        if (bean.getDpTypeId() != null && bean.getDpTypeId() > 0) {
             // 民主党派
             MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
             String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());

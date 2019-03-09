@@ -156,7 +156,7 @@ public class ScPublicController extends ScBaseController {
             //输出文件
             String filename = "干部任前公示";
             response.reset();
-            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+            DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
                     "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
             response.setContentType("application/msword;charset=UTF-8");

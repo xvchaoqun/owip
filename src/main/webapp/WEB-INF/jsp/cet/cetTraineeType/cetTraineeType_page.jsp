@@ -77,7 +77,7 @@ pageEncoding="UTF-8" %>
                 return _cMap.CET_TRAINEE_TYPE_TEMPLATE_MAP[cellvalue];
             }},
             {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/cet/cetTraineeType_changeOrder"}
             },
             { label: '备注',name: 'remark', width:400}

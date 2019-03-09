@@ -81,7 +81,7 @@
             }, frozen: true},*/
             {label: '组别', name: 'name', frozen: true},
             {
-                label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+                label: '排序',formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {grid:'#jqGrid2', url: "${ctx}/cet/cetDiscussGroup_changeOrder"}, frozen: true
             },
             {label: '召集人', name: '_holdUsers',width: 150, formatter: function (cellvalue, options, rowObject) {

@@ -84,7 +84,7 @@ pageEncoding="UTF-8" %>
                 { label: '类型',name: 'type'},
                 { label: 'dispatch_work_file_id',name: 'dispatchWorkFileId'},
                 <c:if test="${!_query}">
-                { label:'排序',align:'center', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{url:'${ctx}/cadreCompanyFile_changeOrder'},frozen:true },
                 </c:if>
                 { label: 'remark',name: 'remark'}

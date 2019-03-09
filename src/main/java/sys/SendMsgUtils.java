@@ -14,6 +14,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.util.HtmlUtils;
+import sys.gson.GsonUtils;
 import sys.utils.PropertiesUtils;
 
 import java.io.IOException;
@@ -41,8 +42,8 @@ public class SendMsgUtils {
             if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
                 String ret = EntityUtils.toString(res.getEntity());
-                Gson gson = new Gson();
-                JsonObject jsonObject = gson.fromJson(ret, JsonObject.class);
+
+                JsonObject jsonObject = GsonUtils.toJsonObject(ret);
                 JsonElement errcode = jsonObject.get("errcode");
 
                 sendMsgResult.setSuccess((errcode.getAsInt() == 0));

@@ -1,7 +1,6 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.CadreView;
 import freemarker.template.TemplateException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import service.cadre.CadreInfoFormService;
-import sys.utils.DateUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 // 干部信息采集表
 @Controller
@@ -33,18 +31,11 @@ public class CadreInfoFormController extends BaseController {
     // 干部信息采集表下载
     @RequiresPermissions("cadreInfoForm:download")
     @RequestMapping("/cadreInfoForm_download")
-    public void cadreInfoForm_download(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
+    public void cadreInfoForm_download(Integer[] cadreIds, HttpServletRequest request,
+                                       HttpServletResponse response) throws IOException, TemplateException {
 
-        CadreView cadre = iCadreMapper.getCadre(cadreId);
-        //输出文件
-        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部信息采集表 " + cadre.getUser().getRealname();
-        response.reset();
-        response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
-        response.setContentType("application/msword;charset=UTF-8");
+        if (cadreIds == null || cadreIds.length == 0) return;
 
-        cadreInfoFormService.process(cadreId, response.getWriter());
+        cadreInfoFormService.export(cadreIds, request, response);
     }
-
-
 }

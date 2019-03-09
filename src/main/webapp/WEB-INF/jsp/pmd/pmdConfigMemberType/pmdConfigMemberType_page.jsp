@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
             }, width:120},
             { label: '党员分类别',name: 'name', width:220},
             { label: '党费计算方式',name: 'pmdNorm.name', width:260},
-            { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/pmd/pmdConfigMemberType_changeOrder"},frozen:true },
             { label: '备注',name: 'remark', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.isAuto) return "默认"

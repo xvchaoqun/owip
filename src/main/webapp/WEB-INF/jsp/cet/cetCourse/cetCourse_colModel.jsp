@@ -23,7 +23,7 @@
                   .format(rowObject.id, btnStr, btnCss, iCss);
       }, frozen:true},
       {
-          label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+          label: '排序',formatter: $.jgrid.formatter.sortOrder,
           formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}, frozen:true
       },
       </c:if>
@@ -72,7 +72,7 @@
       }, frozen:true},
       <c:if test="${param.list=='admin'}">
       {
-          label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+          label: '排序',formatter: $.jgrid.formatter.sortOrder,
           formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}, frozen:true
       },
       </c:if>
@@ -87,7 +87,7 @@
       {label: '实践教学名称', name: 'name', width: 300, align: 'left', frozen:true},
       <c:if test="${param.list=='admin'}">
       {
-          label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+          label: '排序',formatter: $.jgrid.formatter.sortOrder,
           formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}, frozen:true
       },
       </c:if>
@@ -103,7 +103,7 @@
       {label: ' 网上专题培训班名称', name: 'name', width: 300, align: 'left', frozen:true},
       <c:if test="${param.list=='admin'}">
       {
-          label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+          label: '排序',formatter: $.jgrid.formatter.sortOrder,
           formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}, frozen:true
       },
       </c:if>

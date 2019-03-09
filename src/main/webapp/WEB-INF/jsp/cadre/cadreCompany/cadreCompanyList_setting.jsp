@@ -54,7 +54,7 @@ pageEncoding="UTF-8" %>
                     return $.trim(cellvalue)
                 }},
                 <c:if test="${!_query}">
-                { label:'排序',align:'center', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{url:'${ctx}/cadreCompanyFile_changeOrder'},frozen:true },
                 </c:if>
                 {

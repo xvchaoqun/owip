@@ -192,20 +192,7 @@
             </div>
           </div>
         </c:if>
-        <%--<div class="profile-info-row">
-          <div class="profile-info-name"> 干部任免审批表</div>
-          <div class="profile-info-value center">
-            <c:if test="${not empty cadre}">
-            <button class="popView btn btn-success btn-sm" data-direction="bottom"
-                    data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${cadre.id}"><i class="fa fa-search"></i> 查看</button>
-            <div style="width: 30px;display: inline-block">&nbsp;</div>
-            <a class="btn btn-primary btn-sm" href="${ctx}/m/cadreAdform_download?cadreId=${cadre.id}">
-              <i class="ace-icon fa fa-download"></i>
-              下 载
-            </a>
-            </c:if>
-          </div>
-        </div>--%>
+
       </div>
     </div>
     <div id="pi" class="tab-pane">

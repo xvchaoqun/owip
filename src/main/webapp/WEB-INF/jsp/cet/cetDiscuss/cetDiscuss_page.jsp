@@ -66,7 +66,7 @@
             {label: '开始日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
             {label: '结束日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
             {
-                label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+                label: '排序',formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {grid:'#jqGrid2', url: "${ctx}/cet/cetDiscuss_changeOrder"}, frozen: true
             },
             {label: '研讨会名称', name: 'name', width:300},

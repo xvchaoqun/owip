@@ -10,6 +10,7 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import freemarker.template.TemplateException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -24,6 +25,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import service.cadre.CadreAdformService;
+import service.cadre.CadreInfoFormService;
 import service.cadre.CadreService;
 import shiro.ShiroHelper;
 import sys.constants.*;
@@ -46,9 +50,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class CadreController extends BaseController {
+
+    @Autowired
+    private CadreAdformService cadreAdformService;
+    @Autowired
+    private CadreInfoFormService cadreInfoFormService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -125,6 +135,7 @@ public class CadreController extends BaseController {
 
     @RequestMapping("/cadre_data")
     public void cadre_data(HttpServletResponse response,
+                           HttpServletRequest request,
                            @RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
                            Integer cadreId,
                            Byte gender,
@@ -151,7 +162,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                           Integer pageSize, Integer pageNo) throws IOException {
+                           Integer pageSize, Integer pageNo) throws IOException, TemplateException {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
             throw new UnauthorizedException("没有权限访问");
@@ -257,6 +268,20 @@ public class CadreController extends BaseController {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             cadre_export(format, status, example, response);
+            return;
+        }else if(export==2 || export==3){
+
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+
+            List<CadreView> records = cadreViewMapper.selectByExample(example);
+            Integer[] cadreIds = records.stream().map(CadreView::getId)
+                    .collect(Collectors.toList()).stream().toArray(Integer[]::new);
+            if(export==2) {
+                cadreAdformService.export(cadreIds, request, response);
+            }else{
+                cadreInfoFormService.export(cadreIds, request, response);
+            }
             return;
         }
 

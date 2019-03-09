@@ -174,7 +174,7 @@ public class SystemController extends BaseController {
                     new String[]{"/bin/sh", "-c", cmd.trim()});
             process.waitFor();
 
-            //response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+            //DownloadUtils.addFileDownloadCookieHeader(response);
             DownloadUtils.download(request, response, tmpFile);
             return;
 
@@ -299,7 +299,7 @@ public class SystemController extends BaseController {
         Map<String, File> fileMap = new LinkedHashMap<>();
         fileMap.put(fileName, new File(tmpdir + File.separator + fileName));
         if(backup) {
-            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+            DownloadUtils.addFileDownloadCookieHeader(response);
         }
         DownloadUtils.zip(fileMap, fileName, request, response);
         // 下载后从服务器删除

@@ -86,7 +86,7 @@ pageEncoding="UTF-8" %>
             <#list tableColumns as column>
             <#if column.name=='sort_order'>
                 <c:if test="&{!_query}">
-                { label:'排序',align:'center', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{url:'&{ctx}/${_resFolder}${tableName}_changeOrder'},frozen:true },
                 </c:if>
             <#else>

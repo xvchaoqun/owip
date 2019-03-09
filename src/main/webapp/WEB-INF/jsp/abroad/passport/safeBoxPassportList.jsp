@@ -33,7 +33,7 @@
         url: '${ctx}/abroad/safeBoxPassportList_data?callback=?&safeBoxId=${param.safeBoxId}&type=${param.type}&cancelConfirm=${param.cancelConfirm}',
         colModel: [
             { label: '工作证号', name: 'user.code', width: 110,frozen:true },
-            { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.cadre(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },

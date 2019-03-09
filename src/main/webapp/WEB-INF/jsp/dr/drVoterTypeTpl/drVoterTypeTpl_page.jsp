@@ -83,7 +83,7 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '模板名称',name: 'name', width: 380, align:'left'},
                 <c:if test="${!_query}">
-                { label:'排序',align:'center', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{url:'${ctx}/drVoterTypeTpl_changeOrder'},frozen:true },
                 </c:if>
                 { label: '备注',name: 'remark', width: 280, align:'left'}
