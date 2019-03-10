@@ -3,17 +3,15 @@ body{background:#fff;margin:0px;padding:0px;color:#333;position:relative;font:14
 .w1000{width:1000px;margin:0 auto;}
 .clear{clear:both;}
 
-.top{width:100%;
-    height:59px;
-    padding:25px 0;
-    /*background:url(/extend/img/top_bg.jpg) #dbf5ff top right no-repeat;*/
-	-webkit-box-sizing: content-box;
+.top{width:100%;height:70px;padding:19px 0;
+-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-	position:fixed;
-}
-.top .logo{float:left;padding-right:25px;height:58px;border-right:1px solid #333;}
-.top .txt{height:58px;line-height:58px;float:left;margin-left:25px;font-size:30px}
+	position:fixed;}
+.top .logo{float:left;padding-right:25px;height:70px;line-height:70px;}
+.top .separator {border-left: 1px solid #333;height: 58px;margin-top: 6px;float: left;}
+.top .txt{height:70px;line-height:70px;float:left;margin-left:25px;font-size:30px}
+
 .container{
     padding-top: 109px;
 }

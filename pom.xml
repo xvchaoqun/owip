@@ -27,8 +27,8 @@
             <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>bnu</groupId>
-            <artifactId>bnu.newpay</artifactId>
+            <groupId>jixiantech</groupId>
+            <artifactId>api.bnu</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -49,11 +49,6 @@
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/jdom-1.0.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>bnu</groupId>
-            <artifactId>bnu.sso</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
