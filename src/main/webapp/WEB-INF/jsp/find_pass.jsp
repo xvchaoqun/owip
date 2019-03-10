@@ -18,6 +18,7 @@
 <div class="top" style="background:url(/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) #dbf5ff top right no-repeat; z-index:1">
   <div class="w1000">
     <div class="logo"><t:img src="/img/logo.png"/></div>
+      <div class="separator"></div>
     <div class="txt">${_plantform_name}</div>
   </div>
 </div>

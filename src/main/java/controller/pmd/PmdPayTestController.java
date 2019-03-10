@@ -124,8 +124,8 @@ public class PmdPayTestController extends PmdBaseController {
         String orderDate = DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         String orderNo = DateUtils.formatDate(new Date(), "yyyyMMdd") + DateUtils.formatDate(new Date(), "HHmmss");
 
-        String return_url = "http://zzbgz.bnu.edu.cn/pmd/pay/test/returnPage";
-        String notify_url = "http://zzbgz.bnu.edu.cn/pmd/pay/test/notifyPage";
+        String return_url = "http://zzgz.xxx.edu.cn/pmd/pay/test/returnPage";
+        String notify_url = "http://zzgz.xxx.edu.cn/pmd/pay/test/notifyPage";
 
         String xmpch = "004-2014050001";
         String key = "umz4aea6g97skeect0jtxigvjkrimd0o";

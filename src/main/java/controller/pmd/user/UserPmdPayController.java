@@ -1,6 +1,5 @@
 package controller.pmd.user;
 
-import bnu.newpay.BnuPayUtils;
 import com.google.gson.Gson;
 import controller.global.OpException;
 import controller.pmd.PmdBaseController;
@@ -8,6 +7,7 @@ import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdOrder;
+import jixiantech.api.pay.PayUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -138,7 +138,7 @@ public class UserPmdPayController extends PmdBaseController {
         checkPayAuth(id, isSelfPay);
 
         PmdOrder order = pmdOrderService.payConfirm(id, isSelfPay,
-                isMobile?BnuPayUtils.orderType_PHONE:BnuPayUtils.orderType_PC);
+                isMobile? PayUtils.orderType_PHONE:PayUtils.orderType_PC);
         logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 

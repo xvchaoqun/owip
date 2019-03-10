@@ -1,13 +1,13 @@
 package service.pmd;
 
-import bean.pay.OrderCloseResult;
-import bean.pay.OrderQueryResult;
-import bnu.newpay.BnuPayUtils;
-import bnu.newpay.OrderFormBean;
 import com.google.gson.Gson;
 import controller.global.OpException;
 import domain.pmd.*;
 import domain.sys.SysUserView;
+import jixiantech.api.pay.OrderCloseResult;
+import jixiantech.api.pay.OrderFormBean;
+import jixiantech.api.pay.OrderQueryResult;
+import jixiantech.api.pay.PayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.Assert;
@@ -155,7 +155,7 @@ public class PmdOrderService extends PmdBaseMapper {
         }
         if (oldOrder != null) {
 
-            OrderFormBean orderFormBean = BnuPayUtils.createOrderFormBean(payer, amt, oldOrderNo, orderType);
+            OrderFormBean orderFormBean = PayUtils.createOrderFormBean(payer, amt, oldOrderNo, orderType);
             Map<String, Object> paramMap = orderFormBean.getParamMap();
             Gson gson = new Gson();
             Map<String, Object> oldParams = gson.fromJson(oldOrder.getParams(), Map.class);
@@ -176,7 +176,7 @@ public class PmdOrderService extends PmdBaseMapper {
                     pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
             newOrder.setSn(orderNo);
 
-            OrderFormBean orderFormBean = BnuPayUtils.createOrderFormBean(payer, amt, orderNo, orderType);
+            OrderFormBean orderFormBean = PayUtils.createOrderFormBean(payer, amt, orderNo, orderType);
             Map<String, Object> paramMap = orderFormBean.getParamMap();
             newOrder.setParams(JSONUtils.toString(paramMap, false));
             // 签名
@@ -255,7 +255,7 @@ public class PmdOrderService extends PmdBaseMapper {
         paramMap.put("orderdesc", orderdesc);
         paramMap.put("praram1", praram1);
 
-        return BnuPayUtils.sign(paramMap);
+        return PayUtils.sign(paramMap);
     }
 
     // （服务器通知）签名校验
@@ -565,7 +565,7 @@ public class PmdOrderService extends PmdBaseMapper {
         newOrder.setPayername(payername);
         newOrder.setAmt(amt);
 
-        OrderFormBean orderFormBean = BnuPayUtils.createOrderFormBean(payer, amt, orderNo, BnuPayUtils.orderType_PC);
+        OrderFormBean orderFormBean = PayUtils.createOrderFormBean(payer, amt, orderNo, PayUtils.orderType_PC);
         newOrder.setParams(JSONUtils.toString(orderFormBean.getParamMap(), false));
         newOrder.setSn(orderNo);
         newOrder.setSign(orderFormBean.getSign());
@@ -815,7 +815,7 @@ public class PmdOrderService extends PmdBaseMapper {
         CloseTradeRet closeTradeRet = new CloseTradeRet();
         closeTradeRet.success = false;
 
-        OrderCloseResult result = BnuPayUtils.closeOrder(sn);
+        OrderCloseResult result = PayUtils.closeOrder(sn);
         closeTradeRet.ret = result.getRet();
         if(result.isSuccess()){
             PmdOrder record = new PmdOrder();
@@ -833,6 +833,6 @@ public class PmdOrderService extends PmdBaseMapper {
     // 查询订单结果
     public OrderQueryResult query(String sn){
 
-        return BnuPayUtils.orderQuery(sn);
+        return PayUtils.orderQuery(sn);
     }
 }

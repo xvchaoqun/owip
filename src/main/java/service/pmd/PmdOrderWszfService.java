@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
@@ -34,7 +33,7 @@ public class PmdOrderWszfService extends PmdBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public final static String callback_url = "http://zzbgz.bnu.edu.cn/pmd/pay/callback/wszf";
+    public final static String callback_url = "http://zzgz.xxx.edu.cn/pmd/pay/callback/wszf";
     public final static String xmpch = PropertiesUtils.getString("pay.wszf.id");
     public final static String key = PropertiesUtils.getString("pay.wszf.key");
 

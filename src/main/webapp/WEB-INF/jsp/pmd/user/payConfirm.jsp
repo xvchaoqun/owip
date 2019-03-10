@@ -1,4 +1,4 @@
-<%@ page import="bnu.newpay.BnuPayUtils" %>
+<%@ page import="jixiantech.api.pay.PayUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
@@ -40,7 +40,7 @@
             <td>${pmdMember.duePay}</td>
         </tr>
     </table>
-    <form id="payForm" action="<%=BnuPayUtils.payURL%>" target="_blank" method="post"></form>
+    <form id="payForm" action="<%=PayUtils.payURL%>" target="_blank" method="post"></form>
 </div>
 <div class="modal-footer">
     <%--<div id="tip">提示：由于校园卡支付平台出于安全性考虑，只要点了“去支付”按钮，必须支付完成，不可再换人代缴操作，请谨慎操作。</div>--%>

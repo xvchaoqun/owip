@@ -27,6 +27,7 @@
     <div class="navbar-container" id="navbar-container">
       <div class="navbar-header pull-left hidden-xs hidden-sm">
         <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><t:img src="/img/logo_white.png"/></div>
+        <div class="separator"></div>
         <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">${_plantform_name}</div>
       </div>
       <div class="navbar-header pull-left hidden-md hidden-lg " style="left: 36px;top: 0px;position: absolute;">

@@ -27,7 +27,6 @@ import java.util.Map;
 
 public abstract class Source {
 
-    //public DruidDataSource bnuDS;
     private static Logger logger = LoggerFactory.getLogger(Source.class);
     private static DataSource ds;
     @Autowired

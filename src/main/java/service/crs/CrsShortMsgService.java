@@ -232,7 +232,7 @@ public class CrsShortMsgService extends CrsBaseMapper {
     }
 
     /**
-     * {0}，您好！{1}老师{2}报名应聘{3}。请您直接点击http://zzbgz.bnu.edu.cn
+     * {0}，您好！{1}老师{2}报名应聘{3}。请您直接点击http://zzgz.xxx.edu.cn
      * 在手机浏览器上登陆系统查看报名详情。谢谢！[系统短信，请勿回复]
      */
     // 报名时，给干部管理员发短信提醒
@@ -280,7 +280,7 @@ public class CrsShortMsgService extends CrsBaseMapper {
 
     /**
      * 李老师， 您好！ 信息网络中心副主任等10个岗位报名已截止， 共有80人报名。 请您直接点击
-     * http://zzbgz.bnu.edu.cn 在手机浏览器上登陆系统查看报名详情。 谢谢！ [系统短信， 请勿回复]
+     * http://zzgz.xxx.edu.cn 在手机浏览器上登陆系统查看报名详情。 谢谢！ [系统短信， 请勿回复]
      */
     // 竞争上岗报名截止通知领导（8~18点 每10分钟检查一次）
     public void sendApplyFinishMsg() {
