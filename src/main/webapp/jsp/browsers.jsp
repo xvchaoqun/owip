@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -7,9 +7,9 @@
     <title>${param.type=='unsupport'?'您的浏览器不支持访问':'推荐浏览器下载'}</title>
     <link rel="stylesheet" href="${ctx}/extend/css/browsers.css">
     <c:if test="${param.type=='unsupport'}">
-    <!--[if gte IE 9]> -->
-    <script type="text/javascript">location.href="${ctx}/";</script>
-    <!-- <![endif]-->
+        <!--[if gte IE 9]> -->
+        <script type="text/javascript">location.href = "${ctx}/";</script>
+        <!-- <![endif]-->
     </c:if>
 </head>
 <body>
@@ -18,14 +18,14 @@
     <table class="browsers">
         <tr>
             <td>
-                <a class="clearfix" href="http://rj.baidu.com/soft/detail/14744.html?ald" target="_blank">
+                <a class="clearfix" href="https://www.google.cn/intl/zh-CN/chrome" target="_blank">
                     <img src="${ctx}/extend/img/chrome.png" alt="Download Chrome">
                     <p>谷歌浏览器</p>
                     <p>（强烈推荐）</p>
                 </a>
             </td>
             <td>
-                <a class="clearfix" href="http://se.360.cn/" target="_blank">
+                <a class="clearfix" href="http://se.360.cn" target="_blank">
                     <img src="${ctx}/extend/img/360.png" alt="Download 360浏览器">
                     <p>360浏览器</p>
                 </a>
@@ -34,7 +34,7 @@
             </td>
 
             <td>
-                <a class="clearfix" href="http://rj.baidu.com/soft/detail/11843.html" target="_blank">
+                <a class="clearfix" href="http://www.firefox.com.cn" target="_blank">
                     <img src="${ctx}/extend/img/firefox.png" alt="Download Firefox">
                     <p>Firefox</p>
                 </a>
@@ -43,26 +43,16 @@
     </table>
     <div class="footer">
         <c:if test="${param.type!='unsupport'}">
-        <p><a href="${ctx}/">点击此处返回系统</a></p>
+            <p><a href="${ctx}/">点击此处返回系统</a></p>
         </c:if>
-        <p>&copy; Copyright  ${_plantform_name}</p>
+        <p>&copy; Copyright ${_plantform_name}</p>
     </div>
 </div>
-<!--[if !IE]> -->
 <script type="text/javascript">
-    window.jQuery || document.write("<script src='${ctx}/assets/js/jquery.js'>"+"<"+"/script>");
-</script>
-<!-- <![endif]-->
-<!--[if IE]>
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
-<script src="${ctx}/extend/js/DD_belatedPNG.js"></script>
-<script type="text/javascript">
-    DD_belatedPNG.fix('img');
     <c:if test="${param.type=='unsupport'}">
-    $.post("/monitor",{type:'unsupport'});
+        var ajax = new XMLHttpRequest();
+        ajax.open("POST","/monitor?type=unsupport",true);
+        ajax.send(null);
     </c:if>
 </script>
 </body>

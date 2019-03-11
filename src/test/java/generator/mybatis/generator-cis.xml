@@ -27,10 +27,10 @@
         <!--干部考察系统-->
         <!--
         <table tableName="cis_type" domainObjectName="cis.CisType">
-        </table>
+        </table>-->
         <table tableName="cis_evaluate" domainObjectName="cis.CisEvaluate">
         </table>
-        <table tableName="cis_inspector" domainObjectName="cis.CisInspector">
+        <!-- <table tableName="cis_inspector" domainObjectName="cis.CisInspector">
         </table>-->
         <!--<table tableName="cis_inspector_view" domainObjectName="cis.CisInspectorView"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -40,12 +40,12 @@
         <!-- <table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj" mapperName="cis.CisInspectObjMapper">
              <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-         <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView" mapperName="cis.CisInspectObjViewMapper"
+        <!-- <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView" mapperName="cis.CisInspectObjViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
              <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-         </table>
+         </table>-->
         <!--<table tableName="cis_obj_inspector" domainObjectName="cis.CisObjInspector">
         </table>
         <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">
