@@ -624,7 +624,7 @@
                 str +='<button class="openView btn btn-info btn-xs" data-url="${ctx}cisInspectObj_summary?objId={0}"><i class="fa fa-search"></i> 查看</button>'
                         .format(rowObject.id) + "&nbsp;";
                 </c:if>
-                return  str + '<button class="linkBtn btn btn-success btn-xs" data-url="${ctx}/cisInspectObj_summary_export?objId={0}"><i class="fa fa-download"></i> 导出</button>'
+                return  str + '<button class="downloadBtn btn btn-success btn-xs" data-url="${ctx}/cisInspectObj_summary_export?objId={0}"><i class="fa fa-download"></i> 导出</button>'
                                 .format(rowObject.id);
             } else return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}cisInspectObj_summary?objId={0}"><i class="fa fa-edit"></i> 编辑</button>'
                     .format(rowObject.id)
@@ -676,11 +676,34 @@
             return _cMap.CIS_EVALUATE_TYPE_MAP[cellvalue];
         }
         },
-        {
+        /*{
             label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
 
             return $.swfPreview(rowObject.filePath, rowObject.fileName, "查看");
         }
+        },*/
+        {
+                label: '材料内容', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
+
+                var ret = "-";
+                var pdfFilePath = rowObject.pdfFilePath;
+                if ($.trim(pdfFilePath) != '') {
+                    var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
+                    //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                                    .format(encodeURI(pdfFilePath), encodeURI(fileName))
+                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                                    .format(encodeURI(pdfFilePath), encodeURI(fileName));
+                }
+                var wordFilePath = rowObject.wordFilePath;
+                if ($.trim(wordFilePath) != '') {
+
+                    var fileName = (rowObject.fileName || rowObject.id) + (wordFilePath.substr(wordFilePath.indexOf(".")));
+                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                            .format(encodeURI(wordFilePath), encodeURI(fileName));
+                }
+                return ret;
+            }
         },
         {label: '备注', name: 'remark'}
     ];

@@ -101,6 +101,7 @@ pageEncoding="UTF-8"%>
 				<thead>
 				<tr>
 					<th width="150">姓名</th>
+					<th width="150">工号</th>
 					<th width="150">职务</th>
 					<th width="150">分工</th>
 					<th width="100">任职时间</th>
@@ -111,10 +112,12 @@ pageEncoding="UTF-8"%>
 				</thead>
 				<tbody>
 				<c:forEach items="${partyMembers}" var="partyMember" varStatus="st">
+					<c:set var="user" value="${cm:getUserById(partyMember.userId)}"/>
 					<tr>
 						<td ><c:if test="${partyMember.isAdmin}">
 							<span class="label label-success arrowed-in arrowed-in-right">管理员</span>
-						</c:if>${cm:getUserById(partyMember.userId).realname}</td>
+						</c:if>${user.realname}</td>
+						<td>${user.code}</td>
 						<td>
 								${cm:getMetaType(partyMember.postId).name}
 						</td>

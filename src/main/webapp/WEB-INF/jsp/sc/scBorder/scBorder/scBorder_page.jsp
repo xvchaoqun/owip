@@ -101,7 +101,7 @@
                     if ($.trim(pdfFilePath) != '') {
                         ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                 .format(encodeURI(pdfFilePath), '新增表')
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                 .format(encodeURI(pdfFilePath),  '新增表');
                     }
                     return ret;
@@ -115,7 +115,7 @@
                     if ($.trim(pdfFilePath) != '') {
                         ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                 .format(encodeURI(pdfFilePath), '新增表')
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                 .format(encodeURI(pdfFilePath),  '新增表');
                     }
                     return ret;
@@ -129,7 +129,7 @@
                     if ($.trim(pdfFilePath) != '') {
                         ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                 .format(encodeURI(pdfFilePath), '新增表')
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                 .format(encodeURI(pdfFilePath),  '新增表');
                     }
                     return ret;
@@ -141,7 +141,7 @@
                     var ret = "-";
                     var pdfFilePath = rowObject.recordFile;
                     if ($.trim(pdfFilePath) != '') {
-                        ret = '<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
+                        ret = '<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
                                 .format(encodeURI(pdfFilePath),  '电子报备');
                     }
                     return ret;

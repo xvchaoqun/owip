@@ -13,12 +13,12 @@
                 <button class="jqEditBtn btn btn-primary btn-sm" data-url="${ctx}/schedulerJob_au">
                     <i class="fa fa-edit"></i> 更新
                 </button>
-                <button id="startBtn" class="jqItemBtn btn btn-success btn-sm"
+                <button id="startBtn" class="jqBatchBtn btn btn-success btn-sm"
                    data-url="${ctx}/schedulerJob_start" data-title="启动定时任务"
-                   data-msg="确定启动这个定时任务吗？" data-callback="_reload"><i class="fa fa-clock-o"></i> 启动任务</button>
-                <button id="stopBtn" class="jqItemBtn btn btn-warning btn-sm"
+                   data-msg="确定启动这{0}个定时任务吗？" data-callback="_reload"><i class="fa fa-clock-o"></i> 启动任务</button>
+                <button id="stopBtn" class="jqBatchBtn btn btn-warning btn-sm"
                    data-url="${ctx}/schedulerJob_stop" data-title="关闭定时任务"
-                   data-msg="确定关闭这个定时任务吗？" data-callback="_reload"><i class="fa fa-dot-circle-o"></i> 关闭任务</button>
+                   data-msg="确定关闭这{0}个定时任务吗？" data-callback="_reload"><i class="fa fa-dot-circle-o"></i> 关闭任务</button>
                 <button class="jqBatchBtn btn btn-danger btn-sm"
                    data-url="${ctx}/schedulerJob_del" data-title="删除定时任务"
                    data-msg="确定删除这{0}个定时任务吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</button>
@@ -41,12 +41,13 @@
         colModel: [
             { label: '任务名称', name: 'name', width:300, align:'left', frozen:true},
             <c:if test="${!_query}">
-            { label:'排序', formatter: $.jgrid.formatter.sortOrder,
+            { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/schedulerJob_changeOrder'}, frozen:true },
             </c:if>
             { label: '执行类', name: 'clazz', width: 300, align:'left'},
             { label: 'cron表达式', name: 'cron', width: 120, align:'left'},
-            { label: '启动状态', name: '_status', formatter:function(cellvalue, options, rowObject){
+            { label: '自动启动', name: 'isStarted', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+            { label: '任务状态', name: '_status', formatter:function(cellvalue, options, rowObject){
                 //console.log(allJobsReg)
                 return ($.inArray(rowObject.jobName, allJobsReg)>=0)?'<span class="text-success bolder">已启动</span>':'未启动'
             }},
@@ -72,7 +73,7 @@
            //console.log(data.allJobs)
            allJobsReg = $.trim(data.allJobs)!=''?data.allJobs.split("|"):[];
            runJobsReg = $.trim(data.runJobs)!=''?data.runJobs.split("|"):[];
-        },
+        }/*,
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
             _onSelectRow(this)
@@ -80,7 +81,7 @@
         onSelectAll: function (aRowids, status) {
             saveJqgridSelected("#" + this.id);
             _onSelectRow(this)
-        }
+        }*/
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
@@ -90,7 +91,7 @@
         SysMsg.success("任务{{0}}已启动执行。".format(ret.jobName));
     }
 
-    function _onSelectRow(grid) {
+    /*function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {
             $("#startBtn,#stopBtn").prop("disabled", true);
@@ -101,7 +102,7 @@
             $("#startBtn").prop("disabled", isStart);
             $("#stopBtn").prop("disabled", !isStart);
         }
-    }
+    }*/
 
 
 </script>

@@ -13,10 +13,10 @@
     其中有效票${pcsVoteGroup.valid}张，无效票${pcsVoteGroup.invalid}张。
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-        <a class="linkBtn btn btn-info btn-sm"
+        <a class="downloadBtn btn btn-info btn-sm"
            data-url="${ctx}/pcsVoteCandidate_export?cls=1&type=${type}"><i class="fa fa-download"></i>
             导出汇总单</a>
-        <a class="linkBtn btn btn-primary btn-sm"
+        <a class="downloadBtn btn btn-primary btn-sm"
            data-url="${ctx}/pcsVoteCandidate_export?cls=2&type=${type}"
            ><i class="fa fa-download"></i>
             导出汇总单（报总监票人）</a>

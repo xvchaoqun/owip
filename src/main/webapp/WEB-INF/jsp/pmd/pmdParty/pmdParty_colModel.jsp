@@ -21,7 +21,7 @@
     }, frozen: true},
     { label: '报表',name: '_table', width:80, frozen: true, formatter: function (cellvalue, options, rowObject) {
       if(rowObject.hasReport){
-        return ('<button class="linkBtn btn btn-success btn-xs" ' +
+        return ('<button class="downloadBtn btn btn-success btn-xs" ' +
         'data-url="${ctx}/pmd/pmdParty_export?id={0}"><i class="fa fa-file-excel-o"></i> 报表</button>')
                 .format(rowObject.id);
       }

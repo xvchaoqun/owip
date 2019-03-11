@@ -63,7 +63,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
         String captcha = (String) request.getSession().getAttribute(
                 com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
         //比对
-        if (StringUtils.isBlank(captcha) || !captcha.equalsIgnoreCase(token.getCaptcha())) {
+        if (StringUtils.isBlank(captcha) || !StringUtils.equalsIgnoreCase(captcha, token.getCaptcha())) {
             throw new IncorrectCaptchaException();
         }
     }
@@ -79,7 +79,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
         String host = getHost(request);
 
         return new AuthToken(username,
-                password.toCharArray(), rememberMe, host, captcha, type);
+                password!=null?password.toCharArray():null, rememberMe, host, captcha, type);
     }
 
 

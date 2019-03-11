@@ -39,7 +39,7 @@ public class UserRealm extends AuthorizingRealm {
         /*HttpServletRequest request = ContextHelper.getRequest();
         System.out.println(request.getRequestURI()+" +++++++++++++++++++++++++++++++++++++++++++++");*/
 
-        ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();
+        ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(shiroUser.getRoles());
@@ -53,10 +53,11 @@ public class UserRealm extends AuthorizingRealm {
 
     @Autowired
     protected PasswordHelper passwordHelper;
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
-        AuthToken authToken = (AuthToken)token;
+        AuthToken authToken = (AuthToken) token;
         String username = authToken.getUsername();
         String password = null;
         String salt = "salt";
@@ -68,20 +69,22 @@ public class UserRealm extends AuthorizingRealm {
         if (uv.getLocked()) {
             throw new LockedAccountException(); //帐号锁定
         }
-
+        if (authToken.getPassword() == null){
+            throw new IncorrectCredentialsException();
+        }
         String inputPasswd = String.valueOf(authToken.getPassword());
 
-        if(springProps.useSSOLogin && uv.getSource()!=SystemConstants.USER_SOURCE_ADMIN
-                && uv.getSource()!=SystemConstants.USER_SOURCE_REG ){
+        if (springProps.useSSOLogin && uv.getSource() != SystemConstants.USER_SOURCE_ADMIN
+                && uv.getSource() != SystemConstants.USER_SOURCE_REG) {
             // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
             boolean tryLogin;
-            try{
+            try {
                 tryLogin = loginService.tryLogin(username, inputPasswd);
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 logger.error("异常", ex);
                 throw new SSOException();
             }
-            if(!tryLogin){
+            if (!tryLogin) {
                 throw new IncorrectCredentialsException();
             }
             password = new SimpleHash(
@@ -89,7 +92,7 @@ public class UserRealm extends AuthorizingRealm {
                     inputPasswd,
                     ByteSource.Util.bytes(salt),
                     credentialsMatcher.getHashIterations()).toHex();
-        }else {
+        } else {
             password = uv.getPasswd();
             salt = uv.getSalt();
         }
@@ -100,7 +103,7 @@ public class UserRealm extends AuthorizingRealm {
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 shiroUser,
-        		password, //密码
+                password, //密码
                 ByteSource.Util.bytes(salt),
                 getName()  //realm name
         );

@@ -24,7 +24,7 @@
                     <div class="buttons pull-right ">
                         <c:if test="${not empty file}">
                         <button style="margin-right: 15px;" type="button" data-url="${ctx}/attach/download?path=${cm:encodeURI(file)}&filename=${cm:encodeURI(code)}"
-                                class="linkBtn btn btn-xs btn-warning">
+                                class="downloadBtn btn btn-xs btn-warning">
                             <i class="ace-icon fa fa-download"></i>
                             下载
                         </button>

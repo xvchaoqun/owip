@@ -1,17 +1,9 @@
 package domain.cis;
 
-import domain.cadre.CadreView;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class CisEvaluate implements Serializable {
-
-    public CadreView getCadre(){
-
-        return CmTag.getCadreById(cadreId);
-    }
     private Integer id;
 
     private Date createDate;
@@ -20,7 +12,9 @@ public class CisEvaluate implements Serializable {
 
     private Byte type;
 
-    private String filePath;
+    private String pdfFilePath;
+
+    private String wordFilePath;
 
     private String fileName;
 
@@ -60,12 +54,20 @@ public class CisEvaluate implements Serializable {
         this.type = type;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getPdfFilePath() {
+        return pdfFilePath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath == null ? null : filePath.trim();
+    public void setPdfFilePath(String pdfFilePath) {
+        this.pdfFilePath = pdfFilePath == null ? null : pdfFilePath.trim();
+    }
+
+    public String getWordFilePath() {
+        return wordFilePath;
+    }
+
+    public void setWordFilePath(String wordFilePath) {
+        this.wordFilePath = wordFilePath == null ? null : wordFilePath.trim();
     }
 
     public String getFileName() {

@@ -96,7 +96,6 @@ public class SchedulerJobService extends BaseMapper {
         Assert.isTrue(!idDuplicate(record.getId(), record.getName()), "定时任务名称重复");
 
         record.setCreateTime(new Date());
-        record.setIsStarted(false);
         record.setSortOrder(getNextSortOrder("sys_scheduler_job", null));
         return schedulerJobMapper.insert(record);
     }
@@ -142,7 +141,6 @@ public class SchedulerJobService extends BaseMapper {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
         String clazz = schedulerJob.getClazz();
-
         Class cls = null;
         try {
             cls = Class.forName(clazz);
@@ -152,12 +150,6 @@ public class SchedulerJobService extends BaseMapper {
         }
 
         QuartzManager.addJob(scheduler, schedulerJob.getJobName(), cls, schedulerJob.getCron());
-
-        SchedulerJob record = new SchedulerJob();
-        record.setId(id);
-        record.setIsStarted(true);
-        schedulerJobMapper.updateByPrimaryKeySelective(record);
-
         logger.info("启动定时任务[{}]成功", schedulerJob.getName());
     }
 
@@ -198,11 +190,6 @@ public class SchedulerJobService extends BaseMapper {
 
         QuartzManager.removeJob(scheduler, schedulerJob.getJobName());
 
-        SchedulerJob record = new SchedulerJob();
-        record.setId(id);
-        record.setIsStarted(false);
-        schedulerJobMapper.updateByPrimaryKeySelective(record);
-
         logger.info("关闭定时任务[{}]成功", schedulerJob.getName());
     }
 
@@ -212,14 +199,7 @@ public class SchedulerJobService extends BaseMapper {
         int id = record.getId();
         Assert.isTrue(!idDuplicate(id, record.getName()), "定时任务名称重复");
 
-        SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
-
-        stopJob(id);
-
         schedulerJobMapper.updateByPrimaryKeySelective(record);
-
-        if (schedulerJob.getIsStarted())
-            startJob(id);
     }
 
     @Transactional

@@ -11,34 +11,41 @@
         <input type="hidden" name="id" value="${schedulerJob.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>名称</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${schedulerJob.name}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>执行任务类</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>执行任务类</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="clazz" value="${schedulerJob.clazz}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>cron表达式</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>cron表达式</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="cron" value="${schedulerJob.cron}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">任务描述</label>
+            <label class="col-xs-4 control-label">任务描述</label>
             <div class="col-xs-6">
                 <textarea class="form-control limited" name="summary">${schedulerJob.summary}</textarea>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">是否保存执行日志</label>
+            <label class="col-xs-4 control-label">是否随系统自动启动</label>
+            <div class="col-xs-6">
+                <input type="checkbox" class="big"
+                       name="isStarted" ${(schedulerJob.isStarted)?"checked":""}/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否保存执行日志</label>
             <div class="col-xs-6">
                 <input type="checkbox" class="big"
                        name="needLog" ${(schedulerJob.needLog)?"checked":""}/>

@@ -372,73 +372,143 @@ public class CisEvaluateExample {
             return (Criteria) this;
         }
 
-        public Criteria andFilePathIsNull() {
-            addCriterion("file_path is null");
+        public Criteria andPdfFilePathIsNull() {
+            addCriterion("pdf_file_path is null");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathIsNotNull() {
-            addCriterion("file_path is not null");
+        public Criteria andPdfFilePathIsNotNull() {
+            addCriterion("pdf_file_path is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathEqualTo(String value) {
-            addCriterion("file_path =", value, "filePath");
+        public Criteria andPdfFilePathEqualTo(String value) {
+            addCriterion("pdf_file_path =", value, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathNotEqualTo(String value) {
-            addCriterion("file_path <>", value, "filePath");
+        public Criteria andPdfFilePathNotEqualTo(String value) {
+            addCriterion("pdf_file_path <>", value, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathGreaterThan(String value) {
-            addCriterion("file_path >", value, "filePath");
+        public Criteria andPdfFilePathGreaterThan(String value) {
+            addCriterion("pdf_file_path >", value, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathGreaterThanOrEqualTo(String value) {
-            addCriterion("file_path >=", value, "filePath");
+        public Criteria andPdfFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("pdf_file_path >=", value, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathLessThan(String value) {
-            addCriterion("file_path <", value, "filePath");
+        public Criteria andPdfFilePathLessThan(String value) {
+            addCriterion("pdf_file_path <", value, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathLessThanOrEqualTo(String value) {
-            addCriterion("file_path <=", value, "filePath");
+        public Criteria andPdfFilePathLessThanOrEqualTo(String value) {
+            addCriterion("pdf_file_path <=", value, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathLike(String value) {
-            addCriterion("file_path like", value, "filePath");
+        public Criteria andPdfFilePathLike(String value) {
+            addCriterion("pdf_file_path like", value, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathNotLike(String value) {
-            addCriterion("file_path not like", value, "filePath");
+        public Criteria andPdfFilePathNotLike(String value) {
+            addCriterion("pdf_file_path not like", value, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathIn(List<String> values) {
-            addCriterion("file_path in", values, "filePath");
+        public Criteria andPdfFilePathIn(List<String> values) {
+            addCriterion("pdf_file_path in", values, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathNotIn(List<String> values) {
-            addCriterion("file_path not in", values, "filePath");
+        public Criteria andPdfFilePathNotIn(List<String> values) {
+            addCriterion("pdf_file_path not in", values, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathBetween(String value1, String value2) {
-            addCriterion("file_path between", value1, value2, "filePath");
+        public Criteria andPdfFilePathBetween(String value1, String value2) {
+            addCriterion("pdf_file_path between", value1, value2, "pdfFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andFilePathNotBetween(String value1, String value2) {
-            addCriterion("file_path not between", value1, value2, "filePath");
+        public Criteria andPdfFilePathNotBetween(String value1, String value2) {
+            addCriterion("pdf_file_path not between", value1, value2, "pdfFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathIsNull() {
+            addCriterion("word_file_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathIsNotNull() {
+            addCriterion("word_file_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathEqualTo(String value) {
+            addCriterion("word_file_path =", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathNotEqualTo(String value) {
+            addCriterion("word_file_path <>", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathGreaterThan(String value) {
+            addCriterion("word_file_path >", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("word_file_path >=", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathLessThan(String value) {
+            addCriterion("word_file_path <", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathLessThanOrEqualTo(String value) {
+            addCriterion("word_file_path <=", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathLike(String value) {
+            addCriterion("word_file_path like", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathNotLike(String value) {
+            addCriterion("word_file_path not like", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathIn(List<String> values) {
+            addCriterion("word_file_path in", values, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathNotIn(List<String> values) {
+            addCriterion("word_file_path not in", values, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathBetween(String value1, String value2) {
+            addCriterion("word_file_path between", value1, value2, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathNotBetween(String value1, String value2) {
+            addCriterion("word_file_path not between", value1, value2, "wordFilePath");
             return (Criteria) this;
         }
 

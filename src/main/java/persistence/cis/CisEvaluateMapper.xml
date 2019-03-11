@@ -1,34 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cis.CisEvaluateMapper" >
-  <resultMap id="BaseResultMap" type="domain.cis.CisEvaluate" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="create_date" property="createDate" jdbcType="DATE" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="file_path" property="filePath" jdbcType="VARCHAR" />
-    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cis.CisEvaluateMapper">
+  <resultMap id="BaseResultMap" type="domain.cis.CisEvaluate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
+    <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -39,25 +40,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -68,189 +69,203 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, create_date, cadre_id, type, file_path, file_name, remark
+  <sql id="Base_Column_List">
+    id, create_date, cadre_id, type, pdf_file_path, word_file_path, file_name, remark
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cis.CisEvaluateExample" >
+  <select id="selectByExample" parameterType="domain.cis.CisEvaluateExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cis_evaluate
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from cis_evaluate
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cis_evaluate
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cis.CisEvaluateExample" >
+  <delete id="deleteByExample" parameterType="domain.cis.CisEvaluateExample">
     delete from cis_evaluate
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cis.CisEvaluate" >
+  <insert id="insert" parameterType="domain.cis.CisEvaluate">
     insert into cis_evaluate (id, create_date, cadre_id, 
-      type, file_path, file_name, 
-      remark)
+      type, pdf_file_path, word_file_path, 
+      file_name, remark)
     values (#{id,jdbcType=INTEGER}, #{createDate,jdbcType=DATE}, #{cadreId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{filePath,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{type,jdbcType=TINYINT}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
+      #{fileName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cis.CisEvaluate" >
+  <insert id="insertSelective" parameterType="domain.cis.CisEvaluate">
     insert into cis_evaluate
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date,
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type,
       </if>
-      <if test="filePath != null" >
-        file_path,
+      <if test="pdfFilePath != null">
+        pdf_file_path,
       </if>
-      <if test="fileName != null" >
+      <if test="wordFilePath != null">
+        word_file_path,
+      </if>
+      <if test="fileName != null">
         file_name,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         #{createDate,jdbcType=DATE},
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
-      <if test="filePath != null" >
-        #{filePath,jdbcType=VARCHAR},
+      <if test="pdfFilePath != null">
+        #{pdfFilePath,jdbcType=VARCHAR},
       </if>
-      <if test="fileName != null" >
+      <if test="wordFilePath != null">
+        #{wordFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cis.CisEvaluateExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.cis.CisEvaluateExample" resultType="java.lang.Long">
     select count(*) from cis_evaluate
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update cis_evaluate
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.createDate != null" >
+      <if test="record.createDate != null">
         create_date = #{record.createDate,jdbcType=DATE},
       </if>
-      <if test="record.cadreId != null" >
+      <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null" >
+      <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
-      <if test="record.filePath != null" >
-        file_path = #{record.filePath,jdbcType=VARCHAR},
+      <if test="record.pdfFilePath != null">
+        pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
       </if>
-      <if test="record.fileName != null" >
+      <if test="record.wordFilePath != null">
+        word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null" >
+      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update cis_evaluate
     set id = #{record.id,jdbcType=INTEGER},
       create_date = #{record.createDate,jdbcType=DATE},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
-      file_path = #{record.filePath,jdbcType=VARCHAR},
+      pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
+      word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cis.CisEvaluate" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cis.CisEvaluate">
     update cis_evaluate
-    <set >
-      <if test="createDate != null" >
+    <set>
+      <if test="createDate != null">
         create_date = #{createDate,jdbcType=DATE},
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
-      <if test="filePath != null" >
-        file_path = #{filePath,jdbcType=VARCHAR},
+      <if test="pdfFilePath != null">
+        pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
       </if>
-      <if test="fileName != null" >
+      <if test="wordFilePath != null">
+        word_file_path = #{wordFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cis.CisEvaluate" >
+  <update id="updateByPrimaryKey" parameterType="domain.cis.CisEvaluate">
     update cis_evaluate
     set create_date = #{createDate,jdbcType=DATE},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
-      file_path = #{filePath,jdbcType=VARCHAR},
+      pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
+      word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.cis.CisEvaluateExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cis.CisEvaluateExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cis_evaluate
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

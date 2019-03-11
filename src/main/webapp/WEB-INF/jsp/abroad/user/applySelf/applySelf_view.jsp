@@ -19,7 +19,7 @@
       <div class="buttons pull-right">
 
         <c:if test="${needExport}">
-        <button class="linkBtn btn btn-primary btn-sm"
+        <button class="downloadBtn btn btn-primary btn-sm"
                 data-url="${ctx}/abroad/applySelf_export?applySelfId=${applySelf.id}"
                 <%--style="margin-left: 150px"--%>>
           <i class="fa fa-file-excel-o"></i>  导出</button>

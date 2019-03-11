@@ -106,6 +106,7 @@ public class SchedulerJobController extends BaseController {
             return failed("定时任务名称重复。");
         }
 
+        record.setIsStarted(BooleanUtils.isTrue(record.getIsStarted()));
         record.setNeedLog(BooleanUtils.isTrue(record.getNeedLog()));
 
         if(record.getId() == null){
@@ -166,12 +167,15 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:start")
     @RequestMapping(value="/schedulerJob_start", method=RequestMethod.POST)
     @ResponseBody
-    public Map do_schedulerJob_start(Integer id, HttpServletRequest request) {
+    public Map do_schedulerJob_start(@RequestParam(value = "ids[]") Integer[] ids, HttpServletRequest request) {
 
-        if(id!=null){
-            SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
-            schedulerJobService.startJob(id);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "启动定时任务：%s", JSONUtils.toString(schedulerJob, false)));
+        if(ids!=null){
+            for (Integer id : ids) {
+                SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
+                schedulerJobService.startJob(id);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "启动定时任务：%s",
+                        JSONUtils.toString(schedulerJob, false)));
+            }
         }
 
         return success(FormUtils.SUCCESS);
@@ -180,12 +184,15 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:stop")
     @RequestMapping(value="/schedulerJob_stop", method=RequestMethod.POST)
     @ResponseBody
-    public Map do_schedulerJob_stop(Integer id, HttpServletRequest request) {
+    public Map do_schedulerJob_stop(@RequestParam(value = "ids[]") Integer[] ids, HttpServletRequest request) {
 
-        if(id!=null){
-            SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
-            schedulerJobService.stopJob(id);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "关闭定时任务：%s", JSONUtils.toString(schedulerJob, false)));
+        if(ids!=null) {
+            for (Integer id : ids) {
+                SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
+                schedulerJobService.stopJob(id);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "关闭定时任务：%s",
+                        JSONUtils.toString(schedulerJob, false)));
+            }
         }
 
         return success(FormUtils.SUCCESS);

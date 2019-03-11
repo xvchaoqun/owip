@@ -41,12 +41,12 @@
                 <dt>登录账号</dt>
                 <dd>
                     <div class="input_box"><span class="account"></span><input name="username" class="account"
-                                                                               type="text"/></div>
+                                                                               type="text" autocomplete="off"/></div>
                 </dd>
                 <dt>登录密码</dt>
                 <dd>
                     <div class="input_box"><span class="password"></span><input name="passwd" class="password"
-                                                                                type="password"/></div>
+                                                                                type="password" autocomplete="off"/></div>
                 </dd>
                 <dt>验证码</dt>
                 <dd><input name="captcha" class="yz" type="text" maxlength="4" autocomplete="off" disableautocomplete
@@ -140,16 +140,7 @@
         </div>
     </div>
 </div>
-<!--[if !IE]> -->
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='${ctx}/assets/js/jquery.js'>" + "<" + "/script>");
-</script>
-<!-- <![endif]-->
-<!--[if IE]>
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>" + "<" + "/script>");
-</script>
-<![endif]-->
+<script src="${ctx}/assets/js/jquery.js"></script>
 <script src="${ctx}/extend/js/jquery.form.js"></script>
 <t:script src="/js/login.js"/>
 </body>

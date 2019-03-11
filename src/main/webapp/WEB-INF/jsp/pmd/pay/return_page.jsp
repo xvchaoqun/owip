@@ -110,16 +110,7 @@
     background-color: #f9f9f9 !important;
   }
 </style>
-<!--[if !IE]> -->
-<script type="text/javascript">
-  window.jQuery || document.write("<script src='${ctx}/assets/js/jquery.js'>"+"<"+"/script>");
-</script>
-<!-- <![endif]-->
-<!--[if IE]>
-<script type="text/javascript">
-  window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
+<script src="${ctx}/assets/js/jquery.js"></script>
 <script>
   $("#btn_close").click(function(){
     window.open("about:blank","_self").close();

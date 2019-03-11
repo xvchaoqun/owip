@@ -85,7 +85,7 @@
             {label: '附件', name: '_file', formatter: function (cellvalue, options, rowObject) {
                 var str = "";
                 if(rowObject.filePath!=undefined){
-                    str += ("<button class='linkBtn btn btn-xs btn-success' " +
+                    str += ("<button class='downloadBtn btn btn-xs btn-success' " +
                     "data-url='${ctx}/attach/download?path={0}&filename={1}'>"+
                             "<i class='fa fa-download'></i> 下载</button> &nbsp;").format(rowObject.filePath, rowObject.fileName)
                 }

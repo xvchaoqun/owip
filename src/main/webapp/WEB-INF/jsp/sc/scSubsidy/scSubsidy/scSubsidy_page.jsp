@@ -121,7 +121,7 @@
             {
                 label: '发人事处通知', name: '_hr', width:350, formatter: function (cellvalue, options, rowObject) {
                     if(rowObject.hrCode==undefined) return '--'
-                return ('{0} <button class="linkBtn btn btn-warning btn-xs" ' +
+                return ('{0} <button class="downloadBtn btn btn-warning btn-xs" ' +
                 'data-url="${ctx}/sc/scSubsidy_export?fileType=1&id={1}"><i class="fa fa-download"></i> 系统生成版</button>' +
                 ' <button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/sc/scSubsidy_upload?fileType=1&id={1}"><i class="fa fa-search"></i> 正式反馈版</button>')
@@ -132,7 +132,7 @@
                 label: '发财经处通知', name: '_fe', width: 350, formatter: function (cellvalue, options, rowObject) {
 
                     if(rowObject.feCode==undefined) return '--'
-                return ('{0} <button class="linkBtn btn btn-warning btn-xs" ' +
+                return ('{0} <button class="downloadBtn btn btn-warning btn-xs" ' +
                 'data-url="${ctx}/sc/scSubsidy_export?fileType=2&id={1}"><i class="fa fa-download"></i> 系统生成版</button>' +
                 ' <button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/sc/scSubsidy_upload?fileType=2&id={1}"><i class="fa fa-search"></i> 正式反馈版</button>')

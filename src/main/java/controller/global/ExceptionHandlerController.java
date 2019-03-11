@@ -7,6 +7,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,11 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
-import sys.utils.FormUtils;
-import sys.utils.HttpUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
-import sys.utils.RequestUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,7 +75,7 @@ public class ExceptionHandlerController {
                 String msg = "数据已被关联使用，不可以删除";
                 Map<String, String> delMsgMap = SystemConstants.FOREIN_KEY_DEL_MSG_MAP;
                 for (Map.Entry<String, String> entry : delMsgMap.entrySet()) {
-                    if(StringUtils.contains(message, MessageFormat.format("REFERENCES `{0}` (`id`)", entry.getKey()))){
+                    if (StringUtils.contains(message, MessageFormat.format("REFERENCES `{0}` (`id`)", entry.getKey()))) {
                         msg = entry.getValue();
                     }
                 }
@@ -108,10 +105,15 @@ public class ExceptionHandlerController {
             msg = "文件不存在";
         } else if (ex instanceof OpException) {
             msg = ex.getMessage();
-        }else if(ex instanceof IOException){
+        } else if (ex instanceof IOException) {
             // org.apache.catalina.connector.ClientAbortException ??
             logger.warn(getMsg(request, ex));
-        }else{
+        } else if (ex instanceof HttpRequestMethodNotSupportedException) {
+
+            ModelAndView mv = new ModelAndView();
+            mv.setViewName("404");
+            return mv;
+        } else {
             logger.error(getMsg(request, ex), ex);
         }
 
@@ -199,18 +201,20 @@ public class ExceptionHandlerController {
         String msg = StringUtils.defaultIfBlank(ex.getMessage(), "签名错误");
         String app = request.getParameter("app");
         String sign = request.getParameter("sign");
-        if(StringUtils.isBlank(app)){
+        if (StringUtils.isBlank(app)) {
             try {
                 JSONUtils.write(response, "参数app为空", false);
                 return;
-            } catch (IOException e) {}
+            } catch (IOException e) {
+            }
         }
 
-        if(StringUtils.isBlank(sign)){
+        if (StringUtils.isBlank(sign)) {
             try {
                 JSONUtils.write(response, "参数sign为空", false);
                 return;
-            } catch (IOException e) {}
+            } catch (IOException e) {
+            }
         }
 
         switch (app) {

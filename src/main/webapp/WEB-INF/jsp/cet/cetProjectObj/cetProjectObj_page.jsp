@@ -603,7 +603,7 @@
                 var writeFilePath = rowObject.writeFilePath;
                 if ($.trim(writeFilePath) != '') {
                     //console.log(fileName + " =" + writeFilePath.substr(writeFilePath.indexOf(".")))
-                    return '<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
+                    return '<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
                                     .format(encodeURI(writeFilePath), encodeURI(fileName));
                 }else{
                    return "未上传"

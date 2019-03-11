@@ -10,7 +10,7 @@
             <div class="tabbable">
                 <jsp:include page="../pcsVoteStat/menu.jsp"/>
                 <div class="jqgrid-vertical-offset buttons" style="padding: 10px">
-                    <a class="linkBtn btn btn-info btn-sm" style="float: left"
+                    <a class="downloadBtn btn btn-info btn-sm" style="float: left"
                        data-url="${ctx}/pcsVoteMember_export"><i class="fa fa-download"></i>
                         导出两委当选名单</a>
                     <div style="line-height: 30px; float: left;margin-left: 20px;">

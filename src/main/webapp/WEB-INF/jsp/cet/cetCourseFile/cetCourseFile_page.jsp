@@ -111,7 +111,7 @@
                                             data-url='${ctx}/swf/preview?type=url&path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
                                         <i class="fa fa-search"></i>
                                         预览</button>
-                                    <button class='linkBtn btn btn-xs btn-success'
+                                    <button class='downloadBtn btn btn-xs btn-success'
                                             data-url='${ctx}/attach/download?path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
                                         <i class="fa fa-download"></i>
                                         下载</button>

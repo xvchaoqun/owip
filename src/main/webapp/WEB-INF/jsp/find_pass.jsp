@@ -71,6 +71,7 @@
                             <label class="col-xs-5 control-label">新密码</label>
                             <div class="col-xs-6">
                                 <input type="text" autocomplete="off" disableautocomplete onfocus="this.type='password'" name="password"/>
+                                <span class="help-block">密码由6-16位的字母、下划线和数字组成</span>
                             </div>
                         </div>
 
@@ -106,16 +107,8 @@
 </div>
 </div>
 
-<!--[if !IE]> -->
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='${ctx}/assets/js/jquery.js'>"+"<"+"/script>");
-</script>
-<!-- <![endif]-->
-<!--[if IE]>
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='${ctx}/assets/js/jquery1x.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
+<script src="${ctx}/assets/js/jquery.js"></script>
+<script src="${ctx}/assets/js/jquery-ui.js"></script>
 <script src="${ctx}/assets/js/bootstrap.js"></script>
 <script src="${ctx}/extend/js/bootbox.min.js"></script>
 <t:script src="/js/jquery.extend.js"/>

@@ -119,7 +119,7 @@
                 var editBtn = ('<button class="popupBtn btn btn-primary btn-xs" data-width="1200" ' +
                         'data-url="${ctx}/sc/scAdArchive_selectVotes?cadreId={0}&archiveId={1}"><i class="fa fa-edit"></i> 编辑</button>')
                         .format(rowObject.cadreId, rowObject.id);
-                var exportBtn = ('<button class="linkBtn btn btn-warning btn-xs" ' +
+                var exportBtn = ('<button class="downloadBtn btn btn-warning btn-xs" ' +
                         'data-url="${ctx}/sc/scAdArchive_download?archiveId={0}"><i class="fa fa-download"></i> 导出</button>')
                         .format(rowObject.id);
 
@@ -134,7 +134,7 @@
                 if($.trim(rowObject.signFilePath)!='') {
                     str += $.swfPreview(rowObject.signFilePath, "干部任免审批表归档扫描件",
                             '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
-                    + ('&nbsp;<button class="linkBtn btn btn-warning btn-xs" ' +
+                    + ('&nbsp;<button class="downloadBtn btn btn-warning btn-xs" ' +
                     'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
                             .format(rowObject.signFilePath, "干部任免审批表归档扫描件("+ rowObject.realname+")")
                 }
@@ -151,7 +151,7 @@
                 var editBtn = ('<button class="popupBtn btn btn-primary btn-xs" data-width="800" ' +
                 'data-url="${ctx}/sc/scAdArchive_selectCisInspectObj?cadreId={0}&archiveId={1}"><i class="fa fa-edit"></i> 编辑</button>')
                         .format(rowObject.cadreId, rowObject.id);
-                var exportBtn = ('<button class="linkBtn btn btn-warning btn-xs" ' +
+                var exportBtn = ('<button class="downloadBtn btn btn-warning btn-xs" ' +
                 'data-url="${ctx}/sc/scAdArchive_cisDownload?archiveId={0}&objId={1}"><i class="fa fa-download"></i> 导出</button>')
                         .format(rowObject.id, rowObject.objId);
 
@@ -168,7 +168,7 @@
                 if($.trim(rowObject.cisSignFilePath)!='') {
                     str += $.swfPreview(rowObject.cisSignFilePath, "干部考察报告归档扫描件",
                                     '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
-                            + ('&nbsp;<button class="linkBtn btn btn-warning btn-xs" ' +
+                            + ('&nbsp;<button class="downloadBtn btn btn-warning btn-xs" ' +
                             'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
                                     .format(rowObject.cisSignFilePath, "干部考察报告归档扫描件("+ rowObject.realname+")")
                 }

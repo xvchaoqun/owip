@@ -98,7 +98,7 @@
             }, width: 125},
             /*{label: '干部应聘报名表', name: '_export', width: 125,  formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="linkBtn btn btn-primary btn-xs" ' +
+                return '<button class="downloadBtn btn btn-primary btn-xs" ' +
                         'data-url="${ctx}/user/crsApplicant_export?applicantId={0}"><i class="fa fa-download"></i> 导出</button>'
                         .format(rowObject.applicantId)
             }},*/

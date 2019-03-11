@@ -120,7 +120,7 @@
                         <td>${crsApplicant.user.realname}</td>
                         <td>
                             <c:if test="${not empty crsApplicant.ppt}">
-                            <button class='linkBtn btn btn-xs btn-success' style="float: left"
+                            <button class='downloadBtn btn btn-xs btn-success' style="float: left"
                                     data-url='${ctx}/attach/download?path=${cm:encodeURI(crsApplicant.ppt)}&filename=${crsApplicant.pptName}'>
                                 <i class="fa fa-download"></i>
                                 下载</button>

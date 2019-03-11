@@ -70,7 +70,7 @@ public class MemberRegController extends MemberBaseController {
 			return failed("验证码错误。");
 		}
 		if(!FormUtils.usernameFormatRight(username)){
-			return failed("用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
+			return failed("用户名由3-20位的字母、下划线和数字组成，且不能以数字或下划线开头。");
 		}
 		if(!FormUtils.match(PropertiesUtils.getString("passwd.regex"), passwd)){
 			return failed("密码由6-16位的字母、下划线和数字组成");

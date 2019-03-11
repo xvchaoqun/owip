@@ -55,7 +55,7 @@
             {
                 label: '报告单', name: '_export', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasReport)
-                    return ('<button class="linkBtn btn btn-warning btn-xs" ' +
+                    return ('<button class="downloadBtn btn btn-warning btn-xs" ' +
                     'data-url="${ctx}/pcsVoteCandidate_export?cls=0&groupId={0}"><i class="fa fa-download"></i> 导出</button>')
                             .format(rowObject.id);
                 return '-'

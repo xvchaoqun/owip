@@ -20,18 +20,15 @@ import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class CisEvaluateController extends CisBaseController {
@@ -79,7 +76,7 @@ public class CisEvaluateController extends CisBaseController {
             criteria.andTypeEqualTo(type);
         }
 
-        int count = cisEvaluateMapper.countByExample(example);
+        int count = (int) cisEvaluateMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -104,37 +101,22 @@ public class CisEvaluateController extends CisBaseController {
     @ResponseBody
     public Map do_cisEvaluate_au(CisEvaluate record,
                                  String _createDate,
-                                 MultipartFile _file,
-                                 HttpServletRequest request) {
+                                 MultipartFile _pdfFilePath,
+                                 MultipartFile _wordFilePath,
+                                 HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
         if (StringUtils.isNotBlank(_createDate)) {
             record.setCreateDate(DateUtils.parseDate(_createDate, DateUtils.YYYY_MM_DD));
         }
-        if(_file!=null){
-            String ext = FileUtils.getExtention(_file.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
-               return failed("文件格式错误，请上传pdf文档");
-            }
 
-            String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "cis" + FILE_SEPARATOR
-                    + fileName;
-            String savePath =  realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+        record.setPdfFilePath(uploadPdf(_pdfFilePath, "cisEvaluate-pdf"));
+        record.setWordFilePath(upload(_wordFilePath, "cisEvaluate-word"));
 
-            try {
-                String swfPath = realPath + ".swf";
-                pdf2Swf(savePath, swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                logger.error("异常", e);
-            }
-
-            record.setFileName(originalFilename);
-            record.setFilePath(savePath);
+        if(_pdfFilePath!=null){
+           record.setFileName(_pdfFilePath.getOriginalFilename());
+        }else if(_wordFilePath!=null){
+            record.setFileName(_wordFilePath.getOriginalFilename());
         }
         if (id == null) {
             cisEvaluateService.insertSelective(record);

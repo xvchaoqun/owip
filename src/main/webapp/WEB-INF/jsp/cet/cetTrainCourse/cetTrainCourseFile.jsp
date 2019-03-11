@@ -71,7 +71,7 @@
                                 <button class="various btn btn-warning btn-xs" title="${cetTrainCourseFile.fileName}" data-path="${cetTrainCourseFile.filePath}"
                                         data-fancybox-type="image"
                                         href="${ctx}/pic?path=${cetTrainCourseFile.filePath}"><i class="fa fa-search"></i> 预览</button>
-                                <button class='linkBtn btn btn-xs btn-success'
+                                <button class='downloadBtn btn btn-xs btn-success'
                                         data-url='${ctx}/attach/download?path=${cm:encodeURI(cetTrainCourseFile.filePath)}&filename=${cetTrainCourseFile.fileName}'>
                                     <i class="fa fa-download"></i>
                                     下载</button>
