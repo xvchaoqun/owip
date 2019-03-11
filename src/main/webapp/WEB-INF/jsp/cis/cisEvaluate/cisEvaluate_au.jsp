@@ -12,7 +12,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>形成日期</label>
             <div class="col-xs-6">
-                <div class="input-group">
+                <div class="input-group" style="width: 140px">
                     <input class="form-control date-picker required" name="_createDate"
                            type="text" data-date-format="yyyy-mm-dd"
                            value="${cm:formatDate(cisEvaluate.createDate, "yyyy-MM-dd")}"/>
@@ -23,9 +23,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">考察对象</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>考察对象</label>
             <div class="col-xs-6">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
+                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
                         name="cadreId" data-placeholder="请输入账号或姓名或学工号" data-width="270">
                     <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                 </select>

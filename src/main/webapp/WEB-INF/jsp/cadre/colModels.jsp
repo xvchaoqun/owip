@@ -670,9 +670,9 @@
         {label: '形成日期', name: 'createDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
         {label: '考察对象', name: 'cadre.realname', frozen: true},
-        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
+        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 450},
         {
-            label: '材料类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
+            label: '材料类型', name: 'type', width: 120, formatter: function (cellvalue, options, rowObject) {
             return _cMap.CIS_EVALUATE_TYPE_MAP[cellvalue];
         }
         },
