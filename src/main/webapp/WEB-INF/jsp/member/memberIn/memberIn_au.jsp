@@ -113,7 +113,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-						<label class="col-xs-5 control-label">党支部</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>党支部</label>
 						<div class="col-xs-6">
 							<select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
 									name="branchId" data-placeholder="请选择">
@@ -144,7 +144,7 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位联系电话</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="fromPhone" value="${memberIn.fromPhone}">
+							<input required class="form-control" t	ype="text" name="fromPhone" value="${memberIn.fromPhone}">
 						</div>
 					</div>
 					<div class="form-group">
