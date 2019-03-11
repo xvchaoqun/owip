@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-        <label class="col-xs-5 control-label">请选择党支部</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>请选择党支部</label>
         <div class="col-xs-6">
           <select class="form-control"  data-rel="select2-ajax"  data-width="260"
                   data-ajax-url="${ctx}/branch_selects?del=0"
