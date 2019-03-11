@@ -235,7 +235,7 @@ public class MemberInService extends MemberBaseMapper {
 
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
-            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "非直属党支部，请选择所属支部。");
             iMemberMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
         }
 
