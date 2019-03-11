@@ -1,4 +1,17 @@
 
+
+20190311
+
+更新 common-utils
+
+
+ALTER TABLE `cis_evaluate`
+	CHANGE COLUMN `file_path` `pdf_file_path` VARCHAR(200) NULL COMMENT '材料内容， PDF版' AFTER `type`,
+	ADD COLUMN `word_file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '材料内容，WORD版' AFTER `pdf_file_path`;
+
+ALTER TABLE `cis_evaluate`
+	CHANGE COLUMN `file_name` `file_name` VARCHAR(100) NULL AFTER `word_file_path`;
+
 20190310
 北邮
 
