@@ -391,7 +391,8 @@ public class MemberOutController extends MemberBaseController {
         Integer id = record.getId();
         if(id==null) {
             MemberOut memberOut = memberOutService.getLatest(record.getUserId());
-            if (memberOut != null || memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+            if (memberOut != null
+                    && memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
                 return failed(String.format("存在未完成审批的记录（状态：%s）",
                         MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus())));
             }
