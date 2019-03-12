@@ -151,6 +151,7 @@ public class PmdConfigMemberController extends PmdBaseController {
     public String pmdConfigMember_exportSalary(
             @RequestParam(required = false, defaultValue = "0") int export,
             Byte type,
+            @RequestParam(required = false, defaultValue = "1") Byte scope,
             String salaryMonth,
             HttpServletResponse response,
             ModelMap modelMap) {
@@ -159,10 +160,22 @@ public class PmdConfigMemberController extends PmdBaseController {
             if(type==null) return null;
             
             if(type==1){
-                List<ExtJzgSalary> extJzgSalaries = iPmdMapper.extJzgSalaryList(salaryMonth);
+                List<ExtJzgSalary> extJzgSalaries = new ArrayList<>();
+                if(scope==1){
+                    extJzgSalaries = iPmdMapper.extJzgSalaryList(salaryMonth);
+                }else{
+                    extJzgSalaries = iPmdMapper.extJzgSalaryAllList(salaryMonth);
+                }
                 extJzgSalary_export(salaryMonth, extJzgSalaries, response);
+
             }else if(type==2){
-                List<ExtRetireSalary> extRetireSalaries = iPmdMapper.extRetireSalaryList(salaryMonth);
+
+                List<ExtRetireSalary> extRetireSalaries = new ArrayList<>();
+                if(scope==1){
+                    extRetireSalaries = iPmdMapper.extRetireSalaryList(salaryMonth);
+                }else{
+                    extRetireSalaries = iPmdMapper.extRetireSalaryAllList(salaryMonth);
+                }
                 extRetireSalary_export(salaryMonth, extRetireSalaries, response);
             }
             
@@ -237,7 +250,7 @@ public class PmdConfigMemberController extends PmdBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "在职教职工党员工资(" + salaryMonth + ")";
+        String fileName = "在职教职工党费工资基数(" + salaryMonth + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
     

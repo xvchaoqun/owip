@@ -23,6 +23,21 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-4 control-label">导出范围</label>
+            <div class="col-xs-6 label-text">
+                <div class="input-group">
+                    <label>
+                        <input name="scope" type="radio" class="ace" value="1" checked/>
+                        <span class="lbl" style="padding-right: 5px;"> 参与缴费党员</span>
+                    </label>
+                    <label>
+                        <input name="scope" type="radio" class="ace" value="2"/>
+                        <span class="lbl" style="padding-right: 5px;"> 所有人员</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span>选择工资月份</label>
             <div class="col-xs-6">
                 <select required data-rel="select2"
@@ -66,11 +81,12 @@
     $("#modalForm #submitBtn").click(function () {
 
         var type = $("#modalForm input[name=type]:checked").val();
+        var scope = $("#modalForm input[name=scope]:checked").val();
         var salaryMonth = $("#modalForm select[name=salaryMonth]").val();
 
-        if($.trim(type)=='' || $.trim(salaryMonth)=='') return;
+        if($.trim(type)=='' || $.trim(scope)=='' || $.trim(salaryMonth)=='') return;
 
-        var url = "${ctx}/pmd/pmdConfigMember_exportSalary?export=1&type={0}&salaryMonth={1}".format(type, salaryMonth);
+        var url = "${ctx}/pmd/pmdConfigMember_exportSalary?export=1&type={0}&scope={1}&salaryMonth={2}".format(type, scope, salaryMonth);
 
         $(this).download(url);
         return false;
