@@ -112,7 +112,7 @@ pageEncoding="UTF-8"%>
 							</select>
 						</div>
 					</div>
-					<div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+					<div class="form-group" id="branchDiv">
 						<label class="col-xs-5 control-label"><span class="star">*</span>党支部</label>
 						<div class="col-xs-6">
 							<select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
@@ -123,7 +123,8 @@ pageEncoding="UTF-8"%>
 					</div>
 					<script>
 						$.register.party_branch_select($("#modalForm"), "branchDiv",
-								'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+								'${cm:getMetaTypeByCode("mt_direct_branch").id}',
+								"${party.id}", "${party.classId}", "partyId", "branchId", true );
 					</script>
 
 				</div>
@@ -261,13 +262,13 @@ pageEncoding="UTF-8"%>
 
     </form>
 <div class="modal-footer center">
-    <a href="javascript:;" class="hideView btn btn-default">取消</a>
+    <a href="javascript:;" class="hideView btn btn-default">返回</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberIn!=null}">确定</c:if><c:if test="${memberIn==null}">添加</c:if>"/>
 	<c:if test="${memberIn!=null && memberIn.status<MEMBER_IN_STATUS_APPLY}">
 		<input type="button" id="resubmit" class="btn btn-warning" value="修改并重新提交"/>
 	</c:if>
 </div>
-
+<div class="footer-margin lower"/>
 <script>
 	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
 	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
@@ -278,7 +279,9 @@ pageEncoding="UTF-8"%>
 	$("#body-content-view input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
 	$("#modalForm").validate({
         submitHandler: function (form) {
-			if(!$("#branchDiv").is(":hidden")){
+        	//console.log($("#modalForm #branchDiv").is(":hidden"))
+			if(!$("#modalForm #branchDiv").is(":hidden")){
+				//console.log($('#modalForm select[name=branchId]').val())
 				if($('#modalForm select[name=branchId]').val()=='') {
 					SysMsg.warning("请选择支部。", "提示");
 					return;
