@@ -4,6 +4,7 @@
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "",
   "folder": "sys",
+  "resFolder": "",
   "tables": [
     {
       "table": "sys_sync",
@@ -26,6 +27,14 @@
       "key": "id",
       "searchColumns": "id",
       "showColumns": "",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },{
+      "table": "sys_property",
+      "key": "id",
+      "searchColumns": "code,name",
+      "showColumns": "code,name,content,type,sort_order,remark",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_ADMIN",
       "ignore": false

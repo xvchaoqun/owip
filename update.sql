@@ -1,4 +1,32 @@
 
+20190319
+
++ sys_property表
+
+ALTER TABLE `ow_member`
+	ADD COLUMN `sponsor` VARCHAR(50) NULL DEFAULT NULL COMMENT '入党介绍人' AFTER `candidate_time`,
+	ADD COLUMN `grow_branch` VARCHAR(200) NULL DEFAULT NULL COMMENT '入党时所在党支部' AFTER `grow_time`,
+	ADD COLUMN `positive_branch` VARCHAR(200) NULL DEFAULT NULL COMMENT '转正时所在党支部' AFTER `positive_time`;
+
+更新 ow_member_student， ow_member_teacher
+
+*** 更新 党员导入表（校内、校外）
+
+
+ALTER TABLE `dispatch`
+	CHANGE COLUMN `code` `code` VARCHAR(10) NOT NULL COMMENT '发文号，比如师党干[2015]年01号， 录入01' AFTER `dispatch_type_id`;
+
+更新  dispatch_view  dispatch_cadre_view  dispatch_unit_view
+
+ALTER TABLE `sc_dispatch`
+	CHANGE COLUMN `code` `code` VARCHAR(10) NULL DEFAULT NULL COMMENT '发文号，手动填写' AFTER `dispatch_type_id`;
+
+更新 sc_dispatch_view
+
+
+-- + cadre:updateWithoutRequired
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1011, 0, '更新不考虑必填项', '用于干部信息录入角色', 'function', '', NULL, 90, '0/1/88/90/', 1, 'cadre:updateWithoutRequired', NULL, NULL, NULL, 1, NULL);
+
 
 20190311
 

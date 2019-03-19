@@ -61,8 +61,8 @@
          </table>-->
 
         <!--干部挂职锻炼-->
-        <table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
-        </table>
+        <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
+        </table>-->
 
         <!--二级党校-->
         <!--<table tableName="party_school" domainObjectName="partySchool.PartySchool"
@@ -74,6 +74,8 @@
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
         </table>-->
+        <table tableName="sys_property" domainObjectName="sys.SysProperty" mapperName="sys.SysPropertyMapper">
+        </table>
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->

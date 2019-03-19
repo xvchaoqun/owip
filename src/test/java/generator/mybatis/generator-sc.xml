@@ -108,12 +108,12 @@
         </table>-->
 
         <!--干部选拔-文件起草签发-->
-        <!--<table tableName="sc_dispatch" domainObjectName="sc.scDispatch.ScDispatch"
+        <table tableName="sc_dispatch" domainObjectName="sc.scDispatch.ScDispatch"
                mapperName="sc.scDispatch.ScDispatchMapper">
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
 
-        <!--<table tableName="sc_dispatch_view"
+        <table tableName="sc_dispatch_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
@@ -121,7 +121,7 @@
                mapperName="sc.scDispatch.ScDispatchViewMapper">
             <columnOverride column="appoint_count" javaType="Integer"/>
             <columnOverride column="dismiss_count" javaType="Integer"/>
-        </table>-->
+        </table>
         <!--
         <table tableName="sc_dispatch_user" domainObjectName="sc.scDispatch.ScDispatchUser"
                mapperName="sc.scDispatch.ScDispatchUserMapper">
@@ -187,7 +187,7 @@
         <!--<table tableName="sc_committee_topic_cadre" domainObjectName="sc.scCommittee.ScCommitteeTopicCadre"
               mapperName="sc.scCommittee.ScCommitteeTopicCadreMapper">
        </table>-->
-         <table tableName="sc_committee_vote" domainObjectName="sc.scCommittee.ScCommitteeVote"
+        <!-- <table tableName="sc_committee_vote" domainObjectName="sc.scCommittee.ScCommitteeVote"
                mapperName="sc.scCommittee.ScCommitteeVoteMapper">
         </table>
         <table tableName="sc_committee_vote_view"
@@ -198,7 +198,7 @@
             <columnOverride column="count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="absent_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <!--
        <table tableName="sc_committee_other_vote" domainObjectName="sc.scCommittee.ScCommitteeOtherVote"

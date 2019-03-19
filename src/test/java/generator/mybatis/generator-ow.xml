@@ -80,6 +80,11 @@
 
         <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
         </table>-->
+
+        <table tableName="ow_member" domainObjectName="member.Member">
+             <ignoreColumn column="update_time"/>
+         </table>
+
         <table tableName="ow_member_student" domainObjectName="member.MemberStudent" mapperName="member.MemberStudentMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -91,9 +96,7 @@
                 enableDeleteByExample="false">
              <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
          </table>
-         <!--<table tableName="ow_member" domainObjectName="member.Member">
-             <ignoreColumn column="update_time"/>
-         </table>
+         <!--
         <table tableName="ow_member_modify" domainObjectName="member.MemberModify">
         </table>-->
         <!--<table tableName="ow_apply_log" domainObjectName="member.ApplyLog">

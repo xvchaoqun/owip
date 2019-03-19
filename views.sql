@@ -846,7 +846,7 @@ where wms.user_id=om.user_id  ;
 DROP VIEW IF EXISTS `ow_member_student`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_student`
 AS SELECT m.create_time,m.apply_time,m.source as member_source, m.add_type, u.source,m.positive_time,m.active_time,
-m.political_status,m.transfer_time,m.user_id,m.branch_id,m.candidate_time,m.party_id,m.grow_time,m.status,m.party_post,
+m.political_status,m.transfer_time,m.user_id,m.branch_id,m.candidate_time,m.party_id,m.sponsor,m.grow_branch,m.positive_branch,m.grow_time,m.status,m.party_post,
 m.party_reward,m.other_reward,s.delay_year,
 s.period,u.code,s.edu_category,ui.gender,ui.birth,ui.nation,s.actual_graduate_time,
 s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type,s.is_full_time,ui.realname,
@@ -874,6 +874,7 @@ m.transfer_time,
 m.branch_id,
 m.candidate_time,
 m.party_id,
+m.sponsor,m.grow_branch,m.positive_branch,
 m.grow_time,
 m.status,
 m.party_post,
