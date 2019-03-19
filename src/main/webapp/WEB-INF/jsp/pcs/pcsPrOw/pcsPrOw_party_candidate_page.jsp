@@ -13,10 +13,10 @@
 
             <a href="${ctx}/pcsPrOw_export?file=${empty param.partyId?5:3}&partyId=${param.partyId}&stage=${param.stage}">
                 <i class="fa fa-download"></i> 导出：<c:if test="${empty param.partyId}">
-                    各分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单汇总表
+                    各${_p_partyName}酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单汇总表
                 </c:if>
                 <c:if test="${not empty param.partyId}">
-                    分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单
+                    ${_p_partyName}酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单
                 </c:if>
             </a>
         </div>

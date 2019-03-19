@@ -115,7 +115,7 @@
                     <div class="input_box"><input name="phone" type="text"/></div>
                 </dd>
 
-                <dt>联系分党委</dt>
+                <dt>联系${_p_partyName}</dt>
                 <dd>
                     <div class="input_box">
                         <select name="party">

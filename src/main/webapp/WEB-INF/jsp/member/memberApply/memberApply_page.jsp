@@ -191,7 +191,7 @@
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${candidateCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${candidateCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${candidateCheckCount}）
                                                                     </button>
                                                                     </shiro:hasAnyRoles>
                                                                 </c:when>
@@ -215,7 +215,7 @@
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${planCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${planCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${planCheckCount}）
                                                                     </button>
                                                                     </shiro:hasAnyRoles>
                                                                 </c:when>
@@ -240,7 +240,7 @@
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${drawCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${drawCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${drawCheckCount}）
                                                                     </button>--%>
                                                                 </c:when>
                                                                 <c:when test="${stage==OW_APPLY_STAGE_DRAW}">
@@ -275,7 +275,7 @@
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${growCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${growCheckCount}）
                                                                     </button>
                                                                     </shiro:hasAnyRoles>
                                                                    <%-- <button id="growCheckCount" ${growCheckCount>0?'':'disabled'}
@@ -286,7 +286,7 @@
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${growCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${growCheckCount}）
                                                                     </button>--%>
 
                                                                 </c:when>
@@ -310,7 +310,7 @@
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${positiveCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${positiveCheckCount}）
+                                                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${positiveCheckCount}）
                                                                     </button>
                                                                     </shiro:hasAnyRoles>
                                                                     <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
@@ -390,11 +390,11 @@
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class="form-group">
-                                                                                    <label>分党委</label>
+                                                                                    <label>${_p_partyName}</label>
 
                                                                                         <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                                                                 data-ajax-url="${ctx}/party_selects?auth=1"
-                                                                                                name="partyId" data-placeholder="请选择分党委">
+                                                                                                name="partyId" data-placeholder="请选择">
                                                                                             <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                                                         </select>
                                                                                 </div>
@@ -415,7 +415,7 @@
                                                                                             <select name="growStatus" data-rel="select2" data-placeholder="请选择">
                                                                                                 <option></option>
                                                                                                 <option value="-1">待组织部审核</option>
-                                                                                                <option value="2">组织部已审核，待分党委发展为预备党员</option>
+                                                                                                <option value="2">组织部已审核，待${_p_partyName}发展为预备党员</option>
                                                                                             </select>
                                                                                             <script>
                                                                                                 $("#searchForm select[name=growStatus]").val("${param.growStatus}");
@@ -430,8 +430,8 @@
                                                                                     <select name="positiveStatus" data-rel="select2" data-placeholder="请选择">
                                                                                         <option></option>
                                                                                         <option value="-1">待支部提交预备党员转正</option>
-                                                                                        <option value="0">支部已提交，待分党委审核</option>
-                                                                                        <option value="1">分党委已审核，待组织部审核</option>
+                                                                                        <option value="0">支部已提交，待${_p_partyName}审核</option>
+                                                                                        <option value="1">${_p_partyName}已审核，待组织部审核</option>
                                                                                     </select>
                                                                                     <script>
                                                                                         $("#searchForm select[name=positiveStatus]").val("${param.positiveStatus}");
@@ -612,7 +612,7 @@
     });
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委批量审核",
+        caption:"${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_candidate_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
@@ -630,7 +630,7 @@
 
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委批量审核",
+        caption:"${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_plan_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
@@ -647,7 +647,7 @@
     });
     </shiro:hasRole>
     /*$("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委审核",
+        caption:"${_p_partyName}审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_draw_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
@@ -671,7 +671,7 @@
     });
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委批量审核",
+        caption:"${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_grow_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
@@ -688,7 +688,7 @@
     });
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委批量审核",
+        caption:"${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_positive_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'

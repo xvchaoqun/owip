@@ -15,6 +15,9 @@
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="sponsor" jdbcType="VARCHAR" property="sponsor" />
+    <result column="grow_branch" jdbcType="VARCHAR" property="growBranch" />
+    <result column="positive_branch" jdbcType="VARCHAR" property="positiveBranch" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="party_post" jdbcType="VARCHAR" property="partyPost" />
@@ -77,11 +80,12 @@
   </sql>
   <sql id="Base_Column_List">
     create_time, apply_time, member_source, add_type, source, positive_time, active_time, 
-    political_status, transfer_time, user_id, branch_id, candidate_time, party_id, grow_time, 
-    status, party_post, party_reward, other_reward, delay_year, period, code, edu_category, 
-    gender, birth, nation, actual_graduate_time, expect_graduate_time, actual_enrol_time, 
-    sync_source, type, is_full_time, realname, enrol_year, native_place, edu_way, idcard, 
-    edu_level, grade, edu_type, xj_status, unit_id, out_status, out_handle_time
+    political_status, transfer_time, user_id, branch_id, candidate_time, party_id, sponsor, 
+    grow_branch, positive_branch, grow_time, status, party_post, party_reward, other_reward, 
+    delay_year, period, code, edu_category, gender, birth, nation, actual_graduate_time, 
+    expect_graduate_time, actual_enrol_time, sync_source, type, is_full_time, realname, 
+    enrol_year, native_place, edu_way, idcard, edu_level, grade, edu_type, xj_status, 
+    unit_id, out_status, out_handle_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberStudentExample" resultMap="BaseResultMap">
     select

@@ -825,7 +825,7 @@
 							</tr>
 							<tr>
 								<td>
-									*籍贯
+									<span class="star">*</span>籍贯
 								</td>
 								<td style="min-width: 100px">
 									<input required type="text" name="nativePlace" value="${uv.nativePlace}">
@@ -841,7 +841,7 @@
 									</div>
 								</td>
 								<td>
-									*户籍地
+									<span class="star">*</span>户籍地
 								</td>
 								<td>
 									<input required type="text" name="household" value="${uv.household}">
@@ -863,7 +863,7 @@
 									</script>
 								</td>
 								<td>
-									*熟悉专业有何专长
+									<span class="star">*</span>熟悉专业有何专长
 								</td>
 								<td colspan="3">
 									<input required type="text" name="specialty" value="${uv.specialty}" style="width: 500px">
@@ -924,7 +924,7 @@
 								<tbody>
 								<tr>
 									<td style="width: 300px;">
-										*所在单位及职务
+										<span class="star">*</span>所在单位及职务
 									</td>
 									<td>
 										<input required type="text" name="title" value="${cadre.title}" style="width: 500px">
@@ -951,7 +951,7 @@
 							<tbody>
 							<tr>
 								<td>
-									*手机号
+									<span class="star">*</span>手机号
 								</td>
 								<td style="min-width: 80px">
 									<input required type="text" class="mobile" name="mobile" value="${uv.mobile}">
@@ -1006,6 +1006,10 @@
 		</style>
 	</c:if>
 	<script>
+		<shiro:hasPermission name="cadre:updateWithoutRequired">
+		$('span.star').remove();
+		$('input, textarea').prop("required", false);
+		</shiro:hasPermission>
 		function _innerPage(type) {
 			if(type==undefined){
 				$("#view-box .tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}")

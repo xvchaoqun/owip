@@ -71,7 +71,7 @@
 
 
       <div class="form-group">
-        <label class="col-xs-5 control-label"><span class="star">*</span>请选择分党委</label>
+        <label class="col-xs-5 control-label"><span class="star">*</span>请选择${_p_partyName}</label>
         <div class="col-xs-6">
           <select required class="form-control"  data-rel="select2-ajax" data-width="260"
                   data-ajax-url="${ctx}/party_selects?del=0"

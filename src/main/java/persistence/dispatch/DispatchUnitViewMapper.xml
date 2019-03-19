@@ -12,7 +12,7 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="pub_time" jdbcType="DATE" property="pubTime" />
     <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
-    <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="has_checked" jdbcType="BIT" property="hasChecked" />
   </resultMap>
   <sql id="Example_Where_Clause">

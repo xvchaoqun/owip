@@ -43,7 +43,7 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
 
                             <div class="form-group">
-                                <label>分党委</label>
+                                <label>${_p_partyName}</label>
                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0&notDirect=1"
                                         name="partyId" data-placeholder="请选择">
                                     <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
@@ -75,7 +75,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/pcsExcludeBranch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '所属分党委',
+                label: '所属${_p_partyName}',
                 name: 'partyId',
                 align: 'left',
                 width: 400,

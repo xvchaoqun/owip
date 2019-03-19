@@ -5,7 +5,7 @@
     <shiro:hasPermission name="partyMemberGroup:edit">
         <button class="popupBtn btn btn-primary btn-xs"
                 data-url="${ctx}/partyMemberGroup_au?type=view&partyId=${param.partyId}">
-            <i class="fa fa-users"></i> 添加分党委班子
+            <i class="fa fa-users"></i> 添加${_p_partyName}班子
         </button>
         <a href="javascript:;"
            data-url="${ctx}/partyMemberGroup_au"
@@ -49,7 +49,7 @@
                 },
                 frozen: true
             },
-            {label: '所属分党委', name: 'party', width: 280},
+            {label: '所属${_p_partyName}', name: 'party', width: 280},
             {label: '应换届时间', name: 'tranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '实际换届时间',

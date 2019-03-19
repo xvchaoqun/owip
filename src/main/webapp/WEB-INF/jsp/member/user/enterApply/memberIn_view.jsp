@@ -188,7 +188,7 @@
           </c:if>
           <li data-step="1" <c:if test="${memberIn.status>=MEMBER_IN_STATUS_PARTY_VERIFY}">class="complete"</c:if>>
             <span class="step">1</span>
-            <span class="title">分党委审核</span>
+            <span class="title">${_p_partyName}审核</span>
 
           </li>
           <li data-step="2" <c:if test="${memberIn.status==MEMBER_IN_STATUS_OW_VERIFY}">class="complete"</c:if>>

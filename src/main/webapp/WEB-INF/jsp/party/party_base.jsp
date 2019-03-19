@@ -143,7 +143,7 @@ pageEncoding="UTF-8"%>
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
 			<i class="ace-icon fa fa-key"></i>
-			分党委管理员
+			${_p_partyName}管理员
 		</h4>
 
 		<div class="widget-toolbar">

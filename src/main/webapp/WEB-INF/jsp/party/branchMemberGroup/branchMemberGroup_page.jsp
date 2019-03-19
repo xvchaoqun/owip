@@ -76,7 +76,7 @@
                                                        placeholder="请输入名称">
                                             </div>
                                             <div class="form-group">
-                                                <label>分党委</label>
+                                                <label>${_p_partyName}</label>
                                                 <select class="form-control" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1"
                                                         data-width="350"

@@ -110,6 +110,12 @@ public class MemberTeacher implements Serializable {
 
     private Integer partyId;
 
+    private String sponsor;
+
+    private String growBranch;
+
+    private String positiveBranch;
+
     private Date growTime;
 
     private Byte status;
@@ -570,6 +576,30 @@ public class MemberTeacher implements Serializable {
 
     public void setPartyId(Integer partyId) {
         this.partyId = partyId;
+    }
+
+    public String getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(String sponsor) {
+        this.sponsor = sponsor == null ? null : sponsor.trim();
+    }
+
+    public String getGrowBranch() {
+        return growBranch;
+    }
+
+    public void setGrowBranch(String growBranch) {
+        this.growBranch = growBranch == null ? null : growBranch.trim();
+    }
+
+    public String getPositiveBranch() {
+        return positiveBranch;
+    }
+
+    public void setPositiveBranch(String positiveBranch) {
+        this.positiveBranch = positiveBranch == null ? null : positiveBranch.trim();
     }
 
     public Date getGrowTime() {

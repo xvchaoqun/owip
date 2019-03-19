@@ -4,7 +4,7 @@
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="<c:if test="${cls==1}">active</c:if>">
         <a href="javascript:;" class="loadPage" data-url="${ctx}/pcsOw?cls=1&stage=${param.stage}">
-            <i class="fa fa-envelope-open"></i> 各分党委推荐情况</a>
+            <i class="fa fa-envelope-open"></i> 各${_p_partyName}推荐情况</a>
     </li>
     <li class="<c:if test="${cls==2}">active</c:if>">
         <a href="javascript:;" class="loadPage" data-url="${ctx}/pcsOw?cls=2&stage=${param.stage}">

@@ -89,7 +89,7 @@
                                 <label class="col-xs-3 control-label"><span class="star">*</span>发文号</label>
 
                                 <div class="col-xs-7">
-                                    <input required class="form-control digits" type="text" name="code"
+                                    <input required class="form-control" type="text" name="code"
                                            autocomplete="off" disableautocomplete
                                            value="${scDispatch.code}">
                                 </div>

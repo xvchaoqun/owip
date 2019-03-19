@@ -72,7 +72,7 @@ public class UnitController extends BaseController {
         }
     
         // 正在运转单位
-        modelMap.put("runUnits", unitService.findRunUnits(id));
+        //modelMap.put("runUnits", unitService.findRunUnits(id));
         // 历史单位
         modelMap.put("historyUnits", unitService.findHistoryUnits(id));
 

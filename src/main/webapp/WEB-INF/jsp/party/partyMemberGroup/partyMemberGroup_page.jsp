@@ -81,10 +81,10 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label>所属分党委</label>
+                                                <label>所属${_p_partyName}</label>
                                                 <select name="partyId" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects"
-                                                        data-placeholder="请选择所属分党委">
+                                                        data-placeholder="请选择所属${_p_partyName}">
                                                     <option value="${party.id}"
                                                             title="${party.isDeleted}">${party.name}</option>
                                                 </select>
@@ -163,7 +163,7 @@
                 }
             },
             {
-                label: '所属分党委',
+                label: '所属${_p_partyName}',
                 name: 'partyId',
                 align: 'left',
                 width: 380,

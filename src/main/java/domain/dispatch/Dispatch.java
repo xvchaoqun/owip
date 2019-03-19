@@ -32,7 +32,7 @@ public class Dispatch implements Serializable {
 
     private Integer dispatchTypeId;
 
-    private Integer code;
+    private String code;
 
     private String category;
 
@@ -98,12 +98,12 @@ public class Dispatch implements Serializable {
         this.dispatchTypeId = dispatchTypeId;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public String getCategory() {

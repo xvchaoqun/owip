@@ -30,10 +30,10 @@
             </div>
 
             <div class="form-group" id="party" >
-                <label class="col-sm-4 control-label no-padding-right">所属党组织</label>
+                <label class="col-sm-4 control-label no-padding-right">所属${_p_partyName}</label>
                 <div class="col-sm-7">
                     <select data-rel="select2-ajax" data-width="300"  data-ajax-url="${ctx}/party_selects?auth=1"
-                            name="partyId" data-placeholder="请选择分党委">
+                            name="partyId" data-placeholder="请选择">
                         <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                     </select>
                 </div>
@@ -69,10 +69,10 @@
                 </div>
             </div>
             <div class="form-group" id="party" style="${empty party?'display: none;':''}">
-                <label class="col-sm-3 control-label no-padding-right">所属党组织</label>
+                <label class="col-sm-3 control-label no-padding-right">所属${_p_partyName}</label>
                 <div class=" col-sm-9">
                     <select data-rel="select2-ajax" data-width="350"  data-ajax-url="${ctx}/party_selects?auth=1"
-                            name="partyId" data-placeholder="请选择分党委">
+                            name="partyId" data-placeholder="请选择">
                         <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                     </select>
                 </div>
@@ -227,7 +227,7 @@
 
             if (!$("#party").is(":hidden")) {
                 if ($('#modalForm select[name=partyId]').val() == '') {
-                    bootbox.alert("请选择分党委。");
+                    bootbox.alert("请选择${_p_partyName}。");
                     return;
                 }
             }

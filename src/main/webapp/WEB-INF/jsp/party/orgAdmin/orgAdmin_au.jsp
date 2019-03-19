@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>所属分党委</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属${_p_partyName}</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="partyId" value="${orgAdmin.partyId}">
 				</div>

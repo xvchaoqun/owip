@@ -63,7 +63,7 @@ public class ScDispatchController extends ScBaseController {
     public void scDispatch_data(HttpServletResponse response,
                                     Integer year,
                                     Integer dispatchTypeId,
-                                    Integer code,
+                                    String code,
                                     Boolean hideDispatched, // 隐藏已发文的签发稿
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录

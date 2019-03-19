@@ -24,7 +24,7 @@
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsOw_party_candidate_page?partyId=${param.partyId}&stage=${param.stage}'><i
-                                    class="fa fa-calendar-o"></i> 分党委推荐情况汇总
+                                    class="fa fa-calendar-o"></i> ${_p_partyName}推荐情况汇总
                             </a>
                         </li>
                     </ul>

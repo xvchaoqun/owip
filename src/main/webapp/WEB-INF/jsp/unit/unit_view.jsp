@@ -35,7 +35,7 @@
                         </shiro:hasPermission>
                          <shiro:hasPermission name="unitTransfer:list">
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/unitTransfer?unitId=${param.id}">单位历程相关文件</a>
+                            <a href="javascript:;" data-url="${ctx}/unitTransfer?unitId=${param.id}">单位发展历程文件</a>
                         </li>
                         </shiro:hasPermission>
                     </ul>

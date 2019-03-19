@@ -104,10 +104,10 @@ pageEncoding="UTF-8" %>
                                 </script>
                             </div>
                             <div class="form-group">
-                                <label>所在分党委</label>
+                                <label>所在${_p_partyName}</label>
                                 <select class="form-control" data-width="250"  data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/party_selects?del=0"
-                                        name="partyId" data-placeholder="请选择分党委">
+                                        name="partyId" data-placeholder="请选择${_p_partyName}">
                                     <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                 </select>
                             </div>

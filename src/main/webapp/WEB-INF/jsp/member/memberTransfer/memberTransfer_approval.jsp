@@ -108,14 +108,14 @@
 
                                 <li data-step="1"  class="${memberTransfer.status>=MEMBER_TRANSFER_STATUS_FROM_VERIFY?'complete':''}">
                                     <span class="step">1</span>
-                                    <span class="title">转出分党委审核</span>
+                                    <span class="title">转出${_p_partyName}审核</span>
                                     <%--<span class="subtitle">
                                             通过时间
                                     </span>--%>
                                 </li>
                                 <li data-step="2" class="${memberTransfer.status==MEMBER_TRANSFER_STATUS_TO_VERIFY?'complete':''}">
                                     <span class="step">2</span>
-                                    <span class="title">转入分党委审核</span>
+                                    <span class="title">转入${_p_partyName}审核</span>
                                 <%--<span class="subtitle">
                                         通过时间
                                 </span>--%>

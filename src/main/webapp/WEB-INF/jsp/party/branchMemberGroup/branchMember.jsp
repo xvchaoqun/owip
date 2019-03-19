@@ -51,9 +51,9 @@
                                     <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
                                 </div>
                                     <div class="form-group">
-                                        <label>所属分党委</label>
+                                        <label>所属${_p_partyName}</label>
                                         <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                                                data-placeholder="请选择所属分党委">
+                                                data-placeholder="请选择">
                                             <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                         </select>
                                         <script>
@@ -124,7 +124,7 @@
             }},
             </shiro:hasPermission>
             {label: '所在单位', name: 'unitId', width: 180,align:'left', formatter: $.jgrid.formatter.unit},
-            {label: '所属分党委', name: 'groupPartyId', width: 350, align:'left',formatter: function (cellvalue, options, rowObject) {
+            {label: '所属${_p_partyName}', name: 'groupPartyId', width: 350, align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return _cMap.partyMap[cellvalue].name;
             }},

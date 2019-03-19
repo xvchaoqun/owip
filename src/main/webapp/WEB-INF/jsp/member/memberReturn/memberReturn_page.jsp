@@ -62,7 +62,7 @@
                                             data-querystr="&type=2"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
-                                        <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
+                                        <i class="fa fa-check-circle-o"></i> ${_p_partyName}审核（${partyApprovalCount}）
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
@@ -97,10 +97,10 @@
                                                             </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>分党委</label>
+                                                        <label>${_p_partyName}</label>
                                                             <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/party_selects?auth=1"
-                                                                    name="partyId" data-placeholder="请选择分党委">
+                                                                    name="partyId" data-placeholder="请选择">
                                                                 <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                             </select>
                                                     </div>
@@ -361,7 +361,7 @@
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委批量审核",
+        caption:"${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberReturn_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'

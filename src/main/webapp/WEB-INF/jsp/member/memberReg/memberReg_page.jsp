@@ -14,7 +14,7 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReg?cls=1"}><i class="fa fa-circle-o"></i> 分党委审核</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReg?cls=1"}><i class="fa fa-circle-o"></i> ${_p_partyName}审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReg?cls=2"}><i class="fa fa-times"></i> 未通过</a>
@@ -38,7 +38,7 @@
                                             data-open-by="page"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
+                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${partyApprovalCount}）
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
@@ -84,7 +84,7 @@
                                                 <input type="text" name="idcard" value="${param.idcard}">
                                             </div>
                                                     <div class="form-group">
-                                                        <label>所属分党委</label>
+                                                        <label>所属${_p_partyName}</label>
                                                         <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1"
                                                                 name="partyId" data-placeholder="请选择">
                                                             <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>

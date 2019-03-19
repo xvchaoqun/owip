@@ -85,7 +85,7 @@ public class DispatchController extends DispatchBaseController {
                                  @OrderParam(required = false, defaultValue = "desc") String order,*/
                               Integer year,
                               Integer dispatchTypeId,
-                              Integer code,
+                              String code,
                               @RequestDateRange DateRange _pubTime,
                               @RequestDateRange DateRange _workTime,
                               @RequestDateRange DateRange _meetingTime,
@@ -269,7 +269,7 @@ public class DispatchController extends DispatchBaseController {
             ScDispatchService scDispatchService = CmTag.getBean(ScDispatchService.class);
             ScDispatchView sd = scDispatchService.get(record.getScDispatchId());
             record.setYear(sd.getYear());
-            if(sd.getCode()!=null)
+            if(StringUtils.isNotBlank(sd.getCode()))
                 record.setCode(sd.getCode());
             record.setDispatchTypeId(sd.getDispatchTypeId());
             record.setMeetingTime(sd.getMeetingTime());
@@ -279,7 +279,10 @@ public class DispatchController extends DispatchBaseController {
             record.setMeetingTime(DateUtils.parseDate(_meetingTime, DateUtils.YYYY_MM_DD));
         }
 
-        if (record.getCode() != null
+        if (record.getCode() == null){
+
+            return failed("发文号不能为空");
+        }else if (record.getCode() != null
                 && dispatchService.idDuplicate(id, record.getDispatchTypeId(), record.getYear(), record.getCode())) {
             return failed("发文号重复");
         }
@@ -334,8 +337,8 @@ public class DispatchController extends DispatchBaseController {
         record.setWorkTime(DateUtils.parseDate(_workTime, DateUtils.YYYY_MM_DD));
 
         if (id == null) {
-            if (record.getCode() == null)
-                record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
+            /*if (record.getCode() == null)
+                record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));*/
             dispatchService.insertSelective(record);
             id = record.getId(); // 新ID
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加发文：%s", id));
@@ -353,9 +356,9 @@ public class DispatchController extends DispatchBaseController {
                 FileUtils.delFile(springProps.uploadPath + dispatch.getPpt()); // 删除原ppt
             }
 
-            if (dispatch.getDispatchTypeId().intValue() != record.getDispatchTypeId()) { // 修改了类型，要修改发文号
+            /*if (dispatch.getDispatchTypeId().intValue() != record.getDispatchTypeId()) { // 修改了类型，要修改发文号
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
-            }
+            }*/
             dispatchService.updateByPrimaryKeySelective(record, true);
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新发文：%s", id));
         }
@@ -591,7 +594,7 @@ public class DispatchController extends DispatchBaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andCodeEqualTo(Integer.parseInt(searchStr));
+            criteria.andCodeEqualTo(searchStr);
         }
 
         long count = dispatchMapper.countByExample(example);

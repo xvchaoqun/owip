@@ -15,18 +15,18 @@
                     </c:if>
                     <select ${not empty member?"disabled data-theme='default'":""} required data-rel="select2-ajax"
                                                                                    data-ajax-url="${ctx}/notMember_selects"
-                                                                                   name="userId" data-width="320"
+                                                                                   name="userId" data-width="270"
                                                                                    data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>所属分党委</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>所属${_p_partyName}</label>
                 <div class="col-xs-6">
                     <select required class="form-control" data-rel="select2-ajax"
                             data-ajax-url="${ctx}/party_selects?auth=1"
-                            name="partyId" data-placeholder="请选择" data-width="320">
+                            name="partyId" data-placeholder="请选择" data-width="270">
                         <option value="${party.id}">${party.name}</option>
                     </select>
                 </div>
@@ -35,7 +35,7 @@
                 <label class="col-xs-4 control-label"><span class="star">*</span>所属党支部</label>
                 <div class="col-xs-6">
                     <select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
-                            name="branchId" data-placeholder="请选择" data-width="320">
+                            name="branchId" data-placeholder="请选择" data-width="270">
                         <option value="${branch.id}">${branch.name}</option>
                     </select>
                 </div>
@@ -110,6 +110,12 @@
                     </div>
                 </div>
             </div>
+             <div class="form-group">
+                <label class="col-xs-4 control-label">入党介绍人</label>
+                <div class="col-xs-6">
+                    <input class="form-control" style="width: 150px" type="text" name="sponsor" value="${member.sponsor}"/>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label">入党时间</label>
                 <div class="col-xs-6">
@@ -121,8 +127,18 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">转正时间</label>
+                <label class="col-xs-4 control-label">入党时所在党支部</label>
                 <div class="col-xs-6">
+                    <textarea class="form-control limited noEnter" type="text" maxlength="100"
+                                  name="growBranch" rows="3">${member.growBranch}</textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-5">
+            <div class="form-group">
+                <label class="col-xs-3 control-label">转正时间</label>
+                <div class="col-xs-8">
                     <div class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_positiveTime" type="text"
                                data-date-format="yyyy-mm-dd"
@@ -131,27 +147,31 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div class="col-xs-5">
+            <div class="form-group">
+                <label class="col-xs-3 control-label">转正时所在党支部</label>
+                <div class="col-xs-8">
+                    <textarea class="form-control limited noEnter" type="text"  maxlength="100"
+                                  name="positiveBranch" rows="3">${member.positiveBranch}</textarea>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">党内职务</label>
                 <div class="col-xs-8">
-						<textarea class="form-control limited noEnter" type="text"
-                                  name="partyPost" rows="3">${member.partyPost}</textarea>
+						<textarea class="form-control limited noEnter" type="text"  maxlength="50"
+                                  name="partyPost" rows="2">${member.partyPost}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">党内奖励</label>
                 <div class="col-xs-8">
-						<textarea class="form-control limited noEnter" type="text"
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="partyReward" rows="3">${member.partyReward}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">其他奖励</label>
                 <div class="col-xs-8">
-						<textarea class="form-control limited noEnter" type="text"
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="otherReward" rows="3">${member.otherReward}</textarea>
                 </div>
             </div>

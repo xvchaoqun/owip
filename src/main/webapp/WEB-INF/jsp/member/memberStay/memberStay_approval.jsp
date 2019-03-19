@@ -71,7 +71,7 @@
                                 </li>
                                 <li data-step="2"  class="${memberStay.status>=MEMBER_STAY_STATUS_PARTY_VERIFY?'complete':''}">
                                     <span class="step">2</span>
-                                    <span class="title">分党委审核</span>
+                                    <span class="title">${_p_partyName}审核</span>
                                     <%--<span class="subtitle">
                                             通过时间
                                     </span>--%>

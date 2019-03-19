@@ -14,7 +14,7 @@
             <thead>
             <tr>
                 <th width="50">序号</th>
-                <th>分党委名称</th>
+                <th>${_p_partyName}名称</th>
                 <th width="20" style="white-space: nowrap">党员数</th>
                 <th width="120" style="white-space: nowrap">应参会党员数</th>
                 <th width="120" style="white-space: nowrap">实参会党员数</th>

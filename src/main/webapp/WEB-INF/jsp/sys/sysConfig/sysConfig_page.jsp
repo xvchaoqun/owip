@@ -3,11 +3,8 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div class="page-header">
-            <h1>
-                <i class="fa fa-gears"></i> 参数设置
-            </h1>
-        </div>
+        <jsp:include page="menu.jsp"/>
+        <div class="space-4"></div>
         <form class="form-horizontal" action="${ctx}/sysConfig_au" id="configForm" method="post">
 
             <%-- <div class="form-group">

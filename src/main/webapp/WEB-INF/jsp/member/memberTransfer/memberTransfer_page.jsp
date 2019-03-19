@@ -55,7 +55,7 @@
                                             data-querystr="&type=1"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
-                                        <i class="fa fa-check-circle-o"></i> 转出分党委审核（${partyApprovalCount}）
+                                        <i class="fa fa-check-circle-o"></i> 转出${_p_partyName}审核（${partyApprovalCount}）
                                     </button>
                                         <button id="toPartyApprovalBtn" ${toPartyApprovalCount>0?'':'disabled'}
                                                 class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -64,7 +64,7 @@
                                                 data-querystr="&type=2"
                                                 data-need-id="false"
                                                 data-count="${toPartyApprovalCount}">
-                                            <i class="fa fa-check-circle-o"></i> 转入分党委审核（${toPartyApprovalCount}）
+                                            <i class="fa fa-check-circle-o"></i> 转入${_p_partyName}审核（${toPartyApprovalCount}）
                                         </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
@@ -99,10 +99,10 @@
                                                             </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>分党委</label>
+                                                        <label>${_p_partyName}</label>
                                                             <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/party_selects"
-                                                                    name="partyId" data-placeholder="请选择分党委">
+                                                                    name="partyId" data-placeholder="请选择">
                                                                 <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                             </select>
                                                     </div>
@@ -120,10 +120,10 @@
                                                 </script>
 
                                             <div class="form-group">
-                                                <label>转入分党委</label>
+                                                <label>转入${_p_partyName}</label>
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects"
-                                                        name="toPartyId" data-placeholder="请选择分党委">
+                                                        name="toPartyId" data-placeholder="请选择">
                                                     <option value="${toParty.id}" title="${toParty.isDeleted}">${toParty.name}</option>
                                                 </select>
                                             </div>
@@ -301,14 +301,14 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"转出分党委批量审核",
+        caption:"转出${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"转入分党委批量审核",
+        caption:"转入${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'

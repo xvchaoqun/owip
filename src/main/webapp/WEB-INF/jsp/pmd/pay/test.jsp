@@ -37,7 +37,7 @@
 <br/><br/>
 <a href="${ctx}/pmd/pay/step?step=2" target="_blank">报送所有支部</a>
 <br/><br/>
-<a href="${ctx}/pmd/pay/step?step=3" target="_blank">报送所有分党委</a>
+<a href="${ctx}/pmd/pay/step?step=3" target="_blank">报送所有${_p_partyName}</a>
 
 </body>
 </html>

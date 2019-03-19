@@ -917,6 +917,216 @@ public class MemberStudentExample {
             return (Criteria) this;
         }
 
+        public Criteria andSponsorIsNull() {
+            addCriterion("sponsor is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorIsNotNull() {
+            addCriterion("sponsor is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorEqualTo(String value) {
+            addCriterion("sponsor =", value, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorNotEqualTo(String value) {
+            addCriterion("sponsor <>", value, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorGreaterThan(String value) {
+            addCriterion("sponsor >", value, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorGreaterThanOrEqualTo(String value) {
+            addCriterion("sponsor >=", value, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorLessThan(String value) {
+            addCriterion("sponsor <", value, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorLessThanOrEqualTo(String value) {
+            addCriterion("sponsor <=", value, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorLike(String value) {
+            addCriterion("sponsor like", value, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorNotLike(String value) {
+            addCriterion("sponsor not like", value, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorIn(List<String> values) {
+            addCriterion("sponsor in", values, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorNotIn(List<String> values) {
+            addCriterion("sponsor not in", values, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorBetween(String value1, String value2) {
+            addCriterion("sponsor between", value1, value2, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorNotBetween(String value1, String value2) {
+            addCriterion("sponsor not between", value1, value2, "sponsor");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchIsNull() {
+            addCriterion("grow_branch is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchIsNotNull() {
+            addCriterion("grow_branch is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchEqualTo(String value) {
+            addCriterion("grow_branch =", value, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchNotEqualTo(String value) {
+            addCriterion("grow_branch <>", value, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchGreaterThan(String value) {
+            addCriterion("grow_branch >", value, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchGreaterThanOrEqualTo(String value) {
+            addCriterion("grow_branch >=", value, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchLessThan(String value) {
+            addCriterion("grow_branch <", value, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchLessThanOrEqualTo(String value) {
+            addCriterion("grow_branch <=", value, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchLike(String value) {
+            addCriterion("grow_branch like", value, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchNotLike(String value) {
+            addCriterion("grow_branch not like", value, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchIn(List<String> values) {
+            addCriterion("grow_branch in", values, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchNotIn(List<String> values) {
+            addCriterion("grow_branch not in", values, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchBetween(String value1, String value2) {
+            addCriterion("grow_branch between", value1, value2, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowBranchNotBetween(String value1, String value2) {
+            addCriterion("grow_branch not between", value1, value2, "growBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchIsNull() {
+            addCriterion("positive_branch is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchIsNotNull() {
+            addCriterion("positive_branch is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchEqualTo(String value) {
+            addCriterion("positive_branch =", value, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchNotEqualTo(String value) {
+            addCriterion("positive_branch <>", value, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchGreaterThan(String value) {
+            addCriterion("positive_branch >", value, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchGreaterThanOrEqualTo(String value) {
+            addCriterion("positive_branch >=", value, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchLessThan(String value) {
+            addCriterion("positive_branch <", value, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchLessThanOrEqualTo(String value) {
+            addCriterion("positive_branch <=", value, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchLike(String value) {
+            addCriterion("positive_branch like", value, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchNotLike(String value) {
+            addCriterion("positive_branch not like", value, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchIn(List<String> values) {
+            addCriterion("positive_branch in", values, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchNotIn(List<String> values) {
+            addCriterion("positive_branch not in", values, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchBetween(String value1, String value2) {
+            addCriterion("positive_branch between", value1, value2, "positiveBranch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveBranchNotBetween(String value1, String value2) {
+            addCriterion("positive_branch not between", value1, value2, "positiveBranch");
+            return (Criteria) this;
+        }
+
         public Criteria andGrowTimeIsNull() {
             addCriterion("grow_time is null");
             return (Criteria) this;

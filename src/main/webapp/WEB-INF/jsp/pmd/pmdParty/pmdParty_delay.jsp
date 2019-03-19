@@ -8,7 +8,7 @@
 <div class="modal-body">
     <table class="table table-bordered table-unhover">
         <tr>
-            <td class="bg-right">分党委名称</td>
+            <td class="bg-right">${_p_partyName}名称</td>
             <td>${partyMap.get(pmdParty.partyId).name}</td>
         </tr>
         <tr>

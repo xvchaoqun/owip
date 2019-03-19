@@ -144,7 +144,7 @@ public class DispatchCadreController extends DispatchBaseController {
                                    Integer startYear,
                                    Integer endYear,
                                    Integer dispatchTypeId,
-                                   Integer code,
+                                   String code,
                                     Integer dispatchId,
                                     Byte type,
 

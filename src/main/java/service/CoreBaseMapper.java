@@ -270,6 +270,8 @@ public class CoreBaseMapper {
     protected IBaseMapper iBaseMapper;
     
     @Autowired(required = false)
+    protected SysPropertyMapper sysPropertyMapper;
+    @Autowired(required = false)
     protected SysConfigMapper sysConfigMapper;
     @Autowired(required = false)
     protected SysConfigLoginMsgMapper sysConfigLoginMsgMapper;

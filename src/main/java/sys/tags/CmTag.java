@@ -437,19 +437,19 @@ public class CmTag {
     }
 
     // 发文号
-    public static String getDispatchCode(Integer code, Integer dispatchTypeId, Integer year) {
+    public static String getDispatchCode(String code, Integer dispatchTypeId, Integer year) {
 
         if (dispatchTypeId == null || year == null) return null;
-        String numStr = null;
+        /*String numStr = null;
         if(code!=null) {
             numStr = NumberUtils.frontCompWithZore(code, 2);
-        }
+        }*/
 
         DispatchTypeService dispatchTypeService = getBean(DispatchTypeService.class);
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
 
-        return String.format("%s〔%s〕%s号", dispatchType.getName(), year, StringUtils.trimToEmpty(numStr));
+        return String.format("%s〔%s〕%s号", dispatchType.getName(), year, StringUtils.trimToEmpty(code));
     }
 
     public static DispatchType getDispatchType(Integer dispatchTypeId) {

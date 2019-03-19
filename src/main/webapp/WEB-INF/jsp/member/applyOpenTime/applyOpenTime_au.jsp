@@ -10,10 +10,10 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/applyOpenTime_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${applyOpenTime.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">所属分党委</label>
+            <label class="col-xs-3 control-label">所属${_p_partyName}</label>
             <div class="col-xs-6">
                 <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                        name="partyId" data-placeholder="请选择分党委">
+                        name="partyId" data-placeholder="请选择">
                     <option value="${party.id}">${party.name}</option>
                 </select>
             </div>

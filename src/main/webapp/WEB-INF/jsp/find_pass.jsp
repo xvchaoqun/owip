@@ -97,7 +97,7 @@
                             <li>短信验证码将发到您注册账号时填写的手机上，请注意查收；</li>
                             <li>每天只有5次修改密码的机会，请不要频繁操作；</li>
                             <li>密码修改成功之后，请使用新密码登录系统；</li>
-                            <li class="text-danger">如果密码修改失败，请联系您所在的分党委管理员；</li>
+                            <li class="text-danger">如果密码修改失败，请联系您所在的${_p_partyName}管理员；</li>
                         </ol>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ $(function(){
                     $this.prop("disabled", false);
                 }else if (ret.type==2){
                     if(ret.send==0){
-                        _msg("该账号没有关联手机号码，请联系党支部或分党委管理员进行修改密码。");
+                        _msg("该账号没有关联手机号码，请联系党支部或${_p_partyName}管理员进行修改密码。");
                         $this.prop("disabled", false);
                     }else if(ret.send==1){
                         var msg = "短信验证码已发送至手机号"+ret.mobile+"，短信序号["+ret.seq+"]。";

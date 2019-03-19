@@ -13,10 +13,10 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="userId" value="${memberReg.userId}">
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>联系分党委</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>联系${_p_partyName}</label>
 				<div class="col-xs-6">
 					<select required name="partyId" data-rel="select2"
-							data-placeholder="请选择联系分党委" data-width="350">
+							data-placeholder="请选择" data-width="350">
 						<option></option>
 						<c:forEach var="entity" items="${partyMap}">
 							<c:if test="${!entity.value.isDeleted}">

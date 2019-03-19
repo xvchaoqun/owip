@@ -5,11 +5,11 @@
     <div class="space-4"></div>
     <c:if test="${not empty param.partyId}">
     <a href="${ctx}/pcsPrOw_export?file=${empty param.partyId?6:4}&partyId=${param.partyId}&stage=${param.stage}">
-        <i class="fa fa-download"></i> 导出：分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表
+        <i class="fa fa-download"></i> 导出：${_p_partyName}酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表
         </a></c:if>
     <c:if test="${empty param.partyId}">
         <a href="${ctx}/pcsPrOw_export?file=ow&stage=${param.stage}" style="margin-left: 20px">
-            <i class="fa fa-download"></i> 导出：各分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表</a>
+            <i class="fa fa-download"></i> 导出：各${_p_partyName}酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表</a>
     </c:if>
     <div class="space-4"></div>
     <table class="table table-bordered table-striped" data-offset-top="132">

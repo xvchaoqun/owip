@@ -78,7 +78,7 @@
                 </div>
                 <c:if test="${fn:length(adminPartyIdList)>0}">
                     <div class="profile-info-row">
-                        <div class="profile-info-name">管理分党委</div>
+                        <div class="profile-info-name">管理${_p_partyName}</div>
                         <div class="profile-info-value">
                                     <span class="editable">
                                         <c:forEach items="${adminPartyIdList}" var="partyId" varStatus="vs">

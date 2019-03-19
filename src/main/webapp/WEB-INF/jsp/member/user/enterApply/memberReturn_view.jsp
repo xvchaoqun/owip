@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 分党委 </div>
+          <div class="profile-info-name"> ${_p_partyName} </div>
 
           <div class="profile-info-value">
             <span class="editable" id="signup">${cm:displayParty(memberReturn.partyId, null)}</span>
@@ -122,7 +122,7 @@
   </c:if>
           <li data-step="2" <c:if test="${memberReturn.status>1}">class="complete"</c:if>>
             <span class="step">2</span>
-            <span class="title">分党委审核</span>
+            <span class="title">${_p_partyName}审核</span>
 
           </li>
         </ul>

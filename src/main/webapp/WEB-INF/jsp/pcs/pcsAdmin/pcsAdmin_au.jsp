@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${empty pcsAdmin?"添加":"修改"}分党委管理员</h3>
+    <h3>${empty pcsAdmin?"添加":"修改"}${_p_partyName}管理员</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/${empty param.partyId?"pcsAdmin_au":"pcsPartyAdmin_au"}" id="modalForm" method="post">
@@ -11,7 +11,7 @@
 
         <c:if test="${empty param.partyId}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">所属分党委</label>
+                <label class="col-xs-3 control-label">所属${_p_partyName}</label>
                 <div class="col-xs-6">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
                             name="partyId" data-placeholder="请选择">
@@ -65,7 +65,7 @@
                         $("#jqGrid").trigger("reloadGrid");
                         </c:if>
                         <c:if test="${not empty param.partyId}">
-                        // 分党委管理员
+                        // ${_p_partyName}管理员
                         _reload();
                         </c:if>
                     }

@@ -81,7 +81,7 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-6">
 
 				<div class="form-group">
-					<label class="col-xs-5 control-label"><span class="star">*</span>转入分党委</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>转入${_p_partyName}</label>
 					<div class="col-xs-6">
 						<select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
 								name="toPartyId" data-placeholder="请选择" >

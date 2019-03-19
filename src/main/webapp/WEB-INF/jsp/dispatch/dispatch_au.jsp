@@ -60,19 +60,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">发文号</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>发文号</label>
 
                         <div class="col-xs-6">
-                            <input class="form-control" type="text" name="code" value="${dispatch.code}">
-                            <span class="label-inline"> * 留空自动生成</span>
+                            <input required class="form-control" type="text" name="code" value="${dispatch.code}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">发文属性</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span>发文属性</label>
 
-                        <div class="col-xs-7 choice">
+                        <div class="col-xs-7 choice input-group" style="padding-left: 12px;width: 270px;">
                             <c:forEach items="<%=DispatchConstants.DISPATCH_CATEGORY_MAP%>" var="entity">
-                            <input name="_category" class="big" type="checkbox" value="${entity.key}"> ${entity.value}&nbsp;
+                            <input required name="_category" class="big" type="checkbox" value="${entity.key}"> ${entity.value}&nbsp;
                             </c:forEach>
 
                             <script>
@@ -310,11 +309,6 @@
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
-        rules: {
-            code: {
-                digits: true
-            }
-        },
         submitHandler: function (form) {
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({

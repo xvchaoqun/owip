@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>分党委推荐情况审核</h3>
+    <h3>${_p_partyName}推荐情况审核</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcsPrOw_check" id="modalForm" method="post">
@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
         <c:set var="num" value='${fn:length(fn:split(param["partyIds[]"],","))}'/>
         <c:if test="${num==1}">
         <div class="form-group">
-            <label class="col-xs-4 control-label">分党委名称</label>
+            <label class="col-xs-4 control-label">${_p_partyName}名称</label>
             <div class="col-xs-6 label-text">
                 ${party.name}
             </div>
@@ -20,10 +20,10 @@ pageEncoding="UTF-8"%>
         </c:if>
     <c:if test="${num>1}">
         <div class="form-group">
-            <label class="col-xs-4 control-label">已选择分党委数量</label>
+            <label class="col-xs-4 control-label">已选择${_p_partyName}数量</label>
             <div class="col-xs-6 label-text">
                  ${num}个
-                     <span class="help-inline">（注：本操作只对已上报、未审核的分党委进行审核，否则忽略）</span>
+                     <span class="help-inline">（注：本操作只对已上报、未审核的${_p_partyName}进行审核，否则忽略）</span>
             </div>
         </div>
     </c:if>

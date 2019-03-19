@@ -64,7 +64,7 @@ public class DispatchCadreView implements Serializable {
 
     private Integer dispatchTypeId;
 
-    private Integer code;
+    private String code;
 
     private Boolean hasChecked;
 
@@ -230,12 +230,12 @@ public class DispatchCadreView implements Serializable {
         this.dispatchTypeId = dispatchTypeId;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public Boolean getHasChecked() {

@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class DispatchUnitView implements Serializable {
-    
+
     public Dispatch getDispatch(){
         return CmTag.getDispatch(dispatchId);
     }
-    
+
     private Integer id;
 
     private Integer dispatchId;
@@ -31,7 +31,7 @@ public class DispatchUnitView implements Serializable {
 
     private Integer dispatchTypeId;
 
-    private Integer code;
+    private String code;
 
     private Boolean hasChecked;
 
@@ -117,12 +117,12 @@ public class DispatchUnitView implements Serializable {
         this.dispatchTypeId = dispatchTypeId;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public Boolean getHasChecked() {

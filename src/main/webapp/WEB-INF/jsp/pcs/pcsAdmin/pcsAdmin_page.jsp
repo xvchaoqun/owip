@@ -17,7 +17,7 @@
                     <a class="confirm btn btn-success btn-sm"
                        data-url="${ctx}/pcsAdmin_sync"
                        data-title="同步党代会管理员"
-                       data-msg="确定同步每个分党委现任的书记、副书记为党代会的管理员？（将删除现有的书记和副书记管理员）"
+                       data-msg="确定同步每个${_p_partyName}现任的书记、副书记为党代会的管理员？（将删除现有的书记和副书记管理员）"
                        data-callback="_reload"><i class="fa fa-random"></i>
                         同步党代会管理员</a>
 
@@ -51,7 +51,7 @@
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
-                                <label>所属分党委</label>
+                                <label>所属${_p_partyName}</label>
                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
                                         name="partyId" data-placeholder="请选择">
                                     <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
@@ -101,7 +101,7 @@
         url: '${ctx}/pcsAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '所属分党委',
+                label: '所属${_p_partyName}',
                 name: 'partyId',
                 align: 'left',
                 width: 400,

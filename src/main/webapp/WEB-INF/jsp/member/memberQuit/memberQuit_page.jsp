@@ -23,7 +23,7 @@
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=1"}><i class="fa fa-circle-o"></i> 支部审核<c:if test="${branchApprovalCount>0}">（${branchApprovalCount}）</c:if> </a>
                         </li>
                         <li class="${cls==11?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=11"}><i class="fa fa-circle-o"></i> 分党委审核<c:if test="${partyApprovalCount>0}">（${partyApprovalCount}）</c:if> </a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=11"}><i class="fa fa-circle-o"></i> ${_p_partyName}审核<c:if test="${partyApprovalCount>0}">（${partyApprovalCount}）</c:if> </a>
                         </li>
                         <li class="${cls==12?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=12"}><i class="fa fa-circle-o"></i> 组织部审核<c:if test="${odApprovalCount>0}">（${odApprovalCount}）</c:if> </a>
@@ -72,7 +72,7 @@
                                             data-querystr="&type=2"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> 分党委审核（${partyApprovalCount}）
+                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${partyApprovalCount}）
                                     </button>
                                     </c:if>
                                         <c:if test="${cls==12}">
@@ -149,10 +149,10 @@
                                                             </script>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>分党委</label>
+                                                        <label>${_p_partyName}</label>
                                                             <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/party_selects?auth=1"
-                                                                    name="partyId" data-placeholder="请选择分党委">
+                                                                    name="partyId" data-placeholder="请选择">
                                                                 <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                             </select>
                                                     </div>
@@ -330,7 +330,7 @@
     </c:if>
     <c:if test="${cls==11}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委批量审核",
+        caption:"${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberQuit_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'

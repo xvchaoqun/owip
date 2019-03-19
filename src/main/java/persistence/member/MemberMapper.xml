@@ -14,8 +14,11 @@
     <result column="apply_time" jdbcType="DATE" property="applyTime" />
     <result column="active_time" jdbcType="DATE" property="activeTime" />
     <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
+    <result column="sponsor" jdbcType="VARCHAR" property="sponsor" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="grow_branch" jdbcType="VARCHAR" property="growBranch" />
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
+    <result column="positive_branch" jdbcType="VARCHAR" property="positiveBranch" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="party_post" jdbcType="VARCHAR" property="partyPost" />
     <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
@@ -81,8 +84,8 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, party_id, branch_id, political_status, type, status, source, add_type, transfer_time, 
-    apply_time, active_time, candidate_time, grow_time, positive_time, create_time, party_post, 
-    party_reward, other_reward
+    apply_time, active_time, candidate_time, sponsor, grow_time, grow_branch, positive_time, 
+    positive_branch, create_time, party_post, party_reward, other_reward
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberExample" resultMap="BaseResultMap">
     select
@@ -119,14 +122,16 @@
       political_status, type, status, 
       source, add_type, transfer_time, 
       apply_time, active_time, candidate_time, 
-      grow_time, positive_time, create_time, 
+      sponsor, grow_time, grow_branch, 
+      positive_time, positive_branch, create_time, 
       party_post, party_reward, other_reward
       )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{source,jdbcType=TINYINT}, #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=TIMESTAMP}, 
       #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, 
-      #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{sponsor,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{growBranch,jdbcType=VARCHAR}, 
+      #{positiveTime,jdbcType=DATE}, #{positiveBranch,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}
       )
   </insert>
@@ -169,11 +174,20 @@
       <if test="candidateTime != null">
         candidate_time,
       </if>
+      <if test="sponsor != null">
+        sponsor,
+      </if>
       <if test="growTime != null">
         grow_time,
       </if>
+      <if test="growBranch != null">
+        grow_branch,
+      </if>
       <if test="positiveTime != null">
         positive_time,
+      </if>
+      <if test="positiveBranch != null">
+        positive_branch,
       </if>
       <if test="createTime != null">
         create_time,
@@ -225,11 +239,20 @@
       <if test="candidateTime != null">
         #{candidateTime,jdbcType=DATE},
       </if>
+      <if test="sponsor != null">
+        #{sponsor,jdbcType=VARCHAR},
+      </if>
       <if test="growTime != null">
         #{growTime,jdbcType=DATE},
       </if>
+      <if test="growBranch != null">
+        #{growBranch,jdbcType=VARCHAR},
+      </if>
       <if test="positiveTime != null">
         #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="positiveBranch != null">
+        #{positiveBranch,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -290,11 +313,20 @@
       <if test="record.candidateTime != null">
         candidate_time = #{record.candidateTime,jdbcType=DATE},
       </if>
+      <if test="record.sponsor != null">
+        sponsor = #{record.sponsor,jdbcType=VARCHAR},
+      </if>
       <if test="record.growTime != null">
         grow_time = #{record.growTime,jdbcType=DATE},
       </if>
+      <if test="record.growBranch != null">
+        grow_branch = #{record.growBranch,jdbcType=VARCHAR},
+      </if>
       <if test="record.positiveTime != null">
         positive_time = #{record.positiveTime,jdbcType=DATE},
+      </if>
+      <if test="record.positiveBranch != null">
+        positive_branch = #{record.positiveBranch,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -327,8 +359,11 @@
       apply_time = #{record.applyTime,jdbcType=DATE},
       active_time = #{record.activeTime,jdbcType=DATE},
       candidate_time = #{record.candidateTime,jdbcType=DATE},
+      sponsor = #{record.sponsor,jdbcType=VARCHAR},
       grow_time = #{record.growTime,jdbcType=DATE},
+      grow_branch = #{record.growBranch,jdbcType=VARCHAR},
       positive_time = #{record.positiveTime,jdbcType=DATE},
+      positive_branch = #{record.positiveBranch,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       party_post = #{record.partyPost,jdbcType=VARCHAR},
       party_reward = #{record.partyReward,jdbcType=VARCHAR},
@@ -373,11 +408,20 @@
       <if test="candidateTime != null">
         candidate_time = #{candidateTime,jdbcType=DATE},
       </if>
+      <if test="sponsor != null">
+        sponsor = #{sponsor,jdbcType=VARCHAR},
+      </if>
       <if test="growTime != null">
         grow_time = #{growTime,jdbcType=DATE},
       </if>
+      <if test="growBranch != null">
+        grow_branch = #{growBranch,jdbcType=VARCHAR},
+      </if>
       <if test="positiveTime != null">
         positive_time = #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="positiveBranch != null">
+        positive_branch = #{positiveBranch,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -407,8 +451,11 @@
       apply_time = #{applyTime,jdbcType=DATE},
       active_time = #{activeTime,jdbcType=DATE},
       candidate_time = #{candidateTime,jdbcType=DATE},
+      sponsor = #{sponsor,jdbcType=VARCHAR},
       grow_time = #{growTime,jdbcType=DATE},
+      grow_branch = #{growBranch,jdbcType=VARCHAR},
       positive_time = #{positiveTime,jdbcType=DATE},
+      positive_branch = #{positiveBranch,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       party_post = #{partyPost,jdbcType=VARCHAR},
       party_reward = #{partyReward,jdbcType=VARCHAR},

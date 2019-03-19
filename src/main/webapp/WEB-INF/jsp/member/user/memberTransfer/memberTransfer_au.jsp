@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-3 control-label"><span class="star">*</span>转入分党委</label>
+                            <label class="col-xs-3 control-label"><span class="star">*</span>转入${_p_partyName}</label>
                             <div class="col-xs-9">
                                 <select required class="form-control"  data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/party_selects?del=0" data-width="100%"

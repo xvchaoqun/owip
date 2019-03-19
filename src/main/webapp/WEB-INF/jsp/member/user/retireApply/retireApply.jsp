@@ -29,7 +29,7 @@
                         ${sysUser.realname}
                     </td>
                     <td class="bg-right">
-                        退休后所在分党委
+                        退休后所在${_p_partyName}
                     </td>
                     <td class="bg-left" style="min-width: 80px">
                         ${party.name}

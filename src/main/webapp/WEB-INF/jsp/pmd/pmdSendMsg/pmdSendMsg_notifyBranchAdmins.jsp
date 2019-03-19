@@ -9,7 +9,7 @@
     <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyBranchAdmins" id="modalForm" method="post">
         <input type="hidden" name="partyId" value="${param.partyId}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">所属分党委：</label>
+            <label class="col-xs-3 control-label">所属${_p_partyName}：</label>
             <div class="col-xs-8 label-text">
                 ${party.name}
             </div>

@@ -9,7 +9,7 @@
         <thead class="multi">
         <tr>
             <th width="40" rowspan="2">序号</th>
-            <th rowspan="2">分党委名称</th>
+            <th rowspan="2">${_p_partyName}名称</th>
             <th colspan="2">所有党员总数</th>
             <th colspan="2">应参会党员数</th>
             <th colspan="2">实参会党员数</th>

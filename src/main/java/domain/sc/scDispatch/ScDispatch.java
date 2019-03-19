@@ -19,7 +19,7 @@ public class ScDispatch implements Serializable {
 
     private Integer dispatchTypeId;
 
-    private Integer code;
+    private String code;
 
     private String title;
 
@@ -63,12 +63,12 @@ public class ScDispatch implements Serializable {
         this.dispatchTypeId = dispatchTypeId;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public String getTitle() {

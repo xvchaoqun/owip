@@ -19,7 +19,7 @@
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-3 control-label">选择分党委</label>
+            <label class="col-xs-3 control-label">选择${_p_partyName}</label>
 
             <div class="col-xs-4">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1&notBranchAdmin=1"

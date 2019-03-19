@@ -301,10 +301,30 @@
 			${cm:formatDate(memberTeacher.growTime,'yyyy-MM-dd')}
 		</td>
 		<td class="bg-right">
+			入党介绍人
+		</td>
+		<td class="bg-left" >
+			${memberTeacher.sponsor}
+		</td>
+		<td class="bg-right">
+			入党时所在党支部
+		</td>
+		<td class="bg-left">
+			${memberTeacher.growBranch}
+		</td>
+	</tr>
+	<tr>
+		<td class="bg-right">
 			转正时间
 		</td>
 		<td class="bg-left" >
 			${cm:formatDate(memberTeacher.positiveTime,'yyyy-MM-dd')}
+		</td>
+		<td class="bg-right">
+			转正时所在党支部
+		</td>
+		<td class="bg-left" width="150">
+			${memberTeacher.positiveBranch}
 		</td>
 		<td class="bg-right">
 			进入系统方式

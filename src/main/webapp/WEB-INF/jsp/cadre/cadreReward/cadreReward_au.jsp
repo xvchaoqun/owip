@@ -50,9 +50,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>颁奖单位</label>
+				<label class="col-xs-3 control-label">颁奖单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreReward.unit}">
+                        <input class="form-control" type="text" name="unit" value="${cadreReward.unit}">
 				</div>
 			</div>
             <div class="form-group">
@@ -100,10 +100,10 @@ pageEncoding="UTF-8"%>
     function isIndependentChange(){
         if($("input[name=isIndependent]").bootstrapSwitch("state")){
             $("#rankDiv").hide();
-            $("input[name=rank]").removeAttr("required");
+            //$("input[name=rank]").removeAttr("required");
         }else{
             $("#rankDiv").show();
-            $("input[name=rank]").attr("required", "required");
+            //$("input[name=rank]").attr("required", "required");
         }
     }
     $('input[name=isIndependent]').on('switchChange.bootstrapSwitch', function(event, state) {

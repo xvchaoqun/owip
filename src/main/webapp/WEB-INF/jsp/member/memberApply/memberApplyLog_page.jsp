@@ -60,12 +60,12 @@ pageEncoding="UTF-8" %>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label>分党委</label>
+                                                            <label>${_p_partyName}</label>
 
 
                                                                 <select class="form-control" data-rel="select2-ajax"
                                                                         data-ajax-url="${ctx}/party_selects"
-                                                                        name="partyId" data-placeholder="请选择分党委">
+                                                                        name="partyId" data-placeholder="请选择">
                                                                     <option value="${party.id}">${party.name}</option>
                                                                 </select>
 

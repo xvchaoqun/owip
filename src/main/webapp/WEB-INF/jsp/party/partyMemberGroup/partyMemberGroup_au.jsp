@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${partyMemberGroup!=null}">编辑</c:if><c:if test="${partyMemberGroup==null}">添加</c:if>基层党组织领导班子</h3>
+    <h3><c:if test="${partyMemberGroup!=null}">编辑</c:if><c:if test="${partyMemberGroup==null}">添加</c:if>领导班子</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/partyMemberGroup_au" id="modalForm" method="post">
@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
                         <input name="isPresent" ${partyMemberGroup.isPresent?"checked":""}  type="checkbox" />
                         <span class="lbl"></span>
                     </label>
-                    <span class="help-block">注：每个分党委的“现任班子”只有一个</span>
+                    <span class="help-block">注：每个${_p_partyName}的“现任班子”只有一个</span>
                 </div>
 			</div>
 			<div class="form-group">

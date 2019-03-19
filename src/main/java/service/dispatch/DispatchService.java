@@ -3,7 +3,6 @@ package service.dispatch;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchExample;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -26,7 +25,7 @@ public class DispatchService extends BaseMapper {
         iDispatchMapper.update_dispatch_real_count();
     }
 
-    public boolean idDuplicate(Integer id, int dispatchTypeId, int year, int code){
+    public boolean idDuplicate(Integer id, int dispatchTypeId, int year, String code){
 
         DispatchExample example = new DispatchExample();
         DispatchExample.Criteria criteria = example.createCriteria()
@@ -38,7 +37,7 @@ public class DispatchService extends BaseMapper {
     }
 
     // 师党干[2015]01号
-    public int genCode(int dispatchTypeId, int year){
+    /*public int genCode(int dispatchTypeId, int year){
 
         //Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
        //DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
@@ -54,7 +53,7 @@ public class DispatchService extends BaseMapper {
             num = 1;
         }
         return num;
-    }
+    }*/
 
     @Transactional
     public int insertSelective(Dispatch record){

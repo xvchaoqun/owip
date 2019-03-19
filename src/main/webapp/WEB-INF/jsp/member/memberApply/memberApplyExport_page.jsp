@@ -40,10 +40,10 @@ pageEncoding="UTF-8" %>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>分党委</label>
+                                                    <label>${_p_partyName}</label>
                                                     <select class="form-control" data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/party_selects?auth=1" data-width="350"
-                                                            name="partyId" data-placeholder="请选择分党委">
+                                                            name="partyId" data-placeholder="请选择">
                                                         <option value="${party.id}">${party.name}</option>
                                                     </select>
 
@@ -62,7 +62,7 @@ pageEncoding="UTF-8" %>
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">
-                                                    注：不选分党委、党支部则导出全部
+                                                    注：不选${_p_partyName}、党支部则导出全部
                                                 </div>
                                             </form>
                                                 <div class="space-4"></div>
@@ -103,10 +103,10 @@ pageEncoding="UTF-8" %>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>分党委</label>
+                                                    <label>${_p_partyName}</label>
                                                     <select class="form-control" data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/party_selects?auth=1" data-width="350"
-                                                            name="partyId" data-placeholder="请选择分党委">
+                                                            name="partyId" data-placeholder="请选择">
                                                         <option value="${party.id}">${party.name}</option>
                                                     </select>
 
@@ -125,7 +125,7 @@ pageEncoding="UTF-8" %>
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">
-                                                    注：不选分党委、党支部则导出全部
+                                                    注：不选${_p_partyName}、党支部则导出全部
                                                 </div>
                                             </form>
                                                 <div class="clearfix form-actions center">
@@ -165,10 +165,10 @@ pageEncoding="UTF-8" %>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>分党委</label>
+                                                    <label>${_p_partyName}</label>
                                                     <select class="form-control" data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/party_selects?auth=1" data-width="350"
-                                                            name="partyId" data-placeholder="请选择分党委">
+                                                            name="partyId" data-placeholder="请选择">
                                                         <option value="${party.id}">${party.name}</option>
                                                     </select>
 
@@ -187,7 +187,7 @@ pageEncoding="UTF-8" %>
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">
-                                                    注：不选分党委、党支部则导出全部
+                                                    注：不选${_p_partyName}、党支部则导出全部
                                                 </div>
                                             </form>
                                                 <div class="clearfix form-actions center">

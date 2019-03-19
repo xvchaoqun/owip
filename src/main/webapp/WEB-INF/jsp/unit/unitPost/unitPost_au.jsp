@@ -35,9 +35,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">岗位级别</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>岗位级别</label>
 				<div class="col-xs-6">
-					 <select  data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择">
+					 <select required data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择">
 						<option></option>
 						<jsp:include page="/metaTypes?__code=mc_admin_level"/>
 					</select>

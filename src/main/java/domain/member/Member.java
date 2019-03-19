@@ -28,9 +28,15 @@ public class Member implements Serializable {
 
     private Date candidateTime;
 
+    private String sponsor;
+
     private Date growTime;
 
+    private String growBranch;
+
     private Date positiveTime;
+
+    private String positiveBranch;
 
     private Date createTime;
 
@@ -138,6 +144,14 @@ public class Member implements Serializable {
         this.candidateTime = candidateTime;
     }
 
+    public String getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(String sponsor) {
+        this.sponsor = sponsor == null ? null : sponsor.trim();
+    }
+
     public Date getGrowTime() {
         return growTime;
     }
@@ -146,12 +160,28 @@ public class Member implements Serializable {
         this.growTime = growTime;
     }
 
+    public String getGrowBranch() {
+        return growBranch;
+    }
+
+    public void setGrowBranch(String growBranch) {
+        this.growBranch = growBranch == null ? null : growBranch.trim();
+    }
+
     public Date getPositiveTime() {
         return positiveTime;
     }
 
     public void setPositiveTime(Date positiveTime) {
         this.positiveTime = positiveTime;
+    }
+
+    public String getPositiveBranch() {
+        return positiveBranch;
+    }
+
+    public void setPositiveBranch(String positiveBranch) {
+        this.positiveBranch = positiveBranch == null ? null : positiveBranch.trim();
     }
 
     public Date getCreateTime() {

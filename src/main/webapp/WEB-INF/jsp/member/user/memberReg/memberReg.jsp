@@ -62,7 +62,7 @@
                         状态
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        分党委待审核
+                        ${_p_partyName}待审核
                     </td>
                 </tr>
                 </tbody>

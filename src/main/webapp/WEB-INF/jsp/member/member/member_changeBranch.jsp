@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>批量分党委内部组织关系变动</h3>
+    <h3>批量${_p_partyName}内部组织关系变动</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/member_changeBranch" id="modalForm" method="post">
@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属分党委</label>
+				<label class="col-xs-3 control-label">所属${_p_partyName}</label>
 				<div class="col-xs-6 label-text">
                     ${party.name}
 				</div>

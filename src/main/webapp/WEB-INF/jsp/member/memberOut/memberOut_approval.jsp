@@ -190,7 +190,7 @@
 
                                 <li data-step="1"  class="${memberOut.status>=MEMBER_OUT_STATUS_PARTY_VERIFY?'complete':''}">
                                     <span class="step">1</span>
-                                    <span class="title">分党委审核</span>
+                                    <span class="title">${_p_partyName}审核</span>
                                     <%--<span class="subtitle">
                                             通过时间
                                     </span>--%>

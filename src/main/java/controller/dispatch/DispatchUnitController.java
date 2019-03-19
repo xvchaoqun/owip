@@ -1,7 +1,6 @@
 package controller.dispatch;
 
 import domain.dispatch.*;
-import domain.dispatch.DispatchUnitExample.Criteria;
 import mixin.DispatchMixin;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -96,6 +95,7 @@ public class DispatchUnitController extends DispatchBaseController {
                                     Integer unitId,
                                     Integer partyId,
                                     Integer type,
+                                    Byte category,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -107,9 +107,9 @@ public class DispatchUnitController extends DispatchBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        DispatchUnitExample example = new DispatchUnitExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        DispatchUnitViewExample example = new DispatchUnitViewExample();
+        DispatchUnitViewExample.Criteria criteria = example.createCriteria();
+        //example.setOrderByClause("id desc");
 
         if (unitId!=null || partyId!=null) {
             List<Integer> _unitIds = new ArrayList<>();
@@ -121,18 +121,21 @@ public class DispatchUnitController extends DispatchBaseController {
         if (type!=null) {
             criteria.andTypeEqualTo(type);
         }
+        if(category!=null){
+            criteria.andCategoryContain(category, true);
+        }
 
         if (export == 1) {
             dispatchUnit_export(example, response);
             return;
         }
 
-        long count = dispatchUnitMapper.countByExample(example);
+        long count = dispatchUnitViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DispatchUnit> DispatchUnits = dispatchUnitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<DispatchUnitView> DispatchUnits = dispatchUnitViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         Map resultMap = new HashMap();
@@ -210,14 +213,14 @@ public class DispatchUnitController extends DispatchBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void dispatchUnit_export(DispatchUnitExample example, HttpServletResponse response) {
+    public void dispatchUnit_export(DispatchUnitViewExample example, HttpServletResponse response) {
 
-        List<DispatchUnit> records = dispatchUnitMapper.selectByExample(example);
+        List<DispatchUnitView> records = dispatchUnitViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"发文号", "所属单位","调整方式","备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            DispatchUnit record = records.get(i);
+            DispatchUnitView record = records.get(i);
             Dispatch dispatch = record.getDispatch();
             String[] values = {
                     CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()),

@@ -180,6 +180,8 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected SyncService syncService;
 
     @Autowired
+    protected SysPropertyService sysPropertyService;
+    @Autowired
     protected SysConfigService sysConfigService;
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;

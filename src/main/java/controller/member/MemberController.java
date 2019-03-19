@@ -254,16 +254,20 @@ public class MemberController extends MemberBaseController {
             }
             record.setPoliticalStatus(politicalStatus);
 
-            record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(7))));
-            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8))));
-            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
-            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(10))));
-            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(11))));
-            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
+            int col = 7;
+            record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setSponsor(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setGrowBranch(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setPositiveBranch(StringUtils.trimToNull(xlsRow.get(col++)));
 
-            record.setPartyPost(StringUtils.trimToNull(xlsRow.get(13)));
-            record.setPartyReward(StringUtils.trimToNull(xlsRow.get(14)));
-            record.setOtherReward(StringUtils.trimToNull(xlsRow.get(15)));
+            record.setPartyPost(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
 
             record.setCreateTime(now);
             records.add(record);
@@ -419,8 +423,11 @@ public class MemberController extends MemberBaseController {
             record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
 
+            record.setSponsor(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setGrowBranch(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setPositiveBranch(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setPartyPost(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
@@ -731,8 +738,9 @@ public class MemberController extends MemberBaseController {
     }
 
     @RequestMapping("/member")
-    public String member(HttpServletResponse response, Integer cls, ModelMap
-            modelMap) {
+    public String member(HttpServletResponse response,
+                         Integer partyId, Integer branchId,
+                         Integer cls, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
@@ -775,13 +783,20 @@ public class MemberController extends MemberBaseController {
                 cls = 3;
             }
         }
+        String queryStr = "?cls=" + cls;
+        if (partyId != null) {
+            queryStr += "&partyId=" + partyId;
+        }
+        if (branchId != null) {
+            queryStr += "&branchId=" + branchId;
+        }
         /**
          * cls=1 学生党员 member.type=3 member.status=1
          * cls=6 已转出的学生党员
          */
         if (cls == 1 || cls == 6) {
 
-            return "forward:/memberStudent?cls=" + cls;
+            return "forward:/memberStudent" + queryStr;
         }
         /*
             cls=2教职工   =>  member.type=1 member.status=1
@@ -790,7 +805,7 @@ public class MemberController extends MemberBaseController {
                 （弃用）5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
                 cls=7 已转出的教工党员
          */
-        return "forward:/memberTeacher?cls=" + cls;
+        return "forward:/memberTeacher" + queryStr;
     }
 
     @RequestMapping("/member_view")

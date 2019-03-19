@@ -202,14 +202,34 @@ pageEncoding="UTF-8"%>
 		<td class="bg-right">
 			入党时间
 		</td>
-		<td class="bg-left">
+		<td class="bg-left" width="150">
 			${cm:formatDate(memberStudent.growTime,'yyyy-MM-dd')}
 		</td>
 		<td class="bg-right">
-			转正时间
+			入党介绍人
+		</td>
+		<td class="bg-left" >
+			${memberStudent.sponsor}
+		</td>
+		<td class="bg-right">
+			入党时所在党支部
 		</td>
 		<td class="bg-left">
+			${memberStudent.growBranch}
+		</td>
+	</tr>
+	<tr>
+		<td class="bg-right">
+			转正时间
+		</td>
+		<td class="bg-left" >
 			${cm:formatDate(memberStudent.positiveTime,'yyyy-MM-dd')}
+		</td>
+		<td class="bg-right">
+			转正时所在党支部
+		</td>
+		<td class="bg-left" width="150">
+			${memberStudent.positiveBranch}
 		</td>
 		<td class="bg-right">
 			进入系统方式

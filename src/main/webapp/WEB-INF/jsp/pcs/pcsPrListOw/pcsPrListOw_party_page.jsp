@@ -41,7 +41,7 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
-                                            <label>分党委</label>
+                                            <label>${_p_partyName}</label>
                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                                                     name="partyId" data-placeholder="请选择">
                                                 <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
@@ -89,7 +89,7 @@
         rownumbers: true,
         url: '${ctx}/pcsPrListOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '分党委名称',name: 'name', align:'left', width:400, frozen:true},
+            { label: '${_p_partyName}名称',name: 'name', align:'left', width:400, frozen:true},
             { label: '是否上传选举结果',name: 'hasReport', width:150, formatter: function (cellvalue, options, rowObject) {
                 return "<span class='label {0}'>{1}</span>".format(cellvalue?"label-success":"label-default",
                         cellvalue?"已上传":"未上传");

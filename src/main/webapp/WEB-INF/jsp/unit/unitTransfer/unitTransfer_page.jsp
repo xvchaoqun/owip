@@ -1,94 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
-                <div class="buttons pull-right">
-                    <shiro:hasPermission name="unitTransfer:edit">
-                    <a class="btn btn-info btn-sm" onclick="_au()"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
-                </div>
-            <h4>&nbsp;</h4>
-            <div class="space-4"></div>
-                <table class="table table-actived table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-							<th>文件主题</th>
-							<th>文件具体内容</th>
-							<th>日期</th>
-                        <shiro:hasPermission name="unitTransfer:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap>排序</th>
-                            </c:if>
-                        </shiro:hasPermission>
-                        <th nowrap></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${unitTransfers}" var="unitTransfer" varStatus="st">
-                        <tr>
-								<td nowrap>${unitTransfer.subject}</td>
-								<td nowrap>${unitTransfer.content}</td>
-								<td nowrap>${cm:formatDate(unitTransfer.pubTime,'yyyy-MM-dd')}</td>
-                            <shiro:hasPermission name="unitTransfer:changeOrder">
-                            <c:if test="${!_query && commonList.recNum>1}">
-                                <td nowrap>
-                                    <a href="javascript:;" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${unitTransfer.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-                                    <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${unitTransfer.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-                                </td>
-                            </c:if>
-                            </shiro:hasPermission>
-                            <td nowrap>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <shiro:hasPermission name="unitTransfer:edit">
-                                    <button onclick="_au(${unitTransfer.id})" class="editBtn btn btn-default btn-xs">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </button>
-                                     </shiro:hasPermission>
-
-                                        <button type="button" data-url="${ctx}/unitTransfer_addDispatchs?id=${unitTransfer.id}"
-                                                class="popupBtn btn btn-primary btn-xs">
-                                            <i class="fa fa-file-o"></i> 相关发文
-                                        </button>
-                                     <shiro:hasPermission name="unitTransfer:del">
-                                    <button class="btn btn-danger btn-xs" onclick="_del(${unitTransfer.id})">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                      </shiro:hasPermission>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-
+<div class="space-4"></div>
+<table id="jqGrid_dispatchUnit" data-width-reduce="20" class="jqGrid2"></table>
+<div id="jqGridPager_dispatchUnit"></div>
+<jsp:include page="/WEB-INF/jsp/dispatch/dispatchUnit/dispatchUnit_colModel.jsp?type=all"/>
 <script>
-    function _au(id) {
-        url = "${ctx}/unitTransfer_au?unitId=${param.unitId}";
-        if (id > 0)  url += "&id=" + id;
-        $.loadModal(url);
-    }
-
-    function _del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/unitTransfer_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
-
-    function _reload(){
-        $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/unitTransfer?${cm:encodeQueryString(pageContext.request.queryString)}");
-    }
-
-    $('[data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
-
+    $("#jqGrid_dispatchUnit").jqGrid({
+        multiselect:false,
+        ondblClickRow: function () {
+        },
+        pager: "#jqGridPager_dispatchUnit",
+        url: '${ctx}/dispatchUnit_data?unitId=${param.unitId}&category=<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>',
+        colModel:colModel
+    }).jqGrid("setFrozenColumns");
+    $.initNavGrid("jqGrid_dispatchUnit", "jqGridPager_dispatchUnit");
+    $(window).triggerHandler('resize.jqGrid2');
 </script>

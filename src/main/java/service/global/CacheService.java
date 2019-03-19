@@ -43,6 +43,7 @@ import service.cadre.CadrePostService;
 import service.dispatch.DispatchTypeService;
 import service.party.BranchService;
 import service.party.PartyService;
+import service.sys.SysPropertyService;
 import service.sys.SysRoleService;
 import service.sys.TeacherInfoService;
 import service.unit.UnitService;
@@ -75,6 +76,8 @@ public class CacheService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     private SysRoleService sysRoleService;
+    @Autowired
+    private SysPropertyService sysPropertyService;
     @Autowired(required = false)
     private UnitService unitService;
     @Autowired(required = false)
@@ -324,6 +327,9 @@ public class CacheService extends BaseMapper {
         map.put("countryMap", countryService.findAll());
 
         map.put("roleMap", sysRoleService.findAll());
+
+        map.put("propertyMap", sysPropertyService.findAll());
+
         return map;
     }
 

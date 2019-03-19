@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>分党委审核通过</h3>
+    <h3>${_p_partyName}审核通过</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberStay_transfer" id="modalForm" method="post">

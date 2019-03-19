@@ -33,7 +33,7 @@
       </div>
 
       <div class="profile-info-row">
-        <div class="profile-info-name"> 联系分党委 </div>
+        <div class="profile-info-name"> 联系${_p_partyName} </div>
 
         <div class="profile-info-value">
           <span class="editable" id="signup">${cm:displayParty(memberApply.partyId, null)}</span>

@@ -379,4 +379,9 @@
 	});
 	$('#modalForm [data-rel="select2"]').select2();
 	$('[data-rel="tooltip"]').tooltip();
+
+	<shiro:hasPermission name="cadre:updateWithoutRequired">
+		$('span.star').remove();
+		$('input, textarea, select').prop("required", false);
+	</shiro:hasPermission>
 </script>

@@ -119,7 +119,7 @@
                                             </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>分党委</label>
+                                        <label>${_p_partyName}</label>
                                         <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1"
                                                 name="partyId" data-placeholder="请选择">
                                             <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
@@ -215,7 +215,7 @@
             <c:if test="${status==1 && !_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
-            { label: '所属分党委', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
+            { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
                 //return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
             }},

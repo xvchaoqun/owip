@@ -156,10 +156,10 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>所在分党委</label>
+                                                    <label>所在${_p_partyName}</label>
                                                         <select class="form-control" data-width="350"  data-rel="select2-ajax"
                                                                 data-ajax-url="${ctx}/party_selects?auth=1"
-                                                                name="partyId" data-placeholder="请选择分党委">
+                                                                name="partyId" data-placeholder="请选择">
                                                             <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                         </select>
                                                 </div>
@@ -215,8 +215,8 @@
                                             <input type="text" name="eduType" value="${param.eduType}">
                                         </div>
                                         <div class="form-group">
-                                            <label>分党委所在单位</label>
-                                            <select name="unitId" data-rel="select2" data-placeholder="请选择分党委所在单位">
+                                            <label>${_p_partyName}所在单位</label>
+                                            <select name="unitId" data-rel="select2" data-placeholder="请选择">
                                                 <option></option>
                                                 <c:forEach items="${unitMap}" var="unit">
                                                     <option value="${unit.key}">${unit.value.name}</option>
@@ -325,7 +325,7 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-                caption:"分党委内部组织关系变动",
+                caption:"${_p_partyName}内部组织关系变动",
                 btnbase:"branchChangeBtn btn btn-info btn-xs",
                 buttonicon:"fa fa-random",
                 onClickButton: function(){

@@ -64,7 +64,7 @@ pageEncoding="UTF-8" %>
                                                         <span class="lbl"></span>
                                                     </label>
                                                 </th>
-                                                <th>所属分党委</th>
+                                                <th>所属${_p_partyName}</th>
                                                 <th>开始时间</th>
                                                 <th>结束时间</th>
                                                 <th>生效阶段</th>

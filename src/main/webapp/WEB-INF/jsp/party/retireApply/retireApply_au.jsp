@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group"  id="party" style="${empty party?'display: none;':''}" >
             <div class="col-sm-offset-3 col-sm-9">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                        name="partyId" data-placeholder="请输入分党委名称">
+                        name="partyId" data-placeholder="请输入${_p_partyName}名称">
                     <option value="${party.id}">${party.name}</option>
                 </select>
             </div>
@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
             if(!$("#party").is(":hidden")){
                 if($('#modalForm select[name=partyId]').val()=='') {
-                    SysMsg.warning('请选择分党委。', '提示');
+                    SysMsg.warning('请选择${_p_partyName}。', '提示');
                     return;
                 }
             }

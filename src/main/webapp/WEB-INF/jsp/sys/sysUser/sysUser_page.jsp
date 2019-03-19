@@ -151,6 +151,7 @@
         </div><div id="body-content-view"></div>
     </div>
 </div>
+<div class="footer-margin lower"/>
 <style>
     .ace-file-name{
         text-align: center!important;

@@ -52,7 +52,7 @@
         <div class="form-group"  id="party" style="${empty party?'display: none;':''}" >
             <div class="col-sm-offset-3 col-sm-9">
           <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
-                  name="partyId" data-placeholder="请选择分党委">
+                  name="partyId" data-placeholder="请选择${_p_partyName}">
             <option value="${party.id}">${party.name}</option>
           </select>
           </div>
@@ -97,7 +97,7 @@
           submitHandler: function (form) {
             if(!$("#party").is(":hidden")){
               if($('select[name=partyId]').val()=='') {
-                bootbox.alert("请选择分党委。");
+                bootbox.alert("请选择${_p_partyName}。");
                 return;
               }
             }

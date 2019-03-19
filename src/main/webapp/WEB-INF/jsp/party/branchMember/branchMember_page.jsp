@@ -85,7 +85,7 @@
                 }},
             </shiro:hasPermission>
             {label: '所在单位', name: 'unitId', width: 180,align:'left', formatter: $.jgrid.formatter.unit},
-            {label: '所属分党委', name: 'groupPartyId', width: 250, align:'left',formatter: function (cellvalue, options, rowObject) {
+            {label: '所属${_p_partyName}', name: 'groupPartyId', width: 250, align:'left',formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
                     return _cMap.partyMap[cellvalue].name;
                 }},

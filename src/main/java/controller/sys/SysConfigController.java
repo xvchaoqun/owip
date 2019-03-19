@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
@@ -26,7 +27,13 @@ public class SysConfigController extends BaseController {
 
     @RequiresPermissions("sysConfig:list")
     @RequestMapping("/sysConfig")
-    public String sysConfig(ModelMap modelMap) {
+    public String sysConfig(@RequestParam(required = false, defaultValue = "1")Byte cls, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+
+        if(cls==2){
+            return "forward:/sysProperty";
+        }
 
         modelMap.put("sysConfig", CmTag.getSysConfig());
 

@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>所属分党委</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>所属${_p_partyName}</label>
 				<div class="col-xs-8">
 					<select required data-rel="select2-ajax"
 							data-width="372"

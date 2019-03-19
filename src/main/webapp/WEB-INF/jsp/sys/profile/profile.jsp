@@ -56,7 +56,7 @@
                                             </div>
                                             <c:if test="${fn:length(adminPartyIdList)>0}">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label no-padding-right">管理分党委：</label>
+                                                    <label class="col-sm-4 control-label no-padding-right">管理${_p_partyName}：</label>
 
                                                     <div class="col-sm-8">
                                                         <div class="label-text">

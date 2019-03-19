@@ -63,6 +63,11 @@ pageEncoding="UTF-8"%>
 
 <script>
 
+    <shiro:hasPermission name="cadre:updateWithoutRequired">
+        $('input[name=unit]').closest(".form-group").find('span.star').remove();
+        $('input[name=unit]').prop("required", false);
+    </shiro:hasPermission>
+
     $.register.date($('.date-picker'));
 
     $("#modal form").validate({

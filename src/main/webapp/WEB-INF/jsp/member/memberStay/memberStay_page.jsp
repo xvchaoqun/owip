@@ -48,7 +48,7 @@
                             <li class="dropdown <c:if test="${cls==2||cls==21||cls==22}">active</c:if>">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                     <i class="fa fa-circle-o"></i>
-                                    分党委审核${cls==2?"(新申请)":(cls==21)?"(返回修改)":(cls==22)?"(已审核)":""}
+                                    ${_p_partyName}审核${cls==2?"(新申请)":(cls==21)?"(返回修改)":(cls==22)?"(已审核)":""}
                                     <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
@@ -84,7 +84,7 @@
                             <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 支部审核（${branchApprovalCount}）</a>
                         </li>
                         <li class="${cls==11?'active':''}">
-                            <a ${cls!=11?'href="?cls=11"':''}><i class="fa fa-circle-o"></i> 分党委审核（${partyApprovalCount}）</a>
+                            <a ${cls!=11?'href="?cls=11"':''}><i class="fa fa-circle-o"></i> ${_p_partyName}审核（${partyApprovalCount}）</a>
                         </li>
                             <li class="${cls==12?'active':''}">
                                 <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
@@ -172,7 +172,7 @@
                                             data-querystr="&type=${param.type}&checkType=2&cls=${cls}"
                                             data-need-id="false"
                                             data-count="${approvalCount}">
-                                        <i class="fa fa-sign-in"></i> 分党委审核（${approvalCount}）
+                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${approvalCount}）
                                     </button>
                                 </c:if>
 
@@ -231,10 +231,10 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label>分党委</label>
+                                                <label>${_p_partyName}</label>
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects?auth=1"
-                                                        name="partyId" data-placeholder="请选择分党委">
+                                                        name="partyId" data-placeholder="请选择">
                                                     <option value="${party.id}"
                                                             title="${party.isDeleted}">${party.name}</option>
                                                 </select>
@@ -600,7 +600,7 @@
     </c:if>
     <c:if test="${cls==2||cls==21}">
     $("#jqGrid").navButtonAdd('#jqGridPager', {
-        caption: "分党委批量审核",
+        caption: "${_p_partyName}批量审核",
         btnbase: "jqBatchBtn btn btn-primary btn-xs",
         buttonicon: "fa fa-check-circle-o",
         onClickButton: function () {

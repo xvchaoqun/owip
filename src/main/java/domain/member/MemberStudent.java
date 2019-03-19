@@ -2,16 +2,11 @@ package domain.member;
 
 import domain.party.Party;
 import sys.helper.PartyHelper;
-import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberStudent implements Serializable {
-    public String getParty(){
-        Party party = PartyHelper.getParty(partyId);
-        return party!=null?party.getName():null;
-    }
     private Date createTime;
 
     private Date applyTime;
@@ -37,6 +32,12 @@ public class MemberStudent implements Serializable {
     private Date candidateTime;
 
     private Integer partyId;
+
+    private String sponsor;
+
+    private String growBranch;
+
+    private String positiveBranch;
 
     private Date growTime;
 
@@ -202,6 +203,30 @@ public class MemberStudent implements Serializable {
 
     public void setPartyId(Integer partyId) {
         this.partyId = partyId;
+    }
+
+    public String getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(String sponsor) {
+        this.sponsor = sponsor == null ? null : sponsor.trim();
+    }
+
+    public String getGrowBranch() {
+        return growBranch;
+    }
+
+    public void setGrowBranch(String growBranch) {
+        this.growBranch = growBranch == null ? null : growBranch.trim();
+    }
+
+    public String getPositiveBranch() {
+        return positiveBranch;
+    }
+
+    public void setPositiveBranch(String positiveBranch) {
+        this.positiveBranch = positiveBranch == null ? null : positiveBranch.trim();
     }
 
     public Date getGrowTime() {

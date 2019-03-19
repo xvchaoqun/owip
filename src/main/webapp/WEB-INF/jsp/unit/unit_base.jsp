@@ -130,7 +130,7 @@
         </div>
     </div>
 </div>
-<div class="widget-box transparent">
+<%--<div class="widget-box transparent">
 
     <div class="widget-header widget-header-flat">
         <h4 class="widget-title lighter">
@@ -175,7 +175,7 @@
             </table>
         </div>
     </div>
-</div>
+</div>--%>
 <script>
     $("#modal form").validate({
         submitHandler: function (form) {

@@ -5,7 +5,7 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
-    <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="meeting_time" jdbcType="DATE" property="meetingTime" />
     <result column="pub_time" jdbcType="DATE" property="pubTime" />

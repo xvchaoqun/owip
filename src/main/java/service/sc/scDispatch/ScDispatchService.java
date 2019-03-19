@@ -57,7 +57,7 @@ public class ScDispatchService extends ScBaseMapper {
         return scDispatchViews.size()>0?scDispatchViews.get(0):null;
     }
 
-    public boolean idDuplicate(Integer id, int year, int dispatchTypeId, int code) {
+    public boolean idDuplicate(Integer id, int year, int dispatchTypeId, String code) {
 
         ScDispatchExample example = new ScDispatchExample();
         ScDispatchExample.Criteria criteria = example.createCriteria().andYearEqualTo(year)

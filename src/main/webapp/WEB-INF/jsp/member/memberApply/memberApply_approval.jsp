@@ -72,7 +72,7 @@
                             </div>
 
                             <div class="profile-info-row">
-                                <div class="profile-info-name"> 分党委 </div>
+                                <div class="profile-info-name"> ${_p_partyName} </div>
 
                                 <div class="profile-info-value">
                                     <span class="editable" id="signup">
@@ -271,7 +271,7 @@
                                     </c:if>
                                     <c:if test="${memberApply.growStatus==0}">
                                         <button ${isAdmin?'':'disabled'}  onclick="apply_grow_check(${memberApply.userId}, 1)" class="btn btn-success">
-                                            <i class="fa fa-check"></i> 分党委审核
+                                            <i class="fa fa-check"></i> ${_p_partyName}审核
                                         </button>
                                     </c:if>
 

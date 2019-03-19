@@ -179,7 +179,7 @@
 	<function>
 		<name>getDispatchCode</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.lang.String getDispatchCode(java.lang.Integer,java.lang.Integer,java.lang.Integer)</function-signature>
+		<function-signature>java.lang.String getDispatchCode(java.lang.String,java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 
 	<!--干部请假审批-->

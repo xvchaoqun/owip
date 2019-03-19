@@ -35,10 +35,10 @@
     pager:"jqGridPager2",
     url: "${ctx}/branchTransferLog_data?callback=?&branchId=${param.branchId}",
     colModel: [
-      { label: '原分党委', name: 'partyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
+      { label: '原${_p_partyName}', name: 'partyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
         return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
       }},
-      { label: '转移至分党委', name: 'toPartyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
+      { label: '转移至${_p_partyName}', name: 'toPartyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
         return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
       }},
       { label: '操作人', name: 'user.realname', width: 150 },

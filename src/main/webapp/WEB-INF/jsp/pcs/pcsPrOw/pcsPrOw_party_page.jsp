@@ -42,7 +42,7 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="stage" value="${param.stage}">
                                         <div class="form-group">
-                                            <label>分党委</label>
+                                            <label>${_p_partyName}</label>
                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                                                     name="partyId" data-placeholder="请选择">
                                                 <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
@@ -104,7 +104,7 @@
         multiboxonly: false,
         url: '${ctx}/pcsPrOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '分党委名称',name: 'name', align:'left', width:400, frozen:true},
+            { label: '${_p_partyName}名称',name: 'name', align:'left', width:400, frozen:true},
             { label: '党支部数',name: 'branchCount', width:80},
             { label: '党员总数',name: 'memberCount', width:80, formatter: function (cellvalue, options, rowObject) {
                 return ($.trim(cellvalue)=='')?0:cellvalue;
