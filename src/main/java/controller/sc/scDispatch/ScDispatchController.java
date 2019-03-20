@@ -87,7 +87,7 @@ public class ScDispatchController extends ScBaseController {
         if (dispatchTypeId!=null) {
             criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
         }
-        if (code!=null) {
+        if (StringUtils.isNotBlank(code)) {
             criteria.andCodeEqualTo(code);
         }
 

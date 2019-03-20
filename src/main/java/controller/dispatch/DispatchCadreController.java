@@ -193,7 +193,7 @@ public class DispatchCadreController extends DispatchBaseController {
         if (dispatchTypeId!=null) {
             criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
         }
-        if (code!=null) {
+        if (StringUtils.isNotBlank(code)) {
             criteria.andCodeEqualTo(code);
         }
         if(type!=null){

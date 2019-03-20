@@ -108,7 +108,7 @@ public class FindPassController extends BaseController {
             return failed("短信验证码错误，请点击【发送短信】按钮。");
         }
 
-        if(code!=null && StringUtils.equalsIgnoreCase(code.trim(), _code)){
+        if(StringUtils.isNotBlank(code) && StringUtils.equalsIgnoreCase(code.trim(), _code)){
 
             SysUser _sysUser = new SysUser();
             _sysUser.setId(uv.getId());

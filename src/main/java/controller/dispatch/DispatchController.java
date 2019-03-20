@@ -110,7 +110,7 @@ public class DispatchController extends DispatchBaseController {
         if (dispatchTypeId != null) {
             criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
         }
-        if (code != null) {
+        if (StringUtils.isNotBlank(code)) {
             criteria.andCodeEqualTo(code);
         }
         if (_pubTime.getStart() != null) {
