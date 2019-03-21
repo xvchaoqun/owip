@@ -117,6 +117,7 @@
         url: '${ctx}/cadreFamily_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadreFamily
     }).jqGrid("setFrozenColumns");
+    //$.initNavGrid("jqGrid_cadreFamily", "jqGridPager_cadreFamily");
 
     $("#jqGrid_cadreFamilyAbroad").jqGrid({
         <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">

@@ -40,13 +40,13 @@
                                 data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
                             <i class="fa fa-edit"></i> 禁用
                         </button>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="menu:preview">
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                            data-url="${ctx}/sysUser_menu" data-width="850"
-                            data-id-name="userId">
-                        <i class="fa fa-search"></i> 菜单预览
-                    </button>
+                        <shiro:hasPermission name="menu:preview">
+                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                data-url="${ctx}/sysUser_menu" data-width="850"
+                                data-id-name="userId">
+                            <i class="fa fa-search"></i> 菜单预览
+                        </button>
+                        </shiro:hasPermission>
                     </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

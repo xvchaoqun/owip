@@ -240,9 +240,10 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:abolish")
     @RequestMapping(value = "/unit_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unit_abolish(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_unit_abolish(@RequestParam(value = "ids[]") Integer[] ids,
+                               @RequestParam(required = false, defaultValue = "1") boolean isAbolish) {
 
-        unitService.abolish(ids);
+        unitService.abolish(ids, isAbolish);
         logger.info("abolish Unit:" + StringUtils.join(ids, ","));
 
         return success(FormUtils.SUCCESS);

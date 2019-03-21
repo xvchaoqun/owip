@@ -93,7 +93,7 @@ public class CadreFamilyController extends BaseController {
 
         CadreFamilyExample example = new CadreFamilyExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        //example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("cadre_id asc, sort_order asc");
 
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
@@ -256,6 +256,15 @@ public class CadreFamilyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("cadreFamily:changeOrder")
+    @RequestMapping(value = "/cadreFamily_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreFamily_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        cadreFamilyService.changeOrder(id, addNum);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部家庭成员调序：%s,%s", id, addNum));
+        return success(FormUtils.SUCCESS);
+    }
 
     public void cadreFamily_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
 

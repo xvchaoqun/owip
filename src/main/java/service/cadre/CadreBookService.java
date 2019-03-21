@@ -106,10 +106,6 @@ public class CadreBookService extends BaseMapper {
     @Transactional
     public void modifyApply(CadreBook record, Integer id, boolean isDelete) {
 
-        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
-            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
-        }
 
         CadreBook original = null; // 修改、删除申请对应的原纪录
         byte type;
@@ -124,6 +120,11 @@ public class CadreBookService extends BaseMapper {
                 original = cadreBookMapper.selectByPrimaryKey(record.getId());
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
             }
+        }
+
+        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
+        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
+            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
         }
 
         Integer originalId = original == null ? null : original.getId();

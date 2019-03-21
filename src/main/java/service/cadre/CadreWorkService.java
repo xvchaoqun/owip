@@ -3,11 +3,7 @@ package service.cadre;
 import bean.CadreResume;
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreView;
-import domain.cadre.CadreWork;
-import domain.cadre.CadreWorkExample;
+import domain.cadre.*;
 import domain.crp.CrpRecord;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
@@ -30,11 +26,7 @@ import sys.utils.DateUtils;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CadreWorkService extends BaseMapper {
@@ -439,11 +431,6 @@ public class CadreWorkService extends BaseMapper {
     @Transactional
     public void modifyApply(CadreWork record, Integer id, boolean isDelete) {
 
-        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
-            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
-        }
-
         CadreWork original = null; // 修改、删除申请对应的原纪录
         byte type;
         if (isDelete) { // 删除申请时id不允许为空
@@ -457,6 +444,11 @@ public class CadreWorkService extends BaseMapper {
                 original = cadreWorkMapper.selectByPrimaryKey(record.getId());
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
             }
+        }
+
+        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
+        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
+            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
         }
 
         Integer originalId = original == null ? null : original.getId();

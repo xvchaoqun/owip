@@ -176,14 +176,19 @@ public class UnitService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="Unit:ALL", allEntries = true)
-    public void abolish(Integer[] ids){
+    public void abolish(Integer[] ids, boolean isAbolish){
         if(ids==null || ids.length==0) return;
 
         for (Integer id : ids) {
             Unit record = new Unit();
             record.setId(id);
-            record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_HISTORY));
-            record.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
+            if(isAbolish) {
+                record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_HISTORY));
+                record.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
+            }else{
+                record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_RUN));
+                record.setStatus(SystemConstants.UNIT_STATUS_RUN);
+            }
             unitMapper.updateByPrimaryKeySelective(record);
         }
         /*UnitExample example = new UnitExample();

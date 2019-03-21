@@ -530,6 +530,12 @@
             return _cMap.CADRE_FAMILY_TITLE_MAP[cellvalue]
         }
         },
+        <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+        {
+                label: '排序',formatter: $.jgrid.formatter.sortOrder, width:90,
+                formatoptions: {url: "${ctx}/cadreFamily_changeOrder",grid:'#jqGrid_cadreFamily'}
+        },
+        </shiro:hasPermission>
         {label: '姓名', width: 120, name: 'realname'},
         {label: '出生年月', name: 'birthday', formatter: function (cellvalue, options, rowObject) {
             if(rowObject.withGod) return '-'

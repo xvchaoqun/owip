@@ -108,11 +108,6 @@ public class CadreResearchService extends BaseMapper {
     @Transactional
     public void modifyApply(CadreResearch record, Integer id, byte researchType, boolean isDelete) {
 
-        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
-            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
-        }
-
         byte module = 0;
         if (researchType == CadreConstants.CADRE_RESEARCH_TYPE_DIRECT) {
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT;
@@ -133,6 +128,11 @@ public class CadreResearchService extends BaseMapper {
                 original = cadreResearchMapper.selectByPrimaryKey(record.getId());
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
             }
+        }
+
+        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
+        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
+            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
         }
 
         Integer originalId = original == null ? null : original.getId();

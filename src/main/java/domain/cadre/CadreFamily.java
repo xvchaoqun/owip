@@ -20,6 +20,8 @@ public class CadreFamily implements Serializable {
 
     private String unit;
 
+    private Integer sortOrder;
+
     private Byte status;
 
     private static final long serialVersionUID = 1L;
@@ -86,6 +88,14 @@ public class CadreFamily implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit == null ? null : unit.trim();
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Byte getStatus() {

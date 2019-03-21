@@ -298,6 +298,7 @@ public class CadreAdformService extends BaseMapper {
         // 社会关系
         CadreFamilyExample example = new CadreFamilyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        example.setOrderByClause("sort_order asc");
         List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 6));
         bean.setCadreFamilys(cadreFamilys);
 

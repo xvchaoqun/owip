@@ -10,6 +10,7 @@
     <result column="with_god" jdbcType="BIT" property="withGod" />
     <result column="political_status" jdbcType="INTEGER" property="politicalStatus" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, title, realname, birthday, with_god, political_status, unit, status
+    id, cadre_id, title, realname, birthday, with_god, political_status, unit, sort_order, 
+    status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreFamilyExample" resultMap="BaseResultMap">
     select
@@ -109,10 +111,12 @@
     </selectKey>
     insert into cadre_family (cadre_id, title, realname, 
       birthday, with_god, political_status, 
-      unit, status)
+      unit, sort_order, status
+      )
     values (#{cadreId,jdbcType=INTEGER}, #{title,jdbcType=TINYINT}, #{realname,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=DATE}, #{withGod,jdbcType=BIT}, #{politicalStatus,jdbcType=INTEGER}, 
-      #{unit,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+      #{unit,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreFamily">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -141,6 +145,9 @@
       <if test="unit != null">
         unit,
       </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
       <if test="status != null">
         status,
       </if>
@@ -166,6 +173,9 @@
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -205,6 +215,9 @@
       <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -223,6 +236,7 @@
       with_god = #{record.withGod,jdbcType=BIT},
       political_status = #{record.politicalStatus,jdbcType=INTEGER},
       unit = #{record.unit,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -252,6 +266,9 @@
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -267,6 +284,7 @@
       with_god = #{withGod,jdbcType=BIT},
       political_status = #{politicalStatus,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

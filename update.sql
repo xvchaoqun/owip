@@ -1,4 +1,23 @@
 
+
+20190321
+
+update sys_resource set permission='sysUser:list' where permission='sysUser:*';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1012, 0, '账号管理权限', '', 'function', '', NULL, 22, '0/1/21/22/', 1, 'sysUser:*', NULL, NULL, NULL, 1, NULL);
+
+ALTER TABLE `cadre_family`
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NOT NULL COMMENT '排序，每个干部的排序' AFTER `unit`;
+
+update cadre_family set sort_order =id;
+
+更新 common-utils
+
+
+
+20190319
+更新南航
+
 20190319
 
 + sys_property表

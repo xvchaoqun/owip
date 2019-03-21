@@ -25,9 +25,9 @@
         </javaClientGenerator>
 
         <!--干部库-->
-          <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
-         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-          </table>
+         <!-- <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
+                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>-->
          <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -147,10 +147,10 @@
                mapperName="cadre.CadreFamilyAbroadMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
+        <table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
                mapperName="cadre.CadreFamilyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro"
                mapperName="cadre.CadrePostProMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

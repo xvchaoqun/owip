@@ -8,6 +8,7 @@ import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -47,7 +48,8 @@ public class CadreFamilyService extends BaseMapper {
         }
 
         CadreFamilyExample example = new CadreFamilyExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId);
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         if(cadreFamilyMapper.countByExample(example)>=6){
             throw new OpException("最多只允许添加6个家庭成员");
         }
@@ -77,6 +79,8 @@ public class CadreFamilyService extends BaseMapper {
             record.setBirthday(null);
         }
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+        record.setSortOrder(getNextSortOrder("cadre_family",
+                "cadre_id=" + record.getCadreId() + " and status="+SystemConstants.RECORD_STATUS_FORMAL));
         return cadreFamilyMapper.insertSelective(record);
     }
     @Transactional
@@ -164,11 +168,6 @@ public class CadreFamilyService extends BaseMapper {
     @Transactional
     public void modifyApply(CadreFamily record, Integer id, boolean isDelete){
 
-        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
-            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
-        }
-
         CadreFamily original = null; // 修改、删除申请对应的原纪录
         byte type;
         if(isDelete){ // 删除申请时id不允许为空
@@ -182,6 +181,11 @@ public class CadreFamilyService extends BaseMapper {
                 original = cadreFamilyMapper.selectByPrimaryKey(record.getId());
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
             }
+        }
+
+        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
+        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
+            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
         }
 
         Integer originalId = original==null?null:original.getId();
@@ -237,6 +241,8 @@ public class CadreFamilyService extends BaseMapper {
                 CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
                 modify.setId(null);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                modify.setSortOrder(getNextSortOrder("cadre_family",
+                "cadre_id=" + modify.getCadreId() + " and status="+SystemConstants.RECORD_STATUS_FORMAL));
 
                 cadreFamilyMapper.insertSelective(modify); // 插入新纪录
                 record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
@@ -264,6 +270,51 @@ public class CadreFamilyService extends BaseMapper {
         cadreFamilyMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
 
         return record;
+    }
+
+    @Transactional
+    public void changeOrder(int id, int addNum) {
+
+        if(addNum == 0) return ;
+
+        byte orderBy = ORDER_BY_ASC;
+
+        CadreFamily entity = cadreFamilyMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+        Integer cadreId = entity.getCadreId();
+
+        CadreFamilyExample example = new CadreFamilyExample();
+        if (addNum*orderBy > 0) {
+
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        }else {
+
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<CadreFamily> overEntities = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if(overEntities.size()>0) {
+
+            CadreFamily targetEntity = overEntities.get(overEntities.size()-1);
+
+            if (addNum*orderBy > 0)
+                commonMapper.downOrder("cadre_family",
+                        "cadre_id=" + cadreId + " and status="+SystemConstants.RECORD_STATUS_FORMAL,
+                        baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("cadre_family",
+                        "cadre_id=" + cadreId + " and status="+SystemConstants.RECORD_STATUS_FORMAL,
+                        baseSortOrder, targetEntity.getSortOrder());
+
+            CadreFamily record = new CadreFamily();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            cadreFamilyMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
 }

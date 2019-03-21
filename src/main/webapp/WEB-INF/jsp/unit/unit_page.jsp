@@ -36,15 +36,24 @@
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>
-                            <c:if test="${status==1}">
+
                                 <shiro:hasPermission name="unit:abolish">
-                                <button class="jqBatchBtn btn btn-warning btn-sm"
-                                   data-url="${ctx}/unit_abolish" data-title="转移"
-                                   data-msg="确定将这{0}个单位转移到历史单位吗？">
-                                    <i class="fa fa-recycle"></i> 转移
-                                </button>
+                                    <c:if test="${status==1}">
+                                        <button class="jqBatchBtn btn btn-warning btn-sm"
+                                           data-url="${ctx}/unit_abolish" data-title="转移"
+                                           data-msg="确定将这{0}个单位转移到历史单位吗？">
+                                            <i class="fa fa-recycle"></i> 转移
+                                        </button>
+                                     </c:if>
+                                     <c:if test="${status==2}">
+                                          <button class="jqBatchBtn btn btn-warning btn-sm"
+                                               data-url="${ctx}/unit_abolish?isAbolish=0" data-title="返回正在运转单位"
+                                               data-msg="确定将这{0}个单位返回到运转单位吗？">
+                                                <i class="fa fa-reply"></i> 返回正在运转单位
+                                            </button>
+                                          </c:if>
                                 </shiro:hasPermission>
-                            </c:if>
+
                             <%--<shiro:hasPermission name="unit:history">
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/unit_history">
