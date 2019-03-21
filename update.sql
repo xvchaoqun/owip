@@ -1,6 +1,9 @@
 
 
 20190321
+更新南航
+
+20190321
 
 update sys_resource set permission='sysUser:list' where permission='sysUser:*';
 
