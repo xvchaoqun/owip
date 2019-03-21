@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="UNIT_POST_STATUS_NORMAL" value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${unitPost!=null}">编辑</c:if><c:if test="${unitPost==null}">添加</c:if>干部岗位</h3>
+    <h3><c:if test="${unitPost!=null}">编辑</c:if><c:if test="${unitPost==null}">添加</c:if>${status==UNIT_POST_STATUS_NORMAL?'现有':'已撤销'}岗位</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/unitPost_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/unitPost_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitPost.id}">
         <input type="hidden" name="unitId" value="${unitId}">
+        <input type="hidden" name="status" value="${status}">
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>岗位编号</label>

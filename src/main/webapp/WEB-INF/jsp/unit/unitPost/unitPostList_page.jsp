@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="UNIT_POST_STATUS_NORMAL" value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>"/>
+<c:set var="UNIT_POST_STATUS_ABOLISH" value="<%=SystemConstants.UNIT_POST_STATUS_ABOLISH%>"/>
 <c:set var="_query"
-       value="${not empty param.name ||not empty param.adminLevel ||not empty param.postType ||not empty param.postClass || not empty param.code || not empty param.sort}"/>
+       value="${not empty param.name ||not empty param.adminLevel ||not empty param.postType
+       ||not empty param.postClass || not empty param.code || not empty param.sort}"/>
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="<c:if test="${cls==1}">active</c:if>">
         <a href="javascript:;" class="loadPage" data-load-el="#tab-content"
@@ -16,12 +19,17 @@
 </ul>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cls==1}">
+    <c:if test="${cls==1||cls==2}">
     <shiro:hasPermission name="unitPost:edit">
         <button class="popupBtn btn btn-info btn-sm"
-                data-url="${ctx}/unitPost_au?unitId=${param.unitId}&jqGrid=jqGrid2">
+                ${cls==1 && cm:getUnitById(param.unitId).status==UNIT_STATUS_HISTORY ? "disabled":""}
+                data-url="${ctx}/unitPost_au?unitId=${param.unitId}&status=${cls==1?UNIT_POST_STATUS_NORMAL:UNIT_POST_STATUS_ABOLISH}&jqGrid=jqGrid2">
             <i class="fa fa-plus"></i> 添加
         </button>
+    </shiro:hasPermission>
+    </c:if>
+    <c:if test="${cls==1}">
+    <shiro:hasPermission name="unitPost:edit">
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                 data-url="${ctx}/unitPost_au?unitId=${param.unitId}&jqGrid=jqGrid2"
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
@@ -49,7 +57,7 @@
     <shiro:hasPermission name="unitPost:del">
         <button data-url="${ctx}/unitPost_batchDel"
                 data-title="删除"
-                data-msg="确定删除这{0}条数据？"
+                data-msg="确定删除这{0}条岗位？<br/>（删除后不可恢复，请谨慎操作！）"
                 data-grid-id="#jqGrid2"
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-trash"></i> 删除

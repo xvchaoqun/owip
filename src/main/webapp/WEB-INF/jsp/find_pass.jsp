@@ -11,7 +11,7 @@
   <link href="${ctx}/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
 <%--  <link rel="stylesheet" href="${ctx}/extend/css/bootstrap-theme-3.3.5.css" />--%>
     <link rel="stylesheet" href="${ctx}/assets/css/ace-nobtn.css" class="ace-main-stylesheet" id="main-ace-style" />
-  <link href="${ctx}/extend/css/faq.css" rel="stylesheet" type="text/css" />
+    <t:link href="/extend/css/faq.css"/>
   <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
 </head>
 <body>

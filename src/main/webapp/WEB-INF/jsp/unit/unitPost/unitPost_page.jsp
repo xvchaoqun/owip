@@ -15,10 +15,10 @@
                     <a href="javascript:;" class="loadPage"
                        data-url="${ctx}/unitPost?cls=2"><i class="fa fa-history"></i> 撤销岗位</a>
                 </li>
-                <li class="<c:if test="${cls==3}">active</c:if>">
+                <%--<li class="<c:if test="${cls==3}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
                        data-url="${ctx}/unitPost?cls=3"><i class="fa fa-trash"></i> 已删除</a>
-                </li>
+                </li>--%>
             </ul>
             <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.unitId ||not empty param.name
@@ -44,7 +44,7 @@
                  <shiro:hasPermission name="unitPost:del">
                      <button data-url="${ctx}/unitPost_batchDel"
                              data-title="删除"
-                             data-msg="确定删除这{0}条数据？"
+                             data-msg="确定删除这{0}个岗位？<br/>（删除后不可恢复，请谨慎操作！）"
                              data-grid-id="#jqGrid"
                              class="jqBatchBtn btn btn-danger btn-sm">
                          <i class="fa fa-trash"></i> 删除
