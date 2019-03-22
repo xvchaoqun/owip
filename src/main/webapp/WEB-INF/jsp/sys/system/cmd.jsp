@@ -6,7 +6,7 @@
         <table class="table table-bordered table-unhover2">
             <tr>
                 <td>
-        <form id="modalForm" class="form-inline">
+        <form autocomplete="off" disableautocomplete id="modalForm" class="form-inline">
             <textarea required class="noEnter" rows="2" name="cmd" style="width: 500px"></textarea>
         </form>
         <button id="submitBtn" class="btn btn-primary"><i class="fa fa-flash"></i> 执行</button>

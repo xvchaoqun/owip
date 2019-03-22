@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreReport!=null}">编辑</c:if><c:if test="${cadreReport==null}">添加</c:if>干部工作总结</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreReport_au" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/cadreReport_au" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cadreReport.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>形成日期</label>

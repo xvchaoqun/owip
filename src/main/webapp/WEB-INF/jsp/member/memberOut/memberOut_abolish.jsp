@@ -6,7 +6,7 @@
     <h3>组织关系转出-撤销已完成审批</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberOut_abolish" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberOut_abolish" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
             <label class="col-xs-1 control-label"></label>

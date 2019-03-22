@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cla/claApply_approval" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cla/claApply_approval" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="approvalTypeId" value="${param.approvalTypeId}">
         <input type="hidden" name="pass" value="${param.pass}">

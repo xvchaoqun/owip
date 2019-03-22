@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>设定年度学习任务</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetAnnualObj_batchRequire" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetAnnualObj_batchRequire" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="annualId" value="${param.annualId}">
 			<div class="form-group">
 			<label class="col-xs-5 control-label">行政级别</label>

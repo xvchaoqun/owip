@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>党员退休-审核</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/retireApply_verify" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/retireApply_verify" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <input type="hidden" name="userId" value="${param.userId}">
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>选择党支部</label>

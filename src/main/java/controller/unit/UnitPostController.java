@@ -6,10 +6,7 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
-import domain.unit.Unit;
-import domain.unit.UnitPost;
-import domain.unit.UnitPostView;
-import domain.unit.UnitPostViewExample;
+import domain.unit.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -306,9 +303,10 @@ public class UnitPostController extends BaseController {
             criteria.andCpAdminLevelIn(Arrays.asList(adminLevels));
         }
         if (export == 1) {
+            if (ids != null && ids.length > 0)
+              criteria.andIdIn(Arrays.asList(ids));
+
             if(exportType==0) {
-                if (ids != null && ids.length > 0)
-                    criteria.andIdIn(Arrays.asList(ids));
                 unitPost_export(example, response);
                 return;
             }else if(exportType==1){
@@ -351,10 +349,11 @@ public class UnitPostController extends BaseController {
         record.setName(HtmlUtils.htmlUnescape(record.getName()));
 
         if (unitPostService.idDuplicate(id, record.getCode())) {
-            return failed("添加重复");
+            UnitPost byCode = unitPostService.getByCode(record.getCode());
+            return failed("岗位编号重复，已有岗位：{0}", byCode.getName());
         }
         if (id == null) {
-            record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
+            //record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
             unitPostService.insertSelective(record);
             logger.info(addLog( LogConstants.LOG_ADMIN, "添加干部岗位库：%s", record.getId()));
         } else {
@@ -368,14 +367,19 @@ public class UnitPostController extends BaseController {
 
     @RequiresPermissions("unitPost:edit")
     @RequestMapping("/unitPost_au")
-    public String unitPost_au(Integer id, Integer unitId, ModelMap modelMap) {
+    public String unitPost_au(Integer id, Integer unitId,
+                              @RequestParam(required = false, defaultValue =
+                                      SystemConstants.UNIT_POST_STATUS_NORMAL+"") byte status,
+                              ModelMap modelMap) {
 
         if (id != null) {
             UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
             modelMap.put("unitPost", unitPost);
             unitId = unitPost.getUnitId();
+            status = unitPost.getStatus();
         }
         modelMap.put("unitId", unitId);
+        modelMap.put("status", status);
 
         return "unit/unitPost/unitPost_au";
     }
@@ -418,8 +422,15 @@ public class UnitPostController extends BaseController {
     public Map unitPost_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
+
+            UnitPostExample example = new UnitPostExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
+
             unitPostService.batchDel(ids);
-            logger.info(addLog( LogConstants.LOG_ADMIN, "批量删除干部岗位：%s", StringUtils.join(ids, ",")));
+
+            logger.info(addLog( LogConstants.LOG_ADMIN, "批量删除干部岗位：%s",
+                    JSONUtils.toString(unitPosts, false)));
         }
 
         return success(FormUtils.SUCCESS);

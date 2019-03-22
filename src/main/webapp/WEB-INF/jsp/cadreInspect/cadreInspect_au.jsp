@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreInspect_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreInspect_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="inspectId" value="${cadreInspect.id}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>账号</label>

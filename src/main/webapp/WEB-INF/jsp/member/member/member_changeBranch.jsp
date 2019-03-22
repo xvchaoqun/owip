@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>批量${_p_partyName}内部组织关系变动</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/member_changeBranch" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/member_changeBranch" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="partyId" value="${party.id}">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
 			<div class="form-group">

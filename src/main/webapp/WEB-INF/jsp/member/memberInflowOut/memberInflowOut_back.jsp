@@ -8,7 +8,7 @@
     <h3>打回申请</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberInflowOut_back" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberInflowOut_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <div class="form-group">
             <label class="col-xs-3 control-label">打回申请记录</label>

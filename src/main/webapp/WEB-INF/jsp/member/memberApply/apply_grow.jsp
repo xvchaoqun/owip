@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>发展为预备党员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/apply_grow" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/apply_grow" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
         <c:if test="${count>1}">

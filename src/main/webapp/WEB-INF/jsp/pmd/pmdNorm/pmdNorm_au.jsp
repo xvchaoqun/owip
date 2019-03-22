@@ -8,7 +8,7 @@
         ${PMD_NORM_TYPE_MAP.get(type)}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdNorm_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdNorm_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pmdNorm.id}">
         <input type="hidden" name="type" value="${param.type}">
 

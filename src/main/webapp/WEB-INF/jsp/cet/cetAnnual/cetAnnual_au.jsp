@@ -6,7 +6,7 @@
     <h3>${cetAnnual!=null?'编辑':'添加'}年度学习档案</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetAnnual_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetAnnual_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetAnnual.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>

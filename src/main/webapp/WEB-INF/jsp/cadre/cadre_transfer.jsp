@@ -6,7 +6,7 @@
   <h3>干部库转移</h3>
 </div>
 <div class="modal-body">
-  <form id="modalForm" class="form-horizontal" method="post" action="${ctx}/cadre_transfer">
+  <form autocomplete="off" disableautocomplete id="modalForm" class="form-horizontal" method="post" action="${ctx}/cadre_transfer">
   <div class="form-group">
       <label class="col-xs-3 control-label"><span class="star">*</span>选择干部</label>
       <div class="col-xs-6">

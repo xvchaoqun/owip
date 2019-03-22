@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${memberOut!=null}">编辑</c:if><c:if test="${memberOut==null}">添加</c:if>组织关系转出</h3>
 	<hr/>
 
-    <form class="form-horizontal" action="${ctx}/memberOut_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberOut_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberOut.id}">
         <input type="hidden" name="reapply" value="${param.reapply}">
 		<div class="row">

@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${branch!=null}">编辑</c:if><c:if test="${branch==null}">添加</c:if>党支部</h3>
 </div>
-<form class="form-horizontal" action="${ctx}/branch_au" id="modalForm" method="post">
+<form class="form-horizontal" action="${ctx}/branch_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
 <div class="modal-body">
 
         	<input type="hidden" name="id" value="${branch.id}">

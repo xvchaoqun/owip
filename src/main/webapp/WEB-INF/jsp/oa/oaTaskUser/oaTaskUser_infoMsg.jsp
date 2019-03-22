@@ -6,7 +6,7 @@
 	<h3>下发任务短信通知</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" action="${ctx}/oa/oaTaskUser_infoMsg" id="modalForm" method="post">
+	<form class="form-horizontal" action="${ctx}/oa/oaTaskUser_infoMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="taskId" value="${oaTask.id}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label">任务名称</label>

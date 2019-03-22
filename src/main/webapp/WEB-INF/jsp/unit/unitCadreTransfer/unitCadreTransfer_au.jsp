@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${unitCadreTransfer!=null}">编辑</c:if><c:if test="${unitCadreTransfer==null}">添加</c:if>任职信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/unitCadreTransfer_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/unitCadreTransfer_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitCadreTransfer.id}">
         <input type="hidden" name="groupId" value="${unitCadreTransferGroup.id}">
 			<div class="form-group">

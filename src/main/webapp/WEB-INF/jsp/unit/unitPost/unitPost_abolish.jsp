@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>撤销岗位</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/unitPost_abolish" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/unitPost_abolish" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitPost.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>撤销日期</label>

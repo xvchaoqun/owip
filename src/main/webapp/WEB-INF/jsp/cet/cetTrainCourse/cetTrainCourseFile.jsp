@@ -14,7 +14,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/cet/cetTrainCourseFile_au" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/cet/cetTrainCourseFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                         <input type="hidden" name="trainCourseId" value="${param.trainCourseId}">
                         <div class="form-group">
                             <label class="col-xs-3 control-label">名称（可不填）</label>

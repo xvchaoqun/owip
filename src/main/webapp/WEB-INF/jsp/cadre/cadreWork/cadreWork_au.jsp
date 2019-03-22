@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">其间</c:if>工作经历</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreWork_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreWork_au?toApply=${param.toApply}&cadreId=${cadre.id}" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
             <input type="hidden" name="applyId" value="${param.applyId}">
             <input type="hidden" name="id" value="${cadreWork.id}">

@@ -6,7 +6,7 @@
     <h3>干部工作文件批量转移</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dispatchWorkFile_transfer" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/dispatchWorkFile_transfer" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
         <c:if test="${count>1}">

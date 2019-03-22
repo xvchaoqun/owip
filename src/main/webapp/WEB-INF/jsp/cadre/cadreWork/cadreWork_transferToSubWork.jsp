@@ -6,7 +6,7 @@
   <h3>修改为其间工作经历</h3>
 </div>
 <div class="modal-body">
-  <form class="form-horizontal" action="${ctx}/cadreWork_transferToSubWork" id="modalForm" method="post">
+  <form class="form-horizontal" action="${ctx}/cadreWork_transferToSubWork" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <input type="hidden" name="id" value="${param.id}">
     <div class="form-group">
       <label class="col-xs-4 control-label">工作经历</label>

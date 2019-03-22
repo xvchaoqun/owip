@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${memberAbroad!=null}">编辑</c:if><c:if test="${memberAbroad==null}">添加</c:if>党员出国境信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberAbroad_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberAbroad_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberAbroad.id}">
         <c:if test="${not empty memberAbroad}">
             <input type="hidden" name="userId" value="${memberAbroad.userId}">

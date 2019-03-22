@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
 <div style="width: 900px">
     <h3><c:if test="${memberTransfer!=null}">编辑</c:if><c:if test="${memberTransfer==null}">添加</c:if>校内组织关系互转</h3>
 <hr/>
-    <form class="form-horizontal" action="${ctx}/memberTransfer_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberTransfer_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberTransfer.id}">
 		<div class="row">
 			<div class="col-xs-6">

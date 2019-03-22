@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>同步学校账号信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sync_user_byCode" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sync_user_byCode" autocomplete="off" disableautocomplete id="modalForm" method="post">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>学工号</label>
 				<div class="col-xs-6">

@@ -12,6 +12,7 @@ import sys.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +48,15 @@ public interface HttpResponseMethod {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("success", false);
         resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
+        return resultMap;
+    }
+
+    default Map<String, Object> failed(String msg, Object... params) {
+
+        msg = StringUtils.defaultIfBlank(msg, "failed");
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", false);
+        resultMap.put("msg", MessageFormat.format(msg, params));
         return resultMap;
     }
 
@@ -172,7 +182,7 @@ public interface HttpResponseMethod {
     default String addNoLoginLog(Integer userId, String username, Integer logType, String content, Object... params) {
 
         if (params != null && params.length > 0)
-            content = String.format(content, params);
+            content = MessageFormat.format(content, params);
 
         LogService logService = CmTag.getBean(LogService.class);
 
@@ -180,6 +190,18 @@ public interface HttpResponseMethod {
     }
 
     // 登录后操作日志
+    default String log(Integer logType, String content, Object... params) {
+
+        if (params != null && params.length > 0)
+            content = MessageFormat.format(content, params);
+
+        LogService logService = CmTag.getBean(LogService.class);
+
+        return logService.log(logType, content);
+    }
+
+    // 登录后操作日志
+    @Deprecated
     default String addLog(Integer logType, String content, Object... params) {
 
         if (params != null && params.length > 0)

@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${scPassportHand!=null}">编辑</c:if><c:if test="${scPassportHand==null}">添加</c:if>新提任干部交证件</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scPassportHand_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scPassportHand_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scPassportHand.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>关联账号</label>

@@ -7,7 +7,7 @@
     <h3><c:if test="${crsPostFile!=null}">编辑</c:if><c:if test="${crsPostFile==null}">添加</c:if>招聘会记录文件</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/crsPostFile_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/crsPostFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${crsPostFile.id}">
         <input type="hidden" name="postId" value="${postId}">
         <div class="form-group">

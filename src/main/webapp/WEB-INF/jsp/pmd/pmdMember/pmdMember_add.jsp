@@ -6,7 +6,7 @@
     <h3>添加党员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_add" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_add" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>缴费月份</label>

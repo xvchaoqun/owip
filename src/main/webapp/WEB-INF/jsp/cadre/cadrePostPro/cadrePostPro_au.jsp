@@ -6,7 +6,7 @@
     <h3><c:if test="${cadrePostPro!=null}">编辑</c:if><c:if test="${cadrePostPro==null}">添加</c:if>专技岗位过程信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadrePostPro_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadrePostPro_au?toApply=${param.toApply}&cadreId=${cadre.id}" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
         <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadrePostPro.id}">

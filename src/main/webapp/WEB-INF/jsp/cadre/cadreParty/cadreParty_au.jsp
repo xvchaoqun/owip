@@ -6,7 +6,7 @@
     <h3>${(empty cadreParty)?"添加":"更新"}${type==1?'民主党派':'党员'}干部</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreParty_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreParty.id}">
         <input type="hidden" name="type" value="${type}">
         <c:if test="${empty sysUser}">

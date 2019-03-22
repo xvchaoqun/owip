@@ -49,13 +49,16 @@
                     </li>
                 </ul>
                 <hr>
-                <form class="form-horizontal">
+                <form class="form-horizontal" autocomplete="off" disableautocomplete>
+                    <div style="display:none">
+                        <input type="password" tabindex="-1"/>
+                      </div>
                     <div class="row">
                     <div  class="">
                         <div class="form-group">
                             <label class="col-xs-5 control-label">请输入账号</label>
                             <div class="col-xs-6">
-                                <input type="text" autocomplete="off" disableautocomplete name="username"/>
+                                <input type="text" name="username"/>
                                 <button type="button" class="btn btn-success btn-xs" id="msgBtn"><i class="fa fa-mobile"></i> 发送短信</button>
                                 <div id="result" style="margin-top: 5px;display:none">
                                 </div>
@@ -64,13 +67,14 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">短信验证码</label>
                             <div class="col-xs-6">
-                                <input type="text" autocomplete="off" disableautocomplete name="code" maxlength="4" style="width: 80px"/>
+                                <input type="text" name="code" maxlength="4" style="width: 80px"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">新密码</label>
                             <div class="col-xs-6">
-                                <input type="text" autocomplete="off" disableautocomplete onfocus="this.type='password'" name="password"/>
+
+                                <input type="password" name="password" autocomplete="new-password"/>
                                 <span class="help-block">密码由6-16位的字母、下划线和数字组成</span>
                             </div>
                         </div>

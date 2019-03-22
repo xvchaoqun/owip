@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 	</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dispatchWorkFile_au" id="modalForm"
+    <form class="form-horizontal" action="${ctx}/dispatchWorkFile_au" autocomplete="off" disableautocomplete id="modalForm"
 		  method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${dispatchWorkFile.id}">
 		<input name="type" type="hidden" value="${type}">

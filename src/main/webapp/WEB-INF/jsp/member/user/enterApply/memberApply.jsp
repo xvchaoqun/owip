@@ -18,7 +18,7 @@
         申请入党
       </h1>
     </div>
-    <form class="form-horizontal" id="modalForm" method="post" action="${ctx}/user/memberApply">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post" action="${ctx}/user/memberApply">
       <div class="form-group">
         <label class="col-sm-3 control-label no-padding-right"> ${(user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
         <div class="col-sm-9 label-text">

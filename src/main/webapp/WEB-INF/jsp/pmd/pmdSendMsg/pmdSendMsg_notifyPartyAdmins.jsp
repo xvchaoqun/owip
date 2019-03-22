@@ -6,7 +6,7 @@
     <h3>短信通知所有${_p_partyName}管理员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyPartyAdmins" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyPartyAdmins" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
         <div class="form-group">
             <label class="col-xs-3 control-label">短信内容：</label>

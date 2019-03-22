@@ -6,7 +6,7 @@
     <h3><c:if test="${cetTrain!=null}">编辑</c:if><c:if test="${cetTrain==null}">添加</c:if>培训班次</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTrain_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrain_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTrain.id}">
         <input type="hidden" name="isOnCampus" value="0">
 

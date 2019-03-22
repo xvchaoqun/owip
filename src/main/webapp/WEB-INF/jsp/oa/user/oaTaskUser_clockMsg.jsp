@@ -6,7 +6,7 @@
 	<h3>定时提醒</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" action="${ctx}/oaTaskUser_clockMsg" id="modalForm" method="post">
+	<form class="form-horizontal" action="${ctx}/oaTaskUser_clockMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="taskId" value="${param.taskId}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>提醒时间</label>

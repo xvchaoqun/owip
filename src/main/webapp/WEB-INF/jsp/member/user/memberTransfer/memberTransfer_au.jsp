@@ -23,7 +23,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <form class="form-horizontal" action="${ctx}/user/memberTransfer_au" id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/user/memberTransfer_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="id" value="${memberTransfer.id}">
                 <div class="row">
                     <div class="col-xs-offset-2 col-xs-9">

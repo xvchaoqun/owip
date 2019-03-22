@@ -6,7 +6,7 @@
   <h3>修改审批意见</h3>
 </div>
 <div class="modal-body">
-  <form id="modalForm" class="form-horizontal" method="post" action="${ctx}/cla/claApply_approval_direct_au">
+  <form autocomplete="off" disableautocomplete id="modalForm" class="form-horizontal" method="post" action="${ctx}/cla/claApply_approval_direct_au">
     <input type="hidden" name="approvalLogId" value="${approvalLog.id}">
     <input type="hidden" name="applyId" value="${param.applyId}">
     <div class="form-group">

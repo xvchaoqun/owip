@@ -23,7 +23,7 @@
         <div class="widget-main">
             <div class="tab-content" style="padding-bottom: 0;padding-top: 0">
                 <form class="form-horizontal" action="${ctx}/sc/scDispatch_au"
-                      id="modalForm" method="post">
+                      autocomplete="off" disableautocomplete id="modalForm" method="post">
                     <div class="row dispatch_cadres" style="width: 1450px;padding-bottom: 0;padding-top: 0">
                         <div class="dispatch" style="width: 550px;margin-right: 0">
                             <div class="widget-box" style="width: 530px;">

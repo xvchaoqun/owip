@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${scPassport!=null}">编辑</c:if><c:if test="${scPassport==null}">添加</c:if>上交证件信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scPassport_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scPassport_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scPassport.id}">
         <input type="hidden" name="handId" value="${handId}">
 		<div class="form-group">

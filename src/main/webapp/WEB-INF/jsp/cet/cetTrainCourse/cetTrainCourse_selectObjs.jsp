@@ -6,7 +6,7 @@
   <h4>选择参训人员（${cetTrainCourse.cetCourse.name}）</h4>
 </div>
 <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/cet/cetTrainCourse_selectObjs" id="modalForm" method="post">
+  <form class="form-horizontal"  action="${ctx}/cet/cetTrainCourse_selectObjs" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <div id="tree3" style="min-height: 400px"></div>
   </form>
 </div>

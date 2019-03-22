@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${crsExpert!=null}">编辑</c:if><c:if test="${crsExpert==null}">添加</c:if>专家组成员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/crsExpert_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/crsExpert_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${crsExpert.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">请选择干部</label>

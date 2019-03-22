@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${annualType!=null}">编辑</c:if><c:if test="${annualType==null}">添加</c:if>${ANNUAL_TYPE_MODULE_MAP.get(cm:toByte(param.module))}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/annualType_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/annualType_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${annualType.id}">
         <input type="hidden" name="module" value="${param.module}">
             <div class="form-group">

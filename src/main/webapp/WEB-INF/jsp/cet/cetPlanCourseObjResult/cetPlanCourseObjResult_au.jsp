@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>编辑学习情况</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetPlanCourseObjResult_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetPlanCourseObjResult_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="planCourseId" value="${param.planCourseId}">
         <input type="hidden" name="objId" value="${param.objId}">
 			<div class="form-group">

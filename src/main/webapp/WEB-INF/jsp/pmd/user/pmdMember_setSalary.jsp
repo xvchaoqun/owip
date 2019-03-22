@@ -7,7 +7,7 @@
     <h3>${param.view==1?'查看':'修改'}党费应交额</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" id="modalForm" method="post">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input name="isPreview" type="hidden" value="1">
         <input name="pmdMemberId" type="hidden" value="${param.pmdMemberId}">
         <input name="isSelf" type="hidden" value="${param.isSelf}">

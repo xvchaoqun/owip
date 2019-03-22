@@ -6,7 +6,7 @@
     <h3><c:if test="${cisEvaluate!=null}">编辑</c:if><c:if test="${cisEvaluate==null}">添加</c:if>现实表现材料和评价</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cisEvaluate_au" id="modalForm" method="post"
+    <form class="form-horizontal" action="${ctx}/cisEvaluate_au" autocomplete="off" disableautocomplete id="modalForm" method="post"
           enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cisEvaluate.id}">
         <div class="form-group">

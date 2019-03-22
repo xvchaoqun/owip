@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>启动缴费</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_start" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_start" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="monthId" value="${pmdMonth.id}">
 
         <div class="form-group">

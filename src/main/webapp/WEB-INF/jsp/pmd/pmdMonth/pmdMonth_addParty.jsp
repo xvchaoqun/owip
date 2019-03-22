@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>新增缴费党委</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_addParty" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_addParty" autocomplete="off" disableautocomplete id="modalForm" method="post">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>选择党委</label>
 				<div class="col-xs-6">

@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${memberQuit!=null}">编辑</c:if><c:if test="${memberQuit==null}">添加</c:if>减员信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberQuit_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberQuit_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <c:if test="${not empty memberQuit}">
         <input type="hidden" name="userId" value="${memberQuit.userId}">
         <input type="hidden" name="resubmit">

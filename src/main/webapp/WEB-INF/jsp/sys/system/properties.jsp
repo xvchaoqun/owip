@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<form action="${ctx}/system/properties" method="post" id="modalForm" class="form-horizontal">
+<form action="${ctx}/system/properties" method="post" autocomplete="off" disableautocomplete id="modalForm" class="form-horizontal">
     <textarea class="span5" rows="25" id="unicode_content" style="width: 100%"></textarea>
     <textarea name="content" style="display: none;">${content}</textarea>
 </form>

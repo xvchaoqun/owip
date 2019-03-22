@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${orgAdmin!=null}">编辑</c:if><c:if test="${orgAdmin==null}">添加</c:if>党组织管理员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/orgAdmin_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/orgAdmin_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${orgAdmin.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>用户</label>

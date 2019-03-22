@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>审核（仅对已报送且未审批的任务对象有效）</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/oa/oaTaskUser_check" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/oa/oaTaskUser_check" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="taskId" value="${param.taskId}">
         <input type="hidden" name="taskUserIds[]" value="${param['taskUserIds[]']}">
         <c:set var="num" value='${fn:length(fn:split(param["taskUserIds[]"],","))}'/>

@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${contentTpl!=null}">编辑</c:if><c:if test="${contentTpl==null}">添加</c:if>HTML模板</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/contentTpl_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/contentTpl_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${contentTpl.id}">
         <input type="hidden" name="contentType" value="${contentType}">
         <div class="form-group">

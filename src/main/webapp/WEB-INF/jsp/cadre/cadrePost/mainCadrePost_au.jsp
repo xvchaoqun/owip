@@ -6,7 +6,7 @@
     <h3><c:if test="${cadrePost!=null}">编辑</c:if><c:if test="${cadrePost==null}">添加</c:if>主职</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadrePost_au?cadreId=${cadre.id}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadrePost_au?cadreId=${cadre.id}" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadrePost.id}">
         <input type="hidden" name="isMainPost" value="1">
             <div class="form-group">

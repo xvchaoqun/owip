@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cetUpperTrainAdmin!=null}">编辑</c:if><c:if test="${cetUpperTrainAdmin==null}">添加</c:if>上级单位管理员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUpperTrainAdmin_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetUpperTrainAdmin_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUpperTrainAdmin.id}">
         <input type="hidden" name="upperType" value="${upperType}">
 			<div class="form-group">

@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreReserve_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreReserve_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="reserveId" value="${cadreReserve.id}">
         <input type="hidden" name="reserveType" value="${reserveType}"/>
         <div class="form-group">

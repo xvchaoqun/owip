@@ -8,7 +8,7 @@
     <h3>导入${cm:toByte(param.type)==CADRE_PARTY_TYPE_OW?"党员":"民主党派人员"}</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" id="modalForm" enctype="multipart/form-data"
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data"
           action="${ctx}/cadreParty_import" method="post">
         <input name="type" type="hidden" value="${param.type}">
 		<div class="form-group">

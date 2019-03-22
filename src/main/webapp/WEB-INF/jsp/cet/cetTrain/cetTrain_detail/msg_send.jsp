@@ -11,7 +11,7 @@
         ${content}
     </div>
     <div>
-        <form id="modalForm" class="form-horizontal" action="${ctx}/cet/cetTrain_detail/msg_send" method="post">
+        <form autocomplete="off" disableautocomplete id="modalForm" class="form-horizontal" action="${ctx}/cet/cetTrain_detail/msg_send" method="post">
             <input type="hidden" name="projectId" value="${param.projectId}">
             <input type="hidden" name="trainId" value="${param.trainId}">
             <input type="hidden" name="tplKey" value="${param.tplKey}">

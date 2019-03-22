@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${dispatchCadre!=null}">编辑</c:if><c:if test="${dispatchCadre==null}">添加</c:if>干部任免</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dispatchCadre_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/dispatchCadre_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
         <div class="row">
             <div class="col-xs-6">

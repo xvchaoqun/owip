@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>上传心得体会</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_uploadWrite" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_uploadWrite" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
             <label class=" col-xs-3 control-label">学员姓名</label>

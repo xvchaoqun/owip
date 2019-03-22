@@ -6,7 +6,7 @@
     <h3><c:if test="${scMatter!=null}">编辑</c:if><c:if test="${scMatter==null}">添加</c:if>个人有关事项</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scMatter_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scMatter_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMatter.id}">
 
         <div class="form-group">

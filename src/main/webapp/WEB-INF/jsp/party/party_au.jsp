@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${party!=null}">编辑</c:if><c:if test="${party==null}">添加</c:if>基层党组织</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/party_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/party_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<div class="row">
 			<div class="col-xs-6">
 		<input type="hidden" name="id" value="${party.id}">

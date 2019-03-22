@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>${drVoterTypeTpl!=null?'编辑':'添加'}填表人类别模板</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/drVoterTypeTpl_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/drVoterTypeTpl_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${drVoterTypeTpl.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>模板名称</label>

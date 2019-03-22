@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${memberInflow!=null}">编辑</c:if><c:if test="${memberInflow==null}">添加</c:if>流入党员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberInflow_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberInflow_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberInflow.id}">
 		<div class="row">
 			<div class="col-xs-6">

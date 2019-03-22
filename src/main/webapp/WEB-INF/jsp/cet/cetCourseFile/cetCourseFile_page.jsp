@@ -16,7 +16,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/cet/cetCourseFile_au" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/cet/cetCourseFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                         <input type="hidden" name="courseId" value="${param.courseId}">
                         <div class="form-group">
                             <label class="col-xs-4 control-label"><span class="star">*</span>材料名称</label>

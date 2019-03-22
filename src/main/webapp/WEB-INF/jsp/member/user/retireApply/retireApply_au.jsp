@@ -19,7 +19,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <form class="form-horizontal" action="${ctx}/user/retireApply_au" id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/user/retireApply_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="userId" value="${param.userId}">
                 <div class="form-group">
                     <label class="col-sm-3 control-label no-padding-right"><span class="star">*</span>请选择退休后所在的组织结构类别</label>

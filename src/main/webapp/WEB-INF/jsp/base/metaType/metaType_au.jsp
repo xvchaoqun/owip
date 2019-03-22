@@ -6,7 +6,7 @@
     <h3><c:if test="${metaType!=null}">编辑</c:if><c:if test="${metaType==null}">添加</c:if></h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/metaType_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/metaType_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${metaType.id}">
 
 		<div class="form-group">

@@ -6,7 +6,7 @@
     <h3><c:if test="${cetUnit!=null}">编辑</c:if><c:if test="${cetUnit==null}">添加</c:if>内设机构</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUnit_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetUnit_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUnit.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所属内设机构</label>

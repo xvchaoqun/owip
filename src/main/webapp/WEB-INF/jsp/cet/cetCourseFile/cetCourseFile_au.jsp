@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cetCourseFile!=null}">编辑</c:if><c:if test="${cetCourseFile==null}">添加</c:if>学习内容</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetCourseFile_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetCourseFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetCourseFile.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>所属课程</label>

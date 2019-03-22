@@ -48,7 +48,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main">
-                        <form class="form-horizontal" action="${ctx}/cet/cetProject_au" id="modalForm" method="post">
+                        <form class="form-horizontal" action="${ctx}/cet/cetProject_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                             <input type="hidden" name="id" value="${cetProject.id}">
                             <input type="hidden" name="type" value="${type}">
                             <input type="hidden" name="fileName" value="${cetProject.fileName}">

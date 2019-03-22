@@ -15,7 +15,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/cet/cetColumnCourse_au" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/cet/cetColumnCourse_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                         <input type="hidden" name="columnId" value="${param.columnId}">
                         <div class="form-group">
                             <label class="col-xs-3 control-label"><span class="star">*</span>包含课程</label>

@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cetTrainEvaNorm!=null}">编辑</c:if><c:if test="${cetTrainEvaNorm==null}">添加</c:if>评估指标</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTrainEvaNorm_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrainEvaNorm_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTrainEvaNorm.id}">
         <input type="hidden" name="evaTableId" value="${cetTrainEvaTable.id}">
         <input type="hidden" name="fid" value="${fid}">

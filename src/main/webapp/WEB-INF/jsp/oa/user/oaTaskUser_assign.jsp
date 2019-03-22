@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>指定负责人</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/user/oa/oaTaskUser_assign" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/user/oa/oaTaskUser_assign" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="taskId" value="${oaTask.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任务</label>

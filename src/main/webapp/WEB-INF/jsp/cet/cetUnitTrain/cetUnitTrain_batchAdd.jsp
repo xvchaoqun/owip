@@ -7,7 +7,7 @@
     <h3>添加参训人员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUnitTrain_batchAdd" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetUnitTrain_batchAdd" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="projectId" value="${cetUnitProject.id}">
         <input type="hidden" name="addType" value="${addType}">
         <div class="form-group">

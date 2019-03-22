@@ -115,7 +115,7 @@
     <div class="well" style="margin-top: 20px;/* font-size: 20px*/">
 
             <form class="form-horizontal" action="${ctx}/abroad/passportDraw_return"
-                  id="modalForm" method="post" enctype="multipart/form-data">
+                  autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
                 <div class="row">
                 <div class="col-xs-6" style="width: 500px;">
                 <input type="hidden" value="${param.id}" name="id">

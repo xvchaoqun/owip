@@ -23,7 +23,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <form class="form-horizontal" action="${ctx}/user/memberInflowOut" id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/user/memberInflowOut" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="id" value="${memberInflow.id}">
                         <div class="form-group">
                             <label class="col-xs-3 control-label"><span class="star">*</span>转出单位</label>

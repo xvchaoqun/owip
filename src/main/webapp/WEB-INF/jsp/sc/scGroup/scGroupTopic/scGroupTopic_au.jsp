@@ -19,7 +19,7 @@
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8 row">
-                <form class="form-horizontal" action="${ctx}/sc/scGroupTopic_au" id="modalForm" method="post"
+                <form class="form-horizontal" action="${ctx}/sc/scGroupTopic_au" autocomplete="off" disableautocomplete id="modalForm" method="post"
                       enctype="multipart/form-data">
                     <div style="width: 500px;float: left;margin-right: 25px">
                         <div class="widget-box" style="height: 500px;">

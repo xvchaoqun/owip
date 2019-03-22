@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>设置评估表</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_evaTable" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_evaTable" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="ids[]" value="${param['ids[]']}">
 		<input type="hidden" name="trainId" value="${param.trainId}">
 		<c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>

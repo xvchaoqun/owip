@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${crsRequireRule!=null}">编辑</c:if><c:if test="${crsRequireRule==null}">添加</c:if>规则</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/crsRequireRule_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/crsRequireRule_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${crsRequireRule.id}">
         <input type="hidden" name="postRequireId" value="${crsPostRequire.id}">
 			<div class="form-group">

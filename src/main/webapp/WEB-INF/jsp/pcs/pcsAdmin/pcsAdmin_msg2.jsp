@@ -6,7 +6,7 @@
     <h3>下发名单短信通知</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcsAdmin_msg2" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pcsAdmin_msg2" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <div class="form-group">
             <label class="col-xs-3 control-label">手机号码</label>
             <div class="col-xs-8">

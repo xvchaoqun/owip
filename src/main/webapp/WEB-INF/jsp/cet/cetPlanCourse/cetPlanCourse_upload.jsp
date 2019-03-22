@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>上传附件</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetPlanCourse_upload" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetPlanCourse_upload" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="planCourseId" value="${param.planCourseId}">
         <div class="form-group">
             <label class=" col-xs-4 control-label"><span class="star">*</span>附件</label>

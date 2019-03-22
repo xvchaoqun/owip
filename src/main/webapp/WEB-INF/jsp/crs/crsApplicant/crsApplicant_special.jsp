@@ -47,7 +47,7 @@
         </div>
         <div class="widget-body">
           <div class="widget-main">
-            <form class="form-horizontal" action="${ctx}/crsApplicant_special" id="modalForm" method="post"
+            <form class="form-horizontal" action="${ctx}/crsApplicant_special" autocomplete="off" disableautocomplete id="modalForm" method="post"
                   enctype="multipart/form-data">
               <div class="row">
                 <input type="hidden" name="id" value="${crsApplicant.id}">

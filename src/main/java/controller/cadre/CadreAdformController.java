@@ -45,10 +45,10 @@ public class CadreAdformController extends BaseController {
     // 干部任免审批表下载
     @RequiresPermissions("cadreAdform:download")
     @RequestMapping("/cadreAdform_download")
-    public void cadreAdform_download(Integer[] cadreIds, HttpServletRequest request,
+    public void cadreAdform_download(Integer cadreId, HttpServletRequest request,
                                      HttpServletResponse response) throws IOException, TemplateException {
-
-        if (cadreIds == null || cadreIds.length == 0) return;
+        if(cadreId == null) return;
+        Integer cadreIds[] = {cadreId};
 
         cadreAdformService.export(cadreIds, request, response);
     }

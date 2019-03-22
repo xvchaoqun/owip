@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>发送短信</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/shortMsgTpl_send" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/shortMsgTpl_send" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <input type="hidden" name="tplId" value="${param.id}">
 			<div class="form-group">
 				<label class="col-xs-2 control-label">选择用户</label>

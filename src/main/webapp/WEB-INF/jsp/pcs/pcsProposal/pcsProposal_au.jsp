@@ -12,7 +12,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main" style="width: 900px">
-            <form class="form-horizontal" action="${ctx}/pcsProposal_au" id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/pcsProposal_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="id" value="${pcsProposal.id}">
                 <input type="hidden" name="status" value="${pcsProposal.status}">
                 <table class="table table-bordered table-unhover">

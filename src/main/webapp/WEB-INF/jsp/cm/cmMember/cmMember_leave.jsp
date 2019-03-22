@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cmMember_leave" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cmMember_leave" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <input type="hidden" name="type" value="${param.type}">
         <input type="hidden" name="isQuit" value="1">

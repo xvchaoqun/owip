@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -56,15 +57,15 @@ public class CasController extends BaseController {
         logger.info(addLog(LogConstants.LOG_ADMIN, "切换账号登录%s", username));
 
         String _switchUser = ShiroHelper.getCurrentUsername();
-        
+
         logoutAndRemoveSessionCache(request);
-        
+
         return directLogin(username, false, request, response, _switchUser);
     }
-    
+
     // 登出当前账号并清除session cache
     private void logoutAndRemoveSessionCache(HttpServletRequest request){
-        
+
         HttpSession session = request.getSession();
         String sessionId = session.getId();
         //System.out.println(sessionDAO.getActiveSessionsCache().keys());
@@ -76,7 +77,7 @@ public class CasController extends BaseController {
     // 切换回主账号
     @RequestMapping("/sysLogin_switch_back")
     public String sysLogin_switch_back(HttpServletRequest request, HttpServletResponse response) {
-    
+
         String switchUser = (String) request.getSession().getAttribute("_switchUser");
         if(StringUtils.isBlank(switchUser))
             throw  new UnauthorizedException();
@@ -84,14 +85,16 @@ public class CasController extends BaseController {
         // 防止被切换的账号登录时，踢出主账号 (但不能避免切换回来之前，被踢出)
         Cache<Object, Object> cache = cacheManager.getCache("shiro-kickout-session");
         cache.remove(ShiroHelper.getCurrentUsername());
-    
+
         logoutAndRemoveSessionCache(request);
-        
+
         return directLogin(switchUser, false, request, response, null);
     }
 
     @RequestMapping("/cas")
     public String cas(HttpServletRequest request, HttpServletResponse response) {
+
+        if(response.getStatus()!= HttpStatus.SC_OK) return null;
 
         String username = CasUtils.getUsername(request);
 

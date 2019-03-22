@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cetTraineeType!=null}">编辑</c:if><c:if test="${cetTraineeType==null}">添加</c:if>参训人员类型</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTraineeType_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTraineeType_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTraineeType.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>参训人员类型</label>

@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${pmdConfigMemberType!=null}">编辑</c:if><c:if test="${pmdConfigMemberType==null}">添加</c:if>党员计费类别</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdConfigMemberType_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdConfigMemberType_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pmdConfigMemberType.id}">
 
         <div class="form-group" id="formulaDiv">

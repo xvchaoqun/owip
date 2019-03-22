@@ -44,7 +44,10 @@ import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
-import sys.utils.*;
+import sys.utils.ConfigUtil;
+import sys.utils.DateUtils;
+import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import java.io.File;
 import java.util.*;
@@ -272,13 +275,21 @@ public class CmTag {
         return parentIdSet;
     }
 
+    public static Unit getUnitById(Integer id) {
+
+        if(id==null) return null;
+
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        return unitMap.get(id);
+    }
+
     public static CadreView getCadreById(Integer id) {
 
         if(id==null) return null;
 
         Map<Integer, CadreView> cadreMap = cadreService.findAll();
         return cadreMap.get(id);
-        
+
         /*CadreViewMapper cadreViewMapper = getBean(CadreViewMapper.class);
         return  iCadreMapper.getCadre(id);*/
     }

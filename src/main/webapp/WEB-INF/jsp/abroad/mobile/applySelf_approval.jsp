@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/m/abroad/applySelf_approval" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/m/abroad/applySelf_approval" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="applySelfId" value="${applySelf.id}">
         <input type="hidden" name="approvalTypeId" value="${applySelf.flowNode}">
         <input type="hidden" name="pass" value="${param.pass}">

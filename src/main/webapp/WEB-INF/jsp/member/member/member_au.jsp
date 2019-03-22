@@ -4,7 +4,7 @@
 <div style="width: 900px">
 <h3>${op}党员</h3>
 <hr/>
-<form class="form-horizontal" action="${ctx}/member_au" id="modalForm" method="post">
+<form class="form-horizontal" action="${ctx}/member_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <div class="row">
         <div class="col-xs-7">
             <div class="form-group">

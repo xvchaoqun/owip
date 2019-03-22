@@ -6,7 +6,7 @@
     <h3>信息审核</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/crsApplicant_infoCheck" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/crsApplicant_infoCheck" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.applicantId}">
 
         <div class="form-group">

@@ -6,7 +6,7 @@
 	<h3>短信通知</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" action="${ctx}/sc/scPassportMsg" id="modalForm" method="post">
+	<form class="form-horizontal" action="${ctx}/sc/scPassportMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="handId" value="${param.handId}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label">姓名</label>

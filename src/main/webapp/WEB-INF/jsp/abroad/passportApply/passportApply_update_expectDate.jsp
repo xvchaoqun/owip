@@ -6,7 +6,7 @@
     <h3>修改应交日期</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/abroad/passportApply_update_expectDate" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/abroad/passportApply_update_expectDate" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${passportApply.id}">
         <div class="form-group">
             <label class="col-xs-4 control-label">应交日期</label>

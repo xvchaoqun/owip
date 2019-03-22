@@ -55,7 +55,7 @@
                 <div class="widget-body">
                     <div class="widget-main">
                         <form class="form-horizontal" action="${ctx}/sc/scPublic_process"
-                              id="modalForm" method="post">
+                              autocomplete="off" disableautocomplete id="modalForm" method="post">
                             <input type="hidden" name="id" value="${scPublic.id}">
                             <input type="hidden" name="pdfFilePath" value="${scPublic.pdfFilePath}">
 

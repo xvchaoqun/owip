@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${attachFile!=null}">编辑</c:if><c:if test="${attachFile==null}">添加</c:if>系统附件</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/attachFile_au" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/attachFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${attachFile.id}">
 
         <div class="form-group">

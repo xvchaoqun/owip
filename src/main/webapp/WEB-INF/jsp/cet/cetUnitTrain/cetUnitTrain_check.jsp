@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3>审批</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUnitTrain_check" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetUnitTrain_check" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:if test="${empty cetUnitTrain}">
 		<div class="form-group">

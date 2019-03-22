@@ -8,7 +8,7 @@
 <div class="modal-body">
     <shiro:hasPermission name="dispatchUnitRelate:edit">
 
-        <form class="form-inline" action="${ctx}/dispatchUnitRelate_au" id="modalForm" method="post">
+        <form class="form-inline" action="${ctx}/dispatchUnitRelate_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <div class="form-group">
                 <input type="hidden" name="dispatchUnitId" value="${dispatchUnit.id}">
                 <select data-rel="select2-ajax" required data-ajax-url="${ctx}/unit_selects"

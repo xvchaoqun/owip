@@ -6,7 +6,7 @@
     <h3>党费重新计算</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdConfigReset_au" id="modalForm" method="post">
+    <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdConfigReset_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span>选择工资月份（缴费计算基数）</label>
             <div class="col-xs-6">

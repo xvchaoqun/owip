@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>编辑${param.auType==2?'任职信息':'免职信息'}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/unitTeam_dispatchCadre" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/unitTeam_dispatchCadre" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="unitTeamId" value="${unitTeam.id}">
         <input type="hidden" name="auType" value="${param.auType}">
 

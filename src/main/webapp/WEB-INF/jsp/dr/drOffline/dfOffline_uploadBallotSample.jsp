@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>上传推荐票样</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dfOffline_uploadBallotSample" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/dfOffline_uploadBallotSample" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="offlineId" value="${param.offlineId}">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>推荐票样</label>

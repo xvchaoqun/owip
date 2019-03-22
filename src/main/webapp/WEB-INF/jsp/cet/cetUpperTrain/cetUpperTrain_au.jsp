@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 	</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUpperTrain.id}">
         <input type="hidden" name="upperType" value="${upperType}">
 		<c:if test="${addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">

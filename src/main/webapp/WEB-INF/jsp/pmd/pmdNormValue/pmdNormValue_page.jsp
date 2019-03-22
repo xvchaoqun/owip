@@ -16,7 +16,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdNormValue_au" id="modalForm"
+                    <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdNormValue_au" autocomplete="off" disableautocomplete id="modalForm"
                           method="post">
                         <input type="hidden" name="normId" value="${pmdNorm.id}">
 

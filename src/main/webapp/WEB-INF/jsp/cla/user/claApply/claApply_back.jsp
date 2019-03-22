@@ -6,7 +6,7 @@
 	<h3>销假</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal"  action="${ctx}/user/cla/claApply_back" id="modalForm" method="post">
+	<form class="form-horizontal"  action="${ctx}/user/cla/claApply_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="id" value="${claApply.id}">
 		<input type="hidden" name="cadreId" value="${claApply.cadreId}">
 		<div class="form-group">

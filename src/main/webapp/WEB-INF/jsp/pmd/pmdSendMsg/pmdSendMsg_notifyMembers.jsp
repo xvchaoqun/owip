@@ -6,7 +6,7 @@
     <h3>短信通知</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyMembers" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyMembers" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="partyId" value="${param.partyId}">
         <input type="hidden" name="branchId" value="${param.branchId}">
         <%--<div class="form-group">

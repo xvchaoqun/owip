@@ -22,7 +22,7 @@
           <i class="fa fa-info-circle"></i> 申请说明</a>
       </h1>
     </div>
-<form class="form-horizontal" action="${ctx}/user/memberIn" id="modalForm" method="post">
+<form class="form-horizontal" action="${ctx}/user/memberIn" autocomplete="off" disableautocomplete id="modalForm" method="post">
   <input type="hidden" name="id" value="${memberIn.id}">
   <div class="row">
     <div class="col-xs-6">

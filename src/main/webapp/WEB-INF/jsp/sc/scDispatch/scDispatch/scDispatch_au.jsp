@@ -54,7 +54,7 @@
                 <div class="widget-body">
                     <div class="widget-main">
                         <form class="form-horizontal" action="${ctx}/sc/scDispatch_au"
-                              id="modalForm" method="post">
+                              autocomplete="off" disableautocomplete id="modalForm" method="post">
                             <input type="hidden" name="id" value="${scDispatch.id}">
                             <input type="hidden" name="filePath" value="${scDispatch.filePath}">
 

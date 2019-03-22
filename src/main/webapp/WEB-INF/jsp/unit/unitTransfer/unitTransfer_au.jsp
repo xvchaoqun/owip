@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <div class="bootbox-body" >
-    <form class="form-horizontal" action="${ctx}/unitTransfer_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/unitTransfer_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitTransfer.id}">
         <input type="hidden" name="unitId" value="${unitId}">
 			<div class="form-group">

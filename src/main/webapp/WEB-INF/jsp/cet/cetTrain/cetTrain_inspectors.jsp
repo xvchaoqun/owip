@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>生成评课账号</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTrainInspector_gen" id="modalForm" enctype="multipart/form-data" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrainInspector_gen" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" method="post">
         <input type="hidden" name="trainId" value="${cetTrain.id}">
         <input type="hidden" name="type" value="1">
 			<div class="form-group">

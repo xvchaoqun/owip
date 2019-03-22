@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cetPartySchool!=null}">编辑</c:if><c:if test="${cetPartySchool==null}">添加</c:if>二级党校</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetPartySchool_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetPartySchool_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetPartySchool.id}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">所属二级党校</label>

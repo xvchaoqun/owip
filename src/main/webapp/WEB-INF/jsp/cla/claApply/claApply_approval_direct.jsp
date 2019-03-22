@@ -6,7 +6,7 @@
   <h3>审批通过</h3>
 </div>
 <div class="modal-body">
-  <form id="modalForm" class="form-horizontal" method="post" action="${ctx}/cla/claApply_approval">
+  <form autocomplete="off" disableautocomplete id="modalForm" class="form-horizontal" method="post" action="${ctx}/cla/claApply_approval">
     <input type="hidden" name="applyId" value="${param.applyId}">
     <input type="hidden" name="approvalTypeId" value="${param.approvalTypeId}">
     <input type="hidden" name="pass" value="1">

@@ -7,7 +7,7 @@
             test="${claAdditionalPost==null}">添加</c:if>兼审单位</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cla/claAdditionalPost_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cla/claAdditionalPost_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${claAdditionalPost.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">选择干部</label>

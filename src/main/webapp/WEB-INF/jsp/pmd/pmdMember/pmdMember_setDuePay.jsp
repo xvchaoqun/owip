@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>设定缴纳额度</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_setDuePay" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_setDuePay" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="num" value='${fn:length(fn:split(param["ids[]"],","))}'/>
         <c:if test="${num==1}">

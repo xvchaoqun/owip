@@ -6,7 +6,7 @@
     <h3>导入基层党组织领导班子</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" id="modalForm" enctype="multipart/form-data" action="${ctx}/partyMemberGroup_import" method="post">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/partyMemberGroup_import" method="post">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">

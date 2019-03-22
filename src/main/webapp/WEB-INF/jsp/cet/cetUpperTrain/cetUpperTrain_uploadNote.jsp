@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>上传培训总结</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_uploadNote" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_uploadNote" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <input type="hidden" name="addType" value="${param.addType}">
         <input type="hidden" name="upperType" value="${cetUpperTrain.upperType}">

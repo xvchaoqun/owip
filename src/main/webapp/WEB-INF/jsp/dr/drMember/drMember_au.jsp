@@ -6,7 +6,7 @@
     <h3><c:if test="${drMember!=null}">编辑</c:if><c:if test="${drMember==null}">添加</c:if>推荐组成员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/drMember_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/drMember_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${drMember.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">请选择教职工</label>

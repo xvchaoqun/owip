@@ -6,7 +6,7 @@
     <h3><c:if test="${scSubsidy!=null}">编辑</c:if><c:if test="${scSubsidy==null}">添加</c:if>干部津贴变动</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scSubsidy_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scSubsidy_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scSubsidy.id}">
         <div class="col-xs-12">
             <div class="col-xs-6">

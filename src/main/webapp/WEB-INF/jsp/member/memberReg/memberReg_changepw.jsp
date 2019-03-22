@@ -6,7 +6,7 @@
     <h3>修改登录密码</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberReg_changepw" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberReg_changepw" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberReg.id}">
 
         <div class="form-group">

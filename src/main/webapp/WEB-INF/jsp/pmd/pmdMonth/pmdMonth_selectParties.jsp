@@ -7,7 +7,7 @@
     </h4>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_selectParties" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_selectParties" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <div id="tree3" style="min-height: 400px"></div>
     </form>
 </div>

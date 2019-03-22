@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>${cetUnitProject!=null?'编辑':'添加'}二级单位培训班</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUnitProject_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetUnitProject_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUnitProject.id}">
         <input type="hidden" name="addType" value="${addType}">
 			<div class="form-group">

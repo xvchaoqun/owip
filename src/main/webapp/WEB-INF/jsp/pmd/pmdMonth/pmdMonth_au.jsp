@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>${empty pmdMonth?'新建':'修改'}缴费月份</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMonth_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pmdMonth.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>缴费月份</label>

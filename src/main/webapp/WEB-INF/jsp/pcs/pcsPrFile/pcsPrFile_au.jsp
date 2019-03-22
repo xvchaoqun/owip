@@ -6,7 +6,7 @@
     <h3>上传大会材料</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pcsPrFile_au" id="modalForm" method="post"
+    <form class="form-horizontal" action="${ctx}/pcsPrFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post"
           enctype="multipart/form-data">
         <input type="hidden" name="id" value="${pcsPrFile.id}">
         <input type="hidden" name="templateId" value="${pcsPrFileTemplate.id}">

@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/user/modifyBaseItem_au"
-          id="modalForm" method="post" enctype="multipart/form-data">
+          autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="${record.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>${record.name}</label>

@@ -6,7 +6,7 @@
     <h3>上交</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scMatterItem_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scMatterItem_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMatterItem.id}">
         <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span>实交回日期</label>

@@ -16,7 +16,7 @@
         *提交意见与建议
     </h1>
 </div>
-<form class="form-horizontal" id="modalForm" method="post" action="${ctx}/user/feedback_au">
+<form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post" action="${ctx}/user/feedback_au">
 
     <div class="form-group">
 

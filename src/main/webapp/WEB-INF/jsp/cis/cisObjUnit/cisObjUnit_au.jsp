@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cisObjUnit!=null}">编辑</c:if><c:if test="${cisObjUnit==null}">添加</c:if>考察单位</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cisObjUnit_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cisObjUnit_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cisObjUnit.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>obj_id</label>

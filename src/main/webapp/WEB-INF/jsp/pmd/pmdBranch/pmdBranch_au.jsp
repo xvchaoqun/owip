@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${pmdBranch!=null}">编辑</c:if><c:if test="${pmdBranch==null}">添加</c:if>每月参与线上收费的党支部</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmdBranch_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmdBranch_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pmdBranch.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>所属月份</label>

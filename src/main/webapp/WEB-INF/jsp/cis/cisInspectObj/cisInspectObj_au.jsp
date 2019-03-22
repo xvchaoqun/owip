@@ -9,7 +9,7 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cisInspectObj_au"
-          id="modalForm" method="post" enctype="multipart/form-data">
+          autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cisInspectObj.id}">
 
         <div class="form-group">

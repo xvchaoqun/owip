@@ -6,7 +6,7 @@
 	<h3>修改党籍状态</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" action="${ctx}/member_modify_status" id="modalForm" method="post">
+	<form class="form-horizontal" action="${ctx}/member_modify_status" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<c:set var="sysUser" value="${cm:getUserById(member.userId)}"/>
 		<input type="hidden" name="userId" value="${member.userId}">
 		<div class="form-group">

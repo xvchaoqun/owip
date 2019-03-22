@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${scMatterAccessItem!=null}">编辑</c:if><c:if test="${scMatterAccessItem==null}">添加</c:if>个人有关事项-调阅对象及调阅明细</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scMatterAccessItem_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scMatterAccessItem_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMatterAccessItem.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>调阅记录</label>

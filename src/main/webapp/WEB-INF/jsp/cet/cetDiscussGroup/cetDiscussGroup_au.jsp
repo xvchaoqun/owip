@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cetDiscussGroup!=null}">编辑</c:if><c:if test="${cetDiscussGroup==null}">添加</c:if>研讨小组</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetDiscussGroup_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetDiscussGroup_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         	<input type="hidden" name="id" value="${cetDiscussGroup.id}">
         	<input type="hidden" name="discussId" value="${cetDiscuss.id}">
         	<input type="hidden" name="adminUserId" value="${cetDiscussGroup.adminUserId}">

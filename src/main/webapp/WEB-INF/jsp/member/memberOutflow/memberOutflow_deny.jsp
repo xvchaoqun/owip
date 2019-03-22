@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>流出党员申请-返回修改</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberOutflow_back" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberOutflow_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param.id}">
         <input type="hidden" name="status" value="${memberOutflow.status-1}">
         <div class="form-group">

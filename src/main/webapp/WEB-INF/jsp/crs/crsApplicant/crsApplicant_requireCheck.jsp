@@ -7,7 +7,7 @@
     <h3>资格审核（岗位：${crsApplicant.post.name}， 报名人：${crsApplicant.user.realname}-${crsApplicant.user.code}）</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/crsApplicant_requireCheck" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/crsApplicant_requireCheck" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.applicantId}">
 
         <div class="col-xs-12" style="padding-bottom: 15px;">

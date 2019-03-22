@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
     <h3>修改教职工党员人事信息</h3>
 	<hr/>
-    <form class="form-horizontal" action="${ctx}/member_teacherInfo_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/member_teacherInfo_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="userId" value="${teacherInfo.userId}">
 		<div class="row">
 			<div class="col-xs-4">

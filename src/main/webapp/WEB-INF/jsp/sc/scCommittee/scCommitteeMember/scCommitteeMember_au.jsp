@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${scCommitteeMember!=null}">编辑</c:if><c:if test="${scCommitteeMember==null}">添加</c:if>党委常委会成员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scCommitteeMember_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scCommitteeMember_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scCommitteeMember.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>成员</label>

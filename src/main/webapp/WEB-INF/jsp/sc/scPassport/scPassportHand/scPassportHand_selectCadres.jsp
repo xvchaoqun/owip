@@ -6,7 +6,7 @@
     <h4>添加新提任干部</h4>
   </div>
   <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/sc/scPassportHand_selectCadres" id="modalForm" method="post">
+  <form class="form-horizontal"  action="${ctx}/sc/scPassportHand_selectCadres" autocomplete="off" disableautocomplete id="modalForm" method="post">
   <div id="tree3" style="min-height: 400px"></div>
   </form>
   </div>

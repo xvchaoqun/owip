@@ -6,7 +6,7 @@
     <h3>${empty pcsAdmin?"添加":"修改"}${_p_partyName}管理员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/${empty param.partyId?"pcsAdmin_au":"pcsPartyAdmin_au"}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/${empty param.partyId?"pcsAdmin_au":"pcsPartyAdmin_au"}" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pcsAdmin.id}">
 
         <c:if test="${empty param.partyId}">

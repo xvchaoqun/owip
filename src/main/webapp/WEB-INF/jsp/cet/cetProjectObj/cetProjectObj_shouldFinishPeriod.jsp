@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>设置应完成学时</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_shouldFinishPeriod" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_shouldFinishPeriod" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="projectId" value="${param.projectId}">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="num" value='${fn:length(fn:split(param["ids[]"],","))}'/>

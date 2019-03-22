@@ -115,7 +115,7 @@
     <div class="well center" style="margin-top: 20px; font-size: 20px">
         <div class="row" style="padding-left: 100px">
             <form class="form-horizontal" action="${ctx}/abroad/passportDraw_draw"
-                  id="modalForm" method="post" enctype="multipart/form-data">
+                  autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" value="${param.id}" name="id">
                 <div class="form-group">
                     <label class="col-xs-3 control-label" style="line-height: 100px">领取证件拍照</label>

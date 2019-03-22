@@ -31,10 +31,10 @@ public class CadreInfoFormController extends BaseController {
     // 干部信息采集表下载
     @RequiresPermissions("cadreInfoForm:download")
     @RequestMapping("/cadreInfoForm_download")
-    public void cadreInfoForm_download(Integer[] cadreIds, HttpServletRequest request,
+    public void cadreInfoForm_download(Integer cadreId, HttpServletRequest request,
                                        HttpServletResponse response) throws IOException, TemplateException {
-
-        if (cadreIds == null || cadreIds.length == 0) return;
+        if(cadreId == null) return;
+        Integer cadreIds[] = {cadreId};
 
         cadreInfoFormService.export(cadreIds, request, response);
     }

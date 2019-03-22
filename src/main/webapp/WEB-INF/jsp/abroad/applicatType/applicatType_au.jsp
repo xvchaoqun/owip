@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${applicatType!=null}">编辑</c:if><c:if test="${applicatType==null}">添加</c:if>申请人身份</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/abroad/applicatType_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/abroad/applicatType_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${applicatType.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>申请人身份</label>

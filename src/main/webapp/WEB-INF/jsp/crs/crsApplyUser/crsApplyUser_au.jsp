@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${crsApplyUser!=null}">编辑</c:if><c:if test="${crsApplyUser==null}">添加</c:if>补报人员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/crsApplyUser_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/crsApplyUser_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <input type="hidden" name="id" value="${crsApplyUser.id}">
             <input type="hidden" name="postId" value="${crsPost.id}">
 			<div class="form-group">

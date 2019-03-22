@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>添加到培训班</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_selectCourses" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_selectCourses" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="courseIds[]" value="${param['ids[]']}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所选课程数量</label>

@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${memberReturn!=null}">编辑</c:if><c:if test="${memberReturn==null}">添加</c:if>留学归国人员申请恢复组织生活</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberReturn_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberReturn_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberReturn.id}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>用户</label>

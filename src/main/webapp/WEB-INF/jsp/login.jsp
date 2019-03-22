@@ -37,19 +37,19 @@
         <div id="login" class="visible login-layout">
             <div class="login-error" style="display: none">
                 <i class="fa fa-times"></i> ${error}</div>
-            <form id="login-form" method="POST" action="${ctx}/login">
+            <form id="login-form" method="POST" action="${ctx}/login" autocomplete="off" disableautocomplete>
                 <dt>登录账号</dt>
                 <dd>
-                    <div class="input_box"><span class="account"></span><input name="username" class="account"
-                                                                               type="text" autocomplete="off"/></div>
+                    <div class="input_box"><span class="account"></span>
+                        <input name="username" class="account" type="text"/></div>
                 </dd>
                 <dt>登录密码</dt>
                 <dd>
-                    <div class="input_box"><span class="password"></span><input name="passwd" class="password"
-                                                                                type="password" autocomplete="off"/></div>
+                    <div class="input_box"><span class="password"></span>
+                        <input name="passwd" class="password" type="password" <c:if test="${useCaptcha}">autocomplete="new-password"</c:if>/></div>
                 </dd>
                 <dt>验证码</dt>
-                <dd><input name="captcha" class="yz" type="text" maxlength="4" autocomplete="off" disableautocomplete
+                <dd><input name="captcha" class="yz" type="text" maxlength="4"
                            <c:if test="${!useCaptcha}">value="test"</c:if> />
                     <img class="captcha" src="${ctx}/captcha" title="点击刷新" alt="验证码"/></dd>
                 <dt></dt>
@@ -78,18 +78,18 @@
                     <li><i class="ace-icon fa fa-phone"></i> 手机号码可用于密码找回，请正确填写。</li>
                 </ul>
             </div>
-            <form id="reg-form" method="POST" action="${ctx}/member_reg">
+            <form id="reg-form" method="POST" action="${ctx}/member_reg" autocomplete="off" disableautocomplete>
                 <dt>登录账号</dt>
                 <dd>
                     <div class="input_box"><input name="username" type="text"/></div>
                 </dd>
                 <dt>登录密码</dt>
                 <dd>
-                    <div class="input_box"><input name="passwd" type="password"/></div>
+                    <div class="input_box"><input name="passwd" type="password"  autocomplete="new-password"/></div>
                 </dd>
                 <dt>密码确认</dt>
                 <dd>
-                    <div class="input_box"><input name="repasswd" type="password"/></div>
+                    <div class="input_box"><input name="repasswd" type="password" autocomplete="new-password"/></div>
                 </dd>
                 <dt>类别</dt>
                 <dd>

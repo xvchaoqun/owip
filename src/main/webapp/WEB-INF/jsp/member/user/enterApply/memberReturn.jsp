@@ -18,7 +18,7 @@
         留学归国申请恢复组织生活
       </h1>
     </div>
-    <form class="form-horizontal" id="modalForm" method="post" action="${ctx}/user/memberReturn">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post" action="${ctx}/user/memberReturn">
       <input type="hidden" name="id" value="${memberReturn.id}">
       <div class="row">
         <div class="col-xs-6">

@@ -6,7 +6,7 @@
     ${empty htmlFragment?"添加系统说明":htmlFragment.title}
 </h3>
 <hr/>
-    <form class="form-horizontal" action="${ctx}/htmlFragment_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/htmlFragment_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${htmlFragment.id}">
         <c:if test="${empty param.editContent}">
             <div class="form-group">

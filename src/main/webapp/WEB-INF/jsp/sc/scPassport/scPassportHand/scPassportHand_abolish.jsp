@@ -6,7 +6,7 @@
     <h3>撤销</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scPassportHand_abolish" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scPassportHand_abolish" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
 
         <div class="form-group">

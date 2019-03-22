@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>添加出生时间认定</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/verifyAge_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/verifyAge_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${verifyAge.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所属干部</label>

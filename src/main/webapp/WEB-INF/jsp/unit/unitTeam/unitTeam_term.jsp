@@ -6,7 +6,7 @@
     <h3>设定本学期起止时间</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/unitTeam_term" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/unitTeam_term" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>起始时间</label>

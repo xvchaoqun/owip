@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreCompany_finish"
-          id="modalForm" method="post" enctype="multipart/form-data">
+          autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cadreCompany.id}">
         <input type="hidden" name="isFinished" value="1">
         <div class="form-group">

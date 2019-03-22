@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>审核通过</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberIn_party_check" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberIn_party_check" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="len" value="${fn:length(fn:split(param['ids[]'],','))}"/>
         <c:if test="${len>1}">

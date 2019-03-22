@@ -21,7 +21,7 @@
 
         <div class="widget-body">
             <div class="widget-main no-padding">
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-striped table-center table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="col-xs-1">工作证号</th>
@@ -45,10 +45,10 @@
                             <td nowrap>
                             <t:cadre cadreId="${cadre.id}" realname="${sysUser.realname}"/>
                             </td>
-                            <td nowrap>${cadre.title}</td>
+                            <td nowrap style="text-align: left">${cadre.title}</td>
                             <td nowrap>${cm:getMetaType(cadre.adminLevel).name}</td>
-                            <td>${leader.job}</td>
-                            <td>
+                            <td style="text-align: left">${leader.job}</td>
+                            <td style="text-align: left">
                                 <ul>
                                     <c:forEach items="${mLeaderUnits}" var="leaderUnit">
                                         <li>
@@ -58,7 +58,7 @@
                                 </ul>
 
                             </td>
-                            <td>
+                            <td style="text-align: left">
                                 <ul>
                                     <c:forEach items="${cLeaderUnits}" var="leaderUnit">
                                     <li>

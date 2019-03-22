@@ -19,7 +19,7 @@
         流入党员申请
     </h1>
 </div>
-<form class="form-horizontal" action="${ctx}/user/memberInflow" id="modalForm" method="post">
+<form class="form-horizontal" action="${ctx}/user/memberInflow" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <input type="hidden" name="id" value="${memberInflow.id}">
 
     <div class="row">

@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-body"  style="min-width: 1200px">
-<form class="form-horizontal" action="${ctx}/user/modifyBaseApply_au" id="modalForm" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="${ctx}/user/modifyBaseApply_au" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
 <div class="widget-box transparent" id="view-box">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">

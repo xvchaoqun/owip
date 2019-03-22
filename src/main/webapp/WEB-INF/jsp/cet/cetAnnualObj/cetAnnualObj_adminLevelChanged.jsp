@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>修改年度学习任务</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetAnnualObj_singleRequire" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetAnnualObj_singleRequire" autocomplete="off" disableautocomplete id="modalForm" method="post">
 			<input type="hidden" name="objId" value="${param.id}">
 
 			<div class="form-group">

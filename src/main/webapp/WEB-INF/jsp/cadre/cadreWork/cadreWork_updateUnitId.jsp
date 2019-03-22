@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>修改所属内设机构</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreWork_updateUnitId?cadreId=${cadre.id}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreWork_updateUnitId?cadreId=${cadre.id}" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <input type="hidden" name="id" value="${cadreWork.id}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">姓名</label>

@@ -6,7 +6,7 @@
         <table class="table table-bordered table-unhover2">
             <tr>
                 <td>
-        <form method="post" id="modalForm" class="form-inline">
+        <form method="post" autocomplete="off" disableautocomplete id="modalForm" class="form-inline">
             <textarea required rows="2" name="sql" style="width: 500px"></textarea>
         </form>
         <button id="submitBtn" class="btn btn-primary"><i class="fa fa-edit"></i> 执行</button>

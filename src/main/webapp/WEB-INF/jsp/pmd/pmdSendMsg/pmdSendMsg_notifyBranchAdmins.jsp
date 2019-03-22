@@ -6,7 +6,7 @@
     <h3>短信通知所有支部管理员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyBranchAdmins" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyBranchAdmins" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="partyId" value="${param.partyId}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所属${_p_partyName}：</label>

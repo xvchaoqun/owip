@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${scSubsidyCadre!=null}">编辑</c:if><c:if test="${scSubsidyCadre==null}">添加</c:if>干部津贴变动文件包含的干部</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scSubsidyCadre_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scSubsidyCadre_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scSubsidyCadre.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>subsidy_id</label>

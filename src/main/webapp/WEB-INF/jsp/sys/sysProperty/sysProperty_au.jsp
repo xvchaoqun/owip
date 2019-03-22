@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>${sysProperty!=null?'编辑':'添加'}系统属性</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sysProperty_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sysProperty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${sysProperty.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">代码</label>

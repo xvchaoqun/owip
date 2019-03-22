@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="tabbable myTableDiv">
     <shiro:hasPermission name="${PERMISSION_CADREONLYVIEW}">
-            <a href="javascript:;" class="downloadBtn btn btn-primary" data-url="${ctx}/cadreAdform_download?cadreIds=${param.cadreId}">
+            <a href="javascript:;" class="downloadBtn btn btn-primary" data-url="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
                 <i class="ace-icon fa fa-download "></i>
                 下载(WORD)
             </a>
@@ -22,7 +22,7 @@
             </li>
             <c:if test="${type==1}">
             <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
-                <a href="javascript:;" class="downloadBtn btn btn-info btn-sm" data-url="${ctx}/cadreAdform_download?cadreIds=${param.cadreId}">
+                <a href="javascript:;" class="downloadBtn btn btn-info btn-sm" data-url="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
                     <i class="ace-icon fa fa-download "></i>
                     下载(WORD)
                 </a>

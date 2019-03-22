@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>${param.isRemove==0?'撤销':''}移除申请</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberApply_remove" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberApply_remove" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <input type="hidden" name="isRemove" value="${param.isRemove}">

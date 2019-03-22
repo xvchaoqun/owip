@@ -23,7 +23,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <form class="form-horizontal" action="${ctx}/user/memberOutflow_au" id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/user/memberOutflow_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="id" value="${memberOutflow.id}">
                         <div class="form-group">
                             <label class="col-xs-5 control-label"><span class="star">*</span>组织关系状态</label>

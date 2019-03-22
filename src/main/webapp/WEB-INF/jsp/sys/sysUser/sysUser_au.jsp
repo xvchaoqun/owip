@@ -6,7 +6,7 @@
     <h3><c:if test="${sysUser!=null}">修改</c:if><c:if test="${sysUser==null}">添加</c:if>账号</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sysUser_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sysUser_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
     	<input type="hidden" name="id" value="${sysUser.id}">
     	<div class="form-group">
           <label class="col-xs-3 control-label"><span class="star">*</span>用户名</label>
@@ -15,7 +15,7 @@
 			  <div class="label-text">${sysUser.username}</div>
 			</c:if>
 			  <c:if test="${empty sysUser}">
-			  <input required class="form-control" autocomplete="off" disableautocomplete type="text" name="username" value="${sysUser.username}">
+			  <input required class="form-control" type="text" name="username" value="${sysUser.username}">
 			  <span class="help-block">由5~15数字和小写字母组成</span>
 			  </c:if>
           </div>
@@ -24,7 +24,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">${empty sysUser?'<span class="star">*</span>':''}密码</label>
           <div class="col-xs-6">
-			   <input ${empty sysUser?'required':''} class="form-control" autocomplete="off" disableautocomplete type="text" name="passwd" >
+			   <input ${empty sysUser?'required':''} class="form-control" type="text" name="passwd" >
           </div>
         </div>
         </c:if>
@@ -45,7 +45,7 @@
     	<div class="form-group">
           <label class="col-xs-3 control-label"><span class="star">*</span>学工号</label>
           <div class="col-xs-6">
-			   <input required class="form-control" autocomplete="off" disableautocomplete type="text" name="code" value="${sysUser.code}">
+			   <input required class="form-control" type="text" name="code" value="${sysUser.code}">
           </div>
         </div>
     	<div class="form-group">

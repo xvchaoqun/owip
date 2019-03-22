@@ -14,7 +14,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/abroad/applicatType/approvalOrder" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/abroad/applicatType/approvalOrder" autocomplete="off" disableautocomplete id="modalForm" method="post">
                         <input type="hidden" name="applicatTypeId" value="${applicatType.id}">
                         <div class="form-group">
                             <label class="col-xs-3 control-label"><span class="star">*</span>审批人身份</label>

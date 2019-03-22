@@ -16,7 +16,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/orgAdmin_au" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/orgAdmin_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                         <input type="hidden" name="id" value="${orgAdmin.id}">
                         <input type="hidden" name="partyId" value="${party.id}">
                         <input type="hidden" name="branchId" value="${branch.id}">

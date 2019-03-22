@@ -6,7 +6,7 @@
     <h3>导出工资数据</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal no-footer" id="modalForm" method="post">
+    <form class="form-horizontal no-footer" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <div class="form-group">
             <label class="col-xs-4 control-label">类别</label>
             <div class="col-xs-6 label-text">

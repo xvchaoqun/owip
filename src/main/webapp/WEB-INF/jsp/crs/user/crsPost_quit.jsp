@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>退出报名</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/user/crsPost_quit" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/user/crsPost_quit" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="postId" value="${param.postId}">
         <input type="hidden" name="applicantId" value="${param.applicantId}">
         <div class="form-group">

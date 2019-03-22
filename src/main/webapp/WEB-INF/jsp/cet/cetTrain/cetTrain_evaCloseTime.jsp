@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3>评课设置</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTrain_evaCloseTime" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrain_evaCloseTime" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="trainId" value="${cetTrain.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">培训班次</label>

@@ -7,7 +7,7 @@
     <h4>设置专家组成员</h4>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal"  action="${ctx}/crsPostExperts" id="modalForm" method="post">
+    <form class="form-horizontal"  action="${ctx}/crsPostExperts" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <c:forEach items="${CRS_POST_EXPERT_ROLE_MAP}" var="role">
             <div id="tree${role.key}" style="min-height: 200px; width: 200px;float: left;margin-right: 5px"></div>
         </c:forEach>

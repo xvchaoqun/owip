@@ -15,7 +15,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdPartyAdmin_add" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdPartyAdmin_add" autocomplete="off" disableautocomplete id="modalForm" method="post">
                         <input type="hidden" name="partyId" value="${party.id}">
                         <div class="form-group">
                             <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>

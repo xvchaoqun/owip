@@ -13,7 +13,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal" action="${ctx}/crsPost_detail/step3_meeting" id="modalForm"
+                    <form class="form-horizontal" action="${ctx}/crsPost_detail/step3_meeting" autocomplete="off" disableautocomplete id="modalForm"
                           method="post">
                         <input type="hidden" name="id" value="${crsPost.id}">
 

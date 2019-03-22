@@ -12,7 +12,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main" style="width: 900px">
-            <form class="form-horizontal" action="${ctx}/user/oa/oaTaskUser_report" id="modalForm" method="post">
+            <form class="form-horizontal" action="${ctx}/user/oa/oaTaskUser_report" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="taskId" value="${oaTaskUser.taskId}">
                 <table class="table table-bordered table-unhover">
                     <tr>

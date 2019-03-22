@@ -6,7 +6,7 @@
     <h3>组织关系转出-返回修改</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberOut_back" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberOut_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param.id}">
         <input type="hidden" name="status" value="${memberOut.status-1}">
         <div class="form-group">

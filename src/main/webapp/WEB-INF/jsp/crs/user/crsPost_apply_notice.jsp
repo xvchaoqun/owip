@@ -27,7 +27,7 @@
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <form class="form-horizontal" action="${ctx}/user/crsPost_apply_ppt"
-                                              id="modalForm" method="post">
+                                              autocomplete="off" disableautocomplete id="modalForm" method="post">
                                             <input type="hidden" name="postId" value="${crsPost.id}">
 
                                             <div class="form-group">

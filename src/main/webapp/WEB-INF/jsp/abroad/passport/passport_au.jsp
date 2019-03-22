@@ -22,7 +22,7 @@
             该干部的${passport.passportClass.name}已存在，请先处理。
         </div>
     </c:if>
-    <form class="form-horizontal" action="${ctx}/abroad/passport_au" id="modalForm" method="post"
+    <form class="form-horizontal" action="${ctx}/abroad/passport_au" autocomplete="off" disableautocomplete id="modalForm" method="post"
           enctype="multipart/form-data">
         <input type="hidden" name="id" value="${passport.id}">
         <input type="hidden" name="applyId" value="${param.applyId}">

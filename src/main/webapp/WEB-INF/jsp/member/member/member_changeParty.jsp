@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>批量校内组织关系转移</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/member_changeParty" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/member_changeParty" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">转移人数</label>

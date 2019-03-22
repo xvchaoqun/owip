@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
 <shiro:hasPermission name="historyUnit:edit">
 
-    <form class="form-inline" action="${ctx}/historyUnit_au" id="modalForm" method="post">
+    <form class="form-inline" action="${ctx}/historyUnit_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <div class="form-group">
             <input type="hidden" name="unitId" value="${unit.id}">
             <select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects?status=2"

@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${scCommitteeOtherVote!=null}">编辑</c:if><c:if test="${scCommitteeOtherVote==null}">添加</c:if>其他事项表决</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scCommitteeOtherVote_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scCommitteeOtherVote_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scCommitteeOtherVote.id}">
         <input type="hidden" name="topicId" value="${topicId}">
 

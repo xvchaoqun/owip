@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${sysSync!=null}">编辑</c:if><c:if test="${sysSync==null}">添加</c:if>账号同步日志</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sysSync_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sysSync_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${sysSync.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>类型</label>

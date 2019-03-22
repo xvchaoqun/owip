@@ -6,7 +6,7 @@
 	<h3>已销假</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal"  action="${ctx}/cla/claApply_back" id="modalForm" method="post">
+	<form class="form-horizontal"  action="${ctx}/cla/claApply_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<div class="form-group">
 			<label class="col-xs-3 control-label">实际出发时间</label>
 			<div class="col-xs-6 label-text">

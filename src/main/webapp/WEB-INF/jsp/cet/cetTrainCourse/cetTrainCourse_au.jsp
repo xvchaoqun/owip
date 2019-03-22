@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cetTrainCourse!=null}">编辑</c:if><c:if test="${cetTrainCourse==null}">添加</c:if>培训课程</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTrainCourse.id}">
         <input type="hidden" name="trainId" value="${param.trainId}">
 			<div class="form-group">

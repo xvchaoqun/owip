@@ -8,7 +8,7 @@
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <form class="form-horizontal" action="${ctx}/verifyAge_verify" id="modalForm" method="post">
+                <form class="form-horizontal" action="${ctx}/verifyAge_verify" autocomplete="off" disableautocomplete id="modalForm" method="post">
                     <input type="hidden" name="id" value="${verifyAge.id}">
                     <div class="form-group">
                         <label class="col-xs-4 control-label"><span class="star">*</span>认定类别</label>

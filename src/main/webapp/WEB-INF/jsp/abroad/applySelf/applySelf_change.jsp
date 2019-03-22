@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
     <h3 class="header">因私出国申请变更</h3>
-    <form class="form-horizontal" action="${ctx}/abroad/applySelf_change" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/abroad/applySelf_change" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${applySelf.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>干部</label>

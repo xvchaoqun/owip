@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>用户注册-拒绝申请</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberReg_deny" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberReg_deny" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label">申请人</label>

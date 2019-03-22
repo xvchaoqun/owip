@@ -15,7 +15,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/sc/scGroupFile_au" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/sc/scGroupFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                         <div class="form-group">
                             <label class="col-xs-3 control-label">文件名称</label>
                             <div class="col-xs-6 label-text">

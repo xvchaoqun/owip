@@ -6,7 +6,7 @@
     <h3><c:if test="${cetParty!=null}">编辑</c:if><c:if test="${cetParty==null}">添加</c:if>院系级党委</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetParty_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetParty.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">所属院系级党委</label>

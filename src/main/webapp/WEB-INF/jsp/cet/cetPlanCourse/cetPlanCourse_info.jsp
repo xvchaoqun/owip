@@ -7,7 +7,7 @@
     <h3>编辑课程信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetPlanCourse_info" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetPlanCourse_info" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetPlanCourse.id}">
         <div class="form-group" id="_startTime">
             <label class="col-xs-4 control-label"><span class="star">*</span>开始时间</label>

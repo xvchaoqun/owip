@@ -691,7 +691,7 @@
 </c:if>
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
 	<c:if test="${param.type==1}">
-		<form class="form-horizontal" action="${ctx}/cadreBaseInfo?cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
+		<form class="form-horizontal" action="${ctx}/cadreBaseInfo?cadreId=${cadre.id}" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
 			<div class="widget-box transparent">
 				<div class="widget-header widget-header-flat">
 					<h4 class="widget-title lighter">

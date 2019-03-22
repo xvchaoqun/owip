@@ -47,7 +47,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main">
-                        <form class="form-horizontal" action="${ctx}/sc/scGroup_au" id="modalForm" method="post"
+                        <form class="form-horizontal" action="${ctx}/sc/scGroup_au" autocomplete="off" disableautocomplete id="modalForm" method="post"
                               enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="id" value="${scGroup.id}">

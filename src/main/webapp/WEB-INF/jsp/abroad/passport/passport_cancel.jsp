@@ -32,7 +32,7 @@
              onload="lzld(this)"/>
     </div>
     <div class="info" style="margin-top: 20px; margin-bottom: 50px; padding-left: 5px;width: 850px">
-    <form class="form-horizontal" action="${ctx}/abroad/passport_cancel" id="modalForm" method="post"  enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/abroad/passport_cancel" autocomplete="off" disableautocomplete id="modalForm" method="post"  enctype="multipart/form-data">
         <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
             <div class="col-xs-12 file" style="height: 842px">

@@ -7,7 +7,7 @@
     <h3>编辑上课信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_info" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_info" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTrainCourse.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">课程名称</label>

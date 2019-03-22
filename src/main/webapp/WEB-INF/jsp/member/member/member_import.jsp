@@ -6,7 +6,7 @@
     <h3>批量导入</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" id="modalForm" enctype="multipart/form-data" action="${ctx}/member_import" method="post">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/member_import" method="post">
         <input type="hidden" value="${inSchool?1:0}" name="inSchool">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>

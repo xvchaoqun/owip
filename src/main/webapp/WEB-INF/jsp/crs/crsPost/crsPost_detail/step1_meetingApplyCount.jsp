@@ -11,7 +11,7 @@
   </div>
   <div class="widget-body">
     <div class="widget-main" id="requirement-content">
-      <form class="form-horizontal" action="${ctx}/crsPost_detail/step1_meetingApplyCount" id="modalForm"
+      <form class="form-horizontal" action="${ctx}/crsPost_detail/step1_meetingApplyCount" autocomplete="off" disableautocomplete id="modalForm"
             method="post">
         <input type="hidden" name="id" value="${crsPost.id}">
         <div class="form-group">

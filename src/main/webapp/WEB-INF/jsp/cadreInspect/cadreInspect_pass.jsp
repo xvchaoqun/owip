@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>通过常委会任命</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreInspect_pass" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreInspect_pass" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="inspectId" value="${cadreInspect.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">账号</label>

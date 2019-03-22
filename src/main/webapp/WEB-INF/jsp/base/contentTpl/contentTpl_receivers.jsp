@@ -14,7 +14,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/shortMsgReceiver_au" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/shortMsgReceiver_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                         <input type="hidden" name="tplId" value="${contentTpl.id}">
                         <div class="form-group">
                             <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>

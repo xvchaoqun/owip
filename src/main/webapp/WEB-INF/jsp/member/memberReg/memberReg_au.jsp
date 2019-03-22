@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${memberReg!=null}">编辑</c:if><c:if test="${memberReg==null}">添加</c:if>用户注册</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberReg_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberReg_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberReg.id}">
         <input type="hidden" name="username" value="${memberReg.username}">
         <input type="hidden" name="code" value="${memberReg.code}">

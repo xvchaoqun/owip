@@ -6,7 +6,7 @@
     <h4>添加报备干部</h4>
   </div>
   <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/sc/scBorder_selectCadres" id="modalForm" method="post">
+  <form class="form-horizontal"  action="${ctx}/sc/scBorder_selectCadres" autocomplete="off" disableautocomplete id="modalForm" method="post">
       <input type="hidden" name="borderId" value="${param.borderId}">
       <div class="form-group">
           <label class="col-xs-3 control-label"><span class="star">*</span>报备类别</label>

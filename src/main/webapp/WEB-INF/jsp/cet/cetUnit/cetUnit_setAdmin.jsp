@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>设置管理员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUnit_setAdmin" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cet/cetUnit_setAdmin" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">所属内设机构</label>

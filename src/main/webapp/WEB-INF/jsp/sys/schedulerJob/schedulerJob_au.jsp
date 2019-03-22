@@ -6,7 +6,7 @@
     <h3>${op}定时任务</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/schedulerJob_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/schedulerJob_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
         <input type="hidden" name="id" value="${schedulerJob.id}">
 

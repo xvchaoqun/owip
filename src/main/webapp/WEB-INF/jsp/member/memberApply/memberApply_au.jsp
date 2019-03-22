@@ -15,7 +15,7 @@
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" id="modalForm" method="post" action="${ctx}/memberApply_au">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post" action="${ctx}/memberApply_au">
         <c:if test="${empty memberApply}">
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right"><span class="star">*</span>账号</label>

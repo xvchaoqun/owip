@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreEva!=null}">编辑</c:if><c:if test="${cadreEva==null}">添加</c:if>年度考核记录</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreEva_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreEva_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreEva.id}">
         <input type="hidden" name="cadreId" value="${param.cadreId}">
 			<div class="form-group">

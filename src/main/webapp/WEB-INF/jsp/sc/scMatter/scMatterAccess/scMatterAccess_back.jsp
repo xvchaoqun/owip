@@ -6,7 +6,7 @@
     <h3>归还</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scMatterAccess_back" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scMatterAccess_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scMatterAccess.id}">
 
         <div class="form-group">

@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>修改暂留支部</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/memberStay_transfer_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/memberStay_transfer_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberStay.id}">
         <c:if test="${len>1}">
             <div class="form-group">

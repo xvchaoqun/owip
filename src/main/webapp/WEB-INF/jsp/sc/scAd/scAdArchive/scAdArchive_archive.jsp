@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>正式归档扫描件</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scAdArchive_archive" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scAdArchive_archive" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${scAdArchive.id}">
 
 			<div class="form-group">

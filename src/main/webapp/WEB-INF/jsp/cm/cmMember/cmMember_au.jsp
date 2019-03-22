@@ -9,7 +9,7 @@
     <h3>${cmMember!=null?'编辑':'添加'}${isQuit?'离任':'现任'}${CM_MEMBER_TYPE_MAP.get(type)}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cmMember_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cmMember_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cmMember.id}">
         <input type="hidden" name="type" value="${type}">
         <input type="hidden" name="isQuit" value="${isQuit}">

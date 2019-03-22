@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${branchMember!=null}">编辑</c:if><c:if test="${branchMember==null}">添加</c:if>基层党组织成员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/branchMember_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/branchMember_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="groupId" value="${param.groupId}">
         <input type="hidden" name="id" value="${branchMember.id}">
         <c:set var="sysUser" value="${cm:getUserById(branchMember.userId)}"/>

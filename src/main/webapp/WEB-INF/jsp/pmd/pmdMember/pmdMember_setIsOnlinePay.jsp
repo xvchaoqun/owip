@@ -6,7 +6,7 @@
     <h3>修改缴费方式</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_setIsOnlinePay" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_setIsOnlinePay" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="num" value='${fn:length(fn:split(param["ids[]"],","))}'/>
         <c:if test="${num==1}">

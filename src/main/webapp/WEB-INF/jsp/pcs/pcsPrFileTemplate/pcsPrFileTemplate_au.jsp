@@ -7,7 +7,7 @@
                 <h3><c:if test="${pcsConfig!=null}">编辑</c:if><c:if test="${pcsConfig==null}">添加</c:if>大会材料清单</h3>
             </div>
             <div class="modal-body">
-            <form class="form-horizontal" action="${ctx}/pcsPrFileTemplate_au" id="modalForm" method="post"
+            <form class="form-horizontal" action="${ctx}/pcsPrFileTemplate_au" autocomplete="off" disableautocomplete id="modalForm" method="post"
                   enctype="multipart/form-data">
                     <input type="hidden" name="id" value="${pcsPrFileTemplate.id}">
                     <div class="form-group">
