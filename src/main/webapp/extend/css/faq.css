@@ -9,7 +9,7 @@ body{background:#fff;margin:0px;padding:0px;color:#333;position:relative;font:14
 	box-sizing: content-box;
 	position:fixed;}
 .top .logo{float:left;padding-right:25px;height:70px;line-height:70px;}
-.top .logo img{max-width: 400px;}
+.top .logo img{max-width: 400px;max-height: 70px;}
 .top .separator {border-left: 1px solid #333;height: 58px;margin-top: 6px;float: left;}
 .top .txt{height:70px;line-height:70px;float:left;margin-left:25px;font-size:30px}
 

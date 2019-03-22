@@ -140,7 +140,7 @@
     /*border-right: 1px solid #fff;*/
 }
 
-.navbar .navbar-header .logo img{max-width: 400px;}
+.navbar .navbar-header .logo img{max-width: 400px;max-height: 70px;}
 
 .navbar .navbar-header .separator {
     border-left: 1px solid #fff;
