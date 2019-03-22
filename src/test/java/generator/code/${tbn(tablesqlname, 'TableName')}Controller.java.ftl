@@ -138,11 +138,11 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         if (${tbn(key, "tableName")} == null) {
             <#if tableColumnsMap['status']??>record.setStatus(true);</#if>
             ${tableName}Service.insertSelective(record);
-            logger.info(addLog( ${logType}, "添加${cnTableName}：%s", record.get${tbn(key, "TableName")}()));
+            logger.info(log( ${logType}, "添加${cnTableName}：{0}", record.get${tbn(key, "TableName")}()));
         } else {
 
             ${tableName}Service.updateByPrimaryKeySelective(record);
-            logger.info(addLog( ${logType}, "更新${cnTableName}：%s", record.get${tbn(key, "TableName")}()));
+            logger.info(log( ${logType}, "更新${cnTableName}：{0}", record.get${tbn(key, "TableName")}()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -167,7 +167,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         if (${tbn(key, "tableName")} != null) {
 
             ${tableName}Service.del(${tbn(key, "tableName")});
-            logger.info(addLog( ${logType}, "删除${cnTableName}：%s", ${tbn(key, "tableName")}));
+            logger.info(log( ${logType}, "删除${cnTableName}：{0}", ${tbn(key, "tableName")}));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -180,7 +180,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
 
         if (null != ${tbn(key, "tableName")}s && ${tbn(key, "tableName")}s.length>0){
             ${tableName}Service.batchDel(${tbn(key, "tableName")}s);
-            logger.info(addLog( ${logType}, "批量删除${cnTableName}：%s", StringUtils.join(${tbn(key, "tableName")}s, ",")));
+            logger.info(log( ${logType}, "批量删除${cnTableName}：{0}", StringUtils.join(${tbn(key, "tableName")}s, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -192,7 +192,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
     public Map do_${tableName}_changeOrder(Integer ${tbn(key, "tableName")}, Integer addNum, HttpServletRequest request) {
 
         ${tableName}Service.changeOrder(${tbn(key, "tableName")}, addNum);
-        logger.info(addLog( ${logType}, "${cnTableName}调序：%s,%s", ${tbn(key, "tableName")}, addNum));
+        logger.info(log( ${logType}, "${cnTableName}调序：{0}, {1}", ${tbn(key, "tableName")}, addNum));
         return success(FormUtils.SUCCESS);
     }
 

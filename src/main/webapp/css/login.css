@@ -17,6 +17,7 @@ iframe{background: transparent;}
 /*登录框样式*/
 .top{width:100%;height:70px;padding:19px 0;/*background:url(/extend/img/top_bg.jpg) #dbf5ff top right no-repeat;*/}
 .top .logo{float:left;padding-right:25px;height:70px;line-height:70px;}
+.top .logo img{max-width: 400px;}
 .top .separator {border-left: 1px solid #333;height: 58px;margin-top: 6px;float: left;}
 .top .txt{height:70px;line-height:70px;float:left;margin-left:25px;font-size:30px}
 .login_box{width:100%;height:100%;min-height:600px;}
@@ -55,7 +56,7 @@ iframe{background: transparent;}
 .login_box .login-layout dd a.to_reg_btn{font-size:14px;/*float:right;*/ padding-right: 15px;text-decoration: underline}
 .login_box .login-layout dd a.to_login_btn{font-size:14px;float:right; padding-top: 5px; padding-right: 15px;text-decoration: underline}
 .login_box .login-layout#reg{width:395px;height:450px;padding:110px 30px 0 30px;float:left;background:url(/extend/img/reg.png) top center no-repeat;margin:150px  0 0 540px;}
-.login_box .login-layout#reg dd input{width:100%;}
+/*.login_box .login-layout#reg dd input{width:100%;}*/
 .login_box .login-layout#reg dd select{width: 100%; height: 100%; font:initial}
 .login_box .login-layout#reg dd input.yz{width:110px;background:#fff;border:1px solid #418bd9;height:38px;line-height:38px;float:left;}
 .login_box .login-layout#reg dd a.submit_btn{ cursor: pointer; width:242px;height:37px;display:block;background:url(/extend/img/reg_btn.jpg) top center no-repeat;}
@@ -63,7 +64,7 @@ iframe{background: transparent;}
 .login_box .login-layout#reg dt{height: 32px;line-height: 32px;padding: 2px 0px;padding-right:10px;}
 .login_box .login-layout#reg dd{height: 32px;padding: 2px 0px;}
 .login_box .login-layout#reg dd .input_box{height: 30px}
-.login_box .login-layout#reg dd input{height: 30px;line-height: 30px;padding-left: 5px}
+.login_box .login-layout#reg dd input{height: 30px;line-height: 30px;width:225px;padding-left: 5px}
 .login_box .login-layout#reg dd input.yz{height: 30px;line-height: 30px}
 .login_box .login-layout#reg dd img{height: 30px}
 

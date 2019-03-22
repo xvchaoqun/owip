@@ -374,7 +374,7 @@ function page_reload(fn) {
 $(document).on("click", ".myTableDiv .editBtn", function () {
 
     var id = $(this).data("id");
-    var $div = $(this).closest("div.myTableDiv");
+    var $div = $(this).closest(".myTableDiv");
     var url = $div.data("url-au");
     if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + "id=" + id;
 
@@ -411,28 +411,6 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function () {
     });
 });
 
-// 排序
-/*$(document).on("click", ".myTableDiv .table th.sortable", function () {
-
-    var $this = $(this);
-    //alert($this.hasClass("asc"))
-    var order = $this.hasClass("asc") ? "desc" : "asc";
-    var $div = $(this).closest(".myTableDiv");
-
-    $(".myTableDiv #searchForm input[name=sort]").val($this.data("field"));
-    $(".myTableDiv #searchForm input[name=order]").val(order);
-    //alert($("div.myTableDiv #searchForm").serialize())
-
-    var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
-    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
-});*/
-// 导出
-/*$(document).on("click", ".myTableDiv .exportBtn", function () {
-
-    var $div = $(this).closest(".myTableDiv");
-    location.href = $div.data("url-page") + "?export=1&" + $("div.myTableDiv #searchForm").serialize();
-});*/
-
 // 下载
 $(document).on("click", ".downloadBtn", function () {
 
@@ -446,7 +424,7 @@ $(document).on("click", ".downloadBtn", function () {
 $(document).on("click", ".myTableDiv .delBtn", function () {
 
     var id = $(this).data("id");
-    var $div = $(this).closest("div.myTableDiv");
+    var $div = $(this).closest(".myTableDiv");
     bootbox.confirm("确定删除该记录吗？", function (result) {
         if (result) {
             $.post($div.data("url-del"), {id: id}, function (ret) {
@@ -462,7 +440,7 @@ $(document).on("click", ".myTableDiv .delBtn", function () {
 $(document).on("click", ".myTableDiv .batchDelBtn", function () {
 
     var $div = $(this).closest(".myTableDiv");
-    var ids = $.map($(".myTableDiv .table td :checkbox:checked"), function (item, index) {
+    var ids = $.map($(".table td :checkbox:checked", $div), function (item, index) {
         return $(item).val();
     });
     if (ids.length == 0) {
@@ -811,7 +789,8 @@ $(document).on("click", " .jqSearchBtn", function () {
     var url = $this.data("url") || $div.data("url-page");
     //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
     var $target = $($this.data("target") || $div.data("target") || "#page-content");
-    var $form = $($this.data("form") || "div.myTableDiv #searchForm");
+    //var $form = $($this.data("form") || "div.myTableDiv #searchForm");
+    var $form = $($this.data("form") || "#searchForm");
 
     $target.renderUrl({
         url: url,
@@ -834,7 +813,8 @@ $(document).on("click", ".jqExportBtn", function () {
     var queryString = $this.data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
 
-    var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
+    //var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
+    var searchFormId = $this.data("search-form-id") || "#searchForm";
 
     url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export="+ _export +"&"+
         encodeURI(idsName)+"=" + ids + "&" + $(searchFormId).serialize();

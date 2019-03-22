@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
     <h3>&{${tableName}!=null?'编辑':'添加'}${cnTableName}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="&{ctx}/${_resFolder}${tableName}_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="&{ctx}/${_resFolder}${tableName}_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="&{${tableName}.id}">
 	<#list tableColumns as column>
 		<#assign columnName=tbn(column.name, "tableName")>
