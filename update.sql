@@ -1,4 +1,26 @@
 
+20190326
+
+更新 common-utils
+
+ALTER TABLE `unit_post`
+	ADD COLUMN `leader_type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否班子负责人，0 否 1 党委班子负责人 2 行政班子负责人' AFTER `is_principal_post`;
+
+	更新 unit_post_view
+
+ALTER TABLE `cadre_post`
+	CHANGE COLUMN `post_type` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性，关联元数据' AFTER `post`,
+	CHANGE COLUMN `admin_level` `admin_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据' AFTER `post_type`,
+	CHANGE COLUMN `double_unit_ids` `double_unit_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '双肩挑单位' AFTER `is_double`;
+
+更新 cadre_view（添加是否班子负责人）
+
+
+update sys_resource set parent_id=1, parent_ids='0/1/', name='待调整班子干部', sort_order=6250, menu_css='fa fa-history'  where  id=867;
+
+update sys_resource set name='行政班子届满列表', url='/unitTeam?list=2', permission='unitTeam:list2', sort_order=90  where id=868;
+
+
 20190322
 
 北师大、 北邮

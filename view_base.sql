@@ -63,6 +63,8 @@ SELECT c.*
 	,main_cadre_post.is_double
 	,main_cadre_post.double_unit_ids
 	,main_cadre_post_type.bool_attr as is_principal_post
+	-- 是否班子负责人
+	,up.leader_type
 	,TIMESTAMPDIFF(YEAR,np_work_time,now()) as cadre_post_year
 	,TIMESTAMPDIFF(YEAR,s_work_time,e_work_time) as admin_level_year
 	,np.* ,lp.*, nl.s_dispatch_id, nl.s_work_time, nl.e_dispatch_id, nl.e_work_time
@@ -88,6 +90,7 @@ LEFT JOIN `ow_member` `om` ON `om`.`user_id` = `c`.`user_id`
 LEFT JOIN `cadre_edu` `max_ce` ON  `max_ce`.`cadre_id` = `c`.`id` AND `max_ce`.`is_high_edu` = 1 and max_ce.status=0
 LEFT JOIN `cadre_edu` `max_degree` ON `max_degree`.`cadre_id` = `c`.`id` AND `max_degree`.`is_high_degree` = 1 and max_degree.status=0
 left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_main_post=1)
+left join unit_post up on up.id=main_cadre_post.unit_post_id
 left join base_meta_type main_cadre_post_type on(main_cadre_post_type.id=main_cadre_post.post_type)
 left join base_meta_type admin_level on(c.admin_level=admin_level.id)
 left join base_meta_type max_ce_edu on(max_ce.edu_id=max_ce_edu.id)
