@@ -74,10 +74,10 @@ public class ${TableName}Service extends BaseMapper {
         ${TableName}Example example = new ${TableName}Example();
         example.createCriteria().andStatusEqualTo(true);
         example.setOrderByClause("sort_order desc");
-        List<${TableName}> ${tableName}es = ${tableName}Mapper.selectByExample(example);
+        List<${TableName}> records = ${tableName}Mapper.selectByExample(example);
         Map<Integer, ${TableName}> map = new LinkedHashMap<>();
-        for (${TableName} ${tableName} : ${tableName}es) {
-            map.put(${tableName}.getId(), ${tableName});
+        for (${TableName} record : records) {
+            map.put(record.getId(), record);
         }
 
         return map;

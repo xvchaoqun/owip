@@ -32,7 +32,7 @@
       "showColumns": "unit_team_id,start_date,end_date,remark",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
 
     {
@@ -97,6 +97,15 @@
       "excludeEditColumns": "id,create_time,sort_order,status",
       "logType":"LogConstants.LOG_ADMIN",
       "ignore": true
+    },
+    {
+      "table": "unit_function",
+      "key": "id",
+      "searchColumns": "unit_id,is_current",
+      "showColumns": "unit_id,is_current,confirm_time,content,file_path,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": false
     }
   ]
 }
