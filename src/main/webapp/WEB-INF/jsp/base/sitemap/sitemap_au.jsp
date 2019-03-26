@@ -8,7 +8,7 @@
         <c:if test="${not empty param.id}"><span class="text-error">${sitemap.title}</span>-</c:if></h3>
 </div>
 <div class="modal-body">
-    <form:form method="post" autocomplete="off" disableautocomplete id="modalForm" commandName="sitemap" class="form-horizontal">
+    <form:form method="post" autocomplete="off" id="modalForm" commandName="sitemap" class="form-horizontal">
         <form:hidden path="id"/>
         <%--<form:hidden path="fids"/>--%>
 

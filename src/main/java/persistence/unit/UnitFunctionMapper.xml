@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.unit.UnitFunctionMapper">
+  <resultMap id="BaseResultMap" type="domain.unit.UnitFunction">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="is_current" jdbcType="BIT" property="isCurrent" />
+    <result column="confirm_time" jdbcType="DATE" property="confirmTime" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, unit_id, is_current, confirm_time, content, file_path, img_path, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.unit.UnitFunctionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_function
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from unit_function
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from unit_function
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.unit.UnitFunctionExample">
+    delete from unit_function
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.unit.UnitFunction">
+    insert into unit_function (id, unit_id, is_current, 
+      confirm_time, content, file_path, 
+      img_path, remark)
+    values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{isCurrent,jdbcType=BIT}, 
+      #{confirmTime,jdbcType=DATE}, #{content,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{imgPath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.unit.UnitFunction">
+    insert into unit_function
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="isCurrent != null">
+        is_current,
+      </if>
+      <if test="confirmTime != null">
+        confirm_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="imgPath != null">
+        img_path,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="isCurrent != null">
+        #{isCurrent,jdbcType=BIT},
+      </if>
+      <if test="confirmTime != null">
+        #{confirmTime,jdbcType=DATE},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPath != null">
+        #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.unit.UnitFunctionExample" resultType="java.lang.Long">
+    select count(*) from unit_function
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update unit_function
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isCurrent != null">
+        is_current = #{record.isCurrent,jdbcType=BIT},
+      </if>
+      <if test="record.confirmTime != null">
+        confirm_time = #{record.confirmTime,jdbcType=DATE},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgPath != null">
+        img_path = #{record.imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update unit_function
+    set id = #{record.id,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      is_current = #{record.isCurrent,jdbcType=BIT},
+      confirm_time = #{record.confirmTime,jdbcType=DATE},
+      content = #{record.content,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      img_path = #{record.imgPath,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.unit.UnitFunction">
+    update unit_function
+    <set>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="isCurrent != null">
+        is_current = #{isCurrent,jdbcType=BIT},
+      </if>
+      <if test="confirmTime != null">
+        confirm_time = #{confirmTime,jdbcType=DATE},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPath != null">
+        img_path = #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.unit.UnitFunction">
+    update unit_function
+    set unit_id = #{unitId,jdbcType=INTEGER},
+      is_current = #{isCurrent,jdbcType=BIT},
+      confirm_time = #{confirmTime,jdbcType=DATE},
+      content = #{content,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      img_path = #{imgPath,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.unit.UnitFunctionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_function
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

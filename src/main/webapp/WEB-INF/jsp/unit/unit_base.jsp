@@ -130,12 +130,12 @@
         </div>
     </div>
 </div>
-<%--<div class="widget-box transparent">
+<div class="widget-box transparent">
 
     <div class="widget-header widget-header-flat">
         <h4 class="widget-title lighter">
             <i class="ace-icon fa fa-circle-o-notch"></i>
-            单位发展历程
+            单位职能
         </h4>
 
         <div class="widget-toolbar">
@@ -144,38 +144,12 @@
             </a>
         </div>
     </div>
-
     <div class="widget-body">
-        <div class="widget-main no-padding">
-
-            <table class="table table-unhover table-actived table-striped table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>单位编号</th>
-                    <th>单位名称</th>
-                    <th>单位类型</th>
-                    <th>成立时间</th>
-                    <th>备注</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${runUnits}" var="unit" varStatus="st">
-                    <tr>
-                        <td>${unit.code}</td>
-                        <td>
-                            <t:unit unit="${unit}"/>
-                        </td>
-                        <td class="hidden-480 hidden-xs">${cm:getMetaType(unit.typeId).name}</td>
-                        <td class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
-
-                        <td class="hidden-480 hidden-xs">${unit.remark}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+        <div class="widget-main no-padding" id="unitfunctionDiv">
+            <c:import url="${ctx}/unitFunction?unitId=${unit.id}"/>
         </div>
     </div>
-</div>--%>
+</div>
 <script>
     $("#modal form").validate({
         submitHandler: function (form) {

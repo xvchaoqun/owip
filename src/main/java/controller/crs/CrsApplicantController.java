@@ -1,11 +1,7 @@
 package controller.crs;
 
 import controller.global.OpException;
-import domain.crs.CrsApplicant;
-import domain.crs.CrsApplicantView;
-import domain.crs.CrsApplicantViewExample;
-import domain.crs.CrsApplicantWithBLOBs;
-import domain.crs.CrsPost;
+import domain.crs.*;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,22 +21,13 @@ import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentTypeUtils;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class CrsApplicantController extends CrsBaseController {
@@ -197,7 +184,7 @@ public class CrsApplicantController extends CrsBaseController {
     @RequiresPermissions("crsApplicant:export")
     @RequestMapping("/crsApplicant_export")
     public void crsApplicant_export(int postId, @RequestParam(required = false, value = "ids[]") Integer[] ids,
-                                    HttpServletResponse response) throws IOException, TemplateException {
+                                    HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         //输出文件
@@ -211,7 +198,7 @@ public class CrsApplicantController extends CrsBaseController {
 
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         crsExportService.process(postId, ids, response.getWriter());

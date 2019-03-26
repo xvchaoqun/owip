@@ -158,6 +158,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
                            @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 专技岗位等级
                            Boolean isPrincipalPost, // 是否正职
+                           Byte leaderType,
                            Boolean isDouble, // 是否双肩挑
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
@@ -256,6 +257,9 @@ public class CadreController extends BaseController {
 
         if (isPrincipalPost != null) {
             criteria.andIsPrincipalPostEqualTo(isPrincipalPost);
+        }
+        if(leaderType!=null){
+            criteria.andLeaderTypeEqualTo(leaderType);
         }
         if (isDouble != null) {
             criteria.andIsDoubleEqualTo(isDouble);

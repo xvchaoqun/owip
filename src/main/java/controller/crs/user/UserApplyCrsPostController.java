@@ -32,6 +32,7 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.utils.DownloadUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -208,13 +209,13 @@ public class UserApplyCrsPostController extends CrsBaseController {
     // 导出应聘人报名表
     @RequiresPermissions("userApplyCrsPost:export")
     @RequestMapping("/crsApplicant_export")
-    public void crsApplicant_export(int applicantId, HttpServletResponse response) throws IOException, TemplateException {
+    public void crsApplicant_export(int applicantId, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         //输出文件
         String filename = CmTag.getSysConfig().getSchoolName() + "处级干部应聘人报名表";
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);

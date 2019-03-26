@@ -327,7 +327,7 @@ public class ScDispatchController extends ScBaseController {
 
     @RequiresPermissions("scDispatch:export")
     @RequestMapping("/scDispatch_exportSign")
-    public void scDispatch_exportSign(int dispatchId, HttpServletResponse response) throws IOException {
+    public void scDispatch_exportSign(int dispatchId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ScDispatch scDispatch = scDispatchMapper.selectByPrimaryKey(dispatchId);
         String dispatchCode = scDispatch.getDispatchCode();
@@ -336,7 +336,7 @@ public class ScDispatchController extends ScBaseController {
         //输出文件
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((fileName + ".docx").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, fileName + ".docx"));
         response.setContentType("application/msword;charset=UTF-8");
 
         scDispatchService.exportSign(dispatchId, response);

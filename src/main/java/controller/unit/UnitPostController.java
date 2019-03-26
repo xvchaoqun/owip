@@ -150,9 +150,30 @@ public class UnitPostController extends BaseController {
 
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPostList")
-    public String unitPostList(@RequestParam(required = false, defaultValue = "1")Byte cls, ModelMap modelMap) {
+    public String unitPostList(@RequestParam(required = false, defaultValue = "1")Byte cls,
+                               @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
+                               Byte displayType,
+                               ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+
+        if(displayType!=null) {
+
+            if (unitTypes != null) {
+                modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
+            }
+
+            if (displayType == 1) {
+                // 待补充的岗位列表
+                return "unit/unitPost/unitPost_openList";
+            } else if (displayType == 2) {
+                // 待调整的岗位列表
+                return "unit/unitPost/unitPost_openList";
+            } else if (displayType == 3) {
+                // 同一岗位任职满8年列表
+                return "unit/unitPost/unitPost_openList";
+            }
+        }
 
         return "unit/unitPost/unitPostList_page";
     }
@@ -198,13 +219,11 @@ public class UnitPostController extends BaseController {
                                     Integer postType,
                                     Integer postClass,
                               Boolean isPrincipalPost,
+                              Byte leaderType,
                               Boolean isCpc,
                               Boolean isMainPost,
-                              // 显示空缺岗位
-                              Boolean displayEmpty,
-                              // 显示空缺岗位或兼职
-                              Boolean displayOpen,
-
+                              // 1: 显示空缺岗位 2: 显示占干部职数的兼职岗位
+                              Byte displayType,
                               Integer cadreId,
                               Integer startNowPostAge,
                               Integer endNowPostAge,
@@ -258,16 +277,19 @@ public class UnitPostController extends BaseController {
         if (isPrincipalPost!=null) {
             criteria.andIsPrincipalPostEqualTo(isPrincipalPost);
         }
+        if(leaderType!=null){
+            criteria.andLeaderTypeEqualTo(leaderType);
+        }
         if (isCpc!=null) {
             criteria.andIsCpcEqualTo(isCpc);
         }
 
-        if(BooleanUtils.isTrue(displayEmpty)){
-            criteria.andCadreIdIsNull();
-        }
-
-        if(BooleanUtils.isTrue(displayOpen)){
-            criteria.displayOpen();
+        if(displayType!=null){
+            if(displayType==1) {
+                criteria.andCadreIdIsNull();
+            }else if(displayType==2){
+                criteria.andIsMainPostEqualTo(false);
+            }
         }
 
         if (cadreId!=null) {
@@ -311,7 +333,7 @@ public class UnitPostController extends BaseController {
                 return;
             }else if(exportType==1){
                 // 导出空缺或兼职岗位
-                unitPostService.exportOpenList(example, response);
+                unitPostService.exportOpenList(displayType, example, response);
                 return;
             }
         }
@@ -561,11 +583,7 @@ public class UnitPostController extends BaseController {
 
             List<UnitPostAllocationInfoBean> beans = unitPostAllocationService.cpcInfo_data(null, true);
             modelMap.put("beans", beans);
-        } else if (module == 2) {
-
-            return "unit/unitPost/unitPost_openList";
-
-        }else if (module == 3) {
+        }else if (module == 2) {
 
             if (export == 1) {
                 XSSFWorkbook wb = unitPostAllocationService.cpcStat_Xlsx();

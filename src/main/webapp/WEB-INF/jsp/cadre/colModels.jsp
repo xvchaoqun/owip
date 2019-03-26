@@ -22,15 +22,19 @@
             return _cMap.CADRE_TYPE_MAP[cellvalue]
         }},
         </c:if>
-        {label: '是否涉密', name: 'state', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>涉密', name: 'state', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
-        {label: '是否常委', name: 'isCommitteeMember', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>常委', name: 'isCommitteeMember', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '是否正职', name: 'isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+        { label: '是否<br/>班子负责人',name: 'leaderType', width: 120, formatter:function(cellvalue, options, rowObject){
+            if(cellvalue==undefined) return '--';
+            return _cMap.UNIT_POST_LEADER_TYPE_MAP[cellvalue];
+        }},
         {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '民族', name: 'nation', width: 60},
         {label: '籍贯', name: 'nativePlace', width: 120},
@@ -39,7 +43,7 @@
         {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
-        {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
+        {label: '党派<br/>加入时间', name: '_growTime', formatter: $.jgrid.formatter.growTime},
         {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
         {
             label: '参加工作时间', name: 'workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}
@@ -97,20 +101,18 @@
         {label: '岗位类别', name: 'postClass'},
         {label: '主岗等级', name: 'mainPostLevel', width: 150},
         {label: '专业技术职务', name: 'proPost', width: 120},
-        {label: '专技职务评定时间', name: 'proPostTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+        {label: '专技职务<br/>评定时间', name: 'proPostTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '专技岗位等级', name: 'proPostLevel', width: 150},
         {
-            label: '专技岗位分级时间',
+            label: '专技岗位<br/>分级时间',
             name: 'proPostLevelTime',
-            width: 130,
             formatter: 'date',
             formatoptions: {newformat: 'Y.m'}
         },
         {label: '管理岗位等级', name: 'manageLevel', width: 150},
         {
-            label: '管理岗位分级时间',
+            label: '管理岗位<br/>分级时间',
             name: 'manageLevelTime',
-            width: 130,
             formatter: 'date',
             formatoptions: {newformat: 'Y.m'}
         },
@@ -132,15 +134,13 @@
             formatoptions: {newformat: 'Y-m-d'}
         },
         {
-            label: '现职务始任时间',
-            width: 150,
+            label: '现职务<br/>始任时间',
             name: 'npWorkTime',
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
         {
-            label: '现职务始任年限',
-            width: 120,
+            label: '现职务<br/>始任年限',
             name: 'cadrePostYear',
             formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
@@ -148,8 +148,7 @@
             }
         },
         {
-            label: '现职级始任时间',
-            width: 120,
+            label: '现职级<br/>始任时间',
             name: 'sWorkTime',
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
@@ -163,7 +162,7 @@
                 return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         },
-        {label: '是否双肩挑', name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>双肩挑', width:50, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
         /*{
             label: '双肩挑单位',
             name: 'doubleUnitId',

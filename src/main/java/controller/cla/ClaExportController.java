@@ -44,7 +44,7 @@ public class ClaExportController extends ClaBaseController {
         /*String filename = "处级干部因私出国（境）证件领取申请表";
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         claExportService.process(applyId, response.getWriter());*/

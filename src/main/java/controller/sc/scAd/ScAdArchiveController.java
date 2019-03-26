@@ -200,7 +200,7 @@ public class ScAdArchiveController extends ScBaseController {
     // 干部任免审批表下载
     @RequiresPermissions("scAdArchive:download")
     @RequestMapping("/scAdArchive_download")
-    public void scAdArchive_download(int archiveId, HttpServletResponse response) throws IOException, TemplateException {
+    public void scAdArchive_download(int archiveId, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         ScAdArchiveWithBLOBs scAdArchive = scAdArchiveMapper.selectByPrimaryKey(archiveId);
         Integer cadreId = scAdArchive.getCadreId();
@@ -213,7 +213,7 @@ public class ScAdArchiveController extends ScBaseController {
         String filename = StringUtils.trimToEmpty(DateUtils.formatDate(saveTime, "yyyy.MM.dd")) + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         CadreInfoForm bean = XmlSerializeUtils.unserialize(adform, CadreInfoForm.class);
@@ -267,7 +267,7 @@ public class ScAdArchiveController extends ScBaseController {
 
     @RequiresPermissions("scAdArchive:download")
     @RequestMapping("/scAdArchive_cisDownload")
-    public void scAdArchive_cisDownload(int archiveId, HttpServletResponse response) throws IOException, TemplateException {
+    public void scAdArchive_cisDownload(int archiveId, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         ScAdArchiveWithBLOBs scAdArchive = scAdArchiveMapper.selectByPrimaryKey(archiveId);
         Integer cadreId = scAdArchive.getCadreId();
@@ -281,7 +281,7 @@ public class ScAdArchiveController extends ScBaseController {
         String filename = StringUtils.trimToEmpty(DateUtils.formatDate(saveTime, "yyyy.MM.dd")) + cadre.getRealname() + "同志考察材料";
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         scAdArchiveService.getCisInspectObjService().process(XmlSerializeUtils.unserialize(cis, HashMap.class), response.getWriter());

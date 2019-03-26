@@ -275,7 +275,16 @@ public class UnitPostService extends BaseMapper {
     }
 
     // 空缺或兼职岗位导出
-    public void exportOpenList(UnitPostViewExample example, HttpServletResponse response) throws IOException {
+    public void exportOpenList(Byte displayType, UnitPostViewExample example, HttpServletResponse response) throws IOException {
+
+        String filename = "岗位列表";
+        if(displayType!=null){
+            if(displayType==1){
+                filename = "待补充的岗位列表";
+            }else if(displayType==2){
+                filename = "待调整的岗位列表";
+            }
+        }
 
         List<UnitPostView> unitPosts = unitPostViewMapper.selectByExample(example);
 
@@ -287,7 +296,7 @@ public class UnitPostService extends BaseMapper {
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("school", schoolName);
+                .replace("school", schoolName + filename);
         cell.setCellValue(str);
 
         int startRow = 2;
@@ -333,6 +342,6 @@ public class UnitPostService extends BaseMapper {
 
         }
 
-        ExportHelper.output(wb, schoolName + "空缺干部岗位列表.xlsx", response);
+        ExportHelper.output(wb, schoolName + filename + ".xlsx", response);
     }
 }

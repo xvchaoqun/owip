@@ -56,7 +56,7 @@ public class UnitTeamController extends BaseController {
                            @RequestParam(required = false, defaultValue = "0") int list,
                            ModelMap modelMap) {
         
-        if(list==1){
+        if(list==2){ // 行政班子届满列表
             return "unit/unitTeam/unitTeamList_page";
         }
         
@@ -90,13 +90,16 @@ public class UnitTeamController extends BaseController {
             criteria.andUnitIdEqualTo(unitId);
         }
         if(timeLevel!=null){
+            DateRange termTimeRange = new DateRange();
+            SysConfig sysConfig = sysConfigService.get();
+            termTimeRange.setStart(sysConfig.getTermStartDate());
+            termTimeRange.setEnd(sysConfig.getTermEndDate());
+
             if(timeLevel==2){ // 本学期
-                _deposeTime = new DateRange();
-                SysConfig sysConfig = sysConfigService.get();
-                _deposeTime.setStart(sysConfig.getTermStartDate());
-                _deposeTime.setEnd(sysConfig.getTermEndDate());
+                criteria.andTimeLevelEqualTo(timeLevel, termTimeRange, null);
+            }else{
+                criteria.andTimeLevelEqualTo(timeLevel, termTimeRange, _deposeTime);
             }
-            criteria.andTimeLevelEqualTo(timeLevel, _deposeTime);
         }
         
         if (StringUtils.isNotBlank(name)) {

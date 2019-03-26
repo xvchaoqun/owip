@@ -522,6 +522,66 @@ public class UnitPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andLeaderTypeIsNull() {
+            addCriterion("leader_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeIsNotNull() {
+            addCriterion("leader_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeEqualTo(Byte value) {
+            addCriterion("leader_type =", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeNotEqualTo(Byte value) {
+            addCriterion("leader_type <>", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeGreaterThan(Byte value) {
+            addCriterion("leader_type >", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("leader_type >=", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeLessThan(Byte value) {
+            addCriterion("leader_type <", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("leader_type <=", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeIn(List<Byte> values) {
+            addCriterion("leader_type in", values, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeNotIn(List<Byte> values) {
+            addCriterion("leader_type not in", values, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeBetween(Byte value1, Byte value2) {
+            addCriterion("leader_type between", value1, value2, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("leader_type not between", value1, value2, "leaderType");
+            return (Criteria) this;
+        }
+
         public Criteria andAdminLevelIsNull() {
             addCriterion("admin_level is null");
             return (Criteria) this;

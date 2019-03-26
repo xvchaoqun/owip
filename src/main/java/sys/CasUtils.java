@@ -1,7 +1,5 @@
 package sys;
 
-import org.jasig.cas.client.authentication.AttributePrincipal;
-
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
@@ -14,12 +12,12 @@ public class CasUtils {
     public static String getUsername(HttpServletRequest request){
 
         Principal userPrincipal = request.getUserPrincipal();
-        if(userPrincipal instanceof AttributePrincipal) {
+        /*if(userPrincipal instanceof AttributePrincipal) {
             AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
             if (principal != null) {
                 return principal.getName();
             }
-        }
-        return null;
+        }*/
+        return userPrincipal==null?null:userPrincipal.getName();
     }
 }

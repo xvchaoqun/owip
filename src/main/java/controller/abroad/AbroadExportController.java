@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
+import sys.utils.DownloadUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -24,7 +26,7 @@ public class AbroadExportController extends AbroadBaseController {
     // 导出
     @RequiresPermissions("applySelf:view")
     @RequestMapping("/applySelf_export")
-    public void applySelf_export(int applySelfId, HttpServletResponse response) throws IOException, TemplateException {
+    public void applySelf_export(int applySelfId, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
         Integer cadreId = applySelf.getCadreId();
@@ -44,7 +46,7 @@ public class AbroadExportController extends AbroadBaseController {
         String filename = "处级干部因私出国（境）证件领取申请表";
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         abroadExportService.process(applySelfId, response.getWriter());

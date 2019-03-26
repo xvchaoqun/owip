@@ -22,6 +22,7 @@ import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -277,14 +278,14 @@ public class CisInspectObjController extends CisBaseController {
     // 考察材料导出
     @RequiresPermissions("cisInspectObj:export")
     @RequestMapping("/cisInspectObj_summary_export")
-    public void cisInspectObj_summary_export(int objId, HttpServletResponse response) throws IOException, TemplateException {
+    public void cisInspectObj_summary_export(int objId, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(objId);
         //输出文件
         String filename = cisInspectObj.getCadre().getUser().getRealname() + "同志考察材料（"+DateUtils.formatDate(new Date(), "yyyy.MM.dd")+"）";
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         cisInspectObjService.process(cisInspectObjService.getDataMap(cisInspectObj), response.getWriter());

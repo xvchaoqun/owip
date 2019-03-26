@@ -7,6 +7,7 @@ import java.util.Map;
 public class SystemConstants {
 
     public final static Map<String, String> appKeyMap = new HashMap<>();
+
     static {
 
         appKeyMap.put("LXXT", "7507a3c61bf38d9f06d00c3f2fa2de58");
@@ -41,6 +42,7 @@ public class SystemConstants {
     }
 
     public final static Map<String, String> FOREIN_KEY_DEL_MSG_MAP = new LinkedHashMap<>();
+
     static {
         FOREIN_KEY_DEL_MSG_MAP.put("cet_course", "该课程已被使用， 不可删除。");
     }
@@ -146,6 +148,18 @@ public class SystemConstants {
     public static final byte UNIT_POST_STATUS_NORMAL = 1;
     public static final byte UNIT_POST_STATUS_ABOLISH = 2;
     public static final byte UNIT_POST_STATUS_DELETE = 3;
+
+    //岗位是否班子负责人，0 否 1 党委班子负责人 2 行政班子负责人
+    public static final byte UNIT_POST_LEADER_TYPE_DW = 1;
+    public static final byte UNIT_POST_LEADER_TYPE_XZ = 2;
+    public static final byte UNIT_POST_LEADER_TYPE_NOT = 0;
+    public final static Map<Byte, String> UNIT_POST_LEADER_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_DW, "党委班子负责人");
+        UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_XZ, "行政班子负责人");
+        UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_NOT, "否");
+    }
 
     // 单位类型附加属性
     public final static String UNIT_TYPE_ATTR_XY = "xy";

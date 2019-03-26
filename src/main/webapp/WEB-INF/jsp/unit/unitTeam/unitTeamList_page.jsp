@@ -4,10 +4,12 @@
 <div id="div-content">
 <div class="jqgrid-vertical-offset buttons">
         <button class="popupBtn btn btn-success btn-sm" data-url="${ctx}/unitTeam_term">
-            <i class="fa fa-plus"></i> 设定本学期起止时间</button>
+            <i class="fa fa-plus"></i> 设定本学期起止时间
+            (${empty _sysConfig.termStartDate?'':(cm:formatDate(_sysConfig.termStartDate,'yyyy.MM.dd'))}
+            - ${empty _sysConfig.termEndDate?'':(cm:formatDate(_sysConfig.termEndDate,'yyyy.MM.dd'))})</button>
     <span>列表默认显示已到应换届时间的班子，如需查询其他，请从搜索中查询</span>
 </div>
-<c:set var="_query" value="${not empty param.timeLevel || not empty param._deposeTime}"/>
+<c:set var="_query" value="${not empty param.timeLevel || not empty param._deposeTime || not empty param.name}"/>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
             <div class="widget-header">
                 <h4 class="widget-title">搜索</h4>
@@ -22,9 +24,9 @@
                     <form class="form-inline search-form" id="searchForm">
                         <input type="hidden" name="displayEmpty" value="${param.displayEmpty}">
                         <div class="form-group">
-                            <label>换届时间</label>
+                            <label>类型</label>
                             <select class="form-control" data-rel="select2" name="timeLevel"
-                                    data-placeholder="请选择行政级别">
+                                    data-placeholder="请选择">
                                 <option></option>
                                 <option value="1">本年度应启动换届单位</option>
                                 <option value="2">本学期应启动换届单位</option>
@@ -34,7 +36,7 @@
                                 $("#searchForm select[name=timeLevel]").val('${param.timeLevel}');
                             </script>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="otherTimeDiv" style="display: ${param.timeLevel==3?'':'none'}">
                             <label>起止时间</label>
                             <div class="input-group tooltip-success" data-rel="tooltip" title="请选择时间范围">
                                             <span class="input-group-addon">
@@ -44,15 +46,20 @@
                                        type="text" name="_deposeTime" value="${param._deposeTime}"/>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>行政班子名称</label>
+                                <input class="form-control search-query" name="name" type="text" value="${param.name}"
+                                       placeholder="请输入行政班子名称">
+                        </div>
 
                         <div class="clearfix form-actions center">
                             <a class="jqSearchBtn btn btn-default btn-sm"
-                               data-url="${ctx}/unitTeam?list=1"
+                               data-url="${ctx}/unitTeam?list=2"
                                data-target="#page-content"
                                data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                             <c:if test="${_query}">&nbsp;
                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                        data-url="${ctx}/unitTeam?list=1"
+                                        data-url="${ctx}/unitTeam?list=2"
                                         data-target="#page-content">
                                     <i class="fa fa-reply"></i> 重置
                                 </button>
@@ -63,17 +70,27 @@
             </div>
         </div>
 <div class="space-4"></div>
-<table id="jqGrid2" class="jqGrid2 table-striped"></table>
+<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="-15"></table>
 <div id="jqGridPager2"></div>
 </div>
 <div id="div-content-view"></div>
-<jsp:include page="colModel.jsp"/>
+<jsp:include page="colModel.jsp?load=page"/>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $("#searchForm select[name=timeLevel]").change(function(){
+        var timeLevel = $(this).val();
+        if(timeLevel==3){
+            $("#otherTimeDiv").show();
+        }else{
+            $("#otherTimeDiv input[name=_deposeTime]").val('');
+            $("#otherTimeDiv").hide();
+        }
+    })
+
     $("#jqGrid2").jqGrid({
         rownumbers: true,
         pager:"#jqGridPager2",
-        url: '${ctx}/unitTeam_data?callback=?&timeLevel=0&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/unitTeam_data?callback=?&timeLevel=${empty param.timeLevel?'0':param.timeLevel}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:colModel
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

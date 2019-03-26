@@ -25,21 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 import service.cadre.CadreAdformService;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.XmlSerializeUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/sc")
@@ -173,7 +164,7 @@ public class ScAdUseController extends ScBaseController {
 
     @RequiresPermissions("scAdUse:download")
     @RequestMapping("/scAdUse_download")
-    public void scAdUse_download(int useId, HttpServletResponse response) throws IOException, TemplateException {
+    public void scAdUse_download(int useId, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
         ScAdUse scAdUse = scAdUseMapper.selectByPrimaryKey(useId);
         Integer cadreId = scAdUse.getCadreId();
@@ -185,7 +176,7 @@ public class ScAdUseController extends ScBaseController {
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         CadreInfoForm bean = XmlSerializeUtils.unserialize(adform, CadreInfoForm.class);

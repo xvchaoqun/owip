@@ -52,6 +52,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal('hide');
+                        $.hashchange()
                     }
                     $btn.button('reset');
                 }

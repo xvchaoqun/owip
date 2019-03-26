@@ -65,6 +65,7 @@
     <result column="is_double" jdbcType="BIT" property="isDouble" />
     <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
     <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
+    <result column="leader_type" jdbcType="TINYINT" property="leaderType" />
     <result column="cadre_post_year" jdbcType="INTEGER" property="cadrePostYear" />
     <result column="admin_level_year" jdbcType="INTEGER" property="adminLevelYear" />
     <result column="np_relate_id" jdbcType="INTEGER" property="npRelateId" />
@@ -132,11 +133,11 @@
     major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
     pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, work_time, 
     work_start_time, talent_title, main_cadre_post_id, is_double, double_unit_ids, is_principal_post, 
-    cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, np_file, np_work_time, 
-    lp_relate_id, lp_id, lp_file_name, lp_file, lp_work_time, s_dispatch_id, s_work_time, 
-    e_dispatch_id, e_work_time, admin_level_code, admin_level_name, max_ce_edu_attr, 
-    max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, 
-    unit_type_attr, verify_birth, verify_work_time
+    leader_type, cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, 
+    np_file, np_work_time, lp_relate_id, lp_id, lp_file_name, lp_file, lp_work_time, 
+    s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, admin_level_code, admin_level_name, 
+    max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, 
+    unit_type_name, unit_type_attr, verify_birth, verify_work_time
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreViewExample" resultMap="BaseResultMap">
     select

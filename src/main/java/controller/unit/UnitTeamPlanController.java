@@ -42,10 +42,12 @@ public class UnitTeamPlanController extends BaseController {
                                Integer unitTeamId, ModelMap modelMap) {
         
         modelMap.put("cls", cls);
+
+        UnitTeam unitTeam = unitTeamMapper.selectByPrimaryKey(unitTeamId);
+        modelMap.put("unitTeam", unitTeam);
+
         if(cls==2){
-            UnitTeam unitTeam = unitTeamMapper.selectByPrimaryKey(unitTeamId);
-            modelMap.put("unitTeam", unitTeam);
-    
+
             return "unit/unitTeamPlan/unitTeamPlan_dispatchCadres";
         }
         

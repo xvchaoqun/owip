@@ -8,6 +8,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="job" jdbcType="VARCHAR" property="job" />
     <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
+    <result column="leader_type" jdbcType="TINYINT" property="leaderType" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="post_class" jdbcType="INTEGER" property="postClass" />
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_id, code, name, job, is_principal_post, admin_level, post_type, post_class, 
-    is_cpc, status, abolish_date, open_date, sort_order, remark
+    id, unit_id, code, name, job, is_principal_post, leader_type, admin_level, post_type, 
+    post_class, is_cpc, status, abolish_date, open_date, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostExample" resultMap="BaseResultMap">
     select
@@ -113,16 +114,16 @@
   <insert id="insert" parameterType="domain.unit.UnitPost">
     insert into unit_post (id, unit_id, code, 
       name, job, is_principal_post, 
-      admin_level, post_type, post_class, 
-      is_cpc, status, abolish_date, 
-      open_date, sort_order, remark
-      )
+      leader_type, admin_level, post_type, 
+      post_class, is_cpc, status, 
+      abolish_date, open_date, sort_order, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{isPrincipalPost,jdbcType=BIT}, 
-      #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, #{postClass,jdbcType=INTEGER}, 
-      #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{abolishDate,jdbcType=DATE}, 
-      #{openDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{leaderType,jdbcType=TINYINT}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
+      #{postClass,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
+      #{abolishDate,jdbcType=DATE}, #{openDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.UnitPost">
     insert into unit_post
@@ -144,6 +145,9 @@
       </if>
       <if test="isPrincipalPost != null">
         is_principal_post,
+      </if>
+      <if test="leaderType != null">
+        leader_type,
       </if>
       <if test="adminLevel != null">
         admin_level,
@@ -191,6 +195,9 @@
       </if>
       <if test="isPrincipalPost != null">
         #{isPrincipalPost,jdbcType=BIT},
+      </if>
+      <if test="leaderType != null">
+        #{leaderType,jdbcType=TINYINT},
       </if>
       <if test="adminLevel != null">
         #{adminLevel,jdbcType=INTEGER},
@@ -248,6 +255,9 @@
       <if test="record.isPrincipalPost != null">
         is_principal_post = #{record.isPrincipalPost,jdbcType=BIT},
       </if>
+      <if test="record.leaderType != null">
+        leader_type = #{record.leaderType,jdbcType=TINYINT},
+      </if>
       <if test="record.adminLevel != null">
         admin_level = #{record.adminLevel,jdbcType=INTEGER},
       </if>
@@ -288,6 +298,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       job = #{record.job,jdbcType=VARCHAR},
       is_principal_post = #{record.isPrincipalPost,jdbcType=BIT},
+      leader_type = #{record.leaderType,jdbcType=TINYINT},
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
       post_type = #{record.postType,jdbcType=INTEGER},
       post_class = #{record.postClass,jdbcType=INTEGER},
@@ -318,6 +329,9 @@
       </if>
       <if test="isPrincipalPost != null">
         is_principal_post = #{isPrincipalPost,jdbcType=BIT},
+      </if>
+      <if test="leaderType != null">
+        leader_type = #{leaderType,jdbcType=TINYINT},
       </if>
       <if test="adminLevel != null">
         admin_level = #{adminLevel,jdbcType=INTEGER},
@@ -356,6 +370,7 @@
       name = #{name,jdbcType=VARCHAR},
       job = #{job,jdbcType=VARCHAR},
       is_principal_post = #{isPrincipalPost,jdbcType=BIT},
+      leader_type = #{leaderType,jdbcType=TINYINT},
       admin_level = #{adminLevel,jdbcType=INTEGER},
       post_type = #{postType,jdbcType=INTEGER},
       post_class = #{postClass,jdbcType=INTEGER},

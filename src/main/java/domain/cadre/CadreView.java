@@ -167,6 +167,8 @@ public class CadreView implements Serializable {
 
     private Boolean isPrincipalPost;
 
+    private Byte leaderType;
+
     private Integer cadrePostYear;
 
     private Integer adminLevelYear;
@@ -727,6 +729,14 @@ public class CadreView implements Serializable {
 
     public void setIsPrincipalPost(Boolean isPrincipalPost) {
         this.isPrincipalPost = isPrincipalPost;
+    }
+
+    public Byte getLeaderType() {
+        return leaderType;
+    }
+
+    public void setLeaderType(Byte leaderType) {
+        this.leaderType = leaderType;
     }
 
     public Integer getCadrePostYear() {

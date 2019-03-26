@@ -22,7 +22,7 @@
             </ul>
             <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.unitId ||not empty param.name
-            ||not empty param.isPrincipalPost||not empty param.isMainPost ||not empty param.isCpc  ||not empty param.cadreId
+            ||not empty param.isPrincipalPost||not empty param.leaderType||not empty param.isMainPost ||not empty param.isCpc  ||not empty param.cadreId
             ||not empty param.adminLevel ||not empty param.postType ||not empty param.postClass
             ||not empty param.unitTypes||not empty param.adminLevels
             ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
@@ -114,6 +114,18 @@
                                 </select>
                                 <script>
                                     $("#searchForm select[name=isPrincipalPost]").val('${param.isPrincipalPost}');
+                                </script>
+                            </div>
+                            <div class="form-group">
+                                <label>是否班子负责人</label>
+                                <select name="leaderType" data-placeholder="请选择" data-rel="select2">
+                                    <option></option>
+                                    <c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
+                                        <option value="${leaderType.key}">${leaderType.value}</option>
+                                    </c:forEach>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=leaderType]").val('${param.leaderType}');
                                 </script>
                             </div>
                             <div class="form-group">

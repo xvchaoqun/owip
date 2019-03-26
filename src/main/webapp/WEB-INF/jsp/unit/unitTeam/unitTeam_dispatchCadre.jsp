@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
         width:1090,
         url: '${ctx}/dispatchCadre_data?callback=?&pageSize=20&unitId=${unitTeam.unitId}',
         colModel: [ { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
-            { label:'发文号',  name: 'dispatch.dispatchCode', width: 140, align:'left',formatter:function(cellvalue, options, rowObject){
+            { label:'发文号',  name: 'dispatch.dispatchCode', width: 180, formatter:function(cellvalue, options, rowObject){
 
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                     cellvalue, cellvalue, 'url');

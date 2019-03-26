@@ -129,9 +129,19 @@ public class FileController extends BaseController {
 
     // 图片
     @RequestMapping("/pic")
-    public void pic(String path, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public void pic(String path, Integer w, Integer h,
+                    HttpServletResponse response, HttpServletRequest request) throws IOException {
 
         String imagepath = springProps.uploadPath + path;
+
+        if(w==null && h==null){
+            w = 800;
+            h = 800;
+        }else if(w==null){
+            w = Integer.MAX_VALUE;
+        }else{
+            h = Integer.MAX_VALUE;
+        }
 
         if(FileUtils.exists(springProps.uploadPath, path)) {
             BufferedImage bi = ImageIO.read(new File(imagepath));
@@ -139,9 +149,9 @@ public class FileController extends BaseController {
                 int srcWidth = bi.getWidth();      // 源图宽度
                 int srcHeight = bi.getHeight();    // 源图高度
 
-                if (srcWidth > 800 || srcHeight > 800) {
+                if (srcWidth > w || srcHeight > h) {
                     Thumbnails.of(imagepath)
-                            .size(800, 800)
+                            .size(w, h)
                             .keepAspectRatio(true)
                             .toOutputStream(response.getOutputStream());
                 } else {

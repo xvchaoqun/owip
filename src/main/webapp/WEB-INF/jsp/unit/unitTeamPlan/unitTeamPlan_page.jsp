@@ -36,7 +36,7 @@
     </button>--%>
 </div>
 <div class="space-4"></div>
-<table id="jqGrid_plan" class="jqGrid2 table-striped" data-height-reduce="30" data-width-reduce="30"></table>
+<table id="jqGrid_plan" class="jqGrid2 table-striped" <c:if test="${param.load=='view'}"> data-height-reduce="20" data-width-reduce="30"</c:if>></table>
 <div id="jqGridPager_plan"></div>
 <script>
     $("#jqGrid_plan").jqGrid({

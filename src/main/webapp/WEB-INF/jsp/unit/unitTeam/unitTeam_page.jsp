@@ -44,7 +44,7 @@
 <div id="jqGridPager2"></div>
 </div>
 <div id="div-content-view"></div>
-<jsp:include page="colModel.jsp"/>
+<jsp:include page="colModel.jsp?load=view"/>
 <script>
     $("#jqGrid2").jqGrid({
         rownumbers: true,

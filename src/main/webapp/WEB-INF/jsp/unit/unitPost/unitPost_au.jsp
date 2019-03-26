@@ -37,6 +37,20 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-3 control-label">是否班子负责人</label>
+				<div class="col-xs-6">
+				<select name="leaderType" data-width="272" data-placeholder="请选择" data-rel="select2">
+					<option></option>
+					<c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
+						<option value="${leaderType.key}">${leaderType.value}</option>
+					</c:forEach>
+				</select>
+				<script>
+					$("#modalForm select[name=leaderType]").val('${unitPost.leaderType}');
+				</script>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>岗位级别</label>
 				<div class="col-xs-6">
 					 <select required data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择">

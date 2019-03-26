@@ -11,7 +11,7 @@
 	${op}</h3>
 </div>
 <div  class="modal-body">
-	<form:form method="post" autocomplete="off" disableautocomplete id="modalForm" commandName="sysResource" class="form-horizontal">
+	<form:form method="post" id="modalForm" commandName="sysResource" class="form-horizontal" autocomplete="off">
         <form:hidden path="id"/>
         <form:hidden path="available"/>
 		<%--<form:hidden path="parentIds"/>--%>

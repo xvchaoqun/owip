@@ -16,6 +16,8 @@ public class UnitPost implements Serializable {
 
     private Boolean isPrincipalPost;
 
+    private Byte leaderType;
+
     private Integer adminLevel;
 
     private Integer postType;
@@ -82,6 +84,14 @@ public class UnitPost implements Serializable {
 
     public void setIsPrincipalPost(Boolean isPrincipalPost) {
         this.isPrincipalPost = isPrincipalPost;
+    }
+
+    public Byte getLeaderType() {
+        return leaderType;
+    }
+
+    public void setLeaderType(Byte leaderType) {
+        this.leaderType = leaderType;
     }
 
     public Integer getAdminLevel() {

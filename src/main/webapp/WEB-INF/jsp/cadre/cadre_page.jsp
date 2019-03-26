@@ -16,7 +16,8 @@
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
-                ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code }"/>
+                ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code
+                ||not empty param.leaderType }"/>
 
                 <div class="tabbable">
 
@@ -42,7 +43,7 @@
                         </shiro:hasPermission>
                     </ul>
 
-                    <div class="tab-content">
+                    <div class="tab-content multi-row-head-table">
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
                                 <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
@@ -373,6 +374,20 @@
                                                         </select>
                                                         <script>
                                                             $("#searchForm select[name=isDouble]").val('${param.isDouble}');
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="name">是否班子负责人</td>
+                                                    <td class="input" colspan="5">
+                                                         <select name="leaderType" data-placeholder="请选择" data-rel="select2">
+                                                            <option></option>
+                                                            <c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
+                                                                <option value="${leaderType.key}">${leaderType.value}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=leaderType]").val('${param.leaderType}');
                                                         </script>
                                                     </td>
                                                 </tr>

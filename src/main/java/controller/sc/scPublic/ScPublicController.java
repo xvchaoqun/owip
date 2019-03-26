@@ -55,11 +55,11 @@ public class ScPublicController extends ScBaseController {
     @RequestMapping("/scPublic_data")
     public void scPublic_data(HttpServletResponse response,
                               //@RequestParam(defaultValue = "1") Integer cls,
-                                    Integer year,
-                                    Integer committeeId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                              Integer year,
+                              Integer committeeId,
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -76,15 +76,15 @@ public class ScPublicController extends ScBaseController {
 
         //criteria.andIsFinishedEqualTo(cls==2);
 
-        if (year!=null) {
+        if (year != null) {
             criteria.andYearEqualTo(year);
         }
-        if (committeeId!=null) {
+        if (committeeId != null) {
             criteria.andCommitteeIdEqualTo(committeeId);
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             scPublic_export(example, response);
             return;
@@ -95,7 +95,7 @@ public class ScPublicController extends ScBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScPublicView> records= scPublicViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScPublicView> records = scPublicViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -134,36 +134,37 @@ public class ScPublicController extends ScBaseController {
     @RequiresPermissions("scPublic:edit")
     @RequestMapping("/scPublic_process")
     public String do_scPublic_process(ScPublic record,
-                              MultipartFile _wordFilePath,
-                              //MultipartFile _pdfFilePath,
-                              @RequestParam(required = false, value = "voteIds[]") Integer[] voteIds,
-                                 Byte export, // 0:预览 1：下载  其他：提交保存
-                              HttpServletResponse response, ModelMap modelMap) throws IOException, InterruptedException, TemplateException {
+                                      MultipartFile _wordFilePath,
+                                      //MultipartFile _pdfFilePath,
+                                      @RequestParam(required = false, value = "voteIds[]") Integer[] voteIds,
+                                      Byte export, // 0:预览 1：下载  其他：提交保存
+                                      HttpServletRequest request,
+                                      HttpServletResponse response, ModelMap modelMap) throws IOException, InterruptedException, TemplateException {
 
-        if(export!=null && export==0){
+        if (export != null && export == 0) {
 
             ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
             example.createCriteria().andIdIn(Arrays.asList(voteIds));
-            example.setOrderByClause("field(id,"+ StringUtils.join(voteIds, ",") + ") asc");
+            example.setOrderByClause("field(id," + StringUtils.join(voteIds, ",") + ") asc");
             List<ScCommitteeVoteView> votes = scCommitteeVoteViewMapper.selectByExample(example);
 
             Map<String, Object> dataMap = scPublicService.processData(record, votes);
             modelMap.put("dataMap", dataMap);
 
             return "sc/scPublic/scPublic/scPublic_preview";
-        }else if(export!=null && export == 1){
+        } else if (export != null && export == 1) {
 
             //输出文件
             String filename = "干部任前公示";
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
-                    "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
             response.setContentType("application/msword;charset=UTF-8");
 
             ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
             example.createCriteria().andIdIn(Arrays.asList(voteIds));
-            example.setOrderByClause("field(id,"+ StringUtils.join(voteIds, ",") + ") asc");
+            example.setOrderByClause("field(id," + StringUtils.join(voteIds, ",") + ") asc");
             List<ScCommitteeVoteView> votes = scCommitteeVoteViewMapper.selectByExample(example);
 
             Map<String, Object> dataMap = scPublicService.processData(record, votes);
@@ -171,12 +172,12 @@ public class ScPublicController extends ScBaseController {
             return null;
         }
 
-        if(voteIds==null || voteIds.length==0){
+        if (voteIds == null || voteIds.length == 0) {
             throw new OpException("请选择公示对象。");
         }
 
-        if(record.getNum()!=null &&
-                scPublicService.idDuplicate(record.getId(), record.getYear(), record.getNum())){
+        if (record.getNum() != null &&
+                scPublicService.idDuplicate(record.getId(), record.getYear(), record.getNum())) {
             throw new OpException("编号重复。");
         }
 
@@ -216,7 +217,7 @@ public class ScPublicController extends ScBaseController {
                                        HttpServletResponse response) throws IOException {
 
         List<ScCommitteeVoteView> votes = new ArrayList<>();
-        if(voteIds!=null){
+        if (voteIds != null) {
 
             ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
             example.createCriteria().andIdIn(Arrays.asList(voteIds));
@@ -252,7 +253,7 @@ public class ScPublicController extends ScBaseController {
     public Map scPublic_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             scPublicService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "批量删除干部任前公示：%s", StringUtils.join(ids, ",")));
         }
@@ -268,7 +269,7 @@ public class ScPublicController extends ScBaseController {
                                ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             scPublicService.finish(ids, true);
             logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "批量结束干部任前公示（已确认）：%s", StringUtils.join(ids, ",")));
         }
@@ -280,11 +281,11 @@ public class ScPublicController extends ScBaseController {
     @RequestMapping(value = "/scPublic_confirm", method = RequestMethod.POST)
     @ResponseBody
     public Map scPublic_confirm(HttpServletRequest request,
-                               @RequestParam(value = "ids[]") Integer[] ids,
-                               ModelMap modelMap) {
+                                @RequestParam(value = "ids[]") Integer[] ids,
+                                ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
 
             scPublicService.confirm(ids);
             logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "批量确认结束干部任前公示：%s", StringUtils.join(ids, ",")));
@@ -297,20 +298,20 @@ public class ScPublicController extends ScBaseController {
 
         List<ScPublicView> records = scPublicViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"所属党委常委会|100","年度|100","公示文件WORD版|100",
-                "公示文件PDF版|100","公示时间|100","发布时间|100","是否公示结束|100","是否确认公示结束|100"};
+        String[] titles = {"所属党委常委会|100", "年度|100", "公示文件WORD版|100",
+                "公示文件PDF版|100", "公示时间|100", "发布时间|100", "是否公示结束|100", "是否确认公示结束|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ScPublicView record = records.get(i);
             String[] values = {
-                record.getCommitteeId()+"",
-                            record.getYear()+"",
-                            record.getWordFilePath(),
-                            record.getPdfFilePath(),
-                            DateUtils.formatDate(record.getPublicStartDate(), DateUtils.YYYY_MM_DD),
-                            DateUtils.formatDate(record.getPublishDate(), DateUtils.YYYY_MM_DD),
-                            record.getIsFinished() +"",
-                            record.getIsConfirmed()+""
+                    record.getCommitteeId() + "",
+                    record.getYear() + "",
+                    record.getWordFilePath(),
+                    record.getPdfFilePath(),
+                    DateUtils.formatDate(record.getPublicStartDate(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getPublishDate(), DateUtils.YYYY_MM_DD),
+                    record.getIsFinished() + "",
+                    record.getIsConfirmed() + ""
             };
             valuesList.add(values);
         }

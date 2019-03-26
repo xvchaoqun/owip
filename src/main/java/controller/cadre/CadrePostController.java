@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import service.dispatch.DispatchCadreRelateService;
-import service.dispatch.DispatchCadreService;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -35,13 +34,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class CadrePostController extends BaseController {
@@ -134,9 +127,9 @@ public class CadrePostController extends BaseController {
         if(record.getUnitPostId()!=null) {
             CadrePost byUnitPostId = cadrePostService.getByUnitPostId(record.getUnitPostId());
             if(byUnitPostId!=null && (id==null || id!=byUnitPostId.getId().intValue())){
-                return failed(String.format("岗位已被%s(%s)使用。",
+                return failed("岗位已被{0}({1})使用。",
                         byUnitPostId.getCadre().getRealname(),
-                        byUnitPostId.getIsMainPost()?"主职":"兼职"));
+                        byUnitPostId.getIsMainPost()?"主职":"兼职");
             }
         }
 

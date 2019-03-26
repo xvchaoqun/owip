@@ -56,15 +56,16 @@ public class CadreAdformController extends BaseController {
     // 中组部干部任免审批表下载
     @RequiresPermissions("cadreAdform:download")
     @RequestMapping("/cadreAdform_zzb")
-    public void cadreAdform_zzb(int cadreId, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
+    public void cadreAdform_zzb(int cadreId, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
 
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         //输出文件
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();
         DownloadUtils.addFileDownloadCookieHeader(response);
+
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".lrmx").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".lrmx"));
         response.setContentType("text/xml;charset=UTF-8");
 
         CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);

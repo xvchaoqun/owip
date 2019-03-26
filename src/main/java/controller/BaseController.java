@@ -145,6 +145,8 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected UnitService unitService;
     @Autowired
+    protected UnitFunctionService unitFunctionService;
+    @Autowired
     protected UnitPostService unitPostService;
     @Autowired
     protected UnitTeamService unitTeamService;

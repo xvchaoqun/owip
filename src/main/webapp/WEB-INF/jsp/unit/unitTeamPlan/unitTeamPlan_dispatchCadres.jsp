@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <jsp:include page="menu.jsp"/>
 <div class="space-4"></div>
-<table id="jqGrid_dispatchCadre" data-width-reduce="60" class="jqGrid2"></table>
+<table id="jqGrid_dispatchCadre" <c:if test="${param.load=='view'}"> data-height-reduce="10" data-width-reduce="60"</c:if> class="jqGrid2"></table>
 <div id="jqGridPager_dispatchCadre"></div>
 <jsp:include page="/WEB-INF/jsp/dispatch/dispatchCadre/dispatchCadre_columns.jsp?type1=team"/>
 <script>

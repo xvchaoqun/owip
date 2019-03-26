@@ -43,6 +43,8 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected UnitViewMapper unitViewMapper;
     @Autowired(required = false)
+    protected UnitFunctionMapper unitFunctionMapper;
+    @Autowired(required = false)
     protected UnitPostMapper unitPostMapper;
     @Autowired(required = false)
     protected UnitPostViewMapper unitPostViewMapper;
