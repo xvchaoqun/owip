@@ -544,6 +544,53 @@ $(document).on("click", ".confirm", function (e) {
     e.stopPropagation();
     $.confirm(this);
 });
+
+// 执行操作按钮
+$(document).on("click", ".runBtn", function (e) {
+
+    e.stopPropagation();
+    var $this = $(this);
+    var url = $this.data("url");
+    var text = $this.data("loading-text");
+    var msg = $this.data("success-text") || "操作成功";
+    if($.trim(text)==''){
+        $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> 操作中')
+    }
+    var fn = $.trim($this.data("callback"));
+
+    var $btn = $this.button('loading');
+    $.post(url,function(ret){
+        if(ret.success) {
+            var $tip = $.tip({
+                $target: $this,
+                at: 'top center', my: 'bottom center', type: 'success',
+                msg: msg
+            });
+            setTimeout(function () {
+                $tip.qtip('destroy', true);
+                //console.log($tip)
+                $this.closest(".btn-group").removeClass("open");
+            }, 3000)
+
+            if (fn != '') {
+                 //console.log(fn)
+                 //console.log($this)
+                if(typeof window[fn] == "function") {
+                    window[fn]($this);
+                }else{
+                    var evalFn = eval(fn);
+                    if (typeof evalFn != "function"){
+                        console.log(fn + " is not a function");
+                        return false;
+                    }
+                    evalFn($this);
+                }
+            }
+        }
+        $btn.button('reset');
+    })
+});
+
 // 按钮打开连接
 $(document).on("click", ".linkBtn", function (e) {
 
