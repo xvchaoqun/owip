@@ -54,8 +54,10 @@ pageEncoding="UTF-8"%>
 <div class="modal-footer center">
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-            class="btn btn-primary"><i class="fa fa-check"></i> ${unitFunction!=null?'确定':'添加'}</button>
+            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty unitFunction?'确定':'添加'}</button>
+	<c:if test="${not empty unitFunction}">
     <a href="javascript:;" onclick="_reloadUnitFunction()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
+	</c:if>
 </div>
 	</div>
 <script>
