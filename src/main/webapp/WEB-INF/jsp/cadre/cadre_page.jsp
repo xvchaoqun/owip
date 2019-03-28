@@ -96,7 +96,7 @@
                                             <i class="fa fa-download"></i> 导出  <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-
+                                            <shiro:hasPermission name="cadre:list">
                                             <li class="dropdown-hover" data-stopPropagation="true">
                                                 <a href="javascript:;"
                                                    data-need-id="false" data-url="${ctx}/cadre_data" data-querystr="format=1">
@@ -124,8 +124,15 @@
                                                     </div>
                                                     </form>
                                                 </div>
-
                                             </li>
+                                             </shiro:hasPermission>
+                                            <shiro:hasPermission name="cadre:list2">
+                                                <li>
+                                                    <a href="javascript:;" class="jqExportBtn"
+                                                       data-need-id="false" data-url="${ctx}/cadre_data" data-querystr="format=1">
+                                                        <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）</a>
+                                                </li>
+                                            </shiro:hasPermission>
                                             <c:if test="${status==CADRE_STATUS_MIDDLE}">
                                                 <shiro:hasPermission name="cadre:list">
                                                     <li role="separator" class="divider"></li>
