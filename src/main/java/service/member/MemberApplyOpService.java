@@ -15,7 +15,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
@@ -688,7 +688,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
             Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
-            if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && !presentPartyAdmin) {
                 throw new UnauthorizedException();
             }
 
@@ -722,7 +722,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
             Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
-            if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && !presentPartyAdmin) {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();

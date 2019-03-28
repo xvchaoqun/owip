@@ -147,7 +147,7 @@
     </div>
 </div>
 <script type="text/template" id="itemListTpl">
-    <table id="itemTable" class="table table-striped table-bordered table-condensed table-unhover2 table-center">
+    <table id="itemTable" class="table table-striped table-bordered table-unhover2 table-center">
         <thead class="multi">
         <tr>
             <th colspan="3">已选择的函询对象</th>

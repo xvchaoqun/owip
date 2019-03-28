@@ -21,12 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +37,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.member.common.MemberApplyCount;
 import service.member.MemberApplyOpService;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.LogConstants;
+import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -63,9 +61,7 @@ public class MemberApplyController extends MemberBaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         return super.checkVerityAuth(memberApply, memberApply.getPartyId(), memberApply.getBranchId());
     }
-
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
-    @RequiresPermissions("memberApply:import")
+    @RequiresPermissions({"memberApply:import", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping("/memberApply_import")
     public String memberApply_import(ModelMap modelMap) {
 
@@ -73,8 +69,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     // 导入
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
-    @RequiresPermissions("memberApply:import")
+    @RequiresPermissions({"memberApply:import", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping(value = "/memberApply_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply_import(HttpServletRequest request) throws InvalidFormatException, IOException {
@@ -231,7 +226,7 @@ public class MemberApplyController extends MemberBaseController {
                 break;
             case OwConstants.OW_APPLY_STAGE_DRAW:
                 if (status == -1)
-                    modelMap.put("isAdmin", ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN));
+                    modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
                 else if (status == 2) // 组织部审核之后，党支部才提交
                     modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 else if (status == 0) // 党支部提交后，分党委审核
@@ -243,8 +238,12 @@ public class MemberApplyController extends MemberBaseController {
                 else if (status == 0)
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 else
-                    modelMap.put("isAdmin", ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN));
+                    modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
                 break;
+        }
+        // 组织部可以审批所有
+        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+            modelMap.put("isAdmin", true);
         }
 
         // 读取总数
@@ -484,9 +483,7 @@ public class MemberApplyController extends MemberBaseController {
         }
         //===========权限
         Integer loginUserId = loginUser.getId();
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, oldPartyId);
             if (isAdmin) {
@@ -825,8 +822,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //组织部管理员审核 预备党员 , 在领取志愿书模块
-    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
-    @RequiresPermissions("memberApply:grow_check2")
+    @RequiresPermissions({"memberApply:grow_check2", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping(value = "/apply_grow_od_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_grow_od_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUserView loginUser, HttpServletRequest request) {
@@ -889,8 +885,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //组织部管理员审核 正式党员， 在预备党员模块
-    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
-    @RequiresPermissions("memberApply:positive_check2")
+    @RequiresPermissions({"memberApply:positive_check2", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_positive_check2(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUserView loginUser, HttpServletRequest request) {

@@ -17,7 +17,7 @@ import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
 import java.util.List;
@@ -139,7 +139,7 @@ public class MemberQuitService extends MemberBaseMapper {
                 status = MemberConstants.MEMBER_QUIT_STATUS_APPLY;
             }
             if (type == 3) { // 组织部打回
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
                 status = MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY;
             }
@@ -251,7 +251,7 @@ public class MemberQuitService extends MemberBaseMapper {
                 check2(memberQuit.getUserId());
             }
             if(type==3) {
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(id);
                 check3(memberQuit.getUserId());
             }
@@ -270,7 +270,7 @@ public class MemberQuitService extends MemberBaseMapper {
     @Transactional
     public void memberQuit_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN);
+        boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         for (int userId : userIds) {
 
             MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);

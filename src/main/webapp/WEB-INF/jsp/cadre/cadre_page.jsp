@@ -95,12 +95,36 @@
                                                 class="btn btn-success btn-sm dropdown-toggle tooltip-success">
                                             <i class="fa fa-download"></i> 导出  <span class="caret"></span>
                                         </button>
-                                        <ul class="dropdown-menu dropdown-success" role="menu">
+                                        <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
 
-                                            <li>
-                                                <a href="javascript:;" class="jqExportBtn"
+                                            <li class="dropdown-hover" data-stopPropagation="true">
+                                                <a href="javascript:;"
                                                    data-need-id="false" data-url="${ctx}/cadre_data" data-querystr="format=1">
-                                                    <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）</a>
+                                                    <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）
+                                                <i class="ace-icon fa fa-caret-right pull-right"></i>
+                                                </a>
+                                                <div class="dropdown-menu" style="width: 675px;top:-220px;">
+                                                    <form class="form-horizontal" id="exportForm">
+                                                    <div style="padding: 7px 0 10px 10px">
+                                                        <c:forEach items="${titles}" var="title" varStatus="vs">
+                                                             <div style="padding-left:5px;float: left;width:220px">
+                                                                 <input class="big" type="checkbox" value="${vs.index}" checked>
+                                                                     ${fn:split(title, "|")[0]}</div>
+                                                        </c:forEach>
+                                                        <div style="clear: both"/>
+                                                    </div>
+                                                    <div class="form-actions center">
+                                                        <div  style="position: absolute; float:left; left:10px;padding-top: 3px">
+                                                              <input type="button" id="btnSelectAll" class="btn btn-success btn-xs" value="全选"/>
+                                                              <input type="button" id="btnDeselectAll" class="btn btn-danger btn-xs" value="全不选"/>
+                                                        </div>
+                                                        <button type="button" class="jqExportBtn btn btn-success"
+                                                                data-need-id="false" data-url="${ctx}/cadre_data" data-querystr="format=1">
+                                                            <i class="fa fa-file-excel-o"></i> 导出</button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+
                                             </li>
                                             <c:if test="${status==CADRE_STATUS_MIDDLE}">
                                                 <shiro:hasPermission name="cadre:list">
@@ -180,6 +204,7 @@
                                 <div class="widget-body">
                                     <div class="widget-main no-padding">
                                         <form class="form-inline search-form" id="searchForm">
+                                            <input type="hidden" name="cols">
                                             <table>
                                                 <tr>
                                                     <td class="name">姓名</td>
@@ -392,7 +417,8 @@
                                                     </td>
                                                 </tr>
                                             </table>
-
+                                            <div>
+                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>
@@ -449,6 +475,30 @@
 </style>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+     $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+         //console.log($(e.target).hasClass("jqExportBtn"))
+         if(!$(e.target).hasClass("jqExportBtn")) {
+             e.stopPropagation();
+         }
+    });
+     $("#btnSelectAll").click(function () {
+         $("#exportForm :checkbox").prop("checked", true);
+        _updateCols()
+     });
+     $("#btnDeselectAll").click(function () {
+         $("#exportForm :checkbox").prop("checked", false);
+         _updateCols()
+     });
+     $("#exportForm :checkbox").click(function () {
+         _updateCols()
+     });
+     function _updateCols(){
+         var cols = $.map($("#exportForm :checkbox:checked"), function (chk) {
+             return $(chk).val();
+         });
+         $("#searchForm input[name=cols]").val(cols.join(','));
+     }
+
     $.register.multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
     $.register.multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)}, {
         enableClickableOptGroups: true,

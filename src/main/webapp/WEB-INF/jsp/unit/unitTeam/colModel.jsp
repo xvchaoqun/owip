@@ -5,13 +5,15 @@
   var colModel = [
             { label: '详情', name: '_detail', width: 80, formatter:function(cellvalue, options, rowObject){
                 return ('<button class="openView btn btn-primary btn-xs" ' +
+                    <c:if test="${param.load!='page'}">
                     'data-hide-el="#div-content" data-load-el="#div-content-view"' +
+                    </c:if>
                     'data-url="${ctx}/unitTeamPlan?unitTeamId={0}&load=${param.load}"><i class="fa fa-search"></i> {1}</button>')
                         .format(rowObject.id, '详情');
             },frozen:true },
-            {label: '行政班子名称', name: 'name', align: 'left', width: 300, frozen: true},
+            {label: '行政班子名称', name: 'name', align: 'left', width: 250, frozen: true},
             {label: '届数', name: 'year', width: 60},
-            {label: '是否现任班子', name: 'isPresent', formatter: $.jgrid.formatter.TRUEFALSE},
+            {label: '是否<br/>现任班子', name: 'isPresent', width: 70, formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '任职文件', name: 'appoint.file', width: 180, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.appoint==undefined) return '--'
                 return $.swfPreview(cellvalue, rowObject.name + "-任职文件", rowObject.appoint.dispatchCode);
@@ -44,11 +46,52 @@
                 }
                 return '其他时段应启动换届单位';
             }},
+            <c:if test="${param.load!='page'}">
             {label: '免职文件', name: 'depose.file', align: 'left', width: 170, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.depose==undefined) return '--'
                 return $.swfPreview(cellvalue, rowObject.name + "-免职文件", rowObject.depose.dispatchCode);
             }},
             {label: '免职时间', name: 'deposeDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            </c:if>
+            <c:if test="${param.load=='page'}">
+            {label: '班子负责人', name: 'dwLeader.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.dwLeader==undefined) return '--'
+                return $.cadre(rowObject.dwLeader.id, cellvalue);
+            }},
+            {label: '出生时间', name: 'dwLeader.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '年龄', name: 'dwLeader.birth', width: 50, formatter: $.jgrid.formatter.AGE},
+              {
+                    label: '现职务任命文件',
+                    width: 150,
+                    name: 'dwLeader.mainCadrePost.dispatchCadreRelateBean.first',
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (!cellvalue || cellvalue.id == undefined) return '';
+                        var dispatchCode = cellvalue.dispatchCode;
+
+                        return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                    }
+                },
+                {
+                    label: '任现职时间',
+                    name: 'dwLeader.lpWorkTime',
+                    formatter: 'date',
+                    formatoptions: {newformat: 'Y-m-d'}
+                },
+                {
+                    label: '现职务<br/>始任时间',
+                    name: 'dwLeader.npWorkTime',
+                    formatter: 'date',
+                    formatoptions: {newformat: 'Y-m-d'}
+                },
+                {
+                    label: '现职务<br/>始任年限',
+                    name: 'dwLeader.cadrePostYear',
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == undefined) return '';
+                        return cellvalue == 0 ? "未满一年" : cellvalue;
+                    }
+                },
+            </c:if>
             /*{label: '干部配置方案', name: '_untPosts'},
             {label: '行政正职', name: '_untPosts'},
             {label: '行政副职', name: '_untPosts'},*/

@@ -923,9 +923,11 @@ public class UnitTeamExample {
                         String start = DateUtils.formatDate(termTimeRange.getStart(), DateUtils.YYYY_MM_DD);
                         String end = DateUtils.formatDate(termTimeRange.getEnd(), DateUtils.YYYY_MM_DD);
                         addCriterion("((expect_depose_date < " + start + " or expect_depose_date>" + end + ") " +
-                                "and expect_depose_date>now()) and depose_date is null");
+                                "and left(expect_depose_date,4)!= "+ currentYear
+                                + " and expect_depose_date>now()) and depose_date is null");
                     }else{
-                        addCriterion("expect_depose_date>now() and depose_date is null");
+                        addCriterion("left(expect_depose_date,4)!= "+ currentYear
+                                +" and expect_depose_date>now() and depose_date is null");
                     }
 
                     return;
@@ -942,7 +944,9 @@ public class UnitTeamExample {
                     searchStr = "expect_depose_date >= "+ start + " and expect_depose_date <= "+ end;
                 }
                 // 其他时段应启动换届单位
-                addCriterion("(" + searchStr + ") and depose_date is null");
+                addCriterion("(" + searchStr + ")"
+                        + " and left(expect_depose_date,4)!= "+ currentYear
+                        +" and depose_date is null");
             }
         }
     }

@@ -846,7 +846,7 @@ $(document).on("click", " .jqSearchBtn", function () {
 });
 
 // 导出 for jqgrid
-$(document).on("click", ".jqExportBtn", function () {
+$(document).on("click", ".jqExportBtn", function (e) {
 
     var $this = $(this);
 
@@ -867,6 +867,8 @@ $(document).on("click", ".jqExportBtn", function () {
         encodeURI(idsName)+"=" + ids + "&" + $(searchFormId).serialize();
 
     $this.download(url);
+
+    e.stopPropagation();
     return false;
 });
 

@@ -19,7 +19,7 @@ import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
@@ -362,7 +362,7 @@ public class MemberStayService extends MemberBaseMapper {
 
                 check2(memberStay.getId(), branchId, orgBranchAdminId, orgBranchAdminPhone);
             }else if (type == 3) {
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 memberStay = memberStayMapper.selectByPrimaryKey(id);
                 check3(memberStay.getId());
             }else{
@@ -383,7 +383,7 @@ public class MemberStayService extends MemberBaseMapper {
     @Transactional
     public void memberStay_back(Integer[] ids, byte status, String reason, int loginUserId) {
 
-        boolean odAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN);
+        boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         for (int id : ids) {
 
             MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);

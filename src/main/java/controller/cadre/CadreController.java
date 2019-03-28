@@ -130,6 +130,10 @@ public class CadreController extends BaseController {
             modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
         }
 
+        // 导出的列名字
+        List<String> titles = cadreExportService.getTitles();
+        modelMap.put("titles", titles);
+
         return "cadre/cadre_page";
     }
 
@@ -163,6 +167,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                           @RequestParam(required = false) int[] cols, // 选择导出的列
                            Integer pageSize, Integer pageNo) throws IOException, TemplateException {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
@@ -271,7 +276,7 @@ public class CadreController extends BaseController {
 
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cadre_export(format, status, example, response);
+            cadre_export(format, status, cols, example, response);
             return;
         }else if(export==2 || export==3){
 
@@ -314,12 +319,12 @@ public class CadreController extends BaseController {
         }
     }
 
-    private void cadre_export(int format, Byte status, CadreViewExample example, HttpServletResponse response) throws IOException {
+    private void cadre_export(int format, Byte status, int[] cols, CadreViewExample example, HttpServletResponse response) throws IOException {
 
         SXSSFWorkbook wb = null;
         if(format==1) {
             // 一览表
-            wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1);
+            wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols);
             String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
             String fileName = CmTag.getSysConfig().getSchoolName() + cadreType + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
             ExportHelper.output(wb, fileName + ".xlsx", response);

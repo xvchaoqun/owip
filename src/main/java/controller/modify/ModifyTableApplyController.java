@@ -286,7 +286,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
         ModifyTableApplyExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
-        if (ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {
+        if (ShiroHelper.isPermitted("modifyTableApply:*")) {
             if (userId != null) {
                 criteria.andUserIdEqualTo(userId);
             }

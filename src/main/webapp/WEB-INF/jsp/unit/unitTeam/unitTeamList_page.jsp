@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div id="div-content">
+<div id="body-content" class="multi-row-head-table">
 <div class="jqgrid-vertical-offset buttons">
         <button class="popupBtn btn btn-success btn-sm" data-url="${ctx}/unitTeam_term">
             <i class="fa fa-plus"></i> 设定本学期起止时间
@@ -70,10 +70,10 @@
             </div>
         </div>
 <div class="space-4"></div>
-<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="-15"></table>
+<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="60"></table>
 <div id="jqGridPager2"></div>
 </div>
-<div id="div-content-view"></div>
+<div id="body-content-view"></div>
 <jsp:include page="colModel.jsp?load=page"/>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>

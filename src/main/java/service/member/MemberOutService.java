@@ -17,7 +17,7 @@ import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
 import java.util.Arrays;
@@ -328,7 +328,7 @@ public class MemberOutService extends MemberBaseMapper {
                 check1(memberOut.getId());
             }
             if (type == 2) {
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
 
                 memberOut = memberOutMapper.selectByPrimaryKey(id);
                 check2(memberOut.getId(), false);
@@ -347,7 +347,7 @@ public class MemberOutService extends MemberBaseMapper {
     @Transactional
     public void memberOut_back(Integer[] userIds, byte status, String reason, int loginUserId) {
 
-        boolean odAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN);
+        boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         for (int userId : userIds) {
 
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(userId);

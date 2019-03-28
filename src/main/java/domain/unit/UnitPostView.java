@@ -80,7 +80,13 @@ public class UnitPostView implements Serializable {
 
     private Boolean isMainPost;
 
+    private Byte gender;
+
     private Integer cadreAdminLevel;
+
+    private Integer cadrePostType;
+
+    private Boolean cadreIsPrincipalPost;
 
     private Integer cadrePostYear;
 
@@ -288,12 +294,36 @@ public class UnitPostView implements Serializable {
         this.isMainPost = isMainPost;
     }
 
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
     public Integer getCadreAdminLevel() {
         return cadreAdminLevel;
     }
 
     public void setCadreAdminLevel(Integer cadreAdminLevel) {
         this.cadreAdminLevel = cadreAdminLevel;
+    }
+
+    public Integer getCadrePostType() {
+        return cadrePostType;
+    }
+
+    public void setCadrePostType(Integer cadrePostType) {
+        this.cadrePostType = cadrePostType;
+    }
+
+    public Boolean getCadreIsPrincipalPost() {
+        return cadreIsPrincipalPost;
+    }
+
+    public void setCadreIsPrincipalPost(Boolean cadreIsPrincipalPost) {
+        this.cadreIsPrincipalPost = cadreIsPrincipalPost;
     }
 
     public Integer getCadrePostYear() {

@@ -11,7 +11,9 @@ import service.party.BranchMemberService;
 import service.party.BranchService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
+import shiro.ShiroHelper;
 import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.lang.reflect.InvocationTargetException;
@@ -36,10 +38,16 @@ public class PartyHelper {
     }
 
     public static Boolean isPresentBranchAdmin(Integer userId, Integer partyId, Integer branchId) {
+
+        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) return true;
+
         return branchMemberService.isPresentAdmin(userId, partyId, branchId);
     }
 
     public static Boolean isPresentPartyAdmin(Integer userId, Integer partyId) {
+
+        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) return true;
+
         return partyMemberService.isPresentAdmin(userId, partyId);
     }
 

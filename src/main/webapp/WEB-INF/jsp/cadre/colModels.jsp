@@ -64,7 +64,7 @@
         {
             label: '全日制教育学历', name: 'fulltimeEdu', width: 130, formatter: function (cellvalue, options, rowObject) {
             var cadreEdus = rowObject.cadreEdus;
-            if (cadreEdus == undefined || cadreEdus == null || cadreEdus[0] == undefined) return '-';
+            if (cadreEdus == undefined || cadreEdus == null || cadreEdus[0] == undefined || cadreEdus[0].eduId == undefined) return '-';
             return _cMap.metaTypeMap[cadreEdus[0].eduId].name/* + ((cadreEdus[0].degree==undefined)?'':cadreEdus[0].degree)*/;
         }
         },
@@ -83,7 +83,7 @@
         {
             label: '在职教育学历', name: 'onjobEdu', width: 120, formatter: function (cellvalue, options, rowObject) {
             var cadreEdus = rowObject.cadreEdus;
-            if (cadreEdus == undefined || cadreEdus == null || cadreEdus[1] == undefined) return '-';
+            if (cadreEdus == undefined || cadreEdus == null || cadreEdus[1] == undefined || cadreEdus[1].eduId == undefined) return '-';
             return _cMap.metaTypeMap[cadreEdus[1].eduId].name/* + ((cadreEdus[1].degree==undefined)?'':cadreEdus[1].degree)*/;
         }
         },

@@ -38,7 +38,7 @@
                                             data-open-by="page"
                                             data-need-id="false"
                                             data-count="${partyApprovalCount}">
-                                        <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${partyApprovalCount}）
+                                        <i class="fa fa-sign-in"></i> 审核（${partyApprovalCount}）
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"

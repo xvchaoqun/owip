@@ -1,8 +1,7 @@
 package domain.member;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
 import java.util.ArrayList;
@@ -1605,8 +1604,7 @@ public class MemberApplyExample {
         }
         public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
-            Subject subject = SecurityUtils.getSubject();
-            if(subject.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();

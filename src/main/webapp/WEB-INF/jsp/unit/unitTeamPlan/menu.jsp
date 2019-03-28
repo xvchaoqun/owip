@@ -5,7 +5,6 @@
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;"
-               data-load-el="#div-content" data-hide-el="#div-content-view"
                class="hideView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
@@ -19,13 +18,15 @@
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="<c:if test="${cls==1}">active</c:if>">
         <a href="javascript:;" class="loadPage"
-           data-load-el="#div-content-view"
+           <c:if test="${param.load!='page'}">data-load-el="#div-content-view"</c:if>
+           <c:if test="${param.load=='page'}">data-load-el="#body-content-view"</c:if>
            data-url="${ctx}/unitTeamPlan?cls=1&unitTeamId=${param.unitTeamId}&load=${param.load}"><i
                 class="fa fa-setting"></i> 干部配置方案</a>
     </li>
     <li class="<c:if test="${cls==2}">active</c:if>">
         <a href="javascript:;" class="loadPage"
-           data-load-el="#div-content-view"
+           <c:if test="${param.load!='page'}">data-load-el="#div-content-view"</c:if>
+           <c:if test="${param.load=='page'}">data-load-el="#body-content-view"</c:if>
            data-url="${ctx}/unitTeamPlan?cls=2&unitTeamId=${param.unitTeamId}&load=${param.load}">
             <i class="fa fa-history"></i> 班子成员任职信息</a>
     </li>

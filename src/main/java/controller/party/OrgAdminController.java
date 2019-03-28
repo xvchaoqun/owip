@@ -8,9 +8,7 @@ import domain.party.OrgAdminExample.Criteria;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,8 +16,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -183,9 +182,7 @@ public class OrgAdminController extends BaseController {
         if (id != null) {
             OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
             if(orgAdmin!=null) {
-                Subject subject = SecurityUtils.getSubject();
-                if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                        && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
                     if (orgAdmin.getUserId().intValue() == loginUser.getId()) {
                         return failed("不能删除自己");
                     }

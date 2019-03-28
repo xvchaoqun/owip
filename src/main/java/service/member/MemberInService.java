@@ -22,7 +22,7 @@ import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
@@ -335,7 +335,7 @@ public class MemberInService extends MemberBaseMapper {
                 }
             }
             if(type==2) {
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 addMember(memberIn.getUserId(), memberIn.getPoliticalStatus());
             }
 
@@ -351,7 +351,7 @@ public class MemberInService extends MemberBaseMapper {
     @Transactional
     public void memberIn_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN);
+        boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         for (int userId : userIds) {
 
             MemberIn memberIn = memberInMapper.selectByPrimaryKey(userId);

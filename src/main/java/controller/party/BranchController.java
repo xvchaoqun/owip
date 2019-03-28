@@ -275,9 +275,7 @@ public class BranchController extends BaseController {
     public Map do_branch_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         // 权限控制
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             // 要求是分党委管理员
             Branch branch = branchService.findAll().get(id);
             int partyId = branch.getPartyId();

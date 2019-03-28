@@ -54,8 +54,36 @@ public class UnitPostService extends BaseMapper {
     public UnitPost getByCode(String code){
 
         UnitPostExample example = new UnitPostExample();
-        UnitPostExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+        example.createCriteria().andCodeEqualTo(code);
         List<UnitPost> records = unitPostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return records.size()==1?records.get(0):null;
+    }
+
+    // 单位的现有岗位中， 行政班子负责人和党委班子负责人，分别最多一个
+    public boolean leaderTypeDuplicate(Integer id, int unitId, Byte leaderType) {
+
+        if(leaderType==null || leaderType==SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
+            return false;
+
+        UnitPostExample example = new UnitPostExample();
+        UnitPostExample.Criteria criteria = example.createCriteria()
+                .andUnitIdEqualTo(unitId).andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL)
+                .andLeaderTypeEqualTo(leaderType);
+        if (id != null) criteria.andIdNotEqualTo(id);
+
+        return unitPostMapper.countByExample(example) > 0;
+    }
+
+    public UnitPostView getByLeaderType(int unitId, Byte leaderType){
+
+         if(leaderType==null || leaderType==SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
+            return null;
+
+        UnitPostViewExample example = new UnitPostViewExample();
+        example.createCriteria().andUnitIdEqualTo(unitId).andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL)
+                .andLeaderTypeEqualTo(leaderType);
+        List<UnitPostView> records = unitPostViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return records.size()==1?records.get(0):null;
     }
@@ -92,6 +120,7 @@ public class UnitPostService extends BaseMapper {
     public void insertSelective(UnitPost record) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
+        Assert.isTrue(!leaderTypeDuplicate(null, record.getUnitId(), record.getLeaderType()), "leaderType duplicate");
         record.setSortOrder(getNextSortOrder("unit_post",
                 String.format("unit_id=%s and status=%s", record.getUnitId(), record.getStatus())));
         unitPostMapper.insertSelective(record);
@@ -128,8 +157,11 @@ public class UnitPostService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(UnitPost record) {
+
         if (record.getCode() != null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
+        Assert.isTrue(!leaderTypeDuplicate(record.getId(), record.getUnitId(), record.getLeaderType()), "leaderType duplicate");
+
         return unitPostMapper.updateByPrimaryKeySelective(record);
     }
 

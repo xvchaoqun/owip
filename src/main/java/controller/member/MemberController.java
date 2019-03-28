@@ -16,10 +16,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -142,7 +140,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping("/member_import")
     public String member_import(boolean inSchool,
                                 ModelMap modelMap) {
@@ -152,7 +150,7 @@ public class MemberController extends MemberBaseController {
     }
 
     // 导入校内账号的党员信息
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping(value = "/member_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_member_import(boolean inSchool, HttpServletRequest request) throws InvalidFormatException, IOException {
@@ -464,9 +462,7 @@ public class MemberController extends MemberBaseController {
 
         //===========权限
         Integer loginUserId = loginUser.getId();
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以添加党员
@@ -589,9 +585,7 @@ public class MemberController extends MemberBaseController {
         Integer branchId = member.getBranchId();
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以操作
@@ -626,13 +620,12 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequestMapping("/member_changeBranch")
     public String member_changeBranch(@CurrentUser SysUserView loginUser, @RequestParam(value = "ids[]") Integer[] ids,
                                       int partyId, ModelMap modelMap) {
 
         // 判断是分党委管理员
-        if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
+        if (!PartyHelper.isPresentPartyAdmin(loginUser.getId(), partyId)) {
             throw new UnauthorizedException();
         }
 
@@ -657,7 +650,6 @@ public class MemberController extends MemberBaseController {
     }
 
     // 批量分党委内部转移
-    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequestMapping(value = "/member_changeBranch", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeBranch(@CurrentUser SysUserView loginUser, HttpServletRequest request,
@@ -667,7 +659,7 @@ public class MemberController extends MemberBaseController {
                                    ModelMap modelMap) {
 
         // 判断是分党委管理员
-        if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
+        if (!PartyHelper.isPresentPartyAdmin(loginUser.getId(), partyId)) {
             throw new UnauthorizedException();
         }
 
@@ -678,7 +670,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
+    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping("/member_changeParty")
     public String member_changeParty() {
 
@@ -688,7 +680,7 @@ public class MemberController extends MemberBaseController {
     }
 
     // 批量校内组织关系转移
-    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
+    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping(value = "/member_changeParty", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeParty(HttpServletRequest request,
@@ -718,7 +710,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -814,7 +806,7 @@ public class MemberController extends MemberBaseController {
         Member member = memberService.get(userId);
 
         // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_ADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             Integer partyId = member.getPartyId();
             Integer branchId = member.getBranchId();
             Integer loginUserId = loginUser.getId();

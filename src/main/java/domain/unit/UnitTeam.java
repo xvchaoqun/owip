@@ -1,8 +1,11 @@
 package domain.unit;
 
+import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import org.springframework.format.annotation.DateTimeFormat;
+import service.unit.UnitPostService;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -21,6 +24,23 @@ public class UnitTeam implements Serializable {
         DispatchCadre dispatchCadre = CmTag.getDispatchCadre(deposeDispatchCadreId);
         return dispatchCadre==null?null:dispatchCadre.getDispatch();
     }
+
+    public CadreView getDwLeader(){
+
+        UnitPostService unitPostService = CmTag.getBean(UnitPostService.class);
+        UnitPostView up = unitPostService.getByLeaderType(unitId, SystemConstants.UNIT_POST_LEADER_TYPE_DW);
+
+        return up==null?null:up.getCadre();
+    }
+
+    public CadreView getXzLeader(){
+
+        UnitPostService unitPostService = CmTag.getBean(UnitPostService.class);
+        UnitPostView up = unitPostService.getByLeaderType(unitId, SystemConstants.UNIT_POST_LEADER_TYPE_XZ);
+
+        return up==null?null:up.getCadre();
+    }
+
     private Integer id;
 
     private Integer unitId;

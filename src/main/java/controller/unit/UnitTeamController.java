@@ -95,11 +95,15 @@ public class UnitTeamController extends BaseController {
             termTimeRange.setStart(sysConfig.getTermStartDate());
             termTimeRange.setEnd(sysConfig.getTermEndDate());
 
+            criteria.andExpectDeposeDateIsNotNull();
+
             if(timeLevel==2){ // 本学期
                 criteria.andTimeLevelEqualTo(timeLevel, termTimeRange, null);
             }else{
                 criteria.andTimeLevelEqualTo(timeLevel, termTimeRange, _deposeTime);
             }
+
+            example.setOrderByClause("expect_depose_date asc, appoint_date asc");
         }
         
         if (StringUtils.isNotBlank(name)) {

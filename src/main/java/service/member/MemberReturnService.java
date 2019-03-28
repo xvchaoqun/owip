@@ -309,15 +309,15 @@ public class MemberReturnService extends MemberBaseMapper {
         if(status==MemberConstants.MEMBER_RETURN_STATUS_DENY ) { // 后台打回申请，需要重置入口提交状态
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-            if (_enterApply == null)
-                throw new OpException("系统错误");
+            if (_enterApply != null) {
 
-            EnterApply enterApply = new EnterApply();
-            enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-            enterApply.setRemark(reason);
-            enterApply.setBackTime(new Date());
-            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+                EnterApply enterApply = new EnterApply();
+                enterApply.setId(_enterApply.getId());
+                enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApply.setRemark(reason);
+                enterApply.setBackTime(new Date());
+                enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+            }
         }
 
         iMemberMapper.memberReturn_back(id, status);

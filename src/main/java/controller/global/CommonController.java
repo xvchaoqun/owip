@@ -399,7 +399,7 @@ public class CommonController extends BaseController {
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
             Subject subject = SecurityUtils.getSubject();
-            addPermits = !subject.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+            addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
             adminPartyIdList = loginUserService.adminPartyIdList();
             adminBranchIdList = loginUserService.adminBranchIdList();
         }
@@ -470,7 +470,7 @@ public class CommonController extends BaseController {
         if (searchStr != null) searchStr = searchStr + "%";
 
         Subject subject = SecurityUtils.getSubject();
-        boolean addPermits = !subject.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 

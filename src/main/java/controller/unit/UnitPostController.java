@@ -33,10 +33,7 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -153,6 +150,8 @@ public class UnitPostController extends BaseController {
     public String unitPostList(@RequestParam(required = false, defaultValue = "1")Byte cls,
                                @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
                                Byte displayType,
+                               Integer startNowPostAge,
+                               Integer endNowPostAge,
                                ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -170,8 +169,13 @@ public class UnitPostController extends BaseController {
                 // 待调整的岗位列表
                 return "unit/unitPost/unitPost_openList";
             } else if (displayType == 3) {
-                // 同一岗位任职满8年列表
-                return "unit/unitPost/unitPost_openList";
+
+                if(startNowPostAge==null && endNowPostAge!=null) startNowPostAge = 0;
+                else if(startNowPostAge==null) startNowPostAge = 8;
+
+                modelMap.put("startNowPostAge", startNowPostAge);
+                // 超任职年限的干部列表
+                return "unit/unitPost/unitPost_cadreList";
             }
         }
 
@@ -222,9 +226,12 @@ public class UnitPostController extends BaseController {
                               Byte leaderType,
                               Boolean isCpc,
                               Boolean isMainPost,
-                              // 1: 显示空缺岗位 2: 显示占干部职数的兼职岗位
+                              // 1: 显示空缺岗位 2: 显示占干部职数的兼职岗位 3: 超任职年限的干部列表
                               Byte displayType,
                               Integer cadreId,
+                               Byte gender,
+                               Boolean cadreIsPrincipalPost,
+                              Integer cadrePostType,
                               Integer startNowPostAge,
                               Integer endNowPostAge,
                               Integer startNowLevelAge,
@@ -289,11 +296,22 @@ public class UnitPostController extends BaseController {
                 criteria.andCadreIdIsNull();
             }else if(displayType==2){
                 criteria.andIsMainPostEqualTo(false);
+            }else if(displayType==3){
+                criteria.andCadreIdIsNotNull();
             }
         }
 
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
+        }
+        if(gender!=null){
+            criteria.andGenderEqualTo(gender);
+        }
+        if (cadrePostType!=null) {
+            criteria.andCadrePostTypeEqualTo(cadrePostType);
+        }
+        if (cadreIsPrincipalPost!=null) {
+            criteria.andCadreIsPrincipalPostEqualTo(cadreIsPrincipalPost);
         }
 
         // 搜索始任年限时只考虑主职
@@ -328,13 +346,18 @@ public class UnitPostController extends BaseController {
             if (ids != null && ids.length > 0)
               criteria.andIdIn(Arrays.asList(ids));
 
-            if(exportType==0) {
-                unitPost_export(example, response);
-                return;
-            }else if(exportType==1){
-                // 导出空缺或兼职岗位
-                unitPostService.exportOpenList(displayType, example, response);
-                return;
+            if(displayType==1||displayType==2) {
+                if (exportType == 0) {
+                    unitPost_export(example, response);
+                    return;
+                } else if (exportType == 1) {
+                    // 导出空缺或兼职岗位
+                    unitPostService.exportOpenList(displayType, example, response);
+                    return;
+                }
+            }else if(displayType==3){
+
+                unitPost_cadre_export(example, response);
             }
         }
 
@@ -371,9 +394,19 @@ public class UnitPostController extends BaseController {
         record.setName(HtmlUtils.htmlUnescape(record.getName()));
 
         if (unitPostService.idDuplicate(id, record.getCode())) {
-            UnitPost byCode = unitPostService.getByCode(record.getCode());
-            return failed("岗位编号重复，已有岗位：{0}", byCode.getName());
+
+            UnitPost up = unitPostService.getByCode(record.getCode());
+            return failed("岗位编号重复，已有岗位：{0}", up.getName());
         }
+
+        if (unitPostService.leaderTypeDuplicate(id, record.getUnitId(), record.getLeaderType())) {
+
+            UnitPostView up = unitPostService.getByLeaderType(record.getUnitId(), record.getLeaderType());
+            return failed("{0}重复，已有岗位：{1}",
+                    SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(record.getLeaderType()),
+                    up.getName());
+        }
+
         if (id == null) {
             //record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
             unitPostService.insertSelective(record);
@@ -507,6 +540,64 @@ public class UnitPostController extends BaseController {
             valuesList.add(values);
         }
         String fileName = String.format("干部岗位库(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    public void unitPost_cadre_export(UnitPostViewExample example, HttpServletResponse response) {
+
+        //工作证号、姓名、所在单位及职务、行政级别、职务属
+        //性、是否正职、是否班子负责人、性别、民族、出生时间、年龄、党派、党派
+        //加入时间、参加工作时间、最高学历、最高学位、所学专业、专业技术职务、
+        //现职务始任时间、现职务始任年限、现职级始任时间、任现职级年限
+        List<UnitPostView> records = unitPostViewMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300|left", "行政级别|100","职务属性|150",
+                "是否正职|80", "是否班子负责人|120", "性别|50", "民族|100", "出生日期|100",
+                "年龄|50", "党派|100", "党派加入时间|150", "参加工作时间|150", "最高学历|100",
+                "最高学位|100", "所学专业|150", "专业技术职务|150","现职务始任时间|150","现职务始任年限|150",
+                "现职级始任时间|150", "任现职级年限|150"};
+
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            UnitPostView record = records.get(i);
+            CadreView cv = record.getCadre();
+            Date birth = cv.getBirth();
+            Byte gender = cv.getGender();
+            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), "中共",
+                    cv.getDpTypeId(), cv.getDpGrowTime(), true);
+            String partyName = cadreParty.get("partyName");
+            String partyAddTime = cadreParty.get("growTime");
+            String[] values = {
+                            cv.getCode(),
+                            cv.getRealname(),
+                            cv.getTitle(),
+                            metaTypeService.getName(cv.getAdminLevel()),
+                            metaTypeService.getName(cv.getPostType()),
+
+                    BooleanUtils.isTrue(record.getCadreIsPrincipalPost())?"是":"否",
+                    SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(record.getLeaderType()),
+                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    cv.getNation(),
+                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
+
+                    birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
+                    StringUtils.trimToEmpty(partyName),
+                    StringUtils.trimToEmpty(partyAddTime),
+                    DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYY_MM_DD), //参加工作时间
+                    metaTypeService.getName(cv.getEduId()),
+
+                    cv.getDegree(),
+                    cv.getMajor(),
+                    cv.getProPost(),
+                    DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYY_MM_DD),
+                    NumberUtils.trimToEmpty(cv.getCadrePostYear()),
+
+                    DateUtils.formatDate(cv.getsWorkTime(), DateUtils.YYYY_MM_DD),
+                    NumberUtils.trimToEmpty(cv.getAdminLevelYear())
+            };
+            valuesList.add(values);
+        }
+        String fileName = String.format("超任职年限的干部列表(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

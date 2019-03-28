@@ -5,20 +5,17 @@ import domain.member.Member;
 import domain.member.MemberTransfer;
 import domain.member.MemberTransferExample;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.LoginUserService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
 import java.util.Arrays;
@@ -291,9 +288,7 @@ public class MemberTransferService extends MemberBaseMapper {
     @Transactional
     public void memberTransfer_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        Subject subject = SecurityUtils.getSubject();
-        boolean notAdmin = (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN));
+        boolean notAdmin = (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
 
         for (int userId : userIds) {
 

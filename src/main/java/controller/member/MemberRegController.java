@@ -10,10 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,15 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.member.ApplyApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.shiro.CurrentUser;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -207,7 +201,6 @@ public class MemberRegController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReg:list")
     @RequestMapping("/memberReg_approval")
     public String memberReg_approval(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
@@ -226,7 +219,8 @@ public class MemberRegController extends MemberBaseController {
         modelMap.put("memberReg", currentMemberReg);
 
         // 是否是当前记录的管理员
-        modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberReg.getPartyId()));
+        modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
+                || partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberReg.getPartyId()));
 
         // 读取总数
         modelMap.put("count", memberRegService.count(null));
@@ -266,11 +260,11 @@ public class MemberRegController extends MemberBaseController {
         memberRegService.deny(memberReg.getId());
         logger.info(addLog(LogConstants.LOG_PARTY, "拒绝用户注册申请：%s", id));
 
-        ApplyApprovalLogService applyApprovalLogService = CmTag.getBean(ApplyApprovalLogService.class);
         applyApprovalLogService.add(memberReg.getId(),
                 memberReg.getPartyId(), null, userId,
                 loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核" , (byte) 0, reason);
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核" ,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, reason);
 
         return success(FormUtils.SUCCESS);
     }
@@ -290,11 +284,11 @@ public class MemberRegController extends MemberBaseController {
         int loginUserId = loginUser.getId();
         int userId = memberReg.getUserId();
 
-        ApplyApprovalLogService applyApprovalLogService = CmTag.getBean(ApplyApprovalLogService.class);
         applyApprovalLogService.add(memberReg.getId(),
                 memberReg.getPartyId(), null, userId,
                 loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核", (byte) 1, null);
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核",
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, null);
 
         return success(FormUtils.SUCCESS);
     }
@@ -318,9 +312,7 @@ public class MemberRegController extends MemberBaseController {
         Integer partyId = memberReg.getPartyId();
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -355,16 +347,20 @@ public class MemberRegController extends MemberBaseController {
         Integer partyId = memberReg.getPartyId();
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin) throw new UnauthorizedException();
         }
 
         memberRegService.changepw(id ,password);
 
-        logger.info(addLog(LogConstants.LOG_ADMIN, "更新注册用户%s登录密码", memberReg.getUsername()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "修改注册用户%s登录密码", memberReg.getUsername()));
+
+        applyApprovalLogService.add(memberReg.getId(),
+                memberReg.getPartyId(), null, memberReg.getUserId(),
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "修改登录密码",
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
 
         return success(FormUtils.SUCCESS);
     }

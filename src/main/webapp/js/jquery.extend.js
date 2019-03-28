@@ -1198,7 +1198,7 @@ if ($.jgrid) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
 
-            if(op.useCadre){
+            if(op.useCadre && rowObject.cadre!=undefined){
                 op.isOw = rowObject.cadre.isOw;
                 op.dpTypeId= rowObject.cadre.dpTypeId;
             }else{
@@ -1222,7 +1222,7 @@ if ($.jgrid) {
             if(options!=undefined && options.colModel!=undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
-            if(op.useCadre){
+            if(op.useCadre && rowObject.cadre!=undefined){
                 op.isOw = rowObject.cadre.isOw;
                 op.owGrowTime= rowObject.cadre.owGrowTime;
                 op.dpTypeId= rowObject.cadre.dpTypeId;
@@ -1251,7 +1251,7 @@ if ($.jgrid) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
 
-            if(op.useCadre){
+            if(op.useCadre && rowObject.cadre!=undefined){
                 op.isOw = rowObject.cadre.isOw;
                 op.owGrowTime= rowObject.cadre.owGrowTime;
                 op.dpTypeId= rowObject.cadre.dpTypeId;

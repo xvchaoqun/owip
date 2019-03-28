@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.ModifyConstants;
-import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -71,7 +70,7 @@ public class ModifyBaseApplyController extends ModifyBaseController{
         ModifyBaseApplyExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("check_time desc");
 
-        if(ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)){
+        if(ShiroHelper.isPermitted("modifyBaseApply:*")){
             if (userId != null) {
                 criteria.andUserIdEqualTo(userId);
             }

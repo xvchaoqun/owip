@@ -118,7 +118,7 @@
                             </div>
                             <div class="form-group">
                                 <label>是否班子负责人</label>
-                                <select name="leaderType" data-placeholder="请选择" data-rel="select2">
+                                <select name="leaderType" data-placeholder="请选择" data-rel="select2" data-width="130">
                                     <option></option>
                                     <c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
                                         <option value="${leaderType.key}">${leaderType.value}</option>

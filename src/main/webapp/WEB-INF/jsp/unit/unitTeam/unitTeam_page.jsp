@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div id="div-content">
+<div id="div-content" class="multi-row-head-table">
 <div class="jqgrid-vertical-offset buttons">
     <shiro:hasPermission name="unitTeam:edit">
         <button class="popupBtn btn btn-success btn-sm" data-url="${ctx}/unitTeam_au?unitId=${param.unitId}">

@@ -58,8 +58,25 @@ public class CadreExportService extends BaseMapper {
     @Autowired
     protected CadrePostService cadrePostService;
 
+    public List<String> getTitles(){
+
+        return new ArrayList<>(Arrays.asList(new String[]{
+                "工作证号|100", "姓名|100", "干部类型|100", "是否涉密|100", "部门属性|150", "所在单位|300", "现任职务|160",
+                "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120", "性别|50",
+                "民族|100", "籍贯|100", "出生地|100", "身份证号|150", "出生时间|100",
+                "年龄|50", "党派|150", "党派加入时间|120", "参加工作时间|120", "到校时间|100",
+                "最高学历|120", "最高学位|120", "毕业时间|100", "学习方式|120", "毕业学校|200",
+                "学校类型|100", "所学专业|200", "全日制教育学历|150", "全日制教育毕业院校系及专业|400", "在职教育学历|150",
+                "在职教育毕业院系及专业|400", "岗位类别|100", "主岗等级|160", "专业技术职务|150", "专技职务评定时间|200",
+                "专技职务等级|200", "专技岗位分级时间|200", "管理岗位等级|120", "管理岗位分级时间|200", "现职务任命文件|150",
+                "任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
+                "兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
+                "联系方式|100", "党委委员|100", "纪委委员|120", "电子信箱|200", "所属党组织|500",
+                "备注|500"}));
+    }
+
     // 导出一览表
-    public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType) {
+    public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType, int[] cols) {
 
         String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
 
@@ -95,20 +112,8 @@ public class CadreExportService extends BaseMapper {
         }
 
         int count = records.size();
-        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{
-                "工作证号|100", "姓名|100", "干部类型|100", "是否涉密|100", "部门属性|150", "所在单位|300", "现任职务|160",
-                "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120", "性别|50",
-                "民族|100", "籍贯|100", "出生地|100", "身份证号|150", "出生时间|100",
-                "年龄|50", "党派|150", "党派加入时间|120", "参加工作时间|120", "到校时间|100",
-                "最高学历|120", "最高学位|120", "毕业时间|100", "学习方式|120", "毕业学校|200",
-                "学校类型|100", "所学专业|200", "全日制教育学历|150", "全日制教育毕业院校系及专业|400", "在职教育学历|150",
-                "在职教育毕业院系及专业|400", "岗位类别|100", "主岗等级|160", "专业技术职务|150", "专技职务评定时间|200",
-                "专技职务等级|200", "专技岗位分级时间|200", "管理岗位等级|120", "管理岗位分级时间|200", "现职务任命文件|150",
-                "任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
-                "兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
-                "联系方式|100", "党委委员|100", "纪委委员|120", "电子信箱|200", "所属党组织|500",
-                "备注|500"}));
 
+        List<String> titles = getTitles();
         int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 12, 16, 17, 18, 19, 20, 22, 36, 43, 53, 56};
         if (exportType == 1) {
             //新增一个角色，限制查看干部库权限，
@@ -120,7 +125,18 @@ public class CadreExportService extends BaseMapper {
             }
             titles.clear();
             titles.addAll(_titles);
+        }else {
+            if(cols!=null){
+                // 选择导出列
+                List<String> _titles = new ArrayList<>();
+                for (int col : cols) {
+                    _titles.add(titles.get(col));
+                }
+                titles.clear();
+                titles.addAll(_titles);
+            }
         }
+
 
         int columnCount = titles.size();
         Row firstRow = sheet.createRow(rowNum++);
@@ -363,6 +379,17 @@ public class CadreExportService extends BaseMapper {
                 }
                 values.clear();
                 values.addAll(_values);
+            }else{
+
+                if(cols!=null){
+                    // 选择导出列
+                    List<String> _values = new ArrayList<>();
+                    for (int col : cols) {
+                        _values.add(values.get(col));
+                    }
+                    values.clear();
+                    values.addAll(_values);
+                }
             }
 
             Row row = sheet.createRow(rowNum++);

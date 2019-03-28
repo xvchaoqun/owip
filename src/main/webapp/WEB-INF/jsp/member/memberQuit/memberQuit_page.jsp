@@ -112,7 +112,7 @@
                                                         <label>用户</label>
                                                             <div class="input-group">
                                                                 <select data-rel="select2-ajax"
-                                                                        data-ajax-url="${ctx}/member_selects?status=${cls==3?MEMBER_STATUS_QUIT:MEMBER_STATUS_NORMAL}"
+                                                                        data-ajax-url="${ctx}/member_selects?status=${cls==3?'':MEMBER_STATUS_NORMAL}"
                                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                                 </select>

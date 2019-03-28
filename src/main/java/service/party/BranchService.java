@@ -4,9 +4,7 @@ import controller.global.OpException;
 import domain.party.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 
 import java.util.*;
@@ -102,11 +99,8 @@ public class BranchService extends BaseMapper {
     public void checkAuth(int partyId) {
 
         //===========权限
-        Subject subject = SecurityUtils.getSubject();
-        ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
-        Integer loginUserId = shiroUser.getId();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin) throw new UnauthorizedException();

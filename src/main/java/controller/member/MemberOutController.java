@@ -1,11 +1,7 @@
 package controller.member;
 
 import controller.global.OpException;
-import domain.member.Member;
-import domain.member.MemberOut;
-import domain.member.MemberOutModify;
-import domain.member.MemberOutView;
-import domain.member.MemberOutViewExample;
+import domain.member.*;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
@@ -14,12 +10,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,30 +21,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
-import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.*;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberOutController extends MemberBaseController {
@@ -287,10 +267,11 @@ public class MemberOutController extends MemberBaseController {
 
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberOut.getPartyId()));
+            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
+                    || partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberOut.getPartyId()));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN));
+            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
         }
 
         // 读取总数
@@ -370,9 +351,7 @@ public class MemberOutController extends MemberBaseController {
 
         //===========权限
         Integer loginUserId = loginUser.getId();
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             /*if(!isAdmin && branchId!=null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
@@ -527,8 +506,7 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_au";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
-    @RequiresPermissions("memberOut:abolish")
+    @RequiresPermissions({"memberOut:abolish", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping("/memberOut_abolish")
     public String memberOut_abolish(Integer id, ModelMap modelMap) {
 
@@ -539,8 +517,7 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_abolish";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
-    @RequiresPermissions("memberOut:abolish")
+    @RequiresPermissions({"memberOut:abolish", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping(value = "/memberOut_abolish", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_abolish(HttpServletRequest request, Integer id, String remark) {

@@ -8,10 +8,8 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.party.BranchExportService;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
@@ -175,9 +174,7 @@ public class BranchMemberController extends BaseController {
     public Map branchAdmin_del(@CurrentUser SysUserView loginUser, Integer userId, Integer branchId) {
 
         // 权限控制
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             // 要求是分党委管理员
             Branch branch = branchService.findAll().get(branchId);
             int partyId = branch.getPartyId();
@@ -240,9 +237,7 @@ public class BranchMemberController extends BaseController {
 
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
 
-            Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                    && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
                 if (branchMember.getUserId().intValue() == loginUser.getId()) {
                     return failed("不能删除自己");
                 }

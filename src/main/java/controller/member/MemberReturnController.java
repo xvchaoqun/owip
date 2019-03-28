@@ -1,7 +1,6 @@
 package controller.member;
 
 import controller.global.OpException;
-import domain.base.MetaType;
 import domain.member.MemberReturn;
 import domain.member.MemberReturnExample;
 import domain.member.MemberReturnExample.Criteria;
@@ -13,12 +12,8 @@ import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,10 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -43,12 +39,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberReturnController extends MemberBaseController {
@@ -235,9 +226,7 @@ public class MemberReturnController extends MemberBaseController {
         Integer branchId = record.getBranchId();
         //===========权限
         Integer loginUserId = loginUser.getId();
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
-                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId,  branchId);
@@ -319,10 +308,12 @@ public class MemberReturnController extends MemberBaseController {
         Integer partyId = currentMemberReturn.getPartyId();
         // 是否是当前记录的管理员
         if(type==1){
-            modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
+            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
+                    || branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
         }
         if(type==2){
-            modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
+                    || partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
 
         // 读取总数

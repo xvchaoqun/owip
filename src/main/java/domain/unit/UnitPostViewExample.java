@@ -1692,6 +1692,66 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andGenderIsNull() {
+            addCriterion("gender is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIsNotNull() {
+            addCriterion("gender is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderEqualTo(Byte value) {
+            addCriterion("gender =", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotEqualTo(Byte value) {
+            addCriterion("gender <>", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderGreaterThan(Byte value) {
+            addCriterion("gender >", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderGreaterThanOrEqualTo(Byte value) {
+            addCriterion("gender >=", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderLessThan(Byte value) {
+            addCriterion("gender <", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderLessThanOrEqualTo(Byte value) {
+            addCriterion("gender <=", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIn(List<Byte> values) {
+            addCriterion("gender in", values, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotIn(List<Byte> values) {
+            addCriterion("gender not in", values, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderBetween(Byte value1, Byte value2) {
+            addCriterion("gender between", value1, value2, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotBetween(Byte value1, Byte value2) {
+            addCriterion("gender not between", value1, value2, "gender");
+            return (Criteria) this;
+        }
+
         public Criteria andCadreAdminLevelIsNull() {
             addCriterion("cadre_admin_level is null");
             return (Criteria) this;
@@ -1749,6 +1809,126 @@ public class UnitPostViewExample {
 
         public Criteria andCadreAdminLevelNotBetween(Integer value1, Integer value2) {
             addCriterion("cadre_admin_level not between", value1, value2, "cadreAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeIsNull() {
+            addCriterion("cadre_post_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeIsNotNull() {
+            addCriterion("cadre_post_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeEqualTo(Integer value) {
+            addCriterion("cadre_post_type =", value, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeNotEqualTo(Integer value) {
+            addCriterion("cadre_post_type <>", value, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeGreaterThan(Integer value) {
+            addCriterion("cadre_post_type >", value, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_post_type >=", value, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeLessThan(Integer value) {
+            addCriterion("cadre_post_type <", value, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_post_type <=", value, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeIn(List<Integer> values) {
+            addCriterion("cadre_post_type in", values, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeNotIn(List<Integer> values) {
+            addCriterion("cadre_post_type not in", values, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_post_type between", value1, value2, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_post_type not between", value1, value2, "cadrePostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostIsNull() {
+            addCriterion("cadre_is_principal_post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostIsNotNull() {
+            addCriterion("cadre_is_principal_post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostEqualTo(Boolean value) {
+            addCriterion("cadre_is_principal_post =", value, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostNotEqualTo(Boolean value) {
+            addCriterion("cadre_is_principal_post <>", value, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostGreaterThan(Boolean value) {
+            addCriterion("cadre_is_principal_post >", value, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("cadre_is_principal_post >=", value, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostLessThan(Boolean value) {
+            addCriterion("cadre_is_principal_post <", value, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostLessThanOrEqualTo(Boolean value) {
+            addCriterion("cadre_is_principal_post <=", value, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostIn(List<Boolean> values) {
+            addCriterion("cadre_is_principal_post in", values, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostNotIn(List<Boolean> values) {
+            addCriterion("cadre_is_principal_post not in", values, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostBetween(Boolean value1, Boolean value2) {
+            addCriterion("cadre_is_principal_post between", value1, value2, "cadreIsPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIsPrincipalPostNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("cadre_is_principal_post not between", value1, value2, "cadreIsPrincipalPost");
             return (Criteria) this;
         }
 
