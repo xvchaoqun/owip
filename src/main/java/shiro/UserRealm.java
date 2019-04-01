@@ -74,7 +74,7 @@ public class UserRealm extends AuthorizingRealm {
         }
         String inputPasswd = String.valueOf(authToken.getPassword());
 
-        if (springProps.useSSOLogin && uv.getSource() != SystemConstants.USER_SOURCE_ADMIN
+        if (springProps.useSSO && uv.getSource() != SystemConstants.USER_SOURCE_ADMIN
                 && uv.getSource() != SystemConstants.USER_SOURCE_REG) {
             // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
             boolean tryLogin;

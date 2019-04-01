@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import persistence.sys.SysSyncMapper;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 import sys.utils.PropertiesUtils;
 
 import javax.sql.DataSource;
@@ -93,7 +94,7 @@ public abstract class Source {
 
     public abstract void update(Map<String, Object> map, ResultSet rs) throws SQLException;
 
-    // 从oracle导入数据到mysql
+    // 从源库导入数据
     public void excute(String schema, String tableName, Integer syncId) {
 
         Connection conn = getConn();
@@ -120,6 +121,18 @@ public abstract class Source {
             int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
             logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
             for (int i = 1; i <= pageNo; i++) {
+
+                if(syncId!=null) {
+                    SysSync _sync = sysSyncMapper.selectByPrimaryKey(syncId);
+                    if (_sync.getIsStop()) {
+                        break; // 强制结束
+                    }
+                    SysSync record = new SysSync();
+                    record.setId(syncId);
+                    record.setTotalCount(_sync.getTotalCount()+pageSize);
+                    sysSyncMapper.updateByPrimaryKeySelective(record);
+                }
+
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
                 String sql = dialect.getLimitString("select * from " + tbl, (i - 1) * pageSize, pageSize);
                 //stat = conn.createStatement();
@@ -134,13 +147,6 @@ public abstract class Source {
 
                     update(map, rs);
                 }
-
-                if(syncId!=null) {
-                    SysSync _sync = sysSyncMapper.selectByPrimaryKey(syncId);
-                    if (_sync.getIsStop()) {
-                        break; // 强制结束
-                    }
-                }
             }
         } catch (Exception ex) {
             logger.error("出错：{}", JSONUtils.toString(map, false));
@@ -150,7 +156,7 @@ public abstract class Source {
         }
     }
 
-    // 按条件从oracle导入数据到mysql
+    // 按条件从源库导入数据
     public int excute(String schema, String tableName, String searchStr) {
 
         Connection conn = getConn();
@@ -190,7 +196,7 @@ public abstract class Source {
         return i;
     }
 
-    // 按条件从oracle导入数据到mysql（分页）
+    // 按条件从源库导入数据（分页）
     public int excute(String schema, String tableName, String searchStr, Integer syncId) {
 
         Connection conn = getConn();
@@ -218,6 +224,18 @@ public abstract class Source {
             int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
             logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
             for (int i = 1; i <= pageNo; i++) {
+
+                if(syncId!=null) {
+                    SysSync _sync = sysSyncMapper.selectByPrimaryKey(syncId);
+                    if (_sync.getIsStop()) {
+                        break; // 强制结束
+                    }
+                    SysSync record = new SysSync();
+                    record.setId(syncId);
+                    record.setTotalCount(NumberUtils.trimToZero(_sync.getTotalCount()) +pageSize);
+                    sysSyncMapper.updateByPrimaryKeySelective(record);
+                }
+
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
                 String sql = dialect.getLimitString("select * from " + tbl + searchStr, (i - 1) * pageSize, pageSize);
 
@@ -233,13 +251,6 @@ public abstract class Source {
                     update(map, rs);
                     ret++;
                 }
-
-                if(syncId!=null) {
-                    SysSync _sync = sysSyncMapper.selectByPrimaryKey(syncId);
-                    if (_sync.getIsStop()) {
-                        break; // 强制结束
-                    }
-                }
             }
 
         } catch (Exception ex) {
@@ -252,7 +263,7 @@ public abstract class Source {
         return ret;
     }
 
-    // 读取oracle表的字段信息
+    // 读取源库表的字段信息
     public List<ColumnBean> getTableColumns(String schema, String tablename) throws Exception {
 
         Connection conn = getConn();

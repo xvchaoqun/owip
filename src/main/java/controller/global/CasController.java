@@ -94,16 +94,13 @@ public class CasController extends BaseController {
     @RequestMapping("/cas")
     public String cas(HttpServletRequest request, HttpServletResponse response) {
 
-        if(response.getStatus()!= HttpStatus.SC_OK) return null;
-
-        String username = CasUtils.getUsername(request);
-
-        if(StringUtils.isBlank(username) && ShiroHelper.getCurrentUser()!=null){
+        if(ShiroHelper.getCurrentUser()!=null){
             // 已登录的情况下，跳转到原账号
-            return loginRedirect(request);
+            return loginRedirect(request, response);
         }
 
-        return directLogin(username, true, request, response, null);
+        return directLogin(CasUtils.getName(request), true,
+                request, response, null);
     }
 
     /**
@@ -150,24 +147,34 @@ public class CasController extends BaseController {
                     session.removeAttribute("_switchUser");
                 }
 
-                return loginRedirect(request);
+                return loginRedirect(request, response);
             } else {
                 logger.info(sysLoginLogService.log(null, username,
-                        isSelfLogin?SystemConstants.LOGIN_TYPE_CAS:SystemConstants.LOGIN_TYPE_NET,
+                        isSelfLogin? SystemConstants.LOGIN_TYPE_CAS: SystemConstants.LOGIN_TYPE_NET,
                         false, "登录失败"));
             }
 
-            return "redirect:/jsp/unauthorized.jsp?username=" + StringUtils.trimToEmpty(username);
+            return redirect("/jsp/unauthorized.jsp?username=" + StringUtils.trimToEmpty(username), response);
         }
 
         //return "redirect:/jsp/timeout.jsp";
-        return "redirect:/";
+        return redirect("/", response);
     }
 
-    private String loginRedirect(HttpServletRequest request){
+    private String loginRedirect(HttpServletRequest request, HttpServletResponse response){
 
         String url = request.getParameter("url");
-        return "redirect:/" + (StringUtils.isBlank(url)?"":
-                ((HttpRequestDeviceUtils.isMobileDevice(request)?"":"#")+url));
+        return redirect(StringUtils.isBlank(url)?"/":
+                ((HttpRequestDeviceUtils.isMobileDevice(request)?"/":"/#")+url), response);
+    }
+
+    private String redirect(String url, HttpServletResponse response){
+
+        if(response.getStatus()!= HttpStatus.SC_OK){
+            logger.warn("response.getStatus()="+response.getStatus());
+            return null;
+        }
+
+        return "redirect:" + url;
     }
 }

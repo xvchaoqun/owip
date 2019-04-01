@@ -3,6 +3,7 @@
 <shiro:user>
 	<c:redirect url="/m/index"/>
 </shiro:user>
+<fmt:message key="login.useCAS" bundle="${spring}" var="_useCAS"/>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -28,11 +29,27 @@
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
+											<c:if test="${_useCAS}">
+											<h4 class="header blue lighter bigger">
+												<i class="ace-icon fa fa-home green"></i>
+												信息门户账号登录：
+												<button type="button" onclick="javascript:location.href='${ctx}/cas'"
+														class="btn btn-xs btn-success">
+													<span class="bigger-130"><i class="fa fa-hand-o-right"></i> 单点登录</span>
+												</button>
+											</h4>
+
+											<h4 class="header blue lighter bigger">
+												<i class="ace-icon fa fa-key green"></i>
+												其他账号登录：
+											</h4>
+											</c:if>
+											<c:if test="${!_useCAS}">
 											<h4 class="header blue lighter bigger">
 												<i class="ace-icon fa fa-key green"></i>
 												请使用信息门户账号密码登录
 											</h4>
-
+											</c:if>
 											<div class="space-6"></div>
 
 											<form>

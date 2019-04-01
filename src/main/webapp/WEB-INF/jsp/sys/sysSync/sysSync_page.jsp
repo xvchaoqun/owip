@@ -107,7 +107,10 @@
                 $("#jqGrid").trigger("reloadGrid");
             }
         })
+        clearInterval(interval);
     }
+    var interval = null;
+    clearInterval(interval);
     $(".syncBtn").click(function(){
         var $this = $(this);
         bootbox.confirm("确定"+ $.trim($this.text())+"（将耗费很长时间）？", function (result) {
@@ -121,7 +124,8 @@
                     }
                     $btn.button('reset');
                 });
-                setTimeout(function(){
+                clearInterval(interval);
+                interval = setInterval(function(){
                     $("#jqGrid").trigger("reloadGrid");
                 }, 2000);
             }

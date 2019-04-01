@@ -63,7 +63,7 @@
             if(status=='${CADRE_STATUS_MIDDLE}' || status=='${CADRE_STATUS_MIDDLE_LEAVE}')
               ret.url='#${ctx}/cadre?status='+status;
             if(status=='${CADRE_STATUS_LEADER}' || status=='${CADRE_STATUS_LEADER_LEAVE}')
-              ret.url='#${ctx}/cadreLeaderInfo?status='+status;
+              ret.url='#${ctx}/leaderInfo?status='+status;
 
             ret.url+='&cadreId='+ ret.cadreId;
           }

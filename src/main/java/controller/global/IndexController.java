@@ -42,7 +42,7 @@ public class IndexController extends BaseController {
 		String ip = IpUtils.getRealIp(request);
 
 		logger.warn(String.format("monitor type=%s, userAgent=%s, ip=%s, username=%s, cas=%s", type,
-				userAgent, ip, ShiroHelper.getCurrentUsername(), CasUtils.getUsername(request)));
+				userAgent, ip, ShiroHelper.getCurrentUsername(), CasUtils.getName(request)));
 	}
 
 	@RequestMapping("/faq")

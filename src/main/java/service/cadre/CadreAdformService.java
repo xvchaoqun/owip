@@ -230,6 +230,7 @@ public class CadreAdformService extends BaseMapper {
         bean.setInDegree(_onjobDegree);
         bean.setInSchoolDepMajor(_onjobMajor);
 
+        bean.setTitle(cadre.getTitle());
         // 主职,现任职务
         /*CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
         bean.setPost(mainCadrePost==null?null:springProps.school + mainCadrePost.getPost());*/

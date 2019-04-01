@@ -85,6 +85,8 @@ public class CadreInfoForm {
     private String masterTutor;
     // 博士研究生导师
     private String doctorTutor;
+    // 现任职务
+    private String title;
     // 工作单位及现任职务
     private String post;
     // 行政级别
@@ -426,6 +428,14 @@ public class CadreInfoForm {
 
     public void setDoctorTutor(String doctorTutor) {
         this.doctorTutor = doctorTutor;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getPost() {

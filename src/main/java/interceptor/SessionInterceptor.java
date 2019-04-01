@@ -2,6 +2,7 @@ package interceptor;
 
 import domain.cet.CetTrainInspector;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpStatus;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,21 +109,24 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
             //if(!PatternUtils.match(_commonUrls, servletPath)) {
             //if (HttpUtils.isMoblie(request)) {
             if (HttpRequestDeviceUtils.isMobileDevice(request)) {
-                if(servletPath.startsWith("/login")){
-                    //WebUtils.issueRedirect(request, response, "/m/abroad/login");
-                    WebUtils.issueRedirect(request, response, "/m/login");
-                    return false;
-                }
-                if(servletPath.startsWith("/cas")){
 
-                    WebUtils.issueRedirect(request, response, "/m/cas", RequestUtils.getParameterMap(request));
-                    return false;
-                }
+                if(response.getStatus()== HttpStatus.SC_OK) { //  防止 response sendRedirect报错
 
-                if (!servletPath.startsWith("/m/")) { // 移动端
-                    //WebUtils.issueRedirect(request, response, "/m/abroad/index");
-                    WebUtils.issueRedirect(request, response, "/m/index");
-                    return false;
+                    if (servletPath.startsWith("/login")) {
+                        //WebUtils.issueRedirect(request, response, "/m/abroad/login");
+                        WebUtils.issueRedirect(request, response, "/m/login");
+                        return false;
+                    }
+                    if (servletPath.startsWith("/cas")) {
+                        WebUtils.issueRedirect(request, response, "/m/cas", RequestUtils.getParameterMap(request));
+                        return false;
+                    }
+
+                    if (!servletPath.startsWith("/m/")) { // 移动端
+                        //WebUtils.issueRedirect(request, response, "/m/abroad/index");
+                        WebUtils.issueRedirect(request, response, "/m/index");
+                        return false;
+                    }
                 }
             } else {
                 if (servletPath.startsWith("/m/")) { // 非移动端

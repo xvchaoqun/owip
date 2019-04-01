@@ -91,7 +91,7 @@ pageEncoding="UTF-8"%>
                         if(ret.status=='${CADRE_STATUS_MIDDLE_LEAVE}')
                             $.hashchange('status='+ret.status, '${ctx}/cadre');
                         if(ret.status=='${CADRE_STATUS_LEADER_LEAVE}')
-                            $.hashchange('status='+ret.status, '${ctx}/cadreLeaderInfo');
+                            $.hashchange('status='+ret.status, '${ctx}/leaderInfo');
                         //});
                     }
                 }

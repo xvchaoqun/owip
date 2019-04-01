@@ -138,6 +138,13 @@
                            data-url="${ctx}/cadreInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息采集表</a>
                     </li>
                 </shiro:hasPermission>
+
+                <shiro:hasPermission name="cadreInfoForm2:*">
+                    <li>
+                        <a href="javascript:;"
+                           data-url="${ctx}/cadreInfoForm2_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息表</a>
+                    </li>
+                </shiro:hasPermission>
                 <%--<shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                     <li>
 

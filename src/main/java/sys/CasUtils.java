@@ -1,5 +1,7 @@
 package sys;
 
+import shiro.ShiroHelper;
+
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
@@ -9,7 +11,7 @@ import java.security.Principal;
 public class CasUtils {
 
     // 获取CAS用户名
-    public static String getUsername(HttpServletRequest request){
+    public static String getName(HttpServletRequest request){
 
         Principal userPrincipal = request.getUserPrincipal();
         /*if(userPrincipal instanceof AttributePrincipal) {
@@ -18,6 +20,10 @@ public class CasUtils {
                 return principal.getName();
             }
         }*/
+
+        // 已登录的情况下，不再读取CAS登录账号
+        if(ShiroHelper.getCurrentUsername()!=null) return null;
+
         return userPrincipal==null?null:userPrincipal.getName();
     }
 }

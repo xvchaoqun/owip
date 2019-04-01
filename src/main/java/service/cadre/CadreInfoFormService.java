@@ -112,6 +112,53 @@ public class CadreInfoFormService extends BaseMapper {
         }
     }
 
+    public void export2(Integer[] cadreIds, HttpServletRequest request,
+                       HttpServletResponse response) throws IOException, TemplateException {
+
+        if (cadreIds == null) return;
+
+        if (cadreIds.length == 1) {
+
+            int cadreId = cadreIds[0];
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
+            //输出文件
+            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                    + " 干部信息表 " + cadre.getUser().getRealname()  + ".doc";
+            response.reset();
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
+            response.setContentType("application/msword;charset=UTF-8");
+
+            process2(cadreId, response.getWriter());
+        }else {
+
+            Map<String, File> fileMap = new LinkedHashMap<>();
+            String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                    DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "infoForms";
+            FileUtils.mkdirs(tmpdir, false);
+            for (int cadreId : cadreIds) {
+                CadreView cadre = iCadreMapper.getCadre(cadreId);
+                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                        + " 干部信息表 " + cadre.getUser().getRealname() + ".doc";
+
+                String filepath = tmpdir + FILE_SEPARATOR + filename;
+                FileOutputStream output = new FileOutputStream(new File(filepath));
+                OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+
+                process2(cadreId, osw);
+
+                fileMap.put(filename, new File(filepath));
+            }
+
+            String filename = String.format("%s干部信息表.xlsx",
+                    CmTag.getSysConfig().getSchoolName());
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            DownloadUtils.zip(fileMap, filename, request, response);
+            FileUtils.deleteDir(new File(tmpdir));
+        }
+    }
+
     // 获取干部信息采集表属性值
     public CadreInfoForm getCadreInfoForm(int cadreId) {
 
@@ -435,6 +482,126 @@ public class CadreInfoFormService extends BaseMapper {
         return dataMap;
     }
 
+    public Map<String, Object> getDataMap2(int cadreId) throws IOException, TemplateException {
+
+        CadreInfoForm bean = getCadreInfoForm(cadreId);
+
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("code", bean.getCode());
+        dataMap.put("name", bean.getRealname());
+        dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));
+        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), DateUtils.YYYYMM));
+        dataMap.put("a", bean.getAge());
+
+        dataMap.put("avatar", bean.getAvatar());
+        dataMap.put("avatarWidth", bean.getAvatarWidth());
+        dataMap.put("avatarHeight", bean.getAvatarHeight());
+        dataMap.put("nation", bean.getNation());
+        dataMap.put("np", bean.getNativePlace());
+        dataMap.put("hp", bean.getHomeplace());
+
+        dataMap.put("isOw", bean.getIsOw());
+        dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), DateUtils.YYYYMM));
+        if (bean.getDpTypeId() != null && bean.getDpTypeId() > 0) {
+            // 民主党派
+            MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
+            String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
+            dataMap.put("dpPartyName", dpPartyName);
+            dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), DateUtils.YYYYMM));
+        }
+
+        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM));
+
+        dataMap.put("health", bean.getHealth());
+        // 专业技术职务及评定时间
+        dataMap.put("proPost", bean.getProPost());
+        dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMM));
+        dataMap.put("specialty", bean.getSpecialty());
+
+        dataMap.put("edu", bean.getEdu());
+        dataMap.put("degree", StringUtils.trimToNull(bean.getDegree()));
+        dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
+        dataMap.put("inEdu", bean.getInEdu());
+        dataMap.put("inDegree", StringUtils.trimToNull(bean.getInDegree()));
+        dataMap.put("inSchoolDepMajor", bean.getInSchoolDepMajor());
+
+        dataMap.put("masterTutor", bean.getMasterTutor());
+        dataMap.put("doctorTutor", bean.getDoctorTutor());
+
+        //dataMap.put("post", bean.getPost());
+        dataMap.put("title", bean.getTitle());
+        dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(),
+                false, 360, "/common/titleEditor.ftl"));
+        dataMap.put("ces", bean.getCes());
+
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        MetaType adminLevel = metaTypeMap.get(bean.getAdminLevel());
+        dataMap.put("adminLevel", adminLevel == null ? "" : adminLevel.getName());
+
+        // 管理岗位等级及分级时间
+        dataMap.put("manageLevel", bean.getManageLevel());
+        dataMap.put("manageLevelTime", DateUtils.formatDate(bean.getManageLevelTime(), DateUtils.YYYYMM));
+        /*
+        dataMap.put("adminLevel_1", metaTypeMap.get("mt_admin_level_main").getId());
+        dataMap.put("adminLevel_2", metaTypeMap.get("mt_admin_level_vice").getId());
+        dataMap.put("adminLevel_3", metaTypeMap.get("mt_admin_level_none").getId());*/
+
+        dataMap.put("idCard", bean.getIdCard());
+        dataMap.put("household", bean.getHousehold());
+
+        //dataMap.put("depWork", "");
+
+        //dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 440));
+        //dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 440));
+
+        String resumeDesc = freemarkerService.genTitleEditorSegment(null, bean.getResumeDesc(), true, 360, "/common/titleEditor.ftl");
+        /*if(StringUtils.isBlank(resumeDesc)){
+            resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360))
+                    + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
+        }*/
+        dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
+
+        //dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, false, 440));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), true, false, 360));
+        //dataMap.put("teachDesc", freemarkerService.genTitleEditorSegment(bean.getTeachDesc(), false, false, 440));
+        //dataMap.put("researchDesc", freemarkerService.genTitleEditorSegment(bean.getResearchDesc(), false, true, 440));
+        //dataMap.put("otherRewardDesc", freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc(), false, false, 440));
+
+        dataMap.put("mobile", bean.getMobile());
+        dataMap.put("phone", bean.getPhone());
+        dataMap.put("homePhone", bean.getHomePhone());
+        dataMap.put("email", bean.getEmail());
+
+        {
+            String companies = "";
+            List<CadreCompany> cadreCompanies = bean.getCadreCompanies();
+            int size = cadreCompanies.size();
+            for (int i = 0; i < 3; i++) {
+                if (size <= i)
+                    companies += getCompanySeg(null, "/infoform/company.ftl");
+                else
+                    companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company.ftl");
+            }
+            dataMap.put("companies", companies);
+        }
+
+        {
+            String familys = "";
+            List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
+            int size = cadreFamilys.size();
+            for (int i = 0; i < size; i++) {
+                familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family2.ftl");
+            }
+            for (int i = 1; i < (4-size); i++) { // 保证至少有4行
+               familys += getFamilySeg(null, "/infoform/family2.ftl");
+            }
+
+            dataMap.put("familys", familys);
+        }
+
+        return dataMap;
+    }
+
     // 输出干部信息采集表
     public void process(int cadreId, Writer out) throws IOException, TemplateException {
 
@@ -444,6 +611,14 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
         dataMap.put("schoolEmail", CmTag.getSysConfig().getSchoolEmail());
         freemarkerService.process("/infoform/infoform.ftl", dataMap, out);
+    }
+
+    // 输出干部信息表
+    public void process2(int cadreId, Writer out) throws IOException, TemplateException {
+
+        Map<String, Object> dataMap = getDataMap2(cadreId);
+
+        freemarkerService.process("/infoform/infoform2.ftl", dataMap, out);
     }
 
     private String getCompanySeg(CadreCompany bean, String ftlPath) throws IOException, TemplateException {
