@@ -74,9 +74,11 @@ public class CadreCommonService extends BaseMapper {
                             CadreConstants.CADRE_STATUS_LEADER));
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
-                MetaType postType = metaTypeMap.get(cadre.getPostType());
-                if (BooleanUtils.isTrue(postType.getBoolAttr())) {
-                    cadreList.add(cadre);
+                if(cadre.getPostType()!=null) {
+                    MetaType postType = metaTypeMap.get(cadre.getPostType());
+                    if (BooleanUtils.isTrue(postType.getBoolAttr())) {
+                        cadreList.add(cadre);
+                    }
                 }
             }
         }

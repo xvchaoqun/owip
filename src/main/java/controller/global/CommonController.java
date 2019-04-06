@@ -25,6 +25,7 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.DateUtils;
+import sys.utils.NumberUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -178,7 +179,7 @@ public class CommonController extends BaseController {
                 }
                 option.put("text", uv.getRealname());
                 option.put("mobile", uv.getMobile());
-                option.put("postType", cadre.getPostType()+"");
+                option.put("postType", NumberUtils.trimToEmpty(cadre.getPostType()));
                 option.put("title", cadre.getTitle());
                 option.put("status", cadre.getStatus() + "");
                 if (StringUtils.isNotBlank(uv.getCode())) {
