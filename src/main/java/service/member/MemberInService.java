@@ -75,7 +75,7 @@ public class MemberInService extends MemberBaseMapper {
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
-        return memberInMapper.countByExample(example);
+        return (int) memberInMapper.countByExample(example);
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）

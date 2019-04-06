@@ -9,16 +9,7 @@ pageEncoding="UTF-8" %>
                  data-url-export="${ctx}/feedback_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
-            <%--<div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="feedback:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/feedback_au"><i class="fa fa-plus"></i> 添加</a>
-                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/feedback_au"
-                       data-grid-id="#jqGrid"
-                       ><i class="fa fa-edit"></i>
-                        修改</a>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="feedback:del">
+            <shiro:hasPermission name="feedback:del">
                     <button data-url="${ctx}/feedback_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
@@ -27,10 +18,6 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</a>
-            </div>--%>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
@@ -73,6 +60,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
     $.register.user_select($('#searchForm select[name=userId]'));
     $("#jqGrid").jqGrid({
         url: '${ctx}/feedback_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -81,13 +69,19 @@ pageEncoding="UTF-8" %>
                 if(rowObject.user==undefined) return '-'
                 return $.user(rowObject.user.id, rowObject.user.realname)
             },frozen:true },
-            { label: '内容',name: 'content', width: 850, align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
+            { label: '学工号',  name: 'user.code', width: 120,frozen:true },
+            { label: '标题',name: 'title', width: 450, align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
+            { label: '详情和回复', name: '_reply', formatter:function(cellvalue, options, rowObject){
+                return ('<button class="openView btn btn-xs btn-primary" ' +
+                    'data-url="${ctx}/feedback_detail?id={1}">' +
+                    '<i class="fa fa-search"></i> 查看({0})</button>')
+                    .format(Math.trimToZero(rowObject.replyCount), rowObject.id)
+            }},
             { label: '提交时间',name: 'createTime', width: 180},
             { label: 'IP',name: 'ip', width: 120}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

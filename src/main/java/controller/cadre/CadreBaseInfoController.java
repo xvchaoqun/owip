@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
@@ -103,7 +102,7 @@ public class CadreBaseInfoController extends BaseController {
         }
 
         {
-            if(StringUtils.isNotBlank(title) && ShiroHelper.hasRole(RoleConstants.ROLE_CADRERECRUIT)){
+            if(StringUtils.isNotBlank(title) /*&& ShiroHelper.hasRole(RoleConstants.ROLE_CADRERECRUIT)*/){
 
                 cadreService.updateTitle(cadreId, title);
             }

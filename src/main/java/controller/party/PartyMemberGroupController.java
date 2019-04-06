@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -105,6 +107,18 @@ public class PartyMemberGroupController extends BaseController {
         example.setOrderByClause("is_present desc, party_sort_order desc, appoint_time desc");
 
         criteria.andIsDeletedEqualTo(status == -1);
+
+        //===========权限
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+            if (!ShiroHelper.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的
+
+                List<Integer> partyIdList = loginUserService.adminPartyIdList();
+                if (partyIdList.size() > 0)
+                    criteria.andPartyIdIn(partyIdList);
+                else criteria.andPartyIdIsNull();
+            }
+        }
 
         if (isPresent != null) {
             criteria.andIsPresentEqualTo(isPresent);

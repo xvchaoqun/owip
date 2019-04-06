@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3>${unitFunction!=null?'编辑':'添加'}单位职能</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/unitFunction_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/unitFunction_au" autocomplete="off" disableautocomplete id="funForm" method="post">
         <input type="hidden" name="id" value="${unitFunction.id}">
 		<input type="hidden" name="unitId" value="${unitId}">
 
@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer center">
-    <button id="submitBtn"
+    <button id="submitFunFormBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
             class="btn btn-primary"><i class="fa fa-check"></i> ${not empty unitFunction?'确定':'添加'}</button>
 	<c:if test="${not empty unitFunction}">
@@ -61,10 +61,10 @@ pageEncoding="UTF-8"%>
 </div>
 	</div>
 <script>
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
+    $("#submitFunFormBtn").click(function(){$("#funForm").submit();return false;});
+    $("#funForm").validate({
         submitHandler: function (form) {
-            var $btn = $("#submitBtn").button('loading');
+            var $btn = $("#submitFunFormBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -82,11 +82,11 @@ pageEncoding="UTF-8"%>
         $("#unitfunctionDiv").load("${ctx}/unitFunction?unitId=${unitId}&funId=${unitFunction.id}")
     }
 
-    $.fileInput($('#modalForm input[name=_file]'),{
+    $.fileInput($('#funForm input[name=_file]'),{
         no_file:'请上传pdf文件',
         allowExt: ['pdf']
     })
-    $("#modalForm :checkbox").bootstrapSwitch();
+    $("#funForm :checkbox").bootstrapSwitch();
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();

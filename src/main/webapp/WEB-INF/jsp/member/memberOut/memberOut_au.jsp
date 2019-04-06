@@ -79,9 +79,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="type" data-width="180" data-placeholder="请选择"  >
 							<option></option>
-							<c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
-								<option value="${_type.key}">${_type.value}</option>
-							</c:forEach>
+							<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
 						</select>
 						<script>
 							$("#modalForm select[name=type]").val(${memberOut.type});
@@ -190,8 +188,8 @@ pageEncoding="UTF-8"%>
     </form>
 
 <div class="modal-footer center">
-	<input type="submit" class="btn btn-primary" value="${param.reapply==1?"重新申请":"确定"}"/>
-	<a href="javascript:;" class="btn btn-default hideView">返回</a>
+	<button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> ${param.reapply==1?"重新申请":"确定"}</button>
+	<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 返回</a>
 </div>
 </div>
 <script>
@@ -201,7 +199,7 @@ pageEncoding="UTF-8"%>
 	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));
-	$("#body-content-view input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+	$("#body-content-view #submitBtn").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

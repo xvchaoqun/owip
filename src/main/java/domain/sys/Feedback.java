@@ -15,13 +15,19 @@ public class Feedback implements Serializable {
 
     private Integer userId;
 
+    private String title;
+
     private String content;
+
+    private String pics;
 
     private Date createTime;
 
     private String ip;
 
     private Integer replyCount;
+
+    private Boolean selfCanEdit;
 
     private static final long serialVersionUID = 1L;
 
@@ -49,12 +55,28 @@ public class Feedback implements Serializable {
         this.userId = userId;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public String getPics() {
+        return pics;
+    }
+
+    public void setPics(String pics) {
+        this.pics = pics == null ? null : pics.trim();
     }
 
     public Date getCreateTime() {
@@ -79,5 +101,13 @@ public class Feedback implements Serializable {
 
     public void setReplyCount(Integer replyCount) {
         this.replyCount = replyCount;
+    }
+
+    public Boolean getSelfCanEdit() {
+        return selfCanEdit;
+    }
+
+    public void setSelfCanEdit(Boolean selfCanEdit) {
+        this.selfCanEdit = selfCanEdit;
     }
 }

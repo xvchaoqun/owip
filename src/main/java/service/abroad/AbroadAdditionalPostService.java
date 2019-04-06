@@ -50,7 +50,7 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
         List<AbroadAdditionalPost> cPosts = abroadAdditionalPostMapper.selectByExample(example);
         for (AbroadAdditionalPost cPost : cPosts) {
             MetaType postType = metaTypeMap.get(cPost.getPostId());
-            if (postType.getBoolAttr()) {
+            if (BooleanUtils.isTrue(postType.getBoolAttr())) {
                 cadreList.add(CmTag.getCadreById(cPost.getCadreId()));
             }
         }

@@ -18,7 +18,7 @@
         <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <generator.mybatis.modal>unit</generator.mybatis.modal>
+        <generator.mybatis.modal>base</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
@@ -887,7 +887,7 @@
                                 <include>extend/js/select2.full.js</include>
                                 <include>extend/js/select2-zh-CN.js</include>
                                 <include>assets/js/date-time/bootstrap-datepicker.js</include>
-                                <include>extend/js/bootstrap-datepicker.zh-CN.min.js</include>
+                                <include>assets/js/date-time/bootstrap-datepicker.zh-CN.min.js</include>
                                 <include>extend/js/bootstrap-datetimepicker.js</include>
                                 <include>extend/js/bootstrap-datetimepicker.zh-CN.js</include>
                                 <include>extend/js/bootstrap-switch.min.js</include>

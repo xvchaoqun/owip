@@ -151,4 +151,9 @@
     }).change();
 
     $('[data-rel="tooltip"]').tooltip();
+
+    <shiro:hasPermission name="cadre:updateWithoutRequired">
+		$('span.star').remove();
+		$('input, textarea, select').prop("required", false);
+	</shiro:hasPermission>
 </script>

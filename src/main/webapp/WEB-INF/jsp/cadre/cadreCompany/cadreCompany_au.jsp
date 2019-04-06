@@ -53,7 +53,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control date-picker" name="startTime" type="text"
-                           data-date-min-view-mode="1"
+                           data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadreCompany.startTime,'yyyy.MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
@@ -65,7 +65,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control date-picker" name="finishTime" type="text"
-                           data-date-min-view-mode="1"
+                           data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadreCompany.finishTime,'yyyy.MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>

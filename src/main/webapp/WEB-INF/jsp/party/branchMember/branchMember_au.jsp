@@ -33,10 +33,10 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label">任职时间</label>
             <div class="col-xs-6">
-                <div class="input-group">
-                    <input class="form-control date-picker" name="assignDate" type="text"
-                           data-date-min-view-mode="1"
-                           data-date-format="yyyy.mm" value="${cm:formatDate(branchMember.assignDate,'yyyy.MM')}" />
+                <div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm" >
+                    <input class="form-control" name="assignDate" type="text"
+                           placeholder="格式：yyyy.mm"
+                            value="${cm:formatDate(branchMember.assignDate,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -63,7 +63,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $.register.date($('.date-picker'));
+    $.register.date($('.input-group.date'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

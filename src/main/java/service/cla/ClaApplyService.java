@@ -9,6 +9,7 @@ import domain.cla.*;
 import domain.leader.LeaderUnitView;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -643,7 +644,7 @@ public class ClaApplyService extends ClaBaseMapper {
                 || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId()) == null) { // 必须是现任干部，且不在黑名单
             MetaType postType = metaTypeMap.get(cadre.getPostType());
-            if (postType != null && postType.getBoolAttr()) {
+            if (postType != null && BooleanUtils.isTrue(postType.getBoolAttr())) {
                 unitIds.add(cadre.getUnitId());
             }
             if (postType == null) {
@@ -659,7 +660,7 @@ public class ClaApplyService extends ClaBaseMapper {
             List<ClaAdditionalPost> cPosts = claAdditionalPostMapper.selectByExample(example);
             for (ClaAdditionalPost cPost : cPosts) {
                 MetaType postType = metaTypeMap.get(cPost.getPostId());
-                if (postType.getBoolAttr()) {
+                if (BooleanUtils.isTrue(postType.getBoolAttr())) {
                     unitIds.add(cPost.getUnitId());
                 }
             }

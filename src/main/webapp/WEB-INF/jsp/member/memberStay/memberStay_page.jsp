@@ -404,7 +404,7 @@
     }
 
     $("#jqGrid").jqGrid({
-        multiboxonly: false,
+        /*multiboxonly: false,*/
         ondblClickRow: function () {
         },
         url: '${ctx}/memberStay_data?callback=?&type=${param.type}&${cm:encodeQueryString(pageContext.request.queryString)}',

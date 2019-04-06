@@ -484,7 +484,7 @@
 </style>
 <script>
     $("#jqGrid").jqGrid({
-        multiboxonly:false,
+        /*multiboxonly:false,*/
         ondblClickRow:function(){},
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

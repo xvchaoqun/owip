@@ -5,6 +5,7 @@ import domain.base.MetaType;
 import domain.party.*;
 import domain.party.BranchMemberExample.Criteria;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -141,8 +142,8 @@ public class BranchMemberController extends BaseController {
         boolean autoAdmin = false;
         Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
         MetaType metaType = metaTypeMap.get(record.getTypeId());
-        Boolean boolAttr = metaType.getBoolAttr();
-        if (boolAttr != null && boolAttr) {
+
+        if (BooleanUtils.isTrue(metaType.getBoolAttr())) {
             autoAdmin = true;
         }
         if (id == null) {

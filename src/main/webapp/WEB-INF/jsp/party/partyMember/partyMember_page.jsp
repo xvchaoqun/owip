@@ -136,9 +136,8 @@
                 }
             }
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid2');
-    });
+    }).jqGrid("setFrozenColumns")
+     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
 
 </script>

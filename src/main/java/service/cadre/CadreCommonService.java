@@ -11,6 +11,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -74,7 +75,7 @@ public class CadreCommonService extends BaseMapper {
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
                 MetaType postType = metaTypeMap.get(cadre.getPostType());
-                if (postType.getBoolAttr()) {
+                if (BooleanUtils.isTrue(postType.getBoolAttr())) {
                     cadreList.add(cadre);
                 }
             }

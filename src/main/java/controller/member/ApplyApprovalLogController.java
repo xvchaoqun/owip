@@ -14,6 +14,7 @@ import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -116,7 +117,29 @@ public class ApplyApprovalLogController extends MemberBaseController {
         ApplyApprovalLogExample example = new ApplyApprovalLogExample();
         ApplyApprovalLogExample.Criteria criteria = example.createCriteria();
 
-        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+        if(type!=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER) {
+            criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+        }else{
+            MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+            Integer partyId1 = memberTransfer.getPartyId();
+            Integer branchId1 = memberTransfer.getBranchId();
+            Integer toPartyId = memberTransfer.getToPartyId();
+            Integer toBranchId = memberTransfer.getToBranchId();
+
+            // 既不是转入支部的管理员或转入分党委的管理员，也不是转出的管理员，没有权限查看
+            if(!adminPartyIdList.contains(partyId1)
+                    && !adminPartyIdList.contains(toPartyId)){
+                if(branchId1==null || !adminBranchIdList.contains(branchId1)){
+                    if(toBranchId==null || !adminBranchIdList.contains(toBranchId)){
+
+                        throw new UnauthorizedException();
+                    }
+                }
+            }
+        }
 
         example.setOrderByClause("create_time desc");
 

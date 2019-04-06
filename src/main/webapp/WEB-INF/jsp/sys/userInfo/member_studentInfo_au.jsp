@@ -126,7 +126,7 @@ pageEncoding="UTF-8"%>
 						<div class="col-xs-6">
 							<div class="input-group" style="width: 150px">
 								<input  class="form-control date-picker" name="_actualEnrolTime" type="text"
-										data-date-min-view-mode="1"
+										data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
 										data-date-format="yyyy.mm" value="${cm:formatDate(student.actualEnrolTime, "yyyy.MM")}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
@@ -137,7 +137,7 @@ pageEncoding="UTF-8"%>
 						<div class="col-xs-6">
 							<div class="input-group" style="width: 150px">
 								<input  class="form-control date-picker" name="_expectGraduateTime" type="text"
-										data-date-min-view-mode="1"
+										data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
 										data-date-format="yyyy.mm" value="${cm:formatDate(student.expectGraduateTime, "yyyy.MM")}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
@@ -148,7 +148,7 @@ pageEncoding="UTF-8"%>
 						<div class="col-xs-6">
 							<div class="input-group" style="width: 150px">
 								<input  class="form-control date-picker" name="_actualGraduateTime" type="text"
-										data-date-min-view-mode="1"
+										data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
 										data-date-format="yyyy.mm" value="${cm:formatDate(student.actualGraduateTime, "yyyy.MM")}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>

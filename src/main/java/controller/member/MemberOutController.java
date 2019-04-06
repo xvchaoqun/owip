@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.member.*;
 import domain.party.Branch;
 import domain.party.Party;
@@ -21,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.LogConstants;
+import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -89,6 +94,21 @@ public class MemberOutController extends MemberBaseController {
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 2, cls));
         }
 
+        if(cls==3){
+            boolean hasPrint = false; // 转出类别中是否有打印
+            boolean hasFillPrint = false; // 转出类别中是否有套打
+            Map<Integer, MetaType> typeMap = CmTag.getMetaTypes("mc_member_in_out_type");
+            for (MetaType type : typeMap.values()) {
+                if(BooleanUtils.isTrue(type.getBoolAttr())){
+                    hasFillPrint = true;
+                }else{
+                    hasPrint = true;
+                }
+            }
+            modelMap.put("hasPrint", hasPrint);
+            modelMap.put("hasFillPrint", hasFillPrint);
+        }
+
         return "member/memberOut/memberOut_page";
     }
 
@@ -104,7 +124,7 @@ public class MemberOutController extends MemberBaseController {
                                Boolean isModify,
                                Boolean isPrint,
                                Byte userType,
-                               Byte type,
+                               Integer type,
                                Integer partyId,
                                Integer branchId,
                                String toUnit,
@@ -584,7 +604,7 @@ public class MemberOutController extends MemberBaseController {
                     sysUser.getRealname(),
                     memberTypeName,
                     record.getPhone(),
-                    record.getType() == null ? "" : MemberConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
+                    record.getType() == null ? "" : metaTypeService.getName(record.getType()),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     record.getToTitle(),

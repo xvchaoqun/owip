@@ -39,9 +39,7 @@
 							<div class="col-xs-7">
 								<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100%">
 									<option></option>
-									<c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
-										<option value="${_type.key}">${_type.value}</option>
-									</c:forEach>
+									<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
 								</select>
 								<script>
 									$("#modalForm select[name=type]").val(${memberOut.type});

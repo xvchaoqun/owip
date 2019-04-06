@@ -5,6 +5,7 @@ import domain.cadre.CadreView;
 import domain.dispatch.DispatchWorkFile;
 import domain.dispatch.DispatchWorkFileExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -222,7 +223,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
         Integer privacyType = record.getPrivacyType();
         if (privacyType != null) {
             MetaType _privacyType = metaTypeService.findAll().get(privacyType);
-            if (_privacyType != null && _privacyType.getBoolAttr()) {
+            if (_privacyType != null && BooleanUtils.isTrue(_privacyType.getBoolAttr())) {
                 canUpload = true;
             }
         }

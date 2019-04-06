@@ -3,7 +3,6 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/modifyCadreAuth"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -27,7 +26,7 @@ pageEncoding="UTF-8" %>
                     </button>
                     <button data-url="${ctx}/modifyCadreAuth_remove?status[]=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_LEADER},${CADRE_STATUS_MIDDLE_LEAVE},${CADRE_STATUS_LEADER_LEAVE}"
                             data-title="一键清理"
-                            data-msg="确定一键清理“现任/离任干部库”中的干部？"
+                            data-msg="确认清除现有的权限设置（针对“现任/离任干部库”中的干部）？"
                             data-callback="_refresh"
                             class="confirm btn btn-warning btn-sm">
                         <i class="fa fa-trash"></i> 一键清理
@@ -112,9 +111,8 @@ pageEncoding="UTF-8" %>
             { label: '创建人',name: 'addUser.realname'},
             { label: 'IP',name: 'addIp', width: 120}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

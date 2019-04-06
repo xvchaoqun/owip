@@ -95,9 +95,8 @@ pageEncoding="UTF-8" %>
             { label: '添加时间',name: 'createTime', width:150},
             { label: '备注',name: 'remark', width:500}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.del_select($('#searchForm select[name=partyId]'));
 </script>

@@ -236,7 +236,7 @@
         });
     }
     $("#jqGrid").jqGrid({
-        multiboxonly:false,
+        /*multiboxonly:false,*/
         ondblClickRow:function(){},
         url: '${ctx}/memberTransfer_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

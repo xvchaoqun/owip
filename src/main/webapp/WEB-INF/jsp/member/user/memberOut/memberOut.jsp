@@ -2,7 +2,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>"/>
 <c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 
 <div class="row">
 <div class="widget-box">
@@ -140,7 +139,7 @@
                         类别
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                        ${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}
+                        ${cm:getMetaType(memberOut.type).name}
                     </td>
                     <td class="bg-right">
                         状态

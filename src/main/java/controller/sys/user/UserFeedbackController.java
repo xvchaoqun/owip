@@ -3,6 +3,7 @@ package controller.sys.user;
 import controller.BaseController;
 import domain.sys.Feedback;
 import domain.sys.FeedbackExample;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
@@ -18,6 +20,8 @@ import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -81,11 +85,24 @@ public class UserFeedbackController extends BaseController {
 
     @RequestMapping(value = "/feedback_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_feedback_au(String content, HttpServletRequest request) {
+    public Map do_feedback_au(String title, String content,
+                              MultipartFile[] _pics,
+                              HttpServletRequest request) throws IOException, InterruptedException {
 
         Feedback record = new Feedback();
         record.setUserId(ShiroHelper.getCurrentUserId());
+        record.setTitle(title);
         record.setContent(content);
+
+        if(_pics!=null) {
+            List<String> savePicPaths = new ArrayList<>();
+            for (MultipartFile pic : _pics) {
+                String picPath = uploadPic(pic, "feedback", 100, 50);
+                savePicPaths.add(picPath);
+            }
+            record.setPics(StringUtils.join(savePicPaths, ","));
+        }
+
         record.setCreateTime(new Date());
         record.setIp(ContextHelper.getRealIp());
         feedbackService.insertSelective(record);

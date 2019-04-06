@@ -53,7 +53,7 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
         List<ClaAdditionalPost> cPosts = claAdditionalPostMapper.selectByExample(example);
         for (ClaAdditionalPost cPost : cPosts) {
             MetaType postType = metaTypeMap.get(cPost.getPostId());
-            if (postType.getBoolAttr()) {
+            if (BooleanUtils.isTrue(postType.getBoolAttr())) {
                 cadreList.add(CmTag.getCadreById(cPost.getCadreId()));
             }
         }

@@ -85,7 +85,7 @@ public class MemberInController extends MemberBaseController {
                               Byte status,
                               Boolean isBack,
                               Boolean isModify,
-                              Byte type,
+                              Integer type,
                               Integer partyId,
                               Integer branchId,
                               String fromUnit,
@@ -175,7 +175,7 @@ public class MemberInController extends MemberBaseController {
             return;
         }
 
-        int count = memberInMapper.countByExample(example);
+        long count = memberInMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -465,7 +465,7 @@ public class MemberInController extends MemberBaseController {
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
-                    record.getType() == null ? "" : MemberConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
+                    record.getType() == null ? "" : metaTypeService.getName(record.getType()),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     record.getFromUnit(),

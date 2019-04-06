@@ -170,8 +170,8 @@ public class CadreEduController extends BaseController {
             record.setDegreeCountry("");
             record.setDegreeUnit("");
         }*/
-        if (record.getSchoolType() == CadreConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
-                record.getSchoolType() == CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC) {
+        if (record.getSchoolType()!=null && (record.getSchoolType() == CadreConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
+                record.getSchoolType() == CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC)) {
             record.setDegreeCountry("中国");
         }
 

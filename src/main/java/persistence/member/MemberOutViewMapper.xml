@@ -7,7 +7,7 @@
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="to_title" jdbcType="VARCHAR" property="toTitle" />
     <result column="to_unit" jdbcType="VARCHAR" property="toUnit" />
     <result column="from_unit" jdbcType="VARCHAR" property="fromUnit" />

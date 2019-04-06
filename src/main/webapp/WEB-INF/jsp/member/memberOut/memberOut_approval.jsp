@@ -4,7 +4,6 @@
 <c:set var="MEMBER_OUT_STATUS_BACK" value="<%=MemberConstants.MEMBER_OUT_STATUS_BACK%>"/>
 <c:set var="MEMBER_OUT_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_OUT_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 <c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT%>"/>
 
 <div class="modal-body">
@@ -84,7 +83,7 @@
                                     <div class="profile-info-name"> 类别 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${MEMBER_INOUT_TYPE_MAP.get(memberOut.type)}</span>
+                                        <span class="editable" >${cm:getMetaType(memberOut.type).name}</span>
                                     </div>
                                 </div>
                                     <div class="profile-info-row">

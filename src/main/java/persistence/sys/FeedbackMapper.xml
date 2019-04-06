@@ -5,10 +5,13 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="fid" jdbcType="INTEGER" property="fid" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="pics" jdbcType="VARCHAR" property="pics" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="reply_count" jdbcType="INTEGER" property="replyCount" />
+    <result column="self_can_edit" jdbcType="BIT" property="selfCanEdit" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fid, user_id, content, create_time, ip, reply_count
+    id, fid, user_id, title, content, pics, create_time, ip, reply_count, self_can_edit
   </sql>
   <select id="selectByExample" parameterType="domain.sys.FeedbackExample" resultMap="BaseResultMap">
     select
@@ -103,11 +106,13 @@
   </delete>
   <insert id="insert" parameterType="domain.sys.Feedback">
     insert into sys_feedback (id, fid, user_id, 
-      content, create_time, ip, 
-      reply_count)
+      title, content, pics, 
+      create_time, ip, reply_count, 
+      self_can_edit)
     values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
-      #{replyCount,jdbcType=INTEGER})
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{pics,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{replyCount,jdbcType=INTEGER}, 
+      #{selfCanEdit,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.Feedback">
     insert into sys_feedback
@@ -121,8 +126,14 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="title != null">
+        title,
+      </if>
       <if test="content != null">
         content,
+      </if>
+      <if test="pics != null">
+        pics,
       </if>
       <if test="createTime != null">
         create_time,
@@ -132,6 +143,9 @@
       </if>
       <if test="replyCount != null">
         reply_count,
+      </if>
+      <if test="selfCanEdit != null">
+        self_can_edit,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -144,8 +158,14 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="pics != null">
+        #{pics,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -155,6 +175,9 @@
       </if>
       <if test="replyCount != null">
         #{replyCount,jdbcType=INTEGER},
+      </if>
+      <if test="selfCanEdit != null">
+        #{selfCanEdit,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -176,8 +199,14 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pics != null">
+        pics = #{record.pics,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -187,6 +216,9 @@
       </if>
       <if test="record.replyCount != null">
         reply_count = #{record.replyCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.selfCanEdit != null">
+        self_can_edit = #{record.selfCanEdit,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -198,10 +230,13 @@
     set id = #{record.id,jdbcType=INTEGER},
       fid = #{record.fid,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
+      pics = #{record.pics,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
-      reply_count = #{record.replyCount,jdbcType=INTEGER}
+      reply_count = #{record.replyCount,jdbcType=INTEGER},
+      self_can_edit = #{record.selfCanEdit,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -215,8 +250,14 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="pics != null">
+        pics = #{pics,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -227,6 +268,9 @@
       <if test="replyCount != null">
         reply_count = #{replyCount,jdbcType=INTEGER},
       </if>
+      <if test="selfCanEdit != null">
+        self_can_edit = #{selfCanEdit,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -234,10 +278,13 @@
     update sys_feedback
     set fid = #{fid,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
+      pics = #{pics,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
-      reply_count = #{replyCount,jdbcType=INTEGER}
+      reply_count = #{replyCount,jdbcType=INTEGER},
+      self_can_edit = #{selfCanEdit,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.FeedbackExample" resultMap="BaseResultMap">

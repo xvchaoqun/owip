@@ -5,12 +5,15 @@ import domain.party.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.sys.SysConfigService;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -180,7 +183,8 @@ public class PartyMemberService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, int groupId, int userId, int postId) {
 
-        {
+        // 20190405注释 可能存在兼职情况
+        /*{
             // 同一个人不可以在同一个委员会
             PartyMemberExample example = new PartyMemberExample();
             PartyMemberExample.Criteria criteria = example.createCriteria()
@@ -188,7 +192,7 @@ public class PartyMemberService extends BaseMapper {
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if (partyMemberMapper.countByExample(example) > 0) return true;
-        }
+        }*/
 
         MetaType metaType = metaTypeService.findAll().get(postId);
         if (StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party_secretary")) {
@@ -234,6 +238,20 @@ public class PartyMemberService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
         for (Integer id : ids) {
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
+
+            // 权限控制
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+                Integer groupId = partyMember.getGroupId();
+                PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
+                Integer partyId = partyMemberGroup.getPartyId();
+
+                // 要求是分党委管理员
+                if (!isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                    throw new UnauthorizedException();
+                }
+            }
+
             if (partyMember.getIsAdmin()) {
                 partyMemberAdminService.toggleAdmin(partyMember);
             }

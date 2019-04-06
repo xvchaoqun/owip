@@ -280,7 +280,7 @@
         });
     }
     $("#jqGrid").jqGrid({
-        multiboxonly:false,
+        /*multiboxonly:false,*/
         ondblClickRow:function(){},
         url: '${ctx}/memberReturn_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

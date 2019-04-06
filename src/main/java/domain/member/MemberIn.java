@@ -18,7 +18,7 @@ public class MemberIn implements Serializable {
 
     private Byte politicalStatus;
 
-    private Byte type;
+    private Integer type;
 
     private Integer partyId;
 
@@ -92,11 +92,11 @@ public class MemberIn implements Serializable {
         this.politicalStatus = politicalStatus;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

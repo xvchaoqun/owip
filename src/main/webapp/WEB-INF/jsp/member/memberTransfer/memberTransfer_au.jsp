@@ -90,7 +90,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group" style="${(empty toBranch)?'display: none':''}" id="toBranchDiv">
-					<label class="col-xs-5 control-label">转入党支部</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>转入党支部</label>
 					<div class="col-xs-6">
 						<select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
 								name="toBranchId" data-placeholder="请选择">
@@ -101,7 +101,7 @@ pageEncoding="UTF-8"%>
 				<script>
 					$.register.party_branch_select($("#modalForm"), "toBranchDiv",
 							'${cm:getMetaTypeByCode("mt_direct_branch").id}',
-							"${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId");
+							"${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId", true);
 				</script>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>转出单位联系电话</label>
@@ -142,24 +142,24 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-5 control-label">返回修改原因</label>
 				<div class="col-xs-6">
 					<textarea class="form-control limited" type="text" name="reason" rows="5">${memberTransfer.reason}</textarea>
 				</div>
-			</div>
+			</div>--%>
 				</div></div>
     </form>
 
 <c:if test="${memberTransfer.status!=MEMBER_TRANSFER_STATUS_TO_VERIFY}">
 	<div class="modal-footer center">
-		<a href="javascript:;" class="btn btn-default hideView">取消</a>
+		<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 取消</a>
 		<input type="submit" class="btn btn-primary" value="<c:if test="${memberTransfer!=null}">确定</c:if><c:if test="${memberTransfer==null}">添加</c:if>"/>
 	</div>
 </c:if>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_TO_VERIFY}">
 	<div class="modal-footer">
-		<a href="javascript:;" class="btn btn-default hideView">返回</a>
+		<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 返回</a>
 	</div>
 </c:if>
 	</div>

@@ -14,7 +14,6 @@ import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -341,7 +340,7 @@ public class MemberTransferController extends MemberBaseController {
                 isToAdmin = branchMemberService.isPresentAdmin(loginUserId, record.getToPartyId(), record.getToBranchId());
             }
 
-            if(!isAdmin && !isToAdmin) throw new UnauthorizedException();
+            if(!isAdmin && !isToAdmin) throw new OpException("您不是转出或转入党委的管理员，没有权限操作。");
         }
 
         Integer id = record.getId();
@@ -369,13 +368,22 @@ public class MemberTransferController extends MemberBaseController {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
                     "后台添加",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "提交校内组织关系转接申请");
+                    "提交申请");
 
 
-            logger.info(addLog(LogConstants.LOG_PARTY, "添加校内组织关系转接申请：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "提交校内组织关系转接申请：%s", record.getId()));
         } else {
             record.setStatus(null); // 不改状态
             memberTransferService.updateByPrimaryKeySelective(record);
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), record.getUserId(),
+                    loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                    "后台修改",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "修改申请");
+
             logger.info(addLog(LogConstants.LOG_PARTY, "更新校内组织关系转接申请：%s", record.getId()));
         }
 

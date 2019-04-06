@@ -42,7 +42,7 @@
     <div class="col-xs-6">
       <div class="input-group">
         <input class="form-control date-picker" name="_assignDate" type="text"
-               data-date-min-view-mode="1"
+               data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
                data-date-format="yyyy.mm" value="${cm:formatDate(partyMember.assignDate,'yyyy.MM')}" />
         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
       </div>
@@ -66,7 +66,8 @@
 </div>
 <div class="modal-footer">
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-  <input type="submit" class="btn btn-primary" value="<c:if test="${partyMember!=null}">确定</c:if><c:if test="${partyMember==null}">添加</c:if>"/>
+  <input type="button" id="submitBtn" class="btn btn-primary"
+         value="<c:if test="${partyMember!=null}">确定</c:if><c:if test="${partyMember==null}">添加</c:if>"/>
 </div>
 <style>
   .modal .modal-body{
@@ -76,7 +77,9 @@
 <script>
   $.register.multiselect($('#modal select[name=_typeIds]'), [${partyMember.typeIds}]);
   $.register.date($('.date-picker'));
-  $("#modal form").validate({
+
+  $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+  $("#modalForm").validate({
     submitHandler: function (form) {
       $(form).ajaxSubmit({
         success:function(ret){

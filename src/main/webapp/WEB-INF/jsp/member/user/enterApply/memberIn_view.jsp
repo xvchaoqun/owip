@@ -4,7 +4,6 @@
 <c:set var="MEMBER_IN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>"/>
 <c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_IN_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_OW_VERIFY%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 
 <div class="row">
   <div class="col-xs-12">
@@ -38,7 +37,7 @@
               <div class="profile-info-name"> 类别 </div>
 
               <div class="profile-info-value">
-                <span class="editable" >${MEMBER_INOUT_TYPE_MAP.get(memberIn.type)}</span>
+                <span class="editable" >${cm:getMetaType(memberIn.type).name}</span>
               </div>
             </div>
 

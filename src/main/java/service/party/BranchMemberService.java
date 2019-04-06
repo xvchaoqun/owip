@@ -148,7 +148,8 @@ public class BranchMemberService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, int groupId, int userId, int typeId){
 
-        {
+        // 20190405注释 可能存在兼职情况
+        /*{
             // 同一个人不可以在同一个委员会
             BranchMemberExample example = new BranchMemberExample();
             BranchMemberExample.Criteria criteria = example.createCriteria()
@@ -156,7 +157,7 @@ public class BranchMemberService extends BaseMapper {
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if(branchMemberMapper.countByExample(example) > 0) return true;
-        }
+        }*/
 
         MetaType metaType = metaTypeService.findAll().get(typeId);
         if(StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_branch_secretary")){

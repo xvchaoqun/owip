@@ -54,7 +54,7 @@ public class MemberOutModifyController extends MemberBaseController {
         criteria.andOutIdEqualTo(outId);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        int count = memberOutModifyMapper.countByExample(example);
+        int count = (int) memberOutModifyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

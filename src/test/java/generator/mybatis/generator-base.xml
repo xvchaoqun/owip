@@ -74,8 +74,8 @@
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <table tableName="sys_property" domainObjectName="sys.SysProperty" mapperName="sys.SysPropertyMapper">
-        </table>
+        <!--<table tableName="sys_property" domainObjectName="sys.SysProperty" mapperName="sys.SysPropertyMapper">
+        </table>-->
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->
@@ -124,9 +124,10 @@
         <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <!--<table tableName="sys_feedback" domainObjectName="sys.Feedback" mapperName="sys.FeedbackMapper">
+        <table tableName="sys_feedback" domainObjectName="sys.Feedback" mapperName="sys.FeedbackMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+            <columnOverride column="pics" jdbcType="VARCHAR"></columnOverride>
+        </table>
 
         <!--<table tableName="sys_sync" domainObjectName="sys.SysSync" mapperName="sys.SysSyncMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

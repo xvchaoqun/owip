@@ -5,10 +5,12 @@ import domain.base.MetaType;
 import domain.party.*;
 import domain.party.PartyMemberExample.Criteria;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.party.PartyExportService;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -165,6 +169,20 @@ public class PartyMemberController extends BaseController {
                                  @RequestParam(required = false, value = "_typeIds") Integer[] _typeIds,
                                  HttpServletRequest request) {
 
+
+        // 权限控制
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+            Integer groupId = record.getGroupId();
+            PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
+            Integer partyId = partyMemberGroup.getPartyId();
+
+            // 要求是分党委管理员
+            if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                throw new UnauthorizedException();
+            }
+        }
+
         Integer id = record.getId();
         if (partyMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), record.getPostId())) {
             return failed("添加重复【每个领导班子的人员不可重复，并且书记只有一个】");
@@ -173,8 +191,8 @@ public class PartyMemberController extends BaseController {
         {
             Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_party_member_post");
             MetaType post = postMap.get(record.getPostId());
-            Boolean boolAttr = post.getBoolAttr();
-            if (boolAttr != null && boolAttr) {
+
+            if (BooleanUtils.isTrue(post.getBoolAttr())) {
                 autoAdmin = true;
             }
         }
@@ -182,8 +200,8 @@ public class PartyMemberController extends BaseController {
             for (Integer typeId : _typeIds) {
                 Map<Integer, MetaType> typeMap = metaTypeService.metaTypes("mc_party_member_type");
                 MetaType type = typeMap.get(typeId);
-                Boolean boolAttr = type.getBoolAttr();
-                if (boolAttr != null && boolAttr) {
+
+                if (BooleanUtils.isTrue(type.getBoolAttr())) {
                     autoAdmin = true;
                     break;
                 }
@@ -233,6 +251,20 @@ public class PartyMemberController extends BaseController {
         if (id != null) {
 
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
+
+            // 权限控制
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+                Integer groupId = partyMember.getGroupId();
+                PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
+                Integer partyId = partyMemberGroup.getPartyId();
+
+                // 要求是分党委管理员
+                if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                    throw new UnauthorizedException();
+                }
+            }
+
             partyMemberAdminService.toggleAdmin(partyMember);
 
             // test
@@ -248,7 +280,16 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyAdmin_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyAdmin_del(Integer userId, Integer partyId) {
+    public Map partyAdmin_del(int userId, int partyId) {
+
+        // 权限控制
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+            // 要求是分党委管理员
+            if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                throw new UnauthorizedException();
+            }
+        }
 
         partyMemberService.delAdmin(userId, partyId);
         logger.info(addLog(LogConstants.LOG_PARTY, "删除基层党组织管理员权限，userId=%s, partyId=%s", userId, partyId));
@@ -261,6 +302,20 @@ public class PartyMemberController extends BaseController {
     public Map do_partyMember_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
+
+            // 权限控制
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+                PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
+                Integer groupId = partyMember.getGroupId();
+                PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
+                Integer partyId = partyMemberGroup.getPartyId();
+
+                // 要求是分党委管理员
+                if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                    throw new UnauthorizedException();
+                }
+            }
 
             partyMemberService.del(id);
             logger.info(addLog(LogConstants.LOG_PARTY, "删除基层党组织成员：%s", id));

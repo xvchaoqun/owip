@@ -126,7 +126,7 @@ public class CadreExportService extends BaseMapper {
             titles.clear();
             titles.addAll(_titles);
         }else {
-            if(cols!=null){
+            if(cols!=null && cols.length>0){
                 // 选择导出列
                 List<String> _titles = new ArrayList<>();
                 for (int col : cols) {
@@ -285,15 +285,19 @@ public class CadreExportService extends BaseMapper {
             CadreEdu onjobEdu = cadreEdus[1];
             if (fulltimeEdu != null) {
                 Integer eduId = fulltimeEdu.getEduId();
-                //String degree = fulltimeEdu.getDegree();
-                _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-                _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor();
+                if(eduId!=null) {
+                    //String degree = fulltimeEdu.getDegree();
+                    _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
+                    _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor();
+                }
             }
             if (onjobEdu != null) {
                 Integer eduId = onjobEdu.getEduId();
-                //String degree = onjobEdu.getDegree();
-                _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-                _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor();
+                if(eduId!=null) {
+                    //String degree = onjobEdu.getDegree();
+                    _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
+                    _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor();
+                }
             }
 
             Unit unit = record.getUnit();
@@ -381,7 +385,7 @@ public class CadreExportService extends BaseMapper {
                 values.addAll(_values);
             }else{
 
-                if(cols!=null){
+                if(cols!=null && cols.length>0){
                     // 选择导出列
                     List<String> _values = new ArrayList<>();
                     for (int col : cols) {

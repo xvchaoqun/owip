@@ -56,9 +56,10 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
 					<div class="col-xs-8">
-						<div class="input-group">
+						<div class="input-group date" data-date-format="yyyy-mm-dd">
 							<input required class="form-control date-picker" name="_foundTime" type="text"
-								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(party.foundTime,'yyyy-MM-dd')}" />
+								    placeholder="格式：yyyy-mm-dd"
+								    value="${cm:formatDate(party.foundTime,'yyyy-MM-dd')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -156,7 +157,7 @@ pageEncoding="UTF-8"%>
 	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 
 	$("#modal :checkbox").bootstrapSwitch();
-	$.register.date($('.date-picker'));
+	$.register.date($('.input-group.date'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

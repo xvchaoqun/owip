@@ -146,16 +146,6 @@ public class MemberConstants {
         MEMBER_RETURN_STATUS_MAP.put(MEMBER_RETURN_STATUS_PARTY_VERIFY, "分党委审核通过");
     }
 
-    // 党员转入转出类别
-    public final static byte MEMBER_INOUT_TYPE_INSIDE = 1;
-    public final static byte MEMBER_INOUT_TYPE_OUTSIDE = 2;
-    public final static Map<Byte, String> MEMBER_INOUT_TYPE_MAP = new LinkedHashMap<>();
-
-    static {
-        MEMBER_INOUT_TYPE_MAP.put(MEMBER_INOUT_TYPE_INSIDE, "京内");
-        MEMBER_INOUT_TYPE_MAP.put(MEMBER_INOUT_TYPE_OUTSIDE, "京外");
-    }
-
     // 党员出党状态
     public final static byte MEMBER_QUIT_STATUS_SELF_BACK = -2;
     public final static byte MEMBER_QUIT_STATUS_BACK = -1;

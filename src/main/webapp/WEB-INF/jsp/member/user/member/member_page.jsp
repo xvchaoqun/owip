@@ -32,7 +32,7 @@
 			</div>
 			<div class="widget-body">
 				<div class="widget-main padding-4">
-					<div class="tab-content padding-8" id="body-content-view">
+					<div class="tab-content padding-8">
 						<c:import url="/user/member_base"/>
 					</div>
 				</div><!-- /.widget-main -->

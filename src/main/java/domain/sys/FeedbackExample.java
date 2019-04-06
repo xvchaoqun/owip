@@ -285,6 +285,76 @@ public class FeedbackExample {
             return (Criteria) this;
         }
 
+        public Criteria andTitleIsNull() {
+            addCriterion("title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleIsNotNull() {
+            addCriterion("title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleEqualTo(String value) {
+            addCriterion("title =", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotEqualTo(String value) {
+            addCriterion("title <>", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleGreaterThan(String value) {
+            addCriterion("title >", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("title >=", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleLessThan(String value) {
+            addCriterion("title <", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleLessThanOrEqualTo(String value) {
+            addCriterion("title <=", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleLike(String value) {
+            addCriterion("title like", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotLike(String value) {
+            addCriterion("title not like", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleIn(List<String> values) {
+            addCriterion("title in", values, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotIn(List<String> values) {
+            addCriterion("title not in", values, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleBetween(String value1, String value2) {
+            addCriterion("title between", value1, value2, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotBetween(String value1, String value2) {
+            addCriterion("title not between", value1, value2, "title");
+            return (Criteria) this;
+        }
+
         public Criteria andContentIsNull() {
             addCriterion("content is null");
             return (Criteria) this;
@@ -352,6 +422,76 @@ public class FeedbackExample {
 
         public Criteria andContentNotBetween(String value1, String value2) {
             addCriterion("content not between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsIsNull() {
+            addCriterion("pics is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsIsNotNull() {
+            addCriterion("pics is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsEqualTo(String value) {
+            addCriterion("pics =", value, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsNotEqualTo(String value) {
+            addCriterion("pics <>", value, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsGreaterThan(String value) {
+            addCriterion("pics >", value, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsGreaterThanOrEqualTo(String value) {
+            addCriterion("pics >=", value, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsLessThan(String value) {
+            addCriterion("pics <", value, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsLessThanOrEqualTo(String value) {
+            addCriterion("pics <=", value, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsLike(String value) {
+            addCriterion("pics like", value, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsNotLike(String value) {
+            addCriterion("pics not like", value, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsIn(List<String> values) {
+            addCriterion("pics in", values, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsNotIn(List<String> values) {
+            addCriterion("pics not in", values, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsBetween(String value1, String value2) {
+            addCriterion("pics between", value1, value2, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicsNotBetween(String value1, String value2) {
+            addCriterion("pics not between", value1, value2, "pics");
             return (Criteria) this;
         }
 
@@ -542,6 +682,66 @@ public class FeedbackExample {
 
         public Criteria andReplyCountNotBetween(Integer value1, Integer value2) {
             addCriterion("reply_count not between", value1, value2, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditIsNull() {
+            addCriterion("self_can_edit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditIsNotNull() {
+            addCriterion("self_can_edit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditEqualTo(Boolean value) {
+            addCriterion("self_can_edit =", value, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditNotEqualTo(Boolean value) {
+            addCriterion("self_can_edit <>", value, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditGreaterThan(Boolean value) {
+            addCriterion("self_can_edit >", value, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("self_can_edit >=", value, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditLessThan(Boolean value) {
+            addCriterion("self_can_edit <", value, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditLessThanOrEqualTo(Boolean value) {
+            addCriterion("self_can_edit <=", value, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditIn(List<Boolean> values) {
+            addCriterion("self_can_edit in", values, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditNotIn(List<Boolean> values) {
+            addCriterion("self_can_edit not in", values, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditBetween(Boolean value1, Boolean value2) {
+            addCriterion("self_can_edit between", value1, value2, "selfCanEdit");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelfCanEditNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("self_can_edit not between", value1, value2, "selfCanEdit");
             return (Criteria) this;
         }
     }

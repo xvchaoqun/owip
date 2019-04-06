@@ -51,7 +51,7 @@ public class MemberInModifyController extends MemberBaseController {
         criteria.andInIdEqualTo(inId);
         example.setOrderByClause("id desc");
 
-        int count = memberInModifyMapper.countByExample(example);
+        int count = (int) memberInModifyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

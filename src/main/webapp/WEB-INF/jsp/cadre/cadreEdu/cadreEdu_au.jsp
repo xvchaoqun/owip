@@ -37,7 +37,7 @@
 						<div class="input-group">
 							<input required autocomplete="off" disableautocomplete
 								   class="form-control date-picker" name="enrolTime" type="text"
-								   data-date-min-view-mode="1"
+								   data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
 								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.enrolTime,'yyyy.MM')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -49,7 +49,7 @@
 						<div class="input-group">
 							<input required autocomplete="off" disableautocomplete
 								   class="form-control date-picker" name="finishTime" type="text"
-								   data-date-min-view-mode="1"
+								   data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
 								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -162,7 +162,7 @@
 						<div class="col-xs-8">
 							<div class="input-group">
 								<input  required class="form-control date-picker" name="degreeTime" type="text"
-										data-date-min-view-mode="1"
+										data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
 										data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.degreeTime,'yyyy.MM')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>

@@ -271,7 +271,7 @@
     $.register.user_select($('#searchForm select[name=userId]'));
 
     $("#jqGrid").jqGrid({
-        multiboxonly:false,
+        /*multiboxonly:false,*/
         ondblClickRow:function(){},
         url: '${ctx}/memberStudent_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         sortname:'party',

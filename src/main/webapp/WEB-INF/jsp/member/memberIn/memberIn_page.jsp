@@ -132,11 +132,9 @@
                                 </script>
                                         <div class="form-group">
                                             <label>类别</label>
-                                                <select data-rel="select2" name="type" data-placeholder="请选择">
+                                                <select data-rel="select2" name="type" data-width="120" data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
-                                                        <option value="${_type.key}">${_type.value}</option>
-                                                    </c:forEach>
+                                                    <c:import url="/metaTypes?__code=mc_member_in_out_type"/>
                                                 </select>
                                                 <script>
                                                     $("#searchForm select[name=type]").val(${param.type});
@@ -271,7 +269,7 @@
     }
 
     $("#jqGrid").jqGrid({
-        multiboxonly:false,
+        /*multiboxonly:false,*/
         ondblClickRow:function(){},
         url: '${ctx}/memberIn_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -296,9 +294,7 @@
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }
             },
-            {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
-            }},
+            {label: '类别', name: 'type', width: 80, formatter: $.jgrid.formatter.MetaType},
             {label: '转出单位', name: 'fromUnit', width: 200, align:'left'},
             {label: '转出单位地址', name: 'fromAddress', width: 350, align:'left'},
             {label: '转出单位联系电话', name: 'fromPhone', width: 150},

@@ -775,8 +775,8 @@
 									<c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}"/>
 									<c:if test="${member!=null}">${original}</c:if>
 									<c:if test="${member==null}">
-										<div class="input-group" style="width: 130px">
-											<input class="form-control date-picker" type="text" name="_dpAddTime" data-date-format="yyyy-mm-dd"/>
+										<div class="input-group date" data-date-format="yyyy-mm-dd" style="width: 150px">
+											<input class="form-control" type="text" name="_dpAddTime" placeholder="yyyy-mm-dd"/>
 											<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 										</div>
 									</c:if>
@@ -894,10 +894,11 @@
 									<c:set var="original" value="${cm:formatDate(cadre.workTime,'yyyy.MM')}"/>
 									<c:if test="${hasVerifyWorkTime}">${original}</c:if>
 									<c:if test="${!hasVerifyWorkTime}">
-										<div class="input-group" style="width: 130px">
-											<input class="form-control date-picker" type="text" name="_workTime"
-												   data-date-min-view-mode="1"
-												   data-date-format="yyyy.mm" value="${original}"/>
+										<div class="input-group date" data-date-min-view-mode="1"
+											 data-date-format="yyyy.mm"
+											 style="width: 130px">
+											<input class="form-control" type="text" name="_workTime"
+												    placeholder="yyyy.mm" value="${original}"/>
 											<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 										</div>
 									</c:if>
@@ -1060,7 +1061,7 @@
 			}
 		});
 		$('[data-rel="select2"]').select2();
-		$.register.date($('.date-picker'));
+		$.register.date($('.input-group.date'));
 		</c:if>
 	</script>
 </c:if>

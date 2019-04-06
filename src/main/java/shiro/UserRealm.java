@@ -79,7 +79,7 @@ public class UserRealm extends AuthorizingRealm {
             // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
             boolean tryLogin;
             try {
-                tryLogin = loginService.tryLogin(username, inputPasswd);
+                tryLogin = loginService.tryLogin(uv.getCode(), inputPasswd);
             } catch (Exception ex) {
                 logger.error("异常", ex);
                 throw new SSOException();

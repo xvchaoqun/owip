@@ -46,9 +46,7 @@
           return $.party(rowObject.partyId, rowObject.branchId);
         }
       },
-      {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
-        return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
-      }},
+      {label: '类别', name: 'type', width: 80, formatter: $.jgrid.formatter.MetaType},
       {label: '转出单位', name: 'fromUnit', width: 200, align:'left'},
       {label: '转出单位地址', name: 'fromAddress', width: 350, align:'left'},
       {label: '转出单位联系电话', name: 'fromPhone', width: 150},

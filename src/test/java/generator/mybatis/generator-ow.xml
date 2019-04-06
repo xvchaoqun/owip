@@ -31,21 +31,21 @@
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>
            -->
-        <!-- <table tableName="ow_member_in" domainObjectName="member.MemberIn">
+         <table tableName="ow_member_in" domainObjectName="member.MemberIn">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
-        </table>-->
+        </table>
 
-        <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
+       <!-- <table tableName="ow_member_out" domainObjectName="member.MemberOut">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-       </table>-->
-        <!--<table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
+       </table>
+        <table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-         </table>-->
-        <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
+         </table>
+        <table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
         </table>-->
 
 
@@ -81,7 +81,7 @@
         <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
         </table>-->
 
-        <table tableName="ow_member" domainObjectName="member.Member">
+        <!--<table tableName="ow_member" domainObjectName="member.Member">
              <ignoreColumn column="update_time"/>
          </table>
 
@@ -95,7 +95,7 @@
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
              <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-         </table>
+         </table>-->
          <!--
         <table tableName="ow_member_modify" domainObjectName="member.MemberModify">
         </table>-->

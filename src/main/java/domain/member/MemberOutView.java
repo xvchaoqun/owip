@@ -25,7 +25,7 @@ public class MemberOutView implements Serializable {
 
     private String phone;
 
-    private Byte type;
+    private Integer type;
 
     private String toTitle;
 
@@ -111,11 +111,11 @@ public class MemberOutView implements Serializable {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

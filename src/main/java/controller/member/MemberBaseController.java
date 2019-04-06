@@ -3,6 +3,7 @@ package controller.member;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginUserService;
 import service.base.LocationService;
+import service.base.MetaTypeService;
 import service.ext.ExtService;
 import service.member.*;
 import service.party.*;
@@ -22,6 +23,8 @@ public class MemberBaseController extends MemberBaseMapper  implements HttpRespo
     protected LoginUserService loginUserService;
     @Autowired
     protected LocationService locationService;
+    @Autowired
+    protected MetaTypeService metaTypeService;
     @Autowired
     protected MemberService memberService;
     @Autowired

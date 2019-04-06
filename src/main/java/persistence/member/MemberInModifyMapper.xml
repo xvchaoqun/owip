@@ -1,53 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.member.MemberInModifyMapper" >
-  <resultMap id="BaseResultMap" type="domain.member.MemberInModify" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="in_id" property="inId" jdbcType="INTEGER" />
-    <result column="apply_user_id" property="applyUserId" jdbcType="INTEGER" />
-    <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="party_id" property="partyId" jdbcType="INTEGER" />
-    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
-    <result column="from_unit" property="fromUnit" jdbcType="VARCHAR" />
-    <result column="from_title" property="fromTitle" jdbcType="VARCHAR" />
-    <result column="from_address" property="fromAddress" jdbcType="VARCHAR" />
-    <result column="from_phone" property="fromPhone" jdbcType="VARCHAR" />
-    <result column="from_fax" property="fromFax" jdbcType="VARCHAR" />
-    <result column="from_post_code" property="fromPostCode" jdbcType="VARCHAR" />
-    <result column="pay_time" property="payTime" jdbcType="DATE" />
-    <result column="valid_days" property="validDays" jdbcType="INTEGER" />
-    <result column="from_handle_time" property="fromHandleTime" jdbcType="DATE" />
-    <result column="handle_time" property="handleTime" jdbcType="DATE" />
-    <result column="apply_time" property="applyTime" jdbcType="DATE" />
-    <result column="active_time" property="activeTime" jdbcType="DATE" />
-    <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
-    <result column="grow_time" property="growTime" jdbcType="DATE" />
-    <result column="positive_time" property="positiveTime" jdbcType="DATE" />
-    <result column="has_receipt" property="hasReceipt" jdbcType="BIT" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="ip" property="ip" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.member.MemberInModifyMapper">
+  <resultMap id="BaseResultMap" type="domain.member.MemberInModify">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="in_id" jdbcType="INTEGER" property="inId" />
+    <result column="apply_user_id" jdbcType="INTEGER" property="applyUserId" />
+    <result column="political_status" jdbcType="TINYINT" property="politicalStatus" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="from_unit" jdbcType="VARCHAR" property="fromUnit" />
+    <result column="from_title" jdbcType="VARCHAR" property="fromTitle" />
+    <result column="from_address" jdbcType="VARCHAR" property="fromAddress" />
+    <result column="from_phone" jdbcType="VARCHAR" property="fromPhone" />
+    <result column="from_fax" jdbcType="VARCHAR" property="fromFax" />
+    <result column="from_post_code" jdbcType="VARCHAR" property="fromPostCode" />
+    <result column="pay_time" jdbcType="DATE" property="payTime" />
+    <result column="valid_days" jdbcType="INTEGER" property="validDays" />
+    <result column="from_handle_time" jdbcType="DATE" property="fromHandleTime" />
+    <result column="handle_time" jdbcType="DATE" property="handleTime" />
+    <result column="apply_time" jdbcType="DATE" property="applyTime" />
+    <result column="active_time" jdbcType="DATE" property="activeTime" />
+    <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="positive_time" jdbcType="DATE" property="positiveTime" />
+    <result column="has_receipt" jdbcType="BIT" property="hasReceipt" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -58,25 +58,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -87,43 +87,43 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, in_id, apply_user_id, political_status, type, party_id, branch_id, from_unit, 
     from_title, from_address, from_phone, from_fax, from_post_code, pay_time, valid_days, 
     from_handle_time, handle_time, apply_time, active_time, candidate_time, grow_time, 
     positive_time, has_receipt, user_id, create_time, ip
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.member.MemberInModifyExample" >
+  <select id="selectByExample" parameterType="domain.member.MemberInModifyExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from ow_member_in_modify
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from ow_member_in_modify
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ow_member_in_modify
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.member.MemberInModifyExample" >
+  <delete id="deleteByExample" parameterType="domain.member.MemberInModifyExample">
     delete from ow_member_in_modify
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.member.MemberInModify" >
+  <insert id="insert" parameterType="domain.member.MemberInModify">
     insert into ow_member_in_modify (id, in_id, apply_user_id, 
       political_status, type, party_id, 
       branch_id, from_unit, from_title, 
@@ -134,7 +134,7 @@
       positive_time, has_receipt, user_id, 
       create_time, ip)
     values (#{id,jdbcType=INTEGER}, #{inId,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, 
-      #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, 
+      #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{fromUnit,jdbcType=VARCHAR}, #{fromTitle,jdbcType=VARCHAR}, 
       #{fromAddress,jdbcType=VARCHAR}, #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, 
       #{fromPostCode,jdbcType=VARCHAR}, #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, 
@@ -143,268 +143,268 @@
       #{positiveTime,jdbcType=DATE}, #{hasReceipt,jdbcType=BIT}, #{userId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.member.MemberInModify" >
+  <insert id="insertSelective" parameterType="domain.member.MemberInModify">
     insert into ow_member_in_modify
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="inId != null" >
+      <if test="inId != null">
         in_id,
       </if>
-      <if test="applyUserId != null" >
+      <if test="applyUserId != null">
         apply_user_id,
       </if>
-      <if test="politicalStatus != null" >
+      <if test="politicalStatus != null">
         political_status,
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type,
       </if>
-      <if test="partyId != null" >
+      <if test="partyId != null">
         party_id,
       </if>
-      <if test="branchId != null" >
+      <if test="branchId != null">
         branch_id,
       </if>
-      <if test="fromUnit != null" >
+      <if test="fromUnit != null">
         from_unit,
       </if>
-      <if test="fromTitle != null" >
+      <if test="fromTitle != null">
         from_title,
       </if>
-      <if test="fromAddress != null" >
+      <if test="fromAddress != null">
         from_address,
       </if>
-      <if test="fromPhone != null" >
+      <if test="fromPhone != null">
         from_phone,
       </if>
-      <if test="fromFax != null" >
+      <if test="fromFax != null">
         from_fax,
       </if>
-      <if test="fromPostCode != null" >
+      <if test="fromPostCode != null">
         from_post_code,
       </if>
-      <if test="payTime != null" >
+      <if test="payTime != null">
         pay_time,
       </if>
-      <if test="validDays != null" >
+      <if test="validDays != null">
         valid_days,
       </if>
-      <if test="fromHandleTime != null" >
+      <if test="fromHandleTime != null">
         from_handle_time,
       </if>
-      <if test="handleTime != null" >
+      <if test="handleTime != null">
         handle_time,
       </if>
-      <if test="applyTime != null" >
+      <if test="applyTime != null">
         apply_time,
       </if>
-      <if test="activeTime != null" >
+      <if test="activeTime != null">
         active_time,
       </if>
-      <if test="candidateTime != null" >
+      <if test="candidateTime != null">
         candidate_time,
       </if>
-      <if test="growTime != null" >
+      <if test="growTime != null">
         grow_time,
       </if>
-      <if test="positiveTime != null" >
+      <if test="positiveTime != null">
         positive_time,
       </if>
-      <if test="hasReceipt != null" >
+      <if test="hasReceipt != null">
         has_receipt,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         ip,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="inId != null" >
+      <if test="inId != null">
         #{inId,jdbcType=INTEGER},
       </if>
-      <if test="applyUserId != null" >
+      <if test="applyUserId != null">
         #{applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="politicalStatus != null" >
+      <if test="politicalStatus != null">
         #{politicalStatus,jdbcType=TINYINT},
       </if>
-      <if test="type != null" >
-        #{type,jdbcType=TINYINT},
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
-      <if test="partyId != null" >
+      <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="branchId != null" >
+      <if test="branchId != null">
         #{branchId,jdbcType=INTEGER},
       </if>
-      <if test="fromUnit != null" >
+      <if test="fromUnit != null">
         #{fromUnit,jdbcType=VARCHAR},
       </if>
-      <if test="fromTitle != null" >
+      <if test="fromTitle != null">
         #{fromTitle,jdbcType=VARCHAR},
       </if>
-      <if test="fromAddress != null" >
+      <if test="fromAddress != null">
         #{fromAddress,jdbcType=VARCHAR},
       </if>
-      <if test="fromPhone != null" >
+      <if test="fromPhone != null">
         #{fromPhone,jdbcType=VARCHAR},
       </if>
-      <if test="fromFax != null" >
+      <if test="fromFax != null">
         #{fromFax,jdbcType=VARCHAR},
       </if>
-      <if test="fromPostCode != null" >
+      <if test="fromPostCode != null">
         #{fromPostCode,jdbcType=VARCHAR},
       </if>
-      <if test="payTime != null" >
+      <if test="payTime != null">
         #{payTime,jdbcType=DATE},
       </if>
-      <if test="validDays != null" >
+      <if test="validDays != null">
         #{validDays,jdbcType=INTEGER},
       </if>
-      <if test="fromHandleTime != null" >
+      <if test="fromHandleTime != null">
         #{fromHandleTime,jdbcType=DATE},
       </if>
-      <if test="handleTime != null" >
+      <if test="handleTime != null">
         #{handleTime,jdbcType=DATE},
       </if>
-      <if test="applyTime != null" >
+      <if test="applyTime != null">
         #{applyTime,jdbcType=DATE},
       </if>
-      <if test="activeTime != null" >
+      <if test="activeTime != null">
         #{activeTime,jdbcType=DATE},
       </if>
-      <if test="candidateTime != null" >
+      <if test="candidateTime != null">
         #{candidateTime,jdbcType=DATE},
       </if>
-      <if test="growTime != null" >
+      <if test="growTime != null">
         #{growTime,jdbcType=DATE},
       </if>
-      <if test="positiveTime != null" >
+      <if test="positiveTime != null">
         #{positiveTime,jdbcType=DATE},
       </if>
-      <if test="hasReceipt != null" >
+      <if test="hasReceipt != null">
         #{hasReceipt,jdbcType=BIT},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.member.MemberInModifyExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.member.MemberInModifyExample" resultType="java.lang.Long">
     select count(*) from ow_member_in_modify
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update ow_member_in_modify
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.inId != null" >
+      <if test="record.inId != null">
         in_id = #{record.inId,jdbcType=INTEGER},
       </if>
-      <if test="record.applyUserId != null" >
+      <if test="record.applyUserId != null">
         apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="record.politicalStatus != null" >
+      <if test="record.politicalStatus != null">
         political_status = #{record.politicalStatus,jdbcType=TINYINT},
       </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=TINYINT},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.partyId != null" >
+      <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-      <if test="record.branchId != null" >
+      <if test="record.branchId != null">
         branch_id = #{record.branchId,jdbcType=INTEGER},
       </if>
-      <if test="record.fromUnit != null" >
+      <if test="record.fromUnit != null">
         from_unit = #{record.fromUnit,jdbcType=VARCHAR},
       </if>
-      <if test="record.fromTitle != null" >
+      <if test="record.fromTitle != null">
         from_title = #{record.fromTitle,jdbcType=VARCHAR},
       </if>
-      <if test="record.fromAddress != null" >
+      <if test="record.fromAddress != null">
         from_address = #{record.fromAddress,jdbcType=VARCHAR},
       </if>
-      <if test="record.fromPhone != null" >
+      <if test="record.fromPhone != null">
         from_phone = #{record.fromPhone,jdbcType=VARCHAR},
       </if>
-      <if test="record.fromFax != null" >
+      <if test="record.fromFax != null">
         from_fax = #{record.fromFax,jdbcType=VARCHAR},
       </if>
-      <if test="record.fromPostCode != null" >
+      <if test="record.fromPostCode != null">
         from_post_code = #{record.fromPostCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.payTime != null" >
+      <if test="record.payTime != null">
         pay_time = #{record.payTime,jdbcType=DATE},
       </if>
-      <if test="record.validDays != null" >
+      <if test="record.validDays != null">
         valid_days = #{record.validDays,jdbcType=INTEGER},
       </if>
-      <if test="record.fromHandleTime != null" >
+      <if test="record.fromHandleTime != null">
         from_handle_time = #{record.fromHandleTime,jdbcType=DATE},
       </if>
-      <if test="record.handleTime != null" >
+      <if test="record.handleTime != null">
         handle_time = #{record.handleTime,jdbcType=DATE},
       </if>
-      <if test="record.applyTime != null" >
+      <if test="record.applyTime != null">
         apply_time = #{record.applyTime,jdbcType=DATE},
       </if>
-      <if test="record.activeTime != null" >
+      <if test="record.activeTime != null">
         active_time = #{record.activeTime,jdbcType=DATE},
       </if>
-      <if test="record.candidateTime != null" >
+      <if test="record.candidateTime != null">
         candidate_time = #{record.candidateTime,jdbcType=DATE},
       </if>
-      <if test="record.growTime != null" >
+      <if test="record.growTime != null">
         grow_time = #{record.growTime,jdbcType=DATE},
       </if>
-      <if test="record.positiveTime != null" >
+      <if test="record.positiveTime != null">
         positive_time = #{record.positiveTime,jdbcType=DATE},
       </if>
-      <if test="record.hasReceipt != null" >
+      <if test="record.hasReceipt != null">
         has_receipt = #{record.hasReceipt,jdbcType=BIT},
       </if>
-      <if test="record.userId != null" >
+      <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.ip != null" >
+      <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update ow_member_in_modify
     set id = #{record.id,jdbcType=INTEGER},
       in_id = #{record.inId,jdbcType=INTEGER},
       apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       political_status = #{record.politicalStatus,jdbcType=TINYINT},
-      type = #{record.type,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       from_unit = #{record.fromUnit,jdbcType=VARCHAR},
@@ -426,97 +426,97 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.member.MemberInModify" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.member.MemberInModify">
     update ow_member_in_modify
-    <set >
-      <if test="inId != null" >
+    <set>
+      <if test="inId != null">
         in_id = #{inId,jdbcType=INTEGER},
       </if>
-      <if test="applyUserId != null" >
+      <if test="applyUserId != null">
         apply_user_id = #{applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="politicalStatus != null" >
+      <if test="politicalStatus != null">
         political_status = #{politicalStatus,jdbcType=TINYINT},
       </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="partyId != null" >
+      <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="branchId != null" >
+      <if test="branchId != null">
         branch_id = #{branchId,jdbcType=INTEGER},
       </if>
-      <if test="fromUnit != null" >
+      <if test="fromUnit != null">
         from_unit = #{fromUnit,jdbcType=VARCHAR},
       </if>
-      <if test="fromTitle != null" >
+      <if test="fromTitle != null">
         from_title = #{fromTitle,jdbcType=VARCHAR},
       </if>
-      <if test="fromAddress != null" >
+      <if test="fromAddress != null">
         from_address = #{fromAddress,jdbcType=VARCHAR},
       </if>
-      <if test="fromPhone != null" >
+      <if test="fromPhone != null">
         from_phone = #{fromPhone,jdbcType=VARCHAR},
       </if>
-      <if test="fromFax != null" >
+      <if test="fromFax != null">
         from_fax = #{fromFax,jdbcType=VARCHAR},
       </if>
-      <if test="fromPostCode != null" >
+      <if test="fromPostCode != null">
         from_post_code = #{fromPostCode,jdbcType=VARCHAR},
       </if>
-      <if test="payTime != null" >
+      <if test="payTime != null">
         pay_time = #{payTime,jdbcType=DATE},
       </if>
-      <if test="validDays != null" >
+      <if test="validDays != null">
         valid_days = #{validDays,jdbcType=INTEGER},
       </if>
-      <if test="fromHandleTime != null" >
+      <if test="fromHandleTime != null">
         from_handle_time = #{fromHandleTime,jdbcType=DATE},
       </if>
-      <if test="handleTime != null" >
+      <if test="handleTime != null">
         handle_time = #{handleTime,jdbcType=DATE},
       </if>
-      <if test="applyTime != null" >
+      <if test="applyTime != null">
         apply_time = #{applyTime,jdbcType=DATE},
       </if>
-      <if test="activeTime != null" >
+      <if test="activeTime != null">
         active_time = #{activeTime,jdbcType=DATE},
       </if>
-      <if test="candidateTime != null" >
+      <if test="candidateTime != null">
         candidate_time = #{candidateTime,jdbcType=DATE},
       </if>
-      <if test="growTime != null" >
+      <if test="growTime != null">
         grow_time = #{growTime,jdbcType=DATE},
       </if>
-      <if test="positiveTime != null" >
+      <if test="positiveTime != null">
         positive_time = #{positiveTime,jdbcType=DATE},
       </if>
-      <if test="hasReceipt != null" >
+      <if test="hasReceipt != null">
         has_receipt = #{hasReceipt,jdbcType=BIT},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.member.MemberInModify" >
+  <update id="updateByPrimaryKey" parameterType="domain.member.MemberInModify">
     update ow_member_in_modify
     set in_id = #{inId,jdbcType=INTEGER},
       apply_user_id = #{applyUserId,jdbcType=INTEGER},
       political_status = #{politicalStatus,jdbcType=TINYINT},
-      type = #{type,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       from_unit = #{fromUnit,jdbcType=VARCHAR},
@@ -540,17 +540,17 @@
       ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.member.MemberInModifyExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberInModifyExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from ow_member_in_modify
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

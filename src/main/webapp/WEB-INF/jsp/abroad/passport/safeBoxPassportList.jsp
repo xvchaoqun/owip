@@ -48,7 +48,6 @@
                 return cellvalue?"借出":"-";
             } }
         ]
-    }).on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid2');
-    });
+    })
+    $(window).triggerHandler('resize.jqGrid2');
 </script>

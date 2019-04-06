@@ -7,6 +7,7 @@ import domain.sys.FeedbackExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
@@ -26,15 +28,35 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class FeedbackController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    //@RequiresPermissions("feedback:list")
+    @RequestMapping("/feedback_detail")
+    public String feedback_detail(Integer id, ModelMap modelMap) {
+
+        if(!ShiroHelper.isPermitted("feedback:list")) {
+            Feedback feedback = feedbackMapper.selectByPrimaryKey(id);
+            if(feedback.getUserId() != ShiroHelper.getCurrentUserId().intValue()){
+                throw new UnauthorizedException();
+            }
+        }
+
+        FeedbackExample example = new FeedbackExample();
+        example.or().andIdEqualTo(id);
+        example.or().andFidEqualTo(id);
+        example.setOrderByClause("id asc");
+
+        List<Feedback> feedbacks = feedbackMapper.selectByExample(example);
+
+        modelMap.put("feedbacks", feedbacks);
+
+        return "sys/feedback/feedback_detail";
+    }
 
     @RequiresPermissions("feedback:list")
     @RequestMapping("/feedback")
@@ -98,12 +120,38 @@ public class FeedbackController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("feedback:edit")
+    //@RequiresPermissions("feedback:edit")
     @RequestMapping(value = "/feedback_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_feedback_au(Feedback record, HttpServletRequest request) {
+    public Map do_feedback_au(Feedback record,
+                              MultipartFile[] _pics,
+                              HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
+        Integer fid = record.getFid();
+        if(!ShiroHelper.isPermitted("feedback:edit")) {
+            if(id!=null){
+                Feedback feedback = feedbackMapper.selectByPrimaryKey(id);
+                if(feedback.getUserId() != ShiroHelper.getCurrentUserId().intValue()
+                        || !feedback.getSelfCanEdit()){
+                    throw new UnauthorizedException();
+                }
+            }else if(fid!=null){
+                Feedback feedback = feedbackMapper.selectByPrimaryKey(fid);
+                if(feedback.getUserId() != ShiroHelper.getCurrentUserId().intValue()){
+                    throw new UnauthorizedException();
+                }
+            }
+        }
+
+        if(_pics!=null) {
+            List<String> savePicPaths = new ArrayList<>();
+            for (MultipartFile pic : _pics) {
+                String picPath = uploadPic(pic, "feedback", 100, 50);
+                savePicPaths.add(picPath);
+            }
+            record.setPics(StringUtils.join(savePicPaths, ","));
+        }
 
         if (id == null) {
 
@@ -111,17 +159,17 @@ public class FeedbackController extends BaseController {
             record.setCreateTime(new Date());
             record.setIp(ContextHelper.getRealIp());
             feedbackService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_USER, "添加系统反馈意见：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_USER, "添加意见回复：%s", record.getId()));
         } else {
 
             feedbackService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_USER, "更新系统反馈意见：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_USER, "更新意见回复：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("feedback:edit")
+    //@RequiresPermissions("feedback:edit")
     @RequestMapping("/feedback_au")
     public String feedback_au(Integer id, ModelMap modelMap) {
 
@@ -132,10 +180,20 @@ public class FeedbackController extends BaseController {
         return "sys/feedback/feedback_au";
     }
 
-    @RequiresPermissions("feedback:del")
+    //@RequiresPermissions("feedback:del")
     @RequestMapping(value = "/feedback_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_feedback_del(HttpServletRequest request, Integer id) {
+
+        if(!ShiroHelper.isPermitted("feedback:edit")) {
+            if(id!=null){
+                Feedback feedback = feedbackMapper.selectByPrimaryKey(id);
+                if(feedback.getUserId() != ShiroHelper.getCurrentUserId().intValue()
+                    || !feedback.getSelfCanEdit()){
+                    throw new UnauthorizedException();
+                }
+            }
+        }
 
         if (id != null) {
 

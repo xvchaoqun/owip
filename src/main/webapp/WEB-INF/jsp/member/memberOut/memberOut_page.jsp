@@ -127,18 +127,22 @@
                                 </button>
                                 </c:if>
                                 <c:if test="${cls==3}">
+                                <c:if test="${hasPrint}">
                                 <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/report/printPreview"
                                         data-querystr="type=${JASPER_PRINT_TYPE_INSIDE}"
                                         data-open-by="page">
                                     <i class="fa fa-print"></i> 批量打印介绍信
                                 </button>
+                                </c:if>
+                                <c:if test="${hasFillPrint}">
                                 <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/report/printPreview"
                                         data-querystr="type=${JASPER_PRINT_TYPE_OUTSIDE}"
                                         data-open-by="page">
                                     <i class="fa fa-print"></i> 批量介绍信套打
                                 </button>
+                                </c:if>
                                 <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                                     <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberOut_abolish">
@@ -207,11 +211,9 @@
                                             </script>
                                                     <div class="form-group">
                                                         <label>类别</label>
-                                                            <select required data-rel="select2" name="type" data-placeholder="请选择">
+                                                            <select required data-rel="select2" name="type" data-width="120"  data-placeholder="请选择">
                                                                 <option></option>
-                                                                <c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
-                                                                    <option value="${_type.key}">${_type.value}</option>
-                                                                </c:forEach>
+                                                                <c:import url="/metaTypes?__code=mc_member_in_out_type"/>
                                                             </select>
                                                             <script>
                                                                 $("#searchForm select[name=type]").val(${param.type});
@@ -374,7 +376,7 @@
     }
 
     $("#jqGrid").jqGrid({
-        multiboxonly:false,
+        /*multiboxonly:false,*/
         ondblClickRow:function(){},
         url: '${ctx}/memberOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -396,9 +398,7 @@
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }
             },
-            {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
-            }},
+            {label: '类别', name: 'type', width: 80, formatter: $.jgrid.formatter.MetaType},
             {label: '状态', name: 'statusName', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
             }}<c:if test="${cls==4||cls==7}">
@@ -407,13 +407,13 @@
              <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
             { label: '打印', formatter:function(cellvalue, options, rowObject){
 
-                if(rowObject.type=="<%=MemberConstants.MEMBER_INOUT_TYPE_INSIDE%>"){
+                var isFillPrint = _cMap.metaTypeMap[rowObject.type].boolAttr;
+                if(!isFillPrint){
                     var html = '<button class="openView btn btn-primary btn-xs"'
                             +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_INSIDE}&ids[]={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
                                     .format(rowObject.id);
                     return html;
-                }
-                if(rowObject.type=="<%=MemberConstants.MEMBER_INOUT_TYPE_OUTSIDE%>"){
+                }else{
                     var html = '<button class="openView btn btn-warning btn-xs"'
                             +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_OUTSIDE}&ids[]={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
                                     .format(rowObject.id);

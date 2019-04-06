@@ -77,9 +77,8 @@ pageEncoding="UTF-8" %>
             { label: 'obj_id',name: 'objId'},
             { label: 'inspector_id',name: 'inspectorId'}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

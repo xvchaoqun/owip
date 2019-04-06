@@ -327,7 +327,7 @@
         });
     }
     $("#jqGrid").jqGrid({
-        multiboxonly: false,
+        /*multiboxonly: false,*/
         ondblClickRow: function () {
         },
         url: '${ctx}/memberInflow_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

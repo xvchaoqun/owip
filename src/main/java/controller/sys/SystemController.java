@@ -11,29 +11,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.security.Base64Utils;
-import sys.tags.CmTag;
-import sys.utils.DateUtils;
-import sys.utils.DownloadUtils;
-import sys.utils.FileUtils;
-import sys.utils.MySqlUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/system")
@@ -60,10 +46,10 @@ public class SystemController extends BaseController {
     @ResponseBody
     public Map do_cmd(String cmd, ModelMap modelMap) throws Exception {
 
-        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         if (!superAccount) {
             return failed("没有权限。");
-        }
+        }*/
 
         cmd = new String(Base64Utils.decode(cmd), "utf-8");
 
@@ -156,10 +142,10 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "cmd_export")
     public void cmd_export(String cmd, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         if (!superAccount) {
             return;
-        }
+        }*/
 
         cmd = new String(Base64Utils.decode(cmd), "utf-8");
 
@@ -201,10 +187,10 @@ public class SystemController extends BaseController {
     @ResponseBody
     public Map do_sql(String sql, ModelMap modelMap) throws Exception {
 
-        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         if (!superAccount) {
             return failed("没有权限。");
-        }
+        }*/
         sql = new String(Base64Utils.decode(sql), "utf-8");
 
         sql = sql.replaceAll("\n", ";");
@@ -259,10 +245,10 @@ public class SystemController extends BaseController {
     @ResponseBody
     public Map do_properties(String content, ModelMap modelMap) throws IOException {
 
-        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         if (!superAccount) {
             return failed("没有权限。");
-        }
+        }*/
 
         String filename = "spring.properties";
         Resource resource = new ClassPathResource(filename);
@@ -278,12 +264,12 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "/db_backup")
     public void db_backup(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
 
-        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         if (!superAccount) {
             response.setHeader("Set-Cookie", "fileDownload=false; path=/");
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             return;
-        }
+        }*/
 
         String dbName = PropertiesUtils.getString("db.schema");
         String fileName = dbName + "(" + DateUtils.formatDate(new Date(), "YYYYMMddHHmmss") + ").sql";
