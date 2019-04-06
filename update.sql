@@ -1,3 +1,69 @@
+
+20190406
+
+ALTER TABLE `sys_user_info`
+	CHANGE COLUMN `specialty` `specialty` VARCHAR(200) NULL DEFAULT NULL COMMENT '熟悉专业有何特长' AFTER `household`;
+
+ALTER TABLE `ow_member_out`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '类别' AFTER `phone`;
+
+ALTER TABLE `ow_member_out_modify`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '类别' AFTER `phone`;
+
+-- 更新 ow_member_out_view
+DROP VIEW IF EXISTS `ow_member_out_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
+select mo.*, m.type as member_type, t.is_retire
+from ow_member_out mo, ow_member m
+left join sys_teacher_info t on t.user_id = m.user_id where mo.user_id=m.user_id;
+
+ALTER TABLE `ow_member_in`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '类别' AFTER `political_status`;
+
+ALTER TABLE `ow_member_in_modify`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '类别' AFTER `political_status`;
+
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (84, NULL, '组织关系转入、转出类别', '党建综合管理', '组织关系转入、转出', 'mc_member_in_out_type', '是否套打', '', '', 84, 1);
+INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (526, 84, '京内', 'mt_kfgny5', 0, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (527, 84, '京外', 'mt_hjbdmh', 1, '', '', 2, 1);
+
+-- 京内 1 -> 526
+-- 京外 2 -> 527
+update ow_member_out set type=526 where type=1;
+update ow_member_out set type=527 where type=2;
+update ow_member_out_modify set type=526 where type=1;
+update ow_member_out_modify set type=527 where type=2;
+
+update ow_member_in set type=526 where type=1;
+update ow_member_in set type=527 where type=2;
+update ow_member_in_modify set type=526 where type=1;
+update ow_member_in_modify set type=527 where type=2;
+
+ALTER TABLE `sys_feedback`
+	ADD COLUMN `title` VARCHAR(200) NULL COMMENT '标题' AFTER `user_id`;
+
+ALTER TABLE `sys_feedback`
+	ADD COLUMN `pics` TEXT NULL COMMENT '截图，多张以逗号分割' AFTER `content`;
+
+ALTER TABLE `ow_branch_member`
+	DROP INDEX `group_id_user_id`,
+	DROP FOREIGN KEY `FK_ow_branch_member_ow_branch_member_group`;
+
+ALTER TABLE `ow_party_member`
+	DROP INDEX `group_id_user_id`,
+	DROP FOREIGN KEY `FK_ow_party_member_ow_party_member_group`;
+
+ALTER TABLE `sys_feedback`
+	ADD CONSTRAINT `FK_sys_feedback_sys_feedback` FOREIGN KEY (`fid`) REFERENCES `sys_feedback` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `sys_feedback`
+	ADD COLUMN `self_can_edit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '本人是否可修改，别人未回复前的记录，本人均可修改和删除' AFTER `reply_count`;
+
+update sys_feedback set self_can_edit = 1 where fid is null;
+update sys_feedback set title = content;
+
+给分党委管理员添加 分党委班子管理的权限
+
 20190328
 更新南航，北邮
 
