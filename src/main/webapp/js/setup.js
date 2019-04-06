@@ -1189,23 +1189,25 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
 
     var $this = $(this);
     var url = $this.data("url");
-    if (url != '') {
+    if(url!=undefined) {
+        if (url != '') {
 
-        //if (url == '-1' || $this.closest("li").hasClass("active")) return; // 不响应
+            //if (url == '-1' || $this.closest("li").hasClass("active")) return; // 不响应
 
-        $.loadPage({
-            url: url,
-            maskEl: "#view-box .tab-content",
-            loadEl: "#view-box .tab-content",
-            callback: function () {
-                $("#view-box .widget-toolbar .nav-tabs li").removeClass("active");
-                $this.closest("li").addClass("active");
+            $.loadPage({
+                url: url,
+                maskEl: "#view-box .tab-content",
+                loadEl: "#view-box .tab-content",
+                callback: function () {
+                    $("#view-box .widget-toolbar .nav-tabs li").removeClass("active");
+                    $this.closest("li").addClass("active");
 
-                clearJqgridSelected();
-            }
-        })
-    } else {
-        SysMsg.warning("暂缓开通该功能");
+                    clearJqgridSelected();
+                }
+            })
+        } else {
+            SysMsg.warning("暂缓开通该功能");
+        }
     }
 });
 

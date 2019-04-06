@@ -16369,10 +16369,10 @@ img.editable-click:hover {
 .datepicker th {
   min-width: 32px;
 }
-.datepicker-dropdown.datepicker-orient-bottom:after,
+/*.datepicker-dropdown.datepicker-orient-bottom:after,
 .datepicker-dropdown.datepicker-orient-bottom:before {
   top: auto;
-}
+}*/
 .daterangepicker .calendar-date {
   border-radius: 0;
 }

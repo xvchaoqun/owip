@@ -986,10 +986,11 @@ var _modal_width;
 
             var $this = $(this);
             var $btn = $this.button('loading');
-            var text = $this.data("loading-text");
-            if($.trim(text)==''){
-                $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> 正在导出')
-            }
+            var loadText = $this.data("load-text") || "正在导出";
+            var successText = $this.data("success-text")|| "导出成功";
+            var failedText = $this.data("failed-text") || "导出失败，请稍后重试";
+
+            $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> ' + loadText)
 
             // 清除cookie
             var settings = {
@@ -1008,7 +1009,7 @@ var _modal_width;
                     var $tip = $.tip({
                         $target: $this,
                         at: 'top center', my: 'bottom center', type: 'success',
-                        msg: "导出成功。"
+                        msg: successText
                     });
                     setTimeout(function(){
                         $tip.qtip('destroy', true);
@@ -1025,7 +1026,7 @@ var _modal_width;
                     var $tip = $.tip({
                         $target: $this,
                         at: 'top center', my: 'bottom center',
-                        msg: "导出失败，请稍后重试。"
+                        msg: failedText
                     });
                     setTimeout(function(){
                         $tip.qtip('destroy', true);
