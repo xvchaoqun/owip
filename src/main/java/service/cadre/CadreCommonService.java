@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import service.dispatch.DispatchService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -27,13 +26,7 @@ import sys.constants.CadreConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/12/24.
@@ -45,8 +38,6 @@ public class CadreCommonService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     private SysUserService sysUserService;
-    @Autowired(required = false)
-    private DispatchService dispatchService;
     @Autowired(required = false)
     private CadreEduService cadreEduService;
     @Autowired(required = false)
