@@ -1,6 +1,6 @@
 
 20190407
-更新南航
+更新南航，西交大
 
 20190406
 
@@ -126,7 +126,24 @@ update cadre_family set sort_order =id;
 
 20190319
 
-+ sys_property表
+-- + sys_property表
+CREATE TABLE `sys_property` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`code` VARCHAR(50) NOT NULL COMMENT '代码',
+	`name` VARCHAR(50) NULL DEFAULT NULL COMMENT '名称',
+	`content` VARCHAR(200) NOT NULL COMMENT '内容',
+	`type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类型，备用字段，1 字符串 2 整数 3 布尔值 4 时间 5 图片',
+	`sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序',
+	`remark` VARCHAR(255) NULL DEFAULT NULL COMMENT '说明',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `code` (`code`)
+)
+COMMENT='系统属性'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=2
+;
+
 
 ALTER TABLE `ow_member`
 	ADD COLUMN `sponsor` VARCHAR(50) NULL DEFAULT NULL COMMENT '入党介绍人' AFTER `candidate_time`,
