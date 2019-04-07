@@ -1,4 +1,7 @@
 
+20190407
+更新南航
+
 20190406
 
 ALTER TABLE `sys_user_info`
@@ -63,6 +66,7 @@ update sys_feedback set self_can_edit = 1 where fid is null;
 update sys_feedback set title = content;
 
 给分党委管理员添加 分党委班子管理的权限
+更新元数据，刷新metadata.js
 
 20190328
 更新南航，北邮

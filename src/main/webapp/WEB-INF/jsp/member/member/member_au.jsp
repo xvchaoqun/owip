@@ -185,7 +185,7 @@
                         <c:import url="/metaTypes?__code=mc_member_add_type"/>
                     </select>
                     <script type="text/javascript">
-                        $("#cadreForm select[name=addType]").val('${member.addType}');
+                        $("#modalForm select[name=addType]").val('${member.addType}');
                     </script>
                 </div>
             </div>

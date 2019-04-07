@@ -351,6 +351,17 @@ public class MemberService extends MemberBaseMapper {
             memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
         }
 
+        Byte politicalStatus = record.getPoliticalStatus();
+        if(politicalStatus==null) {
+            Member member = memberMapper.selectByPrimaryKey(userId);
+            politicalStatus = member.getPoliticalStatus();
+        }
+        // 更新为预备党员时，删除转正时间
+        if(politicalStatus!=null &&  politicalStatus== MemberConstants.MEMBER_POLITICAL_STATUS_GROW){
+            record.setPositiveTime(null);
+            commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
+        }
+
         return memberMapper.updateByPrimaryKeySelective(record);
     }
 
