@@ -108,7 +108,12 @@ body {
     background-color: #f5f5f5;
     /*position:fixed; top: 91px; right: 50px;z-index: 1001*/
 }
-
+.nav-tabs.background-blue{
+    padding-top: 0px;
+}
+.nav-tabs>li{
+    margin-top: 6px;
+}
  .nav-tabs.tab-color-blue > li > a,
  .nav-tabs.tab-color-blue > li > a:focus {
     background-color: #337ab7;
@@ -161,6 +166,7 @@ body {
 
 .ace-settings-container {
     position: fixed;
+    z-index: 1001;
 }
 
 #trend-charts {
@@ -311,7 +317,7 @@ body {
 }
 
 .multi-row-head-table .frozen-bdiv.ui-jqgrid-bdiv {
-    top: 48px !important;
+    /*top: 48px !important;*/
 }
 
 .ui-pg-table tbody tr:hover td {

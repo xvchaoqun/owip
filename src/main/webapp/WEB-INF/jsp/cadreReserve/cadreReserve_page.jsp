@@ -44,10 +44,12 @@
                                 </li>
                             </c:if>
                         </c:forEach>
-                            <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                            <li>
+                            <div class="buttons hidden-sm hidden-xs" style="padding-left:10px; position: relative">
                                 <a class="popupBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属类别</a>
                             </div>
+                                </li>
                         </shiro:lacksPermission>
                     </ul>
                     <div class="tab-content">

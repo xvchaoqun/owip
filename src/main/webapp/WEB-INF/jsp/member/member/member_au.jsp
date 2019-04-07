@@ -190,7 +190,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>添加/更新<br/>原因</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>添加/<br/>更新原因</label>
                 <div class="col-xs-8">
 						<textarea required class="form-control limited noEnter" type="text"
                                   name="reason" rows="3"></textarea>

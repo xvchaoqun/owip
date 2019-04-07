@@ -162,7 +162,7 @@
                 return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         },
-        {label: '是否<br/>双肩挑', width:50, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>双肩挑', width:60, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
         /*{
             label: '双肩挑单位',
             name: 'doubleUnitId',

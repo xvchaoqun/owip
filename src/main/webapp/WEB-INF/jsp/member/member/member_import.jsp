@@ -9,16 +9,16 @@
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/member_import" method="post">
         <input type="hidden" value="${inSchool?1:0}" name="inSchool">
 		<div class="form-group">
-			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
-				<input type="file" name="xlsx" required extension="xlsx"/>
+				<input class="form-control" type="file" name="xlsx" required extension="xlsx"/>
 			</div>
 		</div>
         </form>
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
             <a href="${ctx}/attach?code=sample_member_${inSchool?"inSchool":"outSchool"}">
-                党员录入样表（${inSchool?"校内人员":"校外人员"}）.xlsx</a>（点击下载）的数据格式</span>
+                党员录入样表（${inSchool?"校园门户账号":"系统注册账号"}）.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">

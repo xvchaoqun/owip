@@ -44,14 +44,23 @@
   </div>
   <div class="buttons pull-right hidden-sm hidden-xs" style="padding-right: 15px;">
     <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
-        <a class="popupBtn btn btn-info btn-sm tooltip-info"
-           data-url="${ctx}/member_import?inSchool=1"
-           data-rel="tooltip" data-placement="top" title="批量导入校内账号的党员信息"><i class="fa fa-upload"></i>
-            批量导入(校内)</a>
-        <a class="popupBtn btn btn-warning btn-sm tooltip-warning"
-           data-url="${ctx}/member_import?inSchool=0"
-           data-rel="tooltip" data-placement="top" title="批量导入校外账号的党员信息"><i class="fa fa-upload"></i>
-            批量导入(校外)</a>
+      <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
+            <i class="fa fa-upload"></i> 批量导入  <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-success" role="menu">
+            <li>
+                <a class="popupBtn"
+                 data-url="${ctx}/member_import?inSchool=1"><i class="fa fa-arrow-right"></i>
+                  校园门户账号导入</a>
+            </li>
+            <li>
+                <a class="popupBtn"
+                 data-url="${ctx}/member_import?inSchool=0"><i class="fa fa-arrow-right"></i>
+                  系统注册账号导入</a>
+            </li>
+        </ul>
+    </div>
     </shiro:hasAnyRoles>
   </div>
 </ul>
