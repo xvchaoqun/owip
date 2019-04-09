@@ -473,7 +473,7 @@ div.WordSection1
           </td>
      </tr>
     </c:forEach>
-    <c:forEach begin="1" end="${4-_size}">
+    <c:forEach begin="1" end="${4-_size<0?0:(4-_size)}">
       <tr style='page-break-inside:avoid;height:38.4pt'>
           <td width=63 style='width:47.55pt;border-top:none;border-left:none;
           border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;

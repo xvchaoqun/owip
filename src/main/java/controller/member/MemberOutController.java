@@ -95,18 +95,18 @@ public class MemberOutController extends MemberBaseController {
         }
 
         if(cls==3){
-            boolean hasPrint = false; // 转出类别中是否有打印
-            boolean hasFillPrint = false; // 转出类别中是否有套打
+            List<MetaType> printTypeList = new ArrayList<>(); // 打印类别
+            List<MetaType> fillPrintTypeList = new ArrayList<>(); // 套打类别
             Map<Integer, MetaType> typeMap = CmTag.getMetaTypes("mc_member_in_out_type");
             for (MetaType type : typeMap.values()) {
                 if(BooleanUtils.isTrue(type.getBoolAttr())){
-                    hasFillPrint = true;
+                    fillPrintTypeList.add(type);
                 }else{
-                    hasPrint = true;
+                    printTypeList.add(type);
                 }
             }
-            modelMap.put("hasPrint", hasPrint);
-            modelMap.put("hasFillPrint", hasFillPrint);
+            modelMap.put("printTypeList", printTypeList);
+            modelMap.put("fillPrintTypeList", fillPrintTypeList);
         }
 
         return "member/memberOut/memberOut_page";
@@ -147,8 +147,11 @@ public class MemberOutController extends MemberBaseController {
         MemberOutViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
-
-        example.setOrderByClause("print_count asc, id desc");
+        if(cls==3) {
+            example.setOrderByClause("print_count asc, id desc");
+        }else {
+            example.setOrderByClause("apply_time desc");
+        }
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="JASPER_PRINT_TYPE_INSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_INSIDE%>"/>
-<c:set var="JASPER_PRINT_TYPE_OUTSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_OUTSIDE%>"/>
+<c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
+<c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -127,22 +127,22 @@
                                 </button>
                                 </c:if>
                                 <c:if test="${cls==3}">
-                                <c:if test="${hasPrint}">
-                                <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                                <c:forEach items="${printTypeList}" var="_type">
+                                <button class="print print${_type.id} jqOpenViewBatchBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/report/printPreview"
-                                        data-querystr="type=${JASPER_PRINT_TYPE_INSIDE}"
+                                        data-querystr="type=${JASPER_PRINT_TYPE_LETTER_PRINT}"
                                         data-open-by="page">
-                                    <i class="fa fa-print"></i> 批量打印介绍信
+                                    <i class="fa fa-print"></i> 批量打印介绍信(${_type.name})
                                 </button>
-                                </c:if>
-                                <c:if test="${hasFillPrint}">
-                                <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                </c:forEach>
+                                <c:forEach items="${fillPrintTypeList}" var="_type">
+                                <button class="print print${_type.id} fill jqOpenViewBatchBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/report/printPreview"
-                                        data-querystr="type=${JASPER_PRINT_TYPE_OUTSIDE}"
+                                        data-querystr="type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}"
                                         data-open-by="page">
-                                    <i class="fa fa-print"></i> 批量介绍信套打
+                                    <i class="fa fa-print"></i> 批量介绍信套打(${_type.name})
                                 </button>
-                                </c:if>
+                                </c:forEach>
                                 <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                                     <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberOut_abolish">
@@ -398,7 +398,9 @@
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }
             },
-            {label: '类别', name: 'type', width: 80, formatter: $.jgrid.formatter.MetaType},
+            {label: '类别', name: '_type', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return $.jgrid.formatter.MetaType(rowObject.type)
+            }},
             {label: '状态', name: 'statusName', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
             }}<c:if test="${cls==4||cls==7}">
@@ -410,12 +412,12 @@
                 var isFillPrint = _cMap.metaTypeMap[rowObject.type].boolAttr;
                 if(!isFillPrint){
                     var html = '<button class="openView btn btn-primary btn-xs"'
-                            +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_INSIDE}&ids[]={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
+                            +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_LETTER_PRINT}&ids[]={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
                                     .format(rowObject.id);
                     return html;
                 }else{
                     var html = '<button class="openView btn btn-warning btn-xs"'
-                            +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_OUTSIDE}&ids[]={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
+                            +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}&ids[]={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
                                     .format(rowObject.id);
                     return html;
                 }
@@ -443,38 +445,59 @@
                 return cellvalue?"是":"否"
             }},
             {label: '申请时间', name: 'applyTime', width: 150},
-             {hidden: true, name: 'status'}
+            {hidden: true, name: 'status'}, {hidden: true, name: 'type'}
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#"+this.id);
-            //console.log(id)
-            var ids = $(this).getGridParam("selarrrow");
-            if (ids.length > 1) {
-                $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
-            } else if (ids.length==1) {
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
 
-                var rowData = $(this).getRowData(ids[0]);
+    function _onSelectRow(grid) {
+
+            var ids = $(grid).getGridParam("selarrrow");
+            if (ids.length==1) {
+
+                var rowData = $(grid).getRowData(ids[0]);
                 $("#partyApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>");
                 $("#odApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>");
-            } else {
+
+                <c:if test="${cls==3}">
+                $(".print").prop("disabled", true)
+                $(".print"+rowData.type).prop("disabled", false)
+                </c:if>
+
+            }else if (ids.length > 1) {
+                $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
+
+                <c:if test="${cls==3}">
+                var printTypes = [];
+                $.each(ids, function (idx, id) {
+                    var rowData = $(grid).getRowData(id);
+                    //console.log("type="+ rowData.type + " printTypes =" + printTypes + " inArray=" +$.inArray(rowData.type, printTypes) )
+                    if($.inArray(rowData.type, printTypes)==-1) {
+                        printTypes.push(rowData.type);
+                    }
+                })
+
+                //console.log(printTypes)
+                if(printTypes.length==1){
+                    $(".print"+printTypes[0]).prop("disabled", false)
+                }else{
+                    $(".print").prop("disabled", true)
+                }
+                </c:if>
+            } else{
                 $("*[data-count]").each(function(){
                     $(this).prop("disabled", $(this).data("count") == 0);
                 })
             }
-        },
-        onSelectAll: function (aRowids, status) {
-            saveJqgridSelected("#" + this.id);
-            var ids = $(this).getGridParam("selarrrow");
-            if (ids.length > 1) {
-                $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
-            }else {
-                $("*[data-count]").each(function () {
-                    $(this).prop("disabled", $(this).data("count") == 0);
-                })
-            }
-        }
-    }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
+    }
 
     $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1||cls==4}">

@@ -31,7 +31,8 @@
       </li>
     </ul>
   </li>
-  <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+  <li>
+  <div class="buttons hidden-sm hidden-xs" style="padding-left:10px; position: relative">
     <shiro:hasPermission name="member:add">
       <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
         <i class="fa fa-plus"></i> 添加党员</a>
@@ -41,8 +42,6 @@
        data-rel="tooltip" data-placement="bottom" title="可查询所有教职工和学生的组织关系状态"
             data-url="${ctx}/member/search"><i class="fa fa-search"></i> 全校组织关系查询</a>
     </shiro:hasAnyRoles>
-  </div>
-  <div class="buttons pull-right hidden-sm hidden-xs" style="padding-right: 15px;">
     <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
       <div class="btn-group">
         <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
@@ -63,4 +62,5 @@
     </div>
     </shiro:hasAnyRoles>
   </div>
+  </li>
 </ul>

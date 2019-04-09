@@ -1,10 +1,12 @@
 package controller.member;
 
 import bean.UserBean;
+import domain.base.MetaType;
 import domain.member.MemberOut;
 import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -22,7 +24,9 @@ import sys.shiro.CurrentUser;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 
 /**
@@ -34,9 +38,10 @@ public class MemberOutReportController extends MemberBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 
-    // 京外套打
-    @RequestMapping(value = "/member_out_bj", method = RequestMethod.GET)
-    public String member_out_bj(@CurrentUser SysUserView loginUser, HttpServletRequest request,
+    // 介绍信套打
+    @RequestMapping(value = "/letter_fill_print", method = RequestMethod.GET)
+    public String letter_fill_print(@CurrentUser SysUserView loginUser,
+                                    HttpServletRequest request, HttpServletResponse response,
                                 @RequestParam(value = "ids[]") Integer[] ids,
                                 @RequestParam(required = false, defaultValue = "0") Boolean print,
                                 Integer type,
@@ -49,10 +54,30 @@ public class MemberOutReportController extends MemberBaseController {
             throw new UnauthorizedException();
         }
 
+        Set<Integer> fillPrintTypeSet = new HashSet<>();
+        String fileName = "";
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {
-            Map<String, Object> map = getMemberOutInfoMap(id);
-            map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "member_out_bj.jpg");
+            MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+
+            MetaType fillPrintType = metaTypeMapper.selectByPrimaryKey(memberOut.getType());
+            if(BooleanUtils.isNotTrue(fillPrintType.getBoolAttr())){
+                JSONUtils.write(response, MessageFormat.format("[{0}]的介绍信请直接打印，无需套打。",
+                        memberOut.getUser().getRealname()), false);
+                return null;
+            }
+
+            fillPrintTypeSet.add(fillPrintType.getId());
+            if(fillPrintTypeSet.size()>1){
+                 JSONUtils.write(response, MessageFormat.format("[{0}]的介绍信套打格式不相同，请确认批量套打时所选记录的套打模板是否一致。",
+                        memberOut.getUser().getRealname()), false);
+                return null;
+            }
+
+            fileName = fillPrintType.getExtraAttr();
+
+            Map<String, Object> map = getMemberOutInfoMap(memberOut);
+            map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + fileName + ".jpg");
             if (type != null && type == 1) {
                 //套打，需要透明背景图片
                 map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png");
@@ -63,14 +88,14 @@ public class MemberOutReportController extends MemberBaseController {
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
-        model.addAttribute("url", "/WEB-INF/jasper/member_out_bj.jasper");
+        model.addAttribute("url", "/WEB-INF/jasper/"+ fileName +".jasper");
         model.addAttribute("format", format); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
             iMemberMapper.increasePrintCount("ow_member_out", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
 
-            logger.info("京外套打 {}, {}, {}, {}, {}, {}",
+            logger.info("介绍信套打 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),
                             request.getMethod(),
                             JSONUtils.toString(request.getParameterMap(), false),
@@ -80,9 +105,10 @@ public class MemberOutReportController extends MemberBaseController {
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
 
-    // 京内打印
-    @RequestMapping(value = "/member_in_bj", method = RequestMethod.GET)
-    public String member_in_bj(@CurrentUser SysUserView loginUser, HttpServletRequest request,
+    // 介绍信打印
+    @RequestMapping(value = "/letter_print", method = RequestMethod.GET)
+    public String letter_print(@CurrentUser SysUserView loginUser,
+                               HttpServletRequest request, HttpServletResponse response,
                                @RequestParam(value = "ids[]") Integer[] ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
@@ -94,24 +120,44 @@ public class MemberOutReportController extends MemberBaseController {
             throw new UnauthorizedException();
         }
 
+        Set<Integer> fillPrintTypeSet = new HashSet<>();
+        String fileName = "";
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {
-            Map<String, Object> map = getMemberOutInfoMap(id);
-            map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "member_in_bj.jpg");
+            MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+
+            MetaType fillPrintType = metaTypeMapper.selectByPrimaryKey(memberOut.getType());
+            if(BooleanUtils.isTrue(fillPrintType.getBoolAttr())){
+                JSONUtils.write(response, MessageFormat.format("[{0}]的介绍信不可直接打印，需套打。",
+                        memberOut.getUser().getRealname()), false);
+                return null;
+            }
+
+            fillPrintTypeSet.add(fillPrintType.getId());
+            if(fillPrintTypeSet.size()>1){
+                 JSONUtils.write(response, MessageFormat.format("[{0}]的介绍信打印格式不相同，请确认批量打印时所选记录的打印模板是否一致。",
+                        memberOut.getUser().getRealname()), false);
+                return null;
+            }
+
+            fileName = fillPrintType.getExtraAttr();
+
+            Map<String, Object> map = getMemberOutInfoMap(memberOut);
+            map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + fileName + ".jpg");
             data.add(map);
         }
 
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
-        model.addAttribute("url", "/WEB-INF/jasper/member_in_bj.jasper");
+        model.addAttribute("url", "/WEB-INF/jasper/"+ fileName +".jasper");
         model.addAttribute("format", format); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
             iMemberMapper.increasePrintCount("ow_member_out", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
 
-            logger.info("京内打印 {}, {}, {}, {}, {}, {}",
+            logger.info("介绍信打印 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),
                             request.getMethod(),
                             JSONUtils.toString(request.getParameterMap(), false),
@@ -123,9 +169,8 @@ public class MemberOutReportController extends MemberBaseController {
 
 
     // 获取组织关系转出相关信息
-    public Map<String, Object> getMemberOutInfoMap(int id) {
+    public Map<String, Object> getMemberOutInfoMap(MemberOut memberOut) {
 
-        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         UserBean userBean = userBeanService.get(memberOut.getUserId());
 
         Map<String, Object> map = new HashMap<String, Object>();

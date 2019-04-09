@@ -234,15 +234,15 @@ public class SystemConstants {
 
 
     // 打印类别
-    public final static byte JASPER_PRINT_TYPE_INSIDE = 1;
-    public final static byte JASPER_PRINT_TYPE_OUTSIDE = 2;
+    public final static byte JASPER_PRINT_TYPE_LETTER_PRINT = 1;
+    public final static byte JASPER_PRINT_TYPE_LETTER_FILL_PRINT = 2;
     public final static byte JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD = 3;
     public final static byte JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL = 4;
     public final static Map<Byte, String> JASPER_PRINT_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_INSIDE, "京内打印");
-        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_OUTSIDE, "京外套打");
+        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_LETTER_PRINT, "介绍信打印");
+        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_LETTER_FILL_PRINT, "介绍信套打");
         JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD, "出国境组织关系暂留审批表");
         JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL, "国内组织关系暂留审批表");
     }

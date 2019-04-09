@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="JASPER_PRINT_TYPE_INSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_INSIDE%>"/>
-<c:set var="JASPER_PRINT_TYPE_OUTSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_OUTSIDE%>"/>
+<c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
+<c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>
 <c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD%>"/>
 <c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL%>"/>
 <c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=MemberConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
@@ -10,11 +10,11 @@
 
 <div class="row passport_apply">
     <div class="preview">
-        <c:if test="${param.type==JASPER_PRINT_TYPE_INSIDE}">
-            <c:set var="url" value="${ctx}/report/member_in_bj?ids[]=${param['ids[]']}"/>
+        <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_PRINT}">
+            <c:set var="url" value="${ctx}/report/letter_print?ids[]=${param['ids[]']}"/>
         </c:if>
-        <c:if test="${param.type==JASPER_PRINT_TYPE_OUTSIDE}">
-            <c:set var="url" value="${ctx}/report/member_out_bj?ids[]=${param['ids[]']}"/>
+        <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_FILL_PRINT}">
+            <c:set var="url" value="${ctx}/report/letter_fill_print?ids[]=${param['ids[]']}"/>
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD}">
             <c:set var="url" value="${ctx}/report/member_stay?type=${MEMBER_STAY_TYPE_ABROAD}&ids[]=${param['ids[]']}"/>
@@ -39,11 +39,11 @@
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
     $("#print").click(function () {
-        <c:if test="${param.type==JASPER_PRINT_TYPE_INSIDE}">
-        $.print("${ctx}/report/member_in_bj?print=1&ids[]=${param['ids[]']}");
+        <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_PRINT}">
+        $.print("${ctx}/report/letter_print?print=1&ids[]=${param['ids[]']}");
         </c:if>
-        <c:if test="${param.type==JASPER_PRINT_TYPE_OUTSIDE}">
-        $.print("${ctx}/report/member_out_bj?print=1&ids[]=${param['ids[]']}&type=1");
+        <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_FILL_PRINT}">
+        $.print("${ctx}/report/letter_fill_print?print=1&ids[]=${param['ids[]']}&type=1");
         </c:if>
         <c:if test="${param.type==JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD}">
         $.print("${ctx}/report/member_stay?print=1&type=${MEMBER_STAY_TYPE_ABROAD}&ids[]=${param['ids[]']}");
