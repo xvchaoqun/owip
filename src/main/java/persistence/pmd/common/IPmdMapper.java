@@ -7,7 +7,6 @@ import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdOrder;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 
@@ -27,7 +26,6 @@ public interface IPmdMapper {
     List<PmdMember> getDelayList(@Param("userId") int userId, @Param("currentPmdMonthId") int currentPmdMonthId);
 
     // 批量缴费的记录列表
-    @ResultType(java.util.HashMap.class)
     @Select("select u.user_id as userId, u.code, u.realname, poi.due_pay as duePay from pmd_order_item poi, pmd_member pm, sys_user_view u " +
             "where poi.sn=#{sn} and poi.member_id=pm.id and pm.user_id=u.id order by poi.id asc")
     public List<Map> listOrderItems(@Param("sn") String sn);

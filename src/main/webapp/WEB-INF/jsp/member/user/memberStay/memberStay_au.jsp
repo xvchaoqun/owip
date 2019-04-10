@@ -96,7 +96,7 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>申请保留组织关系起始时间</label>
 
                                     <div class="col-xs-6">
-                                        <div class="input-group">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker" name="saveStartTime"
                                                    type="text"
                                                    data-date-format="yyyy-mm"
@@ -111,7 +111,7 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>申请保留组织关系截止时间</label>
 
                                     <div class="col-xs-6">
-                                        <div class="input-group">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker" name="saveEndTime"
                                                    type="text"
                                                    data-date-format="yyyy-mm"
@@ -126,7 +126,7 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>党费交纳截止时间</label>
 
                                     <div class="col-xs-6">
-                                        <div class="input-group">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker"
                                                    name="payTime" type="text"
                                                    data-date-format="yyyy-mm"
@@ -228,8 +228,8 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>出国起始时间</label>
 
-                                    <div class="col-xs-6">
-                                        <div class="input-group">
+                                    <div class="col-xs-6" style="z-index: 10;">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker" name="startTime"
                                                    type="text"
                                                    data-date-format="yyyy-mm"
@@ -243,8 +243,8 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>出国截止时间</label>
 
-                                    <div class="col-xs-6">
-                                        <div class="input-group">
+                                    <div class="col-xs-6" style="z-index: 10;">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker" name="endTime" type="text"
                                                    data-date-format="yyyy-mm"
                                                    data-date-min-view-mode="1"
@@ -257,8 +257,8 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>预计回国时间</label>
 
-                                    <div class="col-xs-6">
-                                        <div class="input-group">
+                                    <div class="col-xs-6" style="z-index: 10;">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker" name="overDate"
                                                    type="text"
                                                    data-date-format="yyyy-mm"
@@ -487,7 +487,7 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>申请保留组织关系起始时间</label>
 
                                     <div class="col-xs-6">
-                                        <div class="input-group">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker" name="saveStartTime"
                                                    type="text"
                                                    data-date-format="yyyy-mm"
@@ -502,7 +502,7 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>申请保留组织关系截止时间</label>
 
                                     <div class="col-xs-6">
-                                        <div class="input-group">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker" name="saveEndTime"
                                                    type="text"
                                                    data-date-format="yyyy-mm"
@@ -517,7 +517,7 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>党费交纳截止时间</label>
 
                                     <div class="col-xs-6">
-                                        <div class="input-group">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker"
                                                    name="payTime" type="text"
                                                    data-date-format="yyyy-mm"
@@ -532,7 +532,7 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>预计转出时间</label>
 
                                     <div class="col-xs-6">
-                                        <div class="input-group">
+                                        <div class="input-group" style="z-index: 1030">
                                             <input required class="form-control date-picker" name="overDate"
                                                    type="text"
                                                    data-date-format="yyyy-mm"

@@ -386,7 +386,7 @@ public class CadreCompanyService extends BaseMapper {
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-    // 导出统计表 （最多支持6个兼职类别）
+    // 导出统计表 （最多支持7个兼职类别）
     public void exportStat(byte cadreStatus, HttpServletResponse response) throws IOException {
 
         Map<Integer, CadreCompanyStatBean> records = listCadreCompanyStatBeans(String.valueOf(cadreStatus));
@@ -404,7 +404,22 @@ public class CadreCompanyService extends BaseMapper {
         InputStream is = new FileInputStream(ResourceUtils
                 .getFile("classpath:xlsx/cadre/cadre_company_stat.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
+
+        Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
+        List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
+        if(companyTypeList.size()>7) { // 最多支持7个兼职类别
+            companyTypeList = companyTypeList.subList(0, 7);
+        }
+
+        if(companyTypeList.size()==7){
+            wb.removeSheetAt(0); // sheet0支持6个以内的兼职类别
+        }else{
+            wb.removeSheetAt(1); // sheet1支持7个兼职类别
+        }
+
         XSSFSheet sheet = wb.getSheetAt(0);
+        wb.setSheetName(0, "sheet1");
+
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
@@ -417,11 +432,6 @@ public class CadreCompanyService extends BaseMapper {
                 .replace("date", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
         cell.setCellValue(str);
 
-        Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
-        List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
-        if(companyTypeList.size()>6) { // 最多支持6个兼职类别
-            companyTypeList = companyTypeList.subList(0, 6);
-        }
         row = sheet.getRow(3);
         for(int j=0; j<companyTypeList.size(); j++) {
             cell = row.getCell(j+5);
@@ -513,7 +523,24 @@ public class CadreCompanyService extends BaseMapper {
         InputStream is = new FileInputStream(ResourceUtils
                 .getFile("classpath:xlsx/cadre/cadre_company_statByType.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
+
+        Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
+        List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
+
+        if(companyTypeList.size()>7) { // 最多支持7个兼职类别
+            companyTypeList = companyTypeList.subList(0, 7);
+        }
+        int companyTypeSize = companyTypeList.size();
+
+        if(companyTypeSize==7){
+            wb.removeSheetAt(0); // sheet0支持6个以内的兼职类别
+        }else{
+            wb.removeSheetAt(1); // sheet1支持7个兼职类别
+        }
+
         XSSFSheet sheet = wb.getSheetAt(0);
+        wb.setSheetName(0, "sheet1");
+
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
@@ -526,13 +553,8 @@ public class CadreCompanyService extends BaseMapper {
                 .replace("date", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
         cell.setCellValue(str);
 
-        Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
-        List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
-        if(companyTypeList.size()>6) { // 最多支持6个兼职类别
-            companyTypeList = companyTypeList.subList(0, 6);
-        }
         row = sheet.getRow(3);
-        for(int j=0; j<companyTypeList.size(); j++) {
+        for(int j=0; j<companyTypeSize; j++) {
             cell = row.getCell(j*2+4);
             MetaType metaType = companyTypeList.get(j);
             cell.setCellValue(metaType.getName());
@@ -544,7 +566,7 @@ public class CadreCompanyService extends BaseMapper {
         for (Map map : statByTypeData) {
 
             row = sheet.getRow(rownum++);
-            for(int j=0; j<14; j++){
+            for(int j=0; j<(companyTypeSize+1)*2; j++){
                 cell = row.getCell(column+j);
                 if(map.containsKey(column+j))
                     cell.setCellValue(map.get(column+j)+"");
@@ -561,8 +583,8 @@ public class CadreCompanyService extends BaseMapper {
 
         Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
         List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
-        if(companyTypeList.size()>6) { // 最多支持6个兼职类别
-            companyTypeList = companyTypeList.subList(0, 6);
+        if(companyTypeList.size()>7) { // 最多支持7个兼职类别
+            companyTypeList = companyTypeList.subList(0, 7);
         }
 
 

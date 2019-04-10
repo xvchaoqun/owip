@@ -99,7 +99,7 @@
 						<div class="form-group">
 							<label class="col-xs-8 control-label"><span class="star">*</span>党费缴纳至年月</label>
 							<div class="col-xs-4">
-								<div class="input-group">
+								<div class="input-group" style="z-index: 1030">
 									<input required class="form-control date-picker" name="_payTime" type="text"
 										   data-date-format="yyyy-mm"
 										   data-date-min-view-mode="1"
@@ -118,7 +118,7 @@
 						<div class="form-group">
 							<label class="col-xs-8 control-label"><span class="star">*</span>办理时间</label>
 							<div class="col-xs-4">
-								<div class="input-group">
+								<div class="input-group" style="z-index: 1030">
 									<input required class="form-control date-picker" name="_handleTime" type="text"
 										   data-date-format="yyyy-mm-dd"
 										   value="${cm:formatDate(memberOut.handleTime,'yyyy-MM-dd')}" />

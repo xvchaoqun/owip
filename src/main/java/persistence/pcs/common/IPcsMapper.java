@@ -99,7 +99,6 @@ public interface IPcsMapper {
                                                 @Param("stage") byte stage, @Param("adminType") byte adminType);
 
     // 全校 应参会党员总数/实参会党员总数
-    @ResultType(java.util.HashMap.class)
     @Select("select sum(pr.expect_member_count) as expect, sum(pr.actual_member_count) as actual " +
             "from pcs_recommend pr where config_id  = #{configId} and stage = #{stage} " +
             "and exists(select 1 from pcs_admin_report where party_id=pr.party_id and config_id  = #{configId} and stage = #{stage})")

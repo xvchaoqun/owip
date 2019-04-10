@@ -25,8 +25,6 @@ public interface IAbroadMapper {
     @Select("select count(*) from abroad_approval_order where applicat_type_id=#{applicatTypeId}")
     int countApprovalOrders(@Param("applicatTypeId") int applicatTypeId);
 
-
-    @ResultType(ApplySelfModifyBean.class)
     @Select("select modify_proof as modifyProof, modify_proof_file_name as modifyProofFileName,remark from abroad_apply_self_modify " +
             "where apply_id=#{applyId} and modify_type=" + AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_MODIFY)
     List<ApplySelfModifyBean> getApplySelfModifyList(@Param("applyId") Integer applyId);

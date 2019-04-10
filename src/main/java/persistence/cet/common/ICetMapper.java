@@ -241,7 +241,6 @@ public interface ICetMapper {
     public BigDecimal getPlanFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
 
-    @ResultType(FinishPeriodBean.class)
     @Select("select obj_id as objId, sum(finish_period) as period from cet_trainee_view where plan_id=#{planId} group by obj_id")
     public List<FinishPeriodBean> getPlanFinishPeriods(@Param("planId") int planId);
 
@@ -253,7 +252,6 @@ public interface ICetMapper {
     public BigDecimal getSelfFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
 
-    @ResultType(FinishPeriodBean.class)
     @Select("select obj_id as objId, sum(cc.period) as period from cet_plan_course_obj cpco " +
             "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
             "left join cet_course cc on cc.id=cpc.course_id " +
@@ -266,7 +264,6 @@ public interface ICetMapper {
             "where cd.plan_id=#{planId} and cdgo.obj_id=#{objId} and cdgo.is_finished=1")
     public BigDecimal getGroupFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
-    @ResultType(FinishPeriodBean.class)
     @Select("select cdgo.obj_id as objId, sum(cd.period) as period from cet_discuss_group_obj cdgo " +
             "left join cet_discuss cd on cd.id=cdgo.discuss_id " +
             "where cd.plan_id=#{planId} and cdgo.is_finished=1 group by cdgo.obj_id")
@@ -280,7 +277,6 @@ public interface ICetMapper {
             "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId} and cpco.is_finished=1")
     public BigDecimal getSpecialFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
-    @ResultType(FinishPeriodBean.class)
     @Select("select cpco.obj_id as objId, sum(cci.period) as period from cet_plan_course_obj_result cpcor " +
             "left join cet_course_item cci on cci.id=cpcor.course_item_id " +
             "left join cet_plan_course_obj cpco on cpco.id = cpcor.plan_course_obj_id " +
@@ -308,7 +304,6 @@ public interface ICetMapper {
      group by user_id;
      */
     // 获取某个培训班下面，每个参训人员的年度参加培训情况（年度参加培训的总学时数）
-    @ResultType(java.util.HashMap.class)
     @Select("select user_id as userId, sum(period) as yearPeriod from cet_trainee_course_view cteecv  " +
             "where is_finished=1 and year=(select cp.year from cet_project cp, cet_project_plan cpp, cet_train ct " +
             "where ct.id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cp.id) " +
@@ -317,7 +312,6 @@ public interface ICetMapper {
     public List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
 
     // 一个培训班内，每个参训人对每个课程的评价情况
-    @ResultType(StatTrainBean.class)
     @Select("select result.train_course_id as trainCourseId, result.inspector_id as inspectorId, sum(rank.score) as totalScore, ic.feedback " +
             "from cet_train_eva_result result, cet_train_eva_rank rank, cet_train_inspector_course ic " +
             "where result.train_id=#{trainId} and rank.id=result.rank_id and " +

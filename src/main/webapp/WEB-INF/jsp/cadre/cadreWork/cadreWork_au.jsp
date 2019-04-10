@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
                     <div class="input-group" style="width: 120px">
                         <input required autocomplete="off" disableautocomplete
                                class="form-control date-picker" name="_startTime" type="text"
-                               data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
+                               data-date-min-view-mode="1" placeholder="yyyy.mm"
                                data-date-format="yyyy.mm" value="${cm:formatDate(cadreWork.startTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -33,13 +33,13 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">${not empty topCadreWork.endTime?"*":""}结束日期</label>
 				<div class="col-xs-7">
                     <div class="input-group date date-picker" style="width: 120px"
-                         data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
+                         data-date-min-view-mode="1"
                             <c:if test="${not empty param.fid}">
                                 data-date-start-date="'${cm:formatDate(topCadreWork.startTime,'yyyy.MM')}'"
                                 data-date-end-date="'${cm:formatDate(topCadreWork.endTime,'yyyy.MM')}'"
                             </c:if>
                          data-date-format="yyyy.mm">
-                        <input ${not empty topCadreWork.endTime?"required":""}  autocomplete="off" disableautocomplete
+                        <input ${not empty topCadreWork.endTime?"required":""} placeholder="yyyy.mm" autocomplete="off" disableautocomplete
                                                                                 class="form-control" name="_endTime" type="text" value="${cm:formatDate(cadreWork.endTime,'yyyy.MM')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>

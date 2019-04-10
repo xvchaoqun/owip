@@ -1,6 +1,5 @@
 package persistence.common;
 
-import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.Map;
 public interface CountMapper {
 
     // 干部信息修改数量
-    @ResultType(java.util.HashMap.class)
     @Select("select module, count(*) as num from modify_table_apply where status=0 group by module")
     public List<Map> modifyTableApply();
 
@@ -21,7 +19,6 @@ public interface CountMapper {
     public int modifyBaseApply();
 
     // 领取证件申请数量
-    @ResultType(java.util.HashMap.class)
     @Select("select type, count(*) as num from abroad_passport_draw where status=0 and is_deleted=0 group by type")
     public List<Map> abroadPassportDraw();
 

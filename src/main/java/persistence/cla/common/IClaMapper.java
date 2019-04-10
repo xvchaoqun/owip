@@ -23,7 +23,6 @@ public interface IClaMapper {
     int countApprovalOrders(@Param("applicatTypeId") int applicatTypeId);
 
 
-    @ResultType(ClaApplyModifyBean.class)
     @Select("select modify_proof as modifyProof, modify_proof_file_name as modifyProofFileName,remark from cla_apply_modify " +
             "where apply_id=#{applyId} and modify_type=" + AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_MODIFY)
     List<ClaApplyModifyBean> getApplyModifyList(@Param("applyId") Integer applyId);

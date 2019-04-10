@@ -39,7 +39,6 @@ public interface ICrsMapper {
                                @Param("meetingTimeEnd") Date meetingTimeEnd);
 
     // 岗位报名分类统计
-    @ResultType(java.util.HashMap.class)
     @Select("select count(*) as num, require_check_status, is_require_check_pass,is_quit " +
             "from crs_applicant_view where post_id=#{postId} and status = #{status} " +
             "group by require_check_status, is_require_check_pass, is_quit")
@@ -56,7 +55,6 @@ public interface ICrsMapper {
                                          @Param("postStatusList") List<Byte> postStatusList);
 
     // 已报名的岗位
-    @ResultType(java.util.HashMap.class)
     @Select("select post_id as postId, is_quit as isQuit from crs_applicant where user_id=#{userId} and status = #{status}")
     public List<Map> hasApplyPosts(@Param("userId") Integer userId, @Param("status") Byte status);
 
