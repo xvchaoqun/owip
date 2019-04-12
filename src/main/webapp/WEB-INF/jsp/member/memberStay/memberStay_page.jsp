@@ -33,13 +33,13 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=1">新申请</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=1"><i class="fa fa-hand-o-right"></i> 新申请</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=11">返回修改</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=11"><i class="fa fa-hand-o-right"></i> 返回修改</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=12">已审核</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=12"><i class="fa fa-hand-o-right"></i> 已审核</a>
                                     </li>
                                 </ul>
                             </li>
@@ -53,13 +53,13 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=2">新申请</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=2"><i class="fa fa-hand-o-right"></i> 新申请</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=21">返回修改</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=21"><i class="fa fa-hand-o-right"></i> 返回修改</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=22">已审核</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=22"><i class="fa fa-hand-o-right"></i> 已审核</a>
                                     </li>
                                 </ul>
                             </li>
@@ -72,10 +72,10 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=3">新申请</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=3"><i class="fa fa-hand-o-right"></i> 新申请</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=31">返回修改</a>
+                                        <a href="javascript:;" class="hashchange" data-querystr="cls=31"><i class="fa fa-hand-o-right"></i> 返回修改</a>
                                     </li>
                                 </ul>
                             </li>
@@ -101,10 +101,10 @@
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="hashchange" data-querystr="cls=5">现有暂留的党员</a>
+                                    <a href="javascript:;" class="hashchange" data-querystr="cls=5"><i class="fa fa-hand-o-right"></i> 现有暂留的党员</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="hashchange" data-querystr="cls=6">已转出的暂留党员</a>
+                                    <a href="javascript:;" class="hashchange" data-querystr="cls=6"><i class="fa fa-hand-o-right"></i> 已转出的暂留党员</a>
                                 </li>
                             </ul>
                         </li>

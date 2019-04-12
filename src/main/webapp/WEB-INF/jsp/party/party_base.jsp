@@ -85,6 +85,9 @@ pageEncoding="UTF-8"%>
 		<h4 class="widget-title lighter">
 			<i class="ace-icon fa fa-group"></i>
 			领导班子
+			<c:if test="${empty presentGroup}">
+				<span style="color: red;font-size: 12px">【注：该党委还未设置现任班子，只有设置了现任班子之后，添加的委员和管理员才会生效】</span>
+            </c:if>
 		</h4>
 
 		<div class="widget-toolbar">

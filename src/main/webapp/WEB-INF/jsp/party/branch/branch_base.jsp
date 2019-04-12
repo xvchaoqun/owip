@@ -83,6 +83,9 @@ pageEncoding="UTF-8"%>
 		<h4 class="widget-title lighter">
 			<i class="ace-icon fa fa-group"></i>
 			支部委员会
+			<c:if test="${empty presentGroup}">
+				<span style="color: red;font-size: 12px">【注：该支部还未设置现任支部委员会，只有设置了现任支委会之后，添加的委员和管理员才会生效】</span>
+            </c:if>
 		</h4>
 
 		<div class="widget-toolbar">

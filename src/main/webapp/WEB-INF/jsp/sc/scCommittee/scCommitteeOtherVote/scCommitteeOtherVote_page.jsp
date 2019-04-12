@@ -106,16 +106,18 @@
             { label: '议题名称',name: 'name', width: 400, align:'left'},
             {
                 label: '议题内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return ('<a href="javascript:;" class="popupBtn" ' +
-                'data-url="${ctx}/sc/scCommitteeTopic_content?topicId={0}">查看</a>')
-                        .format(rowObject.topicId);
+
+                    return ('<button class="openView btn btn-primary btn-xs" ' +
+                  'data-url="${ctx}/sc/scCommitteeTopic_content?topicId={0}"><i class="fa fa-search"></i> 查看</button>')
+                  .format(rowObject.topicId);
             }
             },
             {
                 label: '表决情况', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return ('<a href="javascript:;" class="popupBtn" ' +
-                'data-url="${ctx}/sc/scCommitteeOtherVote_memo?id={0}">查看</a>')
-                        .format(rowObject.id);
+
+                     return ('<button class="popupBtn btn btn-info btn-xs" ' +
+                  'data-url="${ctx}/sc/scCommitteeOtherVote_memo?id={0}"><i class="fa fa-search"></i> 查看</button>')
+                  .format(rowObject.id);
             }
             },
             { label: '常委总数',name: 'committeeMemberCount'},
@@ -124,16 +126,17 @@
             }},
             {
                 label: '实际参会常委数', name: 'count', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==0) return '-'
-                return ('<a href="javascript:;" class="popupBtn" ' +
-                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=0">{1}</a>')
+
+                    if(cellvalue==0) return '-'
+                return ('<a href="javascript:;" class="popupBtn bolder" ' +
+                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=0"><u>{1}</u></a>')
                         .format(rowObject.committeeId, cellvalue);
             }},
             {
                 label: '请假常委数', name: 'absentCount', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==0) return '-'
-                return ('<a href="javascript:;" class="popupBtn" ' +
-                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1">{1}</a>')
+                    if(cellvalue==0) return '-'
+                return ('<a href="javascript:;" class="popupBtn bolder" ' +
+                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1"><u>{1}</u></a>')
                         .format(rowObject.committeeId, cellvalue);
             }},
             { label: '列席人',name: 'attendUsers', width: 400,align:'left'},

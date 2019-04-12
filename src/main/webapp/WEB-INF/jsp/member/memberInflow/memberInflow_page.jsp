@@ -28,14 +28,14 @@
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=1">新申请</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=1"><i class="fa fa-hand-o-right"></i> 新申请</a>
                                 </li>
                                 <li>
                                     <a href="javascript:;" class="loadPage"
-                                       data-url="${ctx}/memberInflow?cls=4">返回修改</a>
+                                       data-url="${ctx}/memberInflow?cls=4"><i class="fa fa-hand-o-right"></i> 返回修改</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=5">已审核</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=5"><i class="fa fa-hand-o-right"></i> 已审核</a>
                                 </li>
                             </ul>
                         </li>

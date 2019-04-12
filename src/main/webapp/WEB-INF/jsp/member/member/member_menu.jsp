@@ -24,10 +24,10 @@
     </a>
     <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
       <li>
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=6">学生（${cm:trimToZero(student_transferCount)}）</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=6"><i class="fa fa-hand-o-right"></i>  学生（${cm:trimToZero(student_transferCount)}）</a>
       </li>
       <li>
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=7">教职工（${cm:trimToZero(teacher_transferCount)}）</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=7"><i class="fa fa-hand-o-right"></i>  教职工（${cm:trimToZero(teacher_transferCount)}）</a>
       </li>
     </ul>
   </li>

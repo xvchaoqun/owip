@@ -54,14 +54,17 @@ public class BranchController extends BaseController {
         Branch branch = branchMapper.selectByPrimaryKey(id);
         modelMap.put("branch", branch);
         BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(id);
+        modelMap.put("presentGroup", presentGroup);
+
         if (presentGroup != null) {
             BranchMemberExample example = new BranchMemberExample();
             example.createCriteria().andGroupIdEqualTo(presentGroup.getId());
             example.setOrderByClause("sort_order desc");
             List<BranchMember> BranchMembers = branchMemberMapper.selectByExample(example);
             modelMap.put("branchMembers", BranchMembers);
+
+            modelMap.put("adminIds", iPartyMapper.findBranchAdmin(id));
         }
-        modelMap.put("adminIds", iPartyMapper.findBranchAdmin(id));
 
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_member_type"));
         return "party/branch/branch_base";

@@ -164,6 +164,8 @@ public class CadreController extends BaseController {
                            Boolean isPrincipalPost, // 是否正职
                            Byte leaderType,
                            Boolean isDouble, // 是否双肩挑
+                           Byte type,
+                           Boolean state,
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -268,6 +270,12 @@ public class CadreController extends BaseController {
         }
         if (isDouble != null) {
             criteria.andIsDoubleEqualTo(isDouble);
+        }
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+        if (state != null) {
+            criteria.andStateEqualTo(state);
         }
 
         if (export == 1) {

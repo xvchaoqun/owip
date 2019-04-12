@@ -17,7 +17,7 @@
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code
-                ||not empty param.leaderType }"/>
+                ||not empty param.leaderType  ||not empty param.type  ||not empty param.state }"/>
 
                 <div class="tabbable">
 
@@ -411,7 +411,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="name">是否班子负责人</td>
-                                                    <td class="input" colspan="5">
+                                                    <td class="input">
                                                          <select name="leaderType" data-placeholder="请选择" data-rel="select2">
                                                             <option></option>
                                                             <c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
@@ -422,6 +422,33 @@
                                                             $("#searchForm select[name=leaderType]").val('${param.leaderType}');
                                                         </script>
                                                     </td>
+                                                    <td class="name">干部类型</td>
+                                                    <td class="input">
+                                                        <select name="type" data-width="150" data-rel="select2"
+                                                                data-placeholder="请选择">
+                                                            <option></option>
+                                                            <c:forEach items="<%=CadreConstants.CADRE_TYPE_MAP%>" var="_type">
+                                                                <option value="${_type.key}">${_type.value}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=type]").val('${param.type}');
+                                                        </script>
+                                                    </td>
+                                                    <td class="name">是否涉密</td>
+                                                    <td class="input">
+                                                        <select name="state" data-width="100" data-rel="select2"
+                                                                data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="1">是</option>
+                                                            <option value="0">否</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=state]").val('${param.state}');
+                                                        </script>
+                                                    </td>
+
+
                                                 </tr>
                                             </table>
                                             <div>

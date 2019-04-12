@@ -527,7 +527,12 @@ $(document).on("click", ".hideView", function () {
 $(document).on("click", ".popupBtn", function (e) {
 
     e.stopPropagation();
-    $.loadModal($(this).data("url"), $(this).data("width"));
+    var $this = $(this);
+    var querystr = $.trim($this.data("querystr"));
+    var url = $this.data("url");
+    if($.trim(querystr)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + querystr;
+
+    $.loadModal(url, $(this).data("width"));
 });
 // 子窗口打开连接
 $(document).on("click", ".openUrl", function (e) {
@@ -601,7 +606,7 @@ $(document).on("click", ".linkBtn", function (e) {
     window.open(url, target || '_self', '');
 });
 // 打印地址
-$(document).on("click", ".pirntBtn", function (e) {
+$(document).on("click", ".printBtn", function (e) {
 
     e.stopPropagation();
     $.print($(this).data("url"));

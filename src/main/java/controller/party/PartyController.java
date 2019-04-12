@@ -60,14 +60,18 @@ public class PartyController extends BaseController {
         Party party = partyMapper.selectByPrimaryKey(id);
         modelMap.put("party", party);
         PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(id);
+        modelMap.put("presentGroup", presentGroup);
+
         if(presentGroup!=null) {
+
             PartyMemberExample example = new PartyMemberExample();
             example.createCriteria().andGroupIdEqualTo(presentGroup.getId());
             example.setOrderByClause("sort_order desc");
             List<PartyMember> PartyMembers = partyMemberMapper.selectByExample(example);
             modelMap.put("partyMembers", PartyMembers);
+
+            modelMap.put("adminIds", iPartyMapper.findPartyAdmin(id));
         }
-        modelMap.put("adminIds", iPartyMapper.findPartyAdmin(id));
 
         return "party/party_base";
     }

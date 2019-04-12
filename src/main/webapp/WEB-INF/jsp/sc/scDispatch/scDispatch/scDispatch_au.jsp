@@ -59,7 +59,7 @@
                             <input type="hidden" name="filePath" value="${scDispatch.filePath}">
 
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span>年度</label>
                                 <div class="col-xs-7">
                                     <div class="input-group">
                                         <input required class="form-control date-picker" placeholder="请选择年份"
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>发文类型</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span>发文类型</label>
                                 <div class="col-xs-7">
                                     <c:set var="dispatchType"
                                            value="${dispatchTypeMap.get(scDispatch.dispatchTypeId)}"/>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>发文号</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span>发文号</label>
 
                                 <div class="col-xs-7">
                                     <input required class="form-control" type="text" name="code"
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>标题</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span>标题</label>
 
                                 <div class="col-xs-7">
                                     <input required class="form-control" type="text" name="title"
@@ -104,30 +104,26 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"
+                                <label class="col-xs-4 control-label"
                                        style="white-space: nowrap">党委常委会</label>
-
-                                <div class="col-xs-9">
-                                    <select data-rel="select2-ajax"
-                                            data-ajax-url="${ctx}/sc/scCommittee_selects"
-                                            data-width="272" name="committeeId"
-                                            data-placeholder="请选择或输入日期(YYYYMMDD)">
-                                        <option></option>
-                                    </select>
-
-                                    <button type="button" class="btn btn-success btn-sm"
-                                            onclick="_selectCommittee()"><i
-                                            class="fa fa-plus"></i> 选择
+                                <div class="col-xs-7">
+                                    <button id="selectCommitteeBtn" class="popupBtn btn btn-success btn-sm" type="button"
+                                            data-width="1200"
+                                            data-querystr="year=${empty scDispatch?_thisYear:scDispatch.year}"
+                                            data-url="${ctx}/sc/scCommittee_popup">
+                                        <i class="fa fa-plus-circle"></i> 选择
                                     </button>
-                                    <div style="padding-top: 10px;">
-                                        <div id="itemList" class="itemList">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div style="padding: 0 10px;">
+                                    <div id="itemList" class="itemList">
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>党委常委会日期</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span>党委常委会日期</label>
 
                                 <div class="col-xs-7">
                                     <div class="input-group">
@@ -141,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>起草日期</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span>起草日期</label>
 
                                 <div class="col-xs-7">
                                     <div class="input-group">
@@ -155,14 +151,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">文件签发稿（WORD版）</label>
+                                <label class="col-xs-4 control-label">文件签发稿<br/>（WORD版）</label>
 
                                 <div class="col-xs-7">
                                     <input class="form-control" type="file" name="_wordFilePath"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">备注</label>
+                                <label class="col-xs-4 control-label">备注</label>
 
                                 <div class="col-xs-7">
 											<textarea class="form-control limited"
@@ -207,7 +203,7 @@
                 </div>
             </div>
             <div class="clearfix form-actions center" style="margin-top: 0">
-                <button class="btn btn-success btn-lg" type="button" id="submitBtn">
+                <button class="btn btn-primary btn-lg" type="button" id="submitBtn">
                     <i class="ace-icon fa fa-check bigger-110"></i>
                     提交
                 </button>
@@ -240,40 +236,18 @@
 </script>
 <script>
     var selectedItems = ${cm:toJSONArrayWithFilter(itemList, "id,year,holdDate,code")};
-    if(selectedItems.length>0)
+    if(selectedItems.length>0) {
         $("#itemList").append(_.template($("#itemListTpl").html())({items: selectedItems}));
+    }
 
-    var $committeeId = $("#modalForm select[name=committeeId]");
-    function _selectCommittee() {
-        var committeeId = $.trim($committeeId.val());
-        if (committeeId == '') {
-            $.tip({
-                $target: $committeeId.closest("div").find(".select2-container"),
-                at: 'top center', my: 'bottom center', type: 'success',
-                msg: "请选择党委常委会。"
-            });
-            return;
-        }
-        var hasSelected = false;
-        $.each(selectedItems, function (i, item) {
-            if (item.id == committeeId) {
-                hasSelected = true;
-                return false;
-            }
-        })
-        if (hasSelected) {
-            $.tip({
-                $target: $committeeId.closest("div").find(".select2-container"),
-                at: 'top center', my: 'bottom center', type: 'success',
-                msg: "您已经选择了该党委常委会。"
-            });
-            return;
-        }
+    $("#modalForm input[name=year]").on('changeDate',function(ev){
+        var year = $(this).val();
+        $("#selectCommitteeBtn").data("querystr", "year="+year);
+    }).trigger("changeDate");
 
-        var year = $committeeId.select2("data")[0]['year'] || '';
-        var holdDate = $committeeId.select2("data")[0]['holdDate'] || '';
-        var code = $committeeId.select2("data")[0]['code'] || '';
-        var item = {id: committeeId, year: year, holdDate: holdDate, code:code};
+    function _selectCommittee(scCommittee) {
+
+        var item = {id: scCommittee.id, year: scCommittee.year, holdDate: scCommittee.holdDate, code:scCommittee.code};
 
         //console.log(item)
         selectedItems.push(item);
@@ -284,24 +258,26 @@
         }
         $("#itemList").empty().append(_.template($("#itemListTpl").html())({items: selectedItems}));
     }
+
+
     $(document).off("click", "#itemList .del")
-            .on('click', "#itemList .del", function () {
-                var $tr = $(this).closest("tr");
-                var id = $tr.data("item-id");
-                //console.log("userId=" + userId)
-                $.each(selectedItems, function (i, item) {
-                    if (item.id == id) {
-                        selectedItems.splice(i, 1);
-                        return false;
-                    }
-                })
-                if(selectedItems.length==1){
-                    $("#modalForm input[name=meetingTime]").val($.date(selectedItems[0].holdDate, "yyyy-MM-dd"))
-                }else{
-                    $("#modalForm input[name=meetingTime]").val('')
+        .on('click', "#itemList .del", function () {
+            var $tr = $(this).closest("tr");
+            var id = $tr.data("item-id");
+            //console.log("userId=" + userId)
+            $.each(selectedItems, function (i, item) {
+                if (item.id == id) {
+                    selectedItems.splice(i, 1);
+                    return false;
                 }
-                $(this).closest("tr").remove();
-            });
+            })
+            if(selectedItems.length==1){
+                $("#modalForm input[name=meetingTime]").val($.date(selectedItems[0].holdDate, "yyyy-MM-dd"))
+            }else{
+                $("#modalForm input[name=meetingTime]").val('')
+            }
+            $(this).closest("tr").remove();
+        });
 
     $("#upload-file").change(function () {
         if ($("#upload-file").val() != "") {
@@ -340,7 +316,7 @@
         var t = $select.select2({
             language: {
                 noResults: function (term) {
-                    return "请先选择年份";
+                    return "请先选择年度";
                 }
             },
             templateResult: $.register.formatState,
@@ -383,8 +359,7 @@
         event.stopPropagation()
         if (selectedItems.length == 0) {
             $.tip({
-                //$target: $committeeId.closest("div").find(".select2-container"),
-                $target: $committeeId.closest("div").find(".btn"),
+                $target: $("#selectCommitteeBtn"),
                 at: 'top center', my: 'bottom center', type: 'info',
                 msg: "请先选择党委常委会。"
             });
@@ -418,7 +393,7 @@
 
         if (selectedItems.length == 0) {
             $.tip({
-                $target: $committeeId.closest("div").find(".btn"),
+                $target: $("#selectCommitteeBtn"),
                 at: 'right center', my: 'left center', type: 'info',
                 msg: "请选择党委常委会。"
             });

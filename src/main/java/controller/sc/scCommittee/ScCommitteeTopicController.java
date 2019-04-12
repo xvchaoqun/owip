@@ -1,10 +1,7 @@
 package controller.sc.scCommittee;
 
 import controller.sc.ScBaseController;
-import domain.sc.scCommittee.ScCommitteeTopic;
-import domain.sc.scCommittee.ScCommitteeTopicCadre;
-import domain.sc.scCommittee.ScCommitteeTopicView;
-import domain.sc.scCommittee.ScCommitteeTopicViewExample;
+import domain.sc.scCommittee.*;
 import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -25,7 +22,10 @@ import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,12 +42,12 @@ public class ScCommitteeTopicController extends ScBaseController {
     @RequestMapping("/scCommitteeTopic")
     public String scCommitteeTopic(@RequestParam(defaultValue = "1") Integer cls,
                                    @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
-                                    ModelMap modelMap) {
+                                   ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         modelMap.put("scCommittees", scCommitteeService.findAll());
 
-        if (unitIds!=null) {
+        if (unitIds != null) {
             List<Integer> _unitIds = Arrays.asList(unitIds);
             modelMap.put("selectedUnitIds", _unitIds);
         }
@@ -64,13 +64,13 @@ public class ScCommitteeTopicController extends ScBaseController {
     @RequestMapping("/scCommitteeTopic_data")
     public void scCommitteeTopic_data(HttpServletResponse response,
                                       Integer year,
-                                    Integer committeeId,
+                                      Integer committeeId,
                                       @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
-                                    String name,
+                                      String name,
                                       @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                      @RequestParam(required = false, defaultValue = "0") int export,
+                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                      Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -84,17 +84,17 @@ public class ScCommitteeTopicController extends ScBaseController {
         ScCommitteeTopicViewExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("hold_date desc, committee_id desc, seq asc, id asc");
 
-        if (committeeId!=null) {
+        if (committeeId != null) {
             criteria.andCommitteeIdEqualTo(committeeId);
         }
-        if (year!=null) {
+        if (year != null) {
             criteria.andYearEqualTo(year);
         }
-        if (name!=null) {
+        if (name != null) {
             criteria.andNameLike("%" + name + "%");
         }
 
-        if (unitIds != null && unitIds.length>0) {
+        if (unitIds != null && unitIds.length > 0) {
 
             criteria.andUnitIdsContain(unitIds);
         }
@@ -104,7 +104,7 @@ public class ScCommitteeTopicController extends ScBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScCommitteeTopicView> records= scCommitteeTopicViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScCommitteeTopicView> records = scCommitteeTopicViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -129,8 +129,8 @@ public class ScCommitteeTopicController extends ScBaseController {
 
         Integer id = record.getId();
 
-        if(record.getSeq() != null && scCommitteeTopicService.idDuplicate
-                (id, record.getCommitteeId(), record.getSeq())){
+        if (record.getSeq() != null && scCommitteeTopicService.idDuplicate
+                (id, record.getCommitteeId(), record.getSeq())) {
             return failed("议题序号重复");
         }
 
@@ -164,7 +164,7 @@ public class ScCommitteeTopicController extends ScBaseController {
         if (id != null) {
             ScCommitteeTopic scCommitteeTopic = scCommitteeTopicMapper.selectByPrimaryKey(id);
             modelMap.put("scCommitteeTopic", scCommitteeTopic);
-            if(scCommitteeTopic!=null){
+            if (scCommitteeTopic != null) {
                 committeeId = scCommitteeTopic.getCommitteeId();
             }
 
@@ -183,14 +183,14 @@ public class ScCommitteeTopicController extends ScBaseController {
         for (Unit unit : unitMap.values()) {
 
             Integer unitTypeId = unit.getTypeId();
-            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY) {
                 List<Integer> units = historyUnitListMap.get(unitTypeId);
                 if (units == null) {
                     units = new ArrayList<>();
                     historyUnitListMap.put(unitTypeId, units);
                 }
                 units.add(unit.getId());
-            }else {
+            } else {
                 List<Integer> units = unitListMap.get(unitTypeId);
                 if (units == null) {
                     units = new ArrayList<>();
@@ -221,6 +221,9 @@ public class ScCommitteeTopicController extends ScBaseController {
         if (topicId != null) {
             ScCommitteeTopic scCommitteeTopic = scCommitteeTopicMapper.selectByPrimaryKey(topicId);
             modelMap.put("scCommitteeTopic", scCommitteeTopic);
+
+            ScCommittee scCommittee = scCommitteeMapper.selectByPrimaryKey(scCommitteeTopic.getCommitteeId());
+            modelMap.put("scCommittee", scCommittee);
         }
 
         return "sc/scCommittee/scCommitteeTopic/scCommitteeTopic_content";
@@ -232,7 +235,7 @@ public class ScCommitteeTopicController extends ScBaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             scCommitteeTopicService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "批量删除党委常委会议题：%s", StringUtils.join(ids, ",")));
         }

@@ -50,6 +50,16 @@ public class ScCommitteeController extends ScBaseController {
     }
 
     @RequiresPermissions("scCommittee:list")
+    @RequestMapping("/scCommittee_popup")
+    public String scCommittee_popup(Integer year,
+                             ModelMap modelMap) {
+
+        modelMap.put("year", year);
+
+        return "sc/scCommittee/scCommittee/scCommittee_popup";
+    }
+
+    @RequiresPermissions("scCommittee:list")
     @RequestMapping("/scCommittee_data")
     public void scCommittee_data(HttpServletResponse response,
                                     Integer year,
@@ -187,7 +197,7 @@ public class ScCommitteeController extends ScBaseController {
     @RequiresPermissions("scCommittee:del")
     @RequestMapping(value = "/scCommittee_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scCommittee_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -196,6 +206,20 @@ public class ScCommitteeController extends ScBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scCommittee:list")
+    @RequestMapping("/scCommittee_select")
+    @ResponseBody
+    public Map scCommittee_select(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        ScCommitteeViewExample example = new ScCommitteeViewExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<ScCommitteeView> records = scCommitteeViewMapper.selectByExample(example);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("scCommittees", records);
+
+        return resultMap;
     }
 
     public void scCommittee_export(ScCommitteeViewExample example, HttpServletResponse response) {

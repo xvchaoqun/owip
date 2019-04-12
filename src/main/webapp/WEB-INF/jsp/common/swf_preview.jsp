@@ -32,7 +32,7 @@
   </div>
   <div class="modal-footer">
       <c:if test="${!np}">
-      <a href="javascript:;" data-dismiss="modal" class="pirntBtn btn btn-info"
+      <a href="javascript:;" data-dismiss="modal" class="printBtn btn btn-info"
          data-url="${ctx}/pdf?path=${cm:encodeURI(path)}"><i class="fa fa-print"></i> 打印</a>
       </c:if>
       <c:if test="${!nd}">

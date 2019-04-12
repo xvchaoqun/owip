@@ -1,6 +1,7 @@
 package controller.sc.scCommittee;
 
 import controller.sc.ScBaseController;
+import domain.sc.scCommittee.ScCommittee;
 import domain.sc.scCommittee.ScCommitteeMember;
 import domain.sc.scCommittee.ScCommitteeMemberExample;
 import domain.sc.scCommittee.ScCommitteeMemberView;
@@ -35,6 +36,9 @@ public class ScCommitteeMemberController extends ScBaseController {
     @RequiresPermissions("scCommitteeMember:list")
     @RequestMapping("/scCommitteeMember")
     public String scCommitteeMember(Integer committeeId, Boolean isAbsent, ModelMap modelMap) {
+
+        ScCommittee scCommittee = scCommitteeMapper.selectByPrimaryKey(committeeId);
+        modelMap.put("scCommittee", scCommittee);
 
         List<ScCommitteeMemberView> userList = scCommitteeService.getMemberList(committeeId, isAbsent);
         modelMap.put("userList", userList);

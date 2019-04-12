@@ -480,6 +480,9 @@ public class MemberApplyController extends MemberBaseController {
         if (_memberApply != null) {
             oldPartyId = _memberApply.getPartyId();
             oldBranchId = _memberApply.getBranchId();
+        }else{
+            oldPartyId = partyId;
+            oldBranchId = branchId;
         }
         //===========权限
         Integer loginUserId = loginUser.getId();

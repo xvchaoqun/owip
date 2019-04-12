@@ -7,7 +7,7 @@
     <div class="widget-header">
         <h4 class="smaller">
             <c:if test="${not empty crsPost.notice}">
-                <a href="javascript:;" data-dismiss="modal" class="pirntBtn btn btn-info btn-xs"
+                <a href="javascript:;" data-dismiss="modal" class="printBtn btn btn-info btn-xs"
                    data-url="${ctx}/pdf?path=${cm:encodeURI(crsPost.notice)}"><i class="fa fa-print"></i> 打印</a>
                 &nbsp;
                 <a href="${ctx}/attach/download?path=${cm:encodeURI(crsPost.notice)}&filename=招聘公告（${crsPost.name}）"

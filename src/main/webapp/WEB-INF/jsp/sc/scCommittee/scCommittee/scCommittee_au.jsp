@@ -54,7 +54,7 @@
                                 <input type="hidden" name="filePath" value="${scCommittee.filePath}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>年份</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label"><span class="star">*</span>党委常委会日期</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>党委常委会日期</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -84,7 +84,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label"><span class="star">*</span>常委总数</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>常委总数</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control digits"
@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">实际参会常委</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>实际参会常委</label>
 
                                     <div class="col-xs-8 selectUsers">
                                         <select class="multiselect" name="userId0" multiple="">
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">请假常委</label>
+                                    <label class="col-xs-4 control-label">请假常委</label>
 
                                     <div class="col-xs-8 selectUsers">
 
@@ -133,7 +133,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">列席人</label>
+                                    <label class="col-xs-4 control-label">列席人</label>
 
                                     <div class="col-xs-6">
                                         <input class="form-control" type="text"
@@ -142,14 +142,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">上会PPT</label>
+                                    <label class="col-xs-4 control-label">上会PPT</label>
 
                                     <div class="col-xs-6">
                                         <input class="form-control" type="file" name="_pptFile"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label"><span class="star">*</span>议题数量</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>议题数量</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control digits"
@@ -158,14 +158,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">会议记录</label>
+                                    <label class="col-xs-4 control-label">会议记录</label>
 
                                     <div class="col-xs-6">
                                         <input class="form-control" type="file" name="_logFile"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">备注</label>
+                                    <label class="col-xs-4 control-label">备注</label>
 
                                     <div class="col-xs-6">
                                         <textarea class="form-control limited"
@@ -392,18 +392,23 @@
     });
 
     $("#committeeBtn").click(function () {
+
+        console.log(selectedUsers)
+        if (selectedUsers.length == 0) {
+            var $select = $("#committeeForm select[name=userId0]");
+            $.tip({
+                $target: $select.closest("div").find(".btn-group"),
+                at: 'top center', my: 'bottom center', type: 'info',
+                msg: "请选择常委。"
+            });
+        }
+
         $("#committeeForm").submit();
         return false;
     });
     $("#committeeForm").validate({
         submitHandler: function (form) {
             if (selectedUsers.length == 0) {
-                var $select = $("#committeeForm select[name=userId0]");
-                $.tip({
-                    $target: $select.closest("div").find(".select2-container"),
-                    at: 'top center', my: 'bottom center', type: 'info',
-                    msg: "请选择常委。"
-                });
                 return;
             }
             var $btn = $("#committeeBtn").button('loading');

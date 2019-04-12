@@ -3,16 +3,16 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${param.isAbsent==0?'实际参会常委数':'请假常委数'}</h3>
+    <h3>${param.isAbsent==0?'实际参会常委数':'请假常委数'}（${scCommittee.code}）</h3>
 </div>
 <div class="modal-body">
-    <table class="table table-striped table-bordered table-condensed table-unhover2">
+    <table class="table table-striped table-bordered table-condensed table-unhover2 table-center">
         <thead>
         <tr>
-            <td>序号</td>
-            <td>工号</td>
-            <td>姓名</td>
-            <td>职务</td>
+            <th>序号</th>
+            <th>工号</th>
+            <th>姓名</th>
+            <th>职务</th>
         </tr>
         </thead>
         <tbody>

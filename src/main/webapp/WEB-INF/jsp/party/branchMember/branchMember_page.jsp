@@ -39,6 +39,9 @@
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
+                <c:if test="${!branchMemberGroup.isPresent}">
+                    <span style="color: red;font-size: 12px">【注：当前支委会不是现任支委会，只有成为现任支部委员会后，设置的管理员才生效】</span>
+                </c:if>
 
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
