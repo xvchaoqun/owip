@@ -8,6 +8,20 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/shortMsgTpl_send" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <input type="hidden" name="tplId" value="${param.id}">
+            <input type="hidden" name="type" value="${param.type}">
+			<c:if test="${param.type=='batch'}">
+				<div class="form-group">
+				<label class="col-xs-2 control-label">发送对象</label>
+				<div class="col-xs-8">
+					<div id="tree3" style="height: 280px;">
+						<div style="height: 280px;line-height: 280px;font-size: 20px">
+							<i class="fa fa-spinner fa-spin"></i> 加载中，请稍后...
+						</div>
+					</div>
+				</div>
+			</div>
+			</c:if>
+			<c:if test="${param.type!='batch'}">
 			<div class="form-group">
 				<label class="col-xs-2 control-label">选择用户</label>
 				<div class="col-xs-5">
@@ -23,6 +37,7 @@ pageEncoding="UTF-8"%>
                     <input required class="form-control" type="text" name="mobile">
 				</div>
 			</div>
+			</c:if>
 			<div class="form-group">
 				<label class="col-xs-2 control-label">模板名称</label>
 				<div class="col-xs-5 label-text">
@@ -44,16 +59,44 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	<c:if test="${param.type=='batch'}">
+	$.getJSON("${ctx}/shortMsgTpl_selectCadres_tree", {}, function (data) {
+        var treeData = data.tree.children;
+        $("#tree3").dynatree({
+            checkbox: true,
+            selectMode: 3,
+            children: treeData,
+            onSelect: function (select, node) {
+
+                node.expand(node.data.isFolder && node.isSelected());
+            },
+            cookieId: "dynatree-Cb3",
+            idPrefix: "dynatree-Cb3-"
+        });
+    });
+	</c:if>
+	<c:if test="${param.type!='batch'}">
     var $selectCadre = $.register.user_select($('#modalForm select[name=receiverId]'));
     $selectCadre.on("change",function(){
         var ret = $(this).select2("data")[0];
         $('#modalForm input[name=mobile]').val(ret.msgMobile || ret.mobile);
     });
+	</c:if>
 
     $('textarea.limited').inputlimiter();
     $("#modalForm").validate({
         submitHandler: function (form) {
+        	<c:if test="${param.type=='batch'}">
+        	var userIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
+                if (!node.data.isFolder && !node.data.hideCheckbox)
+                    return node.data.key;
+            });
+			</c:if>
+
             $(form).ajaxSubmit({
+				<c:if test="${param.type=='batch'}">
+				data: {userIds: userIds},
+				</c:if>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');

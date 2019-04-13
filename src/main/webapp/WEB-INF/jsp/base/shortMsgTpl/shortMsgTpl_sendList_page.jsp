@@ -6,8 +6,8 @@
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/shortMsgTpl"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.receiverId ||not empty param.mobile
-            || not empty param.senderId|| not empty param.content || not empty param._sendTime
+            <c:set var="_query" value="${not empty param.relateId ||not empty param.receiverId ||not empty param.mobile
+            || not empty param.senderId|| not empty param.relateSn|| not empty param.content || not empty param._sendTime
             || not empty param.code || not empty param.sort}"/>
 
             <div class="tabbable">
@@ -30,13 +30,19 @@
                                         <form class="form-inline search-form" id="searchForm">
                                             <input type="hidden" name="cls" value="${cls}">
                                             <div class="form-group">
+                                                <label>所属模板</label>
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/shortMsgTpl_selects"
+                                                        name="relateId" data-placeholder="请输入模板名称">
+                                                    <option value="${relateTpl.id}">${relateTpl.name}</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>接收人</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                         name="receiverId" data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${receiver.id}">${receiver.realname}-${receiver.code}</option>
                                                 </select>
                                             </div>
-
                                             <shiro:hasRole name="${ROLE_ADMIN}">
                                                 <div class="form-group">
                                                     <label>手机</label>
@@ -63,6 +69,12 @@
                                                            class="form-control date-range-picker"
                                                            type="text" name="_sendTime" value="${param._sendTime}"/>
                                                 </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>发送批次</label>
+                                                <input class="form-control search-query" name="relateSn" type="text"
+                                                       value="${param.relateSn}" style="width: 300px"
+                                                       placeholder="请输入">
                                             </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
@@ -99,16 +111,19 @@
             {label: '类别', name: 'type', width: 250, frozen: true},
             {label: '手机号码', name: 'mobile', width: 120, frozen: true},
             {label: '短信内容', name: 'content', width: 350, formatter: $.jgrid.formatter.NoMultiSpace},
+            {label: '发送人', name: 'sender.realname', width: 120},
             {label: '发送时间', name: 'createTime', width: 200},
             {label: 'IP', name: 'ip', width: 150},
             {
-                label: '是否成功', name: 'status', formatter: function (cellvalue, options, rowObject) {
+                label: '是否成功', name: 'status', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? '<span class="label label-success">是</span>' : '<span class="label label-danger">否</span>';
             }
-            }
+            },
+            {label: '发送批次', name: 'relateSn', width: 350},
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
+    $.register.ajax_select($('#searchForm select[name=relateId]'));
     $.register.user_select($('#searchForm select[name=receiverId]'));
 </script>

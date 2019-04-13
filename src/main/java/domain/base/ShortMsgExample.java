@@ -345,6 +345,76 @@ public class ShortMsgExample {
             return (Criteria) this;
         }
 
+        public Criteria andRelateSnIsNull() {
+            addCriterion("relate_sn is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnIsNotNull() {
+            addCriterion("relate_sn is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnEqualTo(String value) {
+            addCriterion("relate_sn =", value, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnNotEqualTo(String value) {
+            addCriterion("relate_sn <>", value, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnGreaterThan(String value) {
+            addCriterion("relate_sn >", value, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnGreaterThanOrEqualTo(String value) {
+            addCriterion("relate_sn >=", value, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnLessThan(String value) {
+            addCriterion("relate_sn <", value, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnLessThanOrEqualTo(String value) {
+            addCriterion("relate_sn <=", value, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnLike(String value) {
+            addCriterion("relate_sn like", value, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnNotLike(String value) {
+            addCriterion("relate_sn not like", value, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnIn(List<String> values) {
+            addCriterion("relate_sn in", values, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnNotIn(List<String> values) {
+            addCriterion("relate_sn not in", values, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnBetween(String value1, String value2) {
+            addCriterion("relate_sn between", value1, value2, "relateSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateSnNotBetween(String value1, String value2) {
+            addCriterion("relate_sn not between", value1, value2, "relateSn");
+            return (Criteria) this;
+        }
+
         public Criteria andRelateTypeIsNull() {
             addCriterion("relate_type is null");
             return (Criteria) this;

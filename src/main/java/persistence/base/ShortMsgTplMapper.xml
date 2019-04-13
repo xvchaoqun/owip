@@ -8,6 +8,8 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="send_count" jdbcType="INTEGER" property="sendCount" />
+    <result column="send_user_count" jdbcType="INTEGER" property="sendUserCount" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
@@ -71,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, role_id, name, content, remark, sort_order, create_time, ip, add_user_id
+    id, role_id, name, content, remark, sort_order, send_count, send_user_count, create_time, 
+    ip, add_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.base.ShortMsgTplExample" resultMap="BaseResultMap">
     select
@@ -106,12 +109,12 @@
   <insert id="insert" parameterType="domain.base.ShortMsgTpl">
     insert into base_short_msg_tpl (id, role_id, name, 
       content, remark, sort_order, 
-      create_time, ip, add_user_id
-      )
+      send_count, send_user_count, create_time, 
+      ip, add_user_id)
     values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{addUserId,jdbcType=INTEGER}
-      )
+      #{sendCount,jdbcType=INTEGER}, #{sendUserCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{addUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ShortMsgTpl">
     insert into base_short_msg_tpl
@@ -133,6 +136,12 @@
       </if>
       <if test="sortOrder != null">
         sort_order,
+      </if>
+      <if test="sendCount != null">
+        send_count,
+      </if>
+      <if test="sendUserCount != null">
+        send_user_count,
       </if>
       <if test="createTime != null">
         create_time,
@@ -162,6 +171,12 @@
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="sendCount != null">
+        #{sendCount,jdbcType=INTEGER},
+      </if>
+      <if test="sendUserCount != null">
+        #{sendUserCount,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -201,6 +216,12 @@
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.sendCount != null">
+        send_count = #{record.sendCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendUserCount != null">
+        send_user_count = #{record.sendUserCount,jdbcType=INTEGER},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -223,6 +244,8 @@
       content = #{record.content,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      send_count = #{record.sendCount,jdbcType=INTEGER},
+      send_user_count = #{record.sendUserCount,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       add_user_id = #{record.addUserId,jdbcType=INTEGER}
@@ -248,6 +271,12 @@
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="sendCount != null">
+        send_count = #{sendCount,jdbcType=INTEGER},
+      </if>
+      <if test="sendUserCount != null">
+        send_user_count = #{sendUserCount,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -267,6 +296,8 @@
       content = #{content,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
+      send_count = #{sendCount,jdbcType=INTEGER},
+      send_user_count = #{sendUserCount,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
       add_user_id = #{addUserId,jdbcType=INTEGER}

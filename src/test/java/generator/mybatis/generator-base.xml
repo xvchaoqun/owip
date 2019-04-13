@@ -50,13 +50,13 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <!--<table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
+        <table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="ret" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
-        <!--<table tableName="base_short_msg_tpl" domainObjectName="base.ShortMsgTpl">
+        </table>
+        <table tableName="base_short_msg_tpl" domainObjectName="base.ShortMsgTpl">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
          </table>-->
 
@@ -124,10 +124,10 @@
         <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <table tableName="sys_feedback" domainObjectName="sys.Feedback" mapperName="sys.FeedbackMapper">
+        <!--<table tableName="sys_feedback" domainObjectName="sys.Feedback" mapperName="sys.FeedbackMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="pics" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="sys_sync" domainObjectName="sys.SysSync" mapperName="sys.SysSyncMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

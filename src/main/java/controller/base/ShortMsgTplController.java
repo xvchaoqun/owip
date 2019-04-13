@@ -7,6 +7,8 @@ import domain.base.ShortMsgExample;
 import domain.base.ShortMsgTpl;
 import domain.base.ShortMsgTplExample;
 import domain.base.ShortMsgTplExample.Criteria;
+import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.sys.SysRole;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,39 +24,36 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
+import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.ContextHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
+import sys.tool.tree.TreeNode;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ShortMsgTplController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 定向短信发送记录
     @RequiresPermissions("shortMsgTpl:list")
     @RequestMapping("/shortMsgTpl_sendList_data")
     @ResponseBody
     public void shortMsgTpl_sendList_data(HttpServletResponse response,
+                                          Integer relateId,
                                           Integer receiverId,
                                           String mobile,
+                                          String relateSn,
                                           String content,
                                           @RequestDateRange DateRange _sendTime,
                                           Integer pageSize, Integer pageNo) throws IOException {
@@ -70,14 +69,24 @@ public class ShortMsgTplController extends BaseController {
         ShortMsgExample example = new ShortMsgExample();
         ShortMsgExample.Criteria criteria = example.createCriteria()
                 .andRelateTypeEqualTo(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL);
-        criteria.andSenderIdEqualTo(ShiroHelper.getCurrentUserId());
-        example.setOrderByClause("sort_order desc");
 
+        if(!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_SUPER)) {
+            criteria.andSenderIdEqualTo(ShiroHelper.getCurrentUserId());
+        }
+
+        example.setOrderByClause("id desc");
+
+        if (relateId != null) {
+            criteria.andRelateIdEqualTo(relateId);
+        }
         if (receiverId != null) {
             criteria.andReceiverIdEqualTo(receiverId);
         }
         if (StringUtils.isNotBlank(mobile)) {
             criteria.andMobileLike("%" + mobile + "%");
+        }
+        if (StringUtils.isNotBlank(relateSn)) {
+            criteria.andRelateSnEqualTo(relateSn);
         }
         if (StringUtils.isNotBlank(content)) {
             criteria.andContentLike("%" + content + "%");
@@ -112,10 +121,15 @@ public class ShortMsgTplController extends BaseController {
 
     @RequiresPermissions("shortMsgTpl:list")
     @RequestMapping("/shortMsgTpl")
-    public String shortMsgTpl(@RequestParam(defaultValue = "1") Integer cls, Integer receiverId, ModelMap modelMap) {
+    public String shortMsgTpl(@RequestParam(defaultValue = "1") Integer cls, Integer relateId, Integer receiverId, ModelMap modelMap) {
 
-        if(receiverId!=null)
+        if(relateId!=null){
+            modelMap.put("relateTpl", shortMsgTplMapper.selectByPrimaryKey(relateId));
+        }
+
+        if(receiverId!=null) {
             modelMap.put("receiver", sysUserService.findById(receiverId));
+        }
 
         modelMap.put("cls", cls);
         if (cls == 2) {
@@ -227,11 +241,18 @@ public class ShortMsgTplController extends BaseController {
     @RequiresPermissions("shortMsgTpl:send")
     @RequestMapping(value = "/shortMsgTpl_send", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_shortMsgTpl_send(int tplId, Integer receiverId,
-                                   String mobile, String content, HttpServletRequest request) {
+    public Map do_shortMsgTpl_send(int tplId,
+                                   Integer receiverId,
+                                   String mobile,
+                                   String content,
+                                   String type,
+                                   @RequestParam("userIds[]") List<Integer> userIds,
+                                   HttpServletRequest request) {
 
-        if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
-            return failed("手机号码有误");
+        if(!StringUtils.equals(type, "batch")) {
+            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+                return failed("手机号码有误");
+            }
         }
 
         if(StringUtils.isBlank(content)){
@@ -253,7 +274,12 @@ public class ShortMsgTplController extends BaseController {
         bean.setMobile(mobile);
         bean.setType((sysRole != null ? (sysRole.getDescription() + "-") : "") + shortMsgTpl.getName());
 
-        shortMsgService.send(bean, ContextHelper.getRealIp());
+        if(!StringUtils.equals(type, "batch")) {
+            shortMsgService.send(bean, ContextHelper.getRealIp());
+        }else{
+            shortMsgService.sendBatch(bean, userIds, ContextHelper.getRealIp());
+        }
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -265,6 +291,29 @@ public class ShortMsgTplController extends BaseController {
         modelMap.put("shortMsgTpl", shortMsgTpl);
 
         return "base/shortMsgTpl/shortMsgTpl_send";
+    }
+
+    @RequiresPermissions("shortMsgTpl:send")
+    @RequestMapping("/shortMsgTpl_selectCadres_tree")
+    @ResponseBody
+    public Map shortMsgTpl_selectCadres_tree() throws IOException {
+
+        CadreViewExample example = new CadreViewExample();
+        CadreViewExample.Criteria criteria = example.createCriteria().andStatusIn(new ArrayList<>(AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET));
+        criteria.andMobileIsNull();
+        List<CadreView> cvs = cadreViewMapper.selectByExample(example);
+        Set<Integer> disabledIdSet = new HashSet<>();
+        for (CadreView cv : cvs) {
+            disabledIdSet.add(cv.getUserId());
+        }
+
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
+                AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, null, disabledIdSet, false,
+                true, false);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
     }
 
     @RequiresPermissions("shortMsgTpl:del")
@@ -290,4 +339,53 @@ public class ShortMsgTplController extends BaseController {
 		logger.info(addLog(LogConstants.LOG_ADMIN, "短信模板调序：%s,%s", id, addNum));
 		return success(FormUtils.SUCCESS);
 	}
+
+	@RequestMapping("/shortMsgTpl_selects")
+    @ResponseBody
+    public Map shortMsgTpl_selects(Integer pageSize,Integer pageNo,
+                                  Short year, String searchStr) throws IOException {
+
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        ShortMsgTplExample example = new ShortMsgTplExample();
+        ShortMsgTplExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("sort_order desc");
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andNameLike("%"+searchStr+"%");
+        }
+
+        long count = shortMsgTplMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<ShortMsgTpl> records = shortMsgTplMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List<Select2Option> options = new ArrayList<Select2Option>();
+        if(null != records && records.size()>0){
+
+            for(ShortMsgTpl record:records){
+
+                Select2Option option = new Select2Option();
+                option.setText(record.getName());
+                option.setId(record.getId() + "");
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+
+        return resultMap;
+    }
 }

@@ -32,9 +32,9 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                            <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                <i class="fa fa-download"></i> 导出</a>
+                                <i class="fa fa-download"></i> 导出</a>--%>
                         </div>
                         <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -87,12 +87,17 @@
                 formatoptions: {url: "${ctx}/shortMsgTpl_changeOrder"}
             },
             {
-                label: '定向发送', name: '_verify', formatter: function (cellvalue, options, rowObject) {
-                return '<button class="popupBtn btn btn-success btn-xs" data-width="700" data-url="${ctx}/shortMsgTpl_send?id={0}"><i class="fa fa-check"></i> 定向发送</button>'
+                label: '定向发送', name: '_verify', width: 170, formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="popupBtn btn btn-success btn-xs" data-width="700" ' +
+                    'data-url="${ctx}/shortMsgTpl_send?id={0}"><i class="fa fa-user"></i> 个人</button>')
+                        .format(rowObject.id)
+                    + ('&nbsp;&nbsp;<button class="popupBtn btn btn-warning btn-xs" data-width="700" ' +
+                    'data-url="${ctx}/shortMsgTpl_send?id={0}&type=batch"><i class="fa fa-users"></i> 批量(干部)</button>')
                         .format(rowObject.id);
-            }
-            },
+            }},
             {label: '短信内容', name: 'content', width: 850, formatter: $.jgrid.formatter.NoMultiSpace},
+            {label: '发送次数', name: 'sendCount', width: 90},
+            {label: '发送人次', name: 'sendUserCount', width: 90},
             {label: '创建时间', name: 'createTime', width: 150},
             {label: '创建人', name: 'user.realname'},
             {label: '备注', name: 'remark', width: 250}

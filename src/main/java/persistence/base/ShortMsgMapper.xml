@@ -6,6 +6,7 @@
     <result column="sender_id" jdbcType="INTEGER" property="senderId" />
     <result column="receiver_id" jdbcType="INTEGER" property="receiverId" />
     <result column="relate_id" jdbcType="INTEGER" property="relateId" />
+    <result column="relate_sn" jdbcType="VARCHAR" property="relateSn" />
     <result column="relate_type" jdbcType="TINYINT" property="relateType" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sender_id, receiver_id, relate_id, relate_type, type, mobile, content, create_time, 
-    ip, remark, status, ret
+    id, sender_id, receiver_id, relate_id, relate_sn, relate_type, type, mobile, content, 
+    create_time, ip, remark, status, ret
   </sql>
   <select id="selectByExample" parameterType="domain.base.ShortMsgExample" resultMap="BaseResultMap">
     select
@@ -110,15 +111,15 @@
   </delete>
   <insert id="insert" parameterType="domain.base.ShortMsg">
     insert into base_short_msg (id, sender_id, receiver_id, 
-      relate_id, relate_type, type, 
-      mobile, content, create_time, 
-      ip, remark, status, ret
-      )
+      relate_id, relate_sn, relate_type, 
+      type, mobile, content, 
+      create_time, ip, remark, 
+      status, ret)
     values (#{id,jdbcType=INTEGER}, #{senderId,jdbcType=INTEGER}, #{receiverId,jdbcType=INTEGER}, 
-      #{relateId,jdbcType=INTEGER}, #{relateType,jdbcType=TINYINT}, #{type,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{ret,jdbcType=VARCHAR}
-      )
+      #{relateId,jdbcType=INTEGER}, #{relateSn,jdbcType=VARCHAR}, #{relateType,jdbcType=TINYINT}, 
+      #{type,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=BIT}, #{ret,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ShortMsg">
     insert into base_short_msg
@@ -134,6 +135,9 @@
       </if>
       <if test="relateId != null">
         relate_id,
+      </if>
+      <if test="relateSn != null">
+        relate_sn,
       </if>
       <if test="relateType != null">
         relate_type,
@@ -175,6 +179,9 @@
       </if>
       <if test="relateId != null">
         #{relateId,jdbcType=INTEGER},
+      </if>
+      <if test="relateSn != null">
+        #{relateSn,jdbcType=VARCHAR},
       </if>
       <if test="relateType != null">
         #{relateType,jdbcType=TINYINT},
@@ -226,6 +233,9 @@
       <if test="record.relateId != null">
         relate_id = #{record.relateId,jdbcType=INTEGER},
       </if>
+      <if test="record.relateSn != null">
+        relate_sn = #{record.relateSn,jdbcType=VARCHAR},
+      </if>
       <if test="record.relateType != null">
         relate_type = #{record.relateType,jdbcType=TINYINT},
       </if>
@@ -264,6 +274,7 @@
       sender_id = #{record.senderId,jdbcType=INTEGER},
       receiver_id = #{record.receiverId,jdbcType=INTEGER},
       relate_id = #{record.relateId,jdbcType=INTEGER},
+      relate_sn = #{record.relateSn,jdbcType=VARCHAR},
       relate_type = #{record.relateType,jdbcType=TINYINT},
       type = #{record.type,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
@@ -288,6 +299,9 @@
       </if>
       <if test="relateId != null">
         relate_id = #{relateId,jdbcType=INTEGER},
+      </if>
+      <if test="relateSn != null">
+        relate_sn = #{relateSn,jdbcType=VARCHAR},
       </if>
       <if test="relateType != null">
         relate_type = #{relateType,jdbcType=TINYINT},
@@ -324,6 +338,7 @@
     set sender_id = #{senderId,jdbcType=INTEGER},
       receiver_id = #{receiverId,jdbcType=INTEGER},
       relate_id = #{relateId,jdbcType=INTEGER},
+      relate_sn = #{relateSn,jdbcType=VARCHAR},
       relate_type = #{relateType,jdbcType=TINYINT},
       type = #{type,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},

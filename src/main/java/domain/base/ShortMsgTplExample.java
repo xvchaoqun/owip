@@ -495,6 +495,126 @@ public class ShortMsgTplExample {
             return (Criteria) this;
         }
 
+        public Criteria andSendCountIsNull() {
+            addCriterion("send_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountIsNotNull() {
+            addCriterion("send_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountEqualTo(Integer value) {
+            addCriterion("send_count =", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountNotEqualTo(Integer value) {
+            addCriterion("send_count <>", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountGreaterThan(Integer value) {
+            addCriterion("send_count >", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("send_count >=", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountLessThan(Integer value) {
+            addCriterion("send_count <", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountLessThanOrEqualTo(Integer value) {
+            addCriterion("send_count <=", value, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountIn(List<Integer> values) {
+            addCriterion("send_count in", values, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountNotIn(List<Integer> values) {
+            addCriterion("send_count not in", values, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountBetween(Integer value1, Integer value2) {
+            addCriterion("send_count between", value1, value2, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("send_count not between", value1, value2, "sendCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountIsNull() {
+            addCriterion("send_user_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountIsNotNull() {
+            addCriterion("send_user_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountEqualTo(Integer value) {
+            addCriterion("send_user_count =", value, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountNotEqualTo(Integer value) {
+            addCriterion("send_user_count <>", value, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountGreaterThan(Integer value) {
+            addCriterion("send_user_count >", value, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("send_user_count >=", value, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountLessThan(Integer value) {
+            addCriterion("send_user_count <", value, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountLessThanOrEqualTo(Integer value) {
+            addCriterion("send_user_count <=", value, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountIn(List<Integer> values) {
+            addCriterion("send_user_count in", values, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountNotIn(List<Integer> values) {
+            addCriterion("send_user_count not in", values, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountBetween(Integer value1, Integer value2) {
+            addCriterion("send_user_count between", value1, value2, "sendUserCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendUserCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("send_user_count not between", value1, value2, "sendUserCount");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

@@ -24,6 +24,10 @@ public class ShortMsgTpl implements Serializable {
 
     private Integer sortOrder;
 
+    private Integer sendCount;
+
+    private Integer sendUserCount;
+
     private Date createTime;
 
     private String ip;
@@ -78,6 +82,22 @@ public class ShortMsgTpl implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Integer getSendCount() {
+        return sendCount;
+    }
+
+    public void setSendCount(Integer sendCount) {
+        this.sendCount = sendCount;
+    }
+
+    public Integer getSendUserCount() {
+        return sendUserCount;
+    }
+
+    public void setSendUserCount(Integer sendUserCount) {
+        this.sendUserCount = sendUserCount;
     }
 
     public Date getCreateTime() {

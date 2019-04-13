@@ -21,6 +21,8 @@ public class ShortMsg implements Serializable {
 
     private Integer relateId;
 
+    private String relateSn;
+
     private Byte relateType;
 
     private String type;
@@ -71,6 +73,14 @@ public class ShortMsg implements Serializable {
 
     public void setRelateId(Integer relateId) {
         this.relateId = relateId;
+    }
+
+    public String getRelateSn() {
+        return relateSn;
+    }
+
+    public void setRelateSn(String relateSn) {
+        this.relateSn = relateSn == null ? null : relateSn.trim();
     }
 
     public Byte getRelateType() {

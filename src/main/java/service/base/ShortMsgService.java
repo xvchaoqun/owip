@@ -19,23 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
 import service.sys.SysUserService;
+import service.sys.UserBeanService;
 import shiro.PasswordHelper;
 import sys.SendMsgResult;
 import sys.SendMsgUtils;
 import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.IpUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ShortMsgService extends BaseMapper {
@@ -44,6 +37,8 @@ public class ShortMsgService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private UserBeanService userBeanService;
 
     @Autowired
     private SpringProps springProps;
@@ -108,7 +103,7 @@ public class ShortMsgService extends BaseMapper {
         return contentTpl;
     }
 
-    public boolean send(ShortMsgBean shortMsgBean, String ip){
+    public boolean send(ShortMsgBean shortMsgBean, String relateSn, String ip){
 
         Integer sender = shortMsgBean.getSender();
         Integer receiver = shortMsgBean.getReceiver();
@@ -139,6 +134,7 @@ public class ShortMsgService extends BaseMapper {
 
         ShortMsg record = new ShortMsg();
         record.setRelateId(shortMsgBean.getRelateId());
+        record.setRelateSn(relateSn);
         record.setRelateType(shortMsgBean.getRelateType());
         record.setCreateTime(new Date());
         record.setMobile(mobile);
@@ -171,11 +167,36 @@ public class ShortMsgService extends BaseMapper {
         return result;
     }
 
-   /* @Transactional
-    public int insertSelective(ShortMsg record){
+    // 单人发送
+    public boolean send(ShortMsgBean shortMsgBean, String ip){
 
-        return shortMsgMapper.insertSelective(record);
-    }*/
+        byte relateType = shortMsgBean.getRelateType();
+        boolean send = send(shortMsgBean, null, ip);
+        if(relateType == SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL){
+            commonMapper.excuteSql("update base_short_msg_tpl set send_count=send_count+1, " +
+                    "send_user_count=send_user_count+1 where id="+ shortMsgBean.getRelateId());
+        }
+        return send;
+    }
+
+    // 批量发送
+    public void sendBatch(ShortMsgBean shortMsgBean, List<Integer> userIds, String ip){
+
+        String relateSn = StringUtil.getUUID();
+        for (Integer userId : userIds) {
+
+            shortMsgBean.setMobile(userBeanService.getMsgMobile(userId));
+            shortMsgBean.setReceiver(userId);
+            send(shortMsgBean, relateSn, ip);
+        }
+
+        byte relateType = shortMsgBean.getRelateType();
+        if(relateType == SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL){
+            commonMapper.excuteSql("update base_short_msg_tpl set send_count=send_count+1, " +
+                    "send_user_count=send_user_count+"+ userIds.size() +" where id="+ shortMsgBean.getRelateId());
+        }
+    }
+
     @Transactional
     public void del(Integer id){
 
