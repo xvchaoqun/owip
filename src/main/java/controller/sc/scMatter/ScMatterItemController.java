@@ -55,6 +55,7 @@ public class ScMatterItemController extends ScBaseController {
     @RequiresPermissions("scMatterItem:list")
     @RequestMapping("/scMatterItem_data")
     public void scMatterItem_data(HttpServletResponse response,
+                                  Integer matterId,
                                   Integer year,
                                   Boolean type,
                                   Integer userId,
@@ -74,7 +75,9 @@ public class ScMatterItemController extends ScBaseController {
         ScMatterItemViewExample example = new ScMatterItemViewExample();
         ScMatterItemViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("draw_time desc, real_hand_time desc, id desc");
-
+        if(matterId != null){
+            criteria.andMatterIdEqualTo(matterId);
+        }
         if (year!=null) {
             criteria.andYearEqualTo(year);
         }
@@ -183,19 +186,26 @@ public class ScMatterItemController extends ScBaseController {
 
         List<ScMatterItemView> records = scMatterItemViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"事项|100","填报对象|100","实交回日期|100","封面填表日期|100"};
+        String[] titles = {"年度|100","填报类型|120","工作证号|100", "姓名|100",
+                "所在单位及职务|280|left","领表时间|100","应交回时间|100","实交回日期|100","封面填表日期|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ScMatterItemView record = records.get(i);
+
             String[] values = {
-                record.getMatterId()+"",
-                            record.getUserId()+"",
+                            record.getYear() +"",
+                            record.getType()?"个别填报":"年度集中填报",
+                            record.getCode(),
+                            record.getRealname(),
+                            record.getTitle(),
+                            DateUtils.formatDate(record.getDrawTime(), DateUtils.YYYY_MM_DD),
+                            DateUtils.formatDate(record.getHandTime(), DateUtils.YYYY_MM_DD),
                             DateUtils.formatDate(record.getRealHandTime(), DateUtils.YYYY_MM_DD),
                             DateUtils.formatDate(record.getFillTime(), DateUtils.YYYY_MM_DD)
             };
             valuesList.add(values);
         }
-        String fileName = "个人有关事项-填报记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "个人有关事项_填报记录(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

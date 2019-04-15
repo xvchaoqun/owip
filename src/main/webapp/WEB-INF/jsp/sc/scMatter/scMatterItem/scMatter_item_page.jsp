@@ -44,9 +44,11 @@
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </shiro:hasPermission>
-                   <%-- <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                       data-url="${ctx}/sc/scMatterItem_data?cls=-1&matterId=${param.matterId}"
+                       data-grid-id="#jqGrid2"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                        <i class="fa fa-download"></i> 导出</a>--%>
+                        <i class="fa fa-download"></i> 导出</a>
                 </div>
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type ||not empty param.backStatus}"></c:set>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

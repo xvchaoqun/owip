@@ -69,15 +69,11 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-4 control-label"><span class="star">*</span>所属单位</label>
 					<div class="col-xs-8">
-						<select required class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-							<option></option>
-							<c:forEach items="${unitMap}" var="unit">
-								<option value="${unit.key}">${unit.value.name}</option>
-							</c:forEach>
+						<c:set var="unit" value="${cm:getUnitById(party.unitId)}"/>
+						<select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+								name="unitId" data-placeholder="请选择">
+						  <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
 						</select>
-						<script>
-							$("#modalForm select[name=unitId]").val('${party.unitId}');
-						</script>
 					</div>
 				</div>
 				<div class="form-group">
@@ -183,5 +179,6 @@ pageEncoding="UTF-8"%>
 		}
 	}).change();
 
+	$.register.del_select($('#modalForm select[name=unitId]'));
     $('[data-rel="tooltip"]').tooltip();
 </script>
