@@ -11,6 +11,24 @@
                       propertySeparator="," />
        </defaultCache>-->
 
+       <cache name="PartyPublics"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LRU"/>
+
+       <cache name="PartyPublic"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
        <cache name="CmMembers"
            eternal="false"
            maxElementsInMemory="2000"
