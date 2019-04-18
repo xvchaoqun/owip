@@ -13,21 +13,31 @@
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="pass_time" jdbcType="DATE" property="passTime" />
     <result column="active_time" jdbcType="DATE" property="activeTime" />
+    <result column="active_train_start_time" jdbcType="DATE" property="activeTrainStartTime" />
+    <result column="active_train_end_time" jdbcType="DATE" property="activeTrainEndTime" />
+    <result column="active_grade" jdbcType="VARCHAR" property="activeGrade" />
     <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
-    <result column="train_time" jdbcType="DATE" property="trainTime" />
+    <result column="candidate_train_start_time" jdbcType="DATE" property="candidateTrainStartTime" />
+    <result column="candidate_train_end_time" jdbcType="DATE" property="candidateTrainEndTime" />
+    <result column="candidate_grade" jdbcType="VARCHAR" property="candidateGrade" />
     <result column="candidate_status" jdbcType="TINYINT" property="candidateStatus" />
     <result column="plan_time" jdbcType="DATE" property="planTime" />
     <result column="plan_status" jdbcType="TINYINT" property="planStatus" />
     <result column="draw_time" jdbcType="DATE" property="drawTime" />
     <result column="draw_status" jdbcType="TINYINT" property="drawStatus" />
+    <result column="apply_sn" jdbcType="BIGINT" property="applySn" />
+    <result column="grow_public_id" jdbcType="INTEGER" property="growPublicId" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="grow_status" jdbcType="TINYINT" property="growStatus" />
+    <result column="positive_public_id" jdbcType="INTEGER" property="positivePublicId" />
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="positive_status" jdbcType="TINYINT" property="positiveStatus" />
     <result column="is_remove" jdbcType="BIT" property="isRemove" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="_status" jdbcType="TINYINT" property="status" />
     <result column="member_status" jdbcType="INTEGER" property="memberStatus" />
+    <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
+    <result column="branch_sort_order" jdbcType="INTEGER" property="branchSortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -60,9 +70,11 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, party_id, branch_id, type, apply_time, fill_time, remark, stage, reason, 
-    pass_time, active_time, candidate_time, train_time, candidate_status, plan_time, 
-    plan_status, draw_time, draw_status, grow_time, grow_status, positive_time, positive_status, 
-    is_remove, create_time, _status, member_status
+    pass_time, active_time, active_train_start_time, active_train_end_time, active_grade, 
+    candidate_time, candidate_train_start_time, candidate_train_end_time, candidate_grade, 
+    candidate_status, plan_time, plan_status, draw_time, draw_status, apply_sn, grow_public_id, 
+    grow_time, grow_status, positive_public_id, positive_time, positive_status, is_remove, 
+    create_time, _status, member_status, party_sort_order, branch_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberApplyViewExample" resultMap="BaseResultMap">
     select

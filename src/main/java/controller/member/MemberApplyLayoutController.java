@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MemberApplyLayoutController {
 
-    // 申请入党管理 总体布局
+    // 党员发展流程 总体布局
     @RequiresPermissions("memberApply:layout")
     @RequestMapping("/memberApply_layout")
     public String memberApply_layout(@RequestParam(defaultValue = "1")int cls, ModelMap modelMap) {
@@ -27,6 +27,8 @@ public class MemberApplyLayoutController {
             return "forward:/memberApplyLog";
         if(cls==4)
             return "forward:/memberApplyExport";
+        if(cls==5)
+            return "forward:/partyPublic";
 
         return null;
     }

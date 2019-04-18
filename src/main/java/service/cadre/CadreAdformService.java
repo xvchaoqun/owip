@@ -32,10 +32,7 @@ import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
-import sys.utils.DownloadUtils;
-import sys.utils.FileUtils;
-import sys.utils.ImageUtils;
+import sys.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -137,7 +134,8 @@ public class CadreAdformService extends BaseMapper {
         bean.setAge(DateUtils.intervalYearsUntilNow(cadre.getBirth()));
 
         File avatar =  new File(springProps.avatarFolder + uv.getAvatar());
-        if(!avatar.exists()) avatar = new File(springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar);
+        if(!avatar.exists()) avatar = new File(ConfigUtil.defaultHomePath()
+                + FILE_SEPARATOR + "img"+ FILE_SEPARATOR + "default.png");
 
         // 头像默认大小
         bean.setAvatarWidth(143);

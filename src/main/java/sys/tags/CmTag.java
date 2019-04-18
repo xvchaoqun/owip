@@ -46,7 +46,6 @@ import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
-import sys.utils.JSONUtils;
 import sys.utils.PropertiesUtils;
 
 import java.io.File;
@@ -107,30 +106,6 @@ public class CmTag {
         userSet.addAll(Arrays.asList(users.split(",")));
 
         return userSet.contains(username);
-    }
-
-    public static String toJSONObject(Object obj) {
-
-        if (obj == null) return "{}";
-        String jsonStr = JSONUtils.toString(obj);
-
-        return StringUtils.isBlank(jsonStr) ? "{}" : jsonStr;
-    }
-
-    public static String toJSONArray(List list) {
-
-        if (list == null) return "[]";
-        String jsonStr = JSONUtils.toString(list);
-
-        return StringUtils.isBlank(jsonStr) ? "[]" : jsonStr;
-    }
-
-    public static String toJSONArray(List list, String includes) {
-
-        if (list == null) return "[]";
-        String jsonStr = JSONUtils.toString(list, includes.split(","));
-
-        return StringUtils.isBlank(jsonStr) ? "[]" : jsonStr;
     }
 
     // 获取菜单显示处理数量

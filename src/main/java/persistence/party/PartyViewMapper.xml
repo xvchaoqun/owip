@@ -17,6 +17,7 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="fax" jdbcType="VARCHAR" property="fax" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
     <result column="found_time" jdbcType="DATE" property="foundTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -62,8 +63,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, is_enterprise_big, 
-    is_enterprise_nationalized, is_separate, phone, fax, email, found_time, sort_order, 
-    create_time, update_time, is_deleted, branch_count, member_count, student_member_count, 
+    is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, found_time, 
+    sort_order, create_time, update_time, is_deleted, branch_count, member_count, student_member_count, 
     positive_count, teacher_member_count, retire_member_count, group_count, present_group_count
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyViewExample" resultMap="BaseResultMap">

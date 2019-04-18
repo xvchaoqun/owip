@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.RoleConstants;
+import sys.utils.ConfigUtil;
 import sys.utils.FileUtils;
 
 import javax.imageio.ImageIO;
@@ -38,7 +39,8 @@ public class AvatarController extends BaseController {
 
         String _path = springProps.avatarFolder + path;
         if(StringUtils.isBlank(path) || !FileUtils.exists(_path)){
-            _path = springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar;
+            _path = ConfigUtil.defaultHomePath() + FILE_SEPARATOR
+                            + "img"+ FILE_SEPARATOR +"default.png";
         }
 
         if(!m){

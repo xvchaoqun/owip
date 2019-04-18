@@ -18,6 +18,7 @@
     <!--[if lt IE 9]>
     <script type="text/javascript">location.href = "${ctx}/jsp/browsers.jsp?type=unsupport";</script>
     <![endif]-->
+    <script src="${ctx}/assets/js/jquery.js"></script>
 </head>
 <body>
 <div class="top"
@@ -140,7 +141,6 @@
         </div>
     </div>
 </div>
-<script src="${ctx}/assets/js/jquery.js"></script>
 <script src="${ctx}/extend/js/jquery.form.js"></script>
 <t:script src="/js/login.js"/>
 </body>

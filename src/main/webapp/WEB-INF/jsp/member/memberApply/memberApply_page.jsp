@@ -13,7 +13,6 @@
 <c:set var="OW_APPLY_STAGE_POSITIVE" value="<%=OwConstants.OW_APPLY_STAGE_POSITIVE%>"/>
 <c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
 <c:set var="OW_APPLY_STAGE_GROW" value="<%=OwConstants.OW_APPLY_STAGE_GROW%>"/>
-
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
@@ -25,12 +24,10 @@
             ||not empty param.partyId ||not empty param.branchId ||not empty param.growStatus ||not empty param.positiveStatus || not empty param.code || not empty param.sort}"/>
             <div class="widget-box transparent">
                 <div class="widget-header">
-                    <div class="widget-toolbar no-border">
-                        <jsp:include page="menu.jsp"/>
-                    </div>
+                    <jsp:include page="menu.jsp"/>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
+                    <div class="widget-main" style="padding: 5px 0 0 0">
                         <div class="tab-content padding-4">
                             <div class="tab-pane in active">
 
@@ -126,8 +123,9 @@
                                                             </c:if>
                                                         </a>
                                                     </li>
-                                                    <div class="buttons pull-right">
-                                                        <a href="javascript:;" class="addBtn btn btn-info btn-sm">
+                                                    <div class="buttons pull-right" style="padding-top: 5px;margin-right: 15px">
+                                                        <a href="javascript:;" class="openView btn btn-info btn-sm"
+                                                        data-url="${ctx}/memberApply_au">
                                                             <i class="fa fa-plus"></i> 添加入党申请</a>
                                                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                                                             <a class="popupBtn btn btn-primary btn-sm tooltip-primary"
@@ -142,7 +140,8 @@
                                                     <div class="tab-pane in active">
                                                         <div class="jqgrid-vertical-offset buttons">
                                                             <c:if test="${stage>OW_APPLY_STAGE_OUT }">
-                                                            <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
+                                                            <button class="jqEditBtn btn btn-primary btn-sm"
+                                                                    data-open-by="page"
                                                                     data-id-name="userId"
                                                                     data-querystr="&stage=${param.stage}">
                                                                 <i class="fa fa-edit"></i> 修改信息
@@ -332,7 +331,7 @@
                                                                     data-url="${ctx}/applyApprovalLog"
                                                                     data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"
                                                                     data-open-by="page">
-                                                                <i class="fa fa-sign-in"></i> 查看审批记录
+                                                                <i class="fa fa-sign-in"></i> 查看操作记录
                                                             </button>
                                                             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                                                                 <c:if test="${stage<OW_APPLY_STAGE_GROW && stage>=OW_APPLY_STAGE_INIT}">
@@ -518,6 +517,9 @@
             <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE || stage<=OW_APPLY_STAGE_OUT}">
             {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            <shiro:hasPermission name="partyPublic:list">
+            {label: '发展公示日期', name: 'growPublic.pubDate', width: 120,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            </shiro:hasPermission>
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
@@ -528,6 +530,9 @@
             {label: '发展时间', name: 'growTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_OUT}">
+            <shiro:hasPermission name="partyPublic:list">
+            {label: '转正公示日期', name: 'positivePublic.pubDate', width: 120,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            </shiro:hasPermission>
             {label: '入党时间', name: 'growTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '转正时间', name: 'positiveTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
@@ -714,10 +719,6 @@
     });
     </c:if>
     </shiro:hasRole>--%>
-
-    $(".addBtn").click(function(){
-        $.loadModal("${ctx}/memberApply_au");
-    });
 
     function goto_next(gotoNext){
         if(gotoNext==1){

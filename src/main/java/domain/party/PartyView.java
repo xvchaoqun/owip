@@ -34,6 +34,8 @@ public class PartyView implements Serializable {
 
     private String email;
 
+    private String mailbox;
+
     private Date foundTime;
 
     private Integer sortOrder;
@@ -180,6 +182,14 @@ public class PartyView implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getMailbox() {
+        return mailbox;
+    }
+
+    public void setMailbox(String mailbox) {
+        this.mailbox = mailbox == null ? null : mailbox.trim();
     }
 
     public Date getFoundTime() {

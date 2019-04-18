@@ -34,7 +34,7 @@
         select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as type from ow_member_student where status=1
         <include refid="Where_ow"/> group by type
     </select>
-    <!-- 统计入党申请各阶段情况-->
+    <!-- 统计党员发展各阶段情况-->
     <select id="memberApply_groupByStage" resultType="bean.StatByteBean" parameterType="map">
         select count(*) as num, stage as type from ow_member_apply_view where member_status=0 and stage>-1
         <if test="stage!=null">

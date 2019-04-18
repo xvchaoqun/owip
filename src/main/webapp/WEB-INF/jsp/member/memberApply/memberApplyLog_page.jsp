@@ -13,12 +13,10 @@ pageEncoding="UTF-8" %>
             ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
             <div class="widget-box transparent">
                 <div class="widget-header">
-                    <div class="widget-toolbar no-border">
                         <jsp:include page="menu.jsp"/>
-                    </div>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right" style="padding-top: 5px;">
                         <div class="tab-content padding-4">
                             <div class="tab-pane in active">
                                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -126,12 +124,9 @@ pageEncoding="UTF-8" %>
             } },
             { label:'备注',  name: 'remark', width: 450 },
             { label:'IP',  name: 'ip', width: 150 }
-        ],
-        gridComplete:function(){
-            $(window).triggerHandler('resize.jqGrid');
-        }
+        ]
     });
-
+    $(window).triggerHandler('resize.jqGrid');
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 

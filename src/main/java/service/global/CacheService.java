@@ -328,7 +328,7 @@ public class CacheService extends BaseMapper {
 
         map.put("roleMap", sysRoleService.findAll());
 
-        map.put("propertyMap", sysPropertyService.findAll());
+        map.put("_pMap", sysPropertyService.findAll());
 
         return map;
     }

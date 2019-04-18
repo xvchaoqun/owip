@@ -78,7 +78,7 @@
             $("#modalForm textarea[name=cmd]").focus();
             return;
         }
-        $(this).download("${ctx}/system/cmd_export?cmd=" + new Base64().encode($.trim(cmd)));
+        $(this).download("${ctx}/system/cmd_export?cmd=" + $.base64.encode($.trim(cmd)));
         return false;
     });
 
@@ -90,7 +90,7 @@
             $("#modalForm textarea[name=cmd]").focus();
             return;
         }
-        $.post("${ctx}/system/cmd",{cmd:new Base64().encode($.trim(cmd))},function(ret){
+        $.post("${ctx}/system/cmd",{cmd:$.base64.encode($.trim(cmd))},function(ret){
             if (ret.msg == "success") {
                 $("#result").html(_.template($("#result_tpl").html().NoMultiSpace())({
                     lines: ret.lines

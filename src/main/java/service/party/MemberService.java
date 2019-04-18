@@ -236,7 +236,7 @@ public class MemberService extends MemberBaseMapper {
         memberMapper.updateByExampleSelective(record, example);
 
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
-        for (int userId : userIds) { // 更新入党申请的预备党员
+        for (int userId : userIds) { // 更新党员发展的预备党员
             memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
         }
     }
@@ -270,7 +270,7 @@ public class MemberService extends MemberBaseMapper {
         iMemberMapper.changeMemberParty(partyId, branchId, example);
 
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
-        for (int userId : userIds) { // 更新入党申请的预备党员
+        for (int userId : userIds) { // 更新党员发展的预备党员
             memberApplyService.updateWhenModifyMember(userId, partyId, branchId);
         }
     }
@@ -286,7 +286,7 @@ public class MemberService extends MemberBaseMapper {
         }
 
         MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
-        // 删除入党申请（预备党员、正式党员)
+        // 删除党员发展信息（预备党员、正式党员)
         for (Integer userId : userIds) {
             memberApplyService.denyWhenDeleteMember(userId);
         }
@@ -418,10 +418,10 @@ public class MemberService extends MemberBaseMapper {
 
             MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
             if (politicalStatus == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
-                // 正式->预备，需要同时修改或添加入党申请【6.预备党员】阶段
+                // 正式->预备，需要同时修改或添加党员发展【6.预备党员】阶段
                 memberApplyService.addOrChangeToGrowApply(userId);
             } else {
-                // 预备->正式，需要同时修改入党申请【6.预备党员】阶段->【7.正式党员】阶段
+                // 预备->正式，需要同时修改党员发展【6.预备党员】阶段->【7.正式党员】阶段
                 memberApplyService.modifyMemberToPositiveStatus(userId);
             }
         }

@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 	<#list tableColumns as column>
 		<#assign columnName=tbn(column.name, "tableName")>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${column.comments}</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span> ${column.comments}</label>
 				<div class="col-xs-6">
 					<#if column.length gt 300>
                         <textarea class="form-control" name="${columnName}">&{${tableName}.${columnName}}</textarea>

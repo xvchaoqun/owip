@@ -78,7 +78,7 @@ public class MemberController extends MemberBaseController {
                 msg = "该用户不是党员";
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 if (memberApply != null && memberApply.getStage() > OwConstants.OW_APPLY_STAGE_DENY) {
-                    msg += "；已进入入党申请阶段【" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) + "】";
+                    msg += "；已进入党员发展阶段【" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) + "】";
                 }
             } else {
                 Integer partyId = member.getPartyId();
@@ -574,7 +574,7 @@ public class MemberController extends MemberBaseController {
         return "member/member/member_au";
     }
 
-    // 后台添加预备党员，可能需要加入入党申请（预备党员阶段）
+    // 后台添加预备党员，可能需要加入党员发展流程（预备党员阶段）
     @RequiresPermissions("member:edit")
     @RequestMapping(value = "/snyc_memberApply", method = RequestMethod.POST)
     @ResponseBody

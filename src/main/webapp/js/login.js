@@ -60,7 +60,7 @@ $(function(){
                             location.reload();
                             return;
                         }
-                        $(".login-error").html("<i class=\"fa fa-times\"></i>" + data.msg).show();
+                        $(".login-error").html("<i class=\"fa fa-times\"></i> " + data.msg).show();
                         $('img.captcha', $form).click()
                     }
                 }

@@ -79,7 +79,7 @@ $(window).on('resize.jqGrid0', function () {
     navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
     if (navHeight == null) navHeight = 0;
 
-    $(".jqGrid0").setGridHeight($(window).height() - 360 - height - navHeight)
+    $(".jqGrid0").setGridHeight($(window).height() - 320 - height - navHeight)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 });
@@ -1050,8 +1050,7 @@ $(window).bind("hashchange", function () {
     if (url == '') return;
 
     //console.log(hash.substr(1))
-    //console.log(new Base64().encode(url))
-    $.getJSON(ctx + "/menu_breadcrumbs?url=" + new Base64().encode(url)).done(function (topMenus) {
+    $.getJSON(ctx + "/menu_breadcrumbs?url=" + $.base64.encode(url)).done(function (topMenus) {
 
         var breadcrumbs = _.template($("#breadcrumbs_tpl").html())({data: topMenus});
         $.ajax({

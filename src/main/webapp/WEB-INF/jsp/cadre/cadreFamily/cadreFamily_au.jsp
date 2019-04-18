@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="cadreFamily_noNeedBirth" value="${_pMap['cadreFamily_noNeedBirth']=='true'}"/>
+
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cadreFamily!=null}">编辑</c:if><c:if test="${cadreFamily==null}">添加</c:if>家庭成员信息</h3>
@@ -44,10 +46,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label"><span class="star">*</span>出生年月</label>
+                        <label class="col-xs-4 control-label">${cadreFamily_noNeedBirth?'':'<span class="star">*</span>'}  出生年月</label>
                         <div class="col-xs-4">
                             <div class="input-group">
-                                <input ${cadreFamily.withGod?'disabled':'required'}
+                                <input ${cadreFamily.withGod?'disabled':(cadreFamily_noNeedBirth?'':'required')}
                                         class="form-control date-picker" name="_birthday" type="text"
                                         data-date-min-view-mode="1" data-date-format="yyyy-mm"
                                         value="${cm:formatDate(cadreFamily.birthday,'yyyy-MM')}"/>
@@ -102,9 +104,15 @@
     $.register.date($('.date-picker'));
     $("#modalForm input[name=withGod]").click(function () {
         if ($(this).is(":checked")) {
-            $("input[name=_birthday]").val('').prop("disabled", true).removeAttr("required");
+            $("input[name=_birthday]").val('').prop("disabled", true);
+            <c:if test="${!cadreFamily_noNeedBirth}">
+            $("input[name=_birthday]").removeAttr("required");
+            </c:if>
         } else {
-            $("input[name=_birthday]").prop("disabled", false).attr("required", "required");
+            $("input[name=_birthday]").prop("disabled", false);
+            <c:if test="${!cadreFamily_noNeedBirth}">
+            $("input[name=_birthday]").attr("required", "required");
+            </c:if>
         }
     });
     $("#modal form").validate({

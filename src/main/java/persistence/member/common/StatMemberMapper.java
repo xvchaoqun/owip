@@ -25,7 +25,7 @@ public interface StatMemberMapper {
     // 统计学生党员年龄分布情况
     List<StatIntBean> member_studentGroupByBirth(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
-    // 统计入党申请各阶段情况
+    // 统计党员发展各阶段情况
     List<StatByteBean> memberApply_groupByStage(@Param("stage")Byte stage,
                                                 @Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 

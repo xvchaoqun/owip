@@ -23,6 +23,7 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
+import sys.utils.NumberUtils;
 
 import java.util.*;
 
@@ -226,10 +227,10 @@ public class MemberApplyService extends MemberBaseMapper {
     }*/
 
     /**
-     * 已经是预备党员[状态：正常]的情况下，修改相关的入党申请记录
+     * 已经是预备党员[状态：正常]的情况下，修改相关的党员发展记录
      * <p>
-     * 1、添加预备党员，需要加入入党申请（预备党员阶段）;
-     * 2、入党申请已经存在，则修改为预备党员阶段
+     * 1、添加预备党员，需要加入党员发展流程（预备党员阶段）;
+     * 2、党员发展信息已经存在，则修改为预备党员阶段
      *
      * @param userId
      */
@@ -254,7 +255,7 @@ public class MemberApplyService extends MemberBaseMapper {
             record.setGrowTime(member.getGrowTime());
             record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
             record.setStage(OwConstants.OW_APPLY_STAGE_GROW);
-            if (memberApply == null) { // 还没有入党申请
+            if (memberApply == null) { // 还没有党员发展信息
 
                 record.setRemark("预备党员信息添加后同步");
                 record.setFillTime(now);
@@ -426,13 +427,20 @@ public class MemberApplyService extends MemberBaseMapper {
         return memberApplyMapper.selectByPrimaryKey(userId);
     }
 
-    // 修改党员所属党组织时，入党申请信息保持同步。如果该党员是预备党员，则相应的要修改入党申请里的预备党员所属党组织，目的是为了预备党员正常转正；
+    // 修改党员所属党组织时，党员发展信息保持同步。如果该党员是预备党员，则相应的要修改党员发展里的预备党员所属党组织，目的是为了预备党员正常转正；
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void updateWhenModifyMember(int userId, Integer partyId, Integer branchId) {
 
         MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+
         if (_memberApply != null && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW && partyId != null) {
+
+            if(_memberApply.getPartyId() == partyId.intValue() &&
+                    NumberUtils.intEqual(_memberApply.getBranchId(), branchId)){
+                // 无变化
+                return ;
+            }
 
             MemberApply record = new MemberApply();
             record.setUserId(userId);
@@ -453,11 +461,11 @@ public class MemberApplyService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "更新",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "修改党员所属党组织关系，同时修改入党申请的所属组织关系");
+                    "修改党员所属党组织关系，同时修改党员发展的所属组织关系");
         }
     }
 
-    // 修改预备党员为正式党员之后，需要相应的修改入党申请信息（如果存在的话）
+    // 修改预备党员为正式党员之后，需要相应的修改党员发展信息（如果存在的话）
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void modifyMemberToPositiveStatus(int userId) {
@@ -507,7 +515,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     _member.setUserId(userId);
                     _member.setPartyId(record.getPartyId());
                     _member.setBranchId(record.getBranchId());
-                    memberService.updateByPrimaryKeySelective(_member, "入党申请中修改所属党组织");
+                    memberService.updateByPrimaryKeySelective(_member, "党员发展中修改所属党组织");
                 }
             }
         }
@@ -518,7 +526,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setApplyTime(record.getApplyTime());
-                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改提交书面申请书时间");
+                    memberService.updateByPrimaryKeySelective(_member, "党员发展中提交或修改提交书面申请书时间");
                 }
             }
         }
@@ -529,7 +537,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setActiveTime(record.getActiveTime());
-                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改确定为入党积极分子时间");
+                    memberService.updateByPrimaryKeySelective(_member, "党员发展中提交或修改确定为入党积极分子时间");
                 }
             }
         }
@@ -539,7 +547,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setCandidateTime(record.getCandidateTime());
-                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改确定为发展对象时间");
+                    memberService.updateByPrimaryKeySelective(_member, "党员发展中提交或修改确定为发展对象时间");
                 }
             }
         }
@@ -550,7 +558,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setGrowTime(record.getGrowTime());
-                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改入党时间");
+                    memberService.updateByPrimaryKeySelective(_member, "党员发展中提交或修改入党时间");
                 }
             }
         }
@@ -560,7 +568,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setPositiveTime(record.getPositiveTime());
-                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改转正时间");
+                    memberService.updateByPrimaryKeySelective(_member, "党员发展中提交或修改转正时间");
                 }
             }
         }
@@ -609,7 +617,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "撤回",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "删除党员时，同时打回入党申请");
+                    "删除党员时，同时打回党员发展信息");
         }
     }
 
@@ -736,6 +744,14 @@ public class MemberApplyService extends MemberBaseMapper {
         memberService.add(member);
     }
 
+    // 只用于更新部分字段
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#record.userId")
+    public void updateByPrimaryKeySelective(MemberApply record) {
+
+        memberApplyMapper.updateByPrimaryKeySelective(record);
+    }
+
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void memberApply_back(int userId, byte stage) {
@@ -748,7 +764,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     Member record = new Member();
                     record.setUserId(userId);
                     record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW);
-                    memberService.updateByPrimaryKeySelective(record, "在入党申请中，打回至预备党员初始状态");
+                    memberService.updateByPrimaryKeySelective(record, "在党员发展中，打回至预备党员初始状态");
                 }
                 break;
             case OwConstants.OW_APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= OwConstants.OW_APPLY_STAGE_DRAW)

@@ -55,7 +55,8 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="发送"/>
+    <button id="submitBtn" class="btn btn-primary"
+			data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"><i class="fa fa-send"></i> 发送</button>
 </div>
 
 <script>
@@ -84,6 +85,8 @@ pageEncoding="UTF-8"%>
 	</c:if>
 
     $('textarea.limited').inputlimiter();
+
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
         	<c:if test="${param.type=='batch'}">
@@ -92,7 +95,7 @@ pageEncoding="UTF-8"%>
                     return node.data.key;
             });
 			</c:if>
-
+			var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
 				<c:if test="${param.type=='batch'}">
 				data: {userIds: userIds},
@@ -102,6 +105,7 @@ pageEncoding="UTF-8"%>
                         $("#modal").modal('hide');
                         $("#jqGrid").trigger("reloadGrid");
                     }
+                    $btn.button('reset');
                 }
             });
         }

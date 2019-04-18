@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <jsp:include page="../sysConfig/menu.jsp"/>
         <div class="space-4"></div>
-        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+        <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.name || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="sysConfig:edit">
@@ -83,12 +83,23 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/sysProperty_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '名称',name: 'name', width:180, align:'left'},
-                { label: '代码',name: 'code', width:120, align:'left'},
+                { label:'类别', name: 'type', width: 90, formatter:function(cellvalue, options, rowObject){
+                    return _cMap.SYS_PROPERTY_TYPE_MAP[cellvalue];
+                },frozen:true},
                 {label: '排序', width: 90, formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/sysProperty_changeOrder",frozen:true}},
-                { label: '内容',name: 'content', width:180, align:'left'},
-                /*{ label: '类型',name: 'type'},*/
+                formatoptions:{url: "${ctx}/sysProperty_changeOrder"},frozen:true},
+                { label: '名称',name: 'name', width:180, align:'left'},
+                { label: '代码',name: 'code', width:250, align:'left'},
+                { label: '取值',name: 'content', width:480, align:'left', formatter:function(cellvalue, options, rowObject){
+
+                    if(rowObject.type==<%=SystemConstants.SYS_PROPERTY_TYPE_PIC%>){
+
+                        return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
+                        .format(encodeURI(cellvalue), rowObject.name + ".jpg");
+                    }
+
+                    return cellvalue;
+                }},
                 { label: '说明',name: 'remark', width:280, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
@@ -98,4 +109,9 @@ pageEncoding="UTF-8" %>
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
+    $.register.fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+                        .format($(this.element).data('path'), this.title);
+    });
 </script>

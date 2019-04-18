@@ -1,9 +1,22 @@
 package domain.sys;
 
+import sys.constants.SystemConstants;
+import sys.utils.NumberUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class SysUserView implements Serializable {
+
+    // 判断用户是否是门户账号
+    public boolean isCasUser(){
+
+        return NumberUtils.contains(source,
+                SystemConstants.USER_SOURCE_JZG,
+                SystemConstants.USER_SOURCE_YJS,
+                SystemConstants.USER_SOURCE_BKS);
+    }
+
     private Integer id;
 
     private String username;

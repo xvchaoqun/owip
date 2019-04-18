@@ -17,16 +17,40 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         </c:if>
-			<div class="form-group">
-				<label class="col-xs-5 control-label"><span class="star">*</span>确定为入党积极分子时间</label>
-				<div class="col-xs-4">
-                    <div class="input-group">
-                        <input required class="form-control date-picker" name="_activeTime" type="text"
-                               data-date-format="yyyy-mm-dd"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
-				</div>
-			</div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label"><span class="star">*</span>确定为入党积极分子时间</label>
+            <div class="col-xs-4">
+                <div class="input-group">
+                    <input required class="form-control date-picker" name="_activeTime" type="text"
+                           data-date-format="yyyy-mm-dd"/>
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+        <c:if test="${_pMap['memberApply_needActiveTrain']=='true'}">
+        <div class="form-group">
+            <label class="col-xs-5 control-label">参加培训时间</label>
+            <div class="col-xs-4">
+                <div class="input-group">
+                    <input class="form-control date-picker" name="_activeTrainStartTime" type="text"
+                           data-date-format="yyyy-mm-dd"/>
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+                至
+                <div class="input-group">
+                    <input class="form-control date-picker" name="_activeTrainEndTime" type="text"
+                           data-date-format="yyyy-mm-dd"/>
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">积极分子结业考试成绩</label>
+            <div class="col-xs-4">
+                <input class="form-control" type="text" name="activeGrade">
+            </div>
+        </div>
+        </c:if>
     </form>
 </div>
 <div class="modal-footer">

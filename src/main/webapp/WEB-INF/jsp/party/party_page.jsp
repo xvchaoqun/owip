@@ -288,6 +288,7 @@ pageEncoding="UTF-8" %>
             { label: '联系电话', name: 'phone' },
             { label: '传真', name: 'fax' },
             { label: '邮箱', name: 'email' },
+            { label: '信箱', name: 'mailbox' },
             { label: '成立时间', name: 'foundTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}}
         ]
     }).jqGrid("setFrozenColumns")

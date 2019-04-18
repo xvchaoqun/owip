@@ -81,4 +81,8 @@ public class MemberBaseController extends MemberBaseMapper  implements HttpRespo
     protected ApplyOpenTimeService applyOpenTimeService;
     @Autowired
     protected MemberApplyService memberApplyService;
+    @Autowired
+    protected ApplySnService applySnService;
+    @Autowired
+    protected ApplySnRangeService applySnRangeService;
 }

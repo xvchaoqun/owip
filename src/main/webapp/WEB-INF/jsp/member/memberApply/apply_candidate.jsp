@@ -31,12 +31,28 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-5 control-label"><span class="star">*</span>参加培训时间</label>
             <div class="col-xs-4">
                 <div class="input-group">
-                    <input required class="form-control date-picker" name="_trainTime" type="text"
+                    <input required class="form-control date-picker" name="_candidateTrainStartTime" type="text"
                            data-date-format="yyyy-mm-dd"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
+                <c:if test="${_pMap['memberApply_needCandidateTrain']=='true'}">
+                至
+                <div class="input-group">
+                    <input class="form-control date-picker" name="_candidateTrainEndTime" type="text"
+                           data-date-format="yyyy-mm-dd"/>
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+                </c:if>
             </div>
         </div>
+         <c:if test="${_pMap['memberApply_needCandidateTrain']=='true'}">
+        <div class="form-group">
+            <label class="col-xs-5 control-label">发展对象结业考试成绩</label>
+            <div class="col-xs-4">
+                <input class="form-control" type="text" name="candidateGrade">
+            </div>
+        </div>
+         </c:if>
     </form>
 </div>
 <div class="modal-footer">

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
 import sys.utils.DateUtils;
@@ -148,7 +147,7 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public Map password(@CurrentUser SysUserView sysUser, String oldPassword, String password, HttpServletRequest request) {
 
-        if (sysUser.getSource() != SystemConstants.USER_SOURCE_ADMIN && sysUser.getSource() != SystemConstants.USER_SOURCE_REG) {
+        if (sysUser.isCasUser()) {
             return failed("当前账号不允许修改密码");
         }
       /*  oldPassword = new String(Base64.decodeBase64(oldPassword.getBytes()));

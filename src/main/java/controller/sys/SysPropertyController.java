@@ -7,6 +7,7 @@ import domain.sys.SysPropertyExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -103,13 +106,20 @@ public class SysPropertyController extends BaseController {
     @RequiresPermissions("sysConfig:edit")
     @RequestMapping(value = "/sysProperty_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysProperty_au(SysProperty record, HttpServletRequest request) {
+    public Map do_sysProperty_au(SysProperty record, MultipartFile _file, HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
         if (sysPropertyService.idDuplicate(id, record.getCode())) {
             return failed("添加重复");
         }
+
+        if(record.getType()== SystemConstants.SYS_PROPERTY_TYPE_BOOL){
+            record.setContent(BooleanUtils.toBoolean(record.getContent())?"true":"false");
+        }else if(record.getType()==SystemConstants.SYS_PROPERTY_TYPE_PIC){
+            record.setContent(upload(_file, "sysProperty"));
+        }
+
         if (id == null) {
             
             sysPropertyService.insertSelective(record);

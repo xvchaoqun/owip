@@ -26,7 +26,7 @@ public class StatService extends BaseMapper{
         return statMemberMapper.memberApply_groupByPartyId(top);
     }
 
-    // 按阶段统计入党申请
+    // 按阶段统计党员发展
     public Map politicalStatusMap(Integer partyId, Integer branchId){
 
         Map<Byte, Integer> _map = new HashMap<>();
@@ -43,7 +43,7 @@ public class StatService extends BaseMapper{
         return map;
     }
 
-    // 按类型统计入党申请
+    // 按类型统计党员发展
     public Map typeMap(Byte politicalStatus, Integer partyId, Integer branchId){
 
         Map<Byte, Integer> _map = new HashMap<>();
@@ -60,7 +60,7 @@ public class StatService extends BaseMapper{
         return map;
     }
 
-    // 按阶段统计入党申请
+    // 按阶段统计党员发展
     public Map applyMap(Byte type, Integer partyId, Integer branchId){
 
         Map<Byte, Integer> _applyMap = new HashMap<>();

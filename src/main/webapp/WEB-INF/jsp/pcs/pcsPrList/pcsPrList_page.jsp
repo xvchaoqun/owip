@@ -243,7 +243,7 @@
 
             //console.log(items)
             $(form).ajaxSubmit({
-                data: {items: new Base64().encode(JSON.stringify(items))},
+                data: {items: $.base64.encode(JSON.stringify(items))},
                 success: function (ret) {
                     if (ret.success) {
                         SysMsg.success("保存成功。", function () {

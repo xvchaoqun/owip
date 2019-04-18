@@ -54,8 +54,16 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
+					<label class="col-xs-3 control-label">信箱</label>
 					<div class="col-xs-8">
+						<input  class="form-control" type="text" name="mailbox" value="${party.mailbox}">
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="form-group">
+					<label class="col-xs-4 control-label"><span class="star">*</span>成立时间</label>
+					<div class="col-xs-8" style="width: 223px">
 						<div class="input-group date" data-date-format="yyyy-mm-dd">
 							<input required class="form-control date-picker" name="_foundTime" type="text"
 								    placeholder="格式：yyyy-mm-dd"
@@ -64,8 +72,6 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-xs-6">
 				<div class="form-group">
 					<label class="col-xs-4 control-label"><span class="star">*</span>所属单位</label>
 					<div class="col-xs-8">

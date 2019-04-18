@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginService;
 import service.SpringProps;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
+import sys.shiro.NeedCASLoginException;
 import sys.shiro.SSOException;
 
 import java.util.Set;
@@ -69,38 +69,45 @@ public class UserRealm extends AuthorizingRealm {
         if (uv.getLocked()) {
             throw new LockedAccountException(); //帐号锁定
         }
-        if (authToken.getPassword() == null){
+        if (authToken.getPassword() == null) {
             throw new IncorrectCredentialsException();
         }
         String inputPasswd = String.valueOf(authToken.getPassword());
 
-        if (springProps.useSSO && uv.getSource() != SystemConstants.USER_SOURCE_ADMIN
-                && uv.getSource() != SystemConstants.USER_SOURCE_REG) {
-            // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
-            boolean tryLogin;
-            try {
-                tryLogin = loginService.tryLogin(uv.getCode(), inputPasswd);
-            } catch (Exception ex) {
-                logger.error("异常", ex);
-                throw new SSOException();
+        if (uv.isCasUser()) {
+            if (springProps.useSSO) { // 如果提供了SSO接口
+
+                boolean tryLogin;
+                try {
+                    tryLogin = loginService.tryLogin(uv.getCode(), inputPasswd);
+                } catch (Exception ex) {
+                    logger.error("异常", ex);
+                    throw new SSOException();
+                }
+                if (!tryLogin) {
+                    throw new IncorrectCredentialsException();
+                }
+                password = new SimpleHash(
+                        credentialsMatcher.getHashAlgorithmName(),
+                        inputPasswd,
+                        ByteSource.Util.bytes(salt),
+                        credentialsMatcher.getHashIterations()).toHex();
+
+            } else if (springProps.useCAS) { // 仅提供了CAS接口
+
+                throw new NeedCASLoginException();
             }
-            if (!tryLogin) {
-                throw new IncorrectCredentialsException();
-            }
-            password = new SimpleHash(
-                    credentialsMatcher.getHashAlgorithmName(),
-                    inputPasswd,
-                    ByteSource.Util.bytes(salt),
-                    credentialsMatcher.getHashIterations()).toHex();
         } else {
+
             password = uv.getPasswd();
             salt = uv.getSalt();
         }
+
         Integer userId = uv.getId();
         ShiroUser shiroUser = new ShiroUser(userId, username, uv.getCode(),
                 uv.getRealname(), uv.getType(), uv.getTimeout());
 
-        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
+        // 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 shiroUser,
                 password, //密码

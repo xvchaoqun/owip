@@ -1,0 +1,104 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "ow_",
+  "folder": "party",
+  "resFolder": "",
+  "tables": [
+    {
+      "table": "org_admin",
+      "key": "id",
+      "searchColumns": "user_id,party_id,brach_id",
+      "showColumns": "user_id",
+      "excludeEditColumns": "id,type,status,remark,create_time",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": true
+    },
+    {
+      "table": "branch_member_group",
+      "key": "id",
+      "searchColumns": "branch_id,name",
+      "showColumns": "branch_id, name, is_present,tran_time,actual_tran_time,appoint_time,dispatch_unit_id",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": true
+    },
+    {
+      "table": "branch_member",
+      "key": "id",
+      "searchColumns": "group_id,user_id,type_id,is_admin",
+      "showColumns": "group_id,user_id,type_id,is_admin",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": true
+    },
+    {
+      "table": "party",
+      "key": "id",
+      "searchColumns": "code,name,unit_id,class_id,type_id,unit_type_id",
+      "showColumns": "code,name,short_name,url,unit_id,class_id,type_id,unit_type_id,phone,email",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": true
+    },{
+      "table": "party_member_group",
+      "key": "id",
+      "searchColumns": "party_id,name",
+      "showColumns": "party_id, name, is_present,tran_time,actual_tran_time,appoint_time,dispatch_unit_id",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": true
+    },{
+      "table": "party_member",
+      "key": "id",
+      "searchColumns": "group_id,user_id,type_id,is_admin",
+      "showColumns": "group_id,user_id,type_id,is_admin",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": true
+    },{
+      "table": "branch",
+      "key": "id",
+      "searchColumns": "code,name,party_id,type_id,unit_type_id,found_time",
+      "showColumns": "code,name,party_id,type_id,unit_type_id,phone,fax,email,found_time",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": true
+    },{
+      "table": "party_public",
+      "key": "id",
+      "searchColumns": "type,party_id,pub_date",
+      "showColumns": "type,party_id,pub_date,party_name,email,phone,mailbox,user_id,is_publish",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": false
+    },{
+      "table": "party_public_user",
+      "key": "id",
+      "searchColumns": "public_id,user_id,party_id,branch_id",
+      "showColumns": "public_id,user_id,party_id,branch_id,party_name,branch_name",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": false
+    },
+    {
+      "table": "organizer_group",
+      "key": "id",
+      "searchColumns": "name,organizers,units",
+      "showColumns": "year,start_sn,end_sn,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": false
+    },
+    {
+      "table": "organizer",
+      "key": "id",
+      "searchColumns": "year,type,status,user_id,party_id",
+      "showColumns": "year,type,user_id,party_id,units,appoint_date,dismiss_date,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": false
+    }
+  ]
+}

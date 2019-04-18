@@ -117,7 +117,8 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
     // 积极分子：提交 确定为发展对象
     @Transactional
-    public void apply_candidate(Integer[] userIds, String _candidateTime, String _trainTime, int loginUserId){
+    public void apply_candidate(Integer[] userIds, String _candidateTime,
+                                String _candidateTrainStartTime, String _candidateTrainEndTime, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -136,14 +137,20 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 throw new OpException("确定为发展对象时间应该在确定为入党积极分子满一年之后");
             }
 
-            Date trainTime = DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD);
-            if(trainTime.before(memberApply.getActiveTime())){
-                throw new OpException("培训时间应该在确定为入党积极分子之后");
+            Date candidateTrainStartTime = DateUtils.parseDate(_candidateTrainStartTime, DateUtils.YYYY_MM_DD);
+            if(candidateTrainStartTime!=null && candidateTrainStartTime.before(memberApply.getActiveTime())){
+                throw new OpException("培训起始时间应该在确定为入党积极分子之后");
+            }
+
+            Date candidateTrainEndTime = DateUtils.parseDate(_candidateTrainEndTime, DateUtils.YYYY_MM_DD);
+            if(candidateTrainEndTime!=null && candidateTrainEndTime.before(candidateTrainStartTime)){
+                throw new OpException("培训结束时间应该在培训起始时间之后");
             }
 
             MemberApply record = new MemberApply();
             record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
-            record.setTrainTime(DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD));
+            record.setCandidateTrainStartTime(DateUtils.parseDate(_candidateTrainStartTime, DateUtils.YYYY_MM_DD));
+            record.setCandidateTrainEndTime(DateUtils.parseDate(_candidateTrainEndTime, DateUtils.YYYY_MM_DD));
 
             if(directParty && partyAdmin){ // 直属党支部管理员，不需要通过审核，直接确定发展对象
                 record.setStage(OwConstants.OW_APPLY_STAGE_CANDIDATE);

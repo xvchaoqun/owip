@@ -156,7 +156,7 @@ public class MemberApplyController extends MemberBaseController {
 
             record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(7))));
             record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8))));
-            record.setTrainTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
+            record.setCandidateTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
             record.setPlanTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(10))));
             record.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(11))));
             record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
@@ -439,7 +439,7 @@ public class MemberApplyController extends MemberBaseController {
         return;
     }
 
-    // 后台添加入党申请
+    // 后台管理党员发展信息
     @RequestMapping("/memberApply_au")
     public String memberApply_au(Integer userId, ModelMap modelMap) {
 
@@ -469,8 +469,11 @@ public class MemberApplyController extends MemberBaseController {
     @RequestMapping(value = "/memberApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply_au(@CurrentUser SysUserView loginUser, int userId, Integer partyId,
-                                 Integer branchId, String _applyTime, String _activeTime,
-                                 String _candidateTime, String _trainTime,
+                                 Integer branchId, String _applyTime,
+                                 String _activeTime, String _activeTrainStartTime,
+                                 String _activeTrainEndTime, String activeGrade,
+                                 String _candidateTime, String _candidateTrainStartTime,
+                                 String _candidateTrainEndTime, String candidateGrade,
                                  String _planTime, String _drawTime,
                                  String _growTime, String _positiveTime, String remark, HttpServletRequest request) {
 
@@ -584,6 +587,25 @@ public class MemberApplyController extends MemberBaseController {
                     return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
                 }
             }
+            String activeTrainStartTime = DateUtils.formatDate(_memberApply.getCandidateTrainStartTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_activeTrainStartTime)
+                    && !StringUtils.equalsIgnoreCase(activeTrainStartTime, _activeTrainStartTime.trim())) {
+                record.setActiveTrainStartTime(DateUtils.parseDate(_activeTrainStartTime, DateUtils.YYYY_MM_DD));
+                _remark.append("积极分子培训起始时间由" + activeTrainStartTime + "修改为" + _activeTrainStartTime + ";");
+            }
+
+            String activeTrainEndTime = DateUtils.formatDate(_memberApply.getCandidateTrainEndTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_activeTrainEndTime)
+                    && !StringUtils.equalsIgnoreCase(activeTrainEndTime, _activeTrainEndTime.trim())) {
+                record.setActiveTrainEndTime(DateUtils.parseDate(_activeTrainEndTime, DateUtils.YYYY_MM_DD));
+                _remark.append("积极分子培训结束时间由" + activeTrainEndTime + "修改为" + _activeTrainEndTime + ";");
+            }
+
+            if (StringUtils.isNotBlank(activeGrade)
+                    && !StringUtils.equalsIgnoreCase(activeGrade, _memberApply.getActiveGrade())) {
+                record.setActiveGrade(activeGrade);
+                _remark.append("积极分子结业考试成绩由" + StringUtils.trimToEmpty(_memberApply.getActiveGrade()) + "修改为" + activeGrade + ";");
+            }
             /*if(record.getApplyTime()==null && _memberApply.getApplyTime()!=null
                     && record.getActiveTime().before(_memberApply.getApplyTime())){
                return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
@@ -606,11 +628,25 @@ public class MemberApplyController extends MemberBaseController {
                 }*/
             }
 
-            String trainTime = DateUtils.formatDate(_memberApply.getTrainTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_trainTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
-                    && !StringUtils.equalsIgnoreCase(trainTime, _trainTime.trim())) {
-                record.setTrainTime(DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD));
-                _remark.append("参加培训时间由" + trainTime + "修改为" + _trainTime + ";");
+            String candidateTrainStartTime = DateUtils.formatDate(_memberApply.getCandidateTrainStartTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_candidateTrainStartTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
+                    && !StringUtils.equalsIgnoreCase(candidateTrainStartTime, _candidateTrainStartTime.trim())) {
+                record.setCandidateTrainStartTime(DateUtils.parseDate(_candidateTrainStartTime, DateUtils.YYYY_MM_DD));
+                _remark.append("发展对象培训起始时间由" + candidateTrainStartTime + "修改为" + _candidateTrainStartTime + ";");
+            }
+
+            String candidateTrainEndTime = DateUtils.formatDate(_memberApply.getCandidateTrainEndTime(), DateUtils.YYYY_MM_DD);
+            if (StringUtils.isNotBlank(_candidateTrainEndTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
+                    && !StringUtils.equalsIgnoreCase(candidateTrainEndTime, _candidateTrainEndTime.trim())) {
+                record.setCandidateTrainEndTime(DateUtils.parseDate(_candidateTrainEndTime, DateUtils.YYYY_MM_DD));
+                _remark.append("发展对象培训结束时间由" + candidateTrainEndTime + "修改为" + _candidateTrainEndTime + ";");
+            }
+
+            if (StringUtils.isNotBlank(candidateGrade)
+                    && !StringUtils.equalsIgnoreCase(candidateGrade, _memberApply.getCandidateGrade())) {
+
+                record.setCandidateGrade(candidateGrade);
+                _remark.append("发展对象结业考试成绩由" + StringUtils.trimToEmpty(_memberApply.getCandidateGrade()) + "修改为" + candidateGrade + ";");
             }
 
             String planTime = DateUtils.formatDate(_memberApply.getPlanTime(), DateUtils.YYYY_MM_DD);
@@ -660,7 +696,7 @@ public class MemberApplyController extends MemberBaseController {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "修改",
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, _remark.toString());
 
-                logger.info(addLog(LogConstants.LOG_PARTY, "修改入党申请"));
+                logger.info(addLog(LogConstants.LOG_PARTY, "修改党员发展信息"));
             }/*else{
                 return failed("您没有进行任何字段的修改。");
             }*/
@@ -741,10 +777,12 @@ public class MemberApplyController extends MemberBaseController {
     @RequiresPermissions("memberApply:candidate")
     @RequestMapping(value = "/apply_candidate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_candidate(@RequestParam(value = "ids[]") Integer[] ids, String _candidateTime, String _trainTime,
+    public Map do_apply_candidate(@RequestParam(value = "ids[]") Integer[] ids, String _candidateTime,
+                                  String _candidateTrainStartTime, String _candidateTrainEndTime,
                                   @CurrentUser SysUserView loginUser, HttpServletRequest request) {
 
-        memberApplyOpService.apply_candidate(ids, _candidateTime, _trainTime, loginUser.getId());
+        memberApplyOpService.apply_candidate(ids, _candidateTime,
+                _candidateTrainStartTime, _candidateTrainEndTime, loginUser.getId());
 
         return success();
     }

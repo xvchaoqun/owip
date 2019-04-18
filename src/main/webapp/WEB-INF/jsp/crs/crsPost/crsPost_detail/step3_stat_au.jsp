@@ -158,9 +158,8 @@
             })
             console.log(JSON.stringify(jsonResult))
             // return;
-            var base64 = new Base64()
             $(form).ajaxSubmit({
-                data: {jsonResult: base64.encode(JSON.stringify(jsonResult))},
+                data: {jsonResult: $.base64.encode(JSON.stringify(jsonResult))},
                 success: function (ret) {
                     if (ret.success) {
                         //$("#modal").modal('hide');

@@ -214,7 +214,7 @@
 		submitHandler: function (form) {
 
 			$(form).ajaxSubmit({
-				data: {items: new Base64().encode(JSON.stringify(selectedUsers))},
+				data: {items: $.base64.encode(JSON.stringify(selectedUsers))},
 				success: function (ret) {
 					if (ret.success) {
 						$.hideView();

@@ -76,7 +76,7 @@ public interface IMemberMapper {
                               @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                               @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
-    // 入党申请打回至状态
+    // 党员发展打回至状态
     //====================start
 
     @Update("update ow_member_apply set stage="+ OwConstants.OW_APPLY_STAGE_GROW
@@ -141,7 +141,7 @@ public interface IMemberMapper {
             "ob.id in (${brachIds}) and tmp.to_branch_id=ob.id")
     void batchTransfer2(@Param("brachIds") String brachIds);
 
-    // 入党申请打回至状态
+    // 党员发展打回至状态
     //====================end
 
     // 党员出党：打回

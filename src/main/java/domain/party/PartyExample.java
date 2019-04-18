@@ -1102,6 +1102,76 @@ public class PartyExample {
             return (Criteria) this;
         }
 
+        public Criteria andMailboxIsNull() {
+            addCriterion("mailbox is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxIsNotNull() {
+            addCriterion("mailbox is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxEqualTo(String value) {
+            addCriterion("mailbox =", value, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxNotEqualTo(String value) {
+            addCriterion("mailbox <>", value, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxGreaterThan(String value) {
+            addCriterion("mailbox >", value, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxGreaterThanOrEqualTo(String value) {
+            addCriterion("mailbox >=", value, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxLessThan(String value) {
+            addCriterion("mailbox <", value, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxLessThanOrEqualTo(String value) {
+            addCriterion("mailbox <=", value, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxLike(String value) {
+            addCriterion("mailbox like", value, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxNotLike(String value) {
+            addCriterion("mailbox not like", value, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxIn(List<String> values) {
+            addCriterion("mailbox in", values, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxNotIn(List<String> values) {
+            addCriterion("mailbox not in", values, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxBetween(String value1, String value2) {
+            addCriterion("mailbox between", value1, value2, "mailbox");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailboxNotBetween(String value1, String value2) {
+            addCriterion("mailbox not between", value1, value2, "mailbox");
+            return (Criteria) this;
+        }
+
         public Criteria andFoundTimeIsNull() {
             addCriterion("found_time is null");
             return (Criteria) this;

@@ -210,7 +210,7 @@
             items.push(item);
         })
 
-        $.post("${ctx}/pcsPrAllocate_au", {items: new Base64().encode(JSON.stringify(items))}, function (ret) {
+        $.post("${ctx}/pcsPrAllocate_au", {items: $.base64.encode(JSON.stringify(items))}, function (ret) {
             if (ret.success) {
                 toastr.success("保存成功。");
             }

@@ -246,7 +246,7 @@ public class ShortMsgTplController extends BaseController {
                                    String mobile,
                                    String content,
                                    String type,
-                                   @RequestParam("userIds[]") List<Integer> userIds,
+                                   @RequestParam(value="userIds[]", required = false) List<Integer> userIds,
                                    HttpServletRequest request) {
 
         if(!StringUtils.equals(type, "batch")) {

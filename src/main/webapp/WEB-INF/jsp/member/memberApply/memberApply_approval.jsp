@@ -134,11 +134,11 @@
                                     <span class="title">成为发展对象</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_ACTIVE}"> <span class="subtitle">
                                             ${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}
-                                        <c:if test="${not empty memberApply.trainTime}">
-                                         <br/>（参加培训时间 ${cm:formatDate(memberApply.trainTime,'yyyy-MM-dd')}）
+                                        <c:if test="${not empty memberApply.candidateTrainStartTime}">
+                                         <br/>（参加培训时间 ${cm:formatDate(memberApply.candidateTrainStartTime,'yyyy-MM-dd')}
+                                            <c:if test="${not empty memberApply.candidateTrainEndTime}"> ~ ${cm:formatDate(memberApply.candidateTrainEndTime,'yyyy-MM-dd')}</c:if>）
                                         </c:if>
                                     </span>
-
                                     </c:if>
                                 </li>
 

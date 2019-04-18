@@ -36,9 +36,19 @@ public class MemberApply implements Serializable {
 
     private Date activeTime;
 
+    private Date activeTrainStartTime;
+
+    private Date activeTrainEndTime;
+
+    private String activeGrade;
+
     private Date candidateTime;
 
-    private Date trainTime;
+    private Date candidateTrainStartTime;
+
+    private Date candidateTrainEndTime;
+
+    private String candidateGrade;
 
     private Byte candidateStatus;
 
@@ -50,9 +60,15 @@ public class MemberApply implements Serializable {
 
     private Byte drawStatus;
 
+    private Long applySn;
+
+    private Integer growPublicId;
+
     private Date growTime;
 
     private Byte growStatus;
+
+    private Integer positivePublicId;
 
     private Date positiveTime;
 
@@ -152,6 +168,30 @@ public class MemberApply implements Serializable {
         this.activeTime = activeTime;
     }
 
+    public Date getActiveTrainStartTime() {
+        return activeTrainStartTime;
+    }
+
+    public void setActiveTrainStartTime(Date activeTrainStartTime) {
+        this.activeTrainStartTime = activeTrainStartTime;
+    }
+
+    public Date getActiveTrainEndTime() {
+        return activeTrainEndTime;
+    }
+
+    public void setActiveTrainEndTime(Date activeTrainEndTime) {
+        this.activeTrainEndTime = activeTrainEndTime;
+    }
+
+    public String getActiveGrade() {
+        return activeGrade;
+    }
+
+    public void setActiveGrade(String activeGrade) {
+        this.activeGrade = activeGrade == null ? null : activeGrade.trim();
+    }
+
     public Date getCandidateTime() {
         return candidateTime;
     }
@@ -160,12 +200,28 @@ public class MemberApply implements Serializable {
         this.candidateTime = candidateTime;
     }
 
-    public Date getTrainTime() {
-        return trainTime;
+    public Date getCandidateTrainStartTime() {
+        return candidateTrainStartTime;
     }
 
-    public void setTrainTime(Date trainTime) {
-        this.trainTime = trainTime;
+    public void setCandidateTrainStartTime(Date candidateTrainStartTime) {
+        this.candidateTrainStartTime = candidateTrainStartTime;
+    }
+
+    public Date getCandidateTrainEndTime() {
+        return candidateTrainEndTime;
+    }
+
+    public void setCandidateTrainEndTime(Date candidateTrainEndTime) {
+        this.candidateTrainEndTime = candidateTrainEndTime;
+    }
+
+    public String getCandidateGrade() {
+        return candidateGrade;
+    }
+
+    public void setCandidateGrade(String candidateGrade) {
+        this.candidateGrade = candidateGrade == null ? null : candidateGrade.trim();
     }
 
     public Byte getCandidateStatus() {
@@ -208,6 +264,22 @@ public class MemberApply implements Serializable {
         this.drawStatus = drawStatus;
     }
 
+    public Long getApplySn() {
+        return applySn;
+    }
+
+    public void setApplySn(Long applySn) {
+        this.applySn = applySn;
+    }
+
+    public Integer getGrowPublicId() {
+        return growPublicId;
+    }
+
+    public void setGrowPublicId(Integer growPublicId) {
+        this.growPublicId = growPublicId;
+    }
+
     public Date getGrowTime() {
         return growTime;
     }
@@ -222,6 +294,14 @@ public class MemberApply implements Serializable {
 
     public void setGrowStatus(Byte growStatus) {
         this.growStatus = growStatus;
+    }
+
+    public Integer getPositivePublicId() {
+        return positivePublicId;
+    }
+
+    public void setPositivePublicId(Integer positivePublicId) {
+        this.positivePublicId = positivePublicId;
     }
 
     public Date getPositiveTime() {

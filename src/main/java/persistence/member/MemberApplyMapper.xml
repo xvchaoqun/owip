@@ -13,15 +13,23 @@
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="pass_time" jdbcType="DATE" property="passTime" />
     <result column="active_time" jdbcType="DATE" property="activeTime" />
+    <result column="active_train_start_time" jdbcType="DATE" property="activeTrainStartTime" />
+    <result column="active_train_end_time" jdbcType="DATE" property="activeTrainEndTime" />
+    <result column="active_grade" jdbcType="VARCHAR" property="activeGrade" />
     <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
-    <result column="train_time" jdbcType="DATE" property="trainTime" />
+    <result column="candidate_train_start_time" jdbcType="DATE" property="candidateTrainStartTime" />
+    <result column="candidate_train_end_time" jdbcType="DATE" property="candidateTrainEndTime" />
+    <result column="candidate_grade" jdbcType="VARCHAR" property="candidateGrade" />
     <result column="candidate_status" jdbcType="TINYINT" property="candidateStatus" />
     <result column="plan_time" jdbcType="DATE" property="planTime" />
     <result column="plan_status" jdbcType="TINYINT" property="planStatus" />
     <result column="draw_time" jdbcType="DATE" property="drawTime" />
     <result column="draw_status" jdbcType="TINYINT" property="drawStatus" />
+    <result column="apply_sn" jdbcType="BIGINT" property="applySn" />
+    <result column="grow_public_id" jdbcType="INTEGER" property="growPublicId" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="grow_status" jdbcType="TINYINT" property="growStatus" />
+    <result column="positive_public_id" jdbcType="INTEGER" property="positivePublicId" />
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="positive_status" jdbcType="TINYINT" property="positiveStatus" />
     <result column="is_remove" jdbcType="BIT" property="isRemove" />
@@ -87,9 +95,11 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, party_id, branch_id, type, apply_time, fill_time, remark, stage, reason, 
-    pass_time, active_time, candidate_time, train_time, candidate_status, plan_time, 
-    plan_status, draw_time, draw_status, grow_time, grow_status, positive_time, positive_status, 
-    is_remove, create_time
+    pass_time, active_time, active_train_start_time, active_train_end_time, active_grade, 
+    candidate_time, candidate_train_start_time, candidate_train_end_time, candidate_grade, 
+    candidate_status, plan_time, plan_status, draw_time, draw_status, apply_sn, grow_public_id, 
+    grow_time, grow_status, positive_public_id, positive_time, positive_status, is_remove, 
+    create_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberApplyExample" resultMap="BaseResultMap">
     select
@@ -125,19 +135,25 @@
     insert into ow_member_apply (user_id, party_id, branch_id, 
       type, apply_time, fill_time, 
       remark, stage, reason, 
-      pass_time, active_time, candidate_time, 
-      train_time, candidate_status, plan_time, 
+      pass_time, active_time, active_train_start_time, 
+      active_train_end_time, active_grade, candidate_time, 
+      candidate_train_start_time, candidate_train_end_time, 
+      candidate_grade, candidate_status, plan_time, 
       plan_status, draw_time, draw_status, 
-      grow_time, grow_status, positive_time, 
+      apply_sn, grow_public_id, grow_time, 
+      grow_status, positive_public_id, positive_time, 
       positive_status, is_remove, create_time
       )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{applyTime,jdbcType=DATE}, #{fillTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR}, #{stage,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
-      #{passTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, 
-      #{trainTime,jdbcType=DATE}, #{candidateStatus,jdbcType=TINYINT}, #{planTime,jdbcType=DATE}, 
+      #{passTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{activeTrainStartTime,jdbcType=DATE}, 
+      #{activeTrainEndTime,jdbcType=DATE}, #{activeGrade,jdbcType=VARCHAR}, #{candidateTime,jdbcType=DATE}, 
+      #{candidateTrainStartTime,jdbcType=DATE}, #{candidateTrainEndTime,jdbcType=DATE}, 
+      #{candidateGrade,jdbcType=VARCHAR}, #{candidateStatus,jdbcType=TINYINT}, #{planTime,jdbcType=DATE}, 
       #{planStatus,jdbcType=TINYINT}, #{drawTime,jdbcType=DATE}, #{drawStatus,jdbcType=TINYINT}, 
-      #{growTime,jdbcType=DATE}, #{growStatus,jdbcType=TINYINT}, #{positiveTime,jdbcType=DATE}, 
+      #{applySn,jdbcType=BIGINT}, #{growPublicId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
+      #{growStatus,jdbcType=TINYINT}, #{positivePublicId,jdbcType=INTEGER}, #{positiveTime,jdbcType=DATE}, 
       #{positiveStatus,jdbcType=TINYINT}, #{isRemove,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -177,11 +193,26 @@
       <if test="activeTime != null">
         active_time,
       </if>
+      <if test="activeTrainStartTime != null">
+        active_train_start_time,
+      </if>
+      <if test="activeTrainEndTime != null">
+        active_train_end_time,
+      </if>
+      <if test="activeGrade != null">
+        active_grade,
+      </if>
       <if test="candidateTime != null">
         candidate_time,
       </if>
-      <if test="trainTime != null">
-        train_time,
+      <if test="candidateTrainStartTime != null">
+        candidate_train_start_time,
+      </if>
+      <if test="candidateTrainEndTime != null">
+        candidate_train_end_time,
+      </if>
+      <if test="candidateGrade != null">
+        candidate_grade,
       </if>
       <if test="candidateStatus != null">
         candidate_status,
@@ -198,11 +229,20 @@
       <if test="drawStatus != null">
         draw_status,
       </if>
+      <if test="applySn != null">
+        apply_sn,
+      </if>
+      <if test="growPublicId != null">
+        grow_public_id,
+      </if>
       <if test="growTime != null">
         grow_time,
       </if>
       <if test="growStatus != null">
         grow_status,
+      </if>
+      <if test="positivePublicId != null">
+        positive_public_id,
       </if>
       <if test="positiveTime != null">
         positive_time,
@@ -251,11 +291,26 @@
       <if test="activeTime != null">
         #{activeTime,jdbcType=DATE},
       </if>
+      <if test="activeTrainStartTime != null">
+        #{activeTrainStartTime,jdbcType=DATE},
+      </if>
+      <if test="activeTrainEndTime != null">
+        #{activeTrainEndTime,jdbcType=DATE},
+      </if>
+      <if test="activeGrade != null">
+        #{activeGrade,jdbcType=VARCHAR},
+      </if>
       <if test="candidateTime != null">
         #{candidateTime,jdbcType=DATE},
       </if>
-      <if test="trainTime != null">
-        #{trainTime,jdbcType=DATE},
+      <if test="candidateTrainStartTime != null">
+        #{candidateTrainStartTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTrainEndTime != null">
+        #{candidateTrainEndTime,jdbcType=DATE},
+      </if>
+      <if test="candidateGrade != null">
+        #{candidateGrade,jdbcType=VARCHAR},
       </if>
       <if test="candidateStatus != null">
         #{candidateStatus,jdbcType=TINYINT},
@@ -272,11 +327,20 @@
       <if test="drawStatus != null">
         #{drawStatus,jdbcType=TINYINT},
       </if>
+      <if test="applySn != null">
+        #{applySn,jdbcType=BIGINT},
+      </if>
+      <if test="growPublicId != null">
+        #{growPublicId,jdbcType=INTEGER},
+      </if>
       <if test="growTime != null">
         #{growTime,jdbcType=DATE},
       </if>
       <if test="growStatus != null">
         #{growStatus,jdbcType=TINYINT},
+      </if>
+      <if test="positivePublicId != null">
+        #{positivePublicId,jdbcType=INTEGER},
       </if>
       <if test="positiveTime != null">
         #{positiveTime,jdbcType=DATE},
@@ -334,11 +398,26 @@
       <if test="record.activeTime != null">
         active_time = #{record.activeTime,jdbcType=DATE},
       </if>
+      <if test="record.activeTrainStartTime != null">
+        active_train_start_time = #{record.activeTrainStartTime,jdbcType=DATE},
+      </if>
+      <if test="record.activeTrainEndTime != null">
+        active_train_end_time = #{record.activeTrainEndTime,jdbcType=DATE},
+      </if>
+      <if test="record.activeGrade != null">
+        active_grade = #{record.activeGrade,jdbcType=VARCHAR},
+      </if>
       <if test="record.candidateTime != null">
         candidate_time = #{record.candidateTime,jdbcType=DATE},
       </if>
-      <if test="record.trainTime != null">
-        train_time = #{record.trainTime,jdbcType=DATE},
+      <if test="record.candidateTrainStartTime != null">
+        candidate_train_start_time = #{record.candidateTrainStartTime,jdbcType=DATE},
+      </if>
+      <if test="record.candidateTrainEndTime != null">
+        candidate_train_end_time = #{record.candidateTrainEndTime,jdbcType=DATE},
+      </if>
+      <if test="record.candidateGrade != null">
+        candidate_grade = #{record.candidateGrade,jdbcType=VARCHAR},
       </if>
       <if test="record.candidateStatus != null">
         candidate_status = #{record.candidateStatus,jdbcType=TINYINT},
@@ -355,11 +434,20 @@
       <if test="record.drawStatus != null">
         draw_status = #{record.drawStatus,jdbcType=TINYINT},
       </if>
+      <if test="record.applySn != null">
+        apply_sn = #{record.applySn,jdbcType=BIGINT},
+      </if>
+      <if test="record.growPublicId != null">
+        grow_public_id = #{record.growPublicId,jdbcType=INTEGER},
+      </if>
       <if test="record.growTime != null">
         grow_time = #{record.growTime,jdbcType=DATE},
       </if>
       <if test="record.growStatus != null">
         grow_status = #{record.growStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.positivePublicId != null">
+        positive_public_id = #{record.positivePublicId,jdbcType=INTEGER},
       </if>
       <if test="record.positiveTime != null">
         positive_time = #{record.positiveTime,jdbcType=DATE},
@@ -391,15 +479,23 @@
       reason = #{record.reason,jdbcType=VARCHAR},
       pass_time = #{record.passTime,jdbcType=DATE},
       active_time = #{record.activeTime,jdbcType=DATE},
+      active_train_start_time = #{record.activeTrainStartTime,jdbcType=DATE},
+      active_train_end_time = #{record.activeTrainEndTime,jdbcType=DATE},
+      active_grade = #{record.activeGrade,jdbcType=VARCHAR},
       candidate_time = #{record.candidateTime,jdbcType=DATE},
-      train_time = #{record.trainTime,jdbcType=DATE},
+      candidate_train_start_time = #{record.candidateTrainStartTime,jdbcType=DATE},
+      candidate_train_end_time = #{record.candidateTrainEndTime,jdbcType=DATE},
+      candidate_grade = #{record.candidateGrade,jdbcType=VARCHAR},
       candidate_status = #{record.candidateStatus,jdbcType=TINYINT},
       plan_time = #{record.planTime,jdbcType=DATE},
       plan_status = #{record.planStatus,jdbcType=TINYINT},
       draw_time = #{record.drawTime,jdbcType=DATE},
       draw_status = #{record.drawStatus,jdbcType=TINYINT},
+      apply_sn = #{record.applySn,jdbcType=BIGINT},
+      grow_public_id = #{record.growPublicId,jdbcType=INTEGER},
       grow_time = #{record.growTime,jdbcType=DATE},
       grow_status = #{record.growStatus,jdbcType=TINYINT},
+      positive_public_id = #{record.positivePublicId,jdbcType=INTEGER},
       positive_time = #{record.positiveTime,jdbcType=DATE},
       positive_status = #{record.positiveStatus,jdbcType=TINYINT},
       is_remove = #{record.isRemove,jdbcType=BIT},
@@ -441,11 +537,26 @@
       <if test="activeTime != null">
         active_time = #{activeTime,jdbcType=DATE},
       </if>
+      <if test="activeTrainStartTime != null">
+        active_train_start_time = #{activeTrainStartTime,jdbcType=DATE},
+      </if>
+      <if test="activeTrainEndTime != null">
+        active_train_end_time = #{activeTrainEndTime,jdbcType=DATE},
+      </if>
+      <if test="activeGrade != null">
+        active_grade = #{activeGrade,jdbcType=VARCHAR},
+      </if>
       <if test="candidateTime != null">
         candidate_time = #{candidateTime,jdbcType=DATE},
       </if>
-      <if test="trainTime != null">
-        train_time = #{trainTime,jdbcType=DATE},
+      <if test="candidateTrainStartTime != null">
+        candidate_train_start_time = #{candidateTrainStartTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTrainEndTime != null">
+        candidate_train_end_time = #{candidateTrainEndTime,jdbcType=DATE},
+      </if>
+      <if test="candidateGrade != null">
+        candidate_grade = #{candidateGrade,jdbcType=VARCHAR},
       </if>
       <if test="candidateStatus != null">
         candidate_status = #{candidateStatus,jdbcType=TINYINT},
@@ -462,11 +573,20 @@
       <if test="drawStatus != null">
         draw_status = #{drawStatus,jdbcType=TINYINT},
       </if>
+      <if test="applySn != null">
+        apply_sn = #{applySn,jdbcType=BIGINT},
+      </if>
+      <if test="growPublicId != null">
+        grow_public_id = #{growPublicId,jdbcType=INTEGER},
+      </if>
       <if test="growTime != null">
         grow_time = #{growTime,jdbcType=DATE},
       </if>
       <if test="growStatus != null">
         grow_status = #{growStatus,jdbcType=TINYINT},
+      </if>
+      <if test="positivePublicId != null">
+        positive_public_id = #{positivePublicId,jdbcType=INTEGER},
       </if>
       <if test="positiveTime != null">
         positive_time = #{positiveTime,jdbcType=DATE},
@@ -495,15 +615,23 @@
       reason = #{reason,jdbcType=VARCHAR},
       pass_time = #{passTime,jdbcType=DATE},
       active_time = #{activeTime,jdbcType=DATE},
+      active_train_start_time = #{activeTrainStartTime,jdbcType=DATE},
+      active_train_end_time = #{activeTrainEndTime,jdbcType=DATE},
+      active_grade = #{activeGrade,jdbcType=VARCHAR},
       candidate_time = #{candidateTime,jdbcType=DATE},
-      train_time = #{trainTime,jdbcType=DATE},
+      candidate_train_start_time = #{candidateTrainStartTime,jdbcType=DATE},
+      candidate_train_end_time = #{candidateTrainEndTime,jdbcType=DATE},
+      candidate_grade = #{candidateGrade,jdbcType=VARCHAR},
       candidate_status = #{candidateStatus,jdbcType=TINYINT},
       plan_time = #{planTime,jdbcType=DATE},
       plan_status = #{planStatus,jdbcType=TINYINT},
       draw_time = #{drawTime,jdbcType=DATE},
       draw_status = #{drawStatus,jdbcType=TINYINT},
+      apply_sn = #{applySn,jdbcType=BIGINT},
+      grow_public_id = #{growPublicId,jdbcType=INTEGER},
       grow_time = #{growTime,jdbcType=DATE},
       grow_status = #{growStatus,jdbcType=TINYINT},
+      positive_public_id = #{positivePublicId,jdbcType=INTEGER},
       positive_time = #{positiveTime,jdbcType=DATE},
       positive_status = #{positiveStatus,jdbcType=TINYINT},
       is_remove = #{isRemove,jdbcType=BIT},

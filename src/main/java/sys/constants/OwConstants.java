@@ -81,6 +81,34 @@ public class OwConstants {
     public final static byte OW_RETIRE_APPLY_STATUS_UNCHECKED = 0; // 未审核
     public final static byte OW_RETIRE_APPLY_STATUS_CHECKED = 1; // 已审核
 
+    // 党员公示类别 1 发展党员公示 2 党员转正公示
+    public final static byte OW_PARTY_PUBLIC_TYPE_GROW = 1;
+    public final static byte OW_PARTY_PUBLIC_TYPE_POSITIVE = 2;
+    public final static Map<Byte, String> OW_PARTY_PUBLIC_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        OW_PARTY_PUBLIC_TYPE_MAP.put(OW_PARTY_PUBLIC_TYPE_GROW, "发展党员公示");
+        OW_PARTY_PUBLIC_TYPE_MAP.put(OW_PARTY_PUBLIC_TYPE_POSITIVE, "党员转正公示");
+    }
+
+    // 组织员类型 1 校级组织员 2 院系级组织员
+    public final static byte OW_ORGANIZER_TYPE_SCHOOL = 1;
+    public final static byte OW_ORGANIZER_TYPE_UNIT = 2;
+    public final static Map<Byte, String> OW_ORGANIZER_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        OW_ORGANIZER_TYPE_MAP.put(OW_ORGANIZER_TYPE_SCHOOL, "校级组织员");
+        OW_ORGANIZER_TYPE_MAP.put(OW_ORGANIZER_TYPE_UNIT, "院系级组织员");
+    }
+    // 组织员状态
+    public final static byte OW_ORGANIZER_STATUS_NOW = 1;
+    public final static byte OW_ORGANIZER_STATUS_HISTORY = 2;
+    public final static Map<Byte, String> OW_ORGANIZER_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        OW_ORGANIZER_STATUS_MAP.put(OW_ORGANIZER_STATUS_NOW, "现任");
+        OW_ORGANIZER_STATUS_MAP.put(OW_ORGANIZER_STATUS_HISTORY, "离任");
+    }
     // 组织关系状态
     public final static byte OW_OR_STATUS_OUT = 1;
     public final static byte OW_OR_STATUS_NOT_OUT = 2;
@@ -91,7 +119,7 @@ public class OwConstants {
         OW_OR_STATUS_MAP.put(OW_OR_STATUS_NOT_OUT, "未转出");
     }
 
-    // 党员各类申请的审批记录类型 1入党申请 2 留学归国申请 3 组织关系转入 4 流入党员申请 5 流出党员申请 6 组织关系转出 7 留学归国党员
+    // 党员各类申请的审批记录类型 1党员发展 2 留学归国申请 3 组织关系转入 4 流入党员申请 5 流出党员申请 6 组织关系转出 7 留学归国党员
     public final static byte OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY = 1;
     public final static byte OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD = 2;
     public final static byte OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN = 3;

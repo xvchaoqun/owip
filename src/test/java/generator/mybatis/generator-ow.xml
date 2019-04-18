@@ -31,11 +31,11 @@
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>
            -->
-         <table tableName="ow_member_in" domainObjectName="member.MemberIn">
+         <!--<table tableName="ow_member_in" domainObjectName="member.MemberIn">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
-        </table>
+        </table>-->
 
        <!-- <table tableName="ow_member_out" domainObjectName="member.MemberOut">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -103,7 +103,14 @@
         </table>-->
         <!--<table tableName="ow_apply_open_time" domainObjectName="member.ApplyOpenTime">
         </table>-->
-         <!--<table tableName="ow_member_apply" domainObjectName="member.MemberApply"
+         <!--<table tableName="ow_apply_sn_range" domainObjectName="member.ApplySnRange"
+                mapperName="member.ApplySnRangeMapper">
+         </table>-->
+         <!--<table tableName="ow_apply_sn" domainObjectName="member.ApplySn"
+                mapperName="member.ApplySnMapper">
+         </table>-->
+
+        <!-- <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
                 mapperName="member.MemberApplyMapper">
              <ignoreColumn column="update_time"/>
              <columnOverride column="remark" jdbcType="VARCHAR"/>
@@ -116,6 +123,8 @@
            <ignoreColumn column="update_time"/>
             <columnOverride column="remark" jdbcType="VARCHAR"/>
        </table>-->
+
+
         <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -129,11 +138,39 @@
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
 
-        <!--<table tableName="ow_party" domainObjectName="party.Party">
+        <!--<table tableName="ow_organizer_group" domainObjectName="party.OrganizerGroup"
+                mapperName="party.OrganizerGroupMapper">
+         </table>
+        <table tableName="ow_organizer" domainObjectName="party.Organizer"
+                mapperName="party.OrganizerMapper">
+         </table>-->
+
+        <table tableName="ow_party_public" domainObjectName="party.PartyPublic">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="pub_users" jdbcType="VARCHAR"/>
+        </table>
+       <!-- <table tableName="ow_party_public_user" domainObjectName="party.PartyPublicUser">
+        </table>
+
+        <table tableName="ow_party" domainObjectName="party.Party">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
          </table>
-           <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
+        <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
+                enableInsert="false" enableUpdateByPrimaryKey="false"
+                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+                enableDeleteByExample="false">
+               <columnOverride column="branch_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+               <columnOverride column="member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+               <columnOverride column="student_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+               <columnOverride column="teacher_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+               <columnOverride column="positive_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+               <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+               <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+               <columnOverride column="present_group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+         </table>-->
+
+          <!--  <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            </table>-->
        <!-- <table tableName="ow_party_member_group_view" domainObjectName="party.PartyMemberGroupView"
@@ -151,19 +188,7 @@
                <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
                <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
            </table>-->
-        <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-               <columnOverride column="branch_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="student_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="teacher_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="positive_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="present_group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-         </table>-->
+
         <!--<table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.quartz.QuartzManager;
 import sys.spring.Base64File;
-import sys.spring.RequestBase64;
+import sys.spring.RequestBase64Image;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -139,7 +139,7 @@ public class TestController extends BaseController {
     //@RequestMapping(value = "/base64", method = RequestMethod.POST)
     @RequestMapping(value = "/base64")
     @ResponseBody
-    public String base64(@RequestBase64 Base64File file, @RequestBase64 List<Base64File> file2) {
+    public String base64(@RequestBase64Image Base64File file, @RequestBase64Image List<Base64File> file2) {
         try {
             System.out.println(Arrays.toString(file.getBytes()));
 

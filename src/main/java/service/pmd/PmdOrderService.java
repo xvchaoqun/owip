@@ -290,8 +290,7 @@ public class PmdOrderService extends PmdBaseMapper {
         
         int userId = ShiroHelper.getCurrentUserId();
         SysUserView uv = sysUserService.findById(userId);
-        if (uv.getSource() == SystemConstants.USER_SOURCE_ADMIN
-                || uv.getSource() == SystemConstants.USER_SOURCE_REG) {
+        if (!uv.isCasUser()) {
             throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
         }
         
@@ -453,8 +452,7 @@ public class PmdOrderService extends PmdBaseMapper {
             throw new OpException("操作失败，请您重新登录系统后再试。");
         }
         
-        if (uv.getSource() == SystemConstants.USER_SOURCE_ADMIN
-                || uv.getSource() == SystemConstants.USER_SOURCE_REG) {
+        if (!uv.isCasUser()) {
             throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
         }
         

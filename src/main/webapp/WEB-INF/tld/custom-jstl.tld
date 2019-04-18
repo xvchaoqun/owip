@@ -229,17 +229,17 @@
 
 	<function>
 		<name>toJSONObject</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.utils.TagUtils</function-class>
 		<function-signature>java.lang.String toJSONObject(java.lang.Object)</function-signature>
 	</function>
 	<function>
 		<name>toJSONArray</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.utils.TagUtils</function-class>
 		<function-signature>java.lang.String toJSONArray(java.util.List)</function-signature>
 	</function>
 	<function>
 		<name>toJSONArrayWithFilter</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.utils.TagUtils</function-class>
 		<function-signature>java.lang.String toJSONArray(java.util.List, java.lang.String)</function-signature>
 	</function>
 	<function>
@@ -401,5 +401,15 @@
 		<name>divide</name>
 		<function-class>sys.utils.NumberUtils</function-class>
 		<function-signature>java.math.BigDecimal divide(java.math.BigDecimal,java.math.BigDecimal, java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>base64Encode</name>
+		<function-class>sys.utils.Base64Utils</function-class>
+		<function-signature>java.lang.String encodeStr(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>base64Decode</name>
+		<function-class>sys.utils.Base64Utils</function-class>
+		<function-signature>java.lang.String decodeStr(java.lang.String)</function-signature>
 	</function>
 </taglib>

@@ -21,6 +21,8 @@ public class SystemConstants {
         if ("SystemClosedException".equals(message)) {
 
             resultMap.put("msg", "参评人员测评未开启");
+        } else if ("NeedCASLoginException".equals(message)) {
+            resultMap.put("msg", "请点击【单点登录】按钮进行登录");
         } else if ("IncorrectCredentialsException".equals(message)) {
             resultMap.put("msg", "账号或密码错误");
         } else if ("UnknownAccountException".equals(message)) {
@@ -34,7 +36,7 @@ public class SystemConstants {
         } else if ("InspectorFinishException".equals(message)) {
             resultMap.put("msg", "该账号已经测评完成");
         } else if ("SSOException".equals(message)) {
-            resultMap.put("msg", "单点登录服务器错误，请稍后重试");
+            resultMap.put("msg", "单点登录服务器异常，请稍后重试");
         } else {
             resultMap.put("msg", "系统错误");
         }
@@ -289,6 +291,23 @@ public class SystemConstants {
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_OA, "协同办公");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_CET, "干部教育培训");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_SC_PASSPORT, "干部选拔任用-新任干部提交证件");
+    }
+
+    // 系统资源类型，备用字段，1 字符串 2 整数 3 布尔值 4 时间 5 图片
+    public final static byte SYS_PROPERTY_TYPE_STRING = 1;
+    public final static byte SYS_PROPERTY_TYPE_INT = 2;
+    public final static byte SYS_PROPERTY_TYPE_BOOL = 3;
+    public final static byte SYS_PROPERTY_TYPE_DATE = 4;
+    public final static byte SYS_PROPERTY_TYPE_PIC = 5;
+
+    public final static Map<Byte, String> SYS_PROPERTY_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        SYS_PROPERTY_TYPE_MAP.put(SYS_PROPERTY_TYPE_STRING, "字符串");
+        SYS_PROPERTY_TYPE_MAP.put(SYS_PROPERTY_TYPE_INT, "整数");
+        SYS_PROPERTY_TYPE_MAP.put(SYS_PROPERTY_TYPE_BOOL, "布尔值");
+        SYS_PROPERTY_TYPE_MAP.put(SYS_PROPERTY_TYPE_DATE, "时间");
+        SYS_PROPERTY_TYPE_MAP.put(SYS_PROPERTY_TYPE_PIC, "图片");
     }
 
     // 操作记录类型

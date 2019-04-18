@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
+<c:set var="member_needGrowTime" value="${_pMap['member_needGrowTime']=='true'}"/>
 <div style="width: 900px">
 <h3>${op}党员</h3>
 <hr/>
@@ -117,10 +119,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">入党时间</label>
+                <label class="col-xs-4 control-label">${member_needGrowTime?'<span class="star">*</span>':''} 入党时间</label>
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_growTime" type="text"
+                        <input ${member_needGrowTime?'required':''} class="form-control date-picker" name="_growTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(member.growTime,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -137,9 +139,9 @@
         </div>
         <div class="col-xs-5">
             <div class="form-group">
-                <label class="col-xs-3 control-label">转正时间</label>
+                <label class="col-xs-3 control-label">${member_needGrowTime&&member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'<span class="star">*</span>':''} 转正时间</label>
                 <div class="col-xs-8">
-                    <div class="input-group" style="width: 150px">
+                    <div ${member_needGrowTime&&member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'required':''} class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_positiveTime" type="text"
                                data-date-format="yyyy-mm-dd"
                                value="${cm:formatDate(member.positiveTime,'yyyy-MM-dd')}"/>
@@ -217,6 +219,23 @@
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'), {endDate: '${_today}'});
+
+    <c:if test="${member_needGrowTime}">
+    $("#modalForm select[name=politicalStatus]").change(function(){
+
+        var politicalStatus = $(this).val();
+        if(politicalStatus=='${MEMBER_POLITICAL_STATUS_POSITIVE}'){
+            $("#modalForm input[name=_positiveTime]").closest(".form-group")
+                .find("label").html('<span class="star">*</span> 转正时间');
+             $("#modalForm input[name=_positiveTime]").attr("required", "required")
+        }else{
+            $("#modalForm input[name=_positiveTime]").closest(".form-group")
+                .find(".star").remove();
+            $("#modalForm input[name=_positiveTime]").removeAttr("required")
+        }
+    })
+    </c:if>
+
     $("#body-content-view button[type=submit]").click(function () {
         $("#modalForm").submit();
         return false;

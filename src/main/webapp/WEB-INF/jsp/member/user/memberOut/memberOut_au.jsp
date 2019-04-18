@@ -57,7 +57,7 @@
 							<div class="col-xs-7">
 								<textarea required class="form-control limited"
 										  rows="4" type="text" name="toTitle">${memberOut.toTitle}</textarea>
-								<span class="green">注：如果类别是京外，则抬头必须是区县级以上组织部门</span>
+								<span class="green">${_pMap['memberOut_toTitle_remark']}</span>
 							</div>
 						</div>
 						<div class="form-group">

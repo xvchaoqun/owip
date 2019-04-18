@@ -46,7 +46,7 @@
             $("#modalForm textarea[name=sql]").focus();
             return;
         }
-        $.post("${ctx}/system/sql",{sql:new Base64().encode($.trim(sql))},function(ret){
+        $.post("${ctx}/system/sql",{sql:$.base64.encode($.trim(sql))},function(ret){
             if (ret.msg == "success") {
                 $("#result").html(_.template($("#result_tpl").html().NoMultiSpace())({
                     lines: ret.lines

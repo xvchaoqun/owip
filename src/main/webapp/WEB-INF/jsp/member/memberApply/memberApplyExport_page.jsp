@@ -6,15 +6,12 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
-
             <div class="widget-box transparent">
                 <div class="widget-header">
-                    <div class="widget-toolbar no-border">
                         <jsp:include page="/WEB-INF/jsp/member/memberApply/menu.jsp"/>
-                    </div>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right" style="padding-top: 5px;">
                         <div class="tab-content padding-4">
                             <div class="tab-pane in active">
                                 <div class="widget-box">

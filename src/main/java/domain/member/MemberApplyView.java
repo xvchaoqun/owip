@@ -1,6 +1,8 @@
 package domain.member;
 
+import domain.party.PartyPublic;
 import domain.sys.SysUserView;
+import service.party.PartyPublicService;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
@@ -14,6 +16,24 @@ public class MemberApplyView implements Serializable {
     public String getApplyStatus(){
         return PartyHelper.getApplyStatus(this);
     }
+
+    public PartyPublic getGrowPublic(){
+
+        if(growPublicId!=null){
+            PartyPublicService partyPublicService = CmTag.getBean(PartyPublicService.class);
+            return partyPublicService.get(growPublicId);
+        }
+        return null;
+    }
+    public PartyPublic getPositivePublic(){
+
+        if(positivePublicId!=null){
+            PartyPublicService partyPublicService = CmTag.getBean(PartyPublicService.class);
+            return partyPublicService.get(positivePublicId);
+        }
+        return null;
+    }
+
     private Integer userId;
 
     private Integer partyId;
@@ -36,9 +56,19 @@ public class MemberApplyView implements Serializable {
 
     private Date activeTime;
 
+    private Date activeTrainStartTime;
+
+    private Date activeTrainEndTime;
+
+    private String activeGrade;
+
     private Date candidateTime;
 
-    private Date trainTime;
+    private Date candidateTrainStartTime;
+
+    private Date candidateTrainEndTime;
+
+    private String candidateGrade;
 
     private Byte candidateStatus;
 
@@ -50,9 +80,15 @@ public class MemberApplyView implements Serializable {
 
     private Byte drawStatus;
 
+    private Long applySn;
+
+    private Integer growPublicId;
+
     private Date growTime;
 
     private Byte growStatus;
+
+    private Integer positivePublicId;
 
     private Date positiveTime;
 
@@ -65,6 +101,10 @@ public class MemberApplyView implements Serializable {
     private Byte status;
 
     private Integer memberStatus;
+
+    private Integer partySortOrder;
+
+    private Integer branchSortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -156,6 +196,30 @@ public class MemberApplyView implements Serializable {
         this.activeTime = activeTime;
     }
 
+    public Date getActiveTrainStartTime() {
+        return activeTrainStartTime;
+    }
+
+    public void setActiveTrainStartTime(Date activeTrainStartTime) {
+        this.activeTrainStartTime = activeTrainStartTime;
+    }
+
+    public Date getActiveTrainEndTime() {
+        return activeTrainEndTime;
+    }
+
+    public void setActiveTrainEndTime(Date activeTrainEndTime) {
+        this.activeTrainEndTime = activeTrainEndTime;
+    }
+
+    public String getActiveGrade() {
+        return activeGrade;
+    }
+
+    public void setActiveGrade(String activeGrade) {
+        this.activeGrade = activeGrade == null ? null : activeGrade.trim();
+    }
+
     public Date getCandidateTime() {
         return candidateTime;
     }
@@ -164,12 +228,28 @@ public class MemberApplyView implements Serializable {
         this.candidateTime = candidateTime;
     }
 
-    public Date getTrainTime() {
-        return trainTime;
+    public Date getCandidateTrainStartTime() {
+        return candidateTrainStartTime;
     }
 
-    public void setTrainTime(Date trainTime) {
-        this.trainTime = trainTime;
+    public void setCandidateTrainStartTime(Date candidateTrainStartTime) {
+        this.candidateTrainStartTime = candidateTrainStartTime;
+    }
+
+    public Date getCandidateTrainEndTime() {
+        return candidateTrainEndTime;
+    }
+
+    public void setCandidateTrainEndTime(Date candidateTrainEndTime) {
+        this.candidateTrainEndTime = candidateTrainEndTime;
+    }
+
+    public String getCandidateGrade() {
+        return candidateGrade;
+    }
+
+    public void setCandidateGrade(String candidateGrade) {
+        this.candidateGrade = candidateGrade == null ? null : candidateGrade.trim();
     }
 
     public Byte getCandidateStatus() {
@@ -212,6 +292,22 @@ public class MemberApplyView implements Serializable {
         this.drawStatus = drawStatus;
     }
 
+    public Long getApplySn() {
+        return applySn;
+    }
+
+    public void setApplySn(Long applySn) {
+        this.applySn = applySn;
+    }
+
+    public Integer getGrowPublicId() {
+        return growPublicId;
+    }
+
+    public void setGrowPublicId(Integer growPublicId) {
+        this.growPublicId = growPublicId;
+    }
+
     public Date getGrowTime() {
         return growTime;
     }
@@ -226,6 +322,14 @@ public class MemberApplyView implements Serializable {
 
     public void setGrowStatus(Byte growStatus) {
         this.growStatus = growStatus;
+    }
+
+    public Integer getPositivePublicId() {
+        return positivePublicId;
+    }
+
+    public void setPositivePublicId(Integer positivePublicId) {
+        this.positivePublicId = positivePublicId;
     }
 
     public Date getPositiveTime() {
@@ -274,5 +378,21 @@ public class MemberApplyView implements Serializable {
 
     public void setMemberStatus(Integer memberStatus) {
         this.memberStatus = memberStatus;
+    }
+
+    public Integer getPartySortOrder() {
+        return partySortOrder;
+    }
+
+    public void setPartySortOrder(Integer partySortOrder) {
+        this.partySortOrder = partySortOrder;
+    }
+
+    public Integer getBranchSortOrder() {
+        return branchSortOrder;
+    }
+
+    public void setBranchSortOrder(Integer branchSortOrder) {
+        this.branchSortOrder = branchSortOrder;
     }
 }

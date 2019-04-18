@@ -82,8 +82,6 @@
     $("#modalForm").validate({
         submitHandler: function (form) {
 
-            var base64 = new Base64()
-
             var codes=[], tables=[], tableIdNames=[], names=[], originals=[], modifys=[], types=[];
             $("*[data-code]").each(function(){
                 codes.push($(this).data("code"));
@@ -94,8 +92,8 @@
                 var mod = $(this).val()
                 //console.log(ori + "=" + mod)
                 //console.log(base64.encode(ori+"") + "=" + base64.encode(mod+""))
-                originals.push(base64.encode(ori+''));
-                modifys.push(base64.encode(mod+''));
+                originals.push($.base64.encode(ori+''));
+                modifys.push($.base64.encode(mod+''));
                 types.push($(this).data("type"));
             })
             //console.log(codes)

@@ -318,7 +318,7 @@
             //console.log(items)
             //return;
             $(form).ajaxSubmit({
-                data: {items: new Base64().encode(JSON.stringify(items))},
+                data: {items: $.base64.encode(JSON.stringify(items))},
                 success: function (ret) {
                     if (ret.success) {
                         $.hideView();
