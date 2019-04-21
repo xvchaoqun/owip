@@ -78,12 +78,12 @@
         pager:"jqGridPager2",
         url: "${ctx}/${param.type=='user'?'user/':''}abroad/passportDraw_data?callback=?&passportId=${passport.id}&year=${param.year}",
         colModel: [
-            { label: '申请日期', name: 'applyDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label: '申请日期', name: 'applyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             { label: '申请编码', name: 'id', width: 75, formatter:function(cellvalue, options, rowObject){
                 return 'D{0}'.format(cellvalue);
             } },
             { label: '用途', name:'type', width: 150 , formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 return _cMap.ABROAD_PASSPORT_DRAW_TYPE_MAP[cellvalue];
             }},
             { label: '行程',  name: 'applyId', width: 75 , formatter:function(cellvalue, options, rowObject){
@@ -95,14 +95,14 @@
                 if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}')
                     return $.date(rowObject.applySelf.startDate, "yyyy-MM-dd");
                 if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_OTHER}')
-                    return '-';
+                    return '--';
                 return cellvalue;
             }},
             { label: '回国时间', name: 'endDate'  , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}')
                     return $.date(rowObject.applySelf.endDate, "yyyy-MM-dd");
                 if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_OTHER}')
-                    return '-';
+                    return '--';
                 return cellvalue;
             }},
             { label: '前往国家或地区', name: 'realToCountry',width: 150 , formatter:function(cellvalue, options, rowObject){
@@ -111,17 +111,17 @@
                 /*if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_TW}')
                     return '台湾';
                 if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_OTHER}')
-                    return '-';
+                    return '--';
                 return cellvalue;*/
-                return '-';
+                return '--';
             }},
             { label:'因私出国境事由', name: 'reason', width: 150, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}')
                     return rowObject.applySelf.reason.replace(/\+\+\+/g, ',');;
                 return cellvalue;
             } },
-            { label:'借出日期', name: 'drawTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label:'归还日期', name: 'realReturnDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} }
+            { label:'借出日期', name: 'drawTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label:'归还日期', name: 'realReturnDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} }
         ],
         gridComplete:function(){
             $(window).triggerHandler('resize.jqGrid2');

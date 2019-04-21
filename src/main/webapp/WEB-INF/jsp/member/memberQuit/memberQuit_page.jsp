@@ -265,15 +265,15 @@
                 return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
             {label: '性别', name: 'user.gender', frozen:true, formatter:$.jgrid.formatter.GENDER},
-            {label: '出生年月', name: 'user.birth', frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '入党时间', name: 'growTime', frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出生年月', name: 'user.birth', frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '入党时间', name: 'growTime', frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '所属组织机构', name: 'from',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
-            {label: '减员时间', name: 'quitTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '减员时间', name: 'quitTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '减员原因', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_QUIT_TYPE_MAP[rowObject.type];
             }},{label: '当前状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {

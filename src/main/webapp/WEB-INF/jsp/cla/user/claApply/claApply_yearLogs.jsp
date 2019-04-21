@@ -42,9 +42,9 @@
             { label: '序号', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "L{0}".format(rowObject.id);
             },frozen:true},
-            { label: '申请日期', name: 'applyDate',frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label: '出发时间', name: 'startTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'} },
-            { label: '返回时间', name: 'endTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'} },
+            { label: '申请日期', name: 'applyDate',frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label: '出发时间', name: 'startTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:i'} },
+            { label: '返回时间', name: 'endTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:i'} },
             { label: '出行天数', name: 'day', width: 80,formatter:function(cellvalue, options, rowObject){
                 return $.dayDiff(rowObject.startTime, rowObject.endTime);
             }},

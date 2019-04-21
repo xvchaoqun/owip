@@ -80,8 +80,8 @@
         colModel: [
             {label: '年份', name: 'year',width:80, frozen: true},
             {label: '干部任免文件', name: '_dispatches', width: 200},
-            {label: '任免日期', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '通知日期', name: 'infoDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任免日期', name: 'workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '通知日期', name: 'infoDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '发人事处通知', name: '_hr', width: 200},
             {label: '发财经处通知', name: '_fe', width: 200},
             { label: '备注',name: 'remark', width:300, align:'left'}

@@ -31,7 +31,7 @@
             },
             /*{label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
 
-                if (rowObject.cetCourse.hasSummary==false) return '-'
+                if (rowObject.cetCourse.hasSummary==false) return '--'
 
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
                 'data-url="${ctx}/cet/cetCourse_summary?id={0}&view=1"><i class="fa fa-search"></i> 查看</button>')
@@ -40,25 +40,25 @@
             {label: '主讲人', name: 'cetCourse.cetExpert.realname', frozen:true},
             {label: '学时', name: 'cetCourse.period', width: 70},
             { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetTraineeCourseView==undefined) return '-'
+                if(rowObject.cetTraineeCourseView==undefined) return '--'
                 return rowObject.cetTraineeCourseView.canQuit?("<span class='{0}'>可选</span>").format(rowObject.cetTraineeCourseView.isFinished?"text-success bolder":"text-default"):
                         ("<span class='{0} bolder'>必选</span>").format(rowObject.cetTraineeCourseView.isFinished?"text-success":"text-danger");
             }},
             { label: '选课时间',name: 'cetTraineeCourseView.chooseTime', width: 160, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetTraineeCourseView==undefined) return '-'
+                if(rowObject.cetTraineeCourseView==undefined) return '--'
                 return rowObject.cetTraineeCourseView.chooseTime;
             }},
             { label: '选课操作人',name: 'cetTraineeCourseView.chooseUserId', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return cellvalue=='${sysUser.id}'?'本人':rowObject.cetTraineeCourseView.chooseUserName;
             }},
             { label: '签到情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetTraineeCourseView==undefined) return '-'
+                if(rowObject.cetTraineeCourseView==undefined) return '--'
                 return rowObject.cetTraineeCourseView.isFinished?("<span class='text-success'>按时签到</span>")
                         :("<span class='text-danger'>未签到</span>");
             }},
             { label: '完成学时数',name: '_finish', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetTraineeCourseView==undefined) return '-'
+                if(rowObject.cetTraineeCourseView==undefined) return '--'
                 return rowObject.cetTraineeCourseView.isFinished?rowObject.cetCourse.period:'0';
             }}
         ]

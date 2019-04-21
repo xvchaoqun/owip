@@ -240,17 +240,17 @@ pageEncoding="UTF-8" %>
             { label: '证件名称', name: 'passportClass.name', width: 200 },
             { label: '证件号码', name: 'code' },
             { label: '证件首页', name: '_pic', width: 80, formatter:function(cellvalue, options, rowObject){
-                if($.trim(rowObject.pic)=='') return '-'
+                if($.trim(rowObject.pic)=='') return '--'
                 return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
                         .format(encodeURI(rowObject.pic), rowObject.code + ".jpg");
             } },
             { label:'发证机关',name: 'authority', width: 180},
-            { label:'发证日期', name: 'issueDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label:'有效期', name: 'expiryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'发证日期', name: 'issueDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label:'有效期', name: 'expiryDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             { label:'集中管理日期', name: 'keepDate', width: 120, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 else if(rowObject.type=='${ABROAD_PASSPORT_TYPE_LOST}'&&cellvalue>rowObject.lostTime) {
-                    return '';
+                    return '--';
                 }
                 return $.date(cellvalue, "yyyy-MM-dd")
             }  },
@@ -265,14 +265,14 @@ pageEncoding="UTF-8" %>
                 } }},
             </c:if>
             <c:if test="${status==4}">
-            { label:'取消集中保管日期', name: 'cancelTime', width: 140, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'取消集中保管日期', name: 'cancelTime', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             </c:if>
             <c:if test="${status==ABROAD_PASSPORT_TYPE_LOST}">
-            { label:'登记丢失日期', name: 'lostTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'登记丢失日期', name: 'lostTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             </c:if>
             <c:if test="${status==2||status==4}">
             { label:'取消集中保管原因', name: 'cancelType', width: 140, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 var ret = _cMap.ABROAD_PASSPORT_CANCEL_TYPE_MAP[cellvalue];
                 if(cellvalue=='${ABROAD_PASSPORT_CANCEL_TYPE_OTHER}'){
                     if(rowObject.cancelTypeOther!=''){

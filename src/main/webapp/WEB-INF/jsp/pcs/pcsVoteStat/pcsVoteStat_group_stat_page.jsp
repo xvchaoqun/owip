@@ -44,7 +44,7 @@
         colModel: [
             {
                 label: '录入计票数据', name: 'hasReport', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
 
                 return cellvalue?('<button class="openView btn btn-success btn-xs" ' +
                 'data-url="${ctx}/pcsVoteGroup_record?groupId={0}&type=${param.type}"><i class="fa fa-search"></i> 已报送</button>')
@@ -58,7 +58,7 @@
                     return ('<button class="downloadBtn btn btn-warning btn-xs" ' +
                     'data-url="${ctx}/pcsVoteCandidate_export?cls=0&groupId={0}"><i class="fa fa-download"></i> 导出</button>')
                             .format(rowObject.id);
-                return '-'
+                return '--'
             }, frozen: true
             },
             { label: '退回',name: 'reportId', formatter: function (cellvalue, options, rowObject) {

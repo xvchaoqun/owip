@@ -111,7 +111,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/pmd/pmdMonth_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},
+            {label: '月份', name: 'payMonth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y年m月'}, frozen: true},
             {
                 label: '启动', name: '_start', width:150, formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject) == false) {
@@ -132,7 +132,7 @@
                         .format(rowObject.id);
             }, frozen: true
             },
-            {label: '结算时间', name: 'endTime', width:150, formatter: 'date',
+            {label: '结算时间', name: 'endTime', width:150, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}, frozen: true},
             {
                 label: '对账和报表', name: '_report', formatter: function (cellvalue, options, rowObject) {

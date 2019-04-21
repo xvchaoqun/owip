@@ -130,7 +130,7 @@
                 return $.swfPreview(rowObject.filePath, _num);
             }, frozen: true},
             {label: '党委常委会<br/>日期', name: 'holdDate', width: 95,
-                formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             { label: '议题名称',name: 'name', width: 400, align:'left'},
             {
                 label: '议题内容和<br/>讨论备忘', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -149,11 +149,11 @@
                         return "class='warning'";
                 }},
             {label: '原任职务', name: 'originalPost', width: 150,align:'left', formatter: function (cellvalue, options, rowObject) {
-                if($.trim(cellvalue)=='') return '-'
+                if($.trim(cellvalue)=='') return '--'
                 return cellvalue;
             }},
             {label: '原任职务<br/>任职时间', name: 'originalPostTime', width: 90, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return $.date(cellvalue, "yyyy-MM-dd");
             }},
             { label:'干部类型', name: 'cadreTypeId', formatter: $.jgrid.formatter.MetaType},
@@ -170,14 +170,14 @@
             }},
             {
                 label: '实际参会<br/>常委数', name: 'count', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==0) return '-'
+                if(cellvalue==0) return '--'
                 return ('<a href="javascript:;" class="popupBtn bolder" ' +
                 'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=0"><u>{1}</u></a>')
                         .format(rowObject.committeeId, cellvalue);
             }},
             {
                 label: '请假<br/>常委数', name: 'absentCount', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==0) return '-'
+                if(cellvalue==0) return '--'
                 return ('<a href="javascript:;" class="popupBtn bolder" ' +
                 'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1"><u>{1}</u></a>')
                         .format(rowObject.committeeId, cellvalue);
@@ -186,7 +186,7 @@
             {label: '表决<br/>反对票数', name: 'disagreeCount', width: 80},
             {label: '表决<br/>弃权票数', name: 'abstainCount', width: 80},
             { label: '列席人',name: 'attendUsers', width: 140, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.attendUsers==undefined) return '-';
+                if(rowObject.attendUsers==undefined) return '--';
                 if(rowObject.attendUsers.length<=8) return cellvalue;
                 return rowObject.attendUsers.substring(0,8) + "...";
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
@@ -195,11 +195,11 @@
             }},
             /*{ label: '列席人',name: 'attendUsers', width: 400,align:'left'},*/
             {label: '表决票', name: 'voteFilePath', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.voteFilePath==undefined) return '-';
+                if(rowObject.voteFilePath==undefined) return '--';
                 return $.swfPreview(rowObject.voteFilePath, '表决票', '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 查看</button>');
             }},
             {label: '会议记录', name: 'logFile', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.logFile==undefined) return '-';
+                if(rowObject.logFile==undefined) return '--';
                 return $.swfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
             {label: '备注', name: 'remark', width:300}

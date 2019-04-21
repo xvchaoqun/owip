@@ -205,7 +205,7 @@ pageEncoding="UTF-8" %>
             }, frozen:true},
             </c:if>
             { label: '提案编号',name: 'code', frozen:true},
-            { label: '提交日期',name: 'createTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            { label: '提交日期',name: 'createTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
             <c:if test="${!(cls==1 && module==1)}">
             { label: '提案人姓名',name: 'user.realname', frozen:true},
                 </c:if>
@@ -225,12 +225,12 @@ pageEncoding="UTF-8" %>
             </c:if>
                 <c:if test="${cls!=2}">
             { label: '状态',name: '_status', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.status == undefined) return '-';
+                if (rowObject.status == undefined) return '--';
                 return _cMap.PCS_PROPOSAL_STATUS_MAP[rowObject.status]
             }},
             </c:if>
             { label: '附议人',name: '_seconders', width:80, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.seconderIds)=='') return '-';
+                if($.trim(rowObject.seconderIds)=='') return '--';
                 return ('<a href="javascript:;" class="popupBtn" data-url="${ctx}/pcsProposal_seconders?id={0}">{1}</a>')
                         .format(rowObject.id, rowObject.seconderIds.split(",").length);
             }},
@@ -240,7 +240,7 @@ pageEncoding="UTF-8" %>
                 return rowObject.seconderIds.split(",").length>=${proposalSupportCount}?"是":"否";
             }},
             { label: '提案委员会处理',name: 'createTime', width:120, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.seconderIds)=='') return '-';
+                if($.trim(rowObject.seconderIds)=='') return '--';
                 return rowObject.seconderIds.split(",").length>=${proposalSupportCount}?"处理意见":"-";
             }},
                 </c:if>
@@ -251,7 +251,7 @@ pageEncoding="UTF-8" %>
             { label: '备注',name: '_remark', width:180, formatter: function (cellvalue, options, rowObject) {
                 var inviteUserIds = $.trim(rowObject.inviteUserIds);
                 if(inviteUserIds.split(",").indexOf('${_user.id}')>-1) return '提案人邀请附议'
-                return '-'
+                return '--'
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
                 <c:if test="${cls!=1}">
                 var inviteUserIds = $.trim(rowObject.inviteUserIds);

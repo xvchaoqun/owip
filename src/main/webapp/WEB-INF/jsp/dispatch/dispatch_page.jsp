@@ -230,8 +230,8 @@
                         .format(rowObject.scDispatch.id, str);
             }
             },
-            {label: '党委常委会<br/>日期', name: 'meetingTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '发文日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会<br/>日期', name: 'meetingTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '发文日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '任免日期', name: 'workTime', formatter: function (cellvalue, options, rowObject) {
 
                 if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
@@ -243,25 +243,25 @@
 
                 if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
                     return "--"
-                return $.jgrid.formatter.defaultString(cellvalue);
+                return cellvalue||'--';
             }},
             {label: '录入<br/>任命人数', width: 80, name: 'realAppointCount', formatter: function (cellvalue, options, rowObject) {
 
                 if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
                     return "--"
-                return $.jgrid.formatter.defaultString(cellvalue);
+                return cellvalue||'--';
             }},
             {label: '免职人数', name: 'dismissCount', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                 if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
                     return "--"
-                return $.jgrid.formatter.defaultString(cellvalue);
+                return cellvalue||'--';
             }},
             {label: '录入<br/>免职人数', width: 80, name: 'realDismissCount', formatter: function (cellvalue, options, rowObject) {
 
                 if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
                     return "--"
-                return $.jgrid.formatter.defaultString(cellvalue);
+                return cellvalue||'--';
             }},
             {
                 label: '是否<br/>全部录入', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -276,7 +276,7 @@
                 label: '是否<br/>复核', name: 'hasChecked', width: 65, formatter: function (cellvalue, options, rowObject) {
                     if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
                     return "--"
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return cellvalue ? "已复核" : "否";
             }
             },
@@ -288,7 +288,7 @@
                         .format(encodeURI(rowObject.file), encodeURI(rowObject.fileName))
                             + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'
                             + 'data-id="{0}" data-type="file">删除</a>'.format(rowObject.id);
-                else return '';
+                else return '--';
             }
             },*/
             {

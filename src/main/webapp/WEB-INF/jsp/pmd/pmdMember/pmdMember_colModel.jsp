@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
 <script>
   var colModel = [
-    {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},
+    {label: '月份', name: 'payMonth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y年m月'}, frozen: true},
     <c:if test="${param.type!='admin' && cls!=6}">
     {label: '缴费', name: '_pay', formatter: function (cellvalue, options, rowObject) {
       // 能缴费的情况：已开启缴费 且 党支部未报送  且 还未缴费  且 当月的没有设置为延迟缴费
@@ -12,7 +12,7 @@
                   && $.trim(rowObject.duePay)==''){
               return '<span style="font-size: 11px;">支部管理员<br/>未设定额度</span>'
           }
-          return '-';
+          return '--';
       }
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
               'data-url="${ctx}/user/pmd/payConfirm?id={0}"><i class="fa fa-rmb"></i> {1}</button>')
@@ -31,7 +31,7 @@
           return (rowObject.isOnlinePay)?'线上缴费':'<span class="text-success bolder">现金缴费</span>';
       }, frozen: true},
     { label: '缴费状态',name: '_hasPay', formatter: function (cellvalue, options, rowObject) {
-        if(!rowObject.isOnlinePay) return '-'
+        if(!rowObject.isOnlinePay) return '--'
         <c:if test="${param.self!=1}">
         return rowObject.pmdMemberPayView.hasPay?('<span class="text-success">'+ (rowObject.pmdMemberPayView.isDelay?'补缴已确认':'缴费已确认') + '</span>')
                 :'<span class="text-danger">未缴费</span>';
@@ -44,7 +44,7 @@
     { label: '按时/延迟缴费',name: '_isDelay', width: 120, formatter: function (cellvalue, options, rowObject) {
 
       if(rowObject.isDelay) return '延迟缴费'
-      if(!rowObject.isOnlinePay) return '-'
+      if(!rowObject.isOnlinePay) return '--'
       return (rowObject.hasPay)?"按时缴费":"-";
     }, frozen: true},
     { label: '学工号',name: 'user.code', width: 120/*, formatter:function(cellvalue, options, rowObject){
@@ -79,12 +79,12 @@
     <c:if test="${cls==1||cls==2||cls==5}">
     { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
 
-        if(rowObject.monthId!='${_pmdMonth.id}' || rowObject.hasPay) return '-'
+        if(rowObject.monthId!='${_pmdMonth.id}' || rowObject.hasPay) return '--'
         if(rowObject.pmdConfigMember==undefined
                 ||rowObject.pmdConfigMember.pmdConfigMemberType==undefined
                 ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return "-";
 
-        if(rowObject.pmdConfigMember.hasReset) return '-'
+        if(rowObject.pmdConfigMember.hasReset) return '--'
 
         if(rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm.setType == ${PMD_NORM_SET_TYPE_SET}){
             return ('<button class="popupBtn btn btn-success btn-xs" ' +
@@ -92,7 +92,7 @@
                     .format(rowObject.id, rowObject.type)
         }
 
-        return '-'
+        return '--'
     }},
     </c:if>
     </c:if>
@@ -101,23 +101,23 @@
     </c:if>
     { label: '实交金额',name: 'realPay'},
     { label: '线上缴费方式',name: 'isSelfPay', width: 120, formatter: function (cellvalue, options, rowObject) {
-      if(!rowObject.hasPay || !rowObject.isOnlinePay) return '-'
+      if(!rowObject.hasPay || !rowObject.isOnlinePay) return '--'
       return cellvalue?"线上缴费":"代缴党费";
     }},
     <c:if test="${param.type!='admin' && cls==6}">
     { label: '缴费订单号',name: '_orderNo', width: 180, formatter: function (cellvalue, options, rowObject) {
-      if(rowObject.pmdMemberPayView==undefined) return '-'
+      if(rowObject.pmdMemberPayView==undefined) return '--'
       return $.trim(rowObject.pmdMemberPayView.orderNo);
     }},
       </c:if>
     <c:if test="${param.type=='admin'}">
     { label: '缴费订单号',name: '_orderNo', width: 180, formatter: function (cellvalue, options, rowObject) {
-      if(rowObject.pmdMemberPayView==undefined) return '-'
+      if(rowObject.pmdMemberPayView==undefined) return '--'
       return $.trim(rowObject.pmdMemberPayView.orderNo);
     }},
     { label: '订单生成人',name: '_orderUser', width: 120, formatter: function (cellvalue, options, rowObject) {
       if(rowObject.pmdMemberPayView==undefined ||
-              rowObject.pmdMemberPayView.orderUser==undefined) return '-';
+              rowObject.pmdMemberPayView.orderUser==undefined) return '--';
       var str = rowObject.pmdMemberPayView.orderUser.realname;
 
       /*if(!rowObject.hasPay){
@@ -132,14 +132,14 @@
       return str;
     }},
     </c:if>
-    { label: '缴费日期',name: 'payTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+    { label: '缴费日期',name: 'payTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
     { label: '代缴人',name: 'chargeUser.realname', formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return ''
-      if(rowObject.isSelfPay) return '-'
+      if(rowObject.isSelfPay) return '--'
       return $.trim(cellvalue);
     }},
     { label: '备注',name: 'delayReason', width: 400, formatter: function (cellvalue, options, rowObject) {
-      if(!rowObject.isDelay) return '-'
+      if(!rowObject.isDelay) return '--'
       return "延迟缴费：" + $.trim(cellvalue);
     }},{hidden: true, name: 'normType'}, {hidden: true, name: 'hasPay'},
     {hidden: true, name: 'isOnlinePay'}, {hidden: true, name: 'isDelay'}, {hidden: true, name: 'monthId'},

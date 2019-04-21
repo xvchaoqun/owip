@@ -71,7 +71,7 @@
                 return (_applyStatus(rowObject)!='参加招聘会')?"-":cellvalue;
             }},
             {label: '专家推荐排名', name: 'isFirst', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if(_applyStatus(rowObject)!='参加招聘会' || cellvalue==undefined) return '-'
+                if(_applyStatus(rowObject)!='参加招聘会' || cellvalue==undefined) return '--'
                 return cellvalue?"排名第1":"排名第2";
             }},
             {label: '专家组人数', name: 'expertCount', width: 120, formatter: function (cellvalue, options, rowObject) {

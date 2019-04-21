@@ -30,7 +30,7 @@
         rowNum: scCommitteeVotes.length,
         data: scCommitteeVotes,
         colModel: [
-            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             { label:'类别', name: 'type', width: 80, formatter:function(cellvalue, options, rowObject){
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
             },frozen:true },

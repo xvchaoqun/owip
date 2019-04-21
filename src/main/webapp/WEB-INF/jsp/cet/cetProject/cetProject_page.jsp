@@ -131,7 +131,7 @@ pageEncoding="UTF-8" %>
                         .format(rowObject.id);
             }, frozen: true},
             {label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.status == undefined) return '';
+                if (rowObject.status == undefined) return '--';
                 return _cMap.CET_PROJECT_STATUS_MAP[rowObject.status];
             }, frozen: true},
             { label: '年度',name: 'year', frozen: true},
@@ -173,13 +173,13 @@ pageEncoding="UTF-8" %>
             { label: '总学时',name: 'period'},
             {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: function (cellvalue, options, rowObject) {
               if (cellvalue==undefined) {
-                return '-'
+                return '--'
               }
               return cellvalue?'是':'否'
             }},
             { label: '参训人数',name: 'objCount'},
             {label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.CET_PROJECT_PUB_STATUS_MAP[cellvalue];
             }},
             {label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {

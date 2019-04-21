@@ -52,13 +52,13 @@
       {label: '转出单位联系电话', name: 'fromPhone', width: 150},
       {label: '转出单位传真', name: 'fromFax', width: 120},
       {label: '转出单位邮编', name: 'fromPostCode', width: 120},
-      {label: '转出办理时间', name: 'fromHandleTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-      {label: '转入办理时间', name: 'handleTime', width: 120,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
-      {label: '提交书面申请书时间', name: 'applyTime', width: 160,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
-      {label: '确定为入党积极分子时间', name: 'activeTime', width: 180,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
-      {label: '确定为发展对象时间', name: 'candidateTime', width: 160,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
-      {label: '入党时间', name: 'growTime',formatter:'date',formatoptions: {newformat:'Y-m-d'}},
-      {label: '转正时间', name: 'positiveTime',formatter:'date',formatoptions: {newformat:'Y-m-d'}}
+      {label: '转出办理时间', name: 'fromHandleTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+      {label: '转入办理时间', name: 'handleTime', width: 120,formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
+      {label: '提交书面申请书时间', name: 'applyTime', width: 160,formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
+      {label: '确定为入党积极分子时间', name: 'activeTime', width: 180,formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
+      {label: '确定为发展对象时间', name: 'candidateTime', width: 160,formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
+      {label: '入党时间', name: 'growTime',formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
+      {label: '转正时间', name: 'positiveTime',formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}}
     ],
     rowattr: function(rowData, currentObj, rowId)
     {

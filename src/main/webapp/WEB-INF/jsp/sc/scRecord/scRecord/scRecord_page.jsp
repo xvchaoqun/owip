@@ -109,7 +109,7 @@ pageEncoding="UTF-8" %>
             {label: '纪实编号', name: 'code', width: 200, frozen:true},
             { label: '纪实详情',name: '_detail'},
             { label: '纪实进度',name: '_progress'},
-            {label: '选任启动日期', name: 'holdDate', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
+            {label: '选任启动日期', name: 'holdDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '选任岗位',name: 'postName', align:'left', width: 300, frozen:true},
             {label: '分管工作', align:'left', name: 'job', width: 200 },
             {label: '行政级别', name: 'adminLevel', width: 85, formatter: $.jgrid.formatter.MetaType},

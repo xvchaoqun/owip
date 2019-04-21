@@ -79,7 +79,7 @@
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
             {label: '行政级别', name: 'cadre.adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
-            {label: '出生日期', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出生日期', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
             {label: '专业技术职务', name: 'cadre.proPost', width: 120},
@@ -88,40 +88,40 @@
             {label: '最高学历', name: 'cadre.eduId', formatter: $.jgrid.formatter.MetaType},
             {label: '最高学位', name: 'cadre.degree'},
             {label: '国（境）外学历', name: 'eduId', frozen: true, formatter: $.jgrid.formatter.MetaType, width: 120},
-            {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
-            {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
+            {label: '入学时间', name: 'enrolTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, width: 80},
+            {label: '毕业时间', name: 'finishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, width: 80},
             {label: '毕业/在读学校', name: 'school', width: 280},
             {label: '院系', name: 'dep', width: 380},
             {label: '所学专业', name: 'major', width: 380},
             </c:if>
             <c:if test="${param.type==2}">
             // 国（境）外工作开始日期、国（境）外工作结束日期、国（境）外工作单位、担任职务或者专技职务。
-            {label: '国（境）外工作开始日期', name: 'startTime', width: 170, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '国（境）外工作结束日期', name: 'endTime', width: 170, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '国（境）外工作开始日期', name: 'startTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '国（境）外工作结束日期', name: 'endTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '国（境）外工作单位及担任职务或者专技职务', name: 'detail', width: 450, align:'left'},
             </c:if>
             <c:if test="${param.type==3}">
             // 院系工作开始日期、院系工作结束日期、院系工作单位、担任职务或者专技职务。
-            {label: '院系工作开始日期', name: 'startTime', width: 170, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '院系工作结束日期', name: 'endTime', width: 170, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '院系工作开始日期', name: 'startTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '院系工作结束日期', name: 'endTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '院系工作单位及担任职务或者专技职务', name: 'detail', width: 450, align:'left'},
             </c:if>
             <c:if test="${param.type==4}">
             // 机关工作开始日期、机关工作结束日期、机关工作单位、担任职务或者专技职务。
-            {label: '机关工作开始日期', name: 'startTime', width: 170, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '机关工作结束日期', name: 'endTime', width: 170, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '机关工作开始日期', name: 'startTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '机关工作结束日期', name: 'endTime', width: 170, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '机关工作单位及担任职务或者专技职务', name: 'detail', width: 450, align:'left'},
             </c:if>
             <c:if test="${param.type==5}">
                 // 挂职开始日期、挂职结束日期、挂职工作单位、担任职务或者专技职务。
-            {label: '挂职开始日期', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '挂职结束日期', name: 'realEndDate', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '挂职开始日期', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '挂职结束日期', name: 'realEndDate', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {
                 label: '挂职工作单位', name: 'toUnitType', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.type=='${CRP_RECORD_TYPE_IN}') {
                     return rowObject.toUnit;
                 }else{
-                    if (cellvalue == undefined) return '-';
+                    if (cellvalue == undefined) return '--';
 
                     if(rowObject.type=='${CRP_RECORD_TYPE_OUT}') {
                         var unitCodeOtherId = '${cm:getMetaTypeByCode("mt_temppost_out_unit_other").id}'

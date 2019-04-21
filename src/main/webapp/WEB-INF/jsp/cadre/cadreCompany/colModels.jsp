@@ -23,7 +23,7 @@
         </c:if>
         {
             label: '兼职类型', name: 'type', width: 180, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 var ret = $.jgrid.formatter.MetaType(cellvalue);
                 if (cellvalue == '${cm:getMetaTypeByCode("mt_cadre_company_other").id}') {
                     if (rowObject.typeOther != '') {
@@ -39,7 +39,7 @@
             label: '兼职<br/>起始时间',
             name: 'startTime',
             width: 80,
-            formatter: 'date',
+            formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m'}
         },
         <c:if test="${cls==2}">
@@ -47,22 +47,22 @@
             label: '兼职<br/>结束时间',
             name: 'finishTime',
             width: 80,
-            formatter: 'date',
+            formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m'}
         },
         </c:if>
         {label: '审批单位', name: 'approvalUnit',align:'left', width: 280},
-        {label: '批复日期', name: 'approvalDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '批复日期', name: 'approvalDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
         {
             label: '批复文件', name: 'approvalFile', width: 80,
             formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return $.swfPreview(rowObject.approvalFile, rowObject.approvalFilename, "预览");
             }
         },
         {label: '是否取酬', name: 'hasPay', formatter: $.jgrid.formatter.TRUEFALSE, width: 80},
         {label: '所取酬劳是否<br/>全额上交学校', name: 'hasHand', formatter: function (cellvalue, options, rowObject) {
-                if(!rowObject.hasPay) return '-'
+                if(!rowObject.hasPay) return '--'
                 return  $.jgrid.formatter.TRUEFALSE(cellvalue);
             }, width: 120},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}

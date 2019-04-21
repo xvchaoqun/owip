@@ -86,7 +86,7 @@
         colModel: [
             {
                 label: '详情', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.itemNum == 0) return '';
+                if (rowObject.itemNum == 0) return '--';
                 return _.template($("#switch_tpl").html().NoMultiSpace())({
                     id: rowObject.id,
                     count: rowObject.itemNum
@@ -98,7 +98,7 @@
             },
             { label: '类别名称',name: 'name', width: 250},
             {label: '具体条件', name: '_items', width: 90, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.normNum==0||rowObject.rankNum==0) return '-'
+                if(rowObject.normNum==0||rowObject.rankNum==0) return '--'
                 return '<button class="popupBtn btn btn-success btn-xs" data-width="700" data-url="${ctx}/crsRuleItem_au?requireRuleId={0}"><i class="fa fa-plus"></i> 添加</button>'
                         .format(rowObject.id);
             }},
@@ -172,7 +172,7 @@
             url: childGridURL,
             colModel: [
                 { label: '类别',name: 'type', width: 180, align:'left', formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-';
+                    if (cellvalue == undefined) return '--';
                     return _cMap.CRS_POST_RULE_TYPE_MAP[cellvalue];
                 }},
                 { label: '规格',name: 'val', width: 350, align:'left'},

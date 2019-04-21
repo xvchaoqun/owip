@@ -133,7 +133,7 @@
                 var pass = -1;
                 if(cellvalue == '${PCS_PR_RECOMMEND_STATUS_PASS}') pass = 1;
                 if(cellvalue == '${PCS_PR_RECOMMEND_STATUS_DENY}') pass = 0;
-                if(pass == -1) return '-'
+                if(pass == -1) return '--'
                 return ('<button class="popupBtn btn btn-warning btn-xs" ' +
                 'data-url="${ctx}/pcsAdmin_msg?cls=3&partyId={0}&pass={1}"><i class="fa fa-send"></i> 短信提醒</button>')
                         .format(rowObject.id, pass);

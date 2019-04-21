@@ -71,8 +71,8 @@
                 return posts.join("，")
             }},
             {label: '最多同时报名个数', name: 'num', width: 200},
-            {label: '有效期起始时间', name: 'startTime', width: 150, formatter: 'date', formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
-            {label: '有效期截止时间', name: 'endTime', width: 150, formatter: 'date', formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
+            {label: '有效期起始时间', name: 'startTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
+            {label: '有效期截止时间', name: 'endTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

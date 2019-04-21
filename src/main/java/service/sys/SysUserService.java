@@ -446,7 +446,7 @@ public class SysUserService extends BaseMapper {
         if (applySelfService != null)
             approverTypeBean = applySelfService.getApproverTypeBean(userId);
 
-        // 直属党支部管理员不需要“组织机构管理”这个目录
+        // 直属党支部管理员不需要“党支部管理、支部委员会”
         if(userRoles.contains(RoleConstants.ROLE_PARTYADMIN)){
 
             PartyMemberAdminService partyMemberAdminService = CmTag.getBean(PartyMemberAdminService.class);
@@ -460,7 +460,8 @@ public class SysUserService extends BaseMapper {
                     }
                 }
                 if (!hasAdminParty) {
-                    userPermissions.remove("party:menu");
+                    userPermissions.remove("branch:list");
+                    userPermissions.remove("branchMemberGroup:list");
                 }
             }
         }

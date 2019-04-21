@@ -144,7 +144,7 @@
             {label: '工作证号', name: 'code'},
             {label: '所在单位及职务', name: 'cadreTitle', width: 200},
             {label: '来自干部库', name: 'cadreStatus', width: 250, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.CADRE_STATUS_MAP[cellvalue];
             }},
             {label: '参加招聘会列表', name: '_list', width: 120, formatter: function (cellvalue, options, rowObject) {

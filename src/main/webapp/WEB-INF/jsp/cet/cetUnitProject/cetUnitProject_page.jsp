@@ -89,8 +89,8 @@ pageEncoding="UTF-8" %>
                 { label: '年度',name: 'year', width: 60},
                 { label: '培训班主办方',name: 'unitId', width: 250, align:'left', formatter: $.jgrid.formatter.unit},
                 {label: '培训班名称', name: 'projectName', align: 'left',width: 350},
-                {label: '培训<br/>开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-                {label: '培训<br/>结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+                {label: '培训<br/>开始时间', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+                {label: '培训<br/>结束时间', name: 'endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
                 {
                   label: '培训天数', name: '_day', width: 80, formatter: function (cellvalue, options, rowObject) {
                     return $.dayDiff(rowObject.startDate, rowObject.endDate);
@@ -109,7 +109,7 @@ pageEncoding="UTF-8" %>
                 /*{ label: '参训人数',name: 'totalCount'},*/
                 {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: function (cellvalue, options, rowObject) {
                   if (cellvalue==undefined) {
-                    return '-'
+                    return '--'
                   }
                   return cellvalue?'是':'否'
                 }},

@@ -118,13 +118,13 @@ pageEncoding="UTF-8" %>
                 { label: '类型',name: 'type', width:150, formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on:'校领导管理员',off:'单位管理员'}},
                 { label: '所属单位',name: 'unit.name', width:250, formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.type) {
-                        return '-'
+                        return '--'
                     }
                     return $.trim(cellvalue)
                 }},
                 { label: '所属校领导',name: 'leaderUser.realname', width:150, formatter: function (cellvalue, options, rowObject) {
                     if (!rowObject.type) {
-                        return '-'
+                        return '--'
                     }
                     return $.trim(cellvalue)
                 }},

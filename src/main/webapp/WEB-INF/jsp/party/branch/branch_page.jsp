@@ -220,7 +220,7 @@
                 //return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
             }},
             { label:'支部转移记录', name: 'transferCount', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined||cellvalue==0) return '-';
+                if(cellvalue==undefined||cellvalue==0) return '--';
                 return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/branchTransferLog?branchId={0}" class="openView">查看({1})</a>'.format(rowObject.id, cellvalue);
             }},
             { label:'党员总数', name: 'memberCount', width: 70, formatter:function(cellvalue, options, rowObject){
@@ -252,7 +252,7 @@
             { label: '联系电话', name: 'phone', width: 130 },
             { label: '传真', name: 'fax' },
             { label: '邮箱', name: 'email' },
-            { label: '成立时间', name: 'foundTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'} }
+            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

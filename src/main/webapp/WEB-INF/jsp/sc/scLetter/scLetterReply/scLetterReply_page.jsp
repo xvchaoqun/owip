@@ -122,13 +122,13 @@
                 return $.swfPreview(rowObject.letterFilePath, rowObject.letterFileName, _num, _num);
             }, frozen: true
             },
-            {label: '函询日期', name: 'letterQueryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '函询日期', name: 'letterQueryDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '纪委回复文件编号', name: 'num', width: 200, formatter: function (cellvalue, options, rowObject) {
                 var _num = _cMap.metaTypeMap[rowObject.type].name+"〔{0}〕{1}号".format(rowObject.letterYear, rowObject.num)
                 return $.swfPreview(rowObject.filePath, rowObject.fileName, _num, _num);
             }},
-            {label: '纪委回复日期', name: 'replyDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '纪委回复日期', name: 'replyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '回复情况', name: '_replyItems', formatter: function (cellvalue, options, rowObject) {
 

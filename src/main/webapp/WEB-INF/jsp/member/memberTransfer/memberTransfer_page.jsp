@@ -258,7 +258,7 @@
                     return $.party(rowObject.toPartyId, rowObject.toBranchId);
                 }
             },
-            {label: '转出办理时间', name: 'fromHandleTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '转出办理时间', name: 'fromHandleTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_TRANSFER_STATUS_MAP[rowObject.status];
             }}<c:if test="${cls==1}">

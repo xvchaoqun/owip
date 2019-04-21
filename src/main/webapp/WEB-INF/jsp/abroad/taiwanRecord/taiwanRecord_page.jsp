@@ -93,18 +93,18 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/abroad/taiwanRecord_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '备案时间',name: 'recordDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label: '备案时间',name: 'recordDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadre.id, cellvalue);
             }, frozen: true
             },
-            { label: '离境时间',name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label: '回国时间',name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label: '离境时间',name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '回国时间',name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '出访天数', name: '_day', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.startDate)=='' || $.trim(rowObject.endDate)=='') return '-'
+                if($.trim(rowObject.startDate)=='' || $.trim(rowObject.endDate)=='') return '--'
                 return $.dayDiff(rowObject.startDate, rowObject.endDate);
             }
             },
@@ -120,7 +120,7 @@ pageEncoding="UTF-8" %>
             }},
             {
                 label: '办理新证件方式', name: 'handleType', width: 160, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.ABROAD_TAIWAN_RECORD_HANDLE_TYPE_MAP[cellvalue]
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
                 if($.trim(rowObject.handleType)=='') {
@@ -132,7 +132,7 @@ pageEncoding="UTF-8" %>
             },
             { label: '新证件应交组织部日期',name: '_expectDate', width: 160, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.passportCode)!='' ||
-                        rowObject.handleType!='${ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE}') return '-'
+                        rowObject.handleType!='${ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE}') return '--'
 
                 //if($.trim(rowObject.handleDate)!='') return rowObject.expectDate.substr(0,10);
                 if($.trim(rowObject.expectDate)!='') return rowObject.expectDate.substr(0,10);
@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
 
                     if($.trim(rowObject.passportCode)!='' ||
                             rowObject.handleType!='${ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE}'
-                    || $.trim(rowObject.expectDate)=='') return '-'
+                    || $.trim(rowObject.expectDate)=='') return '--'
 
                     if($.trim(rowObject.handleDate)!='') return '已交证件'
                     return '<button data-url="${ctx}/abroad/passport_au?taiwanRecordId={0}" class="popupBtn btn btn-success btn-xs">'
@@ -167,8 +167,8 @@ pageEncoding="UTF-8" %>
             { label: '新证件实交组织部日期',name: '_handleDate', width: 160, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.passportCode)!='' ||
                         rowObject.handleType!='${ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE}'
-                        || $.trim(rowObject.expectDate)=='') return '-'
-                if(rowObject.handleDate==undefined) return '';
+                        || $.trim(rowObject.expectDate)=='') return '--'
+                if(rowObject.handleDate==undefined) return '--';
                 return rowObject.handleDate.substr(0,10)
             }},{hidden:true, name:'handleDate'},{hidden:true, name:'expectDate'}
         ],

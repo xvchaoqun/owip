@@ -50,7 +50,7 @@ pageEncoding="UTF-8" %>
                 { label: '类型',name: 'type', width:150, formatter: $.jgrid.formatter.TRUEFALSE,
                     formatoptions:{on:'校领导',off:'干部'}},
                 { label: '文件名称',name: 'dwf.fileName', width:650, align:'left', formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue==undefined) return '-'
+                    if (cellvalue==undefined) return '--'
                     return $.trim(cellvalue)
                 }},
                 <c:if test="${!_query}">

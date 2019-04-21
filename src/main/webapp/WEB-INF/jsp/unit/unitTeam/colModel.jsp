@@ -18,7 +18,7 @@
                 if(rowObject.appoint==undefined) return '--'
                 return $.swfPreview(cellvalue, rowObject.name + "-任职文件", rowObject.appoint.dispatchCode);
             }},
-            {label: '任职时间', name: 'appointDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任职时间', name: 'appointDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '应换届时间', name: 'expectDeposeDate',
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
 
@@ -26,7 +26,7 @@
                         $.date(new Date() , "yyyy-MM-dd")>= $.date(rowObject.expectDeposeDate, "yyyy-MM-dd"))
                         return "class='danger'";
                 },
-                formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '类型', name: '_type', width:180, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.deposeDate !=undefined){
                     return "已换届";
@@ -51,21 +51,21 @@
                 if(rowObject.depose==undefined) return '--'
                 return $.swfPreview(cellvalue, rowObject.name + "-免职文件", rowObject.depose.dispatchCode);
             }},
-            {label: '免职时间', name: 'deposeDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '免职时间', name: 'deposeDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${param.load=='page'}">
             {label: '班子负责人', name: 'dwLeader.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.dwLeader==undefined) return '--'
                 return $.cadre(rowObject.dwLeader.id, cellvalue);
             }},
-            {label: '出生时间', name: 'dwLeader.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出生时间', name: 'dwLeader.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'dwLeader.birth', width: 50, formatter: $.jgrid.formatter.AGE},
               {
                     label: '现职务任命文件',
                     width: 150,
                     name: 'dwLeader.mainCadrePost.dispatchCadreRelateBean.first',
                     formatter: function (cellvalue, options, rowObject) {
-                        if (!cellvalue || cellvalue.id == undefined) return '';
+                        if (!cellvalue || cellvalue.id == undefined) return '--';
                         var dispatchCode = cellvalue.dispatchCode;
 
                         return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
@@ -74,20 +74,20 @@
                 {
                     label: '任现职时间',
                     name: 'dwLeader.lpWorkTime',
-                    formatter: 'date',
+                    formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y-m-d'}
                 },
                 {
                     label: '现职务<br/>始任时间',
                     name: 'dwLeader.npWorkTime',
-                    formatter: 'date',
+                    formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y-m-d'}
                 },
                 {
                     label: '现职务<br/>始任年限',
                     name: 'dwLeader.cadrePostYear',
                     formatter: function (cellvalue, options, rowObject) {
-                        if (cellvalue == undefined) return '';
+                        if (cellvalue == undefined) return '--';
                         return cellvalue == 0 ? "未满一年" : cellvalue;
                     }
                 },

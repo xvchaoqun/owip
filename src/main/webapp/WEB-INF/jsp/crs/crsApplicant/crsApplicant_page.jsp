@@ -196,12 +196,12 @@
         colModel: [
             <c:if test="${cls==4}">
             { label: '退出申请', width: 90, formatter:function(cellvalue, options, rowObject){
-                if($.trim(rowObject.quitProof)=='') return '-'
+                if($.trim(rowObject.quitProof)=='') return '--'
                 return $.swfPreview(rowObject.quitProof, "退出申请", "查看");
             }},
             </c:if>
             {
-                label: '报名时间', name: 'enrollTime', width: 150, formatter: 'date',
+                label: '报名时间', name: 'enrollTime', width: 150, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}, frozen: true
             },
             {label: '工作证号', name: 'user.code', width: 120, frozen: true},
@@ -226,14 +226,14 @@
                 return _cMap.CRS_APPLICANT_INFO_CHECK_STATUS_MAP[cellvalue];
             }, frozen: true},
             {label: '资格审核', name: '_requireCheck', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.infoCheckStatus!=${CRS_APPLICANT_INFO_CHECK_STATUS_PASS}) return '-';
+                if(rowObject.infoCheckStatus!=${CRS_APPLICANT_INFO_CHECK_STATUS_PASS}) return '--';
 
                 return '<button class="popupBtn btn btn-success btn-xs" data-width="1000" data-url="${ctx}/crsApplicant_requireCheck?applicantId={0}"><i class="fa fa-hourglass-1"></i> 资格审核</button>'
                         .format(rowObject.id);
             }, frozen: true},
             </c:if>
             {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
-            {label: '出生时间', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出生时间', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '民族', name: 'cadre.nation', width: 60},
             {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
@@ -245,16 +245,16 @@
                 label: '参加工作时间',
                 name: 'cadre.workStartTime',
                 width: 120,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
             },
-            {label: '到校时间', name: 'cadre.arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '到校时间', name: 'cadre.arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '专业技术职务', name: 'cadre.proPost', width: 120},
             {
                 label: '专技职务评定时间',
                 name: 'cadre.proPostTime',
                 width: 130,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {label: '专技岗位等级', name: 'cadre.proPostLevel', width: 150},
@@ -262,7 +262,7 @@
                 label: '专技岗位分级时间',
                 name: 'cadre.proPostLevelTime',
                 width: 130,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {label: '管理岗位等级', name: 'cadre.manageLevel', width: 150},
@@ -270,7 +270,7 @@
                 label: '管理岗位分级时间',
                 name: 'cadre.manageLevelTime',
                 width: 130,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {

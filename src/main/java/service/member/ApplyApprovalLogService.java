@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ApplyApprovalLogService extends MemberBaseMapper {
     
-    public void add(int recordId, int partyId, Integer branchId, int applyUserId,
+    public void add(Integer recordId, Integer partyId, Integer branchId, Integer applyUserId,
                                 int userId, byte userType, byte type,
                                 String stage, byte status, String remark){
 

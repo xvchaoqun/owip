@@ -84,18 +84,18 @@
             {
                 label: '退课', name: '_unApply', width: 90, formatter: function (cellvalue, options, rowObject) {
                 //console.log(options)
-                if(rowObject.isFinished || !rowObject.canQuit) return '-'
+                if(rowObject.isFinished || !rowObject.canQuit) return '--'
 
                 if(rowObject.startTime <= $.date(new Date(), "yyyy-MM-dd HH:mm")){
                     return "-"
                 }
                 <c:if test="${cetTrain.switchStatus != CET_TRAIN_ENROLL_STATUS_OPEN}">
-                return '-'
+                return '--'
                 </c:if>
                 <c:if test="${cetTrain.switchStatus == CET_TRAIN_ENROLL_STATUS_OPEN}">
                 if(rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_QUIT}
                 || rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}){
-                    return '-'
+                    return '--'
                 }
                 return ('<button class="confirm btn btn-danger btn-xs" ' +
                 'data-url="${ctx}/user/cet/cetTrain_apply_item?isApply=0&trainCourseId={0}" '
@@ -140,12 +140,12 @@
                     return "-"
                 }
                 <c:if test="${cetTrain.switchStatus != CET_TRAIN_ENROLL_STATUS_OPEN}">
-                return '-'
+                return '--'
                 </c:if>
                 <c:if test="${cetTrain.switchStatus == CET_TRAIN_ENROLL_STATUS_OPEN}">
                 if(rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY}
                         || rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}){
-                    return '-'
+                    return '--'
                 }
 
                 return ('<button class="confirm btn btn-success btn-xs" ' +

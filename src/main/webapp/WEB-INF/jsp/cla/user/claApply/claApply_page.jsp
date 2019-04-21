@@ -124,7 +124,7 @@
             { label: '编号', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "L{0}".format(rowObject.id);
             },frozen:true},
-            { label: '申请日期', name: 'applyDate',frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '申请日期', name: 'applyDate',frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             { label:'回校销假',name: '_back', formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 if(tdBean!=undefined && tdBean.tdType==6){
@@ -134,13 +134,13 @@
                             icon:rowObject.isBack?"fa-search":"fa-pencil-square-o",
                             label:rowObject.isBack?"已销假":"销假"});
                 }
-                return '-'
+                return '--'
             }},
             { label: '请假类型', name: 'type', formatter:function(cellvalue, options, rowObject){
                 return _cMap.CLA_APPLY_TYPE_MAP[cellvalue]
             }},
-            { label: '出发时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label: '返校时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '出发时间', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label: '返校时间', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             { label: '出行天数', name: 'day', width: 90,formatter:function(cellvalue, options, rowObject){
                 return $.dayDiff(rowObject.startTime, rowObject.endTime);
             }},
@@ -203,7 +203,7 @@
     $('#searchForm [data-rel="select2"]').select2();
     function processTdBean(tdBean){
 
-        if(tdBean==undefined) return '';
+        if(tdBean==undefined) return '--';
 
         var applyId = tdBean.applyId;
         var approvalTypeId = tdBean.approvalTypeId;

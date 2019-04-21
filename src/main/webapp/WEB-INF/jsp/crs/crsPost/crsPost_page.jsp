@@ -210,7 +210,7 @@
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '招聘人数', name: 'num', width: 80},
             {label: '报名状态', name: 'enrollStatus', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
 
                 var str = "";
                 var applicantCount = rowObject.applicants.length;
@@ -266,8 +266,8 @@
                         .format(unCheck, pass, unpass, pass >= rowObject.meetingApplyCount ? 'text-success':'text-danger')
             }},
             {label: '招聘会情况', name: 'meetingStatus', width: 130, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.pubStatus!='${CRS_POST_PUB_STATUS_PUBLISHED}') return '-'
-                if (cellvalue == undefined) return '-';
+                if(rowObject.pubStatus!='${CRS_POST_PUB_STATUS_PUBLISHED}') return '--'
+                if (cellvalue == undefined) return '--';
                 if(cellvalue) return '已召开'
                 if(rowObject.meetingApplyCount>0) {
                     var pass = 0;
@@ -279,24 +279,24 @@
                     })
                     return pass >= rowObject.meetingApplyCount ? '<span class="text text-success">达到人数要求</span>' : '<span class="text text-danger">未达到人数要求</span>';
                 }
-                return '-'
+                return '--'
             }},
             {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return $.date(cellvalue, "yyyy-MM-dd HH:mm");
             }},
             {label: '所属单位', name: 'unit.name', width: 200, align:'left'},
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
             /*{label: '常委会情况', name: 'committeeStatus', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return cellvalue ? "已上会" : "未上会";
             }},*/
             {label: '发布状态', name: 'pubStatus', width:90, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.CRS_POST_PUB_STATUS_MAP[cellvalue];
             }},
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.CRS_POST_STATUS_MAP[cellvalue];
             }},
             {label: '备注', name: 'remark', width: 350, formatter: $.jgrid.formatter.NoMultiSpace}

@@ -99,13 +99,13 @@ pageEncoding="UTF-8" %>
             }},
             { label: '所在单位及职务', name: 'cadre.title', width: 250, align:'left'},
             { label: '所属干部库', name: 'cadre.status', width: 250, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.CADRE_STATUS_MAP[cellvalue];
             }},
-            { label: '起始日期',name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label: '结束日期',name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label: '起始日期',name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '结束日期',name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             { label: '是否永久有效',name: 'isUnlimited', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return cellvalue ? "是" : "否"
             }},
             { label: '创建人',name: 'addUser.realname'},

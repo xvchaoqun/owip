@@ -113,11 +113,11 @@
                 if($.trim(rowObject.filePath)=='') return _num;
                 return $.swfPreview(rowObject.filePath, _num);
             }, frozen: true},
-            {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '议题数量', name: 'topicNum'},
 
             {label: '议题word版', name: 'wordFilePath', width: 105, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"));
                 return '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> 下载</button>'
                         .format(encodeURI(rowObject.wordFilePath), encodeURI(_num));
@@ -139,7 +139,7 @@
             }
             },
             {label: '会议记录', name: 'logFile', width: 90, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.logFile==undefined) return '-';
+                if(rowObject.logFile==undefined) return '--';
                 return $.swfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
             {label: '备注', name: 'remark', width: 280}

@@ -179,7 +179,7 @@
                 //console.log(_cMap.OW_PARTY_PUBLIC_TYPE_MAP)
                 return _cMap.OW_PARTY_PUBLIC_TYPE_MAP[cellvalue];
             },frozen:true},
-            {label: '公示日期', name: 'pubDate',formatter: 'date', formatoptions: {newformat: 'Y.m.d'},frozen:true},
+            {label: '公示日期', name: 'pubDate',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},frozen:true},
             {label: '公示人数', name: 'num', width: 80},
             {label: '是否发布', name: 'isPublish', formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '预览',name: '_preview', width: 80, formatter: function (cellvalue, options, rowObject) {

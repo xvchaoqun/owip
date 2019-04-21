@@ -66,7 +66,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/feedback_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '用户', name: '_user', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.user==undefined) return '-'
+                if(rowObject.user==undefined) return '--'
                 return $.user(rowObject.user.id, rowObject.user.realname)
             },frozen:true },
             { label: '学工号',  name: 'user.code', width: 120,frozen:true },

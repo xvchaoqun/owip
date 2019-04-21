@@ -147,7 +147,7 @@
                 <c:if test="${cls!=3}">
             {label: '交证件', name: '_hand', width: 200,formatter: function (cellvalue, options, rowObject) {
 
-                if(rowObject.status=='${SC_PASSPORTHAND_STATUS_ABOLISH}') return '-'
+                if(rowObject.status=='${SC_PASSPORTHAND_STATUS_ABOLISH}') return '--'
 
                 var passports = {};
                 passports[normalPassortId] = {ret:0, msg:'未交证件'};
@@ -199,9 +199,9 @@
             }, frozen:true},
             </c:if>
             <c:if test="${cls==3}">
-            {label: '撤销日期', name: 'abolishTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            {label: '撤销日期', name: 'abolishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
                 </c:if>
-            {label: '新提任日期', name: 'appointDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            {label: '新提任日期', name: 'appointDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
             {label: '工作证号', name: 'cadre.code', width: 110, frozen: true, frozen:true},
             { label: '姓名', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 
@@ -215,7 +215,7 @@
             {
                 label: '发文号', name: 'dispatch.dispatchCode',
                 width: 180, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.dispatch==undefined) return '-'
+                if(rowObject.dispatch==undefined) return '--'
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, cellvalue, cellvalue);
             }},
             {label: '短信通知', name: '_msg', width: 150, formatter: function (cellvalue, options, rowObject) {

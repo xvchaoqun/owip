@@ -47,6 +47,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 
 @Controller
@@ -151,20 +152,39 @@ public class MemberApplyController extends MemberBaseController {
                 record.setBranchId(branch.getId());
             }
 
-            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(6))));
+            int rowNum = 6;
+            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setFillTime(record.getApplyTime());
 
-            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(7))));
-            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8))));
-            record.setCandidateTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
-            record.setPlanTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(10))));
-            record.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(11))));
-            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
-            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
+            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setActiveTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setActiveTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setActiveGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
 
-            String _stage = StringUtils.trimToNull(xlsRow.get(14));
+            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setCandidateTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setCandidateTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setCandidateGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+
+            record.setPlanTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            String applySnStr = StringUtils.trimToNull(xlsRow.get(rowNum++));
+            if(applySnStr!=null) {
+                Long applySn = null;
+                try {
+                    applySn = Long.valueOf(applySnStr);
+                }catch (Exception e){
+                    throw new OpException("第{0}行志愿书编号不是整数[{1}]", row, applySnStr);
+                }
+                record.setApplySn(applySn);
+            }
+
+            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+
+            String _stage = StringUtils.trimToNull(xlsRow.get(rowNum++));
             if(StringUtils.isBlank(_stage)){
-                throw new OpException("第{0}行当前状态为空");
+                throw new OpException("第{0}行当前状态为空", row);
             }
             Byte stage = stageMap.get(_stage);
             if(stage==null){
@@ -174,16 +194,25 @@ public class MemberApplyController extends MemberBaseController {
 
             record.setIsRemove(false);
             record.setCreateTime(now);
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(15)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(rowNum++)));
 
             records.add(record);
         }
 
         int successCount = memberApplyService.batchImport(records);
+        int totalCount = records.size();
+
+        applyApprovalLogService.add(null,
+                    null, null, null,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "批量导入",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                MessageFormat.format("操作成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                        totalCount, successCount, totalCount-successCount));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
-        resultMap.put("total", records.size());
+        resultMap.put("total", totalCount);
 
         return resultMap;
     }

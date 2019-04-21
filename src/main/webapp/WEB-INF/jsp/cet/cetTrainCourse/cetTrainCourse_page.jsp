@@ -95,7 +95,7 @@
             }, width: 130, frozen:true},
             {
                 label: '选课/退课状态', name: 'applyStatus', formatter: function (cellvalue, options, rowObject) {
-                //if(cellvalue==${CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT}) return '-'
+                //if(cellvalue==${CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT}) return '--'
                 return _cMap.CET_TRAIN_COURSE_APPLY_STATUS_MAP[cellvalue];
             }, width: 130, frozen:true},
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
@@ -128,7 +128,7 @@
             },
             {label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
 
-                if (rowObject.cetCourse.hasSummary==false) return '-'
+                if (rowObject.cetCourse.hasSummary==false) return '--'
 
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
                 'data-url="${ctx}/cet/cetCourse_summary?id={0}&view=1"><i class="fa fa-search"></i> 查看</button>')
@@ -142,19 +142,19 @@
             {label: '授课方式', name: 'cetCourse.teachMethod', formatter: $.jgrid.formatter.MetaType},
             {label: '学时', name: 'cetCourse.period', width: 70},
             </c:if>
-            {label: '选课人数上限', name: 'applyLimit', formatter: $.jgrid.formatter.defaultString},
+            {label: '选课人数上限', name: 'applyLimit'},
             {
                 label: '开始时间',
                 name: 'startTime',
                 width: 150,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
             },
             {
                 label: '结束时间',
                 name: 'endTime',
                 width: 150,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
             },
            <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
@@ -167,13 +167,13 @@
 
             <c:if test="${cls==2}">
             {label: '评估表', name: 'trainEvaTable', width: 200, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return '<a href="javascript:void(0)" class="popupBtn" data-width="700" data-url="${ctx}/cet/cetTrainEvaTable_preview?id={0}">{1}</a>'
                         .format(cellvalue.id, cellvalue.name);
             }},
 
             {label: '测评情况（已测评/总数）', name: '_eva', width: 200, formatter: function (cellvalue, options, rowObject) {
-                if('${cetTrain.evaCount}'=='') return '-'
+                if('${cetTrain.evaCount}'=='') return '--'
                 return '{0}/${cetTrain.evaCount}'.format(rowObject.evaFinishCount==undefined?0:rowObject.evaFinishCount);
             }}
             </c:if>
@@ -188,7 +188,7 @@
             }, width: 130, frozen:true},
             {
                 label: '选课/退课状态', name: 'applyStatus', formatter: function (cellvalue, options, rowObject) {
-                //if(cellvalue==${CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT}) return '-'
+                //if(cellvalue==${CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT}) return '--'
                 return _cMap.CET_TRAIN_COURSE_APPLY_STATUS_MAP[cellvalue];
             }, width: 130, frozen:true},
             {label: '签到情况', name: '_sign', width: 130, frozen:true, formatter: function (cellvalue, options, rowObject) {
@@ -221,14 +221,14 @@
                 label: '开始时间',
                 name: 'startTime',
                 width: 150,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
             },
             {
                 label: '结束时间',
                 name: 'endTime',
                 width: 150,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
             },
             {label: '教学照片', name: '_images', width: 80, formatter: function (cellvalue, options, rowObject) {

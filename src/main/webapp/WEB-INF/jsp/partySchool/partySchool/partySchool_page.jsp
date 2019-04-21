@@ -107,7 +107,7 @@
         url: '${ctx}/partySchool_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '二级党校名称', name: 'name', width:300, align:'left'},
-            {label: '设立日期', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '设立日期', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             <c:if test="${!_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/partySchool_changeOrder'},frozen:true },

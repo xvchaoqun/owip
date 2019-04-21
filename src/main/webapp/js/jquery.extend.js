@@ -1040,6 +1040,9 @@ var _modal_width;
 
 })(jQuery);
 
+// base64默认编码
+$.base64.utf8encode = true;
+
 if (typeof toastr != 'undefined') {
     toastr.options = {
         "closeButton": true,
@@ -1102,7 +1105,11 @@ if ($.jgrid) {
         loadtext: "数据加载中，请稍后...",
         pager: "#jqGridPager",
         //pagerpos:"right",
-        cmTemplate: {sortable: false, align: 'center', width: 100},
+        cmTemplate: {sortable: false, align: 'center', width: 100,
+            formatter:function(cellvalue, options, rowObject){
+            //console.log(cellvalue.length)
+            return (cellvalue==undefined || cellvalue.length == 0)?'--':cellvalue
+        }},
         sortorder: "desc",
         ondblClickRow: function (rowid, iRow, iCol, e) {
             $(".jqEditBtn").click();
@@ -1115,6 +1122,10 @@ if ($.jgrid) {
     // 格式化jqGrid字段
     $.jgrid.formatter = {};
     $.extend($.jgrid.formatter, {
+        date:function(cellvalue, options, rowdata, action){
+            return (cellvalue==undefined || $.trim(cellvalue).length == 0)?'--':
+                $.fn.fmatter.call(this, "date", cellvalue, options, rowdata, action);
+        },
         MAP:function(cellvalue, options, rowObject){
             if (cellvalue == undefined) return '-';
 

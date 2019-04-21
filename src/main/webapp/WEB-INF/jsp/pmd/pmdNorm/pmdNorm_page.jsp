@@ -85,7 +85,7 @@ pageEncoding="UTF-8" %>
                 return _cMap.PMD_NORM_SET_TYPE_MAP[cellvalue];
             }, width:120},
             { label: '公式类型',name: 'formulaType', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.setType!='${PMD_NORM_SET_TYPE_FORMULA}') return '-'
+                if(rowObject.setType!='${PMD_NORM_SET_TYPE_FORMULA}') return '--'
                 return _cMap.PMD_FORMULA_TYPE_MAP[cellvalue];
             }, width:200},
             <c:if test="${!_query}">
@@ -95,12 +95,12 @@ pageEncoding="UTF-8" %>
             },
             </c:if>
             { label: '额度', name: 'pmdNormValue.amount', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.setType!='${PMD_NORM_SET_TYPE_FIXED}') return '-'
+                if(rowObject.setType!='${PMD_NORM_SET_TYPE_FIXED}') return '--'
                 if(cellvalue==undefined) return '未设定额度'
                 return cellvalue;
             }},
             { label: '额度管理',name: '_amount', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.setType!='${PMD_NORM_SET_TYPE_FIXED}') return '-'
+                if(rowObject.setType!='${PMD_NORM_SET_TYPE_FIXED}') return '--'
                 return ('<button class="popupBtn btn btn-primary btn-xs" ' +
                         'data-url= "${ctx}/pmd/pmdNormValue?normId={0}" ><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.id);
@@ -109,13 +109,13 @@ pageEncoding="UTF-8" %>
                 if(rowObject.status!='${PMD_NORM_STATUS_INIT}'){
                     return $.date(cellvalue, "yyyy-MM-dd");
                 }
-                return '-';
+                return '--';
             }},
             { label: '作废日期',name: 'endTime', width:120, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.status=='${PMD_NORM_STATUS_ABOLISH}'){
                     return $.date(cellvalue, "yyyy-MM-dd");
                 }
-                return '-';
+                return '--';
             }},
             { label: '状态',name: 'status', formatter:function(cellvalue, options, rowObject){
                 var css = "text-danger";
@@ -124,7 +124,7 @@ pageEncoding="UTF-8" %>
                 return '<span class="{0}">{1}</span>'.format(css, _cMap.PMD_NORM_STATUS_MAP[cellvalue]);
             }},
             { label: '启用',name: '_use', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.setType=='${PMD_NORM_SET_TYPE_FIXED}' && rowObject.pmdNormValue==undefined) return '-'
+                if(rowObject.setType=='${PMD_NORM_SET_TYPE_FIXED}' && rowObject.pmdNormValue==undefined) return '--'
 
                 if(rowObject.status=='${PMD_NORM_STATUS_INIT}'){
                     return ('<button class="confirm btn btn-success btn-xs" ' +
@@ -132,7 +132,7 @@ pageEncoding="UTF-8" %>
                     'data-url= "${ctx}/pmd/pmdNorm_use?id={0}" ><i class="fa fa-check"></i> 启用</button>')
                             .format(rowObject.id);
                 }
-                return '-'
+                return '--'
             }},
             { label: '作废',name: '_abolish', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.status=='${PMD_NORM_STATUS_USE}'){
@@ -141,7 +141,7 @@ pageEncoding="UTF-8" %>
                     'data-url= "${ctx}/pmd/pmdNorm_abolish?id={0}" ><i class="fa fa-times"></i> 作废</button>')
                             .format(rowObject.id);
                 }
-                return '-'
+                return '--'
             }}
         ]
     }).jqGrid("setFrozenColumns");

@@ -252,7 +252,7 @@
                 align: 'center',
                 name: 'applyDate',
                 frozen: true,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
@@ -304,13 +304,13 @@
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}',
                 name: 'startDate',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}',
                 name: 'endDate',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
@@ -355,7 +355,7 @@
                 width: 80,
                 formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.passportClass.code == 'mt_passport_normal') {
-                        return '-';
+                        return '--';
                     }
                     return (cellvalue) ? "是" : "否";
                 }
@@ -363,7 +363,7 @@
             {
                 label: '签注申请表', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
-                        return '-';
+                        return '--';
                     }
                     return '<a href="${ctx}/report/passportSign?id={0}" target="_blank">签注申请表 </a>'.format(rowObject.id);
                 }
@@ -371,7 +371,7 @@
             {
                 label: '打印签注申请表', width: 150, formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
-                        return '-';
+                        return '--';
                     }
                     return '<button onclick="$.print(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
                         .format(rowObject.id);
@@ -391,20 +391,20 @@
             {
                 label: '短信通知', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}') {
-                        return '-';
+                        return '--';
                     }
                     if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
                         return '<button data-url="${ctx}/abroad/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-xs">'
                                 .format(rowObject.id)
                             + '<i class="fa fa-info"></i> 短信通知</button>';
                     }
-                    return '-'
+                    return '--'
                 }
             },
             {
                 label: '领取证件', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.status != '${ABROAD_PASSPORT_DRAW_STATUS_PASS}') {
-                        return '-';
+                        return '--';
                     }
                     if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
                         return '<button data-url="${ctx}/abroad/passportDraw_draw?id={0}" class="openView btn btn-info btn-xs">'
@@ -428,7 +428,7 @@
                             return "class='danger'";
                     }
                 },
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
@@ -438,18 +438,18 @@
                 formatter: function (cellvalue, options, rowObject) {
 
                     if (rowObject.usePassport == '${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}') {
-                        return '-'
+                        return '--'
                     }
 
                     if (rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
-                        return '-';
+                        return '--';
 
                     if (rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&
                         rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_LOST}')
                         return '证件丢失';
 
                     if (rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}' || rowObject.returnDateNotNow) {
-                        return '-';
+                        return '--';
                     }
                     return '<button data-url="${ctx}/abroad/shortMsg_view?id={0}&type=passportDrawReturn" class="popupBtn btn btn-danger btn-xs">'
                             .format(rowObject.id)
@@ -464,7 +464,7 @@
 
                     if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}') {
 
-                        if (rowObject.useRecord == undefined) return '-';
+                        if (rowObject.useRecord == undefined) return '--';
 
                         return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
                             .format(encodeURI(rowObject.useRecord), "使用记录.jpg");
@@ -473,7 +473,7 @@
                     if ((rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
                         rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_LOST}' ||
                         rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
-                        return '-';
+                        return '--';
                     }
 
                     if (rowObject.usePassport == '${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}') {

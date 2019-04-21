@@ -313,14 +313,14 @@
                     return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                 return "-";
             }},
-            { label:'入党时间', name: 'growTime', width: 120,sortable:true,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label:'转正时间',  name: 'positiveTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'入党时间', name: 'growTime', width: 120,sortable:true,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label:'转正时间',  name: 'positiveTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             <c:if test="${cls==7}">
-            { label:'转出时间',  name: 'outHandleTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label:'转出时间',  name: 'outHandleTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             { label:'联系手机', name: 'mobile', width: 110},
             <c:if test="${cls>=3}">
-            { label:'退休时间', name: 'retireTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'退休时间', name: 'retireTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             { label:'是否离休', name: 'isHonorRetire', formatter:$.jgrid.formatter.TRUEFALSE},
             </c:if>
             { label:'所在单位',  name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},

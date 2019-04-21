@@ -9,7 +9,7 @@
               if(rowObject.groupFilePath==undefined) return _num;
               return $.swfPreview(rowObject.groupFilePath, _num);
           }, frozen: true},
-      {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
+      {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
       { label: '议题名称',name: 'name', width: 350, align:'left'},
       {
           label: '议题内容<br/>和讨论备忘',name: '_content', width: 95, formatter: function (cellvalue, options, rowObject) {
@@ -21,7 +21,7 @@
       {
           label: '涉及单位', name: 'unitIds', width:180, align:'left', formatter: function (cellvalue, options, rowObject) {
 
-              if(cellvalue==undefined) return '-'
+              if(cellvalue==undefined) return '--'
 
               var unitIds = cellvalue.split(",");
               var unitname = "-"
@@ -43,7 +43,7 @@
       },
       {
           label: '参会人', name: 'users', width:280, align:'left', formatter: function (cellvalue, options, rowObject) {
-              if(cellvalue==undefined) return '-'
+              if(cellvalue==undefined) return '--'
               return $.map(cellvalue, function(u){
                   return u.realname;
               })
@@ -51,7 +51,7 @@
       },
       { label: '列席人',name: 'attendUsers'},
       {label: '会议记录', name: 'logFile', formatter: function (cellvalue, options, rowObject) {
-              if(rowObject.logFile==undefined) return '-';
+              if(rowObject.logFile==undefined) return '--';
               return $.swfPreview(rowObject.logFile, '会议记录', '查看');
           }},
       { label: '备注',name: 'remark', width:300}

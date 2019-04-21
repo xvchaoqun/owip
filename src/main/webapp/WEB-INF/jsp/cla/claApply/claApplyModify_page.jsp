@@ -58,8 +58,8 @@
       { label: '操作人', name: 'modifyUser.realname', width: 150, frozen:true},
       { label:'IP',  name: 'ip', width: 120, frozen:true },
       { label: '操作时间',  name: 'createTime', width: 160, frozen:true },
-      { label: '出行时间',  name: 'startTime', width: 150,cellattr:cellattr, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'} },
-      { label: '返校时间',  name: 'endTime', width: 150 ,cellattr:cellattr, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'}},
+      { label: '出行时间',  name: 'startTime', width: 150,cellattr:cellattr, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:i'} },
+      { label: '返校时间',  name: 'endTime', width: 150 ,cellattr:cellattr, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:i'}},
       { label: '出行天数',  name: 'day', width: 80,cellattr:cellattr,formatter:function(cellvalue, options, rowObject){
         return $.dayDiff(rowObject.startTime, rowObject.endTime);
       }},

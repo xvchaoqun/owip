@@ -213,7 +213,7 @@
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType, frozen: true},
             {
                 label: '是否正职', name: 'postType', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.metaTypeMap[cellvalue].boolAttr ? "是" : "否"
             }
             },
@@ -224,7 +224,7 @@
             {
                 label: '任职日期',
                 name: 'dispatchCadreRelateBean.last.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
@@ -232,7 +232,7 @@
                 width: 120,
                 name: 'dispatchCadreRelateBean.last.workTime',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
+                    if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
@@ -242,7 +242,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.last',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (!cellvalue || cellvalue.id == undefined) return '';
+                    if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
 
                     return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
@@ -252,7 +252,7 @@
                 label: '现任职务始任日期',
                 width: 150,
                 name: 'dispatchCadreRelateBean.first.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
@@ -260,7 +260,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
+                    if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
@@ -270,7 +270,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.first',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (!cellvalue || cellvalue.id == undefined) return '';
+                    if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
 
                     return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
@@ -280,7 +280,7 @@
                 label: '干部任免文件',
                 name: 'dispatchCadreRelateBean.all',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
+                    if (cellvalue == undefined) return '--';
                     var count = cellvalue.length;
                     <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
                     if(count==0) return ''
@@ -297,14 +297,14 @@
             },
             /*{
                 label: '双肩挑单位', name: 'doubleUnitId', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if (!rowObject.isDouble) return '-'
+                if (!rowObject.isDouble) return '--'
                 return $.jgrid.formatter.unit(cellvalue)
             }
             }*/
             {
                 label: '双肩挑单位', name: 'doubleUnitIds',formatter: function (cellvalue, options, rowObject) {
 
-                if($.trim(cellvalue)=='') return '-'
+                if($.trim(cellvalue)=='') return '--'
                 return ($.map(cellvalue.split(","), function(unitId){
                     return $.jgrid.formatter.unit(unitId);
                 })).join("，")
@@ -333,7 +333,7 @@
             {label: '职务级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '是否占职数', name: 'isCpc', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return cellvalue ? "是" : "否"
             }
             },
@@ -349,7 +349,7 @@
                 label: '兼任职务任职日期',
                 width: 150,
                 name: 'dispatchCadreRelateBean.last.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
@@ -357,7 +357,7 @@
                 width: 120,
                 name: 'dispatchCadreRelateBean.last.workTime',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
+                    if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
@@ -367,7 +367,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.last',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (!cellvalue || cellvalue.id == undefined) return '';
+                    if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
 
                     return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
@@ -377,7 +377,7 @@
                 label: '兼任职务始任日期',
                 width: 150,
                 name: 'dispatchCadreRelateBean.first.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
@@ -385,7 +385,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
+                    if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
@@ -395,7 +395,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.first',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (!cellvalue || cellvalue.id == undefined) return '';
+                    if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
                     return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
@@ -404,7 +404,7 @@
                 label: '干部任免文件',
                 name: 'dispatchCadreRelateBean.all',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
+                    if (cellvalue == undefined) return '--';
                     var count = cellvalue.length;
                     <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
                     if(count==0) return ''
@@ -429,15 +429,15 @@
         pager: "#jqGridPager_cadreWork",
         url: '${ctx}/cadreWork_data?fid=-1&isCadre=1&cadreId=${param.cadreId}',
         colModel: [
-            {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align:'left'},
             {label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType, width: 200},
             {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 200},
             {
                 label: '所属内设机构', name: 'unitIds',formatter: function (cellvalue, options, rowObject) {
 
-                if($.trim(cellvalue)=='') return '-'
+                if($.trim(cellvalue)=='') return '--'
                 return ($.map(cellvalue.split(","), function(unitId){
                     return $.jgrid.formatter.unit(unitId);
                 })).join("，")
@@ -469,7 +469,7 @@
                 label: '职级始任日期',
                 width: 120,
                 name: 'startDispatch.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {label: '职级始任职务', width: 200, align:'left', name: 'startDispatchCadre.post'},
@@ -478,7 +478,7 @@
                 width: 150,
                 name: 'startDispatch',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (!cellvalue || cellvalue.id == undefined) return '';
+                    if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
                     return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
@@ -487,12 +487,12 @@
                 label: '职级结束日期',
                 width: 120,
                 name: 'endDispatch.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
                 label: '职级结束文件', width: 150, name: 'endDispatch', formatter: function (cellvalue, options, rowObject) {
-                if (!cellvalue || cellvalue.id == undefined) return '';
+                if (!cellvalue || cellvalue.id == undefined) return '--';
                 var dispatchCode = cellvalue.dispatchCode;
                 return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
             }
@@ -508,7 +508,7 @@
                         end = rowObject.endDispatch.workTime;
                     if (rowObject.adminLevel == mainCadrePost.adminLevel)
                         end = new Date().format("yyyy-MM-dd");
-                    if (rowObject.startDispatch == undefined || end == undefined) return '';
+                    if (rowObject.startDispatch == undefined || end == undefined) return '--';
 
                     var month = $.monthDiff(rowObject.startDispatch.workTime, end);
                     //console.log("month="+month)

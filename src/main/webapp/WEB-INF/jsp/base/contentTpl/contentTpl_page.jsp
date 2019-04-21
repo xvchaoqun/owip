@@ -109,7 +109,7 @@
             }},
             { label: '内容', name: 'content', width: 450, align:'left', formatter: $.jgrid.formatter.htmlencodeWithNoSpace},
             { label: '指定短信接收人', name: '_receivers', width: 180, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.receivers==undefined || rowObject.receivers.length==0) return '-'
+                if(rowObject.receivers==undefined || rowObject.receivers.length==0) return '--'
                 //console.log(rowObject.receivers)
                 return $.map(rowObject.receivers,function(val, i){
                     if(val!=undefined)

@@ -39,7 +39,7 @@
         url: '${ctx}/pmd/pmdOrder_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '订单号',name: 'sn', width:200, align:'left',frozen:true},
-           /* { label: '缴费月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},*/
+           /* { label: '缴费月份', name: 'payMonth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y年m月'}, frozen: true},*/
             { label: '缴费人',name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isBatch){
                     return ('<button class="popupBtn btn btn-success btn-xs" ' +
@@ -50,7 +50,7 @@
                     return cellvalue;
                 }
             },frozen:true},
-            { label: '缴费账号',name: 'user.code', formatter: $.jgrid.formatter.defaultString, width:120,frozen:true},
+            { label: '缴费账号',name: 'user.code', width:120,frozen:true},
             { label: '订单状态',name: 'isClosed', width:150, formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.isClosed) return '已关闭'
@@ -59,7 +59,7 @@
                         .format(rowObject.sn, rowObject.payer);
             }},
             { label: '关闭订单',name: '_close', width:150, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.isSuccess) return '-'
+                if(rowObject.isSuccess) return '--'
                 if(rowObject.isClosed) return '已关闭'
                 return ('<button class="confirm btn btn-danger btn-xs" data-title="关闭订单" data-msg="确定关闭订单？（请确保订单未支付后操作）" ' +
                 'data-callback="_reload2" data-url="${ctx}/pmd/pmdOrder_closeTrade?sn={0}"><i class="fa fa-close"></i> 关闭订单</button>')

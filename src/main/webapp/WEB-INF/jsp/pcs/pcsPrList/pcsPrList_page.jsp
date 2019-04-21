@@ -125,7 +125,7 @@
             </c:if>
         {
             label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
+            if (cellvalue == undefined) return '--';
             return _cMap.PCS_PR_TYPE_MAP[cellvalue]
         }
         },
@@ -147,7 +147,7 @@
         {
             label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
         },
-        {label: '出生年月', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '民族', name: 'nation', width: 60},
         {
@@ -165,7 +165,7 @@
          name: 'workTime',
          width: 120,
          sortable: true,
-         formatter: 'date',
+         formatter: $.jgrid.formatter.date,
          formatoptions: {newformat: 'Y.m'}
          },*/
         {
@@ -173,7 +173,7 @@
             name: 'growTime',
             width: 120,
             sortable: true,
-            formatter: 'date',
+            formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y-m-d'}
         },
         {

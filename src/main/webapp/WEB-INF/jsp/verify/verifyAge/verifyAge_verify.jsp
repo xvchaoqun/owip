@@ -34,20 +34,20 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-4 control-label">形成时间</label>
-                                <div class="col-xs-6">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" name="_materialTime" type="text"
-                                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyAge.materialTime,'yyyy-MM-dd')}"/>
+                                <div class="col-xs-6" style="z-index: 1030">
+                                    <div class="input-group date" data-date-format="yyyy-mm-dd">
+                                        <input class="form-control" name="_materialTime" type="text"
+                                                value="${cm:formatDate(verifyAge.materialTime,'yyyy-MM-dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-4 control-label">记载的出生时间</label>
-                                <div class="col-xs-6">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" name="_materialBirth" type="text"
-                                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyAge.materialBirth,'yyyy-MM-dd')}"/>
+                                <div class="col-xs-6" style="z-index: 1030">
+                                    <div class="input-group date" data-date-format="yyyy-mm-dd" >
+                                        <input class="form-control" name="_materialBirth" type="text"
+                                               value="${cm:formatDate(verifyAge.materialBirth,'yyyy-MM-dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
@@ -57,45 +57,47 @@
                         <legend>档案中最新干部任免审批表</legend>
                         <div class="form-group">
                             <label class="col-xs-4 control-label">形成时间</label>
-                            <div class="col-xs-6">
-                                <div class="input-group">
-                                    <input class="form-control date-picker" name="_adTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyAge.adTime,'yyyy-MM-dd')}"/>
+
+                            <div class="col-xs-6" style="z-index: 1030">
+                                <div class="input-group date" data-date-format="yyyy-mm-dd" >
+                                    <input class="form-control" name="_adTime" type="text"
+                                           value="${cm:formatDate(verifyAge.adTime,'yyyy-MM-dd')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-4 control-label">记载的出生时间</label>
-                            <div class="col-xs-6">
-                                <div class="input-group">
-                                    <input class="form-control date-picker" name="_adBirth" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyAge.adBirth,'yyyy-MM-dd')}"/>
-                                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+
+                            <div class="col-xs-6" style="z-index: 1030">
+                                    <div class="input-group date" data-date-format="yyyy-mm-dd" >
+                                        <input class="form-control" name="_adBirth" type="text"
+                                               value="${cm:formatDate(verifyAge.adBirth,'yyyy-MM-dd')}"/>
+                                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                     </fieldset>
                     <div class="form-group">
                         <label class="col-xs-4 control-label">身份证出生时间</label>
-                        <div class="col-xs-6">
-                            <div class="input-group">
-                                <input class="form-control date-picker" name="_oldBirth" type="text"
-                                       data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyAge.oldBirth,'yyyy-MM-dd')}"/>
-                                <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                            </div>
-                        </div>
+
+                        <div class="col-xs-6" style="z-index: 1030">
+                                    <div class="input-group date" data-date-format="yyyy-mm-dd" >
+                                        <input class="form-control" name="_oldBirth" type="text"
+                                               value="${cm:formatDate(verifyAge.oldBirth,'yyyy-MM-dd')}"/>
+                                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                                    </div>
+                                </div>
                     </div>
                     <div class="form-group well" style="margin: 10px;">
                         <label class="col-xs-4 control-label" style="font-weight: bolder; font-size: large"><span class="star">*</span>组织认定出生时间</label>
-
-                        <div class="col-xs-6">
-                            <div class="input-group">
-                                <input required class="form-control date-picker" name="_verifyBirth" type="text"
-                                       data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyAge.verifyBirth,'yyyy-MM-dd')}"/>
-                                <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                            </div>
-                        </div>
+                        <div class="col-xs-6" style="z-index: 1030">
+                                    <div class="input-group date" data-date-format="yyyy-mm-dd" >
+                                        <input class="form-control" name="_verifyBirth" type="text"
+                                               value="${cm:formatDate(verifyAge.verifyBirth,'yyyy-MM-dd')}"/>
+                                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                                    </div>
+                                </div>
                     </div>
                     <div class="form-group">
                         <label class="col-xs-4 control-label">备注</label>
@@ -139,7 +141,7 @@
 </style>
 
 <script>
-    $.register.date($('.date-picker'))
+    $.register.date($('.input-group.date'))
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('textarea.limited').inputlimiter();
     $("#body-content-view button[type=submit]").click(function(){$("#modalForm").submit(); return false;});

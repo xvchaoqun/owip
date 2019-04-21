@@ -18,7 +18,7 @@
         rownumbers: true,
         url: '${ctx}/user/cet/cetShortMsg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '短信接收时间', name: 'sendTime', width: 150, formatter: 'date',
+            {label: '短信接收时间', name: 'sendTime', width: 150, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}},
             {label: '短信内容', name: 'msg', width: 850},
             /*{label: '培训班次', name: 'cetTrain.name', width: 300, align:'left'},*/

@@ -96,7 +96,7 @@
                 formatoptions:{url:'${ctx}/htmlFragment_changeOrder'},frozen:true },
             </c:if>
             { label: '上级说明', name: 'fid', width: 250,  align:'left', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 return "[{0}]".format(rowObject.parent.id) + rowObject.parent.title ;
             }  },
             <shiro:hasRole name="${ROLE_ADMIN}">

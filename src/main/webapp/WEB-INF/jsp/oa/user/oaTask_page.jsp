@@ -105,7 +105,7 @@
         rownumbers: true,
         url: '${ctx}/user/oa/oaTask_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '发布日期', name: 'taskPubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '发布日期', name: 'taskPubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
             {label: '标题', name: 'taskName', width: 300, frozen: true},
             {
                 label: '工作类型', name: 'taskType', formatter: function (cellvalue, options, rowObject) {
@@ -135,7 +135,7 @@
             {
                 label: '撤回', name: '_op', formatter: function (cellvalue, options, rowObject) {
 
-                if (rowObject.status == '<%=OaConstants.OA_TASK_USER_STATUS_PASS%>') return '-'
+                if (rowObject.status == '<%=OaConstants.OA_TASK_USER_STATUS_PASS%>') return '--'
 
                 return '<button class="confirm btn btn-warning btn-xs" data-msg="确定撤回？" data-callback="_reload"' +
                         'data-url="${ctx}/user/oa/oaTaskUser_back?taskId={0}"><i class="fa fa-reply"></i> 撤回</button>'
@@ -147,7 +147,7 @@
                 label: '应完成时间',
                 name: 'taskDeadline',
                 width: 140,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
             },
             {label: '联系方式', name: 'taskContact', width: 250},
@@ -157,7 +157,7 @@
                 name: 'assignRealname',
                 width: 120,
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-';
+                    if (cellvalue == undefined) return '--';
                     return cellvalue
                 }
             },
@@ -166,14 +166,14 @@
                 name: 'assignUserMobile',
                 width: 140,
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-';
+                    if (cellvalue == undefined) return '--';
                     return cellvalue
                 }
             },
             {
                 label: '审核情况', name: 'status', width: 130, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.isBack) return '已退回'
-                if (cellvalue == undefined) return '-'
+                if (cellvalue == undefined) return '--'
                 return _cMap.OA_TASK_USER_STATUS_MAP[cellvalue];
             }
             },{hidden:true, name: 'taskId', key:true}, {hidden: true, name: 'userId'}

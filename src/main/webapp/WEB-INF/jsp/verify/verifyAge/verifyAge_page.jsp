@@ -106,11 +106,11 @@
             },
             {label: '所在单位及职务', name: 'cadre.title', width: 350},
             {label: '认定类别', name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.VERIFY_AGE_TYPE_MAP[cellvalue]
             }},
-            {label: '认定前日期', name: 'oldBirth',formatter: 'date',formatoptions: {newformat: 'Y-m-d'}},
-            {label: '认定后日期', name: 'verifyBirth',formatter: 'date',formatoptions: {newformat: 'Y-m-d'}},
+            {label: '认定前日期', name: 'oldBirth',formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y-m-d'}},
+            {label: '认定后日期', name: 'verifyBirth',formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y-m-d'}},
             {label: '认定', name: '_verify', formatter: function (cellvalue, options, rowObject) {
                 if ($.trim(rowObject.oldBirth)=='')
                     return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/verifyAge_verify?id={0}"><i class="fa fa-check"></i> 认定</button>'

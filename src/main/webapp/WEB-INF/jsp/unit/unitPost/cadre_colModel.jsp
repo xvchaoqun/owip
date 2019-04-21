@@ -21,12 +21,12 @@
         },
         {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
         {label: '民族', name: 'cadre.nation', width: 60},
-        {label: '出生时间', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生时间', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
         {label: '党派<br/>加入时间', name: '_growTime', formatter: $.jgrid.formatter.growTime, formatoptions:{useCadre:true}},
         {
-            label: '参加工作时间', name: 'cadre.workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}
+            label: '参加工作时间', name: 'cadre.workTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}
         },
         {label: '最高学历', name: 'cadre.eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '最高学位', name: 'cadre.degree'},
@@ -35,27 +35,27 @@
         {
             label: '任现职时间',
             name: 'cadre.lpWorkTime',
-            formatter: 'date',
+            formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y-m-d'}
         },
         {
             label: '现职务<br/>始任时间',
             name: 'cadre.npWorkTime',
-            formatter: 'date',
+            formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y-m-d'}
         },
         {
             label: '现职务<br/>始任年限',
             name: 'cadre.cadrePostYear',
             formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         },
         {
             label: '现职级<br/>始任时间',
             name: 'cadre.sWorkTime',
-            formatter: 'date',
+            formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y-m-d'}
         },
         {
@@ -63,7 +63,7 @@
             width: 120,
             name: 'cadre.adminLevelYear',
             formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         }

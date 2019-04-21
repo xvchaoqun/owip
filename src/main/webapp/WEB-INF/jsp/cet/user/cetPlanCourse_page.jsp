@@ -50,8 +50,8 @@
         colModel: [
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_SELF}">
             { label: '学习心得',name: 'objInfo.note', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(!rowObject.needNote) return '-'
-                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                if(!rowObject.needNote) return '--'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return ($.trim(cellvalue)=='')?"未上传": $.swfPreview(cellvalue,
                         "学习心得({0})".format(rowObject.realname), '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
             },frozen: true},
@@ -89,7 +89,7 @@
                     "data-url='${ctx}/attach/download?path={0}&filename={1}'>"+
                             "<i class='fa fa-download'></i> 下载</button> &nbsp;").format(rowObject.filePath, rowObject.fileName)
                 }
-                return '-';
+                return '--';
             }},
             {label: '备注', name: 'remark', width: 400}
             </c:if>

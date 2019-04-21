@@ -135,7 +135,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-5 control-label"><span class="star">*</span>转出单位邮编</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="fromPostCode"
-							   value="${empty memberOut.fromPostCode?"100875":memberOut.fromPostCode}">
+							   value="${empty memberOut.fromPostCode?_pMap['school_postcode']:memberOut.fromPostCode}">
 				</div>
 			</div>
 			<div class="form-group">

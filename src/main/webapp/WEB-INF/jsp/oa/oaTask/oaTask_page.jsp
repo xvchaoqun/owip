@@ -137,7 +137,7 @@
         rownumbers: true,
         url: '${ctx}/oa/oaTask_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '发布日期', name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            {label: '发布日期', name: 'pubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
             {label: '标题', name: 'name', width:300, align:'left', frozen:true, formatter: function (cellvalue, options, rowObject) {
 
                 return '<a href="javascript:;" class="popupBtn" data-width="750"' +
@@ -155,7 +155,7 @@
             },
             {
                 label: '召回', name: '_publish', formatter: function (cellvalue, options, rowObject) {
-                if (!rowObject.isPublish) return '-';
+                if (!rowObject.isPublish) return '--';
                 return '<button class="confirm btn btn-danger btn-xs" data-msg="确定召回？" data-callback="_reload"' +
                         'data-url="${ctx}/oa/oaTask_publish?id={0}&publish=0"><i class="fa fa-reply"></i> 召回</button>'
                                 .format(rowObject.id)
@@ -172,7 +172,7 @@
                 label: '应完成时间',
                 name: 'deadline',
                 width: 140,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
             },
             {label: '联系方式', name: 'contact', width: 250},
@@ -192,12 +192,12 @@
             }},
             {label: '已完成数', name: 'finishCount'},
             {label: '完成率', name: '_rate', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.userCount==0) return '-'
+                if(rowObject.userCount==0) return '--'
                 return parseFloat(rowObject.finishCount*100/rowObject.userCount).toFixed(2) + "%";
             }},
             {
                 label: '报送详情', name: '_detail', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.userCount==0) return '-'
+                if(rowObject.userCount==0) return '--'
                 return '<button class="openView btn btn-primary btn-xs"' +
                         'data-url="${ctx}/oa/oaTaskUser?taskId={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id)
@@ -206,7 +206,7 @@
             {
                 label: '任务完结', name: '_finish', width: 130, formatter: function (cellvalue, options, rowObject) {
 
-                if(rowObject.userCount==0) return '-'
+                if(rowObject.userCount==0) return '--'
                 if(rowObject.finishCount<rowObject.userCount) return "否"
                 return '是   <button class="confirm btn btn-success btn-xs" data-msg="确定任务完结？"data-callback="_reload"' +
                         'data-url="${ctx}/oa/oaTask_finish?id={0}"><i class="fa fa-check-square-o"></i> 任务完结</button>'

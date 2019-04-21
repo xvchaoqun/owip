@@ -118,7 +118,7 @@
             {label: '年度', name: 'year', width: 80, frozen: true},
             {
                 label: '公示编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.year==undefined) return '-'
+                if(rowObject.year==undefined) return '--'
                 var _num = rowObject.code;
                 if(rowObject.pdfFilePath==undefined) return _num;
                 return $.swfPreview(rowObject.pdfFilePath, _num);
@@ -150,13 +150,13 @@
                 var _num = "党委常委会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 return _num;
             }, frozen: true},
-            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '发布时间', name: 'publishDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '公示开始时间', name: 'publicStartDate', width: 140, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:m'}},
-            {label: '公示结束时间', name: 'publicEndDate', width: 140, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:m'}},
+            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '发布时间', name: 'publishDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '公示开始时间', name: 'publicStartDate', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:m'}},
+            {label: '公示结束时间', name: 'publicEndDate', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:m'}},
             /*{label: '确认结束公示', name: 'isConfirmed', formatter: function (cellvalue, options, rowObject) {
 
-                if(!rowObject.isFinished) return '-'
+                if(!rowObject.isFinished) return '--'
 
                 if(cellvalue) return '已确认'
                 return ('<button class="confirm btn btn-primary btn-xs" ' +

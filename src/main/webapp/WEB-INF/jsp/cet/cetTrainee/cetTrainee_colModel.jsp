@@ -10,7 +10,7 @@
       }},
       {label: '签到时间', name: 'signTime', width: 160},
       {label: '签到方式', name: 'signType', width: 80, formatter: function (cellvalue, options, rowObject){
-          if(cellvalue==undefined) return '-'
+          if(cellvalue==undefined) return '--'
           return _cMap.CET_TRAINEE_SIGN_TYPE_MAP[cellvalue];
       } },
       {label: '参训人类别', name: 'traineeTypeId', width: 120, formatter: function (cellvalue, options, rowObject) {
@@ -26,11 +26,11 @@
                   .format(rowObject.userId, rowObject.trainId);
       }, frozen: true},
       { label: '选课情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-          if(courseCount==0) return '-'
+          if(courseCount==0) return '--'
           return '{0}/{1}'.format(rowObject.courseCount, courseCount);
       }, frozen: true},
       { label: '签到情况',name: '_sign', width: 80, formatter: function (cellvalue, options, rowObject) {
-          if(rowObject.courseCount==undefined) return '-'
+          if(rowObject.courseCount==undefined) return '--'
           return '{0}/{1}'.format(rowObject.finishCount, rowObject.courseCount);
       }, frozen: true},
       { label: '完成学时数',name: 'finishPeriod', frozen: true},
@@ -44,7 +44,7 @@
       {
           label: '任现职时间',
           name: 'cadre.lpWorkTime',
-          formatter: 'date',
+          formatter: $.jgrid.formatter.date,
           formatoptions: {newformat: 'Y-m-d'}
       },
       {label: '联系方式', name: 'cadre.mobile', width: 120},

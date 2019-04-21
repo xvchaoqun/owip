@@ -111,7 +111,7 @@
         url: '${ctx}/modifyBaseApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '序号', name: 'id', width: 50, frozen: true},
-            {label: '申请时间', width: 150, name: 'createTime'/*,formatter:'date',formatoptions: {newformat:'Y-m-d'}*/},
+            {label: '申请时间', width: 150, name: 'createTime'/*,formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}*/},
             {label: '工作证号', name: 'user.code', width: 120, frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
@@ -137,7 +137,7 @@
             {
                 label: '组织部审核', name: '_approval', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == '${MODIFY_BASE_APPLY_STATUS_ALL_CHECK}') {
-                    return '-';
+                    return '--';
                 }
                 return '<button data-url="${ctx}/modifyBaseItem?type=check&applyId={0}" class="openView btn btn-success btn-xs">'
                                 .format(rowObject.id)

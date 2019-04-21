@@ -470,7 +470,7 @@
                 return $.date(rowObject.saveStartTime, "yyyy.MM") + " ~ " + $.date(rowObject.saveEndTime, "yyyy.MM");
             }
             },
-            {label: '党费交纳截止时间', name: 'payTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+            {label: '党费交纳截止时间', name: 'payTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
 
             <c:if test="${param.type==MEMBER_STAY_TYPE_ABROAD}">
             {
@@ -479,7 +479,7 @@
                 width: 120,
                 formatter: function (cellvalue, options, rowObject) {
 
-                    if (rowObject.letter == undefined) return '-'
+                    if (rowObject.letter == undefined) return '--'
                     return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
                             .format(encodeURI(rowObject.letter), rowObject.user.realname + "-申请组织关系暂留" + ".jpg");
                 }
@@ -490,7 +490,7 @@
                 width: 250,
                 algin: 'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
+                    if (cellvalue == undefined) return '--';
                     return cellvalue.replace(/\+\+\+/g, ',');
                 }
             },
@@ -506,10 +506,10 @@
                 $.date(rowObject.endTime, "yyyy-MM");
             }
             },
-            {label: '预计回国时间', name: 'overDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+            {label: '预计回国时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
             {
                 label: '留学方式', name: 'type', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.MEMBER_STAY_ABROAD_TYPE_MAP_MAP[cellvalue];
             }
             },
@@ -536,13 +536,13 @@
                 width: 120,
                 formatter: function (cellvalue, options, rowObject) {
 
-                    if (rowObject.letter == undefined) return '-'
+                    if (rowObject.letter == undefined) return '--'
                     return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
                             .format(encodeURI(rowObject.letter), rowObject.user.realname + "-申请组织关系暂留" + ".jpg");
                 }
             },
             {label: '暂留原因', name: 'stayReason', width: 200},
-            {label: '预计转出时间', name: 'overDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+            {label: '预计转出时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
             {label: '联系人', name: 'name1', width: 150},
             {label: '联系人手机号', name: 'mobile1', width: 120},
             </c:if>

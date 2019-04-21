@@ -230,7 +230,7 @@
             {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
             {
                 label: '是否正职', name: 'mainCadrePost.postType', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.metaTypeMap[cellvalue].boolAttr ? "是" : "否"
             }
             },
@@ -238,20 +238,20 @@
             {label: '民族', name: 'nation', width: 60},
             {label: '籍贯', name: 'nativePlace', width: 120},
             {label: '身份证号', name: 'idcard', width: 150},
-            {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '党派', name: '_cadreParty', width: 80, width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
             {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
-            {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
             {label: '最高学位', name: 'degree'},
-            {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '毕业时间', name: 'finishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '学习方式', name: 'learnStyle', formatter: $.jgrid.formatter.MetaType},
             {label: '毕业学校、学院', name: 'school', width: 150},
             {
                 label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
             }
             },
@@ -266,7 +266,7 @@
                 width: 150,
                 name: 'mainCadrePost.dispatchCadreRelateBean.first',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (!cellvalue || cellvalue.id == undefined) return '';
+                    if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
                     return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
@@ -274,14 +274,14 @@
             {
                 label: '任现职时间',
                 name: 'mainCadrePost.dispatchCadreRelateBean.last.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
                 label: '现职务始任时间',
                 width: 150,
                 name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
@@ -289,7 +289,7 @@
                 width: 120,
                 name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
+                    if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
@@ -298,7 +298,7 @@
                 label: '职级始任日期',
                 width: 120,
                 name: 'presentAdminLevel.startDispatch.workTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
@@ -307,14 +307,14 @@
                 name: 'workYear',
                 formatter: function (cellvalue, options, rowObject) {
                     //console.log(rowObject.endDispatch)
-                    if (rowObject.presentAdminLevel == undefined || rowObject.presentAdminLevel.startDispatch == undefined) return '';
+                    if (rowObject.presentAdminLevel == undefined || rowObject.presentAdminLevel.startDispatch == undefined) return '--';
 
                     var end;
                     if (rowObject.presentAdminLevel.endDispatch != undefined)
                         end = rowObject.presentAdminLevel.endDispatch.workTime;
                     if (rowObject.presentAdminLevel.adminLevel == rowObject.mainCadrePost.adminLevel)
                         end = new Date().format("yyyy-MM-dd");
-                    if (rowObject.presentAdminLevel.startDispatch.workTime == undefined || end == undefined) return '';
+                    if (rowObject.presentAdminLevel.startDispatch.workTime == undefined || end == undefined) return '--';
 
                     var month = $.monthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
                     var year = Math.floor(month / 12);
@@ -323,7 +323,7 @@
             },
             {
                 label: '是否双肩挑', name: 'mainCadrePost.isDouble', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return cellvalue ? "是" : "否";
             }
             },
@@ -336,7 +336,7 @@
             {
                 label: '双肩挑单位', name: 'mainCadrePost.doubleUnitIds', width: 250, formatter: function (cellvalue, options, rowObject) {
 
-                if($.trim(cellvalue)=='') return '-'
+                if($.trim(cellvalue)=='') return '--'
                 return ($.map(cellvalue.split(","), function(unitId){
                     return $.jgrid.formatter.unit(unitId);
                 })).join("，")

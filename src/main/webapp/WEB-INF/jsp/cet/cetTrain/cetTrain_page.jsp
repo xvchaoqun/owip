@@ -147,7 +147,7 @@
             },
             {
                 label: '发布状态', name: '_pubStatus', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.pubStatus == undefined) return '-';
+                if (rowObject.pubStatus == undefined) return '--';
                 return ('<span class="{0}">' + _cMap.CET_TRAIN_PUB_STATUS_MAP[rowObject.pubStatus] + '</span>')
                         .format(rowObject.pubStatus !=${CET_TRAIN_PUB_STATUS_PUBLISHED} ? 'text-danger bolder' : 'text-success');
 
@@ -192,11 +192,11 @@
             }, frozen: true
             },
            /* {label: '参训人员类型', name: 'traineeTypes', width: 220, align: 'left'},*/
-            /*{label: '开班时间', name: 'openTime', width: 150, formatter: 'date',
+            /*{label: '开班时间', name: 'openTime', width: 150, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},},
             {label: '开班地点', name: 'openAddress', width: 220, align: 'left'},*/
-            {label: '开课日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '结课日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '开课日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '结课日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '备注', name: 'remark', width: 300}, {hidden: true, name: 'pubStatus'},
             {hidden: true, name: 'isFinished'}
         ],

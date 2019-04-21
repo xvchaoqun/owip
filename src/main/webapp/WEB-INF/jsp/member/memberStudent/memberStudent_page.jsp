@@ -294,10 +294,10 @@
                     return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                 return "-";
             }},
-            { label:'入党时间',  name: 'growTime', width: 120, sortable:true,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label:'转正时间',  name: 'positiveTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label:'入党时间',  name: 'growTime', width: 120, sortable:true,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label:'转正时间',  name: 'positiveTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             <c:if test="${cls==6}">
-            { label:'转出时间',  name: 'outHandleTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label:'转出时间',  name: 'outHandleTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
                 </c:if>
             { label:'培养层次',  name: 'eduLevel' },
             { label:'培养类型',  name: 'eduType' },

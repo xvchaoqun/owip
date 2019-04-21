@@ -96,7 +96,7 @@
             },
             {
                 label: '所属角色', name: 'roleCount', width: 110, formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-'
+                    if (cellvalue == undefined) return '--'
                     return ('<button class="popupBtn btn btn-warning btn-xs" data-width="650" data-url="${ctx}/sysResource_roles?resourceId={0}">' +
                         '<i class="fa fa-search"></i> 查看({1})</button>')
                         .format(rowObject.id, cellvalue);

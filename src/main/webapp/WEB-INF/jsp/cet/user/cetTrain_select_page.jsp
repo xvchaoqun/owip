@@ -93,8 +93,8 @@
             }, width: 90, frozen: true},
             </c:if>
             {label: '年度', name: 'year', width:'60', frozen: true},
-            {label: '开课日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '结课日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '开课日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '结课日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '培训班名称', name: 'name', formatter: function (cellvalue, options, rowObject) {
                 return ('<a href="javascript:;" class="openView" ' +
                 'data-url="${ctx}/user/cet/cetTrain_detail?cls=1&trainId={0}">{1}</a>')
@@ -107,15 +107,15 @@
                         .format(rowObject.id);
             }},
             {label: '选课截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 if(rowObject.enrollStatus==${CET_TRAIN_ENROLL_STATUS_DEFAULT}){
                     return $.date(cellvalue, "yyyy-MM-dd HH:mm");
                 }
-                return '-'
+                return '--'
             }},
             /*{label: '参训人员类型', name: 'traineeTypes', width:200},*/
             {label: '所属专题培训/年度培训', name: '_project', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetProject==undefined) return '-'
+                if(rowObject.cetProject==undefined) return '--'
                 return ('<a href="javascript:;" class="openView" ' +
                 'data-url="${ctx}/user/cet/cetProjectPlan?projectId={0}">{1}</a>')
                         .format(rowObject.cetProject.id, rowObject.cetProject.name)

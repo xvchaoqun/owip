@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <script>
   var colModel = [
-    {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},
+    {label: '月份', name: 'payMonth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y年m月'}, frozen: true},
     { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
       <%--<c:if test="${cls==1}">
       if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
@@ -25,7 +25,7 @@
         'data-url="${ctx}/pmd/pmdParty_export?id={0}"><i class="fa fa-file-excel-o"></i> 报表</button>')
                 .format(rowObject.id);
       }
-      return '-'
+      return '--'
     }},
     { label: '党委名称',name: 'partyName', width:400, align:'left', frozen: true},
     <c:if test="${cls==1||cls==2}">
@@ -46,11 +46,11 @@
       return (rowObject.hasReport)?cellvalue:rowObject.r.branchCount;
     }},
     { label: '已报送<br/>党支部数',name: 'hasReportCount', width:80, formatter: function (cellvalue, options, rowObject) {
-      if(rowObject.isDirectBranch) return '-'
+      if(rowObject.isDirectBranch) return '--'
       return (rowObject.hasReport)?cellvalue:rowObject.r.hasReportCount;
     }},
     /*{ label: '未报送<br/>党支部数',name: '_notReportCount', formatter: function (cellvalue, options, rowObject) {
-      if(rowObject.isDirectBranch) return '-'
+      if(rowObject.isDirectBranch) return '--'
       return ((rowObject.hasReport)?rowObject.branchCount:rowObject.r.branchCount) - ((rowObject.hasReport)?rowObject.hasReportCount:rowObject.r.hasReportCount);
     }},*/
     { label: '已报送支部<br/>党员总数',name: 'memberCount', formatter: function (cellvalue, options, rowObject) {

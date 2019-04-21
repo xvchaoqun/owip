@@ -16,15 +16,15 @@ pageEncoding="UTF-8" %>
         colModel: [
             {label: '姓名', name: 'cadre.realname', frozen: true},
             {label: '工作证号', name: 'cadre.code', width: 110, frozen: true},
-            {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align:'left'},
             {label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType, width: 200},
             {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 200},
             {
                 label: '所属内设机构', name: 'unitIds',formatter: function (cellvalue, options, rowObject) {
 
-                if($.trim(cellvalue)=='') return '-'
+                if($.trim(cellvalue)=='') return '--'
                 return ($.map(cellvalue.split(","), function(unitId){
                     return $.jgrid.formatter.unit(unitId);
                 })).join("，")

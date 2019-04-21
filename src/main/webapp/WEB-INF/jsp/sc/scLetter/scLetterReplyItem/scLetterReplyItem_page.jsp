@@ -119,13 +119,13 @@
                 return $.swfPreview(rowObject.letterFilePath, rowObject.letterFileName, _num, _num);
             }, frozen: true
             },
-            {label: '函询日期', name: 'letterQueryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '函询日期', name: 'letterQueryDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '纪委回复文件编号', name: 'replyNum', width: 200, formatter: function (cellvalue, options, rowObject) {
                 var _num = _cMap.metaTypeMap[rowObject.replyType].name+"〔{0}〕{1}号".format(rowObject.letterYear, rowObject.replyNum)
                 return $.swfPreview(rowObject.replyFilePath, rowObject.replyFileName, _num, _num);
             }},
-            {label: '纪委回复日期', name: 'replyDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '纪委回复日期', name: 'replyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '函询对象工作证号', name: 'code', width: 130},
             {label: '函询对象姓名', name: 'realname', width: 110},
             {label: '纪委回复情况', name: 'content', width: 500},

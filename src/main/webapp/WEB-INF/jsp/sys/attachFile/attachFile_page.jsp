@@ -94,7 +94,7 @@ pageEncoding="UTF-8" %>
             }},
             { label: '扩展名',name: 'ext'},
             { label: '类别', name: 'type', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 return _cMap.ATTACH_FILE_TYPE_MAP[cellvalue];
             }},
             { label: '上传路径',name: 'path', width: 200},

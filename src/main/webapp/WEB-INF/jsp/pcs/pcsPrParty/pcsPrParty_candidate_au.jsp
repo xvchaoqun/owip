@@ -358,7 +358,7 @@
             name: 'workTime',
             width: 120,
             sortable: true,
-            formatter: 'date',
+            formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m'}
         },*/
         {
@@ -366,7 +366,7 @@
             name: 'growTime',
             width: 120,
             sortable: true,
-            formatter: 'date',
+            formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y-m-d'}
         },
         {

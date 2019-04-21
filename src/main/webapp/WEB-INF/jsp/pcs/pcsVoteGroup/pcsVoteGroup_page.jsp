@@ -75,7 +75,7 @@
                 return ('<button class="downloadBtn btn btn-warning btn-xs" ' +
                 'data-url="${ctx}/pcsVoteCandidate_export?cls=0&groupId={0}"><i class="fa fa-download"></i> 导出</button>')
                         .format(rowObject.id);
-                return '-'
+                return '--'
             }, frozen: true
             },
             {

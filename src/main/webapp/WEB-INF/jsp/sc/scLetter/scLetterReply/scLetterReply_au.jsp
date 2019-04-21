@@ -71,7 +71,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label">回复文件编号</label>
 
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-6"  style="width: 263px">
                                         <input class="form-control digits" type="text" name="num"
                                                value="${scLetterReply.num}">
                                         <span class="label-inline"> * 留空自动生成</span>
@@ -80,11 +80,10 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>回复日期</label>
 
-                                    <div class="col-xs-6">
-                                        <div class="input-group">
-                                            <input required class="form-control date-picker" name="replyDate"
+                                    <div class="col-xs-6" style="z-index: 1030;">
+                                        <div class="input-group date" style="width:240px" data-date-format="yyyy-mm-dd" >
+                                            <input required class="form-control" name="replyDate"
                                                    type="text"
-                                                   data-date-format="yyyy-mm-dd"
                                                    value="${cm:formatDate(scLetterReply.replyDate,'yyyy-MM-dd')}"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
@@ -98,7 +97,7 @@
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <div style="padding: 10px;">
-                                            <div id="itemList" style="height: 407px;overflow-y: auto;">
+                                            <div id="itemList" style="max-height: 407px;overflow-y: auto;">
 
                                             </div>
                                         </div>
@@ -169,7 +168,7 @@
     $("#itemList").append(_.template($("#itemListTpl").html())({users: selectedItems}));
 
     $.register.user_select($('#modalForm [data-rel="select2-ajax"]'));
-    $.register.date($('.date-picker'));
+    $.register.date($('.input-group.date'));
     $('#modalForm [data-rel="select2"]').select2();
     $("#upload-file").change(function () {
         if ($("#upload-file").val() != "") {
@@ -213,6 +212,7 @@
                 SysMsg.warning("请上传纪委回复文件");
                 return;
             }
+            //console.log(JSON.stringify(items))
             $(form).ajaxSubmit({
                 data: {items: $.base64.encode(JSON.stringify(items))},
                 success: function (ret) {

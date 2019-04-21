@@ -29,13 +29,13 @@
 
             },frozen:true},
         { label: '类别', name: 'type', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 return _cMap.USER_TYPE_MAP[cellvalue];
             }},
         { label: '性别',  name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         { label: '系统角色',  name: 'roleIds', align:'left', width: 156 , formatter:function(cellvalue, options, rowObject){
 
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 var roleIdArray = cellvalue.split(",");
                 return $.map(roleIdArray, function(item){
                     var role = _cMap.roleMap[item];
@@ -49,7 +49,7 @@
         { label: '邮箱',  name: 'email', width: 150 },
         </c:if>
         { label: '账号来源', name: 'source', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 return _cMap.USER_SOURCE_MAP[cellvalue];
             } },
         { label: '状态', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){

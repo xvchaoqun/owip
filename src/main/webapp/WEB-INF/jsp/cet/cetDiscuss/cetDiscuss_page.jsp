@@ -63,15 +63,15 @@
                 'data-url="${ctx}/cet/cetDiscussGroup?discussId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
             }, frozen: true},
-            {label: '开始日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-            {label: '结束日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '开始日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '结束日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
             {
                 label: '排序',formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {grid:'#jqGrid2', url: "${ctx}/cet/cetDiscuss_changeOrder"}, frozen: true
             },
             {label: '研讨会名称', name: 'name', width:300},
             {label: '负责单位', name: 'unitType', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return _cMap.CET_DISCUSS_UNIT_TYPE_MAP[cellvalue]
             } },
             {label: '学时', name: 'period'},

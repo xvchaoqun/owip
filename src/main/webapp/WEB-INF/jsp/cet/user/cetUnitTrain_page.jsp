@@ -29,14 +29,14 @@
                 label: '培训<br/>开始时间',
                 name: 'project.startDate',
                 width: 120,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
                 label: '培训<br/>结束时间',
                 name: 'project.endDate',
                 width: 120,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {label: '参训人姓名', name: 'cadre.realname', frozen: true},

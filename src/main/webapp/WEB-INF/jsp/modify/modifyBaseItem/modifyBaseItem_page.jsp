@@ -62,11 +62,11 @@
         url: "${ctx}/modifyBaseItem_data?callback=?&applyId=${param.applyId}",
         colModel: [
             { label: '序号', name: 'id', width: 80 },
-            { label: '申请时间', name: 'createTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '申请时间', name: 'createTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             { label: '字段名称', name: 'name', width: 150},
             { label: '修改前', name:'orginalValue', width: 150,formatter:function(cellvalue, options, rowObject){
 
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 if(rowObject.type=='${MODIFY_BASE_ITEM_TYPE_IMAGE}'){
 
                     return '<a class="various" title="{1}" data-fancybox-type="image" href="${ctx}/avatar?path={0}"> <img class="avatar" src="${ctx}/avatar?path={0}"/></a>'
@@ -79,7 +79,7 @@
             }},
             { label: '修改后',  name: 'modifyValue', width: 150,formatter:function(cellvalue, options, rowObject){
 
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 if(rowObject.type=='${MODIFY_BASE_ITEM_TYPE_IMAGE}'){
                     var path = '${ctx}/avatar?path={0}&_='.format(encodeURI(cellvalue)) + new Date().getTime();
                     return '<a class="various" title="{1}" data-fancybox-type="image" href="{0}"><img class="avatar" src="{0}"/></a>'
@@ -110,13 +110,13 @@
 
             </c:if>
             { label:'审核人', name: 'checkUser.realname' },
-            { label: '审核时间', name: 'checkTime', width: 150/*, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}*/},
+            { label: '审核时间', name: 'checkTime', width: 150/*, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}*/},
             { label:'依据', name: 'checkReason', width: 150 },
             { label:'备注', name: 'checkRemark', width: 250 },
             <c:if test="${param.type!='check' && apply.status!=MODIFY_BASE_APPLY_STATUS_DELETE && apply.userId==_user.id}">
             { label:'编辑', name: '_edit',formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
-                    return '-';
+                    return '--';
                 }
                 return '<button data-url="${ctx}/user/modifyBaseItem_au?id={0}" class="popupBtn btn btn-primary btn-xs">'
                                 .format(rowObject.id)
@@ -124,7 +124,7 @@
             }},
             { label:'删除', name: '_del',formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
-                    return '-';
+                    return '--';
                 }
                 return '<button data-url="${ctx}/user/modifyBaseItem_del?id={0}" data-msg="确定删除此字段修改？" data-callback="_reload" class="confirm btn btn-danger btn-xs">'
                                 .format(rowObject.id)

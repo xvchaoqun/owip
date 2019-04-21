@@ -55,11 +55,11 @@
             {label: '所在单位及职务', name: 'title', width:350},
             {label: '手机号码', name: 'mobile', width:120},
             {label: '指定负责人', name: 'assignRealname', width:180, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-';
+                if(cellvalue==undefined) return '--';
                 return cellvalue + "({0})".format(rowObject.assignCode)
             }},
             {label: '指定负责人手机号', name: 'assignUserMobile', width:140, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-';
+                if(cellvalue==undefined) return '--';
                 return cellvalue
             }},
             {label: '报送情况', name: 'hasReport', formatter: function (cellvalue, options, rowObject) {
@@ -71,11 +71,11 @@
                                 .format(rowObject.id)
             }},
             {label: '报送人', name: 'reportRealname', width:120, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-';
+                if(cellvalue==undefined) return '--';
                 return cellvalue
             }},
             {label: '审核情况', name: 'status', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 if(cellvalue=='<%=OaConstants.OA_TASK_USER_STATUS_INIT%>'){
                     return '<button class="popupBtn btn btn-primary btn-xs"' +
                             'data-url="${ctx}/oa/oaTaskUser_check?taskId={0}&taskUserIds[]={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
@@ -94,7 +94,7 @@
             { label: '退回',name: '_back', formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.isBack) return '已退回'
-                if(!rowObject.hasReport) return '-'
+                if(!rowObject.hasReport) return '--'
                 return ('<button class="confirm btn btn-danger btn-xs" data-callback="_oaTaskUser_reload"  data-title="退回"  data-msg="确定退回“{1}”的报送？"' +
                 'data-url="${ctx}/oa/oaTaskUser_back?id={0}"><i class="fa fa-reply"></i> 退回</button>')
                         .format(rowObject.id, rowObject.realname);

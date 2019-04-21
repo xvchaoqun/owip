@@ -106,7 +106,7 @@
                         .format(rowObject.year, holdDate,code)
 
             }, frozen: true},
-            {label: '党委常委会<br/>日期', name: 'holdDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会<br/>日期', name: 'holdDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             { label:'工作证号', name: 'code'},
             { label:'姓名', name: 'realname', formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue);
@@ -143,7 +143,7 @@
             <shiro:hasPermission name="cisInspectObj:list">
             {label: '干部考察材料', name: '_cisFilePath', width: 180, formatter: function (cellvalue, options, rowObject) {
 
-                if(!rowObject.hasAppoint) return '-'
+                if(!rowObject.hasAppoint) return '--'
 
                 var viewBtn = ('<button class="openView btn btn-success btn-xs" ' +
                 'data-url="${ctx}/sc/scAdArchive_cisPreview?view=1&archiveId={0}"><i class="fa fa-search"></i> 查看</button>')

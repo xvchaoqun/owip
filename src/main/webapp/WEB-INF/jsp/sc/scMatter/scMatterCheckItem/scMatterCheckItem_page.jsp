@@ -141,7 +141,7 @@
                 return "个人事项核查〔{0}〕{1}号".format(rowObject.year, rowObject.num)
             }, frozen: true
             },
-            {label: '核查日期', name: 'checkDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '核查日期', name: 'checkDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '核查类型', name: 'isRandom', width: 130, formatter: function (cellvalue, options, rowObject) {
                 return (rowObject.isRandom) ? '年度随机抽查' : '重点抽查';
@@ -150,40 +150,40 @@
             { label: '工作证号',name: 'code', width: 120,frozen: true},
             { label: '姓名',name: 'realname', frozen: true},
             {label: '比对日期', name: 'compareDate', formatter:function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined) return '-'
+                    if(cellvalue==undefined) return '--'
                     return $.date(cellvalue, "yyyy-MM-dd");
                 }},
-            {label: '干部监督机构查核结果', width: 300, name: 'resultType', formatter:$.jgrid.formatter.defaultString},
+            {label: '干部监督机构查核结果', width: 300, name: 'resultType'},
             {label: '认定结果', name: 'confirmType', formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-';
+                    if (cellvalue == undefined) return '--';
                     return _cMap.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP[cellvalue]
                 }},
-            {label: '认定日期', name: 'confirmDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '认定日期', name: 'confirmDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '本人说明材料', name: 'selfFile', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return $.swfPreview(rowObject.selfFile, "本人说明材料", "查看");
             }},
             {label: '认定依据', width: 200, name: 'checkReason', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined) return '-'
+                    if(cellvalue==undefined) return '--'
 
                     return cellvalue;
                 }},
-            {label: '干部管理机构处理意见', width: 200, name: 'handleType', formatter:$.jgrid.formatter.defaultString},
+            {label: '干部管理机构处理意见', width: 200, name: 'handleType'},
             {label: '核查情况表', name: 'checkFile', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined) return '-'
+                    if(cellvalue==undefined) return '--'
                 return $.swfPreview(rowObject.checkFile, "核查情况表", "查看");
             }},
-            {label: '组织处理方式', width: 130, name: 'owHandleType', formatter:$.jgrid.formatter.defaultString},
+            {label: '组织处理方式', width: 130, name: 'owHandleType'},
             {label: '组织处理日期', name: 'owHandleDate', width: 130, formatter:function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined) return '-'
+                    if(cellvalue==undefined) return '--'
                     return $.date(cellvalue, "yyyy-MM-dd");
                 }},
             {label: '组织处理记录', width: 130, name: 'owHandleFile', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return $.swfPreview(rowObject.owHandleFile, "组织处理记录", "查看");
             }},
             {label: '组织处理影响期', width: 130, name: 'owAffectDate', formatter:function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined) return '-'
+                    if(cellvalue==undefined) return '--'
                     return $.date(cellvalue, "yyyy-MM-dd");
                 }},
             {label: '备注', name: 'remark', width: 300}

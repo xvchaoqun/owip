@@ -125,15 +125,15 @@
             </shiro:hasPermission>
             {label: '所在单位', name: 'unitId', width: 180,align:'left', formatter: $.jgrid.formatter.unit},
             {label: '所属${_p_partyName}', name: 'groupPartyId', width: 350, align:'left',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.partyMap[cellvalue].name;
             }},
             {label: '所属支部', name: 'groupBranchId', width: 450, align:'left',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
+                if (cellvalue == undefined) return '--';
                 return _cMap.branchMap[cellvalue].name;
             }},
             {label: '类别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-            {label: '任职时间', name: 'assignDate', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {
                 label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER
             },
@@ -141,11 +141,11 @@
             {label: '身份证号', name: 'idcard', width: 170},
 
             {
-                label: '出生日期', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
+                label: '出生日期', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}
             },
             {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
-            {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '岗位类别', name: 'postClass'},
             {label: '主岗等级', name: 'mainPostLevel', width: 150},
             {label: '专业技术职务', name: 'proPost', width: 120},

@@ -5,7 +5,7 @@
       /*{label: '年度', name: 'year'},*/
       /*{
           label: '发文类型', name: 'dispatchType', formatter: function (cellvalue, options, rowObject) {
-          if(cellvalue==undefined) return '-'
+          if(cellvalue==undefined) return '--'
           return cellvalue.name;
       }, frozen: true
       },*/
@@ -14,7 +14,7 @@
       {
           label: '党委常委会', name: 'scCommittees', width:210, formatter: function (cellvalue, options, rowObject) {
 
-          if(cellvalue==undefined || cellvalue.length==0) return '-'
+          if(cellvalue==undefined || cellvalue.length==0) return '--'
 
           var scCommittee = cellvalue[0];
           var str = scCommittee.code
@@ -33,8 +33,8 @@
                   .format(rowObject.id, str);
       }
       },
-      {label: '党委常委会日期', name: 'meetingTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-      {label: '起草日期', name: 'pubTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+      {label: '党委常委会日期', name: 'meetingTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+      {label: '起草日期', name: 'pubTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
       {label: '任命人数', name: 'appointCount', width: 80},
       {label: '免职人数', name: 'dismissCount', width: 80},
           <c:if test="${param.type=='admin'}">

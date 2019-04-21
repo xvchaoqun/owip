@@ -540,7 +540,7 @@
             }, frozen: true},
             { label: '选课时间',name: 'objInfo.chooseTime', width: 160, frozen: true},
             { label: '选课操作人',name: 'objInfo.chooseUserId', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return cellvalue==rowObject.userId?'本人':rowObject.objInfo.chooseUserName;
             }, frozen: true},
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE}">
@@ -554,25 +554,25 @@
             </c:if>
             <c:if test="${cls==3}">
             { label: '是否结业',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return cellvalue?"是":"否"
             },frozen: true},
             { label: '完成学时情况',name: '_finish', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return "{0}/{1}".format(Math.trimToZero(rowObject.objInfo.period), '${cm:stripTrailingZeros(cetProjectPlan.period)}')
             }, frozen: true},
             { label: '学习详情',name: '_detail', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return ('<button class="popupBtn btn btn-success btn-xs" ' +
                 'data-url="${ctx}/cet/cetPlanCourseObjResult_au?view=1&objId={0}&planCourseId={1}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id, '${param.planCourseId}');
             }, frozen: true},
             { label: '选课时间',name: 'objInfo.chooseTime', width: 160, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return cellvalue;
             }, frozen: true},
             { label: '选课操作人',name: 'objInfo.chooseUserId', formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return cellvalue==rowObject.userId?'本人':rowObject.objInfo.chooseUserName;
             }, frozen: true},
             {name:'planCourseObjId', hidden:true, formatter: function (cellvalue, options, rowObject){
@@ -581,12 +581,12 @@
             </c:if>
             <c:if test="${cls==6}">
             { label: '学习情况',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return cellvalue?"已完成":"正在进行"
             },frozen: true},
             <c:if test="${cetPlanCourse.needNote}">
             { label: '学习心得',name: 'objInfo.note', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return ($.trim(cellvalue)=='')?"未上传": $.swfPreview(cellvalue,
                         "学习心得({0})".format(rowObject.realname), '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
             },frozen: true},
@@ -635,10 +635,10 @@
                         rowObject.objInfo.discussGroupId==parseInt(discussGroupId)){
                     return cellvalue?"已参会":"未参会"
                 }
-                return '-'
+                return '--'
             }, frozen: true},
             { label: '完成学时数',name: 'objInfo.isFinished', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.objInfo.isFinished==undefined) return '-'
+                if(rowObject.objInfo.isFinished==undefined) return '--'
                 return rowObject.objInfo.isFinished?${cetDiscuss.period}:0
             }, frozen: true},
             </c:if>
@@ -655,15 +655,15 @@
             {
                 label: '任现职时间',
                 name: 'lpWorkTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
              <c:if test="${cls==1}">
-            {label: '应完成学时数', name: 'shouldFinishPeriod', formatter: $.jgrid.formatter.defaultString, width: 110, frozen: true},
+            {label: '应完成学时数', name: 'shouldFinishPeriod', width: 110, frozen: true},
             {label: '已完成学时数', name: 'finishPeriod', width: 110},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
-                if(isNaN(rowObject.shouldFinishPeriod) || rowObject.shouldFinishPeriod<=0) return '-';
+                if(isNaN(rowObject.shouldFinishPeriod) || rowObject.shouldFinishPeriod<=0) return '--';
                 var progress= Math.formatFloat(rowObject.finishPeriod*100/rowObject.shouldFinishPeriod, 2) + "%";
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
@@ -675,7 +675,7 @@
             /*,
             {label: '是否达到结业要求', name: '_enough', width: 150, formatter: function (cellvalue, options, rowObject) {
 
-                if(isNaN(requirePeriod) || requirePeriod<=0) return '-';
+                if(isNaN(requirePeriod) || requirePeriod<=0) return '--';
                 return rowObject.finishPeriod/requirePeriod >= 0.9?"<span class='text-success'>达到</span>"
                         :"<span class='text-danger'>未达到</span>";
             }}*/

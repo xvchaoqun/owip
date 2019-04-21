@@ -106,7 +106,7 @@ pageEncoding="UTF-8" %>
                     }, width: 150
                 },
                 { label: '推荐类型',name: 'type', width: 85, formatter: $.jgrid.formatter.MetaType},
-                { label: '推荐日期',name: 'recommendDate', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
+                { label: '推荐日期',name: 'recommendDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 { label: '推荐岗位',name: 'postName', width: 280, align: 'left'},
                 { label: '分管工作',name: 'job', width: 180, align: 'left'},
                 {label: '行政级别', name: 'adminLevel', width: 85, formatter: $.jgrid.formatter.MetaType},

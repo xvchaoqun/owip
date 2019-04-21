@@ -8,7 +8,7 @@
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                     cellvalue, cellvalue, '${param.type eq 'all'?'modal':'url'}');
             },frozen:true },
-            { label: '发文日期',  name: 'dispatch.pubTime',frozen:true , formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '发文日期',  name: 'dispatch.pubTime',frozen:true , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
 
             { label:'机构类型', name: 'type', width: 90, formatter:function(cellvalue, options, rowObject){
 

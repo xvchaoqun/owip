@@ -172,119 +172,119 @@
 
                 if(rowObject.pmdConfigMemberType==undefined
                         ||rowObject.pmdConfigMemberType.pmdNorm==undefined) return "-";
-                if(rowObject.hasReset) return '-'
+                if(rowObject.hasReset) return '--'
 
                 if(rowObject.pmdConfigMemberType.pmdNorm.setType == ${PMD_NORM_SET_TYPE_SET}){
                    return '<span class="text-danger bolder">未确认</span>'
                 }
 
-                return '-'
+                return '--'
             }},
             {
                 label: '党费计算基数', name: 'retireSalary', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_RETIRE}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_RETIRE}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '岗位工资', name: 'gwgz', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '薪级工资', name: 'xjgz', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '岗位津贴', name: 'gwjt', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '职务补贴', name: 'zwbt', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '职务补贴1', name: 'zwbt1', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '生活补贴', name: 'shbt', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '书报费', name: 'sbf', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '洗理费', name: 'xlf', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '工资冲销', name: 'gzcx', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '失业保险', name: 'shiyebx', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '养老保险', name: 'yanglaobx', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '医疗保险', name: 'yiliaobx', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '工伤保险', name: 'gsbx', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '生育保险', name: 'shengyubx', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '企业年金', name: 'qynj', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '职业年金', name: 'zynj', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },
             {
                 label: '公积金', name: 'gjj', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
+                if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '--'
                 return $.trim(cellvalue)
             }
             },{hidden:true, name:'userId', key:true}

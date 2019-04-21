@@ -130,7 +130,7 @@
         colModel: [
             {
                 label: '${subTypeName}', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.childNum == 0) return '';
+                if (rowObject.childNum == 0) return '--';
                 return _.template($("#switch_tpl").html().NoMultiSpace())({
                     id: rowObject.id,
                     count: rowObject.childNum

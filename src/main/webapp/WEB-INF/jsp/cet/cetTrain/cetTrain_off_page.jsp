@@ -108,8 +108,8 @@ pageEncoding="UTF-8" %>
                 var str = '<i class="fa fa-id-card-o red" title="实名测评"></i>&nbsp;';
                 return (rowObject.evaCount>0&&!rowObject.evaAnonymous)?str+cellvalue:cellvalue;
             }},
-            { label: '开始日期',name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label: '结束日期',name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label: '开始日期',name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '结束日期',name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '培训课程', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue==0)
                     return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/cet/cetTrainCourse?trainId={0}&isOnCampus=0">编辑课程</a>'
@@ -123,19 +123,19 @@ pageEncoding="UTF-8" %>
                         .format(rowObject.id);
             }},
             {label: '评课账号（总数）', name: '_eva', width: 130, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.evaCount==undefined || rowObject.evaCount==0) return '-'
+                if(rowObject.evaCount==undefined || rowObject.evaCount==0) return '--'
                 return '<a href="javascript:void(0)" class="popupBtn" data-width="750" ' +
                         'data-url="${ctx}/cet/cetTrainInspector_list?trainId={0}">查看（{1}）</a>'
                                 .format(rowObject.id, rowObject.evaCount);
             }},
             {label: '导出账号', name: '_export', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.evaCount==undefined || rowObject.evaCount==0) return '-'
+                if(rowObject.evaCount==undefined || rowObject.evaCount==0) return '--'
                 return '<a href="javascript:void(0)" class="downloadBtn" ' +
                         'data-url="${ctx}/cet/cetTrainInspector_list?export=1&trainId={0}">导出</a>'
                                 .format(rowObject.id);
             }},
             {label: '打印', name: '_print', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.evaCount==undefined || rowObject.evaCount==0) return '-'
+                if(rowObject.evaCount==undefined || rowObject.evaCount==0) return '--'
                 /*return '<a href="javascript:void(0)" class="linkBtn" data-target="_blank"' +
                         'data-url="${ctx}/cet/cetTrainInspector_list?export=2&trainId={0}">打印</a>'
                                 .format(rowObject.id);*/
@@ -158,8 +158,8 @@ pageEncoding="UTF-8" %>
                 return cellvalue?"是":"否"
             }},
             {label: '评课关闭时间', name: 'evaCloseTime', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.evaClosed==undefined || rowObject.evaClosed) return '-'
-                if(cellvalue==undefined) return '-'
+                if(rowObject.evaClosed==undefined || rowObject.evaClosed) return '--'
+                if(cellvalue==undefined) return '--'
                 return cellvalue.substr(0,16)
             }},
             { label: '简介',name: 'summary', align: 'left', width: 400},

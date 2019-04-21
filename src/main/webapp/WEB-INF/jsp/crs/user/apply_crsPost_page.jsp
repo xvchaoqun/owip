@@ -147,7 +147,7 @@
                         .format(rowObject.id)
             }},
             {label: '招聘人数', name: 'num', width: 90},
-            {label: '应聘截止时间', name: 'endTime', width: 150, formatter: 'date',
+            {label: '应聘截止时间', name: 'endTime', width: 150, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}},
             /*{label: '招聘会召开时间', name: 'meetingTime', width: 150,  formatter: function (cellvalue, options, rowObject) {
                 if($.trim(cellvalue) == '') return '待定'

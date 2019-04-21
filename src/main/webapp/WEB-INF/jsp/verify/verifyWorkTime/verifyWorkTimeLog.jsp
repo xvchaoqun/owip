@@ -44,7 +44,7 @@
             {label: '修改IP', name: 'updateIp', width: 120},
             {label: '修改时间', name: 'updateTime', width: 150},
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.VERIFY_STATUS_MAP[cellvalue]
             }},
             {label: '工作证号', name: 'cadre.code', frozen: true},
@@ -60,22 +60,22 @@
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
             {
                 label: '认定类别', name: 'type', width: 220, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.VERIFY_WORK_TIME_TYPE_MAP[cellvalue]
             }
             },
-            {label: '认定前参加工作时间', width: 180, name: 'oldWorkTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '认定后参加工作时间', width: 180, name: 'verifyWorkTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '认定前参加工作时间', width: 180, name: 'oldWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '认定后参加工作时间', width: 180, name: 'verifyWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '材料名称', name: 'materialName', width: 200},
-            {label: '形成时间', name: 'materialTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '形成时间', name: 'materialTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '记载的参加工作时间',
                 width: 150,
                 name: 'materialWorkTime',
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
             },
-            {label: '形成时间', name: 'adTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '形成时间', name: 'adTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '备注', name: 'remark', width: 500}
         ],
         rowattr: function (rowData, currentObj, rowId) {

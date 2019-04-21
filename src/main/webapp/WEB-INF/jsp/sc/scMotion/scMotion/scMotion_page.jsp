@@ -138,7 +138,7 @@
                             rowObject.topics==undefined?'编辑':'查看',
                             rowObject.topics==undefined?'fa-edit':'fa-search');
                 }, frozen:true},
-            {label: '动议日期', name: 'holdDate', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
+            {label: '动议日期', name: 'holdDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '拟调整岗位',name: 'postName', align:'left', width: 300, frozen:true},
             {label: '分管工作', align:'left', name: 'job', width: 200 },
             {label: '行政级别', name: 'adminLevel', width: 85, formatter: $.jgrid.formatter.MetaType},
@@ -155,7 +155,7 @@
             {label: '选拔任用方式', name: 'scType', width: 120, formatter: $.jgrid.formatter.MetaType},
             {
                 label: '动议形式', name: 'way', width: 150, formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-'
+                    if (cellvalue == undefined) return '--'
                     if (cellvalue == '<%=ScConstants.SC_MOTION_WAY_OTHER%>') {
                         return "其他：" + rowObject.wayOther
                     }

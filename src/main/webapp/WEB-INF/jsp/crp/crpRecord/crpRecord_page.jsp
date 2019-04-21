@@ -200,7 +200,7 @@
                 return rowObject.toUnit;
                 </c:if>
                 <c:if test="${param.type!=CRP_RECORD_TYPE_IN}">
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(unitCodeOther).id}') ? ("：" + rowObject.toUnit) : "");
                 </c:if>
@@ -208,7 +208,7 @@
             },
             {
                 label: '挂职类别', name: 'tempPostType', width: 180, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(postCodeOther).id}') ? ("：" + rowObject.tempPost) : "");
             }
@@ -223,12 +223,12 @@
                 </c:if>
             }},
             {label: '所任职务', name: 'post', width: 150, align:'left'},
-            {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '挂职开始时间', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             <c:if test="${!isFinished}">
-            {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             </c:if>
             <c:if test="${isFinished}">
-            {label: '挂职实际结束时间', name: 'realEndDate', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '挂职实际结束时间', name: 'realEndDate', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             </c:if>
             {label: '备注', name: 'remark', width: 300}
         ]

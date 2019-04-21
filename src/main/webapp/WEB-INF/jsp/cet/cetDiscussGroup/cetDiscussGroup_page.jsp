@@ -87,14 +87,14 @@
             {label: '召集人', name: '_holdUsers',width: 150, formatter: function (cellvalue, options, rowObject) {
 
                 //console.log(rowObject.holdUsers)
-                if(rowObject.holdUsers==undefined) return '-'
+                if(rowObject.holdUsers==undefined) return '--'
                 return $.map(rowObject.holdUsers, function(user){
                     return user.realname;
                 })
             }, frozen: true},
             {label: '联络人', name: '_linkUsers',width: 150, formatter: function (cellvalue, options, rowObject) {
 
-                if(rowObject.linkUsers==undefined) return '-'
+                if(rowObject.linkUsers==undefined) return '--'
                 return $.map(rowObject.linkUsers, function(user){
                     return user.realname;
                 })
@@ -103,18 +103,18 @@
             <c:if test="${cetDiscuss.unitType!=CET_DISCUSS_UNIT_TYPE_OW}">
             {label: '是否允许修改主题', name: 'subjectCanModify',width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
-            {label: '召开时间', name: 'discussTime',width: 150, formatter: 'date',
+            {label: '召开时间', name: 'discussTime',width: 150, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
             {label: '召开地点', name: 'discussAddress',width: 250, align:'left'},
             /*{label: '小组成员', name: 'objCount',width: 80, formatter: function (cellvalue, options, rowObject) {
                 return "-";
             }},
             {label: '实际参会情况', name: '_count',width: 120, formatter: function (cellvalue, options, rowObject) {
-                return '-'
+                return '--'
             }},*/
             <c:if test="${cetDiscuss.unitType!=CET_DISCUSS_UNIT_TYPE_OW}">
             {label: '负责单位', name: 'unitId',width: 250, formatter: function (cellvalue, options, rowObject) {
-                if(unitType==${CET_DISCUSS_UNIT_TYPE_OW}) return '-'
+                if(unitType==${CET_DISCUSS_UNIT_TYPE_OW}) return '--'
                 if(unitType==${CET_DISCUSS_UNIT_TYPE_PARTY})
                     return rowObject.cetParty==undefined?'':rowObject.cetParty.partyName;
                 if(unitType==${CET_DISCUSS_UNIT_TYPE_UNIT})

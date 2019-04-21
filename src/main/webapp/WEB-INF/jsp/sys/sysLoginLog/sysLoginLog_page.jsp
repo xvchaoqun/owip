@@ -84,7 +84,7 @@
             {label: '登录账号', name: 'username', width: 120, frozen: true},
             {
                 label: '系统用户', name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.user == undefined) return '-'
+                if (rowObject.user == undefined) return '--'
                 return $.user(rowObject.userId, rowObject.user.realname)
             }, frozen: true
             },

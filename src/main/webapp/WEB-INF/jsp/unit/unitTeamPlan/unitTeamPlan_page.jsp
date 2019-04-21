@@ -44,8 +44,8 @@
         pager:'#jqGridPager_plan',
         url: '${ctx}/unitTeamPlan_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '起始时间', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '废止时间', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '起始时间', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '废止时间', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '行政正职', name: 'mainPosts', formatter: function (cellvalue, options, rowObject) {
                    if(cellvalue==undefined) return '--'
                     return ('<button class="popupBtn btn btn-xs btn-primary" ' +

@@ -273,7 +273,7 @@
                 return "S{0}".format(rowObject.id);
             }, frozen: true
             },
-            {label: '申请日期', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '申请日期', name: 'applyDate', frozen: true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
 
             {label: '工作证号', name: 'user.code', frozen: true},
             {
@@ -282,8 +282,8 @@
             }, frozen: true
             },
             {label: '所在单位及职务', name: 'cadre.title', align:'left', width: 250, frozen: true},
-            {label: '出行时间', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '回国时间', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出行时间', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '回国时间', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '出行天数', name: '_day', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return $.dayDiff(rowObject.startDate, rowObject.endDate);
@@ -398,7 +398,7 @@
 
     function approverTdAttrs(tdBean) {
 
-        if (tdBean == undefined) return '';
+        if (tdBean == undefined) return '--';
 
         var attrs = "data-td-type={0} data-apply-self-id={1} data-approval-type-id={2} ".format(tdBean.tdType, tdBean.applySelfId, tdBean.approvalTypeId);
         //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
@@ -409,7 +409,7 @@
 
     function processTdBean(tdBean) {
 
-        if (tdBean == undefined) return '';
+        if (tdBean == undefined) return '--';
         var type = tdBean.tdType;
         var html = "";
         switch (type) {

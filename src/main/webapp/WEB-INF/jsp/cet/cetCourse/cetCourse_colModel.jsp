@@ -5,7 +5,7 @@
   <c:if test="${empty param.type || param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
   var colModel = [
       {label: '课程编号', name: 'sn', frozen:true},
-      {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+      {label: '设立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
       {label: '课程名称', name: 'name', width: 300, align: 'left', frozen:true},
       <c:if test="${param.list=='admin'}">
       {label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -28,15 +28,15 @@
       },
       </c:if>
       {label: '主讲人', name: 'cetExpert.realname', formatter: function (cellvalue, options, rowObject) {
-          if(rowObject.expertId==undefined) return '-'
+          if(rowObject.expertId==undefined) return '--'
           return cellvalue;
       }, frozen:true},
       {label: '所在单位', name: 'cetExpert.unit', formatter: function (cellvalue, options, rowObject) {
-          if(rowObject.expertId==undefined) return '-'
+          if(rowObject.expertId==undefined) return '--'
           return cellvalue;
       }, width: 300, align: 'left'},
       {label: '职务和职称', name: 'cetExpert.post', formatter: function (cellvalue, options, rowObject) {
-          if(rowObject.expertId==undefined) return '-'
+          if(rowObject.expertId==undefined) return '--'
           return cellvalue;
       }, width: 120, align: 'left'},
       <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE}">
@@ -63,7 +63,7 @@
   <c:if test="${param.type==CET_COURSE_TYPE_SELF}">
   var colModel = [
       {label: '编号', name: 'sn', frozen:true},
-      {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+      {label: '设立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
       {label: '名称', name: 'name', width: 300, align: 'left', frozen:true},
       {label: '学习内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
         return ('<button type="button" data-url="${ctx}/cet/cetCourseFile?courseId={0}" data-width="800" ' +
@@ -83,7 +83,7 @@
   <c:if test="${param.type==CET_COURSE_TYPE_PRACTICE}">
   var colModel = [
       {label: '编号', name: 'sn', frozen:true},
-      {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+      {label: '设立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
       {label: '实践教学名称', name: 'name', width: 300, align: 'left', frozen:true},
       <c:if test="${param.list=='admin'}">
       {
@@ -99,7 +99,7 @@
   <c:if test="${param.type==CET_COURSE_TYPE_SPECIAL}">
   var colModel = [
       {label: '编号', name: 'sn', frozen:true},
-      {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+      {label: '设立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
       {label: ' 网上专题培训班名称', name: 'name', width: 300, align: 'left', frozen:true},
       <c:if test="${param.list=='admin'}">
       {

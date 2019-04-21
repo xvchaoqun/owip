@@ -159,7 +159,7 @@
                         return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
                             'data-url="${ctx}/partyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出委员</a>')
                             .format(rowObject.id);
-                    return '-'
+                    return '--'
                 }
             },
             {
@@ -168,19 +168,19 @@
                 align: 'left',
                 width: 380,
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-'
+                    if (cellvalue == undefined) return '--'
                     return _cMap.partyMap[cellvalue].name
                 }
             },
-            {label: '应换届时间', name: 'tranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '实际换届时间',
                 name: 'actualTranTime',
                 width: 130,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
-            {label: '任命时间', name: 'appointTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
                     return (rowObject.isPresent) ? 1 : 0;

@@ -119,14 +119,14 @@
                 label: '领表时间',
                 name: 'drawTime',
                 width: 150,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
             },
             {
                 label: '应交回时间',
                 name: 'handTime',
                 width: 150,
-                formatter: 'date',
+                formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
             },
 

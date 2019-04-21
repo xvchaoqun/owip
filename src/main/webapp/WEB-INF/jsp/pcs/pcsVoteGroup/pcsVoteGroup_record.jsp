@@ -175,7 +175,7 @@
         {
             label: '移除', name: 'requirement', width: 90, formatter: function (cellvalue, options, rowObject) {
             <c:if test="${!committeeCanSelect}">
-            if (rowObject.isFromStage) return '-'
+            if (rowObject.isFromStage) return '--'
             </c:if>
             //console.log(options)
             return '<button ${!allowModify?"disabled":""} class="delRowBtn btn btn-danger btn-xs" data-id="{0}" data-gid="{1}"><i class="fa fa-minus-circle"></i> 移除</button>'
@@ -185,21 +185,21 @@
         {label: '候选人姓名', name: 'realname', width: 150, frozen: true},
         {
             label: '不赞成票数', name: 'degree', formatter: function (cellvalue, options, rowObject) {
-            if (!rowObject.isFromStage) return '-'
+            if (!rowObject.isFromStage) return '--'
             return ('<input required type="text" name="degree{0}" data-user-id="{0}" value="{1}" class="degree digits" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },
         {
             label: '弃权票数', name: 'abstain', formatter: function (cellvalue, options, rowObject) {
-            if (!rowObject.isFromStage) return '-'
+            if (!rowObject.isFromStage) return '--'
             return ('<input required type="text" name="abstain{0}" data-user-id="{0}" value="{1}" class="abstain digits" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },
         {
             label: '部分无效票数<br/>(模糊无法辨认)', width: 120, name: 'invalid', formatter: function (cellvalue, options, rowObject) {
-            if (!rowObject.isFromStage) return '-'
+            if (!rowObject.isFromStage) return '--'
             return ('<input required type="text" name="invalid{0}" data-user-id="{0}" value="{1}" class="invalid digits" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }

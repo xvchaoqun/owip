@@ -38,7 +38,7 @@
       { label:'操作内容',  name: 'content', width: 200, frozen:true },
       {
         label: '类别', name: 'status', width: 150 ,formatter: function (cellvalue, options, rowObject) {
-        if (cellvalue == undefined) return '';
+        if (cellvalue == undefined) return '--';
         return _cMap.CADRE_STATUS_MAP[cellvalue];
       }},
       {label: '工作证号', name: 'user.code', width: 110},

@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id, cellvalue);
             }, width: 200},
             {label: '评估表', name: 'rankNum', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.normNum==0||rowObject.rankNum==0) return '-'
+                if(rowObject.normNum==0||rowObject.rankNum==0) return '--'
                 return '<a href="javascript:void(0)" class="popupBtn" data-width="700" data-url="${ctx}/cet/cetTrainEvaTable_preview?id={0}">预览</a>'
                         .format(rowObject.id);
             }},

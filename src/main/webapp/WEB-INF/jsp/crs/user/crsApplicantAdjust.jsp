@@ -104,7 +104,7 @@
         {
             label: '招聘公告', name: 'notice', width: 90, formatter: function (cellvalue, options, rowObject) {
 
-            if ($.trim(rowObject.notice) == '') return '-'
+            if ($.trim(rowObject.notice) == '') return '--'
 
             return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
                     .format(encodeURI(rowObject.notice), encodeURI(rowObject.name + "招聘公告.pdf"))
@@ -124,7 +124,7 @@
         },
         {label: '招聘人数', name: 'num', width: 90},
         {
-            label: '应聘截止时间', name: 'endTime', width: 150, formatter: 'date',
+            label: '应聘截止时间', name: 'endTime', width: 150, formatter: $.jgrid.formatter.date,
             formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}
         }
     ];

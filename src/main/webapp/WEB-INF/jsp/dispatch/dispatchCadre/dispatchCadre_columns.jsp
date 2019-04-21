@@ -9,7 +9,7 @@
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                     cellvalue, cellvalue, '${param.type eq 'all'?'modal':'url'}');
             },frozen:true },
-            { label: '任免日期',  name: 'dispatch.workTime',frozen:true , formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '任免日期',  name: 'dispatch.workTime',frozen:true , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             { label:'类别', name: 'type', width: 50, formatter:function(cellvalue, options, rowObject){
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
             },frozen:true },
@@ -53,8 +53,8 @@
                         .format(rowObject.dispatch.scDispatch.id, str);
             }
             },
-            { label:'党委常委会日期', name: 'dispatch.meetingTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label:'发文日期', name: 'dispatch.pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label:'党委常委会日期', name: 'dispatch.meetingTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label:'发文日期', name: 'dispatch.pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
            /* { label:'任免文件', name: 'fileName', formatter:function(cellvalue, options, rowObject){
 
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, '查看');

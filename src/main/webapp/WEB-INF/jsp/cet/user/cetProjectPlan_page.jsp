@@ -112,7 +112,7 @@
                 return _cMap.CET_PROJECT_PLAN_TYPE_MAP[cellvalue];
             }, frozen: true},
             /*{label: '培训内容', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if (!rowObject.hasSummary) return '-';
+                if (!rowObject.hasSummary) return '--';
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
                 'data-url="${ctx}/cet/cetProjectPlan_summary?view=1&id={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.id);
@@ -120,7 +120,7 @@
             {label: '学时', name: 'period'},
             {label: '完成学时数', name: 'finishPeriod'},
             { label: '学习进度',name: '_finish', width: 120,formatter: function (cellvalue, options, rowObject) {
-                if(Math.trimToZero(rowObject.period)==0) return '-'
+                if(Math.trimToZero(rowObject.period)==0) return '--'
                 var progress = Math.formatFloat(Math.trimToZero(rowObject.finishPeriod)*100/rowObject.period, 1) + "%";
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
@@ -134,7 +134,7 @@
                     '<i class="fa fa-download"></i> 下载 </button>'
                     </c:if>
                 }
-                return '-'
+                return '--'
             }}
         ]
     }).jqGrid("setFrozenColumns");

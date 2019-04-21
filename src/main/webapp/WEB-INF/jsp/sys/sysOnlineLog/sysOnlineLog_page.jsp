@@ -46,7 +46,7 @@ pageEncoding="UTF-8" %>
             },frozen:true },
             <shiro:hasAnyRoles name="${ROLE_ADMIN}">
             { label: '角色', name: 'shiroUser.roles', align:'left', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return $.map(cellvalue, function(item){
                     var role = _cMap.roleCodeMap[item];
                     return role?role.description:null;

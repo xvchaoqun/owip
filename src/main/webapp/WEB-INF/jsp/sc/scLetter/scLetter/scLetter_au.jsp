@@ -57,12 +57,11 @@
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 
-                                    <div class="col-xs-6">
-                                        <div class="input-group">
-                                            <input required class="form-control date-picker" placeholder="请选择年份"
+                                    <div class="col-xs-6" style="z-index: 1030">
+                                        <div class="input-group date" data-date-format="yyyy" data-date-min-view-mode="2">
+                                            <input required class="form-control" placeholder="请选择年份"
                                                    name="year"
                                                    type="text"
-                                                   data-date-format="yyyy" data-date-min-view-mode="2"
                                                    value="${scLetter.year}"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
@@ -94,11 +93,10 @@
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label"><span class="star">*</span>函询日期</label>
 
-                                    <div class="col-xs-6">
-                                        <div class="input-group">
-                                            <input required class="form-control date-picker" name="queryDate"
+                                    <div class="col-xs-6" style="z-index: 1030" data-date-format="yyyy-mm-dd">
+                                        <div class="input-group date">
+                                            <input required class="form-control" name="queryDate"
                                                    type="text"
-                                                   data-date-format="yyyy-mm-dd"
                                                    value="${cm:formatDate(scLetter.queryDate,'yyyy-MM-dd')}"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
@@ -118,7 +116,7 @@
                                                 class="fa fa-plus"></i> 选择
                                         </button>
                                         <div style="padding-top: 10px;">
-                                            <div id="itemList" style="height: 382px;overflow-y: auto;">
+                                            <div id="itemList" style="max-height: 382px;overflow-y: auto;">
 
                                             </div>
                                         </div>
@@ -227,7 +225,7 @@
                 $(this).closest("tr").remove();
             });
     $.register.user_select($('#modalForm [data-rel="select2-ajax"]'));
-    $.register.date($('.date-picker'));
+    $.register.date($('.input-group.date'));
     $('#modalForm [data-rel="select2"]').select2();
     $("#upload-file").change(function () {
         if ($("#upload-file").val() != "") {

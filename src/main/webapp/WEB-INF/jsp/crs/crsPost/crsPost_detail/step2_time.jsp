@@ -185,9 +185,9 @@
         colModel: [
             {label: '工作证号', name: 'user.code', width:110, frozen:true},
             {label: '姓名', name: 'user.realname', frozen:true},
-            {label: '补报开始时间', name: 'startTime', width:140, formatter: 'date',
+            {label: '补报开始时间', name: 'startTime', width:140, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
-            {label: '补报结束时间', name: 'endTime', width:140, formatter: 'date',
+            {label: '补报结束时间', name: 'endTime', width:140, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject){
                 var nowTime = $.date(new Date(), 'yyyy-MM-dd HH:mm');

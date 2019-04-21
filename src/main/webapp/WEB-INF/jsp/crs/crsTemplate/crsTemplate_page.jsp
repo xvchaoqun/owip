@@ -72,7 +72,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/crsTemplate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '类别',name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return _cMap.CRS_TEMPLATE_TYPE_MAP[cellvalue];
             }},
             { label: '模板名称',name: 'name', width: 400, align:'left'}

@@ -46,12 +46,12 @@
                 label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.cetTrain.isFinished ? '已结课' : '未结课';
             }, frozen: true},
-            {label: '开课日期', name: 'cetTrain.startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-            {label: '结课日期', name: 'cetTrain.endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '开课日期', name: 'cetTrain.startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '结课日期', name: 'cetTrain.endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
             {label: '培训班名称', name: 'cetTrain.name', width: 300, align: 'left', frozen: true},
             {
                 label: '内容简介', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if (!rowObject.cetTrain.hasSummary) return '-';
+                if (!rowObject.cetTrain.hasSummary) return '--';
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
                 'data-url="${ctx}/cet/cetTrain_summary?view=1&id={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.trainId);
@@ -59,7 +59,7 @@
             { label: '选课总学时',name: 'totalPeriod'},
             { label: '完成学时数',name: 'finishPeriod'},
             { label: '学习进度',name: '_finish',formatter: function (cellvalue, options, rowObject) {
-                if(Math.trimToZero(rowObject.totalPeriod)==0) return '-'
+                if(Math.trimToZero(rowObject.totalPeriod)==0) return '--'
                 var progress = Math.formatFloat(rowObject.finishPeriod*100/rowObject.totalPeriod, 1) + "%";
                return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)

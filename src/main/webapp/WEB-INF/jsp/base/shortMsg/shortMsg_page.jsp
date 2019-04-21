@@ -89,7 +89,7 @@
         url: '${ctx}/shortMsg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '接收方', name: 'receiverId', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.user==undefined) return '-'
+                if(rowObject.user==undefined) return '--'
                 return $.user(rowObject.user.id, rowObject.user.realname)
             },frozen:true },
             { label: '类别',  name: 'type', width: 220,frozen:true, align:"left" },

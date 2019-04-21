@@ -121,7 +121,7 @@
             {label: '所在单位', name: 'unit', width: 300, align:'left', frozen: true},
             {
                 label: '类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
-                if ($.trim(cellvalue) == '') return '-'
+                if ($.trim(cellvalue) == '') return '--'
                 return _cMap.PCS_ADMIN_TYPE_MAP[cellvalue];
             }
             },

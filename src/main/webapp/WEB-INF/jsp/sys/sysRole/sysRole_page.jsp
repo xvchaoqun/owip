@@ -54,7 +54,7 @@
                 formatoptions:{on:'<span class="text-danger bolder">系统自动设定</span>',
                     off:'<span class="text-success bolder">手动设定</span>'}},
             {label:'权限拥有人', name:'userCount', width: 110, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
                 return ('<button class="popupBtn btn btn-warning btn-xs" data-width="950" data-url="${ctx}/sysRole_users?roleId={0}">' +
                     '<i class="fa fa-search"></i> 查看({1})</button>')
                     .format(rowObject.id, cellvalue);

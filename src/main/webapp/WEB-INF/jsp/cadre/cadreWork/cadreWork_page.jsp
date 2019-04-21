@@ -290,15 +290,15 @@
             colModel: [
                 {
                     label: '其间工作', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.subWorkCount == 0) return '-';
+                    if (rowObject.subWorkCount == 0) return '--';
                     return _.template($("#switch_tpl").html().NoMultiSpace())({
                         id: rowObject.id,
                         subWorkCount: rowObject.subWorkCount
                     });
                 }, width: 130
                 },
-                {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-                {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+                {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+                {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
                 {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align: 'left'},
                 {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
                 {
@@ -402,8 +402,8 @@
                 multiselect: false,
                 url: childGridURL,
                 colModel: [
-                    {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-                    {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+                    {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+                    {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
                     {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align: 'left'},
                     {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 120},
                     {

@@ -47,16 +47,16 @@
                 if(cellvalue!=undefined){
                     return cellvalue?"已参会":"未参会"
                 }
-                return '-'
+                return '--'
             }, frozen: true},
             { label: '完成学时数',name: 'period', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.isFinished==undefined) return '-'
+                if(rowObject.isFinished==undefined) return '--'
                 return rowObject.isFinished?cellvalue:0
             }, frozen: true},
             {label: '组别', name: 'name', frozen: true},
             {label: '召集人', name: 'holdUser.realname', frozen: true},
             {label: '研讨主题', name: 'subject',width: 450, align:'left', frozen: true},
-            {label: '召开时间', name: 'discussTime',width: 150, formatter: 'date',
+            {label: '召开时间', name: 'discussTime',width: 150, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
             {label: '召开地点', name: 'discussAddress',width: 250, align:'left'}
         ]

@@ -37,22 +37,18 @@
                                         <input type="hidden" name="id" value="${partyPublic.id}">
                                         <input type="hidden" name="isPublish" value="${partyPublic.isPublish}">
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label"><span class="star">*</span> 请选择类别</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span> 类别</label>
                                             <div class="col-xs-7">
                                                 <div class="input-group">
+                                                    <c:forEach items="<%=OwConstants.OW_PARTY_PUBLIC_TYPE_MAP%>" var="_type" varStatus="vs">
                                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                        <input required type="radio" name="type" id="type0" value="1">
-                                                        <label for="type0">
-                                                            发展党员公示文件
+                                                        <input required type="radio" name="type" id="type${_type.key}" value="${_type.key}">
+                                                        <label for="type${_type.key}">
+                                                            ${_type.value}
                                                         </label>
                                                     </div>
-                                                    &nbsp;&nbsp;
-                                                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                        <input required type="radio" name="type" id="type1" value="2">
-                                                        <label for="type1">
-                                                            党员转正公示文件
-                                                        </label>
-                                                    </div>
+                                                     ${vs.last?'':'&nbsp;&nbsp;'}
+                                                    </c:forEach>
                                                 </div>
                                             </div>
                                         </div>

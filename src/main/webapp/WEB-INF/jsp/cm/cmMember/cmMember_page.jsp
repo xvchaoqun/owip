@@ -164,9 +164,9 @@
         colModel: [
             {label: '届数', name: 'pcsName', width: 160, frozen:true},
             {label: '职务', name: 'post', width: 120, formatter: $.jgrid.formatter.MetaType, frozen:true},
-            {label: '任职日期', name: 'postDate', width: 90, formatter: 'date', formatoptions: {newformat: 'Y.m.d'}, frozen:true},
+            {label: '任职日期', name: 'postDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
             <c:if test="${isQuit}">
-            {label: '离职日期', name: 'quitDate', width: 90, formatter: 'date', formatoptions: {newformat: 'Y.m.d'}, frozen:true},
+            {label: '离职日期', name: 'quitDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
             </c:if>
             {
                 label: '姓名', name: 'realname', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -185,17 +185,17 @@
             {label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation', width: 60},
             {label: '职称', name: 'proPost'},
-            {label: '出生年月', name: 'birth', width: 90, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '出生年月', name: 'birth', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-            {label: '入党时间', name: 'growTime', width: 90, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '入党时间', name: 'growTime', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '任命文件', name: 'postFilePath',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
+                if (cellvalue == undefined) return '--';
                 return $.swfPreview(cellvalue, '任命文件', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
             <c:if test="${isQuit}">
             {label: '离任文件', name: 'quitFilePath',formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-';
+                    if (cellvalue == undefined) return '--';
                     return $.swfPreview(cellvalue, '离任文件', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
                 }},
             {label: '离职原因', name: 'quitReason', align: 'left', width: 200},

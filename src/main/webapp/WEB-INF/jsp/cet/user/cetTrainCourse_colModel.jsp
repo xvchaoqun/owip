@@ -60,14 +60,14 @@
       label: '开始时间',
       name: 'startTime',
       width: 150,
-      formatter: 'date',
+      formatter: $.jgrid.formatter.date,
       formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
     },
     {
       label: '结束时间',
       name: 'endTime',
       width: 150,
-      formatter: 'date',
+      formatter: $.jgrid.formatter.date,
       formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
     }
   ]
