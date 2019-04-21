@@ -320,7 +320,7 @@ public class SyncService extends BaseMapper {
             record.setUpdateCount(updateCount);
             record.setTotalCount(count);
             record.setTotalPage(pageNo);
-            record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
+            //record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
                 SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());
@@ -449,7 +449,7 @@ public class SyncService extends BaseMapper {
             record.setUpdateCount(updateCount);
             record.setTotalCount(count);
             record.setTotalPage(pageNo);
-            record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
+            //record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
                 SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());
@@ -579,7 +579,7 @@ public class SyncService extends BaseMapper {
             record.setUpdateCount(updateCount);
             record.setTotalCount(count);
             record.setTotalPage(pageNo);
-            record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
+            //record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
                 SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());

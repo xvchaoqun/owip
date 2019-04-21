@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import persistence.sys.SysSyncMapper;
 import sys.utils.JSONUtils;
-import sys.utils.NumberUtils;
 import sys.utils.PropertiesUtils;
 
 import javax.sql.DataSource;
@@ -129,7 +128,7 @@ public abstract class Source {
                     }
                     SysSync record = new SysSync();
                     record.setId(syncId);
-                    record.setTotalCount(NumberUtils.trimToZero(_sync.getTotalCount())+pageSize);
+                    record.setCurrentCount((i * pageSize > count) ? count : i * pageSize);
                     sysSyncMapper.updateByPrimaryKeySelective(record);
                 }
 
@@ -232,7 +231,7 @@ public abstract class Source {
                     }
                     SysSync record = new SysSync();
                     record.setId(syncId);
-                    record.setTotalCount(NumberUtils.trimToZero(_sync.getTotalCount()) +pageSize);
+                    record.setCurrentCount((i * pageSize > count) ? count : i * pageSize);
                     sysSyncMapper.updateByPrimaryKeySelective(record);
                 }
 
