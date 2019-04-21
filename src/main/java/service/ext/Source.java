@@ -129,7 +129,7 @@ public abstract class Source {
                     }
                     SysSync record = new SysSync();
                     record.setId(syncId);
-                    record.setTotalCount(_sync.getTotalCount()+pageSize);
+                    record.setTotalCount(NumberUtils.trimToZero(_sync.getTotalCount())+pageSize);
                     sysSyncMapper.updateByPrimaryKeySelective(record);
                 }
 
