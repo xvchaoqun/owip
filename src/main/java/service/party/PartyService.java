@@ -136,7 +136,7 @@ public class PartyService extends BaseMapper {
     @CacheEvict(value = "Party:ALL", allEntries = true)
     public int insertSelective(Party record) {
 
-        Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
+        //Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
         record.setSortOrder(getNextSortOrder("ow_party", "is_deleted=0"));
         record.setIsDeleted(false);
         return partyMapper.insertSelective(record);

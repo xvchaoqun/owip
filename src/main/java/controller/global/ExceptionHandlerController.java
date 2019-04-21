@@ -1,6 +1,5 @@
 package controller.global;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import interceptor.SignParamsException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -23,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +61,7 @@ public class ExceptionHandlerController {
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
-        if (ex.getCause() instanceof MySQLIntegrityConstraintViolationException) {
+        if (ex.getCause() instanceof SQLIntegrityConstraintViolationException) {
 
             resultMap.put("success", false);
             String message = ex.getCause().getMessage();
