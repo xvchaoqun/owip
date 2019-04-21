@@ -262,6 +262,8 @@ public class PmdOrderService extends PmdBaseMapper {
     public boolean verifyNotifySign(HttpServletRequest request){
 
         String sign = request.getParameter("sign");
+        if(StringUtils.isBlank(sign)) return false;
+
         String verifySign = notifySign(request);
 
         boolean ret = false;
