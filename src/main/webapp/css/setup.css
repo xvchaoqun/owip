@@ -118,6 +118,13 @@ body {
  .nav-tabs.tab-color-blue > li > a:focus {
     background-color: #337ab7;
 }
+.nav.nav-tabs .buttons{
+    margin-top: 5px;
+    position: relative;
+}
+.nav.nav-tabs li .buttons{
+    margin-top: 0px;
+}
 .navbar .nav{
     padding-bottom: 8px;
 }

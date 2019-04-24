@@ -105,12 +105,13 @@
         </table>-->
          <!--<table tableName="ow_apply_sn_range" domainObjectName="member.ApplySnRange"
                 mapperName="member.ApplySnRangeMapper">
+             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-         <!--<table tableName="ow_apply_sn" domainObjectName="member.ApplySn"
+        <table tableName="ow_apply_sn" domainObjectName="member.ApplySn"
                 mapperName="member.ApplySnMapper">
-         </table>-->
-
-        <!-- <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
+         </table>
+<!--
+         <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
                 mapperName="member.MemberApplyMapper">
              <ignoreColumn column="update_time"/>
              <columnOverride column="remark" jdbcType="VARCHAR"/>
@@ -145,10 +146,10 @@
                 mapperName="party.OrganizerMapper">
          </table>-->
 
-        <table tableName="ow_party_public" domainObjectName="party.PartyPublic">
+        <!--<table tableName="ow_party_public" domainObjectName="party.PartyPublic">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="pub_users" jdbcType="VARCHAR"/>
-        </table>
+        </table>-->
        <!-- <table tableName="ow_party_public_user" domainObjectName="party.PartyPublicUser">
         </table>
 

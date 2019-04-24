@@ -58,6 +58,19 @@ String.prototype.htmldecode = function(){
     return div.innerText || div.textContent;
 }
 
+if (!String.prototype.zfill) {
+    String.prototype.zfill = function(len) {
+        if (len == undefined || typeof len != 'number' || this.length >= len) {return this.toString()}
+        return Array(len - this.length + 1).join('0') + this;
+    }
+}
+if (!Number.prototype.zfill) {
+    Number.prototype.zfill = function(len) {
+        if (len == undefined || typeof len != 'number' || this.toString().length >= len) {return this.toString()}
+        return Array(len - this.toString().length + 1).join('0') + this;
+    }
+}
+
 Math.formatFloat = function (f, digit) {
     return parseFloat(parseFloat(f).toFixed(digit));
     /*var m = Math.pow(10, digit);

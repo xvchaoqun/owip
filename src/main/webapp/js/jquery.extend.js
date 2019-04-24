@@ -1041,7 +1041,9 @@ var _modal_width;
 })(jQuery);
 
 // base64默认编码
-$.base64.utf8encode = true;
+if($.base64) {
+    $.base64.utf8encode = true;
+}
 
 if (typeof toastr != 'undefined') {
     toastr.options = {
@@ -1449,6 +1451,7 @@ $.extend($.register, {
     },
     // 日历
     date: function ($date, params) {
+        $date.parent().css('z-index', '1030');
         return $date.datepicker($.extend({
             language: "zh-CN",
             autoclose: true,
