@@ -42,6 +42,7 @@
                         <td>${oaTask.contact}</td>
                     </tr>
                     </c:if>
+                    <c:if test="${param.type=='report' || oaTaskUser.status==OA_TASK_USER_STATUS_PASS}">
                     <tr>
                         <td style="vertical-align: middle">报送内容</td>
                         <td colspan="3">
@@ -91,7 +92,8 @@
                             </c:if>
                         </td>
                     </tr>
-                    <c:if test="${oaTaskUser.status!=OA_TASK_USER_STATUS_PASS}">
+                        </c:if>
+                    <c:if test="${param.type=='report'}">
                         <tr>
                             <td colspan="4">
                                 <div class="modal-footer center">
