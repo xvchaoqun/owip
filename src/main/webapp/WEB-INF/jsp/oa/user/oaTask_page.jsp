@@ -121,7 +121,17 @@
                                 .format(rowObject.taskId)
             }
             },
-           /* <c:if test="${cls==1}">
+            <c:if test="${cls==1}">
+            {
+                label: '报送', name: '_report', formatter: function (cellvalue, options, rowObject) {
+
+                return '<button class="openView btn btn-success btn-xs"' +
+                        'data-url="${ctx}/user/oa/oaTaskUser_report?taskId={0}&type=report"><i class="fa fa-check"></i> 报送</button>'
+                                .format(rowObject.taskId)
+            }
+            },
+            </c:if>
+           /*
             {
                 label: '短信提醒', name: '_op', formatter: function (cellvalue, options, rowObject) {
 
@@ -129,8 +139,7 @@
                         'data-url="${ctx}/user/oa/oaTaskUser_back?taskId={0}"><i class="fa fa-clock-o"></i> 定时提醒</button>'
                                 .format(rowObject.taskId)
             }
-            },
-            </c:if>*/
+            },*/
             <c:if test="${cls==2}">
             {
                 label: '撤回', name: '_op', formatter: function (cellvalue, options, rowObject) {

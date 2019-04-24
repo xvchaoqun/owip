@@ -15,6 +15,7 @@
             <form class="form-horizontal" action="${ctx}/user/oa/oaTaskUser_report" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="taskId" value="${oaTaskUser.taskId}">
                 <table class="table table-bordered table-unhover">
+                    <c:if test="${param.type!='report'}">
                     <tr>
                         <td width="100">标题</td>
                         <td colspan="3">${oaTask.name}</td>
@@ -40,7 +41,7 @@
                         <td width="100">联系方式</td>
                         <td>${oaTask.contact}</td>
                     </tr>
-
+                    </c:if>
                     <tr>
                         <td style="vertical-align: middle">报送内容</td>
                         <td colspan="3">
