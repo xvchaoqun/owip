@@ -125,18 +125,21 @@ pageEncoding="UTF-8" %>
                 { label: '产生方式',name: 'way', width: 160, formatter: $.jgrid.formatter.MAP,
                     formatoptions:{map:_cMap.CADRE_RESERVE_ORIGIN_WAY_MAP}, frozen: true},
                 {
-                    label: '推荐人选', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                    return $.cadre(rowObject.cadre.id, cellvalue);
+                    label: '推荐人选', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+                        if(rowObject.cadre) {
+                            return $.cadre(rowObject.cadre.id, cellvalue);
+                        }
+                        return cellvalue;
                 }, frozen: true},
                 { label: '类别',name: 'reserveType', width: 120, formatter: $.jgrid.formatter.MetaType, frozen: true},
                 { label: '推荐形式',name: 'way', width: 160, formatter: $.jgrid.formatter.MAP,
                     formatoptions:{map:_cMap.CADRE_RESERVE_ORIGIN_WAY_MAP}},
-                { label: '推荐单位',name: 'recommendUnit'},
+                { label: '推荐单位',name: 'recommendUnit', width: 400},
                 { label: '推荐日期',name: 'recommendDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
                 {
                     label: '推荐材料', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 
-                    var ret = "-";
+                    var ret = "--";
                     var pdfFilePath = rowObject.pdfFilePath;
                     if ($.trim(pdfFilePath) != '') {
                         var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));

@@ -2,6 +2,7 @@ package domain.cadreReserve;
 
 import domain.cadre.CadreView;
 import domain.cis.CisInspectObj;
+import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cis.CisInspectObjMapper;
 import sys.tags.CmTag;
@@ -21,6 +22,11 @@ public class CadreReserveOrigin implements Serializable {
             if(cisInspectObj!=null) return cisInspectObj.getSn();
         }
         return null;
+    }
+
+    public SysUserView getUser(){
+
+        return CmTag.getUserById(userId);
     }
 
     public CadreView getCadre(){
