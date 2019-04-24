@@ -62,6 +62,12 @@ public class PassportService extends AbroadBaseMapper {
         return passportMap;
     }
 
+    // 查找干部证件
+    public Passport getPassport(String code){
+
+        return iAbroadMapper.getPassPort(code);
+    }
+
     // 查找干部的台湾通行证
     public Passport findTwPassport(int cadreId){
 
@@ -180,6 +186,7 @@ public class PassportService extends AbroadBaseMapper {
             }
         }
 
+        record.setCode(StringUtils.trimToNull(record.getCode()));
         return passportMapper.insertSelective(record);
     }
 
@@ -291,6 +298,13 @@ public class PassportService extends AbroadBaseMapper {
         if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(0 == idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");
         //record.setType(null);
+
+        // 更新护照号码为空
+        if(record.getCode()!=null && record.getCode().trim().length()==0){
+            commonMapper.excuteSql("update abroad_passport set code = null where id="+ record.getId());
+            record.setCode(null);
+        }
+
         return passportMapper.updateByPrimaryKeySelective(record);
     }
 

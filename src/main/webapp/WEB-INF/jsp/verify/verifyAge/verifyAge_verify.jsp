@@ -34,7 +34,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-4 control-label">形成时间</label>
-                                <div class="col-xs-6" style="z-index: 1030">
+                                <div class="col-xs-6">
                                     <div class="input-group date" data-date-format="yyyy-mm-dd">
                                         <input class="form-control" name="_materialTime" type="text"
                                                 value="${cm:formatDate(verifyAge.materialTime,'yyyy-MM-dd')}"/>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-4 control-label">记载的出生时间</label>
-                                <div class="col-xs-6" style="z-index: 1030">
+                                <div class="col-xs-6">
                                     <div class="input-group date" data-date-format="yyyy-mm-dd" >
                                         <input class="form-control" name="_materialBirth" type="text"
                                                value="${cm:formatDate(verifyAge.materialBirth,'yyyy-MM-dd')}"/>
@@ -58,7 +58,7 @@
                         <div class="form-group">
                             <label class="col-xs-4 control-label">形成时间</label>
 
-                            <div class="col-xs-6" style="z-index: 1030">
+                            <div class="col-xs-6">
                                 <div class="input-group date" data-date-format="yyyy-mm-dd" >
                                     <input class="form-control" name="_adTime" type="text"
                                            value="${cm:formatDate(verifyAge.adTime,'yyyy-MM-dd')}"/>
@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <label class="col-xs-4 control-label">记载的出生时间</label>
 
-                            <div class="col-xs-6" style="z-index: 1030">
+                            <div class="col-xs-6">
                                     <div class="input-group date" data-date-format="yyyy-mm-dd" >
                                         <input class="form-control" name="_adBirth" type="text"
                                                value="${cm:formatDate(verifyAge.adBirth,'yyyy-MM-dd')}"/>
@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label class="col-xs-4 control-label">身份证出生时间</label>
 
-                        <div class="col-xs-6" style="z-index: 1030">
+                        <div class="col-xs-6">
                                     <div class="input-group date" data-date-format="yyyy-mm-dd" >
                                         <input class="form-control" name="_oldBirth" type="text"
                                                value="${cm:formatDate(verifyAge.oldBirth,'yyyy-MM-dd')}"/>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group well" style="margin: 10px;">
                         <label class="col-xs-4 control-label" style="font-weight: bolder; font-size: large"><span class="star">*</span>组织认定出生时间</label>
-                        <div class="col-xs-6" style="z-index: 1030">
+                        <div class="col-xs-6">
                                     <div class="input-group date" data-date-format="yyyy-mm-dd" >
                                         <input class="form-control" name="_verifyBirth" type="text"
                                                value="${cm:formatDate(verifyAge.verifyBirth,'yyyy-MM-dd')}"/>

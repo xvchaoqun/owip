@@ -2,17 +2,16 @@ package persistence.member;
 
 import domain.member.ApplySn;
 import domain.member.ApplySnExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface ApplySnMapper {
     long countByExample(ApplySnExample example);
 
     int deleteByExample(ApplySnExample example);
 
-    int deleteByPrimaryKey(Long sn);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(ApplySn record);
 
@@ -22,7 +21,7 @@ public interface ApplySnMapper {
 
     List<ApplySn> selectByExample(ApplySnExample example);
 
-    ApplySn selectByPrimaryKey(Long sn);
+    ApplySn selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") ApplySn record, @Param("example") ApplySnExample example);
 

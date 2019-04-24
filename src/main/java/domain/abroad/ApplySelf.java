@@ -1,7 +1,8 @@
 package domain.abroad;
 
-import domain.cadre.CadreView;
+import domain.cadre.Cadre;
 import domain.sys.SysUserView;
+import persistence.cadre.CadreMapper;
 import sys.helper.AbroadHelper;
 import sys.tags.CmTag;
 
@@ -11,25 +12,23 @@ import java.util.Map;
 
 public class ApplySelf implements Serializable {
 
-    private CadreView cadreView;
+    private Cadre cadre;
     private SysUserView sysUserView;
-
     public SysUserView getUser(){
 
         if(sysUserView==null) {
-            CadreView cadre = getCadre();
+            Cadre cadre = getCadre();
             sysUserView = CmTag.getUserById(cadre.getUserId());
         }
-
         return sysUserView;
     }
-    public CadreView getCadre(){
+    public Cadre getCadre(){
 
-        if(cadreView==null){
-            cadreView = CmTag.getCadreById(cadreId);
+        if(cadre==null){
+            CadreMapper cadreMapper = CmTag.getBean(CadreMapper.class);
+            cadre = cadreMapper.selectByPrimaryKey(cadreId);
         }
-
-        return cadreView;
+        return cadre;
     }
 
     public Map getApprovalTdBeanMap(){

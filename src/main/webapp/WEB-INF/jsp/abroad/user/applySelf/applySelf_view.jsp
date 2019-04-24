@@ -4,7 +4,7 @@
 <div class="tabbable">
   <ul class="preview title nav nav-tabs padding-12 tab-color-blue background-blue" style="padding-right: 20px">
 
-      <div class="buttons" style="float: left;margin-bottom: 8px">
+      <div class="buttons pull-left">
         <a href="javascript:;" class="hideView btn btn-sm btn-success">
           <i class="ace-icon fa fa-backward"></i>
           返回

@@ -57,7 +57,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 
-                                    <div class="col-xs-6" style="z-index: 1030">
+                                    <div class="col-xs-6">
                                         <div class="input-group date" data-date-format="yyyy" data-date-min-view-mode="2">
                                             <input required class="form-control" placeholder="请选择年份"
                                                    name="year"
@@ -93,8 +93,8 @@
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label"><span class="star">*</span>函询日期</label>
 
-                                    <div class="col-xs-6" style="z-index: 1030" data-date-format="yyyy-mm-dd">
-                                        <div class="input-group date">
+                                    <div class="col-xs-6">
+                                        <div class="input-group date" data-date-format="yyyy-mm-dd">
                                             <input required class="form-control" name="queryDate"
                                                    type="text"
                                                    value="${cm:formatDate(scLetter.queryDate,'yyyy-MM-dd')}"/>

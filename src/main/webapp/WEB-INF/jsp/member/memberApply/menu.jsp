@@ -4,6 +4,22 @@
   <li class="${cls==1?'active':''}">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=1"><i class="fa fa-star"></i> 党员发展</a>
   </li>
+  <shiro:hasPermission name="applySnRange:*">
+  <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
+      <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+          <i class="fa fa-sort-numeric-asc"></i> 志愿书编码管理${cls==6?"(编码段管理) ":cls==7?"(使用情况) ":" "}
+          <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+          <li>
+              <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=6"><i class="fa fa-hand-o-right"></i> 编码段管理</a>
+          </li>
+          <li>
+              <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=7"><i class="fa fa-hand-o-right"></i> 使用情况</a>
+          </li>
+      </ul>
+  </li>
+  </shiro:hasPermission>
   <shiro:hasPermission name="partyPublic:list">
   <li class="${cls==5?'active':''}">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=5"><i class="fa fa-file-text"></i> 党员公示</a>

@@ -25,7 +25,8 @@
     <result column="plan_status" jdbcType="TINYINT" property="planStatus" />
     <result column="draw_time" jdbcType="DATE" property="drawTime" />
     <result column="draw_status" jdbcType="TINYINT" property="drawStatus" />
-    <result column="apply_sn" jdbcType="BIGINT" property="applySn" />
+    <result column="apply_sn_id" jdbcType="INTEGER" property="applySnId" />
+    <result column="apply_sn" jdbcType="VARCHAR" property="applySn" />
     <result column="grow_public_id" jdbcType="INTEGER" property="growPublicId" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="grow_status" jdbcType="TINYINT" property="growStatus" />
@@ -97,9 +98,9 @@
     user_id, party_id, branch_id, type, apply_time, fill_time, remark, stage, reason, 
     pass_time, active_time, active_train_start_time, active_train_end_time, active_grade, 
     candidate_time, candidate_train_start_time, candidate_train_end_time, candidate_grade, 
-    candidate_status, plan_time, plan_status, draw_time, draw_status, apply_sn, grow_public_id, 
-    grow_time, grow_status, positive_public_id, positive_time, positive_status, is_remove, 
-    create_time
+    candidate_status, plan_time, plan_status, draw_time, draw_status, apply_sn_id, apply_sn, 
+    grow_public_id, grow_time, grow_status, positive_public_id, positive_time, positive_status, 
+    is_remove, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberApplyExample" resultMap="BaseResultMap">
     select
@@ -140,10 +141,10 @@
       candidate_train_start_time, candidate_train_end_time, 
       candidate_grade, candidate_status, plan_time, 
       plan_status, draw_time, draw_status, 
-      apply_sn, grow_public_id, grow_time, 
-      grow_status, positive_public_id, positive_time, 
-      positive_status, is_remove, create_time
-      )
+      apply_sn_id, apply_sn, grow_public_id, 
+      grow_time, grow_status, positive_public_id, 
+      positive_time, positive_status, is_remove, 
+      create_time)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{applyTime,jdbcType=DATE}, #{fillTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR}, #{stage,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
@@ -152,10 +153,10 @@
       #{candidateTrainStartTime,jdbcType=DATE}, #{candidateTrainEndTime,jdbcType=DATE}, 
       #{candidateGrade,jdbcType=VARCHAR}, #{candidateStatus,jdbcType=TINYINT}, #{planTime,jdbcType=DATE}, 
       #{planStatus,jdbcType=TINYINT}, #{drawTime,jdbcType=DATE}, #{drawStatus,jdbcType=TINYINT}, 
-      #{applySn,jdbcType=BIGINT}, #{growPublicId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
-      #{growStatus,jdbcType=TINYINT}, #{positivePublicId,jdbcType=INTEGER}, #{positiveTime,jdbcType=DATE}, 
-      #{positiveStatus,jdbcType=TINYINT}, #{isRemove,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{applySnId,jdbcType=INTEGER}, #{applySn,jdbcType=VARCHAR}, #{growPublicId,jdbcType=INTEGER}, 
+      #{growTime,jdbcType=DATE}, #{growStatus,jdbcType=TINYINT}, #{positivePublicId,jdbcType=INTEGER}, 
+      #{positiveTime,jdbcType=DATE}, #{positiveStatus,jdbcType=TINYINT}, #{isRemove,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberApply">
     insert into ow_member_apply
@@ -228,6 +229,9 @@
       </if>
       <if test="drawStatus != null">
         draw_status,
+      </if>
+      <if test="applySnId != null">
+        apply_sn_id,
       </if>
       <if test="applySn != null">
         apply_sn,
@@ -327,8 +331,11 @@
       <if test="drawStatus != null">
         #{drawStatus,jdbcType=TINYINT},
       </if>
+      <if test="applySnId != null">
+        #{applySnId,jdbcType=INTEGER},
+      </if>
       <if test="applySn != null">
-        #{applySn,jdbcType=BIGINT},
+        #{applySn,jdbcType=VARCHAR},
       </if>
       <if test="growPublicId != null">
         #{growPublicId,jdbcType=INTEGER},
@@ -434,8 +441,11 @@
       <if test="record.drawStatus != null">
         draw_status = #{record.drawStatus,jdbcType=TINYINT},
       </if>
+      <if test="record.applySnId != null">
+        apply_sn_id = #{record.applySnId,jdbcType=INTEGER},
+      </if>
       <if test="record.applySn != null">
-        apply_sn = #{record.applySn,jdbcType=BIGINT},
+        apply_sn = #{record.applySn,jdbcType=VARCHAR},
       </if>
       <if test="record.growPublicId != null">
         grow_public_id = #{record.growPublicId,jdbcType=INTEGER},
@@ -491,7 +501,8 @@
       plan_status = #{record.planStatus,jdbcType=TINYINT},
       draw_time = #{record.drawTime,jdbcType=DATE},
       draw_status = #{record.drawStatus,jdbcType=TINYINT},
-      apply_sn = #{record.applySn,jdbcType=BIGINT},
+      apply_sn_id = #{record.applySnId,jdbcType=INTEGER},
+      apply_sn = #{record.applySn,jdbcType=VARCHAR},
       grow_public_id = #{record.growPublicId,jdbcType=INTEGER},
       grow_time = #{record.growTime,jdbcType=DATE},
       grow_status = #{record.growStatus,jdbcType=TINYINT},
@@ -573,8 +584,11 @@
       <if test="drawStatus != null">
         draw_status = #{drawStatus,jdbcType=TINYINT},
       </if>
+      <if test="applySnId != null">
+        apply_sn_id = #{applySnId,jdbcType=INTEGER},
+      </if>
       <if test="applySn != null">
-        apply_sn = #{applySn,jdbcType=BIGINT},
+        apply_sn = #{applySn,jdbcType=VARCHAR},
       </if>
       <if test="growPublicId != null">
         grow_public_id = #{growPublicId,jdbcType=INTEGER},
@@ -627,7 +641,8 @@
       plan_status = #{planStatus,jdbcType=TINYINT},
       draw_time = #{drawTime,jdbcType=DATE},
       draw_status = #{drawStatus,jdbcType=TINYINT},
-      apply_sn = #{applySn,jdbcType=BIGINT},
+      apply_sn_id = #{applySnId,jdbcType=INTEGER},
+      apply_sn = #{applySn,jdbcType=VARCHAR},
       grow_public_id = #{growPublicId,jdbcType=INTEGER},
       grow_time = #{growTime,jdbcType=DATE},
       grow_status = #{growStatus,jdbcType=TINYINT},

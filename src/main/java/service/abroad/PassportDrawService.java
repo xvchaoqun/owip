@@ -2,34 +2,20 @@ package service.abroad;
 
 import bean.ShortMsgBean;
 import controller.global.OpException;
-import domain.abroad.ApplySelf;
-import domain.abroad.Passport;
-import domain.abroad.PassportDraw;
-import domain.abroad.PassportDrawExample;
-import domain.abroad.PassportDrawFile;
-import domain.abroad.PassportDrawFileExample;
+import domain.abroad.*;
 import domain.base.MetaType;
-import domain.cadre.CadreView;
+import domain.cadre.Cadre;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.base.ShortMsgService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
@@ -46,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PassportDrawService extends AbroadBaseMapper {
@@ -58,6 +45,48 @@ public class PassportDrawService extends AbroadBaseMapper {
     protected SysApprovalLogService sysApprovalLogService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Transactional
+    public int batchImport(List<Map<String, Object>> records) {
+
+        int addCount = 0;
+        for (Map<String, Object> record : records) {
+
+            PassportDraw passportDraw = (PassportDraw) record.get("passportDraw");
+            ApplySelf applySelf = (ApplySelf) record.get("applySelf");
+
+            PassportDraw hasImportPassportDraw = iAbroadMapper.getHasImportPassportDraw(passportDraw.getPassportId(),
+                    passportDraw.getRealStartDate());
+
+            if(hasImportPassportDraw==null){
+
+                if(applySelf!=null){
+                    applySelfMapper.insertSelective(applySelf);
+                    passportDraw.setApplyId(applySelf.getId());
+                }
+
+                passportDrawMapper.insertSelective(passportDraw);
+                addCount++;
+
+            }else{
+
+                if(applySelf!=null) {
+                    if (hasImportPassportDraw.getApplyId() == null) {
+                        applySelfMapper.insertSelective(applySelf);
+                        passportDraw.setApplyId(applySelf.getId());
+                    } else {
+                        applySelf.setId(hasImportPassportDraw.getApplyId());
+                        applySelfMapper.updateByPrimaryKeySelective(applySelf);
+                    }
+                }
+
+                passportDraw.setId(hasImportPassportDraw.getId());
+                passportDrawMapper.updateByPrimaryKeySelective(passportDraw);
+            }
+        }
+
+        return addCount;
+    }
 
     // 拒绝归还证件借出记录
     public PassportDraw getRefuseReturnPassportDraw(int passportId) {
@@ -253,6 +282,8 @@ public class PassportDrawService extends AbroadBaseMapper {
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
+        sheet.setDefaultRowHeightInPoints(30);
+
         int rowNum = 0;
         {
             Row titleRow = sheet.createRow(rowNum);
@@ -360,7 +391,7 @@ public class PassportDrawService extends AbroadBaseMapper {
         MetaType normalPassport = CmTag.getMetaTypeByCode("mt_passport_normal");
         for (int i = 0; i < rownum; i++) {
             PassportDraw passportDraw = passportDraws.get(i);
-            CadreView cadre = passportDraw.getCadre();
+            Cadre cadre = passportDraw.getCadre();
             SysUserView uv = passportDraw.getUser();
             Passport passport = passportDraw.getPassport();
             ApplySelf applySelf = passportDraw.getApplySelf();

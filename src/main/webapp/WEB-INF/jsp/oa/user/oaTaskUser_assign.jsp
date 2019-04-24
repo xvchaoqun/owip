@@ -47,7 +47,9 @@ pageEncoding="UTF-8"%>
                         $("#modal").modal('hide');
                         $("#jqGrid").trigger("reloadGrid");
 
-                        $.loadModal("${ctx}/user/oa/oaTaskUser_assignMsg?taskId=${oaTask.id}")
+                        $('#modal').on('hidden.bs.modal', function () {
+						 	$.loadModal("${ctx}/user/oa/oaTaskUser_assignMsg?taskId=${oaTask.id}")
+						})
                     }
                 }
             });

@@ -16,10 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import persistence.member.MemberApplyViewMapper;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -56,8 +53,10 @@ public class PartyPublicController extends BaseController {
         return "party/partyPublic/partyPublics";
     }
 
-    @RequestMapping("/public/partyPublic")
-    public String public_partyPublic(String id, HttpServletResponse response, ModelMap modelMap) throws Exception {
+    @RequestMapping("/public/{id}/partyPublic")
+    public String public_partyPublic(@PathVariable String id,
+                                     HttpServletResponse response,
+                                     ModelMap modelMap) throws Exception {
 
         PartyPublic partyPublic = null;
         String idStr = null;

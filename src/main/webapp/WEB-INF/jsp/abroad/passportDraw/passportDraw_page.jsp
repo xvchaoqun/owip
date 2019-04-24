@@ -52,6 +52,12 @@
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=-1"><i
                                 class="fa fa-trash"></i> 已删除</a>
                     </li>
+                    <div class="buttons pull-left" style="left: 50px;">
+                        <button class="popupBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/abroad/passportDraw_import"
+                        data-rel="tooltip" data-placement="top"
+                        title="从Excel中批量导入"><i class="fa fa-upload"></i> 批量导入</button>
+                    </div>
                 </ul>
 
                 <div class="tab-content">
@@ -269,7 +275,7 @@
                 name: 'user.realname',
                 width: 75,
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.cadre(rowObject.cadre.id, cellvalue);
+                    return $.cadre(rowObject.cadreId, cellvalue);
                 },
                 frozen: true
             },

@@ -74,7 +74,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label"><span class="star">*</span>党费缴纳至年月</label>
-                            <div class="col-xs-9"  style="width:200px;z-index: 1030">
+                            <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_payTime" type="text"
                                            data-date-format="yyyy-mm"
@@ -92,7 +92,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label"><span class="star">*</span>转出办理时间</label>
-                            <div class="col-xs-9"  style="width:200px;z-index: 1030">
+                            <div class="col-xs-9"  style="width:200px;">
                                 <div class="input-group">
                                     <input required class="form-control date-picker" name="_fromHandleTime" type="text"
                                            data-date-format="yyyy-mm-dd"

@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
 <c:set var="OW_APPLY_STAGE_OUT" value="<%=OwConstants.OW_APPLY_STAGE_OUT%>"/>
+<c:set var="OW_APPLY_STAGE_DENY" value="<%=OwConstants.OW_APPLY_STAGE_DENY%>"/>
 <c:set var="OW_APPLY_TYPE_TEACHER" value="<%=OwConstants.OW_APPLY_TYPE_TEACHER%>"/>
 <c:set var="OW_APPLY_TYPE_STU" value="<%=OwConstants.OW_APPLY_TYPE_STU%>"/>
 <c:set var="OW_APPLY_STAGE_INIT" value="<%=OwConstants.OW_APPLY_STAGE_INIT%>"/>
@@ -123,7 +124,7 @@
                                                             </c:if>
                                                         </a>
                                                     </li>
-                                                    <div class="buttons pull-right" style="padding-top: 5px;margin-right: 15px">
+                                                    <div class="buttons pull-right" style="margin-right: 15px">
                                                         <a href="javascript:;" class="openView btn btn-info btn-sm"
                                                         data-url="${ctx}/memberApply_au">
                                                             <i class="fa fa-plus"></i> 添加入党申请</a>
@@ -145,6 +146,22 @@
                                                                     data-id-name="userId"
                                                                     data-querystr="&stage=${param.stage}">
                                                                 <i class="fa fa-edit"></i> 修改信息
+                                                            </button>
+                                                            </c:if>
+                                                            <c:if test="${stage==OW_APPLY_STAGE_DENY }">
+                                                            <button class="jqBatchBtn btn btn-success btn-sm"
+                                                                    data-url="${ctx}/memberApply_batchApply"
+                                                                    data-title="提交"
+                                                                    data-msg="确定提交申请（已选{0}条记录）？"
+                                                                    data-grid-id="#jqGrid">
+                                                                <i class="fa fa-check-circle-o"></i> 提交申请
+                                                            </button>
+                                                            <button class="jqBatchBtn btn btn-danger btn-sm"
+                                                                    data-url="${ctx}/memberApply_batchDel"
+                                                                    data-title="删除"
+                                                                    data-msg="确定删除申请（已选{0}条记录）？（所有相关操作记录将全部删除，不可恢复，请谨慎操作。）"
+                                                                    data-grid-id="#jqGrid">
+                                                                <i class="fa fa-times"></i> 删除
                                                             </button>
                                                             </c:if>
                                                             <c:choose>
@@ -228,7 +245,7 @@
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${drawCount}">
-                                                                        <i class="fa fa-sign-in"></i> 领取志愿书（${drawCount}）
+                                                                        <i class="fa fa-sign-in"></i> ${_p_partyName}领取志愿书（${drawCount}）
                                                                     </button>
                                                                     </shiro:hasAnyRoles>
                                                                    <%-- <button id="drawCheckCount" ${drawCheckCount>0?'':'disabled'}
@@ -421,6 +438,11 @@
                                                                                             </script>
                                                                                         </div>
                                                                                     </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>志愿书编码</label>
+                                                                                        <input class="form-control search-query" name="applySn" type="text" value="${param.applySn}"
+                                                                                                   placeholder="请输入">
+                                                                                    </div>
                                                                                 </c:if>
                                                                         <c:if test="${stage==OW_APPLY_STAGE_GROW}">
                                                                             <div class="form-group">
@@ -527,6 +549,7 @@
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
             {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '志愿书编码', name: 'applySn', width: 150},
             {label: '发展时间', name: 'growTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_OUT}">
@@ -535,6 +558,13 @@
             </shiro:hasPermission>
             {label: '入党时间', name: 'growTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '转正时间', name: 'positiveTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            </c:if>
+            <c:if test="${stage==OW_APPLY_STAGE_DENY}">
+            {label: '党籍状态', name: 'status', width: 90, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue)
+                    return _cMap.MEMBER_STATUS_MAP[cellvalue];
+                return "--";
+            }},
             </c:if>
             {label: '状态', name: 'applyStatus', width: 300},
             {hidden: true, name: 'stage'},
@@ -562,7 +592,7 @@
                 $("#candidateCheckBtn").prop("disabled", rowData.candidateStatus=='');
                 $("#planBtn").prop("disabled", rowData.planStatus != '');
                 $("#planCheckBtn").prop("disabled", rowData.planStatus == '');
-                $("#drawBtn").prop("disabled", rowData.drawStatus != 0);
+                //$("#drawBtn").prop("disabled", rowData.drawStatus != 0);
                 $("#drawCheckBtn").prop("disabled", rowData.drawStatus != 1);
                 $("#growBtn").prop("disabled", rowData.growStatus != 2);
                 $("#growCheckBtn").prop("disabled", rowData.growStatus != 0);
@@ -615,14 +645,14 @@
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_candidate"'
     });
-    <shiro:hasRole name="${ROLE_PARTYADMIN}">
+    <shiro:hasAnyRoles name="${ROLE_PARTYADMIN},${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_candidate_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
-    </shiro:hasRole>
+    </shiro:hasAnyRoles>
     </c:if>
     <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE}">
 
@@ -643,14 +673,14 @@
     </shiro:hasRole>
     </c:if>
     <c:if test="${stage==OW_APPLY_STAGE_PLAN}">
-    <shiro:hasRole name="${ROLE_PARTYADMIN}">
+    <shiro:hasAnyRoles name="${ROLE_PARTYADMIN},${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"领取志愿书（批量）",
+        caption:"${_p_partyName}领取志愿书（批量）",
         btnbase:"jqOpenViewBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_draw"'
     });
-    </shiro:hasRole>
+    </shiro:hasAnyRoles>
     /*$("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
@@ -661,11 +691,17 @@
 
     <c:if test="${stage==OW_APPLY_STAGE_DRAW}">
     <shiro:hasRole name="${ROLE_ODADMIN}">
-    $("#jqGrid").navButtonAdd('#jqGridPager',{
+    /*$("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_grow_od_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
+    });*/
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"组织部批量审核",
+        btnbase:"jqOpenViewBatchBtn btn btn-primary btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_grow_od_check"'
     });
     </shiro:hasRole>
     $("#jqGrid").navButtonAdd('#jqGridPager',{
@@ -846,15 +882,21 @@
         });
     }
     function apply_grow_od_check(userId, gotoNext){
+
+        var url = "${ctx}/apply_grow_od_check?ids[]="+userId;
+        if(gotoNext!=undefined)
+            url += "&gotoNext="+ gotoNext;
+        $.loadModal(url);
+
         //bootbox.confirm("确定通过该申请？", function (result) {
             //if(result){
-                $.post("${ctx}/apply_grow_od_check",{ids:[userId]},function(ret){
+                /*$.post("${ctx}/apply_grow_od_check",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
                         goto_next(gotoNext);
                     }
-                });
+                });*/
             //}
         //});
     }

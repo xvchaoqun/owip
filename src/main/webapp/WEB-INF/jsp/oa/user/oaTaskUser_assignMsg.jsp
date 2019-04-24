@@ -7,12 +7,12 @@
 </div>
 <div class="modal-body">
     <p style="padding:30px;font-size:20px;text-indent: 2em; ">
-        ${msg}
+        ${msg}${empty oaTaskUser.assignUserId?'您还没有分配指定负责人':''}
     </p>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input id="submitBtn" type="button" class="btn btn-primary" value="确定发送"/>
+    <button id="submitBtn" ${empty oaTaskUser.assignUserId?'disabled':''} type="button" class="btn btn-primary"><i class="fa fa-send"></i> 确定发送</button>
 </div>
 <style>
     .modal-note{
@@ -20,6 +20,7 @@
     }
 </style>
 <script>
+    $('#modal').unbind('hidden.bs.modal')
     $("#submitBtn").click(function(){
             $.post("${ctx}/user/oa/oaTaskUser_assignMsg", {taskId:${param.taskId}}, function (ret) {
                 if (ret.success) {

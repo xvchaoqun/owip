@@ -1,10 +1,9 @@
 package persistence.member.common;
 
-import domain.member.Member;
-import domain.member.MemberExample;
-import domain.member.MemberInflow;
+import domain.member.*;
 import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
@@ -19,6 +18,27 @@ import java.util.Map;
  * Created by lm on 2017/6/13.
  */
 public interface IMemberMapper {
+
+    @ResultMap("persistence.member.ApplySnRangeMapper.BaseResultMap")
+    @Select("select * from ow_apply_sn_range where year=#{year} and (#{startSn} in(start_sn, end_sn) " +
+            "or #{endSn} in(start_sn, end_sn) " +
+            "or start_sn in(#{startSn}, #{endSn}) " +
+            "or end_sn in(#{startSn}, #{endSn}) )")
+    List<ApplySnRange> getOverlapApplySnRanges(@Param("year") int year,
+                                               @Param("startSn") Long startSn,
+                                               @Param("endSn") Long endSn);
+
+    @ResultMap("persistence.member.ApplySnMapper.BaseResultMap")
+    @Select("select * from ow_apply_sn where sn=#{sn} and year=#{year}")
+    ApplySn getApplySn(@Param("year") int year, @Param("sn") long sn);
+
+    @ResultMap("persistence.member.ApplySnMapper.BaseResultMap")
+    @Select("select * from ow_apply_sn where display_sn=#{displaySn} and year=#{year}")
+    ApplySn getApplySnByDisplaySn(@Param("year") int year, @Param("displaySn") String displaySn);
+
+    @ResultMap("persistence.member.ApplySnMapper.BaseResultMap")
+    @Select("select * from ow_apply_sn where sn=#{sn} and range_id=#{rangeId}")
+    ApplySn getApplySnByRangeId(@Param("rangeId") int rangeId, @Param("sn") long sn);
 
     Map selectMemberTeacherCount(@Param("addPermits")Boolean addPermits,
                                                   @Param("adminPartyIdList")List<Integer> adminPartyIdList,

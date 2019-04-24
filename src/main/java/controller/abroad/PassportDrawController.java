@@ -1,5 +1,7 @@
 package controller.abroad;
 
+import bean.XlsUpload;
+import controller.global.OpException;
 import domain.abroad.*;
 import domain.abroad.PassportDrawExample.Criteria;
 import domain.base.ContentTpl;
@@ -13,6 +15,10 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -25,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.shiro.CurrentUser;
@@ -145,6 +152,7 @@ public class PassportDrawController extends AbroadBaseController {
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     // 导出类型：1：因私出国境 2： 台湾、长期 3： 处理其他事务
                                     @RequestParam(required = false, defaultValue = "1") byte exportType,
+                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -198,6 +206,8 @@ public class PassportDrawController extends AbroadBaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             passportDrawService.passportDraw_export(exportType, example, response);
             return;
         }
@@ -220,6 +230,168 @@ public class PassportDrawController extends AbroadBaseController {
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+
+    @RequiresPermissions("passportDraw:edit")
+    @RequestMapping("/passportDraw_import")
+    public String passportDraw_import(ModelMap modelMap) {
+
+        return "abroad/passportDraw/passportDraw_import";
+    }
+
+    // 导入使用记录
+    @RequiresPermissions("passportDraw:edit")
+    @RequestMapping(value = "/passportDraw_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passportDraw_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        // <rowIdx, >
+        List<Map<String, Object>> records = new ArrayList<>();
+
+        Date now = new Date();
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            PassportDraw passportDraw = new PassportDraw();
+
+            String passportCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(passportCode)) {
+                continue;
+            }
+
+            Passport passport = iAbroadMapper.getPassPort(passportCode);
+            if (passport == null) {
+                throw new OpException("第{0}行证件号码[{1}]不存在", row, passportCode);
+            }
+            passportDraw.setPassportId(passport.getId());
+            passportDraw.setCadreId(passport.getCadreId());
+
+            int col = 2;
+
+            String _type = StringUtils.trim(xlsRow.get(col++));
+            Byte type = null;
+            if(StringUtils.isNumeric(_type)){
+                type = Byte.parseByte(_type);
+            }
+            if(type==null || !AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.containsKey(type)){
+                throw new OpException("第{0}行使用类别[{1}]不存在", row, _type);
+            }
+            passportDraw.setType(type);
+
+            String _useType = StringUtils.trim(xlsRow.get(col++));
+            Byte useType = null;
+            if(StringUtils.isNumeric(_useType)){
+                useType = Byte.parseByte(_useType);
+            }
+            if(useType==null || !AbroadConstants.ABROAD_PASSPORT_DRAW_USE_TYPE_MAP.containsKey(useType)){
+                throw new OpException("第{0}行用途[{1}]不存在", row, _useType);
+            }
+            passportDraw.setUseType(useType);
+
+            // 事由
+            String reason = StringUtils.trim(xlsRow.get(col++));
+            passportDraw.setReason(reason); // 台湾
+            boolean needSign = StringUtils.contains(StringUtils.trim(xlsRow.get(col++)), "是");
+            passportDraw.setNeedSign(needSign); // 因私&台湾
+            passportDraw.setApproveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            passportDraw.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+
+            String _dateType = StringUtils.trim(xlsRow.get(col++));
+            Byte dateType = null;
+            if(StringUtils.isNumeric(_dateType)){
+                dateType = Byte.parseByte(_dateType);
+            }
+            if(dateType!=null && !AbroadConstants.ABROAD_APPLY_SELF_DATE_TYPE_MAP.containsKey(dateType)){
+                throw new OpException("第{0}行出行时间范围[{1}]不存在", row, _dateType);
+            }
+            //
+            String realToCountry = StringUtils.trim(xlsRow.get(col++));
+            passportDraw.setRealToCountry(realToCountry); // 因私
+            String peerStaff = StringUtils.trim(xlsRow.get(col++));
+            String costSource = StringUtils.trim(xlsRow.get(col++));
+            passportDraw.setCostSource(costSource); // 台湾
+
+            Date realStartDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
+            if(realStartDate==null){
+                throw new OpException("第{0}行使用开始日期为空", row);
+            }
+
+            Date realEndDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
+            Date realReturnDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            passportDraw.setRealStartDate(realStartDate);
+            passportDraw.setRealEndDate(realEndDate);
+            passportDraw.setRealReturnDate(realReturnDate);
+            passportDraw.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            passportDraw.setCreateTime(now);
+
+            passportDraw.setApplyDate(passportDraw.getApproveTime()==null?now:passportDraw.getApproveTime());
+            passportDraw.setStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS);
+            passportDraw.setUserId(currentUserId);
+            passportDraw.setDrawUserId(currentUserId);
+            passportDraw.setApproveRemark("批量导入");
+
+            passportDraw.setDrawStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN);
+            passportDraw.setReturnRemark("批量导入");
+
+            Map<String, Object> recordMap = new HashMap<>();
+            recordMap.put("passportDraw", passportDraw);
+
+            if(type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
+                ApplySelf applySelf = new ApplySelf();
+
+                applySelf.setType(dateType);
+                applySelf.setApplyDate(passportDraw.getApplyDate());
+                applySelf.setCadreId(passport.getCadreId());
+                applySelf.setStartDate(realStartDate);
+                applySelf.setEndDate(realEndDate);
+                applySelf.setToCountry(realToCountry);
+                applySelf.setReason(reason);
+                applySelf.setPeerStaff(peerStaff);
+                applySelf.setCostSource(costSource);
+                applySelf.setNeedPassports(passport.getClassId()+"");
+                applySelf.setCreateTime(now);
+                applySelf.setStatus(true);
+                applySelf.setIsFinish(true);
+                applySelf.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST);
+
+                /*applySelf.setFlowNodes(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST
+                        + "," + AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST);
+                applySelf.setFlowUsers(currentUserId
+                        + "," + currentUserId);*/
+
+                applySelf.setIsAgreed(true);
+                applySelf.setRemark("批量导入使用记录");
+
+                recordMap.put("applySelf", applySelf);
+            }
+
+            records.add(recordMap);
+        }
+
+        int addCount = passportDrawService.batchImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ABROAD,
+                "导入证件使用记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount-addCount));
+
+        return resultMap;
     }
 
     // 管理员添加申请

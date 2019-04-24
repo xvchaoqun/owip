@@ -366,12 +366,13 @@ public class ApplySelfService extends AbroadBaseMapper {
             // 初审td
             ApprovalTdBean bean = new ApprovalTdBean();
             bean.setApplySelfId(applySelfId);
-            bean.setApprovalTypeId(-1);
+            bean.setApprovalTypeId(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
             if (firstVal.getValue() == null) {
                 if (isView) {
                     bean.setTdType(3);
                 } else {
-                    boolean canApproval = canApproval(currentUserId, applySelfId, -1);
+                    boolean canApproval = canApproval(currentUserId, applySelfId,
+                            AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
                     bean.setCanApproval(canApproval);
                     bean.setTdType(4);
                 }
@@ -388,7 +389,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                 bean.setApproverList(approvers);
             }
 
-            resultMap.put(-1, bean); // 初审
+            resultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST, bean); // 初审
         }
 
         int last = 0;
@@ -445,13 +446,14 @@ public class ApplySelfService extends AbroadBaseMapper {
             ApprovalResult lastVal = vals[size - 1];
             ApprovalTdBean bean = new ApprovalTdBean();
             bean.setApplySelfId(applySelfId);
-            bean.setApprovalTypeId(0);
+            bean.setApprovalTypeId(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST);
             if (last == size - 2 || lastIsUnPass) { // 前面已经审批完成，或者 前面有一个未通过，直接到组织部终审
                 if (lastVal.getValue() == null) {
                     if (isView) {
                         bean.setTdType(3);
                     } else {
-                        boolean canApproval = canApproval(currentUserId, applySelfId, 0);
+                        boolean canApproval = canApproval(currentUserId, applySelfId,
+                                AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST);
                         bean.setCanApproval(canApproval);
                         bean.setTdType(4);
                     }
@@ -473,7 +475,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                 bean.setApproverList(approvers);
             }
 
-            resultMap.put(0, bean); // 终审
+            resultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST, bean); // 终审
         }
 
         return resultMap;
@@ -535,14 +537,15 @@ public class ApplySelfService extends AbroadBaseMapper {
         if (applySelf.getIsFinish()){
 
             String flowNodes = applySelf.getFlowNodes();
-            String[] _approverTypeIds = flowNodes.split(",");
-            for (String _approverTypeId : _approverTypeIds) {
-                int approverTypeId = Integer.parseInt(_approverTypeId);
-                if(approverTypeId>0){
-                    needApprovalTypeSet.add(approverTypeId);
+            if(StringUtils.isNotBlank(flowNodes)) {
+                String[] _approverTypeIds = flowNodes.split(",");
+                for (String _approverTypeId : _approverTypeIds) {
+                    int approverTypeId = Integer.parseInt(_approverTypeId);
+                    if (approverTypeId > 0) {
+                        needApprovalTypeSet.add(approverTypeId);
+                    }
                 }
             }
-
         }else {
             Integer applicatTypeId = null;
             {   // 查询申请人身份
@@ -550,8 +553,8 @@ public class ApplySelfService extends AbroadBaseMapper {
                 example.createCriteria().andCadreIdEqualTo(cadreId);
                 List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
                 if (applicatCadres.size() == 0) {
-                    CadreView cv = applySelf.getCadre();
-                    logger.error("因私审批数据异常，干部没有任何身份: {}, {}", cv.getCode(), cv.getRealname());
+                    SysUserView uv = applySelf.getUser();
+                    logger.error("因私审批数据异常，干部没有任何身份: {}, {}", uv.getCode(), uv.getRealname());
                     return approvalResultMap;// 异常情况，不允许申请人没有任何身份
                 }
                 ApplicatCadre applicatCadre = applicatCadres.get(0);
@@ -909,7 +912,7 @@ public class ApplySelfService extends AbroadBaseMapper {
         for (int i = 0; i < rownum; i++) {
             ApplySelf record = records.get(i);
             SysUserView uv = record.getUser();
-            CadreView cadre = record.getCadre();
+            Cadre cadre = record.getCadre();
 
             List<String> passportList = new ArrayList<>();
             String needPassports = record.getNeedPassports();

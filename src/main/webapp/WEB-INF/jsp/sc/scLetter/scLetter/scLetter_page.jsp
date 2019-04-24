@@ -57,7 +57,7 @@
                                         <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
                                             <label>年份</label>
-                                            <div class="input-group">
+                                            <div class="input-group" style="width: 120px">
                                                 <input class="form-control date-picker" placeholder="请选择年份"
                                                        name="year"
                                                        type="text"
@@ -82,8 +82,7 @@
                                         <div class="form-group">
                                             <label>函询编号</label>
                                             <input class="form-control search-query num" name="num" type="text"
-                                                   value="${param.num}" style="width: 50px"
-                                                   placeholder="请输入函询编号">
+                                                   value="${param.num}" style="width: 50px">
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>

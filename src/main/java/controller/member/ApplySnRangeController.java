@@ -35,8 +35,9 @@ public class ApplySnRangeController extends MemberBaseController {
 
     @RequiresPermissions("applySnRange:list")
     @RequestMapping("/applySnRange")
-    public String applySnRange() {
+    public String applySnRange(@RequestParam(defaultValue = "1") int cls, ModelMap modelMap) {
 
+        modelMap.put("cls", cls);
         return "member/applySnRange/applySnRange_page";
     }
 
@@ -61,7 +62,7 @@ public class ApplySnRangeController extends MemberBaseController {
 
         ApplySnRangeExample example = new ApplySnRangeExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("year desc, start_sn asc");
+        example.setOrderByClause("year desc, sort_order desc");
 
         if (year!=null) {
             criteria.andYearEqualTo(year);
@@ -106,12 +107,29 @@ public class ApplySnRangeController extends MemberBaseController {
     public Map do_applySnRange_au(ApplySnRange record, HttpServletRequest request) {
 
         Integer id = record.getId();
+        long startSn = record.getStartSn();
+        long endSn = record.getEndSn();
+        int year = record.getYear();
+
+        if(startSn > endSn) return failed("起止号码有误。");
 
         if (id == null) {
-            
+
+            List<ApplySnRange> overlapApplySnRanges = iMemberMapper.getOverlapApplySnRanges(year, startSn, endSn);
+            if(overlapApplySnRanges.size()>0){
+                return failed("存在重叠的号码段。");
+            }
+
             applySnRangeService.insertSelective(record);
             logger.info(log( LogConstants.LOG_MEMBER, "添加入党志愿书编码段：{0}", record.getId()));
         } else {
+
+            List<ApplySnRange> overlapApplySnRanges = iMemberMapper.getOverlapApplySnRanges(year, startSn, endSn);
+            for (ApplySnRange overlapApplySnRange : overlapApplySnRanges) {
+                if(overlapApplySnRange.getId().intValue()!=id){
+                    return failed("存在重叠的号码段。");
+                }
+            }
 
             applySnRangeService.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_MEMBER, "更新入党志愿书编码段：{0}", record.getId()));
@@ -142,6 +160,18 @@ public class ApplySnRangeController extends MemberBaseController {
             logger.info(log( LogConstants.LOG_MEMBER, "批量删除入党志愿书编码段：{0}", StringUtils.join(ids, ",")));
         }
 
+        return success(FormUtils.SUCCESS);
+    }
+
+
+
+    @RequiresPermissions("applySnRange:changeOrder")
+    @RequestMapping(value = "/applySnRange_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySnRange_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        applySnRangeService.changeOrder(id, addNum);
+        logger.info(log(LogConstants.LOG_MEMBER, "志愿书编码段调序：{0},{1}", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

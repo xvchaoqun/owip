@@ -25,7 +25,7 @@ pageEncoding="UTF-8" %>
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/party?status=-1"><i class="fa fa-history"></i> 已撤销</a>
                     </li>
                     <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
-                    <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                    <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px;">
                             <a class="downloadBtn btn btn-success btn-sm"
                                href="javascript:;" data-url="${ctx}/party?export=2">
                                 <i class="fa fa-download"></i> 汇总导出基本情况表</a>

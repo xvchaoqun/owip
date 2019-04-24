@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
             <form class="form-horizontal">
                 <div class="form-group">
                     <label class="col-xs-3 control-label"><span class="star">*</span>证件应交回日期</label>
-                    <div class="col-xs-6" style="z-index: 1030">
+                    <div class="col-xs-6">
                         <div class="input-group date" data-date-format="yyyy年mm月dd日">
                             <input ${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_PASS?"disabled":""} required class="form-control" name="_expectDate" type="text"
                                     value="${cm:formatDate(passportApply.expectDate,'yyyy年MM月dd日')}" />

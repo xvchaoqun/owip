@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 类型</label>
 				<div class="col-xs-6">
-					<select required class="form-control" data-rel="select2" data-width="180"
+					<select required class="form-control" data-rel="select2" data-width="273"
                                                                 name="type" data-placeholder="请选择">
 							<option></option>
 						 <c:forEach items="<%=SystemConstants.SYS_PROPERTY_TYPE_MAP%>" var="_type">

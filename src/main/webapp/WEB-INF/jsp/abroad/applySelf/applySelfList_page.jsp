@@ -207,11 +207,11 @@
             {
                 label: '组织部初审',
                 align: 'center',
-                name: 'expiryDate',
+                name: '_firstApproval',
 
                 formatter: function (cellvalue, options, rowObject) {
                     var tdBean = rowObject.approvalTdBeanMap[-1];
-                    return processTdBean(tdBean)
+                    return processTdBean(tdBean, rowObject.isAgreed)
                 }
             },
             <c:forEach items="${approverTypeMap}" var="type">
@@ -230,7 +230,7 @@
             {
                 label: '组织部终审',
                 align: 'center',
-                name: 'expiryDate',
+                name: '_lastApproval',
 
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     var tdBean = rowObject.approvalTdBeanMap[0];
@@ -239,7 +239,7 @@
                 },
                 formatter: function (cellvalue, options, rowObject) {
                     var tdBean = rowObject.approvalTdBeanMap[0];
-                    return processTdBean(tdBean)
+                    return processTdBean(tdBean, rowObject.isAgreed)
                 }
             },
             {
@@ -258,7 +258,7 @@
     });
     $(window).triggerHandler('resize.jqGrid');
 
-    function processTdBean(tdBean) {
+    function processTdBean(tdBean, isAgreed) {
 
         if(tdBean==undefined) return '--';
 
@@ -276,10 +276,10 @@
                 html = "";
                 break;
             case 3:
-                html = "未审批";
+                html = isAgreed?"-":"未审批";
                 break;
             case 4:
-                html = '<span class="text-danger">待审批</span>';
+                html = isAgreed?"-":'<span class="text-danger">待审批</span>';
                 break;
             case 5:
                 html = "未通过";

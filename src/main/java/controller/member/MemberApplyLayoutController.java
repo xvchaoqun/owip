@@ -29,6 +29,10 @@ public class MemberApplyLayoutController {
             return "forward:/memberApplyExport";
         if(cls==5)
             return "forward:/partyPublic";
+        if(cls==6)
+            return "forward:/applySnRange";
+        if(cls==7)
+            return "forward:/applySn";
 
         return null;
     }

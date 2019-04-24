@@ -1,34 +1,122 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.ApplySn;
 import domain.member.ApplySnExample;
+import domain.member.MemberApply;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.utils.DateUtils;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ApplySnService extends MemberBaseMapper {
 
-    @Transactional
-    public void insertSelective(ApplySn record){
+    @Autowired
+    private ApplySnRangeService applySnRangeService;
 
-        applySnMapper.insertSelective(record);
-    }
+    // 获取即将分配的志愿书编码
+    public List<ApplySn> getAssignApplySnList(int count){
 
-    @Transactional
-    public void batchDel(Long[] sns){
-
-        if(sns==null || sns.length==0) return;
-
+        int year = DateUtils.getCurrentYear();
         ApplySnExample example = new ApplySnExample();
-        example.createCriteria().andSnIn(Arrays.asList(sns));
-        applySnMapper.deleteByExample(example);
+        example.createCriteria().andYearEqualTo(year).andIsUsedEqualTo(false);
+        example.setOrderByClause("sn asc");
+        return applySnMapper.selectByExampleWithRowbounds(example, new RowBounds(0, count));
     }
 
+    // 组织部审批通过领取志愿书，自动分配志愿书编码
     @Transactional
-    public int updateByPrimaryKeySelective(ApplySn record){
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void assign(int userId) {
 
-        return applySnMapper.updateByPrimaryKeySelective(record);
+        List<ApplySn> applySns = getAssignApplySnList(1);
+
+        if(applySns.size()>0){
+            ApplySn applySn = applySns.get(0);
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+
+            if(memberApply!=null) {
+
+                MemberApply record = new MemberApply();
+                record.setUserId(userId);
+                record.setApplySnId(applySn.getId());
+                record.setApplySn(applySn.getDisplaySn());
+                memberApplyMapper.updateByPrimaryKeySelective(record);
+
+                use(applySn.getId(), userId);
+            }
+        }
+    }
+    // 组织部打回领取志愿书，或从领取志愿书中进行移除操作，则清除已分配的志愿书编码
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void clearAssign(int userId) {
+
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        if(memberApply!=null) {
+
+            Integer applySnId = memberApply.getApplySnId();
+            if(applySnId!=null){
+
+                commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, apply_sn=null where user_id="+ userId);
+                clearUse(applySnId);
+            }
+        }
+    }
+
+    // 更新为已使用
+    @Transactional
+    public void use(int applySnId, int userId){
+
+        ApplySn applySn = applySnMapper.selectByPrimaryKey(applySnId);
+        if(applySn == null){
+            throw new OpException("编码不存在。");
+        }else if(BooleanUtils.isTrue(applySn.getIsUsed())){
+            throw new OpException("编码{0}已被使用。", applySn.getDisplaySn());
+        }
+
+        ApplySn record = new ApplySn();
+        record.setId(applySnId);
+        record.setIsUsed(true);
+        record.setUserId(userId);
+
+        applySnMapper.updateByPrimaryKeySelective(record);
+
+        // 更新编码段已使用数量
+        Integer rangeId = applySn.getRangeId();
+        ApplySnExample example = new ApplySnExample();
+        example.createCriteria().andRangeIdEqualTo(rangeId).andIsUsedEqualTo(true);
+        int useCount = (int) applySnMapper.countByExample(example);
+
+        applySnRangeService.updateUseCount(rangeId, useCount);
+    }
+
+    // 更新为未使用
+    @Transactional
+    public void clearUse(int applySnId){
+
+        ApplySn applySn = applySnMapper.selectByPrimaryKey(applySnId);
+        if(applySn == null){
+            throw new OpException("编码不存在。");
+        }else if(BooleanUtils.isNotTrue(applySn.getIsUsed())){
+            throw new OpException("编码{0}没有被使用。", applySn.getDisplaySn());
+        }
+
+        commonMapper.excuteSql("update ow_apply_sn set is_used = 0, user_id = null where id=" + applySnId);
+
+
+        // 更新编码段已使用数量
+        Integer rangeId = applySn.getRangeId();
+        ApplySnExample example = new ApplySnExample();
+        example.createCriteria().andRangeIdEqualTo(rangeId).andIsUsedEqualTo(true);
+        int useCount = (int) applySnMapper.countByExample(example);
+
+        applySnRangeService.updateUseCount(rangeId, useCount);
     }
 }

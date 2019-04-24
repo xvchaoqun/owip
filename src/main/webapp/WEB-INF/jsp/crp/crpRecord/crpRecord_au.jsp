@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="cadreSelectsDiv">
-                        <label class="col-xs-4 control-label">选择干部</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span> 选择干部</label>
 
                         <div class="col-xs-7">
                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects" data-width="220"
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="userSelectsDiv">
-                        <label class="col-xs-4 control-label">选择教职工</label>
+                        <label class="col-xs-4 control-label"><span class="star">*</span> 选择教职工</label>
 
                         <div class="col-xs-7">
                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"

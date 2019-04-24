@@ -224,6 +224,76 @@ public class ApplySnRangeExample {
             return (Criteria) this;
         }
 
+        public Criteria andPrefixIsNull() {
+            addCriterion("prefix is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixIsNotNull() {
+            addCriterion("prefix is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixEqualTo(String value) {
+            addCriterion("prefix =", value, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixNotEqualTo(String value) {
+            addCriterion("prefix <>", value, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixGreaterThan(String value) {
+            addCriterion("prefix >", value, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixGreaterThanOrEqualTo(String value) {
+            addCriterion("prefix >=", value, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixLessThan(String value) {
+            addCriterion("prefix <", value, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixLessThanOrEqualTo(String value) {
+            addCriterion("prefix <=", value, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixLike(String value) {
+            addCriterion("prefix like", value, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixNotLike(String value) {
+            addCriterion("prefix not like", value, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixIn(List<String> values) {
+            addCriterion("prefix in", values, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixNotIn(List<String> values) {
+            addCriterion("prefix not in", values, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixBetween(String value1, String value2) {
+            addCriterion("prefix between", value1, value2, "prefix");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrefixNotBetween(String value1, String value2) {
+            addCriterion("prefix not between", value1, value2, "prefix");
+            return (Criteria) this;
+        }
+
         public Criteria andStartSnIsNull() {
             addCriterion("start_sn is null");
             return (Criteria) this;
@@ -341,6 +411,186 @@ public class ApplySnRangeExample {
 
         public Criteria andEndSnNotBetween(Long value1, Long value2) {
             addCriterion("end_sn not between", value1, value2, "endSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenIsNull() {
+            addCriterion("len is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenIsNotNull() {
+            addCriterion("len is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenEqualTo(Integer value) {
+            addCriterion("len =", value, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenNotEqualTo(Integer value) {
+            addCriterion("len <>", value, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenGreaterThan(Integer value) {
+            addCriterion("len >", value, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenGreaterThanOrEqualTo(Integer value) {
+            addCriterion("len >=", value, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenLessThan(Integer value) {
+            addCriterion("len <", value, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenLessThanOrEqualTo(Integer value) {
+            addCriterion("len <=", value, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenIn(List<Integer> values) {
+            addCriterion("len in", values, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenNotIn(List<Integer> values) {
+            addCriterion("len not in", values, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenBetween(Integer value1, Integer value2) {
+            addCriterion("len between", value1, value2, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andLenNotBetween(Integer value1, Integer value2) {
+            addCriterion("len not between", value1, value2, "len");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountIsNull() {
+            addCriterion("use_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountIsNotNull() {
+            addCriterion("use_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountEqualTo(Integer value) {
+            addCriterion("use_count =", value, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountNotEqualTo(Integer value) {
+            addCriterion("use_count <>", value, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountGreaterThan(Integer value) {
+            addCriterion("use_count >", value, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("use_count >=", value, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountLessThan(Integer value) {
+            addCriterion("use_count <", value, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountLessThanOrEqualTo(Integer value) {
+            addCriterion("use_count <=", value, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountIn(List<Integer> values) {
+            addCriterion("use_count in", values, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountNotIn(List<Integer> values) {
+            addCriterion("use_count not in", values, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountBetween(Integer value1, Integer value2) {
+            addCriterion("use_count between", value1, value2, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("use_count not between", value1, value2, "useCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNull() {
+            addCriterion("sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNotNull() {
+            addCriterion("sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderEqualTo(Integer value) {
+            addCriterion("sort_order =", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotEqualTo(Integer value) {
+            addCriterion("sort_order <>", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThan(Integer value) {
+            addCriterion("sort_order >", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort_order >=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThan(Integer value) {
+            addCriterion("sort_order <", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("sort_order <=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIn(List<Integer> values) {
+            addCriterion("sort_order in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotIn(List<Integer> values) {
+            addCriterion("sort_order not in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order not between", value1, value2, "sortOrder");
             return (Criteria) this;
         }
 

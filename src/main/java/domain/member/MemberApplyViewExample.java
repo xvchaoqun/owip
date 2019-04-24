@@ -1578,6 +1578,66 @@ public class MemberApplyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplySnIdIsNull() {
+            addCriterion("apply_sn_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdIsNotNull() {
+            addCriterion("apply_sn_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdEqualTo(Integer value) {
+            addCriterion("apply_sn_id =", value, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdNotEqualTo(Integer value) {
+            addCriterion("apply_sn_id <>", value, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdGreaterThan(Integer value) {
+            addCriterion("apply_sn_id >", value, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("apply_sn_id >=", value, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdLessThan(Integer value) {
+            addCriterion("apply_sn_id <", value, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdLessThanOrEqualTo(Integer value) {
+            addCriterion("apply_sn_id <=", value, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdIn(List<Integer> values) {
+            addCriterion("apply_sn_id in", values, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdNotIn(List<Integer> values) {
+            addCriterion("apply_sn_id not in", values, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdBetween(Integer value1, Integer value2) {
+            addCriterion("apply_sn_id between", value1, value2, "applySnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("apply_sn_id not between", value1, value2, "applySnId");
+            return (Criteria) this;
+        }
+
         public Criteria andApplySnIsNull() {
             addCriterion("apply_sn is null");
             return (Criteria) this;
@@ -1588,52 +1648,62 @@ public class MemberApplyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andApplySnEqualTo(Long value) {
+        public Criteria andApplySnEqualTo(String value) {
             addCriterion("apply_sn =", value, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnNotEqualTo(Long value) {
+        public Criteria andApplySnNotEqualTo(String value) {
             addCriterion("apply_sn <>", value, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnGreaterThan(Long value) {
+        public Criteria andApplySnGreaterThan(String value) {
             addCriterion("apply_sn >", value, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnGreaterThanOrEqualTo(Long value) {
+        public Criteria andApplySnGreaterThanOrEqualTo(String value) {
             addCriterion("apply_sn >=", value, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnLessThan(Long value) {
+        public Criteria andApplySnLessThan(String value) {
             addCriterion("apply_sn <", value, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnLessThanOrEqualTo(Long value) {
+        public Criteria andApplySnLessThanOrEqualTo(String value) {
             addCriterion("apply_sn <=", value, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnIn(List<Long> values) {
+        public Criteria andApplySnLike(String value) {
+            addCriterion("apply_sn like", value, "applySn");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnNotLike(String value) {
+            addCriterion("apply_sn not like", value, "applySn");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplySnIn(List<String> values) {
             addCriterion("apply_sn in", values, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnNotIn(List<Long> values) {
+        public Criteria andApplySnNotIn(List<String> values) {
             addCriterion("apply_sn not in", values, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnBetween(Long value1, Long value2) {
+        public Criteria andApplySnBetween(String value1, String value2) {
             addCriterion("apply_sn between", value1, value2, "applySn");
             return (Criteria) this;
         }
 
-        public Criteria andApplySnNotBetween(Long value1, Long value2) {
+        public Criteria andApplySnNotBetween(String value1, String value2) {
             addCriterion("apply_sn not between", value1, value2, "applySn");
             return (Criteria) this;
         }

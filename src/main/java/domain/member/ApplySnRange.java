@@ -7,9 +7,17 @@ public class ApplySnRange implements Serializable {
 
     private Integer year;
 
+    private String prefix;
+
     private Long startSn;
 
     private Long endSn;
+
+    private Integer len;
+
+    private Integer useCount;
+
+    private Integer sortOrder;
 
     private String remark;
 
@@ -31,6 +39,14 @@ public class ApplySnRange implements Serializable {
         this.year = year;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix == null ? null : prefix.trim();
+    }
+
     public Long getStartSn() {
         return startSn;
     }
@@ -45,6 +61,30 @@ public class ApplySnRange implements Serializable {
 
     public void setEndSn(Long endSn) {
         this.endSn = endSn;
+    }
+
+    public Integer getLen() {
+        return len;
+    }
+
+    public void setLen(Integer len) {
+        this.len = len;
+    }
+
+    public Integer getUseCount() {
+        return useCount;
+    }
+
+    public void setUseCount(Integer useCount) {
+        this.useCount = useCount;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public String getRemark() {

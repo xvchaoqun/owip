@@ -1,21 +1,29 @@
 package persistence.abroad.common;
 
-import domain.abroad.ApplySelf;
-import domain.abroad.ApprovalOrder;
-import domain.abroad.Approver;
-import domain.abroad.Passport;
+import domain.abroad.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import sys.constants.AbroadConstants;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public interface IAbroadMapper {
+
+    // 获取证件
+    @ResultMap("persistence.abroad.PassportMapper.BaseResultMap")
+    @Select("select * from abroad_passport where code=#{code}")
+    Passport getPassPort(@Param("code") String code);
+
+    // 导入辅助查询（如同一证件相同的开始日期，将进行覆盖导入）
+    @ResultMap("persistence.abroad.PassportDrawMapper.BaseResultMap")
+    @Select("select * from abroad_passport_draw where passport_id=#{passportId} and real_start_date=#{realStartDate} limit 1")
+    PassportDraw getHasImportPassportDraw(@Param("passportId") int passportId,
+                                      @Param("realStartDate") Date realStartDate);
 
     @ResultMap("persistence.abroad.ApprovalOrderMapper.BaseResultMap")
     @Select("select aao.* from abroad_approval_order aao, abroad_approver_type aat " +

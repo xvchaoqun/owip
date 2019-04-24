@@ -136,17 +136,18 @@ public class UserOaTaskUserController extends OaBaseController {
         Integer userId = ShiroHelper.getCurrentUserId();
         OaTaskUser oaTaskUser = oaTaskUserService.getOaTaskUser(taskId, userId);
         modelMap.put("oaTaskUser", oaTaskUser);
+        if(oaTaskUser.getAssignUserId()!=null) {
+            SysUserView assignUser = sysUserService.findById(oaTaskUser.getAssignUserId());
+            String assignMsgTitle = assignUser.getRealname() + "老师";
 
-        SysUserView assignUser = sysUserService.findById(oaTaskUser.getAssignUserId());
-        String assignMsgTitle = assignUser.getRealname()+"老师";
+            SysUserView user = sysUserService.findById(oaTaskUser.getUserId());
+            String msgTitle = user.getRealname() + "老师";
 
-        SysUserView user = sysUserService.findById(oaTaskUser.getUserId());
-        String msgTitle = user.getRealname()+"老师";
+            ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_OA_INFO_USER);
+            String msg = MessageFormat.format(tpl.getContent(), assignMsgTitle, msgTitle, oaTask.getName());
 
-        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_OA_INFO_USER);
-        String msg = MessageFormat.format(tpl.getContent(), assignMsgTitle, msgTitle, oaTask.getName());
-
-        modelMap.put("msg", msg);
+            modelMap.put("msg", msg);
+        }
 
         return "oa/user/oaTaskUser_assignMsg";
     }

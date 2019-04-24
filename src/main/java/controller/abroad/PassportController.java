@@ -4,6 +4,7 @@ import bean.XlsUpload;
 import controller.global.OpException;
 import domain.abroad.*;
 import domain.base.MetaType;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.SysUserView;
@@ -209,7 +210,7 @@ public class PassportController extends AbroadBaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView sysUser = record.getUser();
-                CadreView cadre = record.getCadre();
+                Cadre cadre = record.getCadre();
                 String[] values = {
                         sysUser.getCode(),
                         sysUser.getRealname(),
@@ -239,7 +240,7 @@ public class PassportController extends AbroadBaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                CadreView cadre = record.getCadre();
+                Cadre cadre = record.getCadre();
                 String[] values = {
                         uv.getCode(),
                         uv.getRealname(),
@@ -270,7 +271,7 @@ public class PassportController extends AbroadBaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                CadreView cadre = record.getCadre();
+                Cadre cadre = record.getCadre();
                 String[] values = {
                         uv.getCode(),
                         uv.getRealname(),
@@ -300,7 +301,7 @@ public class PassportController extends AbroadBaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                CadreView cadre = record.getCadre();
+                Cadre cadre = record.getCadre();
                 String keepDate = "";
                 if(!record.getKeepDate().after(record.getLostTime())){
                     keepDate=record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"";

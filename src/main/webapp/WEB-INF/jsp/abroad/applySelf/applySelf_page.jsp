@@ -296,12 +296,12 @@
             }, align:'left'
             },
             {
-                label: '组织部初审', name: 'expiryDate', cellattr: function (rowId, val, rowObject, cm, rdata) {
+                label: '组织部初审', name: '_firstApproval', cellattr: function (rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
                 return approverTdAttrs(tdBean);
             }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
-                return processTdBean(tdBean)
+                return processTdBean(tdBean, rowObject.isAgreed)
             }
             },
             <c:forEach items="${approverTypeMap}" var="type">
@@ -317,12 +317,12 @@
             },
             </c:forEach>
             {
-                label: '组织部终审', name: 'expiryDate', cellattr: function (rowId, val, rowObject, cm, rdata) {
+                label: '组织部终审', name: '_lastApproval', cellattr: function (rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return approverTdAttrs(tdBean);
             }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
-                return processTdBean(tdBean)
+                return processTdBean(tdBean, rowObject.isAgreed)
             }
             },
             {
@@ -407,7 +407,7 @@
         return attrs;
     }
 
-    function processTdBean(tdBean) {
+    function processTdBean(tdBean, isAgreed) {
 
         if (tdBean == undefined) return '--';
         var type = tdBean.tdType;
@@ -421,10 +421,11 @@
                 html = "";
                 break;
             case 3:
-                html = "未审批";
+                //console.log(isAgreed)
+                html = isAgreed?"-":"未审批";
                 break;
             case 4:
-                html = '<span class="text-danger">待审批</span>';
+                html = isAgreed?"-":'<span class="text-danger">待审批</span>';
                 break;
             case 5:
                 html = "未通过";

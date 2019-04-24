@@ -2,10 +2,7 @@ package controller.member;
 
 import bean.XlsUpload;
 import controller.global.OpException;
-import domain.member.MemberApply;
-import domain.member.MemberApplyExample;
-import domain.member.MemberApplyView;
-import domain.member.MemberApplyViewExample;
+import domain.member.*;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
@@ -170,13 +167,14 @@ public class MemberApplyController extends MemberBaseController {
             record.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             String applySnStr = StringUtils.trimToNull(xlsRow.get(rowNum++));
             if(applySnStr!=null) {
-                Long applySn = null;
-                try {
-                    applySn = Long.valueOf(applySnStr);
-                }catch (Exception e){
-                    throw new OpException("第{0}行志愿书编号不是整数[{1}]", row, applySnStr);
+
+                ApplySn applySn = iMemberMapper.getApplySnByDisplaySn(DateUtils.getCurrentYear(), applySnStr);
+                if(applySn==null){
+                    throw new OpException("第{0}行志愿书编码不存在[{1}]", row, applySnStr);
                 }
-                record.setApplySn(applySn);
+
+                record.setApplySnId(applySn.getRangeId());
+                record.setApplySn(applySn.getDisplaySn());
             }
 
             record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
@@ -377,6 +375,7 @@ public class MemberApplyController extends MemberBaseController {
                                  @RequestParam(defaultValue = "0") Byte stage,
                                  Byte growStatus, // 领取志愿书阶段查询
                                  Byte positiveStatus, // 预备党员阶段查询
+                                 String applySn, // 志愿书编码
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -442,6 +441,9 @@ public class MemberApplyController extends MemberBaseController {
         }
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
+        }
+        if(StringUtils.isNotBlank(applySn)){
+            criteria.andApplySnLike("%"+applySn+"%");
         }
 
         if (export == 1) {
@@ -884,22 +886,49 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }*/
 
-    @RequiresPermissions("memberApply:grow")
-    @RequestMapping(value = "/apply_grow")
-    public String apply_grow() {
+   //组织部管理员审核 预备党员 , 在领取志愿书模块， 显示将分配的志愿书编号段
+    @RequiresPermissions({"memberApply:grow_check2", SystemConstants.PERMISSION_PARTYVIEWALL})
+    @RequestMapping(value = "/apply_grow_od_check")
+    public String apply_grow_od_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        return "member/memberApply/apply_grow";
+        MemberApplyExample example = new MemberApplyExample();
+        example.createCriteria().andUserIdIn(Arrays.asList(ids))
+                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
+                .andGrowStatusIsNull();
+        int count = (int) memberApplyMapper.countByExample(example);
+
+        List<ApplySn> assignApplySnList = applySnService.getAssignApplySnList(count);
+        int size = assignApplySnList.size();
+        if(size > 0) {
+            modelMap.put("startSn", assignApplySnList.get(0));
+        }
+        if(size > 1) {
+            modelMap.put("endSn", assignApplySnList.get(size-1));
+        }
+
+        modelMap.put("assignCount", size);
+        modelMap.put("totalCount", count);
+
+        return "member/memberApply/apply_grow_od_check";
     }
 
     //组织部管理员审核 预备党员 , 在领取志愿书模块
     @RequiresPermissions({"memberApply:grow_check2", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping(value = "/apply_grow_od_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_grow_od_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUserView loginUser, HttpServletRequest request) {
+    public Map do_apply_grow_od_check(@RequestParam(value = "ids[]") Integer[] ids,
+                                      @CurrentUser SysUserView loginUser, HttpServletRequest request) {
 
         memberApplyOpService.apply_grow_od_check(ids, loginUser.getId());
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberApply:grow")
+    @RequestMapping(value = "/apply_grow")
+    public String apply_grow() {
+
+        return "member/memberApply/apply_grow";
     }
 
     //党支部提交 预备党员， 在组织部审核之后
@@ -1001,6 +1030,25 @@ public class MemberApplyController extends MemberBaseController {
                                      String reason, HttpServletRequest request) {
 
         memberApplyOpService.memberApply_remove(ids, BooleanUtils.isTrue(isRemove), reason);
+        return success();
+    }
+
+
+    @RequiresPermissions("memberApply:batchApply")
+    @RequestMapping(value = "/memberApply_batchApply", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_batchApply(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        memberApplyOpService.batchApply(ids);
+        return success();
+    }
+
+    @RequiresPermissions("memberApply:del")
+    @RequestMapping(value = "/memberApply_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_batchDel(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        memberApplyOpService.batchDel(ids);
         return success();
     }
 

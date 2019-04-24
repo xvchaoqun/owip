@@ -90,7 +90,7 @@
                       <c:set var="original" value="${cm:formatDate(cadre.owGrowTime, 'yyyy-MM-dd')}"/>
                   </c:when>
               </c:choose>
-            <div class="input-group" style="width: 150px;z-index: 1030">
+            <div class="input-group" style="width: 150px;">
               <input class="form-control date-picker" type="text"
                      data-date-format="yyyy-mm-dd"
                      data-code="grow_time"

@@ -60,7 +60,9 @@ public class MemberApply implements Serializable {
 
     private Byte drawStatus;
 
-    private Long applySn;
+    private Integer applySnId;
+
+    private String applySn;
 
     private Integer growPublicId;
 
@@ -264,12 +266,20 @@ public class MemberApply implements Serializable {
         this.drawStatus = drawStatus;
     }
 
-    public Long getApplySn() {
+    public Integer getApplySnId() {
+        return applySnId;
+    }
+
+    public void setApplySnId(Integer applySnId) {
+        this.applySnId = applySnId;
+    }
+
+    public String getApplySn() {
         return applySn;
     }
 
-    public void setApplySn(Long applySn) {
-        this.applySn = applySn;
+    public void setApplySn(String applySn) {
+        this.applySn = applySn == null ? null : applySn.trim();
     }
 
     public Integer getGrowPublicId() {

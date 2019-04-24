@@ -183,8 +183,8 @@
             {label: '公示人数', name: 'num', width: 80},
             {label: '是否发布', name: 'isPublish', formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '预览',name: '_preview', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return '<button class="linkBtn btn {1} btn-xs" data-url="${ctx}/public/partyPublic?id={0}" data-target="_blank"><i class="fa fa-external-link"></i> 预览</button>'
-                        .format($.base64.encode(rowObject.id), rowObject.isPublish?'btn-success':'btn-warning');
+                return '<button class="linkBtn btn {1} btn-xs" data-url="${ctx}/public/{0}/partyPublic" data-target="_blank"><i class="fa fa-external-link"></i> 预览</button>'
+                        .format($.base64.encode(rowObject.id+""), rowObject.isPublish?'btn-success':'btn-warning');
             }},
             {label: '所属党委', name: 'partyName', width: 320, align:'left'},
             {label: '邮箱', name: 'email', width: 160},

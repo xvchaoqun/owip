@@ -80,7 +80,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>回复日期</label>
 
-                                    <div class="col-xs-6" style="z-index: 1030;">
+                                    <div class="col-xs-6">
                                         <div class="input-group date" style="width:240px" data-date-format="yyyy-mm-dd" >
                                             <input required class="form-control" name="replyDate"
                                                    type="text"

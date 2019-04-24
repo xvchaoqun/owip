@@ -39,6 +39,8 @@ public class MemberApplyOpService extends MemberBaseMapper {
     private ApplyOpenTimeService applyOpenTimeService;
     @Autowired
     private ApplyApprovalLogService applyApprovalLogService;
+    @Autowired
+    private ApplySnService applySnService;
 
     private VerifyAuth<MemberApply> checkVerityAuth(int userId){
         MemberApply memberApply = memberApplyService.get(userId);
@@ -468,6 +470,9 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
+                // 分配志愿书编码
+                applySnService.assign(userId);
+
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
@@ -710,6 +715,12 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 throw new OpException("打回状态有误。");
             }
 
+            // 打回领取志愿书之前，需要清除志愿书编码
+            if(_stage==OwConstants.OW_APPLY_STAGE_DRAW && stage < OwConstants.OW_APPLY_STAGE_DRAW){
+
+                applySnService.clearAssign(userId);
+            }
+
             memberApplyService.memberApply_back(userId, stage);
 
             applyApprovalLogService.add(userId,
@@ -718,7 +729,6 @@ public class MemberApplyOpService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, OwConstants.OW_APPLY_STAGE_MAP.get(stage),
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
         }
-
     }
 
     //移除记录（只允许移除未发展的）
@@ -742,11 +752,70 @@ public class MemberApplyOpService extends MemberBaseMapper {
             record.setIsRemove(isRemove);
             memberApplyMapper.updateByPrimaryKeySelective(record);
 
+            // 清除已使用的志愿书编码，如果有的话
+            applySnService.clearAssign(userId);
+
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
                     loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, isRemove?"移除":"撤销移除",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, reason);
+        }
+    }
+
+    //提交未通过的申请
+    @Transactional
+    public void batchApply(Integer[] userIds) {
+
+        int loginUserId = ShiroHelper.getCurrentUserId();
+        for (int userId : userIds) {
+            MemberApply memberApply = memberApplyService.get(userId);
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && !presentPartyAdmin) {
+                throw new UnauthorizedException();
+            }
+            byte stage = memberApply.getStage();
+            if(stage!=OwConstants.OW_APPLY_STAGE_DENY ){
+                throw new OpException("{0}已进入发展流程，不可重复提交申请。", memberApply.getUser().getRealname());
+            }
+
+            memberApply.setCreateTime(new Date());
+            memberApply.setStage(OwConstants.OW_APPLY_STAGE_INIT);
+            enterApplyService.memberApply(memberApply);
+
+            applyApprovalLogService.add(userId,
+                memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                "提交入党申请（管理员）");
+        }
+    }
+
+    //删除记录（只允许删除未通过的）
+    @Transactional
+    public void batchDel(Integer[] userIds) {
+
+        int loginUserId = ShiroHelper.getCurrentUserId();
+        for (int userId : userIds) {
+            MemberApply memberApply = memberApplyService.get(userId);
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && !presentPartyAdmin) {
+                throw new UnauthorizedException();
+            }
+            byte stage = memberApply.getStage();
+            if(stage!=OwConstants.OW_APPLY_STAGE_DENY ){
+                throw new OpException("{0}已进入发展流程，不可删除。", memberApply.getUser().getRealname());
+            }
+
+            memberApplyService.del(userId);
+
+            applyApprovalLogService.add(null,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "删除",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
         }
     }
 }

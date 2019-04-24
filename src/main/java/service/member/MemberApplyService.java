@@ -44,6 +44,8 @@ public class MemberApplyService extends MemberBaseMapper {
     private EnterApplyService enterApplyService;
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
+    @Autowired
+    protected ApplySnService applySnService;
 
     @CacheEvict(value = "MemberApply", allEntries = true)
     @Transactional
@@ -59,6 +61,7 @@ public class MemberApplyService extends MemberBaseMapper {
             SysUserView uv = record.getUser();
             int userId = record.getUserId();
             byte stage = record.getStage();
+            Integer applySnId = record.getApplySnId();
 
             Member member = memberService.get(userId);
             if(member!=null){
@@ -90,10 +93,15 @@ public class MemberApplyService extends MemberBaseMapper {
 
                 memberApplyMapper.insert(record);
 
+                // 更新志愿书编码状态
+                if(applySnId!=null){
+                    applySnService.use(applySnId, userId);
+                }
+
                 // 判断是否是预备党员/正式党员
                 addMemberIfNeeded(record);
-
                 addCount++;
+
             } else {
 
                 // 不允许 预备党员/正式党员 回退
@@ -111,6 +119,24 @@ public class MemberApplyService extends MemberBaseMapper {
                 }
 
                 memberApplyMapper.updateByPrimaryKey(record);
+
+                // 更新志愿书编码状态
+                Integer oldApplySnId = memberApply.getApplySnId();
+                if(oldApplySnId!=null){
+                    if(applySnId!=null ){
+                        if(applySnId.intValue()!=oldApplySnId){
+
+                            applySnService.clearUse(oldApplySnId);
+                            applySnService.use(applySnId, userId);
+                        }
+                    }else{
+
+                        applySnService.clearUse(oldApplySnId);
+                    }
+                }else if(applySnId!=null){
+
+                    applySnService.use(applySnId, userId);
+                }
             }
         }
 
@@ -319,6 +345,13 @@ public class MemberApplyService extends MemberBaseMapper {
                         break;
                 }
             }
+
+            // 已移除的记录
+            if(stage == -3){
+                criteria.andIsRemoveEqualTo(true);
+            }else{
+                criteria.andIsRemoveEqualTo(false);
+            }
         }
         if (partyId != null) criteria.andPartyIdEqualTo(partyId);
         if (branchId != null) criteria.andBranchIdEqualTo(branchId);
@@ -364,10 +397,19 @@ public class MemberApplyService extends MemberBaseMapper {
                         break;
                 }
             }
+
+            // 已移除的记录
+            if(stage == -3){
+                criteria.andIsRemoveEqualTo(true);
+            }else{
+                criteria.andIsRemoveEqualTo(false);
+            }
         }
-        if (memberApply != null)
-            criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeLessThanOrEqualTo(memberApply.getCreateTime());
-        example.setOrderByClause("create_time desc");
+        if (memberApply != null) {
+            criteria.andUserIdNotEqualTo(memberApply.getUserId())
+                    .andCreateTimeLessThanOrEqualTo(memberApply.getCreateTime());
+        }
+       example.setOrderByClause("create_time desc");
 
         List<MemberApplyView> memberApplies = memberApplyViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
@@ -411,10 +453,19 @@ public class MemberApplyService extends MemberBaseMapper {
                         break;
                 }
             }
+
+            // 已移除的记录
+            if(stage == -3){
+                criteria.andIsRemoveEqualTo(true);
+            }else{
+                criteria.andIsRemoveEqualTo(false);
+            }
         }
 
-        if (memberApply != null)
-            criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberApply.getCreateTime());
+        if (memberApply != null) {
+            criteria.andUserIdNotEqualTo(memberApply.getUserId())
+                    .andCreateTimeGreaterThanOrEqualTo(memberApply.getCreateTime());
+        }
         example.setOrderByClause("create_time asc");
 
         List<MemberApplyView> memberApplies = memberApplyViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
@@ -425,6 +476,16 @@ public class MemberApplyService extends MemberBaseMapper {
     public MemberApply get(int userId) {
 
         return memberApplyMapper.selectByPrimaryKey(userId);
+    }
+
+    // 只有未通过的申请允许删除
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void del(int userId) {
+
+        MemberApplyExample example = new MemberApplyExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DENY);
+        memberApplyMapper.deleteByExample(example);
     }
 
     // 修改党员所属党组织时，党员发展信息保持同步。如果该党员是预备党员，则相应的要修改党员发展里的预备党员所属党组织，目的是为了预备党员正常转正；
