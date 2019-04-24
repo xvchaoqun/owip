@@ -33,8 +33,13 @@ pageEncoding="UTF-8"%>
 				</c:if>
 				<c:if test="${empty cadreReserveOrigin}">
 				<div class="col-xs-6">
-					<select required data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/cadre_selects?key=1&type=0"
+					<%--<select required data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/cadre_selects?key=1&type=0"
 							name="userId" data-placeholder="请输入账号或姓名或学工号">
+						<option></option>
+					</select>--%>
+					<select data-rel="select2-ajax"
+							data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+							name="userId" data-placeholder="请输入账号或姓名或工号">
 						<option></option>
 					</select>
 				</div>

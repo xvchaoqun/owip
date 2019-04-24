@@ -1,16 +1,75 @@
 
-
-+ ow_apply_sn_range
-+ ow_apply_sn
-
-ALTER TABLE `ow_member_apply`
-	ADD CONSTRAINT `FK_ow_member_apply_ow_apply_sn` FOREIGN KEY (`apply_sn`) REFERENCES `ow_apply_sn` (`sn`);
-
-
 + ow_organizer_group
 + ow_organizer
 
 更新 党员发展信息导入模板.xlsx
+
+20190424
+更新南航
+
+20190424
+
+CREATE TABLE `ow_apply_sn_range` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`year` INT(10) UNSIGNED NOT NULL COMMENT '所属年度',
+	`prefix` VARCHAR(20) NULL DEFAULT NULL COMMENT '编码前缀',
+	`start_sn` BIGINT(20) UNSIGNED NOT NULL COMMENT '起始编码',
+	`end_sn` BIGINT(20) UNSIGNED NOT NULL COMMENT '结束编码',
+	`len` INT(10) UNSIGNED NOT NULL COMMENT '编码长度，除前缀外的编码位数',
+	`use_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '已使用数量',
+	`sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序',
+	`remark` VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+	PRIMARY KEY (`id`)
+)
+COMMENT='入党志愿书编码段，连续编码段，同一年度不允许存在交集；每年可能有多个；'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=4
+;
+
+CREATE TABLE `ow_apply_sn` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`year` INT(10) UNSIGNED NOT NULL COMMENT '年份',
+	`sn` BIGINT(20) UNSIGNED NOT NULL COMMENT '编码',
+	`display_sn` VARCHAR(30) NOT NULL COMMENT '显示编码，编码前缀+编码（不足编码长度前面补0）',
+	`range_id` INT(10) UNSIGNED NOT NULL COMMENT '所属号段',
+	`is_used` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否已使用',
+	`user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '使用人',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `year_sn` (`year`, `sn`),
+	UNIQUE INDEX `sn_range_id` (`sn`, `range_id`)
+)
+COMMENT='入党志愿书编码，编码段添加时同步新增，编码段修改或删除时，如果存在已使用的号码，则不允许删除；组织部审批通过则标记为已使用，如果打回或移除操作，则标记为未使用。'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=1005
+;
+
+ALTER TABLE `ow_member_apply`
+	CHANGE COLUMN `apply_sn` `apply_sn_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '志愿书编码' AFTER `draw_status`;
+
+ALTER TABLE `ow_member_apply`
+	ADD CONSTRAINT `FK_ow_member_apply_ow_apply_sn` FOREIGN KEY (`apply_sn_id`) REFERENCES `ow_apply_sn` (`id`);
+
+ALTER TABLE `ow_member_apply`
+	CHANGE COLUMN `apply_sn_id` `apply_sn_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联志愿书编码' AFTER `draw_status`,
+	ADD COLUMN `apply_sn` VARCHAR(30) NULL DEFAULT NULL COMMENT '志愿书编码' AFTER `apply_sn_id`;
+
+-- 更新 ow_member_apply_view
+DROP VIEW IF EXISTS `ow_member_apply_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_apply_view` AS
+select ma.*, m.status as _status, if((m.status is null or m.status=1), 0, 1) as member_status
+     , p.sort_order as party_sort_order, b.sort_order as branch_sort_order
+from  ow_member_apply ma
+        left join ow_branch b on ma.branch_id=b.id
+        left join ow_party p on b.party_id=p.id
+        left join ow_member m  on ma.user_id = m.user_id;
+
+update abroad_passport set code = null where code='';
+
+ALTER TABLE `abroad_passport`
+	ADD UNIQUE INDEX `code` (`code`);
 
 20190421
 
