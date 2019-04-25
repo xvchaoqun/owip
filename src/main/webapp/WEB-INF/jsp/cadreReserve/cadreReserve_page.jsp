@@ -44,7 +44,7 @@
                                 </li>
                             </c:if>
                         </c:forEach>
-                            <div class="buttons hidden-sm hidden-xs" style="left:20px; position: relative">
+                            <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
                                 <button type="button" class="popupBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属类别</button>
                             </div>

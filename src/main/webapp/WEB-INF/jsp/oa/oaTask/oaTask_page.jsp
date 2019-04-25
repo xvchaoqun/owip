@@ -31,15 +31,14 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls==1}">
                             <shiro:hasPermission name="oaTask:edit">
-                                <a class="popupBtn btn btn-success btn-sm"
+                                <a class="openView btn btn-success btn-sm"
                                    data-width="750"
                                    data-url="${ctx}/oa/oaTask_au"><i class="fa fa-plus"></i> 新建</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-width="750"
                                    data-url="${ctx}/oa/oaTask_au"
                                    data-grid-id="#jqGrid"
-                                   ><i class="fa fa-edit"></i>
-                                    修改</a>
+                                   data-open-by="page"><i class="fa fa-edit"></i> 修改</a>
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-title="作废"
                                    data-msg="确定作废这{0}个任务？"

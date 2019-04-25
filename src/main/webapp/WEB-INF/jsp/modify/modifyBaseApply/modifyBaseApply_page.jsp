@@ -139,7 +139,7 @@
                 if (rowObject.status == '${MODIFY_BASE_APPLY_STATUS_ALL_CHECK}') {
                     return '--';
                 }
-                return '<button data-url="${ctx}/modifyBaseItem?type=check&applyId={0}" class="openView btn btn-success btn-xs">'
+                return '<button data-url="${ctx}/modifyBaseItem?opType=check&applyId={0}" class="openView btn btn-success btn-xs">'
                                 .format(rowObject.id)
                         + '<i class="fa fa-check"></i> 审核</button>'
             }

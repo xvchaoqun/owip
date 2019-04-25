@@ -10,7 +10,7 @@
         </button>
     </div>
 </div>
-<c:if test="${param.type=='check'}">
+<c:if test="${param.opType=='check'}">
 <div class="jqgrid-vertical-offset widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="ace-icon fa fa-info-circle blue "></i> 申请人信息</h4>
@@ -90,13 +90,13 @@
                     return cellvalue;
                 }
             }},
-            <c:if test="${param.type!='check'}">
+            <c:if test="${param.opType!='check'}">
             { label: '审核状态', name: 'status'  , formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return ''
                 return _cMap.MODIFY_BASE_ITEM_STATUS_MAP[cellvalue];
             }},
             </c:if>
-            <c:if test="${param.type=='check'}">
+            <c:if test="${param.opType=='check'}">
             { label: '组织部审核', name: 'status'  , formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return ''
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
@@ -113,7 +113,7 @@
             { label: '审核时间', name: 'checkTime', width: 150/*, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}*/},
             { label:'依据', name: 'checkReason', width: 150 },
             { label:'备注', name: 'checkRemark', width: 250 },
-            <c:if test="${param.type!='check' && apply.status!=MODIFY_BASE_APPLY_STATUS_DELETE && apply.userId==_user.id}">
+            <c:if test="${param.opType!='check' && apply.status!=MODIFY_BASE_APPLY_STATUS_DELETE && apply.userId==_user.id}">
             { label:'编辑', name: '_edit',formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
                     return '--';

@@ -54,7 +54,7 @@
         </div>
     </div>
 </div>
-<c:if test="${param.type=='check'}">
+<c:if test="${param.opType=='check'}">
 <shiro:hasPermission name="modifyTableApply:approval">
 <div class="jqgrid-vertical-offset widget-box">
     <div class="widget-header">
@@ -106,7 +106,7 @@
         </button>
         </c:if>
     </shiro:hasAnyRoles>
-    <c:if test="${param.type=='check'}">
+    <c:if test="${param.opType=='check'}">
     <shiro:hasPermission name="modifyTableApply:approval">
     <button class="btn btn-success" type="button" id="approvalBtn">
         <i class="ace-icon fa fa-check"></i>

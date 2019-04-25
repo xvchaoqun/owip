@@ -114,7 +114,7 @@
             {
                 label: '组织部审核', name: '_check', formatter: function (cellvalue, options, rowObject) {
 
-                return '<button data-url="${ctx}/modifyTableApply_detail?type=check&applyId={0}" class="openView btn btn-success btn-xs">'
+                return '<button data-url="${ctx}/modifyTableApply_detail?opType=check&applyId={0}" class="openView btn btn-success btn-xs">'
                                 .format(rowObject.id)
                         + '<i class="fa fa-check"></i> 审核</button>'
             }
