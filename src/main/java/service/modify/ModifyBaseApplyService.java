@@ -173,7 +173,7 @@ public class ModifyBaseApplyService extends BaseMapper {
 
         ModifyBaseApplyExample example = new ModifyBaseApplyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids))
-                .andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以操作
+                /*.andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY)*/; // 只有待审核时才可以操作
         ModifyBaseApply record = new ModifyBaseApply();
 
         record.setStatus(ModifyConstants.MODIFY_BASE_APPLY_STATUS_DELETE);

@@ -21,6 +21,29 @@ public class XlsUpload {
     public static Logger logger = LoggerFactory.getLogger(XlsUpload.class);
 
     // 每行数据key从0开始计数
+    public static Map<Integer, String> getXlsTitleRow(XSSFSheet sheet) {
+
+        List<Map<Integer, String>> xlsRows = new ArrayList<>();
+        XSSFRow rowTitle = sheet.getRow(0);
+
+        int cellNum = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum(); // 列数
+
+        Map<Integer, String> xlsRow = new HashMap<>();
+        for (int j = 0; j < cellNum; j++) {
+
+            XSSFCell cell = rowTitle.getCell(j);
+            String val = null;
+            if (cell != null) {
+                val = getCellValue(cell);
+            }
+
+            xlsRow.put(j, StringUtils.trimToNull(val));
+        }
+
+        return xlsRow;
+    }
+
+    // 每行数据key从0开始计数
     public static List<Map<Integer, String>> getXlsRows(XSSFSheet sheet) {
 
         List<Map<Integer, String>> xlsRows = new ArrayList<>();
@@ -42,9 +65,9 @@ public class XlsUpload {
 
                 XSSFCell cell = row.getCell(j);
                 String val = null;
-                if(cell!=null){
+                if (cell != null) {
                     val = getCellValue(cell);
-                    if(StringUtils.isNotBlank(val)) {
+                    if (StringUtils.isNotBlank(val)) {
                         allColumnIsNull = false;
                     }
                 }
@@ -52,7 +75,7 @@ public class XlsUpload {
                 xlsRow.put(j, StringUtils.trimToNull(val));
             }
             // 如果所有的列都是空的，不处理
-            if(!allColumnIsNull) xlsRows.add(xlsRow);
+            if (!allColumnIsNull) xlsRows.add(xlsRow);
         }
 
         return xlsRows;
@@ -98,10 +121,10 @@ public class XlsUpload {
             //System.out.println("format:"+format+";;;;;value:"+cell.getNumericCellValue());
             SimpleDateFormat sdf = null;
             if (format == 14 || format == 31 || format == 57 || format == 58
-                    || (176<=format && format<=178) || (182<=format && format<=196)
-                    || (210<=format && format<=213) || (208==format ) ) { // 日期
+                    || (176 <= format && format <= 178) || (182 <= format && format <= 196)
+                    || (210 <= format && format <= 213) || (208 == format)) { // 日期
                 sdf = new SimpleDateFormat(DateUtils.YYYY_MM_DD);
-            } else if (format == 20 || format == 32 || format==183 || (200<=format && format<=209) ) { // 时间
+            } else if (format == 20 || format == 32 || format == 183 || (200 <= format && format <= 209)) { // 时间
                 sdf = new SimpleDateFormat("HH:mm");
             } else { // 不是日期格式
                 //return String.valueOf(cell.getNumericCellValue());
@@ -110,10 +133,10 @@ public class XlsUpload {
             }
             double value = cell.getNumericCellValue();
             Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
-            if(date==null || "".equals(date)){
+            if (date == null || "".equals(date)) {
                 return "";
             }
-            String result="";
+            String result = "";
             try {
                 result = sdf.format(date);
             } catch (Exception e) {

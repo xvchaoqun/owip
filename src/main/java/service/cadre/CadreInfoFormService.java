@@ -321,8 +321,10 @@ public class CadreInfoFormService extends BaseMapper {
         {
             // 企业兼职情况
             CadreCompanyExample example = new CadreCompanyExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId);
-            List<CadreCompany> cadreCompanies = cadreCompanyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 3));
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+            List<CadreCompany> cadreCompanies = cadreCompanyMapper
+                    .selectByExampleWithRowbounds(example, new RowBounds(0, 3));
             if (cadreCompanies.size() == 0) {
                 CadreCompany record = new CadreCompany();
                 record.setUnit("无");

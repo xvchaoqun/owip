@@ -88,7 +88,7 @@ public class PartyController extends BaseController {
     public String party(ModelMap modelMap,
                         @RequestParam(required = false, defaultValue = "0") int export,
                         HttpServletResponse response,
-                        @RequestParam(required = false, defaultValue = "1")Byte status) throws IOException {
+                        @RequestParam(required = false, defaultValue = "1")Byte cls) throws IOException {
 
         if(export==2){
             XSSFWorkbook wb = partyExportService.toXlsx();
@@ -97,7 +97,7 @@ public class PartyController extends BaseController {
             return null;
         }
 
-        modelMap.put("status", status);
+        modelMap.put("cls", cls);
 
         return "party/party_page";
     }
@@ -105,7 +105,7 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:list")
     @RequestMapping("/party_data")
     public void party_data(HttpServletResponse response,
-                                    @RequestParam(required = false, defaultValue = "1")Byte status,
+                                    @RequestParam(required = false, defaultValue = "1")Byte cls,
                                     String code,
                                     String name,
                                     Integer unitId,
@@ -132,7 +132,7 @@ public class PartyController extends BaseController {
         PartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        criteria.andIsDeletedEqualTo(status==-1);
+        criteria.andIsDeletedEqualTo(cls==2);
 
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");

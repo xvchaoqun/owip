@@ -123,6 +123,11 @@
                         + '<i class="fa fa-edit"></i> 编辑</button>'
             }},
             { label:'删除', name: '_del',formatter: function (cellvalue, options, rowObject) {
+
+                <c:if test="${apply.status!=MODIFY_BASE_APPLY_STATUS_APPLY}">
+                    return '--'
+                </c:if>
+
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
                     return '--';
                 }

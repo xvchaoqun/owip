@@ -88,6 +88,43 @@ public class CadreReserveController extends BaseController {
         return resultMap;
     }
 
+    // 转移
+    @RequiresPermissions("cadreReserve:edit")
+    @RequestMapping("/cadreReserve_transfer")
+    public String cadreReserve_transfer(int id, ModelMap modelMap) {
+
+        CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
+        modelMap.put("cadreReserve", cadreReserve);
+
+        if(cadreReserve!=null){
+            modelMap.put("cadre", CmTag.getCadreById(cadreReserve.getCadreId()));
+        }
+
+        return "cadreReserve/cadreReserve_transfer";
+    }
+
+    @RequiresPermissions("cadreReserve:edit")
+    @RequestMapping(value = "/cadreReserve_transfer", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreReserve_transfer(int cadreId, int type) {
+
+        Map<Integer, MetaType> reserveTypeMap = CmTag.getMetaTypes("mc_cadre_reserve_type");
+        if(!reserveTypeMap.containsKey(type)){
+            return failed("转移至不存在。");
+        }
+
+        CadreReserve cadreReserve = cadreReserveService.getNormalRecord(cadreId);
+        if(cadreReserve!=null) {
+            if (cadreReserve.getType() == type) {
+                return failed("不允许转移至相同的库。");
+            }
+
+            cadreReserveService.updateType(cadreReserve.getId(), type);
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve")
     public String cadreReserve(Byte status, Integer reserveType,

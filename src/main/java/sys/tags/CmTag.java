@@ -489,7 +489,8 @@ public class CmTag {
 
     public static Boolean canDirectUpdateCadreInfo(Integer caderId){
         // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        return (ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
+        return ((ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) &&
+                !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREONLYVIEW))
                 || (ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)
                 && CmTag.hasDirectModifyCadreAuth(caderId)));
     }

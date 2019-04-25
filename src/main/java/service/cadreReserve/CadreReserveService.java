@@ -286,6 +286,29 @@ public class CadreReserveService extends BaseMapper {
         record.setStatus(cadreReserve.getStatus());
         cadreReserveMapper.updateByPrimaryKeySelective(record);
     }
+    @Transactional
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void updateType(int id, int type){
+
+        CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
+        int oldType = cadreReserve.getType();
+
+        CadreReserve record = new CadreReserve();
+        record.setId(id);
+        record.setType(type);
+        record.setSortOrder(getNextSortOrder(TABLE_NAME,
+                    "status=" + CadreConstants.CADRE_RESERVE_STATUS_NORMAL + " and type=" + type));
+        cadreReserveMapper.updateByPrimaryKeySelective(record);
+
+        Map<Integer, MetaType> reserveTypeMap = CmTag.getMetaTypes("mc_cadre_reserve_type");
+
+        cadreAdLogService.addLog(cadreReserve.getCadreId(), "转移后备干部（"
+                        + reserveTypeMap.get(oldType).getName() + "->" + reserveTypeMap.get(type).getName() +  ")" ,
+                CadreConstants.CADRE_AD_LOG_MODULE_RESERVE, record.getId());
+    }
 
     @Transactional
     @Caching(evict= {

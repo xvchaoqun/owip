@@ -45,7 +45,8 @@ public class CadreAuthFilter extends AuthorizationFilter{
         }
 
         // 只有修改干部本人信息的权限，需要判断一下是否是本人和读取更新的权限
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) &&
+        if(!(ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
+                &&!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREONLYVIEW)) &&
                 ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
 
             Integer userId = ShiroHelper.getCurrentUserId();

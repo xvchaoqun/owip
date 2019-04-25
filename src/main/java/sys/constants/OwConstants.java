@@ -8,6 +8,17 @@ import java.util.Map;
  */
 public class OwConstants {
 
+
+    // 党组织管理员类别，1 分党委管理员  2 支部管理员
+    public final static byte OW_ORG_ADMIN_PARTY = 1;
+    public final static byte OW_ORG_ADMIN_BRANCH = 2;
+    public final static Map<Byte, String> OW_ORG_ADMIN_MAP = new LinkedHashMap<>();
+
+    static {
+        OW_ORG_ADMIN_MAP.put(OW_ORG_ADMIN_PARTY, "分党委管理员");
+        OW_ORG_ADMIN_MAP.put(OW_ORG_ADMIN_BRANCH, "支部管理员");
+    }
+
     // 权限开通申请状态，0申请 1本人撤销 2 管理员撤回 3通过；
     public final static byte OW_ENTER_APPLY_STATUS_APPLY = 0;
     public final static byte OW_ENTER_APPLY_STATUS_SELF_ABORT = 1;

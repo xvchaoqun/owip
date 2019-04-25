@@ -67,9 +67,11 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">审核意见</label>
-            <div class="col-xs-8 label-text"  style="font-size: 15px;">
-                <input type="checkbox" class="big" value="1"/> 通过审核
-                <input type="checkbox"  class="big" value="2"/> 未通过审核
+            <div class="col-xs-8"  style="font-size: 15px;">
+                <div class="input-group">
+                    <input required name="pass" type="checkbox" class="big" value="1"/> 通过审核
+                    <input required name="pass" type="checkbox"  class="big" value="2"/> 未通过审核
+                </div>
             </div>
         </div>
 		<div class="form-group">

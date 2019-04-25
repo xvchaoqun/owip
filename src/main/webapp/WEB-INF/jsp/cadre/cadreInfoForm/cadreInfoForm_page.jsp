@@ -430,29 +430,33 @@ td.padding10{
             <tr class="r4">
                 <td class="td13 padding10" colspan="6">
                    ${f.unit}
-                </td><td class="td2 center" colspan="2">
+                </td>
+                <td class="td2 center" colspan="2">
                     ${cm:formatDate(f.startTime, "yyyy.MM")}
-            </td><td class="td14 padding10" colspan="4">
+            </td>
+                <td class="td14 padding10" colspan="4">
                     ${f.approvalUnit}
             </td>
             </tr>
         </c:forEach>
         <c:set var="cadreCompaniesCount" value="${fn:length(bean.cadreCompanies)}"/>
-        <c:if test="${cadreCompaniesCount<2}">
+        <c:if test="${cadreCompaniesCount<=2}">
         <c:forEach begin="0" end="${2-cadreCompaniesCount}">
         <tr class="r4">
             <td class="td13" colspan="6">
                 <p class="p18"></p>
-            </td><td class="td2" colspan="2">
-            <p class="p3"></p>
-        </td><td class="td14" colspan="4">
+            </td>
+            <td class="td2" colspan="2">
+                <p class="p3"></p>
+            </td>
+            <td class="td14" colspan="4">
             <p class="p19"></p>
         </td>
         </tr>
         </c:forEach>
         </c:if>
         <tr class="r4">
-            <td class="td12 center bolder" colspan="12">
+            <td class="td12 center bolder" colspan="13">
                     <span>企业兼职包括：企业领导职务、顾问等名誉职务、外部董事、独立董事、独立监事等。</span>
             </td>
         </tr>

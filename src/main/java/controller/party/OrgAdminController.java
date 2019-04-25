@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.party.Branch;
 import domain.party.OrgAdmin;
 import domain.party.OrgAdminExample;
-import domain.party.OrgAdminExample.Criteria;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -22,9 +22,12 @@ import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,11 +87,21 @@ public class OrgAdminController extends BaseController {
 
     @RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin")
-    public String orgAdmin(HttpServletResponse response,
-                                Integer userId,
-                                Integer partyId,
-                                Integer branchId,
-                                Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String orgAdmin(ModelMap modelMap,
+                        @RequestParam(required = false, defaultValue = "1")Byte cls) throws IOException {
+
+        modelMap.put("cls", cls);
+
+        return "party/orgAdmin_page";
+    }
+
+    @RequiresPermissions("orgAdmin:list")
+    @RequestMapping("/orgAdmin_data")
+    public void orgAdmin_data(HttpServletResponse response,
+                                 @RequestParam(required = false, defaultValue = "1")Byte cls,
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -99,44 +112,26 @@ public class OrgAdminController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         OrgAdminExample example = new OrgAdminExample();
-        Criteria criteria = example.createCriteria();
-        //example.setOrderByClause(String.format("%s %s", sort, order));
+        OrgAdminExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("party_id desc, branch desc, create_time desc");
 
-        if (userId != null) {
-            criteria.andUserIdEqualTo(userId);
-        }
-        if (partyId != null) {
-            criteria.andPartyIdEqualTo(partyId);
-        }
-        if (branchId != null) {
-            criteria.andBranchIdEqualTo(branchId);
-        }
-
-        int count = orgAdminMapper.countByExample(example);
+        long count = orgAdminMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<OrgAdmin> orgAdmins = orgAdminMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("orgAdmins", orgAdmins);
-
+        List<OrgAdmin> records = orgAdminMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        if (userId != null) {
-            searchStr += "&userId=" + userId;
-        }
-        if (partyId != null) {
-            searchStr += "&partyId=" + partyId;
-        }
-        if (branchId != null) {
-            searchStr += "&branchId=" + branchId;
-        }
-
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "party/orgAdmin/orgAdmin_page";
+        JSONUtils.jsonp(resultMap);
+        return;
     }
 
     @RequiresPermissions("orgAdmin:edit")

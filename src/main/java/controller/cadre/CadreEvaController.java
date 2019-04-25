@@ -1,13 +1,21 @@
 package controller.cadre;
 
+import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreEva;
 import domain.cadre.CadreEvaExample;
 import domain.cadre.CadreEvaExample.Criteria;
 import domain.cadre.CadreView;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -25,6 +35,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +132,102 @@ public class CadreEvaController extends BaseController {
         modelMap.put("cadre", cadreView);
         
         return "cadre/cadreEva/cadreEva_au";
+    }
+
+    @RequiresPermissions("cadreEva:import")
+    @RequestMapping("/cadreEva_import")
+    public String cadreEva_import() {
+
+        return "cadre/cadreEva/cadreEva_import";
+    }
+
+    @RequiresPermissions("cadreEva:import")
+    @RequestMapping(value = "/cadreEva_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreEva_import(HttpServletRequest request, Byte status) throws InvalidFormatException, IOException {
+
+        //User sessionUser = getAdminSessionUser(request);
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        Map<Integer, String> titleRow = XlsUpload.getXlsTitleRow(sheet);
+        int cols = titleRow.size();
+        if(cols < 4){
+            throw new OpException("录入表格式有误。");
+        }
+        Map<Integer, Integer> yearMap = new HashMap<>();
+        for (int i = 3; i < cols; i++) {
+            Integer year = null;
+            String _year = titleRow.get(i);
+            if(StringUtils.isNotBlank(_year) && _year.trim().length()>=4){
+                try {
+                    year = Integer.parseInt(_year.substring(0, 4));
+                }catch (Exception e){}
+            }
+            if(year==null){
+                throw new OpException("第{0}列年份有误。", i+1);
+            }
+            yearMap.put(i, year);
+        }
+
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<CadreEva> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(userCode)){
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            CadreView cv = cadreService.dbFindByUserId(uv.getUserId());
+            if (cv == null){
+                throw new OpException("第{0}行不是干部[{1}]", row, userCode);
+            }
+            int cadreId = cv.getId();
+            String title = StringUtils.trimToNull(xlsRow.get(2));
+            if(title==null){
+                title = cv.getTitle();
+            }
+
+            for (Map.Entry<Integer, Integer> yearEntry : yearMap.entrySet()) {
+
+                CadreEva record = new CadreEva();
+                record.setCadreId(cadreId);
+                record.setTitle(title);
+
+                int col = yearEntry.getKey();
+                int year = yearEntry.getValue();
+
+                record.setYear(year);
+
+                String _type = StringUtils.trimToNull(xlsRow.get(col));
+                MetaType metaType = metaTypeService.findByName("mc_cadre_eva", _type);
+                if(metaType==null){
+                    throw new OpException("第{0}行第{1}列考核结果[{2}]不存在", row, col+1, _type);
+                }
+                record.setType(metaType.getId());
+
+                records.add(record);
+            }
+        }
+
+        int addCount = cadreEvaService.batchImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     @RequiresPermissions("cadreEva:del")

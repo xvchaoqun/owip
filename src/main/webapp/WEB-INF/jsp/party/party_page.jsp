@@ -17,21 +17,7 @@ pageEncoding="UTF-8" %>
             || not empty param.code}"/>
 
             <div class="tabbable">
-                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/party?status=1"><i class="fa fa-circle-o-notch"></i> 正在运转</a>
-                    </li>
-                    <li  class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/party?status=-1"><i class="fa fa-history"></i> 已撤销</a>
-                    </li>
-                    <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
-                    <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px;">
-                            <a class="downloadBtn btn btn-success btn-sm"
-                               href="javascript:;" data-url="${ctx}/party?export=2">
-                                <i class="fa fa-download"></i> 汇总导出基本情况表</a>
-                    </div>
-                    </shiro:hasAnyRoles>
-                </ul>
+                <jsp:include page="menu.jsp"/>
 
                 <div class="tab-content">
                     <div class="tab-pane in active">
@@ -73,7 +59,7 @@ pageEncoding="UTF-8" %>
 
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
-                <c:if test="${status>=0}">
+                <c:if test="${cls==1}">
                     <shiro:hasPermission name="party:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
@@ -81,7 +67,7 @@ pageEncoding="UTF-8" %>
                         【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
                     </shiro:hasPermission>
                 </c:if>
-                <c:if test="${status==-1}">
+                <c:if test="${cls==2}">
                     <shiro:hasPermission name="party:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/party_batchDel"
@@ -104,7 +90,7 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
-                            <input type="hidden" name="status" value="${status}">
+                            <input type="hidden" name="cls" value="${cls}">
                                     <div class="form-group">
                                         <label>编号</label>
                                          <input class="form-control search-query" name="code" type="text" value="${param.code}"   placeholder="请输入编号">
@@ -231,7 +217,7 @@ pageEncoding="UTF-8" %>
                 return $.party(rowObject.id);
             },frozen:true },
             <shiro:hasPermission name="party:changeOrder">
-            <c:if test="${status==1 && !_query}">
+            <c:if test="${cls==1 && !_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             </shiro:hasPermission>

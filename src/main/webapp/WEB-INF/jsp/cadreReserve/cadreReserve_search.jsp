@@ -14,7 +14,7 @@
                 <select data-rel="select2-ajax"
                         data-ajax-url="${ctx}/cadreReserve_selects?reserveStatus=<%=CadreConstants.CADRE_RESERVE_STATUS_NORMAL%>"
                         data-width="350"
-                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                        name="cadreId" data-placeholder="请输入账号或姓名或工号">
                     <option></option>
                 </select>
             </div>

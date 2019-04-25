@@ -2,20 +2,18 @@
 		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set value="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="CADRE_SCHOOL_TYPE_MAP"/>
+<c:if test="${(cm:isPermitted(PERMISSION_CADREADMIN)&&!cm:isPermitted(PERMISSION_CADREONLYVIEW))
+	|| hasDirectModifyCadreAuth}">
+	<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
+		<li class="${empty param.type?"active":""}">
+			<a href="javascript:;" onclick="_innerPage()"><i class="fa fa-flag"></i> 查看基本信息</a>
+		</li>
+		<li class="${param.type==1?"active":""}">
+			<a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 修改基本信息</a>
+		</li>
 
-<shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-	<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-		<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
-			<li class="${empty param.type?"active":""}">
-				<a href="javascript:;" onclick="_innerPage()"><i class="fa fa-flag"></i> 查看基本信息</a>
-			</li>
-			<li class="${param.type==1?"active":""}">
-				<a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 修改基本信息</a>
-			</li>
-
-		</ul>
-	</c:if>
-</shiro:lacksPermission>
+	</ul>
+</c:if>
 <c:if test="${empty param.type}">
 	<div class="widget-box transparent">
 		<div class="widget-header widget-header-flat">

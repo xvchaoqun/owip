@@ -81,30 +81,33 @@
                                         </button>
                                     </shiro:hasPermission>
                                     <shiro:hasPermission name="cadre:import">
-
                                         <div class="btn-group">
                                         <button data-toggle="dropdown"
                                                 data-rel="tooltip" data-placement="top" data-html="true"
                                                 title="<div style='width:180px'>批量导入干部信息入口</div>"
-                                                class="btn btn-success btn-sm dropdown-toggle tooltip-success">
+                                                class="btn btn-info btn-sm dropdown-toggle tooltip-success">
                                             <i class="fa fa-download"></i> 批量导入  <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-                                           <li role="separator" class="divider"></li>
                                             <li>
-                                                <a href="javascript:;" class="jqExportBtn"
-                                                   data-need-id="false"
-                                                   data-export="3"
+                                                <a href="javascript:;" class="popupBtn"
                                                    data-url="${ctx}/cadre_import?status=${CADRE_STATUS_MIDDLE}">
                                                     <i class="fa fa-file-excel-o"></i> 导入现任干部信息</a>
                                             </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="popupBtn"
+                                                   data-url="${ctx}/cadre_import?status=${CADRE_STATUS_MIDDLE_LEAVE}">
+                                                    <i class="fa fa-file-excel-o"></i> 导入离任干部信息</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="popupBtn"
+                                                   data-url="${ctx}/cadreEva_import">
+                                                    <i class="fa fa-file-excel-o"></i> 导入考核信息</a>
+                                            </li>
                                         </ul>
                                     </div>
-
-                                        <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                                           data-url="${ctx}/cadre_import?status=${status}"
-                                           data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                            批量导入</button>
                                     </shiro:hasPermission>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:export">

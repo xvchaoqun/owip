@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.sys.SysUserService;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
@@ -68,6 +69,7 @@ public class OrgAdminService extends BaseMapper {
         record.setUserId(userId);
         record.setPartyId(partyId);
         record.setCreateTime(new Date());
+        record.setType(OwConstants.OW_ORG_ADMIN_PARTY);
 
         return orgAdminMapper.insertSelective(record);
     }
@@ -91,6 +93,7 @@ public class OrgAdminService extends BaseMapper {
         record.setUserId(userId);
         record.setBranchId(branchId);
         record.setCreateTime(new Date());
+        record.setType(OwConstants.OW_ORG_ADMIN_BRANCH);
 
         return orgAdminMapper.insertSelective(record);
     }
