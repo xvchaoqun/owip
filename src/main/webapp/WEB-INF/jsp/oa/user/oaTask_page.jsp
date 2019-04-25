@@ -124,7 +124,7 @@
             {
                 label: '报送', name: '_report', formatter: function (cellvalue, options, rowObject) {
 
-                var hasChecked = (rowObject.status!=undefined && rowObject.status!='<%=OaConstants.OA_TASK_USER_STATUS_INIT%>')
+                var hasChecked = (rowObject.status!=undefined && rowObject.status=='<%=OaConstants.OA_TASK_USER_STATUS_PASS%>')
                 if(hasChecked) return '已审批'
 
                 return ('<button class="openView btn {2} btn-xs"' +
@@ -147,7 +147,7 @@
             {
                 label: '撤回', name: '_op', formatter: function (cellvalue, options, rowObject) {
 
-                if (rowObject.status != '<%=OaConstants.OA_TASK_USER_STATUS_INIT%>') return '--'
+                if (rowObject.status == '<%=OaConstants.OA_TASK_USER_STATUS_PASS%>') return '--'
 
                 return '<button class="confirm btn btn-warning btn-xs" data-msg="确定撤回？" data-callback="_reload"' +
                         'data-url="${ctx}/user/oa/oaTaskUser_back?taskId={0}"><i class="fa fa-reply"></i> 撤回</button>'

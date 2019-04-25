@@ -62,7 +62,7 @@ public class UserOaTaskController extends OaBaseController {
                 .andTaskStatusIn(Arrays.asList(OaConstants.OA_TASK_STATUS_PUBLISH,
                         OaConstants.OA_TASK_STATUS_FINISH))
                 .andIsDeleteEqualTo(false)
-                .own(ShiroHelper.getCurrentUserId());
+                .isTaskUser(ShiroHelper.getCurrentUserId());
         example.setOrderByClause("id desc");
 
         switch (cls) {

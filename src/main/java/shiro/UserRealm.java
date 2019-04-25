@@ -1,6 +1,7 @@
 package shiro;
 
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -87,16 +88,19 @@ public class UserRealm extends AuthorizingRealm {
                 if (!tryLogin) {
                     throw new IncorrectCredentialsException();
                 }
-                password = new SimpleHash(
+            } else if (springProps.useCAS) { // 仅提供了CAS接口
+
+                throw new NeedCASLoginException();
+            }else{
+
+                inputPasswd = springProps.devMode?inputPasswd: RandomStringUtils.random(10);
+            }
+
+            password = new SimpleHash(
                         credentialsMatcher.getHashAlgorithmName(),
                         inputPasswd,
                         ByteSource.Util.bytes(salt),
                         credentialsMatcher.getHashIterations()).toHex();
-
-            } else if (springProps.useCAS) { // 仅提供了CAS接口
-
-                throw new NeedCASLoginException();
-            }
         } else {
 
             password = uv.getPasswd();

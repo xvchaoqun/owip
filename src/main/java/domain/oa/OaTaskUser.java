@@ -10,6 +10,10 @@ public class OaTaskUser implements Serializable {
 
     private Integer userId;
 
+    private String mobile;
+
+    private String title;
+
     private Integer assignUserId;
 
     private String assignUserMobile;
@@ -29,6 +33,8 @@ public class OaTaskUser implements Serializable {
     private Boolean isDelete;
 
     private String checkRemark;
+
+    private Integer sortOrder;
 
     private Byte status;
 
@@ -56,6 +62,22 @@ public class OaTaskUser implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public Integer getAssignUserId() {
@@ -136,6 +158,14 @@ public class OaTaskUser implements Serializable {
 
     public void setCheckRemark(String checkRemark) {
         this.checkRemark = checkRemark == null ? null : checkRemark.trim();
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Byte getStatus() {

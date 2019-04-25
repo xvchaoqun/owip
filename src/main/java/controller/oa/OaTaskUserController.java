@@ -75,7 +75,7 @@ public class OaTaskUserController extends OaBaseController {
         OaTaskUserViewExample example = new OaTaskUserViewExample();
         OaTaskUserViewExample.Criteria criteria =
                 example.createCriteria().andTaskIdEqualTo(taskId).andIsDeleteEqualTo(false);
-        example.setOrderByClause("field(cadre_status, 2,5,3,1,4,6) desc, cadre_sort_order desc");
+        example.setOrderByClause("sort_order asc");
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

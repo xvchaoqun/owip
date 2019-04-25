@@ -33,9 +33,16 @@
         <table tableName="oa_task_msg" domainObjectName="oa.OaTaskMsg" mapperName="oa.OaTaskMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-       <!-- <table tableName="oa_task_user" domainObjectName="oa.OaTaskUser" mapperName="oa.OaTaskUserMapper">
+        <!--<table tableName="oa_task_user" domainObjectName="oa.OaTaskUser" mapperName="oa.OaTaskUserMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
+         <table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="has_report" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_back" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+        </table>
+
         <!--<table tableName="oa_task_user_file" domainObjectName="oa.OaTaskUserFile" mapperName="oa.OaTaskUserFileMapper">
        </table>-->
         <!--<table tableName="oa_task_remind" domainObjectName="oa.OaTaskRemind" mapperName="oa.OaTaskRemindMapper">
@@ -48,12 +55,7 @@
             <columnOverride column="type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-       <!-- <table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
-            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="has_report" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-            <columnOverride column="is_back" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>-->
+
 
     </context>
 </generatorConfiguration>

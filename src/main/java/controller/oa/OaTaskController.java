@@ -1,14 +1,19 @@
 package controller.oa;
 
+import bean.XlsUpload;
+import controller.global.OpException;
 import domain.cadre.CadreView;
-import domain.oa.OaTask;
-import domain.oa.OaTaskFile;
-import domain.oa.OaTaskView;
-import domain.oa.OaTaskViewExample;
+import domain.cadre.CadreViewExample;
+import domain.oa.*;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.OaConstants;
+import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
@@ -30,15 +37,8 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 @Controller
 @RequestMapping("/oa")
@@ -226,24 +226,24 @@ public class OaTaskController extends OaBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 查看任务对象列表
+    // 从干部库中选择任务对象
     @RequiresPermissions("oaTask:edit")
-    @RequestMapping("/oaTask/selectUsers")
-    public String selectUsers(int id, ModelMap modelMap) throws IOException {
+    @RequestMapping("/oaTask_selectCadres")
+    public String selectCadres(ModelMap modelMap) throws IOException {
 
-        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(id);
-        modelMap.put("oaTask", oaTask);
-
-        return "oa/oaTask/selectUsers";
+        return "oa/oaTask/oaTask_selectCadres";
     }
 
-    // 查看任务对象列表
     @RequiresPermissions("oaTask:edit")
-    @RequestMapping("/oaTask/selectUsers_tree")
+    @RequestMapping("/oaTask_selectCadres_tree")
     @ResponseBody
-    public Map selectUsers_tree(int id) throws IOException {
+    public Map oaTask_selectCadres_tree(@RequestParam(required = false) Integer[] userIds) throws IOException {
 
-        Set<Integer> selectIdSet = oaTaskUserService.getTaskUserIdSet(id);
+        Set<Integer> selectIdSet = null;
+        if (userIds != null && userIds.length > 0) {
+            selectIdSet = new HashSet<>(Arrays.asList(userIds));
+        }
+
         Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
                 CadreConstants.CADRE_STATUS_LEADER));
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
@@ -254,13 +254,148 @@ public class OaTaskController extends OaBaseController {
         return resultMap;
     }
 
-    // 更新任务对象列表
     @RequiresPermissions("oaTask:edit")
-    @RequestMapping(value = "/oaTask/selectUsers", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_selectUsers(Integer id, @RequestParam(value = "userIds[]", required = false) Integer[] userIds) {
+    @RequestMapping(value = "/oaTask_selectCadres", method = RequestMethod.POST)
+    public void do_oaTask_selectCadres(
+            @RequestParam(value = "userIds[]") Integer[] userIds,
+            HttpServletResponse response) throws IOException {
 
-        oaTaskService.updateTaskUserIds(id, userIds);
+        List<CadreView> cadres = new ArrayList<>();
+        if (userIds != null) {
+
+            CadreViewExample example = new CadreViewExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            example.setOrderByClause("sort_order desc");
+            cadres = cadreViewMapper.selectByExample(example);
+        }
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("cadres", cadres);
+        JSONUtils.write(response, resultMap);
+    }
+
+    @RequiresPermissions("oaTask:edit")
+    @RequestMapping(value = "/oaTask_selectUser", method = RequestMethod.POST)
+    public void do_oaTask_selectUser(
+            Integer userId,
+            String mobile,
+            HttpServletResponse response) throws IOException {
+
+        TaskUser user = new TaskUser();
+        if (userId != null) {
+            CadreView cv = cadreService.dbFindByUserId(userId);
+            if(cv!=null){
+                user.setUserId(cv.getUserId());
+                user.setRealname(cv.getRealname());
+                user.setCode(cv.getCode());
+                user.setTitle(cv.getTitle());
+                user.setMobile(cv.getMobile());
+            }else{
+
+                SysUserView uv = sysUserService.findById(userId);
+                user.setUserId(uv.getId());
+                user.setRealname(uv.getRealname());
+                user.setCode(uv.getCode());
+                user.setTitle(uv.getUnit());
+                user.setMobile(uv.getMobile());
+            }
+        }
+
+        if(StringUtils.isNotBlank(mobile)){
+            user.setMobile(mobile);
+        }
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("user", user);
+        JSONUtils.write(response, resultMap);
+    }
+
+    @RequiresPermissions("oaTask:edit")
+    @RequestMapping(value = "/oaTask_importUsers", method = RequestMethod.POST)
+    public void do_oaTask_importUsers(HttpServletRequest request, HttpServletResponse response) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<TaskUser> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            TaskUser user = new TaskUser();
+            row++;
+            String code = StringUtils.trimToNull(xlsRow.get(0));
+            if (StringUtils.isBlank(code)) {
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(code);
+            if(uv==null){
+                throw new OpException("第{0}行工作证号{1}不存在", row, code);
+            }
+            CadreView cv = cadreService.dbFindByUserId(uv.getUserId());
+            if(cv!=null){
+                user.setUserId(cv.getUserId());
+                user.setRealname(cv.getRealname());
+                user.setCode(cv.getCode());
+                user.setTitle(cv.getTitle());
+                user.setMobile(cv.getMobile());
+            }else{
+                user.setUserId(uv.getId());
+                user.setRealname(uv.getRealname());
+                user.setCode(uv.getCode());
+                user.setTitle(uv.getUnit());
+                user.setMobile(uv.getMobile());
+            }
+
+            String mobile = StringUtils.trimToNull(xlsRow.get(2));
+            if(StringUtils.isNotBlank(mobile)){
+                user.setMobile(mobile);
+            }
+            String title = StringUtils.trimToNull(xlsRow.get(3));
+            if(StringUtils.isNotBlank(title)){
+                user.setTitle(title);
+            }
+
+            records.add(user);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("users", records);
+        JSONUtils.write(response, resultMap);
+    }
+
+    // 任务对象列表管理
+    @RequiresPermissions("oaTask:edit")
+    @RequestMapping("/oaTask_users")
+    public String oaTask_users(int id, ModelMap modelMap) throws IOException {
+
+        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(id);
+        modelMap.put("oaTask", oaTask);
+
+        OaTaskUserViewExample example = new OaTaskUserViewExample();
+        example.createCriteria().andTaskIdEqualTo(id).andIsDeleteEqualTo(false);
+        example.setOrderByClause("sort_order asc");
+        List<OaTaskUserView> selectUsers = oaTaskUserViewMapper.selectByExample(example);
+        modelMap.put("selectUsers", selectUsers);
+
+        return "oa/oaTask/oaTask_users";
+    }
+
+    // 更新任务对象
+    @RequiresPermissions("oaTask:edit")
+    @RequestMapping(value = "/oaTask_users", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_oaTask_users(Integer id, String users) throws UnsupportedEncodingException {
+
+        List<TaskUser> taskUsers = GsonUtils.toBeans(users, TaskUser.class);
+        oaTaskService.updateTaskUsers(id, taskUsers);
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -285,6 +420,7 @@ public class OaTaskController extends OaBaseController {
             }
 
             oaTaskService.updateByPrimaryKeySelective(record);
+
             logger.info(addLog(LogConstants.LOG_OA, (BooleanUtils.isTrue(publish) ? "发布" : "召回") + "任务：%s", id));
         }
         return success(FormUtils.SUCCESS);

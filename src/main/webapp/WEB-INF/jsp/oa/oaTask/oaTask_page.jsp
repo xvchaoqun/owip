@@ -14,7 +14,7 @@
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${cls==1}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=1"><i
-                                class="fa fa-plus-square"></i> 新建任务</a>
+                                class="fa fa-list"></i> 新建任务</a>
                     </li>
                     <li class="<c:if test="${cls==2}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=2"><i
@@ -179,15 +179,15 @@
             {
                 label: '附件', name: '_files', formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="popupBtn btn btn-warning btn-xs" data-width="500" data-callback="_reload"' +
+                return '<button class="popupBtn btn btn-info btn-xs" data-width="500" data-callback="_reload"' +
                         'data-url="${ctx}/oa/oaTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件{1}</button>'
                                 .format(rowObject.id, rowObject.fileCount>0?"("+rowObject.fileCount+")":"")
             }},
             {
                 label: '任务对象', name: '_users', width: 120, formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="popupBtn btn btn-warning btn-xs" data-width="750" data-callback="_reload"' +
-                        'data-url="${ctx}/oa/oaTask/selectUsers?id={0}"><i class="fa fa-search"></i> 任务对象{1}</button>'
+                return '<button class="openView btn btn-warning btn-xs" ' +
+                        'data-url="${ctx}/oa/oaTask_users?id={0}"><i class="fa fa-search"></i> 任务对象{1}</button>'
                                 .format(rowObject.id, rowObject.userCount>0?"("+rowObject.userCount+")":"")
             }},
             {label: '已完成数', name: 'finishCount'},
@@ -198,7 +198,7 @@
             {
                 label: '报送详情', name: '_detail', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.userCount==0) return '--'
-                return '<button class="openView btn btn-primary btn-xs"' +
+                return '<button class="openView btn btn-success btn-xs"' +
                         'data-url="${ctx}/oa/oaTaskUser?taskId={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id)
             }},

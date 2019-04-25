@@ -59,7 +59,7 @@ public class UserOaTaskUserController extends OaBaseController {
         modelMap.put("oaTaskFiles", oaTaskService.getTaskFiles(taskId));
 
         Integer userId = ShiroHelper.getCurrentUserId();
-        OaTaskUserView oaTaskUser = oaTaskUserService.getOwnTask(taskId, userId);
+        OaTaskUserView oaTaskUser = oaTaskUserService.getRealTaskUser(taskId, userId);
         modelMap.put("oaTaskUser", oaTaskUser);
         modelMap.put("oaTaskUserFiles", oaTaskUserService.getUserFiles(taskId, userId));
 
@@ -101,7 +101,7 @@ public class UserOaTaskUserController extends OaBaseController {
         modelMap.put("oaTask", oaTask);
 
         Integer userId = ShiroHelper.getCurrentUserId();
-        OaTaskUser oaTaskUser = oaTaskUserService.getOaTaskUser(taskId, userId);
+        OaTaskUser oaTaskUser = oaTaskUserService.getOwnTaskUser(taskId, userId);
         modelMap.put("oaTaskUser", oaTaskUser);
 
         Integer assignUserId = oaTaskUser.getAssignUserId();
@@ -134,7 +134,7 @@ public class UserOaTaskUserController extends OaBaseController {
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
         modelMap.put("oaTask", oaTask);
         Integer userId = ShiroHelper.getCurrentUserId();
-        OaTaskUser oaTaskUser = oaTaskUserService.getOaTaskUser(taskId, userId);
+        OaTaskUser oaTaskUser = oaTaskUserService.getOwnTaskUser(taskId, userId);
         modelMap.put("oaTaskUser", oaTaskUser);
         if(oaTaskUser.getAssignUserId()!=null) {
             SysUserView assignUser = sysUserService.findById(oaTaskUser.getAssignUserId());
@@ -159,7 +159,7 @@ public class UserOaTaskUserController extends OaBaseController {
 
         Integer userId = ShiroHelper.getCurrentUserId();
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
-        OaTaskUser oaTaskUser = oaTaskUserService.getOaTaskUser(taskId, userId);
+        OaTaskUser oaTaskUser = oaTaskUserService.getOwnTaskUser(taskId, userId);
         SysUserView assignUser = sysUserService.findById(oaTaskUser.getAssignUserId());
         String assignMsgTitle = assignUser.getRealname()+"老师";
 

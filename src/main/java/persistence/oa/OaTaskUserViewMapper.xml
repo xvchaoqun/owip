@@ -5,6 +5,8 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="assign_user_id" jdbcType="INTEGER" property="assignUserId" />
     <result column="assign_user_mobile" jdbcType="VARCHAR" property="assignUserMobile" />
     <result column="content" jdbcType="VARCHAR" property="content" />
@@ -15,7 +17,10 @@
     <result column="is_back" jdbcType="BOOLEAN" property="isBack" />
     <result column="is_delete" jdbcType="BIT" property="isDelete" />
     <result column="check_remark" jdbcType="VARCHAR" property="checkRemark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="task_name" jdbcType="VARCHAR" property="taskName" />
     <result column="task_deadline" jdbcType="TIMESTAMP" property="taskDeadline" />
     <result column="task_contact" jdbcType="VARCHAR" property="taskContact" />
@@ -24,12 +29,6 @@
     <result column="task_status" jdbcType="TINYINT" property="taskStatus" />
     <result column="task_pub_date" jdbcType="DATE" property="taskPubDate" />
     <result column="task_type" jdbcType="TINYINT" property="taskType" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="realname" jdbcType="VARCHAR" property="realname" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="cadre_status" jdbcType="TINYINT" property="cadreStatus" />
-    <result column="cadre_sort_order" jdbcType="INTEGER" property="cadreSortOrder" />
     <result column="assign_code" jdbcType="VARCHAR" property="assignCode" />
     <result column="assign_realname" jdbcType="VARCHAR" property="assignRealname" />
     <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
@@ -97,11 +96,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, task_id, user_id, assign_user_id, assign_user_mobile, content, remark, has_report, 
-    report_user_id, report_time, is_back, is_delete, check_remark, status, task_name, 
-    task_deadline, task_contact, task_is_delete, task_is_publish, task_status, task_pub_date, 
-    task_type, code, realname, title, mobile, cadre_status, cadre_sort_order, assign_code, 
-    assign_realname, report_code, report_realname
+    id, task_id, user_id, mobile, title, assign_user_id, assign_user_mobile, content, 
+    remark, has_report, report_user_id, report_time, is_back, is_delete, check_remark, 
+    sort_order, status, code, realname, task_name, task_deadline, task_contact, task_is_delete, 
+    task_is_publish, task_status, task_pub_date, task_type, assign_code, assign_realname, 
+    report_code, report_realname
   </sql>
   <sql id="Blob_Column_List">
     task_content
@@ -144,29 +143,27 @@
   </delete>
   <insert id="insert" parameterType="domain.oa.OaTaskUserView">
     insert into oa_task_user_view (id, task_id, user_id, 
-      assign_user_id, assign_user_mobile, content, 
-      remark, has_report, report_user_id, 
-      report_time, is_back, is_delete, 
-      check_remark, status, task_name, 
-      task_deadline, task_contact, task_is_delete, 
-      task_is_publish, task_status, task_pub_date, 
-      task_type, code, realname, 
-      title, mobile, cadre_status, 
-      cadre_sort_order, assign_code, assign_realname, 
-      report_code, report_realname, task_content
-      )
+      mobile, title, assign_user_id, 
+      assign_user_mobile, content, remark, 
+      has_report, report_user_id, report_time, 
+      is_back, is_delete, check_remark, 
+      sort_order, status, code, 
+      realname, task_name, task_deadline, 
+      task_contact, task_is_delete, task_is_publish, 
+      task_status, task_pub_date, task_type, 
+      assign_code, assign_realname, report_code, 
+      report_realname, task_content)
     values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{assignUserId,jdbcType=INTEGER}, #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{hasReport,jdbcType=BOOLEAN}, #{reportUserId,jdbcType=INTEGER}, 
-      #{reportTime,jdbcType=TIMESTAMP}, #{isBack,jdbcType=BOOLEAN}, #{isDelete,jdbcType=BIT}, 
-      #{checkRemark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{taskName,jdbcType=VARCHAR}, 
-      #{taskDeadline,jdbcType=TIMESTAMP}, #{taskContact,jdbcType=VARCHAR}, #{taskIsDelete,jdbcType=BIT}, 
-      #{taskIsPublish,jdbcType=BIT}, #{taskStatus,jdbcType=TINYINT}, #{taskPubDate,jdbcType=DATE}, 
-      #{taskType,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{cadreStatus,jdbcType=TINYINT}, 
-      #{cadreSortOrder,jdbcType=INTEGER}, #{assignCode,jdbcType=VARCHAR}, #{assignRealname,jdbcType=VARCHAR}, 
-      #{reportCode,jdbcType=VARCHAR}, #{reportRealname,jdbcType=VARCHAR}, #{taskContent,jdbcType=LONGVARCHAR}
-      )
+      #{mobile,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{assignUserId,jdbcType=INTEGER}, 
+      #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{hasReport,jdbcType=BOOLEAN}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
+      #{isBack,jdbcType=BOOLEAN}, #{isDelete,jdbcType=BIT}, #{checkRemark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{taskDeadline,jdbcType=TIMESTAMP}, 
+      #{taskContact,jdbcType=VARCHAR}, #{taskIsDelete,jdbcType=BIT}, #{taskIsPublish,jdbcType=BIT}, 
+      #{taskStatus,jdbcType=TINYINT}, #{taskPubDate,jdbcType=DATE}, #{taskType,jdbcType=TINYINT}, 
+      #{assignCode,jdbcType=VARCHAR}, #{assignRealname,jdbcType=VARCHAR}, #{reportCode,jdbcType=VARCHAR}, 
+      #{reportRealname,jdbcType=VARCHAR}, #{taskContent,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTaskUserView">
     insert into oa_task_user_view
@@ -179,6 +176,12 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="title != null">
+        title,
       </if>
       <if test="assignUserId != null">
         assign_user_id,
@@ -210,8 +213,17 @@
       <if test="checkRemark != null">
         check_remark,
       </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="realname != null">
+        realname,
       </if>
       <if test="taskName != null">
         task_name,
@@ -236,24 +248,6 @@
       </if>
       <if test="taskType != null">
         task_type,
-      </if>
-      <if test="code != null">
-        code,
-      </if>
-      <if test="realname != null">
-        realname,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="mobile != null">
-        mobile,
-      </if>
-      <if test="cadreStatus != null">
-        cadre_status,
-      </if>
-      <if test="cadreSortOrder != null">
-        cadre_sort_order,
       </if>
       <if test="assignCode != null">
         assign_code,
@@ -280,6 +274,12 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="assignUserId != null">
         #{assignUserId,jdbcType=INTEGER},
@@ -311,8 +311,17 @@
       <if test="checkRemark != null">
         #{checkRemark,jdbcType=VARCHAR},
       </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
       </if>
       <if test="taskName != null">
         #{taskName,jdbcType=VARCHAR},
@@ -337,24 +346,6 @@
       </if>
       <if test="taskType != null">
         #{taskType,jdbcType=TINYINT},
-      </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="realname != null">
-        #{realname,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="cadreStatus != null">
-        #{cadreStatus,jdbcType=TINYINT},
-      </if>
-      <if test="cadreSortOrder != null">
-        #{cadreSortOrder,jdbcType=INTEGER},
       </if>
       <if test="assignCode != null">
         #{assignCode,jdbcType=VARCHAR},
@@ -391,6 +382,12 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
       <if test="record.assignUserId != null">
         assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
       </if>
@@ -421,8 +418,17 @@
       <if test="record.checkRemark != null">
         check_remark = #{record.checkRemark,jdbcType=VARCHAR},
       </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
       </if>
       <if test="record.taskName != null">
         task_name = #{record.taskName,jdbcType=VARCHAR},
@@ -447,24 +453,6 @@
       </if>
       <if test="record.taskType != null">
         task_type = #{record.taskType,jdbcType=TINYINT},
-      </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
-      <if test="record.realname != null">
-        realname = #{record.realname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.mobile != null">
-        mobile = #{record.mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="record.cadreStatus != null">
-        cadre_status = #{record.cadreStatus,jdbcType=TINYINT},
-      </if>
-      <if test="record.cadreSortOrder != null">
-        cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER},
       </if>
       <if test="record.assignCode != null">
         assign_code = #{record.assignCode,jdbcType=VARCHAR},
@@ -491,6 +479,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       task_id = #{record.taskId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
       assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
       assign_user_mobile = #{record.assignUserMobile,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
@@ -501,7 +491,10 @@
       is_back = #{record.isBack,jdbcType=BOOLEAN},
       is_delete = #{record.isDelete,jdbcType=BIT},
       check_remark = #{record.checkRemark,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
       task_name = #{record.taskName,jdbcType=VARCHAR},
       task_deadline = #{record.taskDeadline,jdbcType=TIMESTAMP},
       task_contact = #{record.taskContact,jdbcType=VARCHAR},
@@ -510,12 +503,6 @@
       task_status = #{record.taskStatus,jdbcType=TINYINT},
       task_pub_date = #{record.taskPubDate,jdbcType=DATE},
       task_type = #{record.taskType,jdbcType=TINYINT},
-      code = #{record.code,jdbcType=VARCHAR},
-      realname = #{record.realname,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      cadre_status = #{record.cadreStatus,jdbcType=TINYINT},
-      cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER},
       assign_code = #{record.assignCode,jdbcType=VARCHAR},
       assign_realname = #{record.assignRealname,jdbcType=VARCHAR},
       report_code = #{record.reportCode,jdbcType=VARCHAR},
@@ -530,6 +517,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       task_id = #{record.taskId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
       assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
       assign_user_mobile = #{record.assignUserMobile,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
@@ -540,7 +529,10 @@
       is_back = #{record.isBack,jdbcType=BOOLEAN},
       is_delete = #{record.isDelete,jdbcType=BIT},
       check_remark = #{record.checkRemark,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
       task_name = #{record.taskName,jdbcType=VARCHAR},
       task_deadline = #{record.taskDeadline,jdbcType=TIMESTAMP},
       task_contact = #{record.taskContact,jdbcType=VARCHAR},
@@ -549,12 +541,6 @@
       task_status = #{record.taskStatus,jdbcType=TINYINT},
       task_pub_date = #{record.taskPubDate,jdbcType=DATE},
       task_type = #{record.taskType,jdbcType=TINYINT},
-      code = #{record.code,jdbcType=VARCHAR},
-      realname = #{record.realname,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      cadre_status = #{record.cadreStatus,jdbcType=TINYINT},
-      cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER},
       assign_code = #{record.assignCode,jdbcType=VARCHAR},
       assign_realname = #{record.assignRealname,jdbcType=VARCHAR},
       report_code = #{record.reportCode,jdbcType=VARCHAR},

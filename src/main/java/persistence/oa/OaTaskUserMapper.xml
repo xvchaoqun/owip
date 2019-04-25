@@ -5,6 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="assign_user_id" jdbcType="INTEGER" property="assignUserId" />
     <result column="assign_user_mobile" jdbcType="VARCHAR" property="assignUserMobile" />
     <result column="content" jdbcType="VARCHAR" property="content" />
@@ -15,6 +17,7 @@
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="is_delete" jdbcType="BIT" property="isDelete" />
     <result column="check_remark" jdbcType="VARCHAR" property="checkRemark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -76,8 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, task_id, user_id, assign_user_id, assign_user_mobile, content, remark, has_report, 
-    report_user_id, report_time, is_back, is_delete, check_remark, status
+    id, task_id, user_id, mobile, title, assign_user_id, assign_user_mobile, content, 
+    remark, has_report, report_user_id, report_time, is_back, is_delete, check_remark, 
+    sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.oa.OaTaskUserExample" resultMap="BaseResultMap">
     select
@@ -111,15 +115,17 @@
   </delete>
   <insert id="insert" parameterType="domain.oa.OaTaskUser">
     insert into oa_task_user (id, task_id, user_id, 
-      assign_user_id, assign_user_mobile, content, 
-      remark, has_report, report_user_id, 
-      report_time, is_back, is_delete, 
-      check_remark, status)
+      mobile, title, assign_user_id, 
+      assign_user_mobile, content, remark, 
+      has_report, report_user_id, report_time, 
+      is_back, is_delete, check_remark, 
+      sort_order, status)
     values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{assignUserId,jdbcType=INTEGER}, #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, 
-      #{reportTime,jdbcType=TIMESTAMP}, #{isBack,jdbcType=BIT}, #{isDelete,jdbcType=BIT}, 
-      #{checkRemark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+      #{mobile,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{assignUserId,jdbcType=INTEGER}, 
+      #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
+      #{isBack,jdbcType=BIT}, #{isDelete,jdbcType=BIT}, #{checkRemark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTaskUser">
     insert into oa_task_user
@@ -132,6 +138,12 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="title != null">
+        title,
       </if>
       <if test="assignUserId != null">
         assign_user_id,
@@ -163,6 +175,9 @@
       <if test="checkRemark != null">
         check_remark,
       </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
       <if test="status != null">
         status,
       </if>
@@ -176,6 +191,12 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="assignUserId != null">
         #{assignUserId,jdbcType=INTEGER},
@@ -207,6 +228,9 @@
       <if test="checkRemark != null">
         #{checkRemark,jdbcType=VARCHAR},
       </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
@@ -229,6 +253,12 @@
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.assignUserId != null">
         assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
@@ -260,6 +290,9 @@
       <if test="record.checkRemark != null">
         check_remark = #{record.checkRemark,jdbcType=VARCHAR},
       </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -273,6 +306,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       task_id = #{record.taskId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
       assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
       assign_user_mobile = #{record.assignUserMobile,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
@@ -283,6 +318,7 @@
       is_back = #{record.isBack,jdbcType=BIT},
       is_delete = #{record.isDelete,jdbcType=BIT},
       check_remark = #{record.checkRemark,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -296,6 +332,12 @@
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="assignUserId != null">
         assign_user_id = #{assignUserId,jdbcType=INTEGER},
@@ -327,6 +369,9 @@
       <if test="checkRemark != null">
         check_remark = #{checkRemark,jdbcType=VARCHAR},
       </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -337,6 +382,8 @@
     update oa_task_user
     set task_id = #{taskId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
       assign_user_id = #{assignUserId,jdbcType=INTEGER},
       assign_user_mobile = #{assignUserMobile,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
@@ -347,6 +394,7 @@
       is_back = #{isBack,jdbcType=BIT},
       is_delete = #{isDelete,jdbcType=BIT},
       check_remark = #{checkRemark,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

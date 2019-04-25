@@ -184,7 +184,6 @@
         font-weight: bolder;
     }
 </style>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     <c:if test="${not empty partyPublic.id}">
 	$("#modalForm input[name=type][value=${partyPublic.type}]").prop("checked", true);

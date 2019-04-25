@@ -408,16 +408,15 @@ left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu
 
 DROP VIEW IF EXISTS `oa_task_user_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_user_view` AS
-select otu.*, ot.name as task_name, ot.content as task_content,
+select otu.*, uv.code, uv.realname, ot.name as task_name, ot.content as task_content,
 ot.deadline as task_deadline, ot.contact as task_contact,
 ot.is_delete as task_is_delete, ot.is_publish as task_is_publish, ot.status as task_status,
 ot.pub_date as task_pub_date, ot.type as task_type,
-cv.code, cv.realname, cv.title, cv.mobile, cv.status as cadre_status, cv.sort_order as cadre_sort_order,
-uv.code as assign_code, uv.realname as assign_realname,
+ouv.code as assign_code, ouv.realname as assign_realname,
 ruv.code as report_code, ruv.realname as report_realname from oa_task_user otu
 left join oa_task ot on otu.task_id = ot.id
-left join cadre_view cv on otu.user_id = cv.user_id
-left join sys_user_view uv on otu.assign_user_id = uv.id
+left join sys_user_view uv on otu.user_id = uv.id
+left join sys_user_view ouv on otu.assign_user_id = ouv.id
 left join sys_user_view ruv on otu.report_user_id = ruv.id;
 
 DROP VIEW IF EXISTS `cm_member_view`;

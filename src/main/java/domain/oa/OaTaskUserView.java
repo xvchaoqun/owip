@@ -10,6 +10,10 @@ public class OaTaskUserView implements Serializable {
 
     private Integer userId;
 
+    private String mobile;
+
+    private String title;
+
     private Integer assignUserId;
 
     private String assignUserMobile;
@@ -30,7 +34,13 @@ public class OaTaskUserView implements Serializable {
 
     private String checkRemark;
 
+    private Integer sortOrder;
+
     private Byte status;
+
+    private String code;
+
+    private String realname;
 
     private String taskName;
 
@@ -47,18 +57,6 @@ public class OaTaskUserView implements Serializable {
     private Date taskPubDate;
 
     private Byte taskType;
-
-    private String code;
-
-    private String realname;
-
-    private String title;
-
-    private String mobile;
-
-    private Byte cadreStatus;
-
-    private Integer cadreSortOrder;
 
     private String assignCode;
 
@@ -94,6 +92,22 @@ public class OaTaskUserView implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public Integer getAssignUserId() {
@@ -176,12 +190,36 @@ public class OaTaskUserView implements Serializable {
         this.checkRemark = checkRemark == null ? null : checkRemark.trim();
     }
 
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
     public Byte getStatus() {
         return status;
     }
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
     }
 
     public String getTaskName() {
@@ -246,54 +284,6 @@ public class OaTaskUserView implements Serializable {
 
     public void setTaskType(Byte taskType) {
         this.taskType = taskType;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
-
-    public Byte getCadreStatus() {
-        return cadreStatus;
-    }
-
-    public void setCadreStatus(Byte cadreStatus) {
-        this.cadreStatus = cadreStatus;
-    }
-
-    public Integer getCadreSortOrder() {
-        return cadreSortOrder;
-    }
-
-    public void setCadreSortOrder(Integer cadreSortOrder) {
-        this.cadreSortOrder = cadreSortOrder;
     }
 
     public String getAssignCode() {

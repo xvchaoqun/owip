@@ -2,10 +2,9 @@ package persistence.oa;
 
 import domain.oa.OaTaskUserView;
 import domain.oa.OaTaskUserViewExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface OaTaskUserViewMapper {
     long countByExample(OaTaskUserViewExample example);

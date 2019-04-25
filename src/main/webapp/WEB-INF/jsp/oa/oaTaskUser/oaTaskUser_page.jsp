@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="OA_TASK_STATUS_ABOLISH" value="<%=OaConstants.OA_TASK_STATUS_ABOLISH%>"/>
+<c:set var="OA_TASK_STATUS_FINISH" value="<%=OaConstants.OA_TASK_STATUS_FINISH%>"/>
+<c:set var="taskCanEdit" value="${oaTask.status!=OA_TASK_STATUS_ABOLISH&&oaTask.status!=OA_TASK_STATUS_FINISH}"/>
 <div class="widget-box transparent" id="useLogs">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -20,6 +23,7 @@
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
+                    <c:if test="${taskCanEdit}">
                     <a class="popupBtn btn btn-warning btn-sm"
                        data-url="${ctx}/oa/oaTaskUser_unreportMsg?taskId=${oaTask.id}"><i class="fa fa-send"></i>
                         短信催促未报送对象</a>
@@ -28,6 +32,7 @@
                        data-ids-name="taskUserIds[]"
                        data-grid-id="#jqGrid2"
                        data-url="${ctx}/oa/oaTaskUser_check"><i class="fa fa-check-square-o"></i> 批量审批</a>
+                    </c:if>
                      <span style="margin-left: 20px;">
                             任务对象共${totalCount}个， 完成报送共${hasReportCount}个（通过审核共${passCount}个） ， 未报送${totalCount-hasReportCount}个
                     </span>
@@ -46,6 +51,7 @@
     $.register.date($('.date-picker'));
     $("#jqGrid2").jqGrid({
         rownumbers:true,
+        multiselect:${taskCanEdit},
         //forceFit:true,
         pager: "jqGridPager2",
         url: '${ctx}/oa/oaTaskUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -75,6 +81,7 @@
                 return cellvalue
             }},
             {label: '审核情况', name: 'status', formatter: function (cellvalue, options, rowObject) {
+                <c:if test="${!taskCanEdit}"> return '--'</c:if>
                 if(cellvalue==undefined) return '--'
                 if(cellvalue=='<%=OaConstants.OA_TASK_USER_STATUS_INIT%>'){
                     return '<button class="popupBtn btn btn-primary btn-xs"' +
@@ -92,6 +99,8 @@
                 return "-";
             }},
             { label: '退回',name: '_back', formatter: function (cellvalue, options, rowObject) {
+
+                <c:if test="${!taskCanEdit}"> return '--'</c:if>
 
                 if(rowObject.isBack) return '已退回'
                 if(!rowObject.hasReport) return '--'
