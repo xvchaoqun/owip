@@ -16,45 +16,38 @@
                                 ||not empty param.isStaff||not empty param.isPrefessional||not empty param.isBaseTeam
                                 ||not empty param.typeId ||not empty param.unitTypeId}"/>
             <div class="tabbable">
-                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?status=1"><i class="fa fa-circle-o-notch"></i> 支部</a>
-                    </li>
-                    <li  class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?status=-1"><i class="fa fa-history"></i> 已撤销支部</a>
-                    </li>
-                </ul>
+                <jsp:include page="menu.jsp"/>
 
                 <div class="tab-content">
                     <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
-<c:if test="${status>=0}">
+            <c:if test="${cls==1}">
                 <shiro:hasPermission name="branch:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                      <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
                 </shiro:hasPermission>
-    <shiro:hasPermission name="member:edit">
-        <button data-url="${ctx}/member_au"
-                data-id-name="branchId"
-                data-open-by="page"
-                class="jqOpenViewBtn btn btn-success btn-sm">
-            <i class="fa fa-user"></i> 添加党员
-        </button>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="branchMemberGroup:edit">
-        <button data-url="${ctx}/branchMemberGroup_au"
-                data-id-name="branchId" class="jqOpenViewBtn btn btn-primary btn-sm">
-            <i class="fa fa-users"></i> 添加支部委员会
-        </button>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="orgAdmin:list">
-    <button data-url="${ctx}/org_admin"
-            data-id-name="branchId" class="jqOpenViewBtn btn btn-warning btn-sm">
-        <i class="fa fa-user"></i> 编辑管理员
-    </button>
-    </shiro:hasPermission>
-    </c:if>
+                <shiro:hasPermission name="member:edit">
+                    <button data-url="${ctx}/member_au"
+                            data-id-name="branchId"
+                            data-open-by="page"
+                            class="jqOpenViewBtn btn btn-success btn-sm">
+                        <i class="fa fa-user"></i> 添加党员
+                    </button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="branchMemberGroup:edit">
+                    <button data-url="${ctx}/branchMemberGroup_au"
+                            data-id-name="branchId" class="jqOpenViewBtn btn btn-primary btn-sm">
+                        <i class="fa fa-users"></i> 添加支部委员会
+                    </button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="orgAdmin:list">
+                <button data-url="${ctx}/org_admin"
+                        data-id-name="branchId" class="jqOpenViewBtn btn btn-warning btn-sm">
+                    <i class="fa fa-user"></i> 编辑管理员
+                </button>
+                </shiro:hasPermission>
+                </c:if>
 
                 <shiro:hasPermission name="branch:transfer">
                 <a href="javascript:;" class="jqOpenViewBatchBtn btn btn-danger btn-sm" data-url="${ctx}/branch_batchTransfer">
@@ -66,7 +59,7 @@
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-querystr="exportType=secretary"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党支部书记</a>
-                <c:if test="${status>=0}">
+                <c:if test="${cls==1}">
                     <shiro:hasPermission name="branch:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/branch_batchDel" data-title="撤销党支部"
@@ -74,7 +67,7 @@
                         【注：撤销操作将同时删除其下的支部委员会及相关管理员权限，请谨慎操作！】
                     </shiro:hasPermission>
                 </c:if>
-                <c:if test="${status==-1}">
+                <c:if test="${cls==2}">
                     <shiro:hasPermission name="branch:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/branch_batchDel"
@@ -97,7 +90,7 @@
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
-                            <input type="hidden" name="status" value="${status}">
+                            <input type="hidden" name="cls" value="${cls}">
                                     <div class="form-group">
                                         <label>编号</label>
                                             <input class="form-control search-query" name="code" type="text" value="${param.code}"            placeholder="请输入编号">
@@ -212,7 +205,7 @@
 
                 return $.party(null, rowObject.id);
             }, frozen:true },
-            <c:if test="${status==1 && !_query}">
+            <c:if test="${cls==1 && !_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){

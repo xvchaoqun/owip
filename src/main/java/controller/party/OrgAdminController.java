@@ -1,10 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.party.Branch;
-import domain.party.OrgAdmin;
-import domain.party.OrgAdminExample;
-import domain.party.Party;
+import domain.party.*;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -88,16 +86,34 @@ public class OrgAdminController extends BaseController {
     @RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin")
     public String orgAdmin(ModelMap modelMap,
+                        byte type,
+                        Integer userId,
+                        Integer partyId,
+                                 Integer branchId,
                         @RequestParam(required = false, defaultValue = "1")Byte cls) throws IOException {
 
+        modelMap.put("type", type);
         modelMap.put("cls", cls);
+        if(userId!=null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        if(partyId!=null) {
+            modelMap.put("party", partyService.findAll().get(partyId));
+        }
+        if(branchId!=null) {
+            modelMap.put("branch", branchService.findAll().get(branchId));
+        }
 
-        return "party/orgAdmin_page";
+        return "party/orgAdmin/orgAdmin_page";
     }
 
     @RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin_data")
     public void orgAdmin_data(HttpServletResponse response,
+                                 byte type,
+                                 Integer userId,
+                                 Integer partyId,
+                                 Integer branchId,
                                  @RequestParam(required = false, defaultValue = "1")Byte cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -111,16 +127,32 @@ public class OrgAdminController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        OrgAdminExample example = new OrgAdminExample();
-        OrgAdminExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("party_id desc, branch desc, create_time desc");
+        OrgAdminViewExample example = new OrgAdminViewExample();
+        OrgAdminViewExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
+        if(type== OwConstants.OW_ORG_ADMIN_PARTY){
+            if(partyId!=null){
+                criteria.andPartyIdEqualTo(partyId);
+            }
+            example.setOrderByClause("party_sort_order desc, create_time desc");
+        }else{
+            if(partyId!=null){
+                criteria.andBranchPartyIdEqualTo(partyId);
+            }
+            if(branchId!=null){
+                criteria.andBranchIdEqualTo(branchId);
+            }
+            example.setOrderByClause("branch_party_sort_order desc, branch_sort_order desc, create_time desc");
+        }
+        if(userId!=null){
+            criteria.andUserIdEqualTo(userId);
+        }
 
-        long count = orgAdminMapper.countByExample(example);
+        long count = orgAdminViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<OrgAdmin> records = orgAdminMapper.selectByExampleWithRowbounds(example,
+        List<OrgAdminView> records = orgAdminViewMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

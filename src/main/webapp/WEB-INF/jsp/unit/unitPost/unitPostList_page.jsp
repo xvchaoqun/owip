@@ -28,13 +28,15 @@
         </button>
     </shiro:hasPermission>
     </c:if>
-    <c:if test="${cls==1}">
     <shiro:hasPermission name="unitPost:edit">
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                 data-url="${ctx}/unitPost_au?unitId=${param.unitId}&jqGrid=jqGrid2"
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
             修改
         </button>
+    </shiro:hasPermission>
+    <c:if test="${cls==1}">
+    <shiro:hasPermission name="unitPost:edit">
         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                 data-url="${ctx}/unitPost_abolish" data-width="400"
                 data-grid-id="#jqGrid2"><i class="fa fa-history"></i>

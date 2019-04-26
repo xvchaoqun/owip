@@ -148,8 +148,10 @@ public class SchedulerJobService extends BaseMapper {
             logger.error("类不存在", e);
             throw new OpException("类{0}不存在", schedulerJob.getClazz());
         }
-
-        QuartzManager.addJob(scheduler, schedulerJob.getJobName(), cls, schedulerJob.getCron());
+        String jobName = schedulerJob.getJobName();
+        if(!allJobsMap().containsKey(jobName)) {
+            QuartzManager.addJob(scheduler, jobName, cls, schedulerJob.getCron());
+        }
         logger.info("启动定时任务[{}]成功", schedulerJob.getName());
     }
 

@@ -143,6 +143,14 @@ count(*) as num, branch_id from ow_member_teacher where status=1 group by branch
 left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 group by branch_id) gtmp on gtmp.branch_id=b.id
 left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 and is_present=1 group by branch_id) gtmp2 on gtmp2.branch_id=b.id;
 
+DROP VIEW IF EXISTS `ow_org_admin_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_org_admin_view` AS
+select oa.*, p.sort_order as party_sort_order, b.party_id as branch_party_id,
+bp.sort_order as branch_party_sort_order, b.sort_order as branch_sort_order from ow_org_admin oa
+left join ow_party p on p.id=oa.party_id
+left join ow_branch b on b.id=oa.branch_id
+left join ow_party bp on bp.id=b.party_id;
+
 -- ----------------------------
 --  View definition for `ow_member_abroad_view`
 -- ----------------------------

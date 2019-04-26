@@ -218,6 +218,7 @@ public class UnitPostController extends BaseController {
     public void unitPost_data(HttpServletResponse response,
                               @RequestParam(required = false, defaultValue = "1")Byte cls,
                                     Integer unitId,
+                                    String code,
                                     String name,
                                     Integer adminLevel,
                                     Integer postType,
@@ -267,6 +268,9 @@ public class UnitPostController extends BaseController {
 
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);
+        }
+        if (StringUtils.isNotBlank(code)) {
+            criteria.andCodeLike("%" + code + "%");
         }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");

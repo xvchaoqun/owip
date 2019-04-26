@@ -80,10 +80,10 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch")
     public String branch(Integer partyId,
-                              @RequestParam(required = false, defaultValue = "1") Byte status,
+                              @RequestParam(required = false, defaultValue = "1") Byte cls,
                               ModelMap modelMap) {
 
-        modelMap.put("status", status);
+        modelMap.put("cls", cls);
 
         if (partyId != null) {
             Party party = partyMapper.selectByPrimaryKey(partyId);
@@ -96,7 +96,7 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_data")
     public void branch_data(HttpServletResponse response,
-                            @RequestParam(required = false, defaultValue = "1") Byte status,
+                            @RequestParam(required = false, defaultValue = "1") Byte cls,
                             String code,
                             String name,
                             Integer partyId,
@@ -123,7 +123,7 @@ public class BranchController extends BaseController {
         BranchViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("party_sort_order desc, sort_order desc");
 
-        criteria.andIsDeletedEqualTo(status == -1);
+        criteria.andIsDeletedEqualTo(cls == 2);
 
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");

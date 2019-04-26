@@ -10,9 +10,10 @@
      <shiro:hasPermission name="orgAdmin:list">
     <li class="<c:if test="${cls==3}">active</c:if>">
         <a href="javascript:;" class="loadPage"
-           data-url="${ctx}/orgAdmin?type=<%=OwConstants.OW_ORG_ADMIN_PARTY%>&cls=3"><i class="fa fa-history"></i> 管理员列表</a>
+           data-url="${ctx}/orgAdmin?type=<%=OwConstants.OW_ORG_ADMIN_PARTY%>&cls=3"><i class="fa fa-users"></i> 管理员列表</a>
     </li>
      </shiro:hasPermission>
+    <c:if test="${cls==1}">
     <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px;">
             <a class="downloadBtn btn btn-success btn-sm"
@@ -20,4 +21,5 @@
                 <i class="fa fa-download"></i> 汇总导出基本情况表</a>
         </div>
     </shiro:hasAnyRoles>
+    </c:if>
 </ul>

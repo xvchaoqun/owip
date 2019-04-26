@@ -28,6 +28,12 @@
             ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
             || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
+                <shiro:hasPermission name="unitPost:edit">
+                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                        data-url="${ctx}/unitPost_au?jqGrid=jqGrid"
+                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                         修改</button>
+                 </shiro:hasPermission>
                 <c:if test="${cls==1}">
                 <div class="type-select">
                         <span class="typeCheckbox ${param.displayEmpty==1?"checked":""}">
@@ -35,12 +41,6 @@
                                                                      value="1"> 只显示空缺岗位
                         </span>
                 </div>
-                 <shiro:hasPermission name="unitPost:edit">
-                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                        data-url="${ctx}/unitPost_au?jqGrid=jqGrid"
-                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                         修改</button>
-                 </shiro:hasPermission>
                  <shiro:hasPermission name="unitPost:del">
                      <button data-url="${ctx}/unitPost_batchDel"
                              data-title="删除"
@@ -82,6 +82,11 @@
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                             <input type="hidden" name="displayEmpty" value="${param.displayEmpty}">
+                            <div class="form-group">
+                                <label>岗位编号</label>
+                                <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                       placeholder="请输入岗位编号">
+                            </div>
                             <div class="form-group">
                                 <label>岗位名称</label>
                                 <input class="form-control search-query" name="name" type="text" value="${param.name}"

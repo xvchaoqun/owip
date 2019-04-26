@@ -92,6 +92,8 @@ public class CoreBaseMapper {
     protected BranchViewMapper branchViewMapper;
     @Autowired(required = false)
     protected OrgAdminMapper orgAdminMapper;
+    @Autowired(required = false)
+    protected OrgAdminViewMapper orgAdminViewMapper;
     
     @Autowired(required = false)
     protected MemberMapper memberMapper;

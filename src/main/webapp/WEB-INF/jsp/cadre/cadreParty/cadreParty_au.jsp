@@ -60,7 +60,7 @@
 
             <div class="col-xs-6">
                 <div class="input-group" style="width: 120px">
-                    <input class="form-control date-picker" name="growTime" type="text" placeholder="格式：yyyy.mm"
+                    <input class="form-control date-picker" name="growTime" type="text" placeholder="yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadreParty.growTime,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
