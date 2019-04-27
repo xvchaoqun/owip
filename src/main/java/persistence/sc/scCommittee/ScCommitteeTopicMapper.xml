@@ -120,6 +120,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sc_committee_topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

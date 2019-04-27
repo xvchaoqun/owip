@@ -8,6 +8,7 @@ import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -166,7 +167,7 @@ public class PcsPrOwController extends PcsBaseController {
 
     @RequiresPermissions("pcsPrOw:check")
     @RequestMapping("/pcsPrOw_check")
-    public String pcsPrOw_check(@RequestParam(value = "partyIds[]") int[] partyIds, ModelMap modelMap) {
+    public String pcsPrOw_check(@RequestParam(value = "partyIds[]") Integer[] partyIds, ModelMap modelMap) {
 
         if (partyIds.length == 1) {
             modelMap.put("party", partyService.findAll().get(partyIds[0]));
@@ -178,17 +179,17 @@ public class PcsPrOwController extends PcsBaseController {
     @RequiresPermissions("pcsPrOw:check")
     @RequestMapping(value = "/pcsPrOw_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPrOw_check(@RequestParam(value = "partyIds[]") int[] partyIds, byte stage, Boolean status, String remark) {
+    public Map do_pcsPrOw_check(@RequestParam(value = "partyIds[]") Integer[] partyIds, byte stage, Boolean status, String remark) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-
+        status = BooleanUtils.isTrue(status);
         pcsPrOwService.checkPartyRecommend(configId, stage, partyIds,
-                BooleanUtils.isTrue(status) ? PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS
+                 status? PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS
                         : PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY, remark);
 
         logger.info(addLog(LogConstants.LOG_PCS, "[组织部管理员]审核分党委推荐-%s-%s-%s-%s",
-                configId, stage, partyIds, status));
+                configId, stage, StringUtils.join(partyIds, ","), status));
         return success(FormUtils.SUCCESS);
     }
 

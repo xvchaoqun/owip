@@ -169,7 +169,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                           @RequestParam(required = false) int[] cols, // 选择导出的列
+                           @RequestParam(required = false) Integer[] cols, // 选择导出的列
                            Integer pageSize, Integer pageNo) throws IOException, TemplateException {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
@@ -327,7 +327,7 @@ public class CadreController extends BaseController {
         }
     }
 
-    private void cadre_export(int format, Byte status, int[] cols, CadreViewExample example, HttpServletResponse response) throws IOException {
+    private void cadre_export(int format, Byte status, Integer[] cols, CadreViewExample example, HttpServletResponse response) throws IOException {
 
         SXSSFWorkbook wb = null;
         if(format==1) {

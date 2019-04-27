@@ -345,7 +345,7 @@
         pager: "#jqGridPager_cadreResearch_in",
         url: '${ctx}/cadreResearch_data?researchType=${CADRE_RESEARCH_TYPE_IN}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadreResearch
-    });
+    }).jqGrid("setFrozenColumns");
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
     $("#jqGrid_cadreResearch_direct").jqGrid({
@@ -357,7 +357,7 @@
         pager: "#jqGridPager_cadreResearch_direct",
         url: '${ctx}/cadreResearch_data?researchType=${CADRE_RESEARCH_TYPE_DIRECT}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadreResearch
-    });
+    }).jqGrid("setFrozenColumns");
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_BOOK_SUMMARY}">
     $("#jqGrid_cadreBook").jqGrid({
@@ -369,7 +369,7 @@
         pager: "#jqGridPager_cadreBook",
         url: '${ctx}/cadreBook_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadreBook
-    });
+    }).jqGrid("setFrozenColumns");
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_PAPER_SUMMARY}">
     $("#jqGrid_cadrePaper").jqGrid({
@@ -381,7 +381,7 @@
         pager: "#jqGridPager_cadrePaper",
         url: '${ctx}/cadrePaper_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadrePaper
-    });
+    }).jqGrid("setFrozenColumns");
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
     $("#jqGrid_cadreReward").jqGrid({
@@ -393,7 +393,7 @@
         pager: "#jqGridPager_cadreReward",
         url: '${ctx}/cadreReward_data?rewardType=${CADRE_REWARD_TYPE_RESEARCH}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadreReward
-    });
+    }).jqGrid("setFrozenColumns");
     </c:if>
     $(window).triggerHandler('resize.jqGrid2');
     $('#searchForm [data-rel="select2"]').select2();

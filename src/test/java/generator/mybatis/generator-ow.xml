@@ -217,6 +217,7 @@
         </table>-->
 
         <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <table tableName="ow_org_admin_view" domainObjectName="party.OrgAdminView"
                enableInsert="false" enableUpdateByPrimaryKey="false"

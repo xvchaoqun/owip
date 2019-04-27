@@ -150,6 +150,9 @@
       #{isDeleted,jdbcType=BIT}, #{summary,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetCourse">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into cet_course
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

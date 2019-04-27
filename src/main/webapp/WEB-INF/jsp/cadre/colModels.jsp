@@ -425,9 +425,10 @@
             cellattr: function (rowId, val, rowObject, cm, rdata) {
             if($.trim(rowObject.rewardLevel)=='')
                 return "class='danger'";
-        }},
-        {label: '获奖年份', name: 'rewardTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y'}, frozen: true},
-        {label: '获得奖项', name: 'name', width: 350, align:'left'},
+        }, frozen: true},
+        {label: '获奖年份', name: 'rewardTime', formatter: $.jgrid.formatter.date,
+            formatoptions: {newformat: 'Y'}, frozen: true},
+        {label: '获得奖项', name: 'name', width: 350, align:'left', frozen: true},
         {label: '颁奖单位', name: 'unit', width: 280, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
             if($.trim(val)=='')
                 return "class='danger'";
@@ -487,9 +488,9 @@
     colModels.cadrePostPro = [
         {label: '是否当前专技岗位', width: 150, name: 'isCurrent',formatter: function (cellvalue, options, rowObject) {
             return cellvalue ? "是" : "否";
-        }},
-        {label: '岗位类别', width: 120, name: 'type', formatter: $.jgrid.formatter.MetaType},
-        {label: '职级', name: 'postLevel'},
+        }, frozen:true},
+        {label: '岗位类别', width: 120, name: 'type', formatter: $.jgrid.formatter.MetaType, frozen:true},
+        {label: '职级', name: 'postLevel', frozen:true},
         {label: '专业技术职务', name: 'post', width: 250, formatter: $.jgrid.formatter.MetaType},
         {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '专技岗位等级', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
@@ -516,8 +517,10 @@
     ];
 
     colModels.cadreTrain = [
-        {label: '起始时间', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
-        {label: '结束时间', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
+        {label: '起始时间', name: 'startTime', formatter: $.jgrid.formatter.date,
+            formatoptions: {newformat: 'Y.m.d'}, frozen: true},
+        {label: '结束时间', name: 'endTime', formatter: $.jgrid.formatter.date,
+            formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '培训内容', name: 'content', width: 550, align:'left'},
         {label: '主办单位', name: 'unit', width: 280},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}

@@ -2,6 +2,7 @@ package service.cadre;
 
 import domain.cadre.CadreEva;
 import domain.cadre.CadreEvaExample;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,8 +55,13 @@ public class CadreEvaService extends BaseMapper {
                 insertSelective(record);
                 addCount++;
             }else{
-                record.setId(cadreEva.getId());
+                int id = cadreEva.getId();
+                record.setId(id);
                 updateByPrimaryKeySelective(record);
+
+                if(StringUtils.isBlank(record.getTitle())){
+                    commonMapper.excuteSql("update cadre_eva set title = null where id="+id);
+                }
             }
         }
 

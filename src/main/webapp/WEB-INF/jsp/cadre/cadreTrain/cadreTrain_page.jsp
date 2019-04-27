@@ -156,7 +156,7 @@
             pager: "#jqGridPager_cadreTrain",
             url: '${ctx}/cadreTrain_data?${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel:colModels.cadreTrain
-        });
+        }).jqGrid("setFrozenColumns");
         $(window).triggerHandler('resize.jqGrid2');
 
         function _delCallback(target) {

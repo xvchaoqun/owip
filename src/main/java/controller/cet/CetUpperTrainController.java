@@ -358,7 +358,7 @@ public class CetUpperTrainController extends CetBaseController {
 
         if (id == null){
             cetUpperTrainService.insertSelective(record, userIds);
-            logger.info(addLog(LogConstants.LOG_CET, "添加上级调训或单位培训：%s", StringUtils.join(userIds, ",")));
+            logger.info(log(LogConstants.LOG_CET, "添加上级调训或单位培训：{0}", id));
         } else{
             cetUpperTrainService.updateByPrimaryKeySelective(record, BooleanUtils.isTrue(check));
             logger.info(addLog(LogConstants.LOG_CET, "更新上级调训或单位培训：%s", id));

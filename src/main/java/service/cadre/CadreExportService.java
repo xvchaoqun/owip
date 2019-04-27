@@ -76,7 +76,7 @@ public class CadreExportService extends BaseMapper {
     }
 
     // 导出一览表
-    public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType, int[] cols) {
+    public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType, Integer[] cols) {
 
         String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
 

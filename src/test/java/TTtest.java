@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.RoleConstants;
@@ -16,6 +17,17 @@ public class TTtest {
         System.out.println(RoleConstants.ROLE_MAP);
     }
 
+    @Test
+    public void ttt1(){
+
+        int[] ids = new int[]{1,23,3};
+        String join = StringUtils.join(ids, ",");
+        System.out.println("join = " + join);
+
+        String[] s = new String[]{"Yuan","Mxy"};//传入String类型的数组，使用"-"号拼接
+		String join2 = StringUtils.join(s,"-");
+		System.out.println(join2);
+    }
     @Test
     public void  xx(){
 

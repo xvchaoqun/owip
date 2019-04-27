@@ -118,6 +118,7 @@
         <!--<table tableName="cet_project_obj_plan" domainObjectName="cet.CetProjectObjPlan" mapperName="cet.CetProjectObjPlanMapper">
         </table>-->
         <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
        <!-- <table tableName="cet_course_file" domainObjectName="cet.CetCourseFile" mapperName="cet.CetCourseFileMapper">
         </table>-->

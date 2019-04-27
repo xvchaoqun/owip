@@ -22,7 +22,7 @@ public class PcsPrOwService extends PcsBaseMapper {
     // 组织部管理员审核分党委推荐
     @Transactional
     public void checkPartyRecommend(int configId, byte stage,
-                                    int[] partyIds, byte status, String remark) {
+                                    Integer[] partyIds, byte status, String remark) {
 
         if(!PcsConstants.PCS_PR_RECOMMEND_STATUS_MAP.containsKey(status)){
             return ;

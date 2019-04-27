@@ -8,6 +8,7 @@ import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import mixin.OptionMixin;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -104,7 +105,7 @@ public class OaTaskUserController extends OaBaseController {
     @RequiresPermissions("oaTaskUser:check")
     @RequestMapping("/oaTaskUser_check")
     public String oaTaskUser_check(int taskId,
-                                   @RequestParam(value = "taskUserIds[]") int[] taskUserIds,
+                                   @RequestParam(value = "taskUserIds[]") Integer[] taskUserIds,
                                    ModelMap modelMap) {
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
@@ -120,7 +121,7 @@ public class OaTaskUserController extends OaBaseController {
     @RequiresPermissions("oaTaskUser:check")
     @RequestMapping(value = "/oaTaskUser_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_oaTaskUser_check(int taskId, @RequestParam(value = "taskUserIds[]") int[] taskUserIds,
+    public Map do_oaTaskUser_check(int taskId, @RequestParam(value = "taskUserIds[]") Integer[] taskUserIds,
                                    Boolean pass, String remark) {
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
@@ -130,7 +131,7 @@ public class OaTaskUserController extends OaBaseController {
                 BooleanUtils.isTrue(pass) ? OaConstants.OA_TASK_USER_STATUS_PASS
                         : OaConstants.OA_TASK_USER_STATUS_DENY, remark);
 
-        logger.info(addLog(LogConstants.LOG_PCS, "审核任务报送情况-%s-%s", taskUserIds, pass));
+        logger.info(addLog(LogConstants.LOG_PCS, "审核任务报送情况-%s-%s", StringUtils.join(taskUserIds, ","), pass));
         return success(FormUtils.SUCCESS);
     }
 

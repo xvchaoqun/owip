@@ -152,7 +152,7 @@
         pager: "#jqGridPager_cadrePostPro",
         url: '${ctx}/cadrePostPro_data?cadreId=${param.cadreId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadrePostPro
-    });
+    }).jqGrid("setFrozenColumns");
     </c:if>
     <c:if test="${type==2}">
     $("#jqGrid_cadrePostAdmin").jqGrid({

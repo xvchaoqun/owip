@@ -126,6 +126,9 @@
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.UnitPost">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into unit_post
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

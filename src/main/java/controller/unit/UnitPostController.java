@@ -414,11 +414,11 @@ public class UnitPostController extends BaseController {
         if (id == null) {
             //record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
             unitPostService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_ADMIN, "添加干部岗位库：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_ADMIN, "添加干部岗位：%s", record.getId()));
         } else {
 
             unitPostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部岗位库：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部岗位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);

@@ -27,6 +27,7 @@
         <!--两委委员-->
         <!--<table tableName="cm_member" domainObjectName="cm.CmMember"
                mapperName="cm.CmMemberMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <table tableName="cm_member_view" domainObjectName="cm.CmMemberView"
                mapperName="cm.CmMemberViewMapper"

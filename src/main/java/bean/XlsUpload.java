@@ -81,31 +81,6 @@ public class XlsUpload {
         return xlsRows;
     }
 
-    public static String getCell(XSSFCell cell) {
-
-        cell.setCellType(CellType.STRING);
-        return cell.getStringCellValue();
-
-		/*if (cell == null)
-            return "";
-		switch (cell.getCellType()) {
-		case XSSFCell.CELL_TYPE_NUMERIC:
-			return cell.getNumericCellValue() + "";
-		case XSSFCell.CELL_TYPE_STRING:
-			return StringUtils.trim(cell.getStringCellValue());
-		case XSSFCell.CELL_TYPE_FORMULA:
-			return cell.getCellFormula();
-		case XSSFCell.CELL_TYPE_BLANK:
-			return "";
-		case XSSFCell.CELL_TYPE_BOOLEAN:
-			return cell.getBooleanCellValue() + "";
-		case XSSFCell.CELL_TYPE_ERROR:
-			return cell.getErrorCellValue() + "";
-		}
-		return "";*/
-    }
-
-    @SuppressWarnings("deprecation")
     public static String getCellValue(Cell cell) {
         if (cell == null)
             return "";
@@ -124,7 +99,9 @@ public class XlsUpload {
                     || (176 <= format && format <= 178) || (182 <= format && format <= 196)
                     || (210 <= format && format <= 213) || (208 == format)) { // 日期
                 sdf = new SimpleDateFormat(DateUtils.YYYY_MM_DD);
-            } else if (format == 20 || format == 32 || format == 183 || (200 <= format && format <= 209)) { // 时间
+            } else if (format == 22) { // 时间
+                sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            }  else if (format == 20 || format == 32 || format == 183 || (200 <= format && format <= 209)) { // 时间
                 sdf = new SimpleDateFormat("HH:mm");
             } else { // 不是日期格式
                 //return String.valueOf(cell.getNumericCellValue());

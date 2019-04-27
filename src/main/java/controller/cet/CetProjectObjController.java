@@ -312,7 +312,7 @@ public class CetProjectObjController extends CetBaseController {
     // 设置应完成学时
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping("/cetProjectObj_shouldFinishPeriod")
-    public String cetProjectObj_shouldFinishPeriod(@RequestParam(value = "ids[]") int[] ids, ModelMap modelMap) {
+    public String cetProjectObj_shouldFinishPeriod(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (ids.length == 1) {
             modelMap.put("cetProjectObj", cetProjectObjMapper.selectByPrimaryKey(ids[0]));

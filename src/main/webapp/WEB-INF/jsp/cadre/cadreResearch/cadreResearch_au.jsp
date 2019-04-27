@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_startTime" type="text"
-                           data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
+                           data-date-min-view-mode="1" placeholder="yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadreResearch.startTime,'yyyy.MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_endTime" type="text"
-                           data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
+                           data-date-min-view-mode="1" placeholder="yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadreResearch.endTime,'yyyy.MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>

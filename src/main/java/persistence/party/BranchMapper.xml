@@ -134,6 +134,9 @@
       #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" keyProperty="id" parameterType="domain.party.Branch" >
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into ow_branch
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

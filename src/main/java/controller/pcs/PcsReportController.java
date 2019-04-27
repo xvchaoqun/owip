@@ -54,7 +54,7 @@ public class PcsReportController extends PcsBaseController {
     public Logger logger = LoggerFactory.getLogger(getClass());
     @RequiresPermissions("pcsProposalOw:*")
     @RequestMapping(value = "/pcsProposal", method = RequestMethod.GET)
-    public String pcsProposal(@RequestParam(value = "ids[]")int[] ids,
+    public String pcsProposal(@RequestParam(value = "ids[]")Integer[] ids,
                       @RequestParam(defaultValue = "pdf") String format,
                       @RequestParam(defaultValue = "0") int type, // type=1 导出pdf type=2导出word
                       HttpServletResponse response,

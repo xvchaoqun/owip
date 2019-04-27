@@ -26,6 +26,7 @@
 
         <!--协同办公-->
         <!--<table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="oa_task_file" domainObjectName="oa.OaTaskFile" mapperName="oa.OaTaskFileMapper">

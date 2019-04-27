@@ -44,7 +44,7 @@
         pager: "#jqGridPager_cadreInspectInfo",
         url: url,
         colModel: colModel
-    });
+    }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
 
     $('#searchForm [data-rel="select2"]').select2();

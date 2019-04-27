@@ -74,7 +74,7 @@ public class ImportTest {
             XlsUser dataRow = new XlsUser();
             XSSFCell cell = row.getCell(0);
             if (null != cell) {
-                String realname = XlsUpload.getCell(cell);
+                String realname = XlsUpload.getCellValue(cell);
                 if (StringUtils.isBlank(realname)) {
                     continue;
                 }
@@ -85,7 +85,7 @@ public class ImportTest {
 
             cell = row.getCell(1);
             if (null != cell) {
-                String _gender = XlsUpload.getCell(cell);
+                String _gender = XlsUpload.getCellValue(cell);
                 if (StringUtils.isBlank(_gender)) {
                     continue;
                 }
@@ -96,7 +96,7 @@ public class ImportTest {
 
             cell = row.getCell(2);
             if (null != cell) {
-                String idcard = XlsUpload.getCell(cell);
+                String idcard = XlsUpload.getCellValue(cell);
                 if (StringUtils.isBlank(idcard)) {
                     continue;
                 }
@@ -106,7 +106,7 @@ public class ImportTest {
             }
 
             cell = row.getCell(3);
-            dataRow.setUnit(XlsUpload.getCell(cell));
+            dataRow.setUnit(XlsUpload.getCellValue(cell));
 
             rows.add(dataRow);
         }

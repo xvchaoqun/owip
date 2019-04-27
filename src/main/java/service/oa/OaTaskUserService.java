@@ -121,7 +121,7 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
 
     // 审批（管理员）
     @Transactional
-    public void check(int taskId, int[] taskUserIds, byte status, String remark) {
+    public void check(int taskId, Integer[] taskUserIds, byte status, String remark) {
 
         if (!OaConstants.OA_TASK_USER_STATUS_MAP.containsKey(status)) {
             return;

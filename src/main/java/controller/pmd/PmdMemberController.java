@@ -482,7 +482,7 @@ public class PmdMemberController extends PmdBaseController {
     // 设定缴纳额度
     @RequiresPermissions("pmdMember:setDuePay")
     @RequestMapping("/pmdMember_setDuePay")
-    public String pmdMember_setDuePay(@RequestParam(value = "ids[]") int[] ids, ModelMap modelMap) {
+    public String pmdMember_setDuePay(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (ids.length == 1) {
             modelMap.put("pmdMember", pmdMemberMapper.selectByPrimaryKey(ids[0]));
@@ -494,7 +494,7 @@ public class PmdMemberController extends PmdBaseController {
     /*@RequiresPermissions("pmdMember:setDuePay")
     @RequestMapping(value = "/pmdMember_setDuePay", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_setDuePay(@RequestParam(value = "ids[]") int[] ids,
+    public Map do_pmdMember_setDuePay(@RequestParam(value = "ids[]") Integer[] ids,
                                       BigDecimal amount, String remark) {
 
         if(amount==null || amount.compareTo(BigDecimal.ZERO)<=0){
@@ -511,7 +511,7 @@ public class PmdMemberController extends PmdBaseController {
     // 选择党员分类
     @RequiresPermissions("pmdMember:selectMemberType")
     @RequestMapping("/pmdMember_selectMemberType")
-    public String pmdMember_selectMemberType(@RequestParam(value = "ids[]") int[] ids,
+    public String pmdMember_selectMemberType(@RequestParam(value = "ids[]") Integer[] ids,
                                              byte configMemberType,
                                              ModelMap modelMap) {
 
@@ -536,7 +536,7 @@ public class PmdMemberController extends PmdBaseController {
     @RequiresPermissions("pmdMember:selectMemberType")
     @RequestMapping(value = "/pmdMember_selectMemberType", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_selectMemberType(@RequestParam(value = "ids[]") int[] ids,
+    public Map do_pmdMember_selectMemberType(@RequestParam(value = "ids[]") Integer[] ids,
                                              Boolean hasSalary, // 学生党员必须设置
                                              byte configMemberType,
                                              int configMemberTypeId,
@@ -553,7 +553,7 @@ public class PmdMemberController extends PmdBaseController {
     // 修改缴费方式
     @RequiresPermissions("pmdMember:setIsOnlinePay")
     @RequestMapping("/pmdMember_setIsOnlinePay")
-    public String pmdMember_setIsOnlinePay(@RequestParam(value = "ids[]") int[] ids,
+    public String pmdMember_setIsOnlinePay(@RequestParam(value = "ids[]") Integer[] ids,
                                            ModelMap modelMap) {
 
         if (ids.length == 1) {
@@ -567,7 +567,7 @@ public class PmdMemberController extends PmdBaseController {
     @RequiresPermissions("pmdMember:setIsOnlinePay")
     @RequestMapping(value = "/pmdMember_setIsOnlinePay", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_setIsOnlinePay(@RequestParam(value = "ids[]") int[] ids,
+    public Map do_pmdMember_setIsOnlinePay(@RequestParam(value = "ids[]") Integer[] ids,
                                            Boolean isOnlinePay, String remark) {
 
 
@@ -581,7 +581,7 @@ public class PmdMemberController extends PmdBaseController {
     // 设定减免标准
     @RequiresPermissions("pmdMember:selectReduceNorm")
     @RequestMapping("/pmdMember_selectReduceNorm")
-    public String pmdMember_selectReduceNorm(@RequestParam(value = "ids[]") int[] ids, ModelMap modelMap) {
+    public String pmdMember_selectReduceNorm(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (ids.length == 1) {
             modelMap.put("pmdMember", pmdMemberMapper.selectByPrimaryKey(ids[0]));
@@ -595,7 +595,7 @@ public class PmdMemberController extends PmdBaseController {
     @RequiresPermissions("pmdMember:selectReduceNorm")
     @RequestMapping(value = "/pmdMember_selectReduceNorm", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_selectReduceNorm(@RequestParam(value = "ids[]") int[] ids,
+    public Map do_pmdMember_selectReduceNorm(@RequestParam(value = "ids[]") Integer[] ids,
                                              int normId, BigDecimal amount, String remark) {
 
 

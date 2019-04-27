@@ -215,7 +215,7 @@
         pager: "#jqGridPager_cadreReward",
         url: '${ctx}/cadreReward_data?rewardType=${CADRE_REWARD_TYPE_TEACH}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadreReward
-    });
+    }).jqGrid("setFrozenColumns");
     </c:if>
     $(window).triggerHandler('resize.jqGrid2');
 

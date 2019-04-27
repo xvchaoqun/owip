@@ -172,6 +172,7 @@
 
         <!--<table tableName="sc_committee_topic" domainObjectName="sc.scCommittee.ScCommitteeTopic"
                mapperName="sc.scCommittee.ScCommitteeTopicMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
         </table>

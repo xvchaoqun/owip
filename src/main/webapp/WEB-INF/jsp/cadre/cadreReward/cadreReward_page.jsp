@@ -242,7 +242,7 @@
             pager: "#jqGridPager_cadreReward",
             url: '${ctx}/cadreReward_data?rewardType=${CADRE_REWARD_TYPE_OTHER}&${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: colModels.cadreReward
-        });
+        }).jqGrid("setFrozenColumns");
         $(window).triggerHandler('resize.jqGrid2');
 
         function _delCallback(target) {

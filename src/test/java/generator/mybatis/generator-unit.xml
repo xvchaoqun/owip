@@ -39,6 +39,7 @@
         </table>-->
 
         <!--<table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <table tableName="unit_post_view" domainObjectName="unit.UnitPostView" mapperName="unit.UnitPostViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"

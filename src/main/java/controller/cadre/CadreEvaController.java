@@ -196,9 +196,9 @@ public class CadreEvaController extends BaseController {
             }
             int cadreId = cv.getId();
             String title = StringUtils.trimToNull(xlsRow.get(2));
-            if(title==null){
+            /*if(title==null){
                 title = cv.getTitle();
-            }
+            }*/
 
             for (Map.Entry<Integer, Integer> yearEntry : yearMap.entrySet()) {
 
@@ -212,13 +212,15 @@ public class CadreEvaController extends BaseController {
                 record.setYear(year);
 
                 String _type = StringUtils.trimToNull(xlsRow.get(col));
-                MetaType metaType = metaTypeService.findByName("mc_cadre_eva", _type);
-                if(metaType==null){
-                    throw new OpException("第{0}行第{1}列考核结果[{2}]不存在", row, col+1, _type);
-                }
-                record.setType(metaType.getId());
+                if(_type!=null) {
+                    MetaType metaType = metaTypeService.findByName("mc_cadre_eva", _type);
+                    if (metaType == null) {
+                        throw new OpException("第{0}行第{1}列考核结果[{2}]不存在", row, col + 1, _type);
+                    }
+                    record.setType(metaType.getId());
 
-                records.add(record);
+                    records.add(record);
+                }
             }
         }
 

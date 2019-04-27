@@ -4,6 +4,55 @@
 
 更新 党员发展信息导入模板.xlsx
 
+20190426
+更新南航
+
+20190426
+
+ALTER TABLE `ow_org_admin`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类别，1 分党委管理员  2 支部管理员' AFTER `branch_id`;
+update ow_org_admin set type = 1 where party_id is not null;
+update ow_org_admin set type = 2 where branch_id is not null;
+
+ALTER TABLE `ow_org_admin`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1 分党委管理员  2 支部管理员' AFTER `branch_id`;
+
+DROP VIEW IF EXISTS `ow_org_admin_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_org_admin_view` AS
+select oa.*, p.sort_order as party_sort_order, b.party_id as branch_party_id,
+bp.sort_order as branch_party_sort_order, b.sort_order as branch_sort_order from ow_org_admin oa
+left join ow_party p on p.id=oa.party_id
+left join ow_branch b on b.id=oa.branch_id
+left join ow_party bp on bp.id=b.party_id;
+
+20190425
+ALTER TABLE `oa_task_user`
+	ADD COLUMN `mobile` VARCHAR(11) NULL COMMENT '手机号码' AFTER `user_id`,
+	ADD COLUMN `title` VARCHAR(200) NULL COMMENT '手机号码' AFTER `mobile`;
+
+update oa_task_user otu, cadre_view cv set otu.mobile=cv.mobile, otu.title=cv.title where otu.user_id=cv.user_id;
+
+ALTER TABLE `oa_task_user`
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `check_remark`;
+
+DROP VIEW IF EXISTS `oa_task_user_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `oa_task_user_view` AS
+select otu.*, uv.code, uv.realname, ot.name as task_name, ot.content as task_content,
+ot.deadline as task_deadline, ot.contact as task_contact,
+ot.is_delete as task_is_delete, ot.is_publish as task_is_publish, ot.status as task_status,
+ot.pub_date as task_pub_date, ot.type as task_type,
+ouv.code as assign_code, ouv.realname as assign_realname,
+ruv.code as report_code, ruv.realname as report_realname from oa_task_user otu
+left join oa_task ot on otu.task_id = ot.id
+left join sys_user_view uv on otu.user_id = uv.id
+left join sys_user_view ouv on otu.assign_user_id = ouv.id
+left join sys_user_view ruv on otu.report_user_id = ruv.id;
+
++ 协同办公任务对象录入样表.xlsx
+
+ALTER TABLE `cadre_family`
+	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL COMMENT '排序，每个干部的排序' AFTER `unit`;
+
 20190424
 更新南航
 
@@ -70,6 +119,8 @@ update abroad_passport set code = null where code='';
 
 ALTER TABLE `abroad_passport`
 	ADD UNIQUE INDEX `code` (`code`);
+
++ ct_oa_info_user
 
 20190421
 

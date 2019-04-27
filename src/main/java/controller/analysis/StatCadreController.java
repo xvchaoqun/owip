@@ -63,18 +63,12 @@ public class StatCadreController extends BaseController {
     // 分类信息统计
     @RequiresPermissions("statCadreCategory:list")
     @RequestMapping("/stat_cadre_category")
-    public String stat_cadre_category(int type, Integer cadreId, ModelMap modelMap) throws IOException {
+    public String stat_cadre_category(Integer cadreId, ModelMap modelMap) throws IOException {
 
         if (cadreId != null) {
             modelMap.put("cadre", iCadreMapper.getCadre(cadreId));
         }
 
-        /*switch (type){
-            case 1:
-                List<CadreEdu> cadreEdus = iCadreMapper.selectCadreEduList(CadreConstants.CADRE_SCHOOL_TYPE_ABROAD);
-                break;
-        }
-        */
         return "analysis/cadre/stat_cadre_category";
     }
 

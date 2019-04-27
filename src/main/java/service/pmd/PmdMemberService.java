@@ -191,7 +191,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
     // 选择党员分类别
     @Transactional
-    public void selectMemberType(int[] ids, Boolean hasSalary, byte configMemberType,
+    public void selectMemberType(Integer[] ids, Boolean hasSalary, byte configMemberType,
                                  int configMemberTypeId, BigDecimal amount, String remark) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
@@ -337,7 +337,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
     // 选择减免标准
     @Transactional
-    public void selectReduceNorm(int[] ids, int normId, BigDecimal amount, String remark) {
+    public void selectReduceNorm(Integer[] ids, int normId, BigDecimal amount, String remark) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         int currentMonthId = currentPmdMonth.getId();
@@ -434,7 +434,7 @@ public class PmdMemberService extends PmdBaseMapper {
 
     // 当月修改缴费方式 或 往月延迟缴费进行现金缴费
     @Transactional
-    public void setIsOnlinePay(int[] ids, boolean isOnlinePay, String remark) {
+    public void setIsOnlinePay(Integer[] ids, boolean isOnlinePay, String remark) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         int currentMonthId = currentPmdMonth.getId();

@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-    <div class="widget-box ${empty subCadrePosts?'collapsed':''}">
+    <div class="widget-box">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-half"></i> 兼职
                 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
@@ -414,7 +414,11 @@
                 },
                 width: 120
             }
-        ]
+        ],gridComplete:function(){
+             <c:if test="${empty subCadrePosts}">
+            $("#jqGrid_subCadrePosts").closest(".widget-box").addClass("collapsed")
+            </c:if>
+        }
     }).jqGrid("setFrozenColumns");
 
     $(window).triggerHandler('resize.jqGrid4');
@@ -429,9 +433,11 @@
         pager: "#jqGridPager_cadreWork",
         url: '${ctx}/cadreWork_data?fid=-1&isCadre=1&cadreId=${param.cadreId}',
         colModel: [
-            {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align:'left'},
+            {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m'}, frozen:true},
+            {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m'}, frozen:true},
+            {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align:'left', frozen:true},
             {label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType, width: 200},
             {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 200},
             {
@@ -444,7 +450,7 @@
 
             }, width: 500, align:'left'}
         ]
-    });
+    }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     </c:if>
     <c:if test="${type==3}">
@@ -458,21 +464,21 @@
         datatype: "local",
         data:${cm:toJSONArray(cadreAdminLevels)},
         colModel: [
-            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType, frozen:true},
             {
                 label: '是否现任职级', width: 120, name: 'isNow', formatter: function (cellvalue, options, rowObject) {
                 return (rowObject.adminLevel == '${cadre.adminLevel}') ? "是" : "否";
                 //return (rowObject.adminLevel == mainCadrePost.adminLevel) ? "是" : "否";
-            }
+            }, frozen:true
             },
             {
                 label: '职级始任日期',
                 width: 120,
                 name: 'startDispatch.workTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y-m-d'}, frozen:true
             },
-            {label: '职级始任职务', width: 200, align:'left', name: 'startDispatchCadre.post'},
+            {label: '职级始任职务', width: 200, align:'left', name: 'startDispatchCadre.post', frozen:true},
             {
                 label: '职级始任文件',
                 width: 150,
