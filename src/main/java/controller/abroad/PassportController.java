@@ -981,7 +981,7 @@ public class PassportController extends AbroadBaseController {
             }
             CadreView cadre = cadreService.dbFindByUserId(uv.getId());
             if (cadre == null){
-                throw new OpException("第{0}行[{1}]不是干部", userCode, uv.getRealname());
+                throw new OpException("第{0}行[{1}]不是干部", row, userCode);
             }
             record.setCadreId(cadre.getId());
 

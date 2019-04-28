@@ -139,7 +139,7 @@ public class CadreService extends BaseMapper {
         cadreAdLogService.addLog(id, "干部离任",
                 CadreConstants.CADRE_AD_LOG_MODULE_CADRE, id);
 
-        if (status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE && passportMapper!=null) {
+        if (status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE && passportMapper != null) {
 
             /**2016.11.08
              *
@@ -245,7 +245,7 @@ public class CadreService extends BaseMapper {
     }
 
     // <userId, cadre>
-    public  Map<Integer, Cadre>  dbFindByUserIds(List<Integer> userIds){
+    public Map<Integer, Cadre> dbFindByUserIds(List<Integer> userIds) {
 
         Map<Integer, Cadre> cadreMap = new HashMap<>();
         CadreExample example = new CadreExample();
@@ -283,12 +283,12 @@ public class CadreService extends BaseMapper {
             cadreMapper.updateByPrimaryKeySelective(record);
         }
 
-        if(CadreConstants.CADRE_STATUS_SET.contains(record.getStatus())){
+        if (CadreConstants.CADRE_STATUS_SET.contains(record.getStatus())) {
             // 添加干部身份
             sysUserService.addRole(userId, RoleConstants.ROLE_CADRE);
 
             // 删除直接修改信息的权限（如果有的话）
-            if(modifyCadreAuthService!=null && cadre!=null){
+            if (modifyCadreAuthService != null && cadre != null) {
 
                 List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadre.getId());
                 List<Integer> idList = new ArrayList<>();
@@ -316,10 +316,10 @@ public class CadreService extends BaseMapper {
 
             int userId = record.getUserId();
             CadreView cv = dbFindByUserId(userId);
-            if(cv==null) {
+            if (cv == null) {
                 insertSelective(record);
                 addCount++;
-            }else{
+            } else {
                 record.setId(cv.getId());
                 updateByPrimaryKeySelective(record);
             }
@@ -364,9 +364,9 @@ public class CadreService extends BaseMapper {
 
         int userId = record.getUserId();
         CadreView cv = dbFindByUserId(userId);
-        if(cv==null){
+        if (cv == null) {
             // 不在干部库中，需要添加为临时干部
-            Cadre _cadre  = new Cadre();
+            Cadre _cadre = new Cadre();
             _cadre.setUserId(userId);
             _cadre.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
             insertSelective(_cadre);
@@ -385,23 +385,23 @@ public class CadreService extends BaseMapper {
             byte type = record.getType();
 
             CadreParty cadreParty = get(userId, type);
-            if(cadreParty!=null){
+            if (cadreParty != null) {
                 record.setId(cadreParty.getId());
                 // 覆盖更新
                 cadrePartyMapper.updateByPrimaryKey(record);
-            }else{
+            } else {
                 cadrePartyMapper.insertSelective(record);
             }
         }
     }
 
-    public CadreParty get(int userId, byte type){
+    public CadreParty get(int userId, byte type) {
 
         CadrePartyExample example = new CadrePartyExample();
         example.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(type);
         List<CadreParty> cadreParties = cadrePartyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return cadreParties.size()>0?cadreParties.get(0):null;
+        return cadreParties.size() > 0 ? cadreParties.get(0) : null;
     }
 
     @Transactional
@@ -415,7 +415,7 @@ public class CadreService extends BaseMapper {
             CadreParty cadreParty = cadrePartyMapper.selectByPrimaryKey(id);
             Integer userId = cadreParty.getUserId();
             CadreView cadreView = dbFindByUserId(userId);
-            if(cadreView!=null) {
+            if (cadreView != null) {
                 Integer cadreId = cadreView.getId();
                 // 记录任免日志
                 cadreAdLogService.addLog(cadreId, "删除干部党派：" + JSONUtils.toString(cadreParty, false),
@@ -536,17 +536,36 @@ public class CadreService extends BaseMapper {
     }
 
     // 常委数量
-    public int countCommitteeMember(){
+    public int countCommitteeMember() {
 
         Map<Integer, CmMemberView> resultMap
                 = cmMemberService.committeeMemberMap();
         return resultMap.size();
     }
+
     // 常委
-    public List<CmMemberView> committeeMembers(){
+    public List<CmMemberView> committeeMembers() {
 
         Map<Integer, CmMemberView> resultMap
                 = cmMemberService.committeeMemberMap();
         return new ArrayList<>(resultMap.values());
+    }
+
+    // 批量排序
+    @Transactional
+    @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    public void batchSort(byte status, List<Integer> cadreIdList) {
+
+        commonMapper.excuteSql("update cadre set sort_order=null where status=" + status
+                + " and id in(" + StringUtils.join(cadreIdList, ",") + ")");
+
+        for (Integer cadreId : cadreIdList) {
+
+            Cadre record = new Cadre();
+            record.setId(cadreId);
+            record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + status));
+
+            cadreMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

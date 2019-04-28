@@ -7,9 +7,29 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/unitPost_abolish" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="id" value="${unitPost.id}">
+
+        <input type="hidden" name="ids[]" value="${param['ids[]']}">
+        <c:set var="len" value="${fn:length(fn:split(param['ids[]'],','))}"/>
+        <c:if test="${len>1}">
+        <div class="form-group">
+            <label class="col-xs-4 control-label">撤销岗位</label>
+            <div class="col-xs-6 label-text">
+                ${len} 个
+            </div>
+        </div>
+        </c:if>
+        <c:if test="${len==1}">
+            <div class="form-group">
+                <label class="col-xs-4 control-label">撤销岗位名称</label>
+                <div class="col-xs-6 label-text">
+                       ${unitPost.name}
+                </div>
+            </div>
+        </c:if>
+
+
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>撤销日期</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>撤销日期</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 150px;">
                         <input  class="form-control date-picker required" name="abolishDate"

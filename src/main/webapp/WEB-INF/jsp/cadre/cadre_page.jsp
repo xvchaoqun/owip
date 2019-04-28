@@ -110,6 +110,12 @@
                                     </div>
                                     </shiro:hasPermission>
                                 </c:if>
+                                <shiro:hasPermission name="cadre:import">
+                                     <button class="popupBtn btn btn-warning btn-sm tooltip-info"
+                                       data-url="${ctx}/cadre_batchSort?status=${status}"
+                                       data-rel="tooltip" data-placement="top" title="批量排序"><i class="fa fa-sort"></i>
+                                        批量排序</button>
+                                </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:export">
                                     <div class="btn-group">
                                         <button data-toggle="dropdown"

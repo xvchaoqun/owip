@@ -445,8 +445,9 @@ public class UnitPostController extends BaseController {
 
     @RequiresPermissions("unitPost:edit")
     @RequestMapping("/unitPost_abolish")
-    public String unitPost_abolish(int id, ModelMap modelMap) {
+    public String unitPost_abolish(@RequestParam(value = "ids[]") Integer[] ids,  ModelMap modelMap) {
 
+        int id = ids[0];
         UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
         modelMap.put("unitPost", unitPost);
 
@@ -456,22 +457,24 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:edit")
     @RequestMapping(value = "/unitPost_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitPost_abolish(HttpServletRequest request, int id,
+    public Map do_unitPost_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
                                    @DateTimeFormat(pattern=DateUtils.YYYY_MM_DD)Date abolishDate) {
 
-        unitPostService.abolish(id, abolishDate);
-        logger.info(addLog( LogConstants.LOG_ADMIN, "撤销干部岗位：%s", id));
-
+        if (null != ids && ids.length>0) {
+            unitPostService.abolish(ids, abolishDate);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "撤销干部岗位：%s", StringUtils.join(ids, ",")));
+        }
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("unitPost:edit")
     @RequestMapping(value = "/unitPost_unabolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitPost_unabolish(HttpServletRequest request, int id) {
+    public Map do_unitPost_unabolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
 
-        unitPostService.unabolish(id);
-        logger.info(addLog( LogConstants.LOG_ADMIN, "返回现有干部岗位：%s", id));
-
+        if (null != ids && ids.length>0) {
+            unitPostService.unabolish(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "返回现有干部岗位：%s", StringUtils.join(ids, ",")));
+        }
         return success(FormUtils.SUCCESS);
     }
 

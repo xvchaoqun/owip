@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>" var="UNIT_POST_STATUS_NORMAL"/>
 <c:if test="${not empty dispatch.scDispatchId}">
   <button class="confirm btn btn-primary btn-block btn-lg" type="button"
           data-msg="确定同步?"
@@ -41,7 +42,7 @@
           <div class="col-xs-6">
             <select data-ajax-url="${ctx}/unitPost_selects" data-width="590"
                     name="unitPostId" data-placeholder="请选择">
-              <option value="${unitPost.id}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
+              <option value="${unitPost.id}" title="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
             </select>
           </div>
         </div>

@@ -214,29 +214,34 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public void abolish(int id, Date abolishDate) {
+    public void abolish(Integer[] ids, Date abolishDate) {
 
-        UnitPost record = new UnitPost();
-        record.setId(id);
-        record.setAbolishDate(abolishDate);
-        record.setStatus(SystemConstants.UNIT_POST_STATUS_ABOLISH);
+        for (Integer id : ids) {
 
-        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
-        record.setSortOrder(getNextSortOrder("unit_post",
-                String.format("unit_id=%s and status=%s", unitPost.getUnitId(), SystemConstants.UNIT_POST_STATUS_ABOLISH)));
+            UnitPost record = new UnitPost();
+            record.setId(id);
+            record.setAbolishDate(abolishDate);
+            record.setStatus(SystemConstants.UNIT_POST_STATUS_ABOLISH);
 
-        unitPostMapper.updateByPrimaryKeySelective(record);
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
+            record.setSortOrder(getNextSortOrder("unit_post",
+                    String.format("unit_id=%s and status=%s", unitPost.getUnitId(), SystemConstants.UNIT_POST_STATUS_ABOLISH)));
+
+            unitPostMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     @Transactional
-    public void unabolish(int id) {
+    public void unabolish(Integer[] ids) {
 
-        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
-        int sortOrder = getNextSortOrder("unit_post",
-                String.format("unit_id=%s and status=%s", unitPost.getUnitId(), SystemConstants.UNIT_POST_STATUS_NORMAL));
+        for (Integer id : ids) {
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
+            int sortOrder = getNextSortOrder("unit_post",
+                    String.format("unit_id=%s and status=%s", unitPost.getUnitId(), SystemConstants.UNIT_POST_STATUS_NORMAL));
 
-        commonMapper.excuteSql(String.format("update unit_post set abolish_date=null, status=%s, sort_order=%s where id=%s",
-                SystemConstants.UNIT_POST_STATUS_NORMAL, sortOrder, id));
+            commonMapper.excuteSql(String.format("update unit_post set abolish_date=null, status=%s, sort_order=%s where id=%s",
+                    SystemConstants.UNIT_POST_STATUS_NORMAL, sortOrder, id));
+        }
     }
 
     // 岗位历史任职干部导出

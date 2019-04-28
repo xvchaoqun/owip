@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>" var="UNIT_POST_STATUS_NORMAL"/>
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title">
@@ -81,7 +82,7 @@
                         <td class="bg-left" colspan="5">
                             <select data-ajax-url="${ctx}/unitPost_selects" data-width="590"
                                     name="unitPostId" data-placeholder="请选择">
-                                <option value="${unitPost.id}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
+                                <option value="${unitPost.id}" title="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
                             </select>
                         </td>
                     </tr>
@@ -340,7 +341,7 @@
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-    $.register.ajax_select($('#voteForm select[name=unitPostId]'), function (state) {
+    $.register.del_select($('#voteForm select[name=unitPostId]'), function (state) {
         var $state = state.text;
         if(state.up!=undefined){
             if ($.trim(state.up.job)!='')

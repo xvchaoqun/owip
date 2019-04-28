@@ -37,7 +37,7 @@
     </shiro:hasPermission>
     <c:if test="${cls==1}">
     <shiro:hasPermission name="unitPost:edit">
-        <button class="jqOpenViewBtn btn btn-warning btn-sm"
+        <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                 data-url="${ctx}/unitPost_abolish" data-width="400"
                 data-grid-id="#jqGrid2"><i class="fa fa-history"></i>
             撤销
@@ -46,10 +46,10 @@
     </c:if>
     <c:if test="${cls==2}">
     <shiro:hasPermission name="unitPost:edit">
-        <button class="jqItemBtn btn btn-warning btn-sm"
+        <button class="jqBatchBtn btn btn-warning btn-sm"
                 data-url="${ctx}/unitPost_unabolish"
                 data-title="返回现有岗位"
-                data-msg="确定返回现有岗位？"
+                data-msg="确定返回现有岗位？（已选{0}个岗位）"
                 data-grid-id="#jqGrid2"
                 data-callback="_reload"><i class="fa fa-reply"></i>
             返回现有岗位
@@ -59,7 +59,7 @@
     <shiro:hasPermission name="unitPost:del">
         <button data-url="${ctx}/unitPost_batchDel"
                 data-title="删除"
-                data-msg="确定删除这{0}条岗位？<br/>（删除后不可恢复，请谨慎操作！）"
+                data-msg="确定删除这{0}个岗位？<br/>（删除后不可恢复，请谨慎操作！）"
                 data-grid-id="#jqGrid2"
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-trash"></i> 删除

@@ -4,7 +4,11 @@
 <script>
   var colModel = [
     { label: '岗位编号',name: 'code', frozen:true},
-    { label: '岗位名称',name: 'name', align:'left', width: 300, frozen:true},
+    { label: '岗位名称',name: 'name', align:'left', width: 300, frozen:true, formatter:function(cellvalue, options, rowObject){
+        if(cellvalue==undefined) return '--';
+        return ('<span class="{0}">{1}</span>').format(
+            rowObject.status != <%=SystemConstants.UNIT_POST_STATUS_NORMAL%> ? 'delete' : '', cellvalue);
+    }},
     <c:if test="${cls==2}">
     {label: '撤销日期', name: 'abolishDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
     </c:if>
