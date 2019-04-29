@@ -206,7 +206,10 @@
     $.register.date($('.date-picker'));
 
     function _templateResult(state) {
-        var $state = state.text + "("+ state.code + ")";
+        var $state = state.text;
+        if(state.code!=undefined){
+            $state += "("+ state.code + ")";
+        }
         if(state.up!=undefined){
             if ($.trim(state.up.job)!='')
                 $state += "-" + state.up.job;
