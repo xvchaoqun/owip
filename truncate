@@ -85,3 +85,20 @@ truncate ow_teacher;
 truncate sys_log;
 truncate sys_login_log;
 SET FOREIGN_KEY_CHECKS=1;
+
+
+#######清空因私出国境数据步骤：
+
+    TRUNCATE `abroad_passport_draw_file`;
+
+    delete from abroad_passport_draw;
+
+    delete from abroad_passport where apply_id >0;
+
+    delete from abroad_passport_apply;
+
+    TRUNCATE `abroad_approval_log`;
+
+    delete from abroad_apply_self;
+
+###############################
