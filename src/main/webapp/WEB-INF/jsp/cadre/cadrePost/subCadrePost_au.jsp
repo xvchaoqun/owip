@@ -20,7 +20,7 @@
 					<div class="col-xs-6">
 						<select data-ajax-url="${ctx}/unitPost_selects" data-width="272"
 								name="unitPostId" data-placeholder="请选择">
-							<option value="${unitPost.id}" title="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
+							<option value="${unitPost.id}" title="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}(${unitPost.code})-${unitPost.unitName}</option>
 						</select>
 					</div>
 				</div>
@@ -131,8 +131,8 @@
 		}
 	});
 
-    $.register.del_select($('#modalForm select[name=unitPostId]'), function (state) {
-        var $state = state.text;
+	function _templateResult(state) {
+        var $state = state.text + "("+ state.code + ")";
         if(state.up!=undefined){
             if ($.trim(state.up.job)!='')
                 $state += "-" + state.up.job;
@@ -140,8 +140,11 @@
                 $state += "-" + state.up.unitName;
         }
         return $state;
-    }).on("change", function () {
-        console.log($(this).select2("data")[0])
+    }
+
+    $.register.del_select($('#modalForm select[name=unitPostId]'), {templateResult:_templateResult,
+		templateSelection: _templateResult}).on("change", function () {
+        //console.log($(this).select2("data")[0])
         var up = $(this).select2("data")[0]['up'] ;
         //console.log(up)
         if(up!=undefined){
