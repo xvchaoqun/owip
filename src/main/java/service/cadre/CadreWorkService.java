@@ -7,6 +7,7 @@ import domain.cadre.*;
 import domain.crp.CrpRecord;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import domain.unit.Unit;
 import freemarker.EduSuffix;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import service.base.MetaTypeService;
 import service.crp.CrpRecordService;
 import service.dispatch.DispatchCadreRelateService;
 import shiro.ShiroHelper;
+import sys.constants.CrpConstants;
 import sys.constants.DispatchConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
@@ -148,13 +150,22 @@ public class CadreWorkService extends BaseMapper {
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
         // 挂职经历
         List<CrpRecord> crpRecords = crpRecordService.findRecords(cadre.getUserId());
-        for (CrpRecord crpRecord : crpRecords) {
+        for (CrpRecord record : crpRecords) {
 
-            String detail = String.format("在%s挂职任%s", crpRecord.getUnit(), crpRecord.getPost());
+            String unitStr = "--";
+            if(record.getType()== CrpConstants.CRP_RECORD_TYPE_OUT) {
+                unitStr = record.getUnit();
+            }else{
+                Integer unitId = record.getUnitId();
+                Unit unit = CmTag.getUnit(unitId);
+                if(unit!=null) unitStr = unit.getName();
+            }
+
+            String detail = String.format("在%s挂职任%s", unitStr, record.getPost());
             CadreResume crpResume = new CadreResume();
             crpResume.setIsWork(false);
-            crpResume.setStartDate(crpRecord.getStartDate());
-            crpResume.setEndDate(crpRecord.getEndDate());
+            crpResume.setStartDate(record.getStartDate());
+            crpResume.setEndDate(record.getEndDate());
             crpResume.setDetail(detail);
 
             insertSubResume(crpResume, resumes);

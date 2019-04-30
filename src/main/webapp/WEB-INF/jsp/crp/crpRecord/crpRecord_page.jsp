@@ -24,7 +24,6 @@
 </c:if>
 <div class="row">
     <div class="col-xs-12">
-
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/crpRecord"
              data-url-export="${ctx}/crpRecord_data"
@@ -42,7 +41,6 @@
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=1"><i class="fa fa-history"></i> 挂职结束</a>
                     </li>
                 </ul>
-
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
@@ -169,7 +167,6 @@
         <div id="body-content-view"></div>
     </div>
 </div>
-
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/crpRecord_data?type=${param.type}&isFinished=${isFinished}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -232,9 +229,8 @@
             </c:if>
             {label: '备注', name: 'remark', width: 300}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

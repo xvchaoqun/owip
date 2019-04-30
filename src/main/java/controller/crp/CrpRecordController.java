@@ -6,6 +6,7 @@ import domain.cadre.CadreView;
 import domain.crp.CrpRecord;
 import domain.crp.CrpRecordExample;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,12 +33,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CrpRecordController extends BaseController {
@@ -284,6 +280,15 @@ public class CrpRecordController extends BaseController {
                 tempPostType += ":" + record.getTempPost();
             }
 
+            String unitStr = "--";
+            if(record.getType()== CrpConstants.CRP_RECORD_TYPE_OUT) {
+                unitStr = record.getUnit();
+            }else{
+                Integer unitId = record.getUnitId();
+                Unit unit = CmTag.getUnit(unitId);
+                if(unit!=null) unitStr = unit.getName();
+            }
+
             String[] values = {
                     user==null?"":user.getCode(),
                     record.getRealname(),
@@ -293,7 +298,7 @@ public class CrpRecordController extends BaseController {
                     toUnit,
                     tempPostType,
                     record.getProject(),
-                    record.getUnit(),
+                    unitStr,
                     record.getPost(),
                     DateUtils.formatDate(record.getStartDate(), "yyyy-MM"),
                     DateUtils.formatDate(record.getEndDate(), "yyyy-MM"),
