@@ -1452,11 +1452,14 @@ $.extend($.register, {
     // 日历
     date: function ($date, params) {
         $date.parent().css('z-index', '1030');
+        var endDate = new Date();
+        endDate.setFullYear(endDate.getFullYear()+50); // 最多允许选择50年以内的年份
         return $date.datepicker($.extend({
             language: "zh-CN",
             autoclose: true,
             todayHighlight: true,
-            clearBtn: true
+            clearBtn: true,
+            endDate:endDate,
         }, params)).attr( "autocomplete", "off").attr("disableautocomplete","")
     },
     // 日历时间

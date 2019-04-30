@@ -122,7 +122,8 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
         for (CadreView cadre : cadreMap.values()) {
             if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && BooleanUtils.isTrue(postMap.get(cadre.getPostType()).getBoolAttr())) {
+                    && cadre.getPostType()!=null && postMap.get(cadre.getPostType())!=null &&
+                    BooleanUtils.isTrue(postMap.get(cadre.getPostType()).getBoolAttr())) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cadre.getUnitId();
                 if (unitIdCadresMap.containsKey(unitId)) {
