@@ -283,7 +283,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_PLAN),
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "列入发展计划，已审核");
+                        "发展对象，已审核列入发展计划");
             }
         }
     }
@@ -451,7 +451,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
         }
     }*/
 
-    // 领取志愿书：组织部管理员审核 预备党员
+    // 领取志愿书：组织部管理员审核
     @Transactional
     public void apply_grow_od_check(Integer[] userIds, int loginUserId){
 
@@ -480,12 +480,12 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "预备党员，组织部审核");
+                        "领取志愿书，组织部审核");
             }
         }
     }
 
-    // 领取志愿书：2、支部提交 预备党员
+    // 领取志愿书：2、支部提交
     @Transactional
     public void apply_grow(Integer[] userIds, String _growTime, int loginUserId){
 
@@ -518,7 +518,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "预备党员，直属党支部提交");
+                        "领取志愿书，直属党支部提交");
             }else {
                 MemberApply record = new MemberApply();
                 record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
@@ -538,7 +538,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                             OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                             OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                             OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                            "预备党员，支部提交");
+                            "领取志愿书，支部提交");
                 }
             }
         }
@@ -560,7 +560,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "预备党员，分党委审核");
+                    "领取志愿书，分党委审核");
         }
     }
 

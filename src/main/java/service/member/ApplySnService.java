@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shiro.ShiroHelper;
+import sys.constants.OwConstants;
 import sys.utils.DateUtils;
 
 import java.util.List;
@@ -19,6 +21,8 @@ public class ApplySnService extends MemberBaseMapper {
 
     @Autowired
     private ApplySnRangeService applySnRangeService;
+    @Autowired
+    private ApplyApprovalLogService applyApprovalLogService;
 
     // 获取即将分配的志愿书编码
     public List<ApplySn> getAssignApplySnList(int count){
@@ -52,6 +56,14 @@ public class ApplySnService extends MemberBaseMapper {
                 memberApplyMapper.updateByPrimaryKeySelective(record);
 
                 use(applySn.getId(), userId);
+
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        ShiroHelper.getCurrentUserId(),  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
+                        "领取志愿书编码：" + applySn.getDisplaySn());
             }
         }
     }
