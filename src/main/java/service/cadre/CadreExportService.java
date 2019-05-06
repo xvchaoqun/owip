@@ -62,7 +62,7 @@ public class CadreExportService extends BaseMapper {
 
         return new ArrayList<>(Arrays.asList(new String[]{
                 "工作证号|100", "姓名|100", "干部类型|100", "是否涉密|100", "部门属性|150", "所在单位|300", "现任职务|160",
-                "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120", "性别|50",
+                "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120",  "是否班子负责人|120", "性别|50",
                 "民族|100", "籍贯|100", "出生地|100", "身份证号|150", "出生时间|100",
                 "年龄|50", "党派|150", "党派加入时间|120", "参加工作时间|120", "到校时间|100",
                 "最高学历|120", "最高学位|120", "毕业时间|100", "学习方式|120", "毕业学校|200",
@@ -114,7 +114,7 @@ public class CadreExportService extends BaseMapper {
         int count = records.size();
 
         List<String> titles = getTitles();
-        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 12, 16, 17, 18, 19, 20, 22, 36, 43, 53, 56};
+        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 13, 17, 18, 19, 20, 21, 23, 37, 44, 54, 57};
         if (exportType == 1) {
             //新增一个角色，限制查看干部库权限，
             // 字段为：工作证号，姓名，干部类型，性别，身份证号、出生时间、年龄、学历、专业技术职务、任现职时间、
@@ -173,6 +173,12 @@ public class CadreExportService extends BaseMapper {
                 if (metaType != null) {
                     isPositive = (BooleanUtils.isTrue(metaType.getBoolAttr())) ? "是" : "否";
                 }
+            }
+
+            String _leaderType = "--"; // 是否班子负责人
+            Byte leaderType = record.getLeaderType();
+            if(leaderType!=null) {
+                _leaderType = SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(leaderType);
             }
 
             Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), "中共党员",
@@ -314,6 +320,7 @@ public class CadreExportService extends BaseMapper {
                     metaTypeService.getName(record.getAdminLevel()),
                     metaTypeService.getName(record.getPostType()),
                     isPositive,
+                    _leaderType,
                     record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),
 
                     record.getNation(),

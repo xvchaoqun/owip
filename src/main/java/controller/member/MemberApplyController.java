@@ -397,7 +397,7 @@ public class MemberApplyController extends MemberBaseController {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if (stage != null) {
+        if (stage != null && stage != -4) {
             if (stage == OwConstants.OW_APPLY_STAGE_INIT || stage == OwConstants.OW_APPLY_STAGE_PASS) {
                 List<Byte> stageList = new ArrayList<>();
                 stageList.add(OwConstants.OW_APPLY_STAGE_INIT);

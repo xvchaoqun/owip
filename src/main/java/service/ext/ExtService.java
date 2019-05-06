@@ -55,6 +55,47 @@ public class ExtService extends BaseMapper {
         return unit;
     }
 
+    // 学生所在院系
+    public String getDep(int userId) {
+
+        UserBean userBean = userBeanService.get(userId);
+        String code = userBean.getCode();
+        Byte type = userBean.getType();
+        String dep = null;
+        if (type == SystemConstants.USER_TYPE_YJS) {
+            ExtYjs extYjs = getExtYjs(code);
+            if (extYjs != null) {
+                dep = extYjs.getYxsmc();
+            }
+        } else if (type == SystemConstants.USER_TYPE_BKS) {
+            ExtBks extBks = getExtBks(code);
+            if (extBks != null) {
+                dep = extBks.getYxmc();
+            }
+        }
+        return dep;
+    }
+    // 学生所在专业
+    public String getMajor(int userId) {
+
+        UserBean userBean = userBeanService.get(userId);
+        String code = userBean.getCode();
+        Byte type = userBean.getType();
+        String major = null;
+        if (type == SystemConstants.USER_TYPE_YJS) {
+            ExtYjs extYjs = getExtYjs(code);
+            if (extYjs != null) {
+                major = extYjs.getZymc();
+            }
+        } else if (type == SystemConstants.USER_TYPE_BKS) {
+            ExtBks extBks = getExtBks(code);
+            if (extBks != null) {
+                major = extBks.getZymc();
+            }
+        }
+        return major;
+    }
+
     // 照片、籍贯、 出生地、户籍地： 这四个字段只从人事库同步一次， 之后就不
     // 再同步这个信息了。 然后可以对这四个字段进行编辑。
 

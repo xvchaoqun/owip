@@ -828,6 +828,9 @@ public class MemberApplyService extends MemberBaseMapper {
                     memberService.updateByPrimaryKeySelective(record, "在党员发展中，打回至预备党员初始状态");
                 }
                 break;
+            case OwConstants.OW_APPLY_STAGE_DRAW:  // 当前状态为领取志愿书，打回领取志愿书初始状态
+                iMemberMapper.memberApplyBackToDraw(userId);
+                break;
             case OwConstants.OW_APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= OwConstants.OW_APPLY_STAGE_DRAW)
                 iMemberMapper.memberApplyBackToPlan(userId);
                 break;

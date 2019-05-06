@@ -708,15 +708,15 @@ public class MemberApplyOpService extends MemberBaseMapper {
             if(_stage>=OwConstants.OW_APPLY_STAGE_GROW ){
 
                 if(stage<OwConstants.OW_APPLY_STAGE_GROW) {
-                    throw new OpException("已是党员，不可以打回非党员状态。");
+                    throw new OpException("已是党员，不可以打回发展阶段。");
                 }
             }
             if(stage>_stage || stage<OwConstants.OW_APPLY_STAGE_INIT || stage==OwConstants.OW_APPLY_STAGE_PASS){
                 throw new OpException("打回状态有误。");
             }
 
-            // 打回领取志愿书之前，需要清除志愿书编码
-            if(_stage==OwConstants.OW_APPLY_STAGE_DRAW && stage < OwConstants.OW_APPLY_STAGE_DRAW){
+            // 打回领取志愿书或领取志愿书之前，需要清除志愿书编码
+            if(_stage==OwConstants.OW_APPLY_STAGE_DRAW && stage <= OwConstants.OW_APPLY_STAGE_DRAW){
 
                 applySnService.clearAssign(userId);
             }

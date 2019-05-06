@@ -25,7 +25,9 @@ public class ApplySnService extends MemberBaseMapper {
 
         int year = DateUtils.getCurrentYear();
         ApplySnExample example = new ApplySnExample();
-        example.createCriteria().andYearEqualTo(year).andIsUsedEqualTo(false);
+        example.createCriteria().andYearEqualTo(year)
+                .andIsUsedEqualTo(false)
+                .andIsAbolishedEqualTo(false);
         example.setOrderByClause("sn asc");
         return applySnMapper.selectByExampleWithRowbounds(example, new RowBounds(0, count));
     }
@@ -79,6 +81,8 @@ public class ApplySnService extends MemberBaseMapper {
             throw new OpException("编码不存在。");
         }else if(BooleanUtils.isTrue(applySn.getIsUsed())){
             throw new OpException("编码{0}已被使用。", applySn.getDisplaySn());
+        }else if(BooleanUtils.isTrue(applySn.getIsAbolished())){
+            throw new OpException("编码{0}已作废。", applySn.getDisplaySn());
         }
 
         ApplySn record = new ApplySn();
@@ -106,6 +110,8 @@ public class ApplySnService extends MemberBaseMapper {
             throw new OpException("编码不存在。");
         }else if(BooleanUtils.isNotTrue(applySn.getIsUsed())){
             throw new OpException("编码{0}没有被使用。", applySn.getDisplaySn());
+        }else if(BooleanUtils.isTrue(applySn.getIsAbolished())){
+            throw new OpException("编码{0}已作废。", applySn.getDisplaySn());
         }
 
         commonMapper.excuteSql("update ow_apply_sn set is_used = 0, user_id = null where id=" + applySnId);
@@ -118,5 +124,39 @@ public class ApplySnService extends MemberBaseMapper {
         int useCount = (int) applySnMapper.countByExample(example);
 
         applySnRangeService.updateUseCount(rangeId, useCount);
+    }
+
+    // 换领志愿书
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#applySn.userId")
+    public void change(ApplySn applySn) {
+
+        if(BooleanUtils.isNotTrue(applySn.getIsUsed())){
+            throw new OpException("原编码{0}没有被使用。", applySn.getDisplaySn());
+        }else if(BooleanUtils.isTrue(applySn.getIsAbolished())){
+            throw new OpException("原编码{0}已作废。", applySn.getDisplaySn());
+        }
+
+        int userId = applySn.getUserId();
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        if(memberApply==null){
+            throw new OpException("党员发展记录不存在。");
+        }
+        Integer applySnId = memberApply.getApplySnId();
+        if(applySnId==null || applySnId.intValue()!=applySn.getId()){
+            throw new OpException("党员发展记录编码有误[{0}]。", memberApply.getApplySn());
+        }
+
+        // 直接作废编码，不需要更新已使用的编码数量
+        ApplySn record = new ApplySn();
+        record.setId(applySn.getId());
+        record.setIsAbolished(true);
+        applySnMapper.updateByPrimaryKeySelective(record);
+
+        // 清除原申请记录的分配的志愿书（其实可不做这步，因为后面的分配新编码是覆盖操作）
+        commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, apply_sn=null where user_id="+ userId);
+
+        // 分配新编码
+        assign(userId);
     }
 }

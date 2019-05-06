@@ -73,6 +73,7 @@ public class CadreController extends BaseController {
                              @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
                              @RequestParam(required = false, value = "proPosts") String[] proPosts,
                              @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
+                             @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
                              Integer cadreId, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
@@ -130,6 +131,9 @@ public class CadreController extends BaseController {
         if (proPostLevels != null) {
             modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
         }
+        if (leaderTypes != null) {
+            modelMap.put("selectLeaderTypes", Arrays.asList(leaderTypes));
+        }
 
         // 导出的列名字
         List<String> titles = cadreExportService.getTitles();
@@ -163,7 +167,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
                            @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 专技岗位等级
                            Boolean isPrincipalPost, // 是否正职
-                           Byte leaderType,
+                           @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
                            Boolean isDouble, // 是否双肩挑
                            Byte type,
                            Boolean state,
@@ -266,8 +270,8 @@ public class CadreController extends BaseController {
         if (isPrincipalPost != null) {
             criteria.andIsPrincipalPostEqualTo(isPrincipalPost);
         }
-        if (leaderType != null) {
-            criteria.andLeaderTypeEqualTo(leaderType);
+        if (leaderTypes != null) {
+            criteria.andLeaderTypeIn(Arrays.asList(leaderTypes));
         }
         if (isDouble != null) {
             criteria.andIsDoubleEqualTo(isDouble);

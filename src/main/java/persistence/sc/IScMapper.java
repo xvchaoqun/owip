@@ -2,6 +2,7 @@ package persistence.sc;
 
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
+import domain.sc.scAd.ScAdArchiveView;
 import domain.sc.scCommittee.ScCommittee;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scMatter.ScMatterAccess;
@@ -17,6 +18,10 @@ import java.util.List;
  * Created by lm on 2018/1/23.
  */
 public interface IScMapper {
+
+    @ResultMap("persistence.sc.scAd.ScAdArchiveViewMapper.BaseResultMap")
+    @Select("select * from sc_ad_archive_view where id=#{id}")
+    ScAdArchiveView getScAdArchiveView(@Param("id") int id);
 
     @ResultMap("persistence.sc.scRecord.ScRecordViewMapper.BaseResultMap")
     @Select("select * from sc_record_view where id=#{id}")

@@ -102,15 +102,18 @@ pageEncoding="UTF-8"%>
 				<thead>
 				<tr>
 					<th style="width: 200px">姓名</th>
+					<th width="150">学工号</th>
 					<th>类别</th>
 				</tr>
 				</thead>
 				<tbody>
 				<c:forEach items="${branchMembers}" var="branchMember" varStatus="st">
+					<c:set var="user" value="${cm:getUserById(branchMember.userId)}"/>
 					<tr>
 						<td ><c:if test="${branchMember.isAdmin}">
 							<span class="label label-success arrowed-in arrowed-in-right">管理员</span>
-						</c:if>${cm:getUserById(branchMember.userId).realname}</td>
+						</c:if>${user.realname}</td>
+						<td>${user.code}</td>
 						<td >
 								${typeMap.get(branchMember.typeId).name}
 						</td>

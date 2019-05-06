@@ -12,13 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
@@ -29,13 +32,39 @@ public class ApplySnController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("applySnRange:change")
+    @RequestMapping(value = "/applySn_change", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySn_change(int id, HttpServletRequest request) {
+
+        ApplySn applySn = applySnMapper.selectByPrimaryKey(id);
+        applySnService.change(applySn);
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("applySnRange:change")
+    @RequestMapping("/applySn_change")
+    public String applySnRange_au(int id, ModelMap modelMap) {
+
+        ApplySn applySn = applySnMapper.selectByPrimaryKey(id);
+        modelMap.put("applySn", applySn);
+        List<ApplySn> assignApplySnList = applySnService.getAssignApplySnList(1);
+
+        if(assignApplySnList.size()==1){
+           modelMap.put("newApplySn", assignApplySnList.get(0));
+        }
+
+        return "member/applySn/applySn_change";
+    }
+
     @RequiresPermissions("applySnRange:list")
     @RequestMapping("/applySn")
     public String applySn(@RequestParam(defaultValue = "1") int cls,
                           Integer userId,
                           ModelMap modelMap) {
 
-        if(userId!=null) {
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
         modelMap.put("cls", cls);
@@ -46,13 +75,14 @@ public class ApplySnController extends MemberBaseController {
     @RequestMapping("/applySn_data")
     @ResponseBody
     public void applySn_data(HttpServletResponse response,
-                                    Integer year,
-                                    String displaySn,
-                                    Boolean isUsed,
-                                    Integer userId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                             Integer year,
+                             String displaySn,
+                             Boolean isUsed,
+                             Integer userId,
+                             Boolean isAbolished,
+                             @RequestParam(required = false, defaultValue = "0") int export,
+                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                             Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -66,24 +96,28 @@ public class ApplySnController extends MemberBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("is_used asc, sn asc");
 
-        if (year!=null) {
+        if (year != null) {
             criteria.andYearEqualTo(year);
         }
 
-        if(StringUtils.isNotBlank(displaySn)){
-            criteria.andDisplaySnLike("%"+displaySn+"%");
+        if (StringUtils.isNotBlank(displaySn)) {
+            criteria.andDisplaySnLike("%" + displaySn + "%");
         }
 
-        if (isUsed!=null) {
+        if (isUsed != null) {
             criteria.andIsUsedEqualTo(isUsed);
         }
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
 
+        if (isAbolished != null) {
+            criteria.andIsAbolishedEqualTo(isAbolished);
+        }
+
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             applySn_export(example, response);
             return;
@@ -94,7 +128,7 @@ public class ApplySnController extends MemberBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ApplySn> records= applySnMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ApplySn> records = applySnMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -113,13 +147,13 @@ public class ApplySnController extends MemberBaseController {
 
         List<ApplySn> records = applySnMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"所属号段|100","是否已使用|100"};
+        String[] titles = {"所属号段|100", "是否已使用|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ApplySn record = records.get(i);
             String[] values = {
-                record.getRangeId()+"",
-                            record.getIsUsed()+""
+                    record.getRangeId() + "",
+                    record.getIsUsed() + ""
             };
             valuesList.add(values);
         }

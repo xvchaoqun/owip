@@ -1452,6 +1452,7 @@ $.extend($.register, {
     // 日历
     date: function ($date, params) {
         $date.parent().css('z-index', '1030');
+        $date.parent().parent().css('z-index', '10');
         var endDate = new Date();
         endDate.setFullYear(endDate.getFullYear()+50); // 最多允许选择50年以内的年份
         return $date.datepicker($.extend({

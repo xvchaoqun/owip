@@ -99,40 +99,52 @@ public interface IMemberMapper {
     // 党员发展打回至状态
     //====================start
 
+    // 打回至 预备党员
     @Update("update ow_member_apply set stage="+ OwConstants.OW_APPLY_STAGE_GROW
             +", positive_status=null, positive_time=null " +
             "where user_id=#{userId} and stage in("+ OwConstants.OW_APPLY_STAGE_POSITIVE
             +"," + OwConstants.OW_APPLY_STAGE_GROW + ")")
     int memberApplyBackToGrow(@Param("userId") int userId);
 
+    // （由领取志愿书）打回至 领取志愿书（初始状态）
+    @Update("update ow_member_apply set grow_status=null, grow_time=null "+
+            "where user_id=#{userId} and stage="+ OwConstants.OW_APPLY_STAGE_DRAW)
+    void memberApplyBackToDraw(@Param("userId") int userId);
+
+    // 打回至 列入发展计划（初始状态）
     @Update("update ow_member_apply set stage="+OwConstants.OW_APPLY_STAGE_PLAN
             +", grow_status=null, grow_time=null"
             +", draw_status=null, draw_time=null " +
             "where user_id=#{userId} and stage<="+ OwConstants.OW_APPLY_STAGE_DRAW)
     void memberApplyBackToPlan(@Param("userId") int userId);
 
+    // 打回至 发展对象（初始状态）
     @Update("update ow_member_apply set stage="+OwConstants.OW_APPLY_STAGE_CANDIDATE
             +", grow_status=null, grow_time=null"
             +", draw_status=null, draw_time=null"
             +", plan_time=null, plan_status=null"
             + " where user_id=#{userId} and stage<="+ OwConstants.OW_APPLY_STAGE_DRAW
-            + " and stage>"+OwConstants.OW_APPLY_STAGE_CANDIDATE)
+            + " and stage>="+OwConstants.OW_APPLY_STAGE_CANDIDATE)
     void memberApplyBackToCandidate(@Param("userId") int userId);
 
+    // 打回至 积极分子（初始状态）
     @Update("update ow_member_apply set stage="+OwConstants.OW_APPLY_STAGE_ACTIVE
             +", grow_status=null, grow_time=null"
             +", draw_status=null, draw_time=null"
             +", plan_time=null, plan_status=null"
-            +", candidate_time=null, train_time=null, candidate_status=null"
+            +", candidate_time=null,candidate_train_start_time=null,candidate_train_end_time=null"
+            +",candidate_grade=null,candidate_status=null, active_train_start_time=null, active_train_end_time=null,active_grade=null"
             +" where user_id=#{userId} and stage<="+ OwConstants.OW_APPLY_STAGE_DRAW
-            + " and stage>"+OwConstants.OW_APPLY_STAGE_ACTIVE)
+            + " and stage>="+OwConstants.OW_APPLY_STAGE_ACTIVE)
     void memberApplyBackToActive(@Param("userId") int userId);
 
+    // 打回至 申请（初始状态）
     @Update("update ow_member_apply set stage="+OwConstants.OW_APPLY_STAGE_INIT
             +", grow_status=null, grow_time=null"
             +", draw_status=null, draw_time=null"
             +", plan_time=null, plan_status=null"
-            +", candidate_time=null, train_time=null, candidate_status=null"
+            +", candidate_time=null,candidate_train_start_time=null,candidate_train_end_time=null"
+            +",candidate_grade=null,candidate_status=null, active_train_start_time=null, active_train_end_time=null,active_grade=null"
             +", active_time=null, pass_time=null"
             +" where user_id=#{userId} and stage<="+ OwConstants.OW_APPLY_STAGE_DRAW
             + " and stage>"+OwConstants.OW_APPLY_STAGE_INIT)

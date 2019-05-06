@@ -47,14 +47,19 @@
                                     %>
                                     <c:set value="<%=colors%>" var="colors"/>
                                     <ul class="nav nav-tabs" id="stages">
+                                        <li class="<c:if test="${stage==-4}">active</c:if>">
+                                            <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=-4'>
+                                                 <i class="fa fa-list"></i>  全部申请
+                                            </a>
+                                        </li>
                                         <li class="<c:if test="${stage==-3}">active</c:if>">
                                             <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=-3'>
-                                                <span class="badge badge-yellow">-</span> 已移除的申请
+                                                <i class="fa fa-eraser"></i> 已移除的申请
                                             </a>
                                         </li>
                                         <li class="<c:if test="${stage==OW_APPLY_STAGE_OUT}">active</c:if>">
                                             <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=${OW_APPLY_STAGE_OUT}'>
-                                                <span class="badge badge-light"><span class="star">*</span></span> 已转出的申请
+                                                <i class="fa fa-outdent"></i>  已转出的申请
                                             </a>
                                         </li>
                                         <c:forEach items="#{OW_APPLY_STAGE_MAP}" var="applyStage">
@@ -438,6 +443,8 @@
                                                                                             </script>
                                                                                         </div>
                                                                                     </div>
+                                                                              </c:if>
+                                                                            <c:if test="${stage>=OW_APPLY_STAGE_DRAW}">
                                                                                     <div class="form-group">
                                                                                         <label>志愿书编码</label>
                                                                                         <input class="form-control search-query" name="applySn" type="text" value="${param.applySn}"
@@ -511,13 +518,17 @@
         colModel: [
             {label: '${type==OW_APPLY_TYPE_STU?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen:true},
             {label: '姓名', name: 'user.realname', frozen:true},
-            <c:if test="${stage==-3}">
+            <c:if test="${stage<=-3}">
             {
                 label: '所在阶段', name: '_stage', formatter:function(cellvalue, options, rowObject){
                     if(rowObject.stage==1) return '申请通过'
                     return _cMap.OW_APPLY_STAGE_MAP[rowObject.stage];
                 }, frozen:true
             },
+            </c:if>
+            <c:if test="${stage==-4}">
+            {label: '是否转出', name: 'memberStatus', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+            {label: '是否移除', name: 'isRemove', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 550, formatter:function(cellvalue, options, rowObject){
@@ -539,16 +550,19 @@
             <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE || stage<=OW_APPLY_STAGE_OUT}">
             {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            </c:if>
+            <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
+            {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            </c:if>
+            <c:if test="${stage>=OW_APPLY_STAGE_PLAN}">
             <shiro:hasPermission name="partyPublic:list">
             {label: '发展公示日期', name: 'growPublic.pubDate', width: 120,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             </shiro:hasPermission>
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
-            {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            <c:if test="${stage>=OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
             {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
-            {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
             {label: '志愿书编码', name: 'applySn', width: 150},
             {label: '发展时间', name: 'growTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             </c:if>

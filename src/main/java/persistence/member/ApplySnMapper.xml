@@ -8,6 +8,7 @@
     <result column="display_sn" jdbcType="VARCHAR" property="displaySn" />
     <result column="range_id" jdbcType="INTEGER" property="rangeId" />
     <result column="is_used" jdbcType="BIT" property="isUsed" />
+    <result column="is_abolished" jdbcType="BIT" property="isAbolished" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, sn, display_sn, range_id, is_used, user_id
+    id, year, sn, display_sn, range_id, is_used, is_abolished, user_id
   </sql>
   <select id="selectByExample" parameterType="domain.member.ApplySnExample" resultMap="BaseResultMap">
     select
@@ -104,10 +105,10 @@
   <insert id="insert" parameterType="domain.member.ApplySn">
     insert into ow_apply_sn (id, year, sn, 
       display_sn, range_id, is_used, 
-      user_id)
+      is_abolished, user_id)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{sn,jdbcType=BIGINT}, 
       #{displaySn,jdbcType=VARCHAR}, #{rangeId,jdbcType=INTEGER}, #{isUsed,jdbcType=BIT}, 
-      #{userId,jdbcType=INTEGER})
+      #{isAbolished,jdbcType=BIT}, #{userId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.ApplySn">
     insert into ow_apply_sn
@@ -129,6 +130,9 @@
       </if>
       <if test="isUsed != null">
         is_used,
+      </if>
+      <if test="isAbolished != null">
+        is_abolished,
       </if>
       <if test="userId != null">
         user_id,
@@ -152,6 +156,9 @@
       </if>
       <if test="isUsed != null">
         #{isUsed,jdbcType=BIT},
+      </if>
+      <if test="isAbolished != null">
+        #{isAbolished,jdbcType=BIT},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -185,6 +192,9 @@
       <if test="record.isUsed != null">
         is_used = #{record.isUsed,jdbcType=BIT},
       </if>
+      <if test="record.isAbolished != null">
+        is_abolished = #{record.isAbolished,jdbcType=BIT},
+      </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
@@ -201,6 +211,7 @@
       display_sn = #{record.displaySn,jdbcType=VARCHAR},
       range_id = #{record.rangeId,jdbcType=INTEGER},
       is_used = #{record.isUsed,jdbcType=BIT},
+      is_abolished = #{record.isAbolished,jdbcType=BIT},
       user_id = #{record.userId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,6 +235,9 @@
       <if test="isUsed != null">
         is_used = #{isUsed,jdbcType=BIT},
       </if>
+      <if test="isAbolished != null">
+        is_abolished = #{isAbolished,jdbcType=BIT},
+      </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
@@ -237,6 +251,7 @@
       display_sn = #{displaySn,jdbcType=VARCHAR},
       range_id = #{rangeId,jdbcType=INTEGER},
       is_used = #{isUsed,jdbcType=BIT},
+      is_abolished = #{isAbolished,jdbcType=BIT},
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

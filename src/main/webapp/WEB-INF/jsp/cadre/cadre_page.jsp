@@ -17,7 +17,7 @@
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code
-                ||not empty param.leaderType  ||not empty param.type  ||not empty param.state }"/>
+                ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.state }"/>
 
                 <div class="tabbable">
 
@@ -441,15 +441,11 @@
                                                 <tr>
                                                     <td class="name">是否班子负责人</td>
                                                     <td class="input">
-                                                         <select name="leaderType" data-placeholder="请选择" data-rel="select2">
-                                                            <option></option>
+                                                         <select class="multiselect" multiple="" name="leaderTypes">
                                                             <c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
                                                                 <option value="${leaderType.key}">${leaderType.value}</option>
                                                             </c:forEach>
                                                         </select>
-                                                        <script>
-                                                            $("#searchForm select[name=leaderType]").val('${param.leaderType}');
-                                                        </script>
                                                     </td>
                                                     <td class="name">干部类型</td>
                                                     <td class="input">
@@ -573,6 +569,7 @@
     $.register.multiselect($('#searchForm select[name=postTypes]'), ${cm:toJSONArray(selectPostTypes)});
     $.register.multiselect($('#searchForm select[name=proPosts]'), ${cm:toJSONArray(selectProPosts)});
     $.register.multiselect($('#searchForm select[name=proPostLevels]'), ${cm:toJSONArray(selectProPostLevels)});
+    $.register.multiselect($('#searchForm select[name=leaderTypes]'), ${cm:toJSONArray(selectLeaderTypes)});
 
     function _reAssignCallback() {
         $.hashchange('', '${ctx}/cadreInspect');

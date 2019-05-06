@@ -31,6 +31,8 @@ public class ApplySn implements Serializable {
 
     private Boolean isUsed;
 
+    private Boolean isAbolished;
+
     private Integer userId;
 
     private static final long serialVersionUID = 1L;
@@ -81,6 +83,14 @@ public class ApplySn implements Serializable {
 
     public void setIsUsed(Boolean isUsed) {
         this.isUsed = isUsed;
+    }
+
+    public Boolean getIsAbolished() {
+        return isAbolished;
+    }
+
+    public void setIsAbolished(Boolean isAbolished) {
+        this.isAbolished = isAbolished;
     }
 
     public Integer getUserId() {

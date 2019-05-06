@@ -136,10 +136,10 @@ public class ScAdArchiveService extends ScBaseMapper {
 
         List<ScCommitteeVote> votes = checkVotes(archiveId, voteIds);
 
-        return getCadreAdForm(votes);
+        return getCadreAdForm(archiveId, votes);
     }
 
-    public CadreInfoForm getCadreAdForm(List<ScCommitteeVote> scCommitteeVotes){
+    public CadreInfoForm getCadreAdForm(Integer archiveId, List<ScCommitteeVote> scCommitteeVotes){
 
         if(scCommitteeVotes==null || scCommitteeVotes.size()==0) return null;
 
@@ -173,6 +173,10 @@ public class ScAdArchiveService extends ScBaseMapper {
             // 拟免职务
             bean.setPrePost(dismissVote.getPost());
         }
+
+        ScAdArchiveView scAdArchiveView = iScMapper.getScAdArchiveView(archiveId);
+        Date holdDate = scAdArchiveView.getHoldDate();
+        bean.setReportDate(holdDate);
 
         return bean;
     }

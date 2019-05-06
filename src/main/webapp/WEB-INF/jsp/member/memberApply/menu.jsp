@@ -10,12 +10,13 @@
           <i class="fa fa-sort-numeric-asc"></i> 志愿书编码管理${cls==6?"(编码段管理) ":cls==7?"(使用情况) ":" "}
           <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
       </a>
-      <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+      <ul class="dropdown-menu dropdown-info">
           <li>
               <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=6"><i class="fa fa-hand-o-right"></i> 编码段管理</a>
           </li>
+          <li role="separator" class="divider"></li>
           <li>
-              <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=7"><i class="fa fa-hand-o-right"></i> 使用情况</a>
+              <a href="javascript:;" class="loadPage" data-url="${ctx}/memberApply_layout?cls=7"><i class="fa fa-history"></i> 使用情况</a>
           </li>
       </ul>
   </li>

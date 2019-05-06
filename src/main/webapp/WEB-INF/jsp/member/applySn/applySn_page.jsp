@@ -16,14 +16,20 @@
                                 <c:set var="_query"
                                        value="${not empty param.year ||not empty param.displaySn
                                        || not empty param.isUsed || not empty param.userId}"/>
-                                <%--<div class="jqgrid-vertical-offset buttons">
-
-                                    <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                <div class="jqgrid-vertical-offset buttons">
+                                    <shiro:hasPermission name="applySnRange:change">
+                                    <button id="changeBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                data-url="${ctx}/applySn_change"
+                                                data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
+                                            换领志愿书
+                                     </button>
+                                    </shiro:hasPermission>
+                                    <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                             data-url="${ctx}/applySn_data"
                                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                         <i class="fa fa-download"></i> 导出
-                                    </button>
-                                </div>--%>
+                                    </button>--%>
+                                </div>
                                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                     <div class="widget-header">
                                         <h4 class="widget-title">搜索</h4>
@@ -78,6 +84,23 @@
                                                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                     </select>
                                                 </div>
+
+                                                <div class="form-group">
+                                                    <label>是否作废</label>
+                                                    <div class="input-group">
+                                                        <select name="isAbolished" data-rel="select2"
+                                                                data-width="90"
+                                                                data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="1">是</option>
+                                                            <option value="0">否</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=isAbolished]").val("${param.isAbolished}");
+                                                        </script>
+                                                    </div>
+                                                </div>
+
                                                 <div class="clearfix form-actions center">
                                                     <a class="jqSearchBtn btn btn-default btn-sm"
                                                        data-url="${ctx}/applySn?cls=${cls}"
@@ -121,7 +144,22 @@
             {label: '是否已使用', name: 'isUsed', width: 90, formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '使用人', name: 'user.realname'},
             {label: '使用学工号', name: 'user.code', width: 120},
-        ]
+            {label: '是否作废', name: 'isAbolished', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+            {name: '_isUsed', hidden:true, formatter: function(cellvalue, options, rowObject){
+                return rowObject.isUsed;
+            }},
+            {name: '_isAbolished', hidden:true, formatter: function(cellvalue, options, rowObject){
+                return rowObject.isAbolished;
+            }}
+        ],
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
@@ -129,4 +167,16 @@
     $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
+
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+        if (ids.length > 1) {
+            $("#changeBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+
+            var rowData = $(grid).getRowData(ids[0]);
+            var canChange = (rowData._isUsed == "true" ) && (rowData._isAbolished != "true" );
+            $("#changeBtn").prop("disabled", !canChange);
+        }
+    }
 </script>

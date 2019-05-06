@@ -143,6 +143,9 @@ public class CadreInfoForm {
     // 家庭电话
     private String homePhone;
 
+    // 呈报日期
+    private Date reportDate;
+
     // 企业兼职情况
     private List<CadreCompany> cadreCompanies;
     // 主要家庭成员及社会关系
@@ -660,5 +663,13 @@ public class CadreInfoForm {
 
     public void setCadreFamilyAbroads(List<CadreFamilyAbroad> cadreFamilyAbroads) {
         this.cadreFamilyAbroads = cadreFamilyAbroads;
+    }
+
+    public Date getReportDate() {
+        return reportDate;
+    }
+
+    public void setReportDate(Date reportDate) {
+        this.reportDate = reportDate;
     }
 }

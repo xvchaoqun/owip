@@ -474,6 +474,66 @@ public class ApplySnExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsAbolishedIsNull() {
+            addCriterion("is_abolished is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedIsNotNull() {
+            addCriterion("is_abolished is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedEqualTo(Boolean value) {
+            addCriterion("is_abolished =", value, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedNotEqualTo(Boolean value) {
+            addCriterion("is_abolished <>", value, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedGreaterThan(Boolean value) {
+            addCriterion("is_abolished >", value, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_abolished >=", value, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedLessThan(Boolean value) {
+            addCriterion("is_abolished <", value, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_abolished <=", value, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedIn(List<Boolean> values) {
+            addCriterion("is_abolished in", values, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedNotIn(List<Boolean> values) {
+            addCriterion("is_abolished not in", values, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_abolished between", value1, value2, "isAbolished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAbolishedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_abolished not between", value1, value2, "isAbolished");
+            return (Criteria) this;
+        }
+
         public Criteria andUserIdIsNull() {
             addCriterion("user_id is null");
             return (Criteria) this;

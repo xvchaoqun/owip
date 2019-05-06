@@ -301,6 +301,9 @@ public class CadreAdformService extends BaseMapper {
         List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 6));
         bean.setCadreFamilys(cadreFamilys);
 
+        // 呈报日程默认当天
+        bean.setReportDate(new Date());
+
         return bean;
     }
 
@@ -374,9 +377,10 @@ public class CadreAdformService extends BaseMapper {
         if(currentUser!=null)
             dataMap.put("admin", currentUser.getRealname());
 
-        dataMap.put("y1", DateUtils.getCurrentYear());
-        dataMap.put("m1", DateUtils.getMonth(new Date()));
-        dataMap.put("d1", DateUtils.getDay(new Date()));
+        Date reportDate = bean.getReportDate();
+        dataMap.put("y1", DateUtils.getYear(reportDate));
+        dataMap.put("m1", DateUtils.getMonth(reportDate));
+        dataMap.put("d1", DateUtils.getDay(reportDate));
 
         freemarkerService.process("/adform/adform.ftl", dataMap, out);
     }

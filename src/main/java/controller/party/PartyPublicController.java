@@ -326,7 +326,7 @@ public class PartyPublicController extends BaseController {
         example.setOrderByClause("branch_sort_order desc, create_time desc");
 
         if (type == OwConstants.OW_PARTY_PUBLIC_TYPE_GROW) {
-            criteria.andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+            criteria.andStageEqualTo(OwConstants.OW_APPLY_STAGE_PLAN);
         } else if (type == OwConstants.OW_PARTY_PUBLIC_TYPE_POSITIVE) {
             criteria.andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW);
         } else {

@@ -5,7 +5,16 @@
 更新 党员发展信息导入模板.xlsx
 
 
+
+20190507
+
 更新 ext_cadre_view
+
+ALTER TABLE `ow_apply_sn`
+	ADD COLUMN `is_abolished` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否作废，用于换领志愿书，必须已使用的情况下换领' AFTER `is_used`;
+
+
+
 
 20190427
 更新南航

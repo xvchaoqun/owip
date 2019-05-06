@@ -111,7 +111,7 @@
             { label:'姓名', name: 'realname', formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue);
             }},
-            {label: '干部任免审批表', name: '_filePath', width: 180, formatter: function (cellvalue, options, rowObject) {
+            {label: '干部任免审批表', name: '_filePath', width: 200, formatter: function (cellvalue, options, rowObject) {
 
                 var viewBtn = ('<button class="openView btn btn-success btn-xs" ' +
                         'data-url="${ctx}/sc/scAdArchive_preview?view=1&archiveId={0}"><i class="fa fa-search"></i> 查看</button>')

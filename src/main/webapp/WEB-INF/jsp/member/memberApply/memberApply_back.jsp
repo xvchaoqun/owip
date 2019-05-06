@@ -31,6 +31,7 @@ pageEncoding="UTF-8"%>
                             </c:if>
                         </c:forEach>
                     </select>
+                    <span class="help-block">注：将打回至所选阶段的初始状态</span>
                 </div>
                     </c:if>
                     <c:if test="${param.stage>=OW_APPLY_STAGE_GROW}">
