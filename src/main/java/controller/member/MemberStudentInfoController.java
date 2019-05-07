@@ -62,10 +62,10 @@ public class MemberStudentInfoController extends MemberBaseController {
 
         if (userId == null) {
             studentInfoService.insertSelective(studentInfo);
-            logger.info(addLog(LogConstants.LOG_PARTY, "添加学生党员基本信息：%s", studentInfo.getUserId()));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "添加学生党员基本信息：%s", studentInfo.getUserId()));
         } else {
             studentInfoService.updateByPrimaryKeySelective(studentInfo);
-            logger.info(addLog(LogConstants.LOG_PARTY, "更新学生党员基本信息：%s", studentInfo.getUserId()));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "更新学生党员基本信息：%s", studentInfo.getUserId()));
         }
 
         // 更新基本信息

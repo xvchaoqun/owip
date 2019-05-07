@@ -96,10 +96,10 @@ public class MemberApplyExportController extends MemberBaseController {
 
             if(type==OwConstants.OW_APPLY_TYPE_STU) {
                 memberStudent_apply_export(example, response);
-                logger.info(addLog(LogConstants.LOG_PARTY, "导出学生申请入党人员信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出学生申请入党人员信息"));
             }else {
                 memberTeacher_apply_export(example, response);
-                logger.info(addLog(LogConstants.LOG_PARTY, "导出教职工申请入党人员信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出教职工申请入党人员信息"));
             }
 
         } else if(exportType==2){
@@ -114,10 +114,10 @@ public class MemberApplyExportController extends MemberBaseController {
             }
             if(type==OwConstants.OW_APPLY_TYPE_STU) {
                 memberStudent_export(example, exportType, response);
-                logger.info(addLog(LogConstants.LOG_PARTY, "导出学生预备党员信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出学生预备党员信息"));
             }else {
                 memberTeacher_export(example, exportType, response);
-                logger.info(addLog(LogConstants.LOG_PARTY, "导出教职工预备党员信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出教职工预备党员信息"));
             }
         }else if(exportType==3){
 
@@ -135,10 +135,10 @@ public class MemberApplyExportController extends MemberBaseController {
             }
             if(type==OwConstants.OW_APPLY_TYPE_STU) {
                 memberStudent_export(example, exportType, response);
-                logger.info(addLog(LogConstants.LOG_PARTY, "导出学生领取志愿书信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出学生领取志愿书信息"));
             }else {
                 memberTeacher_export(example, exportType, response);
-                logger.info(addLog(LogConstants.LOG_PARTY, "导出教职工领取志愿书信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "导出教职工领取志愿书信息"));
             }
         }
 

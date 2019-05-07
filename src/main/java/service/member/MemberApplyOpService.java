@@ -1,9 +1,7 @@
 package service.member;
 
 import controller.global.OpException;
-import domain.member.Member;
-import domain.member.MemberApply;
-import domain.member.MemberApplyExample;
+import domain.member.*;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.joda.time.DateTime;
@@ -19,7 +17,9 @@ import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by fafa on 2016/4/23.
@@ -453,9 +453,37 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
     // 领取志愿书：组织部管理员审核
     @Transactional
-    public void apply_grow_od_check(Integer[] userIds, int loginUserId){
+    public void apply_grow_od_check(Integer[] userIds,
+                                    int startSnId,
+                                    Integer endSnId,
+                                    int loginUserId){
 
-        for (int userId : userIds) {
+        ApplySn startApplySn = applySnMapper.selectByPrimaryKey(startSnId);
+        List<ApplySn> applySns = new ArrayList<>();
+        if(endSnId!=null){
+            ApplySn endApplySn = applySnMapper.selectByPrimaryKey(endSnId);
+
+            ApplySnExample example = new ApplySnExample();
+            example.createCriteria()
+                    .andYearEqualTo(DateUtils.getCurrentYear())
+                    .andSnGreaterThanOrEqualTo(startApplySn.getSn())
+                    .andSnLessThanOrEqualTo(endApplySn.getSn())
+                    .andIsUsedEqualTo(false)
+                    .andIsAbolishedEqualTo(false);
+            example.setOrderByClause("sn asc");
+            applySns = applySnMapper.selectByExample(example);
+        }else{
+            applySns.add(startApplySn);
+        }
+        if(applySns.size()==0 || applySns.size()!=userIds.length){
+            throw new OpException("待分配编码的数量[{0}个]和选择的人数[{1}人]不符。", applySns.size(), userIds.length);
+        }
+
+        for (int i = 0; i < userIds.length; i++) {
+
+            int userId = userIds[i];
+            ApplySn applySn = applySns.get(i);
+
             MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DRAW){
                 throw new OpException("状态异常，还没到领取志愿书阶段。");
@@ -471,7 +499,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 // 分配志愿书编码
-                applySnService.assign(userId);
+                applySnService.assign(userId, applySn);
 
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 applyApprovalLogService.add(userId,

@@ -18,11 +18,23 @@
                                        || not empty param.isUsed || not empty param.userId}"/>
                                 <div class="jqgrid-vertical-offset buttons">
                                     <shiro:hasPermission name="applySnRange:change">
-                                    <button id="changeBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
+                                        <button id="changeBtn" class="jqOpenViewBtn tooltip-warning btn btn-warning btn-sm"
                                                 data-url="${ctx}/applySn_change"
+                                                data-rel="tooltip" data-placement="top" title="原编码作废，新分配编码"
                                                 data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
                                             换领志愿书
-                                     </button>
+                                        </button>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="applySnRange:reuse">
+                                        <button id="reuseBtn"
+                                                data-title="恢复使用"
+                                                data-msg="确定恢复使用这个编码？"
+                                                class="jqItemBtn tooltip-success btn btn-danger btn-sm"
+                                                data-url="${ctx}/applySn_reuse"
+                                                data-rel="tooltip" data-placement="top" title="恢复已作废的编码，更新为未使用状态"
+                                                data-grid-id="#jqGrid"><i class="fa fa-reply"></i>
+                                            恢复使用
+                                        </button>
                                     </shiro:hasPermission>
                                     <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                             data-url="${ctx}/applySn_data"
@@ -48,15 +60,17 @@
                                                     <div class="input-group" style="width: 120px">
                                                         <input class="form-control date-picker" name="year" type="text"
                                                                data-date-format="yyyy"
-                                                                data-date-min-view-mode="2"
-                                                               placeholder="选择年份"  value="${param.year}" />
-                                                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                                                               data-date-min-view-mode="2"
+                                                               placeholder="选择年份" value="${param.year}"/>
+                                                        <span class="input-group-addon"> <i
+                                                                class="fa fa-calendar bigger-110"></i></span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>志愿书编码</label>
-                                                    <input class="form-control search-query" name="displaySn" type="text" value="${param.displaySn}"
-                                                               placeholder="请输入">
+                                                    <input class="form-control search-query" name="displaySn"
+                                                           type="text" value="${param.displaySn}"
+                                                           placeholder="请输入">
 
                                                 </div>
 
@@ -137,20 +151,26 @@
         colModel: [
             {label: '年份', name: 'applySnRange.year', width: 90},
             {label: '志愿书编码', name: 'displaySn', width: 150},
-            {label: '所属号段', name: 'applySnRange', width: 320, formatter:function(cellvalue, options, rowObject){
-                return $.trim(cellvalue.prefix) + cellvalue.startSn.zfill(cellvalue.len)
-                     + " ~ " + $.trim(cellvalue.prefix) + cellvalue.endSn.zfill(cellvalue.len)
-            }},
+            {
+                label: '所属号段', name: 'applySnRange', width: 320, formatter: function (cellvalue, options, rowObject) {
+                    return $.trim(cellvalue.prefix) + cellvalue.startSn.zfill(cellvalue.len)
+                        + " ~ " + $.trim(cellvalue.prefix) + cellvalue.endSn.zfill(cellvalue.len)
+                }
+            },
             {label: '是否已使用', name: 'isUsed', width: 90, formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '使用人', name: 'user.realname'},
             {label: '使用学工号', name: 'user.code', width: 120},
             {label: '是否作废', name: 'isAbolished', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
-            {name: '_isUsed', hidden:true, formatter: function(cellvalue, options, rowObject){
-                return rowObject.isUsed;
-            }},
-            {name: '_isAbolished', hidden:true, formatter: function(cellvalue, options, rowObject){
-                return rowObject.isAbolished;
-            }}
+            {
+                name: '_isUsed', hidden: true, formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.isUsed;
+                }
+            },
+            {
+                name: '_isAbolished', hidden: true, formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.isAbolished;
+                }
+            }
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
@@ -165,18 +185,20 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
+    $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
 
     function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {
-            $("#changeBtn").prop("disabled", true);
+            $("#changeBtn, #reuseBtn").prop("disabled", true);
         } else if (ids.length == 1) {
 
             var rowData = $(grid).getRowData(ids[0]);
-            var canChange = (rowData._isUsed == "true" ) && (rowData._isAbolished != "true" );
+            var canChange = (rowData._isUsed == "true") && (rowData._isAbolished != "true");
             $("#changeBtn").prop("disabled", !canChange);
+            var canReuse = (rowData._isUsed == "true") && (rowData._isAbolished == "true");
+            $("#reuseBtn").prop("disabled", !canReuse);
         }
     }
 </script>

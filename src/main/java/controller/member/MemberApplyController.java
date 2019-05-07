@@ -579,7 +579,7 @@ public class MemberApplyController extends MemberBaseController {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "提交入党申请",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "");
 
-            logger.info(addLog(LogConstants.LOG_PARTY, "提交入党申请"));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "提交入党申请"));
         } else {
 
             StringBuffer _remark = new StringBuffer();
@@ -727,7 +727,7 @@ public class MemberApplyController extends MemberBaseController {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "修改",
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, _remark.toString());
 
-                logger.info(addLog(LogConstants.LOG_PARTY, "修改党员发展信息"));
+                logger.info(addLog(LogConstants.LOG_MEMBER, "修改党员发展信息"));
             }/*else{
                 return failed("您没有进行任何字段的修改。");
             }*/
@@ -891,11 +891,23 @@ public class MemberApplyController extends MemberBaseController {
     @RequestMapping(value = "/apply_grow_od_check")
     public String apply_grow_od_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
+
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdIn(Arrays.asList(ids))
                 .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
                 .andGrowStatusIsNull();
-        int count = (int) memberApplyMapper.countByExample(example);
+        // 实际需要分配的对象
+        List<MemberApply> memberApplys = memberApplyMapper.selectByExample(example);
+        int count = memberApplys.size();
+        if(count==1){
+            modelMap.put("memberApply", memberApplys.get(0));
+        }
+
+        List<Integer> idList = new ArrayList<>();
+        for (MemberApply memberApply : memberApplys) {
+            idList.add(memberApply.getUserId());
+        }
+        modelMap.put("ids", StringUtils.join(idList, ","));  // 实际需要分配的对象ID
 
         List<ApplySn> assignApplySnList = applySnService.getAssignApplySnList(count);
         int size = assignApplySnList.size();
@@ -917,9 +929,11 @@ public class MemberApplyController extends MemberBaseController {
     @RequestMapping(value = "/apply_grow_od_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_apply_grow_od_check(@RequestParam(value = "ids[]") Integer[] ids,
+                                      Integer startSnId,
+                                      Integer endSnId,
                                       @CurrentUser SysUserView loginUser, HttpServletRequest request) {
 
-        memberApplyOpService.apply_grow_od_check(ids, loginUser.getId());
+        memberApplyOpService.apply_grow_od_check(ids, startSnId, endSnId, loginUser.getId());
 
         return success(FormUtils.SUCCESS);
     }
@@ -1010,7 +1024,7 @@ public class MemberApplyController extends MemberBaseController {
 
         memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_PARTY, "打回入党申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "打回入党申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

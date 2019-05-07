@@ -12,7 +12,7 @@
                 <div class="widget-body">
                     <div class="widget-main padding-12 no-padding-left no-padding-right" style="padding-top: 5px;">
                         <div class="tab-content padding-4">
-                            <div class="tab-pane in active">
+                            <div class="multi-row-head-table tab-pane in active">
 
                                 <c:set var="_query"
                                        value="${not empty param.year ||not empty param.startSn ||not empty param.endSn || not empty param.code || not empty param.sort}"/>
@@ -115,7 +115,7 @@
             {label: '编码总数', name: '_total', formatter:function(cellvalue, options, rowObject){
                   return rowObject.endSn - rowObject.startSn + 1;
             }},
-            {label: '已使用数量', name: 'useCount'},
+            {label: '已使用数量<br/>（含已作废）', name: 'useCount'},
             {label: '剩余数量', name: '_total', formatter:function(cellvalue, options, rowObject){
                   return rowObject.endSn - rowObject.startSn + 1 - rowObject.useCount;
             }},

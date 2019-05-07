@@ -283,7 +283,7 @@ public class MemberTransferController extends MemberBaseController {
 
         memberTransferService.memberTransfer_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_PARTY, "暂留申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "暂留申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -306,7 +306,7 @@ public class MemberTransferController extends MemberBaseController {
 
         memberTransferService.memberTransfer_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_PARTY, "暂留申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "暂留申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     
@@ -371,7 +371,7 @@ public class MemberTransferController extends MemberBaseController {
                     "提交申请");
 
 
-            logger.info(addLog(LogConstants.LOG_PARTY, "提交校内组织关系转接申请：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "提交校内组织关系转接申请：%s", record.getId()));
         } else {
             record.setStatus(null); // 不改状态
             memberTransferService.updateByPrimaryKeySelective(record);
@@ -384,7 +384,7 @@ public class MemberTransferController extends MemberBaseController {
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "修改申请");
 
-            logger.info(addLog(LogConstants.LOG_PARTY, "更新校内组织关系转接申请：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "更新校内组织关系转接申请：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -431,7 +431,7 @@ public class MemberTransferController extends MemberBaseController {
         if (id != null) {
 
             memberTransferService.del(id);
-            logger.info(addLog(LogConstants.LOG_PARTY, "删除校内组织关系转接：%s", id));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "删除校内组织关系转接：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -444,7 +444,7 @@ public class MemberTransferController extends MemberBaseController {
 
         if (null != ids && ids.length>0){
             memberTransferService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除校内组织关系转接：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "批量删除校内组织关系转接：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

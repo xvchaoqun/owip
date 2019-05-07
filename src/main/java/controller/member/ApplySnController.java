@@ -32,20 +32,31 @@ public class ApplySnController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("applySnRange:reuse")
+    @RequestMapping(value = "/applySn_reuse", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySn_reuse(int id, HttpServletRequest request) {
+
+        applySnService.reuse(id);
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("applySnRange:change")
     @RequestMapping(value = "/applySn_change", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySn_change(int id, HttpServletRequest request) {
+    public Map do_applySn_change(int id, int newSnId, HttpServletRequest request) {
 
         ApplySn applySn = applySnMapper.selectByPrimaryKey(id);
-        applySnService.change(applySn);
+        ApplySn newApplySn = applySnMapper.selectByPrimaryKey(newSnId);
+        applySnService.change(applySn, newApplySn);
 
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("applySnRange:change")
     @RequestMapping("/applySn_change")
-    public String applySnRange_au(int id, ModelMap modelMap) {
+    public String applySn_change(int id, ModelMap modelMap) {
 
         ApplySn applySn = applySnMapper.selectByPrimaryKey(id);
         modelMap.put("applySn", applySn);
@@ -159,5 +170,53 @@ public class ApplySnController extends MemberBaseController {
         }
         String fileName = "入党志愿书编码_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequestMapping("/applySn_selects")
+    @ResponseBody
+    public Map applySn_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        searchStr = StringUtils.trimToNull(searchStr);
+
+        ApplySnExample example = new ApplySnExample();
+        Criteria criteria = example.createCriteria()
+                .andYearEqualTo(DateUtils.getCurrentYear())
+                .andIsUsedEqualTo(false)
+                .andIsAbolishedEqualTo(false);
+        if(searchStr!=null){
+            criteria.andDisplaySnLike("%" + searchStr + "%");
+        }
+        int count = (int) applySnMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<ApplySn> records = applySnMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        if (null != records && records.size() > 0) {
+
+            for (ApplySn record : records) {
+                Map<String, String> option = new HashMap<>();
+                option.put("id", record.getId() + "");
+                option.put("text", record.getDisplaySn());
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

@@ -258,7 +258,7 @@ public class MemberRegController extends MemberBaseController {
         int userId = memberReg.getUserId();
 
         memberRegService.deny(memberReg.getId());
-        logger.info(addLog(LogConstants.LOG_PARTY, "拒绝用户注册申请：%s", id));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "拒绝用户注册申请：%s", id));
 
         applyApprovalLogService.add(memberReg.getId(),
                 memberReg.getPartyId(), null, userId,
@@ -279,7 +279,7 @@ public class MemberRegController extends MemberBaseController {
         MemberReg memberReg = verifyAuth.entity;
 
         memberRegService.pass(memberReg.getId());
-        logger.info(addLog(LogConstants.LOG_PARTY, "用户注册-分党委审核：%s", id));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "用户注册-分党委审核：%s", id));
 
         int loginUserId = loginUser.getId();
         int userId = memberReg.getUserId();
