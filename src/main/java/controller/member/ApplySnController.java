@@ -105,7 +105,7 @@ public class ApplySnController extends MemberBaseController {
 
         ApplySnExample example = new ApplySnExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("is_used asc, sn asc");
+        example.setOrderByClause("year desc, is_used asc, sn asc");
 
         if (year != null) {
             criteria.andYearEqualTo(year);

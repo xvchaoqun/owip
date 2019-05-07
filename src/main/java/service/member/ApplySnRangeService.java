@@ -62,11 +62,16 @@ public class ApplySnRangeService extends MemberBaseMapper {
         for (Integer id : ids) {
 
             ApplySnRange applySnRange = applySnRangeMapper.selectByPrimaryKey(id);
-            if(applySnRange.getUseCount()>0){
+
+            ApplySnExample example = new ApplySnExample();
+            example.createCriteria().andRangeIdEqualTo(id).andIsUsedEqualTo(true);
+            long useCount = applySnMapper.countByExample(example);
+
+            if(applySnRange.getUseCount()>0 || useCount > 0){
 
                 String startSn = getDisplaySn(applySnRange.getPrefix(), applySnRange.getStartSn(), applySnRange.getLen());
                 String endSn = getDisplaySn(applySnRange.getPrefix(), applySnRange.getEndSn(), applySnRange.getLen());
-                throw new OpException("编码段{0}~{1}已被使用，不可删除。", startSn, endSn);
+                throw new OpException("编码段{0}~{1}已被部分使用，不可删除。", startSn, endSn);
             }
         }
 

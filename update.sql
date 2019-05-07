@@ -6,7 +6,7 @@
 
 
 20190507
-更新南航
+更新南航 (没更新师大, jar jsp)
 
 
 20190507
@@ -16,7 +16,9 @@
 ALTER TABLE `ow_apply_sn`
 	ADD COLUMN `is_abolished` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否作废，用于换领志愿书，必须已使用的情况下换领' AFTER `is_used`;
 
-
+delete from ow_apply_sn where range_id not in(select id from ow_apply_sn_range);
+ALTER TABLE `ow_apply_sn`
+	ADD CONSTRAINT `FK_ow_apply_sn_ow_apply_sn_range` FOREIGN KEY (`range_id`) REFERENCES `ow_apply_sn_range` (`id`) ON DELETE CASCADE;
 
 
 20190427
