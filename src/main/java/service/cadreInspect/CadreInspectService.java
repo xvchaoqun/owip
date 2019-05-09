@@ -132,6 +132,7 @@ public class CadreInspectService extends BaseMapper {
                 cadreRecord.setId(null); // 防止误传ID过来
                 cadreRecord.setUserId(userId);
                 cadreRecord.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
+                cadreRecord.setType(CadreConstants.CADRE_TYPE_OTHER);
                 cadreMapper.insertSelective(cadreRecord);
 
                 cadreId = cadreRecord.getId();
@@ -265,10 +266,16 @@ public class CadreInspectService extends BaseMapper {
         if(cadre.getStatus()==CadreConstants.CADRE_STATUS_LEADER_LEAVE){// 如果原来是离任校领导，重新任命之后也是离任校领导？
             status = CadreConstants.CADRE_STATUS_LEADER;
         }
+
         // 覆盖干部库
         _cadre.setId(cadreId);
         _cadre.setStatus(status);
         _cadre.setUserId(null);
+        // 转变为处级干部
+        if(status==CadreConstants.CADRE_STATUS_MIDDLE){
+            _cadre.setType(CadreConstants.CADRE_TYPE_CJ);
+        }
+
         _cadre.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
         cadreService.updateByPrimaryKeySelective(_cadre);
 

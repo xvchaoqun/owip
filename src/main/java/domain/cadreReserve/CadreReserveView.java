@@ -60,7 +60,7 @@ public class CadreReserveView implements Serializable {
 
     private Byte type;
 
-    private Boolean state;
+    private Integer state;
 
     private String title;
 
@@ -172,6 +172,8 @@ public class CadreReserveView implements Serializable {
 
     private Boolean isPrincipalPost;
 
+    private Byte leaderType;
+
     private Long cadrePostYear;
 
     private Long adminLevelYear;
@@ -222,7 +224,7 @@ public class CadreReserveView implements Serializable {
 
     private String unitTypeName;
 
-    private String unitTypeAttr;
+    private String unitTypeGroup;
 
     private Date verifyBirth;
 
@@ -328,11 +330,11 @@ public class CadreReserveView implements Serializable {
         this.type = type;
     }
 
-    public Boolean getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
@@ -776,6 +778,14 @@ public class CadreReserveView implements Serializable {
         this.isPrincipalPost = isPrincipalPost;
     }
 
+    public Byte getLeaderType() {
+        return leaderType;
+    }
+
+    public void setLeaderType(Byte leaderType) {
+        this.leaderType = leaderType;
+    }
+
     public Long getCadrePostYear() {
         return cadrePostYear;
     }
@@ -976,12 +986,12 @@ public class CadreReserveView implements Serializable {
         this.unitTypeName = unitTypeName == null ? null : unitTypeName.trim();
     }
 
-    public String getUnitTypeAttr() {
-        return unitTypeAttr;
+    public String getUnitTypeGroup() {
+        return unitTypeGroup;
     }
 
-    public void setUnitTypeAttr(String unitTypeAttr) {
-        this.unitTypeAttr = unitTypeAttr == null ? null : unitTypeAttr.trim();
+    public void setUnitTypeGroup(String unitTypeGroup) {
+        this.unitTypeGroup = unitTypeGroup == null ? null : unitTypeGroup.trim();
     }
 
     public Date getVerifyBirth() {

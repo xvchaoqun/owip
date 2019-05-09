@@ -25,13 +25,23 @@ public class UnitView implements Serializable {
 
     private Byte status;
 
-    private BigDecimal principalPostCount;
+    private BigDecimal mainPostCount;
 
     private BigDecimal vicePostCount;
+
+    private BigDecimal nonePostCount;
+
+    private BigDecimal mainKjPostCount;
+
+    private BigDecimal viceKjPostCount;
 
     private BigDecimal mainCount;
 
     private BigDecimal viceCount;
+
+    private BigDecimal mainKjCount;
+
+    private BigDecimal viceKjCount;
 
     private BigDecimal noneCount;
 
@@ -119,12 +129,12 @@ public class UnitView implements Serializable {
         this.status = status;
     }
 
-    public BigDecimal getPrincipalPostCount() {
-        return principalPostCount;
+    public BigDecimal getMainPostCount() {
+        return mainPostCount;
     }
 
-    public void setPrincipalPostCount(BigDecimal principalPostCount) {
-        this.principalPostCount = principalPostCount;
+    public void setMainPostCount(BigDecimal mainPostCount) {
+        this.mainPostCount = mainPostCount;
     }
 
     public BigDecimal getVicePostCount() {
@@ -133,6 +143,30 @@ public class UnitView implements Serializable {
 
     public void setVicePostCount(BigDecimal vicePostCount) {
         this.vicePostCount = vicePostCount;
+    }
+
+    public BigDecimal getNonePostCount() {
+        return nonePostCount;
+    }
+
+    public void setNonePostCount(BigDecimal nonePostCount) {
+        this.nonePostCount = nonePostCount;
+    }
+
+    public BigDecimal getMainKjPostCount() {
+        return mainKjPostCount;
+    }
+
+    public void setMainKjPostCount(BigDecimal mainKjPostCount) {
+        this.mainKjPostCount = mainKjPostCount;
+    }
+
+    public BigDecimal getViceKjPostCount() {
+        return viceKjPostCount;
+    }
+
+    public void setViceKjPostCount(BigDecimal viceKjPostCount) {
+        this.viceKjPostCount = viceKjPostCount;
     }
 
     public BigDecimal getMainCount() {
@@ -149,6 +183,22 @@ public class UnitView implements Serializable {
 
     public void setViceCount(BigDecimal viceCount) {
         this.viceCount = viceCount;
+    }
+
+    public BigDecimal getMainKjCount() {
+        return mainKjCount;
+    }
+
+    public void setMainKjCount(BigDecimal mainKjCount) {
+        this.mainKjCount = mainKjCount;
+    }
+
+    public BigDecimal getViceKjCount() {
+        return viceKjCount;
+    }
+
+    public void setViceKjCount(BigDecimal viceKjCount) {
+        this.viceKjCount = viceKjCount;
     }
 
     public BigDecimal getNoneCount() {

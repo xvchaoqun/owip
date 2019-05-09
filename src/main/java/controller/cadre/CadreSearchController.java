@@ -84,11 +84,10 @@ public class CadreSearchController  extends BaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
         CadreView cadre = iCadreMapper.getCadre(cadreId);
-        SysUserView sysUser = cadre.getUser();
-        if (sysUser == null) {
+        if (cadre == null) {
             msg = "该用户不存在";
         } else {
-            resultMap.put("realname", sysUser.getRealname());
+            resultMap.put("realname", cadre.getRealname());
 
             if (cadre == null) {
                 msg = "该用户不是干部";
@@ -140,6 +139,10 @@ public class CadreSearchController  extends BaseController {
             Cadre record = new Cadre();
             record.setUserId(userId);
             record.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
+            // 其他干部
+            if(record.getType()==null){
+                record.setType(CadreConstants.CADRE_TYPE_OTHER);
+            }
             cadreService.insertSelective(record);
 
             cadreId = record.getId();

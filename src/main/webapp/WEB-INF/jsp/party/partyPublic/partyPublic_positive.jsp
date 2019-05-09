@@ -1,11 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+         pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <!DOCTYPE html>
-<HTML>
-<HEAD>
-    <TITLE>公示</TITLE>
-    <meta charset="utf-8"/>
+<html>
+<head>
+  <jsp:include page="/WEB-INF/jsp/common/meta.jsp"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta charset="utf-8"/>
+  <title>${_plantform_name}</title>
+  <link href="${ctx}/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <t:link href="/extend/css/faq.css"/>
+  <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <style>${_pMap['loginCss']}</style>
     <STYLE type=text/css>
         .con {
             FONT-SIZE: 14px;
@@ -15,13 +21,12 @@
 
         .context, .context td {
             FONT-SIZE: 20pt;
-            FONT-FAMILY: 楷体_GB2312;
             COLOR: black
         }
 
         .title {
-            FONT-SIZE: 20pt;
-            FONT-FAMILY: "宋体";
+            FONT-SIZE: 24pt;
+            FONT-FAMILY: "FZXiaoBiaoSong-B05S";
             FONT-WEIGHT: bold;
             COLOR: #ff0000;
             PADDING-BOTTOM: 10px;
@@ -32,15 +37,29 @@
         .unpublish{
             font-weight: bolder;
         }
-
+        table{
+            table-layout: fixed;
+            padding-bottom:20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
         BODY {
-            MARGIN: 50px 0px 0px;
-            BACKGROUND-COLOR: #ffffcc
+            BACKGROUND-COLOR: #ffffcc;
+            font-family: "仿宋_GB2312";
         }
     </STYLE>
-</HEAD>
-<BODY>
-<TABLE cellSpacing=0 cellPadding=0 width=820 align=center border=0 style="table-layout: fixed;padding-bottom:20px">
+</head>
+<body style="background-color: #f8f8f8">
+<div class="top" style="background:url(${ctx}/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) ${_sysConfig.loginTopBgColor} top right no-repeat">
+  <div class="w1000">
+    <div class="logo"><t:img src="/img/logo.png"/></div>
+    <div class="separator"></div>
+    <div class="txt">${_plantform_name}</div>
+  </div>
+</div>
+<div class="container" style="background-color: #fff">
+<div class="row" style="padding: 0 100px 0 100px">
+<TABLE cellSpacing=0 cellPadding=0 width=840 align=center border=0>
     <TBODY>
     <TR>
         <TD height=5 width=7 background="/img/bt1-f.gif"></TD>
@@ -112,5 +131,8 @@
     <TR></TR>
     </TBODY>
 </TABLE>
-</BODY>
-</HTML>
+</div>
+</div>
+<script src="${ctx}/assets/js/jquery.js"></script>
+</body>
+</html>

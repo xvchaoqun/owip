@@ -1342,6 +1342,76 @@ public class CadreCompanyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andAdminLevelCodeIsNull() {
+            addCriterion("admin_level_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeIsNotNull() {
+            addCriterion("admin_level_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeEqualTo(String value) {
+            addCriterion("admin_level_code =", value, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeNotEqualTo(String value) {
+            addCriterion("admin_level_code <>", value, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeGreaterThan(String value) {
+            addCriterion("admin_level_code >", value, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("admin_level_code >=", value, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeLessThan(String value) {
+            addCriterion("admin_level_code <", value, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeLessThanOrEqualTo(String value) {
+            addCriterion("admin_level_code <=", value, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeLike(String value) {
+            addCriterion("admin_level_code like", value, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeNotLike(String value) {
+            addCriterion("admin_level_code not like", value, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeIn(List<String> values) {
+            addCriterion("admin_level_code in", values, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeNotIn(List<String> values) {
+            addCriterion("admin_level_code not in", values, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeBetween(String value1, String value2) {
+            addCriterion("admin_level_code between", value1, value2, "adminLevelCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelCodeNotBetween(String value1, String value2) {
+            addCriterion("admin_level_code not between", value1, value2, "adminLevelCode");
+            return (Criteria) this;
+        }
+
         public Criteria andIsDoubleIsNull() {
             addCriterion("is_double is null");
             return (Criteria) this;
@@ -1462,73 +1532,73 @@ public class CadreCompanyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrIsNull() {
-            addCriterion("unit_type_attr is null");
+        public Criteria andUnitTypeGroupIsNull() {
+            addCriterion("unit_type_group is null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrIsNotNull() {
-            addCriterion("unit_type_attr is not null");
+        public Criteria andUnitTypeGroupIsNotNull() {
+            addCriterion("unit_type_group is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrEqualTo(String value) {
-            addCriterion("unit_type_attr =", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupEqualTo(String value) {
+            addCriterion("unit_type_group =", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrNotEqualTo(String value) {
-            addCriterion("unit_type_attr <>", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupNotEqualTo(String value) {
+            addCriterion("unit_type_group <>", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrGreaterThan(String value) {
-            addCriterion("unit_type_attr >", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupGreaterThan(String value) {
+            addCriterion("unit_type_group >", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrGreaterThanOrEqualTo(String value) {
-            addCriterion("unit_type_attr >=", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_type_group >=", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrLessThan(String value) {
-            addCriterion("unit_type_attr <", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupLessThan(String value) {
+            addCriterion("unit_type_group <", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrLessThanOrEqualTo(String value) {
-            addCriterion("unit_type_attr <=", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupLessThanOrEqualTo(String value) {
+            addCriterion("unit_type_group <=", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrLike(String value) {
-            addCriterion("unit_type_attr like", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupLike(String value) {
+            addCriterion("unit_type_group like", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrNotLike(String value) {
-            addCriterion("unit_type_attr not like", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupNotLike(String value) {
+            addCriterion("unit_type_group not like", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrIn(List<String> values) {
-            addCriterion("unit_type_attr in", values, "unitTypeAttr");
+        public Criteria andUnitTypeGroupIn(List<String> values) {
+            addCriterion("unit_type_group in", values, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrNotIn(List<String> values) {
-            addCriterion("unit_type_attr not in", values, "unitTypeAttr");
+        public Criteria andUnitTypeGroupNotIn(List<String> values) {
+            addCriterion("unit_type_group not in", values, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrBetween(String value1, String value2) {
-            addCriterion("unit_type_attr between", value1, value2, "unitTypeAttr");
+        public Criteria andUnitTypeGroupBetween(String value1, String value2) {
+            addCriterion("unit_type_group between", value1, value2, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrNotBetween(String value1, String value2) {
-            addCriterion("unit_type_attr not between", value1, value2, "unitTypeAttr");
+        public Criteria andUnitTypeGroupNotBetween(String value1, String value2) {
+            addCriterion("unit_type_group not between", value1, value2, "unitTypeGroup");
             return (Criteria) this;
         }
 

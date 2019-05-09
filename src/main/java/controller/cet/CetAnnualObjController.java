@@ -3,6 +3,7 @@ package controller.cet;
 import domain.cadre.CadreView;
 import domain.cet.*;
 import domain.cet.CetAnnualObjExample.Criteria;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -430,12 +431,22 @@ public class CetAnnualObjController extends CetBaseController {
         String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
                 DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "annual" + annualId;
         FileUtils.mkdirs(tmpdir, false);
+
+        Set<String> filenameSet = new HashSet<>();
         for (CetAnnualObj cetAnnualObj : records) {
             
             XSSFWorkbook wb = cetExportService.cetAnnual_exportObjDetails(cetAnnualObj, cetAnnual, typeName);
+            SysUserView uv = cetAnnualObj.getUser();
             String filename = String.format("%s%s%s年度培训学习明细表（%s）.xlsx",
                     CmTag.getSysConfig().getSchoolName(), typeName, cetAnnual.getYear(),
-                    cetAnnualObj.getUser().getRealname());
+                    uv.getRealname());
+
+            // 保证文件名不重复
+            if(filenameSet.contains(filename)){
+                filename = uv.getCode() + filename;
+            }
+            filenameSet.add(filename);
+
             String filepath = tmpdir + FILE_SEPARATOR + filename;
             FileOutputStream output = new FileOutputStream(new File(filepath));
             wb.write(output);

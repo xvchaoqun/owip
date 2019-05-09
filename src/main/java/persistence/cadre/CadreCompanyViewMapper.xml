@@ -21,9 +21,10 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="cadre_status" jdbcType="TINYINT" property="cadreStatus" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
-    <result column="is_double" jdbcType="BIT" property="isDouble" />
+    <result column="admin_level_code" jdbcType="VARCHAR" property="adminLevelCode" />
+    <result column="is_double" jdbcType="BOOLEAN" property="isDouble" />
     <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
-    <result column="unit_type_attr" jdbcType="VARCHAR" property="unitTypeAttr" />
+    <result column="unit_type_group" jdbcType="VARCHAR" property="unitTypeGroup" />
     <result column="cadre_sort_order" jdbcType="INTEGER" property="cadreSortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -58,8 +59,8 @@
   <sql id="Base_Column_List">
     id, cadre_id, type, type_other, unit, post, start_time, is_finished, finish_time, 
     approval_unit, approval_date, approval_file, approval_filename, has_pay, has_hand, 
-    remark, status, cadre_status, admin_level, is_double, unit_type_id, unit_type_attr, 
-    cadre_sort_order
+    remark, status, cadre_status, admin_level, admin_level_code, is_double, unit_type_id, 
+    unit_type_group, cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreCompanyViewExample" resultMap="BaseResultMap">
     select

@@ -1,5 +1,6 @@
 package domain.base;
 
+import bean.MetaClassOption;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -8,15 +9,23 @@ import java.util.Map;
 
 public class MetaClass implements Serializable {
     
-    public Map<String, String> getOptions(){
+    public Map<String, MetaClassOption> getOptions(){
         
         if(StringUtils.isNotBlank(extraOptions)){
-            Map<String, String> options = new LinkedHashMap<>();
+
+            Map<String, MetaClassOption> options = new LinkedHashMap<>();
             String[] _options = extraOptions.split(",");
             for (String _option : _options) {
                 String[] tmp = _option.split("\\|");
-                options.put(tmp[0], (tmp.length>1)?tmp[1]:tmp[0]);
+
+                MetaClassOption option = new MetaClassOption();
+                option.setKey(tmp[0]);
+                option.setName((tmp.length>1)?tmp[1]:tmp[0]);
+                option.setDetail((tmp.length>2)?tmp[2]:option.getName());
+
+                options.put(tmp[0], option);
             }
+
             return options;
         }
         

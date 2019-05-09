@@ -78,7 +78,11 @@ public class MemberController extends MemberBaseController {
                 msg = "该用户不是党员";
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 if (memberApply != null && memberApply.getStage() > OwConstants.OW_APPLY_STAGE_DENY) {
+
                     msg += "；已进入党员发展阶段【" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) + "】";
+                    if(BooleanUtils.isTrue(memberApply.getIsRemove())){
+                        msg += "（已移除）";
+                    }
                 }
             } else {
                 Integer partyId = member.getPartyId();
@@ -498,7 +502,10 @@ public class MemberController extends MemberBaseController {
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if (memberApply != null && memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_INIT) {
-                return failed("该用户已经提交了入党申请[当前审批阶段：" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) + "]，不可以直接添加。");
+                return failed("该用户已经提交了入党申请[当前审批阶段："
+                        + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage())
+                        + ((BooleanUtils.isTrue(memberApply.getIsRemove()))?"（已移除）":"")
+                        + "]，不可以直接添加。");
             }
 
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常

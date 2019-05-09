@@ -30,6 +30,7 @@
 <fmt:message key="sys.help.hide" bundle="${spring}" var="_hideHelp"/>
 
 <c:set value="${_pMap['partyName']}" var="_p_partyName"/>
+<c:set value="${_pMap['hasKjCadre']=='true'}" var="_p_hasKjCadre"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
@@ -65,6 +66,9 @@
 <c:set value="<%=CadreConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_RESERVE%>" var="CADRE_STATUS_RESERVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
+<c:set value="<%=CadreConstants.CADRE_TYPE_CJ%>" var="CADRE_TYPE_CJ"/>
+<c:set value="<%=CadreConstants.CADRE_TYPE_KJ%>" var="CADRE_TYPE_KJ"/>
+<c:set value="<%=CadreConstants.CADRE_TYPE_MAP%>" var="CADRE_TYPE_MAP"/>
 
 <c:set var="MEMBER_SOURCE_MAP" value="<%=MemberConstants.MEMBER_SOURCE_MAP%>"/>
 

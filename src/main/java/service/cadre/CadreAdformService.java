@@ -26,6 +26,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
+import service.global.CacheService;
 import service.party.MemberService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
@@ -69,10 +70,12 @@ public class CadreAdformService extends BaseMapper {
     protected CadreRewardService cadreRewardService;
     @Autowired
     protected SysConfigService sysConfigService;
+    @Autowired
+    protected CacheService cacheService;
 
     public void export(Integer[] cadreIds, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
-        if(cadreIds == null) return;
+        if (cadreIds == null) return;
 
         if (cadreIds.length == 1) {
 
@@ -96,10 +99,18 @@ public class CadreAdformService extends BaseMapper {
             String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
                     DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "adforms";
             FileUtils.mkdirs(tmpdir, false);
+
+            Set<String> filenameSet = new HashSet<>();
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部任免审批表 " + cadre.getUser().getRealname() + ".doc";
+                        + " 干部任免审批表 " + cadre.getRealname() + ".doc";
+
+                // 保证文件名不重复
+                if (filenameSet.contains(filename)) {
+                    filename = cadre.getCode() + filename;
+                }
+                filenameSet.add(filename);
 
                 String filepath = tmpdir + FILE_SEPARATOR + filename;
                 FileOutputStream output = new FileOutputStream(new File(filepath));
@@ -120,7 +131,7 @@ public class CadreAdformService extends BaseMapper {
     }
 
     // 获取任免审批表属性值
-    public CadreInfoForm getCadreAdform(int cadreId){
+    public CadreInfoForm getCadreAdform(int cadreId) {
 
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         SysUserView uv = cadre.getUser();
@@ -133,9 +144,9 @@ public class CadreAdformService extends BaseMapper {
         bean.setBirth(cadre.getBirth());
         bean.setAge(DateUtils.intervalYearsUntilNow(cadre.getBirth()));
 
-        File avatar =  new File(springProps.avatarFolder + uv.getAvatar());
-        if(!avatar.exists()) avatar = new File(ConfigUtil.defaultHomePath()
-                + FILE_SEPARATOR + "img"+ FILE_SEPARATOR + "default.png");
+        File avatar = new File(springProps.avatarFolder + uv.getAvatar());
+        if (!avatar.exists()) avatar = new File(ConfigUtil.defaultHomePath()
+                + FILE_SEPARATOR + "img" + FILE_SEPARATOR + "default.png");
 
         // 头像默认大小
         bean.setAvatarWidth(143);
@@ -186,10 +197,10 @@ public class CadreAdformService extends BaseMapper {
         Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
         MetaType jxxx = codeKeyMap.get("mt_edu_jxxx");
 
-        if(fulltimeEdu!=null && fulltimeEdu.getIsGraduated()){
-            if(jxxx!=null && fulltimeEdu.getId().intValue()==jxxx.getId()){
+        if (fulltimeEdu != null && fulltimeEdu.getIsGraduated()) {
+            if (jxxx != null && fulltimeEdu.getId().intValue() == jxxx.getId()) {
                 // 进修学习不能进入表格
-            }else {
+            } else {
                 Integer eduId = fulltimeEdu.getEduId();
                 //String degree = fulltimeEdu.getDegree();
                 _fulltimeEdu = CmTag.getEduName(eduId) /*+ (degree!=null?degree:"")*/;
@@ -202,10 +213,10 @@ public class CadreAdformService extends BaseMapper {
                 _fulltimeDegree = fulltimeEdu.getDegree(); // 学位
             }
         }
-        if(onjobEdu!=null && onjobEdu.getIsGraduated()){
-            if(jxxx!=null && onjobEdu.getId().intValue()==jxxx.getId()){
+        if (onjobEdu != null && onjobEdu.getIsGraduated()) {
+            if (jxxx != null && onjobEdu.getId().intValue() == jxxx.getId()) {
                 // 进修学习不能进入表格
-            }else {
+            } else {
                 Integer eduId = onjobEdu.getEduId();
                 //String degree = onjobEdu.getDegree();
                 _onjobEdu = CmTag.getEduName(eduId) /*+ (degree!=null?degree:"")*/;
@@ -234,20 +245,20 @@ public class CadreAdformService extends BaseMapper {
         bean.setPost(mainCadrePost==null?null:springProps.school + mainCadrePost.getPost());*/
         // 现任职务
         String schoolName = sysConfigService.getSchoolName();
-        if(!StringUtils.startsWith(cadre.getTitle(), schoolName)){
+        if (!StringUtils.startsWith(cadre.getTitle(), schoolName)) {
             bean.setPost(schoolName + StringUtils.trimToEmpty(cadre.getTitle()));
-        }else{
+        } else {
             bean.setPost(cadre.getTitle());
         }
 
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
-        bean.setLearnDesc(edu==null?null:edu.getContent());
+        bean.setLearnDesc(edu == null ? null : edu.getContent());
 
         // 奖惩情况
         CadreInfo reward = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD);
-        String _reward = (reward == null) ? null :reward.getContent();
-        if(StringUtils.isBlank(_reward)){
+        String _reward = (reward == null) ? null : reward.getContent();
+        if (StringUtils.isBlank(_reward)) {
             _reward = freemarkerService.freemarker(cadreRewardService.list(cadreId),
                     "cadreRewards", "/cadre/cadreReward.ftl");
         }
@@ -255,12 +266,12 @@ public class CadreAdformService extends BaseMapper {
 
         // 工作经历
         CadreInfo work = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
-        bean.setWorkDesc(work==null?null:work.getContent());
+        bean.setWorkDesc(work == null ? null : work.getContent());
 
         // 简历
         CadreInfo resume = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESUME);
-        String _resume = (resume == null) ? null :resume.getContent();
-        if(StringUtils.isBlank(_resume)){
+        String _resume = (resume == null) ? null : resume.getContent();
+        if (StringUtils.isBlank(_resume)) {
             _resume = freemarkerService.freemarker(cadreWorkService.resume(bean.getCadreId()),
                     "cadreResumes", "/cadre/cadreResume.ftl");
         }
@@ -268,7 +279,7 @@ public class CadreAdformService extends BaseMapper {
 
         //年度考核结果
         Integer currentYear = DateUtils.getCurrentYear();
-        String evaResult = (currentYear-3) + "、"+ (currentYear-2) + "、"+ (currentYear-1) + "年年度考核均为合格。"; // 默认
+        String evaResult = (currentYear - 3) + "、" + (currentYear - 2) + "、" + (currentYear - 1) + "年年度考核均为合格。"; // 默认
         {
             Map<Integer, String> evaMap = new LinkedHashMap<>();
             CadreEvaExample example = new CadreEvaExample();
@@ -276,7 +287,7 @@ public class CadreAdformService extends BaseMapper {
                     .andYearBetween(currentYear - 3, currentYear);
             example.setOrderByClause("year desc");
             List<CadreEva> cadreEvas = cadreEvaMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 3));
-            if(cadreEvas.size()>0) {
+            if (cadreEvas.size() > 0) {
                 for (CadreEva cadreEva : cadreEvas) {
                     int year = cadreEva.getYear();
                     int type = cadreEva.getType();
@@ -287,18 +298,24 @@ public class CadreAdformService extends BaseMapper {
                 evaResult = StringUtils.join(evaList, "，");
             }
         }
-        
+
         bean.setCes(evaResult);
 
         // 培训情况
         CadreInfo train = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
-        bean.setTrainDesc(train==null?null:train.getContent());
+        bean.setTrainDesc(train == null ? null : train.getContent());
 
         // 社会关系
         CadreFamilyExample example = new CadreFamilyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("sort_order asc");
-        List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 6));
+
+        int maxFamilyCount = 6;
+        Integer adFormType = cacheService.getIntProperty("adFormType");
+        if (adFormType != null && adFormType == 2) {
+            maxFamilyCount = 7;
+        }
+        List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, maxFamilyCount));
         bean.setCadreFamilys(cadreFamilys);
 
         // 呈报日程默认当天
@@ -324,7 +341,7 @@ public class CadreAdformService extends BaseMapper {
 
         dataMap.put("isOw", bean.getIsOw());
         dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), DateUtils.YYYYMM));
-        if(bean.getDpTypeId()!=null && bean.getDpTypeId()>0) {
+        if (bean.getDpTypeId() != null && bean.getDpTypeId() > 0) {
             // 民主党派
             MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
             String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
@@ -348,33 +365,47 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("post", bean.getPost());
         dataMap.put("inPost", bean.getInPost());
         dataMap.put("prePost", bean.getPrePost());
-        dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360, "/common/titleEditor.ftl"));
+
+        int maxFamilyCount = 5;
+        String adformFtl = "/adform/adform.ftl";
+        String titleEditorFtl = "/common/titleEditor.ftl";
+        String familyFtl = "/adform/family.ftl";
+        Integer adFormType = cacheService.getIntProperty("adFormType");
+        if (adFormType != null && adFormType == 2) {
+            maxFamilyCount = 7;
+            adformFtl = "/adform/adform2.ftl";
+            titleEditorFtl = "/common/titleEditor2.ftl";
+            familyFtl = "/adform/family2.ftl";
+        }
+
+        dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360, titleEditorFtl));
         dataMap.put("ces", bean.getCes());
         dataMap.put("reason", bean.getReason());
 
         //dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360));
         //dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
 
-        String resumeDesc = freemarkerService.genTitleEditorSegment(null, bean.getResumeDesc(), true, 360, "/common/titleEditor.ftl");
+        String resumeDesc = freemarkerService.genTitleEditorSegment(null, bean.getResumeDesc(), true, 360, titleEditorFtl);
         /*if(StringUtils.isBlank(resumeDesc)){
             resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360))
                     + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
         }*/
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
-        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360, "/common/titleEditor.ftl"));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360, titleEditorFtl));
 
         String family = "";
         List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
         int size = cadreFamilys.size();
-        for (int i=0; i<5; i++) {
-            if(size<=i)
-                family += getFamilySeg(null, "/adform/family.ftl");
+
+        for (int i = 0; i < maxFamilyCount; i++) {
+            if (size <= i)
+                family += getFamilySeg(null, familyFtl);
             else
-                family += getFamilySeg(cadreFamilys.get(i), "/adform/family.ftl");
+                family += getFamilySeg(cadreFamilys.get(i), familyFtl);
         }
         dataMap.put("family", family);
         SysUserView currentUser = ShiroHelper.getCurrentUser();
-        if(currentUser!=null)
+        if (currentUser != null)
             dataMap.put("admin", currentUser.getRealname());
 
         Date reportDate = bean.getReportDate();
@@ -382,7 +413,7 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("m1", DateUtils.getMonth(reportDate));
         dataMap.put("d1", DateUtils.getDay(reportDate));
 
-        freemarkerService.process("/adform/adform.ftl", dataMap, out);
+        freemarkerService.process(adformFtl, dataMap, out);
     }
 
     private Document getZZBTemplate() throws FileNotFoundException, DocumentException {
@@ -392,15 +423,15 @@ public class CadreAdformService extends BaseMapper {
         return reader.read(is);
     }
 
-    private void setNodeText(Document doc, String nodeKey, String value){
+    private void setNodeText(Document doc, String nodeKey, String value) {
 
         Node node = doc.selectSingleNode("//Person//" + nodeKey);
         node.setText(StringUtils.trimToEmpty(value));
     }
 
-    public String html2Paragraphs(String content){
+    public String html2Paragraphs(String content) {
 
-        if(StringUtils.isBlank(content)) return null;
+        if (StringUtils.isBlank(content)) return null;
 
         org.jsoup.nodes.Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
         Elements pElements = doc.getElementsByTag("p");
@@ -412,7 +443,7 @@ public class CadreAdformService extends BaseMapper {
             String text = StringUtils.trimToEmpty(pElement.text());
             //System.out.println(rowStr);
 
-            str +=  process(text) + "\r\n";
+            str += process(text) + "\r\n";
             //System.out.println(rowStr);
         }
 
@@ -423,17 +454,17 @@ public class CadreAdformService extends BaseMapper {
         return str;
     }
 
-    private String process(String text){
+    private String process(String text) {
 
         // 需要换行的其间经历
         String[] texts = text.split("） （"); // 中间包含一个空格
-        if(texts.length==2){
+        if (texts.length == 2) {
             text = texts[0] + "）\r\n（" + texts[1];
         }
 
-        String _blankEndDate="";
+        String _blankEndDate = "";
         String[] textArray = text.trim().split(" ");
-        if(textArray[0].trim().endsWith("—")){
+        if (textArray[0].trim().endsWith("—")) {
             _blankEndDate = "       "; // 简历中结束时间为空，留7个空格
         }
 
@@ -455,17 +486,17 @@ public class CadreAdformService extends BaseMapper {
         setNodeText(doc, "ChuShengDi", adform.getHomeplace());
 
         String dpPartyName = null;
-        if(adform.getDpTypeId()!=null && adform.getDpTypeId()>0){
+        if (adform.getDpTypeId() != null && adform.getDpTypeId() > 0) {
             MetaType metaType = CmTag.getMetaType(adform.getDpTypeId());
             dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
         }
         String owGrowTime = DateUtils.formatDate(adform.getOwGrowTime(), "yyyyMM");
-        if(owGrowTime==null && dpPartyName!=null){
+        if (owGrowTime == null && dpPartyName != null) {
             setNodeText(doc, "RuDangShiJian", dpPartyName);
-        }else if(owGrowTime!=null && dpPartyName==null){
+        } else if (owGrowTime != null && dpPartyName == null) {
             setNodeText(doc, "RuDangShiJian", owGrowTime);
-        }else if(owGrowTime!=null && dpPartyName!=null){
-            setNodeText(doc, "RuDangShiJian", owGrowTime+"；" + dpPartyName);
+        } else if (owGrowTime != null && dpPartyName != null) {
+            setNodeText(doc, "RuDangShiJian", owGrowTime + "；" + dpPartyName);
         }
 
         setNodeText(doc, "CanJiaGongZuoShiJian", DateUtils.formatDate(adform.getWorkTime(), "yyyyMM"));
@@ -490,9 +521,9 @@ public class CadreAdformService extends BaseMapper {
 
         String jianli = "";
         String resumeDesc = adform.getResumeDesc();
-        if(StringUtils.isNotBlank(resumeDesc)){
+        if (StringUtils.isNotBlank(resumeDesc)) {
             jianli += adform.getResumeDesc();
-        }else {
+        } else {
             if (StringUtils.isNotBlank(adform.getLearnDesc())) {
                 jianli += adform.getLearnDesc();
             }
@@ -507,10 +538,10 @@ public class CadreAdformService extends BaseMapper {
         setNodeText(doc, "RenMianLiYou", adform.getReason());
 
         // 家庭成员
-        Element familys = (Element)doc.selectSingleNode("//Person//JiaTingChengYuan");
+        Element familys = (Element) doc.selectSingleNode("//Person//JiaTingChengYuan");
         List<CadreFamily> cadreFamilys = adform.getCadreFamilys();
         int size = Math.min(cadreFamilys.size(), 10);
-        for (int i=0; i<size; i++) {
+        for (int i = 0; i < size; i++) {
 
             CadreFamily cf = cadreFamilys.get(i);
             Element item = familys.addElement("Item");
@@ -519,18 +550,18 @@ public class CadreAdformService extends BaseMapper {
             item.addElement("ChuShengRiQi").setText(StringUtils.trimToEmpty(DateUtils.formatDate(cf.getBirthday(), "yyyyMM")));
 
             String fps = "";
-            if(cf!=null && cf.getPoliticalStatus()!=null){
+            if (cf != null && cf.getPoliticalStatus() != null) {
                 fps = metaTypeService.getName(cf.getPoliticalStatus());
             }
             item.addElement("ZhengZhiMianMao").setText(StringUtils.trimToEmpty(fps));
-            item.addElement("GongZuoDanWeiJiZhiWu").setText(cf==null?"":StringUtils.trimToEmpty(cf.getUnit()));
+            item.addElement("GongZuoDanWeiJiZhiWu").setText(cf == null ? "" : StringUtils.trimToEmpty(cf.getUnit()));
         }
 
         setNodeText(doc, "ChengBaoDanWei", "");
         setNodeText(doc, "JiSuanNianLingShiJian", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         setNodeText(doc, "TianBiaoShiJian", "");
         SysUserView currentUser = ShiroHelper.getCurrentUser();
-        setNodeText(doc, "TianBiaoRen", currentUser==null?"": currentUser.getRealname());
+        setNodeText(doc, "TianBiaoRen", currentUser == null ? "" : currentUser.getRealname());
         setNodeText(doc, "ShenFenZheng", adform.getIdCard());
         setNodeText(doc, "ZhaoPian", adform.getAvatar());
         setNodeText(doc, "Version", "3.2.1.6");
@@ -540,7 +571,7 @@ public class CadreAdformService extends BaseMapper {
         OutputFormat format = new OutputFormat();
         XMLWriter writer = null;
         format.setEncoding("UTF-8");
-        writer = new XMLWriter(out,format);
+        writer = new XMLWriter(out, format);
         writer.write(doc);
         writer.close();
 
@@ -552,28 +583,28 @@ public class CadreAdformService extends BaseMapper {
 
     private String getFamilySeg(CadreFamily cf, String ftlPath) throws IOException, TemplateException {
 
-        Map<String,Object> dataMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
 
         String ftitle = "";
-        if(cf!=null){
+        if (cf != null) {
             ftitle = CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cf.getTitle());
         }
         dataMap.put("ftitle", StringUtils.trimToEmpty(ftitle));
-        dataMap.put("fname", cf==null?"":StringUtils.trimToEmpty(cf.getRealname()));
+        dataMap.put("fname", cf == null ? "" : StringUtils.trimToEmpty(cf.getRealname()));
 
        /* String fage = "";
         if(cf!=null && cf.getBirthday()!=null){
             fage = DateUtils.calAge(cf.getBirthday());
         }*/
-        dataMap.put("fage", cf==null?"":DateUtils.formatDate(cf.getBirthday(), DateUtils.YYYYMM));
+        dataMap.put("fage", cf == null ? "" : DateUtils.formatDate(cf.getBirthday(), DateUtils.YYYYMM));
 
         String fps = "";
-        if(cf!=null && cf.getPoliticalStatus()!=null){
+        if (cf != null && cf.getPoliticalStatus() != null) {
             fps = metaTypeService.getName(cf.getPoliticalStatus());
         }
         dataMap.put("fps", StringUtils.trimToEmpty(fps));
 
-        dataMap.put("fpost", cf==null?"":StringUtils.trimToEmpty(cf.getUnit()));
+        dataMap.put("fpost", cf == null ? "" : StringUtils.trimToEmpty(cf.getUnit()));
 
         return freemarkerService.process(ftlPath, dataMap);
     }

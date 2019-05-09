@@ -276,10 +276,10 @@ public class CadreFamilyController extends BaseController {
         for (int i = 0; i < rownum; i++) {
             CadreFamily cadreFamily = cadreFamilys.get(i);
             CadreView cadre = CmTag.getCadreById(cadreFamily.getCadreId());
-            SysUserView uv = cadre.getUser();
+
             String[] values = {
-                    uv.getCode(),
-                    uv.getRealname(),
+                    cadre.getCode(),
+                    cadre.getRealname(),
                     cadre.getTitle(),
                     cadreFamily.getTitle()==null?"":CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cadreFamily.getTitle()),
                     cadreFamily.getRealname(),

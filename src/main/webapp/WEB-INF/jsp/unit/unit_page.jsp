@@ -32,6 +32,11 @@
                                data-url="${ctx}/unit_import?status=${status}"
                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                                 批量导入</a>
+
+                                <a class="popupBtn btn btn-danger btn-sm tooltip-warning"
+                               data-url="${ctx}/unit_importCodes"
+                               data-rel="tooltip" data-placement="top" title="批量导入更新编码"><i class="fa fa-upload"></i>
+                                批量更新编码</a>
                             </shiro:hasPermission>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
@@ -141,15 +146,24 @@
             { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             </shrio:hasPermission>
-            { label: '单位类型', name: 'typeId', width: 250, formatter: $.jgrid.formatter.MetaType },
+            { label: '单位类型', name: 'typeId', width: 140, formatter: $.jgrid.formatter.MetaType },
             <c:if test="${status==1}">
             <shiro:hasPermission name="unitPost:*">
-            { label: '正职<br/>岗位数', name: 'principalPostCount', width: 80},
-            { label: '副职<br/>岗位数', name: 'vicePostCount', width: 80},
+            { label: '正处级<br/>岗位数', name: 'mainPostCount', width: 80},
+            { label: '副处级<br/>岗位数', name: 'vicePostCount', width: 80},
+            { label: '无行政级别<br/>岗位数', name: 'nonePostCount', width: 90},
+            <c:if test="${_p_hasKjCadre}">
+            { label: '正科级<br/>岗位数', name: 'mainKjPostCount', width: 80},
+            { label: '副科级<br/>岗位数', name: 'viceKjPostCount', width: 80},
+            </c:if>
             </shiro:hasPermission>
             { label: '正处级<br/>干部职数', name: 'mainCount', width: 80},
             { label: '副处级<br/>干部职数', name: 'viceCount', width: 80},
             { label: '无行政级别<br/>干部职数', name: 'noneCount', width: 90},
+            <c:if test="${_p_hasKjCadre}">
+            { label: '正科级<br/>干部职数', name: 'mainKjCount', width: 80},
+            { label: '副科级<br/>干部职数', name: 'viceKjCount', width: 80},
+            </c:if>
             </c:if>
             /*{ label: '成立时间', name: 'workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '成立文件', name: 'filePath', width: 80, formatter: function (cellvalue, options, rowObject) {

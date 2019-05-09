@@ -7,6 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.cadre.common.StatCadreBean;
 import persistence.cadre.common.StatCadreMapper;
+import sys.constants.CadreConstants;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class CadreStatMapperTest {
 
     @Test
     public void t(){
-        String unitTypeAttr = "xy";
+        String unitTypeGroup = "xy";
 
-        List<StatCadreBean> cadreStatBeans = cadreStatMapper.cadre_stat_adminLevel(unitTypeAttr);
+        List<StatCadreBean> cadreStatBeans = cadreStatMapper.cadre_stat_adminLevel(unitTypeGroup, CadreConstants.CADRE_TYPE_CJ);
         for (StatCadreBean cadreStatBean : cadreStatBeans) {
             System.out.println(cadreStatBean);
         }

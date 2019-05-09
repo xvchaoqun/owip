@@ -23,6 +23,7 @@ import org.springframework.util.ResourceUtils;
 import persistence.dispatch.common.DispatchCadreRelateBean;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.global.CacheService;
 import service.party.BranchService;
 import service.party.PartyService;
 import service.unit.UnitService;
@@ -57,11 +58,14 @@ public class CadreExportService extends BaseMapper {
     protected BranchService branchService;
     @Autowired
     protected CadrePostService cadrePostService;
+    @Autowired
+    protected CacheService cacheService;
 
     public List<String> getTitles(){
 
+        String cadreStateName = cacheService.getStringProperty("cadreStateName");
         return new ArrayList<>(Arrays.asList(new String[]{
-                "工作证号|100", "姓名|100", "干部类型|100", "是否涉密|100", "部门属性|150", "所在单位|300", "现任职务|160",
+                "工作证号|100", "姓名|100", "干部类型|100", cadreStateName + "|100", "部门属性|150", "所在单位|300", "现任职务|160",
                 "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120",  "是否班子负责人|120", "性别|50",
                 "民族|100", "籍贯|100", "出生地|100", "身份证号|150", "出生时间|100",
                 "年龄|50", "党派|150", "党派加入时间|120", "参加工作时间|120", "到校时间|100",
@@ -311,7 +315,7 @@ public class CadreExportService extends BaseMapper {
                     sysUser.getCode(),
                     sysUser.getRealname(),
                     CadreConstants.CADRE_TYPE_MAP.get(record.getType()),
-                    BooleanUtils.isTrue(record.getState())?"是":"否",
+                    metaTypeService.getName(record.getState()),
                     unit == null ? "" : unit.getUnitType().getName(),
                     unit == null ? "" : unit.getName(),
                     record.getPost(),

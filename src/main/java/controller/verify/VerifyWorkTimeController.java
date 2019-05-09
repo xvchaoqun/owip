@@ -206,8 +206,8 @@ public class VerifyWorkTimeController extends VerifyBaseController {
             VerifyWorkTime record = records.get(i);
             CadreView cadre = record.getCadre();
             String[] values = {
-                    cadre.getUser().getCode(),
-                    cadre.getUser().getRealname(),
+                    cadre.getCode(),
+                    cadre.getRealname(),
                     cadre.getTitle(),
                     VerifyConstants.VERIFY_WORK_TIME_TYPE_MAP.get(record.getType()),
                     DateUtils.formatDate(record.getOldWorkTime(), DateUtils.YYYYMM),

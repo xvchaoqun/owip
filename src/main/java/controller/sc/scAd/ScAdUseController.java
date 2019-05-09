@@ -173,7 +173,7 @@ public class ScAdUseController extends ScBaseController {
         if(StringUtils.isBlank(adform)) return;
 
         //输出文件
-        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
+        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getRealname();
         response.reset();
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));

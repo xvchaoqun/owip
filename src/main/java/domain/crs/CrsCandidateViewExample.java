@@ -1781,52 +1781,52 @@ public class CrsCandidateViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andStateEqualTo(Boolean value) {
+        public Criteria andStateEqualTo(Integer value) {
             addCriterion("state =", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotEqualTo(Boolean value) {
+        public Criteria andStateNotEqualTo(Integer value) {
             addCriterion("state <>", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateGreaterThan(Boolean value) {
+        public Criteria andStateGreaterThan(Integer value) {
             addCriterion("state >", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andStateGreaterThanOrEqualTo(Integer value) {
             addCriterion("state >=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLessThan(Boolean value) {
+        public Criteria andStateLessThan(Integer value) {
             addCriterion("state <", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLessThanOrEqualTo(Boolean value) {
+        public Criteria andStateLessThanOrEqualTo(Integer value) {
             addCriterion("state <=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateIn(List<Boolean> values) {
+        public Criteria andStateIn(List<Integer> values) {
             addCriterion("state in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotIn(List<Boolean> values) {
+        public Criteria andStateNotIn(List<Integer> values) {
             addCriterion("state not in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateBetween(Boolean value1, Boolean value2) {
+        public Criteria andStateBetween(Integer value1, Integer value2) {
             addCriterion("state between", value1, value2, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andStateNotBetween(Integer value1, Integer value2) {
             addCriterion("state not between", value1, value2, "state");
             return (Criteria) this;
         }
@@ -5484,6 +5484,66 @@ public class CrsCandidateViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andLeaderTypeIsNull() {
+            addCriterion("leader_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeIsNotNull() {
+            addCriterion("leader_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeEqualTo(Byte value) {
+            addCriterion("leader_type =", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeNotEqualTo(Byte value) {
+            addCriterion("leader_type <>", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeGreaterThan(Byte value) {
+            addCriterion("leader_type >", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("leader_type >=", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeLessThan(Byte value) {
+            addCriterion("leader_type <", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("leader_type <=", value, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeIn(List<Byte> values) {
+            addCriterion("leader_type in", values, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeNotIn(List<Byte> values) {
+            addCriterion("leader_type not in", values, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeBetween(Byte value1, Byte value2) {
+            addCriterion("leader_type between", value1, value2, "leaderType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("leader_type not between", value1, value2, "leaderType");
+            return (Criteria) this;
+        }
+
         public Criteria andCadrePostYearIsNull() {
             addCriterion("cadre_post_year is null");
             return (Criteria) this;
@@ -7104,73 +7164,73 @@ public class CrsCandidateViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrIsNull() {
-            addCriterion("unit_type_attr is null");
+        public Criteria andUnitTypeGroupIsNull() {
+            addCriterion("unit_type_group is null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrIsNotNull() {
-            addCriterion("unit_type_attr is not null");
+        public Criteria andUnitTypeGroupIsNotNull() {
+            addCriterion("unit_type_group is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrEqualTo(String value) {
-            addCriterion("unit_type_attr =", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupEqualTo(String value) {
+            addCriterion("unit_type_group =", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrNotEqualTo(String value) {
-            addCriterion("unit_type_attr <>", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupNotEqualTo(String value) {
+            addCriterion("unit_type_group <>", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrGreaterThan(String value) {
-            addCriterion("unit_type_attr >", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupGreaterThan(String value) {
+            addCriterion("unit_type_group >", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrGreaterThanOrEqualTo(String value) {
-            addCriterion("unit_type_attr >=", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_type_group >=", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrLessThan(String value) {
-            addCriterion("unit_type_attr <", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupLessThan(String value) {
+            addCriterion("unit_type_group <", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrLessThanOrEqualTo(String value) {
-            addCriterion("unit_type_attr <=", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupLessThanOrEqualTo(String value) {
+            addCriterion("unit_type_group <=", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrLike(String value) {
-            addCriterion("unit_type_attr like", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupLike(String value) {
+            addCriterion("unit_type_group like", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrNotLike(String value) {
-            addCriterion("unit_type_attr not like", value, "unitTypeAttr");
+        public Criteria andUnitTypeGroupNotLike(String value) {
+            addCriterion("unit_type_group not like", value, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrIn(List<String> values) {
-            addCriterion("unit_type_attr in", values, "unitTypeAttr");
+        public Criteria andUnitTypeGroupIn(List<String> values) {
+            addCriterion("unit_type_group in", values, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrNotIn(List<String> values) {
-            addCriterion("unit_type_attr not in", values, "unitTypeAttr");
+        public Criteria andUnitTypeGroupNotIn(List<String> values) {
+            addCriterion("unit_type_group not in", values, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrBetween(String value1, String value2) {
-            addCriterion("unit_type_attr between", value1, value2, "unitTypeAttr");
+        public Criteria andUnitTypeGroupBetween(String value1, String value2) {
+            addCriterion("unit_type_group between", value1, value2, "unitTypeGroup");
             return (Criteria) this;
         }
 
-        public Criteria andUnitTypeAttrNotBetween(String value1, String value2) {
-            addCriterion("unit_type_attr not between", value1, value2, "unitTypeAttr");
+        public Criteria andUnitTypeGroupNotBetween(String value1, String value2) {
+            addCriterion("unit_type_group not between", value1, value2, "unitTypeGroup");
             return (Criteria) this;
         }
 

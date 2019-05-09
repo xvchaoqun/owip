@@ -1,9 +1,11 @@
 package controller.cadre;
 
+import bean.MetaClassOption;
 import bean.XlsUpload;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import controller.BaseController;
 import controller.global.OpException;
+import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.CadreCompany;
 import domain.cadre.CadreCompanyView;
@@ -167,6 +169,10 @@ public class CadreCompanyController extends BaseController {
 
             List<Map> statByTypeData = cadreCompanyService.statByTypeData();
             modelMap.put("rowDataMap", statByTypeData);
+
+            MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
+            Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
+             modelMap.put("unitTypeGroupMap", unitTypeGroupMap);
 
             return "cadre/cadreCompany/cadreCompanyList_statByType";
         }

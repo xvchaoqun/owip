@@ -223,6 +223,7 @@ public class CadreReserveService extends BaseMapper {
                 cadreRecord.setId(null); // 防止误传ID过来
                 cadreRecord.setUserId(userId);
                 cadreRecord.setStatus(CadreConstants.CADRE_STATUS_RESERVE);
+                cadreRecord.setType(CadreConstants.CADRE_TYPE_OTHER);
                 cadreMapper.insertSelective(cadreRecord);
 
                 cadreId = cadreRecord.getId();
@@ -357,6 +358,7 @@ public class CadreReserveService extends BaseMapper {
 
         cadreRecord.setId(cadreId);
         cadreRecord.setUserId(null); // 账号不变
+        cadreRecord.setType(null); // 类型不变
         cadreRecord.setStatus(null); // 除了下面的情况，保持不变
         if(cadre.getStatus()== CadreConstants.CADRE_STATUS_NOT_CADRE
                 || cadre.getStatus()== CadreConstants.CADRE_STATUS_RECRUIT

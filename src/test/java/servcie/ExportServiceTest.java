@@ -1,26 +1,18 @@
 package servcie;
 
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRichTextString;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import service.analysis.StatCadreService;
 import service.member.MemberStayExportService;
 import service.party.PartyExportService;
+import sys.constants.CadreConstants;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Created by fafa on 2015/11/9.
@@ -182,7 +174,7 @@ public class ExportServiceTest {
     @Test
     public void stat() throws IOException {
 
-        XSSFWorkbook wb = cadreStatService.toXlsx();
+        XSSFWorkbook wb = cadreStatService.toXlsx(CadreConstants.CADRE_TYPE_CJ);
         FileOutputStream output = new FileOutputStream(new File("D:/tmp/test2.xlsx"));
 
         wb.write(output);

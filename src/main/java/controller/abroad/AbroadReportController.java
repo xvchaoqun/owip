@@ -286,9 +286,8 @@ public class AbroadReportController extends AbroadBaseController {
 
         Integer cadreId = passportDraw.getCadreId();
         CadreView cadre = iCadreMapper.getCadre(cadreId);
-        SysUserView sysUser = cadre.getUser();
-        String realname = sysUser.getRealname();
-        String code = sysUser.getCode();
+        String realname = cadre.getRealname();
+        String code = cadre.getCode();
         String unit = cadre.getUnit().getName();
 
         String passportName = passportDraw.getPassportClass().getName();

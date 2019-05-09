@@ -90,10 +90,18 @@ public class CadreInfoFormService extends BaseMapper {
             String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
                     DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "infoForms";
             FileUtils.mkdirs(tmpdir, false);
+
+            Set<String> filenameSet = new HashSet<>();
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部信息采集表 " + cadre.getUser().getRealname() + ".doc";
+                        + " 干部信息采集表 " + cadre.getRealname() + ".doc";
+
+                // 保证文件名不重复
+                if(filenameSet.contains(filename)){
+                    filename = cadre.getCode() + filename;
+                }
+                filenameSet.add(filename);
 
                 String filepath = tmpdir + FILE_SEPARATOR + filename;
                 FileOutputStream output = new FileOutputStream(new File(filepath));
@@ -137,10 +145,18 @@ public class CadreInfoFormService extends BaseMapper {
             String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
                     DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "infoForms";
             FileUtils.mkdirs(tmpdir, false);
+
+            Set<String> filenameSet = new HashSet<>();
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部信息表 " + cadre.getUser().getRealname() + ".doc";
+                        + " 干部信息表 " + cadre.getRealname() + ".doc";
+
+                // 保证文件名不重复
+                if(filenameSet.contains(filename)){
+                    filename = cadre.getCode() + filename;
+                }
+                filenameSet.add(filename);
 
                 String filepath = tmpdir + FILE_SEPARATOR + filename;
                 FileOutputStream output = new FileOutputStream(new File(filepath));

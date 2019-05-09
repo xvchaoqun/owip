@@ -12,7 +12,6 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import domain.unit.UnitPost;
 import freemarker.template.TemplateException;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -170,7 +169,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
                            Boolean isDouble, // 是否双肩挑
                            Byte type,
-                           Boolean state,
+                           Integer state,
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -588,10 +587,12 @@ public class CadreController extends BaseController {
     @ResponseBody
     public Map do_cadre_au(Cadre record, HttpServletRequest request) {
 
-        record.setState(BooleanUtils.isTrue(record.getState()));
-
         Integer id = record.getId();
         if (id == null) {
+            // 默认是处级干部
+            if(record.getType()==null){
+                record.setType(CadreConstants.CADRE_TYPE_CJ);
+            }
             cadreService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部：%s", record.getId()));
         } else {
@@ -730,7 +731,10 @@ public class CadreController extends BaseController {
             }
 
             String _state = StringUtils.trim(xlsRow.get(3));
-            record.setState(StringUtils.equals(_state, "是"));
+            MetaType state = CmTag.getMetaTypeByName("mc_cadre_state", _state);
+            if(state!=null) {
+                record.setState(state.getId());
+            }
 
             String adminLevel = StringUtils.trimToNull(xlsRow.get(4));
             MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);

@@ -6,7 +6,7 @@
   <col class=xl7124425 width=151>
   <col class=xl6324425 width=42>
   <col class=xl6324425 width=57>
-  <col class=xl7124425 width=116>
+  <col class=xl7124425 width=${cadreType==CADRE_TYPE_CJ?116:380}>
   <col class=xl6324425 width=57>
   <col class=xl6324425 width=42>
   <col class=xl6324425 width=57>
@@ -17,14 +17,14 @@
   <col class=xl7124425 width=116>
   <col class=xl6324425 width=57>
   <tr height=52>
-    <td colspan=14 height=52 class=xl8224425 width=1068>${_school}内设机构干部配备情况
+    <td colspan=${cadreType==CADRE_TYPE_CJ?14:10} height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备情况
     </td>
   </tr>
   <tr height=30>
     <td colspan=7 height=30 class=xl8324426 width=1068>
       统计日期：${cm:formatDate(now,'yyyy年MM月dd日')}
     </td>
-    <td colspan=7 height=30 class=xl8324425 width=1068>
+    <td colspan=${cadreType==CADRE_TYPE_CJ?7:3} height=30 class=xl8324425 width=1068>
       注：<span class="isCpc">(占职数)</span>/<span class="notCpc">(不占职数)</span>
     </td>
   </tr>
@@ -34,13 +34,15 @@
     <td rowspan=3 class=xl6624425 width=200>单<span
             style='mso-spacerun:yes'>&nbsp; </span>位
     </td>
-    <td colspan=4 class=xl6624425 width=272>正处级干部
+    <td colspan=4 class=xl6624425 width=272>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}级干部
     </td>
-    <td colspan=4 class=xl8524425 width=398>副处级干部
+    <td colspan=4 class=xl8524425 width=398>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}级干部
     </td>
+    <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td colspan=4 class=xl8024425 width=272 style='border-right: 2.0pt double black;'>
       无行政级别干部
     </td>
+    </c:if>
   </tr>
   <tr class=xl6524425 height=30 style='mso-height-source:userset;height:22.9pt'>
     <td rowspan=2 height=60 class=xl6624425 width=42 style='height:45.8pt;
@@ -51,9 +53,11 @@
     <td rowspan=2 class=xl7824425 width=42>职数</td>
     <td colspan=2 class=xl6624425 width=299 style="border-right: none;">现任干部情况</td>
     <td rowspan=2 class=xl7924425 width=57>空缺数</td>
+    <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td rowspan=2 class=xl7824425 width=42>职数</td>
     <td colspan=2 class=xl6624425 width=173 style="border-right: none;">现任干部情况</td>
     <td rowspan=2 class=xl7924425 width=57>空缺数</td>
+    </c:if>
   </tr>
   <tr class=xl6524425 height=30>
     <td height=30 class=xl6624425 width=57>现任数
@@ -64,9 +68,11 @@
     </td>
     <td class=xl7024425 width=242>现任干部
     </td>
+    <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td class=xl7624425 width=57>现任数</td>
     <td class=xl7724425 width=116>现任干部
     </td>
+    </c:if>
   </tr>
 
   <c:forEach items="${beans}" var="bean" varStatus="vs">
@@ -127,6 +133,7 @@
             </a>
           </c:if>
         </td>
+        <c:if test="${cadreType==CADRE_TYPE_CJ}">
         <td class=xl7524425 width=42>
           <c:if test="${bean.noneNum==0}">0</c:if>
           <c:if test="${bean.noneNum>0}">
@@ -152,6 +159,7 @@
             </a>
           </c:if>
         </td>
+        </c:if>
       </tr>
     </c:if>
     <c:if test="${vs.last}">
@@ -167,11 +175,13 @@
         <td class=xl6424425 width=57>${bean.viceCount}</td>
         <td class=xl6924425 width=242>　</td>
         <td class=xl6824425 width=57>${bean.viceLack}</td>
+        <c:if test="${cadreType==CADRE_TYPE_CJ}">
         <td class=xl6424425 width=42>${bean.noneNum}</td>
         <td class=xl6424425 width=57>${bean.noneCount}</td>
         <td class=xl6924425 width=116>　
         </td>
         <td class=xl6824425 width=57>${bean.noneLack}</td>
+        </c:if>
       </tr>
     </c:if>
   </c:forEach>

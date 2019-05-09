@@ -27,30 +27,33 @@
             </div>
         </div>
         <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
+        <c:if test="${_p_hasKjCadre}">
         <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span>干部类型</label>
             <div class="col-xs-6">
-                <div class="input-group">
+                <c:forEach items="${CADRE_TYPE_MAP}" var="entity">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="type" id="type0" value="1" ${cadre.type!=2?"checked":""}>
-                        <label for="type0">
-                            处级干部
+                        <input required type="radio" name="type" id="type${entity.key}"
+                        ${cadre.type==entity.key?"checked":""} value="${entity.key}">
+                        <label for="type${entity.key}">
+                            ${entity.value}
                         </label>
                     </div>
-                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="type" id="type1" value="2" ${cadre.type==2?"checked":""}>
-                        <label for="type1">
-                            科级干部
-                        </label>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
-            </c:if>
+        </c:if>
+         </c:if>
         <div class="form-group">
-            <label class="col-xs-4 control-label">是否涉密</label>
+            <label class="col-xs-4 control-label">${_pMap['cadreStateName']}</label>
             <div class="col-xs-6">
-                <input type="checkbox" class="big" name="state" ${cadre.state?"checked":""}/>
+                <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
+                    <option></option>
+                    <c:import url="/metaTypes?__code=mc_cadre_state"/>
+                </select>
+                <script type="text/javascript">
+                    $("#modalForm select[name=state]").val(${cadre.state});
+                </script>
             </div>
         </div>
         <div class="form-group">

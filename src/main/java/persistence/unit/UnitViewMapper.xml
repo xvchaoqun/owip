@@ -12,10 +12,15 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="principal_post_count" jdbcType="DECIMAL" property="principalPostCount" />
+    <result column="main_post_count" jdbcType="DECIMAL" property="mainPostCount" />
     <result column="vice_post_count" jdbcType="DECIMAL" property="vicePostCount" />
+    <result column="none_post_count" jdbcType="DECIMAL" property="nonePostCount" />
+    <result column="main_kj_post_count" jdbcType="DECIMAL" property="mainKjPostCount" />
+    <result column="vice_kj_post_count" jdbcType="DECIMAL" property="viceKjPostCount" />
     <result column="main_count" jdbcType="DECIMAL" property="mainCount" />
     <result column="vice_count" jdbcType="DECIMAL" property="viceCount" />
+    <result column="main_kj_count" jdbcType="DECIMAL" property="mainKjCount" />
+    <result column="vice_kj_count" jdbcType="DECIMAL" property="viceKjCount" />
     <result column="none_count" jdbcType="DECIMAL" property="noneCount" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.unit.UnitView">
@@ -52,7 +57,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, code, name, type_id, dispatch_unit_id, work_time, url, create_time, sort_order, 
-    status, principal_post_count, vice_post_count, main_count, vice_count, none_count
+    status, main_post_count, vice_post_count, none_post_count, main_kj_post_count, vice_kj_post_count, 
+    main_count, vice_count, main_kj_count, vice_kj_count, none_count
   </sql>
   <sql id="Blob_Column_List">
     remark

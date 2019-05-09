@@ -31,6 +31,7 @@ import persistence.sys.*;
 import persistence.sys.common.ISysMapper;
 import persistence.unit.*;
 import persistence.unit.common.IUnitMapper;
+import sys.constants.CadreConstants;
 
 import java.io.File;
 
@@ -329,5 +330,12 @@ public class CoreBaseMapper {
         
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
+    }
+
+    public String getMainAdminLevelCode(byte cadreType){
+        return (cadreType== CadreConstants.CADRE_TYPE_CJ)?"mt_admin_level_main":"mt_admin_level_main_kj";
+    }
+    public String getViceAdminLevelCode(byte cadreType){
+        return (cadreType== CadreConstants.CADRE_TYPE_CJ)?"mt_admin_level_vice":"mt_admin_level_vice_kj";
     }
 }

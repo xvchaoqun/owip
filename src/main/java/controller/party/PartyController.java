@@ -14,6 +14,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,6 +133,8 @@ public class PartyController extends BaseController {
         PartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
+        criteria.addPermits(loginUserService.adminPartyIdList());
+
         criteria.andIsDeletedEqualTo(cls==2);
 
         if (StringUtils.isNotBlank(code)) {
@@ -211,6 +214,8 @@ public class PartyController extends BaseController {
         record.setIsSeparate((record.getIsSeparate() == null) ? false : record.getIsSeparate());
 
         if (id == null) {
+            SecurityUtils.getSubject().checkPermission("party:add");
+
             record.setCreateTime(new Date());
             partyService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加基层党组织：%s", record.getId()));

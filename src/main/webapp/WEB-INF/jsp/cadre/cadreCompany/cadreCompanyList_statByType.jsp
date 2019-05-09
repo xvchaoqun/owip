@@ -5,8 +5,8 @@
     <div class="col-xs-12">
         <div class="tabbable" style="margin: 10px 20px; width: 1100px">
             <div class="space-4"></div>
-            <a href="${ctx}/cadreCompanyList_statByTypeExport"
-               style="margin-left: 20px">
+            <a href="javascript:;" data-url="${ctx}/cadreCompanyList_statByTypeExport"
+               style="margin-left: 20px" class="downloadBtn">
                 <i class="fa fa-download"></i> ${_school}干部兼职情况统计表（按类别统计）</a>
             <div class="space-4"></div>
             <c:set var="typeMap" value="${cm:getMetaTypes('mc_cadre_company_type')}"/>
@@ -26,8 +26,8 @@
                 </tr>
                 <tr>
                     <c:forEach items="${typeMap}" var="entity">
-                        <th width="60">人数</th>
-                        <th width="60">个数</th>
+                        <th width="58">人数</th>
+                        <th width="58">个数</th>
                     </c:forEach>
                 </tr>
                 </thead>
@@ -88,34 +88,20 @@
                         <td>-</td>
                     </c:forEach>
                 </tr>
-                <tr>
-                    <td rowspan="3" class="ltitle">按单位类型</td>
-                    <td class="ltitle">机关部门</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <c:forEach items="${typeMap}" var="entity">
+                <c:forEach items="${unitTypeGroupMap}" var="entity" varStatus="vs">
+                    <tr>
+                        <c:if test="${vs.first}">
+                        <td rowspan="${fn:length(unitTypeGroupMap)}" class="ltitle">按单位类型</td>
+                        </c:if>
+                        <td class="ltitle">${entity.value.name}</td>
                         <td>-</td>
                         <td>-</td>
-                    </c:forEach>
-                </tr>
-                <tr>
-                    <td class="ltitle">学部院系</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <c:forEach items="${typeMap}" var="entity">
-                        <td>-</td>
-                        <td>-</td>
-                    </c:forEach>
-                </tr>
-                <tr>
-                    <td class="ltitle">附属单位</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <c:forEach items="${typeMap}" var="entity">
-                        <td>-</td>
-                        <td>-</td>
-                    </c:forEach>
-                </tr>
+                        <c:forEach items="${typeMap}" var="entity">
+                            <td>-</td>
+                            <td>-</td>
+                        </c:forEach>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>

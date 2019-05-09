@@ -20,7 +20,7 @@
                     <th nowrap width="80">${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
                     <shiro:hasRole name="${ROLE_ADMIN}">
                     <th nowrap>代码</th>
-                    <th nowrap>${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</th>
+                    <th>${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</th>
                     <th nowrap>备注</th>
                     </shiro:hasRole>
                     <shiro:hasPermission name="metaType:changeOrder">
@@ -43,8 +43,8 @@
                         <shiro:hasRole name="${ROLE_ADMIN}">
                         <td nowrap>${metaType.code}</td>
 
-                        <td nowrap>${fn:length(metaClass.options)>0?
-								metaClass.options.get(metaType.extraAttr):metaType.extraAttr}</td>
+                        <td>${fn:length(metaClass.options)>0?
+								metaClass.options.get(metaType.extraAttr).name:metaType.extraAttr}</td>
                         <td>${metaType.remark}</td>
                         </shiro:hasRole>
                         <shiro:hasPermission name="metaType:changeOrder">

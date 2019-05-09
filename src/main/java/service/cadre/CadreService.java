@@ -317,6 +317,10 @@ public class CadreService extends BaseMapper {
             int userId = record.getUserId();
             CadreView cv = dbFindByUserId(userId);
             if (cv == null) {
+                // 默认是处级干部
+                if(record.getType()==null){
+                    record.setType(CadreConstants.CADRE_TYPE_CJ);
+                }
                 insertSelective(record);
                 addCount++;
             } else {
@@ -369,6 +373,10 @@ public class CadreService extends BaseMapper {
             Cadre _cadre = new Cadre();
             _cadre.setUserId(userId);
             _cadre.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
+            // 默认是处级干部
+            if(record.getType()==null){
+                record.setType(CadreConstants.CADRE_TYPE_OTHER);
+            }
             insertSelective(_cadre);
         }
     }

@@ -397,6 +397,10 @@ public class CrsApplicantService extends CrsBaseMapper {
             Cadre record  = new Cadre();
             record.setUserId(userId);
             record.setStatus(CadreConstants.CADRE_STATUS_RECRUIT);
+            // 默认是处级干部
+            if(record.getType()==null){
+                record.setType(CadreConstants.CADRE_TYPE_OTHER);
+            }
             cadreService.insertSelective(record);
 
             cadreId = record.getId();

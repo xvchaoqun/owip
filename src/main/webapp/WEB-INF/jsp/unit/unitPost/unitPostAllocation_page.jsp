@@ -16,7 +16,7 @@
                         <c:if test="${module==1}">
                         <div class="buttons" style="position: absolute; top:35px;">
                             <a href="javascript:;" class="downloadBtn btn btn-success btn-sm"
-                               data-url="${ctx}/unitPostAllocation?module=1&export=1"><i class="fa fa-download"></i> 导出</a>
+                               data-url="${ctx}/unitPostAllocation?module=1&export=1&cadreType=${cadreType}"><i class="fa fa-download"></i> 导出</a>
                         </div>
                         <jsp:include page="unitPostAllocation_table.jsp"/>
                             <script>
@@ -26,7 +26,7 @@
                         <c:if test="${module==2}">
                             <div class="buttons" style="position: absolute; top:35px;">
                                 <a href="javascript:;" class="downloadBtn btn btn-success btn-sm"
-                                   data-url="${ctx}/unitPostAllocation?module=2&export=1"><i class="fa fa-download"></i> 导出</a>
+                                   data-url="${ctx}/unitPostAllocation?module=2&export=1&cadreType=${cadreType}"><i class="fa fa-download"></i> 导出</a>
                             </div>
                             <jsp:include page="unitPostAllocation_stat_table.jsp"/>
                         </c:if>

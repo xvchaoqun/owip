@@ -287,12 +287,12 @@ public class CadreEduController extends BaseController {
         for (int i = 0; i < rownum; i++) {
             CadreEdu record = cadreEdus.get(i);
             CadreView cadre = CmTag.getCadreById(record.getCadreId());
-            SysUserView uv = cadre.getUser();
+
             Unit unit = CmTag.getUnit(cadre.getUnitId());
             boolean hasDegree = BooleanUtils.isTrue(record.getHasDegree());
             String[] values = {
-                    uv.getCode(),
-                    uv.getRealname(),
+                    cadre.getCode(),
+                    cadre.getRealname(),
                     unit==null?"":unit.getName(),
                     cadre.getTitle(),
                     metaTypeService.getName(record.getEduId()),

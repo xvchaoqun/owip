@@ -11,7 +11,6 @@ import domain.cadreInspect.CadreInspectView;
 import domain.cadreInspect.CadreInspectViewExample;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -192,7 +191,6 @@ public class CadreInspectController extends BaseController {
         record.setId(inspectId);
         record.setRemark(inspectRemark);
 
-        cadreRecord.setState(BooleanUtils.isTrue(cadreRecord.getState()));
         Cadre cadre = cadreInspectService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();

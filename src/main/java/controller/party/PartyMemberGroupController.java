@@ -111,13 +111,13 @@ public class PartyMemberGroupController extends BaseController {
         //===========权限
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
-            if (!ShiroHelper.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的
+            //if (!ShiroHelper.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的
 
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
                 if (partyIdList.size() > 0)
                     criteria.andPartyIdIn(partyIdList);
                 else criteria.andPartyIdIsNull();
-            }
+            //}
         }
 
         if (isPresent != null) {

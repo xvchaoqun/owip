@@ -55,10 +55,7 @@ import sys.tags.CmTag;
 import sys.utils.*;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2017/4/11.
@@ -331,6 +328,23 @@ public class CacheService extends BaseMapper {
         map.put("_pMap", sysPropertyService.findAll());
 
         return map;
+    }
+
+    // 获取系统的属性值（字符串类型）
+    public String getStringProperty(String key){
+        return sysPropertyService.findAll().get(key);
+    }
+    // 获取系统的属性值（整数）
+    public Integer getIntProperty(String key){
+        return Integer.valueOf(getStringProperty(key));
+    }
+    // 获取系统的属性值（布尔类型）
+    public boolean getBoolProperty(String key){
+        return Boolean.valueOf(getStringProperty(key));
+    }
+    // 获取系统的属性值（日期）
+    public Date getDateProperty(String key){
+        return DateUtils.parseStringToDate(getStringProperty(key));
     }
 
     @Caching(evict = {

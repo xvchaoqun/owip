@@ -285,7 +285,7 @@
             { label: '籍贯',  name: 'nativePlace', width: 80},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             { label: '学生类别',  name: 'type', width: 150 },
-            { label: '年级',  name: 'grade', width: 55 },
+            { label: '年级',  name: 'grade', width: 90 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId, rowObject.branchId);
             },sortable:true, align:'left' },

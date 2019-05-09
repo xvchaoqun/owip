@@ -213,8 +213,8 @@ public class VerifyAgeController extends VerifyBaseController {
             VerifyAge record = records.get(i);
             CadreView cadre = record.getCadre();
             String[] values = {
-                    cadre.getUser().getCode(),
-                    cadre.getUser().getRealname(),
+                    cadre.getCode(),
+                    cadre.getRealname(),
                     cadre.getTitle(),
                     VerifyConstants.VERIFY_AGE_TYPE_MAP.get(record.getType()),
                     DateUtils.formatDate(record.getOldBirth(), DateUtils.YYYY_MM_DD),

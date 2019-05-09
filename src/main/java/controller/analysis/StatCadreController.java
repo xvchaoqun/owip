@@ -1,6 +1,8 @@
 package controller.analysis;
 
+import bean.MetaClassOption;
 import controller.BaseController;
+import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.crp.CrpRecord;
@@ -28,12 +30,7 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class StatCadreController extends BaseController {
@@ -42,20 +39,29 @@ public class StatCadreController extends BaseController {
 
     @RequiresPermissions("statCadre:list")
     @RequestMapping("/stat_cadre")
-    public String stat_cadre(String type,
+    public String stat_cadre(String unitTypeGroup,
+                             @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,
                              @RequestParam(required = false, defaultValue = "0") int export,
                              ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         if (export == 1) {
-            XSSFWorkbook wb = statCadreService.toXlsx();
+            XSSFWorkbook wb = statCadreService.toXlsx(cadreType);
 
-            String fileName = sysConfigService.getSchoolName()+"领导干部情况统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
+            String fileName = sysConfigService.getSchoolName()+
+                    CadreConstants.CADRE_TYPE_MAP.get(cadreType)
+                    + "情况统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
             ExportHelper.output(wb, fileName + ".xlsx", response);
             return null;
         }
 
-        Map<String, List> rs = statCadreService.stat(type);
+        Map<String, List> rs = statCadreService.stat(unitTypeGroup, cadreType);
         modelMap.put("rs", rs);
+
+        MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
+        Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
+        modelMap.put("unitTypeGroupMap", unitTypeGroupMap);
+
+        modelMap.put("cadreType", cadreType);
 
         return "analysis/cadre/stat_cadre_page";
     }

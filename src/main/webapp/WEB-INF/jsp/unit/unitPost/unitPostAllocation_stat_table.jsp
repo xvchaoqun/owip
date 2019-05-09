@@ -37,12 +37,12 @@
   <col class=xl632001 width=71 style='width:53pt'>
   <col class=xl632001 width=71 span=3 style='width:53pt'>
   <tr height=75 style='mso-height-source:userset;height:56.25pt'>
-    <td colspan=18 height=75 class=xl822001 width=1107 style='height:56.25pt;
-  width:839pt'>${_school}内设机构干部配备统计表</td>
+    <td colspan=${cadreType==CADRE_TYPE_CJ?18:14} height=75 class=xl822001 width=1107 style='height:56.25pt;
+  width:839pt'>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备统计表</td>
 
   </tr>
   <tr height=45 style='mso-height-source:userset;height:33.75pt'>
-    <td colspan=18 height=45 class=xl832001 width=1107 style='height:33.75pt;
+    <td colspan=${cadreType==CADRE_TYPE_CJ?18:14} height=45 class=xl832001 width=1107 style='height:33.75pt;
   width:839pt'>统计日期：${cm:formatDate(now,'yyyy年MM月dd日')}</td>
 
   </tr>
@@ -54,12 +54,13 @@
     <td colspan=4 class=xl792001 width=216 style='border-right:2.0pt double black;
   border-left:none;width:164pt'>所有岗位</td>
     <td colspan=4 class=xl802001 width=216 style='border-right:2.0pt double black;
-  width:164pt'>正处级岗位</td>
+  width:164pt'>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}级岗位</td>
     <td colspan=4 class=xl892001 width=216 style='border-right:2.0pt double black;
-  border-left:none;width:164pt'>副处级岗位</td>
+  border-left:none;width:164pt'>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}级岗位</td>
+    <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td colspan=4 class=xl882001 width=216 style='border-right:1pt solid black;
   border-left:none;width:164pt'>无行政级别岗位</td>
-
+    </c:if>
   </tr>
   <tr class=xl652001 height=37 style='mso-height-source:userset;height:27.75pt'>
     <td rowspan=2 height=74 class=xl762001 width=54 style='border-bottom:1pt solid black;
@@ -86,6 +87,7 @@
     <td rowspan=2 class=xl742001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>空缺<br>
       岗位数</td>
+    <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td rowspan=2 class=xl762001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>干部<br>
       职数</td>
@@ -94,7 +96,7 @@
     <td rowspan=2 class=xl752001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>空缺<br>
       岗位数</td>
-
+    </c:if>
   </tr>
   <tr class=xl652001 height=37 style='mso-height-source:userset;height:27.75pt'>
     <td height=37 class=xl712001 width=54 style='height:27.75pt;border-top:none;
@@ -109,41 +111,33 @@
   width:41pt'>全职</td>
     <td class=xl712001 width=54 style='border-top:none;border-left:none;
   width:41pt'>兼职</td>
+    <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td class=xl712001 width=54 style='border-top:none;border-left:none;
   width:41pt'>全职</td>
     <td class=xl712001 width=54 style='border-top:none;border-left:none;
   width:41pt'>兼职</td>
-
+    </c:if>
   </tr>
-  <tr height=64 style='mso-height-source:userset;height:48.0pt'>
-    <td height=64 class=xl642001 width=42 style='height:48.0pt;border-top:none;
-  width:32pt'>1</td>
-    <td class=xl682001 width=201 style='border-top:none;border-left:none;
-  width:151pt'>机关职能部处、直属单位、教辅单位、机关党总支、经营性单位</td>
-
-    <t:cpc_stat dataList="${jgList}" unitType="<%=SystemConstants.UNIT_TYPE_ATTR_JG%>"/>
-  </tr>
-  <tr height=64 style='mso-height-source:userset;height:48.0pt'>
-    <td height=64 class=xl642001 width=42 style='height:48.0pt;border-top:none;
-  width:32pt'>2</td>
-    <td class=xl682001 width=201 style='border-top:none;border-left:none;
-  width:151pt'>学部、院、系所</td>
-    <t:cpc_stat dataList="${xyList}" unitType="<%=SystemConstants.UNIT_TYPE_ATTR_XY%>"/>
-  </tr>
-  <tr height=64 style='mso-height-source:userset;height:48.0pt'>
-    <td height=64 class=xl642001 width=42 style='height:48.0pt;border-top:none;
-  width:32pt'>3</td>
-    <td class=xl682001 width=201 style='border-top:none;border-left:none;
-  width:151pt'>附属单位</td>
-    <t:cpc_stat dataList="${fsList}" unitType="<%=SystemConstants.UNIT_TYPE_ATTR_FS%>"/>
-  </tr>
-  <tr height=64 style='mso-height-source:userset;height:48.0pt'>
-    <td colspan=2 height=64 class=xl842001 width=243 style='border-right:1pt solid black;
-  height:48.0pt;width:183pt'>合计</td>
-    <c:forEach items="${totalList}" var="data" varStatus="vs">
-      <td class=${((vs.index+1)%4==0 && !vs.first && !vs.last)?'xl672001':'xl662001'} width=54>${data}</td>
-    </c:forEach>
-  </tr>
+  <c:forEach items="${cpcStatDataMap}" var="entity" varStatus="gvs">
+    <c:if test="${entity.key!='total'}">
+    <tr height=64 style='mso-height-source:userset;height:48.0pt'>
+      <td height=64 class=xl642001 width=42 style='height:48.0pt;border-top:none;
+        width:32pt'>${gvs.count}</td>
+      <td class=xl682001 width=201 style='border-top:none;border-left:none;
+        width:151pt'>${unitTypeGroupMap.get(entity.key).detail}</td>
+      <t:cpc_stat dataList="${entity.value}" unitType="${entity.key}"/>
+    </tr>
+    </c:if>
+    <c:if test="${entity.key=='total'}">
+    <tr height=64 style='mso-height-source:userset;height:48.0pt'>
+      <td colspan=2 height=64 class=xl842001 width=243 style='border-right:1pt solid black;
+        height:48.0pt;width:183pt'>合计</td>
+      <c:forEach items="${entity.value}" var="data" varStatus="vs">
+        <td class=${((vs.index+1)%4==0 && !vs.first && !vs.last)?'xl672001':'xl662001'} width=54>${data}</td>
+      </c:forEach>
+    </tr>
+    </c:if>
+  </c:forEach>
   <tr height=38 style='mso-height-source:userset;height:28.5pt'>
     <td colspan=18 height=38 class=xl852001 width=1107 style='height:28.5pt;
   width:839pt'>注：“在职岗位数”中的“兼职”是指占干部职数的兼职干部。</td>

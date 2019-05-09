@@ -23,23 +23,25 @@ pageEncoding="UTF-8" %>
                     <div class="tab-pane in active">
 
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="party:edit">
+                <shiro:hasPermission name="party:add">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
-
+                </shiro:hasPermission>
+                <shiro:hasPermission name="party:edit">
                 <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="member:edit">
+
+                <%--<shiro:hasPermission name="member:edit">
                     <button data-url="${ctx}/member_au"
                             data-id-name="partyId"
                             data-open-by="page"
                             class="jqOpenViewBtn btn btn-success btn-sm">
                         <i class="fa fa-user"></i> 添加党员
                     </button>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
+                    </shiro:hasPermission>
                 <shiro:hasPermission name="partyMemberGroup:edit">
                     <button data-url="${ctx}/partyMemberGroup_au"
-                            data-id-name="partyId" class="jqOpenViewBtn btn btn-primary btn-sm">
+                            data-id-name="partyId" class="jqOpenViewBtn btn btn-success btn-sm">
                         <i class="fa fa-users"></i> 添加领导班子
                     </button>
                 </shiro:hasPermission>
@@ -49,7 +51,7 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
                     </shiro:hasPermission>
-                <shiro:hasPermission name="party:edit">
+                <shiro:hasPermission name="party:add">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/party_import"
                             data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>

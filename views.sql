@@ -514,18 +514,6 @@ DROP VIEW IF EXISTS `crs_applicant_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_view` AS
  select *, if(special_status||require_check_status=1, 1, 0) as is_require_check_pass from crs_applicant ;
 
-DROP VIEW IF EXISTS `crs_candidate_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `crs_candidate_view` AS
-select cc.id as candidate_id, cc.is_first, cpec.expert_count,
-cc.post_id as crs_post_id, cp.type as crs_post_type,cp.year as crs_post_year,cp.seq as crs_post_seq,
-cp.name as crs_post_name,cp.job as crs_post_job,cp.status as crs_post_status,
-ca.id as applicant_id, ca.recommend_ow, ca.recommend_cadre, ca.recommend_crowd, ca.recommend_pdf,
-ca.recommend_first_count, ca.recommend_second_count,
-ca.is_recommend, ca.ppt_name, ca.ppt, cv.* from crs_candidate cc
-left join cadre_view cv on cv.user_id=cc.user_id
-left join crs_applicant ca on ca.user_id=cc.user_id and ca.post_id=cc.post_id
-left join crs_post cp on cp.id = cc.post_id
-left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=cc.post_id ;
 
 
 DROP VIEW IF EXISTS `crs_applicant_stat_view`;
@@ -618,27 +606,12 @@ select cap.*, c.code, c.realname, c.title, c.status as cadre_status, c.sort_orde
 left join cadre_view c on cap.cadre_id=c.id
 left join unit u on cap.unit_id=u.id ;
 
--- ----------------------------
---  View definition for `cadre_inspect_view`
--- ----------------------------
-DROP VIEW IF EXISTS `cadre_inspect_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_inspect_view` AS
-select ci.id as inspect_id, ci.`type` as inspect_type, ci.`status` as inspect_status,
-ci.remark as inspect_remark, ci.sort_order as inspect_sort_order, cv.*
-from cadre_inspect ci left join cadre_view cv on ci.cadre_id=cv.id;
-
-
-DROP VIEW IF EXISTS `cadre_reserve_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_reserve_view` AS
-select cr.id as reserve_id, cr.`type` as reserve_type, cr.`status` as reserve_status,
-cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, u.username, cv.*
-from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id left join sys_user u on u.id=cv.user_id ;
 
 
 DROP VIEW IF EXISTS `cadre_company_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cadre_company_view` AS
 select cc.*, c.`status` as cadre_status, c.admin_level, c.admin_level_code,
-c.is_double, c.unit_type_id, c.unit_type_attr,
+c.is_double, c.unit_type_id, c.unit_type_group,
 c.sort_order as cadre_sort_order from cadre_company cc
 left join cadre_view c on c.id=cc.cadre_id;
 

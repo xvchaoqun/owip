@@ -10,6 +10,16 @@ import java.util.Set;
  */
 public class CadreConstants {
 
+    // 干部审批表样式
+    public final static byte CADRE_ADFORMTYPE_BNU = 1; // 北京
+    public final static byte CADRE_ADFORMTYPE_GXB = 2; // 工信部
+    public final static Map<Byte, String> CADRE_ADFORMTYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CADRE_ADFORMTYPE_MAP.put(CADRE_ADFORMTYPE_BNU, "北京");
+        CADRE_ADFORMTYPE_MAP.put(CADRE_ADFORMTYPE_GXB, "工信部");
+    }
+
     // 干部库类别
     public final static byte CADRE_STATUS_NOT_CADRE = 0; // 非干部（添加到党员干部库时，需要初始化到干部库）
     public final static byte CADRE_STATUS_INSPECT = 2;
@@ -50,6 +60,7 @@ public class CadreConstants {
     // 干部类别
     public final static byte CADRE_TYPE_CJ = 1; // 处级干部
     public final static byte CADRE_TYPE_KJ = 2; // 科级干部
+    public final static byte CADRE_TYPE_OTHER = 10; // 其他
     public final static Map<Byte, String> CADRE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -72,16 +83,22 @@ public class CadreConstants {
 
     // 干部历史数据类别
     public final static byte CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE = 1;
-    public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CADRE = 2;
+    public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CADRE_CJ = 2;
     public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CPC = 3;
     public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT = 4;
+    public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ = 5;
+    public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CPC_KJ = 6;
+    public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT_KJ = 7;
     public final static Map<Byte, String> CADRE_STAT_HISTORY_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE, "干部信息表");
-        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CADRE, "干部情况统计表");
-        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC, "干部职数配置情况统计表");
-        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT, "内设机构干部配备统计表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CADRE_CJ, "处级干部情况统计表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC, "处级干部职数配置情况统计表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT, "内设机构处级干部配备统计表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ, "科级干部情况统计表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC_KJ, "科级干部职数配置情况统计表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT_KJ, "内设机构科级干部配备统计表");
 
     }
 
@@ -98,23 +115,6 @@ public class CadreConstants {
         CADRE_RESERVE_ORIGIN_WAY_MAP.put(CADRE_RESERVE_ORIGIN_WAY_SZDWTJ, "所在单位推荐");
         CADRE_RESERVE_ORIGIN_WAY_MAP.put(CADRE_RESERVE_ORIGIN_WAY_DZZTJ, "所在基层党组织推荐");
     }
-
-    // 后备干部库类别
-    /*public final static byte CADRE_RESERVE_TYPE_SCHOOL = 1;
-    public final static byte CADRE_RESERVE_TYPE_ADMIN_CHIEF = 2;
-    public final static byte CADRE_RESERVE_TYPE_ADMIN_VICE = 3;
-    public final static byte CADRE_RESERVE_TYPE_COLLEGE_CHIEF = 4;
-    public final static byte CADRE_RESERVE_TYPE_COLLEGE_VICE = 5;
-    public final static Map<Byte, String> CADRE_RESERVE_TYPE_MAP = new LinkedHashMap<>();
-
-    static {
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_SCHOOL, "校级");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_CHIEF, "机关正处级");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_VICE, "机关副处级");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_CHIEF, "院系正处级");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_VICE, "院系副处级");
-    }*/
-
 
     // 后备干部库状态
     public final static byte CADRE_RESERVE_STATUS_NORMAL = 1;

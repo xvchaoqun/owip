@@ -736,63 +736,63 @@ public class UnitViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountIsNull() {
-            addCriterion("principal_post_count is null");
+        public Criteria andMainPostCountIsNull() {
+            addCriterion("main_post_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountIsNotNull() {
-            addCriterion("principal_post_count is not null");
+        public Criteria andMainPostCountIsNotNull() {
+            addCriterion("main_post_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountEqualTo(BigDecimal value) {
-            addCriterion("principal_post_count =", value, "principalPostCount");
+        public Criteria andMainPostCountEqualTo(BigDecimal value) {
+            addCriterion("main_post_count =", value, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountNotEqualTo(BigDecimal value) {
-            addCriterion("principal_post_count <>", value, "principalPostCount");
+        public Criteria andMainPostCountNotEqualTo(BigDecimal value) {
+            addCriterion("main_post_count <>", value, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountGreaterThan(BigDecimal value) {
-            addCriterion("principal_post_count >", value, "principalPostCount");
+        public Criteria andMainPostCountGreaterThan(BigDecimal value) {
+            addCriterion("main_post_count >", value, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("principal_post_count >=", value, "principalPostCount");
+        public Criteria andMainPostCountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("main_post_count >=", value, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountLessThan(BigDecimal value) {
-            addCriterion("principal_post_count <", value, "principalPostCount");
+        public Criteria andMainPostCountLessThan(BigDecimal value) {
+            addCriterion("main_post_count <", value, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("principal_post_count <=", value, "principalPostCount");
+        public Criteria andMainPostCountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("main_post_count <=", value, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountIn(List<BigDecimal> values) {
-            addCriterion("principal_post_count in", values, "principalPostCount");
+        public Criteria andMainPostCountIn(List<BigDecimal> values) {
+            addCriterion("main_post_count in", values, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountNotIn(List<BigDecimal> values) {
-            addCriterion("principal_post_count not in", values, "principalPostCount");
+        public Criteria andMainPostCountNotIn(List<BigDecimal> values) {
+            addCriterion("main_post_count not in", values, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("principal_post_count between", value1, value2, "principalPostCount");
+        public Criteria andMainPostCountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("main_post_count between", value1, value2, "mainPostCount");
             return (Criteria) this;
         }
 
-        public Criteria andPrincipalPostCountNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("principal_post_count not between", value1, value2, "principalPostCount");
+        public Criteria andMainPostCountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("main_post_count not between", value1, value2, "mainPostCount");
             return (Criteria) this;
         }
 
@@ -853,6 +853,186 @@ public class UnitViewExample {
 
         public Criteria andVicePostCountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("vice_post_count not between", value1, value2, "vicePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountIsNull() {
+            addCriterion("none_post_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountIsNotNull() {
+            addCriterion("none_post_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountEqualTo(BigDecimal value) {
+            addCriterion("none_post_count =", value, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountNotEqualTo(BigDecimal value) {
+            addCriterion("none_post_count <>", value, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountGreaterThan(BigDecimal value) {
+            addCriterion("none_post_count >", value, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("none_post_count >=", value, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountLessThan(BigDecimal value) {
+            addCriterion("none_post_count <", value, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("none_post_count <=", value, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountIn(List<BigDecimal> values) {
+            addCriterion("none_post_count in", values, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountNotIn(List<BigDecimal> values) {
+            addCriterion("none_post_count not in", values, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("none_post_count between", value1, value2, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andNonePostCountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("none_post_count not between", value1, value2, "nonePostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountIsNull() {
+            addCriterion("main_kj_post_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountIsNotNull() {
+            addCriterion("main_kj_post_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountEqualTo(BigDecimal value) {
+            addCriterion("main_kj_post_count =", value, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountNotEqualTo(BigDecimal value) {
+            addCriterion("main_kj_post_count <>", value, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountGreaterThan(BigDecimal value) {
+            addCriterion("main_kj_post_count >", value, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("main_kj_post_count >=", value, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountLessThan(BigDecimal value) {
+            addCriterion("main_kj_post_count <", value, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("main_kj_post_count <=", value, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountIn(List<BigDecimal> values) {
+            addCriterion("main_kj_post_count in", values, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountNotIn(List<BigDecimal> values) {
+            addCriterion("main_kj_post_count not in", values, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("main_kj_post_count between", value1, value2, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjPostCountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("main_kj_post_count not between", value1, value2, "mainKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountIsNull() {
+            addCriterion("vice_kj_post_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountIsNotNull() {
+            addCriterion("vice_kj_post_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountEqualTo(BigDecimal value) {
+            addCriterion("vice_kj_post_count =", value, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountNotEqualTo(BigDecimal value) {
+            addCriterion("vice_kj_post_count <>", value, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountGreaterThan(BigDecimal value) {
+            addCriterion("vice_kj_post_count >", value, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("vice_kj_post_count >=", value, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountLessThan(BigDecimal value) {
+            addCriterion("vice_kj_post_count <", value, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("vice_kj_post_count <=", value, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountIn(List<BigDecimal> values) {
+            addCriterion("vice_kj_post_count in", values, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountNotIn(List<BigDecimal> values) {
+            addCriterion("vice_kj_post_count not in", values, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("vice_kj_post_count between", value1, value2, "viceKjPostCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjPostCountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("vice_kj_post_count not between", value1, value2, "viceKjPostCount");
             return (Criteria) this;
         }
 
@@ -973,6 +1153,126 @@ public class UnitViewExample {
 
         public Criteria andViceCountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("vice_count not between", value1, value2, "viceCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountIsNull() {
+            addCriterion("main_kj_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountIsNotNull() {
+            addCriterion("main_kj_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountEqualTo(BigDecimal value) {
+            addCriterion("main_kj_count =", value, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountNotEqualTo(BigDecimal value) {
+            addCriterion("main_kj_count <>", value, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountGreaterThan(BigDecimal value) {
+            addCriterion("main_kj_count >", value, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("main_kj_count >=", value, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountLessThan(BigDecimal value) {
+            addCriterion("main_kj_count <", value, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("main_kj_count <=", value, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountIn(List<BigDecimal> values) {
+            addCriterion("main_kj_count in", values, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountNotIn(List<BigDecimal> values) {
+            addCriterion("main_kj_count not in", values, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("main_kj_count between", value1, value2, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainKjCountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("main_kj_count not between", value1, value2, "mainKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountIsNull() {
+            addCriterion("vice_kj_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountIsNotNull() {
+            addCriterion("vice_kj_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountEqualTo(BigDecimal value) {
+            addCriterion("vice_kj_count =", value, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountNotEqualTo(BigDecimal value) {
+            addCriterion("vice_kj_count <>", value, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountGreaterThan(BigDecimal value) {
+            addCriterion("vice_kj_count >", value, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("vice_kj_count >=", value, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountLessThan(BigDecimal value) {
+            addCriterion("vice_kj_count <", value, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("vice_kj_count <=", value, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountIn(List<BigDecimal> values) {
+            addCriterion("vice_kj_count in", values, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountNotIn(List<BigDecimal> values) {
+            addCriterion("vice_kj_count not in", values, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("vice_kj_count between", value1, value2, "viceKjCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViceKjCountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("vice_kj_count not between", value1, value2, "viceKjCount");
             return (Criteria) this;
         }
 

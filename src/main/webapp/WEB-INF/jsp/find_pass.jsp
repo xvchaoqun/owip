@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="${ctx}/assets/css/ace-nobtn.css" class="ace-main-stylesheet" id="main-ace-style" />
     <t:link href="/extend/css/faq.css"/>
   <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <style>${_pMap['loginCss']}</style>
 </head>
 <body>
 <div class="top" style="background:url(/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) #dbf5ff top right no-repeat; z-index:1">

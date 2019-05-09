@@ -1,6 +1,8 @@
 package service.cadre;
 
+import bean.MetaClassOption;
 import controller.global.OpException;
+import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
 import domain.modify.ModifyTableApply;
@@ -23,6 +25,7 @@ import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.tool.xlsx.ExcelTool;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -67,18 +70,18 @@ public class CadreCompanyService extends BaseMapper {
     }
 
     // 导入时使用，用来判断是否覆盖
-    public CadreCompany getCadreCompany(int cadreId, int type, String unit, Date startTime){
+    public CadreCompany getCadreCompany(int cadreId, int type, String unit, Date startTime) {
 
         CadreCompanyExample example = new CadreCompanyExample();
         CadreCompanyExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
                 .andUnitEqualTo(unit);
-        if(startTime!=null){
+        if (startTime != null) {
             criteria.andStartTimeEqualTo(startTime);
         }
 
         List<CadreCompany> cadreCompanies = cadreCompanyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return cadreCompanies.size()==1?cadreCompanies.get(0):null;
+        return cadreCompanies.size() == 1 ? cadreCompanies.get(0) : null;
     }
 
     @Transactional
@@ -88,10 +91,10 @@ public class CadreCompanyService extends BaseMapper {
         for (CadreCompany record : records) {
             CadreCompany cadreCompany = getCadreCompany(record.getCadreId(), record.getType(),
                     record.getUnit(), record.getStartTime());
-            if(cadreCompany==null){
+            if (cadreCompany == null) {
                 insertSelective(record);
                 addCount++;
-            }else{
+            } else {
                 record.setId(cadreCompany.getId());
                 updateByPrimaryKeySelective(record);
             }
@@ -260,7 +263,7 @@ public class CadreCompanyService extends BaseMapper {
     }
 
     // Map<cadreId, bean>
-    public Map<Integer, CadreCompanyStatBean> listCadreCompanyStatBeans(String cadreStatus){
+    public Map<Integer, CadreCompanyStatBean> listCadreCompanyStatBeans(String cadreStatus) {
 
         List<Map> itemMap = iCadreMapper.cadreCompany_statMap(cadreStatus);
 
@@ -272,15 +275,15 @@ public class CadreCompanyService extends BaseMapper {
             int type = ((Long) resultMap.get("type")).intValue();
             int num = ((Long) resultMap.get("num")).intValue();
 
-            if(!statMap.containsKey(cadreId)){
+            if (!statMap.containsKey(cadreId)) {
                 CadreCompanyStatBean bean = new CadreCompanyStatBean();
                 statMap.put(cadreId, bean);
             }
             CadreCompanyStatBean bean = statMap.get(cadreId);
             Map<Integer, Integer> typeMap = bean.getTypeMap();
-            if(!typeMap.containsKey(type)){
+            if (!typeMap.containsKey(type)) {
                 typeMap.put(type, num);
-            }else{
+            } else {
                 typeMap.put(type, typeMap.get(type) + num);
             }
 
@@ -345,9 +348,9 @@ public class CadreCompanyService extends BaseMapper {
             // 兼职类型
             String _type = "";
             int type = record.getType();
-            if(type==CmTag.getMetaTypeByCode("mt_cadre_company_other").getId()){
-                _type= StringUtils.defaultString(record.getTypeOther(), "其他");
-            }else{
+            if (type == CmTag.getMetaTypeByCode("mt_cadre_company_other").getId()) {
+                _type = StringUtils.defaultString(record.getTypeOther(), "其他");
+            } else {
                 _type = CmTag.getMetaType(type).getName();
             }
             cell = row.getCell(column++);
@@ -375,11 +378,11 @@ public class CadreCompanyService extends BaseMapper {
 
             // 是否取酬
             cell = row.getCell(column++);
-            cell.setCellValue(BooleanUtils.isTrue(record.getHasPay()) ?"是":"否");
+            cell.setCellValue(BooleanUtils.isTrue(record.getHasPay()) ? "是" : "否");
 
             // 所取酬劳是否全额上交学校
             cell = row.getCell(column++);
-            cell.setCellValue(BooleanUtils.isTrue(record.getHasHand()) ?"是":"否");
+            cell.setCellValue(BooleanUtils.isTrue(record.getHasHand()) ? "是" : "否");
         }
 
         String fileName = String.format("%s兼职情况汇总表", schoolName + cadreType);
@@ -407,13 +410,13 @@ public class CadreCompanyService extends BaseMapper {
 
         Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
         List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
-        if(companyTypeList.size()>7) { // 最多支持7个兼职类别
+        if (companyTypeList.size() > 7) { // 最多支持7个兼职类别
             companyTypeList = companyTypeList.subList(0, 7);
         }
 
-        if(companyTypeList.size()==7){
+        if (companyTypeList.size() == 7) {
             wb.removeSheetAt(0); // sheet0支持6个以内的兼职类别
-        }else{
+        } else {
             wb.removeSheetAt(1); // sheet1支持7个兼职类别
         }
 
@@ -433,8 +436,8 @@ public class CadreCompanyService extends BaseMapper {
         cell.setCellValue(str);
 
         row = sheet.getRow(3);
-        for(int j=0; j<companyTypeList.size(); j++) {
-            cell = row.getCell(j+5);
+        for (int j = 0; j < companyTypeList.size(); j++) {
+            cell = row.getCell(j + 5);
             MetaType metaType = companyTypeList.get(j);
             cell.setCellValue(metaType.getName());
         }
@@ -445,7 +448,7 @@ public class CadreCompanyService extends BaseMapper {
         int startRow = 4;
         int rowCount = records.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
-        int i=0;
+        int i = 0;
         for (Map.Entry<Integer, CadreCompanyStatBean> entry : records.entrySet()) {
 
             int cadreId = entry.getKey();
@@ -476,21 +479,21 @@ public class CadreCompanyService extends BaseMapper {
             totalCount += entry.getValue().totalCount;
 
             Map<Integer, Integer> typeMap = entry.getValue().getTypeMap();
-            for(int j=0; j<companyTypeList.size(); j++) {
-                cell = row.getCell(j+5);
+            for (int j = 0; j < companyTypeList.size(); j++) {
+                cell = row.getCell(j + 5);
                 MetaType metaType = companyTypeList.get(j);
                 int typeId = metaType.getId();
-                if(typeMap.containsKey(typeId)) {
+                if (typeMap.containsKey(typeId)) {
 
                     int num = typeMap.get(typeId);
                     cell.setCellValue(num);
 
-                    if(!typeTotalCountMap.containsKey(typeId)){
+                    if (!typeTotalCountMap.containsKey(typeId)) {
                         typeTotalCountMap.put(typeId, num);
-                    }else{
+                    } else {
                         typeTotalCountMap.put(typeId, typeTotalCountMap.get(typeId) + num);
                     }
-                }else {
+                } else {
                     cell.setCellValue("-");
                 }
             }
@@ -501,12 +504,12 @@ public class CadreCompanyService extends BaseMapper {
         cell = row.getCell(4);
         cell.setCellValue(totalCount);
 
-        for(int j=0; j<companyTypeList.size(); j++) {
-            cell = row.getCell(j+5);
+        for (int j = 0; j < companyTypeList.size(); j++) {
+            cell = row.getCell(j + 5);
             Integer num = typeTotalCountMap.get(companyTypeList.get(j).getId());
-            if(num!=null) {
+            if (num != null) {
                 cell.setCellValue(num);
-            }else{
+            } else {
                 cell.setCellValue("-");
             }
         }
@@ -527,14 +530,14 @@ public class CadreCompanyService extends BaseMapper {
         Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
         List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
 
-        if(companyTypeList.size()>7) { // 最多支持7个兼职类别
+        if (companyTypeList.size() > 7) { // 最多支持7个兼职类别
             companyTypeList = companyTypeList.subList(0, 7);
         }
         int companyTypeSize = companyTypeList.size();
 
-        if(companyTypeSize==7){
+        if (companyTypeSize == 7) {
             wb.removeSheetAt(0); // sheet0支持6个以内的兼职类别
-        }else{
+        } else {
             wb.removeSheetAt(1); // sheet1支持7个兼职类别
         }
 
@@ -554,39 +557,58 @@ public class CadreCompanyService extends BaseMapper {
         cell.setCellValue(str);
 
         row = sheet.getRow(3);
-        for(int j=0; j<companyTypeSize; j++) {
-            cell = row.getCell(j*2+4);
+        for (int j = 0; j < companyTypeSize; j++) {
+            cell = row.getCell(j * 2 + 4);
             MetaType metaType = companyTypeList.get(j);
             cell.setCellValue(metaType.getName());
         }
 
+        MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
+        Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
+        List<MetaClassOption> unitTypeGroupList = new ArrayList<>(unitTypeGroupMap.values());
+        int unitTypeGroupSize = unitTypeGroupMap.size();
+        int unitTypeGroupStartRow = 11;
+        // 从第12行起，插入单位类型汇总数据
+        ExcelUtils.insertRow(wb, sheet, unitTypeGroupStartRow,  unitTypeGroupSize - 1);
+
         List<Map> statByTypeData = statByTypeData();
-        int rownum = 5;
+        int startRow = 5;
         int column = 2;
         for (Map map : statByTypeData) {
 
-            row = sheet.getRow(rownum++);
-            for(int j=0; j<(companyTypeSize+1)*2; j++){
-                cell = row.getCell(column+j);
-                if(map.containsKey(column+j))
-                    cell.setCellValue(map.get(column+j)+"");
+            row = sheet.getRow(startRow);
+            if(startRow>=unitTypeGroupStartRow){
+                MetaClassOption option = unitTypeGroupList.get(startRow - unitTypeGroupStartRow);
+                cell = row.getCell(1);
+                cell.setCellValue(option.getName()); // 单位类型分组名称
+            }
+
+            for (int j = 0; j < (companyTypeSize + 1) * 2; j++) {
+                cell = row.getCell(column + j);
+                if (map.containsKey(column + j))
+                    cell.setCellValue(map.get(column + j) + "");
                 else
                     cell.setCellValue("-");
             }
+
+            startRow++;
         }
+        // 合并单位类型第一列
+        sheet.addMergedRegion(ExcelTool.getCellRangeAddress(unitTypeGroupStartRow, 0,
+                unitTypeGroupStartRow + unitTypeGroupSize - 1, 0));
 
         String fileName = String.format("%s干部兼职情况统计表", schoolName);
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-    public List<Map> statByTypeData(){
+    // 干部兼职统计
+    public List<Map> statByTypeData() {
 
         Map<Integer, MetaType> companyTypeMap = CmTag.getMetaTypes("mc_cadre_company_type");
         List<MetaType> companyTypeList = new ArrayList<>(companyTypeMap.values());
-        if(companyTypeList.size()>7) { // 最多支持7个兼职类别
+        if (companyTypeList.size() > 7) { // 最多支持7个兼职类别
             companyTypeList = companyTypeList.subList(0, 7);
         }
-
 
         // 第一行数据
         Map<Integer, Integer> row1Map = new LinkedHashMap<>();
@@ -596,21 +618,21 @@ public class CadreCompanyService extends BaseMapper {
         List<Map> typeStatMap = iCadreMapper.cadreCompany_typeStatMap();
         Map<Integer, Map> _typeStatMap = new HashMap<>();
         for (Map map : typeStatMap) {
-            int type = ((Long)map.get("type")).intValue();
+            int type = ((Long) map.get("type")).intValue();
             _typeStatMap.put(type, map);
         }
-        for(int j=0; j<companyTypeList.size(); j++) {
+        for (int j = 0; j < companyTypeList.size(); j++) {
             MetaType metaType = companyTypeList.get(j);
             Map map = _typeStatMap.get(metaType.getId());
-            if(map!=null){
-                int personNum = ((Long)map.get("person_num")).intValue();
-                int num = ((Long)map.get("num")).intValue();
+            if (map != null) {
+                int personNum = ((Long) map.get("person_num")).intValue();
+                int num = ((Long) map.get("num")).intValue();
 
-                row1Map.put(j*2+4, personNum);
-                row1Map.put(j*2+5, num);
+                row1Map.put(j * 2 + 4, personNum);
+                row1Map.put(j * 2 + 5, num);
 
-                row1Map.put(2, row1Map.get(2)+personNum);
-                row1Map.put(3, row1Map.get(3)+num);
+                row1Map.put(2, row1Map.get(2) + personNum);
+                row1Map.put(3, row1Map.get(3) + num);
             }
         }
 
@@ -629,46 +651,46 @@ public class CadreCompanyService extends BaseMapper {
         List<Map> adminLevelStatMap = iCadreMapper.cadreCompany_adminLevelStatMap();
         Map<String, Map> _adminLevelStatMap = new HashMap<>();
         for (Map map : adminLevelStatMap) {
-            int type = ((Long)map.get("type")).intValue();
-            int adminLevel = ((Long)map.get("admin_level")).intValue();
-            _adminLevelStatMap.put(type+"_"+ adminLevel, map);
+            int type = ((Long) map.get("type")).intValue();
+            int adminLevel = ((Long) map.get("admin_level")).intValue();
+            _adminLevelStatMap.put(type + "_" + adminLevel, map);
         }
-        for(int j=0; j<companyTypeList.size(); j++) {
+        for (int j = 0; j < companyTypeList.size(); j++) {
             MetaType metaType = companyTypeList.get(j);
-            Map map = _adminLevelStatMap.get(metaType.getId()+"_"+CmTag.getMetaTypeByCode("mt_admin_level_main").getId());
-            if(map!=null){
-                int personNum = ((Long)map.get("person_num")).intValue();
-                int num = ((Long)map.get("num")).intValue();
+            Map map = _adminLevelStatMap.get(metaType.getId() + "_" + CmTag.getMetaTypeByCode("mt_admin_level_main").getId());
+            if (map != null) {
+                int personNum = ((Long) map.get("person_num")).intValue();
+                int num = ((Long) map.get("num")).intValue();
 
-                row2Map.put(j*2+4, personNum);
-                row2Map.put(j*2+5, num);
+                row2Map.put(j * 2 + 4, personNum);
+                row2Map.put(j * 2 + 5, num);
 
-                row2Map.put(2, row2Map.get(2)+personNum);
-                row2Map.put(3, row2Map.get(3)+num);
+                row2Map.put(2, row2Map.get(2) + personNum);
+                row2Map.put(3, row2Map.get(3) + num);
             }
 
-            map = _adminLevelStatMap.get(metaType.getId()+"_"+CmTag.getMetaTypeByCode("mt_admin_level_vice").getId());
-            if(map!=null){
-                int personNum = ((Long)map.get("person_num")).intValue();
-                int num = ((Long)map.get("num")).intValue();
+            map = _adminLevelStatMap.get(metaType.getId() + "_" + CmTag.getMetaTypeByCode("mt_admin_level_vice").getId());
+            if (map != null) {
+                int personNum = ((Long) map.get("person_num")).intValue();
+                int num = ((Long) map.get("num")).intValue();
 
-                row3Map.put(j*2+4, personNum);
-                row3Map.put(j*2+5, num);
+                row3Map.put(j * 2 + 4, personNum);
+                row3Map.put(j * 2 + 5, num);
 
-                row3Map.put(2, row3Map.get(2)+personNum);
-                row3Map.put(3, row3Map.get(3)+num);
+                row3Map.put(2, row3Map.get(2) + personNum);
+                row3Map.put(3, row3Map.get(3) + num);
             }
 
-            map = _adminLevelStatMap.get(metaType.getId()+"_"+CmTag.getMetaTypeByCode("mt_admin_level_none").getId());
-            if(map!=null){
-                int personNum = ((Long)map.get("person_num")).intValue();
-                int num = ((Long)map.get("num")).intValue();
+            map = _adminLevelStatMap.get(metaType.getId() + "_" + CmTag.getMetaTypeByCode("mt_admin_level_none").getId());
+            if (map != null) {
+                int personNum = ((Long) map.get("person_num")).intValue();
+                int num = ((Long) map.get("num")).intValue();
 
-                row4Map.put(j*2+4, personNum);
-                row4Map.put(j*2+5, num);
+                row4Map.put(j * 2 + 4, personNum);
+                row4Map.put(j * 2 + 5, num);
 
-                row4Map.put(2, row4Map.get(2)+personNum);
-                row4Map.put(3, row4Map.get(3)+num);
+                row4Map.put(2, row4Map.get(2) + personNum);
+                row4Map.put(3, row4Map.get(3) + num);
             }
         }
 
@@ -683,11 +705,11 @@ public class CadreCompanyService extends BaseMapper {
         List<Map> doubleStatMap = iCadreMapper.cadreCompany_doubleStatMap();
         Map<String, Map> _doubleStatMap = new HashMap<>();
         for (Map map : doubleStatMap) {
-            int type = ((Long)map.get("type")).intValue();
-            int isDouble = BooleanUtils.isTrue((Boolean)map.get("is_double"))?1:0;
-            _doubleStatMap.put(type+"_"+ isDouble, map);
+            int type = ((Long) map.get("type")).intValue();
+            int isDouble = BooleanUtils.isTrue((Boolean) map.get("is_double")) ? 1 : 0;
+            _doubleStatMap.put(type + "_" + isDouble, map);
         }
-        for(int j=0; j<companyTypeList.size(); j++) {
+        for (int j = 0; j < companyTypeList.size(); j++) {
             MetaType metaType = companyTypeList.get(j);
 
             Map map = _doubleStatMap.get(metaType.getId() + "_1");
@@ -716,62 +738,46 @@ public class CadreCompanyService extends BaseMapper {
         }
 
 
-        // 第7~9行数据
-        Map<Integer, Integer> row7Map = new LinkedHashMap<>(); // 正处级
-        row7Map.put(2, 0);
-        row7Map.put(3, 0);
-        Map<Integer, Integer> row8Map = new LinkedHashMap<>();
-        row8Map.put(2, 0);
-        row8Map.put(3, 0);
-        Map<Integer, Integer> row9Map = new LinkedHashMap<>();
-        row9Map.put(2, 0);
-        row9Map.put(3, 0);
+        // 第7~最后一行数据  根据兼职类型、单位类型分组 统计数量
+        Map<String, Map<Integer, Integer>> rowsMap = new LinkedHashMap<>(); // 按 单位类型分组 排序
+        MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
+        Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
+        for (String unitTypeGroup : unitTypeGroupMap.keySet()) {
+            Map<Integer, Integer> rowMap = new LinkedHashMap<>();
+            rowMap.put(2, 0); // 初始化每行汇总数量
+            rowMap.put(3, 0);
+            rowsMap.put(unitTypeGroup, rowMap);
+        }
 
-        // 兼职类型、单位类型
-        List<Map> unitTypeStatMap = iCadreMapper.cadreCompany_unitTypeStatMap();
+        List<Map> unitTypeStatMap = iCadreMapper.cadreCompany_unitTypeGroupStatMap();
         Map<String, Map> _unitTypeStatMap = new HashMap<>();
         for (Map map : unitTypeStatMap) {
-            int type = ((Long)map.get("type")).intValue();
-            String unitTypeAttr = (String)map.get("unit_type_attr");
-            _unitTypeStatMap.put(type+"_"+ unitTypeAttr, map);
+            int type = ((Long) map.get("type")).intValue();
+            String unitTypeGroup = (String) map.get("unit_type_group");
+            if (StringUtils.isNotBlank(unitTypeGroup)) {
+                _unitTypeStatMap.put(type + "_" + unitTypeGroup, map);
+            }
         }
-        for(int j=0; j<companyTypeList.size(); j++) {
+
+        for (int j = 0; j < companyTypeList.size(); j++) {
             MetaType metaType = companyTypeList.get(j);
 
-            Map map = _unitTypeStatMap.get(metaType.getId() + "_jg");
-            if (map != null) {
-                int personNum = ((Long) map.get("person_num")).intValue();
-                int num = ((Long) map.get("num")).intValue();
+            for (Map.Entry<String, Map<Integer, Integer>> entry : rowsMap.entrySet()) {
+                String unitTypeGroup = entry.getKey();
+                Map<Integer, Integer> rowMap = entry.getValue();
 
-                row7Map.put(j * 2 + 4, personNum);
-                row7Map.put(j * 2 + 5, num);
+                Map map = _unitTypeStatMap.get(metaType.getId() + "_" + unitTypeGroup);
+                if (map != null) {
 
-                row7Map.put(2, row7Map.get(2) + personNum);
-                row7Map.put(3, row7Map.get(3) + num);
-            }
+                    int personNum = ((Long) map.get("person_num")).intValue();
+                    int num = ((Long) map.get("num")).intValue();
 
-            map = _unitTypeStatMap.get(metaType.getId() + "_xy");
-            if (map != null) {
-                int personNum = ((Long) map.get("person_num")).intValue();
-                int num = ((Long) map.get("num")).intValue();
+                    rowMap.put(j * 2 + 4, personNum);
+                    rowMap.put(j * 2 + 5, num);
 
-                row8Map.put(j * 2 + 4, personNum);
-                row8Map.put(j * 2 + 5, num);
-
-                row8Map.put(2, row8Map.get(2) + personNum);
-                row8Map.put(3, row8Map.get(3) + num);
-            }
-
-            map = _unitTypeStatMap.get(metaType.getId() + "_fs");
-            if (map != null) {
-                int personNum = ((Long) map.get("person_num")).intValue();
-                int num = ((Long) map.get("num")).intValue();
-
-                row9Map.put(j * 2 + 4, personNum);
-                row9Map.put(j * 2 + 5, num);
-
-                row9Map.put(2, row9Map.get(2) + personNum);
-                row9Map.put(3, row9Map.get(3) + num);
+                    rowMap.put(2, rowMap.get(2) + personNum);
+                    rowMap.put(3, rowMap.get(3) + num);
+                }
             }
         }
 
@@ -782,9 +788,11 @@ public class CadreCompanyService extends BaseMapper {
         dataList.add(row4Map);
         dataList.add(row5Map);
         dataList.add(row6Map);
-        dataList.add(row7Map);
-        dataList.add(row8Map);
-        dataList.add(row9Map);
+
+        for (Map.Entry<String, Map<Integer, Integer>> entry : rowsMap.entrySet()) {
+            Map<Integer, Integer> rowMap = entry.getValue();
+            dataList.add(rowMap);
+        }
 
         return dataList;
     }

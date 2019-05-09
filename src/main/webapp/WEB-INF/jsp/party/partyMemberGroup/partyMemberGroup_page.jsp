@@ -20,16 +20,18 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
 
-                                <shiro:hasPermission name="party:edit">
+                                <shiro:hasPermission name="partyMemberGroup:edit">
                                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> 修改信息</a>
                                     <c:if test="${status>=0}">
+                                        <shiro:hasPermission name="partyMemberGroup:realDel">
                                         <button class="popupBtn btn btn-info btn-sm tooltip-info"
                                                 data-url="${ctx}/partyMemberGroup_import"
                                                 data-rel="tooltip" data-placement="top" title="批量导入"><i
                                                 class="fa fa-upload"></i>
                                             批量导入
                                         </button>
+                                        </shiro:hasPermission>
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"

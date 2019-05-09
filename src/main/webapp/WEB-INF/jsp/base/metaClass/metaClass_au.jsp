@@ -47,9 +47,9 @@
         </div>
     	<div class="form-group">
           <label class="col-xs-3 control-label">附加属性选项</label>
-          <div class="col-xs-6">
-              <textarea class="form-control" name="extraOptions">${metaClass.extraOptions}</textarea>
-              <span class="help-block red">格式一： jg|机关,xy|学院<br/>格式二：正高,副高,中级,初级</span>
+          <div class="col-xs-9">
+              <textarea class="form-control" style="width: 273px; height: 100px" name="extraOptions">${metaClass.extraOptions}</textarea>
+              <span class="help-block red">格式一： jg|机关及直属单位|xxx详细说明,xy|学院<br/>格式二：正高,副高,中级,初级</span>
           </div>
         </div>
         </shiro:hasRole>

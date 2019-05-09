@@ -1,9 +1,11 @@
 package shiro.filter;
 
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
 import shiro.ShiroHelper;
+import sys.tags.CmTag;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -13,8 +15,13 @@ public class CustomLogoutFilter extends LogoutFilter {
     @Override
     protected String getRedirectUrl(ServletRequest request, ServletResponse response, Subject subject) {
 
-        SysUserView uv = ShiroHelper.getCurrentUser();
+        boolean isCasUser = false;
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
+        SysUserView uv = CmTag.getUserById(currentUserId);
+        if(uv!=null){
+            isCasUser = BooleanUtils.isTrue(uv.isCasUser());
+        }
         // 门户账号才需要单点登出
-        return uv.isCasUser()?getRedirectUrl():DEFAULT_REDIRECT_URL;
+        return isCasUser?getRedirectUrl():DEFAULT_REDIRECT_URL;
     }
 }

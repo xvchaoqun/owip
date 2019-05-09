@@ -65,11 +65,11 @@ public class CadreReserveController extends BaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
         CadreView cadre = iCadreMapper.getCadre(cadreId);
-        SysUserView sysUser = cadre.getUser();
-        if (sysUser == null) {
+
+        if (cadre == null) {
             msg = "该用户不存在";
         } else {
-            resultMap.put("realname", sysUser.getRealname());
+            resultMap.put("realname", cadre.getRealname());
 
             if (cadre == null) {
                 msg = "该用户不是后备干部";

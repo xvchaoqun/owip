@@ -129,6 +129,9 @@ public class OrgAdminController extends BaseController {
 
         OrgAdminViewExample example = new OrgAdminViewExample();
         OrgAdminViewExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
+
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
         if(type== OwConstants.OW_ORG_ADMIN_PARTY){
             if(partyId!=null){
                 criteria.andPartyIdEqualTo(partyId);

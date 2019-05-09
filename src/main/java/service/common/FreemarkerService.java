@@ -249,7 +249,7 @@ public class FreemarkerService {
             List cols = new ArrayList();
             cols.add(type);
 
-            String[] textArray = text.trim().split(" ");
+            String[] textArray = text.trim().split("\\s");
 
             for (int i=0; i< textArray.length; i++) {
 

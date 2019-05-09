@@ -282,7 +282,7 @@ public class CisInspectObjController extends CisBaseController {
 
         CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(objId);
         //输出文件
-        String filename = cisInspectObj.getCadre().getUser().getRealname() + "同志考察材料（"+DateUtils.formatDate(new Date(), "yyyy.MM.dd")+"）";
+        String filename = cisInspectObj.getCadre().getRealname() + "同志考察材料（"+DateUtils.formatDate(new Date(), "yyyy.MM.dd")+"）";
         response.reset();
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));

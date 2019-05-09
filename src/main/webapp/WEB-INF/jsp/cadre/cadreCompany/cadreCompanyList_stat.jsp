@@ -7,17 +7,17 @@
             <div class="space-4"></div>
 
 <c:if test="${module==1}">
-            <a href="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_LEADER%>"
-               style="margin-left: 20px">
+            <a href="javascript:;" data-url="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_LEADER%>"
+               style="margin-left: 20px" class="downloadBtn">
                 <i class="fa fa-download"></i> ${_school}现任校领导兼职情况统计表</a>
 
-            <a href="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_LEADER_LEAVE%>"
-               style="margin-left: 20px">
+            <a href="javascript:;" data-url="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_LEADER_LEAVE%>"
+               style="margin-left: 20px" class="downloadBtn">
                 <i class="fa fa-download"></i> ${_school}离任校领导兼职情况统计表</a>
 </c:if>
 <c:if test="${module==2}">
-    <a href="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_MIDDLE%>"
-       style="margin-left: 20px">
+    <a href="javascript:;" data-url="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_MIDDLE%>"
+       style="margin-left: 20px" class="downloadBtn">
         <i class="fa fa-download"></i> ${_school}干部兼职情况统计表</a>
 </c:if>
             <div class="space-4"></div>

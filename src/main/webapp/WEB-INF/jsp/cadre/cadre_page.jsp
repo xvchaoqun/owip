@@ -460,20 +460,16 @@
                                                             $("#searchForm select[name=type]").val('${param.type}');
                                                         </script>
                                                     </td>
-                                                    <td class="name">是否涉密</td>
+                                                    <td class="name">${_pMap['cadreStateName']}</td>
                                                     <td class="input">
-                                                        <select name="state" data-width="100" data-rel="select2"
-                                                                data-placeholder="请选择">
+                                                        <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
                                                             <option></option>
-                                                            <option value="1">是</option>
-                                                            <option value="0">否</option>
+                                                            <c:import url="/metaTypes?__code=mc_cadre_state"/>
                                                         </select>
-                                                        <script>
-                                                            $("#searchForm select[name=state]").val('${param.state}');
+                                                        <script type="text/javascript">
+                                                            $("#searchForm select[name=state]").val(${param.state});
                                                         </script>
                                                     </td>
-
-
                                                 </tr>
                                             </table>
                                             <div>

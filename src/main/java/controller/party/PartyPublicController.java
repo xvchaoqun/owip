@@ -317,7 +317,7 @@ public class PartyPublicController extends BaseController {
     public String partyPublic_users(byte type, int partyId,
                                     Integer branchId, Integer userId, Byte applyType,
                                     Integer publicId,
-                                    @RequestParam(value = "selectUserIds") Integer[] selectUserIds,
+                                    @RequestParam(value = "selectUserIds", required = false) Integer[] selectUserIds,
                                     ModelMap modelMap) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
@@ -341,7 +341,7 @@ public class PartyPublicController extends BaseController {
             criteria.andUserIdEqualTo(userId);
         }
         if (applyType != null) {
-            criteria.andTypeEqualTo(type);
+            criteria.andTypeEqualTo(applyType);
         }
 
         criteria.andPublicIdIsNullOrThis(publicId, type);

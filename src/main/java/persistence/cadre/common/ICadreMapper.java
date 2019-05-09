@@ -96,10 +96,11 @@ public interface ICadreMapper {
 
     // 获取主职、兼职在某单位的现任干部
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
-    @Select("select cp.* from cadre_post cp , cadre c where cp.unit_id=#{unitId} and cp.cadre_id=c.id and " +
+    @Select("select cp.* from cadre_post cp , cadre c where cp.unit_id=#{unitId} and cp.cadre_id=c.id and c.type=#{cadreType} and " +
             "c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
-    public List<CadrePost> findCadrePosts(@Param("unitId") int unitId);
+    public List<CadrePost> findCadrePosts(@Param("unitId") int unitId,
+                                          @Param("cadreType") byte cadreType);
 
     // 根据单位类型（jg/xy/fs)获取主职、兼职(占职数)的现任干部
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
@@ -137,10 +138,10 @@ public interface ICadreMapper {
     List<Map> cadreCompany_doubleStatMap();
 
     // 干部兼职汇总   兼职类型、单位类型
-    @Select("select unit_type_attr, type, count(*) num, count(distinct cadre_id) as person_num " +
-            "from cadre_company_view cc where cadre_status=1 and unit_type_attr in('xy','jg','fs') " +
-            "group by unit_type_attr, type")
-    List<Map> cadreCompany_unitTypeStatMap();
+    @Select("select unit_type_group, type, count(*) num, count(distinct cadre_id) as person_num " +
+            "from cadre_company_view cc where cadre_status=1 " +
+            "group by unit_type_group, type")
+    List<Map> cadreCompany_unitTypeGroupStatMap();
 
     // 干部兼职汇总   兼职类型、行政级别
     @Select("select admin_level, type, count(*) num, count(distinct cadre_id) as person_num " +

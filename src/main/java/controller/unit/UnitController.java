@@ -396,6 +396,36 @@ public class UnitController extends BaseController {
         return resultMap;
     }
 
+    // 批量导入更新单位编码
+    @RequiresPermissions("unit:edit")
+    @RequestMapping("/unit_importCodes")
+    public String unit_importCodes() {
+
+        return "unit/unit_importCodes";
+    }
+
+    @RequiresPermissions("unit:edit")
+    @RequestMapping(value="/unit_importCodes", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_unit_importCodes(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+
+        Map<String, Object> retMap = unitService.batchImportCodes(xlsRows);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", retMap.get("success"));
+        resultMap.put("total", xlsRows.size());
+
+        return resultMap;
+    }
+
     @RequiresPermissions("unit:list")
     @RequestMapping("/selectUnits_tree")
     @ResponseBody

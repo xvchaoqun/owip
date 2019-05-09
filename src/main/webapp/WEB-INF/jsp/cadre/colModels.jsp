@@ -22,7 +22,7 @@
             return _cMap.CADRE_TYPE_MAP[cellvalue]
         }},
         </c:if>
-        {label: '是否<br/>涉密', name: 'state', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '${_pMap['cadreStateName']}', name: 'state', formatter: $.jgrid.formatter.MetaType},
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
@@ -255,7 +255,7 @@
             return _cMap.CADRE_TYPE_MAP[cellvalue]
         }},
         </c:if>
-        {label: '是否涉密', name: 'state', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '${_pMap['cadreStateName']}', name: 'state', formatter: $.jgrid.formatter.MetaType},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '原职务', name: 'post', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},

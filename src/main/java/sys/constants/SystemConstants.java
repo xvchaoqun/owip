@@ -163,19 +163,6 @@ public class SystemConstants {
         UNIT_POST_LEADER_TYPE_MAP.put(UNIT_POST_LEADER_TYPE_NOT, "否");
     }
 
-    // 单位类型附加属性
-    public final static String UNIT_TYPE_ATTR_XY = "xy";
-    public final static String UNIT_TYPE_ATTR_JG = "jg";
-    public final static String UNIT_TYPE_ATTR_FS = "fs";
-    public final static Map<String, String> UNIT_TYPE_ATTR_MAP = new LinkedHashMap<>();
-
-    static {
-        UNIT_TYPE_ATTR_MAP.put(UNIT_TYPE_ATTR_XY, "学部、院、系所");
-        UNIT_TYPE_ATTR_MAP.put(UNIT_TYPE_ATTR_JG, "机关部处及直属、教辅单位");
-        UNIT_TYPE_ATTR_MAP.put(UNIT_TYPE_ATTR_FS, "附属单位");
-    }
-
-
     // 账号来源 0 后台创建 1人事库、2本科生库 3 研究生库
     public final static byte USER_REG_STATUS_APPLY = 0;
     public final static byte USER_REG_STATUS_DENY = -1;

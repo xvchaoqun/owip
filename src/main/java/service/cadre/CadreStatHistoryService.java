@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
 import service.analysis.StatCadreService;
+import service.global.CacheService;
 import service.unit.UnitPostAllocationService;
 import sys.constants.CadreConstants;
 import sys.utils.DateUtils;
@@ -29,11 +30,15 @@ public class CadreStatHistoryService extends BaseMapper {
     private CadreExportService cadreExportService;
     @Autowired
     protected SpringProps springProps;
+    @Autowired
+    protected CacheService cacheService;
 
     // 保存历史信息表
     public void saveExport(byte type) throws IOException {
 
         long start = System.currentTimeMillis();
+
+        boolean hasKjCadre = cacheService.getBoolProperty("hasKjCadre");
 
         Workbook wb = null;
         switch (type) {
@@ -46,17 +51,32 @@ public class CadreStatHistoryService extends BaseMapper {
                 wb = cadreExportService.export(status, example, 0, null);
 
                 break;
-            case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE:
+            case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_CJ:
 
-                wb = statCadreService.toXlsx();
+                wb = statCadreService.toXlsx(CadreConstants.CADRE_TYPE_CJ);
+                break;
+            case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ:
+                if(hasKjCadre) {
+                    wb = statCadreService.toXlsx(CadreConstants.CADRE_TYPE_KJ);
+                }
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:
 
-                wb = unitPostAllocationService.cpcInfo_Xlsx();
+                wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_TYPE_CJ);
+                break;
+            case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_KJ:
+                if(hasKjCadre) {
+                    wb = unitPostAllocationService.cpcStat_Xlsx(CadreConstants.CADRE_TYPE_KJ);
+                }
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT:
 
-                wb = unitPostAllocationService.cpcStat_Xlsx();
+                wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_TYPE_CJ);
+                break;
+            case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT_KJ:
+                if(hasKjCadre) {
+                    wb = unitPostAllocationService.cpcStat_Xlsx(CadreConstants.CADRE_TYPE_KJ);
+                }
                 break;
         }
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.unit.UnitPostAllocationService;
+import sys.constants.CadreConstants;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,7 +26,7 @@ public class CpcStatExportServiceTest {
     @Test
     public void stat() throws IOException {
 
-        XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx();
+        XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_TYPE_CJ);
         FileOutputStream output = new FileOutputStream(new File("D:/tmp/test333.xlsx"));
 
         wb.write(output);

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>${unitType} - ${adminLevel.name} - ${isMainPost?"全职":"兼职"}</h3>
+  <h3>${unitType.name} - ${adminLevel.name} - ${isMainPost?"全职":"兼职"}</h3>
 </div>
 <div class="modal-body">
 <t:cpc_cadres cadrePosts="${cadrePosts}"/>

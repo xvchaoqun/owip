@@ -438,6 +438,7 @@ public class CommonController extends BaseController {
                 if(needPrivate) {
                     option.put("idcard", uv.getIdcard());
                     option.put("politicalStatus", member.getPoliticalStatus());
+                    option.put("mobile", uv.getMobile());
                 }
                 //option.put("user", userBeanService.get(member.getUserId()));
 

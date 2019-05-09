@@ -1,5 +1,7 @@
 package service.unit;
 
+import bean.MetaClassOption;
+import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
@@ -8,18 +10,16 @@ import domain.unit.UnitPostCountView;
 import domain.unit.UnitPostCountViewExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRichTextString;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSheetView;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.STSheetViewType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
+import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -28,12 +28,7 @@ import sys.utils.ExcelUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UnitPostAllocationService extends BaseMapper {
@@ -97,13 +92,26 @@ public class UnitPostAllocationService extends BaseMapper {
     }
 
     // 导出
-    public XSSFWorkbook cpcInfo_Xlsx() throws IOException {
+    public XSSFWorkbook cpcInfo_Xlsx(byte cadreType) throws IOException {
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc/cpc_template.xlsx"));
+        String xlsxFile = "classpath:xlsx/cpc/cpc_template.xlsx";
+        if(cadreType == CadreConstants.CADRE_TYPE_KJ) {
+            xlsxFile = "classpath:xlsx/cpc/cpc_template_kj.xlsx";
+        }
+        InputStream is = new FileInputStream(ResourceUtils.getFile(xlsxFile));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, true);
+        // 打开页面布局
+        CTSheetView view = sheet.getCTWorksheet().getSheetViews().getSheetViewArray(0);
+        view.setView(STSheetViewType.PAGE_LAYOUT);
+
+        // 横向打印
+        XSSFPrintSetup ps = sheet.getPrintSetup();
+        ps.setLandscape(true);
+        ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+
+        List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, cadreType, true);
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
@@ -135,55 +143,56 @@ public class UnitPostAllocationService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getUnit().getName());
 
-            // 正处级 职数
+            // 正*级 职数
             cell = row.getCell(column++);
             cell.setCellValue(bean.getMainNum());
 
-            // 正处级 现任数
+            // 正*级 现任数
             cell = row.getCell(column++);
             cell.setCellValue(bean.getMainCount());
 
-            // 正处级 现任干部
+            // 正*级 现任干部
             cell = row.getCell(column++);
             cell.setCellValue(getCadres(wb, bean.getMains()));
 
-            // 正处级 空缺数
+            // 正*级 空缺数
             cell = row.getCell(column++);
             cell.setCellValue(bean.getMainLack());
 
 
-            // 副处级 职数
+            // 副*级 职数
             cell = row.getCell(column++);
             cell.setCellValue(bean.getViceNum());
 
-            // 副处级 现任数
+            // 副*级 现任数
             cell = row.getCell(column++);
             cell.setCellValue(bean.getViceCount());
 
-            // 副处级 现任干部
+            // 副*级 现任干部
             cell = row.getCell(column++);
             cell.setCellValue(getCadres(wb, bean.getVices()));
 
-            // 副处级 空缺数
+            // 副*级 空缺数
             cell = row.getCell(column++);
             cell.setCellValue(bean.getViceLack());
 
+            if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+                // 无行政级别 职数
+                cell = row.getCell(column++);
+                cell.setCellValue(bean.getNoneNum());
 
-            // 无行政级别 职数
-            cell = row.getCell(column++);
-            cell.setCellValue(bean.getNoneNum());
+                // 无行政级别 现任数
+                cell = row.getCell(column++);
+                cell.setCellValue(bean.getNoneCount());
 
-            // 无行政级别 现任数
-            cell = row.getCell(column++);
-            cell.setCellValue(bean.getNoneCount());
+                // 无行政级别 现任干部
+                cell = row.getCell(column++);
+                cell.setCellValue(getCadres(wb, bean.getNones()));
 
-            // 无行政级别 现任干部
-            cell = row.getCell(column++);
-            cell.setCellValue(getCadres(wb, bean.getNones()));
-
-            // 无行政级别 空缺数
-            cell = row.getCell(column++);
-            cell.setCellValue(bean.getNoneLack());
+                // 无行政级别 空缺数
+                cell = row.getCell(column++);
+                cell.setCellValue(bean.getNoneLack());
+            }
         }
 
         // 统计结果
@@ -192,48 +201,49 @@ public class UnitPostAllocationService extends BaseMapper {
             UnitPostAllocationInfoBean totalBean = beans.get(rowCount);
             row = sheet.getRow(startRow);
             int column = 2;
-            // 正处级 职数
+            // 正*级 职数
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getMainNum());
 
-            // 正处级 现任数
+            // 正*级 现任数
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getMainCount());
 
             column++;
 
-            // 正处级 空缺数
+            // 正*级 空缺数
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getMainLack());
 
-            // 副处级 职数
+            // 副*级 职数
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getViceNum());
 
-            // 副处级 现任数
+            // 副*级 现任数
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getViceCount());
 
             column++;
 
-            // 副处级 空缺数
+            // 副*级 空缺数
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getViceLack());
 
+            if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+                // 无行政级别 职数
+                cell = row.getCell(column++);
+                cell.setCellValue(totalBean.getNoneNum());
 
-            // 无行政级别 职数
-            cell = row.getCell(column++);
-            cell.setCellValue(totalBean.getNoneNum());
+                // 无行政级别 现任数
+                cell = row.getCell(column++);
+                cell.setCellValue(totalBean.getNoneCount());
 
-            // 无行政级别 现任数
-            cell = row.getCell(column++);
-            cell.setCellValue(totalBean.getNoneCount());
+                column++;
 
-            column++;
-
-            // 无行政级别 空缺数
-            cell = row.getCell(column++);
-            cell.setCellValue(totalBean.getNoneLack());
+                // 无行政级别 空缺数
+                cell = row.getCell(column++);
+                cell.setCellValue(totalBean.getNoneLack());
+            }
         }
 
         return wb;
@@ -295,12 +305,13 @@ public class UnitPostAllocationService extends BaseMapper {
      *
      * hasSetCpc = true 只读取设置了职数的单位
      */
-    public List<UnitPostAllocationInfoBean> cpcInfo_data(Integer _unitId, boolean hasSetCpc) {
+    public List<UnitPostAllocationInfoBean> cpcInfo_data(Integer _unitId, byte cadreType, boolean hasSetCpc) {
 
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType mainMetaType = metaTypeMap.get("mt_admin_level_main");
-        MetaType viceMetaType = metaTypeMap.get("mt_admin_level_vice");
+        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
+        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
+        // 处级干部才有无行政级别
         MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
 
         Map<Integer, Unit> _unitMap = unitService.findAll();
@@ -349,7 +360,7 @@ public class UnitPostAllocationService extends BaseMapper {
                 }
 
                 // 查找主职、兼职在此单位的现任干部
-                List<CadrePost> cadrePosts = iCadreMapper.findCadrePosts(unitId);
+                List<CadrePost> cadrePosts = iCadreMapper.findCadrePosts(unitId, cadreType);
 
                 List<CadrePost> mains = new ArrayList<>();
                 List<CadrePost> vices = new ArrayList<>();
@@ -427,9 +438,14 @@ public class UnitPostAllocationService extends BaseMapper {
         return beans;
     }
 
-    public XSSFWorkbook cpcStat_Xlsx() throws IOException {
+    public XSSFWorkbook cpcStat_Xlsx(byte cadreType) throws IOException {
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc/cpc_stat_template.xlsx"));
+        String xlsxFile = "classpath:xlsx/cpc/cpc_stat_template.xlsx";
+        if(cadreType == CadreConstants.CADRE_TYPE_KJ) {
+            xlsxFile = "classpath:xlsx/cpc/cpc_stat_template_kj.xlsx";
+        }
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile(xlsxFile));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -443,27 +459,41 @@ public class UnitPostAllocationService extends BaseMapper {
         cell = row.getCell(0);
         cell.setCellValue("统计日期：" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
-        Map<String, List<Integer>> cpcStatDataMap = cpcStat_data();
+        MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
+        Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
+        List<MetaClassOption> optionList = new ArrayList<>(unitTypeGroupMap.values());
 
+        Map<String, List<Integer>> cpcStatDataMap = cpcStat_data(cadreType);
         // 按表格行的顺序重新装入
-        List<Integer> jgList = cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_JG);
-        List<Integer> xyList = cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_XY);
-        List<Integer> fsList = cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_FS);
-        List<Integer> totalList = cpcStatDataMap.get("total");
-
         List<List<Integer>> dataList = new ArrayList<>();
-        dataList.add(jgList);
-        dataList.add(xyList);
-        dataList.add(fsList);
-        dataList.add(totalList);
+        for (String group : unitTypeGroupMap.keySet()) {
+            dataList.add( cpcStatDataMap.get(group));
+        }
+        dataList.add(cpcStatDataMap.get("total"));
 
         int startRow = 5;
-        for (List<Integer> list : dataList) {
+        int rowCount = dataList.size() - 1; // 去掉最后一行
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        for (int i = 0; i < dataList.size(); i++) {
 
+            List<Integer> list = dataList.get(i);
             row = sheet.getRow(startRow++);
-            int column = 2;
-            for (Integer data : list) {
 
+            int column = 0;
+
+            cell = row.getCell(column++);
+
+            if(i==rowCount){
+                cell.setCellValue("合计");
+                column++;
+            }else {
+                cell.setCellValue(i+1);
+
+                cell = row.getCell(column++);
+                cell.setCellValue(optionList.get(i).getDetail());
+            }
+
+            for (Integer data : list) {
                 cell = row.getCell(column++);
                 cell.setCellValue(data);
             }
@@ -473,18 +503,17 @@ public class UnitPostAllocationService extends BaseMapper {
     }
 
     /**
-     *  机关、学院、附属单位、合计 4行数据
+     *  单位类型分组、合计 每行统计数据
      *
      * @return <unitType, 表格的每行结果数据>
      *     汇总结果在最后一行(unitType='total')
       */
-    public Map<String, List<Integer>> cpcStat_data() {
+    public Map<String, List<Integer>> cpcStat_data(byte cadreType) {
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType mainMetaType = metaTypeMap.get("mt_admin_level_main");
-        MetaType viceMetaType = metaTypeMap.get("mt_admin_level_vice");
+        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
+        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
         MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
-
 
         // 汇总结果
         int totalNum = 0;
@@ -507,19 +536,21 @@ public class UnitPostAllocationService extends BaseMapper {
         int noneTotalSubCount = 0;
         int noneTotalLack = 0;
 
+        MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
+        Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
 
         // <unitType, 表格的每行结果数据>
-        Map<String, List<Integer>> results = new HashMap<>();
-        for (String unitType : SystemConstants.UNIT_TYPE_ATTR_MAP.keySet()) {
+        Map<String, List<Integer>> results = new LinkedHashMap<>();
+        for (String unitTypeGroup : unitTypeGroupMap.keySet()) {
 
             List<Integer> dataList = new ArrayList<>();
-            results.put(unitType, dataList);
+            results.put(unitTypeGroup, dataList);
 
             // =============统计设定的干部职数==============
-            List<UnitPostAllocationStatBean> cpcStatBeans = iCpcMapper.cpcStat_setting(unitType);
+            List<UnitPostAllocationStatBean> cpcStatBeans = iCpcMapper.cpcStat_setting(unitTypeGroup);
 
-            int mainNum = 0; // 正处
-            int viceNum = 0;  // 副处
+            int mainNum = 0; // 正*
+            int viceNum = 0;  // 副*
             int noneNum = 0;  // 无行政级别
             for (UnitPostAllocationStatBean bean : cpcStatBeans) {
 
@@ -547,7 +578,7 @@ public class UnitPostAllocationService extends BaseMapper {
             // 无行政级别
             int mainCount3 = 0; // 全职
             int subCount3 = 0;  // 兼职
-            List<UnitPostAllocationStatBean> cpcStats = iCpcMapper.cpcStat_real(unitType);
+            List<UnitPostAllocationStatBean> cpcStats = iCpcMapper.cpcStat_real(unitTypeGroup);
             for (UnitPostAllocationStatBean bean : cpcStats) {
 
                 Integer adminLevel = bean.getAdminLevel();
@@ -568,6 +599,13 @@ public class UnitPostAllocationService extends BaseMapper {
                 }
             }
 
+            // 处级干部才有无行政级别
+            if((cadreType == CadreConstants.CADRE_TYPE_KJ)){
+                noneNum = 0;
+                mainCount3 = 0;
+                subCount3 = 0;
+            }
+
             // 所有岗位
             int _totalNum = mainNum + viceNum + noneNum;
             int _totalMainCount = mainCount+mainCount2+mainCount3;
@@ -584,7 +622,7 @@ public class UnitPostAllocationService extends BaseMapper {
             totalLack += _totalLack;
 
 
-            // 正处级岗位
+            // 正*级岗位
             int _mainLack = mainNum - (mainCount + subCount);
             dataList.add(mainNum);
             dataList.add(mainCount);
@@ -597,7 +635,7 @@ public class UnitPostAllocationService extends BaseMapper {
             mainTotalLack += _mainLack;
 
 
-            // 副处级岗位
+            // 副*级岗位
             int _viceLack = viceNum - (mainCount2 + subCount2);
             dataList.add(viceNum);
             dataList.add(mainCount2);
@@ -609,18 +647,19 @@ public class UnitPostAllocationService extends BaseMapper {
             viceTotalSubCount += subCount2;
             viceTotalLack += _viceLack;
 
+            if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+                // 无行政级别岗位
+                int _noneLack = noneNum - (mainCount3 + subCount3);
+                dataList.add(noneNum);
+                dataList.add(mainCount3);
+                dataList.add(subCount3);
+                dataList.add(_noneLack); // 空缺数
 
-            // 无行政级别岗位
-            int _noneLack = noneNum - (mainCount3 + subCount3);
-            dataList.add(noneNum);
-            dataList.add(mainCount3);
-            dataList.add(subCount3);
-            dataList.add(_noneLack); // 空缺数
-
-            noneTotalNum += noneNum;
-            noneTotalMainCount += mainCount3;
-            noneTotalSubCount += subCount3;
-            noneTotalLack += _noneLack;
+                noneTotalNum += noneNum;
+                noneTotalMainCount += mainCount3;
+                noneTotalSubCount += subCount3;
+                noneTotalLack += _noneLack;
+            }
         }
         // 汇总结果
         List<Integer> totalList = new ArrayList<>();
@@ -639,10 +678,12 @@ public class UnitPostAllocationService extends BaseMapper {
         totalList.add(viceTotalSubCount);
         totalList.add(viceTotalLack);
 
-        totalList.add(noneTotalNum);
-        totalList.add(noneTotalMainCount);
-        totalList.add(noneTotalSubCount);
-        totalList.add(noneTotalLack);
+        if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+            totalList.add(noneTotalNum);
+            totalList.add(noneTotalMainCount);
+            totalList.add(noneTotalSubCount);
+            totalList.add(noneTotalLack);
+        }
 
         results.put("total", totalList);
 

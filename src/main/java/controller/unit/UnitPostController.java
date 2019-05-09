@@ -1,8 +1,10 @@
 package controller.unit;
 
+import bean.MetaClassOption;
 import bean.XlsUpload;
 import controller.BaseController;
 import controller.global.OpException;
+import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
@@ -29,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.HtmlUtils;
 import service.unit.UnitPostAllocationInfoBean;
+import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -665,37 +668,44 @@ public class UnitPostController extends BaseController {
     @RequestMapping("/unitPostAllocation")
     public String unitPostAllocation(
             @RequestParam(required = false, defaultValue = "1") Byte module,
+            @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,
             @RequestParam(required = false, defaultValue = "0") int export,
             ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         modelMap.put("module", module);
+        modelMap.put("cadreType", cadreType);
 
         if (module == 1) {
             if (export == 1) {
-                XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx();
+                XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx(cadreType);
 
-                String fileName = sysConfigService.getSchoolName() + "内设机构干部配备情况（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
+                String fileName = sysConfigService.getSchoolName() + "内设机构"
+                        + CadreConstants.CADRE_TYPE_MAP.get(cadreType) +"配备情况（"
+                        + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
                 ExportHelper.output(wb, fileName + ".xlsx", response);
                 return null;
             }
 
-            List<UnitPostAllocationInfoBean> beans = unitPostAllocationService.cpcInfo_data(null, true);
+            List<UnitPostAllocationInfoBean> beans = unitPostAllocationService.cpcInfo_data(null, cadreType, true);
             modelMap.put("beans", beans);
         }else if (module == 2) {
 
             if (export == 1) {
-                XSSFWorkbook wb = unitPostAllocationService.cpcStat_Xlsx();
+                XSSFWorkbook wb = unitPostAllocationService.cpcStat_Xlsx(cadreType);
 
-                String fileName = sysConfigService.getSchoolName() + "内设机构干部配备统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
+                String fileName = sysConfigService.getSchoolName() + "内设机构"+
+                        CadreConstants.CADRE_TYPE_MAP.get(cadreType)
+                        +"配备统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
                 ExportHelper.output(wb, fileName + ".xlsx", response);
                 return null;
             }
 
-            Map<String, List<Integer>> cpcStatDataMap = unitPostAllocationService.cpcStat_data();
-            modelMap.put("jgList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_JG));
-            modelMap.put("xyList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_XY));
-            modelMap.put("fsList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_FS));
-            modelMap.put("totalList", cpcStatDataMap.get("total"));
+            MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
+            Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
+            modelMap.put("unitTypeGroupMap", unitTypeGroupMap);
+
+            Map<String, List<Integer>> cpcStatDataMap = unitPostAllocationService.cpcStat_data(cadreType);
+            modelMap.put("cpcStatDataMap", cpcStatDataMap);
         }
 
         return "unit/unitPost/unitPostAllocation_page";
@@ -708,7 +718,10 @@ public class UnitPostController extends BaseController {
         List<CadrePost> cadrePosts = iCadreMapper.findCadrePostsByUnitType(adminLevel, isMainPost, unitType.trim());
         modelMap.put("cadrePosts", cadrePosts);
 
-        modelMap.put("unitType", SystemConstants.UNIT_TYPE_ATTR_MAP.get(unitType.trim()));
+        MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
+        Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
+
+        modelMap.put("unitType", unitTypeGroupMap.get(unitType.trim()));
         modelMap.put("adminLevel", metaTypeService.findAll().get(adminLevel));
         modelMap.put("isMainPost", isMainPost);
 

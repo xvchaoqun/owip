@@ -49,11 +49,13 @@ public class CadreCompanyView implements Serializable {
 
     private Integer adminLevel;
 
+    private String adminLevelCode;
+
     private Boolean isDouble;
 
     private Integer unitTypeId;
 
-    private String unitTypeAttr;
+    private String unitTypeGroup;
 
     private Integer cadreSortOrder;
 
@@ -211,6 +213,14 @@ public class CadreCompanyView implements Serializable {
         this.adminLevel = adminLevel;
     }
 
+    public String getAdminLevelCode() {
+        return adminLevelCode;
+    }
+
+    public void setAdminLevelCode(String adminLevelCode) {
+        this.adminLevelCode = adminLevelCode == null ? null : adminLevelCode.trim();
+    }
+
     public Boolean getIsDouble() {
         return isDouble;
     }
@@ -227,12 +237,12 @@ public class CadreCompanyView implements Serializable {
         this.unitTypeId = unitTypeId;
     }
 
-    public String getUnitTypeAttr() {
-        return unitTypeAttr;
+    public String getUnitTypeGroup() {
+        return unitTypeGroup;
     }
 
-    public void setUnitTypeAttr(String unitTypeAttr) {
-        this.unitTypeAttr = unitTypeAttr == null ? null : unitTypeAttr.trim();
+    public void setUnitTypeGroup(String unitTypeGroup) {
+        this.unitTypeGroup = unitTypeGroup == null ? null : unitTypeGroup.trim();
     }
 
     public Integer getCadreSortOrder() {

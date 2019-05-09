@@ -60,7 +60,7 @@ public class CadreAdformController extends BaseController {
 
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         //输出文件
-        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
+        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getRealname();
         response.reset();
         DownloadUtils.addFileDownloadCookieHeader(response);
 

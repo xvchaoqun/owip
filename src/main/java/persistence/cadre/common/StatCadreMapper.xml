@@ -16,8 +16,11 @@
         <result column="num_7" property="num7" jdbcType="INTEGER" />
     </resultMap>
     <sql id="andSql">
-        <if test="unitTypeAttr!=null">
-            and unit_type_attr =#{unitTypeAttr}
+        <if test="unitTypeGroup!=null">
+            and unit_type_group =#{unitTypeGroup}
+        </if>
+        <if test="cadreType!=null">
+            and type =#{cadreType}
         </if>
     </sql>
     <!-- 总人数 -->

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import service.unit.UnitPostAllocationInfoBean;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -117,7 +118,8 @@ public class MobileCadreSearchController extends BaseController {
 
 		if(unitId!=null){
 
-			List<UnitPostAllocationInfoBean> cpcInfoBeans = unitPostAllocationService.cpcInfo_data(unitId, false);
+			List<UnitPostAllocationInfoBean> cpcInfoBeans
+					= unitPostAllocationService.cpcInfo_data(unitId, CadreConstants.CADRE_TYPE_CJ, false);
 			if(cpcInfoBeans.size()==2){
 				modelMap.put("bean", cpcInfoBeans.get(0));
 			}

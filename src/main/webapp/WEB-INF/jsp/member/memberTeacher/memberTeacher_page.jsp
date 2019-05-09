@@ -300,7 +300,7 @@
             { label: '民族',  name: 'nation'},
             { label: '籍贯',  name: 'nativePlace', width: 120},
             {label: '年龄', name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE},
-            { label: '最高学历', name: 'education' },
+            { label: '最高学历', name: 'education' , width: 120},
             { label: '编制类别', name: 'authorizedType' },
             { label: '人员类别', name: 'staffType' },
             { label: '岗位类别', name: 'postClass' },

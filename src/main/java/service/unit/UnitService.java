@@ -34,41 +34,42 @@ public class UnitService extends BaseMapper {
     @Autowired
     protected MetaTypeService metaTypeService;
 
-    public List<Unit> findUnitByTypeAndStatus(Integer type, byte status){
+    public List<Unit> findUnitByTypeAndStatus(Integer type, byte status) {
 
         UnitExample example = new UnitExample();
         UnitExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
-        if(type!=null)
+        if (type != null)
             criteria.andTypeIdEqualTo(type);
         example.setOrderByClause(" sort_order asc");
         return unitMapper.selectByExample(example);
     }
 
-    public Unit findUnitByCode(String code){
+    public Unit findUnitByCode(String code) {
 
         UnitExample example = new UnitExample();
         example.createCriteria().andCodeEqualTo(code);
         List<Unit> units = unitMapper.selectByExample(example);
-        if(units.size()>0) return units.get(0);
+        if (units.size() > 0) return units.get(0);
         return null;
     }
 
     // 查找正在运转单位
-    public List<Unit> findRunUnits(int unitId){
+    public List<Unit> findRunUnits(int unitId) {
 
         return iUnitMapper.findRunUnits(unitId);
 
     }
+
     // 查找历史单位
-    public List<Unit> findHistoryUnits(int unitId){
+    public List<Unit> findHistoryUnits(int unitId) {
 
         return iUnitMapper.findHistoryUnits(unitId);
     }
 
     // unSelectIdSet:不可选的
-    public TreeNode getTree(Byte status, Set<Integer> unSelectIdSet){
+    public TreeNode getTree(Byte status, Set<Integer> unSelectIdSet) {
 
-        if(null == unSelectIdSet) unSelectIdSet = new HashSet<>();
+        if (null == unSelectIdSet) unSelectIdSet = new HashSet<>();
 
         TreeNode root = new TreeNode();
         root.title = "单位";
@@ -84,7 +85,7 @@ public class UnitService extends BaseMapper {
 
         UnitExample example = new UnitExample();
         UnitExample.Criteria criteria = example.createCriteria();
-        if(status!=null){
+        if (status != null) {
             criteria.andStatusEqualTo(status);
         }
         example.setOrderByClause(" sort_order asc");
@@ -117,18 +118,18 @@ public class UnitService extends BaseMapper {
                 TreeNode node = new TreeNode();
                 node.title = unit.getName();
                 node.key = unit.getId() + "";
-                if(unit.getStatus()==SystemConstants.UNIT_STATUS_HISTORY)
+                if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY)
                     node.addClass = "delete";
 
                 if (unSelectIdSet.contains(unit.getId().intValue())) {
                     node.hideCheckbox = true;
                     node.unselectable = true;
-                }else{
+                } else {
                     selectableCount++;
                 }
                 titleChildren.add(node);
             }
-            if(selectableCount==0){
+            if (selectableCount == 0) {
                 titleNode.hideCheckbox = true;
                 titleNode.unselectable = true;
             }
@@ -138,36 +139,37 @@ public class UnitService extends BaseMapper {
         return root;
     }
 
-    public boolean idDuplicate(Integer id, String code){
+    public boolean idDuplicate(Integer id, String code) {
 
         Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         UnitExample example = new UnitExample();
         UnitExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code)/*.andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN)*/;
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
 
         return unitMapper.countByExample(example) > 0;
     }
 
     @Transactional
-    @CacheEvict(value="Unit:ALL", allEntries = true)
-    public int insertSelective(Unit record){
+    @CacheEvict(value = "Unit:ALL", allEntries = true)
+    public int insertSelective(Unit record) {
 
         record.setSortOrder(getNextSortOrder("unit", "status=" + record.getStatus()));
         return unitMapper.insertSelective(record);
     }
+
     @Transactional
-    @CacheEvict(value="Unit:ALL", allEntries = true)
-    public void del(Integer id){
+    @CacheEvict(value = "Unit:ALL", allEntries = true)
+    public void del(Integer id) {
 
         unitMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="Unit:ALL", allEntries = true)
-    public void batchDel(Integer[] ids){
+    @CacheEvict(value = "Unit:ALL", allEntries = true)
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
         UnitExample example = new UnitExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -175,17 +177,17 @@ public class UnitService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="Unit:ALL", allEntries = true)
-    public void abolish(Integer[] ids, boolean isAbolish){
-        if(ids==null || ids.length==0) return;
+    @CacheEvict(value = "Unit:ALL", allEntries = true)
+    public void abolish(Integer[] ids, boolean isAbolish) {
+        if (ids == null || ids.length == 0) return;
 
         for (Integer id : ids) {
             Unit record = new Unit();
             record.setId(id);
-            if(isAbolish) {
+            if (isAbolish) {
                 record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_HISTORY));
                 record.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
-            }else{
+            } else {
                 record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_RUN));
                 record.setStatus(SystemConstants.UNIT_STATUS_RUN);
             }
@@ -200,13 +202,13 @@ public class UnitService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="Unit:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(Unit record){
+    @CacheEvict(value = "Unit:ALL", allEntries = true)
+    public int updateByPrimaryKeySelective(Unit record) {
 
         return unitMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="Unit:ALL")
+    @Cacheable(value = "Unit:ALL")
     public Map<Integer, Unit> findAll() {
 
         UnitExample example = new UnitExample();
@@ -224,6 +226,7 @@ public class UnitService extends BaseMapper {
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * 3.sort_order = LAST_INSERT_ID()+1,
+     *
      * @param id
      * @param addNum
      */
@@ -231,7 +234,7 @@ public class UnitService extends BaseMapper {
     @CacheEvict(value = "Unit:ALL", allEntries = true)
     public void changeOrder(int id, byte status, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         Unit entity = unitMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
@@ -241,16 +244,16 @@ public class UnitService extends BaseMapper {
 
             example.createCriteria().andStatusEqualTo(status).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andStatusEqualTo(status).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
         List<Unit> overEntities = unitMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            Unit targetEntity = overEntities.get(overEntities.size()-1);
+            Unit targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum < 0)
                 commonMapper.downOrder("unit", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
@@ -266,64 +269,104 @@ public class UnitService extends BaseMapper {
 
     // 导入单位
     @Transactional
-    @CacheEvict(value="Unit:ALL", allEntries = true)
+    @CacheEvict(value = "Unit:ALL", allEntries = true)
     public Map<String, Object> batchImport(List<Map<Integer, String>> xlsRows) {
 
-            int success = 0;
-            List<Map<Integer, String>> failedXlsRows = new ArrayList<>();
+        int success = 0;
+        List<Map<Integer, String>> failedXlsRows = new ArrayList<>();
 
-            int row = 1;
-            for (Map<Integer, String> xlsRow : xlsRows) {
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
 
-                row++;
-                String code = StringUtils.trim(xlsRow.get(0));
-                String name = StringUtils.trim(xlsRow.get(1));
-                String type = StringUtils.trim(xlsRow.get(2));
-                if (StringUtils.isBlank(code)
-                        || StringUtils.isBlank(name)
-                        || StringUtils.isBlank(type)){
-                    failedXlsRows.add(xlsRow);
-                    throw new OpException("第{0}行数据有误[空字段]", row);
-                }
-
-                MetaType unitType = metaTypeService.findByName("mc_unit_type", type);
-                if(unitType==null){
-                    failedXlsRows.add(xlsRow);
-                    throw new OpException("第{0}行单位类型[{1}]不存在", row, type);
-                }
-
-                Unit _unit = findUnitByCode(code);
-
-                Unit record = new Unit();
-                record.setCode(code);
-                record.setName(name);
-                record.setTypeId(unitType.getId());
-                String workTime = xlsRow.get(3);
-                record.setWorkTime(DateUtils.parseStringToDate(workTime));
-
-                record.setUrl(xlsRow.get(4));
-                record.setRemark(xlsRow.get(5));
-                int ret = 0;
-                if(_unit==null) {
-                    record.setCreateTime(new Date());
-                    record.setStatus(SystemConstants.UNIT_STATUS_RUN);
-                    record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_RUN));
-                    ret = insertSelective(record);
-                }else{
-                    record.setId(_unit.getId());
-                    ret = updateByPrimaryKeySelective(record);
-                }
-
-                if(ret==1) {
-                    success++;
-                }else{
-                    failedXlsRows.add(xlsRow);
-                }
+            row++;
+            String code = StringUtils.trim(xlsRow.get(0));
+            String name = StringUtils.trim(xlsRow.get(1));
+            String type = StringUtils.trim(xlsRow.get(2));
+            if (StringUtils.isBlank(code)
+                    || StringUtils.isBlank(name)
+                    || StringUtils.isBlank(type)) {
+                failedXlsRows.add(xlsRow);
+                throw new OpException("第{0}行数据有误[空字段]", row);
             }
 
-            Map<String, Object> resultMap = new HashMap<>();
-            resultMap.put("success", success);
-            resultMap.put("failedXlsRows", failedXlsRows);
-            return resultMap;
+            MetaType unitType = metaTypeService.findByName("mc_unit_type", type);
+            if (unitType == null) {
+                failedXlsRows.add(xlsRow);
+                throw new OpException("第{0}行单位类型[{1}]不存在", row, type);
+            }
+
+            Unit _unit = findUnitByCode(code);
+
+            Unit record = new Unit();
+            record.setCode(code);
+            record.setName(name);
+            record.setTypeId(unitType.getId());
+            String workTime = xlsRow.get(3);
+            record.setWorkTime(DateUtils.parseStringToDate(workTime));
+
+            record.setUrl(xlsRow.get(4));
+            record.setRemark(xlsRow.get(5));
+            int ret = 0;
+            if (_unit == null) {
+                record.setCreateTime(new Date());
+                record.setStatus(SystemConstants.UNIT_STATUS_RUN);
+                record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_RUN));
+                ret = insertSelective(record);
+            } else {
+                record.setId(_unit.getId());
+                ret = updateByPrimaryKeySelective(record);
+            }
+
+            if (ret == 1) {
+                success++;
+            } else {
+                failedXlsRows.add(xlsRow);
+            }
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", success);
+        resultMap.put("failedXlsRows", failedXlsRows);
+        return resultMap;
+    }
+
+    // 批量导入更新单位编码
+    @Transactional
+    @CacheEvict(value = "Unit:ALL", allEntries = true)
+    public Map<String, Object> batchImportCodes(List<Map<Integer, String>> xlsRows) {
+
+        int success = 0;
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            String code = StringUtils.trim(xlsRow.get(0));
+            String newCode = StringUtils.trim(xlsRow.get(2));
+            if (StringUtils.isBlank(code) || StringUtils.isBlank(newCode)) {
+
+                throw new OpException("第{0}行数据有误[编码为空]", row);
+            }
+
+            Unit unit = findUnitByCode(code);
+            if (unit != null) {
+
+                Unit _unit = findUnitByCode(newCode);
+                if (_unit != null) {
+                    throw new OpException("第{0}行数据有误，编码重复[{1}]。", row, newCode);
+                }
+
+                Unit record = new Unit();
+                record.setId(unit.getId());
+                record.setCode(newCode);
+
+                unitMapper.updateByPrimaryKeySelective(record);
+
+                success++;
+            }
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", success);
+        return resultMap;
     }
 }

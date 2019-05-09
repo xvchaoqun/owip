@@ -1,5 +1,8 @@
 package domain.party;
 
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -1957,6 +1960,20 @@ public class PartyViewExample {
 
         protected Criteria() {
             super();
+        }
+
+        public PartyViewExample.Criteria addPermits(List<Integer> partyIdList) {
+
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty())
+                andIdIn(partyIdList);
+            if(partyIdList.isEmpty())
+                andIdIsNull();
+            return this;
         }
     }
 

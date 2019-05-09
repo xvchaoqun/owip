@@ -24,7 +24,7 @@
             <label class="col-xs-3 control-label"><span class="star">*</span>用户</label>
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax"
-                        data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${param.partyId}&status=${MEMBER_STATUS_NORMAL}"
+                        data-ajax-url="${ctx}/member_selects?noAuth=1&needPrivate=1&partyId=${param.partyId}&status=${MEMBER_STATUS_NORMAL}"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                 </select>
@@ -76,7 +76,7 @@
     $.register.del_select($('#modalForm select[name=partyId]'));
     $.register.user_select($('#modalForm select[name=userId]')).on("change",function(){
         //console.log($(this).select2("data")[0])
-        var mobile = $(this).select2("data")[0]['user'].mobile||'';
+        var mobile = $(this).select2("data")[0]['mobile']||'';
         $('#modalForm input[name=mobile]').val(mobile);
     });
 

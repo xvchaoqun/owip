@@ -53,7 +53,7 @@ public class CadreView implements Serializable {
 
     private Byte type;
 
-    private Boolean state;
+    private Integer state;
 
     private String title;
 
@@ -219,7 +219,7 @@ public class CadreView implements Serializable {
 
     private String unitTypeName;
 
-    private String unitTypeAttr;
+    private String unitTypeGroup;
 
     private Date verifyBirth;
 
@@ -275,11 +275,11 @@ public class CadreView implements Serializable {
         this.type = type;
     }
 
-    public Boolean getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
@@ -939,12 +939,12 @@ public class CadreView implements Serializable {
         this.unitTypeName = unitTypeName == null ? null : unitTypeName.trim();
     }
 
-    public String getUnitTypeAttr() {
-        return unitTypeAttr;
+    public String getUnitTypeGroup() {
+        return unitTypeGroup;
     }
 
-    public void setUnitTypeAttr(String unitTypeAttr) {
-        this.unitTypeAttr = unitTypeAttr == null ? null : unitTypeAttr.trim();
+    public void setUnitTypeGroup(String unitTypeGroup) {
+        this.unitTypeGroup = unitTypeGroup == null ? null : unitTypeGroup.trim();
     }
 
     public Date getVerifyBirth() {

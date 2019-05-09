@@ -22,7 +22,7 @@ public class Cadre implements Serializable {
 
     private Byte type;
 
-    private Boolean state;
+    private Integer state;
 
     private String title;
 
@@ -86,11 +86,11 @@ public class Cadre implements Serializable {
         this.type = type;
     }
 
-    public Boolean getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

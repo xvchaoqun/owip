@@ -19,6 +19,7 @@
     <script type="text/javascript">location.href = "${ctx}/jsp/browsers.jsp?type=unsupport";</script>
     <![endif]-->
     <script src="${ctx}/assets/js/jquery.js"></script>
+    <style>${_pMap['loginCss']}</style>
 </head>
 <body>
 <div class="top"
