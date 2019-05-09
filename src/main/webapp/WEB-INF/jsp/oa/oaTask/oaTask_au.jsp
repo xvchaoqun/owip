@@ -20,13 +20,14 @@
                 <div class="form-group">
                     <label class="col-xs-2 control-label"><c:if test="${fn:length(oaTaskTypes)>1}"><span
                             class="star">*</span></c:if>工作类型</label>
-
-                    <div class="col-xs-6">
-                        <c:if test="${fn:length(oaTaskTypes)==1}">
-                            ${cm:getMetaType(oaTaskTypes[0]).name}
+                    <c:if test="${fn:length(oaTaskTypes)==1}">
+                        <div class="col-xs-6 label-text">
+                                ${cm:getMetaType(oaTaskTypes[0]).name}
                             <input type="hidden" name="type" value="${oaTaskTypes[0]}">
-                        </c:if>
-                        <c:if test="${fn:length(oaTaskTypes)>1}">
+                        </div>
+                    </c:if>
+                    <c:if test="${fn:length(oaTaskTypes)>1}">
+                        <div class="col-xs-6">
                             <select required class="form-control" name="type"
                                     data-rel="select2"
                                     data-width="150"
@@ -40,8 +41,8 @@
                             <script>
                                 $("#modalForm select[name=type]").val('${oaTask.type}');
                             </script>
-                        </c:if>
-                    </div>
+                        </div>
+                    </c:if>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-2 control-label"><span class="star">*</span>标题</label>
@@ -80,7 +81,8 @@
 
             </form>
             <div class="modal-footer center">
-                <button id="submitBtn" type="button" class="btn btn-success btn-lg"><i class="fa fa-check"></i> 保存</button>
+                <button id="submitBtn" type="button" class="btn btn-success btn-lg"><i class="fa fa-check"></i> 保存
+                </button>
             </div>
             <!-- /.widget-main -->
         </div>
@@ -97,7 +99,10 @@
         height: '350px',
         width: '715px'
     });
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#submitBtn").click(function () {
+        $("#modalForm").submit();
+        return false;
+    });
     $("#modalForm").validate({
         submitHandler: function (form) {
             var $btn = $("#submitBtn").button('loading');

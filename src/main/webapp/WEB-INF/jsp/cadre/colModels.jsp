@@ -17,10 +17,12 @@
         },
         </shiro:hasPermission>
         <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
+        <c:if test="${_p_hasKjCadre}">
         {label: '类型', name: 'type', width: 90, formatter: function (cellvalue, options, rowObject) {
             if($.trim(cellvalue)=='') return '--';
             return _cMap.CADRE_TYPE_MAP[cellvalue]
         }},
+        </c:if>
         </c:if>
         {label: '${_pMap['cadreStateName']}', name: 'state', formatter: $.jgrid.formatter.MetaType},
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
@@ -250,10 +252,12 @@
         },
         </shiro:hasPermission>
         <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
+        <c:if test="${_p_hasKjCadre}">
         {label: '类型', name: 'type', width: 90, formatter: function (cellvalue, options, rowObject) {
             if($.trim(cellvalue)=='') return '--';
             return _cMap.CADRE_TYPE_MAP[cellvalue]
         }},
+        </c:if>
         </c:if>
         {label: '${_pMap['cadreStateName']}', name: 'state', formatter: $.jgrid.formatter.MetaType},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},

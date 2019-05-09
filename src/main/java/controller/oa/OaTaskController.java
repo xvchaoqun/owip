@@ -52,7 +52,7 @@ public class OaTaskController extends OaBaseController {
 
         modelMap.put("cls", cls);
 
-        Set<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
+        List<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
         modelMap.put("oaTaskTypes", oaTaskTypes);
 
         return "oa/oaTask/oaTask_page";
@@ -93,9 +93,9 @@ public class OaTaskController extends OaBaseController {
         }
 
         // 只能看到自己所拥有的的权限对应的的任务
-        Set<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
+        List<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
         if (oaTaskTypes.size() > 0) {
-            criteria.andTypeIn(new ArrayList<>(oaTaskTypes));
+            criteria.andTypeIn(oaTaskTypes);
         } else {
             criteria.andTypeIsNull();
         }
@@ -156,7 +156,7 @@ public class OaTaskController extends OaBaseController {
             OaTask oaTask = oaTaskMapper.selectByPrimaryKey(id);
             modelMap.put("oaTask", oaTask);
         }
-        Set<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
+        List<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
         modelMap.put("oaTaskTypes", oaTaskTypes);
 
         return "oa/oaTask/oaTask_au";

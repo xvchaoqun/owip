@@ -34,7 +34,7 @@ public class OaTaskService extends OaBaseMapper {
     }
 
     // 获取管理员权限对应的响应的工作类型
-    public Set<Integer> getOaTaskTypes() {
+    public List<Integer> getOaTaskTypes() {
 
         Set<Integer> oaTaskTypes = new HashSet<>();
         Map<Integer, MetaType> oaTaskTypeMap = CmTag.getMetaTypes("mc_oa_task_type");
@@ -46,7 +46,7 @@ public class OaTaskService extends OaBaseMapper {
             }
         }
 
-        return oaTaskTypes;
+        return new ArrayList<>(oaTaskTypes);
     }
 
     // 检查操作权限
