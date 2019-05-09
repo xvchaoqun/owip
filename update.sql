@@ -5,6 +5,55 @@
 更新 党员发展信息导入模板.xlsx
 
 
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (12, 'loginCss', '登录页样式', '.top .separator{border-left: 1px solid red;}  .top .txt{color:red}', 1, 12, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (13, 'cadreStateName', '干部类别', '人员类别[m]', 1, 13, '');
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (1021, 0, '添加', '', 'function', '', NULL, 106, '0/1/260/106/', 1, 'party:add', NULL, NULL, NULL, 1, NULL);
+
+UPDATE `sys_resource` SET `name`='修改' WHERE  `id`=183;
+
+党建管理员、分党委管理员修改权限
+
+
+ALTER TABLE `cadre`
+	CHANGE COLUMN `state` `state` INT(10) UNSIGNED NULL AFTER `type`;
+
+更新 cadre_view
+crs_candidate_view
+cadre_inspect_view
+cadre_reserve_view
+
+更新 cadre_company_view
+
+-- 新增 mc_cadre_state
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (85, NULL, '人员类别【M】', '干部', '干部信息', 'mc_cadre_state', '', '', '', 85, 1);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (85, '是', 'mt_dscnst', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (85, '否', 'mt_mpbzis', NULL, '', '', 2, 1);
+
+update cadre set state = 528 where state = 1;
+
+update cadre set state = 529 where state = 0;
+
+重新上传 干部录入样表.xlsx
+
++ 内设机构批量更新编码录入样表.xlsx
+
+
+修改 单位类型 附加属性元数据
+
++ mt_admin_level_main_kj
+mt_admin_level_vice_kj
+
+更新 unit_view
+
+
+update cadre set type=10 where type is null;
+ALTER TABLE `cadre`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '干部类型，1 处级干部 2 科级干部 10 其他' AFTER `unit_id`;
+
 20190507
 更新南航 (没更新师大, jar jsp)
 

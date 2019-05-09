@@ -387,11 +387,13 @@ public class UnitPostAllocationService extends BaseMapper {
                             viceCount++;
                         }
                     }
-                    if (cadrePost.getAdminLevel().intValue() == noneMetaType.getId()) {
-                        nones.add(cadrePost);
-                        if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
-                            // 主职或者副职占职数，就计数
-                            noneCount++;
+                    if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+                        if (cadrePost.getAdminLevel().intValue() == noneMetaType.getId()) {
+                            nones.add(cadrePost);
+                            if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
+                                // 主职或者副职占职数，就计数
+                                noneCount++;
+                            }
                         }
                     }
                 }

@@ -11,13 +11,13 @@
     <div class="profile-info-row">
         <div class="profile-info-name td"> 内设机构名称</div>
         <div class="profile-info-value td">
-            <span class="editable">${bean.unit.name}</span>
+            <span class="editable">${cjBean.unit.name}</span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 单位类型</div>
         <div class="profile-info-value td">
-            <span class="editable">${cm:getMetaType(bean.unit.typeId).name}</span>
+            <span class="editable">${cm:getMetaType(cjBean.unit.typeId).name}</span>
         </div>
     </div>
     <div class="profile-info-row">
@@ -26,29 +26,29 @@
     <div class="profile-info-row">
         <div class="profile-info-name td"> 职数</div>
         <div class="profile-info-value td">
-            <span class="editable">${bean.mainNum}</span>
+            <span class="editable">${cjBean.mainNum}</span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 现任数</div>
         <div class="profile-info-value td">
-            <span class="editable">${bean.mainCount}</span>
+            <span class="editable">${cjBean.mainCount}</span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 现任干部</div>
         <div class="profile-info-value td">
-            <span class="editable"><t:cpc_cadres_m cadrePosts="${bean.mains}" backTo="${cm:encodeURI(backTo)}"/></span>
+            <span class="editable"><t:cpc_cadres_m cadrePosts="${cjBean.mains}" backTo="${cm:encodeURI(backTo)}"/></span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 空缺数</div>
         <div class="profile-info-value td">
             <span class="editable">
-              <c:if test="${bean.mainLack==0}">0</c:if>
-              <c:if test="${bean.mainLack!=0}">
+              <c:if test="${cjBean.mainLack==0}">0</c:if>
+              <c:if test="${cjBean.mainLack!=0}">
                   <span style="line-height: 1"
-                        class="badge ${bean.mainLack>0?'badge-success':'badge-danger'}">${bean.mainLack}</span>
+                        class="badge ${cjBean.mainLack>0?'badge-success':'badge-danger'}">${cjBean.mainLack}</span>
               </c:if>
             </span>
         </div>
@@ -59,29 +59,29 @@
     <div class="profile-info-row">
         <div class="profile-info-name td"> 职数</div>
         <div class="profile-info-value td">
-            <span class="editable">${bean.viceNum}</span>
+            <span class="editable">${cjBean.viceNum}</span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 现任数</div>
         <div class="profile-info-value td">
-            <span class="editable">${bean.viceCount}</span>
+            <span class="editable">${cjBean.viceCount}</span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 现任干部</div>
         <div class="profile-info-value td">
-            <span class="editable"><t:cpc_cadres_m cadrePosts="${bean.vices}"  backTo="${cm:encodeURI(backTo)}"/></span>
+            <span class="editable"><t:cpc_cadres_m cadrePosts="${cjBean.vices}"  backTo="${cm:encodeURI(backTo)}"/></span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 空缺数</div>
         <div class="profile-info-value td">
             <span class="editable">
-              <c:if test="${bean.viceLack==0}">0</c:if>
-              <c:if test="${bean.viceLack!=0}">
+              <c:if test="${cjBean.viceLack==0}">0</c:if>
+              <c:if test="${cjBean.viceLack!=0}">
                   <span style="line-height: 1"
-                        class="badge ${bean.viceLack>0?'badge-success':'badge-danger'}">${bean.viceLack}</span>
+                        class="badge ${cjBean.viceLack>0?'badge-success':'badge-danger'}">${cjBean.viceLack}</span>
               </c:if>
             </span>
         </div>
@@ -92,20 +92,20 @@
     <div class="profile-info-row">
         <div class="profile-info-name td"> 职数</div>
         <div class="profile-info-value td">
-            <span class="editable">${bean.noneNum}</span>
+            <span class="editable">${cjBean.noneNum}</span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 现任数</div>
         <div class="profile-info-value td">
-            <span class="editable">${bean.noneCount}</span>
+            <span class="editable">${cjBean.noneCount}</span>
         </div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 现任干部</div>
         <div class="profile-info-value td">
             <span class="editable">
-              <t:cpc_cadres_m cadrePosts="${bean.nones}" backTo="${cm:encodeURI(backTo)}"/>
+              <t:cpc_cadres_m cadrePosts="${cjBean.nones}" backTo="${cm:encodeURI(backTo)}"/>
             </span>
         </div>
     </div>
@@ -113,14 +113,82 @@
         <div class="profile-info-name td"> 空缺数</div>
         <div class="profile-info-value td">
             <span class="editable">
-                <c:if test="${bean.noneLack==0}">0</c:if>
-                <c:if test="${bean.noneLack!=0}">
+                <c:if test="${cjBean.noneLack==0}">0</c:if>
+                <c:if test="${cjBean.noneLack!=0}">
                     <span style="line-height: 1"
-                          class="badge ${bean.noneLack>0?'badge-success':'badge-danger'}">${bean.noneLack}</span>
+                          class="badge ${cjBean.noneLack>0?'badge-success':'badge-danger'}">${cjBean.noneLack}</span>
                 </c:if>
 
             </span>
         </div>
     </div>
+    <c:if test="${not empty kjBean}">
+    <div class="profile-info-row">
+        <div class="profile-info-name"> 正科级干部</div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name td"> 职数</div>
+        <div class="profile-info-value td">
+            <span class="editable">${kjBean.mainNum}</span>
+        </div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name td"> 现任数</div>
+        <div class="profile-info-value td">
+            <span class="editable">${kjBean.mainCount}</span>
+        </div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name td"> 现任干部</div>
+        <div class="profile-info-value td">
+            <span class="editable"><t:cpc_cadres_m cadrePosts="${kjBean.mains}" backTo="${cm:encodeURI(backTo)}"/></span>
+        </div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name td"> 空缺数</div>
+        <div class="profile-info-value td">
+            <span class="editable">
+              <c:if test="${kjBean.mainLack==0}">0</c:if>
+              <c:if test="${kjBean.mainLack!=0}">
+                  <span style="line-height: 1"
+                        class="badge ${kjBean.mainLack>0?'badge-success':'badge-danger'}">${kjBean.mainLack}</span>
+              </c:if>
+            </span>
+        </div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name"> 副科级干部</div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name td"> 职数</div>
+        <div class="profile-info-value td">
+            <span class="editable">${kjBean.viceNum}</span>
+        </div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name td"> 现任数</div>
+        <div class="profile-info-value td">
+            <span class="editable">${kjBean.viceCount}</span>
+        </div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name td"> 现任干部</div>
+        <div class="profile-info-value td">
+            <span class="editable"><t:cpc_cadres_m cadrePosts="${kjBean.vices}"  backTo="${cm:encodeURI(backTo)}"/></span>
+        </div>
+    </div>
+    <div class="profile-info-row">
+        <div class="profile-info-name td"> 空缺数</div>
+        <div class="profile-info-value td">
+            <span class="editable">
+              <c:if test="${kjBean.viceLack==0}">0</c:if>
+              <c:if test="${kjBean.viceLack!=0}">
+                  <span style="line-height: 1"
+                        class="badge ${kjBean.viceLack>0?'badge-success':'badge-danger'}">${kjBean.viceLack}</span>
+              </c:if>
+            </span>
+        </div>
+    </div>
+    </c:if>
 </div>
 <script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"))</script>

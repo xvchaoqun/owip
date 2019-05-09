@@ -118,10 +118,17 @@ public class MobileCadreSearchController extends BaseController {
 
 		if(unitId!=null){
 
-			List<UnitPostAllocationInfoBean> cpcInfoBeans
+			List<UnitPostAllocationInfoBean> cjCpcInfoBeans
 					= unitPostAllocationService.cpcInfo_data(unitId, CadreConstants.CADRE_TYPE_CJ, false);
-			if(cpcInfoBeans.size()==2){
-				modelMap.put("bean", cpcInfoBeans.get(0));
+			if(cjCpcInfoBeans.size()==2){
+				modelMap.put("cjBean", cjCpcInfoBeans.get(0));
+			}
+			if(cacheService.getBoolProperty("hasKjCadre")) {
+				List<UnitPostAllocationInfoBean> kjCpcInfoBeans
+						= unitPostAllocationService.cpcInfo_data(unitId, CadreConstants.CADRE_TYPE_KJ, false);
+				if (kjCpcInfoBeans.size() == 2) {
+					modelMap.put("kjBean", kjCpcInfoBeans.get(0));
+				}
 			}
 		}
 
