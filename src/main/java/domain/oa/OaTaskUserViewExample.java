@@ -1808,52 +1808,52 @@ public class OaTaskUserViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeEqualTo(Byte value) {
+        public Criteria andTaskTypeEqualTo(Integer value) {
             addCriterion("task_type =", value, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeNotEqualTo(Byte value) {
+        public Criteria andTaskTypeNotEqualTo(Integer value) {
             addCriterion("task_type <>", value, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeGreaterThan(Byte value) {
+        public Criteria andTaskTypeGreaterThan(Integer value) {
             addCriterion("task_type >", value, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andTaskTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("task_type >=", value, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeLessThan(Byte value) {
+        public Criteria andTaskTypeLessThan(Integer value) {
             addCriterion("task_type <", value, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeLessThanOrEqualTo(Byte value) {
+        public Criteria andTaskTypeLessThanOrEqualTo(Integer value) {
             addCriterion("task_type <=", value, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeIn(List<Byte> values) {
+        public Criteria andTaskTypeIn(List<Integer> values) {
             addCriterion("task_type in", values, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeNotIn(List<Byte> values) {
+        public Criteria andTaskTypeNotIn(List<Integer> values) {
             addCriterion("task_type not in", values, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeBetween(Byte value1, Byte value2) {
+        public Criteria andTaskTypeBetween(Integer value1, Integer value2) {
             addCriterion("task_type between", value1, value2, "taskType");
             return (Criteria) this;
         }
 
-        public Criteria andTaskTypeNotBetween(Byte value1, Byte value2) {
+        public Criteria andTaskTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("task_type not between", value1, value2, "taskType");
             return (Criteria) this;
         }

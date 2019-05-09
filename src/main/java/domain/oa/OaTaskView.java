@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class OaTaskView implements Serializable {
-    private Long id;
+    private Integer id;
 
     private Integer userId;
 
-    private Byte type;
+    private Integer type;
 
     private String name;
 
@@ -40,11 +40,11 @@ public class OaTaskView implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -56,11 +56,11 @@ public class OaTaskView implements Serializable {
         this.userId = userId;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

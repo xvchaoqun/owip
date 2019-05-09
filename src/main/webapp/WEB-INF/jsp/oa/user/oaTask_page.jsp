@@ -59,9 +59,7 @@
                                                     data-width="150"
                                                     data-placeholder="请选择">
                                                 <option></option>
-                                                <c:forEach items="<%=OaConstants.OA_TASK_TYPE_MAP%>" var="type">
-                                                    <option value="${type.key}">${type.value}</option>
-                                                </c:forEach>
+                                                <c:import url="/metaTypes?__code=mc_oa_task_type"/>
                                             </select>
                                             <script>
                                                 $("#searchForm select[name=type]").val('${param.type}');
@@ -107,12 +105,7 @@
         colModel: [
             {label: '发布日期', name: 'taskPubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
             {label: '标题', name: 'taskName', width: 300, frozen: true},
-            {
-                label: '工作类型', name: 'taskType', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return ''
-                return _cMap.OA_TASK_TYPE_MAP[cellvalue];
-            }, frozen: true
-            },
+            {label: '工作类型', name: 'taskType', formatter: $.jgrid.formatter.MetaType, frozen: true},
             {
                 label: '详情', name: '_detail', formatter: function (cellvalue, options, rowObject) {
 

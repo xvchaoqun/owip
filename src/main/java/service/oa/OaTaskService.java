@@ -2,14 +2,16 @@ package service.oa;
 
 import controller.global.OpException;
 import controller.oa.TaskUser;
+import domain.base.MetaType;
 import domain.oa.*;
-import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shiro.ShiroHelper;
 import sys.constants.OaConstants;
-import sys.constants.RoleConstants;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
 import java.util.*;
@@ -31,30 +33,31 @@ public class OaTaskService extends OaBaseMapper {
         return oaTaskFiles;
     }
 
-    // 只能管理自己所属角色（干部管理员、党建管理员、培训管理员）发布的任务
-    public Set<Byte> getAdminTypes() {
+    // 获取管理员权限对应的响应的工作类型
+    public Set<Integer> getOaTaskTypes() {
 
-        Set<Byte> types = new HashSet<>();
-        if (ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN)) {
-            types.add(OaConstants.OA_TASK_TYPE_CADRE);
-        }
-        if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
-            types.add(OaConstants.OA_TASK_TYPE_OW);
-        }
-        if (ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)) {
-            types.add(OaConstants.OA_TASK_TYPE_TRAIN);
+        Set<Integer> oaTaskTypes = new HashSet<>();
+        Map<Integer, MetaType> oaTaskTypeMap = CmTag.getMetaTypes("mc_oa_task_type");
+
+        for (MetaType oaTaskType : oaTaskTypeMap.values()) {
+            String permission = oaTaskType.getExtraAttr();
+            if(StringUtils.isNotBlank(permission) && ShiroHelper.isPermitted(permission)){
+                oaTaskTypes.add(oaTaskType.getId());
+            }
         }
 
-        return types;
+        return oaTaskTypes;
     }
 
     // 检查操作权限
-    public void checkAuth(byte type) {
+    public void checkAuth(int type) {
 
-        Set<Byte> adminTypes = getAdminTypes();
-        if (!adminTypes.contains(type)) {
-            throw new UnauthorizedException();
+        MetaType oaTaskType = metaTypeMapper.selectByPrimaryKey(type);
+        if(oaTaskType==null){
+            throw new OpException("工作类型为空。");
         }
+
+        SecurityUtils.getSubject().checkPermission(oaTaskType.getExtraAttr());
     }
 
     @Transactional

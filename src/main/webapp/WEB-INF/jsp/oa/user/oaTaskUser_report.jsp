@@ -169,6 +169,7 @@
     $("#modalForm").validate({
 
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: {content: ke.html()},
                 success: function (ret) {
@@ -177,6 +178,7 @@
                         $("#jqGrid").trigger("reloadGrid");
                         $.hideView();
                     }
+                    $btn.button('reset');
                 }
             });
         }

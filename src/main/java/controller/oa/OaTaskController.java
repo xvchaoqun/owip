@@ -51,6 +51,10 @@ public class OaTaskController extends OaBaseController {
     public String oaTask(@RequestParam(required = false, defaultValue = "1") Byte cls, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+
+        Set<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
+        modelMap.put("oaTaskTypes", oaTaskTypes);
+
         return "oa/oaTask/oaTask_page";
     }
 
@@ -58,7 +62,7 @@ public class OaTaskController extends OaBaseController {
     @RequestMapping("/oaTask_data")
     public void oaTask_data(HttpServletResponse response,
                             @RequestParam(required = false, defaultValue = "1") Byte cls,
-                            Byte type,
+                            Integer type,
                             String name,
                             Integer pageSize, Integer pageNo) throws IOException {
 
@@ -88,10 +92,10 @@ public class OaTaskController extends OaBaseController {
                 break;
         }
 
-        // 只能看到自己所属角色（干部管理员、党建管理员、培训管理员）发布的任务
-        Set<Byte> types = oaTaskService.getAdminTypes();
-        if (types.size() > 0) {
-            criteria.andTypeIn(new ArrayList<>(types));
+        // 只能看到自己所拥有的的权限对应的的任务
+        Set<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
+        if (oaTaskTypes.size() > 0) {
+            criteria.andTypeIn(new ArrayList<>(oaTaskTypes));
         } else {
             criteria.andTypeIsNull();
         }
@@ -152,8 +156,8 @@ public class OaTaskController extends OaBaseController {
             OaTask oaTask = oaTaskMapper.selectByPrimaryKey(id);
             modelMap.put("oaTask", oaTask);
         }
-        Set<Byte> adminTypes = oaTaskService.getAdminTypes();
-        modelMap.put("adminTypes", adminTypes);
+        Set<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
+        modelMap.put("oaTaskTypes", oaTaskTypes);
 
         return "oa/oaTask/oaTask_au";
     }

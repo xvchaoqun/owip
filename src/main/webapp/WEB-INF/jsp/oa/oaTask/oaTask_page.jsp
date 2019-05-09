@@ -32,7 +32,6 @@
                             <c:if test="${cls==1}">
                             <shiro:hasPermission name="oaTask:edit">
                                 <a class="openView btn btn-success btn-sm"
-                                   data-width="750"
                                    data-url="${ctx}/oa/oaTask_au"><i class="fa fa-plus"></i> 新建</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-width="750"
@@ -89,8 +88,9 @@
                                                     data-width="150"
                                                     data-placeholder="请选择">
                                                 <option></option>
-                                                <c:forEach items="<%=OaConstants.OA_TASK_TYPE_MAP%>" var="type">
-                                                    <option value="${type.key}">${type.value}</option>
+                                                <c:forEach items="${oaTaskTypes}" var="oaTaskType">
+                                                    <c:set var="_type" value="${cm:getMetaType(oaTaskType)}"/>
+                                                    <option value="${_type.id}">${_type.name}</option>
                                                 </c:forEach>
                                             </select>
                                             <script>
@@ -139,7 +139,7 @@
             {label: '发布日期', name: 'pubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
             {label: '标题', name: 'name', width:300, align:'left', frozen:true, formatter: function (cellvalue, options, rowObject) {
 
-                return '<a href="javascript:;" class="popupBtn" data-width="750"' +
+                return '<a href="javascript:;" class="openView" ' +
                         'data-url="${ctx}/oa/oaTask_au?id={0}">{1}</a>'
                                 .format(rowObject.id, rowObject.name);
             }},
@@ -161,12 +161,7 @@
             }
             },
                 </c:if>
-            {
-                label: '工作类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return ''
-                return _cMap.OA_TASK_TYPE_MAP[cellvalue];
-            }
-            },
+            {label: '工作类型', name: 'type', formatter: $.jgrid.formatter.MetaType},
             {
                 label: '应完成时间',
                 name: 'deadline',

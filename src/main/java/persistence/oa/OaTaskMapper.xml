@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.oa.OaTask">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
@@ -110,16 +110,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.oa.OaTask">
-    insert into oa_task (id, user_id, type, 
-      name, content, deadline, 
-      contact, msg, status, 
-      is_publish, pub_date, is_delete, 
-      create_time, ip)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{deadline,jdbcType=TIMESTAMP}, 
-      #{contact,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{isPublish,jdbcType=BIT}, #{pubDate,jdbcType=DATE}, #{isDelete,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into oa_task (user_id, type, name, 
+      content, deadline, contact, 
+      msg, status, is_publish, 
+      pub_date, is_delete, create_time, 
+      ip)
+    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{deadline,jdbcType=TIMESTAMP}, #{contact,jdbcType=VARCHAR}, 
+      #{msg,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{isPublish,jdbcType=BIT}, 
+      #{pubDate,jdbcType=DATE}, #{isDelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTask">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -127,9 +130,6 @@
     </selectKey>
     insert into oa_task
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -171,14 +171,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="type != null">
-        #{type,jdbcType=TINYINT},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -231,7 +228,7 @@
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=TINYINT},
+        type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -275,7 +272,7 @@
     update oa_task
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       deadline = #{record.deadline,jdbcType=TIMESTAMP},
@@ -298,7 +295,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -339,7 +336,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.oa.OaTask">
     update oa_task
     set user_id = #{userId,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       deadline = #{deadline,jdbcType=TIMESTAMP},

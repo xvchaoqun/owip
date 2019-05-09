@@ -63,7 +63,7 @@ public class UnitPostService extends BaseMapper {
     // 单位的现有岗位中， 行政班子负责人和党委班子负责人，分别最多一个
     public boolean leaderTypeDuplicate(Integer id, int unitId, Byte leaderType) {
 
-        if(leaderType==null || leaderType==SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
+        if(leaderType==null || leaderType== SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
             return false;
 
         UnitPostExample example = new UnitPostExample();
@@ -77,7 +77,7 @@ public class UnitPostService extends BaseMapper {
 
     public UnitPostView getByLeaderType(int unitId, Byte leaderType){
 
-         if(leaderType==null || leaderType==SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
+         if(leaderType==null || leaderType== SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
             return null;
 
         UnitPostViewExample example = new UnitPostViewExample();
@@ -107,7 +107,8 @@ public class UnitPostService extends BaseMapper {
         UnitPostViewExample.Criteria criteria = example.createCriteria()
                 .andUnitIdEqualTo(unitId)
                 .andAdminLevelEqualTo(adminLevel)
-                .andIsCpcEqualTo(true);
+                .andIsCpcEqualTo(true)
+                .andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
         example.setOrderByClause("sort_order desc");
 
         if(BooleanUtils.isTrue(displayEmpty)){

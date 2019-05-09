@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=OaConstants.OA_TASK_TYPE_MAP%>" var="OA_TASK_TYPE_MAP"/>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -12,29 +11,30 @@
             <c:if test="${oaTask!=null}">编辑</c:if><c:if test="${oaTask==null}">添加</c:if>协同办公任务
         </span>
     </div>
-    <div class="widget-body" style="max-width: 1000px">
-        <div class="widget-main padding-4">
+    <div class="widget-body" style="padding-top: 20px;width: 1000px">
+        <div class="widget-main">
             <form class="form-horizontal" action="${ctx}/oa/oaTask_au" autocomplete="off" disableautocomplete
                   id="modalForm" method="post">
                 <input type="hidden" name="id" value="${oaTask.id}">
 
                 <div class="form-group">
-                    <label class="col-xs-3 control-label"><c:if test="${fn:length(adminTypes)>1}"><span
+                    <label class="col-xs-2 control-label"><c:if test="${fn:length(oaTaskTypes)>1}"><span
                             class="star">*</span></c:if>工作类型</label>
 
                     <div class="col-xs-6">
-                        <c:if test="${fn:length(adminTypes)==1}">
-                            ${OA_TASK_TYPE_MAP.get(adminTypes[0])}
-                            <input type="hidden" name="type" value="${adminTypes[0]}">
+                        <c:if test="${fn:length(oaTaskTypes)==1}">
+                            ${cm:getMetaType(oaTaskTypes[0]).name}
+                            <input type="hidden" name="type" value="${oaTaskTypes[0]}">
                         </c:if>
-                        <c:if test="${fn:length(adminTypes)>1}">
+                        <c:if test="${fn:length(oaTaskTypes)>1}">
                             <select required class="form-control" name="type"
                                     data-rel="select2"
-                                    data-width="485"
+                                    data-width="150"
                                     data-placeholder="请选择">
                                 <option></option>
-                                <c:forEach items="${adminTypes}" var="type">
-                                    <option value="${type}">${OA_TASK_TYPE_MAP.get(type)}</option>
+                                <c:forEach items="${oaTaskTypes}" var="oaTaskType">
+                                    <c:set var="_type" value="${cm:getMetaType(oaTaskType)}"/>
+                                    <option value="${_type.id}">${_type.name}</option>
                                 </c:forEach>
                             </select>
                             <script>
@@ -44,14 +44,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label"><span class="star">*</span>标题</label>
+                    <label class="col-xs-2 control-label"><span class="star">*</span>标题</label>
 
                     <div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${oaTask.name}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label"><span class="star">*</span>应完成时间</label>
+                    <label class="col-xs-2 control-label"><span class="star">*</span>应完成时间</label>
 
                     <div class="col-xs-6">
                         <div class="input-group">
@@ -65,14 +65,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label"><span class="star">*</span>联系方式</label>
+                    <label class="col-xs-2 control-label"><span class="star">*</span>联系方式</label>
 
                     <div class="col-xs-6">
                         <input required class="form-control" type="text" name="contact" value="${oaTask.contact}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">具体事项</label>
+                    <label class="col-xs-2 control-label">具体事项</label>
                     <div class="col-xs-8">
                         <textarea id="content" class="form-control">${oaTask.content}</textarea>
                     </div>
@@ -100,6 +100,7 @@
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: {content: ke.html()},
                 success: function (ret) {
@@ -108,6 +109,7 @@
                         $("#jqGrid").trigger("reloadGrid");
                         $.hideView();
                     }
+                    $btn.button('reset');
                 }
             });
         }

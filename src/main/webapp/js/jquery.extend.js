@@ -1109,8 +1109,10 @@ if ($.jgrid) {
         //pagerpos:"right",
         cmTemplate: {sortable: false, align: 'center', width: 100,
             formatter:function(cellvalue, options, rowObject){
+            //console.log(options.colModel.hidden)
             //console.log(cellvalue.length)
-            return (cellvalue==undefined || cellvalue.length == 0)?'--':cellvalue
+            // if(options.colModel.hidden) console.log(cellvalue==undefined)
+            return (!options.colModel.hidden && (cellvalue==undefined || cellvalue.length == 0))?'--':$.trim(cellvalue)
         }},
         sortorder: "desc",
         ondblClickRow: function (rowid, iRow, iCol, e) {

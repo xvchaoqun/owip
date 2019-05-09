@@ -10,7 +10,7 @@ public class OaTask implements Serializable {
 
     private Integer userId;
 
-    private Byte type;
+    private Integer type;
 
     private String name;
 
@@ -53,11 +53,11 @@ public class OaTask implements Serializable {
         this.userId = userId;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

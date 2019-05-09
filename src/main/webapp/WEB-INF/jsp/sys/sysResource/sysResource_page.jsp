@@ -96,16 +96,16 @@
             },
             {
                 label: '所属角色', name: 'roleCount', width: 110, formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '--'
-                    return ('<button class="popupBtn btn btn-warning btn-xs" data-width="650" data-url="${ctx}/sysResource_roles?resourceId={0}">' +
+
+                    return ('<button class="popupBtn btn btn-warning btn-xs" data-width="750" data-url="${ctx}/sysResource_roles?resourceId={0}">' +
                         '<i class="fa fa-search"></i> 查看({1})</button>')
-                        .format(rowObject.id, cellvalue);
+                        .format(rowObject.id, cellvalue==undefined?'0':cellvalue);
                 }
             },
             {
                 "name": "_del", "label": "删除", "width": 80, formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.parentId > 0)
-                        return '<button href="javascript:;" onclick="_del({0},{1})" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> 删除</button>'
+                        return '<button onclick="_del({0},{1})" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> 删除</button>'
                             .format(rowObject.id, rowObject.parentId);
                     return "-";
                 }

@@ -9,6 +9,7 @@
     <table class="table table-striped table-bordered table-condensed table-center table-unhover2">
         <thead>
         <tr>
+            <th width="40">序号</th>
             <th>岗位名称</th>
             <th nowrap>分管工作</th>
             <th nowrap>岗位级别</th>
@@ -18,6 +19,7 @@
         <tbody>
         <c:forEach items="${unitPosts}" var="record" varStatus="vs">
             <tr>
+                <td>${vs.count}</td>
                 <td style="text-align: left">${record.name}</td>
                 <td style="text-align: left">${record.job}</td>
                 <td nowrap>${cm:getMetaType(record.adminLevel).name}</td>

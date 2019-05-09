@@ -360,7 +360,7 @@ public class UnitPostAllocationService extends BaseMapper {
                 }
 
                 // 查找主职、兼职在此单位的现任干部
-                List<CadrePost> cadrePosts = iCadreMapper.findCadrePosts(unitId, cadreType);
+                List<CadrePost> cadrePosts = iCadreMapper.findCadrePosts(unitId);
 
                 List<CadrePost> mains = new ArrayList<>();
                 List<CadrePost> vices = new ArrayList<>();

@@ -14,11 +14,7 @@ import service.BaseMapper;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SysResourceService extends BaseMapper{

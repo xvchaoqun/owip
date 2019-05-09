@@ -56,7 +56,7 @@ public class OaTaskUserView implements Serializable {
 
     private Date taskPubDate;
 
-    private Byte taskType;
+    private Integer taskType;
 
     private String assignCode;
 
@@ -278,11 +278,11 @@ public class OaTaskUserView implements Serializable {
         this.taskPubDate = taskPubDate;
     }
 
-    public Byte getTaskType() {
+    public Integer getTaskType() {
         return taskType;
     }
 
-    public void setTaskType(Byte taskType) {
+    public void setTaskType(Integer taskType) {
         this.taskType = taskType;
     }
 

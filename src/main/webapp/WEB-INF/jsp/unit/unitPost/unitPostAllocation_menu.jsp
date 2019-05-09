@@ -9,7 +9,7 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/unitPostAllocation?module=2&cadreType=${cadreType}"><i class="fa fa-bar-chart"></i> 内设机构${CADRE_TYPE_MAP.get(cadreType)}配备统计</a>
     </li>
     <c:if test="${_p_hasKjCadre}">
-    <div class="input-group pull-right" style="right: 60px;padding-top: 6px">
+    <div class="input-group pull-left" style="left: 60px;padding-top: 6px">
         <c:forEach items="${CADRE_TYPE_MAP}" var="entity">
             <div class="checkbox checkbox-inline checkbox-sm checkbox-success checkbox-circle">
                 <input required type="radio" name="cadreType" id="cadreType${entity.key}"

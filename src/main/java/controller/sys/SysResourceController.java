@@ -3,6 +3,7 @@ package controller.sys;
 import controller.BaseController;
 import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
+import domain.sys.SysRole;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -39,6 +40,9 @@ public class SysResourceController extends BaseController {
 
         SysResource sysResource = sysResourceMapper.selectByPrimaryKey(resourceId);
         modelMap.put("sysResource", sysResource);
+
+        Map<Integer, SysRole> sysRoleMap = sysRoleService.findAll();
+        modelMap.put("sysRoleMap", sysRoleMap);
 
         return "sys/sysResource/sysResource_roles";
     }
@@ -186,6 +190,17 @@ public class SysResourceController extends BaseController {
             sysResourceService.del(id);
             logger.info(addLog(LogConstants.LOG_ADMIN, "删除资源：%s", id));
         }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 给角色添加或删除某个资源
+    @RequiresPermissions("sysResource:addRole")
+    @RequestMapping(value = "/sysResource_updateRole", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysResource_updateRole(int roleId, int resourceId, boolean addOrDel, HttpServletRequest request) {
+
+        sysRoleService.updateRole(roleId, resourceId, addOrDel);
 
         return success(FormUtils.SUCCESS);
     }

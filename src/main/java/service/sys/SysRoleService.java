@@ -72,6 +72,47 @@ public class SysRoleService extends BaseMapper {
 		cacheService.clearRoleCache();
 	}
 
+	// 给角色添加或删除某个资源
+	public void updateRole(int roleId, int resourceId, boolean addOrDel) {
+
+		SysResource sysResource = sysResourceMapper.selectByPrimaryKey(resourceId);
+		boolean isMobile = sysResource.getIsMobile();
+		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
+
+		SysRole record = new SysRole();
+		record.setId(roleId);
+		Set<Integer> resIdSet = new HashSet<>();
+		if(isMobile){
+			String mResIds = sysRole.getmResourceIds();
+			String[] _mResIds = mResIds.split(",");
+			for (String mResId : _mResIds) {
+				resIdSet.add(Integer.valueOf(mResId));
+			}
+			if(addOrDel){
+				resIdSet.add(resourceId);
+			}else{
+				resIdSet.remove(resourceId);
+			}
+			record.setmResourceIds(org.apache.commons.lang3.StringUtils.join(resIdSet, ","));
+		}else {
+			String resIds = sysRole.getResourceIds();
+			String[] _resIds = resIds.split(",");
+			for (String resId : _resIds) {
+				resIdSet.add(Integer.valueOf(resId));
+			}
+			if(addOrDel){
+				resIdSet.add(resourceId);
+			}else{
+				resIdSet.remove(resourceId);
+			}
+			record.setResourceIds(org.apache.commons.lang3.StringUtils.join(resIdSet, ","));
+		}
+
+		sysRoleMapper.updateByPrimaryKeySelective(record);
+
+		cacheService.clearRoleCache();
+	}
+
 	@Cacheable(value = "SysRoles", key = "#role")
 	public SysRole getByRole(String role){
 

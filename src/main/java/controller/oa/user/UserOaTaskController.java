@@ -43,7 +43,7 @@ public class UserOaTaskController extends OaBaseController {
     @RequestMapping("/oaTask_data")
     public void oaTask_data(HttpServletResponse response,
                             @RequestParam(required = false, defaultValue = "1") Byte cls,
-                            Byte taskType,
+                            Integer taskType,
                             String taskName,
                             Integer pageSize, Integer pageNo) throws IOException {
 

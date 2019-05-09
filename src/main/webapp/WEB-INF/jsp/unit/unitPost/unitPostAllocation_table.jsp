@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="mt_admin_level_main" value="${cadreType==CADRE_TYPE_CJ?'mt_admin_level_main':'mt_admin_level_main_kj'}"/>
+<c:set var="mt_admin_level_vice" value="${cadreType==CADRE_TYPE_CJ?'mt_admin_level_vice':'mt_admin_level_vice_kj'}"/>
 <table border=0 cellpadding=0 cellspacing=0 width=1125 class=xl6324425
        style='border-collapse:collapse;table-layout:fixed;width:847pt'>
   <col class=xl6324425 width=32>
@@ -87,7 +89,7 @@
           <c:if test="${bean.mainNum==0}">0</c:if>
           <c:if test="${bean.mainNum>0}">
           <a href="javascript:;" class="popupBtn"
-             data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_main').id}">
+             data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode(mt_admin_level_main).id}">
               ${bean.mainNum}
           </a>
           </c:if>
@@ -103,7 +105,7 @@
           </c:if>
           <c:if test="${bean.mainLack>0}">
             <a href="javascript:;" class="popupBtn"
-               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_main').id}&displayEmpty=1">
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode(mt_admin_level_main).id}&displayEmpty=1">
             <span class="badge badge-success">${bean.mainLack}</span>
             </a>
           </c:if>
@@ -112,7 +114,7 @@
           <c:if test="${bean.viceNum==0}">0</c:if>
           <c:if test="${bean.viceNum>0}">
             <a href="javascript:;" class="popupBtn"
-               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_vice').id}">
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode(mt_admin_level_vice).id}">
                 ${bean.viceNum}
             </a>
           </c:if>
@@ -128,7 +130,7 @@
           </c:if>
           <c:if test="${bean.viceLack>0}">
             <a href="javascript:;" class="popupBtn"
-               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode('mt_admin_level_vice').id}&displayEmpty=1">
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevel=${cm:getMetaTypeByCode(mt_admin_level_vice).id}&displayEmpty=1">
               <span class="badge badge-success">${bean.viceLack}</span>
             </a>
           </c:if>

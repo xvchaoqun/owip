@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="persistence.oa.OaTaskViewMapper">
   <resultMap id="BaseResultMap" type="domain.oa.OaTaskView">
-    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
@@ -109,7 +109,7 @@
       is_publish, pub_date, is_delete, 
       create_time, ip, file_count, 
       user_count, finish_count)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{deadline,jdbcType=TIMESTAMP}, 
       #{contact,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
       #{isPublish,jdbcType=BOOLEAN}, #{pubDate,jdbcType=DATE}, #{isDelete,jdbcType=BOOLEAN}, 
@@ -173,13 +173,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=BIGINT},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="type != null">
-        #{type,jdbcType=TINYINT},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -235,13 +235,13 @@
     update oa_task_view
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=TINYINT},
+        type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -292,9 +292,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update oa_task_view
-    set id = #{record.id,jdbcType=BIGINT},
+    set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       deadline = #{record.deadline,jdbcType=TIMESTAMP},

@@ -8,16 +8,6 @@ import java.util.Map;
  */
 public class OaConstants {
 
-    // 协同办公，工作类型
-    public final static byte OA_TASK_TYPE_CADRE = 1;
-    public final static byte OA_TASK_TYPE_OW = 2;
-    public final static byte OA_TASK_TYPE_TRAIN = 3;
-    public final static Map<Byte, String> OA_TASK_TYPE_MAP = new LinkedHashMap<>();
-    static {
-        OA_TASK_TYPE_MAP.put(OA_TASK_TYPE_CADRE, "干部工作");
-        OA_TASK_TYPE_MAP.put(OA_TASK_TYPE_OW, "党建工作");
-        OA_TASK_TYPE_MAP.put(OA_TASK_TYPE_TRAIN, "培训工作");
-    }
     // 协同办公，任务状态，1 新建 2 召回 3 已发布 4 作废 5 已完成
     public final static byte OA_TASK_STATUS_INIT = 1;
     public final static byte OA_TASK_STATUS_BACK = 2;

@@ -28,7 +28,7 @@
     <result column="task_is_publish" jdbcType="BIT" property="taskIsPublish" />
     <result column="task_status" jdbcType="TINYINT" property="taskStatus" />
     <result column="task_pub_date" jdbcType="DATE" property="taskPubDate" />
-    <result column="task_type" jdbcType="TINYINT" property="taskType" />
+    <result column="task_type" jdbcType="INTEGER" property="taskType" />
     <result column="assign_code" jdbcType="VARCHAR" property="assignCode" />
     <result column="assign_realname" jdbcType="VARCHAR" property="assignRealname" />
     <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
@@ -161,7 +161,7 @@
       #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
       #{realname,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{taskDeadline,jdbcType=TIMESTAMP}, 
       #{taskContact,jdbcType=VARCHAR}, #{taskIsDelete,jdbcType=BIT}, #{taskIsPublish,jdbcType=BIT}, 
-      #{taskStatus,jdbcType=TINYINT}, #{taskPubDate,jdbcType=DATE}, #{taskType,jdbcType=TINYINT}, 
+      #{taskStatus,jdbcType=TINYINT}, #{taskPubDate,jdbcType=DATE}, #{taskType,jdbcType=INTEGER}, 
       #{assignCode,jdbcType=VARCHAR}, #{assignRealname,jdbcType=VARCHAR}, #{reportCode,jdbcType=VARCHAR}, 
       #{reportRealname,jdbcType=VARCHAR}, #{taskContent,jdbcType=LONGVARCHAR})
   </insert>
@@ -345,7 +345,7 @@
         #{taskPubDate,jdbcType=DATE},
       </if>
       <if test="taskType != null">
-        #{taskType,jdbcType=TINYINT},
+        #{taskType,jdbcType=INTEGER},
       </if>
       <if test="assignCode != null">
         #{assignCode,jdbcType=VARCHAR},
@@ -452,7 +452,7 @@
         task_pub_date = #{record.taskPubDate,jdbcType=DATE},
       </if>
       <if test="record.taskType != null">
-        task_type = #{record.taskType,jdbcType=TINYINT},
+        task_type = #{record.taskType,jdbcType=INTEGER},
       </if>
       <if test="record.assignCode != null">
         assign_code = #{record.assignCode,jdbcType=VARCHAR},
@@ -502,7 +502,7 @@
       task_is_publish = #{record.taskIsPublish,jdbcType=BIT},
       task_status = #{record.taskStatus,jdbcType=TINYINT},
       task_pub_date = #{record.taskPubDate,jdbcType=DATE},
-      task_type = #{record.taskType,jdbcType=TINYINT},
+      task_type = #{record.taskType,jdbcType=INTEGER},
       assign_code = #{record.assignCode,jdbcType=VARCHAR},
       assign_realname = #{record.assignRealname,jdbcType=VARCHAR},
       report_code = #{record.reportCode,jdbcType=VARCHAR},
@@ -540,7 +540,7 @@
       task_is_publish = #{record.taskIsPublish,jdbcType=BIT},
       task_status = #{record.taskStatus,jdbcType=TINYINT},
       task_pub_date = #{record.taskPubDate,jdbcType=DATE},
-      task_type = #{record.taskType,jdbcType=TINYINT},
+      task_type = #{record.taskType,jdbcType=INTEGER},
       assign_code = #{record.assignCode,jdbcType=VARCHAR},
       assign_realname = #{record.assignRealname,jdbcType=VARCHAR},
       report_code = #{record.reportCode,jdbcType=VARCHAR},

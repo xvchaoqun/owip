@@ -26,10 +26,10 @@
 
         <!--协同办公-->
         <!--<table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
-        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
-        <table tableName="oa_task_file" domainObjectName="oa.OaTaskFile" mapperName="oa.OaTaskFileMapper">
+        </table>-->
+       <!-- <table tableName="oa_task_file" domainObjectName="oa.OaTaskFile" mapperName="oa.OaTaskFileMapper">
         </table>
         <table tableName="oa_task_msg" domainObjectName="oa.OaTaskMsg" mapperName="oa.OaTaskMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -53,7 +53,6 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="is_publish" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_delete" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-            <columnOverride column="type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
 

@@ -4,13 +4,7 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.pcs.PcsAdmin;
-import domain.sys.SysResource;
-import domain.sys.SysRole;
-import domain.sys.SysUser;
-import domain.sys.SysUserExample;
-import domain.sys.SysUserInfo;
-import domain.sys.SysUserView;
-import domain.sys.SysUserViewExample;
+import domain.sys.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +28,7 @@ import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SysUserService extends BaseMapper {
@@ -49,8 +39,6 @@ public class SysUserService extends BaseMapper {
     private SysResourceService sysResourceService;
     @Autowired
     private CacheService cacheService;
-    @Autowired
-    private ExtService extService;
 
     @Transactional
     public void changeRoleGuestToMember(int userId) {
@@ -500,8 +488,9 @@ public class SysUserService extends BaseMapper {
         if (userRoles.contains(RoleConstants.ROLE_CADRE)) {
             CadreView cadre = CmTag.getCadreByUserId(userId);
 
-            //考察对象和离任干部不可以看到因私出国申请，现任干部和离任校领导可以
-            if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+            //科级干部、考察对象和离任干部不可以看到因私出国申请，现任干部和离任校领导可以
+            if (cadre == null || cadre.getType()== CadreConstants.CADRE_TYPE_KJ
+                    || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER_LEAVE)) {
                 userPermissions.remove("abroad:user"); // 因私出国境申请（干部目录）

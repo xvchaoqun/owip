@@ -1,9 +1,7 @@
 package controller.oa;
 
-import domain.oa.OaTask;
-import domain.oa.OaTaskUser;
-import domain.oa.OaTaskUserView;
-import domain.oa.OaTaskUserViewExample;
+import controller.global.OpException;
+import domain.oa.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import mixin.OptionMixin;
@@ -22,15 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.OaConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/oa")
@@ -40,10 +36,16 @@ public class OaTaskUserController extends OaBaseController {
 
     @RequiresPermissions("oaTaskUser:list")
     @RequestMapping("/oaTaskUser")
-    public String oaTaskUser(int taskId, ModelMap modelMap) {
+    public String oaTaskUser(int taskId,
+                             Integer userId,
+                             ModelMap modelMap) {
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
         modelMap.put("oaTask", oaTask);
+
+        if(userId!=null){
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
 
         int totalCount = oaTaskUserService.countTaskUsers(taskId, null, null);
         int hasReportCount = oaTaskUserService.countTaskUsers(taskId, null, true);
@@ -58,9 +60,15 @@ public class OaTaskUserController extends OaBaseController {
     @RequiresPermissions("oaTaskUser:list")
     @RequestMapping("/oaTaskUser_data")
     public void oaTaskUser_data(HttpServletResponse response,
+                                HttpServletRequest request,
                                 int taskId,
                                 Integer userId,
-                                Integer pageSize, Integer pageNo) throws IOException {
+                                String mobile,
+                                Byte status,
+                                @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer pageSize,
+                                Integer pageNo) throws IOException {
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
         oaTaskService.checkAuth(oaTask.getType());
@@ -75,11 +83,31 @@ public class OaTaskUserController extends OaBaseController {
 
         OaTaskUserViewExample example = new OaTaskUserViewExample();
         OaTaskUserViewExample.Criteria criteria =
-                example.createCriteria().andTaskIdEqualTo(taskId).andIsDeleteEqualTo(false);
+                example.createCriteria().andTaskIdEqualTo(taskId)
+                        .andIsDeleteEqualTo(false);
+
         example.setOrderByClause("sort_order asc");
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if(StringUtils.isNotBlank(mobile)){
+            criteria.andMobileLike("%" + mobile + "%");
+        }
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+
+        if (export == 1) {
+             if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
+            oaTaskUser_export(taskId, example, response);
+            return;
+        }else if(export==2){
+
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
+            oaTaskUser_export2(taskId, example, request, response);
         }
 
         long count = oaTaskUserViewMapper.countByExample(example);
@@ -257,5 +285,84 @@ public class OaTaskUserController extends OaBaseController {
         modelMap.put("sysUser", sysUserService.findById(userId));
 
         return "oa/oaTaskUser/oaTaskUser_denyMsg";
+    }
+
+    public void oaTaskUser_export(int taskId, OaTaskUserViewExample example, HttpServletResponse response) {
+
+        List<OaTaskUserView> records = oaTaskUserViewMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"工作证号|110","姓名|90",
+                "所在单位及职务|250","手机号码|100","指定负责人|100","指定负责人手机号|100","报送情况|80",
+                "报送人|90","报送时间|150", "审核情况|80", "是否退回|80"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            OaTaskUserView record = records.get(i);
+
+            SysUserView user = sysUserService.findById(record.getUserId());
+            String _assignUser = "--";
+            if(record.getAssignUserId()!=null) {
+                SysUserView assignUser = sysUserService.findById(record.getAssignUserId());
+                _assignUser = assignUser.getRealname();
+            }
+            String _reportUser = "--";
+            if(record.getReportUserId()!=null) {
+                SysUserView reportUser = sysUserService.findById(record.getReportUserId());
+                _reportUser = reportUser.getRealname();
+            }
+
+            String[] values = {
+                    user.getCode(),
+                    user.getRealname(),
+                    record.getTitle(),
+                    record.getMobile(),
+                    _assignUser,
+                    record.getAssignUserId()!=null?record.getAssignUserMobile():"--",
+                    BooleanUtils.isTrue(record.getHasReport())?"已报送":"未报送",
+                    _reportUser,
+                    DateUtils.formatDate(record.getReportTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
+                    OaConstants.OA_TASK_USER_STATUS_MAP.get(record.getStatus()),
+                    BooleanUtils.isTrue(record.getIsBack())?"已退回":"--",
+            };
+            valuesList.add(values);
+        }
+
+        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
+        String fileName = oaTask.getName() + "报送详情";
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    // 打包下载附件
+    public void oaTaskUser_export2(int taskId, OaTaskUserViewExample example,
+                                   HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        List<OaTaskUserView> oaTaskUserViews = oaTaskUserViewMapper.selectByExample(example);
+        if(oaTaskUserViews.size()==0) {
+            throw new OpException("没有要导出的附件。");
+        }
+
+        List<Integer> userIds = new ArrayList<>();
+        for (OaTaskUserView record : oaTaskUserViews) {
+            userIds.add(record.getUserId());
+        }
+
+        OaTaskUserFileExample example2 = new OaTaskUserFileExample();
+        example2.createCriteria().andTaskIdEqualTo(taskId)
+                .andUserIdIn(userIds);
+        example2.setOrderByClause("field(user_id," + StringUtils.join(userIds, ",") + ") asc");
+        List<OaTaskUserFile> oaTaskUserFiles = oaTaskUserFileMapper.selectByExample(example2);
+
+        Map<String, File> fileMap = new LinkedHashMap<>();
+            for (OaTaskUserFile record : oaTaskUserFiles) {
+
+                String filePath = record.getFilePath();
+                SysUserView uv = sysUserService.findById(record.getUserId());
+
+                fileMap.put(uv.getRealname() + "(" + uv.getCode() + ")" + record.getFileName(),
+                        new File(springProps.uploadPath + filePath));
+            }
+            DownloadUtils.addFileDownloadCookieHeader(response);
+
+            OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
+            DownloadUtils.zip(fileMap, String.format("[%s]报送附件", oaTask.getName()), request, response);
     }
 }

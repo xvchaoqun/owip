@@ -4,7 +4,10 @@ import controller.analysis.CadreCategorySearchBean;
 import domain.cadre.*;
 import domain.crp.CrpRecord;
 import domain.sys.SysUserView;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import sys.constants.CadreConstants;
 
@@ -24,15 +27,15 @@ public interface ICadreMapper {
     
     // 无此记录
     @Select("select ${columnName} from cadre_info_check where cadre_id=#{cadreId}")
-    Boolean cadreInfoCheck(@Param("cadreId") int cadreId, @Param("columnName") String columnName );
+    Boolean cadreInfoCheck(@Param("cadreId") int cadreId, @Param("columnName") String columnName);
     @Update("update cadre_info_check set ${columnName}=#{isChecked} where cadre_id=#{cadreId}")
     void cadreInfoCheckUpdate(@Param("cadreId") int cadreId,
                               @Param("columnName") String columnName,
-                              @Param("isChecked") Boolean isChecked );
+                              @Param("isChecked") Boolean isChecked);
     @Update("insert into cadre_info_check(cadre_id, ${columnName}) values(#{cadreId}, #{isChecked})")
     void cadreInfoCheckInsert(@Param("cadreId") int cadreId,
                               @Param("columnName") String columnName,
-                              @Param("isChecked") Boolean isChecked );
+                              @Param("isChecked") Boolean isChecked);
 
 
     List<ICadreEdu> selectCadreEduList(@Param("schoolType") byte schoolType,
@@ -66,10 +69,10 @@ public interface ICadreMapper {
     List<ICarde> selectTalentCadreList(@Param("searchBean") CadreCategorySearchBean searchBean, RowBounds rowBounds);
     int countTalentCadreList(@Param("searchBean") CadreCategorySearchBean searchBean);
 
-    
+
     // 根据账号、姓名、学工号查找干部
     List<Cadre> selectCadreList(@Param("search") String search,
-                                @Param("cadreStatusList")Set<Byte> cadreStatusList,
+                                @Param("cadreStatusList") Set<Byte> cadreStatusList,
                                 @Param("unitIds") Integer[] unitIds,
                                 @Param("isCommitteeMember") Boolean isCommitteeMember, RowBounds rowBounds);
     int countCadreList(@Param("search") String search,
@@ -79,7 +82,7 @@ public interface ICadreMapper {
 
     // 根据账号、姓名、学工号查找 不是 干部的用户
     List<SysUserView> selectNotCadreList(@Param("query") String query,
-                                         @Param("cadreStatusList")Set<Byte> cadreStatusList, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
+                                         @Param("cadreStatusList") Set<Byte> cadreStatusList, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
     int countNotCadreList(@Param("query") String query,
                           @Param("cadreStatusList") Set<Byte> cadreStatusList, @Param("regRoleStr") String regRoleStr);
 
@@ -94,13 +97,12 @@ public interface ICadreMapper {
                            @Param("cadreStatusList")List<Byte> cadreStatusList,
                            @Param("unitId")int unitId);*/
 
-    // 获取主职、兼职在某单位的现任干部
+    // 获取主职、兼职在某单位的现任干部（不考虑干部类型）
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
-    @Select("select cp.* from cadre_post cp , cadre c where cp.unit_id=#{unitId} and cp.cadre_id=c.id and c.type=#{cadreType} and " +
+    @Select("select cp.* from cadre_post cp , cadre c where cp.unit_id=#{unitId} and cp.cadre_id=c.id and " +
             "c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
-    public List<CadrePost> findCadrePosts(@Param("unitId") int unitId,
-                                          @Param("cadreType") byte cadreType);
+    public List<CadrePost> findCadrePosts(@Param("unitId") int unitId);
 
     // 根据单位类型（jg/xy/fs)获取主职、兼职(占职数)的现任干部
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")

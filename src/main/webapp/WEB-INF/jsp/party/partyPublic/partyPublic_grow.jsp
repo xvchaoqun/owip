@@ -68,13 +68,13 @@
 <div class="row" style="padding: 0 100px 0 100px">
     <TABLE cellSpacing=0 cellPadding=0 width=840 align=center border=0>
     <TBODY>
-    <TR>
+    <%--<TR>
         <TD height=5 width=7 background="/img/bt1-f.gif"></TD>
         <TD height=7 background="/img/bt1-a.gif"></TD>
         <TD height=5 width=7 background="/img/bt1-g.gif"></TD>
-    </TR>
+    </TR>--%>
     <TR>
-        <TD background="/img/bt1-b.gif" width=7>　</TD>
+        <%--<TD background="/img/bt1-b.gif" width=7>　</TD>--%>
         <TD height=800 vAlign=top>
             <DIV class=title>公　　示</DIV>
             <c:if test="${!partyPublic.isPublish}">
@@ -147,13 +147,13 @@
                 </TABLE>
             </DIV>
         </TD>
-        <TD background="/img/bt1-b.gif" width=7></TD>
+        <%--<TD background="/img/bt1-b.gif" width=7></TD>--%>
     </TR>
-    <TR>
+    <%--<TR>
         <TD height=5 width=7 background="/img/bt1-f.gif"></TD>
         <TD height=7 background="/img/bt1-a.gif"></TD>
         <TD height=5 width=7 background="/img/bt1-g.gif"></TD>
-    </TR>
+    </TR>--%>
     <TR></TR>
     </TBODY>
 </TABLE>

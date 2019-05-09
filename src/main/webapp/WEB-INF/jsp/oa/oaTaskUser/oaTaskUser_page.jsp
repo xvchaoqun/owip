@@ -14,12 +14,14 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;">${oaTask.name}-任务对象列表</a>
+                    <a href="javascript:;">${oaTask.name}-报送详情</a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="widget-body">
+         <c:set var="_query"
+                   value="${not empty param.userId ||not empty param.mobile ||not empty param.status}"/>
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
@@ -33,10 +35,85 @@
                        data-grid-id="#jqGrid2"
                        data-url="${ctx}/oa/oaTaskUser_check"><i class="fa fa-check-square-o"></i> 批量审批</a>
                     </c:if>
+                    <button type="button" class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                        data-grid-id="#jqGrid2" data-search-form-id="#searchForm2"
+                            data-url="${ctx}/oa/oaTaskUser_data?taskId=${oaTask.id}"
+                               data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
+                                <i class="fa fa-download"></i> 导出</button>
+
+                    <button type="button" class="jqExportBtn btn btn-info btn-sm tooltip-success"
+                        data-grid-id="#jqGrid2" data-search-form-id="#searchForm2"
+                            data-grid-id="#jqGrid2"
+                            data-url="${ctx}/oa/oaTaskUser_data?taskId=${oaTask.id}"
+                            data-export="2" data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
+                                <i class="fa fa-file-zip-o"></i> 打包下载附件</button>
+
                      <span style="margin-left: 20px;">
                             任务对象共${totalCount}个， 完成报送共${hasReportCount}个（通过审核共${passCount}个） ， 未报送${totalCount-hasReportCount}个
                     </span>
                 </div>
+                <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                            <div class="widget-header">
+                                <h4 class="widget-title">搜索</h4>
+
+                                <div class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <form class="form-inline search-form" id="searchForm2">
+                                        <div class="form-group">
+                                            <label>姓名</label>
+                                            <select data-rel="select2-ajax" data-width="200"
+                                                    data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                                    name="userId" data-placeholder="请输入账号或姓名或工号">
+                                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>手机号码</label>
+                                            <input class="form-control search-query" name="mobile" type="text"
+                                                   value="${param.mobile}"
+                                                   placeholder="请输入">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>审批状态</label>
+                                           <select class="form-control" name="status"
+                                                    data-rel="select2"
+                                                    data-width="150"
+                                                    data-placeholder="请选择">
+                                                <option></option>
+                                                <c:forEach items="<%=OaConstants.OA_TASK_USER_STATUS_MAP%>" var="_status">
+                                                    <option value="${_status.key}">${_status.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm2 select[name=status]").val('${param.status}');
+                                            </script>
+                                        </div>
+                                        <div class="clearfix form-actions center">
+                                            <a class="jqSearchBtn btn btn-default btn-sm"
+                                               data-target="#body-content-view"
+                                               data-form="#searchForm2"
+                                            data-url="${ctx}/oa/oaTaskUser?taskId=${oaTask.id}"><i class="fa fa-search"></i>
+                                                查找</a>
+
+                                            <c:if test="${_query}">&nbsp;
+                                                <button type="button"
+                                                        data-url="${ctx}/oa/oaTaskUser?taskId=${oaTask.id}"
+                                                         data-target="#body-content-view"
+                                                        class="reloadBtn btn btn-warning btn-sm">
+                                                    <i class="fa fa-reply"></i> 重置
+                                                </button>
+                                            </c:if>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
                 <div id="jqGridPager2"></div>
@@ -45,6 +122,8 @@
     </div>
 </div>
 <script>
+    $.register.user_select($("#searchForm2 select[name=userId]"));
+    $('#searchForm2 [data-rel="select2"]').select2();
     function _oaTaskUser_reload(){
         $("#jqGrid2").trigger("reloadGrid");
     }
@@ -113,5 +192,5 @@
 
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
-
+    $('[data-rel="tooltip"]').tooltip();
 </script>
