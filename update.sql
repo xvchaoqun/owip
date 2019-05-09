@@ -4,6 +4,34 @@
 
 更新 党员发展信息导入模板.xlsx
 
+20190509
+ALTER TABLE `oa_task`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '工作类型' AFTER `user_id`;
+
+更新 oa_task_view   oa_task_user_view
+
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (86, NULL, '工作类型', '协同办公', '任务', 'mc_oa_task_type', '', '操作权限', '', 86, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (86, '干部工作', 'mt_uyp3zi', NULL, 'oaTaskType:cadre', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (86, '党建工作', 'mt_la2kqv', NULL, 'oaTaskType:party', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (86, '培训工作', 'mt_rmsbam', NULL, 'oaTaskType:train', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (86, '统战工作', 'mt_nulpk8', NULL, 'oaTaskType:united', '', 4, 1);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1022, 0, '干部工作权限', '', 'function', '', NULL, 561, '0/1/560/561/', 1, 'oaTaskType:cadre', NULL, NULL, NULL, 1, 500);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1023, 0, '党建工作权限', '', 'function', '', NULL, 561, '0/1/560/561/', 1, 'oaTaskType:party', NULL, NULL, NULL, 1, 480);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1024, 0, '培训工作权限', '', 'function', '', NULL, 561, '0/1/560/561/', 1, 'oaTaskType:train', NULL, NULL, NULL, 1, 470);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1025, 0, '统战工作权限', '', 'function', '', NULL, 561, '0/1/560/561/', 1, 'oaTaskType:united', NULL, NULL, NULL, 1, 460);
+
+
+-- 1 干部工作 2 党建工作 3 培训工作
+update oa_task set type=530 where type=1;
+update oa_task set type=531 where type=2;
+update oa_task set type=532 where type=3;
+
+
+
+
+20190509
+更新南航
 
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (12, 'loginCss', '登录页样式', '.top .separator{border-left: 1px solid red;}  .top .txt{color:red}', 1, 12, '');
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (13, 'cadreStateName', '干部类别', '人员类别[m]', 1, 13, '');
@@ -42,7 +70,8 @@ update cadre set state = 529 where state = 0;
 + 内设机构批量更新编码录入样表.xlsx
 
 
-修改 单位类型 附加属性元数据
+-- 修改 单位类型 附加属性元数据
+UPDATE `base_meta_class` SET extra_attr='所属大类', `extra_options`='jg|机关及直属单位|机关职能部处、直属单位、教辅单位、机关党总支、经营性单位,xy|学部、院、系所,fs|附属单位' WHERE  `id`=8;
 
 + mt_admin_level_main_kj
 mt_admin_level_vice_kj
@@ -54,8 +83,15 @@ update cadre set type=10 where type is null;
 ALTER TABLE `cadre`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '干部类型，1 处级干部 2 科级干部 10 其他' AFTER `unit_id`;
 
+REPLACE INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (8, 10, '单位类型', '', '', 'mc_unit_type', '', '所属大类', 'jg|机关及直属单位|机关职能部处、直属单位、教辅单位、机关党总支、经营性单位,xy|学部、院、系所,fs|附属单位', 8, 1);
+
+REPLACE INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (13, 'cadreStateName', '干部类别', '人员类别[M]', 1, 13, '');
+REPLACE INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (14, 'adFormType', '干部任免审批表类型', '2', 2, 14, '1：北京  2：工信部');
+REPLACE INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (15, 'hasKjCadre', '是否管理科级干部', 'true', 3, 15, '');
+
+
 20190507
-更新南航 (没更新师大, jar jsp)
+更新南航
 
 
 20190507
