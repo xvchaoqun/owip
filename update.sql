@@ -4,6 +4,77 @@
 
 更新 党员发展信息导入模板.xlsx
 
+
+20190511
+
+-- 修改
+update sys_resource set permission='memberTeacher:list' where permission='memberTeacher:*';
+update sys_resource set permission='memberStudent:list' where permission='memberStudent:*';
+update sys_resource set permission='memberReg:list' where permission='memberReg:*';
+
+-- 新增
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1026, 0, '党员人事基础信息修改', '', 'function', '', NULL, 107, '0/1/105/107/', 1,
+                                    'memberBaseInfo:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1027, 0, '已分配志愿书编码列表', '', 'function', '',
+                                    NULL, 211, '0/1/105/211/', 1, 'applySnRange:list', NULL, NULL, NULL, 1, NULL);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1028, 0, '审批', '', 'function', '', NULL, 290, '0/1/105/290/', 1, 'memberReg:check', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (1029, 0, '修改注册信息', '', 'function', '', NULL, 290, '0/1/105/290/', 1, 'memberReg:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+ VALUES (1030, 0, '批量生成账号', '', 'function', '', NULL, 290, '0/1/105/290/', 1, 'memberReg:import', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (1031, 0, '修改密码', '', 'function', '', NULL, 290, '0/1/105/290/', 1, 'memberReg:changepw', NULL, NULL, NULL, 1, NULL);
+
+-- 调整分党委、党建管理员权限
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('nativePlaceHelpBlock', '籍贯格式说明', '格式：“河北保定”或“北京海淀”', 1, 16, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES (17, 'memberRegCodePrefix', '注册账号工号前缀', 'zg', 1, 17, '针对本人注册的账号');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES (18, 'memberRegPrefix', '注册账号前缀', 'dy', 1, 18, '针对后台添加或导入的账号');
+
+
+ALTER TABLE `ow_apply_sn`
+	ADD COLUMN `assign_time` DATETIME NULL DEFAULT NULL COMMENT '分配时间' AFTER `user_id`;
+
+ALTER TABLE `ow_apply_sn`
+	ADD COLUMN `draw_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '从党委领取时的操作人，保留字段' AFTER `assign_time`,
+	ADD COLUMN `draw_time` DATETIME NULL DEFAULT NULL COMMENT '从党委领取的时间，保留字段' AFTER `draw_user_id`;
+
+ALTER TABLE `ow_apply_sn`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '使用人所联系分党委' AFTER `user_id`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '使用人所联系支部' AFTER `party_id`;
+
+update ow_apply_sn oas, ow_member_apply oma set oas.party_id=oma.party_id,
+                                                oas.branch_id=oma.branch_id where oas.user_id=oma.user_id;
+
+ALTER TABLE `ow_member_reg`
+	ADD COLUMN `import_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '批量生成账号操作人' AFTER `ip`,
+	ADD COLUMN `import_seq` INT UNSIGNED NULL DEFAULT NULL COMMENT '第几次批量生成' AFTER `import_user_id`;
+
++  系统注册账号录入样表.xlsx
++干部任职情况录入样表（主职）.xlsx
++干部任职情况录入样表（兼职）.xlsx
+
+update base_meta_class set bool_attr='布尔属性'  where id in
+(select class_id from base_meta_type where length(bool_attr)>0) and length(bool_attr)=0;
+
+update base_meta_class set extra_attr='附加属性' where id in
+(select class_id from base_meta_type where length(extra_attr)>0) and length(extra_attr)=0;
+
+更新 common-utils
+
 20190509
 ALTER TABLE `oa_task`
 	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '工作类型' AFTER `user_id`;
@@ -26,9 +97,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 update oa_task set type=530 where type=1;
 update oa_task set type=531 where type=2;
 update oa_task set type=532 where type=3;
-
-
-
 
 20190509
 更新南航
@@ -67,7 +135,7 @@ update cadre set state = 529 where state = 0;
 
 重新上传 干部录入样表.xlsx
 
-+ 内设机构批量更新编码录入样表.xlsx
++sample_unitCodes 内设机构批量更新编码录入样表.xlsx
 
 
 -- 修改 单位类型 附加属性元数据

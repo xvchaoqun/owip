@@ -528,14 +528,11 @@ left join crs_post cp on cp.id = ca.post_id
 left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=ca.post_id
 left join (select post_id, count(*) as applicant_count from crs_applicant_view where status=1 and is_require_check_pass=1  group by post_id) as cavc on cavc.post_id=ca.post_id;
 
-
-
 DROP VIEW IF EXISTS `ow_member_out_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
 select mo.*, m.type as member_type, t.is_retire
 from ow_member_out mo, ow_member m
 left join sys_teacher_info t on t.user_id = m.user_id where mo.user_id=m.user_id;
-
 
 -- ----------------------------
 -- 2017.6.5 View definition for `ow_party_static_view`
@@ -705,55 +702,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER
 VIEW `ow_member_stay_view` AS SELECT wms.*,  om.`status` as member_status
 from ow_member_stay wms, ow_member om
 where wms.user_id=om.user_id  ;
--- ----------------------------
---  View definition for `ow_member_student`
--- ----------------------------
-DROP VIEW IF EXISTS `ow_member_student`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_student`
-AS SELECT m.create_time,m.apply_time,m.source as member_source, m.add_type, u.source,m.positive_time,m.active_time,
-m.political_status,m.transfer_time,m.user_id,m.branch_id,m.candidate_time,m.party_id,m.sponsor,m.grow_branch,m.positive_branch,m.grow_time,m.status,m.party_post,
-m.party_reward,m.other_reward,s.delay_year,
-s.period,u.code,s.edu_category,ui.gender,ui.birth,ui.nation,s.actual_graduate_time,
-s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type,s.is_full_time,ui.realname,
-s.enrol_year,ui.native_place,s.edu_way,ui.idcard,s.edu_level,s.grade,s.edu_type,s.xj_status,p.unit_id
-,mo.status as out_status, mo.handle_time as out_handle_time
-from ow_member m left join ow_member_out mo on mo.user_id = m.user_id,
-ow_party p, sys_student_info s, sys_user u, sys_user_info ui
-where m.user_id = s.user_id and m.party_id = p.id and m.user_id = u.id and ui.user_id = u.id;
--- ----------------------------
---  View definition for `ow_member_teacher`
--- ----------------------------
-DROP VIEW IF EXISTS `ow_member_teacher`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_teacher`
-AS SELECT
-t.*,
-m.create_time,
-m.apply_time,
-m.source as member_source,
-m.add_type,
-u.source,
-m.positive_time,
-m.active_time,
-m.political_status,
-m.transfer_time,
-m.branch_id,
-m.candidate_time,
-m.party_id,
-m.sponsor,m.grow_branch,m.positive_branch,
-m.grow_time,
-m.status,
-m.party_post,
-m.party_reward,
-m.other_reward,
-u.code,
-ui.gender,
-ui.nation,
-ui.email,
-ui.mobile,
-ui.birth,ui.realname, ui.native_place, ui.phone, ui.idcard, p.unit_id
-,mo.status as out_status, mo.handle_time as out_handle_time
-from ow_member m left join ow_member_out mo on mo.user_id = m.user_id, ow_party p, sys_user u, sys_teacher_info t, sys_user_info ui
-where m.user_id=t.user_id and m.party_id=p.id and m.user_id =u.id and ui.user_id = u.id;
+
 -- ----------------------------
 --  View definition for `ow_party_member_group_view`
 -- ----------------------------
