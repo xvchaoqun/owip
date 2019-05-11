@@ -612,15 +612,15 @@
            timeToLiveSeconds="0"
            timeToIdleSeconds="0"
            diskPersistent="true"
-           diskExpiryThreadIntervalSeconds="600"/>
+           diskExpiryThreadIntervalSeconds="6000"/>
     <cache name="Location:JSON"
-           maxElementsInMemory="1000"
+           maxElementsInMemory="2000"
            overflowToDisk="true"
            eternal="true"
            timeToLiveSeconds="0"
            timeToIdleSeconds="0"
            diskPersistent="true"
-           diskExpiryThreadIntervalSeconds="600"/>
+           diskExpiryThreadIntervalSeconds="6000"/>
     <cache name="Country:ALL"
            eternal="false"
            maxElementsInMemory="100"
@@ -649,36 +649,39 @@
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="SysUserView:ID_"
-           maxEntriesLocalHeap="2000"
            eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
+           maxElementsInMemory="2000"
            overflowToDisk="true"
-           statistics="true">
-    </cache>
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
     <cache name="SysUserView:CODE_"
-           maxEntriesLocalHeap="2000"
            eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
+           maxElementsInMemory="2000"
            overflowToDisk="true"
-           statistics="true">
-    </cache>
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
     <cache name="SysUserView"
-           maxEntriesLocalHeap="2000"
            eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
+           maxElementsInMemory="2000"
            overflowToDisk="true"
-           statistics="true">
-    </cache>
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
     <cache name="SysRoles"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
+           maxElementsInMemory="1000"
+           overflowToDisk="true"
+           eternal="true"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
     </cache>
     <cache name="SysResources"
            maxElementsInMemory="1000"
@@ -690,46 +693,50 @@
            diskExpiryThreadIntervalSeconds="600">
     </cache>
     <cache name="UserPermissions"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
     </cache>
     <cache name="UserRoles"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
     </cache>
-
     <cache name="PasswordRetryCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="600"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>
-    <cache name="AuthorizationCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
     </cache>
 
-    <cache name="AuthenticationCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
+    <cache name="AuthorizationCache"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
+    </cache>
+    <cache name="AuthenticationCache"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
     </cache>
 
     <!--持久化，保证重启服务器不踢出用户-->
@@ -744,26 +751,19 @@
            diskPersistent="true"
            diskExpiryThreadIntervalSeconds="600"/>
 
-    <!--<cache name="ActiveSessionCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>-->
-
     <cache name="shiro-kickout-session"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="3600"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
     </cache>
+
     <!-- 24小时只能发5次短信重置密码-->
     <cache name="FindPassDayCount"
-           maxEntriesLocalHeap="2000"
+           maxElementsInMemory="2000"
            eternal="false"
            timeToIdleSeconds="86400"
            timeToLiveSeconds="0"
@@ -772,31 +772,33 @@
     </cache>
 
     <cache name="menu_count_cache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="86400"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
     </cache>
-
     <cache name="TableColumns"
-           maxEntriesLocalHeap="200"
-           eternal="false"
-           timeToIdleSeconds="0"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
            timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
+    </cache>
+    <cache name="ColumnBeans"
+           maxElementsInMemory="2000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
     </cache>
 
-    <cache name="ColumnBeans"
-           maxEntriesLocalHeap="200"
-           eternal="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>
     <cache name="_Sitemaps"
            eternal="false"
            maxElementsInMemory="2000"

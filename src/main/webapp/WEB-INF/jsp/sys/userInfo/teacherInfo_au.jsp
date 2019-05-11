@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div style="width: 900px">
+
     <h3>修改教职工党员人事信息</h3>
     <hr/>
     <form class="form-horizontal" action="${ctx}/teacherInfo_au" autocomplete="off" disableautocomplete id="modalForm"
           method="post">
         <input type="hidden" name="userId" value="${teacherInfo.userId}">
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-4">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">工作证号</label>
                     <div class="col-xs-6 label-text">
@@ -119,7 +119,7 @@
                 </div>
 
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-4">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">所学专业</label>
                     <div class="col-xs-6">
@@ -310,8 +310,7 @@
         </div>
     </form>
 
-    <div class="clearfix form-actions">
-        <div class="col-md-offset-3 col-md-9">
+    <div class="clearfix form-actions center">
             <button class="btn btn-info" type="submit">
                 <i class="ace-icon fa fa-check bigger-110"></i>
                 提交
@@ -322,9 +321,7 @@
                 <i class="ace-icon fa fa-undo bigger-110"></i>
                 取消
             </button>
-        </div>
     </div>
-</div>
 <script>
     $("#body-content-view button[type=submit]").click(function () {
         $("#modalForm").submit();

@@ -3,6 +3,7 @@ import org.junit.Test;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.RoleConstants;
 import sys.ip.IPSeeker;
+import sys.utils.PatternUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
@@ -13,29 +14,47 @@ import java.text.MessageFormat;
 public class TTtest {
 
     @Test
-    public void t(){
+    public void xxx() {
+
+        String name = "[   sample_xsss]是的发生的.xls";
+        String withdraw = PatternUtils.withdraw(".*\\[\\s*(\\S*)\\s*\\].*", name);
+
+        System.out.println("withdraw = " + withdraw);
+    }
+    @Test
+    public void xxx2() {
+
+        String name = "[   sample_xsss]是的发生的.xls";
+        String withdraw = PatternUtils.withdraw(".*\\[.*](.*)\\..*", name);
+        System.out.println("withdraw = " + withdraw);
+    }
+
+    @Test
+    public void t() {
         System.out.println(RoleConstants.ROLE_MAP);
     }
 
     @Test
-    public void ttt1(){
+    public void ttt1() {
 
-        int[] ids = new int[]{1,23,3};
+        int[] ids = new int[]{1, 23, 3};
         String join = StringUtils.join(ids, ",");
         System.out.println("join = " + join);
 
-        String[] s = new String[]{"Yuan","Mxy"};//传入String类型的数组，使用"-"号拼接
-		String join2 = StringUtils.join(s,"-");
-		System.out.println(join2);
+        String[] s = new String[]{"Yuan", "Mxy"};//传入String类型的数组，使用"-"号拼接
+        String join2 = StringUtils.join(s, "-");
+        System.out.println(join2);
     }
-    @Test
-    public void  xx(){
 
-        String str = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"",1,2,3,4);
+    @Test
+    public void xx() {
+
+        String str = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"", 1, 2, 3, 4);
         System.out.println("str = " + str);
     }
+
     @Test
-    public void ttt(){
+    public void ttt() {
 
         String str = "1999.09-2003.06   辽宁大学广播影视学院电子科学与技术专业 工学学士学位";
         System.out.println(str);
@@ -69,7 +88,7 @@ public class TTtest {
     }
 
     @Test
-    public void ip(){
+    public void ip() {
 
         IPSeeker instance = IPSeeker.getInstance();
         String country = instance.getCountry("59.64.48.17");
