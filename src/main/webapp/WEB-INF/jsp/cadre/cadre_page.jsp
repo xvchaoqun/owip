@@ -103,7 +103,19 @@
                                             <li role="separator" class="divider"></li>
                                             <li>
                                                 <a href="javascript:;" class="popupBtn"
-                                                   data-url="${ctx}/cadreEva_import">
+                                                   data-url="${ctx}/cadrePost_import?isMainPost=1">
+                                                    <i class="fa fa-file-excel-o"></i> 导入干部主职情况</a>
+                                            </li>
+                                             <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="popupBtn"
+                                                   data-url="${ctx}/cadrePost_import?isMainPost=0">
+                                                    <i class="fa fa-file-excel-o"></i> 导入干部兼职情况</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="popupBtn"
+                                                   data-url="${ctx}/cadreEva_import?isMainPost=0">
                                                     <i class="fa fa-file-excel-o"></i> 导入考核信息</a>
                                             </li>
                                         </ul>
@@ -127,8 +139,7 @@
                                         <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
                                             <shiro:hasPermission name="cadre:list">
                                             <li class="dropdown-hover" data-stopPropagation="true">
-                                                <a href="javascript:;"
-                                                   data-need-id="false" data-url="${ctx}/cadre_data" data-querystr="format=1">
+                                                <a href="javascript:;" data-need-id="false">
                                                     <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）
                                                 <i class="ace-icon fa fa-caret-right pull-right"></i>
                                                 </a>
@@ -213,7 +224,7 @@
                                             data-ids-name="cadreIds"
                                             data-open-by="page"
                                             data-url="${ctx}/cadre_search_brief">
-                                        <i class="fa fa-search"></i> 提取简介
+                                        <i class="fa fa-hand-pointer-o"></i> 提取简介
                                     </button>
                                     </shiro:hasPermission>
                                 </c:if>

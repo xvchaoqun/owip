@@ -2,6 +2,9 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="CADRE_STAT_HISTORY_TYPE_MAP" value="<%=CadreConstants.CADRE_STAT_HISTORY_TYPE_MAP%>"/>
+<c:set var="CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ" value="<%=CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ%>"/>
+<c:set var="CADRE_STAT_HISTORY_TYPE_STAT_CPC_KJ" value="<%=CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_KJ%>"/>
+<c:set var="CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT_KJ" value="<%=CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT_KJ%>"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -15,14 +18,19 @@
                     <select data-rel="select2" name="type" for="search" data-placeholder="请选择统计类型">
                         <option></option>
                         <c:forEach var="_type" items="${CADRE_STAT_HISTORY_TYPE_MAP}">
-                            <option value="${_type.key}">${_type.value}</option>
+                            <c:if test="${_p_hasKjCadre ||
+                            !(_type.key==CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ ||
+                            _type.key==CADRE_STAT_HISTORY_TYPE_STAT_CPC_KJ ||
+                            _type.key==CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT_KJ)}">
+                                <option value="${_type.key}">${_type.value}</option>
+                            </c:if>
                         </c:forEach>
                     </select>
                     <button class="btn btn-primary btn-sm"
                             onclick="statNow(this)"
                             data-url="#"
                             data-title="统计"
-                            data-msg="确定现在统计吗？"
+                            data-msg="确定现在统计？"
                             data-loading="#gview_jqGrid"
                             data-callback="_reload">
                         <i class="fa fa-hourglass-half"></i> 立即统计
@@ -107,6 +115,7 @@
             SysMsg.info("请选择统计类型");
             return;
         }
+        $(btn).data("msg", "确定现在统计【{0}】？".format($("select[name=type][for=search] option:checked").text()))
         $(btn).data("url", "${ctx}/cadreStatHistory?type=" + type);
         $.confirm(btn);
     }

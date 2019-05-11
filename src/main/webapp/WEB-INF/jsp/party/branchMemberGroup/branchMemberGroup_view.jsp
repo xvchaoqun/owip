@@ -62,10 +62,8 @@ pageEncoding="UTF-8" %>
                 return {'class':'success'}
             }
         }
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid2');
-    })
-
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid2');
     function _reload(){
         $("#modal").modal('hide');
         $("#view-box .tab-content").loadPage("${ctx}/branchMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");

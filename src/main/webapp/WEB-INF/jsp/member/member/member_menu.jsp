@@ -22,7 +22,7 @@
       <i class="fa fa-sign-out"></i> 已转出党员${cls==6?"(学生)":(cls==7)?"(教职工)":""}
       <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
     </a>
-    <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
+    <ul class="dropdown-menu dropdown-info" style="min-width: 100px"  role="menu">
       <li>
         <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=6"><i class="fa fa-hand-o-right"></i>  学生（${cm:trimToZero(student_transferCount)}）</a>
       </li>
@@ -49,12 +49,12 @@
         </button>
         <ul class="dropdown-menu dropdown-success" role="menu">
             <li>
-                <a class="popupBtn"
+                <a href="javascript:;" class="popupBtn"
                  data-url="${ctx}/member_import?inSchool=1"><i class="fa fa-arrow-right"></i>
                   校园门户账号导入</a>
             </li>
             <li>
-                <a class="popupBtn"
+                <a href="javascript:;" class="popupBtn"
                  data-url="${ctx}/member_import?inSchool=0"><i class="fa fa-arrow-right"></i>
                   系统注册账号导入</a>
             </li>

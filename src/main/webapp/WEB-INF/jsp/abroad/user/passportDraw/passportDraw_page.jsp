@@ -210,10 +210,8 @@
             SysMsg.info(remark, title);
             e.stopPropagation();
         });
-
-        $(window).triggerHandler('resize.jqGrid');
     });
-
+    $(window).triggerHandler('resize.jqGrid');
     function _delCallback(target) {
         SysMsg.success('撤销成功。', '成功', function () {
             $("#jqGrid").trigger("reloadGrid");

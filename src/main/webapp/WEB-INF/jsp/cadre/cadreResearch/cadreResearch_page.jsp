@@ -15,28 +15,28 @@
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY?"active":""}">
         <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}')"><i
-                class="fa fa-flag"></i> 主持科研项目</a>
+                class="fa fa-list"></i> 主持科研项目</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY?"active":""}">
-        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}')"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}')"><i class="fa fa-list"></i>
             参与科研项目</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_BOOK_SUMMARY?"active":""}">
-        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_SUMMARY}')"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_BOOK_SUMMARY}')"><i class="fa fa-book"></i>
             出版著作</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_PAPER_SUMMARY?"active":""}">
-        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_PAPER_SUMMARY}')"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_PAPER_SUMMARY}')"><i class="fa fa-file-o"></i>
             发表论文</a>
     </li>
     <li class="${type==CADRE_INFO_TYPE_RESEARCH_REWARD?"active":""}">
-        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_REWARD}')"><i class="fa fa-flag"></i>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_REWARD}')"><i class="fa fa-list"></i>
             科研成果及获奖</a>
     </li>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
-        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
+        <a href="javascript:;" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-list-ol"></i> 预览</a>
     </li>
 </shiro:lacksPermission>
     </shiro:hasPermission>

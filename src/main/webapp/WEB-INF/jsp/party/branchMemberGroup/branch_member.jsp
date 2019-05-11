@@ -44,7 +44,7 @@
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input class="form-control date-picker" name="assignDate" type="text"
-                                           data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
+                                           data-date-min-view-mode="1" placeholder="yyyy.mm"
                                            data-date-format="yyyy.mm" value="${cm:formatDate(branchMember.assignDate,'yyyy.MM')}" />
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>

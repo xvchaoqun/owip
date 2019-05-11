@@ -67,9 +67,7 @@
         //console.log(rowData)
         return {'class':'danger'}
       }
-    },
-    gridComplete:function(){
-      $(window).triggerHandler('resize.jqGrid2');
     }
-  });
+  }).jqGrid("setFrozenColumns");
+  $(window).triggerHandler('resize.jqGrid2');
 </script>

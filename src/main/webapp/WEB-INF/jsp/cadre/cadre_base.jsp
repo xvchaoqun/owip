@@ -828,14 +828,14 @@
 								<td style="min-width: 100px">
 									<input required type="text" name="nativePlace" value="${uv.nativePlace}">
 									<div class="inline-block">
-										格式：“河北保定”或“北京海淀”
+										${_pMap['nativePlaceHelpBlock']}
 									</div>
 								</td>
 								<td><span class="star">*</span>出生地</td>
 								<td>
 									<input required type="text" name="homeplace" value="${uv.homeplace}">
 									<div class="inline-block">
-										格式：“河北保定”或“北京海淀”
+										${_pMap['nativePlaceHelpBlock']}
 									</div>
 								</td>
 								<td>
@@ -844,7 +844,7 @@
 								<td>
 									<input required type="text" name="household" value="${uv.household}">
 									<div class="inline-block">
-										格式：“河北保定”或“北京海淀”
+										${_pMap['nativePlaceHelpBlock']}
 									</div>
 								</td>
 							</tr>

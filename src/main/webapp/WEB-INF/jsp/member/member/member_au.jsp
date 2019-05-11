@@ -4,7 +4,7 @@
 <c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
 <c:set var="member_needGrowTime" value="${_pMap['member_needGrowTime']=='true'}"/>
 <div style="width: 900px">
-<h3>${op}党员</h3>
+<h3>${empty member?'添加党员':'修改党籍信息'}</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}/member_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <div class="row">

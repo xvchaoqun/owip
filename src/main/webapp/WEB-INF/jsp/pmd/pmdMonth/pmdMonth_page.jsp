@@ -11,7 +11,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.payMonth || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
-                <jsp:include page="menu.jsp"/>
+                <%--<jsp:include page="menu.jsp"/>--%>
                 <div class="multi-row-head-table tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">

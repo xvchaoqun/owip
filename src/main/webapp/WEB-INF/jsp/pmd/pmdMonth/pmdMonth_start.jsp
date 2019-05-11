@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <div style="color: red; font-size: 16px; font-weight: bolder;text-align: left;padding-bottom: 20px;">
+    <div class="note">
         <c:if test="${partyCount==0}">
         请先设置本月参与缴费的党委
         </c:if>

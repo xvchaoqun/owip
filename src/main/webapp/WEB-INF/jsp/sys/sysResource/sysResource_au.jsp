@@ -29,7 +29,7 @@
 		</div>
 		</c:if>
 		<div class="form-group">
-				<label class="col-xs-4 control-label">
+				<label class="col-xs-4 control-label"><span class="star">*</span>
 					<c:if test="${param.parentId>0}">子</c:if>节点名称
 				</label>
 				<div class="col-xs-6 ">
@@ -37,10 +37,9 @@
 				</div>
 		</div>
 		<div class="form-group">
-				<label class="col-xs-4 control-label">类型</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span> 类型</label>
 				<div class="col-xs-6 ">
-					<select id="typeSelect" name="type" data-placeholder="请选择资源类型"  data-width="275"
-							>
+					<select id="typeSelect" name="type" data-placeholder="请选择资源类型"  data-width="275">
 						<option></option>
 						<option value="menu">菜单</option>
 						<option value="url">链接</option>

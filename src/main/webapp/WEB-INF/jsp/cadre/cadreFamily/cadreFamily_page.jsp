@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员信息
+        <h4 class="widget-title"><i class="fa fa-home"></i> 家庭成员信息
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <div class="buttons">
@@ -53,7 +53,7 @@
 <div class="space-4"></div>
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员移居国（境）外的情况
+        <h4 class="widget-title"><i class="fa fa-plane"></i> 家庭成员移居国（境）外的情况
 
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <span style="color: #000;font-size: 14px; font-weight: normal">

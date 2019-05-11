@@ -23,8 +23,7 @@
             {label: '短信内容', name: 'msg', width: 850},
             /*{label: '培训班次', name: 'cetTrain.name', width: 300, align:'left'},*/
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns")
+     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 </script>

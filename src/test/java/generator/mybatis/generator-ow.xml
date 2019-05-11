@@ -107,9 +107,10 @@
                 mapperName="member.ApplySnRangeMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <table tableName="ow_apply_sn" domainObjectName="member.ApplySn"
+        <!--<table tableName="ow_apply_sn" domainObjectName="member.ApplySn"
                 mapperName="member.ApplySnMapper">
-         </table>
+         </table>-->
+
 <!--
          <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
                 mapperName="member.MemberApplyMapper">
@@ -224,8 +225,9 @@
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"></table>-->
 
-        <!--<table tableName="ow_member_reg" domainObjectName="member.MemberReg" mapperName="member.MemberRegMapper">
-        </table>-->
+        <table tableName="ow_member_reg" domainObjectName="member.MemberReg" mapperName="member.MemberRegMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
     </context>
 </generatorConfiguration>

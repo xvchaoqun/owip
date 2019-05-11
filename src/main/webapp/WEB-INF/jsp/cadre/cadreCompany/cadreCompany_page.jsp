@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
     <li class="${cls==1?"active":""}">
         <a href="javascript:;" class="loadPage"
            data-load-el="#view-box .tab-content"
-           data-url="${ctx}/cadreCompany?cls=1&cadreId=${param.cadreId}"><i class="fa fa-flag"></i> 正在兼职</a>
+           data-url="${ctx}/cadreCompany?cls=1&cadreId=${param.cadreId}"><i class="fa fa-list"></i> 正在兼职</a>
     </li>
     <li class="${cls==2?"active":""}">
         <a href="javascript:;" class="loadPage"

@@ -70,11 +70,7 @@
         return $.swfPreview(cellvalue, rowObject.modifyProofFileName, "查看");
       }},
       {label: '备注', name: 'remark', width: 500}
-    ],
-    gridComplete:function(){
-      $(window).triggerHandler('resize.jqGrid2');
-
-
-    }
+    ]
   });
+  $(window).triggerHandler('resize.jqGrid2');
 </script>

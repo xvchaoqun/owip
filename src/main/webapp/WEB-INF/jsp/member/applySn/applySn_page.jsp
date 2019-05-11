@@ -15,8 +15,10 @@
                             <div class="tab-pane in active">
                                 <c:set var="_query"
                                        value="${not empty param.year ||not empty param.displaySn
-                                       || not empty param.isUsed || not empty param.userId}"/>
+                                       || not empty param.isUsed || not empty param.userId || not empty param.isAbolished
+                                       || not empty param.partyId|| not empty param.branchId}"/>
                                 <div class="jqgrid-vertical-offset buttons">
+
                                     <shiro:hasPermission name="applySnRange:change">
                                         <button id="changeBtn" class="jqOpenViewBtn tooltip-warning btn btn-warning btn-sm"
                                                 data-url="${ctx}/applySn_change"
@@ -36,11 +38,13 @@
                                             恢复使用
                                         </button>
                                     </shiro:hasPermission>
-                                    <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                            data-url="${ctx}/applySn_data"
+                                    <c:if test="${cls==8}">
+                                    <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                            data-url="${ctx}/applySn_data?cls=${cls}"
                                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                         <i class="fa fa-download"></i> 导出
-                                    </button>--%>
+                                    </button>
+                                    </c:if>
                                 </div>
                                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                     <div class="widget-header">
@@ -73,7 +77,30 @@
                                                            placeholder="请输入">
 
                                                 </div>
+                                                <c:if test="${cls==8}">
+                                                <div class="form-group">
+                                                    <label>${_p_partyName}</label>
+                                                        <select class="form-control" data-width="350" data-rel="select2-ajax"
+                                                                data-ajax-url="${ctx}/party_selects?auth=1"
+                                                                name="partyId" data-placeholder="请选择">
+                                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                                        </select>
+                                                </div>
 
+                                                <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+                                                    <label>党支部</label>
+                                                        <select class="form-control" data-rel="select2-ajax"
+                                                                data-ajax-url="${ctx}/branch_selects?auth=1"
+                                                                name="branchId" data-placeholder="请选择党支部">
+                                                            <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
+                                                        </select>
+                                                </div>
+                                                <script>
+                                                    $.register.party_branch_select($("#searchForm"), "branchDiv",
+                                                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                                                </script>
+                                                </c:if>
+                                                <c:if test="${cls==7}">
                                                 <div class="form-group">
                                                     <label>是否已使用</label>
                                                     <div class="input-group">
@@ -89,7 +116,7 @@
                                                         </script>
                                                     </div>
                                                 </div>
-
+                                                </c:if>
                                                 <div class="form-group">
                                                     <label>使用人</label>
                                                     <select data-rel="select2-ajax"
@@ -151,6 +178,7 @@
         colModel: [
             {label: '年份', name: 'applySnRange.year', width: 90},
             {label: '志愿书编码', name: 'displaySn', width: 150},
+            <c:if test="${cls==7}">
             {
                 label: '所属号段', name: 'applySnRange', width: 320, formatter: function (cellvalue, options, rowObject) {
                     return $.trim(cellvalue.prefix) + cellvalue.startSn.zfill(cellvalue.len)
@@ -158,8 +186,15 @@
                 }
             },
             {label: '是否已使用', name: 'isUsed', width: 90, formatter: $.jgrid.formatter.TRUEFALSE},
+            </c:if>
             {label: '使用人', name: 'user.realname'},
             {label: '使用学工号', name: 'user.code', width: 120},
+            <c:if test="${cls==8}">
+            {
+                label: '所属组织机构', name: 'party', align:'left',  width: 550, formatter:function(cellvalue, options, rowObject){
+                return $.party(rowObject.partyId, rowObject.branchId);
+            }},
+            </c:if>
             {label: '是否作废', name: 'isAbolished', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
             {
                 name: '_isUsed', hidden: true, formatter: function (cellvalue, options, rowObject) {
@@ -179,11 +214,18 @@
         onSelectAll: function (aRowids, status) {
             saveJqgridSelected("#" + this.id);
             _onSelectRow(this)
+        },
+        rowattr: function(rowData, currentObj, rowId)
+        {
+            if(rowData.isAbolished) {
+                //console.log(rowData)
+                return {'class':'danger'}
+            }
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));

@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
             <div class="col-xs-6">
-                <select required name="type" data-placeholder="请选择" class="select2 tag-input-style" data-rel="select2">
+                <select required name="type" data-placeholder="请选择" data-rel="select2">
                     <option></option>
                     <c:forEach items="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>" var="_type">
                         <option value="${_type.key}">${_type.value}</option>

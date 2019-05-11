@@ -31,6 +31,7 @@
         <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span>干部类型</label>
             <div class="col-xs-6">
+                <div class="input-group">
                 <c:forEach items="${CADRE_TYPE_MAP}" var="entity">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                         <input required type="radio" name="type" id="type${entity.key}"
@@ -40,6 +41,7 @@
                         </label>
                     </div>
                 </c:forEach>
+                    </div>
             </div>
         </div>
         </c:if>
@@ -126,8 +128,9 @@
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary"
-           value="<c:if test="${cadre!=null}">确定</c:if><c:if test="${cadre==null}">添加</c:if>"/>
+    <button id="submitBtn" type="button" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"> ${cadre!=null?"确定":"添加"}
+    </button>
 </div>
 
 <script>
@@ -156,7 +159,11 @@
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
-    $("#modal form").validate({
+    $("#submitBtn").click(function () {
+        $("#modalForm").submit();
+        return false;
+    });
+    $("#modalForm").validate({
         submitHandler: function (form) {
             <c:if test="${cadre.id!=null && (status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
             if (treeNode.children.length > 0) {
@@ -170,6 +177,7 @@
                 $("#modal input[name=dispatchCadreId]").val(selectIds[0]);
             }
             </c:if>
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
@@ -178,6 +186,7 @@
                         $("#jqGrid").trigger("reloadGrid");
                         //});
                     }
+                    $btn.button('reset');
                 }
             });
         }

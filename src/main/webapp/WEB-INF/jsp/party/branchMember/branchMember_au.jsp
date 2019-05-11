@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm" >
                     <input class="form-control" name="assignDate" type="text"
-                           placeholder="格式：yyyy.mm"
+                           placeholder="yyyy.mm"
                             value="${cm:formatDate(branchMember.assignDate,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>

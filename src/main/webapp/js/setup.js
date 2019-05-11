@@ -67,28 +67,18 @@ function _adjustFrozenDivHeight($jqGrid){
         $frozenBdiv.height($frozenBdiv.height()-1);
     }, 400)
 }
-$(window).on('resize.jqGrid0', function () {
 
-    $(".jqGrid0").jqGrid('setGridWidth', $(window).width() - $(".nav-list").width() - 60 - 180);
-    var height = 0;
-    $("#body-content .jqgrid-vertical-offset").each(function () {
-        height += $(this).height();
-    });
-    //console.log($("#navbar").height() + " " + $("#breadcrumbs").height() + " " +$(".nav-tabs").height())
-    var navHeight = $(".nav.nav-tabs").height();
-    navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
-    if (navHeight == null) navHeight = 0;
-
-    $(".jqGrid0").setGridHeight($(window).height() - 320 - height - navHeight)
-        .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
-        .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
-});
-
+// 适用于页面只有一个jqGrid的情况
 $(window).on('resize.jqGrid', function () {
     if ($("#body-content").is(":hidden")) {
         return;
     }
     var gridWidth = $(window).width() - 60;
+    var widthReduce = $(".jqGrid").data("width-reduce");
+    if (widthReduce != undefined) {
+        gridWidth = gridWidth - parseInt(widthReduce);
+    }
+
     if ($("#menu-toggler").is(":hidden")) { // 手机屏幕
         gridWidth -= $(".nav-list").width()
     }
@@ -123,6 +113,8 @@ $(window).on('resize.jqGrid', function () {
         _adjustFrozenDivHeight($(this))
     })
 });
+
+// 适用于子页面多个jqGrid的情况
 $(window).on('resize.jqGrid2', function () {
     /*if( $("#body-content-view").is(":hidden")){
      return;
@@ -205,14 +197,12 @@ $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
     if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
         //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
         setTimeout(function () {
-            $(window).triggerHandler('resize.jqGrid0');
             $(window).triggerHandler('resize.jqGrid');
             $(window).triggerHandler('resize.jqGrid2');
         }, 0);
     }
 });
 $(document).on('shown.ace.widget hidden.ace.widget', function (ev) {
-    $(window).triggerHandler('resize.jqGrid0');
     $(window).triggerHandler('resize.jqGrid');
     $(window).triggerHandler('resize.jqGrid2');
 });

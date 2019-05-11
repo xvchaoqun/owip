@@ -124,13 +124,14 @@
             //openicon: "ui-icon-arrowreturn-1-e"
         }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid2');
+
         $('.noSubWork [aria-describedby="jqGrid2_subgrid"]').removeClass();
 
         currentExpandRows.forEach(function(item, i){
             $("#jqGrid2").expandSubGridRow(item)
         })
     });
+    $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
 
     function _swtich(id, btn) {

@@ -125,9 +125,8 @@
             hasApplys = data.hasApplys;
             canAfterApplyPostIds = data.canAfterApplyPostIds;
         }
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 </script>
 </c:if>

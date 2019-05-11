@@ -156,7 +156,7 @@
                    data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                    value="${original}">
             <div class="inline-block">
-                格式：“河北保定”或“北京海淀”
+                ${_pMap['nativePlaceHelpBlock']}
             </div>
           </td>
           <td>
@@ -173,7 +173,7 @@
                    data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                    value="${original}">
             <div class="inline-block">
-                格式：“河北保定”或“北京海淀”
+                ${_pMap['nativePlaceHelpBlock']}
             </div>
           </td>
         </tr>
@@ -246,7 +246,7 @@
                         <c:if test="${!hasVerifyWorkTime}">
                         <div class="input-group" style="width: 180px">
                             <input class="form-control date-picker" type="text"
-                                   data-date-min-view-mode="1" placeholder="格式：yyyy.mm"
+                                   data-date-min-view-mode="1" placeholder="yyyy.mm"
                                    data-date-format="yyyy.mm"
                                    data-code="work_time"
                                    data-table="sys_teacher_info"

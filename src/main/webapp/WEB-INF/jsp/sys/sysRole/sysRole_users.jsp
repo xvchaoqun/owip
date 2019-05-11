@@ -24,7 +24,7 @@
     </div>
     <div class="form-group">
       <label>类别</label>
-      <select name="type" data-placeholder="请选择" data-width="120" class="select2 tag-input-style">
+      <select name="type" data-placeholder="请选择" data-width="120" data-ref="select2">
         <option></option>
         <c:forEach items="${USER_TYPE_MAP}" var="userType">
           <option value="${userType.key}">${userType.value}</option>
@@ -36,7 +36,7 @@
     </div>
     <div class="form-group">
       <label>来源</label>
-      <select name="source" data-placeholder="请选择" data-width="120" class="select2 tag-input-style">
+      <select name="source" data-placeholder="请选择" data-width="120" data-ref="select2">
         <option></option>
         <c:forEach items="<%=SystemConstants.USER_SOURCE_MAP%>" var="userSource">
           <option value="${userSource.key}">${userSource.value}</option>

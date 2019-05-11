@@ -44,7 +44,7 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>类别</label>
-                            <select name="type" data-placeholder="请选择" class="select2 tag-input-style" data-rel="select2">
+                            <select name="type" data-placeholder="请选择" data-rel="select2">
                                 <option></option>
                                 <c:forEach items="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>" var="_type">
                                     <option value="${_type.key}">${_type.value}</option>

@@ -98,10 +98,8 @@
         rownumbers: true,
         url: '${ctx}/cisEvaluate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cisEvaluate
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
-    })
-
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid');
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

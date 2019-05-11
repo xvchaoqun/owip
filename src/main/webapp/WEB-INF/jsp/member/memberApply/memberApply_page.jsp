@@ -428,7 +428,10 @@
                                                                                             <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                                                                                         </select>
                                                                                 </div>
-
+                                                                            <script>
+                                                                                $.register.party_branch_select($("#searchForm"), "branchDiv",
+                                                                                        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                                                                            </script>
                                                                                 <c:if test="${stage==OW_APPLY_STAGE_DRAW}">
                                                                                     <div class="form-group">
                                                                                         <label>状态</label>
@@ -467,10 +470,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </c:if>
-                                                                            <script>
-                                                                                $.register.party_branch_select($("#searchForm"), "branchDiv",
-                                                                                        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
-                                                                            </script>
+
                                                                         <div class="clearfix form-actions center">
                                                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -486,7 +486,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="space-4"></div>
-                                                        <table id="jqGrid" class="jqGrid0 table-striped"></table>
+                                                        <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="10" data-width-reduce="180"></table>
                                                         <div id="jqGridPager"></div>
                                                     </div></div></div>
                                         </div>
@@ -505,14 +505,21 @@
         </div>
     </div>
 </div>
+
 <style>
    ul#stages>li{
        min-width:170px;
     }
+   <c:if test="${param.stage==0}">
+    #jqGridPager_right{
+        width: 150px;
+    }
+   </c:if>
 </style>
 <script>
     $("#jqGrid").jqGrid({
         /*multiboxonly:false,*/
+        rownumbers:true,
         ondblClickRow:function(){},
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -598,7 +605,7 @@
                     $(this).prop("disabled", true);
                 })
             } else if (ids.length==1) {
-              
+
                 var rowData = $(this).getRowData(ids[0]);
                 $("#applyBtn").prop("disabled", rowData.stage != "${OW_APPLY_STAGE_INIT}");
                 $("#activeBtn").prop("disabled", rowData.stage != "${OW_APPLY_STAGE_PASS}");
@@ -627,27 +634,27 @@
             })
         }
     }).jqGrid("setFrozenColumns")
-    $(window).triggerHandler('resize.jqGrid0')
+    $(window).triggerHandler('resize.jqGrid')
 
     $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${stage==OW_APPLY_STAGE_INIT}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量通过",
-        btnbase:"jqBatchBtn btn btn-success btn-xs",
+        btnbase:"jqBatchBtn btn btn-success btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_pass" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量不通过",
-        btnbase:"jqBatchBtn btn btn-danger btn-xs",
+        btnbase:"jqBatchBtn btn btn-danger btn-sm",
         buttonicon:"fa fa-times-circle-o",
         props:'data-url="${ctx}/apply_deny" data-title="不通过" data-msg="确定拒绝这{0}个申请吗？" data-callback="page_reload"'
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部确定为入党积极分子（批量）",
-        btnbase:"jqOpenViewBatchBtn btn btn-warning btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-warning btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_active"'
     });
@@ -655,14 +662,14 @@
     <c:if test="${stage==OW_APPLY_STAGE_ACTIVE}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部确定为发展对象（批量）",
-        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_candidate"'
     });
     <shiro:hasAnyRoles name="${ROLE_PARTYADMIN},${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}批量审核",
-        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        btnbase:"jqBatchBtn btn btn-warning btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_candidate_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
@@ -672,7 +679,7 @@
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部列入发展计划（批量）",
-        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_plan"'
     });
@@ -680,7 +687,7 @@
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}批量审核",
-        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        btnbase:"jqBatchBtn btn btn-warning btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_plan_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
@@ -690,7 +697,7 @@
     <shiro:hasAnyRoles name="${ROLE_PARTYADMIN},${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}领取志愿书（批量）",
-        btnbase:"jqOpenViewBatchBtn btn btn-warning btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-warning btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_draw"'
     });
@@ -713,21 +720,21 @@
     });*/
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
-        btnbase:"jqOpenViewBatchBtn btn btn-primary btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-primary btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_grow_od_check"'
     });
     </shiro:hasRole>
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部发展为预备党员（批量）",
-        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_grow"'
     });
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}批量审核",
-        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        btnbase:"jqBatchBtn btn btn-warning btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_grow_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
@@ -737,14 +744,14 @@
     <c:if test="${stage==OW_APPLY_STAGE_GROW}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部预备党员转正（批量）",
-        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_positive"'
     });
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}批量审核",
-        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        btnbase:"jqBatchBtn btn btn-warning btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_positive_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
@@ -752,7 +759,7 @@
     <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
-        btnbase:"jqBatchBtn btn btn-primary btn-xs",
+        btnbase:"jqBatchBtn btn btn-primary btn-sm",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/apply_positive_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });

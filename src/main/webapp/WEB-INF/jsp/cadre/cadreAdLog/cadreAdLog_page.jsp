@@ -49,10 +49,8 @@
       {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
       {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
       {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType}
-    ],gridComplete:function(){
-      $(this).jqGrid("setFrozenColumns");
-    }
-  })
+    ]
+  }).jqGrid("setFrozenColumns");
   $(window).triggerHandler('resize.jqGrid2');
   $.initNavGrid("jqGrid2", "jqGridPager2");
 </script>

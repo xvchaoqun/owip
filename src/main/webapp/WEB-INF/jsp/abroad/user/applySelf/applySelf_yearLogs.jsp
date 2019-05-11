@@ -76,10 +76,7 @@
                     return "取消行程，未持证件出国（境）";
                 return ""
             }}
-        ],
-        gridComplete:function(){
-            $(window).triggerHandler('resize.jqGrid2');
-        }
+        ]
     });
-
+    $(window).triggerHandler('resize.jqGrid2');
 </script>

@@ -5,7 +5,7 @@
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 工作经历</a>
+        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-list"></i> 工作经历</a>
     </li>
    <%-- <li class="${type==3?"active":""}">
         <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 挂职锻炼经历</a>
@@ -15,7 +15,7 @@
                 <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
             </li>
             <li class="${type==3?"active":""}">
-                <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 干部任免审批表简历预览</a>
+                <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-list-ol"></i> 干部任免审批表简历预览</a>
             </li>
         </shiro:lacksPermission>
 </ul>

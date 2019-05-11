@@ -59,9 +59,7 @@
         //console.log(rowData)
         return {'class':'danger'}
       }
-    },
-    gridComplete:function(){
-      $(window).triggerHandler('resize.jqGrid2');
     }
   });
+  $(window).triggerHandler('resize.jqGrid2');
 </script>

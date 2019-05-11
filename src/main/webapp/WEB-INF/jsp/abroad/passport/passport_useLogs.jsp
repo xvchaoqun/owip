@@ -122,11 +122,7 @@
             } },
             { label:'借出日期', name: 'drawTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
             { label:'归还日期', name: 'realReturnDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} }
-        ],
-        gridComplete:function(){
-            $(window).triggerHandler('resize.jqGrid2');
-        }
+        ]
     });
-
-
+    $(window).triggerHandler('resize.jqGrid2');
 </script>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<h3>修改人事基础信息（其中带*的字段每天会被人事库信息同步覆盖）</h3>
+<h3>修改账号基本信息（其中带*的字段每天会被校园门户账号信息进行同步覆盖）</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}/sysUserInfo_au" autocomplete="off" disableautocomplete id="modalForm" method="post"  enctype="multipart/form-data">
     <input type="hidden" name="userId" value="${sysUser.id}">
@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>性别</label>
 
-                <div class="col-xs-6">
+                <div class="col-xs-6 label-text">
                     <div class="input-group">
                         <c:forEach var="gender" items="${GENDER_MAP}">
                             <label>
@@ -67,11 +67,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>籍贯</label>
-
+                <label class="col-xs-3 control-label">籍贯</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="nativePlace" value="${ui.nativePlace}">
-                    <%--<span class="help-block"><span class="star">*</span> 研究生不同步籍贯</span>--%>
+                    <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                 </div>
             </div>
             <div class="form-group">
@@ -79,6 +78,7 @@
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="homeplace" value="${ui.homeplace}">
+                    <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                 </div>
             </div>
             <div class="form-group">
@@ -86,6 +86,7 @@
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="household" value="${ui.household}">
+                    <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                 </div>
             </div>
             <div class="form-group">
@@ -103,6 +104,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-3 control-label">邮箱</label>
+
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="email" value="${ui.email}">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-3 control-label">短信称谓</label>
 
                 <div class="col-xs-6">
@@ -114,13 +122,6 @@
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="homePhone" value="${ui.homePhone}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">邮箱</label>
-
-                <div class="col-xs-6">
-                    <input class="form-control" type="text" name="email" value="${ui.email}">
                 </div>
             </div>
             <div class="form-group">
@@ -162,11 +163,11 @@
         </button>
     </div>
 </div>
-<style>
+<%--<style>
     #modalForm .ace-file-container{
         height: 198px!important;
     }
-</style>
+</style>--%>
 <script>
     $.fileInput($("#_avatar"), {
         style:'well',

@@ -5,10 +5,10 @@
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 培训情况</a>
+        <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-list"></i> 培训情况</a>
     </li>
     <li class="${type==2?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
+        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-list-ol"></i> 预览</a>
     </li>
 </ul>
     </shiro:lacksPermission>

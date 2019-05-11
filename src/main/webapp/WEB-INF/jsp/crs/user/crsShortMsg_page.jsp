@@ -23,8 +23,7 @@
             {label: '短信内容', name: 'msg', width: 650},
             {label: '招聘岗位', name: 'postName', width: 300},
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 </script>

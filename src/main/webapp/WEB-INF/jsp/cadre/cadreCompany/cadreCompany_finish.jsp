@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-3 control-label"><span class="star">*</span>兼职结束时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
-                    <input required class="form-control date-picker" name="finishTime" type="text" placeholder="格式：yyyy.mm"
+                    <input required class="form-control date-picker" name="finishTime" type="text" placeholder="yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadreCompany.finishTime,'yyyy.MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>

@@ -24,21 +24,21 @@
                         <button class="jqOpenViewBtn btn btn-success btn-sm"
                                 data-url="${ctx}/sysUserInfo_au"
                                 data-open-by="page" data-id-name="userId">
-                            <i class="fa fa-edit"></i> 修改人事基础信息
+                            <i class="fa fa-info-circle"></i> 修改基本信息
                         </button>
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/sysUserRole">
-                            <i class="fa fa-pencil"></i> 修改角色
+                            <i class="fa fa-user-circle"></i> 修改角色
                         </button>
                         <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
                                 data-url="${ctx}/sysUser_del" data-title="账号解禁"
                                 data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
-                            <i class="fa fa-edit"></i> 解禁
+                            <i class="fa fa-unlock"></i> 解禁
                         </button>
                         <button disabled id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
                                 data-url="${ctx}/sysUser_del" data-title="账号禁用"
                                 data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
-                            <i class="fa fa-edit"></i> 禁用
+                            <i class="fa fa-lock"></i> 禁用
                         </button>
                         <shiro:hasPermission name="menu:preview">
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>类别</label>
-                                            <select name="type" data-placeholder="请选择" class="select2 tag-input-style">
+                                            <select name="type" data-placeholder="请选择" data-ref="select2">
                                                 <option></option>
                                                 <c:forEach items="${USER_TYPE_MAP}" var="userType">
                                                     <option value="${userType.key}">${userType.value}</option>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>角色</label>
-                                            <select name="roleId" data-placeholder="请选择" class="select2 tag-input-style">
+                                            <select name="roleId" data-placeholder="请选择" data-ref="select2">
                                                 <option></option>
                                                 <c:forEach items="${roleMap}" var="role">
                                                     <c:if test="${cm:isSuperAccount(_user.username)
@@ -120,8 +120,8 @@
                                             </script>
                                     </div>
                                     <div class="form-group">
-                                        <label>来源</label>
-                                            <select name="source" data-placeholder="请选择" class="select2 tag-input-style">
+                                        <label>账号来源</label>
+                                            <select name="source" data-width="120" data-placeholder="请选择" data-ref="select2">
                                                 <option></option>
                                                 <c:forEach items="<%=SystemConstants.USER_SOURCE_MAP%>" var="userSource">
                                                     <option value="${userSource.key}">${userSource.value}</option>

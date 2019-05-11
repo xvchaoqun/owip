@@ -54,7 +54,7 @@ pageEncoding="UTF-8" %>
             { label: '取消集中管理（未确认）', name: 'unconfirmNum', width: 180 }
         ],
         gridComplete:function(){
-            $(window).triggerHandler('resize.jqGrid3');
+
             var rowNum=parseInt($(this).getGridParam("records"),10);
             if(rowNum>0){
                 //alert(rowNum)
@@ -69,6 +69,7 @@ pageEncoding="UTF-8" %>
             }
         }
     });
+    $(window).triggerHandler('resize.jqGrid3');
     var lentBeans = ${fn:length(lentBeans)>0?lentBeans:"[]"};
     $("#jqGrid2").jqGrid({
         caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 按照证件的借出情况统计</span>',
@@ -87,7 +88,7 @@ pageEncoding="UTF-8" %>
             { label: '借出',  name: 'lentNum', width: 80 }
         ],
         gridComplete:function(){
-            $(window).triggerHandler('resize.jqGrid3');
+
             var rowNum=parseInt($(this).getGridParam("records"),10);
             if(rowNum>0){
                 var num=$(this).getCol("num",false,"sum");
@@ -98,6 +99,7 @@ pageEncoding="UTF-8" %>
             }
         }
     });
+    $(window).triggerHandler('resize.jqGrid3');
     var postBeans = ${fn:length(postBeans)>0?postBeans:"[]"};
     $("#jqGrid3").jqGrid({
         caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 按照职务属性统计</span>',
@@ -117,7 +119,7 @@ pageEncoding="UTF-8" %>
             { label: '合计', name: 'num', width: 200 }
         ],
         gridComplete:function(){
-            $(window).triggerHandler('resize.jqGrid3');
+
             var rowNum=parseInt($(this).getGridParam("records"),10);
             if(rowNum>0){
                 //alert(rowNum)
@@ -130,4 +132,5 @@ pageEncoding="UTF-8" %>
             }
         }
     });
+    $(window).triggerHandler('resize.jqGrid3');
 </script>
