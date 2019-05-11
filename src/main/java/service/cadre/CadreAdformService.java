@@ -108,7 +108,7 @@ public class CadreAdformService extends BaseMapper {
 
                 // 保证文件名不重复
                 if (filenameSet.contains(filename)) {
-                    filename = cadre.getCode() + filename;
+                    filename = cadre.getCode() + " " + filename;
                 }
                 filenameSet.add(filename);
 
@@ -122,7 +122,7 @@ public class CadreAdformService extends BaseMapper {
                 fileMap.put(filename, new File(filepath));
             }
 
-            String filename = String.format("%s干部任免审批表.xlsx",
+            String filename = String.format("%s干部任免审批表",
                     CmTag.getSysConfig().getSchoolName());
             DownloadUtils.addFileDownloadCookieHeader(response);
             DownloadUtils.zip(fileMap, filename, request, response);

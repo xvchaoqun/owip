@@ -1,13 +1,19 @@
 package controller.member;
 
+import bean.XlsUpload;
 import controller.global.OpException;
 import domain.member.MemberReg;
 import domain.member.MemberRegExample;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,11 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
@@ -32,59 +39,57 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberRegController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private VerifyAuth<MemberReg> checkVerityAuth2(int id){
+    private VerifyAuth<MemberReg> checkVerityAuth2(int id) {
         MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
         return super.checkVerityAuth2(memberReg, memberReg.getPartyId());
     }
 
     @RequestMapping(value = "/member_reg", method = RequestMethod.POST)
-	@ResponseBody
-	public Map do_member_reg(String username, String passwd, Byte type,
-					  String realname, String idcard, String phone,
-					  Integer party, String captcha, HttpServletRequest request) {
+    @ResponseBody
+    public Map do_member_reg(String username, String passwd, Byte type,
+                             String realname, String idcard, String phone,
+                             Integer party, String captcha, HttpServletRequest request) {
 
-		username = StringUtils.trimToNull(username);
-		realname = StringUtils.trimToNull(realname);
-		idcard = StringUtils.trimToNull(idcard);
-		phone = StringUtils.trimToNull(phone);
-		captcha = StringUtils.trimToNull(captcha);
+        username = StringUtils.trimToNull(username);
+        realname = StringUtils.trimToNull(realname);
+        idcard = StringUtils.trimToNull(idcard);
+        phone = StringUtils.trimToNull(phone);
+        captcha = StringUtils.trimToNull(captcha);
 
-		String _captcha = (String) request.getSession().getAttribute(
-				com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-		if (StringUtils.isBlank(_captcha) || !_captcha.equalsIgnoreCase(captcha)) {
-			return failed("验证码错误。");
-		}
-		if(!FormUtils.usernameFormatRight(username)){
-			return failed("用户名由3-20位的字母、下划线和数字组成，且不能以数字或下划线开头。");
-		}
-		if(!FormUtils.match(PropertiesUtils.getString("passwd.regex"), passwd)){
-			return failed("密码由6-16位的字母、下划线和数字组成");
-		}
-		if(type==null || SystemConstants.USER_TYPE_MAP.get(type)==null){
-			return failed("类型有误");
-		}
-		if(StringUtils.isBlank(realname) || StringUtils.length(realname)<2){
-			return failed("请填写真实姓名");
-		}
-		IdcardValidator idcardValidator = new IdcardValidator();
-		if(!idcardValidator.isValidatedAllIdcard(idcard)){
-			return failed("身份证号码有误。");
-		}
-		if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), phone)){
-			return failed("手机号码有误");
-		}
-		if(party==null || partyService.findAll().get(party)==null){
-			return failed("请选择分党委。");
-		}
+        String _captcha = (String) request.getSession().getAttribute(
+                com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+        if (StringUtils.isBlank(_captcha) || !_captcha.equalsIgnoreCase(captcha)) {
+            return failed("验证码错误。");
+        }
+        if (!FormUtils.usernameFormatRight(username)) {
+            return failed("用户名由3-20位的字母、下划线和数字组成，且不能以数字或下划线开头。");
+        }
+        if (!FormUtils.match(PropertiesUtils.getString("passwd.regex"), passwd)) {
+            return failed("密码由6-16位的字母、下划线和数字组成");
+        }
+        if (type == null || SystemConstants.USER_TYPE_MAP.get(type) == null) {
+            return failed("类型有误");
+        }
+        if (StringUtils.isBlank(realname) || StringUtils.length(realname) < 2) {
+            return failed("请填写真实姓名");
+        }
+        IdcardValidator idcardValidator = new IdcardValidator();
+        if (!idcardValidator.isValidatedAllIdcard(idcard)) {
+            return failed("身份证号码有误。");
+        }
+        if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), phone)) {
+            return failed("手机号码有误");
+        }
+        if (party == null || partyService.findAll().get(party) == null) {
+            return failed("请选择分党委。");
+        }
 		/*try {
 			memberRegService.reg(username, passwd, type, realname,
 					idcard, phone, party, IpUtils.getRealIp(request));
@@ -95,30 +100,34 @@ public class MemberRegController extends MemberBaseController {
 			logger.error("注册失败：" + ex.getMessage());
 			return failed("系统错误：" + ex.getMessage());
 		}*/
-		memberRegService.reg(username, passwd, type, realname,
-				idcard, phone, party, IpUtils.getRealIp(request));
+        memberRegService.reg(username, passwd, type, realname,
+                idcard, phone, party, IpUtils.getRealIp(request));
 
-		logger.info(String.format("%s 注册成功", username));
+        logger.info(String.format("%s 注册成功", username));
 
-		AuthToken token = new AuthToken(username,
-				passwd.toCharArray(), false, request.getRemoteHost(), null, null);
+        AuthToken token = new AuthToken(username,
+                passwd.toCharArray(), false, request.getRemoteHost(), null, null);
 
-		SecurityUtils.getSubject().login(token);
+        SecurityUtils.getSubject().login(token);
 
-		logger.info(addLog(LogConstants.LOG_USER, "注册后登录成功"));
+        logger.info(addLog(LogConstants.LOG_USER, "注册后登录成功"));
 
-		return success();
-	}
-	
+        return success();
+    }
+
     @RequiresPermissions("memberReg:list")
     @RequestMapping("/memberReg")
-    public String memberReg(@RequestParam(defaultValue = "1")Integer cls,
-                                  Integer userId,
-                                  Integer partyId, ModelMap modelMap) {
+    public String memberReg(@RequestParam(defaultValue = "1") Integer cls,
+                            Integer userId,
+                            Integer importUserId,
+                            Integer partyId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        if (userId!=null) {
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        if (importUserId != null) {
+            modelMap.put("importUser", sysUserService.findById(importUserId));
         }
         Map<Integer, Party> partyMap = partyService.findAll();
         if (partyId != null) {
@@ -132,14 +141,18 @@ public class MemberRegController extends MemberBaseController {
 
     @RequiresPermissions("memberReg:list")
     @RequestMapping("/memberReg_data")
-    public void memberReg_data(@RequestParam(defaultValue = "1")Integer cls, HttpServletResponse response,
-                                    Integer userId,
-                                    String username,
-                                    Integer partyId,
-                                    String idcard,
-                                     Byte type,
-                                    String realname,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+    public void memberReg_data(@RequestParam(defaultValue = "1") Integer cls, HttpServletResponse response,
+                               Integer userId,
+                               String username,
+                               Integer partyId,
+                               String idcard,
+                               Byte type,
+                               String realname,
+                               Integer importUserId,
+                               Integer importSeq,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                          @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -153,7 +166,7 @@ public class MemberRegController extends MemberBaseController {
         MemberRegExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
-        if(partyId!=null)
+        if (partyId != null)
             criteria.andPartyIdEqualTo(partyId);
 
         criteria.addPermits(loginUserService.adminPartyIdList());
@@ -161,25 +174,38 @@ public class MemberRegController extends MemberBaseController {
         if (StringUtils.isNotBlank(username)) {
             criteria.andUsernameLike("%" + username + "%");
         }
-        if(userId!=null){
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (type!=null) {
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
         if (StringUtils.isNotBlank(realname)) {
             criteria.andRealnameLike("%" + realname + "%");
         }
-        if(StringUtils.isNotBlank(idcard)){
+        if (StringUtils.isNotBlank(idcard)) {
             criteria.andIdcardLike("%" + idcard + "%");
         }
+        if(importUserId!=null){
+            criteria.andImportUserIdEqualTo(importUserId);
+        }
+        if(importSeq!=null){
+            criteria.andImportSeqEqualTo(importSeq);
+        }
 
-        if(cls==1){
+        if (cls == 1) {
             criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_APPLY);
-        }else if(cls==2){
+        } else if (cls == 2) {
             criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_DENY);
-        }else {
+        } else {
             criteria.andStatusEqualTo(SystemConstants.USER_REG_STATUS_PASS);
+        }
+
+        if (export == 1) {
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+            memberReg_export(example, response);
+            return;
         }
 
         long count = memberRegMapper.countByExample(example);
@@ -232,7 +258,7 @@ public class MemberRegController extends MemberBaseController {
         return "member/memberReg/memberReg_approval";
     }
 
-    @RequiresPermissions("memberReg:update")
+    @RequiresPermissions("memberReg:check")
     @RequestMapping("/memberReg_deny")
     public String memberReg_deny(Integer id, ModelMap modelMap) {
 
@@ -244,12 +270,12 @@ public class MemberRegController extends MemberBaseController {
         return "member/memberReg/memberReg_deny";
     }
 
-    @RequiresPermissions("memberReg:update")
+    @RequiresPermissions("memberReg:check")
     @RequestMapping(value = "/memberReg_deny", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberReg_deny(@CurrentUser SysUserView loginUser, HttpServletRequest request,
-                                  Integer id,
-                                  String reason) {
+                                 Integer id,
+                                 String reason) {
 
         VerifyAuth<MemberReg> verifyAuth = checkVerityAuth2(id);
         MemberReg memberReg = verifyAuth.entity;
@@ -263,17 +289,17 @@ public class MemberRegController extends MemberBaseController {
         applyApprovalLogService.add(memberReg.getId(),
                 memberReg.getPartyId(), null, userId,
                 loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核" ,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核",
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, reason);
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("memberReg:update")
+    @RequiresPermissions("memberReg:check")
     @RequestMapping(value = "/memberReg_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberReg_check(@CurrentUser SysUserView loginUser,HttpServletRequest request,
-                                   Integer id) {
+    public Map do_memberReg_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
+                                  Integer id) {
 
         VerifyAuth<MemberReg> verifyAuth = checkVerityAuth2(id);
         MemberReg memberReg = verifyAuth.entity;
@@ -287,7 +313,7 @@ public class MemberRegController extends MemberBaseController {
         applyApprovalLogService.add(memberReg.getId(),
                 memberReg.getPartyId(), null, userId,
                 loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核",
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "审核",
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, null);
 
         return success(FormUtils.SUCCESS);
@@ -298,40 +324,176 @@ public class MemberRegController extends MemberBaseController {
     @ResponseBody
     public Map do_memberReg_au(MemberReg record, HttpServletRequest request) {
 
-        Assert.isTrue(record.getId()!=null, "id is null");
+        Integer id = record.getId();
 
-        if (memberRegService.usernameDuplicate(record.getId(), record.getUserId(), record.getUsername())
-                || sysUserService.idDuplicate(record.getUserId(), record.getUsername(), record.getCode())) {
-            return failed("用户名或学工号已被注册。");
-        }
-        if(memberRegService.idcardDuplicate(record.getId(), record.getUserId(), record.getIdcard())){
+        if (memberRegService.idcardDuplicate(id, record.getIdcard())) {
             return failed("身份证已被注册。");
         }
 
-        MemberReg memberReg = memberRegMapper.selectByPrimaryKey(record.getId());
-        Integer partyId = memberReg.getPartyId();
-        //===========权限
-        Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin) throw new UnauthorizedException();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+
+        if(id!=null) {
+
+            if (memberRegService.usernameDuplicate(id, record.getUserId(), record.getUsername())
+                || sysUserService.idDuplicate(record.getUserId(), record.getUsername(), record.getCode())) {
+                return failed("用户名或学工号已被注册。");
+            }
+
+            MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
+            if(memberReg.getStatus()!=SystemConstants.USER_REG_STATUS_APPLY){
+                return failed("注册账号状态有误，不可修改。");
+            }
+
+            Integer partyId = memberReg.getPartyId();
+            // 只能修改本党委的注册账号信息，但可以修改为联系其他分党委
+            //===========权限
+            Integer loginUserId = ShiroHelper.getCurrentUserId();
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+                if (!isAdmin) throw new UnauthorizedException();
+            }
+
+            memberRegService.updateByPrimaryKeySelective(record);
+            logger.info(log(LogConstants.LOG_ADMIN, "更新系统注册账号信息：{0}", record.getId()));
+
+            applyApprovalLogService.add(memberReg.getId(),
+                memberReg.getPartyId(), null, memberReg.getUserId(),
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "更新信息",
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+        }else{
+
+            // 只能添加本党委的党员
+            Integer partyId = record.getPartyId();
+            Integer loginUserId = ShiroHelper.getCurrentUserId();
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+                if (!isAdmin) throw new UnauthorizedException();
+            }
+
+            String prefix = cacheService.getStringProperty("memberRegPrefix", "dy");
+            MemberReg memberReg = memberRegService.addMemberReg(record, prefix, -1,
+                    new Date(), ContextHelper.getRealIp());
+            resultMap.put("memberReg", memberReg);
+
+            logger.info(log(LogConstants.LOG_ADMIN, "添加系统注册账号：{0}", memberReg.getUsername()));
         }
 
-        memberRegService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "更新申请用户注册：%s", record.getId()));
-
-        return success(FormUtils.SUCCESS);
+        return resultMap;
     }
 
     @RequiresPermissions("memberReg:edit")
     @RequestMapping("/memberReg_au")
-    public String memberReg_au(Integer id, ModelMap modelMap) {
+    public String memberReg_au(Integer id,
+                               ModelMap modelMap) {
 
         if (id != null) {
             MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
             modelMap.put("memberReg", memberReg);
+
+            Integer partyId = memberReg.getPartyId();
+            modelMap.put("party", partyService.findAll().get(partyId));
         }
+
         return "member/memberReg/memberReg_au";
+    }
+
+    @RequiresPermissions("memberReg:import")
+    @RequestMapping("/memberReg_import")
+    public String memberReg_import(Integer id, ModelMap modelMap) {
+
+        return "member/memberReg/memberReg_import";
+    }
+
+    @RequiresPermissions("memberReg:import")
+    @RequestMapping(value = "/memberReg_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberReg_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<String, Party> runPartyMap = new HashMap<>();
+        for (Party party : partyMap.values()) {
+            if (BooleanUtils.isNotTrue(party.getIsDeleted())) {
+                runPartyMap.put(party.getCode(), party);
+            }
+        }
+
+        List<MemberReg> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            MemberReg record = new MemberReg();
+            row++;
+            String realname = StringUtils.trimToNull(xlsRow.get(0));
+            if (StringUtils.isBlank(realname)) {
+                throw new OpException("第{0}行姓名为空", row);
+            }
+            record.setRealname(realname);
+
+            String idcard = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.isBlank(idcard)) {
+                throw new OpException("第{0}行身份证号码为空", row);
+            }
+            IdcardValidator idcardValidator = new IdcardValidator();
+            if (!idcardValidator.isValidatedAllIdcard(idcard)) {
+                throw new OpException("第{0}行身份证号码有误。", row);
+            }
+            record.setIdcard(idcard);
+
+            String type = StringUtils.trimToNull(xlsRow.get(2));
+            if (!SystemConstants.USER_TYPE_MAP.containsValue(type)) {
+                throw new OpException("第{0}行类别有误，取值只能为[{1}]。", row,
+                        StringUtils.join(SystemConstants.USER_TYPE_MAP.values(), ","));
+            }
+            for (Map.Entry<Byte, String> entry : SystemConstants.USER_TYPE_MAP.entrySet()) {
+                byte _type = entry.getKey();
+                if (StringUtils.equals(type, entry.getValue())) {
+                    record.setType(_type);
+                    break;
+                }
+            }
+
+            String mobile = StringUtils.trimToNull(xlsRow.get(3));
+            if (StringUtils.isBlank(mobile)) {
+                throw new OpException("第{0}行手机号为空", mobile);
+            }
+            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+                return failed("手机号码有误");
+            }
+            record.setPhone(mobile);
+
+            String partyCode = StringUtils.trim(xlsRow.get(5));
+            if (StringUtils.isBlank(partyCode)) {
+                throw new OpException("第{0}行分党委编码为空", row);
+            }
+            Party party = runPartyMap.get(partyCode);
+            if (party == null) {
+                throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
+            }
+            record.setPartyId(party.getId());
+
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        Map<String, Object> importResultMap = memberRegService.bacthImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.putAll(importResultMap);
+        resultMap.put("total", records.size());
+
+        logger.info(log(LogConstants.LOG_MEMBER, "批量生成系统账号{0}个，生成批次：{1}",
+                resultMap.get("addCount"), resultMap.get("importSeq")));
+
+        return resultMap;
     }
 
     @RequiresPermissions("memberReg:changepw")
@@ -339,7 +501,7 @@ public class MemberRegController extends MemberBaseController {
     @ResponseBody
     public Map do_memberReg_changepw(Integer id, String password, HttpServletRequest request) {
 
-        if(!FormUtils.match(PropertiesUtils.getString("passwd.regex"), password)){
+        if (!FormUtils.match(PropertiesUtils.getString("passwd.regex"), password)) {
             return failed("密码由6-16位的字母、下划线和数字组成");
         }
 
@@ -349,10 +511,10 @@ public class MemberRegController extends MemberBaseController {
         Integer loginUserId = ShiroHelper.getCurrentUserId();
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin) throw new UnauthorizedException();
+            if (!isAdmin) throw new UnauthorizedException();
         }
 
-        memberRegService.changepw(id ,password);
+        memberRegService.changepw(id, password);
 
         logger.info(addLog(LogConstants.LOG_ADMIN, "修改注册用户%s登录密码", memberReg.getUsername()));
 
@@ -374,6 +536,33 @@ public class MemberRegController extends MemberBaseController {
             modelMap.put("memberReg", memberReg);
         }
         return "member/memberReg/memberReg_changepw";
+    }
+
+    public void memberReg_export(MemberRegExample example, HttpServletResponse response) {
+
+        List<MemberReg> records = memberRegMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"账号|100", "密码|80", "姓名|100", "身份证号码|180", "手机号码|100",
+                "联系"+cacheService.getStringProperty("partyName",
+                "分党委") + "|250"};
+
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            MemberReg record = records.get(i);
+            Integer partyId = record.getPartyId();
+
+            String[] values = {
+                    record.getUsername(),
+                    record.getPasswd(),
+                    record.getRealname(),
+                    record.getIdcard(),
+                    record.getPhone(),
+                    partyId == null ? "" : partyService.findAll().get(partyId).getName()
+            };
+            valuesList.add(values);
+        }
+        String fileName = "用户注册账号";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     /*@RequiresPermissions("memberReg:del")

@@ -80,7 +80,7 @@ public class MemberController extends MemberBaseController {
                 if (memberApply != null && memberApply.getStage() > OwConstants.OW_APPLY_STAGE_DENY) {
 
                     msg += "；已进入党员发展阶段【" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) + "】";
-                    if(BooleanUtils.isTrue(memberApply.getIsRemove())){
+                    if (BooleanUtils.isTrue(memberApply.getIsRemove())) {
                         msg += "（已移除）";
                     }
                 }
@@ -504,7 +504,7 @@ public class MemberController extends MemberBaseController {
             if (memberApply != null && memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_INIT) {
                 return failed("该用户已经提交了入党申请[当前审批阶段："
                         + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage())
-                        + ((BooleanUtils.isTrue(memberApply.getIsRemove()))?"（已移除）":"")
+                        + ((BooleanUtils.isTrue(memberApply.getIsRemove())) ? "（已移除）" : "")
                         + "]，不可以直接添加。");
             }
 
@@ -545,15 +545,11 @@ public class MemberController extends MemberBaseController {
             SecurityUtils.getSubject().checkPermission("member:edit");
 
             member = memberMapper.selectByPrimaryKey(userId);
-            modelMap.put("op", "编辑");
-
             partyId = member.getPartyId();
             branchId = member.getBranchId();
             modelMap.put("sysUser", sysUserService.findById(userId));
         } else {
             SecurityUtils.getSubject().checkPermission("member:add");
-
-            modelMap.put("op", "添加");
         }
 
         Map<Integer, Branch> branchMap = branchService.findAll();
@@ -622,7 +618,11 @@ public class MemberController extends MemberBaseController {
     @ResponseBody
     public Map do_member_modify_status(int userId, byte politicalStatus, String remark) {
 
-        memberService.modifyStatus(userId, politicalStatus, remark);
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        if (member.getPoliticalStatus() != politicalStatus) {
+            memberService.addModify(userId, "修改党籍状态");
+            memberService.modifyStatus(userId, politicalStatus, remark);
+        }
 
         return success(FormUtils.SUCCESS);
     }

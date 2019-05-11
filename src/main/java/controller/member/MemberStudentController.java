@@ -40,13 +40,13 @@ public class MemberStudentController extends MemberBaseController {
     @RequiresPermissions("memberStudent:list")
     @RequestMapping("/memberStudent")
     public String memberStudent(
-                                  @RequestParam(defaultValue = "1")int cls,
-                                  Integer userId,
-                                  Integer partyId,
-                                  Integer branchId,
-                                  @RequestParam(required = false, value = "nation")String[] nation,
-                                  @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
-                                  ModelMap modelMap) {
+            @RequestParam(defaultValue = "1") int cls,
+            Integer userId,
+            Integer partyId,
+            Integer branchId,
+            @RequestParam(required = false, value = "nation") String[] nation,
+            @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
+            ModelMap modelMap) {
 
         boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
@@ -74,11 +74,11 @@ public class MemberStudentController extends MemberBaseController {
         if (branchId != null)
             modelMap.put("branch", branchMap.get(branchId));
 
-        if (nation!=null) {
+        if (nation != null) {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
-        if (nativePlace!=null) {
+        if (nativePlace != null) {
             List<String> selectNativePlaces = Arrays.asList(nativePlace);
             modelMap.put("selectNativePlaces", selectNativePlaces);
         }
@@ -88,33 +88,40 @@ public class MemberStudentController extends MemberBaseController {
         modelMap.put("studentNations", iPropertyMapper.studentNations());
         modelMap.put("studentNativePlaces", iPropertyMapper.studentNativePlaces());
 
+        // 导出的列名字
+        List<String> titles = getExportTitles();
+        modelMap.put("titles", titles);
+
         return "member/memberStudent/memberStudent_page";
     }
+
     @RequiresPermissions("memberStudent:list")
     @RequestMapping("/memberStudent_data")
     public void memberStudent_data(HttpServletResponse response,
-                                     @RequestParam(defaultValue = "party") String sort,
-                                     @OrderParam(required = false, defaultValue = "desc") String order,
-                                     @RequestParam(defaultValue = "1")int cls,
-                                     Integer userId,
-                                     Integer unitId,
-                                     Integer partyId,
-                                     Integer branchId,
-                                     Byte politicalStatus,
-                                     Byte gender,
-                                     Byte age,
-                                     String grade,
-                                     String type,
-                                     @RequestDateRange DateRange _growTime,
-                                     @RequestDateRange DateRange _positiveTime,
-                                     @RequestDateRange DateRange _outHandleTime,
-                                     String eduLevel,
-                                     String eduType,
-                                     @RequestParam(required = false, value = "nation")String[] nation,
-                                     @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
-                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                     Integer pageSize, Integer pageNo) throws IOException {
+                                   @RequestParam(defaultValue = "party") String sort,
+                                   @OrderParam(required = false, defaultValue = "desc") String order,
+                                   @RequestParam(defaultValue = "1") int cls,
+                                   Integer userId,
+                                   Integer unitId,
+                                   Integer partyId,
+                                   Integer branchId,
+                                   Byte politicalStatus,
+                                   Byte gender,
+                                   Byte age,
+                                   String grade,
+                                   String type,
+                                   @RequestDateRange DateRange _growTime,
+                                   @RequestDateRange DateRange _positiveTime,
+                                   @RequestDateRange DateRange _outHandleTime,
+                                   String eduLevel,
+                                   String eduType,
+                                   @RequestParam(required = false, value = "nation") String[] nation,
+                                   @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
+                                   Byte source,
+                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   @RequestParam(required = false) Integer[] cols, // 选择导出的列
+                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -126,13 +133,13 @@ public class MemberStudentController extends MemberBaseController {
 
         MemberStudentExample example = new MemberStudentExample();
         Criteria criteria = example.createCriteria();
-        if(cls==6)
+        if (cls == 6)
             criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
         else
             criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
-        if(StringUtils.equalsIgnoreCase(sort, "party")){
+        if (StringUtils.equalsIgnoreCase(sort, "party")) {
             example.setOrderByClause(String.format("party_id , branch_id %s, grow_time desc", order));
-        }else if(StringUtils.equalsIgnoreCase(sort, "growTime")){
+        } else if (StringUtils.equalsIgnoreCase(sort, "growTime")) {
             example.setOrderByClause(String.format("grow_time %s", order));
         }
 
@@ -150,10 +157,10 @@ public class MemberStudentController extends MemberBaseController {
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
-        if(gender!=null){
+        if (gender != null) {
             criteria.andGenderEqualTo(gender);
         }
-        if(politicalStatus!=null){
+        if (politicalStatus != null) {
             criteria.andPoliticalStatusEqualTo(politicalStatus);
         }
         if (StringUtils.isNotBlank(eduLevel)) {
@@ -162,22 +169,22 @@ public class MemberStudentController extends MemberBaseController {
         if (StringUtils.isNotBlank(eduType)) {
             criteria.andEduTypeLike("%" + eduType + "%");
         }
-        if (nation!=null) {
+        if (nation != null) {
             List<String> selectNations = Arrays.asList(nation);
             criteria.andNationIn(selectNations);
         }
-        if (nativePlace!=null) {
+        if (nativePlace != null) {
             List<String> selectNativePlaces = Arrays.asList(nativePlace);
             criteria.andNativePlaceIn(selectNativePlaces);
         }
 
-        if(age!=null){
-            switch (age){
+        if (age != null) {
+            switch (age) {
                 case MemberConstants.MEMBER_AGE_20: // 20及以下
                     criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
                 case MemberConstants.MEMBER_AGE_21_30:
-                     criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -31))
+                    criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -31))
                             .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
                 case MemberConstants.MEMBER_AGE_31_40:
@@ -196,31 +203,31 @@ public class MemberStudentController extends MemberBaseController {
                     break;
             }
         }
-        if(StringUtils.isNotBlank(grade)){
+        if (StringUtils.isNotBlank(grade)) {
             criteria.andGradeEqualTo(grade);
         }
-        if(StringUtils.isNotBlank(type)){
+        if (StringUtils.isNotBlank(type)) {
             criteria.andTypeEqualTo(type);
         }
 
-        if (_growTime.getStart()!=null) {
+        if (_growTime.getStart() != null) {
             criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
         }
 
-        if (_growTime.getEnd()!=null) {
+        if (_growTime.getEnd() != null) {
             criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
         }
-        if (_positiveTime.getStart()!=null) {
+        if (_positiveTime.getStart() != null) {
             criteria.andPositiveTimeGreaterThanOrEqualTo(_positiveTime.getStart());
         }
-        if (_positiveTime.getEnd()!=null) {
+        if (_positiveTime.getEnd() != null) {
             criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
         }
 
-        if (_outHandleTime.getStart()!=null) {
+        if (_outHandleTime.getStart() != null) {
             criteria.andOutHandleTimeGreaterThanOrEqualTo(_outHandleTime.getStart());
         }
-        if (_outHandleTime.getEnd()!=null) {
+        if (_outHandleTime.getEnd() != null) {
             criteria.andOutHandleTimeLessThanOrEqualTo(_outHandleTime.getEnd());
         }
 
@@ -246,11 +253,15 @@ public class MemberStudentController extends MemberBaseController {
             }
         }*/
 
+        if(source!=null){
+
+            criteria.andSourceEqualTo(source);
+        }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andUserIdIn(Arrays.asList(ids));
-            memberStudent_export(cls, example, response);
+            memberStudent_export(cls, example, cols, response);
             return;
         }
 
@@ -276,7 +287,7 @@ public class MemberStudentController extends MemberBaseController {
     }
 
     // 基本信息 + 党籍信息
-    @RequiresPermissions("memberStudent:base")
+    @RequiresPermissions("memberStudent:list")
     @RequestMapping("/memberStudent_base")
     public String memberStudent_base(Integer userId, ModelMap modelMap) {
 
@@ -286,16 +297,24 @@ public class MemberStudentController extends MemberBaseController {
         return "member/memberStudent/memberStudent_base";
     }
 
-    public void memberStudent_export(int cls, MemberStudentExample example, HttpServletResponse response) {
+    public void memberStudent_export(int cls, MemberStudentExample example, Integer[] cols, HttpServletResponse response) {
 
         //Map<Integer, Unit> unitMap = unitService.findAll();
         List<MemberStudent> records = memberStudentMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学号|100","学生类别|150","姓名|50","性别|50", "出生日期|100", "身份证号|150",
-                "民族|100", "年级|50", "所在分党委、党总支、直属党支部|350|left", "所属党支部|350|left", "政治面貌|100", "发展时间|100","转正时间|100",
-                "培养层次（研究生填写）|150","培养类型（研究生填写）|150", "教育类别（研究生填写）|150",
-                "培养方式（研究生填写）|150","预计毕业年月|100", "学籍状态|100","是否出国留学|100"};
-        List<String[]> valuesList = new ArrayList<>();
+
+        List<String> exportTitles = getExportTitles();
+        if(cols!=null && cols.length>0){
+            // 选择导出列
+            List<String> _titles = new ArrayList<>();
+            for (int col : cols) {
+                _titles.add(exportTitles.get(col));
+            }
+            exportTitles.clear();
+            exportTitles.addAll(_titles);
+        }
+
+        List<List<String>> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberStudent record = records.get(i);
             Byte gender = record.getGender();
@@ -304,32 +323,61 @@ public class MemberStudentController extends MemberBaseController {
 
             MemberStay memberStay = memberStayService.get(record.getUserId());
 
-            String[] values = {
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),
                     record.getType(),
                     record.getRealname(),
-                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
                     record.getIdcard(),
                     record.getNation(),
                     record.getGrade(), // 年级
-                    partyId==null?"":partyService.findAll().get(partyId).getName(),
-                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    partyId == null ? "" : partyService.findAll().get(partyId).getName(),
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    record.getGrowBranch(),
+                    record.getSponsor(),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
+                    record.getPositiveBranch(),
+                    record.getPartyPost(),
+                    record.getPartyReward(),
+                    record.getOtherReward(),
+                    metaTypeService.getName(record.getAddType()),
                     record.getEduLevel(),
                     record.getEduType(),
                     record.getEduCategory(),
                     record.getEduWay(),
                     DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),
                     record.getXjStatus(),
-                    (memberStay!=null&&memberStay.getStatus()==
-                            MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY)?"是":"否"// 是否出国留学
-            };
+                    (memberStay != null && memberStay.getStatus() ==
+                            MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) ? "是" : "否"// 是否出国留学
+            }));
+
+            if(cols!=null && cols.length>0){
+                // 选择导出列
+                List<String> _values = new ArrayList<>();
+                for (int col : cols) {
+                    _values.add(values.get(col));
+                }
+                values.clear();
+                values.addAll(_values);
+            }
+
             valuesList.add(values);
         }
-        String fileName = (cls==6?"已转出":"")+"学生党员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
-        ExportHelper.export(titles, valuesList, fileName, response);
+
+        String fileName = (cls == 6 ? "已转出" : "") + "学生党员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        ExportHelper.export(exportTitles, valuesList, fileName, response);
+    }
+
+    private List<String> getExportTitles(){
+
+        return new ArrayList<>(Arrays.asList(new String[]{"学号|100", "学生类别|150", "姓名|80", "性别|50", "出生日期|100", "身份证号|150",
+                "民族|100", "年级|50", "所属"+cacheService.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
+                "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
+                "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
+                "培养层次（研究生）|150", "培养类型（研究生）|150", "教育类别（研究生）|150",
+                "培养方式（研究生）|150", "预计毕业年月|100", "学籍状态|100", "是否出国留学|100"}));
     }
 }

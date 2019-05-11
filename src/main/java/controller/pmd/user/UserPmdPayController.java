@@ -179,7 +179,12 @@ public class UserPmdPayController extends PmdBaseController {
         BigDecimal duePay = BigDecimal.ZERO;
         for (Integer id : ids) {
             PmdMember pmdMember = checkPayAuth(id, false);
-            duePay = duePay.add(pmdMember.getDuePay());
+            BigDecimal _duePay = pmdMember.getDuePay();
+            if(_duePay==null){
+                throw new OpException("还没有为{0}确定缴费额度，请先确定缴费额度后再操作。",
+                        pmdMember.getUser().getRealname());
+            }
+            duePay = duePay.add(_duePay);
         }
         modelMap.put("ids", ids);
         modelMap.put("duePay", duePay);

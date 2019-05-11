@@ -99,7 +99,7 @@ public class CadreInfoFormService extends BaseMapper {
 
                 // 保证文件名不重复
                 if(filenameSet.contains(filename)){
-                    filename = cadre.getCode() + filename;
+                    filename = cadre.getCode() + " " + filename;
                 }
                 filenameSet.add(filename);
 
@@ -112,7 +112,7 @@ public class CadreInfoFormService extends BaseMapper {
                 fileMap.put(filename, new File(filepath));
             }
 
-            String filename = String.format("%s干部信息采集表.xlsx",
+            String filename = String.format("%s干部信息采集表",
                     CmTag.getSysConfig().getSchoolName());
             DownloadUtils.addFileDownloadCookieHeader(response);
             DownloadUtils.zip(fileMap, filename, request, response);

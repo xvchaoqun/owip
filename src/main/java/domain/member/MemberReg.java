@@ -34,6 +34,10 @@ public class MemberReg implements Serializable {
 
     private String ip;
 
+    private Integer importUserId;
+
+    private Integer importSeq;
+
     private Byte status;
 
     private static final long serialVersionUID = 1L;
@@ -156,6 +160,22 @@ public class MemberReg implements Serializable {
 
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
+    }
+
+    public Integer getImportUserId() {
+        return importUserId;
+    }
+
+    public void setImportUserId(Integer importUserId) {
+        this.importUserId = importUserId;
+    }
+
+    public Integer getImportSeq() {
+        return importSeq;
+    }
+
+    public void setImportSeq(Integer importSeq) {
+        this.importSeq = importSeq;
     }
 
     public Byte getStatus() {

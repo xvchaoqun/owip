@@ -63,14 +63,14 @@ public class UnitController extends BaseController {
 
         Unit unit = unitMapper.selectByPrimaryKey(id);
         modelMap.put("unit", unit);
-    
+
         Integer dispatchUnitId = unit.getDispatchUnitId();
-        if(dispatchUnitId!=null){
+        if (dispatchUnitId != null) {
             DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
-            if(dispatchUnit!=null)
+            if (dispatchUnit != null)
                 modelMap.put("dispatch", dispatchUnit.getDispatch());
         }
-    
+
         // 正在运转单位
         //modelMap.put("runUnits", unitService.findRunUnits(id));
         // 历史单位
@@ -91,14 +91,14 @@ public class UnitController extends BaseController {
 
     @RequiresPermissions("unit:list")
     @RequestMapping("/unit")
-    public String unit(@RequestParam(required = false, defaultValue = "1")Byte status,
+    public String unit(@RequestParam(required = false, defaultValue = "1") Byte status,
                        @RequestParam(required = false, defaultValue = "0") int export,
-                            ModelMap modelMap, HttpServletResponse response) throws IOException {
+                       ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         modelMap.put("status", status);
-        if(status==3) {
+        if (status == 3) {
 
-            if(export==1){
+            if (export == 1) {
 
                 XSSFWorkbook wb = unitExportService.exportSchoolUnits();
                 ExportHelper.output(wb, "学校单位列表.xlsx", response);
@@ -111,17 +111,18 @@ public class UnitController extends BaseController {
 
         return "unit/unit_page";
     }
+
     @RequiresPermissions("unit:list")
     @RequestMapping("/unit_data")
     @ResponseBody
     public void unit_data(HttpServletResponse response,
-                                 @RequestParam(required = false, defaultValue = "1")Byte status,
-                                    String code,
-                                    String name,
-                                    Integer typeId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                          @RequestParam(required = false, defaultValue = "1") Byte status,
+                          String code,
+                          String name,
+                          Integer typeId,
+                          @RequestParam(required = false, defaultValue = "0") int export,
+                          @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                          Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -141,13 +142,13 @@ public class UnitController extends BaseController {
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
 
         if (export == 1) {
 
-             if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             XSSFWorkbook wb = unitExportService.toXlsx(example);
             ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() + "单位一览表.xlsx", response);
@@ -180,10 +181,10 @@ public class UnitController extends BaseController {
     public Map do_unit_au(Unit record, String _workTime, HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
-        if(StringUtils.isNotBlank(_workTime)){
+        if (StringUtils.isNotBlank(_workTime)) {
             record.setWorkTime(DateUtils.parseDate(_workTime, DateUtils.YYYY_MM_DD));
         }
-      
+
         if (StringUtils.isNotBlank(record.getCode())
                 && unitService.idDuplicate(id, record.getCode())) {
             return failed("单位编码重复");
@@ -212,14 +213,14 @@ public class UnitController extends BaseController {
             Unit unit = unitMapper.selectByPrimaryKey(id);
             modelMap.put("unit", unit);
         }
-        if(BooleanUtils.isTrue(update)){
+        if (BooleanUtils.isTrue(update)) {
             DispatchUnitViewExample example = new DispatchUnitViewExample();
             example.createCriteria().andCategoryContain(DispatchConstants.DISPATCH_CATEGORY_UNIT, true)
-            .andUnitIdContain(Arrays.asList(id));
+                    .andUnitIdContain(Arrays.asList(id));
             example.setOrderByClause("pub_time asc");
             List<DispatchUnitView> dispatchUnits = dispatchUnitViewMapper.selectByExample(example);
             modelMap.put("dispatchUnits", dispatchUnits);
-            
+
             return "unit/unit_update";
         }
         return "unit/unit_au";
@@ -237,6 +238,7 @@ public class UnitController extends BaseController {
         }
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("unit:abolish")
     @RequestMapping(value = "/unit_abolish", method = RequestMethod.POST)
     @ResponseBody
@@ -254,8 +256,8 @@ public class UnitController extends BaseController {
     @ResponseBody
     public Map unit_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids){
-            
+        if (null != ids) {
+
             unitService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除单位：%s", StringUtils.join(ids, ",")));
         }
@@ -275,7 +277,7 @@ public class UnitController extends BaseController {
 
     @RequiresPermissions("unit:history")
     @RequestMapping("/unit_history")
-    public String unit_history(Integer id,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String unit_history(Integer id, Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (id != null) {
             Unit unit = unitMapper.selectByPrimaryKey(id);
@@ -305,7 +307,7 @@ public class UnitController extends BaseController {
 
             String searchStr = "&pageSize=" + pageSize;
 
-            if (id!=null) {
+            if (id != null) {
                 searchStr += "&unitId=" + id;
             }
 
@@ -332,27 +334,27 @@ public class UnitController extends BaseController {
 
         UnitExample example = new UnitExample();
         Criteria criteria = example.createCriteria();
-        if(status!=null) criteria.andStatusEqualTo(status);
+        if (status != null) criteria.andStatusEqualTo(status);
         example.setOrderByClause("status asc, sort_order asc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andNameLike("%" + searchStr + "%");
         }
 
         long count = unitMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<Unit> units = unitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<Unit> units = unitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         Map<Integer, MetaType> unitTypeMap = metaTypeService.metaTypes("mc_unit_type");
-        List<Map<String, Object> > options = new ArrayList<>();
-        if(null != units && units.size()>0){
-            for(Unit unit:units){
+        List<Map<String, Object>> options = new ArrayList<>();
+        if (null != units && units.size() > 0) {
+            for (Unit unit : units) {
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", unit.getName());
-                option.put("del", unit.getStatus()== SystemConstants.UNIT_STATUS_HISTORY);
+                option.put("del", unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY);
                 option.put("id", unit.getId());
                 option.put("type", unitTypeMap.get(unit.getTypeId()).getName());
                 options.add(option);
@@ -374,7 +376,7 @@ public class UnitController extends BaseController {
     }
 
     @RequiresPermissions("unit:edit")
-    @RequestMapping(value="/unit_import", method=RequestMethod.POST)
+    @RequestMapping(value = "/unit_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_unit_import(HttpServletRequest request) throws InvalidFormatException, IOException {
 
@@ -405,7 +407,7 @@ public class UnitController extends BaseController {
     }
 
     @RequiresPermissions("unit:edit")
-    @RequestMapping(value="/unit_importCodes", method=RequestMethod.POST)
+    @RequestMapping(value = "/unit_importCodes", method = RequestMethod.POST)
     @ResponseBody
     public Map do_unit_importCodes(HttpServletRequest request) throws InvalidFormatException, IOException {
 

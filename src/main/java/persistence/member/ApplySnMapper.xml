@@ -10,6 +10,11 @@
     <result column="is_used" jdbcType="BIT" property="isUsed" />
     <result column="is_abolished" jdbcType="BIT" property="isAbolished" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="assign_time" jdbcType="TIMESTAMP" property="assignTime" />
+    <result column="draw_user_id" jdbcType="INTEGER" property="drawUserId" />
+    <result column="draw_time" jdbcType="TIMESTAMP" property="drawTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, sn, display_sn, range_id, is_used, is_abolished, user_id
+    id, year, sn, display_sn, range_id, is_used, is_abolished, user_id, party_id, branch_id, 
+    assign_time, draw_user_id, draw_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.ApplySnExample" resultMap="BaseResultMap">
     select
@@ -105,10 +111,14 @@
   <insert id="insert" parameterType="domain.member.ApplySn">
     insert into ow_apply_sn (id, year, sn, 
       display_sn, range_id, is_used, 
-      is_abolished, user_id)
+      is_abolished, user_id, party_id, 
+      branch_id, assign_time, draw_user_id, 
+      draw_time)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{sn,jdbcType=BIGINT}, 
       #{displaySn,jdbcType=VARCHAR}, #{rangeId,jdbcType=INTEGER}, #{isUsed,jdbcType=BIT}, 
-      #{isAbolished,jdbcType=BIT}, #{userId,jdbcType=INTEGER})
+      #{isAbolished,jdbcType=BIT}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{assignTime,jdbcType=TIMESTAMP}, #{drawUserId,jdbcType=INTEGER}, 
+      #{drawTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.ApplySn">
     insert into ow_apply_sn
@@ -137,6 +147,21 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="assignTime != null">
+        assign_time,
+      </if>
+      <if test="drawUserId != null">
+        draw_user_id,
+      </if>
+      <if test="drawTime != null">
+        draw_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -162,6 +187,21 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="assignTime != null">
+        #{assignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drawUserId != null">
+        #{drawUserId,jdbcType=INTEGER},
+      </if>
+      <if test="drawTime != null">
+        #{drawTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -198,6 +238,21 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.assignTime != null">
+        assign_time = #{record.assignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.drawUserId != null">
+        draw_user_id = #{record.drawUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.drawTime != null">
+        draw_time = #{record.drawTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +267,12 @@
       range_id = #{record.rangeId,jdbcType=INTEGER},
       is_used = #{record.isUsed,jdbcType=BIT},
       is_abolished = #{record.isAbolished,jdbcType=BIT},
-      user_id = #{record.userId,jdbcType=INTEGER}
+      user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      assign_time = #{record.assignTime,jdbcType=TIMESTAMP},
+      draw_user_id = #{record.drawUserId,jdbcType=INTEGER},
+      draw_time = #{record.drawTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +301,21 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="assignTime != null">
+        assign_time = #{assignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drawUserId != null">
+        draw_user_id = #{drawUserId,jdbcType=INTEGER},
+      </if>
+      <if test="drawTime != null">
+        draw_time = #{drawTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -252,7 +327,12 @@
       range_id = #{rangeId,jdbcType=INTEGER},
       is_used = #{isUsed,jdbcType=BIT},
       is_abolished = #{isAbolished,jdbcType=BIT},
-      user_id = #{userId,jdbcType=INTEGER}
+      user_id = #{userId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      assign_time = #{assignTime,jdbcType=TIMESTAMP},
+      draw_user_id = #{drawUserId,jdbcType=INTEGER},
+      draw_time = #{drawTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.member.ApplySnExample" resultMap="BaseResultMap">

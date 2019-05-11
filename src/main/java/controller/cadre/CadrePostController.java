@@ -1,17 +1,26 @@
 package controller.cadre;
 
+import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadrePost;
 import domain.cadre.CadrePostExample;
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
+import domain.unit.UnitPost;
 import domain.unit.UnitPostView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.HtmlUtils;
 import service.dispatch.DispatchCadreRelateService;
 import sys.constants.DispatchConstants;
@@ -285,5 +296,252 @@ public class CadrePostController extends BaseController {
         cadrePostService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "干部职务调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadrePost:import")
+    @RequestMapping("/cadrePost_import")
+    public String cadrePost_import(Boolean isMainPost, ModelMap modelMap) {
+
+        modelMap.put("isMainPost", isMainPost);
+        return "cadre/cadrePost/cadrePost_import";
+    }
+
+    @RequiresPermissions("cadrePost:import")
+    @RequestMapping(value = "/cadrePost_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadrePost_import(HttpServletRequest request, Boolean isMainPost) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<CadrePost> records = new ArrayList<>();
+        int row = 1;
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        if(BooleanUtils.isTrue(isMainPost)) {
+            for (Map<Integer, String> xlsRow : xlsRows) {
+
+                row++;
+                CadrePost record = new CadrePost();
+
+                String userCode = StringUtils.trim(xlsRow.get(0));
+                if (StringUtils.isBlank(userCode)) {
+                    throw new OpException("第{0}行工作证号为空", row);
+                }
+                SysUserView uv = sysUserService.findByCode(userCode);
+                if (uv == null) {
+                    throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+                }
+                int userId = uv.getId();
+                CadreView cv = cadreService.dbFindByUserId(userId);
+                if (cv == null) {
+                    throw new OpException("第{0}行工作证号[{1}]不在干部库中", row, userCode);
+                }
+                record.setCadreId(cv.getId());
+
+                String post = StringUtils.trimToNull(xlsRow.get(2));
+                if (StringUtils.isBlank(post)) {
+                    throw new OpException("第{0}行职务为空", row);
+                }
+                record.setPost(post);
+
+                UnitPost unitPost = null;
+                String postCode = StringUtils.trimToNull(xlsRow.get(4));
+                if (StringUtils.isNotBlank(postCode)) {
+
+                    unitPost = unitPostService.getByCode(postCode);
+                    if (unitPost == null) {
+                        throw new OpException("第{0}行关联岗位编码[{1}]不存在", row, postCode);
+                    }
+
+                    CadrePost byUnitPostId = cadrePostService.getByUnitPostId(unitPost.getId());
+                    if (byUnitPostId != null && byUnitPostId.getCadreId().intValue() != cv.getId()) {
+                        return failed("第{0}行关联岗位编码[{1}]已被{2}({3})使用。",
+                                row, postCode,
+                                byUnitPostId.getCadre().getRealname(),
+                                byUnitPostId.getIsMainPost() ? "主职" : "兼职");
+                    }
+
+                    record.setUnitPostId(unitPost.getId());
+                    record.setPostType(unitPost.getPostType());
+                    record.setAdminLevel(unitPost.getAdminLevel());
+                    record.setPostClassId(unitPost.getPostClass());
+                }
+
+                String _postType = StringUtils.trimToNull(xlsRow.get(5));
+                MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+                if (postType == null && record.getPostType() == null) {
+                    throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+                } else if (postType != null) {
+                    record.setPostType(postType.getId());
+                }
+
+                String _adminLevel = StringUtils.trimToNull(xlsRow.get(6));
+                MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
+                if (adminLevel == null && record.getAdminLevel() == null) {
+                    throw new OpException("第{0}行行政级别[{1}]不存在", row, _postType);
+                } else if (adminLevel != null) {
+                    record.setAdminLevel(adminLevel.getId());
+                }
+
+                String _postClass = StringUtils.trimToNull(xlsRow.get(7));
+                MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _adminLevel);
+                if (postClass == null && record.getPostClassId() == null) {
+                    throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
+                } else if (postClass != null) {
+                    record.setPostClassId(postClass.getId());
+                }
+
+                String unitCode = StringUtils.trimToNull(xlsRow.get(9));
+                if (StringUtils.isBlank(unitCode)) {
+                    throw new OpException("第{0}行单位编码为空", row);
+                }
+                Unit unit = unitService.findUnitByCode(unitCode);
+                if (unit == null) {
+                    throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+                }
+                record.setUnitId(unit.getId());
+
+                String _isDouble = StringUtils.trimToNull(xlsRow.get(10));
+                record.setIsDouble(StringUtils.equals(_isDouble, "是"));
+
+                if (record.getIsDouble()) {
+
+                    List<Integer> doubleUnitIds = new ArrayList<>();
+
+                    unitCode = StringUtils.trimToNull(xlsRow.get(12));
+                    if (StringUtils.isNotBlank(unitCode)) {
+                        unit = unitService.findUnitByCode(unitCode);
+                        if (unit == null) {
+                            throw new OpException("第{0}行双肩挑单位1编码[{1}]不存在", row, unitCode);
+                        }
+                        doubleUnitIds.add(unit.getId());
+                    }
+
+                    unitCode = StringUtils.trimToNull(xlsRow.get(14));
+                    if (StringUtils.isNotBlank(unitCode)) {
+                        unit = unitService.findUnitByCode(unitCode);
+                        if (unit == null) {
+                            throw new OpException("第{0}行双肩挑单位2编码[{1}]不存在", row, unitCode);
+                        }
+                        doubleUnitIds.add(unit.getId());
+                    }
+
+                    if (doubleUnitIds.size() == 0) {
+                        throw new OpException("第{0}行双肩挑单位编码至少需要填写一个", row);
+                    }
+
+                    record.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
+                }
+
+                record.setIsMainPost(true);
+                records.add(record);
+            }
+
+            int successCount = cadrePostService.batchImportMainPosts(records);
+            resultMap.put("successCount", successCount);
+            resultMap.put("total", records.size());
+        }else{
+
+            for (Map<Integer, String> xlsRow : xlsRows) {
+
+                row++;
+                CadrePost record = new CadrePost();
+
+                String userCode = StringUtils.trim(xlsRow.get(0));
+                if (StringUtils.isBlank(userCode)) {
+                    throw new OpException("第{0}行工作证号为空", row);
+                }
+                SysUserView uv = sysUserService.findByCode(userCode);
+                if (uv == null) {
+                    throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+                }
+                int userId = uv.getId();
+                CadreView cv = cadreService.dbFindByUserId(userId);
+                if (cv == null) {
+                    throw new OpException("第{0}行工作证号[{1}]不在干部库中", row, userCode);
+                }
+                record.setCadreId(cv.getId());
+
+                String post = StringUtils.trimToNull(xlsRow.get(2));
+                if (StringUtils.isBlank(post)) {
+                    throw new OpException("第{0}行兼任职务为空", row);
+                }
+                record.setPost(post);
+
+                UnitPost unitPost = null;
+                String postCode = StringUtils.trimToNull(xlsRow.get(4));
+                if (StringUtils.isNotBlank(postCode)) {
+
+                    unitPost = unitPostService.getByCode(postCode);
+                    if (unitPost == null) {
+                        throw new OpException("第{0}行关联岗位编码[{1}]不存在", row, postCode);
+                    }
+
+                    CadrePost byUnitPostId = cadrePostService.getByUnitPostId(unitPost.getId());
+                    if (byUnitPostId != null && byUnitPostId.getCadreId().intValue() != cv.getId()) {
+                        return failed("第{0}行关联岗位编码[{1}]已被{2}({3})使用。",
+                                row, postCode,
+                                byUnitPostId.getCadre().getRealname(),
+                                byUnitPostId.getIsMainPost() ? "主职" : "兼职");
+                    }
+
+                    record.setUnitPostId(unitPost.getId());
+                    record.setPostType(unitPost.getPostType());
+                    record.setAdminLevel(unitPost.getAdminLevel());
+                    record.setPostClassId(unitPost.getPostClass());
+                }
+
+                String _postType = StringUtils.trimToNull(xlsRow.get(5));
+                MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+                if (postType == null && record.getPostType() == null) {
+                    throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+                } else if (postType != null) {
+                    record.setPostType(postType.getId());
+                }
+
+                String _adminLevel = StringUtils.trimToNull(xlsRow.get(6));
+                MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
+                if (adminLevel == null && record.getAdminLevel() == null) {
+                    throw new OpException("第{0}行职务级别[{1}]不存在", row, _postType);
+                } else if (adminLevel != null) {
+                    record.setAdminLevel(adminLevel.getId());
+                }
+
+                String _postClass = StringUtils.trimToNull(xlsRow.get(7));
+                MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _adminLevel);
+                if (postClass == null && record.getPostClassId() == null) {
+                    throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
+                } else if (postClass != null) {
+                    record.setPostClassId(postClass.getId());
+                }
+
+                String unitCode = StringUtils.trimToNull(xlsRow.get(9));
+                if (StringUtils.isBlank(unitCode)) {
+                    throw new OpException("第{0}行兼任单位编码为空", row);
+                }
+                Unit unit = unitService.findUnitByCode(unitCode);
+                if (unit == null) {
+                    throw new OpException("第{0}行兼任单位编码[{1}]不存在", row, unitCode);
+                }
+                record.setUnitId(unit.getId());
+
+                String _isCpc = StringUtils.trimToNull(xlsRow.get(10));
+                record.setIsCpc(StringUtils.equals(_isCpc, "是"));
+
+                record.setIsMainPost(false);
+                records.add(record);
+            }
+
+            int successCount = cadrePostService.batchImportSubPosts(records);
+            resultMap.put("successCount", successCount);
+            resultMap.put("total", records.size());
+        }
+
+        return resultMap;
     }
 }

@@ -17,6 +17,8 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="import_user_id" jdbcType="INTEGER" property="importUserId" />
+    <result column="import_seq" jdbcType="INTEGER" property="importSeq" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -79,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, party_id, username, passwd, type, code, realname, gender, birth, idcard, 
-    phone, email, create_time, ip, status
+    phone, email, create_time, ip, import_user_id, import_seq, status
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberRegExample" resultMap="BaseResultMap">
     select
@@ -112,25 +114,28 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.member.MemberReg">
-    insert into ow_member_reg (id, user_id, party_id, 
-      username, passwd, type, 
-      code, realname, gender, 
-      birth, idcard, phone, 
-      email, create_time, ip, 
-      status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
-      #{username,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{birth,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ow_member_reg (user_id, party_id, username, 
+      passwd, type, code, 
+      realname, gender, birth, 
+      idcard, phone, email, 
+      create_time, ip, import_user_id, 
+      import_seq, status)
+    values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{passwd,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
+      #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{importUserId,jdbcType=INTEGER}, 
+      #{importSeq,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberReg">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into ow_member_reg
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -173,14 +178,17 @@
       <if test="ip != null">
         ip,
       </if>
+      <if test="importUserId != null">
+        import_user_id,
+      </if>
+      <if test="importSeq != null">
+        import_seq,
+      </if>
       <if test="status != null">
         status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
@@ -222,6 +230,12 @@
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="importUserId != null">
+        #{importUserId,jdbcType=INTEGER},
+      </if>
+      <if test="importSeq != null">
+        #{importSeq,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -282,6 +296,12 @@
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
+      <if test="record.importUserId != null">
+        import_user_id = #{record.importUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.importSeq != null">
+        import_seq = #{record.importSeq,jdbcType=INTEGER},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -307,6 +327,8 @@
       email = #{record.email,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
+      import_user_id = #{record.importUserId,jdbcType=INTEGER},
+      import_seq = #{record.importSeq,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -357,6 +379,12 @@
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
+      <if test="importUserId != null">
+        import_user_id = #{importUserId,jdbcType=INTEGER},
+      </if>
+      <if test="importSeq != null">
+        import_seq = #{importSeq,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -379,6 +407,8 @@
       email = #{email,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
+      import_user_id = #{importUserId,jdbcType=INTEGER},
+      import_seq = #{importSeq,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

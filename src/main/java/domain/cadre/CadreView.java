@@ -5,12 +5,22 @@ import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import sys.constants.CadreConstants;
 import sys.tags.CmTag;
+import sys.utils.NumberUtils;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreView implements Serializable {
+
+    // 是否拥有干部身份
+    public boolean hasCadreRole(){
+
+        return NumberUtils.contains(status,
+                CadreConstants.CADRE_STATUS_SET.toArray());
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }

@@ -5,6 +5,7 @@ import service.LoginUserService;
 import service.base.LocationService;
 import service.base.MetaTypeService;
 import service.ext.ExtService;
+import service.global.CacheService;
 import service.member.*;
 import service.party.*;
 import service.sys.StudentInfoService;
@@ -17,6 +18,8 @@ public class MemberBaseController extends MemberBaseMapper  implements HttpRespo
 
     @Autowired
     protected SysUserService sysUserService;
+    @Autowired
+    protected CacheService cacheService;
     @Autowired
     protected UserBeanService userBeanService;
     @Autowired

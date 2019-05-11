@@ -3,7 +3,11 @@ package controller.member;
 import domain.member.ApplySn;
 import domain.member.ApplySnExample;
 import domain.member.ApplySnExample.Criteria;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -62,8 +66,8 @@ public class ApplySnController extends MemberBaseController {
         modelMap.put("applySn", applySn);
         List<ApplySn> assignApplySnList = applySnService.getAssignApplySnList(1);
 
-        if(assignApplySnList.size()==1){
-           modelMap.put("newApplySn", assignApplySnList.get(0));
+        if (assignApplySnList.size() == 1) {
+            modelMap.put("newApplySn", assignApplySnList.get(0));
         }
 
         return "member/applySn/applySn_change";
@@ -73,12 +77,24 @@ public class ApplySnController extends MemberBaseController {
     @RequestMapping("/applySn")
     public String applySn(@RequestParam(defaultValue = "1") int cls,
                           Integer userId,
+                          Integer partyId,
+                          Integer branchId,
                           ModelMap modelMap) {
 
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null) {
+            modelMap.put("party", partyMap.get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchMap.get(branchId));
+        }
         modelMap.put("cls", cls);
+
         return "member/applySn/applySn_page";
     }
 
@@ -86,10 +102,13 @@ public class ApplySnController extends MemberBaseController {
     @RequestMapping("/applySn_data")
     @ResponseBody
     public void applySn_data(HttpServletResponse response,
+                             @RequestParam(defaultValue = "1") int cls,
                              Integer year,
                              String displaySn,
                              Boolean isUsed,
                              Integer userId,
+                             Integer partyId,
+                             Integer branchId,
                              Boolean isAbolished,
                              @RequestParam(required = false, defaultValue = "0") int export,
                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -106,6 +125,18 @@ public class ApplySnController extends MemberBaseController {
         ApplySnExample example = new ApplySnExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("year desc, is_used asc, sn asc");
+
+        if (cls == 8) {
+            criteria.andIsUsedEqualTo(true);
+        }
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
 
         if (year != null) {
             criteria.andYearEqualTo(year);
@@ -158,17 +189,29 @@ public class ApplySnController extends MemberBaseController {
 
         List<ApplySn> records = applySnMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"所属号段|100", "是否已使用|100"};
+        String[] titles = {"年份|50", "志愿书编码|150", "使用人|100", "使用人学工号|100",
+                "所属"+cacheService.getStringProperty("partyName", "分党委") + "|350|left", "所属党支部|350|left", "是否作废|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
+
             ApplySn record = records.get(i);
+            SysUserView uv = record.getUser();
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
+
             String[] values = {
-                    record.getRangeId() + "",
-                    record.getIsUsed() + ""
+                    record.getYear() + "",
+                    record.getDisplaySn(),
+                    uv.getRealname(),
+                    uv.getCode(),
+                    partyId == null ? "" : partyService.findAll().get(partyId).getName(),
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(),
+                    BooleanUtils.isTrue(record.getIsAbolished())?"已作废":"--"
             };
             valuesList.add(values);
         }
-        String fileName = "入党志愿书编码_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+
+        String fileName = "已分配志愿书编码";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
@@ -191,7 +234,7 @@ public class ApplySnController extends MemberBaseController {
                 .andYearEqualTo(DateUtils.getCurrentYear())
                 .andIsUsedEqualTo(false)
                 .andIsAbolishedEqualTo(false);
-        if(searchStr!=null){
+        if (searchStr != null) {
             criteria.andDisplaySnLike("%" + searchStr + "%");
         }
         int count = (int) applySnMapper.countByExample(example);

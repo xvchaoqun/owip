@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.dispatch.DispatchCadreRelateService;
+import service.global.CacheService;
 import sys.constants.DispatchConstants;
 
 import java.util.Arrays;
@@ -23,15 +24,17 @@ public class CadrePostService extends BaseMapper {
 
     @Autowired(required = false)
     private DispatchCadreRelateService dispatchCadreRelateService;
+    @Autowired(required = false)
+    private CacheService cacheService;
 
-    public CadrePost getByUnitPostId(int unitPostId){
+    public CadrePost getByUnitPostId(int unitPostId) {
 
         CadrePostExample example = new CadrePostExample();
         example.createCriteria().andUnitPostIdEqualTo(unitPostId);
 
-        List<CadrePost> cadrePosts = cadrePostMapper.selectByExampleWithRowbounds(example, new RowBounds(0,1));
+        List<CadrePost> cadrePosts = cadrePostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return cadrePosts.size()>0?cadrePosts.get(0):null;
+        return cadrePosts.size() > 0 ? cadrePosts.get(0) : null;
     }
 
     public void insertSelective(CadrePost record) {
@@ -49,6 +52,8 @@ public class CadrePostService extends BaseMapper {
         record.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + record.getCadreId()
                 + " and is_main_post=" + record.getIsMainPost()));
         cadrePostMapper.insertSelective(record);
+
+        cacheService.clearCadreCache();
     }
 
     @Transactional
@@ -62,20 +67,24 @@ public class CadrePostService extends BaseMapper {
 
         // 同时删除关联的任免文件
         dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids), DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+
+        cacheService.clearCadreCache();
     }
 
     public void updateByPrimaryKeySelective(CadrePost record) {
 
         if (BooleanUtils.isNotTrue(record.getIsDouble())) { // 不是双肩挑
-            commonMapper.excuteSql("update cadre_post set double_unit_ids=null where id="+record.getId());
+            commonMapper.excuteSql("update cadre_post set double_unit_ids=null where id=" + record.getId());
         }
         // 清除关联岗位
-        if(record.getUnitPostId()==null){
-            commonMapper.excuteSql("update cadre_post set unit_post_id=null where id="+record.getId());
+        if (record.getUnitPostId() == null) {
+            commonMapper.excuteSql("update cadre_post set unit_post_id=null where id=" + record.getId());
         }
 
         record.setIsMainPost(null); // 不改变是否是主职字段
         cadrePostMapper.updateByPrimaryKeySelective(record);
+
+        cacheService.clearCadreCache();
     }
 
     public CadrePost getCadreMainCadrePostById(Integer id) {
@@ -99,11 +108,76 @@ public class CadrePostService extends BaseMapper {
 
         CadrePostExample example = new CadrePostExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andIsMainPostEqualTo(false);
-
         example.setOrderByClause("sort_order desc");
 
         List<CadrePost> subCadrePosts = cadrePostMapper.selectByExample(example);
         return subCadrePosts;
+    }
+
+    // 批量导入主职信息
+    @Transactional
+    public int batchImportMainPosts(List<CadrePost> records) {
+
+        int addCount = 0;
+        for (CadrePost record : records) {
+
+            int cadreId = record.getCadreId();
+            CadrePost cadreMainCadrePost = getCadreMainCadrePost(cadreId);
+            if (cadreMainCadrePost != null) {
+
+                record.setId(cadreMainCadrePost.getId());
+                record.setSortOrder(cadreMainCadrePost.getSortOrder());
+                // 覆盖更新
+                cadrePostMapper.updateByPrimaryKey(record);
+            } else {
+
+                record.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + record.getCadreId()
+                + " and is_main_post=" + record.getIsMainPost()));
+                insertSelective(record);
+                addCount++;
+            }
+        }
+
+        cacheService.clearCadreCache();
+
+        return addCount;
+    }
+
+    // 批量导入兼职信息
+    @Transactional
+    public int batchImportSubPosts(List<CadrePost> records) {
+
+        int addCount = 0;
+        for (CadrePost record : records) {
+
+            int cadreId = record.getCadreId();
+            CadrePost subCadrePost = null;
+            List<CadrePost> subCadrePosts = getSubCadrePosts(cadreId);
+            for (CadrePost _cadrePost : subCadrePosts) {
+                if(_cadrePost.getUnitId().intValue() == record.getUnitId()){
+                    subCadrePost = _cadrePost; // 该兼职已存在
+                    break;
+                }
+            }
+
+            if (subCadrePost != null) {
+
+                record.setId(subCadrePost.getId());
+                record.setSortOrder(subCadrePost.getSortOrder());
+                // 覆盖更新
+                cadrePostMapper.updateByPrimaryKey(record);
+            } else {
+
+                record.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + record.getCadreId()
+                + " and is_main_post=" + record.getIsMainPost()));
+                insertSelective(record);
+                addCount++;
+            }
+        }
+
+        cacheService.clearCadreCache();
+
+        return addCount;
     }
 
     @Transactional

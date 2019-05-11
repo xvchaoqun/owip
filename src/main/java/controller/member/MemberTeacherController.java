@@ -43,12 +43,12 @@ public class MemberTeacherController extends MemberBaseController {
     @RequiresPermissions("memberTeacher:list")
     @RequestMapping("/memberTeacher")
     public String memberTeacher(
-            @RequestParam(defaultValue = "1")int cls,
+            @RequestParam(defaultValue = "1") int cls,
             Integer userId,
             Integer partyId,
             Integer branchId,
-            @RequestParam(required = false, value = "nation")String[] nation,
-            @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
+            @RequestParam(required = false, value = "nation") String[] nation,
+            @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
             ModelMap modelMap) {
 
         boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
@@ -76,11 +76,11 @@ public class MemberTeacherController extends MemberBaseController {
         if (branchId != null)
             modelMap.put("branch", branchMap.get(branchId));
 
-        if (nation!=null) {
+        if (nation != null) {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
-        if (nativePlace!=null) {
+        if (nativePlace != null) {
             List<String> selectNativePlaces = Arrays.asList(nativePlace);
             modelMap.put("selectNativePlaces", selectNativePlaces);
         }
@@ -90,6 +90,13 @@ public class MemberTeacherController extends MemberBaseController {
         modelMap.put("teacherNations", iPropertyMapper.teacherNations());
         modelMap.put("teacherNativePlaces", iPropertyMapper.teacherNativePlaces());
 
+        // 导出的列名字
+        List<String> exportTitles = getExportTitles();
+        if (cls == 3) {
+            exportTitles.add(6, "离退休时间|80");
+        }
+        modelMap.put("titles", exportTitles);
+
         return "member/memberTeacher/memberTeacher_page";
     }
 
@@ -97,27 +104,29 @@ public class MemberTeacherController extends MemberBaseController {
     @RequestMapping("/memberTeacher_data")
     public void memberTeacher_data(HttpServletResponse response,
                                    @RequestParam(defaultValue = "party") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                 @RequestParam(defaultValue = "2")int cls, // 教师或学生，用于页面标签
-                                    Integer userId,
-                                    Integer unitId,
-                                    Integer partyId,
-                                    Integer branchId,
-                                    Byte politicalStatus,
-                                    Byte gender,
-                                   @RequestParam(required = false, value = "nation")String[] nation,
-                                   @RequestParam(required = false, value = "nativePlace")String[] nativePlace,
-                                    Byte age,
-                                    String education,
-                                    String postClass,
+                                   @OrderParam(required = false, defaultValue = "desc") String order,
+                                   @RequestParam(defaultValue = "2") int cls, // 教师或学生，用于页面标签
+                                   Integer userId,
+                                   Integer unitId,
+                                   Integer partyId,
+                                   Integer branchId,
+                                   Byte politicalStatus,
+                                   Byte gender,
+                                   @RequestParam(required = false, value = "nation") String[] nation,
+                                   @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
+                                   Byte age,
+                                   String education,
+                                   String postClass,
                                    @RequestDateRange DateRange _retireTime,
-                                    Boolean isHonorRetire,
+                                   Boolean isHonorRetire,
                                    @RequestDateRange DateRange _growTime,
                                    @RequestDateRange DateRange _positiveTime,
                                    @RequestDateRange DateRange _outHandleTime,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                                   Byte source, // 账号来源
+                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   @RequestParam(required = false) Integer[] cols, // 选择导出的列
+                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -130,15 +139,15 @@ public class MemberTeacherController extends MemberBaseController {
         MemberTeacherExample example = new MemberTeacherExample();
         Criteria criteria = example.createCriteria();
 
-        if(StringUtils.equalsIgnoreCase(sort, "party")){
+        if (StringUtils.equalsIgnoreCase(sort, "party")) {
             example.setOrderByClause(String.format("party_id , branch_id %s, grow_time desc", order));
-        }else if(StringUtils.equalsIgnoreCase(sort, "growTime")){
+        } else if (StringUtils.equalsIgnoreCase(sort, "growTime")) {
             example.setOrderByClause(String.format("grow_time %s", order));
         }
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
         if (unitId != null) {
@@ -151,27 +160,27 @@ public class MemberTeacherController extends MemberBaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
 
-        if(gender!=null){
+        if (gender != null) {
             criteria.andGenderEqualTo(gender);
         }
-        if(politicalStatus!=null){
+        if (politicalStatus != null) {
             criteria.andPoliticalStatusEqualTo(politicalStatus);
         }
-        if (nation!=null) {
+        if (nation != null) {
             List<String> selectNations = Arrays.asList(nation);
             criteria.andNationIn(selectNations);
         }
-        if (nativePlace!=null) {
+        if (nativePlace != null) {
             List<String> selectNativePlaces = Arrays.asList(nativePlace);
             criteria.andNativePlaceIn(selectNativePlaces);
         }
-        if(age!=null){
-            switch (age){
+        if (age != null) {
+            switch (age) {
                 case MemberConstants.MEMBER_AGE_20: // 20及以下
                     criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
                 case MemberConstants.MEMBER_AGE_21_30:
-                     criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -31))
+                    criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -31))
                             .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
                 case MemberConstants.MEMBER_AGE_31_40:
@@ -190,42 +199,42 @@ public class MemberTeacherController extends MemberBaseController {
                     break;
             }
         }
-        if(StringUtils.isNotBlank(education)){
+        if (StringUtils.isNotBlank(education)) {
             criteria.andEducationEqualTo(education);
         }
-        if(StringUtils.isNotBlank(postClass)){
+        if (StringUtils.isNotBlank(postClass)) {
             criteria.andPostClassEqualTo(postClass);
         }
 
-        if (_retireTime.getStart()!=null) {
+        if (_retireTime.getStart() != null) {
             criteria.andRetireTimeGreaterThanOrEqualTo(_retireTime.getStart());
         }
 
-        if (_retireTime.getEnd()!=null) {
+        if (_retireTime.getEnd() != null) {
             criteria.andRetireTimeLessThanOrEqualTo(_retireTime.getEnd());
         }
 
-        if(isHonorRetire!=null){
+        if (isHonorRetire != null) {
             criteria.andIsHonorRetireEqualTo(isHonorRetire);
         }
 
-        if (_growTime.getStart()!=null) {
+        if (_growTime.getStart() != null) {
             criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
         }
 
-        if (_growTime.getEnd()!=null) {
+        if (_growTime.getEnd() != null) {
             criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
         }
-        if (_positiveTime.getStart()!=null) {
+        if (_positiveTime.getStart() != null) {
             criteria.andPositiveTimeGreaterThanOrEqualTo(_positiveTime.getStart());
         }
-        if (_positiveTime.getEnd()!=null) {
+        if (_positiveTime.getEnd() != null) {
             criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
         }
-        if (_outHandleTime.getStart()!=null) {
+        if (_outHandleTime.getStart() != null) {
             criteria.andOutHandleTimeGreaterThanOrEqualTo(_outHandleTime.getStart());
         }
-        if (_outHandleTime.getEnd()!=null) {
+        if (_outHandleTime.getEnd() != null) {
             criteria.andOutHandleTimeLessThanOrEqualTo(_outHandleTime.getEnd());
         }
 
@@ -235,7 +244,7 @@ public class MemberTeacherController extends MemberBaseController {
                 4应退休   =>  member.type=2 member.status=1
                 5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
          */
-        switch (cls){
+        switch (cls) {
             case 2:
                 criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireNotEqualTo(true);
@@ -257,10 +266,14 @@ public class MemberTeacherController extends MemberBaseController {
                 break;*/
         }
 
+        if(source!=null){
+            criteria.andSourceEqualTo(source);
+        }
+
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andUserIdIn(Arrays.asList(ids));
-            memberTeacher_export(cls, example, response);
+            memberTeacher_export(cls, example, cols, response);
             return;
         }
 
@@ -286,7 +299,7 @@ public class MemberTeacherController extends MemberBaseController {
     }
 
     // 基本信息 + 党籍信息
-    @RequiresPermissions("memberTeacher:base")
+    @RequiresPermissions("memberTeacher:list")
     @RequestMapping("/memberTeacher_base")
     public String memberTeacher_base(Integer userId, ModelMap modelMap) {
 
@@ -296,42 +309,48 @@ public class MemberTeacherController extends MemberBaseController {
         return "member/memberTeacher/memberTeacher_base";
     }
 
-    public void memberTeacher_export(int cls, MemberTeacherExample example, HttpServletResponse response) {
+    public void memberTeacher_export(int cls, MemberTeacherExample example, Integer[] cols, HttpServletResponse response) {
 
         //Map<Integer, Unit> unitMap = unitService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
-        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100","姓名|50",
-                "编制类别|80","人员类别|100","人员状态|80","在岗情况|80","岗位类别|80", "主岗等级|120",
-                "性别|50","出生日期|80", "年龄|50","年龄范围|80","民族|50", "国家/地区|80", "证件号码|150",
-                "政治面貌|80","所在分党委、党总支、直属党支部|300","所在党支部|300", "所在单位|200", "入党时间|80","转正时间|80","到校日期|80",
-                "专业技术职务|120","专技岗位等级|120","管理岗位等级|120","任职级别|120",
-                "行政职务|180","学历|120","学历毕业学校|200","学位授予学校|200",
-                "学位|100","学员结构|100", "人才类型|100", "人才称号|200", "手机号码|100"}));
-        if(cls==3){
-            titles.add(6, "离退休时间|80");
+
+        List<String> exportTitles = getExportTitles();
+        if (cls == 3) {
+            exportTitles.add(6, "离退休时间|80");
         }
+
+        if(cols!=null && cols.length>0){
+            // 选择导出列
+            List<String> _titles = new ArrayList<>();
+            for (int col : cols) {
+                _titles.add(exportTitles.get(col));
+            }
+            exportTitles.clear();
+            exportTitles.addAll(_titles);
+        }
+
         List<List<String>> valuesList = new ArrayList<>();
-        for (MemberTeacher record:records) {
+        for (MemberTeacher record : records) {
             Byte gender = record.getGender();
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
             Date birth = record.getBirth();
             String ageRange = "";
-            if(birth!=null){
+            if (birth != null) {
                 byte memberAgeRange = MemberConstants.getMemberAgeRange(birth);
-                if(memberAgeRange>0)
+                if (memberAgeRange > 0)
                     ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
             CadreView cadre = CmTag.getCadreByUserId(record.getUserId());
             SysUserView uv = sysUserService.findById(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
-            if(cadre!=null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)){
+            if (cadre != null && (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)) {
                 post = cadre.getTitle();
-                if(cadre.getAdminLevel()!=null) adminLevel = CmTag.getMetaType(cadre.getAdminLevel()).getName();
+                if (cadre.getAdminLevel() != null) adminLevel = CmTag.getMetaType(cadre.getAdminLevel()).getName();
             }
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),
@@ -342,19 +361,28 @@ public class MemberTeacherController extends MemberBaseController {
                     record.getOnJob(), // 在岗情况
                     record.getPostClass(), // 岗位类别
                     record.getMainPostLevel(), // 主岗等级
-                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
-                    birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
+                    birth != null ? DateUtils.intervalYearsUntilNow(birth) + "" : "",
                     ageRange, // 年龄范围
                     record.getNation(),
                     uv.getCountry(),// 国家/地区
                     record.getIdcard(), // 证件号码
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
-                    partyId==null?"":partyMap.get(partyId).getName(),
-                    branchId==null?"":branchMap.get(branchId).getName(),
+                    partyId == null ? "" : partyMap.get(partyId).getName(),
+                    branchId == null ? "" : branchMap.get(branchId).getName(),
                     uv.getUnit(), // 所在单位
+
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    record.getGrowBranch(),
+                    record.getSponsor(),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
+                    record.getPositiveBranch(),
+                    record.getPartyPost(),
+                    record.getPartyReward(),
+                    record.getOtherReward(),
+                    metaTypeService.getName(record.getAddType()),
+
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record.getProPost(), // 专业技术职务
                     record.getProPostLevel(), //专技岗位等级
@@ -371,14 +399,38 @@ public class MemberTeacherController extends MemberBaseController {
                     record.getMobile()
             }));
 
-            if(cls==3){
+            if (cls == 3) {
                 values.add(6, DateUtils.formatDate(record.getRetireTime(), DateUtils.YYYY_MM_DD));
+            }
+
+            if(cols!=null && cols.length>0){
+                // 选择导出列
+                List<String> _values = new ArrayList<>();
+                for (int col : cols) {
+                    _values.add(values.get(col));
+                }
+                values.clear();
+                values.addAll(_values);
             }
 
             valuesList.add(values);
         }
-        String fileName = (cls==7?"已转出":"")+"教职工党员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = (cls == 7 ? "已转出" : (cls==3?"离退休":"在职")) + "教职工党员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
 
-        ExportHelper.export(titles, valuesList, fileName, response);
+        ExportHelper.export(exportTitles, valuesList, fileName, response);
+    }
+
+    private List<String> getExportTitles(){
+
+         return new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|80",
+                "编制类别|80", "人员类别|100", "人员状态|80", "在岗情况|80", "岗位类别|80", "主岗等级|120",
+                "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", "国家/地区|80", "证件号码|150",
+                "政治面貌|80", "所属"+cacheService.getStringProperty("partyName", "党委")+"|300", "所在党支部|300", "所在单位|200",
+                "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
+                "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
+                "到校日期|80",
+                "专业技术职务|120", "专技岗位等级|120", "管理岗位等级|120", "任职级别|120",
+                "行政职务|180", "学历|120", "学历毕业学校|200", "学位授予学校|200",
+                "学位|100", "学员结构|100", "人才类型|100", "人才称号|200", "手机号码|100"}));
     }
 }

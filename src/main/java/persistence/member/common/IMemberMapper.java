@@ -19,6 +19,10 @@ import java.util.Map;
  */
 public interface IMemberMapper {
 
+    // 批量生成账号的最大批次
+    @Select("select max(import_seq) from ow_member_reg")
+    Integer getMemberRegMaxSeq();
+
     @ResultMap("persistence.member.ApplySnRangeMapper.BaseResultMap")
     @Select("select * from ow_apply_sn_range where year=#{year} and (#{startSn} in(start_sn, end_sn) " +
             "or #{endSn} in(start_sn, end_sn) " +

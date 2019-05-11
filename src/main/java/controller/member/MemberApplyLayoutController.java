@@ -31,7 +31,7 @@ public class MemberApplyLayoutController {
             return "forward:/partyPublic";
         if(cls==6)
             return "forward:/applySnRange";
-        if(cls==7)
+        if(cls==7 || cls==8)
             return "forward:/applySn";
 
         return null;

@@ -1,6 +1,11 @@
 package domain.member;
 
+import org.apache.commons.lang3.StringUtils;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ApplySnExample {
@@ -593,12 +598,332 @@ public class ApplySnExample {
             addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
+
+        public Criteria andPartyIdIsNull() {
+            addCriterion("party_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdIsNotNull() {
+            addCriterion("party_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdEqualTo(Integer value) {
+            addCriterion("party_id =", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotEqualTo(Integer value) {
+            addCriterion("party_id <>", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdGreaterThan(Integer value) {
+            addCriterion("party_id >", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("party_id >=", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdLessThan(Integer value) {
+            addCriterion("party_id <", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("party_id <=", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdIn(List<Integer> values) {
+            addCriterion("party_id in", values, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotIn(List<Integer> values) {
+            addCriterion("party_id not in", values, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdBetween(Integer value1, Integer value2) {
+            addCriterion("party_id between", value1, value2, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("party_id not between", value1, value2, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIsNull() {
+            addCriterion("branch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIsNotNull() {
+            addCriterion("branch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdEqualTo(Integer value) {
+            addCriterion("branch_id =", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotEqualTo(Integer value) {
+            addCriterion("branch_id <>", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdGreaterThan(Integer value) {
+            addCriterion("branch_id >", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_id >=", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdLessThan(Integer value) {
+            addCriterion("branch_id <", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_id <=", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIn(List<Integer> values) {
+            addCriterion("branch_id in", values, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotIn(List<Integer> values) {
+            addCriterion("branch_id not in", values, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdBetween(Integer value1, Integer value2) {
+            addCriterion("branch_id between", value1, value2, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_id not between", value1, value2, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeIsNull() {
+            addCriterion("assign_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeIsNotNull() {
+            addCriterion("assign_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeEqualTo(Date value) {
+            addCriterion("assign_time =", value, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeNotEqualTo(Date value) {
+            addCriterion("assign_time <>", value, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeGreaterThan(Date value) {
+            addCriterion("assign_time >", value, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("assign_time >=", value, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeLessThan(Date value) {
+            addCriterion("assign_time <", value, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeLessThanOrEqualTo(Date value) {
+            addCriterion("assign_time <=", value, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeIn(List<Date> values) {
+            addCriterion("assign_time in", values, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeNotIn(List<Date> values) {
+            addCriterion("assign_time not in", values, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeBetween(Date value1, Date value2) {
+            addCriterion("assign_time between", value1, value2, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAssignTimeNotBetween(Date value1, Date value2) {
+            addCriterion("assign_time not between", value1, value2, "assignTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdIsNull() {
+            addCriterion("draw_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdIsNotNull() {
+            addCriterion("draw_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdEqualTo(Integer value) {
+            addCriterion("draw_user_id =", value, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdNotEqualTo(Integer value) {
+            addCriterion("draw_user_id <>", value, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdGreaterThan(Integer value) {
+            addCriterion("draw_user_id >", value, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("draw_user_id >=", value, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdLessThan(Integer value) {
+            addCriterion("draw_user_id <", value, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("draw_user_id <=", value, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdIn(List<Integer> values) {
+            addCriterion("draw_user_id in", values, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdNotIn(List<Integer> values) {
+            addCriterion("draw_user_id not in", values, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("draw_user_id between", value1, value2, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("draw_user_id not between", value1, value2, "drawUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeIsNull() {
+            addCriterion("draw_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeIsNotNull() {
+            addCriterion("draw_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeEqualTo(Date value) {
+            addCriterion("draw_time =", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeNotEqualTo(Date value) {
+            addCriterion("draw_time <>", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeGreaterThan(Date value) {
+            addCriterion("draw_time >", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("draw_time >=", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeLessThan(Date value) {
+            addCriterion("draw_time <", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeLessThanOrEqualTo(Date value) {
+            addCriterion("draw_time <=", value, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeIn(List<Date> values) {
+            addCriterion("draw_time in", values, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeNotIn(List<Date> values) {
+            addCriterion("draw_time not in", values, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeBetween(Date value1, Date value2) {
+            addCriterion("draw_time between", value1, value2, "drawTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrawTimeNotBetween(Date value1, Date value2) {
+            addCriterion("draw_time not between", value1, value2, "drawTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
             super();
+        }
+
+        public ApplySnExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
+
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+            if(branchIdList==null) branchIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andBranchIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andUserIdIsNull();
+
+            return this;
         }
     }
 

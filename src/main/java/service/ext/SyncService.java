@@ -829,11 +829,19 @@ public class SyncService extends BaseMapper {
 
             record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
         } else {
-
+            // 籍贯
             if (StringUtils.isBlank(sysUserInfo.getNativePlace())) {
                 record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
             }else{
                 record.setNativePlace(null);
+            }
+            // 出生地
+            if(StringUtils.isNotBlank(sysUserInfo.getHomeplace())){
+                record.setHomeplace(null);
+            }
+            // 户籍地
+            if(StringUtils.isNotBlank(sysUserInfo.getHousehold())){
+                record.setHousehold(null);
             }
             if(StringUtils.isNotBlank(sysUserInfo.getEmail())){
                 record.setEmail(null);

@@ -5,6 +5,7 @@ import service.member.ApplySnRangeService;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ApplySn implements Serializable {
 
@@ -34,6 +35,16 @@ public class ApplySn implements Serializable {
     private Boolean isAbolished;
 
     private Integer userId;
+
+    private Integer partyId;
+
+    private Integer branchId;
+
+    private Date assignTime;
+
+    private Integer drawUserId;
+
+    private Date drawTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -99,5 +110,45 @@ public class ApplySn implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
+    public Date getAssignTime() {
+        return assignTime;
+    }
+
+    public void setAssignTime(Date assignTime) {
+        this.assignTime = assignTime;
+    }
+
+    public Integer getDrawUserId() {
+        return drawUserId;
+    }
+
+    public void setDrawUserId(Integer drawUserId) {
+        this.drawUserId = drawUserId;
+    }
+
+    public Date getDrawTime() {
+        return drawTime;
+    }
+
+    public void setDrawTime(Date drawTime) {
+        this.drawTime = drawTime;
     }
 }

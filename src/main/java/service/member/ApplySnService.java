@@ -20,6 +20,7 @@ import sys.constants.OwConstants;
 import sys.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -89,7 +90,8 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
             Integer applySnId = memberApply.getApplySnId();
             if(applySnId!=null){
 
-                commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, apply_sn=null where user_id="+ userId);
+                commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, " +
+                        "apply_sn=null where user_id="+ userId);
                 clearUse(applySnId);
             }
         }
@@ -108,11 +110,15 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
             throw new OpException("编码{0}已作废。", applySn.getDisplaySn());
         }
 
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+
         ApplySn record = new ApplySn();
         record.setId(applySnId);
         record.setIsUsed(true);
         record.setUserId(userId);
-
+        record.setPartyId(memberApply.getPartyId());
+        record.setBranchId(memberApply.getBranchId());
+        record.setAssignTime(new Date());
         applySnMapper.updateByPrimaryKeySelective(record);
 
         // 更新编码段已使用数量
@@ -137,7 +143,8 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
             throw new OpException("编码{0}已作废。", applySn.getDisplaySn());
         }
 
-        commonMapper.excuteSql("update ow_apply_sn set is_used = 0, user_id = null where id=" + applySnId);
+        commonMapper.excuteSql("update ow_apply_sn set is_used = 0, user_id = null, " +
+                "assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
 
         // 更新编码段已使用数量
         Integer rangeId = applySn.getRangeId();
@@ -176,7 +183,8 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
         applySnMapper.updateByPrimaryKeySelective(record);
 
         // 清除原申请记录的分配的志愿书（其实可不做这步，因为后面的分配新编码是覆盖操作）
-        commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, apply_sn=null where user_id="+ userId);
+        commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, " +
+                "apply_sn=null where user_id="+ userId);
 
         // 分配新编码
         assign(userId, newApplySn);
@@ -195,7 +203,8 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
             throw new OpException("编码{0}没有作废。", applySn.getDisplaySn());
         }
 
-        commonMapper.excuteSql("update ow_apply_sn set is_used = 0, is_abolished=0, user_id = null where id=" + applySnId);
+        commonMapper.excuteSql("update ow_apply_sn set is_used = 0, is_abolished=0, " +
+                "user_id = null, assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
 
         // 更新编码段已使用数量
         Integer rangeId = applySn.getRangeId();

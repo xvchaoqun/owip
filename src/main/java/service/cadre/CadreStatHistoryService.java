@@ -3,6 +3,8 @@ package service.cadre;
 import domain.cadre.CadreStatHistory;
 import domain.cadre.CadreViewExample;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
@@ -21,6 +23,8 @@ import java.util.UUID;
 
 @Service
 public class CadreStatHistoryService extends BaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UnitPostAllocationService unitPostAllocationService;
@@ -62,7 +66,7 @@ public class CadreStatHistoryService extends BaseMapper {
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:
 
-                wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_TYPE_CJ);
+                wb = unitPostAllocationService.cpcStat_Xlsx(CadreConstants.CADRE_TYPE_CJ);
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_KJ:
                 if(hasKjCadre) {
@@ -75,9 +79,15 @@ public class CadreStatHistoryService extends BaseMapper {
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT_KJ:
                 if(hasKjCadre) {
-                    wb = unitPostAllocationService.cpcStat_Xlsx(CadreConstants.CADRE_TYPE_KJ);
+                    wb = unitPostAllocationService.cpcInfo_Xlsx(CadreConstants.CADRE_TYPE_KJ);
                 }
                 break;
+        }
+
+        if(wb==null){
+
+            logger.info("无相关信息，无法备份[{}]。", CadreConstants.CADRE_STAT_HISTORY_TYPE_MAP.get(type));
+            return;
         }
 
         String savePath = FILE_SEPARATOR + "stat_history" + FILE_SEPARATOR

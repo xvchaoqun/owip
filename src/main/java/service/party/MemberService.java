@@ -378,11 +378,10 @@ public class MemberService extends MemberBaseMapper {
             }
         }
 
-        int count = updateByPrimaryKeySelective(record);
-
+        // 先保留历史记录
         addModify(userId, reason);
 
-        return count;
+        return updateByPrimaryKeySelective(record);
     }
 
     public void addModify(int userId, String reason) {

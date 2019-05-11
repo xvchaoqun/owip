@@ -10,8 +10,10 @@ import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -29,7 +31,6 @@ import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -37,13 +38,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class MetaClassController extends BaseController {
@@ -56,16 +51,19 @@ public class MetaClassController extends BaseController {
 
         return "base/metaClass/metaClass_page";
     }
+
     @RequiresPermissions("metaClass:list")
     @RequestMapping("/metaClass_data")
     @ResponseBody
     public void metaClass_data(@CurrentUser SysUserView loginUser,
-                                 HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_class") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                 String name, String code,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                               HttpServletResponse response,
+                               HttpServletRequest request,
+                               @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_class") String sort,
+                               @OrderParam(required = false, defaultValue = "desc") String order,
+                               String name, String code,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -92,7 +90,9 @@ public class MetaClassController extends BaseController {
             criteria.andCodeLike("%" + code + "%");
         }
         if (export == 1) {
-            metaClass_export(example, response);
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+            metaClass_export(example, request, response);
             return;
         }
 
@@ -221,23 +221,44 @@ public class MetaClassController extends BaseController {
         return "base/metaClass/metaClassRole";
     }
 
-    public void metaClass_export(MetaClassExample example, HttpServletResponse response) {
+    public void metaClass_export(MetaClassExample example, HttpServletRequest request,
+                                 HttpServletResponse response) {
 
         List<MetaClass> records = metaClassMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称", "代码", "布尔属性名称", "附加属性名称"};
+        String[] titles = {"ID|150", "名称|150", "代码|180", "所属一级目录|150",
+                "所属二级目录|150", "布尔属性名称|150", "附加属性名称|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MetaClass record = records.get(i);
             String[] values = {
+                    record.getId() + "",
                     record.getName(),
                     record.getCode(),
+                    record.getFirstLevel(),
+                    record.getSecondLevel(),
                     record.getBoolAttr(),
                     record.getExtraAttr()};
             valuesList.add(values);
         }
-        String fileName = "元数据分类_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
+        String fileName = "元数据类别";
+        SXSSFWorkbook wb = new SXSSFWorkbook(500);
+        ExportHelper.createSheet(fileName, wb, titles, valuesList);
+
+        for (int i = 0; i < rownum; i++) {
+
+            MetaClass record = records.get(i);
+
+            MetaTypeExample _example = new MetaTypeExample();
+            _example.createCriteria().andClassIdEqualTo(record.getId());
+            _example.setOrderByClause("sort_order asc");
+            Map<String, Object> metaTypeExportData = getMetaTypeExportData(record, _example);
+            List<String> _titles = (List<String>) metaTypeExportData.get("titles");
+            List<List<String>> _valuesList = (List<List<String>>) metaTypeExportData.get("valuesList");
+            ExportHelper.createSheet(record.getName(), wb, _titles, _valuesList);
+        }
+
+        ExportHelper.output(wb, fileName+ ".xlsx", request, response);
     }
 
     @RequestMapping("/metaClass_selects")
@@ -288,7 +309,10 @@ public class MetaClassController extends BaseController {
 
     @RequiresPermissions("metaClassType:list")
     @RequestMapping("/metaClass_type")
-    public String metaClass_type(Integer id, Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String metaClass_type(Integer id,
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 HttpServletResponse response,
+                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (id != null) {
             if (null == pageSize) {
@@ -308,6 +332,16 @@ public class MetaClassController extends BaseController {
 
                 pageNo = Math.max(1, pageNo - 1);
             }
+
+            MetaClass metaClass = metaClassMapper.selectByPrimaryKey(id);
+            modelMap.put("metaClass", metaClass);
+            modelMap.put("metaClassMap", metaClassService.findAll());
+
+            if (export == 1) {
+                metaClassTypes_export(metaClass, example, response);
+                return null;
+            }
+
             List<MetaType> metaTypes = metaTypeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
             modelMap.put("metaTypes", metaTypes);
 
@@ -321,12 +355,64 @@ public class MetaClassController extends BaseController {
 
             commonList.setSearchStr(searchStr);
             modelMap.put("commonList", commonList);
-
-            MetaClass metaClass = metaClassMapper.selectByPrimaryKey(id);
-            modelMap.put("metaClass", metaClass);
-            modelMap.put("metaClassMap", metaClassService.findAll());
         }
 
         return "base/metaClass/metaClass_type";
+    }
+
+    public void metaClassTypes_export(MetaClass metaClass, MetaTypeExample example, HttpServletResponse response) {
+
+        Map<String, Object> metaTypeExportData = getMetaTypeExportData(metaClass, example);
+        List<String> titles = (List<String>) metaTypeExportData.get("titles");
+        List<List<String>> valuesList = (List<List<String>>) metaTypeExportData.get("valuesList");
+
+        String fileName = "元数据属性（" + metaClass.getName() + ")";
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    private Map<String, Object> getMetaTypeExportData(MetaClass metaClass, MetaTypeExample example) {
+
+        String boolName = StringUtils.defaultIfBlank(metaClass.getBoolAttr(), "布尔属性");
+        String extraName = StringUtils.defaultIfBlank(metaClass.getExtraAttr(), "附加属性");
+        List<MetaType> records = metaTypeMapper.selectByExample(example);
+        int rownum = records.size();
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"ID|90", "名称|150|left",
+                "代码|150", "所属类别ID|80", "所属类别|180", "所属类别代码|180"}));
+        if (StringUtils.isNotBlank(metaClass.getBoolAttr())) {
+            titles.add(boolName + "|150");
+        }
+        if (StringUtils.isNotBlank(metaClass.getExtraAttr())) {
+            titles.add(extraName + "|150");
+        }
+        titles.add("备注|150");
+
+        List<List<String>> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            MetaType record = records.get(i);
+            List values = new ArrayList<>(Arrays.asList(new String[]{
+                    record.getId() + "",
+                    record.getName(),
+                    record.getCode(),
+                    metaClass.getId() + "",
+                    metaClass.getName(),
+                    metaClass.getCode()}));
+
+            if (StringUtils.isNotBlank(metaClass.getBoolAttr())) {
+                values.add(record.getBoolAttr() != null ? BooleanUtils.toString(record.getBoolAttr(),
+                        "是", "否") : "--");
+            }
+            if (StringUtils.isNotBlank(metaClass.getExtraAttr())) {
+                values.add(record.getExtraAttr());
+            }
+            values.add(record.getRemark());
+
+            valuesList.add(values);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("titles", titles);
+        map.put("valuesList", valuesList);
+
+        return map;
     }
 }

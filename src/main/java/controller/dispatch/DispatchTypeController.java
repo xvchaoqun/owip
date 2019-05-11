@@ -171,7 +171,7 @@ public class DispatchTypeController extends DispatchBaseController {
 
         List<DispatchType> records = dispatchTypeMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称","发文属性","所属年份","添加时间"};
+        String[] titles = {"名称|180","发文属性|100","所属年份","添加时间|180"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DispatchType record = records.get(i);
@@ -183,7 +183,7 @@ public class DispatchTypeController extends DispatchBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "发文类型_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "发文类型";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

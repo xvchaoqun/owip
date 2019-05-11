@@ -334,6 +334,13 @@ public class CacheService extends BaseMapper {
     public String getStringProperty(String key){
         return sysPropertyService.findAll().get(key);
     }
+    // 获取系统的属性值（字符串类型）
+    public String getStringProperty(String key, String defaultStr){
+        if(StringUtils.isBlank(key)) return defaultStr;
+        String str = sysPropertyService.findAll().get(key);
+
+        return StringUtils.defaultIfBlank(str, defaultStr);
+    }
     // 获取系统的属性值（整数）
     public Integer getIntProperty(String key){
         return Integer.valueOf(getStringProperty(key));

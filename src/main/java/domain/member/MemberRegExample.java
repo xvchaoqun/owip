@@ -1117,6 +1117,126 @@ public class MemberRegExample {
             return (Criteria) this;
         }
 
+        public Criteria andImportUserIdIsNull() {
+            addCriterion("import_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdIsNotNull() {
+            addCriterion("import_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdEqualTo(Integer value) {
+            addCriterion("import_user_id =", value, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdNotEqualTo(Integer value) {
+            addCriterion("import_user_id <>", value, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdGreaterThan(Integer value) {
+            addCriterion("import_user_id >", value, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("import_user_id >=", value, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdLessThan(Integer value) {
+            addCriterion("import_user_id <", value, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("import_user_id <=", value, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdIn(List<Integer> values) {
+            addCriterion("import_user_id in", values, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdNotIn(List<Integer> values) {
+            addCriterion("import_user_id not in", values, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("import_user_id between", value1, value2, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("import_user_id not between", value1, value2, "importUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqIsNull() {
+            addCriterion("import_seq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqIsNotNull() {
+            addCriterion("import_seq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqEqualTo(Integer value) {
+            addCriterion("import_seq =", value, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqNotEqualTo(Integer value) {
+            addCriterion("import_seq <>", value, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqGreaterThan(Integer value) {
+            addCriterion("import_seq >", value, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqGreaterThanOrEqualTo(Integer value) {
+            addCriterion("import_seq >=", value, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqLessThan(Integer value) {
+            addCriterion("import_seq <", value, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqLessThanOrEqualTo(Integer value) {
+            addCriterion("import_seq <=", value, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqIn(List<Integer> values) {
+            addCriterion("import_seq in", values, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqNotIn(List<Integer> values) {
+            addCriterion("import_seq not in", values, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqBetween(Integer value1, Integer value2) {
+            addCriterion("import_seq between", value1, value2, "importSeq");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportSeqNotBetween(Integer value1, Integer value2) {
+            addCriterion("import_seq not between", value1, value2, "importSeq");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("status is null");
             return (Criteria) this;
@@ -1183,7 +1303,7 @@ public class MemberRegExample {
         protected Criteria() {
             super();
         }
-        
+
         public Criteria addPermits(List<Integer> partyIdList) {
 
             if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
