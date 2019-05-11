@@ -6,6 +6,9 @@
 
 
 20190511
+更新南航
+
+20190511
 
 -- 修改
 update sys_resource set permission='memberTeacher:list' where permission='memberTeacher:*';
