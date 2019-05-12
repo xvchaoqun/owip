@@ -3,7 +3,7 @@
 <%@ include file="taglibs.jsp"%>
 <script type="text/javascript">var ctx="${ctx}", _hasLoginPage= ${_hasLoginPage=='true'}, _permissions=${cm:toJSONObject(cm:findPermissions(_user.username, false))}, _uploadMaxSize=${_uploadMaxSize}</script>
 <!--[if lt IE 9]>
-<script type="text/javascript">location.href="${ctx}/jsp/browsers.jsp?type=unsupport";</script>
+<script type="text/javascript">location.href="${ctx}/page/browsers.jsp?type=unsupport";</script>
 <![endif]-->
 <script src="${ctx}/js/main.js"></script>
 <%--<script src="${ctx}/extend/js/jqGrid/jquery.jqGrid.js"></script>--%>

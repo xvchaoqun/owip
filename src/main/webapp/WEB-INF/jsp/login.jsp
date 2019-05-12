@@ -16,7 +16,7 @@
     <link href="${ctx}/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <t:link href="/css/login.css"/>
     <!--[if lt IE 9]>
-    <script type="text/javascript">location.href = "${ctx}/jsp/browsers.jsp?type=unsupport";</script>
+    <script type="text/javascript">location.href = "${ctx}/page/browsers.jsp?type=unsupport";</script>
     <![endif]-->
     <script src="${ctx}/assets/js/jquery.js"></script>
     <style>${_pMap['loginCss']}</style>
@@ -61,7 +61,7 @@
                 <dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
                 <dt></dt>
                 <dd>
-                    <a href="${ctx}/jsp/browsers.jsp" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
+                    <a href="${ctx}/page/browsers.jsp" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
                     <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
                     <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
                 </dd>

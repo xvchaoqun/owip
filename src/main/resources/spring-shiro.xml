@@ -133,7 +133,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /test/** = authc, currentUser, roles[admin]
-                /jsp/** = anon
+                /page/** = anon
 
                 /mobile/fonts/** = anon
                 /mobile/js/** = anon

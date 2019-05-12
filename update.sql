@@ -5,9 +5,16 @@
 更新 党员发展信息导入模板.xlsx
 
 
+20190512
+更新北邮、西交大、北化工
+
+
+
+
 20190511
 更新南航
 
+/jsp/ -> /page/
 20190511
 
 -- 修改
@@ -66,9 +73,6 @@ ALTER TABLE `ow_member_reg`
 	ADD COLUMN `import_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '批量生成账号操作人' AFTER `ip`,
 	ADD COLUMN `import_seq` INT UNSIGNED NULL DEFAULT NULL COMMENT '第几次批量生成' AFTER `import_user_id`;
 
-+  系统注册账号录入样表.xlsx
-+干部任职情况录入样表（主职）.xlsx
-+干部任职情况录入样表（兼职）.xlsx
 
 update base_meta_class set bool_attr='布尔属性'  where id in
 (select class_id from base_meta_type where length(bool_attr)>0) and length(bool_attr)=0;
@@ -135,10 +139,6 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 update cadre set state = 528 where state = 1;
 
 update cadre set state = 529 where state = 0;
-
-重新上传 干部录入样表.xlsx
-
-+sample_unitCodes 内设机构批量更新编码录入样表.xlsx
 
 
 -- 修改 单位类型 附加属性元数据

@@ -154,10 +154,10 @@ public class CasController extends BaseController {
                         false, "登录失败"));
             }
 
-            return redirect("/jsp/unauthorized.jsp?username=" + StringUtils.trimToEmpty(username), response);
+            return redirect("/page/unauthorized.jsp?username=" + StringUtils.trimToEmpty(username), response);
         }
 
-        //return "redirect:/jsp/timeout.jsp";
+        //return "redirect:/page/timeout.jsp";
         return redirect("/", response);
     }
 
