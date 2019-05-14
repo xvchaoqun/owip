@@ -201,7 +201,7 @@ public interface HttpResponseMethod {
     }
 
     // 登录后操作日志
-    @Deprecated
+    //@Deprecated
     default String addLog(Integer logType, String content, Object... params) {
 
         if (params != null && params.length > 0)
