@@ -321,7 +321,7 @@ update cadre set type=10 where type is null;
 ALTER TABLE `cadre`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '干部类型，1 处级干部 2 科级干部 10 其他' AFTER `unit_id`;
 
-REPLACE INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (8, 10, '单位类型', '', '', 'mc_unit_type', '', '所属大类', 'jg|机关及直属单位|机关职能部处、直属单位、教辅单位、机关党总支、经营性单位,xy|学部、院、系所,fs|附属单位', 8, 1);
+update base_meta_class set extra_attr='所属大类', extra_options='jg|机关及直属单位|机关职能部处、直属单位、教辅单位、机关党总支、经营性单位,xy|学部、院、系所,fs|附属单位' where id=8;
 
 REPLACE INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (13, 'cadreStateName', '干部类别', '人员类别[M]', 1, 13, '');
 REPLACE INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (14, 'adFormType', '干部任免审批表类型', '2', 2, 14, '1：北京  2：工信部');
