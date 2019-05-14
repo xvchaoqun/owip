@@ -83,19 +83,14 @@
 
         <!--<table tableName="ow_member" domainObjectName="member.Member">
              <ignoreColumn column="update_time"/>
-         </table>
+         </table>-->
 
-        <table tableName="ow_member_student" domainObjectName="member.MemberStudent" mapperName="member.MemberStudentMapper"
+        <table tableName="ow_member_view" domainObjectName="member.MemberView"
+               mapperName="member.MemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
         </table>
-         <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher" mapperName="member.MemberTeacherMapper"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
          <!--
         <table tableName="ow_member_modify" domainObjectName="member.MemberModify">
         </table>-->
@@ -225,9 +220,9 @@
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"></table>-->
 
-        <table tableName="ow_member_reg" domainObjectName="member.MemberReg" mapperName="member.MemberRegMapper">
+        <!--<table tableName="ow_member_reg" domainObjectName="member.MemberReg" mapperName="member.MemberRegMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
 
     </context>
 </generatorConfiguration>

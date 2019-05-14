@@ -4,10 +4,40 @@
 
 更新 党员发展信息导入模板.xlsx
 
+20190514
+
+-- 删除
+drop view ow_member_student;
+drop view ow_member_teacher;
+
+删除文件：
+ MemberStudentMixin MemberTeacherMixin
+ memberStudent*/memberTeacher*
+
+update sys_resource SET name = '查看党员基本信息', permission = 'member:base' where id=220;
+delete from sys_resource where permission='memberStudent:list';
+
+
+更新
+ow_party_static_view
+pcs_branch_view
+pcs_pr_candidate_view
+pcs_party_view
+ow_party_view
+ow_branch_view
+
+
+ALTER TABLE `pmd_config_reset`
+	ADD COLUMN `party_id` INT UNSIGNED NULL COMMENT '涉及分党委' AFTER `reset`,
+	ADD COLUMN `branch_id` INT UNSIGNED NULL COMMENT '涉及党支部' AFTER `party_id`,
+	ADD COLUMN `limited_user_id` INT UNSIGNED NULL COMMENT '涉及缴费党员' AFTER `branch_id`;
+
+
+
 
 20190512
-更新北邮、西交大、北化工
-
+更新北邮
+-- 北化工
 
 
 

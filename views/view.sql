@@ -450,24 +450,23 @@ select sum(if(om.type=2, 1, 0)) as s_num, sum(if(om.political_status=2, 1, 0)) a
 left join (select op.* from ow_party op, base_meta_type bmt  where op.class_id=bmt.id and bmt.code='mt_direct_branch') as op on op.id = om.party_id
 where op.is_deleted=0 and om.status=1 group by party_id
 ) mtmp on mtmp.party_id=p.id
-left join (select sum(if(omt.is_retire=0, 1, 0)) as t_num, sum(if(omt.is_retire=1, 1, 0)) as t2_num,
-count(omt.user_id) as num, omt.party_id from ow_member_teacher omt
-left join pcs_exclude_branch peb on peb.party_id=omt.party_id and peb.branch_id=omt.branch_id
-where status=1 and peb.id is null group by party_id) mtmp2 on mtmp2.party_id=p.id
+left join (select sum(if(om.is_retire=0, 1, 0)) as t_num, sum(if(om.is_retire=1, 1, 0)) as t2_num,
+count(om.user_id) as num, om.party_id from ow_member_view om
+left join pcs_exclude_branch peb on peb.party_id=om.party_id and peb.branch_id=om.branch_id
+where type=1 and status=1 and peb.id is null group by party_id) mtmp2 on mtmp2.party_id=p.id
 left join (select count(*) as num, party_id from ow_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=p.id
 left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id ;
 
 DROP VIEW IF EXISTS `pcs_pr_candidate_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_pr_candidate_view` AS
 SELECT pc.*,
-uv.code, uv.realname, if(c.status=6, c.sort_order, -1)  as leader_sort_order, if(isnull(c.id), if(isnull(omt.user_id), 3 , 2), 1) as user_type, c.edu_id as edu_id, c.post,
-  ifnull(omt.grow_time, oms.grow_time) as grow_time,  omt.work_time, omt.pro_post, omt.education, omt.is_retire, oms.edu_level,
+uv.code, uv.realname, if(c.status=6, c.sort_order, -1)  as leader_sort_order, if(isnull(c.id), if(isnull(om.user_id), 3 , 2), 1) as user_type, c.edu_id as edu_id, c.post,
+  om.grow_time,  om.work_time, om.pro_post, om.education, om.is_retire, om.edu_level,
 ppr.party_id, ppr.config_id, ppr.stage, op.sort_order as party_sort_order, u.name as unit_name
 from pcs_pr_candidate pc
 left join sys_user_view uv on uv.id=pc.user_id
 left join cadre_view c on c.user_id = pc.user_id and c.status in(1, 6)
-left join ow_member_teacher omt on omt.user_id = pc.user_id
-left join ow_member_student oms on oms.user_id = pc.user_id
+left join ow_member_view om on om.user_id = pc.user_id
 , pcs_pr_recommend ppr
 left join ow_party op on op.id = ppr.party_id
 left join unit u on op.unit_id=u.id
@@ -485,11 +484,11 @@ where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' ord
 
 DROP VIEW IF EXISTS `pcs_candidate_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_candidate_view` AS
-SELECT pc.*, omt.code, omt.realname, c.title, ui.unit as ext_unit, omt.gender,
- omt.nation, omt.native_place, omt.birth, omt.grow_time, omt.work_time, omt.pro_post,
+SELECT pc.*, om.code, om.realname, c.title, ui.unit as ext_unit, om.gender,
+ om.nation, om.native_place, om.birth, om.grow_time, om.work_time, om.pro_post,
 pr.party_id, pr.branch_id, pr.config_id, pr.stage
 from pcs_candidate pc
-left join ow_member_teacher omt on omt.user_id = pc.user_id
+left join ow_member_view om on om.type=1 and om.user_id = pc.user_id
 left join sys_user_info ui on ui.user_id=pc.user_id
 left join cadre c on c.user_id = pc.user_id and c.status in(1, 6)
 , pcs_recommend pr where pc.recommend_id=pr.id;
@@ -554,7 +553,7 @@ sum(if(edu_level='博士', 1, 0)) as bs,
 sum(if(edu_level is null and political_status=2, 1, 0)) as positive_bks,
 sum(if(edu_level='硕士' and political_status=2, 1, 0)) as positive_ss,
 sum(if(edu_level='博士' and political_status=2, 1, 0)) as positive_bs
-from ow_member_student where status=1 group by party_id
+from ow_member_view where type=2 and status=1 group by party_id
 ) s on s.party_id = p.id
 left join
 (
@@ -563,7 +562,7 @@ sum(if(is_retire, 0, 1)) teacher,
 sum(if(is_retire, 1, 0)) teacher_retire,
 sum(if(!is_retire and political_status=2, 1, 0)) positive_teacher,
 sum(if(is_retire and political_status=2, 1, 0)) positive_teacher_retire
-from ow_member_teacher where status=1 group by party_id
+from ow_member_view where type=1 and status=1 group by party_id
 ) t on t.party_id = p.id
 left join
 (select b.party_id,

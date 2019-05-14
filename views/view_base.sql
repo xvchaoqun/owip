@@ -16,7 +16,7 @@ mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp
 left join (select count(*) as num, party_id from ow_branch where is_deleted=0 group by party_id) btmp on btmp.party_id=p.id
 left join (select sum(if(type=2, 1, 0)) as s_num, sum(if(political_status=2, 1, 0)) as positive_count, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
 left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
-count(*) as num, party_id from ow_member_teacher where status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
+count(*) as num, party_id from ow_member_view where type=1 and status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
 left join (select count(*) as num, party_id from ow_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=p.id
 left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id;
 
@@ -31,7 +31,7 @@ from ow_branch b
 left join ow_party p on b.party_id=p.id
 left join (select  sum(if(political_status=2, 1, 0)) as positive_count, sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
 left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
-count(*) as num, branch_id from ow_member_teacher where status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+count(*) as num, branch_id from ow_member_view where type=1 and status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
 left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 group by branch_id) gtmp on gtmp.branch_id=b.id
 left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 and is_present=1 group by branch_id) gtmp2 on gtmp2.branch_id=b.id;
 
@@ -43,55 +43,32 @@ left join ow_party p on p.id=oa.party_id
 left join ow_branch b on b.id=oa.branch_id
 left join ow_party bp on bp.id=b.party_id;
 
--- ----------------------------
---  View definition for `ow_member_student`
--- ----------------------------
-DROP VIEW IF EXISTS `ow_member_student`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_student`
-AS SELECT m.create_time,m.apply_time,m.source as member_source, m.add_type, u.source,m.positive_time,m.active_time,
-m.political_status,m.transfer_time,m.user_id,m.branch_id,m.candidate_time,m.party_id,m.sponsor,m.grow_branch,m.positive_branch,m.grow_time,m.status,m.party_post,
-m.party_reward,m.other_reward,s.delay_year,
-s.period,u.code,s.edu_category,ui.gender,ui.birth,ui.nation,s.actual_graduate_time,
-s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type,s.is_full_time,ui.realname,
-s.enrol_year,ui.native_place,s.edu_way,ui.idcard,s.edu_level,s.grade,s.edu_type,s.xj_status,p.unit_id
-,mo.status as out_status, mo.handle_time as out_handle_time
-from ow_member m left join ow_member_out mo on mo.user_id = m.user_id,
-ow_party p, sys_student_info s, sys_user u, sys_user_info ui
-where m.user_id = s.user_id and m.party_id = p.id and m.user_id = u.id and ui.user_id = u.id;
--- ----------------------------
---  View definition for `ow_member_teacher`
--- ----------------------------
-DROP VIEW IF EXISTS `ow_member_teacher`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_teacher`
-AS SELECT
-t.*,
-m.create_time,
-m.apply_time,
-m.source as member_source,
-m.add_type,
-u.source,
-m.positive_time,
-m.active_time,
-m.political_status,
-m.transfer_time,
-m.branch_id,
-m.candidate_time,
-m.party_id,
-m.sponsor,m.grow_branch,m.positive_branch,
-m.grow_time,
-m.status,
-m.party_post,
-m.party_reward,
-m.other_reward,
-u.code,
-ui.gender,
-ui.nation,
-ui.email,
-ui.mobile,
-ui.birth,ui.realname, ui.native_place, ui.phone, ui.idcard, p.unit_id
-,mo.status as out_status, mo.handle_time as out_handle_time
-from ow_member m left join ow_member_out mo on mo.user_id = m.user_id, ow_party p, sys_user u, sys_teacher_info t, sys_user_info ui
-where m.user_id=t.user_id and m.party_id=p.id and m.user_id =u.id and ui.user_id = u.id;
+
+DROP VIEW IF EXISTS `ow_member_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_member_view` AS
+select
+m.*, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
+ui.birth, ui.idcard, ui.mobile, ui.email, ui.unit, p.unit_id,
+mo.status as out_status, mo.handle_time as out_handle_time,
+
+t.education,t.degree,t.degree_time,t.major,t.school,t.school_type, t.degree_school,
+t.authorized_type, t.staff_type, t.staff_status, t.on_job, t.main_post_level,
+t.post_class, t.post, t.post_level, t.pro_post, t.pro_post_level, t.manage_level, t.office_level,
+t.title_level,t.marital_status,t.address,
+t.arrive_time, t.work_time, t.from_type, t.talent_type, t.talent_title,
+t.is_retire, t.is_honor_retire, t.retire_time,
+
+s.delay_year,s.period,s.actual_graduate_time,
+s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type as student_type,s.is_full_time,
+s.enrol_year,s.grade,s.edu_type,s.edu_way,s.edu_level,s.edu_category,s.xj_status
+
+from ow_member m
+left join sys_user_info ui on ui.user_id=m.user_id
+left join sys_user u on u.id=m.user_id
+left join ow_party p on p.id = m.party_id
+left join ow_member_out mo on mo.user_id = m.user_id
+left join sys_teacher_info t on t.user_id = m.user_id
+left join sys_student_info s on s.user_id = m.user_id;
 
 -- ----------------------------
 --  View definition for `ow_member_abroad_view`
