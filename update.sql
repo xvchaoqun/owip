@@ -6,31 +6,168 @@
 
 20190514
 
--- 删除
-drop view ow_member_student;
-drop view ow_member_teacher;
 
 删除文件：
  MemberStudentMixin MemberTeacherMixin
  memberStudent*/memberTeacher*
 
+drop view ow_member_student;
+drop view ow_member_teacher;
+
 update sys_resource SET name = '查看党员基本信息', permission = 'member:base' where id=220;
 delete from sys_resource where permission='memberStudent:list';
 
 
-更新
-ow_party_static_view
-ow_party_view
-ow_branch_view
-pcs_branch_view
-pcs_pr_candidate_view
-pcs_party_view
+DROP VIEW IF EXISTS `ow_member_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_member_view` AS
+select
+m.*, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
+ui.birth, ui.idcard, ui.mobile, ui.email, ui.unit, p.unit_id,
+mo.status as out_status, mo.handle_time as out_handle_time,
 
+t.education,t.degree,t.degree_time,t.major,t.school,t.school_type, t.degree_school,
+t.authorized_type, t.staff_type, t.staff_status, t.on_job, t.main_post_level,
+t.post_class, t.post, t.post_level, t.pro_post, t.pro_post_level, t.manage_level, t.office_level,
+t.title_level,t.marital_status,t.address,
+t.arrive_time, t.work_time, t.from_type, t.talent_type, t.talent_title,
+t.is_retire, t.is_honor_retire, t.retire_time,
+
+s.delay_year,s.period,s.actual_graduate_time,
+s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type as student_type,s.is_full_time,
+s.enrol_year,s.grade,s.edu_type,s.edu_way,s.edu_level,s.edu_category,s.xj_status
+
+from ow_member m
+left join sys_user_info ui on ui.user_id=m.user_id
+left join sys_user u on u.id=m.user_id
+left join ow_party p on p.id = m.party_id
+left join ow_member_out mo on mo.user_id = m.user_id
+left join sys_teacher_info t on t.user_id = m.user_id
+left join sys_student_info s on s.user_id = m.user_id;
+
+DROP VIEW IF EXISTS `ow_party_view`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_view` AS
+select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from ow_party p
+left join (select count(*) as num, party_id from ow_branch where is_deleted=0 group by party_id) btmp on btmp.party_id=p.id
+left join (select sum(if(type=2, 1, 0)) as s_num, sum(if(political_status=2, 1, 0)) as positive_count, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, party_id from ow_member_view where type=1 and status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id;
+
+-- ----------------------------
+--  View definition for `ow_branch_view`
+-- ----------------------------
+DROP VIEW IF EXISTS `ow_branch_view`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_view` AS
+select b.*, p.sort_order as party_sort_order, mtmp.num as member_count, mtmp.positive_count, mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count, gtmp2.num as present_group_count
+from ow_branch b
+left join ow_party p on b.party_id=p.id
+left join (select  sum(if(political_status=2, 1, 0)) as positive_count, sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, branch_id from ow_member_view where type=1 and status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 group by branch_id) gtmp on gtmp.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 and is_present=1 group by branch_id) gtmp2 on gtmp2.branch_id=b.id;
 
 ALTER TABLE `pmd_config_reset`
 	ADD COLUMN `party_id` INT UNSIGNED NULL COMMENT '涉及分党委' AFTER `reset`,
 	ADD COLUMN `branch_id` INT UNSIGNED NULL COMMENT '涉及党支部' AFTER `party_id`,
 	ADD COLUMN `limited_user_id` INT UNSIGNED NULL COMMENT '涉及缴费党员' AFTER `branch_id`;
+
+DROP VIEW IF EXISTS `ow_party_static_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_party_static_view` AS
+select p.id, p.name,
+s.bks, s.ss, s.bs, (s.bks+s.ss+s.bs) as student, s.positive_bks, s.positive_ss, s.positive_bs, (s.positive_bks + s.positive_ss + s.positive_bs) as positive_student,
+t.teacher,t.teacher_retire, (t.teacher+t.teacher_retire) as teacher_total, t.positive_teacher, t.positive_teacher_retire, (t.positive_teacher + t.positive_teacher_retire)as positive_teacher_total,
+b.bks_branch, b.ss_branch, b.bs_branch, b.sb_branch, b.bsb_branch,
+(b.bks_branch + b.ss_branch + b.bs_branch + b.sb_branch + b.bsb_branch) as student_branch_total, b.teacher_branch, b.retire_branch, (b.teacher_branch + b.retire_branch) as teacher_branch_total,
+a.teacher_apply_count, a.student_apply_count
+from ow_party p left join
+(
+select party_id,
+sum(if(edu_level is null, 1, 0)) as bks,
+sum(if(edu_level='硕士', 1, 0)) as ss,
+sum(if(edu_level='博士', 1, 0)) as bs,
+sum(if(edu_level is null and political_status=2, 1, 0)) as positive_bks,
+sum(if(edu_level='硕士' and political_status=2, 1, 0)) as positive_ss,
+sum(if(edu_level='博士' and political_status=2, 1, 0)) as positive_bs
+from ow_member_view where type=2 and status=1 group by party_id
+) s on s.party_id = p.id
+left join
+(
+select party_id,
+sum(if(is_retire, 0, 1)) teacher,
+sum(if(is_retire, 1, 0)) teacher_retire,
+sum(if(!is_retire and political_status=2, 1, 0)) positive_teacher,
+sum(if(is_retire and political_status=2, 1, 0)) positive_teacher_retire
+from ow_member_view where type=1 and status=1 group by party_id
+) t on t.party_id = p.id
+left join
+(select b.party_id,
+sum(if(locate('本科生',bmt.name), 1, 0)) as bks_branch,
+sum(if(locate('硕士',bmt.name), 1, 0)) as ss_branch,
+sum(if(locate('博士',bmt.name), 1, 0)) as bs_branch,
+sum(if(POSITION('硕博' in bmt.name)=1, 1, 0)) as sb_branch,
+sum(if(locate('本硕博',bmt.name), 1, 0)) as bsb_branch,
+sum(if(locate('在职',bmt.name), 1, 0)) as teacher_branch,
+sum(if(locate('离退休',bmt.name), 1, 0)) as retire_branch
+from ow_branch b, base_meta_type bmt where b.is_deleted=0 and b.type_id=bmt.id group by b.party_id
+)b on b.party_id = p.id
+left join
+(select p.id as party_id, sum(if(type=1, 1, 0)) as teacher_apply_count, sum(if(type=2, 1, 0)) as student_apply_count from ow_member_apply oma
+left join ow_party p on oma.party_id=p.id
+left join ow_branch b on oma.branch_id=b.id
+where p.is_deleted=0 and (b.is_deleted=0 or b.id is null) group by p.id
+)a on a.party_id = p.id
+where p.is_deleted=0 order by p.sort_order desc;
+
+DROP VIEW IF EXISTS `pcs_branch_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view` AS
+select  ob.party_id, ob.id as branch_id, ob.name, ob.member_count, ob.positive_count,  ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
+left join pcs_exclude_branch peb on peb.party_id=ob.party_id and peb.branch_id=ob.id
+where ob.is_deleted=0 and peb.id is null
+union all
+select  op.id as party_id, null as branch_id, op.name, op.member_count, op.positive_count, op.student_member_count, op.teacher_member_count, op.retire_member_count from ow_party_view op, base_meta_type bmt
+where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' order by member_count desc;
+
+DROP VIEW IF EXISTS `pcs_pr_candidate_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_pr_candidate_view` AS
+SELECT pc.*,
+uv.code, uv.realname, if(c.status=6, c.sort_order, -1)  as leader_sort_order, if(isnull(c.id), if(isnull(om.user_id), 3 , 2), 1) as user_type, c.edu_id as edu_id, c.post,
+  om.grow_time,  om.work_time, om.pro_post, om.education, om.is_retire, om.edu_level,
+ppr.party_id, ppr.config_id, ppr.stage, op.sort_order as party_sort_order, u.name as unit_name
+from pcs_pr_candidate pc
+left join sys_user_view uv on uv.id=pc.user_id
+left join cadre_view c on c.user_id = pc.user_id and c.status in(1, 6)
+left join ow_member_view om on om.user_id = pc.user_id
+, pcs_pr_recommend ppr
+left join ow_party op on op.id = ppr.party_id
+left join unit u on op.unit_id=u.id
+where pc.recommend_id=ppr.id;
+
+DROP VIEW IF EXISTS `pcs_party_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_party_view` AS select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from ow_party p
+left join (select count(ob.id) as num, ob.party_id from ow_branch ob
+left join pcs_exclude_branch peb on peb.party_id=ob.party_id and peb.branch_id=ob.id
+where ob.is_deleted=0 and peb.id is null group by ob.party_id) btmp on btmp.party_id=p.id
+left join (select sum(if(om.type=2, 1, 0)) as s_num, sum(if(om.political_status=2, 1, 0)) as positive_count, count(om.user_id) as num,  om.party_id from ow_member om
+left join ow_branch ob on ob.id = om.branch_id
+left join pcs_exclude_branch peb on peb.party_id=om.party_id and peb.branch_id=om.branch_id
+where ob.is_deleted=0 and om.status=1 and peb.id is null group by party_id
+union all
+select sum(if(om.type=2, 1, 0)) as s_num, sum(if(om.political_status=2, 1, 0)) as positive_count, count(om.user_id) as num,  om.party_id from ow_member om
+left join (select op.* from ow_party op, base_meta_type bmt  where op.class_id=bmt.id and bmt.code='mt_direct_branch') as op on op.id = om.party_id
+where op.is_deleted=0 and om.status=1 group by party_id
+) mtmp on mtmp.party_id=p.id
+left join (select sum(if(om.is_retire=0, 1, 0)) as t_num, sum(if(om.is_retire=1, 1, 0)) as t2_num,
+count(om.user_id) as num, om.party_id from ow_member_view om
+left join pcs_exclude_branch peb on peb.party_id=om.party_id and peb.branch_id=om.branch_id
+where type=1 and status=1 and peb.id is null group by party_id) mtmp2 on mtmp2.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id ;
+
 
 
 
