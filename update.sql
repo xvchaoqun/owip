@@ -20,11 +20,11 @@ delete from sys_resource where permission='memberStudent:list';
 
 更新
 ow_party_static_view
+ow_party_view
+ow_branch_view
 pcs_branch_view
 pcs_pr_candidate_view
 pcs_party_view
-ow_party_view
-ow_branch_view
 
 
 ALTER TABLE `pmd_config_reset`
