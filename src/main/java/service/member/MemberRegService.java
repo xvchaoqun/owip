@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.LoginUserService;
 import service.global.CacheService;
+import service.global.CacheHelper;
 import service.sys.SysUserService;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
@@ -36,6 +37,8 @@ import java.util.Map;
 @Service
 public class MemberRegService extends MemberBaseMapper {
 
+    @Autowired
+    private CacheHelper cacheHelper;
     @Autowired
     private CacheService cacheService;
     @Autowired
@@ -155,7 +158,7 @@ public class MemberRegService extends MemberBaseMapper {
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
     // 自动生成学工号,ZG开头+6位数字
@@ -294,7 +297,7 @@ public class MemberRegService extends MemberBaseMapper {
         _record.setPasswd(password);
         updateByPrimaryKeySelective(_record);
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
 
         return _sysUser;
     }

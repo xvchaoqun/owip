@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
 				</td>
 				<td class="bg-right">组织关系状态</td>
 				<td class="bg-left">
-					${memberStudent.status==null?"-":MEMBER_STATUS_MAP.get(memberStudent.status)}
+					${memberView.status==null?"-":MEMBER_STATUS_MAP.get(memberView.status)}
 				</td>
 			</tr>
 			<tr>

@@ -1,8 +1,7 @@
 package controller.member.user;
 
 import controller.member.MemberBaseController;
-import domain.member.MemberStudent;
-import domain.member.MemberTeacher;
+import domain.member.MemberView;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -25,30 +24,14 @@ public class UserMemberController extends MemberBaseController {
     @RequestMapping("/member")
     public String member(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
+        int userId = loginUser.getId();
+        MemberView memberView = iMemberMapper.getMemberView(userId);
+        modelMap.put("member", memberView);
+
         Byte type = loginUser.getType();
         if(type==SystemConstants.USER_TYPE_JZG)
-            return "forward:/user/teacher_base";
-        return "forward:/user/student_base";
-    }
-    @RequiresRoles(RoleConstants.ROLE_MEMBER)
-    @RequestMapping("/student_base")
-    public String student_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+            return "member/user/member/teacher_base";
 
-        int userId = loginUser.getId();
-        MemberStudent memberStudent = memberStudentService.get(userId);
-        modelMap.put("memberStudent", memberStudent);
-
-        return "member/user/member/student_base";
-    }
-    @RequiresRoles(RoleConstants.ROLE_MEMBER)
-    @RequestMapping("/teacher_base")
-    public String teacher_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
-
-        int userId = loginUser.getId();
-
-        MemberTeacher memberTeacher = memberTeacherService.get(userId);
-        modelMap.put("memberTeacher", memberTeacher);
-
-        return "member/user/member/teacher_base";
+         return "member/user/member/student_base";
     }
 }

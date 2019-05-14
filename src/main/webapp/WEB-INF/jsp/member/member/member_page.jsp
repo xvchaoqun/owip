@@ -6,15 +6,17 @@
 
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/member_au"
-             data-url-page="${ctx}/memberTeacher"
-             data-url-export="${ctx}/memberTeacher_data"
+             data-url-page="${ctx}/member"
+             data-url-export="${ctx}/member_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
              ||not empty param.age ||not empty param.gender||not empty selectNations||not empty param.nativePlace
+             ||not empty param.eduLevel ||not empty param.eduType
              ||not empty param.education ||not empty param.postClass
              ||not empty param._retireTime ||not empty param.isHonorRetire
              ||not empty param.politicalStatus||not empty param.source
-                ||not empty param._growTime ||not empty param._positiveTime ||not empty param._outHandleTime || not empty param.partyId }"/>
+                ||not empty param._growTime ||not empty param._positiveTime
+                ||not empty param._outHandleTime || not empty param.partyId }"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/member/member/member_menu.jsp"/>
 
@@ -46,6 +48,7 @@
                                     data-open-by="page">
                                 <i class="fa fa-history"></i> 修改记录
                             </button>
+                            <c:if test="${cls!=10}">
                             <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"
@@ -78,7 +81,8 @@
                                                                class="btn btn-danger btn-xs" value="全不选"/>
                                                     </div>
                                                     <button type="button" class="jqExportBtn btn btn-success"
-                                                            data-need-id="false" data-url="${ctx}/memberTeacher_data">
+                                                            data-need-id="false" data-url="${ctx}/member_data?cls=${cls}"
+                                                            data-querystr="format=1">
                                                         <i class="fa fa-file-excel-o"></i> 导出
                                                     </button>
                                                 </div>
@@ -87,9 +91,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                <i class="fa fa-download"></i> 导出</a>--%>
+                            </c:if>
                             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/member_batchDel" data-title="删除"
@@ -111,14 +113,22 @@
                                         <input type="hidden" name="cols">
                                         <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
-                                            <label>用户</label>
+                                            <label>党员姓名</label>
                                             <div class="input-group">
-                                                <c:set var="_status" value="${MEMBER_STATUS_NORMAL}"/>
+                                                <c:if test="${cls==1 || cls==6}">
+                                                    <c:set var="_type" value="${MEMBER_TYPE_STUDENT}"/>
+                                                </c:if>
+                                                <c:if test="${cls==2 || cls==7}">
+                                                    <c:set var="_type" value="${MEMBER_TYPE_TEACHER}"/>
+                                                </c:if>
+                                                <c:if test="${cls==1 || cls==2}">
+                                                    <c:set var="_status" value="${MEMBER_STATUS_NORMAL}"/>
+                                                </c:if>
                                                 <c:if test="${cls==6 || cls==7}">
                                                     <c:set var="_status" value="${MEMBER_STATUS_TRANSFER}"/>
                                                 </c:if>
                                                 <select data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/member_selects?type=${MEMBER_TYPE_TEACHER}&status=${_status}"
+                                                        data-ajax-url="${ctx}/member_selects?type=${_type}&status=${_status}"
                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
@@ -169,7 +179,7 @@
                                             <label>民族</label>
                                             <div class="input-group">
                                                 <select class="multiselect" multiple="" name="nation">
-                                                    <c:forEach items="${teacherNations}" var="nation">
+                                                    <c:forEach items="${nations}" var="nation">
                                                         <option value="${nation}">${nation}</option>
                                                     </c:forEach>
                                                 </select>
@@ -180,41 +190,83 @@
                                             <label>籍贯</label>
                                             <div class="input-group">
                                                 <select class="multiselect" name="nativePlace" multiple="">
-                                                    <c:forEach items="${teacherNativePlaces}" var="nativePlace">
+                                                    <c:forEach items="${nativePlaces}" var="nativePlace">
                                                         <option value="${nativePlace}">${nativePlace}</option>
                                                     </c:forEach>
                                                 </select>
 
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>最高学历</label>
-                                            <div class="input-group">
-                                                <select name="education" data-rel="select2" data-placeholder="请选择">
+                                        <c:if test="${cls==1 || cls==6}">
+                                            <div class="form-group">
+                                                <label>培养层次</label>
+                                                <input type="text" name="eduLevel" value="${param.eduLevel}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>培养类型</label>
+                                                <input type="text" name="eduType" value="${param.eduType}">
+                                            </div>
+                                        </c:if>
+
+                                        <c:if test="${cls==2 || cls==3 || cls==7}">
+                                            <div class="form-group">
+                                                <label>最高学历</label>
+                                                <div class="input-group">
+                                                    <select name="education" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:forEach items="${teacherEducationTypes}" var="education">
+                                                            <option value="${education}">${education}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=education]").val('${param.education}');
+                                                    </script>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>岗位类别</label>
+                                                <select name="postClass" data-width="150" data-rel="select2"
+                                                        data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:forEach items="${teacherEducationTypes}" var="education">
-                                                        <option value="${education}">${education}</option>
+                                                    <c:forEach items="${teacherPostClasses}" var="postClass">
+                                                        <option value="${postClass}">${postClass}</option>
                                                     </c:forEach>
                                                 </select>
                                                 <script>
-                                                    $("#searchForm select[name=education]").val('${param.education}');
+                                                    $("#searchForm select[name=postClass]").val('${param.postClass}');
                                                 </script>
                                             </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label>岗位类别</label>
-                                            <select name="postClass" data-width="150" data-rel="select2"
-                                                    data-placeholder="请选择">
-                                                <option></option>
-                                                <c:forEach items="${teacherPostClasses}" var="postClass">
-                                                    <option value="${postClass}">${postClass}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <script>
-                                                $("#searchForm select[name=postClass]").val('${param.postClass}');
-                                            </script>
-                                        </div>
+                                            <c:if test="${cls==3 || cls==7}">
+                                                <div class="form-group">
+                                                    <label>退休时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip"
+                                                         title="退休时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择退休时间范围" data-rel="date-range-picker"
+                                                               class="form-control date-range-picker"
+                                                               type="text" name="_retireTime"
+                                                               value="${param._retireTime}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>是否离休</label>
+                                                    <select name="isHonorRetire" data-width="100" data-rel="select2"
+                                                            data-placeholder="请选择">
+                                                        <option></option>
+                                                        <option value="1">是</option>
+                                                        <option value="0">否</option>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=isHonorRetire]").val('${param.isHonorRetire}');
+                                                    </script>
+                                                </div>
+                                            </c:if>
+                                        </c:if>
+
                                         <div class="form-group">
                                             <label>入党时间</label>
                                             <div class="input-group tooltip-success" data-rel="tooltip" title="入党时间范围">
@@ -237,32 +289,6 @@
                                                        type="text" name="_positiveTime" value="${param._positiveTime}"/>
                                             </div>
                                         </div>
-                                        <c:if test="${cls>=3}">
-                                            <div class="form-group">
-                                                <label>退休时间</label>
-                                                <div class="input-group tooltip-success" data-rel="tooltip"
-                                                     title="退休时间范围">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar bigger-110"></i>
-                                                            </span>
-                                                    <input placeholder="请选择退休时间范围" data-rel="date-range-picker"
-                                                           class="form-control date-range-picker"
-                                                           type="text" name="_retireTime" value="${param._retireTime}"/>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>是否离休</label>
-                                                <select name="isHonorRetire" data-width="100" data-rel="select2"
-                                                        data-placeholder="请选择">
-                                                    <option></option>
-                                                    <option value="1">是</option>
-                                                    <option value="0">否</option>
-                                                </select>
-                                                <script>
-                                                    $("#searchForm select[name=isHonorRetire]").val('${param.isHonorRetire}');
-                                                </script>
-                                            </div>
-                                        </c:if>
                                         <div class="form-group">
                                             <label>所在${_p_partyName}</label>
                                             <select class="form-control" data-width="350" data-rel="select2-ajax"
@@ -299,7 +325,8 @@
                                                 $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
                                             </script>
                                         </div>
-                                        <c:if test="${cls==7}">
+
+                                        <c:if test="${cls==6||cls==7}">
                                             <div class="form-group">
                                                 <label>转出时间</label>
                                                 <div class="input-group tooltip-success" data-rel="tooltip"
@@ -314,6 +341,7 @@
                                                 </div>
                                             </div>
                                         </c:if>
+
                                         <div class="form-group">
                                             <label>账号来源</label>
                                             <select name="source" data-width="120" data-placeholder="请选择"
@@ -394,7 +422,7 @@
         /*multiboxonly:false,*/
         ondblClickRow: function () {
         },
-        url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/member_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         sortname: 'party',
         colModel: [
             {
@@ -402,16 +430,11 @@
                     return $.member(rowObject.userId, cellvalue);
                 }, frozen: true
             },
-            {label: '工作证号', name: 'code', width: 120, frozen: true},
+            {label: '学工号', name: 'code', width: 120, frozen: true},
             {label: '性别', name: 'gender', width: 55, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation'},
             {label: '籍贯', name: 'nativePlace', width: 120},
             {label: '年龄', name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE},
-            {label: '最高学历', name: 'education', width: 120},
-            {label: '编制类别', name: 'authorizedType'},
-            {label: '人员类别', name: 'staffType'},
-            {label: '岗位类别', name: 'postClass'},
-            {label: '专业技术职务', name: 'proPost', width: 150},
             {
                 label: '所属组织机构', name: 'party', width: 550, formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
@@ -438,7 +461,21 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
-            <c:if test="${cls==7}">
+            <c:if test="${cls==1 || cls==6}">
+            {label: '学生类别', name: 'studentType', width: 150},
+            {label: '年级', name: 'grade', width: 90},
+            {label: '培养层次', name: 'eduLevel'},
+            {label: '培养类型', name: 'eduType'},
+            </c:if>
+            <c:if test="${cls==2 || cls==7}">
+            {label: '最高学历', name: 'education', width: 120},
+            {label: '编制类别', name: 'authorizedType'},
+            {label: '人员类别', name: 'staffType'},
+            {label: '岗位类别', name: 'postClass'},
+            {label: '专业技术职务', name: 'proPost', width: 150},
+            {label: '联系手机', name: 'mobile', width: 110},
+            </c:if>
+            <c:if test="${cls==6 || cls==7}">
             {
                 label: '转出时间',
                 name: 'outHandleTime',
@@ -446,12 +483,13 @@
                 formatoptions: {newformat: 'Y-m-d'}
             },
             </c:if>
-            {label: '联系手机', name: 'mobile', width: 110},
-            <c:if test="${cls>=3}">
+
+            <c:if test="${cls==3||cls==7}">
             {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
-            {label: '所在单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
+            {label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
+            {label: '所在院系', name: 'unit', width: 180, align: 'left'},
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}
         ]
     }).jqGrid("setFrozenColumns");
@@ -491,9 +529,4 @@
         }
     });
     </shiro:hasRole>
-
-    function _retireApply(userId) {
-
-        $.loadModal("${ctx}/retireApply?userId=" + userId);
-    }
 </script>

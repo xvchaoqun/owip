@@ -1,9 +1,12 @@
 package service.pmd;
 
+import controller.global.OpException;
 import domain.ext.ExtJzgSalary;
 import domain.ext.ExtJzgSalaryExample;
 import domain.ext.ExtRetireSalary;
 import domain.ext.ExtRetireSalaryExample;
+import domain.member.Member;
+import domain.member.MemberExample;
 import domain.pmd.*;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
@@ -17,14 +20,13 @@ import service.sys.LogService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
 import sys.constants.PmdConstants;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PmdConfigResetService extends PmdBaseMapper {
@@ -38,7 +40,7 @@ public class PmdConfigResetService extends PmdBaseMapper {
     @Autowired
     private PmdNormService pmdNormService;
     @Autowired
-    private  PmdConfigMemberService pmdConfigMemberService;
+    private PmdConfigMemberService pmdConfigMemberService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
     @Autowired
@@ -47,20 +49,20 @@ public class PmdConfigResetService extends PmdBaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 得到计算缴费工资的月份
-    public Date getSalaryMonth(){
+    public Date getSalaryMonth() {
 
         PmdConfigResetExample example = new PmdConfigResetExample();
         example.setOrderByClause("id desc");
         List<PmdConfigReset> pmdConfigResets = pmdConfigResetMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return pmdConfigResets.size()>0?pmdConfigResets.get(0).getSalaryMonth():null;
+        return pmdConfigResets.size() > 0 ? pmdConfigResets.get(0).getSalaryMonth() : null;
     }
 
     // 党费重新计算-更新党费计算工资（在职教职工）
     @Transactional
-    public void updateDuePayByJzgSalary(ExtJzgSalary ejs){
+    public void updateDuePayByJzgSalary(ExtJzgSalary ejs) {
 
-        if(ejs==null) return;
+        if (ejs == null) return;
 
         String zgh = ejs.getZgh();
         SysUserView uv = sysUserService.findByCode(zgh);
@@ -68,17 +70,17 @@ public class PmdConfigResetService extends PmdBaseMapper {
 
         // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非在职、校聘，比如学生助理）
         PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
-        if(pmdConfigMember!=null){
+        if (pmdConfigMember != null) {
             PmdConfigMemberType pmdConfigMemberType = pmdConfigMember.getPmdConfigMemberType();
-            if(pmdConfigMemberType!=null){
+            if (pmdConfigMemberType != null) {
                 PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
                 Byte formulaType = pmdNorm.getFormulaType();
                 // 额度类型为公式，且是在职和校聘的，才允许计算工资，否则跳出工资计算
-                if(false == (formulaType!=null
-                        && (formulaType== PmdConstants.PMD_FORMULA_TYPE_ONJOB
-                        || formulaType== PmdConstants.PMD_FORMULA_TYPE_EXTERNAL))){
+                if (false == (formulaType != null
+                        && (formulaType == PmdConstants.PMD_FORMULA_TYPE_ONJOB
+                        || formulaType == PmdConstants.PMD_FORMULA_TYPE_EXTERNAL))) {
 
-                    if(pmdNorm.getSetType()==PmdConstants.PMD_NORM_SET_TYPE_FIXED) {
+                    if (pmdNorm.getSetType() == PmdConstants.PMD_NORM_SET_TYPE_FIXED) {
                         // 如果是固定额度的，则更新为已设置额度
                         PmdConfigMember _pmdConfigMember = new PmdConfigMember();
                         _pmdConfigMember.setUserId(userId);
@@ -86,7 +88,7 @@ public class PmdConfigResetService extends PmdBaseMapper {
                         pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
                     }
 
-                    return ;
+                    return;
                 }
             }
         }
@@ -131,9 +133,9 @@ public class PmdConfigResetService extends PmdBaseMapper {
 
     // 党费重新计算-更新党费计算工资（离退休）
     @Transactional
-    public void updateDuePayByRetireSalary(ExtRetireSalary ers){
+    public void updateDuePayByRetireSalary(ExtRetireSalary ers) {
 
-        if(ers==null) return;
+        if (ers == null) return;
 
         BigDecimal base = ers.getBase();
         if (base != null && base.compareTo(BigDecimal.valueOf(0)) > 0) {
@@ -143,17 +145,17 @@ public class PmdConfigResetService extends PmdBaseMapper {
 
             // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非离退休，比如学生助理）
             PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
-            if(pmdConfigMember!=null){
+            if (pmdConfigMember != null) {
                 PmdConfigMemberType pmdConfigMemberType = pmdConfigMember.getPmdConfigMemberType();
-                if(pmdConfigMemberType!=null){
+                if (pmdConfigMemberType != null) {
                     PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
                     Byte formulaType = pmdNorm.getFormulaType();
 
                     // 额度类型为公式，且是离退的，才允许计算工资，否则跳出工资计算
-                    if(false == (formulaType!=null
-                            && formulaType== PmdConstants.PMD_FORMULA_TYPE_RETIRE)){
+                    if (false == (formulaType != null
+                            && formulaType == PmdConstants.PMD_FORMULA_TYPE_RETIRE)) {
 
-                        if(pmdNorm.getSetType()==PmdConstants.PMD_NORM_SET_TYPE_FIXED) {
+                        if (pmdNorm.getSetType() == PmdConstants.PMD_NORM_SET_TYPE_FIXED) {
                             // 如果是固定额度的，则更新为已设置额度
                             PmdConfigMember _pmdConfigMember = new PmdConfigMember();
                             _pmdConfigMember.setUserId(userId);
@@ -182,31 +184,54 @@ public class PmdConfigResetService extends PmdBaseMapper {
     // 重置党员缴费基本信息，只针对线上缴费，缴费方式已设置为现金缴费的不处理。
     @Transactional
     @CacheEvict(value = "PmdConfigMember", allEntries = true)
-    public void reset(String salaryMonth, boolean reset) {
+    public void reset(String salaryMonth, boolean reset, Integer partyId, Integer branchId, Integer userId) {
 
-        /*{
-            PmdConfigMember record = new PmdConfigMember();
-            record.setHasReset(false);
+        // 影响党员范围
+        Set<Integer> limitedUserIdSet = new HashSet<>();
+        if(partyId!=null || branchId!=null || userId!=null) {
+            MemberExample example = new MemberExample();
+            MemberExample.Criteria criteria = example.createCriteria()
+                    .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
+            if (partyId != null) {
+                criteria.andPartyIdEqualTo(partyId);
+            }
+            if (branchId != null) {
+                criteria.andBranchIdEqualTo(branchId);
+            }
+            if (userId != null) {
+                criteria.andUserIdEqualTo(userId);
+            }
+            List<Member> members = memberMapper.selectByExample(example);
+            if (members.size() > 0) {
+                for (Member member : members) {
+                    limitedUserIdSet.add(member.getUserId());
+                }
+            }
+        }
+        // 如果没有设定任何党员范围，则在全校范围进行更新操作，如果设定了则在指定的缴费党员中进行。
+        boolean limited = (limitedUserIdSet.size()>0);
 
-            PmdConfigMemberExample example = new PmdConfigMemberExample();
-            example.createCriteria().andIsOnlinePayEqualTo(true);
-            pmdConfigMemberMapper.updateByExampleSelective(record, example);
-        }*/
+        if(!limited && (partyId!=null || branchId!=null || userId!=null)) {
+            throw new OpException("所选范围不存在需要调整的缴费党员。");
+        }
 
         // 同步月份工资到党员缴费分类列表中 （在职、校聘教职工）
         List<ExtJzgSalary> extJzgSalaries = iPmdMapper.extJzgSalaryList(salaryMonth);
         for (ExtJzgSalary ejs : extJzgSalaries) {
-
-            updateDuePayByJzgSalary(ejs);
+            if(!limited || limitedUserIdSet.contains(sysUserService.findByCode(ejs.getZgh()).getId())){
+                updateDuePayByJzgSalary(ejs);
+            }
         }
         // 同步离退休工资到党员缴费分类列表中 （离退休教职工）
         List<ExtRetireSalary> extRetireSalaries = iPmdMapper.extRetireSalaryList(salaryMonth);
         for (ExtRetireSalary ers : extRetireSalaries) {
 
-            updateDuePayByRetireSalary(ers);
+            if(!limited || limitedUserIdSet.contains(sysUserService.findByCode(ers.getZgh()).getId())){
+                updateDuePayByRetireSalary(ers);
+            }
         }
 
-        if(reset) {
+        if (reset) {
             // 支部自行设定的额度，需要进行确认，（清除本月已设定的，但未缴费、未延迟缴费的记录的缴费额度）
             PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
             if (currentPmdMonth != null) {
@@ -225,11 +250,15 @@ public class PmdConfigResetService extends PmdBaseMapper {
                 }
 
                 PmdMemberExample example = new PmdMemberExample();
-                example.createCriteria().andMonthIdEqualTo(currentPmdMonth.getId())
+                PmdMemberExample.Criteria criteria = example.createCriteria().andMonthIdEqualTo(currentPmdMonth.getId())
                         .andConfigMemberTypeIdIn(configMemberTypeIdList)
                         .andHasPayEqualTo(false)
                         .andIsDelayEqualTo(false)
-                        .andIsOnlinePayEqualTo(true); // 只针对线上缴费
+                        .andIsOnlinePayEqualTo(true);// 只针对线上缴费
+                if(limited){
+                    criteria.andUserIdIn(new ArrayList<>(limitedUserIdSet));
+                }
+
                 List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
                 for (PmdMember pmdMember : pmdMembers) {
                     pmdConfigMemberService.clearPmdMemberDuePay(pmdMember.getUserId());
@@ -241,6 +270,9 @@ public class PmdConfigResetService extends PmdBaseMapper {
         record.setUserId(ShiroHelper.getCurrentUserId());
         record.setReset(reset);
         record.setSalaryMonth(DateUtils.parseDate(salaryMonth, "yyyyMM"));
+        record.setPartyId(partyId);
+        record.setBranchId(branchId);
+        record.setLimitedUserId(userId);
         record.setCreateTime(new Date());
         record.setIp(ContextHelper.getRealIp());
 

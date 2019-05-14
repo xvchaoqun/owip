@@ -422,58 +422,6 @@ public class PcsPrExportService extends PcsBaseMapper {
         String sc = studentMemberCount+ "";
         String rc = retireMemberCount + "";
 
-        /*// 去除排除支部的党员人数
-        List<Integer> excludeBranchIds = new ArrayList<>();
-        List<PcsExcludeBranch> pcsExcludeBranches = pcsExcludeBranchMapper.selectByExample(new PcsExcludeBranchExample());
-        for (PcsExcludeBranch pcsExcludeBranch : pcsExcludeBranches) {
-            excludeBranchIds.add(pcsExcludeBranch.getBranchId());
-        }
-        // 全校
-        {
-            MemberTeacherExample example = new MemberTeacherExample();
-            MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
-                    .andIsRetireNotEqualTo(true);
-            if (politicalStatus != null) {
-                criteria.andPoliticalStatusEqualTo(politicalStatus);
-            }
-            if (excludeBranchIds.size() > 0) {
-                criteria.andBranchIdNotIn(excludeBranchIds);
-            }
-            long count = memberTeacherMapper.countByExample(example);
-            totalMemberCount += count;
-            tc = count + "";
-        }
-        {
-            MemberTeacherExample example = new MemberTeacherExample();
-            MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
-                    .andIsRetireEqualTo(true);
-            if (politicalStatus != null) {
-                criteria.andPoliticalStatusEqualTo(politicalStatus);
-            }
-            if (excludeBranchIds.size() > 0) {
-                criteria.andBranchIdNotIn(excludeBranchIds);
-            }
-            long count = memberTeacherMapper.countByExample(example);
-            totalMemberCount += count;
-            rc = count + "";
-        }
-
-        {
-            MemberStudentExample example = new MemberStudentExample();
-            MemberStudentExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
-            if (politicalStatus != null) {
-                criteria.andPoliticalStatusEqualTo(politicalStatus);
-            }
-            if (excludeBranchIds.size() > 0) {
-                criteria.andBranchIdNotIn(excludeBranchIds);
-            }
-            long count = memberStudentMapper.countByExample(example);
-            totalMemberCount += count;
-            sc = count + "";
-        }
-
-        mc = totalMemberCount + "";*/
-
         map.put("mc", mc);
         map.put("tc", tc);
         map.put("sc", sc);

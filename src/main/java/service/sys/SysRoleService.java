@@ -12,19 +12,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.global.CacheService;
+import service.global.CacheHelper;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SysRoleService extends BaseMapper {
@@ -32,7 +26,7 @@ public class SysRoleService extends BaseMapper {
 	@Autowired
 	private SysResourceService sysResourceService;
 	@Autowired
-	private CacheService cacheService;
+	private CacheHelper cacheHelper;
 
 	public boolean idDuplicate(Integer id, String role){
 
@@ -52,7 +46,7 @@ public class SysRoleService extends BaseMapper {
 		example.createCriteria().andIdIn(Arrays.asList(ids));
 		sysRoleMapper.deleteByExample(example);
 
-		cacheService.clearRoleCache();
+		cacheHelper.clearRoleCache();
 	}
 
 	@Transactional
@@ -61,7 +55,7 @@ public class SysRoleService extends BaseMapper {
 		record.setSortOrder(getNextSortOrder("sys_role", null));
 		sysRoleMapper.insertSelective(record);
 
-		cacheService.clearRoleCache();
+		cacheHelper.clearRoleCache();
 	}
 	
 	@Transactional
@@ -69,7 +63,7 @@ public class SysRoleService extends BaseMapper {
 
 		sysRoleMapper.updateByPrimaryKeySelective(sysRole);
 
-		cacheService.clearRoleCache();
+		cacheHelper.clearRoleCache();
 	}
 
 	// 给角色添加或删除某个资源
@@ -110,7 +104,7 @@ public class SysRoleService extends BaseMapper {
 
 		sysRoleMapper.updateByPrimaryKeySelective(record);
 
-		cacheService.clearRoleCache();
+		cacheHelper.clearRoleCache();
 	}
 
 	@Cacheable(value = "SysRoles", key = "#role")
@@ -176,7 +170,7 @@ public class SysRoleService extends BaseMapper {
 			sysRoleMapper.updateByPrimaryKeySelective(record);
 		}
 
-		cacheService.clearRoleCache();
+		cacheHelper.clearRoleCache();
 	}
 
 	// 获取某个角色下拥有的所有权限

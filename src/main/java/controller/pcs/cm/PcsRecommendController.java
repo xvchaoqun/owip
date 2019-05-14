@@ -2,7 +2,7 @@ package controller.pcs.cm;
 
 import controller.pcs.PcsBaseController;
 import domain.cadre.CadreView;
-import domain.member.MemberTeacher;
+import domain.member.MemberView;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsCandidateView;
 import domain.pcs.PcsConfig;
@@ -222,21 +222,21 @@ public class PcsRecommendController extends PcsBaseController {
         if(userIds!=null){
             for (Integer userId : userIds) {
 
-                MemberTeacher memberTeacher = memberTeacherService.get(userId);
+                MemberView memberView = iMemberMapper.getMemberView(userId);
                 CadreView cv = cadreService.dbFindByUserId(userId);
                 SysUserView uv = cv.getUser();
                 PcsCandidateView candidate = new PcsCandidateView();
-                candidate.setUserId(memberTeacher.getUserId());
-                candidate.setCode(memberTeacher.getCode());
-                candidate.setRealname(memberTeacher.getRealname());
+                candidate.setUserId(memberView.getUserId());
+                candidate.setCode(memberView.getCode());
+                candidate.setRealname(memberView.getRealname());
                 candidate.setTitle(cv==null?null:cv.getTitle());
                 candidate.setExtUnit(uv.getUnit());
-                candidate.setGender(memberTeacher.getGender());
-                candidate.setNation(memberTeacher.getNation());
-                candidate.setBirth(memberTeacher.getBirth());
-                candidate.setGrowTime(memberTeacher.getGrowTime());
-                candidate.setWorkTime(memberTeacher.getWorkTime());
-                candidate.setProPost(memberTeacher.getProPost());
+                candidate.setGender(memberView.getGender());
+                candidate.setNation(memberView.getNation());
+                candidate.setBirth(memberView.getBirth());
+                candidate.setGrowTime(memberView.getGrowTime());
+                candidate.setWorkTime(memberView.getWorkTime());
+                candidate.setProPost(memberView.getProPost());
 
                 candidates.add(candidate);
             }

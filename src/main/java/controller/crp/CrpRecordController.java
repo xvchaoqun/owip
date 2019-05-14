@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CrpConstants;
 import sys.constants.LogConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -43,8 +45,13 @@ public class CrpRecordController extends BaseController {
     @RequiresPermissions("crpRecord:list")
     @RequestMapping("/crpRecord")
     public String crpRecord(@RequestParam(required = false, defaultValue = "0") Boolean isFinished,
+                                 Integer unitId,
                                  Integer userId,
                                  ModelMap modelMap) {
+
+        if(unitId != null){
+            modelMap.put("unit", unitService.findAll().get(unitId));
+        }
 
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
@@ -64,6 +71,9 @@ public class CrpRecordController extends BaseController {
                                Integer toUnitType,
                                Integer tempPostType,
 
+                               Integer unitId,
+                               String unit,
+                               @RequestDateRange DateRange startDate,
                                Byte type,
                                Boolean isFinished,
                                @RequestParam(required = false, defaultValue = "0") int export,
@@ -97,6 +107,17 @@ public class CrpRecordController extends BaseController {
         if (tempPostType != null) {
             criteria.andTempPostTypeEqualTo(tempPostType);
         }
+        if(unitId!=null){
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if(StringUtils.isNotBlank(unit)){
+            criteria.andUnitLike("%"+unit+"%");
+        }
+
+        if (startDate != null) {
+            criteria.andCrpDateIn(startDate);
+        }
+
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }

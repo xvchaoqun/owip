@@ -57,9 +57,7 @@ public class MemberBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected ApplySnRangeMapper applySnRangeMapper;
     @Autowired(required = false)
-    protected MemberStudentMapper memberStudentMapper;
-    @Autowired(required = false)
-    protected MemberTeacherMapper memberTeacherMapper;
+    protected MemberViewMapper memberViewMapper;
    
     @Autowired(required = false)
     protected MemberModifyMapper memberModifyMapper;

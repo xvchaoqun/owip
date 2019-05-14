@@ -23,6 +23,10 @@ public interface IMemberMapper {
     @Select("select max(import_seq) from ow_member_reg")
     Integer getMemberRegMaxSeq();
 
+    @ResultMap("persistence.member.MemberViewMapper.BaseResultMap")
+    @Select("select * from ow_member_view where user_id=#{userId}")
+    MemberView getMemberView(@Param("userId") int userId);
+
     @ResultMap("persistence.member.ApplySnRangeMapper.BaseResultMap")
     @Select("select * from ow_apply_sn_range where year=#{year} and (#{startSn} in(start_sn, end_sn) " +
             "or #{endSn} in(start_sn, end_sn) " +

@@ -7,7 +7,6 @@ import service.cadre.CadreService;
 import service.ext.ExtService;
 import service.party.BranchService;
 import service.party.MemberService;
-import service.party.MemberTeacherService;
 import service.party.PartyService;
 import service.pcs.*;
 import service.sys.StudentInfoService;
@@ -18,7 +17,6 @@ import sys.HttpResponseMethod;
 
 public class PcsBaseController extends PcsBaseMapper implements HttpResponseMethod {
 
-    
     @Autowired
     protected SysUserService sysUserService;
     @Autowired
@@ -27,8 +25,6 @@ public class PcsBaseController extends PcsBaseMapper implements HttpResponseMeth
     protected BranchService branchService;
     @Autowired
     protected MemberService memberService;
-    @Autowired
-    protected MemberTeacherService memberTeacherService;
     @Autowired
     protected CadreService cadreService;
     @Autowired

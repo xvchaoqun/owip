@@ -1,5 +1,8 @@
 package domain.crp;
 
+import sys.spring.DateRange;
+import sys.utils.DateUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -1487,6 +1490,37 @@ public class CrpRecordExample {
 
         protected Criteria() {
             super();
+        }
+
+        public void andCrpDateIn(DateRange startDate) {
+
+            if (startDate == null) return;
+
+            String start = DateUtils.formatDate(startDate.getStart(), DateUtils.YYYY_MM_DD);
+            String end = DateUtils.formatDate(startDate.getEnd(), DateUtils.YYYY_MM_DD);
+            if (start == null && end == null) return;
+
+            String sql = "(";
+            if (start != null) {
+                sql += "(start_date>='" + start + "'";
+                if (end != null) {
+                    sql += " and start_date<='" + end + "'";
+                }
+                sql += ")";
+            }
+            if (start != null && end != null) {
+                sql += " or ";
+            }
+            if (end != null) {
+                sql += "(real_end_date<='" + end + "'";
+                if (start != null) {
+                    sql += " and real_end_date>='" + start + "'";
+                }
+                sql += ")";
+            }
+            sql += ")";
+
+            addCriterion(sql);
         }
     }
 

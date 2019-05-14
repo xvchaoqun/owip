@@ -69,8 +69,8 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label">手机号码</label>
                         <div class="col-xs-6">
-                            <input class="form-control mobile" type="text" name="extPhone"
-                                   value="${teacherInfo.extPhone}">
+                            <input class="form-control mobile" type="text" name="mobile"
+                                   value="${sysUser.mobile}">
                         </div>
                     </div>
                 </c:if>

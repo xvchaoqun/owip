@@ -54,7 +54,13 @@ public class PartyPublicController extends BaseController {
     }
 
     @RequestMapping("/public/{id}/partyPublic")
-    public String public_partyPublic(@PathVariable String id,
+    public String public_partyPublic(){
+
+        return "page";
+    }
+
+    @RequestMapping("/public/{id}/partyPublic_page")
+    public String public_partyPublic_page(@PathVariable String id,
                                      HttpServletResponse response,
                                      ModelMap modelMap) throws Exception {
 

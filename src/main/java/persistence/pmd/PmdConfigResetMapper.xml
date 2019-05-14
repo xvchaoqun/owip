@@ -5,6 +5,9 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="reset" jdbcType="BIT" property="reset" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="limited_user_id" jdbcType="INTEGER" property="limitedUserId" />
     <result column="salary_month" jdbcType="DATE" property="salaryMonth" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
@@ -68,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, reset, salary_month, create_time, ip
+    id, user_id, reset, party_id, branch_id, limited_user_id, salary_month, create_time, 
+    ip
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdConfigResetExample" resultMap="BaseResultMap">
     select
@@ -102,9 +106,11 @@
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdConfigReset">
     insert into pmd_config_reset (id, user_id, reset, 
+      party_id, branch_id, limited_user_id, 
       salary_month, create_time, ip
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{reset,jdbcType=BIT}, 
+      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{limitedUserId,jdbcType=INTEGER}, 
       #{salaryMonth,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
       )
   </insert>
@@ -119,6 +125,15 @@
       </if>
       <if test="reset != null">
         reset,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="limitedUserId != null">
+        limited_user_id,
       </if>
       <if test="salaryMonth != null">
         salary_month,
@@ -139,6 +154,15 @@
       </if>
       <if test="reset != null">
         #{reset,jdbcType=BIT},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="limitedUserId != null">
+        #{limitedUserId,jdbcType=INTEGER},
       </if>
       <if test="salaryMonth != null">
         #{salaryMonth,jdbcType=DATE},
@@ -169,6 +193,15 @@
       <if test="record.reset != null">
         reset = #{record.reset,jdbcType=BIT},
       </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.limitedUserId != null">
+        limited_user_id = #{record.limitedUserId,jdbcType=INTEGER},
+      </if>
       <if test="record.salaryMonth != null">
         salary_month = #{record.salaryMonth,jdbcType=DATE},
       </if>
@@ -188,6 +221,9 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       reset = #{record.reset,jdbcType=BIT},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      limited_user_id = #{record.limitedUserId,jdbcType=INTEGER},
       salary_month = #{record.salaryMonth,jdbcType=DATE},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
@@ -203,6 +239,15 @@
       </if>
       <if test="reset != null">
         reset = #{reset,jdbcType=BIT},
+      </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="limitedUserId != null">
+        limited_user_id = #{limitedUserId,jdbcType=INTEGER},
       </if>
       <if test="salaryMonth != null">
         salary_month = #{salaryMonth,jdbcType=DATE},
@@ -220,6 +265,9 @@
     update pmd_config_reset
     set user_id = #{userId,jdbcType=INTEGER},
       reset = #{reset,jdbcType=BIT},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      limited_user_id = #{limitedUserId,jdbcType=INTEGER},
       salary_month = #{salaryMonth,jdbcType=DATE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR}

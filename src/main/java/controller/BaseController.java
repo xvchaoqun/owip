@@ -58,10 +58,6 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected PartyPublicUserService partyPublicUserService;
     @Autowired
-    protected MemberStudentService memberStudentService;
-    @Autowired
-    protected MemberTeacherService memberTeacherService;
-    @Autowired
     protected MemberService memberService;
 
     @Autowired

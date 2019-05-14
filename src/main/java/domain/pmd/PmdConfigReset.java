@@ -13,6 +13,12 @@ public class PmdConfigReset implements Serializable {
 
     private Boolean reset;
 
+    private Integer partyId;
+
+    private Integer branchId;
+
+    private Integer limitedUserId;
+
     @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date salaryMonth;
 
@@ -44,6 +50,30 @@ public class PmdConfigReset implements Serializable {
 
     public void setReset(Boolean reset) {
         this.reset = reset;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
+    public Integer getLimitedUserId() {
+        return limitedUserId;
+    }
+
+    public void setLimitedUserId(Integer limitedUserId) {
+        this.limitedUserId = limitedUserId;
     }
 
     public Date getSalaryMonth() {

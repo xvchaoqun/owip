@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.global.CacheService;
+import service.global.CacheHelper;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
 import sys.utils.ContextHelper;
@@ -26,7 +26,7 @@ import java.util.List;
 public class ModifyBaseItemService extends BaseMapper {
 
     @Autowired
-    private CacheService cacheService;
+    private CacheHelper cacheHelper;
 
     // 查找当前申请的所有修改项
     public List<ModifyBaseItem> list(int applyId) {
@@ -145,7 +145,7 @@ public class ModifyBaseItemService extends BaseMapper {
         // 没审核通过或者不需要更新数据的，则不更新缓存
         if(BooleanUtils.isNotTrue(status) || StringUtils.isBlank(tableName)) return;
 
-        cacheService.clearUserCache(_sysUser);
-        cacheService.clearCadreCache();
+        cacheHelper.clearUserCache(_sysUser);
+        cacheHelper.clearCadreCache();
     }
 }

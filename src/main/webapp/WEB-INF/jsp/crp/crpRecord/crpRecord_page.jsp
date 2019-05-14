@@ -31,14 +31,19 @@
             <c:set var="_query"
                    value="${not empty param.userId  ||not empty param.realname
                    ||not empty param.isPresentCadre ||not empty param.toUnitType
+                   ||not empty param.unit||not empty param.unitId||not empty param.startDate
                    ||not empty param.tempPostType || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${!isFinished}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=0"><i class="fa fa-circle-o-notch fa-spin"></i> 正在挂职</a>
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/crpRecord?type=${param.type}&isFinished=0"><i
+                                class="fa fa-circle-o-notch fa-spin"></i> 正在挂职</a>
                     </li>
                     <li class="<c:if test="${isFinished}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=1"><i class="fa fa-history"></i> 挂职结束</a>
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/crpRecord?type=${param.type}&isFinished=1"><i class="fa fa-history"></i>
+                            挂职结束</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -46,19 +51,21 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="crpRecord:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-width="900"
-                                   data-url="${ctx}/crpRecord_au?type=${param.type}&isFinished=${isFinished?1:0}"><i class="fa fa-plus"></i>
+                                   data-url="${ctx}/crpRecord_au?type=${param.type}&isFinished=${isFinished?1:0}"><i
+                                        class="fa fa-plus"></i>
                                     添加</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm" data-width="900"
                                    data-url="${ctx}/crpRecord_au"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&type=${param.type}&isFinished=${isFinished?1:0}"><i class="fa fa-edit"></i>
+                                   data-querystr="&type=${param.type}&isFinished=${isFinished?1:0}"><i
+                                        class="fa fa-edit"></i>
                                     修改</a>
                             </shiro:hasPermission>
                             <c:if test="${!isFinished}">
-                            <a class="jqOpenViewBtn btn btn-warning btn-sm"
-                               data-url="${ctx}/crpRecord_finish"
-                               data-grid-id="#jqGrid"><i class="fa fa-power-off"></i>
-                                挂职结束</a>
+                                <a class="jqOpenViewBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/crpRecord_finish"
+                                   data-grid-id="#jqGrid"><i class="fa fa-power-off"></i>
+                                    挂职结束</a>
                             </c:if>
                             <shiro:hasPermission name="crpRecord:del">
                                 <button data-url="${ctx}/crpRecord_batchDel"
@@ -118,6 +125,37 @@
                                                 </script>
                                             </div>
                                         </c:if>
+                                        <c:if test="${param.type!=CRP_RECORD_TYPE_OUT}">
+                                            <div class="form-group">
+                                                <label>挂职单位</label>
+                                                <select name="unitId" data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/unit_selects"
+                                                        data-placeholder="请选择">
+                                                    <option value="${unit.id}"
+                                                            title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                                                </select>
+                                                <script>
+                                                    $.register.del_select($("#searchForm select[name=unitId]"), 200)
+                                                </script>
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${param.type==CRP_RECORD_TYPE_OUT}">
+                                            <div class="form-group">
+                                                <label>挂职单位</label>
+                                                <input class="form-control search-query" name="unit" type="text"
+                                                       value="${param.unit}"
+                                                       placeholder="请输入挂职单位">
+                                            </div>
+                                        </c:if>
+                                        <div class="form-group">
+                                            <label>挂职时间</label>
+                                            <div class="input-group tooltip-success" data-rel="tooltip" title="挂职时间范围">
+                                                <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                                                <input placeholder="请选择挂职时间范围" data-rel="date-range-picker"
+                                                       class="form-control date-range-picker" type="text"
+                                                       name="startDate" value="${param.startDate}"/>
+                                            </div>
+                                        </div>
                                         <c:if test="${param.type!=CRP_RECORD_TYPE_IN}">
                                             <div class="form-group">
                                                 <label>委派单位</label>
@@ -167,6 +205,7 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/crpRecord_data?type=${param.type}&isFinished=${isFinished}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -176,56 +215,80 @@
             </c:if>
             {
                 label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.type == '${CRP_RECORD_TYPE_TRANSFER}') {
-                    return cellvalue;
-                }
-                if (rowObject.cadre && rowObject.cadre.id > 0)
-                    return $.cadre(rowObject.cadre.id, rowObject.cadre.realname);
+                    if (rowObject.type == '${CRP_RECORD_TYPE_TRANSFER}') {
+                        return cellvalue;
+                    }
+                    if (rowObject.cadre && rowObject.cadre.id > 0)
+                        return $.cadre(rowObject.cadre.id, rowObject.cadre.realname);
 
-                return rowObject.user.realname;
-            }, frozen: true
+                    return rowObject.user.realname;
+                }, frozen: true
             },
             <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
             {label: '是否现任干部', name: 'isPresentCadre', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
-            {label: '时任职务', name: 'presentPost', width: 250, align:'left'},
+            {label: '时任职务', name: 'presentPost', width: 250, align: 'left'},
             {label: '联系电话', name: 'phone', width: 150},
 
             {
                 label: '委派单位', name: 'toUnitType', formatter: function (cellvalue, options, rowObject) {
-                <c:if test="${param.type==CRP_RECORD_TYPE_IN}">
-                return rowObject.toUnit;
-                </c:if>
-                <c:if test="${param.type!=CRP_RECORD_TYPE_IN}">
-                if (cellvalue == undefined) return '--';
-                return _cMap.metaTypeMap[cellvalue].name +
+                    <c:if test="${param.type==CRP_RECORD_TYPE_IN}">
+                    return rowObject.toUnit;
+                    </c:if>
+                    <c:if test="${param.type!=CRP_RECORD_TYPE_IN}">
+                    if (cellvalue == undefined) return '--';
+                    return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(unitCodeOther).id}') ? ("：" + rowObject.toUnit) : "");
-                </c:if>
-            }, width: 150
+                    </c:if>
+                }, width: 150
             },
             {
                 label: '挂职类别', name: 'tempPostType', width: 180, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '--';
-                return _cMap.metaTypeMap[cellvalue].name +
+                    if (cellvalue == undefined) return '--';
+                    return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(postCodeOther).id}') ? ("：" + rowObject.tempPost) : "");
-            }
+                }
             },
-            {label: '挂职项目', name: 'project', width: 300, align:'left'},
-            {label: '挂职单位', name: '_unit', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
-                <c:if test="${param.type==CRP_RECORD_TYPE_OUT}">
+            {label: '挂职项目', name: 'project', width: 300, align: 'left'},
+            {
+                label: '挂职单位',
+                name: '_unit',
+                width: 200,
+                align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    <c:if test="${param.type==CRP_RECORD_TYPE_OUT}">
                     return $.trim(rowObject.unit);
-                </c:if>
+                    </c:if>
                     <c:if test="${param.type!=CRP_RECORD_TYPE_OUT}">
                     return $.jgrid.formatter.unit(rowObject.unitId)
-                </c:if>
-            }},
-            {label: '所任职务', name: 'post', width: 150, align:'left'},
-            {label: '挂职开始时间', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+                    </c:if>
+                }
+            },
+            {label: '所任职务', name: 'post', width: 150, align: 'left'},
+            {
+                label: '挂职开始时间',
+                name: 'startDate',
+                width: 120,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m'}
+            },
             <c:if test="${!isFinished}">
-            {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {
+                label: '挂职拟结束时间',
+                name: 'endDate',
+                width: 120,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m'}
+            },
             </c:if>
             <c:if test="${isFinished}">
-            {label: '挂职实际结束时间', name: 'realEndDate', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {
+                label: '挂职实际结束时间',
+                name: 'realEndDate',
+                width: 150,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m'}
+            },
             </c:if>
             {label: '备注', name: 'remark', width: 300}
         ]

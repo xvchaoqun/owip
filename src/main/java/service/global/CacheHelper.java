@@ -1,0 +1,59 @@
+package service.global;
+
+import domain.member.MemberReg;
+import domain.sys.SysUser;
+import domain.sys.SysUserView;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.stereotype.Service;
+
+/**
+ * Created by fafa on 2017/4/11.
+ */
+@Service
+public class CacheHelper {
+
+ @Caching(evict = {
+            @CacheEvict(value = "UserRoles", key = "#u.username"),
+            @CacheEvict(value = "SysUserView", key = "#u.username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
+    })
+    public void clearUserCache(SysUser u) {}
+
+    @Caching(evict = {
+            @CacheEvict(value = "UserRoles", key = "#u.username"),
+            @CacheEvict(value = "SysUserView", key = "#u.username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
+    })
+    public void clearUserCache(SysUserView u) {}
+
+    @Caching(evict = {
+            @CacheEvict(value = "UserRoles", key = "#u.username"),
+            @CacheEvict(value = "SysUserView", key = "#u.username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
+    })
+    public void clearUserCache(MemberReg u) {}
+
+    @Caching(evict={
+            @CacheEvict(value="UserPermissions", allEntries=true),
+            @CacheEvict(value="SysResources", allEntries=true),
+            @CacheEvict(value="UserRoles", allEntries=true),
+            @CacheEvict(value="SysRoles", allEntries=true)
+    })
+    public void clearRoleCache() {}
+
+    @Caching(evict = {
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void clearCadreCache() {}
+
+}

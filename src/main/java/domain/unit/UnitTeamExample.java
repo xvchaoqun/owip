@@ -893,7 +893,7 @@ public class UnitTeamExample {
                 /*if(termTimeRange!=null) {
                     String start = DateUtils.formatDate(termTimeRange.getStart(), DateUtils.YYYY_MM_DD);
                     String end = DateUtils.formatDate(termTimeRange.getEnd(), DateUtils.YYYY_MM_DD);
-                    addCriterion("((expect_depose_date >= " + start + " and expect_depose_date<=" + end + ") " +
+                    addCriterion("((expect_depose_date >= '" + start + "' and expect_depose_date<='" + end + "') " +
                             "or expect_depose_date<=now() or "
                             + "(left(expect_depose_date,4)="+ currentYear
                             + " or expect_depose_date<=now())" +") and depose_date is null");
@@ -914,7 +914,7 @@ public class UnitTeamExample {
                 String start = DateUtils.formatDate(termTimeRange.getStart(), DateUtils.YYYY_MM_DD);
                 String end = DateUtils.formatDate(termTimeRange.getEnd(), DateUtils.YYYY_MM_DD);
                 // 本学期应启动换届单位
-                addCriterion("((expect_depose_date >= "+ start + " and expect_depose_date<="+ end +") " +
+                addCriterion("((expect_depose_date >= '"+ start + "' and expect_depose_date<='"+ end +"') " +
                         "or expect_depose_date<=now()) and depose_date is null");
             }else if(timeLevel==3){
                 if(_deposeTime==null || (_deposeTime.getStart()==null && _deposeTime.getEnd()==null)){
@@ -922,7 +922,7 @@ public class UnitTeamExample {
                     if(termTimeRange!=null) {
                         String start = DateUtils.formatDate(termTimeRange.getStart(), DateUtils.YYYY_MM_DD);
                         String end = DateUtils.formatDate(termTimeRange.getEnd(), DateUtils.YYYY_MM_DD);
-                        addCriterion("((expect_depose_date < " + start + " or expect_depose_date>" + end + ") " +
+                        addCriterion("((expect_depose_date < '" + start + "' or expect_depose_date > '" + end + "') " +
                                 "and left(expect_depose_date,4)!= "+ currentYear
                                 + " and expect_depose_date>now()) and depose_date is null");
                     }else{
@@ -937,11 +937,11 @@ public class UnitTeamExample {
 
                 String searchStr = "";
                 if(start!=null && end==null){
-                    searchStr = "expect_depose_date >= "+ start;
+                    searchStr = "expect_depose_date >= '"+ start +"' ";
                 }else if(start==null && end!=null){
-                    searchStr = "expect_depose_date <= "+ end;
+                    searchStr = "expect_depose_date <= '"+ end + "' ";
                 }else{
-                    searchStr = "expect_depose_date >= "+ start + " and expect_depose_date <= "+ end;
+                    searchStr = "expect_depose_date >= '"+ start + "' and expect_depose_date <= '"+ end+ "' ";
                 }
                 // 其他时段应启动换届单位
                 addCriterion("(" + searchStr + ")"

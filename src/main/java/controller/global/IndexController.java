@@ -1,8 +1,7 @@
 package controller.global;
 
 import controller.BaseController;
-import domain.member.MemberStudent;
-import domain.member.MemberTeacher;
+import domain.member.MemberView;
 import domain.sys.HtmlFragment;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.Logical;
@@ -47,6 +46,11 @@ public class IndexController extends BaseController {
 
 	@RequestMapping("/faq")
 	public String faq() {
+		return "page";
+	}
+
+	@RequestMapping("/faq_page")
+	public String faq_page() {
 
 		return "faq";
 	}
@@ -89,14 +93,15 @@ public class IndexController extends BaseController {
 		Integer userId = loginUser.getId();
 		modelMap.put("sysUser", loginUser);
 
+		MemberView memberView = iMemberMapper.getMemberView(userId);
+		modelMap.put("memberView", memberView);
+
 		if(loginUser.getType()== SystemConstants.USER_TYPE_JZG) {
-			MemberTeacher memberTeacher = memberTeacherService.get(userId);
-			modelMap.put("memberTeacher", memberTeacher);
+
 			modelMap.put("teacher", teacherInfoService.get(userId));
 			return "teacher_base";
 		}else {
-			MemberStudent memberStudent = memberStudentService.get(userId);
-			modelMap.put("memberStudent", memberStudent);
+
 			modelMap.put("student", studentService.get(userId));
 			return "student_base";
 		}

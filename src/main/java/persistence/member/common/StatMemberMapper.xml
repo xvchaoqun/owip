@@ -26,12 +26,12 @@
 
     <!-- 统计教职工党员年龄分布情况 -->
     <select id="member_teatcherGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
-        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as type from ow_member_teacher where status=1
+        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as type from ow_member_view where type=1 and status=1
         <include refid="Where_ow"/> group by type
     </select>
     <!-- 统计学生党员年龄分布情况 -->
     <select id="member_studentGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
-        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as type from ow_member_student where status=1
+        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as type from ow_member_view where type=2 and status=1
         <include refid="Where_ow"/> group by type
     </select>
     <!-- 统计党员发展各阶段情况-->

@@ -31,13 +31,9 @@ public class MemberBaseController extends MemberBaseMapper  implements HttpRespo
     @Autowired
     protected MemberService memberService;
     @Autowired
-    protected MemberStudentService memberStudentService;
-    @Autowired
     protected StudentInfoService studentInfoService;
     @Autowired
     protected TeacherInfoService teacherInfoService;
-    @Autowired
-    protected MemberTeacherService memberTeacherService;
     @Autowired
     protected ExtService extService;
     @Autowired

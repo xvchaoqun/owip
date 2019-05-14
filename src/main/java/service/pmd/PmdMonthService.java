@@ -5,7 +5,7 @@ import domain.ext.ExtJzgSalary;
 import domain.ext.ExtRetireSalary;
 import domain.member.Member;
 import domain.member.MemberExample;
-import domain.member.MemberTeacher;
+import domain.member.MemberView;
 import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;
@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.pmd.common.PmdReportBean;
 import service.party.MemberService;
-import service.party.MemberTeacherService;
 import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
@@ -43,8 +42,6 @@ public class PmdMonthService extends PmdBaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    protected MemberTeacherService memberTeacherService;
     @Autowired
     protected PartyService partyService;
     @Autowired
@@ -363,8 +360,8 @@ public class PmdMonthService extends PmdBaseMapper {
             if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
                 configMemberType = PmdConstants.PMD_MEMBER_TYPE_STUDENT;
             } else {
-                MemberTeacher memberTeacher = memberTeacherService.get(userId);
-                configMemberType = memberTeacher.getIsRetire() ? PmdConstants.PMD_MEMBER_TYPE_RETIRE
+                MemberView memberView = iMemberMapper.getMemberView(userId);
+                configMemberType = memberView.getIsRetire() ? PmdConstants.PMD_MEMBER_TYPE_RETIRE
                         : PmdConstants.PMD_MEMBER_TYPE_ONJOB;
                 // 附属学校
                 Set<String> partyCodeSet = new HashSet<>();
@@ -386,10 +383,10 @@ public class PmdMonthService extends PmdBaseMapper {
                         configMemberTypeId = pmdConfigMemberType.getId();
                     }
 
-                    retireBase = pmdExtService.getRetireBase(memberTeacher.getCode());
+                    retireBase = pmdExtService.getRetireBase(memberView.getCode());
                     duePay = pmdExtService.getDuePayFromRetireBase(retireBase);
                 } else {
-                    boolean syb = pmdExtService.isSYB(memberTeacher);
+                    boolean syb = pmdExtService.isSYB(memberView);
                     if (syb) {
 
                         needSetSalary = true;
@@ -400,7 +397,7 @@ public class PmdMonthService extends PmdBaseMapper {
                             configMemberTypeId = pmdConfigMemberType.getId();
                         }
 
-                    } else if (pmdExtService.isXP(memberTeacher)) {
+                    } else if (pmdExtService.isXP(memberView)) {
 
                         needSetSalary = true;
 
@@ -450,15 +447,15 @@ public class PmdMonthService extends PmdBaseMapper {
 
             if(configMemberType != PmdConstants.PMD_MEMBER_TYPE_STUDENT){
 
-                MemberTeacher memberTeacher = memberTeacherService.get(userId);
-                _pmdMember.setTalentTitle(memberTeacher.getTalentTitle());
-                _pmdMember.setPostClass(memberTeacher.getPostClass());
-                _pmdMember.setMainPostLevel(memberTeacher.getMainPostLevel());
-                _pmdMember.setProPostLevel(memberTeacher.getProPostLevel());
-                _pmdMember.setManageLevel(memberTeacher.getManageLevel());
-                _pmdMember.setOfficeLevel(memberTeacher.getOfficeLevel());
-                _pmdMember.setAuthorizedType(memberTeacher.getAuthorizedType());
-                _pmdMember.setStaffType(memberTeacher.getStaffType());
+                MemberView memberView = iMemberMapper.getMemberView(userId);
+                _pmdMember.setTalentTitle(memberView.getTalentTitle());
+                _pmdMember.setPostClass(memberView.getPostClass());
+                _pmdMember.setMainPostLevel(memberView.getMainPostLevel());
+                _pmdMember.setProPostLevel(memberView.getProPostLevel());
+                _pmdMember.setManageLevel(memberView.getManageLevel());
+                _pmdMember.setOfficeLevel(memberView.getOfficeLevel());
+                _pmdMember.setAuthorizedType(memberView.getAuthorizedType());
+                _pmdMember.setStaffType(memberView.getStaffType());
             }
 
             _pmdMember.setType(configMemberType);

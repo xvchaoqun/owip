@@ -15,8 +15,7 @@ import persistence.abroad.common.ApproverTypeBean;
 import service.BaseMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApproverService;
-import service.ext.ExtService;
-import service.global.CacheService;
+import service.global.CacheHelper;
 import service.party.PartyMemberAdminService;
 import service.pcs.PcsAdminService;
 import service.pmd.PmdPartyAdminService;
@@ -38,7 +37,7 @@ public class SysUserService extends BaseMapper {
     @Autowired
     private SysResourceService sysResourceService;
     @Autowired
-    private CacheService cacheService;
+    private CacheHelper cacheHelper;
 
     @Transactional
     public void changeRoleGuestToMember(int userId) {
@@ -82,7 +81,7 @@ public class SysUserService extends BaseMapper {
             addRole(userId, RoleConstants.ROLE_TEACHER);
         }
         // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
-        cacheService.clearUserCache(record);
+        cacheHelper.clearUserCache(record);
     }
 
     @Transactional
@@ -99,7 +98,7 @@ public class SysUserService extends BaseMapper {
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
     public SysUser dbFindById(int id) {
@@ -172,7 +171,7 @@ public class SysUserService extends BaseMapper {
             }
         }
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
     @Transactional
@@ -186,7 +185,7 @@ public class SysUserService extends BaseMapper {
 
         sysUserMapper.updateByPrimaryKeySelective(record);
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
     @Transactional
@@ -194,7 +193,7 @@ public class SysUserService extends BaseMapper {
 
         SysUser _sysUser = sysUserMapper.selectByPrimaryKey(id);
         sysUserMapper.deleteByPrimaryKey(id);
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
     public Set<Integer> getUserRoleIdSet(String roleIdsStr) {
@@ -232,7 +231,7 @@ public class SysUserService extends BaseMapper {
                 + SystemConstants.USER_ROLEIDS_SEPARTOR);
         updateByPrimaryKeySelective(record);
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
     // 添加一个角色（重复则替换）
@@ -253,7 +252,7 @@ public class SysUserService extends BaseMapper {
                 + SystemConstants.USER_ROLEIDS_SEPARTOR);
         updateByPrimaryKeySelective(record);
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
 
@@ -276,7 +275,7 @@ public class SysUserService extends BaseMapper {
                 + SystemConstants.USER_ROLEIDS_SEPARTOR);
         updateByPrimaryKeySelective(record);
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
 
         //踢下线（如果登入的话）
         ShiroHelper.kickOutUser(_sysUser.getUsername());
@@ -421,7 +420,7 @@ public class SysUserService extends BaseMapper {
 
         sysUserMapper.updateByPrimaryKeySelective(user);
 
-        cacheService.clearUserCache(_sysUser);
+        cacheHelper.clearUserCache(_sysUser);
     }
 
     /**

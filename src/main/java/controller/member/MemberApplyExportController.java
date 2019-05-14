@@ -5,8 +5,7 @@ import domain.cadre.CadreView;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
 import domain.member.MemberApplyExample.Criteria;
-import domain.member.MemberStudent;
-import domain.member.MemberTeacher;
+import domain.member.MemberView;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.StudentInfo;
@@ -221,7 +220,7 @@ public class MemberApplyExportController extends MemberBaseController {
         for (MemberApply memberApply:records) {
             UserBean record = userBeanService.get(memberApply.getUserId());
             StudentInfo studentInfo = studentInfoService.get(memberApply.getUserId());
-            MemberStudent memberStudent = memberStudentService.get(memberApply.getUserId());
+            MemberView memberView = iMemberMapper.getMemberView(memberApply.getUserId());
             Byte gender = record==null?null:record.getGender();
             Integer partyId = memberApply.getPartyId();
             Integer branchId = memberApply.getBranchId();
@@ -238,7 +237,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
                     record==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
-                    memberStudent==null?"":DateUtils.formatDate(memberStudent.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    memberView==null?"":DateUtils.formatDate(memberView.getGrowTime(), DateUtils.YYYY_MM_DD),
                     studentInfo==null?"":studentInfo.getEduLevel(),
                     studentInfo==null?"":studentInfo.getEduType(),
                     studentInfo==null?"":studentInfo.getEduCategory(),
@@ -246,7 +245,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     studentInfo==null?"":DateUtils.formatDate(studentInfo.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),
                     studentInfo==null?"":studentInfo.getXjStatus(),
                     record==null?"":record.getNativePlace(),
-                    memberStudent==null?"":DateUtils.formatDate(memberStudent.getPositiveTime(), DateUtils.YYYY_MM_DD)
+                    memberView==null?"":DateUtils.formatDate(memberView.getPositiveTime(), DateUtils.YYYY_MM_DD)
             }));
 
             if(exportType==3){
@@ -385,7 +384,7 @@ public class MemberApplyExportController extends MemberBaseController {
 
             UserBean userBean = userBeanService.get(memberApply.getUserId());
             TeacherInfo record = teacherInfoService.get(memberApply.getUserId());
-            MemberTeacher memberTeacher = memberTeacherService.get(memberApply.getUserId());
+            MemberView memberView = iMemberMapper.getMemberView(memberApply.getUserId());
             Byte gender = userBean==null?null:userBean.getGender();
             Integer partyId = memberApply.getPartyId();
             Integer branchId = memberApply.getBranchId();
@@ -422,11 +421,11 @@ public class MemberApplyExportController extends MemberBaseController {
                     userBean==null?"":userBean.getNation(),
                     record==null?"":userBean.getCountry(), // 国家/地区
                     userBean==null?"":userBean.getIdcard(), // 证件号码
-                    memberTeacher==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(memberTeacher.getPoliticalStatus()),
+                    memberView==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(memberView.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
                     record==null?"":userBean.getUnit(), // 所在单位
-                    memberTeacher==null?"":DateUtils.formatDate(memberTeacher.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    memberView==null?"":DateUtils.formatDate(memberView.getGrowTime(), DateUtils.YYYY_MM_DD),
                     record==null?"":DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record==null?"":record.getProPost(),
                     record==null?"":record.getProPostLevel(), //专技岗位等级
@@ -441,7 +440,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     record==null?"":record.getTalentType(), // 人才类型
                     record==null?"":record.getTalentTitle(),
                     userBean==null?"":userBean.getNativePlace(),
-                    memberTeacher==null?"":DateUtils.formatDate(memberTeacher.getPositiveTime(), DateUtils.YYYY_MM_DD),
+                    memberView==null?"":DateUtils.formatDate(memberView.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     userBean==null?"":userBean.getMobile()
             }));
             if(exportType==3){

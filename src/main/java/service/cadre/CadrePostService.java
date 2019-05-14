@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.dispatch.DispatchCadreRelateService;
-import service.global.CacheService;
+import service.global.CacheHelper;
 import sys.constants.DispatchConstants;
 
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class CadrePostService extends BaseMapper {
     @Autowired(required = false)
     private DispatchCadreRelateService dispatchCadreRelateService;
     @Autowired(required = false)
-    private CacheService cacheService;
+    private CacheHelper cacheHelper;
 
     public CadrePost getByUnitPostId(int unitPostId) {
 
@@ -53,7 +53,7 @@ public class CadrePostService extends BaseMapper {
                 + " and is_main_post=" + record.getIsMainPost()));
         cadrePostMapper.insertSelective(record);
 
-        cacheService.clearCadreCache();
+        cacheHelper.clearCadreCache();
     }
 
     @Transactional
@@ -68,7 +68,7 @@ public class CadrePostService extends BaseMapper {
         // 同时删除关联的任免文件
         dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids), DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
 
-        cacheService.clearCadreCache();
+        cacheHelper.clearCadreCache();
     }
 
     public void updateByPrimaryKeySelective(CadrePost record) {
@@ -84,7 +84,7 @@ public class CadrePostService extends BaseMapper {
         record.setIsMainPost(null); // 不改变是否是主职字段
         cadrePostMapper.updateByPrimaryKeySelective(record);
 
-        cacheService.clearCadreCache();
+        cacheHelper.clearCadreCache();
     }
 
     public CadrePost getCadreMainCadrePostById(Integer id) {
@@ -138,7 +138,7 @@ public class CadrePostService extends BaseMapper {
             }
         }
 
-        cacheService.clearCadreCache();
+        cacheHelper.clearCadreCache();
 
         return addCount;
     }
@@ -175,7 +175,7 @@ public class CadrePostService extends BaseMapper {
             }
         }
 
-        cacheService.clearCadreCache();
+        cacheHelper.clearCadreCache();
 
         return addCount;
     }

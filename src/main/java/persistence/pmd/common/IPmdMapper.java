@@ -67,7 +67,7 @@ public interface IPmdMapper {
     @Select("select distinct rq from ext_retire_salary order by rq desc")
     public List<String> extRetireSalaryMonthList();
 
-    // 读取当前缴费党员库中的教职工工资
+    // 读取当前缴费党员库中的教职工设定
     @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")
     @Select("select ejs.* from pmd_config_member pcm, ext_jzg_salary ejs, sys_user u " +
             "where pcm.user_id= u.id and ejs.zgh=u.code and ejs.rq=#{rq};")
@@ -82,7 +82,7 @@ public interface IPmdMapper {
     @Select("select * from ext_jzg_salary where zgh=#{zgh} and rq=#{rq}")
     public ExtJzgSalary getExtJzgSalary(@Param("rq") String salaryMonth, @Param("zgh") String code);
 
-    // 读取当前缴费党员库中的离退休工资
+    // 读取当前缴费党员库中的离退休人员设定
     @ResultMap("persistence.ext.ExtRetireSalaryMapper.BaseResultMap")
     @Select("select ers.* from pmd_config_member pcm, ext_retire_salary ers, sys_user u " +
             "where pcm.user_id= u.id and ers.zgh=u.code and ers.rq=#{rq};")

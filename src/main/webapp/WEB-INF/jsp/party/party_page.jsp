@@ -234,28 +234,28 @@ pageEncoding="UTF-8" %>
             }},
             { label:'在职教职工', name: 'teacherMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                <shiro:hasPermission name="memberTeacher:list">
+                <shiro:hasPermission name="member:list">
                     return '<a href="#${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                 </shiro:hasPermission>
-                <shiro:lacksPermission name="memberTeacher:list">
+                <shiro:lacksPermission name="member:list">
                     return cellvalue;
                 </shiro:lacksPermission>
             }},
             { label:'离退休党员', name: 'retireMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                <shiro:hasPermission name="memberTeacher:list">
+                <shiro:hasPermission name="member:list">
                     return '<a href="#${ctx}/member?cls=3&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                 </shiro:hasPermission>
-                <shiro:lacksPermission name="memberTeacher:list">
+                <shiro:lacksPermission name="member:list">
                     return cellvalue;
                 </shiro:lacksPermission>
             }},
             { label:'学生', name: 'studentMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                <shiro:hasPermission name="memberStudent:list">
+                <shiro:hasPermission name="member:list">
                     return '<a href="#${ctx}/member?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                 </shiro:hasPermission>
-                <shiro:lacksPermission name="memberStudent:list">
+                <shiro:lacksPermission name="member:list">
                     return cellvalue;
                 </shiro:lacksPermission>
             }},

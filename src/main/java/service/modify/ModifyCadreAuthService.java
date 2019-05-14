@@ -18,27 +18,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import service.global.CacheService;
+import service.global.CacheHelper;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.tool.tree.TreeNode;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ModifyCadreAuthService extends BaseMapper {
 
     @Autowired
-    private CacheService cacheService;
+    private CacheHelper cacheHelper;
     @Autowired
     private MetaTypeService metaTypeService;
 
@@ -231,7 +224,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         }
         modifyCadreAuthMapper.insertSelective(record);
 
-        cacheService.clearUserCache(record.getCadre().getUser());
+        cacheHelper.clearUserCache(record.getCadre().getUser());
     }
 
     @Transactional
@@ -253,7 +246,7 @@ public class ModifyCadreAuthService extends BaseMapper {
             modifyCadreAuthMapper.insertSelective(record);
 
             SysUserView uv = record.getCadre().getUser();
-            cacheService.clearUserCache(uv);
+            cacheHelper.clearUserCache(uv);
         }
     }
 
@@ -265,7 +258,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         modifyCadreAuthMapper.deleteByPrimaryKey(id);
 
         SysUserView uv = result.getCadre().getUser();
-        cacheService.clearUserCache(uv);
+        cacheHelper.clearUserCache(uv);
         return result;
     }
 
@@ -291,7 +284,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         }
 
         SysUserView uv = record.getCadre().getUser();
-        cacheService.clearUserCache(uv);
+        cacheHelper.clearUserCache(uv);
     }
 
     // 读取干部的所有权限设置

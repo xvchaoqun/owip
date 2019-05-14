@@ -53,7 +53,7 @@
 <div class="space-4"></div>
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-plane"></i> 家庭成员移居国（境）外的情况
+        <h4 class="widget-title"><i class="fa fa-plane"></i> 配偶、子女及其配偶移居国（境）外情况
 
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <span style="color: #000;font-size: 14px; font-weight: normal">

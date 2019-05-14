@@ -9,7 +9,6 @@ import service.cm.CmMemberService;
 import service.ext.ExtService;
 import service.party.BranchService;
 import service.party.MemberService;
-import service.party.MemberTeacherService;
 import service.party.PartyService;
 import service.pcs.PcsConfigService;
 import service.sys.StudentInfoService;
@@ -28,8 +27,6 @@ public class CmBaseController extends CmBaseMapper implements HttpResponseMethod
     protected BranchService branchService;
     @Autowired
     protected MemberService memberService;
-    @Autowired
-    protected MemberTeacherService memberTeacherService;
     @Autowired
     protected CadreService cadreService;
     @Autowired

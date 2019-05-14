@@ -1,8 +1,7 @@
 package controller.member.mobile;
 
 import controller.member.MemberBaseController;
-import domain.member.MemberStudent;
-import domain.member.MemberTeacher;
+import domain.member.MemberView;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -44,18 +43,14 @@ public class MobileMemberController extends MemberBaseController {
 
 		SysUserView uv = sysUserService.findById(userId);
 		modelMap.put("uv", uv);
+
+		MemberView memberView = iMemberMapper.getMemberView(userId);
+        modelMap.put("member", memberView);
+
 		byte type = uv.getType();
 		if(type== SystemConstants.USER_TYPE_JZG){
-
-			MemberTeacher memberTeacher = memberTeacherService.get(userId);
-			modelMap.put("memberTeacher", memberTeacher);
-
 			return "member/mobile/teacher_member_info";
 		}else {
-
-			MemberStudent memberStudent = memberStudentService.get(userId);
-			modelMap.put("memberStudent", memberStudent);
-
 			return "member/mobile/student_member_info";
 		}
 	}

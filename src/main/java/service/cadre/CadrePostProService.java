@@ -15,16 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.ext.ExtService;
-import service.global.CacheService;
+import service.global.CacheHelper;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
+import sys.utils.*;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -36,7 +32,7 @@ public class CadrePostProService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
-    private CacheService cacheService;
+    private CacheHelper cacheHelper;
     @Autowired
     private ExtService extService;
 
@@ -71,7 +67,7 @@ public class CadrePostProService extends BaseMapper {
                     "pro_post_time=%s, pro_post_level=%s, pro_post_level_time=%s where user_id=%s",
                     proPost, proPostTime, proPostLevel, proPostLevelTime, userId));
 
-            cacheService.clearCadreCache();
+            cacheHelper.clearCadreCache();
         }
     }
 

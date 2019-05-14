@@ -5,12 +5,14 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.global.CacheHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.utils.FormUtils;
@@ -22,6 +24,9 @@ import java.util.Map;
 public class CadrePostInfoController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    protected CacheHelper cacheHelper;
 
     @RequiresPermissions("cadrePostInfo:list")
     @RequestMapping("/cadrePostInfo_page")
@@ -62,7 +67,7 @@ public class CadrePostInfoController extends BaseController {
         cadrePostAdminService.syncAllCadrePost();
         cadrePostWorkService.syncAllCadrePost();
 
-        cacheService.clearCadreCache();
+        cacheHelper.clearCadreCache();
 
         logger.info(addLog(LogConstants.LOG_ADMIN, "同步覆盖所有的系统设定的当前岗位，作为干部档案页的岗位信息"));
 

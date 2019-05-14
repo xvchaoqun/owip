@@ -95,12 +95,12 @@ public class MemberService extends MemberBaseMapper {
         Byte type = uv.getType();
         if (type == SystemConstants.USER_TYPE_JZG) {
 
-            // 同步教职工信息到ow_member_teacher表
+            // 同步教职工信息
             syncService.snycTeacherInfo(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_BKS
                 || type == SystemConstants.USER_TYPE_YJS) {
 
-            // 同步研究生信息到 ow_member_student表
+            // 同步研究生信息
             syncService.snycStudent(userId, uv);
         } else {
             throw new OpException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
@@ -168,17 +168,17 @@ public class MemberService extends MemberBaseMapper {
         Byte type = uv.getType();
         if (type == SystemConstants.USER_TYPE_JZG) {
 
-            // 同步教职工信息到ow_member_teacher表
+            // 同步教职工信息
             record.setType(MemberConstants.MEMBER_TYPE_TEACHER); // 教职工党员
             syncService.snycTeacherInfo(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_BKS) {
 
-            // 同步本科生信息到 ow_member_student表
+            // 同步本科生信息
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             syncService.snycStudent(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_YJS) {
 
-            // 同步研究生信息到 ow_member_student表
+            // 同步研究生信息
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             syncService.snycStudent(userId, uv);
         } else {

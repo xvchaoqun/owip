@@ -1,6 +1,6 @@
 package service.pmd;
 
-import domain.member.MemberTeacher;
+import domain.member.MemberView;
 import domain.pmd.PmdConfigMember;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
@@ -8,10 +8,8 @@ import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import persistence.member.MemberTeacherMapper;
 import sys.utils.NumberUtils;
 
 import java.io.FileInputStream;
@@ -28,8 +26,6 @@ import java.util.Map;
 public class PmdExtService extends PmdBaseMapper{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private MemberTeacherMapper memberTeacherMapper;
 
     private static Map<String, Integer> rcchNormMap;
     private static Map<String, Integer> proPostLevelNormMap;
@@ -122,13 +118,13 @@ public class PmdExtService extends PmdBaseMapper{
     }
 */
     // 如果是在职事业编的高级人才，返回对应的最大缴纳金额，否则返回-1
-    public int getMaxRCCHDuePay(MemberTeacher memberTeacher){
+    public int getMaxRCCHDuePay(MemberView member){
 
         int duePay = -1;
 
-        String staffStatus = StringUtils.trim(memberTeacher.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberTeacher.getAuthorizedType());
-        String talentTitle = StringUtils.trim(memberTeacher.getTalentTitle());
+        String staffStatus = StringUtils.trim(member.getStaffStatus());
+        String authorizedType = StringUtils.trim(member.getAuthorizedType());
+        String talentTitle = StringUtils.trim(member.getTalentTitle());
 
         if(StringUtils.equals(staffStatus, "在职")
                 && StringUtils.equals(authorizedType, "事业编")
@@ -177,20 +173,20 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // 根据专技、管理、工勤3种等级得到最高的缴纳金额，都不匹配否则返回-1
-    public PostDuePayBean getPostDuePay(MemberTeacher memberTeacher){
+    public PostDuePayBean getPostDuePay(MemberView member){
 
         int duePay = -1;
         String post = null;
 
-        String staffStatus = StringUtils.trim(memberTeacher.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberTeacher.getAuthorizedType());
+        String staffStatus = StringUtils.trim(member.getStaffStatus());
+        String authorizedType = StringUtils.trim(member.getAuthorizedType());
 
         if(StringUtils.equals(staffStatus, "在职")
                 && StringUtils.equals(authorizedType, "事业编")) {
 
-            String proPostLevel = StringUtils.trim(memberTeacher.getProPostLevel());
-            String manageLevel = StringUtils.trim(memberTeacher.getManageLevel());
-            String officeLevel = StringUtils.trim(memberTeacher.getOfficeLevel());
+            String proPostLevel = StringUtils.trim(member.getProPostLevel());
+            String manageLevel = StringUtils.trim(member.getManageLevel());
+            String officeLevel = StringUtils.trim(member.getOfficeLevel());
 
             if(StringUtils.isNotBlank(proPostLevel)) {
                 Integer _duePay = getProPostLevelNormMap().get(proPostLevel);
@@ -235,10 +231,10 @@ public class PmdExtService extends PmdBaseMapper{
         return resultMap;
     }*/
 
-    public boolean isSYB(MemberTeacher memberTeacher){
+    public boolean isSYB(MemberView memberView){
 
-        String staffStatus = StringUtils.trim(memberTeacher.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberTeacher.getAuthorizedType());
+        String staffStatus = StringUtils.trim(memberView.getStaffStatus());
+        String authorizedType = StringUtils.trim(memberView.getAuthorizedType());
 
         return StringUtils.equals(staffStatus, "在职")
                 && StringUtils.equals(authorizedType, "事业编");
@@ -262,11 +258,11 @@ public class PmdExtService extends PmdBaseMapper{
         return resultMap;
     }*/
 
-    public boolean isXP(MemberTeacher memberTeacher){
+    public boolean isXP(MemberView memberView){
 
-        String staffStatus = StringUtils.trim(memberTeacher.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberTeacher.getAuthorizedType());
-        String staffType = StringUtils.trim(memberTeacher.getStaffType());
+        String staffStatus = StringUtils.trim(memberView.getStaffStatus());
+        String authorizedType = StringUtils.trim(memberView.getAuthorizedType());
+        String staffType = StringUtils.trim(memberView.getStaffType());
 
         return StringUtils.equals(staffStatus, "在职")
                 && !StringUtils.equals(authorizedType, "事业编")
@@ -274,14 +270,14 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // 校聘应交额度
-    public int getXPDuePay(MemberTeacher memberTeacher){
+    public int getXPDuePay(MemberView member){
 
         int duePay = -1;
 
-        String staffStatus = StringUtils.trim(memberTeacher.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberTeacher.getAuthorizedType());
-        String staffType = StringUtils.trim(memberTeacher.getStaffType());
-        String education = StringUtils.trim(memberTeacher.getEducation());
+        String staffStatus = StringUtils.trim(member.getStaffStatus());
+        String authorizedType = StringUtils.trim(member.getAuthorizedType());
+        String staffType = StringUtils.trim(member.getStaffType());
+        String education = StringUtils.trim(member.getEducation());
 
         if(StringUtils.equals(staffStatus, "在职")
                 && !StringUtils.equals(authorizedType, "事业编")
@@ -298,11 +294,11 @@ public class PmdExtService extends PmdBaseMapper{
         return duePay;
     }
 
-    public boolean isXSZL(MemberTeacher memberTeacher){
+    public boolean isXSZL(MemberView member){
 
-        String staffStatus = StringUtils.trim(memberTeacher.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberTeacher.getAuthorizedType());
-        String staffType = StringUtils.trim(memberTeacher.getStaffType());
+        String staffStatus = StringUtils.trim(member.getStaffStatus());
+        String authorizedType = StringUtils.trim(member.getAuthorizedType());
+        String staffType = StringUtils.trim(member.getStaffType());
 
         return StringUtils.equals(staffStatus, "在职")
                 && !StringUtils.equals(authorizedType, "事业编")
@@ -310,13 +306,13 @@ public class PmdExtService extends PmdBaseMapper{
     }
 
     // 学生助理应交额度
-    public int getXSZLDuePay(MemberTeacher memberTeacher){
+    public int getXSZLDuePay(MemberView member){
 
         int duePay = -1;
 
-        String staffStatus = StringUtils.trim(memberTeacher.getStaffStatus());
-        String authorizedType = StringUtils.trim(memberTeacher.getAuthorizedType());
-        String staffType = StringUtils.trim(memberTeacher.getStaffType());
+        String staffStatus = StringUtils.trim(member.getStaffStatus());
+        String authorizedType = StringUtils.trim(member.getAuthorizedType());
+        String staffType = StringUtils.trim(member.getStaffType());
 
         if(StringUtils.equals(staffStatus, "在职")
                 && !StringUtils.equals(authorizedType, "事业编")

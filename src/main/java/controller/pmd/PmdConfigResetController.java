@@ -67,10 +67,14 @@ public class PmdConfigResetController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdConfigReset_au(String salaryMonth,
                                     Boolean reset,
+                                    Integer partyId,
+                                    Integer branchId,
+                                    Integer userId,
                                     HttpServletRequest request) {
 
-        pmdConfigResetService.reset(salaryMonth, BooleanUtils.isTrue(reset));
-        logger.info(addLog(LogConstants.LOG_PMD, "党费收缴-设置党费重新计算工资月份：%s", salaryMonth));
+        pmdConfigResetService.reset(salaryMonth, BooleanUtils.isTrue(reset), partyId, branchId, userId);
+        logger.info(log(LogConstants.LOG_PMD, "党费收缴-设置党费重新计算工资月份：{0}, 范围：{1}-{2}-{3}",
+                salaryMonth, partyId, branchId, userId));
 
         return success(FormUtils.SUCCESS);
     }

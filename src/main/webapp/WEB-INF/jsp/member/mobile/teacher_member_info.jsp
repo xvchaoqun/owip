@@ -44,12 +44,12 @@
             </tr>
             <tr>
               <td colspan="2">
-                ${memberTeacher.idcard}
+                ${member.idcard}
               </td>
             </tr>
             <tr>
               <td colspan="2">
-                <a href='tel:${memberTeacher.extPhone}'>${memberTeacher.extPhone}</a>
+                <a href='tel:${member.mobile}'>${member.mobile}</a>
               </td>
             </tr>
           </table>
@@ -57,7 +57,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name"> 联系邮箱</div>
           <div class="profile-info-value">
-            <span class="editable">${memberTeacher.email}</span>
+            <span class="editable">${member.email}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -65,7 +65,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${memberTeacher.nativePlace}
+              ${member.nativePlace}
             </span>
           </div>
         </div>
@@ -74,7 +74,7 @@
           <div class="profile-info-name td"> 最高学历</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${memberTeacher.education}
+              ${member.education}
             </span>
           </div>
         </div>
@@ -83,7 +83,7 @@
           <div class="profile-info-name td"> 最高学位</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${memberTeacher.degree}
+              ${member.degree}
             </span>
           </div>
         </div>
@@ -91,7 +91,7 @@
           <div class="profile-info-name td"> 学位授予日期</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${cm:formatDate(memberTeacher.degreeTime, "yyyy-MM-dd")}
+              ${cm:formatDate(member.degreeTime, "yyyy-MM-dd")}
             </span>
           </div>
         </div>
@@ -99,7 +99,7 @@
           <div class="profile-info-name td"> 所学专业</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${memberTeacher.major}
+              ${member.major}
             </span>
           </div>
         </div>
@@ -107,7 +107,7 @@
           <div class="profile-info-name td"> 毕业学校</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${memberTeacher.school}
+              ${member.school}
             </span>
           </div>
         </div>
@@ -115,7 +115,7 @@
           <div class="profile-info-name td"> 毕业学校类型</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${memberTeacher.schoolType}
+              ${member.schoolType}
             </span>
           </div>
         </div>
@@ -123,7 +123,7 @@
           <div class="profile-info-name"> 到校日期 </div>
           <div class="profile-info-value">
             <span class="editable">
-              ${cm:formatDate(memberTeacher.arriveTime, "yyyy-MM-dd")}
+              ${cm:formatDate(member.arriveTime, "yyyy-MM-dd")}
             </span>
           </div>
         </div>
@@ -132,7 +132,7 @@
           <div class="profile-info-name td"> 编制类别</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${memberTeacher.authorizedType}
+              ${member.authorizedType}
             </span>
           </div>
         </div>
@@ -141,116 +141,116 @@
         <div class="profile-info-row">
           <div class="profile-info-name"> 人员分类</div>
           <div class="profile-info-value">
-            <span class="editable">${memberTeacher.staffType}</span>
+            <span class="editable">${member.staffType}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 人员状态</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.staffStatus}</span>
+            <span class="editable">${member.staffStatus}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 在岗情况</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.onJob}</span>
+            <span class="editable">${member.onJob}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 岗位类别</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.postClass}</span>
+            <span class="editable">${member.postClass}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 主岗等级</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.mainPostLevel}</span>
+            <span class="editable">${member.mainPostLevel}</span>
           </div>
         </div>
 
         <div class="profile-info-row">
           <div class="profile-info-name td"> 专业技术职务</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.proPost}</span>
+            <span class="editable">${member.proPost}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 专技岗位等级</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.proPostLevel}</span>
+            <span class="editable">${member.proPostLevel}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 职称级别</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.titleLevel}</span>
+            <span class="editable">${member.titleLevel}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 管理岗位等级</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.manageLevel}</span>
+            <span class="editable">${member.manageLevel}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 工勤岗位等级</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.officeLevel}</span>
+            <span class="editable">${member.officeLevel}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 行政职务</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.post}</span>
+            <span class="editable">${member.post}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任职级别</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.postLevel}</span>
+            <span class="editable">${member.postLevel}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 人才类型</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.talentType}</span>
+            <span class="editable">${member.talentType}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 婚姻状况</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.maritalStatus}</span>
+            <span class="editable">${member.maritalStatus}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 居住地址</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.address}</span>
+            <span class="editable">${member.address}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 是否退休</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.isRetire?"是":"否"}</span>
+            <span class="editable">${member.isRetire?"是":"否"}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 退休时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(memberTeacher.retireTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(member.retireTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 是否离休</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.isHonorRetire?"是":"否"}</span>
+            <span class="editable">${member.isHonorRetire?"是":"否"}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name"> 人才/荣誉称号</div>
           <div class="profile-info-value">
-            <span class="editable">${memberTeacher.talentTitle}</span>
+            <span class="editable">${member.talentTitle}</span>
           </div>
         </div>
       </div>
@@ -260,68 +260,68 @@
         <div class="profile-info-row">
           <div class="profile-info-name"> 所属组织机构</div>
           <div class="profile-info-value">
-            <span class="editable">${cm:displayParty(memberTeacher.partyId, memberTeacher.branchId)}</span>
+            <span class="editable">${cm:displayParty(member.partyId, member.branchId)}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 党籍状态</div>
           <div class="profile-info-value td">
-            <span class="editable">${MEMBER_POLITICAL_STATUS_MAP.get(memberTeacher.politicalStatus)}</span>
+            <span class="editable">${MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 状态</div>
           <div class="profile-info-value td">
-            <span class="editable">${MEMBER_STATUS_MAP.get(memberTeacher.status)}</span>
+            <span class="editable">${MEMBER_STATUS_MAP.get(member.status)}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 党内职务</div>
           <div class="profile-info-value td">
-            <span class="editable">${memberTeacher.partyPost}</span>
+            <span class="editable">${member.partyPost}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 入党时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(memberTeacher.growTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(member.growTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
 
         <div class="profile-info-row">
           <div class="profile-info-name td"> 转正时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(memberTeacher.positiveTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(member.positiveTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 进入系统方式</div>
           <div class="profile-info-value td">
-            <span class="editable">${MEMBER_SOURCE_MAP.get(memberTeacher.memberSource)}</span>
+            <span class="editable">${MEMBER_SOURCE_MAP.get(member.source)}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 提交书面申请书时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(memberTeacher.applyTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(member.applyTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 确定为入党积极分子时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(memberTeacher.activeTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(member.activeTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 确定为发展对象时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(memberTeacher.candidateTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(member.candidateTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name"> 党内奖励</div>
           <div class="profile-info-value">
-            <span class="editable">${memberTeacher.partyReward}</span>
+            <span class="editable">${member.partyReward}</span>
           </div>
         </div>
         <div class="profile-info-row">

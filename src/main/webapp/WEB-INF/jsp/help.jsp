@@ -73,7 +73,6 @@
           </p>
         </div>
       </div>
-
       <c:forEach items="${hfDocs}" var="doc">
       <div class="bs-docs-section">
         <h1 id="${doc.code}" class="page-header">${doc.title}</h1>
@@ -84,16 +83,6 @@
         </c:forEach>
         </div>
       </c:forEach>
-
-      <%--<div class="bs-docs-section">
-        <h1 id="whats-included" class="page-header">常见问题</h1>
-
-        <h2 id="whats-included-precompiled">党建相关问题</h2>
-
-        <h2 id="whats-included-source">干部相关问题</h2>
-
-      </div>--%>
-
     </div>
     <div class="col-md-3">
       <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" role="complementary" style="top: 110px;position: fixed;">
@@ -113,14 +102,6 @@
             </c:if>
             </li>
           </c:forEach>
-
-          <%--<li>
-            <a href="#whats-included">常见问题</a>
-            <ul class="nav">
-              <li><a href="#whats-included-precompiled">党建相关问题</a></li>
-              <li><a href="#whats-included-source">干部相关问题</a></li>
-            </ul>
-          </li>--%>
         </ul>
         <a class="back-to-top" href="#top">
           返回顶部
@@ -134,9 +115,6 @@
     </div>
   </div>
 </div>
-
-<!-- Footer
-================================================== -->
 <footer class="bs-docs-footer" role="contentinfo">
   <div class="container">
     <div class="footer">
@@ -151,9 +129,6 @@
   </div>
 </footer>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script src="${ctx}/assets/js/jquery.js"></script>
 <script src="${ctx}/assets/js/bootstrap.js"></script>
 <script src="${ctx}/extend/js/docs.min.js?t=20180411"></script>

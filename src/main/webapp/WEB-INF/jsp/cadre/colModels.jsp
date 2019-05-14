@@ -565,10 +565,10 @@
             }
         },
         {label: '姓名', name: 'cadreFamily.realname'},
-        {label: '移居国家', name: 'country', width: 200},
-        {label: '移居类别', name: 'type', formatter: $.jgrid.formatter.MetaType},
+        {label: '移居国家（地区）', name: 'country', width: 200},
+        {label: '现居住城市', name: 'city', width: 150}, {hidden: true, key: true, name: 'id'},
         {label: '移居时间', name: 'abroadTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-        {label: '现居住城市', name: 'city', width: 150}, {hidden: true, key: true, name: 'id'}
+        {label: '移居类别', name: 'type', formatter: $.jgrid.formatter.MetaType}
     ];
 
     colModels.cadreCourse = [

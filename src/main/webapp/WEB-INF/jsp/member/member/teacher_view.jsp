@@ -15,7 +15,7 @@
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="javascript:;" data-url="${ctx}/memberTeacher_base?userId=${param.userId}">基本信息</a>
+                            <a href="javascript:;" data-url="${ctx}/member_base?userId=${param.userId}">基本信息</a>
                         </li>
                         <li>
                             <a href="javascript:;" data-url="${ctx}/memberOutflow_view?userId=${param.userId}">党员流出</a>
@@ -37,7 +37,7 @@
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="tab-content padding-8">
-                    <c:import url="/memberTeacher_base"/>
+                    <c:import url="/member_base"/>
                     </div>
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->

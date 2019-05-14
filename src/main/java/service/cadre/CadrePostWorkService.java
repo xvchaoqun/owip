@@ -15,16 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.ext.ExtService;
-import service.global.CacheService;
+import service.global.CacheHelper;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
+import sys.utils.*;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -36,7 +32,7 @@ public class CadrePostWorkService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
-    private CacheService cacheService;
+    private CacheHelper cacheHelper;
     @Autowired
     private ExtService extService;
 
@@ -69,7 +65,7 @@ public class CadrePostWorkService extends BaseMapper {
                             "office_level_time=%s where user_id=%s",
                     officeLevel, officeLevelTime, userId));
 
-            cacheService.clearCadreCache();
+            cacheHelper.clearCadreCache();
         }
     }
 
