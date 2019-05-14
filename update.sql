@@ -4,6 +4,11 @@
 
 更新 党员发展信息导入模板.xlsx
 
+
+
+20190514
+更新南航，北化工，北邮
+
 20190514
 
 
@@ -174,7 +179,6 @@ left join (select count(*) as num, party_id from ow_party_member_group where is_
 
 20190512
 更新北邮
--- 北化工
 
 
 
