@@ -422,7 +422,7 @@
         /*multiboxonly:false,*/
         ondblClickRow: function () {
         },
-        url: '${ctx}/member_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/member_data?callback=?&cls=${cls}&${cm:encodeQueryString(pageContext.request.queryString)}',
         sortname: 'party',
         colModel: [
             {
