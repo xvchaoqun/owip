@@ -11,36 +11,36 @@
     </sql>
     <!-- 统计党员分布情况（预备、正式） -->
     <select id="member_groupByPoliticalStatus" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, political_status as type from ow_member where status=1
-        <include refid="Where_ow"/> group by political_status
+        select count(*) as num, political_status as groupBy from ow_member where status=1
+        <include refid="Where_ow"/> group by groupBy
     </select>
 
     <!-- 统计党员分布情况（预备、正式） -->
     <select id="member_groupByType" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, type from ow_member where status=1
+        select count(*) as num, type as groupBy from ow_member where status=1
         <if test="politicalStatus!=null">
             and political_status =#{politicalStatus}
         </if>
-        <include refid="Where_ow"/> group by type
+        <include refid="Where_ow"/> group by groupBy
     </select>
 
     <!-- 统计教职工党员年龄分布情况 -->
     <select id="member_teatcherGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
-        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as type from ow_member_view where type=1 and status=1
-        <include refid="Where_ow"/> group by type
+        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as groupBy from ow_member_view where type=1 and status=1
+        <include refid="Where_ow"/> group by groupBy
     </select>
     <!-- 统计学生党员年龄分布情况 -->
     <select id="member_studentGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
-        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as type from ow_member_view where type=2 and status=1
-        <include refid="Where_ow"/> group by type
+        select count(*) as num, TIMESTAMPDIFF(YEAR, birth,now()) as groupBy from ow_member_view where type=2 and status=1
+        <include refid="Where_ow"/> group by groupBy
     </select>
     <!-- 统计党员发展各阶段情况-->
     <select id="memberApply_groupByStage" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, stage as type from ow_member_apply_view where member_status=0 and stage>-1
+        select count(*) as num, stage as groupBy from ow_member_apply_view where member_status=0 and stage>-1
         <if test="stage!=null">
             and stage =#{stage}
         </if>
-        <include refid="Where_ow"/> group by stage
+        <include refid="Where_ow"/> group by groupBy
     </select>
     <!-- 统计排在前十的分党委党员人数-->
     <select id="memberApply_groupByPartyId" resultType="persistence.member.common.MemberStatByPartyBean" parameterType="map">
@@ -50,6 +50,6 @@
 
     <!-- 统计分党委下各党支部党员人数-->
     <select id="memberApply_groupByBranchId" resultType="bean.StatIntBean" parameterType="map">
-        select count(*) as num, branch_id as type from ow_member where status=1 and party_id=#{partyId} group by branch_id
+        select count(*) as num, branch_id as groupBy from ow_member where status=1 and party_id=#{partyId} group by groupBy
     </select>
 </mapper>

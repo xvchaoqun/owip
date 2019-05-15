@@ -5,15 +5,15 @@ package bean;
  */
 public class StatIntBean {
 
-    public Integer type;
+    public Integer groupBy;
     public int num;
 
-    public Integer getType() {
-        return type;
+    public Integer getGroupBy() {
+        return groupBy;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setGroupBy(Integer groupBy) {
+        this.groupBy = groupBy;
     }
 
     public int getNum() {

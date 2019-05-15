@@ -32,7 +32,7 @@ public class StatService extends BaseMapper{
         Map<Byte, Integer> _map = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.member_groupByPoliticalStatus(partyId, branchId);
         for (StatByteBean statByteBean : statByteBeans) {
-            _map.put(statByteBean.getType(), statByteBean.getNum());
+            _map.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
 
         Map<Byte, Integer> map = new LinkedHashMap<>();
@@ -49,7 +49,7 @@ public class StatService extends BaseMapper{
         Map<Byte, Integer> _map = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.member_groupByType(politicalStatus, partyId, branchId);
         for (StatByteBean statByteBean : statByteBeans) {
-            _map.put(statByteBean.getType(), statByteBean.getNum());
+            _map.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
 
         Map<Byte, Integer> map = new LinkedHashMap<>();
@@ -66,7 +66,7 @@ public class StatService extends BaseMapper{
         Map<Byte, Integer> _applyMap = new HashMap<>();
         List<StatByteBean> statByteBeans = statMemberMapper.memberApply_groupByStage(type, partyId, branchId);
         for (StatByteBean statByteBean : statByteBeans) {
-            _applyMap.put(statByteBean.getType(), statByteBean.getNum());
+            _applyMap.put(statByteBean.getGroupBy(), statByteBean.getNum());
         }
 
         Map<Byte, Integer> applyMap = new LinkedHashMap<>();
@@ -95,7 +95,7 @@ public class StatService extends BaseMapper{
 
         //int year = DateUtils.getCurrentYear();
         for (StatIntBean statIntBean : statIntBeans) {
-            Integer age = statIntBean.getType();
+            Integer age = statIntBean.getGroupBy();
             byte key = MemberConstants.getMemberAgeRange(age);
             Integer total = _ageMap.get(key);
             total = (total==null)?statIntBean.getNum():(total+statIntBean.getNum());

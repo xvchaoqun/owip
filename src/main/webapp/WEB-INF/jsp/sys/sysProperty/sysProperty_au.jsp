@@ -23,12 +23,9 @@ pageEncoding="UTF-8"%>
                                                                 name="type" data-placeholder="请选择">
 							<option></option>
 						 <c:forEach items="<%=SystemConstants.SYS_PROPERTY_TYPE_MAP%>" var="_type">
-							<option value="${_type.key}">${_type.value}</option>
+							<option value="${_type.key}" ${sysProperty.type==_type.key?'selected':''}>${_type.value}</option>
 						</c:forEach>
 					 </select>
-					<script>
-						$("#modalForm select[name=type]").val('${sysProperty.type}')
-					</script>
 				</div>
 			</div>
 			<div class="form-group">
@@ -41,7 +38,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">取值</label>
 				<div class="col-xs-6" id="contentDiv">
-					<textarea class="form-control limited noEnter" name="content">${sysProperty.content}</textarea>
+
 				</div>
 			</div>
 
@@ -61,18 +58,18 @@ pageEncoding="UTF-8"%>
 </div>
 <script type="text/template" id="content_tpl">
 	{{if(type==<%=SystemConstants.SYS_PROPERTY_TYPE_STRING%>){}}
-	<textarea class="form-control limited noEnter" name="content"></textarea>
+	<textarea class="form-control limited noEnter" name="content">${sysProperty.content}</textarea>
 	{{}}}
 	{{if(type==<%=SystemConstants.SYS_PROPERTY_TYPE_INT%>){}}
-	<input class="form-control num" type="text" name="content"/>
+	<input class="form-control num" type="text" name="content" value="${sysProperty.content}"/>
 	{{}}}
 	{{if(type==<%=SystemConstants.SYS_PROPERTY_TYPE_BOOL%>){}}
-	<input class="form-control" type="checkbox" name="content">
+	<input class="form-control" type="checkbox" name="content"  ${sysProperty.content=='true'?'checked':''}>
 	{{}}}
 	{{if(type==<%=SystemConstants.SYS_PROPERTY_TYPE_DATE%>){}}
 	<div class="input-group date" data-date-format="yyyy-mm-dd">
 		<input required class="form-control date-picker" name="content" type="text"
-				placeholder="yyyy-mm-dd"/>
+				placeholder="yyyy-mm-dd" value="${sysProperty.content}"/>
 		<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 	</div>
 	{{}}}
@@ -82,11 +79,10 @@ pageEncoding="UTF-8"%>
 </script>
 
 <script>
-
 	$("#modalForm select[name=type]").change(function () {
-        var type = $(this).val();
-        $("#contentDiv").html(_.template($("#content_tpl").html())({type: type}));
 
+		var type = $(this).val()||'<%=SystemConstants.SYS_PROPERTY_TYPE_STRING%>';
+		$("#contentDiv").html(_.template($("#content_tpl").html())({type: type}));
         if(type==<%=SystemConstants.SYS_PROPERTY_TYPE_STRING%>){
 
 		}else if(type==<%=SystemConstants.SYS_PROPERTY_TYPE_INT%>){
@@ -107,15 +103,8 @@ pageEncoding="UTF-8"%>
 		}
     }).change();
 
-	<c:if test="${sysProperty.type == SYS_PROPERTY_TYPE_BOOL}">
-		$('#modalForm input[name=content]').bootstrapSwitch('state', ${sysProperty.content})
-	</c:if>
-	<c:if test="${sysProperty.type != SYS_PROPERTY_TYPE_BOOL}">
-		$('#modalForm [name=content]').val('${sysProperty.content}')
-	</c:if>
-
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
+	$("#modalForm").validate({
         submitHandler: function (form) {
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
