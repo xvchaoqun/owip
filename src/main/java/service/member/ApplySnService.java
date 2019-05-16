@@ -34,9 +34,9 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
     private ApplyApprovalLogService applyApprovalLogService;
 
     // 获取即将分配的志愿书编码
-    public List<ApplySn> getAssignApplySnList(int count){
+    public List<ApplySn> getAssignApplySnList(int count) {
 
-        if(count==0) return new ArrayList<>();
+        if (count == 0) return new ArrayList<>();
 
         int year = DateUtils.getCurrentYear();
         ApplySnExample example = new ApplySnExample();
@@ -52,14 +52,14 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void assign(int userId, ApplySn applySn) {
 
-        if(applySn==null || applySn.getYear().intValue()
-                !=DateUtils.getCurrentYear() || applySn.getIsUsed() || applySn.getIsAbolished()){
+        if (applySn == null || applySn.getYear().intValue()
+                != DateUtils.getCurrentYear() || applySn.getIsUsed() || applySn.getIsAbolished()) {
             throw new OpException("编码{0}不可用。", applySn.getDisplaySn());
         }
 
         MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
 
-        if(memberApply!=null) {
+        if (memberApply != null) {
 
             MemberApply record = new MemberApply();
             record.setUserId(userId);
@@ -71,7 +71,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                    ShiroHelper.getCurrentUserId(),  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
@@ -86,13 +86,13 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
     public void clearAssign(int userId) {
 
         MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(memberApply!=null) {
+        if (memberApply != null) {
 
             Integer applySnId = memberApply.getApplySnId();
-            if(applySnId!=null){
+            if (applySnId != null) {
 
                 commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, " +
-                        "apply_sn=null where user_id="+ userId);
+                        "apply_sn=null where user_id=" + userId);
                 clearUse(applySnId);
             }
         }
@@ -100,14 +100,14 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
     // 更新为已使用
     @Transactional
-    public void use(int applySnId, int userId){
+    public void use(int applySnId, int userId) {
 
         ApplySn applySn = applySnMapper.selectByPrimaryKey(applySnId);
-        if(applySn == null){
+        if (applySn == null) {
             throw new OpException("编码不存在。");
-        }else if(BooleanUtils.isTrue(applySn.getIsUsed())){
+        } else if (BooleanUtils.isTrue(applySn.getIsUsed())) {
             throw new OpException("编码{0}已被使用。", applySn.getDisplaySn());
-        }else if(BooleanUtils.isTrue(applySn.getIsAbolished())){
+        } else if (BooleanUtils.isTrue(applySn.getIsAbolished())) {
             throw new OpException("编码{0}已作废。", applySn.getDisplaySn());
         }
 
@@ -133,14 +133,14 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
     // 更新为未使用
     @Transactional
-    public void clearUse(int applySnId){
+    public void clearUse(int applySnId) {
 
         ApplySn applySn = applySnMapper.selectByPrimaryKey(applySnId);
-        if(applySn == null){
+        if (applySn == null) {
             throw new OpException("编码不存在。");
-        }else if(BooleanUtils.isNotTrue(applySn.getIsUsed())){
+        } else if (BooleanUtils.isNotTrue(applySn.getIsUsed())) {
             throw new OpException("编码{0}没有被使用。", applySn.getDisplaySn());
-        }else if(BooleanUtils.isTrue(applySn.getIsAbolished())){
+        } else if (BooleanUtils.isTrue(applySn.getIsAbolished())) {
             throw new OpException("编码{0}已作废。", applySn.getDisplaySn());
         }
 
@@ -159,82 +159,95 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
     // 换领志愿书
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#applySn.userId")
-    public void change(ApplySn applySn, ApplySn newApplySn) {
+    public void change(ApplySn applySn, ApplySn newApplySn, byte opType) {
 
-        if(BooleanUtils.isNotTrue(applySn.getIsUsed())){
+        if (BooleanUtils.isNotTrue(applySn.getIsUsed())) {
             throw new OpException("原编码{0}没有被使用。", applySn.getDisplaySn());
-        }else if(BooleanUtils.isTrue(applySn.getIsAbolished())){
+        } else if (BooleanUtils.isTrue(applySn.getIsAbolished())) {
             throw new OpException("原编码{0}已作废。", applySn.getDisplaySn());
         }
 
         int userId = applySn.getUserId();
         MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(memberApply==null){
+        if (memberApply == null) {
             throw new OpException("党员发展记录不存在。");
         }
         Integer applySnId = memberApply.getApplySnId();
-        if(applySnId==null || applySnId.intValue()!=applySn.getId()){
+        if (applySnId == null || applySnId.intValue() != applySn.getId()) {
             throw new OpException("党员发展记录编码有误[{0}]。", memberApply.getApplySn());
         }
 
-        // 直接作废编码，不需要更新已使用的编码数量
-        ApplySn record = new ApplySn();
-        record.setId(applySn.getId());
-        record.setIsAbolished(true);
-        applySnMapper.updateByPrimaryKeySelective(record);
+        if (opType == 1) { // 作废原编码，不需要更新已使用的编码数量
+
+            ApplySn record = new ApplySn();
+            record.setId(applySn.getId());
+            record.setIsAbolished(true);
+            applySnMapper.updateByPrimaryKeySelective(record);
+
+        } else if (opType == 2) { // 原编码返回使用, 需要更新已使用的编码数量
+
+            commonMapper.excuteSql("update ow_apply_sn set is_used = 0, is_abolished=0, " +
+                    "user_id = null, assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
+
+            // 更新编码段已使用数量
+            Integer rangeId = applySn.getRangeId();
+            updateUseCount(rangeId);
+
+        } else {
+            throw new IllegalArgumentException();
+        }
 
         // 清除原申请记录的分配的志愿书（其实可不做这步，因为后面的分配新编码是覆盖操作）
         commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, " +
-                "apply_sn=null where user_id="+ userId);
+                "apply_sn=null where user_id=" + userId);
 
         // 分配新编码
         assign(userId, newApplySn);
     }
 
 
-
     // 调换志愿书编码
     @Transactional
-    @Caching(evict={
-			@CacheEvict(value="MemberApply", key = "#applySn.userId"),
-			@CacheEvict(value="MemberApply", key = "#applySn2.userId")
-	})
+    @Caching(evict = {
+            @CacheEvict(value = "MemberApply", key = "#applySn.userId"),
+            @CacheEvict(value = "MemberApply", key = "#applySn2.userId")
+    })
     public void exchange(ApplySn applySn, ApplySn applySn2) {
 
-        if(applySn.getId().intValue()==applySn2.getId()){
+        if (applySn.getId().intValue() == applySn2.getId()) {
             throw new OpException("请选择不同的志愿书编码进行调换。");
         }
 
-        if(BooleanUtils.isNotTrue(applySn.getIsUsed())){
+        if (BooleanUtils.isNotTrue(applySn.getIsUsed())) {
             throw new OpException("原编码{0}没有被使用。", applySn.getDisplaySn());
-        }else if(BooleanUtils.isTrue(applySn.getIsAbolished())){
+        } else if (BooleanUtils.isTrue(applySn.getIsAbolished())) {
             throw new OpException("原编码{0}已作废。", applySn.getDisplaySn());
         }
 
-        if(BooleanUtils.isNotTrue(applySn2.getIsUsed())){
+        if (BooleanUtils.isNotTrue(applySn2.getIsUsed())) {
             throw new OpException("原编码{0}没有被使用。", applySn2.getDisplaySn());
-        }else if(BooleanUtils.isTrue(applySn2.getIsAbolished())){
+        } else if (BooleanUtils.isTrue(applySn2.getIsAbolished())) {
             throw new OpException("原编码{0}已作废。", applySn2.getDisplaySn());
         }
 
         int userId = applySn.getUserId();
         MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(memberApply==null){
+        if (memberApply == null) {
             throw new OpException("党员发展记录不存在。");
         }
         Integer applySnId = memberApply.getApplySnId();
-        if(applySnId==null || applySnId.intValue()!=applySn.getId()){
+        if (applySnId == null || applySnId.intValue() != applySn.getId()) {
             throw new OpException("党员发展记录编码有误[{0}]。", memberApply.getApplySn());
         }
 
         int userId2 = applySn2.getUserId();
         MemberApply memberApply2 = memberApplyMapper.selectByPrimaryKey(userId2);
-        if(memberApply2==null){
+        if (memberApply2 == null) {
             throw new OpException("调换编码对应的党员发展记录不存在。");
         }
 
         Integer applySnId2 = memberApply2.getApplySnId();
-        if(applySnId2==null || applySnId2.intValue()!=applySn2.getId()){
+        if (applySnId2 == null || applySnId2.intValue() != applySn2.getId()) {
             throw new OpException("调换编码对应的党员发展记录编码有误[{0}]。", memberApply2.getApplySn());
         }
 
@@ -265,7 +278,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                    ShiroHelper.getCurrentUserId(),  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     null,
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -279,7 +292,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
             applyApprovalLogService.add(userId2,
                     memberApply2.getPartyId(), memberApply2.getBranchId(), userId2,
-                    ShiroHelper.getCurrentUserId(),  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     null,
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -287,33 +300,53 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
         }
     }
 
-    // 恢复已作废的编码重新使用
+    // isAbolish = 0: 恢复已作废的编码  1： 作废未使用的编码
     @Transactional
-    public void reuse(int applySnId) {
+    public void abolish(Integer[] applySnIds, boolean isAbolish) {
 
-        ApplySn applySn = applySnMapper.selectByPrimaryKey(applySnId);
-        if(applySn == null){
-            throw new OpException("编码不存在。");
-        }else if(BooleanUtils.isNotTrue(applySn.getIsUsed())){
-            throw new OpException("编码{0}没有被使用。", applySn.getDisplaySn());
-        }else if(BooleanUtils.isNotTrue(applySn.getIsAbolished())){
-            throw new OpException("编码{0}没有作废。", applySn.getDisplaySn());
+        for (int applySnId : applySnIds) {
+
+            ApplySn applySn = applySnMapper.selectByPrimaryKey(applySnId);
+            if (applySn == null) {
+                throw new OpException("编码{0}不存在。", applySnId);
+            } else if (!isAbolish && BooleanUtils.isNotTrue(applySn.getIsAbolished())) {
+                // 恢复已作废的编码，要求编码没有作废
+                throw new OpException("编码{0}没有作废。", applySn.getDisplaySn());
+            } else if (isAbolish) {
+                // 作废未使用的编码，要求编码未使用
+                if (BooleanUtils.isTrue(applySn.getIsUsed()))
+                    throw new OpException("编码{0}已使用，不可作废。", applySn.getDisplaySn());
+
+                if (BooleanUtils.isTrue(applySn.getIsAbolished()))
+                    throw new OpException("编码{0}已作废。", applySn.getDisplaySn());
+            }
+
+            commonMapper.excuteSql("update ow_apply_sn set is_used = 0, is_abolished=" + isAbolish + ", " +
+                    "user_id = null, assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
+
+            // 更新编码段已使用数量
+            Integer rangeId = applySn.getRangeId();
+            updateUseCount(rangeId);
+
+            SysUserView uv = applySn.getUser();
+            logger.info(log(LogConstants.LOG_MEMBER,
+                    isAbolish ?"作废编码{0}"
+                            : "恢复已作废的编码<{0}>重新使用，原使用人：{1}",
+                            applySn.getDisplaySn(), uv==null?"无":(uv.getRealname()+"-"+uv.getCode())));
         }
+    }
 
-        commonMapper.excuteSql("update ow_apply_sn set is_used = 0, is_abolished=0, " +
-                "user_id = null, assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
+    // 更新已使用数量：包含已使用和已作废之和
+    private void updateUseCount(int rangeId) {
 
-        // 更新编码段已使用数量
-        Integer rangeId = applySn.getRangeId();
         ApplySnExample example = new ApplySnExample();
-        example.createCriteria().andRangeIdEqualTo(rangeId).andIsUsedEqualTo(true);
+        example.or().andRangeIdEqualTo(rangeId)
+                .andIsUsedEqualTo(true);
+        example.or().andRangeIdEqualTo(rangeId)
+                .andIsAbolishedEqualTo(true);
+
         int useCount = (int) applySnMapper.countByExample(example);
 
         applySnRangeService.updateUseCount(rangeId, useCount);
-
-        SysUserView uv = applySn.getUser();
-        logger.info(log(LogConstants.LOG_MEMBER,
-                "恢复已作废的编码<{0}>重新使用，原使用人：{1}，{2}",
-                applySn.getDisplaySn(), uv.getRealname(), uv.getCode()));
     }
 }

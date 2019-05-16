@@ -22,14 +22,14 @@
             <div class="col-xs-7">
                 <div class="input-group">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="assignType" id="type0" value="1">
-                        <label for="type0">
+                        <input required type="radio" name="assignType" id="type1" value="1">
+                        <label for="type1">
                             系统自动分配
                         </label>
                     </div>
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="assignType" id="type1" value="2">
-                        <label for="type1">
+                        <input required type="radio" name="assignType" id="type2" value="2">
+                        <label for="type2">
                             指定编码
                         </label>
                     </div>
@@ -49,6 +49,25 @@
             <label class="col-xs-4 control-label">新志愿书编码</label>
             <div class="col-xs-7 label-text">
                 ${empty newApplySn?"无可用编码":newApplySn.displaySn}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">原编码处理方式</label>
+            <div class="col-xs-7">
+                <div class="input-group">
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input required type="radio" checked name="opType" id="opType1" value="1">
+                        <label for="opType1">
+                            作废
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input required type="radio" name="opType" id="opType2" value="2">
+                        <label for="opType2">
+                            重新使用
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

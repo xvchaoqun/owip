@@ -37,12 +37,14 @@ public class ApplySnController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("applySnRange:reuse")
-    @RequestMapping(value = "/applySn_reuse", method = RequestMethod.POST)
+    @RequiresPermissions("applySnRange:abolish")
+    @RequestMapping(value = "/applySn_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySn_reuse(int id, HttpServletRequest request) {
+    public Map do_applySn_abolish(@RequestParam(value = "ids[]") Integer[] ids,
+                                  boolean isAbolish, // 0: 恢复已作废的编码  1： 作废未使用的编码
+                                  HttpServletRequest request) {
 
-        applySnService.reuse(id);
+        applySnService.abolish(ids, isAbolish);
 
         return success(FormUtils.SUCCESS);
     }
@@ -50,11 +52,13 @@ public class ApplySnController extends MemberBaseController {
     @RequiresPermissions("applySnRange:change")
     @RequestMapping(value = "/applySn_change", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySn_change(int id, int newSnId, HttpServletRequest request) {
+    public Map do_applySn_change(int id, int newSnId,
+                                 byte opType,
+                                 HttpServletRequest request) {
 
         ApplySn applySn = applySnMapper.selectByPrimaryKey(id);
         ApplySn newApplySn = applySnMapper.selectByPrimaryKey(newSnId);
-        applySnService.change(applySn, newApplySn);
+        applySnService.change(applySn, newApplySn, opType);
 
         return success(FormUtils.SUCCESS);
     }

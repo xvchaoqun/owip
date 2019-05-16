@@ -28,19 +28,30 @@
                                         </button>
                                     </shiro:hasPermission>
                                     <shiro:hasPermission name="applySnRange:change">
-                                        <button id="changeBtn" class="jqOpenViewBtn tooltip-primary btn btn-primary btn-sm"
+                                        <button id="exchangeBtn" class="jqOpenViewBtn tooltip-primary btn btn-primary btn-sm"
                                                 data-url="${ctx}/applySn_exchange"
                                                 data-rel="tooltip" data-placement="top" title="对已分配的编码进行调换"
                                                 data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
                                             调换编码
                                         </button>
                                     </shiro:hasPermission>
-                                    <shiro:hasPermission name="applySnRange:reuse">
+                                    <shiro:hasPermission name="applySnRange:abolish">
+                                        <c:if test="${cls==7}">
+                                        <button id="abolishBtn"
+                                                data-title="作废编码"
+                                                data-msg="确定直接作废这{0}个编码？"
+                                                class="jqBatchBtn tooltip-warning btn btn-danger btn-sm"
+                                                data-url="${ctx}/applySn_abolish?isAbolish=1"
+                                                data-rel="tooltip" data-placement="top" title="作废未使用的编码"
+                                                data-grid-id="#jqGrid"><i class="fa fa-times"></i>
+                                            作废编码
+                                        </button>
+                                        </c:if>
                                         <button id="reuseBtn"
                                                 data-title="恢复使用"
-                                                data-msg="确定恢复使用这个编码？"
-                                                class="jqItemBtn tooltip-success btn btn-danger btn-sm"
-                                                data-url="${ctx}/applySn_reuse"
+                                                data-msg="确定恢复使用这{0}个编码？"
+                                                class="jqBatchBtn tooltip-info btn btn-info btn-sm"
+                                                data-url="${ctx}/applySn_abolish?isAbolish=0"
                                                 data-rel="tooltip" data-placement="top" title="恢复已作废的编码，更新为未使用状态"
                                                 data-grid-id="#jqGrid"><i class="fa fa-reply"></i>
                                             恢复使用
@@ -241,14 +252,11 @@
     function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {
-            $("#changeBtn, #reuseBtn").prop("disabled", true);
+            $("#changeBtn, #exchangeBtn").prop("disabled", true);
         } else if (ids.length == 1) {
-
             var rowData = $(grid).getRowData(ids[0]);
             var canChange = (rowData._isUsed == "true") && (rowData._isAbolished != "true");
-            $("#changeBtn").prop("disabled", !canChange);
-            var canReuse = (rowData._isUsed == "true") && (rowData._isAbolished == "true");
-            $("#reuseBtn").prop("disabled", !canReuse);
+            $("#changeBtn, #exchangeBtn").prop("disabled", !canChange);
         }
     }
 </script>
