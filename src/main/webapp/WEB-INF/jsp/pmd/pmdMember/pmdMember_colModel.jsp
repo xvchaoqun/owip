@@ -50,7 +50,16 @@
     { label: '学工号',name: 'user.code', width: 120/*, formatter:function(cellvalue, options, rowObject){
       return (rowObject.configMemberTypeId==undefined)?'<span class="text-danger">'+cellvalue+'</span>':cellvalue;
     }*/,frozen: true},
-    { label: '姓名',name: 'user.realname', frozen: true},
+      {
+          label: '姓名', name: 'user.realname', frozen: true, formatter: function (cellvalue, options, rowObject) {
+              <c:if test="${cls==5}">
+              return $.member(rowObject.user.id, cellvalue);
+              </c:if>
+              <c:if test="${cls!=5}">
+              return cellvalue;
+              </c:if>
+          }
+      },
     <c:if test="${cls!=3}">
     { label: '所在党委',name: 'partyId', width: 350, align:'left', formatter:function(cellvalue, options, rowObject){
       return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;

@@ -12,13 +12,14 @@
         <input type="hidden" name="id" value="${cadre.id}">
         <input type="hidden" name="status" value="${status}">
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>账号<c:if test="${cadre==null}">(不在干部库中)</c:if></label>
+            <label class="col-xs-4 control-label"><c:if test="${empty cadre}"><span class="star">*</span></c:if>账号</label>
             <div class="col-xs-6 ${cadre!=null?'label-text':''}">
                 <c:if test="${cadre==null}">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
+                   <span class="help-block">注：从非干部库中选择</span>
                 </c:if>
                 <c:if test="${cadre!=null}">
                     <input type="hidden" name="userId" value="${sysUser.id}">
@@ -47,7 +48,7 @@
         </c:if>
          </c:if>
         <div class="form-group">
-            <label class="col-xs-4 control-label">${_pMap['cadreStateName']}</label>
+            <label class="col-xs-4 control-label">${cm:getTextFromHTML(_pMap['cadreStateName'])}</label>
             <div class="col-xs-6">
                 <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
                     <option></option>
@@ -121,7 +122,7 @@
         <div class="form-group">
             <label class="col-xs-4 control-label">备注</label>
             <div class="col-xs-6">
-                <textarea class="form-control limited" name="remark" rows="5">${cadre.remark}</textarea>
+                <textarea class="form-control limited" name="remark" rows="3">${cadre.remark}</textarea>
             </div>
         </div>
     </form>
@@ -129,7 +130,7 @@
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" type="button" class="btn btn-primary"
-            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"> ${cadre!=null?"确定":"添加"}
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"> ${not empty cadre?"确定":"添加"}
     </button>
 </div>
 

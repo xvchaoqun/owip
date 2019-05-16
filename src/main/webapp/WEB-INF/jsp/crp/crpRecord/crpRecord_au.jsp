@@ -257,6 +257,7 @@
     }
     $('input[name=isPresentCadre]').on('switchChange.bootstrapSwitch', function (event, state) {
         isPresentCadreChange();
+        $("select[name=userId], select[name=cadreId]").val(null).trigger("change")
     });
     isPresentCadreChange();
 

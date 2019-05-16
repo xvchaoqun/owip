@@ -523,18 +523,26 @@ public class MemberApplyOpService extends MemberBaseMapper {
             boolean partyAdmin = verifyAuth.isPartyAdmin;
             boolean directParty = verifyAuth.isDirectBranch;
 
+            String realname = _memberApply.getUser().getRealname();
+            if(_memberApply.getGrowStatus()!=null &&
+                    _memberApply.getGrowStatus()==OwConstants.OW_APPLY_STATUS_UNCHECKED){
+                throw new OpException("{0}已提交，请勿重复操作。", realname);
+            }
             if(_memberApply.getGrowStatus()==null ||
                     _memberApply.getGrowStatus()!=OwConstants.OW_APPLY_STATUS_OD_CHECKED){
-                throw new OpException("待组织部审核之后，才能提交。");
+                throw new OpException("{0}待组织部审核之后，才能提交。", realname);
             }
 
             if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DRAW){
-                throw new OpException("状态异常，还没到领取志愿书阶段。");
+                throw new OpException("{0}状态异常，还没到领取志愿书阶段。", realname);
             }
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
+            if(_memberApply.getDrawTime()==null){
+                throw new OpException("{0}领取志愿书时间为空", realname);
+            }
             if(growTime.before(_memberApply.getDrawTime())){
-                throw new OpException("发展时间应该在领取志愿书之后");
+                throw new OpException("{0}发展时间应该在领取志愿书之后", realname);
             }
 
             if(directParty && partyAdmin){

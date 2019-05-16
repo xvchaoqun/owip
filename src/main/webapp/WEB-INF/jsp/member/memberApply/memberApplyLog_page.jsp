@@ -7,10 +7,10 @@ pageEncoding="UTF-8" %>
         <div id="body-content">
 
             <div class="myTableDiv"
-                 data-url-page="${ctx}/memberApplyLog"
+                 data-url-page="${ctx}/memberApplyLog?cls=${cls}"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.stage
-            ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.applyUserId ||not empty param.userId ||not empty param.stage
+            ||not empty param.partyId ||not empty param.branchId || not empty param.remark || not empty param.sort}"/>
             <div class="widget-box transparent">
                 <div class="widget-header">
                         <jsp:include page="menu.jsp"/>
@@ -36,6 +36,15 @@ pageEncoding="UTF-8" %>
                                                             <label>姓名</label>
                                                             <div class="input-group">
                                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                                                        name="applyUserId" data-placeholder="请输入账号或姓名或学工号">
+                                                                    <option value="${applyUser.id}">${applyUser.realname}-${applyUser.code}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>操作人</label>
+                                                            <div class="input-group">
+                                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                                 </select>
@@ -59,8 +68,6 @@ pageEncoding="UTF-8" %>
 
                                                         <div class="form-group">
                                                             <label>${_p_partyName}</label>
-
-
                                                                 <select class="form-control" data-rel="select2-ajax"
                                                                         data-ajax-url="${ctx}/party_selects"
                                                                         name="partyId" data-placeholder="请选择">
@@ -81,6 +88,12 @@ pageEncoding="UTF-8" %>
                                                         $.register.party_branch_select($("#searchForm"), "branchDiv",
                                                                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                     </script>
+                                                <div class="form-group">
+                                                            <label>备注</label>
+                                                            <input class="form-control search-query" name="remark" type="text" value="${param.remark}"
+                                                               placeholder="请输入">
+                                                        </div>
+
                                                 <div class="clearfix form-actions center">
                                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -130,5 +143,6 @@ pageEncoding="UTF-8" %>
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
+    $.register.user_select($('#searchForm select[name=applyUserId]'));
     $.register.user_select($('#searchForm select[name=userId]'));
 </script>

@@ -559,9 +559,13 @@ var _modal_width;
         },
         user: function (userId, label) {
 
-            if (userId > 0 && $.trim(label) != '')
+            if (userId > 0 && $.trim(label) != ''
+                && ($.inArray("sysUser:view", _permissions) >= 0
+                    || $.inArray("sysUser:*", _permissions) >= 0)) {
+
                 return '<a href="javascript:;" class="openView" data-url="{2}/sysUser_view?userId={0}">{1}</a>'
                     .format(userId, label, ctx);
+            }
 
             return $.trim(label);
         },

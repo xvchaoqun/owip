@@ -221,7 +221,7 @@
                     if (rowObject.cadre && rowObject.cadre.id > 0)
                         return $.cadre(rowObject.cadre.id, rowObject.cadre.realname);
 
-                    return rowObject.user.realname;
+                    return $.user(rowObject.user.id, rowObject.user.realname);
                 }, frozen: true
             },
             <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">

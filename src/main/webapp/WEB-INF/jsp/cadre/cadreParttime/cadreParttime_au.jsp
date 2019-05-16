@@ -41,13 +41,13 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>兼职单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreParttime.unit}">
+                    <textarea required class="form-control" name="unit">${cadreParttime.unit}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>兼任职务</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="post" value="${cadreParttime.post}">
+                     <textarea required class="form-control" name="post">${cadreParttime.post}</textarea>
 				</div>
 			</div>
             <div class="form-group">

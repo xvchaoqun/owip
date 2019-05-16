@@ -27,6 +27,14 @@
                                             换领志愿书
                                         </button>
                                     </shiro:hasPermission>
+                                    <shiro:hasPermission name="applySnRange:change">
+                                        <button id="changeBtn" class="jqOpenViewBtn tooltip-primary btn btn-primary btn-sm"
+                                                data-url="${ctx}/applySn_exchange"
+                                                data-rel="tooltip" data-placement="top" title="对已分配的编码进行调换"
+                                                data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
+                                            调换编码
+                                        </button>
+                                    </shiro:hasPermission>
                                     <shiro:hasPermission name="applySnRange:reuse">
                                         <button id="reuseBtn"
                                                 data-title="恢复使用"

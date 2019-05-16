@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>获奖年份</label>
 				<div class="col-xs-6">
-                    <div class="input-group" style="width: 120px">
+                    <div class="input-group" style="width: 100px">
                         <input required class="form-control date-picker" name="_rewardTime" type="text"
                                data-date-min-view-mode="2"
                                data-date-format="yyyy" value="${cm:formatDate(cadreReward.rewardTime,'yyyy')}" />
@@ -45,14 +45,14 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>获得奖项</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${cadreReward.name}">
+                    <textarea required class="form-control" name="name">${cadreReward.name}</textarea>
                     <span class="help-block">注：不要加书名号。</span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">颁奖单位</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="unit" value="${cadreReward.unit}">
+                    <textarea class="form-control" name="unit">${cadreReward.unit}</textarea>
 				</div>
 			</div>
             <div class="form-group">
@@ -73,7 +73,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group" id="rankDiv">
 				<label class="col-xs-3 control-label">排名</label>
 				<div class="col-xs-6">
-                        第 <input type="text" class="digits" data-rule-min="1" name="rank" style="width: 80px;" value="${cadreReward.rank}"> 名
+                        第 <input type="text" class="digits" data-rule-min="1" name="rank" style="width: 50px;" value="${cadreReward.rank}"> 名
 				</div>
 			</div>
         <div class="form-group">

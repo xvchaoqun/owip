@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-3 control-label">${_pMap['cadreStateName']}</label>
+            <label class="col-xs-3 control-label">${cm:getTextFromHTML(_pMap['cadreStateName'])}</label>
             <div class="col-xs-8">
                 <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
                     <option></option>

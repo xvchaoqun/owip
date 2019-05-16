@@ -22,7 +22,7 @@
 					<label class="col-xs-5 control-label"><span class="star">*</span>学历</label>
 					<div class="col-xs-7">
 						<select required data-rel="select2" name="eduId"
-								data-placeholder="请选择" data-width="162">
+								data-placeholder="请选择" data-width="193">
 							<option></option>
 							<c:import url="/metaTypes?__code=mc_edu"/>
 						</select>
@@ -34,11 +34,9 @@
 				<div class="form-group">
 					<label class="col-xs-5 control-label"><span class="star">*</span>入学时间</label>
 					<div class="col-xs-7">
-						<div class="input-group">
-							<input required autocomplete="off" disableautocomplete
-								   class="form-control date-picker" name="enrolTime" type="text"
-								   data-date-min-view-mode="1" placeholder="yyyy.mm"
-								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.enrolTime,'yyyy.MM')}" />
+						<div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm" style="width: 120px">
+							<input required class="form-control" name="enrolTime" type="text"
+								    placeholder="yyyy.mm" value="${cm:formatDate(cadreEdu.enrolTime,'yyyy.MM')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -46,11 +44,9 @@
 				<div class="form-group">
 					<label class="col-xs-5 control-label"><span class="star">*</span>毕业时间</label>
 					<div class="col-xs-7">
-						<div class="input-group">
-							<input required autocomplete="off" disableautocomplete
-								   class="form-control date-picker" name="finishTime" type="text"
-								   data-date-min-view-mode="1" placeholder="yyyy.mm"
-								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}" />
+						<div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm" style="width: 120px">
+							<input required class="form-control" name="finishTime" type="text"
+								    placeholder="yyyy.mm" value="${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -92,7 +88,7 @@
 					<label class="col-xs-5 control-label"><span class="star">*</span>学校类型</label>
 					<div class="col-xs-7">
 						<select required data-rel="select2" name="schoolType"
-								data-placeholder="请选择" data-width="162">
+								data-placeholder="请选择" data-width="193">
 							<option></option>
 							<c:forEach items="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="schoolType">
 								<option value="${schoolType.key}">${schoolType.value}</option>
@@ -107,7 +103,7 @@
 					<label class="col-xs-5 control-label"><span class="star">*</span>学习方式</label>
 					<div class="col-xs-7">
 						<select required data-rel="select2" name="learnStyle"
-								data-placeholder="请选择" data-width="162">
+								data-placeholder="请选择" data-width="193">
 							<option></option>
 							<c:import url="/metaTypes?__code=mc_learn_style"/>
 						</select>
@@ -160,10 +156,10 @@
 					<div class="form-group">
 						<label class="col-xs-4 control-label"><span class="star">*</span>学位授予日期</label>
 						<div class="col-xs-8">
-							<div class="input-group">
-								<input  required class="form-control date-picker" name="degreeTime" type="text"
-										data-date-min-view-mode="1" placeholder="yyyy.mm"
-										data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.degreeTime,'yyyy.MM')}" />
+							<div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm"
+                                 style="width: 120px">
+								<input required class="form-control" name="degreeTime" type="text"
+										placeholder="yyyy.mm" value="${cm:formatDate(cadreEdu.degreeTime,'yyyy.MM')}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
 						</div>
@@ -353,7 +349,7 @@
 		}
 	});
 
-	$.register.date($('.date-picker'));
+	$.register.date($('.input-group.date'));
 
 	$("#modal form").validate({
 		submitHandler: function (form) {

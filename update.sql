@@ -5,6 +5,31 @@
 更新 党员发展信息导入模板.xlsx
 
 
+20190516
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                             VALUES (1034, 0, '查看用户档案页', '', 'function', '', NULL, 853, '0/1/21/853/', 1, 'sysUser:view', NULL, NULL, NULL, 1, NULL);
+
+DROP VIEW IF EXISTS `sys_user_view`;
+CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
+AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
+
+
+更新 cadreStateName
+
+20190516
+更新南航
+
+20190516
+
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `file_number` VARCHAR(50) NULL COMMENT '档案编号' AFTER `not_send_msg`;
+
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `mailing_address` VARCHAR(50) NULL DEFAULT NULL COMMENT '通讯地址' AFTER `email`;
+
 
 20190516
 

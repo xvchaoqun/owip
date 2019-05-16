@@ -42,7 +42,7 @@ public class ApplyApprovalLogController extends MemberBaseController {
     @RequestMapping("/applyApprovalLog")
     public String applyApprovalLog(Integer id, Byte type, ModelMap modelMap) {
 
-        if(id!=null) {
+        if (id != null) {
             Integer userId = null;
             switch (type) {
                 case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY: {
@@ -100,11 +100,15 @@ public class ApplyApprovalLogController extends MemberBaseController {
             RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog_data")
     public void applyApprovalLog_data(HttpServletResponse response,
-                                   Integer id,
-                                   Byte type,Integer partyId,
-                                   Integer branchId,
-                                   String stage,
-                                   Integer pageSize, Integer pageNo) throws IOException {
+                                      Integer id,
+                                      Byte type,
+                                      Integer partyId,
+                                      Integer branchId,
+                                      String stage,
+                                      Integer userId,
+                                      Integer applyUserId,
+                                      String remark,
+                                      Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -117,9 +121,9 @@ public class ApplyApprovalLogController extends MemberBaseController {
         ApplyApprovalLogExample example = new ApplyApprovalLogExample();
         ApplyApprovalLogExample.Criteria criteria = example.createCriteria();
 
-        if(type!=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER) {
+        if (type != OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER) {
             criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
-        }else{
+        } else {
             MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
             List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
@@ -130,10 +134,10 @@ public class ApplyApprovalLogController extends MemberBaseController {
             Integer toBranchId = memberTransfer.getToBranchId();
 
             // 既不是转入支部的管理员或转入分党委的管理员，也不是转出的管理员，没有权限查看
-            if(!adminPartyIdList.contains(partyId1)
-                    && !adminPartyIdList.contains(toPartyId)){
-                if(branchId1==null || !adminBranchIdList.contains(branchId1)){
-                    if(toBranchId==null || !adminBranchIdList.contains(toBranchId)){
+            if (!adminPartyIdList.contains(partyId1)
+                    && !adminPartyIdList.contains(toPartyId)) {
+                if (branchId1 == null || !adminBranchIdList.contains(branchId1)) {
+                    if (toBranchId == null || !adminBranchIdList.contains(toBranchId)) {
 
                         throw new UnauthorizedException();
                     }
@@ -143,17 +147,26 @@ public class ApplyApprovalLogController extends MemberBaseController {
 
         example.setOrderByClause("create_time desc");
 
-        if(id!=null)
+        if (id != null)
             criteria.andRecordIdEqualTo(id);
-        criteria.andTypeEqualTo(type );
+        criteria.andTypeEqualTo(type);
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
-        if(StringUtils.isNotBlank(stage)){
+        if (StringUtils.isNotBlank(stage)) {
             criteria.andStageEqualTo(stage);
+        }
+        if (StringUtils.isNotBlank(remark)) {
+            criteria.andRemarkLike("%" + remark + "%");
+        }
+        if(userId!=null) {
+            criteria.andUserIdEqualTo(userId);
+        }
+        if(applyUserId!=null) {
+            criteria.andApplyUserIdEqualTo(applyUserId);
         }
 
         int count = applyApprovalLogMapper.countByExample(example);
@@ -175,7 +188,8 @@ public class ApplyApprovalLogController extends MemberBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLogs")
     public String applyApprovalLogs(HttpServletRequest request, String idName, Byte type, ModelMap modelMap) {
 
@@ -185,7 +199,7 @@ public class ApplyApprovalLogController extends MemberBaseController {
         ApplyApprovalLogExample example = new ApplyApprovalLogExample();
         ApplyApprovalLogExample.Criteria criteria = example.createCriteria();
         criteria.andRecordIdEqualTo(Integer.parseInt(idStr));
-        criteria.andTypeEqualTo(type );
+        criteria.andTypeEqualTo(type);
         example.setOrderByClause("create_time desc");
         List<ApplyApprovalLog> applyApprovalLogs = applyApprovalLogMapper.selectByExample(example);
         modelMap.put("applyApprovalLogs", applyApprovalLogs);

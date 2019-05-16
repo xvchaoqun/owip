@@ -2,6 +2,7 @@ package controller.sys;
 
 import bean.ColumnBean;
 import controller.BaseController;
+import domain.member.MemberView;
 import domain.sys.*;
 import domain.sys.SysUserExample.Criteria;
 import interceptor.OrderParam;
@@ -13,6 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,88 +48,131 @@ import java.util.*;
 
 @Controller
 public class SysUserController extends BaseController {
-    
+
     private Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     @Autowired
     protected DBServcie dbServcie;
-    
+
     // 门户账号信息
-    @RequiresPermissions("sysUser:list")
+    @RequiresPermissions("sysUser:ext")
     @RequestMapping("/sysUser_ext")
     public String sysUser_ext(int userId, ModelMap modelMap) {
-        
+
         SysUserView sysUser = sysUserService.findById(userId);
         modelMap.put("sysUser", sysUser);
         String code = sysUser.getCode();
-        
+
         Map<String, ColumnBean> columnBeanMap = null;
         Object bean = null;
         byte type = sysUser.getType();
         if (type == SystemConstants.USER_TYPE_JZG) {
-            
+
             bean = extJzgMapper.selectByPrimaryKey(code);
             columnBeanMap = dbServcie.getColumnBeanMap("ext_jzg");
         } else if (type == SystemConstants.USER_TYPE_YJS) {
-            
+
             bean = extYjsMapper.selectByPrimaryKey(code);
             columnBeanMap = dbServcie.getColumnBeanMap("ext_yjs");
         } else if (type == SystemConstants.USER_TYPE_BKS) {
-            
+
             bean = extBksMapper.selectByPrimaryKey(code);
             columnBeanMap = dbServcie.getColumnBeanMap("ext_bks");
         }
-        
-        if (columnBeanMap!=null && columnBeanMap.size() > 0) {
+
+        if (columnBeanMap != null && columnBeanMap.size() > 0) {
             Map<String, Object> valuesMap = new LinkedHashMap<>();
             for (ColumnBean columnBean : columnBeanMap.values()) {
                 // POJO 字段名
                 String name = TableNameMethod.formatStr(columnBean.getName(), "tableName");
                 Object value = JavaBeanUtils.getFieldValueByFieldName(name, bean);
-                if(value instanceof Date){
-                    value = DateUtils.formatDate((Date)value, DateUtils.YYYYMMDD);
+                if (value instanceof Date) {
+                    value = DateUtils.formatDate((Date) value, DateUtils.YYYYMMDD);
                 }
                 valuesMap.put(name, value);
             }
             modelMap.put("valuesMap", valuesMap);
         }
-        
+
         modelMap.put("columnBeanMap", columnBeanMap);
-        
+
         return "sys/sysUser/sysUser_ext";
     }
-    
-    @RequiresPermissions("sysUser:list")
+
+    @RequiresPermissions("sysUser:view")
     @RequestMapping("/sysUser_view")
-    public String sysUser_view() {
-        
+    public String sysUser_view(String to, ModelMap modelMap) {
+
+        if (!ShiroHelper.isPermittedAny(new String[]{"sysUser:base", "sysUser:info"})) {
+            throw new UnauthorizedException();
+        }
+
+        if (StringUtils.isBlank(to)) {
+
+            if (ShiroHelper.isPermitted("sysUser:base")) {
+                to = "sysUser_base";
+            } else if (ShiroHelper.isPermitted("sysUser:info")) {
+                to = "sysUser_info";
+            }
+        }
+
+        modelMap.put("to", to);
+
         return "sys/sysUser/sysUser_view";
     }
-    
-    @RequiresPermissions("sysUser:list")
+
+    // 账号信息
+    @RequiresPermissions("sysUser:base")
+    @RequestMapping("/sysUser_base")
+    public String sysUser_base(int userId, ModelMap modelMap) {
+
+        SysUserView sysUser = sysUserService.findById(userId);
+        modelMap.put("uv", sysUser);
+
+        MemberView member = iMemberMapper.getMemberView(userId);
+        modelMap.put("member", member);
+
+        if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+
+            // 系统教职工账号（注册或后台添加）基础信息维护
+            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+            modelMap.put("teacherInfo", teacherInfo);
+
+            return "sys/sysUser/teacher_base";
+        }
+
+        // 系统学生账号（注册或后台添加）基础信息维护
+        StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(userId);
+        modelMap.put("studentInfo", studentInfo);
+
+        return "sys/sysUser/student_base";
+    }
+
+    // 账号信息
+    @RequiresPermissions("sysUser:info")
     @RequestMapping("/sysUser_info")
     public String sysUser_info(int userId, ModelMap modelMap) {
-        
+
         SysUserView sysUser = sysUserService.findById(userId);
         modelMap.put("sysUser", sysUser);
-        
+
         String unit = extService.getUnit(userId);
         modelMap.put("unit", unit); // 学校人事库或学生库中的单位名称
-        
-        
+
+
         modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
         modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));
-        
+
         return "sys/sysUser/sysUser_info";
     }
-    
+
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser")
     public String sysUser(ModelMap modelMap) {
-        
+
         return "sys/sysUser/sysUser_page";
     }
-    
+
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_data")
     @ResponseBody
@@ -137,7 +182,7 @@ public class SysUserController extends BaseController {
                              Integer pageSize, Integer pageNo,
                              String username, String realname, String code, String idcard,
                              Byte type, Byte source, Integer roleId, Boolean locked) throws IOException {
-        
+
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -145,7 +190,7 @@ public class SysUserController extends BaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
-        
+
         SysUserViewExample example = new SysUserViewExample();
         SysUserViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
@@ -155,11 +200,11 @@ public class SysUserController extends BaseController {
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeEqualTo(code.trim());
         }
-        
+
         if (StringUtils.isNotBlank(idcard)) {
             criteria.andIdcardLike("%" + idcard.trim() + "%");
         }
-        
+
         if (StringUtils.isNotBlank(realname)) {
             criteria.andRealnameLike("%" + realname.trim() + "%");
         }
@@ -181,55 +226,55 @@ public class SysUserController extends BaseController {
         }
         List<SysUserView> uvs = sysUserViewMapper.selectByExampleWithRowbounds
                 (example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        
+
         CommonList commonList = new CommonList(count, pageNo, pageSize);
-        
+
         Map resultMap = new HashMap();
         resultMap.put("rows", uvs);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
-        
+
         Map<Class<?>, Class<?>> baseMixins = new HashMap<>();
         baseMixins.put(SysUserView.class, SysUserListMixin.class);
         JSONUtils.jsonp(resultMap);
         return;
     }
-    
+
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_roles")
     public String sysUser_types(String _sysUsername, ModelMap modelMap) {
-        
+
         Set<String> roles = sysUserService.findRoles(_sysUsername);
         modelMap.put("roles", roles);
-        
+
         return "sys/sysUser/sysUser_roles";
     }
-    
+
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUser_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_au(@Validated SysUser record, BindingResult result, HttpServletRequest request) {
-        
+
         if (result.hasErrors()) {
             FieldError fieldError = result.getFieldError();
             return formValidError(fieldError.getField(), fieldError.getDefaultMessage());
         }
-        
+
         record.setUsername(StringUtils.lowerCase(StringUtils.trimToNull(record.getUsername())));
         record.setCode(StringUtils.lowerCase(StringUtils.trimToNull(record.getCode())));
         Integer id = record.getId();
-        
+
         if (record.getUsername() != null) {
             if (!CmTag.validUsername(record.getUsername())) {
                 return formValidError("username", CmTag.getStringProperty("usernameMsg"));
             }
             if (sysUserService.idDuplicate(id, record.getUsername(), record.getCode())) {
-                
+
                 return formValidError("code", "用户名或学工号重复");
             }
         }
-        
+
         if (id == null) {
             if (StringUtils.isBlank(record.getUsername())) {
                 return formValidError("username", "用户名不能为空");
@@ -260,91 +305,91 @@ public class SysUserController extends BaseController {
                     && CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_SUPER)) {
                 return failed("该账号不允许更新。");
             }
-            
+
             if (record.getTimeout() == null) {
                 commonMapper.excuteSql("update sys_user set timeout=null where id=" + id);
             }
             sysUserService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户：%s", record.getId()));
         }
-        
+
         return success(FormUtils.SUCCESS);
     }
-    
+
     @RequiresPermissions("sysUser:edit")
     @RequestMapping("/sysUser_au")
     public String sysUser_au(Integer id, ModelMap modelMap) {
-        
+
         if (id != null) {
-            
+
             SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
             modelMap.put("sysUser", sysUser);
         }
-        
+
         return "sys/sysUser/sysUser_au";
     }
-    
+
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUserInfo_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserInfo_au(int userId, SysUserInfo record, MultipartFile _avatar) throws IOException {
-        
+
         record.setUserId(userId);
         //SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
         String avatar = avatarService.uploadAvatar(_avatar);
         record.setAvatar(avatar);
-        
+
         sysUserService.insertOrUpdateUserInfoSelective(record);
         return success(FormUtils.SUCCESS);
     }
-    
+
     @RequiresPermissions("sysUser:edit")
     @RequestMapping("/sysUserInfo_au")
     public String sysUserInfo_au(Integer userId, ModelMap modelMap) {
-        
+
         if (userId != null) {
             SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
             modelMap.put("ui", ui);
-            
+
             SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
             modelMap.put("sysUser", sysUser);
         }
-        
+
         return "sys/sysUser/sysUserInfo_au";
     }
-    
+
     // 预览用户的菜单
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_menu")
     public String sysUser_menu(int userId, ModelMap modelMap) {
-        
+
         SysUserView uv = sysUserService.findById(userId);
         modelMap.put("uv", uv);
         return "sys/sysUser/sysUser_menu";
     }
-    
+
     @RequiresPermissions("sysUser:del")
     @RequestMapping(value = "/sysUser_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_del(@RequestParam(value = "ids[]") Integer[] ids, boolean locked, HttpServletRequest request) {
-        
+
         for (Integer id : ids) {
             SysUserView sysUser = sysUserService.findById(id);
             String username = sysUser.getUsername();
             sysUserService.lockUser(sysUser.getId(), locked);
             logger.info(addLog(LogConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
         }
-        
+
         return success(FormUtils.SUCCESS);
     }
-    
+
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUserRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserRole(SysUser record,
                               @RequestParam(value = "rIds[]", required = false) Integer[] rIds,
                               HttpServletRequest request) {
-        
+
         if (rIds == null || rIds.length == 0) {
             rIds = new Integer[1];
             rIds[0] = -1;
@@ -358,35 +403,35 @@ public class SysUserController extends BaseController {
         }
 
         sysUserService.updateUserRoles(userId, "," + StringUtils.join(rIds, ",") + ",");
-        
+
         logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", record.getUsername(), StringUtils.join(rIds, ",")));
         return success(FormUtils.SUCCESS);
     }
-    
+
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUserRole")
     public String sysUserRole(Integer id, ModelMap modelMap) throws IOException {
-        
+
         Set<Integer> selectIdSet = new HashSet<Integer>();
         if (id != null) {
-            
+
             SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
             selectIdSet = sysUserService.getUserRoleIdSet(sysUser.getRoleIds());
-            
+
             modelMap.put("sysUser", sysUser);
         }
-        
+
         TreeNode tree = sysRoleService.getTree(selectIdSet, true);
         modelMap.put("tree", JSONUtils.toString(tree));
-        
+
         return "sys/sysUser/sysUserRole";
     }
-    
+
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_export")
     public String sysUser_export(Integer roleId, boolean locked, HttpServletResponse response,
                                  HttpServletRequest request, ModelMap modelMap) throws IOException {
-        
+
         SysUserExample example = new SysUserExample();
         Criteria criteria = example.createCriteria().andLockedEqualTo(locked);
         /*if(StringUtils.isNotBlank(role)){
@@ -401,10 +446,10 @@ public class SysUserController extends BaseController {
 			if(sysUserIds.size()>0)
 				criteria.andIdIn(sysUserIds);
 		}*/
-        
+
         List<SysUser> sysUsers = sysUserMapper.selectByExample(example);
         long rownum = sysUserMapper.countByExample(example);
-        
+
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
@@ -442,7 +487,7 @@ public class SysUserController extends BaseController {
 		}*/
         String fileName = "账号";
         ExportHelper.output(wb, fileName + ".xlsx", response);
-        
+
         return null;
     }
 }

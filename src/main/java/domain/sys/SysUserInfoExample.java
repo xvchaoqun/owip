@@ -1402,6 +1402,76 @@ public class SysUserInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andFileNumberIsNull() {
+            addCriterion("file_number is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberIsNotNull() {
+            addCriterion("file_number is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberEqualTo(String value) {
+            addCriterion("file_number =", value, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberNotEqualTo(String value) {
+            addCriterion("file_number <>", value, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberGreaterThan(String value) {
+            addCriterion("file_number >", value, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("file_number >=", value, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberLessThan(String value) {
+            addCriterion("file_number <", value, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberLessThanOrEqualTo(String value) {
+            addCriterion("file_number <=", value, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberLike(String value) {
+            addCriterion("file_number like", value, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberNotLike(String value) {
+            addCriterion("file_number not like", value, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberIn(List<String> values) {
+            addCriterion("file_number in", values, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberNotIn(List<String> values) {
+            addCriterion("file_number not in", values, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberBetween(String value1, String value2) {
+            addCriterion("file_number between", value1, value2, "fileNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumberNotBetween(String value1, String value2) {
+            addCriterion("file_number not between", value1, value2, "fileNumber");
+            return (Criteria) this;
+        }
+
         public Criteria andUnitIsNull() {
             addCriterion("unit is null");
             return (Criteria) this;
@@ -1679,6 +1749,76 @@ public class SysUserInfoExample {
 
         public Criteria andEmailNotBetween(String value1, String value2) {
             addCriterion("email not between", value1, value2, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressIsNull() {
+            addCriterion("mailing_address is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressIsNotNull() {
+            addCriterion("mailing_address is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressEqualTo(String value) {
+            addCriterion("mailing_address =", value, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressNotEqualTo(String value) {
+            addCriterion("mailing_address <>", value, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressGreaterThan(String value) {
+            addCriterion("mailing_address >", value, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressGreaterThanOrEqualTo(String value) {
+            addCriterion("mailing_address >=", value, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressLessThan(String value) {
+            addCriterion("mailing_address <", value, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressLessThanOrEqualTo(String value) {
+            addCriterion("mailing_address <=", value, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressLike(String value) {
+            addCriterion("mailing_address like", value, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressNotLike(String value) {
+            addCriterion("mailing_address not like", value, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressIn(List<String> values) {
+            addCriterion("mailing_address in", values, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressNotIn(List<String> values) {
+            addCriterion("mailing_address not in", values, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressBetween(String value1, String value2) {
+            addCriterion("mailing_address between", value1, value2, "mailingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailingAddressNotBetween(String value1, String value2) {
+            addCriterion("mailing_address not between", value1, value2, "mailingAddress");
             return (Criteria) this;
         }
 

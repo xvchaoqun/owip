@@ -98,7 +98,7 @@ pageEncoding="UTF-8" %>
                         .format(encodeURI(cellvalue), rowObject.name + ".jpg");
                     }
 
-                    return cellvalue;
+                    return $.jgrid.formatter.htmlencodeWithNoSpace(cellvalue);
                 }},
                 { label: '说明',name: 'remark', width:480, align:'left'}
         ]

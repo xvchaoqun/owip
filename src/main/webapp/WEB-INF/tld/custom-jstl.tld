@@ -243,6 +243,11 @@
 		<function-signature>java.lang.String toJSONArray(java.util.List, java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>getTextFromHTML</name>
+		<function-class>sys.utils.HtmlEscapeUtils</function-class>
+		<function-signature>java.lang.String getTextFromHTML(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>getHtmlFragment</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.sys.HtmlFragment getHtmlFragment(java.lang.String)</function-signature>

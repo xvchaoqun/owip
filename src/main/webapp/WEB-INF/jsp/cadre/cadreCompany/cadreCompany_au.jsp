@@ -39,13 +39,13 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>兼职单位</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="text" name="unit" value="${cadreCompany.unit}">
+                <textarea required class="form-control" name="unit">${cadreCompany.unit}</textarea>
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>兼任职务</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="text" name="post" value="${cadreCompany.post}">
+                <textarea required class="form-control" name="post">${cadreCompany.post}</textarea>
             </div>
         </div>
         <div class="form-group">
@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label">审批单位</label>
             <div class="col-xs-6">
-                <input class="form-control" type="text" name="approvalUnit" value="${cadreCompany.approvalUnit}">
+                <textarea class="form-control" name="approvalUnit">${cadreCompany.approvalUnit}</textarea>
             </div>
         </div>
         <div class="form-group">

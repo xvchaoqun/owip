@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shiro.ShiroHelper;
@@ -188,6 +189,102 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
         // 分配新编码
         assign(userId, newApplySn);
+    }
+
+
+
+    // 调换志愿书编码
+    @Transactional
+    @Caching(evict={
+			@CacheEvict(value="MemberApply", key = "#applySn.userId"),
+			@CacheEvict(value="MemberApply", key = "#applySn2.userId")
+	})
+    public void exchange(ApplySn applySn, ApplySn applySn2) {
+
+        if(applySn.getId().intValue()==applySn2.getId()){
+            throw new OpException("请选择不同的志愿书编码进行调换。");
+        }
+
+        if(BooleanUtils.isNotTrue(applySn.getIsUsed())){
+            throw new OpException("原编码{0}没有被使用。", applySn.getDisplaySn());
+        }else if(BooleanUtils.isTrue(applySn.getIsAbolished())){
+            throw new OpException("原编码{0}已作废。", applySn.getDisplaySn());
+        }
+
+        if(BooleanUtils.isNotTrue(applySn2.getIsUsed())){
+            throw new OpException("原编码{0}没有被使用。", applySn2.getDisplaySn());
+        }else if(BooleanUtils.isTrue(applySn2.getIsAbolished())){
+            throw new OpException("原编码{0}已作废。", applySn2.getDisplaySn());
+        }
+
+        int userId = applySn.getUserId();
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        if(memberApply==null){
+            throw new OpException("党员发展记录不存在。");
+        }
+        Integer applySnId = memberApply.getApplySnId();
+        if(applySnId==null || applySnId.intValue()!=applySn.getId()){
+            throw new OpException("党员发展记录编码有误[{0}]。", memberApply.getApplySn());
+        }
+
+        int userId2 = applySn2.getUserId();
+        MemberApply memberApply2 = memberApplyMapper.selectByPrimaryKey(userId2);
+        if(memberApply2==null){
+            throw new OpException("调换编码对应的党员发展记录不存在。");
+        }
+
+        Integer applySnId2 = memberApply2.getApplySnId();
+        if(applySnId2==null || applySnId2.intValue()!=applySn2.getId()){
+            throw new OpException("调换编码对应的党员发展记录编码有误[{0}]。", memberApply2.getApplySn());
+        }
+
+        {
+            ApplySn record = new ApplySn();
+            record.setId(applySnId);
+            record.setUserId(userId2);
+            record.setPartyId(memberApply2.getPartyId());
+            record.setBranchId(memberApply2.getBranchId());
+            record.setAssignTime(new Date());
+            applySnMapper.updateByPrimaryKeySelective(record);
+
+            record = new ApplySn();
+            record.setId(applySnId2);
+            record.setUserId(userId);
+            record.setPartyId(memberApply.getPartyId());
+            record.setBranchId(memberApply.getBranchId());
+            record.setAssignTime(new Date());
+            applySnMapper.updateByPrimaryKeySelective(record);
+        }
+
+        {
+            MemberApply record = new MemberApply();
+            record.setUserId(userId);
+            record.setApplySnId(applySn2.getId());
+            record.setApplySn(applySn2.getDisplaySn());
+            memberApplyMapper.updateByPrimaryKeySelective(record);
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    ShiroHelper.getCurrentUserId(),  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    null,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "调换志愿书编码：" + applySn2.getDisplaySn());
+
+            record = new MemberApply();
+            record.setUserId(userId2);
+            record.setApplySnId(applySn.getId());
+            record.setApplySn(applySn.getDisplaySn());
+            memberApplyMapper.updateByPrimaryKeySelective(record);
+
+            applyApprovalLogService.add(userId2,
+                    memberApply2.getPartyId(), memberApply2.getBranchId(), userId2,
+                    ShiroHelper.getCurrentUserId(),  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    null,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "调换志愿书编码：" + applySn.getDisplaySn());
+        }
     }
 
     // 恢复已作废的编码重新使用

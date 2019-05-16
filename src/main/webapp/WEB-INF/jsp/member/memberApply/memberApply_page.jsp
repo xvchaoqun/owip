@@ -524,7 +524,13 @@
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '${type==OW_APPLY_TYPE_STU?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen:true},
-            {label: '姓名', name: 'user.realname', frozen:true},
+            { label: '姓名', name: 'user.realname', formatter:function(cellvalue, options, rowObject){
+                <c:if test="${stage<OW_APPLY_STAGE_GROW}">
+                    return $.user(rowObject.user.id, cellvalue);
+                </c:if><c:if test="${stage>=OW_APPLY_STAGE_GROW}">
+                    return $.member(rowObject.user.id, cellvalue);
+                </c:if>
+            },frozen:true },
             <c:if test="${stage<=-3}">
             {
                 label: '所在阶段', name: '_stage', formatter:function(cellvalue, options, rowObject){

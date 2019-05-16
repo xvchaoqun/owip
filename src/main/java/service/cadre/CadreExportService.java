@@ -33,6 +33,7 @@ import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
+import sys.utils.HtmlEscapeUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
@@ -60,7 +61,7 @@ public class CadreExportService extends BaseMapper {
 
     public List<String> getTitles(){
 
-        String cadreStateName = CmTag.getStringProperty("cadreStateName");
+        String cadreStateName = HtmlEscapeUtils.getTextFromHTML(CmTag.getStringProperty("cadreStateName"));
         return new ArrayList<>(Arrays.asList(new String[]{
                 "工作证号|100", "姓名|100", "干部类型|100", cadreStateName + "|100", "部门属性|150", "所在单位|300", "现任职务|160",
                 "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120",  "是否班子负责人|120", "性别|50",
@@ -141,7 +142,7 @@ public class CadreExportService extends BaseMapper {
 
         int columnCount = titles.size();
         Row firstRow = sheet.createRow(rowNum++);
-        firstRow.setHeight((short) (35.7 * 12));
+        firstRow.setHeight((short) (35.7 * 18));
 
         int width;
         for (int i = 0; i < columnCount; i++) {

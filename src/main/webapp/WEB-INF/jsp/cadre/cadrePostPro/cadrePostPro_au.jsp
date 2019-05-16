@@ -72,7 +72,7 @@
             <label class="col-xs-4 control-label">${cadrePostPro_noNeed?'':'<span class="star">*</span>'} 专技职务任职时间</label>
 
             <div class="col-xs-6">
-                <div class="input-group" style="width: 130px">
+                <div class="input-group" style="width: 120px">
                     <input ${cadrePostPro_noNeed?'':'required'} class="form-control date-picker" name="_holdTime" type="text"
                            data-date-min-view-mode="1" placeholder="yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadrePostPro.holdTime,'yyyy.MM')}"/>
@@ -94,7 +94,7 @@
             <label class="col-xs-4 control-label">专技岗位分级时间</label>
 
             <div class="col-xs-6">
-                <div class="input-group" style="width: 130px">
+                <div class="input-group" style="width: 120px">
                     <input class="form-control date-picker" name="_gradeTime" type="text"
                            data-date-min-view-mode="1" placeholder="yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadrePostPro.gradeTime,'yyyy.MM')}"/>

@@ -12,19 +12,28 @@
             </h4>
             <div class="widget-toolbar no-border">
                 <ul class="nav nav-tabs">
-                    <li class="active">
+                    <shiro:hasPermission name="sysUser:base">
+                    <li class="${to=='sysUser_base'?'active':''}">
+                        <a href="javascript:;" data-url="${ctx}/sysUser_base?userId=${param.userId}">基本信息</a>
+                    </li>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="sysUser:info">
+                    <li class="${to=='sysUser_info'?'active':''}">
                         <a href="javascript:;" data-url="${ctx}/sysUser_info?userId=${param.userId}">账号详情</a>
                     </li>
-                    <li>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="sysUser:ext">
+                    <li class="${to=='sysUser_ext'?'active':''}">
                         <a href="javascript:;" data-url="${ctx}/sysUser_ext?userId=${param.userId}">账号同步信息</a>
                     </li>
+                    </shiro:hasPermission>
                 </ul>
             </div>
         </div>
         <div class="widget-body">
             <div class="widget-main padding-4">
                 <div class="tab-content padding-8" style="overflow: hidden">
-                    <c:import url="/sysUser_info"/>
+                    <c:import url="/${to}"/>
                 </div>
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->

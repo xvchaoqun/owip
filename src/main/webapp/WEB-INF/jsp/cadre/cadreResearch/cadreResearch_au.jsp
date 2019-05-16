@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>项目名称</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="text" name="name" value="${cadreResearch.name}">
+                <textarea required class="form-control" name="name">${cadreResearch.name}</textarea>
                 <span class="help-block">注：不要加书名号。</span>
             </div>
         </div>

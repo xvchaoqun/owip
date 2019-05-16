@@ -1071,13 +1071,18 @@ public class MemberApplyController extends MemberBaseController {
     @RequestMapping("/memberApplyLog")
     public String memberApplyLog(@RequestParam(defaultValue = "1") int cls,
                                  Integer userId,
-                                 String stage, Integer partyId,
+                                 Integer applyUserId,
+                                 String stage,
+                                 Integer partyId,
                                  Integer branchId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         modelMap.put("stage", stage);
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        if (applyUserId != null) {
+            modelMap.put("applyUser", sysUserService.findById(applyUserId));
         }
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();

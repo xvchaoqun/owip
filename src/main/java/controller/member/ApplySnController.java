@@ -74,6 +74,29 @@ public class ApplySnController extends MemberBaseController {
         return "member/applySn/applySn_change";
     }
 
+    @RequiresPermissions("applySnRange:change")
+    @RequestMapping(value = "/applySn_exchange", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySn_exchange(int id, int exchangeSnId, HttpServletRequest request) {
+
+        ApplySn applySn = applySnMapper.selectByPrimaryKey(id);
+        ApplySn exchangeApplySn = applySnMapper.selectByPrimaryKey(exchangeSnId);
+
+        applySnService.exchange(applySn, exchangeApplySn);
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("applySnRange:change")
+    @RequestMapping("/applySn_exchange")
+    public String applySn_exchange(int id, ModelMap modelMap) {
+
+        ApplySn applySn = applySnMapper.selectByPrimaryKey(id);
+        modelMap.put("applySn", applySn);
+
+        return "member/applySn/applySn_exchange";
+    }
+
     @RequiresPermissions("applySnRange:list")
     @RequestMapping("/applySn")
     public String applySn(@RequestParam(defaultValue = "1") int cls,
@@ -218,7 +241,9 @@ public class ApplySnController extends MemberBaseController {
 
     @RequestMapping("/applySn_selects")
     @ResponseBody
-    public Map applySn_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+    public Map applySn_selects(Integer pageSize, Integer pageNo,
+                               Boolean isUsed,
+                               String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -233,7 +258,7 @@ public class ApplySnController extends MemberBaseController {
         ApplySnExample example = new ApplySnExample();
         Criteria criteria = example.createCriteria()
                 .andYearEqualTo(DateUtils.getCurrentYear())
-                .andIsUsedEqualTo(false)
+                .andIsUsedEqualTo(BooleanUtils.isTrue(isUsed))
                 .andIsAbolishedEqualTo(false);
         if (searchStr != null) {
             criteria.andDisplaySnLike("%" + searchStr + "%");

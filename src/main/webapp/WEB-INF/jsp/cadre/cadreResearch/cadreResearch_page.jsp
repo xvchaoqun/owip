@@ -185,10 +185,10 @@
     <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                <button class="popupBtn btn  btn-sm btn-info"
+                <button class="popupBtn btn  btn-sm btn-success"
                    data-url="${ctx}/cadreBook_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                     添加</button>
-                <button class="jqOpenViewBtn btn  btn-sm btn-warning"
+                <button class="jqOpenViewBtn btn  btn-sm btn-primary"
                         data-url="${ctx}/cadreBook_au"
                         data-grid-id="#jqGrid_cadreBook"
                         data-querystr="&cadreId=${param.cadreId}">
@@ -218,10 +218,10 @@
     <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                <button class="popupBtn btn  btn-sm btn-info"
+                <button class="popupBtn btn  btn-sm btn-success"
                    data-url="${ctx}/cadrePaper_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                     添加</button>
-                <button class="jqOpenViewBtn btn  btn-sm btn-warning"
+                <button class="jqOpenViewBtn btn  btn-sm btn-primary"
                         data-url="${ctx}/cadrePaper_au"
                         data-grid-id="#jqGrid_cadrePaper"
                         data-querystr="&cadreId=${param.cadreId}">
@@ -251,11 +251,11 @@
     <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-            <button class="popupBtn btn  btn-sm btn-info"
+            <button class="popupBtn btn  btn-sm btn-success"
                data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}"><i
                     class="fa fa-plus"></i>
                 添加</button>
-            <button class="jqOpenViewBtn btn  btn-sm btn-warning"
+            <button class="jqOpenViewBtn btn  btn-sm btn-primary"
                     data-url="${ctx}/cadreReward_au"
                     data-grid-id="#jqGrid_cadreReward"
                     data-querystr="&rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}">

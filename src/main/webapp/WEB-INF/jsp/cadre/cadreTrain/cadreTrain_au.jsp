@@ -19,9 +19,9 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>起始时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input required class="form-control date-picker" name="_startTime" type="text"
-                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreTrain.startTime,'yyyy.MM.dd')}" />
+                    <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
+                        <input required class="form-control" name="_startTime" type="text"
+                                value="${cm:formatDate(cadreTrain.startTime,'yyyy.MM.dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -29,9 +29,9 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>结束时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input required class="form-control date-picker" name="_endTime" type="text"
-                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreTrain.endTime,'yyyy.MM.dd')}" />
+                    <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
+                        <input required class="form-control" name="_endTime" type="text"
+                               value="${cm:formatDate(cadreTrain.endTime,'yyyy.MM.dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -39,13 +39,13 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>培训内容</label>
 				<div class="col-xs-6">
-                    <textarea required class="form-control noEnter" name="content">${cadreTrain.content}</textarea>
+                    <textarea required class="form-control" name="content">${cadreTrain.content}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>主办单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreTrain.unit}">
+                    <textarea required class="form-control" name="unit">${cadreTrain.unit}</textarea>
 				</div>
 			</div>
             <div class="form-group">
@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
         $('input[name=unit]').prop("required", false);
     </shiro:hasPermission>
 
-    $.register.date($('.date-picker'));
+    $.register.date($('.input-group.date'));
 
     $("#modal form").validate({
         submitHandler: function (form) {

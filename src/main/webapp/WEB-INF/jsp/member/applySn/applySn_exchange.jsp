@@ -3,58 +3,31 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>换领志愿书</h3>
+    <h3>调换志愿书编码</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/applySn_change" autocomplete="off"
+    <form class="form-horizontal" action="${ctx}/applySn_exchange" autocomplete="off"
           disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
-            <label class="col-xs-4 control-label">原志愿书编码</label>
+            <label class="col-xs-4 control-label">志愿书编码</label>
             <div class="col-xs-7 label-text">
                 ${applySn.displaySn}
-                <span class="help-block">注：原志愿书编码将作废，不可再使用</span>
             </div>
         </div>
-
         <div class="form-group">
-            <label class="col-xs-4 control-label">选择分配方式</label>
-            <div class="col-xs-7">
-                <div class="input-group">
-                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="assignType" id="type0" value="1">
-                        <label for="type0">
-                            系统自动分配
-                        </label>
-                    </div>
-                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="assignType" id="type1" value="2">
-                        <label for="type1">
-                            指定编码
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="manualAssign form-group" style="display: none">
-            <label class="col-xs-4 control-label">选择志愿书编码</label>
+            <label class="col-xs-4 control-label">调换志愿书编码</label>
             <div class="col-xs-7 label-text">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects"
-                        id="newSnId" data-placeholder="请选择">
+                <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects?isUsed=1"
+                        name="exchangeSnId" data-placeholder="请选择">
                     <option></option>
                 </select>
-            </div>
-        </div>
-        <div class="autoAssign form-group" style="display: none">
-            <label class="col-xs-4 control-label">新志愿书编码</label>
-            <div class="col-xs-7 label-text">
-                ${empty newApplySn?"无可用编码":newApplySn.displaySn}
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button id="submitBtn" type="button" ${empty newApplySn?'disabled':''}
+    <button id="submitBtn" type="button"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
             class="btn btn-primary"><i class="fa fa-check"></i> 确定
     </button>

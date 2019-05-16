@@ -46,6 +46,8 @@ public class SysUserInfo implements Serializable {
 
     private Boolean notSendMsg;
 
+    private String fileNumber;
+
     private String unit;
 
     private String phone;
@@ -53,6 +55,8 @@ public class SysUserInfo implements Serializable {
     private String homePhone;
 
     private String email;
+
+    private String mailingAddress;
 
     private String msgTitle;
 
@@ -210,6 +214,14 @@ public class SysUserInfo implements Serializable {
         this.notSendMsg = notSendMsg;
     }
 
+    public String getFileNumber() {
+        return fileNumber;
+    }
+
+    public void setFileNumber(String fileNumber) {
+        this.fileNumber = fileNumber == null ? null : fileNumber.trim();
+    }
+
     public String getUnit() {
         return unit;
     }
@@ -240,6 +252,14 @@ public class SysUserInfo implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getMailingAddress() {
+        return mailingAddress;
+    }
+
+    public void setMailingAddress(String mailingAddress) {
+        this.mailingAddress = mailingAddress == null ? null : mailingAddress.trim();
     }
 
     public String getMsgTitle() {

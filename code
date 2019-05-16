@@ -11,7 +11,7 @@ $.register.party_branch_select($("#searchForm"), "branchDiv",
 
 
 $.register.user_select($('#modalForm select[name=userId]'));
-$.register.date($('.date-picker'));
+
 
 干部档案页链接
  <mytag:cadre cadreId="${cadre.id}" realname="${sysUser.realname}"/>
@@ -66,17 +66,14 @@ modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 时间
 data-date-min-view-mode="1"
 
-<div class="input-group">
-	<input required class="form-control date-picker" name="_foundTime" type="text"
-		   data-date-format="yyyy-mm-dd" value="${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}" />
-	<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+<div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
+    <input required class="form-control" name="_startTime" type="text"
+            value="${cm:formatDate(cadreTrain.startTime,'yyyy.MM.dd')}" />
+    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 </div>
 
-$('.date-picker').datepicker({
-	language:"zh-CN",
-	autoclose: true,
-	todayHighlight: true
-})
+$.register.date($('.input-group.date'));
+
 
 if(StringUtils.isNotBlank(_foundTime)){
 	record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));

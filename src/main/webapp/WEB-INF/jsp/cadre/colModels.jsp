@@ -24,7 +24,7 @@
         }},
         </c:if>
         </c:if>
-        {label: '${_pMap['cadreStateName']}', name: 'state', formatter: $.jgrid.formatter.MetaType},
+        {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
@@ -259,7 +259,7 @@
         }},
         </c:if>
         </c:if>
-        {label: '${_pMap['cadreStateName']}', name: 'state', formatter: $.jgrid.formatter.MetaType},
+        {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '原职务', name: 'post', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
