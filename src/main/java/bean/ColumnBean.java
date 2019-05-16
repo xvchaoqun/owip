@@ -1,6 +1,8 @@
 package bean;
 
-public class ColumnBean {
+import java.io.Serializable;
+
+public class ColumnBean implements Serializable {
 
 	public String name;
 	public String type; // varchar,int,tinyint, date,datetime,text

@@ -6,6 +6,10 @@
 
 
 20190516
+更新南航
+
+
+20190516
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`,
@@ -16,11 +20,14 @@ DROP VIEW IF EXISTS `sys_user_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
 AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
 
+ALTER TABLE `sys_user_info`
+	CHANGE COLUMN `native_place` `native_place` VARCHAR(100) NULL DEFAULT NULL COMMENT '籍贯' AFTER `nation`,
+	CHANGE COLUMN `homeplace` `homeplace` VARCHAR(100) NULL DEFAULT NULL COMMENT '出生地' AFTER `native_place`,
+	CHANGE COLUMN `household` `household` VARCHAR(100) NULL DEFAULT NULL COMMENT '户籍地' AFTER `homeplace`;
+
 
 更新 cadreStateName
 
-20190516
-更新南航
 
 20190516
 

@@ -216,7 +216,7 @@ public class SyncService extends BaseMapper {
     }
 
     @Transactional
-    public  int syncExtJzg(ExtJzg extJzg) {
+    public int syncExtJzg(ExtJzg extJzg) {
 
         String code = StringUtils.trim(extJzg.getZgh());
         SysUser record = new SysUser();
@@ -294,7 +294,7 @@ public class SyncService extends BaseMapper {
         int insertCount = 0;
         int updateCount = 0;
 
-        int count = (int)extJzgMapper.countByExample(new ExtJzgExample());
+        int count = (int) extJzgMapper.countByExample(new ExtJzgExample());
         int pageSize = 200;
         int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
@@ -604,7 +604,7 @@ public class SyncService extends BaseMapper {
     }
 
     // 同步教职工信息
-    public  void snycTeacherInfo(int userId, SysUserView uv){
+    public void snycTeacherInfo(int userId, SysUserView uv) {
 
         TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
 
@@ -615,7 +615,7 @@ public class SyncService extends BaseMapper {
         record.setIsRetire(false); // 此值不能为空
 
         ExtJzg extJzg = extService.getExtJzg(code);
-        if(extJzg!=null){
+        if (extJzg != null) {
 
             // 基本信息
             SysUserInfo ui = new SysUserInfo();
@@ -645,7 +645,7 @@ public class SyncService extends BaseMapper {
             record.setSchool(extJzg.getXlbyxx()); // 学历毕业学校
             record.setDegreeSchool(extJzg.getXwsyxx()); // 学位授予学校
             //teacher.setSchoolType(); 毕业学校类型
-            if(extJzg.getLxrq()!=null)
+            if (extJzg.getLxrq() != null)
                 record.setArriveTime(extJzg.getLxrq());
             record.setAuthorizedType(extJzg.getBzlx());
             record.setStaffType(extJzg.getRylx());
@@ -653,10 +653,10 @@ public class SyncService extends BaseMapper {
             record.setPostClass(extJzg.getGwlx()); // 岗位类型
             record.setSubPostClass(extJzg.getGwzlbmc()); // 岗位子类别
             record.setMainPostLevel(extJzg.getZgdjmmc()); // 主岗等级
-            if(StringUtils.isNotBlank(extJzg.getGlqsrq())) // 工龄起算日期
+            if (StringUtils.isNotBlank(extJzg.getGlqsrq())) // 工龄起算日期
                 record.setWorkStartTime(DateUtils.parseStringToDate(extJzg.getGlqsrq()));
             record.setWorkBreak(extJzg.getJdgl()); // 间断工龄
-            if(StringUtils.isNotBlank(extJzg.getZzdjsj())) // 转正定级时间
+            if (StringUtils.isNotBlank(extJzg.getZzdjsj())) // 转正定级时间
                 record.setRegularTime(DateUtils.parseStringToDate(extJzg.getZzdjsj()));
             record.setOnJob(extJzg.getSfzg());
             record.setPersonnelStatus(extJzg.getRszf());
@@ -684,22 +684,26 @@ public class SyncService extends BaseMapper {
             sysUserService.insertOrUpdateUserInfoSelective(ui);
         }
 
-        if(teacherInfo==null)
+        if (teacherInfo == null)
             teacherInfoMapper.insertSelective(record);
         else
             teacherInfoMapper.updateByPrimaryKeySelective(record);
 
         // 干部档案页默认同步人事库信息，不启用系统本身的岗位过程信息； 如果是系统注册账号，则不同步人事库信息
-        if(!CmTag.getBoolProperty("useCadrePost") && extJzg!=null) {
+        if (!CmTag.getBoolProperty("useCadrePost") && extJzg != null) {
 
             String proPost = SqlUtils.toParamValue(extJzg.getZc());
-            String proPostTime = SqlUtils.toParamValue(extJzg.getZyjszwpdsj());
+            String proPostTime = DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZyjszwpdsj()),
+                    DateUtils.YYYY_MM_DD);
             String proPostLevel = SqlUtils.toParamValue(extJzg.getZjgwdj());
-            String proPostLevelTime = SqlUtils.toParamValue(extJzg.getZjgwfjsj());
+            String proPostLevelTime = DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZjgwfjsj()),
+                    DateUtils.YYYY_MM_DD);
             String manageLevel = SqlUtils.toParamValue(extJzg.getGlgwdj());
-            String manageLevelTime = SqlUtils.toParamValue(extJzg.getGlgwfjsj());
+            String manageLevelTime = DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getGlgwfjsj()),
+                    DateUtils.YYYY_MM_DD);
             String officeLevel = SqlUtils.toParamValue(extJzg.getGqgwdjmc());
-            String officeLevelTime = SqlUtils.toParamValue(extJzg.getGqgwfjsj());
+            String officeLevelTime = DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getGqgwfjsj()),
+                    DateUtils.YYYY_MM_DD);
 
             commonMapper.excuteSql(String.format("update sys_teacher_info set pro_post=%s, " +
                             "pro_post_time=%s, pro_post_level=%s, pro_post_level_time=%s," +
@@ -711,7 +715,7 @@ public class SyncService extends BaseMapper {
     }
 
     // 同步学生党员信息
-    public void snycStudent(int userId, SysUserView uv){
+    public void snycStudent(int userId, SysUserView uv) {
 
         StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(userId);
 
@@ -721,9 +725,9 @@ public class SyncService extends BaseMapper {
         record.setCreateTime(new Date());
         byte userType = uv.getType();
 
-        if(userType ==SystemConstants.USER_TYPE_BKS){  // 同步本科生信息
+        if (userType == SystemConstants.USER_TYPE_BKS) {  // 同步本科生信息
             ExtBks extBks = extService.getExtBks(code);
-            if(extBks!=null){
+            if (extBks != null) {
 
                 //SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
                 SysUserInfo ui = new SysUserInfo();
@@ -770,9 +774,9 @@ public class SyncService extends BaseMapper {
             }
         }
 
-        if(userType==SystemConstants.USER_TYPE_YJS){  // 同步研究生信息
+        if (userType == SystemConstants.USER_TYPE_YJS) {  // 同步研究生信息
             ExtYjs extYjs = extService.getExtYjs(code);
-            if(extYjs!=null){
+            if (extYjs != null) {
 
                 //SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
                 SysUserInfo ui = new SysUserInfo();
@@ -796,7 +800,7 @@ public class SyncService extends BaseMapper {
                 record.setEduCategory(extYjs.getJylb());
                 record.setEduWay(extYjs.getPyfs());
                 //student.setIsFullTime(extYjs.get); 是否全日制
-                record.setEnrolYear(extYjs.getZsnd()+"");
+                record.setEnrolYear(extYjs.getZsnd() + "");
                 record.setPeriod(extYjs.getXz() + "");
                 record.setGrade(extYjs.getNj() + "");
 
@@ -812,14 +816,14 @@ public class SyncService extends BaseMapper {
             }
         }
 
-        if(studentInfo==null)
+        if (studentInfo == null)
             studentInfoMapper.insertSelective(record);
         else
             studentInfoMapper.updateByPrimaryKeySelective(record);
     }
 
     // 同步信息过滤（部分信息只同步第一次）
-    public void syncFilter(SysUserInfo record){
+    public void syncFilter(SysUserInfo record) {
 
         SysUser _sysUser = sysUserService.dbFindById(record.getUserId());
         SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(record.getUserId());
@@ -831,27 +835,27 @@ public class SyncService extends BaseMapper {
             // 籍贯
             if (StringUtils.isBlank(sysUserInfo.getNativePlace())) {
                 record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
-            }else{
+            } else {
                 record.setNativePlace(null);
             }
             // 出生地
-            if(StringUtils.isNotBlank(sysUserInfo.getHomeplace())){
+            if (StringUtils.isNotBlank(sysUserInfo.getHomeplace())) {
                 record.setHomeplace(null);
             }
             // 户籍地
-            if(StringUtils.isNotBlank(sysUserInfo.getHousehold())){
+            if (StringUtils.isNotBlank(sysUserInfo.getHousehold())) {
                 record.setHousehold(null);
             }
-            if(StringUtils.isNotBlank(sysUserInfo.getEmail())){
+            if (StringUtils.isNotBlank(sysUserInfo.getEmail())) {
                 record.setEmail(null);
             }
-            if(StringUtils.isNotBlank(sysUserInfo.getMobile())){
+            if (StringUtils.isNotBlank(sysUserInfo.getMobile())) {
                 record.setMobile(null);
             }
-            if(StringUtils.isNotBlank(sysUserInfo.getHomePhone())){
+            if (StringUtils.isNotBlank(sysUserInfo.getHomePhone())) {
                 record.setHomePhone(null);
             }
-            if(StringUtils.isNotBlank(sysUserInfo.getAvatar())){
+            if (StringUtils.isNotBlank(sysUserInfo.getAvatar())) {
                 record.setAvatar(null);
             }
         }
@@ -881,7 +885,7 @@ public class SyncService extends BaseMapper {
     }
 
     @Transactional
-    public void stopSync(byte type){
+    public void stopSync(byte type) {
 
         SysSync record = new SysSync();
         record.setIsStop(true);
