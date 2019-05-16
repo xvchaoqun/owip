@@ -131,7 +131,7 @@ public class CadreAdminLevelController extends BaseController {
             List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, dispatchCadreType);
             modelMap.put("dispatchCadres", dispatchCadres);
             if (StringUtils.equalsIgnoreCase(cls, "start")) { // 只有始任文件有限制
-                // 已被选
+                // 已被始任文件关联的发文
                 Set<Integer> otherDispatchCadreRelateSet = cadreAdminLevelService.findOtherDispatchCadreRelateSet(cadreId, id);
                 modelMap.put("otherDispatchCadreRelateSet", otherDispatchCadreRelateSet);
             }

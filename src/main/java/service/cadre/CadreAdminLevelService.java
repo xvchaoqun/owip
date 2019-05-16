@@ -18,7 +18,7 @@ import java.util.Set;
 @Service
 public class CadreAdminLevelService extends BaseMapper {
 
-    // 查找别的记录已关联的发文
+    // 查找别的记录的始任文件的已关联发文
     public Set<Integer> findOtherDispatchCadreRelateSet(int caderId, int id) {
 
         CadreAdminLevelExample example = new CadreAdminLevelExample();
@@ -28,8 +28,8 @@ public class CadreAdminLevelService extends BaseMapper {
         for (CadreAdminLevel cadreAdminLevel : cadreAdminLevels) {
             if (cadreAdminLevel.getStartDispatchCadreId() != null)
                 selectSet.add(cadreAdminLevel.getStartDispatchCadreId());
-            if (cadreAdminLevel.getEndDispatchCadreId() != null)
-                selectSet.add(cadreAdminLevel.getEndDispatchCadreId());
+            /*if (cadreAdminLevel.getEndDispatchCadreId() != null)
+                selectSet.add(cadreAdminLevel.getEndDispatchCadreId());*/
         }
         return selectSet;
     }

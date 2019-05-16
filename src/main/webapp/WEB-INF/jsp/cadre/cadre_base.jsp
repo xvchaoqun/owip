@@ -6,10 +6,10 @@
 	|| hasDirectModifyCadreAuth}">
 	<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
 		<li class="${empty param.type?"active":""}">
-			<a href="javascript:;" onclick="_innerPage()"><i class="fa fa-flag"></i> 查看基本信息</a>
+			<a href="javascript:;" onclick="_innerPage()"><i class="fa fa-table"></i> 查看基本信息</a>
 		</li>
 		<li class="${param.type==1?"active":""}">
-			<a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 修改基本信息</a>
+			<a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-edit"></i> 修改基本信息</a>
 		</li>
 
 	</ul>

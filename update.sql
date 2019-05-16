@@ -6,6 +6,44 @@
 
 
 
+20190516
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`,
+                            `sort_order`) VALUES (1032, 0, '系统属性管理', '', 'function', '', NULL, 847, '0/1/21/847/', 1, 'sysProperty:*', NULL, NULL, NULL, 1, NULL);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1033, 0, '批量导入头像', '', 'function', '', NULL, 22, '0/1/21/22/', 1, 'avatar:import', NULL, NULL, NULL, 1, NULL);
+
+ALTER TABLE `sys_config`
+	DROP COLUMN `xss_ignore_uri`,
+	DROP COLUMN `upload_max_size`,
+	DROP COLUMN `short_msg_url`,
+	DROP COLUMN `school_email`,
+	DROP COLUMN `use_cadre_post`,
+	DROP COLUMN `has_party_module`,
+	DROP COLUMN `cadre_template_fs_note`;
+
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (19, 'useCadrePost', '启用干部的岗位过程信息', 'false', 3, 19, '取值为true时，可在[数据同步]模块中点击按钮进行批量同步');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (20, 'hasPartyModule', '存在党建模块', 'true', 3, 20, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (21, 'superUsers', '超管', 'zzbgz', 1, 21, '拥有隐藏权限的账号，多个以,隔开');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (22, 'hideHelp', '隐藏帮助文档', 'false', 3, 22, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (23, 'cadreViewDef', '干部档案默认页', 'cadre_base', 1, 23, '在有权限看到任免审批表(cadreAdform_page)的情况下，干部档案页默认进入的页面');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (24, 'usernameRegex', '系统用户名正则表达式', '^[a-zA-z][a-zA-Z0-9_\\\\.]{3,20}$', 1, 24, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (25, 'passwdRegex', '系统密码正则表达式', '^[a-zA-Z0-9_]{6,16}$', 1, 25, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (26, 'mobileRegex', '手机号码正则表达式', '^1[3|4|5|6|7|8|9]\\\\d{9}$', 1, 26, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (27, 'passwdMsg', '密码不合法提示', '密码由6-16位的字母、下划线和数字组成', 1, 27, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (28, 'usernameMsg', '用户名不合法提示', '用户名由3-20位的字母、下划线和数字组成，且不能以数字或下划线开头', 1, 28, '');
+
+
+删除spring.properties以下属性
+sys.help.hide
+sys.auth.super
+username.regex
+passwd.regex
+mobile.regex
+sys.settings.cadreView.default
+
+
 20190514
 更新南航，北化工，北邮
 
