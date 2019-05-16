@@ -18,9 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -108,7 +108,7 @@ public class CadreBaseInfoController extends BaseController {
             }
         }
 
-        if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        if(!CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
 

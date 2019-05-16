@@ -92,10 +92,12 @@ public class EnterApplyService extends MemberBaseMapper{
     // 申请入党、流入、留学归国申请权限判断
     public void checkMemberApplyAuth(int userId){
         SysUserView sysUser = sysUserService.findById(userId);
-        if(sysUser.isCasUser()){
+        if(sysUser.getType() == SystemConstants.USER_TYPE_JZG
+                || sysUser.getType() == SystemConstants.USER_TYPE_BKS
+                || sysUser.getType() == SystemConstants.USER_TYPE_YJS){
             // 只允许教职工、学生申请留学归国入党申请
         }else{
-            throw new UnauthorizedException("没有权限");
+            throw new UnauthorizedException(sysUser.getRealname() + "不允许进行此项操作。");
         }
 
         // 判断是否是党员

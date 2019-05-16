@@ -88,8 +88,7 @@
             </shiro:hasPermission>
             {label: '所在单位', name: 'unitId', width: 350,align:'left', formatter: $.jgrid.formatter.unit},
             {label: '所属${_p_partyName}', name: 'groupPartyId', width: 400, align:'left',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '--';
-                return _cMap.partyMap[cellvalue].name;
+                return $.party(rowObject.groupPartyId);
             }},
             {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             {

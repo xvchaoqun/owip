@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -67,7 +67,7 @@ public class PcsPartyAdminController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsPartyAdmin_au(PcsAdmin record, String mobile, HttpServletRequest request) {
 
-        if(StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        if(StringUtils.isBlank(mobile) || !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
 

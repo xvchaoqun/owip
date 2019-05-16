@@ -50,13 +50,13 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
+        <!--<table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="ret" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="base_short_msg_tpl" domainObjectName="base.ShortMsgTpl">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
          </table>-->
 
@@ -70,10 +70,10 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+        <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="sys_property" domainObjectName="sys.SysProperty" mapperName="sys.SysPropertyMapper">
         </table>-->
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">

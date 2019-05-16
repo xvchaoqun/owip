@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.PropertiesUtils;
 
 import java.util.Date;
 import java.util.Map;
@@ -85,8 +84,8 @@ public class FindPassController extends BaseController {
     public Map changepw(String username, String password, String code){
 
 
-        if(!FormUtils.match(PropertiesUtils.getString("passwd.regex"), password)){
-            return failed("密码由6-16位的字母、下划线和数字组成");
+        if(!CmTag.validPasswd(password)){
+            return failed(CmTag.getStringProperty("passwdMsg"));
         }
 
         SysUserView uv = sysUserService.findByUsername(username);

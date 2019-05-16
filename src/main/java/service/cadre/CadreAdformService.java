@@ -26,7 +26,6 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
-import service.global.CacheService;
 import service.party.MemberService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
@@ -70,8 +69,6 @@ public class CadreAdformService extends BaseMapper {
     protected CadreRewardService cadreRewardService;
     @Autowired
     protected SysConfigService sysConfigService;
-    @Autowired
-    protected CacheService cacheService;
 
     public void export(Integer[] cadreIds, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
@@ -311,7 +308,7 @@ public class CadreAdformService extends BaseMapper {
         example.setOrderByClause("sort_order asc");
 
         int maxFamilyCount = 6;
-        Integer adFormType = cacheService.getIntProperty("adFormType");
+        Integer adFormType = CmTag.getIntProperty("adFormType");
         if (adFormType != null && adFormType == 2) {
             maxFamilyCount = 7;
         }
@@ -370,7 +367,7 @@ public class CadreAdformService extends BaseMapper {
         String adformFtl = "/adform/adform.ftl";
         String titleEditorFtl = "/common/titleEditor.ftl";
         String familyFtl = "/adform/family.ftl";
-        Integer adFormType = cacheService.getIntProperty("adFormType");
+        Integer adFormType = CmTag.getIntProperty("adFormType");
         if (adFormType != null && adFormType == 2) {
             maxFamilyCount = 7;
             adformFtl = "/adform/adform2.ftl";

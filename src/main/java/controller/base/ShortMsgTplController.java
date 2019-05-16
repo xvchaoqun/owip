@@ -30,10 +30,13 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.*;
+import sys.utils.ContextHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -250,7 +253,7 @@ public class ShortMsgTplController extends BaseController {
                                    HttpServletRequest request) {
 
         if(!StringUtils.equals(type, "batch")) {
-            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+            if (!CmTag.validMobile(mobile)) {
                 return failed("手机号码有误");
             }
         }

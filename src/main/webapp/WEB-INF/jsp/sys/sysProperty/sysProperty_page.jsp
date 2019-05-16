@@ -8,7 +8,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.name || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="sysConfig:edit">
+                <shiro:hasPermission name="sysProperty:edit">
                     <button class="popupBtn btn btn-success btn-sm"
                             data-url="${ctx}/sysProperty_au">
                         <i class="fa fa-plus"></i> 添加</button>
@@ -17,7 +17,7 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="sysConfig:del">
+                <shiro:hasPermission name="sysProperty:del">
                     <button data-url="${ctx}/sysProperty_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
@@ -90,7 +90,7 @@ pageEncoding="UTF-8" %>
                 formatoptions:{url: "${ctx}/sysProperty_changeOrder"},frozen:true},
                 { label: '名称',name: 'name', width:180, align:'left'},
                 { label: '代码',name: 'code', width:250, align:'left'},
-                { label: '取值',name: 'content', width:480, align:'left', formatter:function(cellvalue, options, rowObject){
+                { label: '取值',name: 'content', width:380, align:'left', formatter:function(cellvalue, options, rowObject){
 
                     if(rowObject.type==<%=SystemConstants.SYS_PROPERTY_TYPE_PIC%>){
 
@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
 
                     return cellvalue;
                 }},
-                { label: '说明',name: 'remark', width:280, align:'left'}
+                { label: '说明',name: 'remark', width:480, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -354,7 +354,7 @@ public class CetTrainCourseController extends CetBaseController {
                                 String suffix,
                                HttpServletRequest request) {
 
-        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
         if(BooleanUtils.isTrue(addSuffix)){

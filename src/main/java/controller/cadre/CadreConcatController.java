@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -46,12 +46,12 @@ public class CadreConcatController extends BaseController {
                                  String msgTitle, String email, HttpServletRequest request) {
 
         if(StringUtils.isNotBlank(mobile)) {
-            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+            if (!CmTag.validMobile(mobile)) {
                return failed("手机号码有误");
             }
         }
         if(StringUtils.isNotBlank(msgMobile)) {
-            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+            if (!CmTag.validMobile(mobile)) {
                return failed("代收短信手机号码有误");
             }
         }

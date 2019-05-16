@@ -107,7 +107,7 @@ public class AvatarService extends BaseMapper{
                 result.total++;
                 String filename = file.getName();
                 try {
-                    if (PatternUtils.match("^.*\\.(jpg|JPG)$", filename)) {
+                    if (PatternUtils.match("^.*\\.(jpg|png|gif)$", StringUtils.lowerCase(filename))) {
                         String code = filename.split("\\.")[0];
                         SysUserView sysUser = sysUserService.findByCode(code);
                         if (sysUser != null) {

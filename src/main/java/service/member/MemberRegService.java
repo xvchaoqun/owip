@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.LoginUserService;
-import service.global.CacheService;
 import service.global.CacheHelper;
 import service.sys.SysUserService;
 import shiro.PasswordHelper;
@@ -25,9 +24,8 @@ import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
-import sys.utils.FormUtils;
-import sys.utils.PropertiesUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -39,8 +37,6 @@ public class MemberRegService extends MemberBaseMapper {
 
     @Autowired
     private CacheHelper cacheHelper;
-    @Autowired
-    private CacheService cacheService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -184,15 +180,15 @@ public class MemberRegService extends MemberBaseMapper {
         if (idcardDuplicate(null, idcard))
             throw new OpException("该身份证已被注册。");
 
-        if (!FormUtils.usernameFormatRight(username)) {
-            throw new OpException("用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
+        if (!CmTag.validUsername(username)) {
+            throw new OpException(CmTag.getStringProperty("usernameMsg"));
         }
 
-        if (!FormUtils.match(PropertiesUtils.getString("passwd.regex"), passwd)) {
-            throw new OpException("密码由6-16位的字母、下划线和数字组成");
+        if (!CmTag.validPasswd(passwd)) {
+            throw new OpException(CmTag.getStringProperty("passwdMsg"));
         }
 
-        String prefix = cacheService.getStringProperty("memberRegCodePrefix", "zg");
+        String prefix = CmTag.getStringProperty("memberRegCodePrefix", "zg");
         String code = genCode(prefix);
 
         SysUser sysUser = new SysUser();
@@ -343,7 +339,7 @@ public class MemberRegService extends MemberBaseMapper {
 
         Date now = new Date();
         String ip = ContextHelper.getRealIp();
-        String prefix = cacheService.getStringProperty("memberRegPrefix", "dy");
+        String prefix = CmTag.getStringProperty("memberRegPrefix", "dy");
         Integer importSeq = iMemberMapper.getMemberRegMaxSeq();
         if (importSeq == null) importSeq = 0;
 

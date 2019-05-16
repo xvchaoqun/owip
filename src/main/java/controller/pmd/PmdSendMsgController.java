@@ -53,7 +53,7 @@ public class PmdSendMsgController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdSendMsg_notifyMembers(int partyId, Integer branchId, HttpServletRequest request) {
 
-        /*if(StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        /*if(StringUtils.isBlank(mobile) || !CmTag.validMobile(mobile)){
             return failed("手机号码有误");
         }*/
 

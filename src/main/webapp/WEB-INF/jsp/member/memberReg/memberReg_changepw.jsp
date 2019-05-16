@@ -21,7 +21,7 @@
 
             <div class="col-xs-6">
                 <input required class="form-control" autocomplete="off" type="text" onfocus="this.type='password'" name="password"  style="width: 150px">
-                密码由6-16位的字母、下划线和数字组成
+                <span class="help-block">${_pMap['passwdMsg']}</span>
             </div>
         </div>
         <div class="form-group">

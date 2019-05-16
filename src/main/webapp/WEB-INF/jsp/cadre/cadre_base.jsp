@@ -95,7 +95,7 @@
 						</td>
 					</tr>
 					<tr>
-						<c:if test="${_hasPartyModule}">
+						<c:if test="${_p_hasPartyModule}">
 							<td >
 								所在党组织
 							</td>
@@ -110,7 +110,7 @@
 						<td>
 							证件号码
 						</td>
-						<td colspan="${_hasPartyModule?'':3}">
+						<td colspan="${_p_hasPartyModule?'':3}">
 								${uv.idcard}
 						</td>
 					</tr>
@@ -802,7 +802,7 @@
 								</td>
 							</tr>
 							<tr>
-								<c:if test="${_hasPartyModule}">
+								<c:if test="${_p_hasPartyModule}">
 									<td>
 										所在党组织
 									</td>
@@ -817,7 +817,7 @@
 								<td>
 									证件号码
 								</td>
-								<td colspan="${_hasPartyModule?'':3}">
+								<td colspan="${_p_hasPartyModule?'':3}">
 										${uv.idcard}
 								</td>
 							</tr>

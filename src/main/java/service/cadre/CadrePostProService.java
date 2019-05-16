@@ -8,7 +8,6 @@ import domain.cadre.CadreView;
 import domain.ext.ExtJzg;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +53,7 @@ public class CadrePostProService extends BaseMapper {
         CadreView cv = iCadreMapper.getCadre(record.getCadreId());
         ExtJzg extJzg = extService.getExtJzg(cv.getCode());
 
-        if(BooleanUtils.isTrue(CmTag.getSysConfig().getUseCadrePost()) || extJzg == null) {
+        if(CmTag.getBoolProperty("useCadrePost") || extJzg == null) {
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(record.getCadreId());
             int userId = cadre.getUserId();

@@ -3,13 +3,9 @@
 <mapper namespace="persistence.sys.SysConfigMapper">
   <resultMap id="BaseResultMap" type="domain.sys.SysConfig">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="xss_ignore_uri" jdbcType="VARCHAR" property="xssIgnoreUri" />
-    <result column="upload_max_size" jdbcType="INTEGER" property="uploadMaxSize" />
-    <result column="short_msg_url" jdbcType="VARCHAR" property="shortMsgUrl" />
     <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
     <result column="school_short_name" jdbcType="VARCHAR" property="schoolShortName" />
     <result column="school_login_url" jdbcType="VARCHAR" property="schoolLoginUrl" />
-    <result column="school_email" jdbcType="VARCHAR" property="schoolEmail" />
     <result column="term_start_date" jdbcType="DATE" property="termStartDate" />
     <result column="term_end_date" jdbcType="DATE" property="termEndDate" />
     <result column="site_copyright" jdbcType="VARCHAR" property="siteCopyright" />
@@ -31,9 +27,6 @@
     <result column="qr_logo" jdbcType="VARCHAR" property="qrLogo" />
     <result column="login_msg" jdbcType="VARCHAR" property="loginMsg" />
     <result column="display_login_msg" jdbcType="BIT" property="displayLoginMsg" />
-    <result column="use_cadre_post" jdbcType="BIT" property="useCadrePost" />
-    <result column="has_party_module" jdbcType="BIT" property="hasPartyModule" />
-    <result column="cadre_template_fs_note" jdbcType="VARCHAR" property="cadreTemplateFsNote" />
     <result column="login_timeout" jdbcType="INTEGER" property="loginTimeout" />
     <result column="city" jdbcType="VARCHAR" property="city" />
   </resultMap>
@@ -96,12 +89,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, xss_ignore_uri, upload_max_size, short_msg_url, school_name, school_short_name, 
-    school_login_url, school_email, term_start_date, term_end_date, site_copyright, site_home, 
-    site_keywords, site_description, site_name, site_short_name, mobile_plantform_name, 
-    mobile_title, favicon, logo, logo_white, login_bg, login_top, login_top_bg_color, 
-    apple_icon, screen_icon, qr_logo, login_msg, display_login_msg, use_cadre_post, has_party_module, 
-    cadre_template_fs_note, login_timeout, city
+    id, school_name, school_short_name, school_login_url, term_start_date, term_end_date, 
+    site_copyright, site_home, site_keywords, site_description, site_name, site_short_name, 
+    mobile_plantform_name, mobile_title, favicon, logo, logo_white, login_bg, login_top, 
+    login_top_bg_color, apple_icon, screen_icon, qr_logo, login_msg, display_login_msg, 
+    login_timeout, city
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -134,45 +126,32 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.sys.SysConfig">
-    insert into sys_config (id, xss_ignore_uri, upload_max_size, 
-      short_msg_url, school_name, school_short_name, 
-      school_login_url, school_email, term_start_date, 
-      term_end_date, site_copyright, site_home, 
-      site_keywords, site_description, site_name, 
-      site_short_name, mobile_plantform_name, mobile_title, 
-      favicon, logo, logo_white, 
-      login_bg, login_top, login_top_bg_color, 
-      apple_icon, screen_icon, qr_logo, 
-      login_msg, display_login_msg, use_cadre_post, 
-      has_party_module, cadre_template_fs_note, login_timeout, 
-      city)
-    values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
-      #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
-      #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{termStartDate,jdbcType=DATE}, 
-      #{termEndDate,jdbcType=DATE}, #{siteCopyright,jdbcType=VARCHAR}, #{siteHome,jdbcType=VARCHAR}, 
-      #{siteKeywords,jdbcType=VARCHAR}, #{siteDescription,jdbcType=VARCHAR}, #{siteName,jdbcType=VARCHAR}, 
-      #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, #{mobileTitle,jdbcType=VARCHAR}, 
-      #{favicon,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, 
-      #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, 
-      #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, #{qrLogo,jdbcType=VARCHAR}, 
-      #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT}, #{useCadrePost,jdbcType=BIT}, 
-      #{hasPartyModule,jdbcType=BIT}, #{cadreTemplateFsNote,jdbcType=VARCHAR}, #{loginTimeout,jdbcType=INTEGER}, 
-      #{city,jdbcType=VARCHAR})
+    insert into sys_config (id, school_name, school_short_name, 
+      school_login_url, term_start_date, term_end_date, 
+      site_copyright, site_home, site_keywords, 
+      site_description, site_name, site_short_name, 
+      mobile_plantform_name, mobile_title, favicon, 
+      logo, logo_white, login_bg, 
+      login_top, login_top_bg_color, apple_icon, 
+      screen_icon, qr_logo, login_msg, 
+      display_login_msg, login_timeout, city
+      )
+    values (#{id,jdbcType=INTEGER}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
+      #{schoolLoginUrl,jdbcType=VARCHAR}, #{termStartDate,jdbcType=DATE}, #{termEndDate,jdbcType=DATE}, 
+      #{siteCopyright,jdbcType=VARCHAR}, #{siteHome,jdbcType=VARCHAR}, #{siteKeywords,jdbcType=VARCHAR}, 
+      #{siteDescription,jdbcType=VARCHAR}, #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, 
+      #{mobilePlantformName,jdbcType=VARCHAR}, #{mobileTitle,jdbcType=VARCHAR}, #{favicon,jdbcType=VARCHAR}, 
+      #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, 
+      #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, #{appleIcon,jdbcType=VARCHAR}, 
+      #{screenIcon,jdbcType=VARCHAR}, #{qrLogo,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, 
+      #{displayLoginMsg,jdbcType=BIT}, #{loginTimeout,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
     insert into sys_config
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="xssIgnoreUri != null">
-        xss_ignore_uri,
-      </if>
-      <if test="uploadMaxSize != null">
-        upload_max_size,
-      </if>
-      <if test="shortMsgUrl != null">
-        short_msg_url,
       </if>
       <if test="schoolName != null">
         school_name,
@@ -182,9 +161,6 @@
       </if>
       <if test="schoolLoginUrl != null">
         school_login_url,
-      </if>
-      <if test="schoolEmail != null">
-        school_email,
       </if>
       <if test="termStartDate != null">
         term_start_date,
@@ -249,15 +225,6 @@
       <if test="displayLoginMsg != null">
         display_login_msg,
       </if>
-      <if test="useCadrePost != null">
-        use_cadre_post,
-      </if>
-      <if test="hasPartyModule != null">
-        has_party_module,
-      </if>
-      <if test="cadreTemplateFsNote != null">
-        cadre_template_fs_note,
-      </if>
       <if test="loginTimeout != null">
         login_timeout,
       </if>
@@ -269,15 +236,6 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="xssIgnoreUri != null">
-        #{xssIgnoreUri,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadMaxSize != null">
-        #{uploadMaxSize,jdbcType=INTEGER},
-      </if>
-      <if test="shortMsgUrl != null">
-        #{shortMsgUrl,jdbcType=VARCHAR},
-      </if>
       <if test="schoolName != null">
         #{schoolName,jdbcType=VARCHAR},
       </if>
@@ -286,9 +244,6 @@
       </if>
       <if test="schoolLoginUrl != null">
         #{schoolLoginUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="schoolEmail != null">
-        #{schoolEmail,jdbcType=VARCHAR},
       </if>
       <if test="termStartDate != null">
         #{termStartDate,jdbcType=DATE},
@@ -353,15 +308,6 @@
       <if test="displayLoginMsg != null">
         #{displayLoginMsg,jdbcType=BIT},
       </if>
-      <if test="useCadrePost != null">
-        #{useCadrePost,jdbcType=BIT},
-      </if>
-      <if test="hasPartyModule != null">
-        #{hasPartyModule,jdbcType=BIT},
-      </if>
-      <if test="cadreTemplateFsNote != null">
-        #{cadreTemplateFsNote,jdbcType=VARCHAR},
-      </if>
       <if test="loginTimeout != null">
         #{loginTimeout,jdbcType=INTEGER},
       </if>
@@ -382,15 +328,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.xssIgnoreUri != null">
-        xss_ignore_uri = #{record.xssIgnoreUri,jdbcType=VARCHAR},
-      </if>
-      <if test="record.uploadMaxSize != null">
-        upload_max_size = #{record.uploadMaxSize,jdbcType=INTEGER},
-      </if>
-      <if test="record.shortMsgUrl != null">
-        short_msg_url = #{record.shortMsgUrl,jdbcType=VARCHAR},
-      </if>
       <if test="record.schoolName != null">
         school_name = #{record.schoolName,jdbcType=VARCHAR},
       </if>
@@ -399,9 +336,6 @@
       </if>
       <if test="record.schoolLoginUrl != null">
         school_login_url = #{record.schoolLoginUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="record.schoolEmail != null">
-        school_email = #{record.schoolEmail,jdbcType=VARCHAR},
       </if>
       <if test="record.termStartDate != null">
         term_start_date = #{record.termStartDate,jdbcType=DATE},
@@ -466,15 +400,6 @@
       <if test="record.displayLoginMsg != null">
         display_login_msg = #{record.displayLoginMsg,jdbcType=BIT},
       </if>
-      <if test="record.useCadrePost != null">
-        use_cadre_post = #{record.useCadrePost,jdbcType=BIT},
-      </if>
-      <if test="record.hasPartyModule != null">
-        has_party_module = #{record.hasPartyModule,jdbcType=BIT},
-      </if>
-      <if test="record.cadreTemplateFsNote != null">
-        cadre_template_fs_note = #{record.cadreTemplateFsNote,jdbcType=VARCHAR},
-      </if>
       <if test="record.loginTimeout != null">
         login_timeout = #{record.loginTimeout,jdbcType=INTEGER},
       </if>
@@ -489,13 +414,9 @@
   <update id="updateByExample" parameterType="map">
     update sys_config
     set id = #{record.id,jdbcType=INTEGER},
-      xss_ignore_uri = #{record.xssIgnoreUri,jdbcType=VARCHAR},
-      upload_max_size = #{record.uploadMaxSize,jdbcType=INTEGER},
-      short_msg_url = #{record.shortMsgUrl,jdbcType=VARCHAR},
       school_name = #{record.schoolName,jdbcType=VARCHAR},
       school_short_name = #{record.schoolShortName,jdbcType=VARCHAR},
       school_login_url = #{record.schoolLoginUrl,jdbcType=VARCHAR},
-      school_email = #{record.schoolEmail,jdbcType=VARCHAR},
       term_start_date = #{record.termStartDate,jdbcType=DATE},
       term_end_date = #{record.termEndDate,jdbcType=DATE},
       site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
@@ -517,9 +438,6 @@
       qr_logo = #{record.qrLogo,jdbcType=VARCHAR},
       login_msg = #{record.loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{record.displayLoginMsg,jdbcType=BIT},
-      use_cadre_post = #{record.useCadrePost,jdbcType=BIT},
-      has_party_module = #{record.hasPartyModule,jdbcType=BIT},
-      cadre_template_fs_note = #{record.cadreTemplateFsNote,jdbcType=VARCHAR},
       login_timeout = #{record.loginTimeout,jdbcType=INTEGER},
       city = #{record.city,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -529,15 +447,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.sys.SysConfig">
     update sys_config
     <set>
-      <if test="xssIgnoreUri != null">
-        xss_ignore_uri = #{xssIgnoreUri,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadMaxSize != null">
-        upload_max_size = #{uploadMaxSize,jdbcType=INTEGER},
-      </if>
-      <if test="shortMsgUrl != null">
-        short_msg_url = #{shortMsgUrl,jdbcType=VARCHAR},
-      </if>
       <if test="schoolName != null">
         school_name = #{schoolName,jdbcType=VARCHAR},
       </if>
@@ -546,9 +455,6 @@
       </if>
       <if test="schoolLoginUrl != null">
         school_login_url = #{schoolLoginUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="schoolEmail != null">
-        school_email = #{schoolEmail,jdbcType=VARCHAR},
       </if>
       <if test="termStartDate != null">
         term_start_date = #{termStartDate,jdbcType=DATE},
@@ -613,15 +519,6 @@
       <if test="displayLoginMsg != null">
         display_login_msg = #{displayLoginMsg,jdbcType=BIT},
       </if>
-      <if test="useCadrePost != null">
-        use_cadre_post = #{useCadrePost,jdbcType=BIT},
-      </if>
-      <if test="hasPartyModule != null">
-        has_party_module = #{hasPartyModule,jdbcType=BIT},
-      </if>
-      <if test="cadreTemplateFsNote != null">
-        cadre_template_fs_note = #{cadreTemplateFsNote,jdbcType=VARCHAR},
-      </if>
       <if test="loginTimeout != null">
         login_timeout = #{loginTimeout,jdbcType=INTEGER},
       </if>
@@ -633,13 +530,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.sys.SysConfig">
     update sys_config
-    set xss_ignore_uri = #{xssIgnoreUri,jdbcType=VARCHAR},
-      upload_max_size = #{uploadMaxSize,jdbcType=INTEGER},
-      short_msg_url = #{shortMsgUrl,jdbcType=VARCHAR},
-      school_name = #{schoolName,jdbcType=VARCHAR},
+    set school_name = #{schoolName,jdbcType=VARCHAR},
       school_short_name = #{schoolShortName,jdbcType=VARCHAR},
       school_login_url = #{schoolLoginUrl,jdbcType=VARCHAR},
-      school_email = #{schoolEmail,jdbcType=VARCHAR},
       term_start_date = #{termStartDate,jdbcType=DATE},
       term_end_date = #{termEndDate,jdbcType=DATE},
       site_copyright = #{siteCopyright,jdbcType=VARCHAR},
@@ -661,9 +554,6 @@
       qr_logo = #{qrLogo,jdbcType=VARCHAR},
       login_msg = #{loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{displayLoginMsg,jdbcType=BIT},
-      use_cadre_post = #{useCadrePost,jdbcType=BIT},
-      has_party_module = #{hasPartyModule,jdbcType=BIT},
-      cadre_template_fs_note = #{cadreTemplateFsNote,jdbcType=VARCHAR},
       login_timeout = #{loginTimeout,jdbcType=INTEGER},
       city = #{city,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

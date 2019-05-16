@@ -324,28 +324,4 @@ public class CacheService extends BaseMapper {
 
         return map;
     }
-
-    // 获取系统的属性值（字符串类型）
-    public String getStringProperty(String key){
-        return sysPropertyService.findAll().get(key);
-    }
-    // 获取系统的属性值（字符串类型）
-    public String getStringProperty(String key, String defaultStr){
-        if(StringUtils.isBlank(key)) return defaultStr;
-        String str = sysPropertyService.findAll().get(key);
-
-        return StringUtils.defaultIfBlank(str, defaultStr);
-    }
-    // 获取系统的属性值（整数）
-    public Integer getIntProperty(String key){
-        return Integer.valueOf(getStringProperty(key));
-    }
-    // 获取系统的属性值（布尔类型）
-    public boolean getBoolProperty(String key){
-        return Boolean.valueOf(getStringProperty(key));
-    }
-    // 获取系统的属性值（日期）
-    public Date getDateProperty(String key){
-        return DateUtils.parseStringToDate(getStringProperty(key));
-    }
 }

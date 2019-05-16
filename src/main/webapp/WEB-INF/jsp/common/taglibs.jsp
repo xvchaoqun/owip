@@ -18,7 +18,7 @@
 <c:set value="${_sysConfig.siteName}" var="_plantform_name"/>
 <c:set value="${_sysConfig.schoolName}" var="_school"/>
 <c:set value="${_sysConfig.siteShortName}" var="_plantform_short_name"/>
-<c:set value="${_sysConfig.hasPartyModule}" var="_hasPartyModule"/>
+
 <c:set value="<%=new Date()%>" var="now"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="_today"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd HH:mm')}" var="_todayMinute"/>
@@ -27,8 +27,9 @@
 <fmt:setBundle basename="spring" var="spring"/>
 <fmt:message key="site.hasLoginPage" bundle="${spring}" var="_hasLoginPage"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
-<fmt:message key="sys.help.hide" bundle="${spring}" var="_hideHelp"/>
 
+<c:set value="${_pMap['hideHelp']=='true'}" var="_p_hideHelp"/>
+<c:set value="${_pMap['hasPartyModule']=='true'}" var="_p_hasPartyModule"/>
 <c:set value="${_pMap['partyName']}" var="_p_partyName"/>
 <c:set value="${_pMap['hasKjCadre']=='true'}" var="_p_hasKjCadre"/>
 

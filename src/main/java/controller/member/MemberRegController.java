@@ -33,6 +33,7 @@ import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -68,11 +69,11 @@ public class MemberRegController extends MemberBaseController {
         if (StringUtils.isBlank(_captcha) || !_captcha.equalsIgnoreCase(captcha)) {
             return failed("验证码错误。");
         }
-        if (!FormUtils.usernameFormatRight(username)) {
-            return failed("用户名由3-20位的字母、下划线和数字组成，且不能以数字或下划线开头。");
+        if (!CmTag.validUsername(username)) {
+            return failed(CmTag.getStringProperty("usernameMsg"));
         }
-        if (!FormUtils.match(PropertiesUtils.getString("passwd.regex"), passwd)) {
-            return failed("密码由6-16位的字母、下划线和数字组成");
+        if (!CmTag.validPasswd(passwd)) {
+            return failed(CmTag.getStringProperty("passwdMsg"));
         }
         if (type == null || SystemConstants.USER_TYPE_MAP.get(type) == null) {
             return failed("类型有误");
@@ -84,7 +85,7 @@ public class MemberRegController extends MemberBaseController {
         if (!idcardValidator.isValidatedAllIdcard(idcard)) {
             return failed("身份证号码有误。");
         }
-        if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), phone)) {
+        if (!CmTag.validMobile(phone)) {
             return failed("手机号码有误");
         }
         if (party == null || partyService.findAll().get(party) == null) {
@@ -371,7 +372,7 @@ public class MemberRegController extends MemberBaseController {
                 if (!isAdmin) throw new UnauthorizedException();
             }
 
-            String prefix = cacheService.getStringProperty("memberRegPrefix", "dy");
+            String prefix = CmTag.getStringProperty("memberRegPrefix", "dy");
             MemberReg memberReg = memberRegService.addMemberReg(record, prefix, -1,
                     new Date(), ContextHelper.getRealIp());
             resultMap.put("memberReg", memberReg);
@@ -465,7 +466,7 @@ public class MemberRegController extends MemberBaseController {
             if (StringUtils.isBlank(mobile)) {
                 throw new OpException("第{0}行手机号为空", mobile);
             }
-            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+            if (!CmTag.validMobile(mobile)) {
                 return failed("手机号码有误");
             }
             record.setPhone(mobile);
@@ -501,8 +502,8 @@ public class MemberRegController extends MemberBaseController {
     @ResponseBody
     public Map do_memberReg_changepw(Integer id, String password, HttpServletRequest request) {
 
-        if (!FormUtils.match(PropertiesUtils.getString("passwd.regex"), password)) {
-            return failed("密码由6-16位的字母、下划线和数字组成");
+        if (!CmTag.validPasswd(password)) {
+            return failed(CmTag.getStringProperty("passwdMsg"));
         }
 
         MemberReg memberReg = memberRegMapper.selectByPrimaryKey(id);
@@ -543,7 +544,7 @@ public class MemberRegController extends MemberBaseController {
         List<MemberReg> records = memberRegMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"账号|100", "密码|80", "姓名|100", "身份证号码|180", "手机号码|100",
-                "联系"+cacheService.getStringProperty("partyName",
+                "联系"+CmTag.getStringProperty("partyName",
                 "分党委") + "|250"};
 
         List<String[]> valuesList = new ArrayList<>();

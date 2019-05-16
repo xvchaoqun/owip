@@ -147,7 +147,7 @@
             </c:if>
             <c:if test="${type==2}">
             {label: '党派加入时间', name: 'owGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, width: 110},
-            <c:if test="${_hasPartyModule}">
+            <c:if test="${_p_hasPartyModule}">
             {
                 label: '是否存在于党员信息库', width: 180, name: 'memberStatus', formatter: function (cellvalue, options, rowObject) {
                 var str = "否";

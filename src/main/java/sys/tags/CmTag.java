@@ -38,17 +38,14 @@ import service.modify.ModifyCadreAuthService;
 import service.party.BranchService;
 import service.party.PartyService;
 import service.partySchool.PartySchoolService;
-import service.sys.HtmlFragmentService;
-import service.sys.SysConfigService;
-import service.sys.SysResourceService;
-import service.sys.SysUserService;
+import service.sys.*;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.FormUtils;
 
 import java.io.File;
 import java.util.*;
@@ -63,6 +60,7 @@ public class CmTag {
     static HtmlFragmentMapper htmlFragmentMapper = context.getBean(HtmlFragmentMapper.class);
     static ContentTplService contentTplService = context.getBean(ContentTplService.class);
     static SysConfigService sysConfigService = context.getBean(SysConfigService.class);
+    static SysPropertyService sysPropertyService = context.getBean(SysPropertyService.class);
 
     static SysUserService sysUserService = context.getBean(SysUserService.class);
     static SysResourceService sysResourceService = context.getBean(SysResourceService.class);
@@ -102,7 +100,7 @@ public class CmTag {
 
     public static Boolean isSuperAccount(String username){
 
-        String users = PropertiesUtils.getString("sys.auth.super");
+        String users = CmTag.getStringProperty("superUsers", "zzbgz");
         if(StringUtils.isBlank(users)) return false;
 
         Set<String> userSet = new HashSet<>();
@@ -115,6 +113,41 @@ public class CmTag {
     public static Integer getMenuCacheCount(String countCacheKeys) {
 
         return cacheService.getCacheCount(countCacheKeys);
+    }
+
+     // 获取系统的属性值（字符串类型）
+    public static String getStringProperty(String key){
+        return sysPropertyService.findAll().get(key);
+    }
+    // 获取系统的属性值（字符串类型）
+    public static String getStringProperty(String key, String defaultStr){
+        if(StringUtils.isBlank(key)) return defaultStr;
+        String str = sysPropertyService.findAll().get(key);
+
+        return StringUtils.defaultIfBlank(str, defaultStr);
+    }
+    // 获取系统的属性值（整数）
+    public static Integer getIntProperty(String key){
+        return Integer.valueOf(getStringProperty(key));
+    }
+    // 获取系统的属性值（布尔类型）
+    public static boolean getBoolProperty(String key){
+        return Boolean.valueOf(getStringProperty(key));
+    }
+    // 获取系统的属性值（日期）
+    public static Date getDateProperty(String key){
+        return DateUtils.parseStringToDate(getStringProperty(key));
+    }
+
+    public static boolean validMobile(String mobile){
+
+        return FormUtils.match(CmTag.getStringProperty("mobileRegex"), mobile);
+    }
+    public static boolean validUsername(String username){
+        return FormUtils.match(CmTag.getStringProperty("usernameRegex"), username);
+    }
+    public static boolean validPasswd(String passwd){
+        return FormUtils.match(CmTag.getStringProperty("passwdRegex"), passwd);
     }
 
     public static String getJsFolder(){

@@ -25,7 +25,11 @@ import sys.SendMsgResult;
 import sys.SendMsgUtils;
 import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
-import sys.utils.*;
+import sys.tags.CmTag;
+import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
+import sys.utils.IpUtils;
+import sys.utils.StringUtil;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -125,7 +129,7 @@ public class ShortMsgService extends BaseMapper {
             sendMsg = BooleanUtils.isFalse(uv.getNotSendMsg());
         }
 
-        if(sendMsg && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        if(sendMsg && !CmTag.validMobile(mobile)){
             throw new OpException("{0}（工号：{1}）手机号码有误（{2}）", uv.getRealname(), uv.getCode(), mobile);
         }
         if(StringUtils.isBlank(content)){

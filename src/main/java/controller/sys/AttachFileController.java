@@ -198,7 +198,7 @@ public class AttachFileController extends BaseController {
 
     @RequiresPermissions("attachFile:import")
     @RequestMapping("/attachFile_import")
-    public String passport_import(ModelMap modelMap) {
+    public String attachFile_import(ModelMap modelMap) {
 
         return "sys/attachFile/attachFile_import";
     }

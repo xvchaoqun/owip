@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import service.unit.UnitPostAllocationInfoBean;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -123,7 +124,7 @@ public class MobileCadreSearchController extends BaseController {
 			if(cjCpcInfoBeans.size()==2){
 				modelMap.put("cjBean", cjCpcInfoBeans.get(0));
 			}
-			if(cacheService.getBoolProperty("hasKjCadre")) {
+			if(CmTag.getBoolProperty("hasKjCadre")) {
 				List<UnitPostAllocationInfoBean> kjCpcInfoBeans
 						= unitPostAllocationService.cpcInfo_data(unitId, CadreConstants.CADRE_TYPE_KJ, false);
 				if (kjCpcInfoBeans.size() == 2) {

@@ -21,11 +21,12 @@
                         <button class="jqEditBtn btn btn-primary btn-sm">
                             <i class="fa fa-edit"></i> 修改账号
                         </button>
-                        <button class="jqOpenViewBtn btn btn-success btn-sm"
+                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/sysUserInfo_au"
                                 data-open-by="page" data-id-name="userId">
                             <i class="fa fa-info-circle"></i> 修改基本信息
                         </button>
+
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/sysUserRole">
                             <i class="fa fa-user-circle"></i> 修改角色
@@ -47,6 +48,14 @@
                             <i class="fa fa-search"></i> 菜单预览
                         </button>
                         </shiro:hasPermission>
+                    </shiro:hasPermission>
+                <shiro:hasPermission name="avatar:import">
+                    <button class="popupBtn btn btn-success btn-sm tooltip-info"
+                            data-url="${ctx}/avatar_import"
+                            data-rel="tooltip" data-placement="top" title="批量导入"><i
+                            class="fa fa-upload"></i>
+                        批量导入头像
+                    </button>
                     </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -213,11 +222,14 @@
                      <input type="hidden" name="userId" value="'+$(this).data("id")+'"/>\
                         <div class="space-4"></div>\
                         <div style="width:210px;margin-left:12%;"><input type="file" name="_avatar" /></div>\
+                        <div style="text-align:center"><a class="downloadBtn" href="javascript:;" \
+                        data-load-text="正在下载" data-success-text="下载成功" data-failed-text="下载失败" \
+                        data-url="" style="display:none">下载</a></div>\
                      </div>\
                     \
                      <div class="modal-footer center">\
                         <button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> 确定</button>\
-                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-trash"></i> 取消</button>\
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> 取消</button>\
                      </div>\
                     </form>\
                   </div>\
@@ -237,7 +249,7 @@
         var file = form.find('input[type=file]').eq(0);
         $.fileInput(file, {
             style:'well',
-            btn_choose:'点击选择新头像',
+            btn_choose:'点击选择头像',
             btn_change:null,
             no_icon:'ace-icon fa fa-picture-o',
             thumbnail:'small',
@@ -253,8 +265,14 @@
         })
 
         if($(this).data("hasimg")) {
-            var path = '${ctx}/avatar?path='+$(this).data("avatar") +"&_="+new Date().getTime();
+            var avatar = $.trim($(this).data("avatar"));
+            var path = '${ctx}/avatar?path='+ avatar +"&_="+new Date().getTime();
             file.ace_file_input('show_file_list', [{type: 'image', name:path, title:''}]);
+
+            if(avatar!='' && avatar!='undefined'){
+                var downloadPath = '${ctx}/avatar_download?path='+ avatar +'&filename='+ $(this).data("code")  +"&_="+new Date().getTime();
+                $('.downloadBtn', modal).attr("data-url", downloadPath).show();
+            }
         }
         form.on('submit', function(){
             if(!file.data('ace_input_files')){ // 没有选择或变更图片
@@ -293,9 +311,4 @@
         });
 
     }
-
-    /*function _export() {
-
-        location.href = "${ctx}/sysUser_export?" + $("searchForm").serialize();
-    }*/
 </script>

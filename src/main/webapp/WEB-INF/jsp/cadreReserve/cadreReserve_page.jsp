@@ -361,7 +361,7 @@
             /*{ label: '办公电话', name: 'phone' },
              { label: '家庭电话', name: 'homePhone' },*/
             {label: '电子邮箱', name: 'email', width: 150},
-            <c:if test="${_hasPartyModule}">
+            <c:if test="${_p_hasPartyModule}">
             {
                 label: '所属党组织',
                 name: 'partyId',

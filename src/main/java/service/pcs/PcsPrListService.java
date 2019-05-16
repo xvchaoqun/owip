@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.PcsConstants;
-import sys.utils.FormUtils;
-import sys.utils.PropertiesUtils;
+import sys.tags.CmTag;
 
 import java.util.List;
 
@@ -94,7 +93,7 @@ public class PcsPrListService extends PcsBaseMapper {
 
             PcsPrCandidate _candidate = new PcsPrCandidate();
             String mobile = bean.getMobile();
-            if (StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+            if (StringUtils.isBlank(mobile) || !CmTag.validMobile(mobile)) {
                 throw new OpException("手机号码有误：" + mobile);
             }
             _candidate.setMobile(mobile);

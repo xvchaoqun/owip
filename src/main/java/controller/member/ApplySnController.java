@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -190,7 +191,7 @@ public class ApplySnController extends MemberBaseController {
         List<ApplySn> records = applySnMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"年份|50", "志愿书编码|150", "使用人|100", "使用人学工号|100",
-                "所属"+cacheService.getStringProperty("partyName", "分党委") + "|350|left", "所属党支部|350|left", "是否作废|100"};
+                "所属"+ CmTag.getStringProperty("partyName", "分党委") + "|350|left", "所属党支部|350|left", "是否作废|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
 

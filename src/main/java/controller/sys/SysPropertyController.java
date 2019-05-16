@@ -38,14 +38,14 @@ public class SysPropertyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("sysConfig:list")
+    @RequiresPermissions("sysProperty:list")
     @RequestMapping("/sysProperty")
     public String sysProperty() {
 
         return "sys/sysProperty/sysProperty_page";
     }
 
-    @RequiresPermissions("sysConfig:list")
+    @RequiresPermissions("sysProperty:list")
     @RequestMapping("/sysProperty_data")
     @ResponseBody
     public void sysProperty_data(HttpServletResponse response,
@@ -103,7 +103,7 @@ public class SysPropertyController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("sysConfig:edit")
+    @RequiresPermissions("sysProperty:edit")
     @RequestMapping(value = "/sysProperty_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysProperty_au(SysProperty record, MultipartFile _file, HttpServletRequest request) throws IOException, InterruptedException {
@@ -133,7 +133,7 @@ public class SysPropertyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("sysConfig:edit")
+    @RequiresPermissions("sysProperty:edit")
     @RequestMapping("/sysProperty_au")
     public String sysProperty_au(Integer id, ModelMap modelMap) {
 
@@ -144,7 +144,7 @@ public class SysPropertyController extends BaseController {
         return "sys/sysProperty/sysProperty_au";
     }
 
-    @RequiresPermissions("sysConfig:del")
+    @RequiresPermissions("sysProperty:del")
     @RequestMapping(value = "/sysProperty_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysProperty_del(HttpServletRequest request, Integer id) {
@@ -157,7 +157,7 @@ public class SysPropertyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("sysConfig:del")
+    @RequiresPermissions("sysProperty:del")
     @RequestMapping(value = "/sysProperty_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map sysProperty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -171,7 +171,7 @@ public class SysPropertyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("sysConfig:changeOrder")
+    @RequiresPermissions("sysProperty:changeOrder")
     @RequestMapping(value = "/sysProperty_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysProperty_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {

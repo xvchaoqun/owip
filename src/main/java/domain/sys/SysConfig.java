@@ -6,19 +6,11 @@ import java.util.Date;
 public class SysConfig implements Serializable {
     private Integer id;
 
-    private String xssIgnoreUri;
-
-    private Integer uploadMaxSize;
-
-    private String shortMsgUrl;
-
     private String schoolName;
 
     private String schoolShortName;
 
     private String schoolLoginUrl;
-
-    private String schoolEmail;
 
     private Date termStartDate;
 
@@ -62,12 +54,6 @@ public class SysConfig implements Serializable {
 
     private Boolean displayLoginMsg;
 
-    private Boolean useCadrePost;
-
-    private Boolean hasPartyModule;
-
-    private String cadreTemplateFsNote;
-
     private Integer loginTimeout;
 
     private String city;
@@ -80,30 +66,6 @@ public class SysConfig implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getXssIgnoreUri() {
-        return xssIgnoreUri;
-    }
-
-    public void setXssIgnoreUri(String xssIgnoreUri) {
-        this.xssIgnoreUri = xssIgnoreUri == null ? null : xssIgnoreUri.trim();
-    }
-
-    public Integer getUploadMaxSize() {
-        return uploadMaxSize;
-    }
-
-    public void setUploadMaxSize(Integer uploadMaxSize) {
-        this.uploadMaxSize = uploadMaxSize;
-    }
-
-    public String getShortMsgUrl() {
-        return shortMsgUrl;
-    }
-
-    public void setShortMsgUrl(String shortMsgUrl) {
-        this.shortMsgUrl = shortMsgUrl == null ? null : shortMsgUrl.trim();
     }
 
     public String getSchoolName() {
@@ -128,14 +90,6 @@ public class SysConfig implements Serializable {
 
     public void setSchoolLoginUrl(String schoolLoginUrl) {
         this.schoolLoginUrl = schoolLoginUrl == null ? null : schoolLoginUrl.trim();
-    }
-
-    public String getSchoolEmail() {
-        return schoolEmail;
-    }
-
-    public void setSchoolEmail(String schoolEmail) {
-        this.schoolEmail = schoolEmail == null ? null : schoolEmail.trim();
     }
 
     public Date getTermStartDate() {
@@ -304,30 +258,6 @@ public class SysConfig implements Serializable {
 
     public void setDisplayLoginMsg(Boolean displayLoginMsg) {
         this.displayLoginMsg = displayLoginMsg;
-    }
-
-    public Boolean getUseCadrePost() {
-        return useCadrePost;
-    }
-
-    public void setUseCadrePost(Boolean useCadrePost) {
-        this.useCadrePost = useCadrePost;
-    }
-
-    public Boolean getHasPartyModule() {
-        return hasPartyModule;
-    }
-
-    public void setHasPartyModule(Boolean hasPartyModule) {
-        this.hasPartyModule = hasPartyModule;
-    }
-
-    public String getCadreTemplateFsNote() {
-        return cadreTemplateFsNote;
-    }
-
-    public void setCadreTemplateFsNote(String cadreTemplateFsNote) {
-        this.cadreTemplateFsNote = cadreTemplateFsNote == null ? null : cadreTemplateFsNote.trim();
     }
 
     public Integer getLoginTimeout() {

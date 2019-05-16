@@ -12,19 +12,20 @@
             },frozen:true  },
         { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
                 if($.trim(rowObject.username)=='') return ''
-
+                var avatar = $.trim(rowObject.avatar)
                 <c:if test="${param.type=='admin'}">
                 var html ='<img title="点击修改头像" src="${ctx}/avatar?path={0}&_={1}"'
-                    +'class="avatar" data-id="{2}"'
+                    +'class="avatar" data-id="{2}" data-code="{5}"'
                     +'data-hasimg="{3}" data-avatar="{4}">';
-                html = html.format(rowObject.avatar, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.avatar);
+                html = html.format(avatar, new Date().getTime(), rowObject.id, avatar!='',
+                    avatar, rowObject.code);
                 return html;
                 </c:if>
                 <c:if test="${param.type!='admin'}">
                 return ('<a class="various" title="{2}" data-path="${ctx}/avatar?path={0}&_={1}" data-fancybox-type="image" href="${ctx}/avatar?path={0}&_={1}">'+
                     '<img title="点击放大头像" src="${ctx}/avatar?path={0}&_={1}" class="avatar"/>'
                     +'</a>')
-                    .format(encodeURI(rowObject.avatar), new Date().getTime(), rowObject.realname + ".jpg");
+                    .format(encodeURI(avatar), new Date().getTime(), rowObject.realname + ".jpg");
                 </c:if>
 
             },frozen:true},

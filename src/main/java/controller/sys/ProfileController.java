@@ -17,10 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class ProfileController extends BaseController {
         }
 
         if (StringUtils.isBlank(mobile) ||
-                !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+                !CmTag.validMobile(mobile)) {
             return failed("手机号码有误");
         }
 

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
 import service.analysis.StatCadreService;
-import service.global.CacheService;
 import service.unit.UnitPostAllocationService;
 import sys.constants.CadreConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 
@@ -34,15 +34,13 @@ public class CadreStatHistoryService extends BaseMapper {
     private CadreExportService cadreExportService;
     @Autowired
     protected SpringProps springProps;
-    @Autowired
-    protected CacheService cacheService;
 
     // 保存历史信息表
     public void saveExport(byte type) throws IOException {
 
         long start = System.currentTimeMillis();
 
-        boolean hasKjCadre = cacheService.getBoolProperty("hasKjCadre");
+        boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
 
         Workbook wb = null;
         switch (type) {

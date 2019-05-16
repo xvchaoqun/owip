@@ -7,24 +7,6 @@
         <div class="space-4"></div>
         <form class="form-horizontal" action="${ctx}/sysConfig_au" id="configForm" method="post">
 
-            <%-- <div class="form-group">
-                 <label class="col-xs-3 control-label">xss不解析的请求</label>
-                 <div class="col-xs-6">
-                     <textarea class="form-control" name="xssIgnoreUri">${sysConfig.xssIgnoreUri}</textarea>
-                 </div>
-             </div>
-             <div class="form-group">
-                 <label class="col-xs-3 control-label">上传文件大小上限（单位M）</label>
-                 <div class="col-xs-6">
-                     <input  class="form-control" type="text" name="uploadMaxSize" value="${sysConfig.uploadMaxSize}">
-                 </div>
-             </div>
-             <div class="form-group">
-                 <label class="col-xs-3 control-label">短信发送接口</label>
-                 <div class="col-xs-6">
-                     <input  class="form-control" type="text" name="shortMsgUrl" value="${sysConfig.shortMsgUrl}">
-                 </div>
-             </div>--%>
             <div class="form-group">
                 <label class="col-xs-3 control-label">所在城市</label>
 
@@ -51,21 +33,6 @@
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="schoolLoginUrl" value="${sysConfig.schoolLoginUrl}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">组织部邮箱</label>
-
-                <div class="col-xs-6">
-                    <input class="form-control" type="text" name="schoolEmail" value="${sysConfig.schoolEmail}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">附属单位说明(用于干部统计表格)</label>
-
-                <div class="col-xs-6">
-                    <textarea class="form-control"
-                              name="cadreTemplateFsNote">${sysConfig.cadreTemplateFsNote}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -223,32 +190,6 @@
                            name="displayLoginMsg" ${(sysConfig.displayLoginMsg)?"checked":""}/>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">是否存在党建模块</label>
-                <div class="col-xs-6">
-                    <input type="checkbox" class="big"
-                           name="hasPartyModule" ${(sysConfig.hasPartyModule)?"checked":""}/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">是否启用干部的岗位过程信息</label>
-
-                <div class="col-xs-6">
-                    <input type="checkbox" class="big"
-                           name="useCadrePost" ${(sysConfig.useCadrePost)?"checked":""}/>
-                    <shiro:hasRole name="${ROLE_ADMIN}">
-                        <button type="button" style="display: ${sysConfig.useCadrePost?'':'none'}"
-                                data-title="同步系统岗位过程信息"
-                                data-msg="确定同步？（将所有干部的当前岗位过程信息，同步为系统已设置的数据。）"
-                                data-url="${ctx}/cadrePostInfo_snyc"
-                                data-callback="_reload"
-                                id="syncAllCadrePostBtn" class="confirm btn btn-success btn-sm">
-                            <i class="fa fa-refresh"></i> 同步系统岗位过程信息
-                        </button>
-                    </shiro:hasRole>
-                </div>
-            </div>
-
             <div class="form-group">
                 <label class="col-xs-3 control-label">账号登录超时（分钟）</label>
 

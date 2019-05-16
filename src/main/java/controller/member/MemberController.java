@@ -1124,7 +1124,7 @@ public class MemberController extends MemberBaseController {
         return new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|80",
                 "编制类别|80", "人员类别|100", "人员状态|80", "在岗情况|80", "岗位类别|80", "主岗等级|120",
                 "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", "国家/地区|80", "证件号码|150",
-                "政治面貌|80", "所属" + cacheService.getStringProperty("partyName", "党委") + "|300", "所在党支部|300", "所在单位|200",
+                "政治面貌|80", "所属" + CmTag.getStringProperty("partyName", "党委") + "|300", "所在党支部|300", "所在单位|200",
                 "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "到校日期|80",
@@ -1247,7 +1247,7 @@ public class MemberController extends MemberBaseController {
     private List<String> getStudentExportTitles() {
 
         return new ArrayList<>(Arrays.asList(new String[]{"学号|100", "学生类别|150", "姓名|80", "性别|50", "出生日期|100", "身份证号|150",
-                "民族|100", "年级|50", "所属" + cacheService.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
+                "民族|100", "年级|50", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
                 "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "培养层次（研究生）|150", "培养类型（研究生）|150", "教育类别（研究生）|150",

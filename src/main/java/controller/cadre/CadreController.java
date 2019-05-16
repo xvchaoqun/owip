@@ -462,7 +462,7 @@ public class CadreController extends BaseController {
 
         if (StringUtils.isBlank(to)) {
             to = "cadre_base";
-            String def = PropertiesUtils.getString("sys.settings.cadreView.default");
+            String def = CmTag.getStringProperty("cadreViewDef");
             if (StringUtils.isNotBlank(def) && !StringUtils.equals(to, def)
                     && ShiroHelper.isPermitted("cadreAdform:list")) {
                 to = def;

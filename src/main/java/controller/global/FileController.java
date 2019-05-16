@@ -167,36 +167,6 @@ public class FileController extends BaseController {
                     RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)));
         }
     }
-    /*@RequestMapping("/public/logo")
-    public void logo(HttpServletResponse response, HttpServletRequest request){
-
-        SysConfig sysConfig = CmTag.getSysConfig();
-        String imagepath = springProps.uploadPath + sysConfig.getLogo();
-        try {
-            ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
-        }catch (Exception ex){
-        }
-    }
-    @RequestMapping("/public/logoWhite")
-    public void logoWhite(HttpServletResponse response, HttpServletRequest request) {
-
-        SysConfig sysConfig = CmTag.getSysConfig();
-        String imagepath = springProps.uploadPath + sysConfig.getLogoWhite();
-        try {
-            ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
-        }catch (Exception ex){
-        }
-    }
-    @RequestMapping("/public/loginBg")
-    public void loginBg(HttpServletResponse response, HttpServletRequest request) {
-
-        SysConfig sysConfig = CmTag.getSysConfig();
-        String imagepath = springProps.uploadPath + sysConfig.getLoginBg();
-        try {
-            ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
-        }catch (Exception ex){
-        }
-    }*/
 
     // 手写签名
     @RequestMapping("/sign")

@@ -24,10 +24,10 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -159,7 +159,7 @@ public class UserMemberStayController extends MemberBaseController {
         record.setBranchId(member.getBranchId());
 
         if(StringUtils.isNotBlank(record.getMobile()) &&
-                !FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile())){
+                !CmTag.validMobile(record.getMobile())){
             return failed("手机号码有误");
         }
 
@@ -169,16 +169,16 @@ public class UserMemberStayController extends MemberBaseController {
                return failed("出国起止时间有误");
             }
             if(StringUtils.isNotBlank(record.getMobile1()) &&
-                    !FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile1())){
+                    !CmTag.validMobile(record.getMobile1())){
                 return failed("国内第一联系人手机号码有误");
             }
             if(StringUtils.isNotBlank(record.getMobile2())
-                    && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile2())){
+                    && !CmTag.validMobile(record.getMobile2())){
                 return failed("国内第二联系人手机号码有误");
             }
         }else{
             if(StringUtils.isNotBlank(record.getMobile1()) &&
-                    !FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile1())){
+                    !CmTag.validMobile(record.getMobile1())){
                 return failed("联系人手机号码有误");
             }
         }

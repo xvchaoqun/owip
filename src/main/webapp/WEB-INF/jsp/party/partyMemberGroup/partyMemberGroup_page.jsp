@@ -170,8 +170,8 @@
                 align: 'left',
                 width: 380,
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '--'
-                    return _cMap.partyMap[cellvalue].name
+
+                    return $.party(rowObject.partyId);
                 }
             },
             {label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},

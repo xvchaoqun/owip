@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -137,7 +137,7 @@ public class PcsAdminController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsAdmin_add(PcsAdmin record,String mobile, HttpServletRequest request) {
 
-        if(StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        if(StringUtils.isBlank(mobile) || !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
 
@@ -171,7 +171,7 @@ public class PcsAdminController extends PcsBaseController {
                                String msg,
                                HttpServletRequest request) {
 
-        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
 
@@ -191,7 +191,7 @@ public class PcsAdminController extends PcsBaseController {
                                String msg,
                                HttpServletRequest request) {
 
-        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
 
@@ -211,7 +211,7 @@ public class PcsAdminController extends PcsBaseController {
                                String msg,
                                HttpServletRequest request) {
 
-        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+        if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
         if(partyId==null&&StringUtils.isBlank(mobile)){

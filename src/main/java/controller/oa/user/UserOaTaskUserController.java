@@ -22,9 +22,9 @@ import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -116,7 +116,7 @@ public class UserOaTaskUserController extends OaBaseController {
     @ResponseBody
     public Map do_oaTaskUser_assign(int taskId, int userId, String mobile) {
 
-        if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+        if (!CmTag.validMobile(mobile)) {
             return failed("手机号码有误");
         }
 

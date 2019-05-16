@@ -124,14 +124,12 @@
             }},
             </shiro:hasPermission>
             {label: '所在单位', name: 'unitId', width: 180,align:'left', formatter: $.jgrid.formatter.unit},
-            {label: '所属${_p_partyName}', name: 'groupPartyId', width: 350, align:'left',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '--';
-                return _cMap.partyMap[cellvalue].name;
-            }},
-            {label: '所属支部', name: 'groupBranchId', width: 450, align:'left',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '--';
-                return _cMap.branchMap[cellvalue].name;
-            }},
+            {
+                label: '所属组织机构', name: 'party', align: 'left', width: 650,
+                formatter: function (cellvalue, options, rowObject) {
+                    return $.party(rowObject.groupPartyId, rowObject.groupBranchId);
+                }, frozen: true
+            },
             {label: '类别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {

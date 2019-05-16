@@ -64,7 +64,16 @@
             </div>
             <a class="popupBtn btn btn-info"
                    data-url="${ctx}/sync_user_byCode"><i class="fa fa-level-down"></i> 同步账号信息</a>
-
+            <c:if test="${_pMap['useCadrePost']=='true'}">
+            <button type="button"
+                    data-title="同步系统岗位过程信息"
+                    data-msg="确定同步？（将所有干部的当前岗位过程信息，同步为系统已设置的数据。）"
+                    data-url="${ctx}/cadrePostInfo_snyc"
+                    data-callback="_reload"
+                    id="syncAllCadrePostBtn" class="confirm btn btn-success btn-sm">
+                <i class="fa fa-refresh"></i> 同步岗位过程信息
+            </button>
+            </c:if>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>

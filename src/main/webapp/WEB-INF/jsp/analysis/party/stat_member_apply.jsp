@@ -10,7 +10,7 @@
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">
                 <i class="ace-icon fa fa-signal"></i>
-                申请入党情况统计
+                党员发展情况统计
             </h5>
         </div>
         <div class="widget-body">

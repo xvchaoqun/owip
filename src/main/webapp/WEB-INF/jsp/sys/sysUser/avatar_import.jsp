@@ -3,12 +3,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>批量导入更新文件</h3>
+    <h3>批量导入头像</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/attachFile_import" method="post">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm"
+          enctype="multipart/form-data" action="${ctx}/avatar_import" method="post">
 		<div class="form-group">
-			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Zip文件</label>
+			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>头像压缩包(zip格式)</label>
 			<div class="col-xs-6">
 				<input type="file" name="zip" required extension="zip"/>
 			</div>
@@ -18,8 +19,8 @@
   <div class="modal-footer">
       <div class="note">
           <ul>
-              <li>压缩包文件名命名方式为[sample_cadre]领导干部录入样表.xlsx</li>
-              <li>根据方括号内的文件标识，判断是否存在，如果存在则更新文件名和后缀，不存在则插入</li>
+              <li>每个头像文件必须以学工号命名</li>
+              <li>头像文件名支持的后缀：jpg|png|gif</li>
           </ul>
       </div>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
@@ -46,8 +47,8 @@
 							if(ret.success){
 								$("#modal").modal('hide');
 								$("#jqGrid").trigger("reloadGrid");
-								var result = '操作成功，压缩包总计{0}个文件，其中新增{1}个文件，更新{2}个文件';
-								SysMsg.success(result.format(ret.total, ret.addCount, ret.updateCount), '成功');
+								var result = '压缩包总计{0}个文件，其中成功更新{1}个头像，失败{2}个';
+								SysMsg.success(result.format(ret.total, ret.save, ret.error), '上传完成');
 							}
 							$btn.button('reset');
 						}

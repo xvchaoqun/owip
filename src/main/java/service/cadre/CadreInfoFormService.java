@@ -627,7 +627,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("fillDate", DateUtils.formatDate(new Date(), "yyyy年MM月dd日"));
 
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
-        dataMap.put("schoolEmail", CmTag.getSysConfig().getSchoolEmail());
+        dataMap.put("schoolEmail", CmTag.getStringProperty("zzb_email"));
         freemarkerService.process("/infoform/infoform.ftl", dataMap, out);
     }
 

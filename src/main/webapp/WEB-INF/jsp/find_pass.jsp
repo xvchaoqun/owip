@@ -76,7 +76,7 @@
                             <div class="col-xs-6">
 
                                 <input type="password" name="password" autocomplete="new-password"/>
-                                <span class="help-block">密码由6-16位的字母、下划线和数字组成</span>
+                                <span class="help-block">${_pMap['passwdMsg']}</span>
                             </div>
                         </div>
 
