@@ -35,8 +35,8 @@
                                             调换编码
                                         </button>
                                     </shiro:hasPermission>
+                                    <c:if test="${cls==7}">
                                     <shiro:hasPermission name="applySnRange:abolish">
-                                        <c:if test="${cls==7}">
                                         <button id="abolishBtn"
                                                 data-title="作废编码"
                                                 data-msg="确定直接作废这{0}个编码？"
@@ -46,7 +46,6 @@
                                                 data-grid-id="#jqGrid"><i class="fa fa-times"></i>
                                             作废编码
                                         </button>
-                                        </c:if>
                                         <button id="reuseBtn"
                                                 data-title="恢复使用"
                                                 data-msg="确定恢复使用这{0}个编码？"
@@ -57,6 +56,7 @@
                                             恢复使用
                                         </button>
                                     </shiro:hasPermission>
+                                    </c:if>
                                     <c:if test="${cls==8}">
                                     <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                             data-url="${ctx}/applySn_data?cls=${cls}"

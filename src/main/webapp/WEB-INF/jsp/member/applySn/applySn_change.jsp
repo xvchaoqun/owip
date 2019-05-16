@@ -13,7 +13,6 @@
             <label class="col-xs-4 control-label">原志愿书编码</label>
             <div class="col-xs-7 label-text">
                 ${applySn.displaySn}
-                <span class="help-block">注：原志愿书编码将作废，不可再使用</span>
             </div>
         </div>
 
@@ -68,6 +67,7 @@
                         </label>
                     </div>
                 </div>
+                <span class="help-block">注：如选择“作废”，则原志愿书编码将作废，不再使用</span>
             </div>
         </div>
     </form>
