@@ -1,8 +1,20 @@
 
-+ ow_organizer_group
-+ ow_organizer
 
-更新 党员发展信息导入模板.xlsx
+20190518
+新增 ow_organizer_group
+ ow_organizer
+ow_organizer_group_unit, ow_organizer_group_user
+
+更新 common-utils
+
+更新 ow_member_view
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1035, 0, '组织员信息管理', '', 'menu', '', NULL, 105, '0/1/105/', 0, 'organizer:menu', NULL, NULL, NULL, 1, 29500);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1036, 0, '校级组织员信息', '', 'url', '', '/organizer?type=1', 1035, '0/1/105/1035/', 1, 'organizer:list1', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1037, 0, '院系级组织员信息', '', 'url', '', '/organizer?type=2', 1035, '0/1/105/1035/', 1, 'organizer:list2', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1038, 0, '组织员分组管理', '', 'function', '', NULL, 1035, '0/1/105/1035/', 1, 'organizerGroup:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1039, 0, '组织员管理', '', 'function', '', NULL, 1035, '0/1/105/1035/', 1, 'organizer:*', NULL, NULL, NULL, 1, NULL);
 
 
 20190516
@@ -60,9 +72,9 @@ INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (21, 'superUsers', '超管', 'zzbgz', 1, 21, '拥有隐藏权限的账号，多个以,隔开');
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (22, 'hideHelp', '隐藏帮助文档', 'false', 3, 22, '');
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (23, 'cadreViewDef', '干部档案默认页', 'cadre_base', 1, 23, '在有权限看到任免审批表(cadreAdform_page)的情况下，干部档案页默认进入的页面');
-INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (24, 'usernameRegex', '系统用户名正则表达式', '^[a-zA-z][a-zA-Z0-9_\\\\.]{3,20}$', 1, 24, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (24, 'usernameRegex', '系统用户名正则表达式', '^[a-zA-z][a-zA-Z0-9_\\.]{3,20}$', 1, 24, '');
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (25, 'passwdRegex', '系统密码正则表达式', '^[a-zA-Z0-9_]{6,16}$', 1, 25, '');
-INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (26, 'mobileRegex', '手机号码正则表达式', '^1[3|4|5|6|7|8|9]\\\\d{9}$', 1, 26, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (26, 'mobileRegex', '手机号码正则表达式', '^1[3|4|5|6|7|8|9]\\d{9}$', 1, 26, '');
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (27, 'passwdMsg', '密码不合法提示', '密码由6-16位的字母、下划线和数字组成', 1, 27, '');
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (28, 'usernameMsg', '用户名不合法提示', '用户名由3-20位的字母、下划线和数字组成，且不能以数字或下划线开头', 1, 28, '');
 
