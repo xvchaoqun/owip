@@ -18,6 +18,7 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -71,10 +72,10 @@ public class ShortMsgController extends BaseController {
             criteria.andSenderIdEqualTo(senderId);
         }
         if (StringUtils.isNotBlank(mobile)) {
-            criteria.andMobileLike("%" + mobile + "%");
+            criteria.andMobileLike(SqlUtils.like(mobile));
         }
         if (StringUtils.isNotBlank(content)) {
-            criteria.andContentLike("%" + content + "%");
+            criteria.andContentLike(SqlUtils.like(content));
         }
         if (_sendTime.getStart()!=null) {
             criteria.andCreateTimeGreaterThanOrEqualTo(_sendTime.getStart());

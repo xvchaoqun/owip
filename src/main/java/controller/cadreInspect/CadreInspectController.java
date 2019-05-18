@@ -33,10 +33,7 @@ import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -102,7 +99,7 @@ public class CadreInspectController extends BaseController {
         }
 
         if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleLike("%" + title + "%");
+            criteria.andTitleLike(SqlUtils.like(title));
         }
 
         if (export == 1) {

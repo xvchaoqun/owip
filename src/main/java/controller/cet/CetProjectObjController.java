@@ -27,7 +27,10 @@ import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.*;
+import sys.utils.DownloadUtils;
+import sys.utils.FileUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -665,9 +668,9 @@ public class CetProjectObjController extends CetBaseController {
         CetProjectObjViewExample example = new CetProjectObjViewExample();
         //example.setOrderByClause("create_time desc");
         if (StringUtils.isNotBlank(searchStr)) {
-            example.or().andProjectIdEqualTo(projectId).andUsernameLike(searchStr + "%");
-            example.or().andProjectIdEqualTo(projectId).andCodeLike(searchStr + "%");
-            example.or().andProjectIdEqualTo(projectId).andRealnameLike(searchStr + "%");
+            example.or().andProjectIdEqualTo(projectId).andUsernameLike(searchStr.trim() + "%");
+            example.or().andProjectIdEqualTo(projectId).andCodeLike(searchStr.trim() + "%");
+            example.or().andProjectIdEqualTo(projectId).andRealnameLike(searchStr.trim() + "%");
         } else {
             example.createCriteria().andProjectIdEqualTo(projectId);
         }

@@ -26,22 +26,12 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class CrsExpertController extends CrsBaseController {
@@ -261,9 +251,9 @@ public class CrsExpertController extends CrsBaseController {
         example.setOrderByClause("cadre_status asc, cadre_sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
-            CrsExpertViewExample.Criteria criteria = example.or().andUsernameLike("%" + searchStr + "%");
-            CrsExpertViewExample.Criteria criteria1 = example.or().andCodeLike("%" + searchStr + "%");
-            CrsExpertViewExample.Criteria criteria2 = example.or().andRealnameLike("%" + searchStr + "%");
+            CrsExpertViewExample.Criteria criteria = example.or().andUsernameLike(SqlUtils.like(searchStr));
+            CrsExpertViewExample.Criteria criteria1 = example.or().andCodeLike(SqlUtils.like(searchStr));
+            CrsExpertViewExample.Criteria criteria2 = example.or().andRealnameLike(SqlUtils.like(searchStr));
             if (status != null) {
                 criteria.andStatusEqualTo(status);
                 criteria1.andStatusEqualTo(status);

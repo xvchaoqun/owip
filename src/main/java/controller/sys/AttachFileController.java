@@ -69,10 +69,10 @@ public class AttachFileController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code.trim() + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (StringUtils.isNotBlank(filename)) {
-            criteria.andFilenameLike("%" + filename.trim() + "%");
+            criteria.andFilenameLike(SqlUtils.like(filename));
         }
 
         if (userId != null) {

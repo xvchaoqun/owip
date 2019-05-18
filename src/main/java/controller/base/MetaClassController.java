@@ -34,6 +34,7 @@ import sys.tool.tree.TreeNode;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,10 +85,10 @@ public class MetaClassController extends BaseController {
         }
 
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (export == 1) {
             if (ids != null && ids.length > 0)
@@ -278,7 +279,7 @@ public class MetaClassController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andNameLike("%" + searchStr + "%");
+            criteria.andNameLike(SqlUtils.like(searchStr));
         }
 
         long count = metaClassMapper.countByExample(example);

@@ -31,10 +31,7 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -126,10 +123,10 @@ public class BranchController extends BaseController {
         criteria.andIsDeletedEqualTo(cls == 2);
 
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -526,7 +523,7 @@ public class BranchController extends BaseController {
         criteria.andPartyIdEqualTo(partyId);
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andNameLike("%" + searchStr + "%");
+            criteria.andNameLike(SqlUtils.like(searchStr));
         }
 
         //===========权限

@@ -41,10 +41,7 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -870,7 +867,7 @@ public class MemberController extends MemberBaseController {
                             @RequestDateRange DateRange _growTime,
                             @RequestDateRange DateRange _positiveTime,
                             @RequestDateRange DateRange _outHandleTime,
-                            Byte source, // 账号来源
+                            Byte userSource, // 账号来源
 
                             /**学生党员**/
                             String grade,
@@ -968,10 +965,10 @@ public class MemberController extends MemberBaseController {
             criteria.andStudentTypeEqualTo(studentType);
         }
         if (StringUtils.isNotBlank(eduLevel)) {
-            criteria.andEduLevelLike("%" + eduLevel + "%");
+            criteria.andEduLevelLike(SqlUtils.like(eduLevel));
         }
         if (StringUtils.isNotBlank(eduType)) {
-            criteria.andEduTypeLike("%" + eduType + "%");
+            criteria.andEduTypeLike(SqlUtils.like(eduType));
         }
 
         if (StringUtils.isNotBlank(education)) {
@@ -1047,8 +1044,8 @@ public class MemberController extends MemberBaseController {
                 break;
         }
 
-        if (source != null) {
-            criteria.andSourceEqualTo(source);
+        if (userSource != null) {
+            criteria.andUserSourceEqualTo(userSource);
         }
 
         if (export == 1) {

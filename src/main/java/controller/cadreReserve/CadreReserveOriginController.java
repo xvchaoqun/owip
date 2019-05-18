@@ -23,10 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import persistence.cis.CisInspectObjMapper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -83,7 +80,7 @@ public class CadreReserveOriginController extends BaseController {
             criteria.andReserveTypeEqualTo(reserveType);
         }
         if (StringUtils.isNotBlank(recommendUnit)) {
-            criteria.andRecommendUnitLike("%" + recommendUnit + "%");
+            criteria.andRecommendUnitLike(SqlUtils.like(recommendUnit));
         }
         if (recommendDate!=null) {
         criteria.andRecommendDateGreaterThan(recommendDate);

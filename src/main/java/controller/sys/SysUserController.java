@@ -202,11 +202,11 @@ public class SysUserController extends BaseController {
         }
 
         if (StringUtils.isNotBlank(idcard)) {
-            criteria.andIdcardLike("%" + idcard.trim() + "%");
+            criteria.andIdcardLike(SqlUtils.like(idcard));
         }
 
         if (StringUtils.isNotBlank(realname)) {
-            criteria.andRealnameLike("%" + realname.trim() + "%");
+            criteria.andRealnameLike(SqlUtils.like(realname));
         }
         if (roleId != null) {
             criteria.andRoleIdsLike("%," + roleId + ",%");

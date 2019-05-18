@@ -37,6 +37,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -220,7 +221,7 @@ public class MemberStayController extends MemberBaseController {
             criteria.andIsBackEqualTo(isBack);
         }
         if (StringUtils.isNotBlank(country)) {
-            criteria.andCountryLike("%" + country + "%");
+            criteria.andCountryLike(SqlUtils.like(country));
         }
         if (_abroadTime.getStart()!=null) {
             criteria.andEndTimeGreaterThanOrEqualTo(_abroadTime.getStart());
@@ -245,7 +246,7 @@ public class MemberStayController extends MemberBaseController {
         }
 
         if (StringUtils.isNotBlank(mobile)) {
-            criteria.andMobileLike("%" + mobile + "%");
+            criteria.andMobileLike(SqlUtils.like(mobile));
         }
         if (cls == 1) {// 支部审核
             criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY)

@@ -1,12 +1,7 @@
 package controller.cet;
 
 import domain.base.ContentTpl;
-import domain.cet.CetProject;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetShortMsg;
-import domain.cet.CetShortMsgExample;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
+import domain.cet.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

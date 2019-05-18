@@ -108,7 +108,7 @@ public class LeaderController extends BaseController {
             criteria.andTypeIdEqualTo(typeId);
         }
         if (StringUtils.isNotBlank(job)) {
-            criteria.andJobLike("%" + job + "%");
+            criteria.andJobLike(SqlUtils.like(job));
         }
 
         if (export == 1) {

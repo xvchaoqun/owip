@@ -82,7 +82,7 @@ public class ScCommitteeVoteController extends ScBaseController {
         example.setOrderByClause("hold_date desc, seq asc, id asc");
 
         if(StringUtils.isNotBlank(name)){
-            criteria.andNameLike("%"+name+"%");
+            criteria.andNameLike("%"+name.trim()+"%");
         }
         if (topicId!=null) {
             criteria.andTopicIdEqualTo(topicId);

@@ -1,12 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.CadreInfo;
-import domain.cadre.CadreResearch;
-import domain.cadre.CadreResearchExample;
-import domain.cadre.CadreReward;
-import domain.cadre.CadreRewardExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,11 +25,7 @@ import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

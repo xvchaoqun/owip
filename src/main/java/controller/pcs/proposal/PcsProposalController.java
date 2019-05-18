@@ -2,15 +2,8 @@ package controller.pcs.proposal;
 
 import controller.pcs.PcsBaseController;
 import domain.base.MetaType;
-import domain.pcs.PcsConfig;
-import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
-import domain.pcs.PcsProposal;
-import domain.pcs.PcsProposalExample;
+import domain.pcs.*;
 import domain.pcs.PcsProposalExample.Criteria;
-import domain.pcs.PcsProposalFile;
-import domain.pcs.PcsProposalView;
-import domain.pcs.PcsProposalViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -32,22 +25,12 @@ import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.NumberUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class PcsProposalController extends PcsBaseController {
@@ -175,16 +158,16 @@ public class PcsProposalController extends PcsBaseController {
         }
 
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (StringUtils.isNotBlank(keywords)) {
-            criteria.andKeywordsLike("%" + keywords + "%");
+            criteria.andKeywordsLike(SqlUtils.like(keywords));
         }
 
         if (types != null) {
@@ -449,7 +432,7 @@ public class PcsProposalController extends PcsBaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andNameLike("%" + searchStr + "%");
+            criteria.andNameLike(SqlUtils.like(searchStr));
         }
 
         long count = pcsProposalMapper.countByExample(example);
@@ -493,7 +476,7 @@ public class PcsProposalController extends PcsBaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = "%" + searchStr + "%";
+        if (searchStr != null) searchStr = SqlUtils.like(searchStr);
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();

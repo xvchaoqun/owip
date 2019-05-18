@@ -92,7 +92,7 @@ public class OaTaskUserController extends OaBaseController {
             criteria.andUserIdEqualTo(userId);
         }
         if(StringUtils.isNotBlank(mobile)){
-            criteria.andMobileLike("%" + mobile + "%");
+            criteria.andMobileLike(SqlUtils.like(mobile));
         }
         if(status!=null){
             criteria.andStatusEqualTo(status);

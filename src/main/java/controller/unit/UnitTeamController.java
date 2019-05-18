@@ -107,7 +107,7 @@ public class UnitTeamController extends BaseController {
         }
         
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         
         if (export == 1) {
@@ -334,7 +334,7 @@ public class UnitTeamController extends BaseController {
         example.setOrderByClause("year desc");
         
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andNameLike("%" + searchStr + "%");
+            criteria.andNameLike(SqlUtils.like(searchStr));
         }
         
         long count = unitTeamMapper.countByExample(example);

@@ -111,7 +111,7 @@ public class CrpRecordController extends BaseController {
             criteria.andUnitIdEqualTo(unitId);
         }
         if(StringUtils.isNotBlank(unit)){
-            criteria.andUnitLike("%"+unit+"%");
+            criteria.andUnitLike("%"+unit.trim()+"%");
         }
 
         if (startDate != null) {

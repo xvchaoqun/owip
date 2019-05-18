@@ -32,10 +32,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -125,7 +122,7 @@ public class PartyMemberGroupController extends BaseController {
         }
 
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -400,7 +397,7 @@ public class PartyMemberGroupController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andNameLike("%" + searchStr + "%");
+            criteria.andNameLike(SqlUtils.like(searchStr));
         }
 
         int count = partyMemberGroupMapper.countByExample(example);

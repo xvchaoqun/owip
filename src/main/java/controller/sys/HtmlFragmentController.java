@@ -26,16 +26,12 @@ import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/6/17.
@@ -78,10 +74,10 @@ public class HtmlFragmentController extends BaseController {
         }
 
         if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleLike("%" + title + "%");
+            criteria.andTitleLike(SqlUtils.like(title));
         }
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
 
         int count = htmlFragmentMapper.countByExample(example);
@@ -228,8 +224,8 @@ public class HtmlFragmentController extends BaseController {
         example.setOrderByClause(" sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andTitleLike("%" + searchStr + "%");
-            example.or(example.createCriteria().andRemarkLike("%" + searchStr + "%"));
+            criteria.andTitleLike(SqlUtils.like(searchStr));
+            example.or(example.createCriteria().andRemarkLike(SqlUtils.like(searchStr)));
         }
 
         int count = htmlFragmentMapper.countByExample(example);

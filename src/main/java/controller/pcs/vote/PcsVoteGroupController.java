@@ -1,11 +1,7 @@
 package controller.pcs.vote;
 
 import controller.pcs.PcsBaseController;
-import domain.pcs.PcsConfig;
-import domain.pcs.PcsVoteCandidate;
-import domain.pcs.PcsVoteCandidateExample;
-import domain.pcs.PcsVoteGroup;
-import domain.pcs.PcsVoteGroupExample;
+import domain.pcs.*;
 import domain.pcs.PcsVoteGroupExample.Criteria;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -30,6 +26,7 @@ import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,7 +73,7 @@ public class PcsVoteGroupController extends PcsBaseController {
         }
 
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
 
         long count = pcsVoteGroupMapper.countByExample(example);

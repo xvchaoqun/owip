@@ -24,10 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -71,16 +68,16 @@ public class PmdSpecialUserController extends PmdBaseController {
         example.setOrderByClause("id desc");
 
         if (StringUtils.isNotBlank(type)) {
-            criteria.andTypeLike("%" + type + "%");
+            criteria.andTypeLike(SqlUtils.like(type));
         }
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (StringUtils.isNotBlank(realname)) {
-            criteria.andRealnameLike("%" + realname + "%");
+            criteria.andRealnameLike(SqlUtils.like(realname));
         }
         if (StringUtils.isNotBlank(unit)) {
-            criteria.andUnitLike("%" + unit + "%");
+            criteria.andUnitLike(SqlUtils.like(unit));
         }
 
         if (export == 1) {

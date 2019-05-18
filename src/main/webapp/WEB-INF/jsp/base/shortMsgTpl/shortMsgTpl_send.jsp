@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-2 control-label"><span class="star">*</span>手机号码</label>
 				<div class="col-xs-5" style="width: 225px;">
-                    <input required class="form-control" type="text" name="mobile">
+                    <input required class="form-control mobile" type="text" name="mobile">
 				</div>
 			</div>
 			</c:if>

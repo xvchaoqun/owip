@@ -113,12 +113,14 @@ public class OwConstants {
     }
     // 组织员状态
     public final static byte OW_ORGANIZER_STATUS_NOW = 1;
-    public final static byte OW_ORGANIZER_STATUS_HISTORY = 2;
+    public final static byte OW_ORGANIZER_STATUS_LEAVE = 2;
+    public final static byte OW_ORGANIZER_STATUS_HISTORY = 3;
     public final static Map<Byte, String> OW_ORGANIZER_STATUS_MAP = new LinkedHashMap<>();
 
     static {
         OW_ORGANIZER_STATUS_MAP.put(OW_ORGANIZER_STATUS_NOW, "现任");
-        OW_ORGANIZER_STATUS_MAP.put(OW_ORGANIZER_STATUS_HISTORY, "离任");
+        OW_ORGANIZER_STATUS_MAP.put(OW_ORGANIZER_STATUS_LEAVE, "离任");
+        OW_ORGANIZER_STATUS_MAP.put(OW_ORGANIZER_STATUS_HISTORY, "历任");
     }
     // 组织关系状态
     public final static byte OW_OR_STATUS_OUT = 1;

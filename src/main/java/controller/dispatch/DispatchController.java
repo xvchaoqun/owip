@@ -1,12 +1,8 @@
 package controller.dispatch;
 
 import controller.global.OpException;
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchExample;
+import domain.dispatch.*;
 import domain.dispatch.DispatchExample.Criteria;
-import domain.dispatch.DispatchType;
-import domain.dispatch.DispatchView;
-import domain.dispatch.DispatchViewExample;
 import domain.sc.scDispatch.ScDispatchView;
 import mixin.DispatchMixin;
 import mixin.MixinUtils;
@@ -29,12 +25,7 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentTypeUtils;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,13 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class DispatchController extends DispatchBaseController {

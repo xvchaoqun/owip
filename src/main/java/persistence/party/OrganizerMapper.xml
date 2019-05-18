@@ -8,10 +8,23 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="units" jdbcType="VARCHAR" property="units" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="appoint_date" jdbcType="DATE" property="appointDate" />
     <result column="dismiss_date" jdbcType="DATE" property="dismissDate" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="authorized_type" jdbcType="VARCHAR" property="authorizedType" />
+    <result column="staff_type" jdbcType="VARCHAR" property="staffType" />
+    <result column="staff_status" jdbcType="VARCHAR" property="staffStatus" />
+    <result column="post_class" jdbcType="VARCHAR" property="postClass" />
+    <result column="main_post_level" jdbcType="VARCHAR" property="mainPostLevel" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
+    <result column="is_retire" jdbcType="BIT" property="isRetire" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,8 +86,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, user_id, party_id, units, appoint_date, dismiss_date, status, sort_order, 
-    remark
+    id, year, type, user_id, party_id, units, grow_time, appoint_date, dismiss_date, 
+    unit, unit_id, post, authorized_type, staff_type, staff_status, post_class, main_post_level, 
+    pro_post, is_retire, status, sort_order, add_time, add_user_id, remark
   </sql>
   <select id="selectByExample" parameterType="domain.party.OrganizerExample" resultMap="BaseResultMap">
     select
@@ -107,21 +121,32 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.party.Organizer">
-    insert into ow_organizer (id, year, type, 
-      user_id, party_id, units, 
-      appoint_date, dismiss_date, status, 
-      sort_order, remark)
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{units,jdbcType=VARCHAR}, 
-      #{appointDate,jdbcType=DATE}, #{dismissDate,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ow_organizer (year, type, user_id, 
+      party_id, units, grow_time, 
+      appoint_date, dismiss_date, unit, 
+      unit_id, post, authorized_type, 
+      staff_type, staff_status, post_class, 
+      main_post_level, pro_post, is_retire, 
+      status, sort_order, add_time, 
+      add_user_id, remark)
+    values (#{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, 
+      #{partyId,jdbcType=INTEGER}, #{units,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, 
+      #{appointDate,jdbcType=DATE}, #{dismissDate,jdbcType=DATE}, #{unit,jdbcType=VARCHAR}, 
+      #{unitId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{authorizedType,jdbcType=VARCHAR}, 
+      #{staffType,jdbcType=VARCHAR}, #{staffStatus,jdbcType=VARCHAR}, #{postClass,jdbcType=VARCHAR}, 
+      #{mainPostLevel,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, 
+      #{status,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{addUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.party.Organizer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into ow_organizer
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="year != null">
         year,
       </if>
@@ -137,11 +162,44 @@
       <if test="units != null">
         units,
       </if>
+      <if test="growTime != null">
+        grow_time,
+      </if>
       <if test="appointDate != null">
         appoint_date,
       </if>
       <if test="dismissDate != null">
         dismiss_date,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="authorizedType != null">
+        authorized_type,
+      </if>
+      <if test="staffType != null">
+        staff_type,
+      </if>
+      <if test="staffStatus != null">
+        staff_status,
+      </if>
+      <if test="postClass != null">
+        post_class,
+      </if>
+      <if test="mainPostLevel != null">
+        main_post_level,
+      </if>
+      <if test="proPost != null">
+        pro_post,
+      </if>
+      <if test="isRetire != null">
+        is_retire,
       </if>
       <if test="status != null">
         status,
@@ -149,14 +207,17 @@
       <if test="sortOrder != null">
         sort_order,
       </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="addUserId != null">
+        add_user_id,
+      </if>
       <if test="remark != null">
         remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
@@ -172,17 +233,56 @@
       <if test="units != null">
         #{units,jdbcType=VARCHAR},
       </if>
+      <if test="growTime != null">
+        #{growTime,jdbcType=DATE},
+      </if>
       <if test="appointDate != null">
         #{appointDate,jdbcType=DATE},
       </if>
       <if test="dismissDate != null">
         #{dismissDate,jdbcType=DATE},
       </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizedType != null">
+        #{authorizedType,jdbcType=VARCHAR},
+      </if>
+      <if test="staffType != null">
+        #{staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="staffStatus != null">
+        #{staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="postClass != null">
+        #{postClass,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPostLevel != null">
+        #{mainPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="proPost != null">
+        #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="isRetire != null">
+        #{isRetire,jdbcType=BIT},
+      </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserId != null">
+        #{addUserId,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -216,17 +316,56 @@
       <if test="record.units != null">
         units = #{record.units,jdbcType=VARCHAR},
       </if>
+      <if test="record.growTime != null">
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
       <if test="record.appointDate != null">
         appoint_date = #{record.appointDate,jdbcType=DATE},
       </if>
       <if test="record.dismissDate != null">
         dismiss_date = #{record.dismissDate,jdbcType=DATE},
       </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.post != null">
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorizedType != null">
+        authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffType != null">
+        staff_type = #{record.staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffStatus != null">
+        staff_status = #{record.staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postClass != null">
+        post_class = #{record.postClass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainPostLevel != null">
+        main_post_level = #{record.mainPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPost != null">
+        pro_post = #{record.proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRetire != null">
+        is_retire = #{record.isRetire,jdbcType=BIT},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.addUserId != null">
+        add_user_id = #{record.addUserId,jdbcType=INTEGER},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -244,10 +383,23 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       units = #{record.units,jdbcType=VARCHAR},
+      grow_time = #{record.growTime,jdbcType=DATE},
       appoint_date = #{record.appointDate,jdbcType=DATE},
       dismiss_date = #{record.dismissDate,jdbcType=DATE},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      post = #{record.post,jdbcType=VARCHAR},
+      authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
+      staff_type = #{record.staffType,jdbcType=VARCHAR},
+      staff_status = #{record.staffStatus,jdbcType=VARCHAR},
+      post_class = #{record.postClass,jdbcType=VARCHAR},
+      main_post_level = #{record.mainPostLevel,jdbcType=VARCHAR},
+      pro_post = #{record.proPost,jdbcType=VARCHAR},
+      is_retire = #{record.isRetire,jdbcType=BIT},
       status = #{record.status,jdbcType=TINYINT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      add_user_id = #{record.addUserId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -271,17 +423,56 @@
       <if test="units != null">
         units = #{units,jdbcType=VARCHAR},
       </if>
+      <if test="growTime != null">
+        grow_time = #{growTime,jdbcType=DATE},
+      </if>
       <if test="appointDate != null">
         appoint_date = #{appointDate,jdbcType=DATE},
       </if>
       <if test="dismissDate != null">
         dismiss_date = #{dismissDate,jdbcType=DATE},
       </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizedType != null">
+        authorized_type = #{authorizedType,jdbcType=VARCHAR},
+      </if>
+      <if test="staffType != null">
+        staff_type = #{staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="staffStatus != null">
+        staff_status = #{staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="postClass != null">
+        post_class = #{postClass,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPostLevel != null">
+        main_post_level = #{mainPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="proPost != null">
+        pro_post = #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="isRetire != null">
+        is_retire = #{isRetire,jdbcType=BIT},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserId != null">
+        add_user_id = #{addUserId,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -296,10 +487,23 @@
       user_id = #{userId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       units = #{units,jdbcType=VARCHAR},
+      grow_time = #{growTime,jdbcType=DATE},
       appoint_date = #{appointDate,jdbcType=DATE},
       dismiss_date = #{dismissDate,jdbcType=DATE},
+      unit = #{unit,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      post = #{post,jdbcType=VARCHAR},
+      authorized_type = #{authorizedType,jdbcType=VARCHAR},
+      staff_type = #{staffType,jdbcType=VARCHAR},
+      staff_status = #{staffStatus,jdbcType=VARCHAR},
+      post_class = #{postClass,jdbcType=VARCHAR},
+      main_post_level = #{mainPostLevel,jdbcType=VARCHAR},
+      pro_post = #{proPost,jdbcType=VARCHAR},
+      is_retire = #{isRetire,jdbcType=BIT},
       status = #{status,jdbcType=TINYINT},
       sort_order = #{sortOrder,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      add_user_id = #{addUserId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

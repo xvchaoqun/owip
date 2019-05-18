@@ -120,7 +120,7 @@ public class CacheService extends BaseMapper {
         int count = 0;
         String[] keys = countCacheKeys.split(",");
         for (String key : keys) {
-            if(!NumberUtils.isNumber(key)) continue;
+            if(!NumberUtils.isCreatable(key)) continue;
 
             Integer _count = (Integer)countCache.get(Byte.valueOf(key));
             if(_count!=null && _count>0)

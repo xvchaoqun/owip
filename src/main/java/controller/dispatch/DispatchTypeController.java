@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,10 +62,10 @@ public class DispatchTypeController extends DispatchBaseController {
             criteria.andYearEqualTo(year);
         }
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (StringUtils.isNotBlank(attr)) {
-            criteria.andAttrLike("%" + attr + "%");
+            criteria.andAttrLike(SqlUtils.like(attr));
         }
 
         if (export == 1) {
@@ -208,7 +205,7 @@ public class DispatchTypeController extends DispatchBaseController {
         example.setOrderByClause("year desc, sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         int count = dispatchTypeMapper.countByExample(example);

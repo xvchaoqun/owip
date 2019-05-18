@@ -1038,7 +1038,7 @@ public class PassportController extends AbroadBaseController {
         example.setOrderByClause("create_time desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         int count = passportMapper.countByExample(example);

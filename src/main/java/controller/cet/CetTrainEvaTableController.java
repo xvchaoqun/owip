@@ -18,20 +18,12 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -72,7 +64,7 @@ public class CetTrainEvaTableController extends CetBaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
 
         if (export == 1) {
@@ -218,7 +210,7 @@ public class CetTrainEvaTableController extends CetBaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         int count = (int) cetTrainEvaTableMapper.countByExample(example);

@@ -32,6 +32,7 @@ import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -131,7 +132,7 @@ public class MemberInflowOutController extends MemberBaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
         if (StringUtils.isNotBlank(outUnit)) {
-            criteria.andOutUnitLike("%" + outUnit + "%");
+            criteria.andOutUnitLike(SqlUtils.like(outUnit));
         }
         if (outLocation != null) {
             criteria.andOutLocationEqualTo(outLocation);
@@ -150,13 +151,13 @@ public class MemberInflowOutController extends MemberBaseController {
             criteria.andProvinceEqualTo(province);
         }
         if (StringUtils.isNotBlank(flowReason)) {
-            criteria.andFlowReasonLike("%" + flowReason + "%");
+            criteria.andFlowReasonLike(SqlUtils.like(flowReason));
         }
         if(hasPapers!=null){
             criteria.andHasPapersEqualTo(hasPapers);
         }
         if (StringUtils.isNotBlank(orLocation)) {
-            criteria.andOrLocationLike("%" + orLocation + "%");
+            criteria.andOrLocationLike(SqlUtils.like(orLocation));
         }
         if (_flowTime.getStart()!=null) {
             criteria.andFlowTimeGreaterThanOrEqualTo(_flowTime.getStart());

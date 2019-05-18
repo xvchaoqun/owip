@@ -68,7 +68,7 @@ public class CommonController extends BaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", uv.getId() + "");
                 option.put("text", uv.getRealname());
-
+                option.put("del", uv.getLocked());
                 option.put("username", uv.getUsername());
                 option.put("code", uv.getCode());
                 option.put("locked", uv.getLocked());
@@ -134,7 +134,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = searchStr + "%";
+        if (searchStr != null) searchStr = searchStr.trim() + "%";
 
         Set<Byte> cadreStatusSet = new HashSet<>();
         if (status != null) {
@@ -267,7 +267,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = searchStr + "%";
+        if (searchStr != null) searchStr = searchStr.trim() + "%";
 
         int count = iCadreMapper.countCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null,null);
         if ((pageNo - 1) * pageSize >= count) {
@@ -320,9 +320,9 @@ public class CommonController extends BaseController {
         CadreReserveViewExample example = new CadreReserveViewExample();
         example.setOrderByClause("reserve_sort_order desc");
         if (StringUtils.isNotBlank(searchStr)) {
-            CadreReserveViewExample.Criteria criteria1 = example.or().andUsernameLike( searchStr + "%");
-            CadreReserveViewExample.Criteria criteria2 = example.or().andCodeLike(searchStr + "%");
-            CadreReserveViewExample.Criteria criteria3 = example.or().andRealnameLike( searchStr + "%");
+            CadreReserveViewExample.Criteria criteria1 = example.or().andUsernameLike( searchStr.trim() + "%");
+            CadreReserveViewExample.Criteria criteria2 = example.or().andCodeLike(searchStr.trim() + "%");
+            CadreReserveViewExample.Criteria criteria3 = example.or().andRealnameLike( searchStr.trim() + "%");
             if (reserveStatus != null) {
                 criteria1.andReserveStatusEqualTo(reserveStatus);
                 criteria2.andReserveStatusEqualTo(reserveStatus);
@@ -393,7 +393,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = searchStr + "%";
+        if (searchStr != null) searchStr = searchStr.trim() + "%";
 
         boolean addPermits = false;
         List<Integer> adminPartyIdList = null;
@@ -469,7 +469,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = searchStr + "%";
+        if (searchStr != null) searchStr = searchStr.trim() + "%";
 
         Subject subject = SecurityUtils.getSubject();
         boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);

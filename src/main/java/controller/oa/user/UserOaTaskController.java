@@ -17,6 +17,7 @@ import shiro.ShiroHelper;
 import sys.constants.OaConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -79,7 +80,7 @@ public class UserOaTaskController extends OaBaseController {
         }
 
         if (StringUtils.isNotBlank(taskName)) {
-            criteria.andTaskNameLike("%" + taskName + "%");
+            criteria.andTaskNameLike(SqlUtils.like(taskName));
         }
 
         long count = oaTaskUserViewMapper.countByExample(example);

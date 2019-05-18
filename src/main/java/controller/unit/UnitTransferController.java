@@ -26,20 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class UnitTransferController extends BaseController {
@@ -116,7 +108,7 @@ public class UnitTransferController extends BaseController {
             criteria.andUnitIdEqualTo(unitId);
         }
         if (StringUtils.isNotBlank(subject)) {
-            criteria.andSubjectLike("%" + subject + "%");
+            criteria.andSubjectLike(SqlUtils.like(subject));
         }
 
         if (export == 1) {
@@ -282,7 +274,7 @@ public class UnitTransferController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andSubjectLike("%" + searchStr + "%");
+            criteria.andSubjectLike(SqlUtils.like(searchStr));
         }
 
         int count = unitTransferMapper.countByExample(example);

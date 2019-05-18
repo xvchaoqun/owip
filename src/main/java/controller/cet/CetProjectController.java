@@ -98,7 +98,7 @@ public class CetProjectController extends CetBaseController {
             criteria.andYearEqualTo(year);
         }
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
 
         if (export == 1) {
@@ -311,7 +311,7 @@ public class CetProjectController extends CetBaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         long count = cetProjectMapper.countByExample(example);

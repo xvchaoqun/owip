@@ -16,7 +16,7 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <c:set var="_query" value="${not empty param.permission}"/>
+                    <c:set var="_query" value="${not empty param.name||not empty param.permission}"/>
                     <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                         <div class="widget-header">
                             <h4 class="widget-title">搜索</h4>
@@ -29,6 +29,12 @@
                         <div class="widget-body">
                             <div class="widget-main no-padding">
                                 <form class="form-inline search-form" id="searchForm">
+                                    <div class="form-group">
+                                        <label>节点名称</label>
+                                        <input class="form-control search-query search-input"
+                                               name="name" type="text"
+                                               value="${param.name}" placeholder="请输入">
+                                    </div>
                                     <div class="form-group">
                                         <label>权限字符串</label>
                                         <input class="form-control search-query search-input"

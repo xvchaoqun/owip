@@ -1,6 +1,5 @@
 package controller.analysis;
 
-import persistence.member.common.MemberStatByPartyBean;
 import controller.BaseController;
 import domain.party.Party;
 import org.apache.commons.lang.StringUtils;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import persistence.member.common.MemberStatByPartyBean;
 import sys.constants.MemberConstants;
 
 import java.util.ArrayList;

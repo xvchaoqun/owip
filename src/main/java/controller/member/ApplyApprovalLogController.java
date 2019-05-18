@@ -1,15 +1,6 @@
 package controller.member;
 
-import domain.member.ApplyApprovalLog;
-import domain.member.ApplyApprovalLogExample;
-import domain.member.MemberAbroad;
-import domain.member.MemberApply;
-import domain.member.MemberIn;
-import domain.member.MemberInflow;
-import domain.member.MemberOut;
-import domain.member.MemberOutflow;
-import domain.member.MemberReturn;
-import domain.member.MemberTransfer;
+import domain.member.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +15,7 @@ import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -160,7 +152,7 @@ public class ApplyApprovalLogController extends MemberBaseController {
             criteria.andStageEqualTo(stage);
         }
         if (StringUtils.isNotBlank(remark)) {
-            criteria.andRemarkLike("%" + remark + "%");
+            criteria.andRemarkLike(SqlUtils.like(remark));
         }
         if(userId!=null) {
             criteria.andUserIdEqualTo(userId);

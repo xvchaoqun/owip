@@ -4,11 +4,7 @@ import controller.cla.ClaBaseController;
 import controller.global.OpException;
 import domain.base.Country;
 import domain.cadre.CadreView;
-import domain.cla.ClaApply;
-import domain.cla.ClaApplyExample;
-import domain.cla.ClaApplyFile;
-import domain.cla.ClaApplyFileExample;
-import domain.cla.ClaApprovalLogExample;
+import domain.cla.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -43,12 +39,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user/cla")

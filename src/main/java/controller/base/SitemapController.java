@@ -23,6 +23,7 @@ import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -140,7 +141,7 @@ public class SitemapController extends BaseController {
         example.setOrderByClause(" sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andTitleLike("%" + searchStr + "%");
+            criteria.andTitleLike(SqlUtils.like(searchStr));
         }
 
         int count = sitemapMapper.countByExample(example);

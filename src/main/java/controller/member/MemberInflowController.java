@@ -32,10 +32,7 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -139,13 +136,13 @@ public class MemberInflowController extends MemberBaseController {
             criteria.andProvinceEqualTo(province);
         }
         if (StringUtils.isNotBlank(flowReason)) {
-            criteria.andFlowReasonLike("%" + flowReason + "%");
+            criteria.andFlowReasonLike(SqlUtils.like(flowReason));
         }
         if(hasPapers!=null){
             criteria.andHasPapersEqualTo(hasPapers);
         }
         if (StringUtils.isNotBlank(orLocation)) {
-            criteria.andOrLocationLike("%" + orLocation + "%");
+            criteria.andOrLocationLike(SqlUtils.like(orLocation));
         }
         if (_flowTime.getStart()!=null) {
             criteria.andFlowTimeGreaterThanOrEqualTo(_flowTime.getStart());

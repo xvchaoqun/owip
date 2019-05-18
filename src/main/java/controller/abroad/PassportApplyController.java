@@ -1,10 +1,6 @@
 package controller.abroad;
 
-import domain.abroad.Passport;
-import domain.abroad.PassportApply;
-import domain.abroad.PassportApplyExample;
-import domain.abroad.PassportApplyView;
-import domain.abroad.PassportApplyViewExample;
+import domain.abroad.*;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
@@ -31,12 +27,7 @@ import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

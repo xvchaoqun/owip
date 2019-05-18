@@ -108,7 +108,7 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
                 if(!NumberUtils.isDigits(_courseNum)){
                     throw new OpException("导入失败，第{0}行的学员的课程数有误。", (i+1));
                 }
-                if(!NumberUtils.isNumber(_period)){
+                if(!NumberUtils.isCreatable(_period)){
                     throw new OpException("导入失败，第{0}行的学员的学时数有误。", (i+1));
                 }
 
@@ -204,7 +204,7 @@ public class CetPlanCourseObjResultService extends CetBaseMapper {
             if(!NumberUtils.isDigits(_courseNum)){
                 throw new OpException("课程数有误。");
             }
-            if(!NumberUtils.isNumber(_period)){
+            if(!NumberUtils.isCreatable(_period)){
                 throw new OpException("学时数有误。");
             }
 

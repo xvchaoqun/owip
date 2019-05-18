@@ -1516,6 +1516,66 @@ public class MemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserSourceIsNull() {
+            addCriterion("user_source is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceIsNotNull() {
+            addCriterion("user_source is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceEqualTo(Byte value) {
+            addCriterion("user_source =", value, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceNotEqualTo(Byte value) {
+            addCriterion("user_source <>", value, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceGreaterThan(Byte value) {
+            addCriterion("user_source >", value, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceGreaterThanOrEqualTo(Byte value) {
+            addCriterion("user_source >=", value, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceLessThan(Byte value) {
+            addCriterion("user_source <", value, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceLessThanOrEqualTo(Byte value) {
+            addCriterion("user_source <=", value, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceIn(List<Byte> values) {
+            addCriterion("user_source in", values, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceNotIn(List<Byte> values) {
+            addCriterion("user_source not in", values, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceBetween(Byte value1, Byte value2) {
+            addCriterion("user_source between", value1, value2, "userSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserSourceNotBetween(Byte value1, Byte value2) {
+            addCriterion("user_source not between", value1, value2, "userSource");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;

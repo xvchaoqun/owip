@@ -14,7 +14,7 @@
              ||not empty param.eduLevel ||not empty param.eduType
              ||not empty param.education ||not empty param.postClass
              ||not empty param._retireTime ||not empty param.isHonorRetire
-             ||not empty param.politicalStatus||not empty param.source
+             ||not empty param.politicalStatus||not empty param.userSource
                 ||not empty param._growTime ||not empty param._positiveTime
                 ||not empty param._outHandleTime || not empty param.partyId }"/>
             <div class="tabbable">
@@ -344,7 +344,7 @@
 
                                         <div class="form-group">
                                             <label>账号来源</label>
-                                            <select name="source" data-width="120" data-placeholder="请选择"
+                                            <select name="userSource" data-width="120" data-placeholder="请选择"
                                                     data-rel="select2">
                                                 <option></option>
                                                 <c:forEach items="<%=SystemConstants.USER_SOURCE_MAP%>"
@@ -353,7 +353,7 @@
                                                 </c:forEach>
                                             </select>
                                             <script>
-                                                $("#searchForm select[name=source]").val('${param.source}');
+                                                $("#searchForm select[name=userSource]").val('${param.userSource}');
                                             </script>
                                         </div>
                                         <div class="clearfix form-actions center">

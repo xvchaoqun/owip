@@ -20,13 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,10 +68,10 @@ public class SysPropertyController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
 
         if (export == 1) {
@@ -113,6 +111,8 @@ public class SysPropertyController extends BaseController {
         if (sysPropertyService.idDuplicate(id, record.getCode())) {
             return failed("添加重复");
         }
+
+        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
 
         if(record.getType()== SystemConstants.SYS_PROPERTY_TYPE_BOOL){
             record.setContent(BooleanUtils.toBoolean(record.getContent())?"true":"false");
@@ -220,7 +220,7 @@ public class SysPropertyController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         long count = sysPropertyMapper.countByExample(example);

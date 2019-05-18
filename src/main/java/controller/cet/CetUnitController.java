@@ -20,20 +20,12 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -214,7 +206,7 @@ public class CetUnitController extends CetBaseController {
         example.setOrderByClause("unit_status asc, sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andUnitNameLike("%" + searchStr + "%");
+            criteria.andUnitNameLike(SqlUtils.like(searchStr));
         }
 
         long count = cetUnitViewMapper.countByExample(example);

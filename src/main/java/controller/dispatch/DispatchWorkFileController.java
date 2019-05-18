@@ -28,13 +28,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class DispatchWorkFileController extends DispatchBaseController {
@@ -152,7 +146,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     public Map do_dispatchWorkFile_search(String fileName) {
 
         DispatchWorkFileExample example = new DispatchWorkFileExample();
-        example.createCriteria().andFileNameLike('%'+fileName+"%");
+        example.createCriteria().andFileNameLike('%'+fileName.trim()+"%");
         example.setOrderByClause("type asc, status desc, sort_order desc");
         List<DispatchWorkFile> dispatchWorkFiles = dispatchWorkFileMapper.selectByExample(example);
 
@@ -371,7 +365,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andFileNameLike("%"+searchStr+"%");
+            criteria.andFileNameLike("%"+searchStr.trim()+"%");
         }
 
         long count = dispatchWorkFileMapper.countByExample(example);

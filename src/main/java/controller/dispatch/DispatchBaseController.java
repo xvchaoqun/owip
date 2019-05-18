@@ -2,13 +2,7 @@ package controller.dispatch;
 
 import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.dispatch.DispatchCadreRelateService;
-import service.dispatch.DispatchCadreService;
-import service.dispatch.DispatchService;
-import service.dispatch.DispatchTypeService;
-import service.dispatch.DispatchUnitRelateService;
-import service.dispatch.DispatchUnitService;
-import service.dispatch.DispatchWorkFileService;
+import service.dispatch.*;
 
 public class DispatchBaseController extends BaseController {
 

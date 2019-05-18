@@ -30,10 +30,7 @@ import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,7 +76,7 @@ public class CetExpertController extends CetBaseController {
             criteria.andTypeEqualTo(type);
         }
         if (StringUtils.isNotBlank(realname)) {
-            criteria.andRealnameLike("%" + realname + "%");
+            criteria.andRealnameLike(SqlUtils.like(realname));
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -321,7 +318,7 @@ public class CetExpertController extends CetBaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andRealnameLike("%" + searchStr + "%");
+            criteria.andRealnameLike(SqlUtils.like(searchStr));
         }
 
         long count = cetExpertMapper.countByExample(example);

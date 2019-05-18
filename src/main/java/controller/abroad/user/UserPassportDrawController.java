@@ -1,14 +1,8 @@
 package controller.abroad.user;
 
 import controller.abroad.AbroadBaseController;
-import domain.abroad.ApplySelf;
-import domain.abroad.ApplySelfExample;
-import domain.abroad.Passport;
-import domain.abroad.PassportDraw;
-import domain.abroad.PassportDrawExample;
+import domain.abroad.*;
 import domain.abroad.PassportDrawExample.Criteria;
-import domain.abroad.PassportDrawFile;
-import domain.abroad.PassportDrawFileExample;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
@@ -35,22 +29,12 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user/abroad")

@@ -295,7 +295,7 @@ public class CetUnitProjectController extends CetBaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andProjectNameLike("%"+searchStr+"%");
+            criteria.andProjectNameLike("%"+searchStr.trim()+"%");
         }
 
         long count = cetUnitProjectMapper.countByExample(example);

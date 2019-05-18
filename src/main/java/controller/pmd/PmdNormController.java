@@ -63,7 +63,7 @@ public class PmdNormController extends PmdBaseController {
         example.setOrderByClause("sort_order asc");
 
         if (name != null) {
-            criteria.andNameLike("%"+name+"%");
+            criteria.andNameLike("%"+name.trim()+"%");
         }
 
         long count = pmdNormMapper.countByExample(example);

@@ -23,7 +23,7 @@
                                         <button id="changeBtn" class="jqOpenViewBtn tooltip-warning btn btn-warning btn-sm"
                                                 data-url="${ctx}/applySn_change"
                                                 data-rel="tooltip" data-placement="top" title="原编码作废，新分配编码"
-                                                data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
+                                                data-grid-id="#jqGrid"><i class="fa fa-recycle"></i>
                                             换领志愿书
                                         </button>
                                     </shiro:hasPermission>
@@ -31,7 +31,7 @@
                                         <button id="exchangeBtn" class="jqOpenViewBtn tooltip-primary btn btn-primary btn-sm"
                                                 data-url="${ctx}/applySn_exchange"
                                                 data-rel="tooltip" data-placement="top" title="对已分配的编码进行调换"
-                                                data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
+                                                data-grid-id="#jqGrid"><i class="fa fa-retweet"></i>
                                             调换编码
                                         </button>
                                     </shiro:hasPermission>

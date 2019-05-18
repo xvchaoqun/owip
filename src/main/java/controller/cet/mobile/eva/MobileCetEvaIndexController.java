@@ -1,11 +1,7 @@
 package controller.cet.mobile.eva;
 
 import controller.cet.CetBaseController;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainInspector;
-import domain.cet.CetTrainInspectorCourse;
-import domain.cet.CetTraineeView;
+import domain.cet.*;
 import domain.sys.SysUserView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

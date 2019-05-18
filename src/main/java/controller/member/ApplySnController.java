@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -171,7 +168,7 @@ public class ApplySnController extends MemberBaseController {
         }
 
         if (StringUtils.isNotBlank(displaySn)) {
-            criteria.andDisplaySnLike("%" + displaySn + "%");
+            criteria.andDisplaySnLike(SqlUtils.like(displaySn));
         }
 
         if (isUsed != null) {
@@ -265,7 +262,7 @@ public class ApplySnController extends MemberBaseController {
                 .andIsUsedEqualTo(BooleanUtils.isTrue(isUsed))
                 .andIsAbolishedEqualTo(false);
         if (searchStr != null) {
-            criteria.andDisplaySnLike("%" + searchStr + "%");
+            criteria.andDisplaySnLike(SqlUtils.like(searchStr));
         }
         int count = (int) applySnMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

@@ -443,7 +443,7 @@ public class MemberApplyController extends MemberBaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
         if(StringUtils.isNotBlank(applySn)){
-            criteria.andApplySnLike("%"+applySn+"%");
+            criteria.andApplySnLike("%"+applySn.trim()+"%");
         }
 
         if (export == 1) {

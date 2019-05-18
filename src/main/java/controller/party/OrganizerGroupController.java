@@ -1,6 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.party.Organizer;
 import domain.party.OrganizerGroup;
 import domain.party.OrganizerGroupExample;
 import domain.party.OrganizerGroupExample.Criteria;
@@ -18,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +33,20 @@ public class OrganizerGroupController extends BaseController {
 
     @RequiresPermissions("organizerGroup:list")
     @RequestMapping("/organizerGroup")
-    public String organizerGroup() {
+    public String organizerGroup(@RequestParam(required = false, defaultValue = "1") Byte cls,
+                                 Integer userId, Integer unitId,
+                                 byte type, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        modelMap.put("type", type);
+
+        if (userId != null) {
+            Organizer organizer = organizerService.get(type, userId);
+            modelMap.put("organizer", organizer);
+        }
+        if (unitId != null) {
+            modelMap.put("unit", unitService.findAll().get(unitId));
+        }
 
         return "party/organizerGroup/organizerGroup_page";
     }
@@ -45,11 +56,11 @@ public class OrganizerGroupController extends BaseController {
     @ResponseBody
     public void organizerGroup_data(HttpServletResponse response,
                                     String name,
-                                    String organizers,
-                                    String units,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                    Integer userId,
+                                    Integer unitId,
+                                    @RequestParam(required = false, defaultValue = "0") int export,
+                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -64,17 +75,28 @@ public class OrganizerGroupController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
-        if (StringUtils.isNotBlank(organizers)) {
-            criteria.andOrganizersLike("%" + organizers + "%");
+
+        if (userId != null) {
+            List<Integer> organizerGroupIds = iPartyMapper.getOrganizerGroupIds(userId);
+            if (organizerGroupIds.size() > 0) {
+                criteria.andIdIn(organizerGroupIds);
+            }else{
+                criteria.andIdIsNull();
+            }
         }
-        if (StringUtils.isNotBlank(units)) {
-            criteria.andUnitsLike("%" + units + "%");
+        if (unitId != null) {
+            List<Integer> unitGroupIds = iPartyMapper.getUnitGroupIds(unitId);
+            if (unitGroupIds.size() > 0) {
+                criteria.andIdIn(unitGroupIds);
+            }else{
+                criteria.andIdIsNull();
+            }
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             organizerGroup_export(example, response);
             return;
@@ -85,7 +107,7 @@ public class OrganizerGroupController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<OrganizerGroup> records= organizerGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<OrganizerGroup> records = organizerGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -108,13 +130,13 @@ public class OrganizerGroupController extends BaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            
+
             organizerGroupService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_PARTY, "添加校级组织员分组：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_PARTY, "添加校级组织员分组：{0}", record.getId()));
         } else {
 
             organizerGroupService.updateByPrimaryKeySelective(record);
-            logger.info(log( LogConstants.LOG_PARTY, "更新校级组织员分组：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_PARTY, "更新校级组织员分组：{0}", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -137,9 +159,9 @@ public class OrganizerGroupController extends BaseController {
     public Map organizerGroup_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             organizerGroupService.batchDel(ids);
-            logger.info(log( LogConstants.LOG_PARTY, "批量删除校级组织员分组：{0}", StringUtils.join(ids, ",")));
+            logger.info(log(LogConstants.LOG_PARTY, "批量删除校级组织员分组：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -151,7 +173,7 @@ public class OrganizerGroupController extends BaseController {
     public Map do_organizerGroup_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         organizerGroupService.changeOrder(id, addNum);
-        logger.info(log( LogConstants.LOG_PARTY, "校级组织员分组调序：{0}, {1}", id, addNum));
+        logger.info(log(LogConstants.LOG_PARTY, "校级组织员分组调序：{0}, {1}", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -164,7 +186,7 @@ public class OrganizerGroupController extends BaseController {
         for (int i = 0; i < rownum; i++) {
             OrganizerGroup record = records.get(i);
             String[] values = {
-                record.getRemark()
+                    record.getRemark()
             };
             valuesList.add(values);
         }
@@ -189,7 +211,7 @@ public class OrganizerGroupController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         long count = organizerGroupMapper.countByExample(example);

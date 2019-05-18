@@ -31,10 +31,7 @@ import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -133,10 +130,10 @@ public class MemberInController extends MemberBaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
         if (StringUtils.isNotBlank(fromUnit)) {
-            criteria.andFromUnitLike("%" + fromUnit + "%");
+            criteria.andFromUnitLike(SqlUtils.like(fromUnit));
         }
         if (StringUtils.isNotBlank(fromTitle)) {
-            criteria.andFromTitleLike("%" + fromTitle + "%");
+            criteria.andFromTitleLike(SqlUtils.like(fromTitle));
         }
         if (fromHandleTime.getStart() != null) {
             criteria.andFromHandleTimeGreaterThanOrEqualTo(fromHandleTime.getStart());

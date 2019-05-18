@@ -76,10 +76,10 @@ public class MetaTypeController extends BaseController {
         Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
         example.setOrderByClause("sort_order asc");
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (classId != null) {
             modelMap.put("metaClass", metaClassService.findAll().get(classId));

@@ -48,6 +48,8 @@ public class MemberView implements Serializable {
 
     private String otherReward;
 
+    private Byte userSource;
+
     private String code;
 
     private String realname;
@@ -340,6 +342,14 @@ public class MemberView implements Serializable {
 
     public void setOtherReward(String otherReward) {
         this.otherReward = otherReward == null ? null : otherReward.trim();
+    }
+
+    public Byte getUserSource() {
+        return userSource;
+    }
+
+    public void setUserSource(Byte userSource) {
+        this.userSource = userSource;
     }
 
     public String getCode() {

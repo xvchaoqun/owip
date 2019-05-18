@@ -210,7 +210,6 @@
             </c:if>
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
-                //return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
             }},
             { label:'支部转移记录', name: 'transferCount', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined||cellvalue==0) return '--';

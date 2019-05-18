@@ -2,11 +2,13 @@ package persistence.party.common;
 
 import domain.party.BranchMember;
 import domain.party.OrgAdmin;
+import domain.party.Organizer;
 import domain.party.PartyMember;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -14,6 +16,20 @@ import java.util.List;
  * Created by lm on 2017/6/13.
  */
 public interface IPartyMapper {
+
+    @Select("select distinct group_id from ow_organizer_group_user where user_id=#{userId}")
+    List<Integer> getOrganizerGroupIds(@Param("userId")Integer userId);
+
+    @Select("select distinct group_id from ow_organizer_group_unit where unit_id=#{unitId}")
+    List<Integer> getUnitGroupIds(@Param("unitId")Integer unitId);
+
+    List<Organizer> selectOrganizerList(@Param("query")String query,
+                                        @Param("type") Byte type,
+                                        @Param("status") Byte status,
+                                        RowBounds rowBounds);
+    int countOrganizerList(@Param("query")String query,
+                           @Param("type") Byte type,
+                           @Param("status") Byte status);
 
     // 查询用户管理的分党委ID（现任分党委管理员）
     @Select("select distinct pmg.party_id from ow_party_member_group pmg, ow_party_member pm " +

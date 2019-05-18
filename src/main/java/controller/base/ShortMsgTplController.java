@@ -37,6 +37,7 @@ import sys.tool.tree.TreeNode;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -86,13 +87,13 @@ public class ShortMsgTplController extends BaseController {
             criteria.andReceiverIdEqualTo(receiverId);
         }
         if (StringUtils.isNotBlank(mobile)) {
-            criteria.andMobileLike("%" + mobile + "%");
+            criteria.andMobileLike(SqlUtils.like(mobile));
         }
         if (StringUtils.isNotBlank(relateSn)) {
             criteria.andRelateSnEqualTo(relateSn);
         }
         if (StringUtils.isNotBlank(content)) {
-            criteria.andContentLike("%" + content + "%");
+            criteria.andContentLike(SqlUtils.like(content));
         }
         if (_sendTime.getStart()!=null) {
             criteria.andCreateTimeGreaterThanOrEqualTo(_sendTime.getStart());
@@ -163,7 +164,7 @@ public class ShortMsgTplController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(content)) {
-            criteria.andContentLike("%" + content + "%");
+            criteria.andContentLike(SqlUtils.like(content));
         }
 
         int count = (int) shortMsgTplMapper.countByExample(example);
@@ -362,7 +363,7 @@ public class ShortMsgTplController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         long count = shortMsgTplMapper.countByExample(example);

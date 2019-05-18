@@ -173,7 +173,7 @@ public class MemberRegController extends MemberBaseController {
         criteria.addPermits(loginUserService.adminPartyIdList());
 
         if (StringUtils.isNotBlank(username)) {
-            criteria.andUsernameLike("%" + username + "%");
+            criteria.andUsernameLike(SqlUtils.like(username));
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -182,10 +182,10 @@ public class MemberRegController extends MemberBaseController {
             criteria.andTypeEqualTo(type);
         }
         if (StringUtils.isNotBlank(realname)) {
-            criteria.andRealnameLike("%" + realname + "%");
+            criteria.andRealnameLike(SqlUtils.like(realname));
         }
         if (StringUtils.isNotBlank(idcard)) {
-            criteria.andIdcardLike("%" + idcard + "%");
+            criteria.andIdcardLike(SqlUtils.like(idcard));
         }
         if(importUserId!=null){
             criteria.andImportUserIdEqualTo(importUserId);

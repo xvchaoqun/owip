@@ -85,7 +85,7 @@ public class CetCourseController extends CetBaseController {
         criteria.andIsDeletedEqualTo(cls==4);
 
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
 
         if (export == 1) {
@@ -411,7 +411,7 @@ public class CetCourseController extends CetBaseController {
         }
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         long count = cetCourseMapper.countByExample(example);

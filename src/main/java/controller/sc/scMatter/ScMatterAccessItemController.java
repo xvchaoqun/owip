@@ -161,7 +161,7 @@ public class ScMatterAccessItemController extends ScBaseController {
         example.setOrderByClause("sort_order desc");
 
         /*if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }*/
 
         long count = scMatterAccessItemMapper.countByExample(example);

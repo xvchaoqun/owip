@@ -273,10 +273,10 @@ public class UnitPostController extends BaseController {
             criteria.andUnitIdEqualTo(unitId);
         }
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (adminLevel!=null) {
             criteria.andAdminLevelEqualTo(adminLevel);
@@ -631,7 +631,7 @@ public class UnitPostController extends BaseController {
             criteria.andUnitIdEqualTo(unitId);
         }
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         long count = unitPostViewMapper.countByExample(example);

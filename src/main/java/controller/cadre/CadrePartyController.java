@@ -32,6 +32,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -104,7 +105,7 @@ public class CadrePartyController extends BaseController {
             criteria.andPostTypeEqualTo(postType);
         }
         if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleLike("%" + title + "%");
+            criteria.andTitleLike(SqlUtils.like(title));
         }
 
         long count = cadreViewMapper.countByExample(example);

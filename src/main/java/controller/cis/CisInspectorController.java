@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CisConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -215,7 +212,7 @@ public class CisInspectorController extends CisBaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = "%" + searchStr + "%";
+        if (searchStr != null) searchStr = SqlUtils.like(searchStr);
 
         int count = iCisMapper.countInspectorList(status, searchStr);
         if ((pageNo - 1) * pageSize >= count) {

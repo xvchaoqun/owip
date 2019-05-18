@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -225,9 +222,9 @@ public class ScMatterItemController extends ScBaseController {
         ScMatterUserViewExample example = new ScMatterUserViewExample();
         //example.setOrderByClause("create_time desc");
         if (StringUtils.isNotBlank(searchStr)) {
-            ScMatterUserViewExample.Criteria criteria = example.or().andUsernameLike("%" + searchStr + "%");
-            ScMatterUserViewExample.Criteria criteria1 = example.or().andCodeLike("%" + searchStr + "%");
-            ScMatterUserViewExample.Criteria criteria2 = example.or().andRealnameLike("%" + searchStr + "%");
+            ScMatterUserViewExample.Criteria criteria = example.or().andUsernameLike(SqlUtils.like(searchStr));
+            ScMatterUserViewExample.Criteria criteria1 = example.or().andCodeLike(SqlUtils.like(searchStr));
+            ScMatterUserViewExample.Criteria criteria2 = example.or().andRealnameLike(SqlUtils.like(searchStr));
         }
 
         long count = scMatterUserViewMapper.countByExample(example);
@@ -277,7 +274,7 @@ public class ScMatterItemController extends ScBaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         int count = scMatterItemMapper.countByExample(example);

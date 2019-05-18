@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
-import sys.utils.Escape;
-import sys.utils.FormUtils;
-import sys.utils.HtmlEscapeUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -71,10 +68,10 @@ public class SysLogController extends BaseController {
 		}
 
 		if(StringUtils.isNotBlank(content)){
-			criteria.andContentLike("%" + content+"%");
+			criteria.andContentLike(SqlUtils.like(content));
 		}
 		if(StringUtils.isNotBlank(ip)){
-			criteria.andIpLike("%"+ip+"%");
+			criteria.andIpLike("%"+ip.trim()+"%");
 		}
 
 		int count = sysLogMapper.countByExample(example);

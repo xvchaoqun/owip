@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -222,9 +219,9 @@ public class ScGroupMemberController extends ScBaseController {
         ScGroupMemberViewExample example = new ScGroupMemberViewExample();
         //example.setOrderByClause("create_time desc");
         if (StringUtils.isNotBlank(searchStr)) {
-            ScGroupMemberViewExample.Criteria criteria = example.or().andUsernameLike("%" + searchStr + "%");
-            ScGroupMemberViewExample.Criteria criteria1 = example.or().andCodeLike("%" + searchStr + "%");
-            ScGroupMemberViewExample.Criteria criteria2 = example.or().andRealnameLike("%" + searchStr + "%");
+            ScGroupMemberViewExample.Criteria criteria = example.or().andUsernameLike(SqlUtils.like(searchStr));
+            ScGroupMemberViewExample.Criteria criteria1 = example.or().andCodeLike(SqlUtils.like(searchStr));
+            ScGroupMemberViewExample.Criteria criteria2 = example.or().andRealnameLike(SqlUtils.like(searchStr));
         }
 
         long count = scGroupMemberViewMapper.countByExample(example);

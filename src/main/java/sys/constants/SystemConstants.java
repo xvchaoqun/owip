@@ -214,10 +214,10 @@ public class SystemConstants {
     public final static Map<Byte, String> USER_SOURCE_MAP = new LinkedHashMap();
 
     static {
-        USER_SOURCE_MAP.put(USER_SOURCE_ADMIN, "后台创建");
         USER_SOURCE_MAP.put(USER_SOURCE_JZG, "人事库");
         USER_SOURCE_MAP.put(USER_SOURCE_BKS, "本科生库");
         USER_SOURCE_MAP.put(USER_SOURCE_YJS, "研究生库");
+        USER_SOURCE_MAP.put(USER_SOURCE_ADMIN, "后台创建");
         USER_SOURCE_MAP.put(USER_SOURCE_REG, "用户注册");
     }
 

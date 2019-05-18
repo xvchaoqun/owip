@@ -23,6 +23,7 @@ import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,16 +61,24 @@ public class SysResourceController extends BaseController {
     @ResponseBody
     public Map sysResource_data(@RequestParam(required = false, defaultValue = "0") boolean isMobile,
                                 HttpServletResponse response,
+                                String name,
                                 String permission,
                                 Integer nodeid) throws IOException {
 
          Set<Integer> idSet = new HashSet<>();
-        if (StringUtils.isNotBlank(permission)) {
+        if (StringUtils.isNotBlank(name)||StringUtils.isNotBlank(permission)) {
 
             SysResourceExample example = new SysResourceExample();
-            example.createCriteria().andIsMobileEqualTo(isMobile)
-                    .andAvailableEqualTo(SystemConstants.AVAILABLE)
-                    .andPermissionLike("%" + permission.trim() + "%");
+            SysResourceExample.Criteria criteria = example.createCriteria().andIsMobileEqualTo(isMobile)
+                    .andAvailableEqualTo(SystemConstants.AVAILABLE);
+
+            if(StringUtils.isNotBlank(name)){
+                criteria.andNameLike(SqlUtils.like(name));
+            }
+            if(StringUtils.isNotBlank(permission)){
+                criteria.andPermissionLike(SqlUtils.like(permission));
+            }
+
             List<SysResource> sysResources = sysResourceMapper.selectByExample(example);
             for (SysResource sysResource : sysResources) {
 
@@ -228,7 +237,7 @@ public class SysResourceController extends BaseController {
         example.setOrderByClause("parent_id asc, sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
-            criteria.andNameLike("%" + searchStr + "%");
+            criteria.andNameLike(SqlUtils.like(searchStr));
         }
 
         long count = sysResourceMapper.countByExample(example);

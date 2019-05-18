@@ -2,11 +2,7 @@ package controller.crs.user;
 
 import controller.crs.CrsBaseController;
 import controller.global.OpException;
-import domain.crs.CrsApplicant;
-import domain.crs.CrsApplicantWithBLOBs;
-import domain.crs.CrsPost;
-import domain.crs.CrsPostExample;
-import domain.crs.CrsPostWithBLOBs;
+import domain.crs.*;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;

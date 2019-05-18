@@ -1,14 +1,8 @@
 package controller.cet.mobile.eva;
 
-import persistence.cet.common.TrainTempData;
 import controller.cet.CetBaseController;
 import controller.global.OpException;
-import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainEvaNorm;
-import domain.cet.CetTrainEvaResult;
-import domain.cet.CetTrainEvaTable;
-import domain.cet.CetTrainInspector;
-import domain.cet.CetTrainInspectorCourse;
+import domain.cet.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.cet.common.TrainTempData;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.helper.CetHelper;

@@ -11,25 +11,14 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">组别</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${organizerGroup.name}">
+					<textarea required class="form-control" type="text" name="name">${organizerGroup.name}</textarea>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">小组成员</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="organizers" value="${organizerGroup.organizers}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">联系单位</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="units" value="${organizerGroup.units}">
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${organizerGroup.remark}">
+					<textarea class="form-control" type="text" name="remark">${organizerGroup.remark}</textarea>
 				</div>
 			</div>
     </form>

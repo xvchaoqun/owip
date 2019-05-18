@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="manualAssign form-group" style="display: none">
-            <label class="col-xs-4 control-label">选择志愿书编码</label>
+            <label class="col-xs-4 control-label">选择新志愿书编码</label>
             <div class="col-xs-7 label-text">
                 <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects"
                         id="newSnId" data-placeholder="请选择">

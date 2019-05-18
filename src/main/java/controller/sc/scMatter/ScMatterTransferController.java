@@ -202,7 +202,7 @@ public class ScMatterTransferController extends ScBaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         int count = scMatterTransferMapper.countByExample(example);

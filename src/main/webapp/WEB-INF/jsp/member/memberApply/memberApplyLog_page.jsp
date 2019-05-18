@@ -127,14 +127,14 @@ pageEncoding="UTF-8" %>
         multiselect:false,
         url: "${ctx}/applyApprovalLog_data?callback=?&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
-            {label: '${type==1?"学生证号":"工作证号"}', name: 'applyUser.code', width: 150, frozen:true},
+            {label: '学工号', name: 'applyUser.code', width: 150, frozen:true},
             {label: '姓名', name: 'applyUser.realname', frozen:true},
             { label: '阶段',  name: 'stage', width: 200 },
             { label: '操作时间',  name: 'createTime', width: 200 },
             { label: '操作人', name: 'user.realname', width: 150 },
             { label:'操作结果',  name: 'status', formatter:function(cellvalue, options, rowObject){
-                return cellvalue==0?"未通过":"通过";
-            } },
+                return _cMap.OW_APPLY_APPROVAL_LOG_STATUS_MAP[rowObject.status];
+            }},
             { label:'备注',  name: 'remark', width: 450 },
             { label:'IP',  name: 'ip', width: 150 }
         ]

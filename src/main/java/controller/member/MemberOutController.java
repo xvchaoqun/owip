@@ -196,13 +196,13 @@ public class MemberOutController extends MemberBaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
         if (StringUtils.isNotBlank(toUnit)) {
-            criteria.andToUnitLike("%" + toUnit + "%");
+            criteria.andToUnitLike(SqlUtils.like(toUnit));
         }
         if (StringUtils.isNotBlank(toTitle)) {
-            criteria.andToTitleLike("%" + toTitle + "%");
+            criteria.andToTitleLike(SqlUtils.like(toTitle));
         }
         if (StringUtils.isNotBlank(fromUnit)) {
-            criteria.andFromUnitLike("%" + fromUnit + "%");
+            criteria.andFromUnitLike(SqlUtils.like(fromUnit));
         }
         if (_handleTime.getStart() != null) {
             criteria.andHandleTimeGreaterThanOrEqualTo(_handleTime.getStart());

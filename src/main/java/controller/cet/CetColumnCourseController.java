@@ -1,10 +1,6 @@
 package controller.cet;
 
-import domain.cet.CetColumn;
-import domain.cet.CetColumnCourse;
-import domain.cet.CetColumnCourseExample;
-import domain.cet.CetColumnCourseView;
-import domain.cet.CetColumnCourseViewExample;
+import domain.cet.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -27,11 +23,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")

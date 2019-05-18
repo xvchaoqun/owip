@@ -1,12 +1,7 @@
 package controller.dispatch;
 
 import domain.cadre.CadreView;
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchCadre;
-import domain.dispatch.DispatchCadreExample;
-import domain.dispatch.DispatchCadreView;
-import domain.dispatch.DispatchCadreViewExample;
-import domain.dispatch.DispatchType;
+import domain.dispatch.*;
 import domain.sys.SysUserView;
 import domain.unit.UnitPostView;
 import mixin.DispatchMixin;
@@ -36,12 +31,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class DispatchCadreController extends DispatchBaseController {
@@ -212,7 +202,7 @@ public class DispatchCadreController extends DispatchBaseController {
             criteria.andCadreIdEqualTo(cadreId);
         }
         /*if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }*/
         if (adminLevel!=null) {
             List<Integer> selects = Arrays.asList(adminLevel);
@@ -405,7 +395,7 @@ public class DispatchCadreController extends DispatchBaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         int count = dispatchCadreMapper.countByExample(example);

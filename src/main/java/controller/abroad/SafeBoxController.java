@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import persistence.abroad.common.SafeBoxBean;
 import domain.abroad.Passport;
 import domain.abroad.SafeBox;
 import domain.abroad.SafeBoxExample;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.abroad.common.PassportSearchBean;
+import persistence.abroad.common.SafeBoxBean;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -82,7 +82,7 @@ public class SafeBoxController extends AbroadBaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
 
         int count = safeBoxMapper.countByExample(example);

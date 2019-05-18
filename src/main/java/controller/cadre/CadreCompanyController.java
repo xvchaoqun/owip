@@ -252,13 +252,13 @@ public class CadreCompanyController extends BaseController {
             criteria.andTypeEqualTo(type);
         }
         if(StringUtils.isNotBlank(unit)){
-            criteria.andUnitLike("%"+unit+"%");
+            criteria.andUnitLike("%"+unit.trim()+"%");
         }
         if(StringUtils.isNotBlank(approvalUnit)){
-            criteria.andApprovalUnitLike("%"+approvalUnit+"%");
+            criteria.andApprovalUnitLike("%"+approvalUnit.trim()+"%");
         }
         if(StringUtils.isNotBlank(post)){
-            criteria.andPostLike("%"+post+"%");
+            criteria.andPostLike("%"+post.trim()+"%");
         }
         if(startTime!=null){
             criteria.andStartTimeGreaterThanOrEqualTo(startTime);

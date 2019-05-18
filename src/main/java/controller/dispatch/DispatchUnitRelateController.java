@@ -228,7 +228,7 @@ public class DispatchUnitRelateController extends DispatchBaseController {
         example.setOrderByClause("sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
         int count = dispatchUnitRelateMapper.countByExample(example);

@@ -35,10 +35,7 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -138,10 +135,10 @@ public class PartyController extends BaseController {
         criteria.andIsDeletedEqualTo(cls==2);
 
         if (StringUtils.isNotBlank(code)) {
-            criteria.andCodeLike("%" + code + "%");
+            criteria.andCodeLike(SqlUtils.like(code));
         }
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);
@@ -441,7 +438,7 @@ public class PartyController extends BaseController {
         if(classId!=null) criteria.andClassIdEqualTo(classId);
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
         if(BooleanUtils.isTrue(notDirect)){
             MetaType mtDirectBranch = CmTag.getMetaTypeByCode("mt_direct_branch");

@@ -280,7 +280,7 @@ public class ScMatterCheckItemController extends ScBaseController {
         example.setOrderByClause("sort_order desc");
 
         /*if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 */
         long count = scMatterCheckItemMapper.countByExample(example);

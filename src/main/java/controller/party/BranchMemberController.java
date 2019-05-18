@@ -277,7 +277,7 @@ public class BranchMemberController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
        /* if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }*/
 
         int count = (int) branchMemberMapper.countByExample(example);

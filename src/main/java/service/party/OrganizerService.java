@@ -1,24 +1,56 @@
 package service.party;
 
+import controller.global.OpException;
+import domain.cadre.CadreView;
+import domain.member.Member;
 import domain.party.Organizer;
 import domain.party.OrganizerExample;
+import domain.sys.SysUserInfo;
+import domain.sys.TeacherInfo;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
+import sys.constants.OwConstants;
+import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class OrganizerService extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, byte type, int userId){
+    // 根据组织员类型和用户ID，获取组织员信息
+    public Organizer get(byte type, int userId){
 
         OrganizerExample example = new OrganizerExample();
-        OrganizerExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type)
-                .andUserIdEqualTo(userId);
+        example.createCriteria()
+                        .andTypeEqualTo(type)
+                        // 非历任
+                        .andStatusNotEqualTo(OwConstants.OW_ORGANIZER_STATUS_HISTORY)
+                        .andUserIdEqualTo(userId);
+
+        List<Organizer> organizers = organizerMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return organizers.size()==0?null: organizers.get(0);
+    }
+
+    // 同一类型的组织员，现任或离任只允许存在一个
+    public boolean idDuplicate(Integer id, byte type, int userId, Byte status){
+
+        if(status!=null && status==OwConstants.OW_ORGANIZER_STATUS_HISTORY) return false;
+
+        OrganizerExample example = new OrganizerExample();
+        OrganizerExample.Criteria criteria =
+                example.createCriteria()
+                        .andTypeEqualTo(type)
+                        // 非历任
+                        .andStatusNotEqualTo(OwConstants.OW_ORGANIZER_STATUS_HISTORY)
+                        .andUserIdEqualTo(userId);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return organizerMapper.countByExample(example) > 0;
@@ -27,9 +59,26 @@ public class OrganizerService extends BaseMapper {
     @Transactional
     public void insertSelective(Organizer record){
 
-        Assert.isTrue(!idDuplicate(null, record.getType(), record.getUserId()), "duplicate");
-        record.setSortOrder(getNextSortOrder("ow_organizer", null));
+        Assert.isTrue(!idDuplicate(null, record.getType(),
+                record.getUserId(), record.getStatus()), "duplicate");
+        record.setSortOrder(getNextSortOrder("ow_organizer",
+                "type="+ record.getType() + " and status="+record.getStatus()));
+
+        syncBaseInfo(record);
+
+        record.setAddTime(new Date());
+        record.setAddUserId(ShiroHelper.getCurrentUserId());
         organizerMapper.insertSelective(record);
+
+        // 添加离任信息时
+        if(record.getStatus() == OwConstants.OW_ORGANIZER_STATUS_LEAVE){
+
+            // 同时添加一条历任信息
+            record.setId(null);
+            record.setStatus(OwConstants.OW_ORGANIZER_STATUS_HISTORY);
+
+            insertSelective(record);
+        }
     }
 
     @Transactional
@@ -43,11 +92,63 @@ public class OrganizerService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(Organizer record){
+    public void updateByPrimaryKeySelective(Organizer record, boolean syncBaseInfo){
 
-        Assert.isTrue(!idDuplicate(record.getId(), record.getType(), record.getUserId()), "duplicate");
-        return organizerMapper.updateByPrimaryKeySelective(record);
+        int id = record.getId();
+        Organizer organizer = organizerMapper.selectByPrimaryKey(id);
+        if (idDuplicate(id, organizer.getType(), organizer.getUserId(), organizer.getStatus())) {
+                throw new OpException(organizer.getUser().getRealname()
+                        + "已经是"
+                        + OwConstants.OW_ORGANIZER_STATUS_MAP.get(organizer.getStatus())
+                        + OwConstants.OW_ORGANIZER_TYPE_MAP.get(organizer.getType()));
+        }
+
+        if(syncBaseInfo) {
+            syncBaseInfo(record);
+        }
+
+        // 不更新状态和类别
+        record.setStatus(null);
+        record.setType(null);
+        organizerMapper.updateByPrimaryKeySelective(record);
     }
+
+    // 同步基本信息
+    private void syncBaseInfo(Organizer record){
+
+        Integer userId = record.getUserId();
+        if (userId==null) return;
+
+        SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
+        if(ui!=null) {
+            record.setUnit(ui.getUnit());
+        }
+
+        TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+        if(teacherInfo!=null) {
+            record.setPost(teacherInfo.getPost());
+            record.setAuthorizedType(teacherInfo.getAuthorizedType());
+            record.setStaffType(teacherInfo.getStaffType());
+            record.setPostClass(teacherInfo.getPostClass());
+            record.setMainPostLevel(teacherInfo.getMainPostLevel());
+            record.setProPost(teacherInfo.getProPost());
+            record.setIsRetire(teacherInfo.getIsRetire());
+        }
+
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        if(member!=null) {
+            record.setGrowTime(member.getGrowTime());
+        }
+
+        CadreView cv = CmTag.getCadreByUserId(userId);
+        // 如果是现任领导干部，“所在单位、行政职务”两个字段已干部库为准
+        if(cv!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
+            record.setUnitId(cv.getUnitId());
+            record.setUnit(cv.getUnitName());
+            record.setPost(cv.getPost());
+        }
+    }
+
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
@@ -95,5 +196,37 @@ public class OrganizerService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             organizerMapper.updateByPrimaryKeySelective(record);
         }
+    }
+
+    // 离任
+    @Transactional
+    public void leave(int id, Date dismissDate) {
+
+        Organizer record = new Organizer();
+        record.setId(id);
+        record.setDismissDate(dismissDate);
+        record.setStatus(OwConstants.OW_ORGANIZER_STATUS_LEAVE);
+
+        organizerMapper.updateByPrimaryKeySelective(record);
+
+        // 同时添加一条历任信息
+        Organizer organizer = organizerMapper.selectByPrimaryKey(id);
+        organizer.setId(null);
+        organizer.setStatus(OwConstants.OW_ORGANIZER_STATUS_HISTORY);
+
+        insertSelective(organizer);
+    }
+
+    // 离任组织员重新任用
+    @Transactional
+    public void reAppoint(int id, Date appointDate) {
+
+        String _appointDate = DateUtils.formatDate(appointDate, DateUtils.YYYY_MM_DD);
+        commonMapper.excuteSql("update ow_organizer set status="+ OwConstants.OW_ORGANIZER_STATUS_NOW
+                + ", dismiss_date=null, appoint_date='"+ _appointDate +"' where id="+id);
+
+        // 同步最新信息
+        Organizer organizer = organizerMapper.selectByPrimaryKey(id);
+        syncBaseInfo(organizer);
     }
 }

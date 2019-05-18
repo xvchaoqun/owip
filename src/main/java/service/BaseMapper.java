@@ -7,10 +7,7 @@ import persistence.modify.ModifyBaseApplyMapper;
 import persistence.modify.ModifyBaseItemMapper;
 import persistence.modify.ModifyCadreAuthMapper;
 import persistence.modify.ModifyTableApplyMapper;
-import persistence.party.OrganizerGroupMapper;
-import persistence.party.OrganizerMapper;
-import persistence.party.PartyPublicMapper;
-import persistence.party.PartyPublicUserMapper;
+import persistence.party.*;
 import persistence.partySchool.PartySchoolMapper;
 import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
@@ -36,6 +33,10 @@ public class BaseMapper extends CoreBaseMapper{
 
     @Autowired(required = false)
     protected OrganizerGroupMapper organizerGroupMapper;
+    @Autowired(required = false)
+    protected OrganizerGroupUnitMapper organizerGroupUnitMapper;
+    @Autowired(required = false)
+    protected OrganizerGroupUserMapper organizerGroupUserMapper;
     @Autowired(required = false)
     protected OrganizerMapper organizerMapper;
 

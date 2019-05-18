@@ -2,12 +2,7 @@ package controller.cet.user;
 
 import controller.cet.CetBaseController;
 import controller.global.OpException;
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetProjectPlanExample;
-import domain.cet.CetTraineeView;
-import domain.cet.CetTraineeViewExample;
+import domain.cet.*;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;

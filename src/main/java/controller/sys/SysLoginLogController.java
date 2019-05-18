@@ -20,6 +20,7 @@ import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -95,10 +96,10 @@ public class SysLoginLogController extends BaseController {
 			criteria.andUserIdEqualTo(userId);
 		}
 		if(StringUtils.isNotBlank(username)){
-			criteria.andUsernameLike("%" + username + "%");
+			criteria.andUsernameLike(SqlUtils.like(username));
 		}
 		if(StringUtils.isNotBlank(ip)){
-			criteria.andLoginIpLike("%" + ip + "%");
+			criteria.andLoginIpLike(SqlUtils.like(ip));
 		}
 
 		long count = sysLoginLogMapper.countByExample(example);

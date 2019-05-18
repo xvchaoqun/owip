@@ -1,13 +1,7 @@
 package controller.cet;
 
 import domain.base.ContentTpl;
-import domain.cet.CetDiscuss;
-import domain.cet.CetDiscussGroup;
-import domain.cet.CetPlanCourse;
-import domain.cet.CetProject;
-import domain.cet.CetProjectPlan;
-import domain.cet.CetTrain;
-import domain.cet.CetTrainCourse;
+import domain.cet.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

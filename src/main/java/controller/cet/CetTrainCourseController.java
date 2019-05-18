@@ -85,7 +85,7 @@ public class CetTrainCourseController extends CetBaseController {
         example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike("%" + name + "%");
+            criteria.andNameLike(SqlUtils.like(name));
         }
 
         if (export == 1) {

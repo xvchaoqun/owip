@@ -382,7 +382,7 @@ public class PartyMemberController extends BaseController {
         example.setOrderByClause("sort_order desc");
 
         /*if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }*/
 
         int count = partyMemberMapper.countByExample(example);

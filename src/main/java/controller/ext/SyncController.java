@@ -1,12 +1,7 @@
 package controller.ext;
 
 import controller.BaseController;
-import domain.ext.ExtBks;
-import domain.ext.ExtBksExample;
-import domain.ext.ExtJzg;
-import domain.ext.ExtJzgExample;
-import domain.ext.ExtYjs;
-import domain.ext.ExtYjsExample;
+import domain.ext.*;
 import domain.sys.SysSync;
 import domain.sys.SysSyncExample;
 import domain.sys.SysSyncExample.Criteria;

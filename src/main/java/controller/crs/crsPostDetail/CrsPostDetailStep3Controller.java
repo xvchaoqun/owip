@@ -2,13 +2,7 @@ package controller.crs.crsPostDetail;
 
 import controller.crs.CrsBaseController;
 import domain.base.ContentTpl;
-import domain.crs.CrsApplicantView;
-import domain.crs.CrsApplicantViewExample;
-import domain.crs.CrsPost;
-import domain.crs.CrsPostExample;
-import domain.crs.CrsPostWithBLOBs;
-import domain.crs.CrsShortMsg;
-import domain.crs.CrsShortMsgExample;
+import domain.crs.*;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -29,11 +23,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CrsPostDetailStep3Controller extends CrsBaseController {
