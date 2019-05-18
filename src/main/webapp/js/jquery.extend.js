@@ -78,7 +78,8 @@ if (jQuery.validator) {
 // 手机号码验证
     jQuery.validator.addMethod("mobile", function (value, element) {
         var length = value.length;
-        var mobile = /^1[3|4|5|6|7|8|9]\d{9}$/;
+        //console.log("_mobileRegex="+_mobileRegex)
+        var mobile = new RegExp(_mobileRegex);
         return this.optional(element) || (mobile.test(value));
     }, "请正确填写手机号码");
 
@@ -1136,13 +1137,13 @@ if ($.jgrid) {
                 $.fn.fmatter.call(this, "date", cellvalue, options, rowdata, action);
         },
         MAP:function(cellvalue, options, rowObject){
-            if (cellvalue == undefined) return '-';
+            if (cellvalue == undefined) return '--';
 
             var op = {map: null}
             if(options!=undefined && options.colModel!=undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
-            if(op.map==undefined || op.map ==null) return '-'
+            if(op.map==undefined || op.map ==null) return '--'
 
             return op.map[cellvalue];
         },
@@ -1171,21 +1172,21 @@ if ($.jgrid) {
             //return cellvalue.NoMultiSpace();
         },
         htmlencodeWithNoSpace: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return ''
+            if (cellvalue == undefined) return '--'
             return cellvalue.htmlencode().NoSpace();
         },
         GENDER: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return ''
+            if (cellvalue == undefined) return '--'
             return _cMap.GENDER_MAP[cellvalue];
         },
         unit: function (cellvalue, options, rowObject) {
             //return cellvalue;
-            if (cellvalue == undefined) return '-'
+            if (cellvalue == undefined) return '--'
             var name = null;
             var unit = _cMap.unitMap[cellvalue];
             if(unit!=undefined) name=unit.name;
 
-            if($.trim(name)=='') return '-'
+            if($.trim(name)=='') return '--'
 
             if($.inArray("unit:view", _permissions) >= 0 || $.inArray("unit:*", _permissions) >= 0) {
                 return ('<a href="javascript:;" class="openView" data-url="{3}/unit_view?id={0}"><span class="{1}">{2}</span></a>'
@@ -1235,7 +1236,7 @@ if ($.jgrid) {
             }
             if(parties.length>0) return parties.join(",");
 
-            return "-"
+            return "--"
         },
         growTime: function (cellvalue, options, rowObject) {
 
@@ -1263,7 +1264,7 @@ if ($.jgrid) {
             }
             if(growTimes.length>0) return growTimes.join(",");
 
-            return "-"
+            return "--"
         },
         growAge: function (cellvalue, options, rowObject) {
 
@@ -1342,17 +1343,20 @@ $.extend($.register, {
             $state += '-' + state.unit;
         }
         //console.log($state)
-        return $state;
+
+        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
     },
     templateSelection: function (state) {
         var $state = state.text;
         if ($.trim(state.code) != '')
             $state += ($state != '' ? '-' : '') + state.code;
-        return $state;
+
+        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
     },
     defaultTemplateResult: function (state) {
         // 反转义
-        return $('<div/>').html(state.text).text();
+        var $state = $('<div/>').html(state.text).text();
+        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
     },
     // 下拉多选
     multiselect: function ($select, selected, params) {
@@ -1493,6 +1497,9 @@ $.extend($.register, {
                 }
             },
             templateResult: $.register.formatState,
+            escapeMarkup: function (markup) {
+                    return markup;
+                },
             ajax: {
                 dataType: 'json',
                 delay: 300,
@@ -1528,6 +1535,9 @@ $.extend($.register, {
         });
         return $dispatchSelect.select2({
             templateResult: $.register.formatState,
+            escapeMarkup: function (markup) {
+                    return markup;
+                },
             ajax: {
                 dataType: 'json',
                 delay: 300,
@@ -1691,6 +1701,9 @@ $.extend($.register, {
         return $($select).select2($.extend({
                 templateResult: _params.templateResult || $.register.defaultTemplateResult,
                 templateSelection: _params.templateSelection || $.register.defaultTemplateResult,
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
                 ajax: {
                     dataType: 'json',
                     delay: 300,
@@ -1727,6 +1740,9 @@ $.extend($.register, {
         return $select.select2($.extend({
             templateResult: $.register.formatState,
             templateSelection: _params.templateSelection || $.register.templateSelection,
+            escapeMarkup: function (markup) {
+                    return markup;
+                },
             ajax: {
                 dataType: 'json',
                 delay: 300,

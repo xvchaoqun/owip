@@ -427,6 +427,9 @@ body {
     height: 17px;
     margin: 0 5px 0 0;
 }
+.ui-jqgrid input[type="text"] {
+    height: 20px;
+}
 
 .ui-jqgrid .loading {
     left: 45%;
@@ -856,6 +859,7 @@ br.xs-100 {
 
 /**modal**/
 .modal .modal-body {
+    width: 100%;
     max-height: 600px;
     overflow-y: auto;
     overflow-x: hidden;

@@ -136,5 +136,9 @@ $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
         }
 
 
-不
+不Xss过滤的字段
 record.setName(HtmlUtils.htmlUnescape(record.getName()));
+
+// IDEA 批量替换
+"%"\s+\+\s+(.*)\.trim\(\).*"%"
+SqlUtils.like($1)

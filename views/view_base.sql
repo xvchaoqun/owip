@@ -47,7 +47,7 @@ left join ow_party bp on bp.id=b.party_id;
 DROP VIEW IF EXISTS `ow_member_view`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_member_view` AS
 select
-m.*, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
+m.*, u.source as user_source, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
 ui.birth, ui.idcard, ui.mobile, ui.email, ui.unit, p.unit_id,
 mo.status as out_status, mo.handle_time as out_handle_time,
 

@@ -135,11 +135,18 @@
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
 
+        <!--<table tableName="ow_organizer" domainObjectName="party.Organizer"
+                mapperName="party.OrganizerMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+         </table>-->
         <!--<table tableName="ow_organizer_group" domainObjectName="party.OrganizerGroup"
                 mapperName="party.OrganizerGroupMapper">
+         </table>-->
+        <!--<table tableName="ow_organizer_group_unit" domainObjectName="party.OrganizerGroupUnit"
+                mapperName="party.OrganizerGroupUnitMapper">
          </table>
-        <table tableName="ow_organizer" domainObjectName="party.Organizer"
-                mapperName="party.OrganizerMapper">
+        <table tableName="ow_organizer_group_user" domainObjectName="party.OrganizerGroupUser"
+                mapperName="party.OrganizerGroupUserMapper">
          </table>-->
 
         <!--<table tableName="ow_party_public" domainObjectName="party.PartyPublic">
