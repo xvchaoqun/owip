@@ -45,16 +45,38 @@ update pmd_member set user_id=@destUserId where user_id=@origUserId;
 ############
 ## 视图权限
 drop user data@219.224.19.33;
-revoke select on owip.ext_branch_view from data@219.224.19.33;
+revoke select on db_owip.ext_branch_view from data@219.224.19.33;
+revoke select on db_owip.ext_member_view from data@219.224.19.33;
+revoke select on db_owip.ext_cadre_view from data@219.224.19.33;
+
 select host,user from mysql.user;
+
 show grants for data@219.224.19.33;
-GRANT SELECT ON `owip`.`ext_branch_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
-GRANT SELECT ON `owip`.`ext_member_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
-GRANT SELECT ON `owip`.`ext_cadre_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
+
+drop user data@172.16.181.13;
+GRANT SELECT ON `db_owip`.`ext_branch_view` TO 'data'@'172.16.181.13' identified by '!@#dataQAZ';
+GRANT SELECT ON `db_owip`.`ext_branch_view2` TO 'data'@'172.16.181.13' identified by '!@#dataQAZ';
+GRANT SELECT ON `db_owip`.`ext_member_view` TO 'data'@'172.16.181.13' identified by '!@#dataQAZ';
+GRANT SELECT ON `db_owip`.`ext_cadre_view` TO 'data'@'172.16.181.13' identified by '!@#dataQAZ';
+
+drop user data@172.16.214.21;
+GRANT SELECT ON `db_owip`.`ext_branch_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
+GRANT SELECT ON `db_owip`.`ext_member_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
+GRANT SELECT ON `db_owip`.`ext_cadre_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
+
+drop user data@219.224.19.40;
+GRANT SELECT ON `db_owip`.`ext_branch_view` TO 'data'@'219.224.19.40' identified by '!@#dataQAZ';
+GRANT SELECT ON `db_owip`.`ext_branch_view2` TO 'data'@'219.224.19.40' identified by '!@#dataQAZ';
+GRANT SELECT ON `db_owip`.`ext_member_view` TO 'data'@'219.224.19.40' identified by '!@#dataQAZ';
+GRANT SELECT ON `db_owip`.`ext_cadre_view` TO 'data'@'219.224.19.40' identified by '!@#dataQAZ';
 
 # lxxt 20180615
-GRANT SELECT ON `owip`.`ext_branch_view` TO 'lxxt'@'219.224.19.48' identified by 'lxxt!@#QAZ';
-GRANT SELECT ON `owip`.`ext_member_view` TO 'lxxt'@'219.224.19.48' identified by 'lxxt!@#QAZ';
+drop user lxxt@219.224.19.48;
+GRANT SELECT ON `db_owip`.`ext_branch_view` TO 'lxxt'@'219.224.19.48' identified by 'lxxt!@#QAZ';
+GRANT SELECT ON `db_owip`.`ext_member_view` TO 'lxxt'@'219.224.19.48' identified by 'lxxt!@#QAZ';
+#20190520
+GRANT SELECT ON `db_owip`.`ext_branch_view` TO 'lxxt'@'219.224.19.228' identified by 'lxxt!@#QAZ';
+GRANT SELECT ON `db_owip`.`ext_member_view` TO 'lxxt'@'219.224.19.228' identified by 'lxxt!@#QAZ';
 
 flush privileges;
 

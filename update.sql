@@ -8,7 +8,7 @@ ow_organizer_group_unit, ow_organizer_group_user
 更新 common-utils
 
 更新 ow_member_view
-
+pcs_candidate_view
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1035, 0, '组织员信息管理', '', 'menu', '', NULL, 105, '0/1/105/', 0, 'organizer:menu', NULL, NULL, NULL, 1, 29500);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1036, 0, '校级组织员信息', '', 'url', '', '/organizer?type=1', 1035, '0/1/105/1035/', 1, 'organizer:list1', NULL, NULL, NULL, 1, NULL);
