@@ -987,13 +987,13 @@ var _modal_width;
             var $this = $(this);
             return $this.hideLoading();
         },
-        download:function(url){
+        download:function(url, type){ // type：export/download, default：export
 
             var $this = $(this);
             var $btn = $this.button('loading');
-            var loadText = $this.data("load-text") || "正在导出";
-            var successText = $this.data("success-text")|| "导出成功";
-            var failedText = $this.data("failed-text") || "导出失败，请稍后重试";
+            var loadText = $this.data("load-text") || (type=="download"?"下载中":"正在导出");
+            var successText = $this.data("success-text")|| (type=="download"?"下载完成":"导出成功");
+            var failedText = $this.data("failed-text") || (type=="download"?"下载失败，请稍后重试":"导出失败，请稍后重试");
 
             $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> ' + loadText)
 

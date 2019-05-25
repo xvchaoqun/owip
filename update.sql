@@ -1,5 +1,25 @@
 
 
+
+20190525
+-- 增加 mc_abroad_reason
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (87, NULL, '因私出国（境）事由', '因私出国境审批', '因私出国境审批', 'mc_abroad_reason', '', '', '', 87, 1);
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (88, NULL, '因公出国事由', '因私出国境', '证件使用', 'mc_abroad_public_reason', '', '', '', 88, 1);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (87, '旅游', 'mt_zahzju', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (87, '探亲', 'mt_ofm0cg', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (87, '访友', 'mt_anwn2w', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (87, '继承', 'mt_y2upyt', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (87, '接受和处理财产', 'mt_uuunrn', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (88, '学术会议', 'mt_frwifs', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (88, '考察访问', 'mt_ijtc9b', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (88, '合作研究', 'mt_t1jusy', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (88, '进修', 'mt_zim4js', NULL, '', '', 4, 1);
+
+-- sysLogin:switchParty
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1040, 0, '允许切换党组织管理员', '', 'function', '', NULL, 853, '0/1/21/853/', 1, 'sysLogin:switchParty', NULL, NULL, NULL, 1, NULL);
+
+
 20190518
 新增 ow_organizer_group
  ow_organizer
@@ -15,7 +35,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1037, 0, '院系级组织员信息', '', 'url', '', '/organizer?type=2', 1035, '0/1/105/1035/', 1, 'organizer:list2', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1038, 0, '组织员分组管理', '', 'function', '', NULL, 1035, '0/1/105/1035/', 1, 'organizerGroup:*', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1039, 0, '组织员管理', '', 'function', '', NULL, 1035, '0/1/105/1035/', 1, 'organizer:*', NULL, NULL, NULL, 1, NULL);
-
 
 20190516
 更新南航

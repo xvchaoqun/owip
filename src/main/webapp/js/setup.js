@@ -406,7 +406,9 @@ $(document).on("click", ".downloadBtn", function () {
 
     var $this = $(this);
     var url = $this.data("url");
-    $this.download(url);
+    var type = $this.data("type") || 'export';
+
+    $this.download(url, type);
     return false;
 });
 
@@ -850,6 +852,7 @@ $(document).on("click", ".jqExportBtn", function (e) {
     var ids = grid.getGridParam("selarrrow");
     var idsName = $(this).data("ids-name") || 'ids[]';
     var _export = $(this).data("export") || '1';
+    var type = $(this).data("type") || 'export';
 
     var url = $this.data("url") || $(this).closest(".myTableDiv").data("url-export");
     var queryString = $this.data("querystr");
@@ -861,7 +864,7 @@ $(document).on("click", ".jqExportBtn", function (e) {
     url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export="+ _export +"&"+
         encodeURI(idsName)+"=" + ids + "&" + $(searchFormId).serialize();
 
-    $this.download(url);
+    $this.download(url, type);
 
     e.stopPropagation();
     return false;
@@ -879,14 +882,14 @@ $(document).on("click", ".jqExportItemBtn", function () {
         SysMsg.warning("请选择一行", "提示");
         return;
     }
-
+    var type = $(this).data("type") || 'export';
     var idName = $this.data("id-name") || 'id';
     var url = $this.data("url");
     var queryString = $this.data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
     if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
 
-    $this.download(url);
+    $this.download(url, type);
     return false;
 });
 
