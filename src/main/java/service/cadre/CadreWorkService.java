@@ -93,6 +93,8 @@ public class CadreWorkService extends BaseMapper {
 
                 Integer learnStyle = cadreEdu.getLearnStyle();
 
+                if(learnStyle==null) continue; // 学习方式为空时不计入简历预览
+
                 CadreResume eduResume = new CadreResume();
                 eduResume.setIsWork(false);
                 eduResume.setStartDate(cadreEdu.getEnrolTime());

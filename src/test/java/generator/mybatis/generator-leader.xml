@@ -33,14 +33,15 @@
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
+            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>
         <!--<table tableName="leader_unit" domainObjectName="leader.LeaderUnit" mapperName="leader.LeaderUnitMapper">
         </table>-->
-        <table tableName="leader_unit_view" domainObjectName="leader.LeaderUnitView"
+        <!--<table tableName="leader_unit_view" domainObjectName="leader.LeaderUnitView"
                mapperName="leader.LeaderUnitViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
     </context>
 </generatorConfiguration>

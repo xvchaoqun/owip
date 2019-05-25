@@ -1,7 +1,7 @@
 package controller.global;
 
 import controller.BaseController;
-import domain.member.MemberView;
+import domain.cadre.CadreView;
 import domain.sys.HtmlFragment;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.Logical;
@@ -88,22 +88,19 @@ public class IndexController extends BaseController {
 
 	@RequiresPermissions("index:home")
 	@RequestMapping("/user_base")
-	public String user_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+	public String user_base() {
 
-		Integer userId = loginUser.getId();
-		modelMap.put("sysUser", loginUser);
+		int userId = ShiroHelper.getCurrentUserId();
+		if(ShiroHelper.hasRole(RoleConstants.ROLE_CADRE)){
 
-		MemberView memberView = iMemberMapper.getMemberView(userId);
-		modelMap.put("memberView", memberView);
+			CadreView cadre = cadreService.dbFindByUserId(userId);
+			return "forward:/cadre_base?_auth=self&cadreId=" + cadre.getId();
 
-		if(loginUser.getType()== SystemConstants.USER_TYPE_JZG) {
+		}else if(ShiroHelper.hasRole(RoleConstants.ROLE_MEMBER)){
 
-			modelMap.put("teacher", teacherInfoService.get(userId));
-			return "teacher_base";
-		}else {
-
-			modelMap.put("student", studentService.get(userId));
-			return "student_base";
+			return "forward:/user/member";
+		}else{
+			return "forward:/sysUser_base?userId="+userId;
 		}
 	}
 }

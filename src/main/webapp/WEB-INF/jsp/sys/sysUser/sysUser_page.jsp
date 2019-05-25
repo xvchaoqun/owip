@@ -223,7 +223,7 @@
                         <div class="space-4"></div>\
                         <div style="width:210px;margin-left:12%;"><input type="file" name="_avatar" /></div>\
                         <div style="text-align:center"><a class="downloadBtn" href="javascript:;" \
-                        data-load-text="正在下载" data-success-text="下载成功" data-failed-text="下载失败" \
+                        data-type="download" \
                         data-url="" style="display:none">下载</a></div>\
                      </div>\
                     \

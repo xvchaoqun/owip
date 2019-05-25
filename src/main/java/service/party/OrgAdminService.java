@@ -26,7 +26,7 @@ public class OrgAdminService extends BaseMapper {
 
     public OrgAdmin get(int userId, Integer partyId, Integer branchId){
 
-        Assert.isTrue(partyId!=null || branchId!=null, "null");
+        //Assert.isTrue(partyId!=null || branchId!=null, "null");
 
         OrgAdminExample example = new OrgAdminExample();
         OrgAdminExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);

@@ -1,9 +1,6 @@
 package persistence.party.common;
 
-import domain.party.BranchMember;
-import domain.party.OrgAdmin;
-import domain.party.Organizer;
-import domain.party.PartyMember;
+import domain.party.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -30,6 +27,13 @@ public interface IPartyMapper {
     int countOrganizerList(@Param("query")String query,
                            @Param("type") Byte type,
                            @Param("status") Byte status);
+
+
+    List<OrgAdminView> selectOrgAdminList(@Param("query")String query,
+                                          @Param("type") Byte type,
+                                          RowBounds rowBounds);
+    int countOrgAdminList(@Param("query")String query,
+                           @Param("type") Byte type);
 
     // 查询用户管理的分党委ID（现任分党委管理员）
     @Select("select distinct pmg.party_id from ow_party_member_group pmg, ow_party_member pm " +

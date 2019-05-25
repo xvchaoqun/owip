@@ -25,6 +25,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -233,5 +234,48 @@ public class OrgAdminController extends BaseController {
             }
         }
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("orgAdmin:list")
+    @RequestMapping("/orgAdmin_selects")
+    @ResponseBody
+    public Map orgAdmin_selects(Integer pageSize, Integer pageNo, Byte type, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        long count = iPartyMapper.countOrgAdminList(searchStr, type);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<OrgAdminView> records = iPartyMapper.selectOrgAdminList(searchStr, type,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(OrgAdminView record:records){
+                SysUserView uv = record.getUser();
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", record.getUserId() + "");
+                option.put("text", uv.getRealname());
+                option.put("username", uv.getUsername());
+                option.put("code", uv.getCode());
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

@@ -78,8 +78,8 @@ public class AbroadConstants {
     static {
         ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_SELF, "因私出国（境）");
         ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_TW, "因公赴台");
-        ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_OTHER, "其他事务");
         ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国");
+        ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_OTHER, "其他事务");
     }
 
     //领取证件用途 1 仅签证 2 已签证，本次出境 3 同时签证和出境

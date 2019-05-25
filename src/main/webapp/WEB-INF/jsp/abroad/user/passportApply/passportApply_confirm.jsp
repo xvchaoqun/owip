@@ -40,7 +40,7 @@ pageEncoding="UTF-8"%>
             return false;
         }
 
-        $.post("${ctx}/user/abroad/passportApply_au",{classId:"${param.classId}", cadreId:"${param.cadreId}"},function(ret){
+        $.post("${ctx}/user/abroad/passportApply_apply",{classId:"${param.classId}", cadreId:"${param.cadreId}"},function(ret){
             if(ret.success){
                 <c:if test="${param.auth!='admin'}">
                 $.loadModal("${ctx}/abroad/shortMsg_view?id={0}&type=passportApplySubmit".format(ret.applyId));

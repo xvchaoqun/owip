@@ -40,7 +40,7 @@
     </div>
     <div class="navbar-buttons navbar-header pull-right" role="navigation">
         <div style="position: absolute;top:10px;right: 35px;float: right;font-size: 14px">
-            <shiro:hasPermission name="sysLogin:switch">
+            <c:if test="${cm:isPermitted('sysLogin:switch') || cm:isPermitted('sysLogin:switchParty')}">
                 <c:if test="${empty sessionScope._switchUser}">
                     <a href="javascript:;"
                        data-url="${ctx}/sysLogin_switch"
@@ -48,7 +48,7 @@
                         <i class="fa fa-refresh"></i> 切换账号
                     </a>
                 </c:if>
-            </shiro:hasPermission>
+            </c:if>
             <c:if test="${not empty sessionScope._switchUser}">
                 <a href="${ctx}/sysLogin_switch_back">
                     <i class="fa fa-reply"></i> 返回主账号

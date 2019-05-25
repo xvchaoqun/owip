@@ -65,7 +65,7 @@ public class PassportService extends AbroadBaseMapper {
     // 查找干部证件
     public Passport getPassport(String code){
 
-        return iAbroadMapper.getPassPort(code);
+        return iAbroadMapper.getPassport(code);
     }
 
     // 查找干部的台湾通行证

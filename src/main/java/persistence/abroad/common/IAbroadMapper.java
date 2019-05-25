@@ -14,10 +14,19 @@ import java.util.Map;
 
 public interface IAbroadMapper {
 
+    // 获取证件办理记录
+    @ResultMap("persistence.abroad.PassportApplyViewMapper.BaseResultMap")
+    @Select("select * from abroad_passport_apply_view where id=#{id}")
+    PassportApplyView getPassportApplyView(@Param("id") Integer id);
+
+    @ResultMap("persistence.abroad.PassportApplyViewMapper.BaseResultMap")
+    @Select("select * from abroad_passport_apply_view where code=#{code} and is_deleted=0 limit 1")
+    PassportApplyView getPassportApplyViewByCode(@Param("code") String code);
+
     // 获取证件
     @ResultMap("persistence.abroad.PassportMapper.BaseResultMap")
     @Select("select * from abroad_passport where code=#{code}")
-    Passport getPassPort(@Param("code") String code);
+    Passport getPassport(@Param("code") String code);
 
     // 导入辅助查询（如同一证件相同的开始日期，将进行覆盖导入）
     @ResultMap("persistence.abroad.PassportDrawMapper.BaseResultMap")

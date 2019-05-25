@@ -3,8 +3,10 @@ package domain.abroad;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -54,6 +56,7 @@ public class PassportApply implements Serializable {
 
     private Integer classId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date applyDate;
 
     private Byte status;
@@ -62,10 +65,13 @@ public class PassportApply implements Serializable {
 
     private Integer userId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date approveTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date expectDate;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date handleDate;
 
     private Integer handleUserId;

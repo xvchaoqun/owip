@@ -1,7 +1,6 @@
 package controller.cla;
 
 import controller.global.OpException;
-import domain.base.Country;
 import domain.cadre.CadreView;
 import domain.cla.*;
 import domain.sys.SysUserView;
@@ -513,12 +512,7 @@ public class ClaApplyController extends ClaBaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        List<String> countryList = new ArrayList<>();
-        Map<Integer, Country> countryMap = countryService.findAll();
-        for (Country country : countryMap.values()) {
-            countryList.add(country.getCninfo());
-        }
-        modelMap.put("countryList", JSONUtils.toString(countryList));
+        modelMap.put("countryList", JSONUtils.toString(countryService.getCountryList()));
 
         return "cla/claApply/claApply_change";
     }

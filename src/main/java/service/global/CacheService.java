@@ -316,7 +316,6 @@ public class CacheService extends BaseMapper {
         map.put("unitMap", unitService.findAll());
 
         map.put("locationMap", locationService.codeMap());
-        map.put("countryMap", countryService.findAll());
 
         map.put("roleMap", sysRoleService.findAll());
 

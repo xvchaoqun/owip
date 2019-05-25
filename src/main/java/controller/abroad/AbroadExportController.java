@@ -45,6 +45,8 @@ public class AbroadExportController extends AbroadBaseController {
         //输出文件
         String filename = "处级干部因私出国（境）证件领取申请表";
         response.reset();
+        DownloadUtils.addFileDownloadCookieHeader(response);
+
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");

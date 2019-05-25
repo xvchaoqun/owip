@@ -47,9 +47,9 @@
         <!--<table tableName="abroad_approver" domainObjectName="abroad.Approver">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-         <table tableName="abroad_approver_black_list" domainObjectName="abroad.ApproverBlackList"
+         <!--<table tableName="abroad_approver_black_list" domainObjectName="abroad.ApproverBlackList"
                 mapperName="abroad.ApproverBlackListMapper">
-         </table>
+         </table>-->
         <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType"
                mapperName="abroad.ApproverTypeMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -79,10 +79,10 @@
         <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
+        <table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="abroad_passport_apply_view" domainObjectName="abroad.PassportApplyView">
+        <!--<table tableName="abroad_passport_apply_view" domainObjectName="abroad.PassportApplyView">
         </table>
         -->
         <!-- <table tableName="abroad_taiwan_record" domainObjectName="abroad.TaiwanRecord" mapperName="abroad.TaiwanRecordMapper">

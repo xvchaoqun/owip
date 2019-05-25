@@ -1,13 +1,13 @@
 package controller.global;
 
 import controller.BaseController;
+import domain.party.OrgAdmin;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
@@ -50,9 +50,23 @@ public class CasController extends BaseController {
     @Autowired
     private EnterpriseCacheSessionDAO sessionDAO;
 
-    @RequiresPermissions("sysLogin:switch")
+    //@RequiresPermissions("sysLogin:switch")
     @RequestMapping("/login_switch")
     public String login_switch(String username, HttpServletRequest request, HttpServletResponse response) {
+
+        if(!ShiroHelper.isPermitted("sysLogin:switch")) {
+
+            if (ShiroHelper.isPermitted("sysLogin:switchParty")) {
+                // 限定了只允许切换党组织管理员的账号
+                SysUserView uv = sysUserService.findByUsername(username);
+                OrgAdmin orgAdmin = orgAdminService.get(uv.getId(), null, null);
+                if (orgAdmin == null) {
+                    throw new UnauthorizedException();
+                }
+            } else {
+                throw new UnauthorizedException();
+            }
+        }
 
         logger.info(addLog(LogConstants.LOG_ADMIN, "切换账号登录%s", username));
 

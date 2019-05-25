@@ -18,7 +18,8 @@
         <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <generator.mybatis.modal>ow</generator.mybatis.modal>
+        <generator.mybatis.modal>leader</generator.mybatis.modal>
+        <libdir>${basedir}</libdir>
     </properties>
     <dependencies>
         <dependency>
@@ -41,21 +42,21 @@
             <artifactId>xfire-all</artifactId>
             <version>1.2.6</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/xfire-all-1.2.6.jar</systemPath>
+            <systemPath>${libdir}/lib/xfire-all-1.2.6.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>jdom</groupId>
             <artifactId>jdom</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/jdom-1.0.jar</systemPath>
+            <systemPath>${libdir}/lib/jdom-1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0.1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/ojdbc6-11.2.0.1.0.jar</systemPath>
+            <systemPath>${libdir}/lib/ojdbc6-11.2.0.1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -177,7 +178,7 @@
             <version>3.0-beta-4</version>
             <type>jar</type>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/jodconverter-core-3.0-beta-4.jar</systemPath>
+            <systemPath>${libdir}/lib/jodconverter-core-3.0-beta-4.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.highcharts.export</groupId>
@@ -185,7 +186,7 @@
             <version>2.1.0</version>
             <type>jar</type>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/highcharts-export-convert-2.1.0.jar</systemPath>
+            <systemPath>${libdir}/lib/highcharts-export-convert-2.1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
@@ -536,14 +537,14 @@
             <artifactId>itextasian</artifactId>
             <version>2.1.7.js2</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/iTextAsian.jar</systemPath>
+            <systemPath>${libdir}/lib/iTextAsian.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.lowagie</groupId>
             <artifactId>simfang</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/simfang.jar</systemPath>
+            <systemPath>${libdir}/lib/simfang.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.jasig.cas.client</groupId>
@@ -555,7 +556,7 @@
             <artifactId>cas-client</artifactId>
             <version>4.0.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/neusoft-cas-client-4.0.0.jar</systemPath>
+            <systemPath>${libdir}/lib/neusoft-cas-client-4.0.0.jar</systemPath>
         </dependency>
 
         <!-- highchart export -->
@@ -565,7 +566,7 @@
             <version>1.7</version>
             <type>jar</type>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/batik-all-1.7.jar</systemPath>
+            <systemPath>${libdir}/lib/batik-all-1.7.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>pdf-transcoder</groupId>
@@ -573,7 +574,7 @@
             <version>1.0</version>
             <type>jar</type>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/pdf-transcoder.jar</systemPath>
+            <systemPath>${libdir}/lib/pdf-transcoder.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>xml-apis-ext-1.3.04</groupId>
@@ -581,7 +582,7 @@
             <version>1.3.04</version>
             <type>jar</type>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/xml-apis-ext-1.3.04.jar</systemPath>
+            <systemPath>${libdir}/lib/xml-apis-ext-1.3.04.jar</systemPath>
         </dependency>
 
         <dependency>

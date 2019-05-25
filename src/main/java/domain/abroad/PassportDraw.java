@@ -3,6 +3,7 @@ package domain.abroad;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cadre.CadreMapper;
 import sys.constants.AbroadConstants;
 import sys.helper.AbroadHelper;
@@ -77,10 +78,13 @@ public class PassportDraw implements Serializable {
 
     private Integer passportId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date applyDate;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date startDate;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date endDate;
 
     private String reason;
@@ -103,24 +107,30 @@ public class PassportDraw implements Serializable {
 
     private String approveRemark;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date approveTime;
 
     private String approveIp;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date realStartDate;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date realEndDate;
 
     private String realToCountry;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date returnDate;
 
     private Integer drawUserId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date drawTime;
 
     private String drawRecord;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date realReturnDate;
 
     private Byte drawStatus;

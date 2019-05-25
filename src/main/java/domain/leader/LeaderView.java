@@ -28,7 +28,7 @@ public class LeaderView implements Serializable {
 
     private Byte cadreStatus;
 
-    private Integer isCommitteeMember;
+    private Boolean isCommitteeMember;
 
     private static final long serialVersionUID = 1L;
 
@@ -80,11 +80,11 @@ public class LeaderView implements Serializable {
         this.cadreStatus = cadreStatus;
     }
 
-    public Integer getIsCommitteeMember() {
+    public Boolean getIsCommitteeMember() {
         return isCommitteeMember;
     }
 
-    public void setIsCommitteeMember(Integer isCommitteeMember) {
+    public void setIsCommitteeMember(Boolean isCommitteeMember) {
         this.isCommitteeMember = isCommitteeMember;
     }
 }

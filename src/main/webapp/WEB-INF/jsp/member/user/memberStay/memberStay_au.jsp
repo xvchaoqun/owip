@@ -22,7 +22,7 @@
             <h4 class="widget-title"><i class="fa fa-paw blue"></i> ${MEMBER_STAY_TYPE_MAP.get(type)}申请组织关系暂留
                 <c:if test="${param.auth=='admin'}">
                 <a href="javascript:;" class="hideView btn btn-xs btn-success pull-right"
-                   style="margin-top: 10px;margin-left: 10px;">
+                   style="margin-top: 10px;margin-right: 10px;">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
                 </c:if>
@@ -159,8 +159,8 @@
                                     <div class="col-xs-6">
                                         <select required name="country" data-rel="select2" data-placeholder="请选择">
                                             <option></option>
-                                            <c:forEach var="entity" items="${countryMap}">
-                                                <option value="${entity.value.cninfo}">${entity.value.cninfo}</option>
+                                            <c:forEach var="country" items="${countryList}">
+                                                <option value="${country}">${country}</option>
                                             </c:forEach>
                                         </select>
                                         <script>
@@ -185,16 +185,16 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>国内通讯地址</label>
 
                                     <div class="col-xs-6">
-                                    <input required class="form-control" name="inAddress"
-                                              maxlength="100" value="${memberStay.inAddress}"/>
+                                        <textarea class="form-control" rows="3" name="inAddress"
+                                                  maxlength="100">${memberStay.inAddress}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-6 control-label"><span class="star">*</span>国外通讯地址</label>
 
                                     <div class="col-xs-6">
-                                        <input required class="form-control" name="outAddress"
-                                               maxlength="100" value="${memberStay.outAddress}"/>
+                                        <textarea class="form-control" rows="3" name="outAddress"
+                                                  maxlength="100">${memberStay.outAddress}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -588,6 +588,7 @@
         </div>
     </div>
 </div>
+<div class="footer-margin lower"/>
 <style>
     fieldset {
         border: 1px solid #c0c0c0 !important;

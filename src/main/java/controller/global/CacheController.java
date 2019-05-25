@@ -1,7 +1,9 @@
 package controller.global;
 
 import controller.BaseController;
+import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,20 +26,22 @@ public class CacheController extends BaseController {
     @RequiresPermissions("sysConfig:cache")
     @RequestMapping("/clear")
     @ResponseBody
-    public Map clearCache() {
-        /*CacheManager manager = CacheManager.getInstance();
-        String[] names = manager.getCacheNames();
-        for (String name : names)
-        {
-            Cache cache = manager.getCache(name);
-            cache.removeAll();
-        }*/
-        CacheManager.create().clearAll();
-        /*CacheManager cacheManager = CacheManager.create();
-        Ehcache cache = cacheManager.getEhcache(cacheConfiguration.getName());
-        cache.removeAll();*/
+    public Map clearCache(String name, String key) {
 
-        logger.info("==============清空缓存成功=================");
+        if(StringUtils.isNotBlank(name)) {
+            CacheManager manager = CacheManager.getInstance();
+            Cache cache = manager.getCache(name);
+            if(StringUtils.isNotBlank(key)) {
+                cache.remove(key);
+            }else {
+                cache.removeAll();
+            }
+            logger.info("==============清理缓存name={}, key={}成功=================", name, key);
+
+        }else {
+            CacheManager.create().clearAll();
+            logger.info("==============清空缓存成功=================");
+        }
 
         return success();
     }

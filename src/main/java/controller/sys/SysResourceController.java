@@ -65,21 +65,24 @@ public class SysResourceController extends BaseController {
                                 String permission,
                                 Integer nodeid) throws IOException {
 
-         Set<Integer> idSet = new HashSet<>();
-        if (StringUtils.isNotBlank(name)||StringUtils.isNotBlank(permission)) {
+        SysResourceExample example = new SysResourceExample();
+        SysResourceExample.Criteria criteria = example.createCriteria().andIsMobileEqualTo(isMobile)
+                .andAvailableEqualTo(SystemConstants.AVAILABLE);
 
-            SysResourceExample example = new SysResourceExample();
-            SysResourceExample.Criteria criteria = example.createCriteria().andIsMobileEqualTo(isMobile)
+        Set<Integer> idSet = new HashSet<>();
+        if (StringUtils.isNotBlank(name) || StringUtils.isNotBlank(permission)) {
+
+            SysResourceExample example2 = new SysResourceExample();
+            SysResourceExample.Criteria criteria2 = example2.createCriteria().andIsMobileEqualTo(isMobile)
                     .andAvailableEqualTo(SystemConstants.AVAILABLE);
 
-            if(StringUtils.isNotBlank(name)){
-                criteria.andNameLike(SqlUtils.like(name));
+            if (StringUtils.isNotBlank(name)) {
+                criteria2.andNameLike(SqlUtils.like(name));
             }
-            if(StringUtils.isNotBlank(permission)){
-                criteria.andPermissionLike(SqlUtils.like(permission));
+            if (StringUtils.isNotBlank(permission)) {
+                criteria2.andPermissionLike(SqlUtils.like(permission));
             }
-
-            List<SysResource> sysResources = sysResourceMapper.selectByExample(example);
+            List<SysResource> sysResources = sysResourceMapper.selectByExample(example2);
             for (SysResource sysResource : sysResources) {
 
                 idSet.add(sysResource.getId());
@@ -89,21 +92,19 @@ public class SysResourceController extends BaseController {
                     idSet.add(parentId);
                 }
             }
+            if (idSet.size() > 0) {
+                criteria.andIdIn(new ArrayList<>(idSet));
+            } else {
+                criteria.andIdIsNull();
+            }
         }
 
-        SysResourceExample example = new SysResourceExample();
-        SysResourceExample.Criteria criteria = example.createCriteria().andIsMobileEqualTo(isMobile)
-                .andAvailableEqualTo(SystemConstants.AVAILABLE);
         if (nodeid != null) {
             criteria.andParentIdEqualTo(nodeid);
         } else {
             criteria.andParentIdIsNull();
         }
-        if(idSet.size()>0){
-            criteria.andIdIn(new ArrayList<>(idSet));
-        }
         example.setOrderByClause("sort_order desc");
-
         List<SysResource> records = sysResourceMapper.selectByExample(example);
 
         Map resultMap = success(FormUtils.SUCCESS);

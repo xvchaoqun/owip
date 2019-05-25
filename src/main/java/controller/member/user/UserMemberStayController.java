@@ -99,6 +99,8 @@ public class UserMemberStayController extends MemberBaseController {
         modelMap.put("student", studentInfoService.get(userId));
         modelMap.put("memberStay", memberStay);
 
+        modelMap.put("countryList", countryService.getCountryList());
+
         if(!selfSubmit){ // 管理员可在任意状态下修改
             return "member/user/memberStay/memberStay_au";
         }

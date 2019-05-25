@@ -3,7 +3,6 @@ package controller.abroad;
 import controller.global.OpException;
 import domain.abroad.*;
 import domain.abroad.ApplySelfExample.Criteria;
-import domain.base.Country;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
@@ -550,12 +549,7 @@ public class ApplySelfController extends AbroadBaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        List<String> countryList = new ArrayList<>();
-        Map<Integer, Country> countryMap = countryService.findAll();
-        for (Country country : countryMap.values()) {
-            countryList.add(country.getCninfo());
-        }
-        modelMap.put("countryList", JSONUtils.toString(countryList));
+        modelMap.put("countryList", JSONUtils.toString(countryService.getCountryList()));
 
         return "abroad/applySelf/applySelf_change";
     }

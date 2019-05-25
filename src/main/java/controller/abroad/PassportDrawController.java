@@ -5,7 +5,7 @@ import controller.global.OpException;
 import domain.abroad.*;
 import domain.abroad.PassportDrawExample.Criteria;
 import domain.base.ContentTpl;
-import domain.base.Country;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
@@ -37,6 +37,7 @@ import sys.constants.*;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -101,7 +102,7 @@ public class PassportDrawController extends AbroadBaseController {
         PassportDraw record = new PassportDraw();
         record.setId(id);
         record.setApproveRemark(StringUtils.trimToNull(remark));
-        if(record.getApproveRemark()==null){
+        if (record.getApproveRemark() == null) {
             return failed("请输入原因");
         }
         record.setStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS);
@@ -121,11 +122,12 @@ public class PassportDrawController extends AbroadBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("passportDraw:list")
     @RequestMapping("/passportDraw")
     public String passportDraw(Integer cadreId,
-                                    @RequestParam(required = false, defaultValue = "1") byte type,
-                                    ModelMap modelMap) {
+                               @RequestParam(required = false, defaultValue = "1") byte type,
+                               ModelMap modelMap) {
         modelMap.put("type", type);
         if (cadreId != null) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
@@ -136,24 +138,25 @@ public class PassportDrawController extends AbroadBaseController {
 
         return "abroad/passportDraw/passportDraw_page";
     }
+
     @RequiresPermissions("passportDraw:list")
     @RequestMapping("/passportDraw_data")
     public void passportDraw_data(HttpServletResponse response,
-                                    @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
-                                    @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer cadreId,
-                                    Integer passportId,
-                                    Integer year,
-                                    // -1:已删除
-                                    @RequestParam(required = false, defaultValue = "1") byte type,
-                                    @RequestDateRange DateRange _applyDate,
-                                    Byte status,
-                                    Byte drawStatus,
-                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                    // 导出类型：1：因私出国境 2： 台湾、长期 3： 处理其他事务
-                                    @RequestParam(required = false, defaultValue = "1") byte exportType,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                    Integer pageSize, Integer pageNo) throws IOException {
+                                  @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
+                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                  Integer cadreId,
+                                  Integer passportId,
+                                  Integer year,
+                                  // -1:已删除
+                                  @RequestParam(required = false, defaultValue = "1") byte type,
+                                  @RequestDateRange DateRange _applyDate,
+                                  Byte status,
+                                  Byte drawStatus,
+                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                  // 导出类型：1：因私出国境 2： 台湾、长期 3： 处理其他事务
+                                  @RequestParam(required = false, defaultValue = "1") byte exportType,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -170,13 +173,13 @@ public class PassportDrawController extends AbroadBaseController {
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if(passportId!=null){ // 查询特定证件的使用记录
+        if (passportId != null) { // 查询特定证件的使用记录
             criteria.andPassportIdEqualTo(passportId);
-        }else {
+        } else {
 
-            if(type==-1){
+            if (type == -1) {
                 criteria.andIsDeletedEqualTo(true);
-            }else {
+            } else {
                 criteria.andIsDeletedEqualTo(false);
 
                 if (type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF ||
@@ -188,25 +191,25 @@ public class PassportDrawController extends AbroadBaseController {
                 }
             }
         }
-        if(year!=null){
+        if (year != null) {
             criteria.andApplyDateBetween(DateUtils.parseDate(year + "0101"), DateUtils.parseDate(year + "1230"));
         }
-        if (_applyDate.getStart()!=null) {
+        if (_applyDate.getStart() != null) {
             criteria.andApplyDateGreaterThanOrEqualTo(_applyDate.getStart());
         }
 
-        if (_applyDate.getEnd()!=null) {
+        if (_applyDate.getEnd() != null) {
             criteria.andApplyDateLessThanOrEqualTo(_applyDate.getEnd());
         }
-        if(status!=null){
+        if (status != null) {
             criteria.andStatusEqualTo(status);
         }
-        if(drawStatus!=null){
+        if (drawStatus != null) {
             criteria.andDrawStatusEqualTo(drawStatus);
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             passportDrawService.passportDraw_export(exportType, example, response);
             return;
@@ -237,6 +240,140 @@ public class PassportDrawController extends AbroadBaseController {
     public String passportDraw_import(ModelMap modelMap) {
 
         return "abroad/passportDraw/passportDraw_import";
+    }
+
+    // 添加修改证件使用记录
+    @RequiresPermissions("passportDraw:edit")
+    @RequestMapping(value = "/passportDraw_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passportDraw_au(PassportDraw record,
+                                  String passportCode,
+                                  Byte dateType,
+                                  String toCountry,
+                                  String peerStaff,
+                                     @RequestParam(value = "_files[]") MultipartFile[] _files,
+                                  MultipartFile _attachment,
+                                  HttpServletRequest request) throws IOException, InterruptedException {
+
+        Integer id = record.getId();
+        byte type = record.getType();
+        Cadre cadre = null;
+        Integer classId = null;
+        if (id == null) {
+
+            if (StringUtils.isBlank(passportCode)) {
+                return failed("证件号码不能为空");
+            }
+            Passport passport = iAbroadMapper.getPassport(passportCode);
+            if (passport == null) {
+                return failed("证件号码不存在");
+            }
+            classId = passport.getClassId();
+            cadre = passport.getCadre();
+            record.setCadreId(cadre.getId());
+            record.setPassportId(passport.getId());
+
+            Integer currentUserId = ShiroHelper.getCurrentUserId();
+            if (record.getUserId() == null) {
+                record.setUserId(currentUserId);
+            }
+            if (record.getDrawUserId() == null) {
+                record.setDrawUserId(currentUserId);
+            }
+        }else{
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            cadre = passportDraw.getCadre();
+        }
+
+        ApplySelf applySelf = null;
+        if (type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
+
+            applySelf = new ApplySelf();
+            applySelf.setType(dateType);
+            applySelf.setApplyDate(record.getApplyDate());
+            applySelf.setCadreId(cadre.getId());
+            applySelf.setStartDate(record.getRealStartDate());
+            applySelf.setEndDate(record.getRealEndDate());
+            applySelf.setToCountry(toCountry);
+
+            applySelf.setReason(record.getReason());
+            record.setReason(null);
+
+            applySelf.setPeerStaff(peerStaff);
+            applySelf.setCostSource(record.getCostSource());
+            applySelf.setNeedPassports(classId + "");
+            applySelf.setCreateTime(new Date());
+            applySelf.setStatus(true);
+            applySelf.setIsFinish(true);
+            applySelf.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST);
+
+            applySelf.setIsAgreed(true);
+            applySelf.setRemark(record.getRemark());
+        }
+
+        List<PassportDrawFile> passportDrawFiles = new ArrayList<>();
+        for (MultipartFile _file : _files) {
+
+            String originalFilename = _file.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath =  FILE_SEPARATOR
+                    + "apply_self" + FILE_SEPARATOR + cadre.getUserId() + FILE_SEPARATOR
+                    + fileName;
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+
+            PassportDrawFile passportDrawFile = new PassportDrawFile();
+            passportDrawFile.setFileName(originalFilename);
+            passportDrawFile.setFilePath(savePath);
+            passportDrawFile.setCreateTime(new Date());
+
+            passportDrawFiles.add(passportDrawFile);
+        }
+
+        if (_attachment != null) {
+            String ext = FileUtils.getExtention(_attachment.getOriginalFilename());
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+                return failed("附件格式错误，请上传pdf文件");
+            }
+            String originalFilename = _attachment.getOriginalFilename();
+            record.setAttachmentFilename(originalFilename);
+            record.setAttachment(uploadPdf(_attachment, "passportDraw-attachment"));
+        }
+
+        passportDrawService.addOrUpdate(record, applySelf);
+
+         for (PassportDrawFile passportDrawFile : passportDrawFiles) {
+            passportDrawFile.setDrawId(record.getId());
+            passportDrawFileMapper.insert(passportDrawFile);
+        }
+
+        logger.info(addLog(LogConstants.LOG_ABROAD, "添加/更新办理证件记录：%s", record.getId()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("passportDraw:edit")
+    @RequestMapping("/passportDraw_au")
+    public String passportDraw_au(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            modelMap.put("passportDraw", passportDraw);
+            String reasons = passportDraw.getReason();
+            if(passportDraw.getApplyId()!=null){
+                ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());
+                reasons = applySelf.getReason();
+                modelMap.put("applySelf", applySelf);
+            }
+            modelMap.put("reasons", reasons);
+
+            modelMap.put("approvalUser", CmTag.getUserById(passportDraw.getUserId()));
+            modelMap.put("drawUser", CmTag.getUserById(passportDraw.getDrawUserId()));
+        }
+
+        modelMap.put("countryList", JSONUtils.toString(countryService.getCountryList()));
+
+        return "abroad/passportDraw/passportDraw_au";
     }
 
     // 导入使用记录
@@ -270,7 +407,7 @@ public class PassportDrawController extends AbroadBaseController {
                 continue;
             }
 
-            Passport passport = iAbroadMapper.getPassPort(passportCode);
+            Passport passport = iAbroadMapper.getPassport(passportCode);
             if (passport == null) {
                 throw new OpException("第{0}行证件号码[{1}]不存在", row, passportCode);
             }
@@ -281,38 +418,39 @@ public class PassportDrawController extends AbroadBaseController {
 
             String _type = StringUtils.trim(xlsRow.get(col++));
             Byte type = null;
-            if(StringUtils.isNumeric(_type)){
+            if (StringUtils.isNumeric(_type)) {
                 type = Byte.parseByte(_type);
             }
-            if(type==null || !AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.containsKey(type)){
+            if (type == null || !AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.containsKey(type)) {
                 throw new OpException("第{0}行使用类别[{1}]不存在", row, _type);
             }
             passportDraw.setType(type);
 
             String _useType = StringUtils.trim(xlsRow.get(col++));
             Byte useType = null;
-            if(StringUtils.isNumeric(_useType)){
+            if (StringUtils.isNumeric(_useType)) {
                 useType = Byte.parseByte(_useType);
             }
-            if(useType==null || !AbroadConstants.ABROAD_PASSPORT_DRAW_USE_TYPE_MAP.containsKey(useType)){
+            if (useType != null && !AbroadConstants.ABROAD_PASSPORT_DRAW_USE_TYPE_MAP.containsKey(useType)) {
                 throw new OpException("第{0}行用途[{1}]不存在", row, _useType);
             }
             passportDraw.setUseType(useType);
 
             // 事由
             String reason = StringUtils.trim(xlsRow.get(col++));
-            passportDraw.setReason(reason); // 台湾
+
             boolean needSign = StringUtils.contains(StringUtils.trim(xlsRow.get(col++)), "是");
             passportDraw.setNeedSign(needSign); // 因私&台湾
+
             passportDraw.setApproveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             passportDraw.setDrawTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
 
             String _dateType = StringUtils.trim(xlsRow.get(col++));
             Byte dateType = null;
-            if(StringUtils.isNumeric(_dateType)){
+            if (StringUtils.isNumeric(_dateType)) {
                 dateType = Byte.parseByte(_dateType);
             }
-            if(dateType!=null && !AbroadConstants.ABROAD_APPLY_SELF_DATE_TYPE_MAP.containsKey(dateType)){
+            if (dateType != null && !AbroadConstants.ABROAD_APPLY_SELF_DATE_TYPE_MAP.containsKey(dateType)) {
                 throw new OpException("第{0}行出行时间范围[{1}]不存在", row, _dateType);
             }
             //
@@ -323,21 +461,32 @@ public class PassportDrawController extends AbroadBaseController {
             passportDraw.setCostSource(costSource); // 台湾
 
             Date realStartDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
-            if(realStartDate==null){
+            if (realStartDate == null) {
                 throw new OpException("第{0}行使用开始日期为空", row);
             }
 
             Date realEndDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
             Date realReturnDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++)));
 
-            passportDraw.setRealStartDate(realStartDate);
-            passportDraw.setRealEndDate(realEndDate);
+            if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW
+            || passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF
+            || passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
+
+                passportDraw.setReason(reason); // 台湾
+                passportDraw.setStartDate(realStartDate);
+                passportDraw.setEndDate(realEndDate);
+            }else{
+
+                passportDraw.setRealStartDate(realStartDate);
+                passportDraw.setRealEndDate(realEndDate);
+            }
+
             passportDraw.setRealReturnDate(realReturnDate);
             passportDraw.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
 
             passportDraw.setCreateTime(now);
 
-            passportDraw.setApplyDate(passportDraw.getApproveTime()==null?now:passportDraw.getApproveTime());
+            passportDraw.setApplyDate(passportDraw.getApproveTime() == null ? now : passportDraw.getApproveTime());
             passportDraw.setStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS);
             passportDraw.setUserId(currentUserId);
             passportDraw.setDrawUserId(currentUserId);
@@ -349,7 +498,7 @@ public class PassportDrawController extends AbroadBaseController {
             Map<String, Object> recordMap = new HashMap<>();
             recordMap.put("passportDraw", passportDraw);
 
-            if(type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
+            if (type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
                 ApplySelf applySelf = new ApplySelf();
 
                 applySelf.setType(dateType);
@@ -361,7 +510,7 @@ public class PassportDrawController extends AbroadBaseController {
                 applySelf.setReason(reason);
                 applySelf.setPeerStaff(peerStaff);
                 applySelf.setCostSource(costSource);
-                applySelf.setNeedPassports(passport.getClassId()+"");
+                applySelf.setNeedPassports(passport.getClassId() + "");
                 applySelf.setCreateTime(now);
                 applySelf.setStatus(true);
                 applySelf.setIsFinish(true);
@@ -389,18 +538,18 @@ public class PassportDrawController extends AbroadBaseController {
 
         logger.info(log(LogConstants.LOG_ABROAD,
                 "导入证件使用记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
-                totalCount, addCount, totalCount-addCount));
+                totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }
 
     // 管理员添加申请
     @RequiresPermissions("passportDraw:edit")
-    @RequestMapping("/passportDraw_au")
-    public String passportDraw_au(Byte type, ModelMap modelMap) {
+    @RequestMapping("/passportDraw_add")
+    public String passportDraw_add(Byte type, ModelMap modelMap) {
 
         modelMap.put("type", type);
-        return "abroad/passportDraw/passportDraw_au";
+        return "abroad/passportDraw/passportDraw_add";
     }
 
     @RequiresPermissions("passportDraw:edit")
@@ -412,7 +561,7 @@ public class PassportDrawController extends AbroadBaseController {
         Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
         modelMap.put("passport", passport);
 
-        if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF){
+        if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
 
             request.setAttribute("isView", true);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());
@@ -423,7 +572,8 @@ public class PassportDrawController extends AbroadBaseController {
         Integer userId = passport.getUser().getId();
         String msgTitle = userBeanService.getMsgTitle(userId);
         String shortMsg = MessageFormat.format(shortMsgTpl.getContent(), msgTitle,
-                passport.getPassportClass().getName());;
+                passport.getPassportClass().getName());
+        ;
         modelMap.put("shortMsg", shortMsg);
         modelMap.put("mobile", userBeanService.getMsgMobile(userId));
 
@@ -474,21 +624,16 @@ public class PassportDrawController extends AbroadBaseController {
         Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
         modelMap.put("passport", passport);
 
-        if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF){
+        if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
 
             request.setAttribute("isView", true);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());
             modelMap.put("applySelf", applySelf);
         }
 
-        List<String> countryList = new ArrayList<>();
-        Map<Integer, Country> countryMap = countryService.findAll();
-        for (Country country : countryMap.values()) {
-            countryList.add(country.getCninfo());
-        }
-        modelMap.put("countryList", JSONUtils.toString(countryList));
+        modelMap.put("countryList", JSONUtils.toString(countryService.getCountryList()));
 
-        if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER){
+        if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
             return "abroad/passportDraw/passportDraw_other_return";
         }
 
@@ -501,14 +646,14 @@ public class PassportDrawController extends AbroadBaseController {
     public Map do_passportDraw_return(@CurrentUser SysUserView loginUser,
                                       HttpServletRequest request,
                                       byte usePassport,
-                                      String  _realReturnDate,
-                                    MultipartFile _attachment,
-                                    MultipartFile _useRecord,
+                                      String _realReturnDate,
+                                      MultipartFile _attachment,
+                                      MultipartFile _useRecord,
                                       String _base64,
                                       @RequestParam(required = false, defaultValue = "0") Integer _rotate,
                                       String _realStartDate,
-                                    String _realEndDate,
-                                      String realToCountry, String remark, Integer id) throws IOException {
+                                      String _realEndDate,
+                                      String realToCountry, String remark, Integer id) throws IOException, InterruptedException {
 
         PassportDraw record = new PassportDraw();
 
@@ -516,32 +661,14 @@ public class PassportDrawController extends AbroadBaseController {
            return failed("请选择证件使用记录拍照");
         }*/
 
-        if(_attachment!=null){
+        if (_attachment != null) {
             String ext = FileUtils.getExtention(_attachment.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
                 return failed("附件格式错误，请上传pdf文件");
             }
-
             String originalFilename = _attachment.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath =  FILE_SEPARATOR
-                    + "passportDraw" + FILE_SEPARATOR
-                    + "attachment" + FILE_SEPARATOR
-                    + id + FILE_SEPARATOR
-                    + fileName;
-            String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_attachment, new File(springProps.uploadPath + savePath));
-
-            try {
-                String swfPath = realPath + ".swf";
-                pdf2Swf(savePath, swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                logger.error("异常", e);
-            }
-
             record.setAttachmentFilename(originalFilename);
-            record.setAttachment(savePath);
+            record.setAttachment(uploadPdf(_attachment, "passportDraw-attachment"));
         }
 
         record.setId(id);
@@ -550,8 +677,8 @@ public class PassportDrawController extends AbroadBaseController {
         record.setRealStartDate(DateUtils.parseDate(_realStartDate, DateUtils.YYYY_MM_DD));
         record.setRealEndDate(DateUtils.parseDate(_realEndDate, DateUtils.YYYY_MM_DD));
 
-        if(record.getRealStartDate()!=null && record.getRealEndDate()!=null
-                && record.getRealStartDate().after(record.getRealEndDate())){
+        if (record.getRealStartDate() != null && record.getRealEndDate() != null
+                && record.getRealStartDate().after(record.getRealEndDate())) {
             return failed("实际出行时间有误。");
         }
 
@@ -569,7 +696,7 @@ public class PassportDrawController extends AbroadBaseController {
                     .rotate(_rotate).toFile(springProps.uploadPath + savePath);
 
             record.setUseRecord(savePath);
-        }else if(StringUtils.isNotBlank(_base64)){
+        } else if (StringUtils.isNotBlank(_base64)) {
 
             String savePath = FILE_SEPARATOR
                     + "draw" + FILE_SEPARATOR + "use" + FILE_SEPARATOR + UUID.randomUUID().toString() + ".jpg";
@@ -584,10 +711,10 @@ public class PassportDrawController extends AbroadBaseController {
         }
 
         record.setReturnRemark(remark);
-        if(record.getRealReturnDate()==null) // 默认当天为归还时间
+        if (record.getRealReturnDate() == null) // 默认当天为归还时间
             record.setRealReturnDate(new Date());
 
-        if(usePassport != AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN)
+        if (usePassport != AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN)
             record.setDrawStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN);
 
         passportDrawService.returnPassport(record);
@@ -599,7 +726,7 @@ public class PassportDrawController extends AbroadBaseController {
     // 修改归还日期
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping("/reset_passportDraw_returnDate")
-    public String reset_passportDraw_returnDate( Integer id, ModelMap modelMap) {
+    public String reset_passportDraw_returnDate(Integer id, ModelMap modelMap) {
 
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
         modelMap.put("passportDraw", passportDraw);
@@ -638,7 +765,7 @@ public class PassportDrawController extends AbroadBaseController {
 
     @RequiresPermissions("passportDraw:list")
     @RequestMapping("/passportDraw_view")
-    public String passportDraw_view( Integer id, ModelMap modelMap) {
+    public String passportDraw_view(Integer id, ModelMap modelMap) {
 
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
         CadreView cadre = iCadreMapper.getCadre(passportDraw.getCadreId());
@@ -649,7 +776,7 @@ public class PassportDrawController extends AbroadBaseController {
         modelMap.put("passportDraw", passportDraw);
 
 
-        if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF){
+        if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());
             modelMap.put("applySelf", applySelf);
         }
@@ -686,6 +813,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("passportDraw:del")
     @RequestMapping(value = "/passportDraw_batchUnDel", method = RequestMethod.POST)
     @ResponseBody
@@ -699,7 +827,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         return success(FormUtils.SUCCESS);
     }
-    
+
     @RequestMapping(value = "/attach/passportDrawFile")
     public void attach_passportDrawFile(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 

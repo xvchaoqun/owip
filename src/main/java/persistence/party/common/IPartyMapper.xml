@@ -28,4 +28,26 @@
        select count(oo.id) from ow_organizer oo left join sys_user_view uv on oo.user_id=uv.id
          <include refid="organizerSearchSql"/>
     </select>
+
+    <sql id="orgAdminSearchSql">
+        <where>
+        <if test="type != null">
+            and oo.type=#{type}
+        </if>
+        <if test="query != null">
+          and (uv.username like '${query}%'
+              or uv.realname like '${query}%'
+              or uv.code like '${query}%')
+        </if>
+        </where>
+    </sql>
+    <select id="selectOrgAdminList" resultMap="persistence.party.OrgAdminViewMapper.BaseResultMap" parameterType="map">
+        select oo.* from ow_org_admin_view oo left join sys_user_view uv on oo.user_id=uv.id
+         <include refid="orgAdminSearchSql"/>
+        order by oo.type asc, oo.party_sort_order desc, oo.branch_party_sort_order desc, oo.branch_sort_order desc
+    </select>
+    <select id="countOrgAdminList" parameterType="map" resultType="java.lang.Integer">
+       select count(oo.id) from ow_org_admin_view oo left join sys_user_view uv on oo.user_id=uv.id
+         <include refid="orgAdminSearchSql"/>
+    </select>
 </mapper>

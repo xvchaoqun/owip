@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/abroad/passportApply_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.cadreId ||not empty param.classId
-            ||not empty param.applyDate || not empty param.code || not empty param.sort}"/>
+            ||not empty param.applyDate || not empty param.code}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">active</c:if>">
@@ -39,13 +39,25 @@ pageEncoding="UTF-8" %>
                     <li class="<c:if test="${status==-1}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
+                     <div class="buttons pull-left" style="left: 50px;">
+                    <shiro:hasPermission name="passportApply:edit">
+                        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                        data-url="${ctx}/abroad/passportApply_au"><i class="fa fa-plus"></i> 添加</button>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="passportApply:import">
+                        <button class="popupBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/abroad/passportApply_import"
+                        data-rel="tooltip" data-placement="top"
+                        title="从Excel中批量导入"><i class="fa fa-upload"></i> 批量导入</button>
+                    </shiro:hasPermission>
+                     </div>
                 </ul>
 
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">
-                            <button data-url="${ctx}/abroad/passportApply_au"
+                            <button data-url="${ctx}/abroad/passportApply_add"
                                     class="popupBtn btn btn-primary btn-sm">
                                 <i class="fa fa-plus"></i> 申请办理证件
                             </button>
@@ -76,7 +88,20 @@ pageEncoding="UTF-8" %>
                                     <i class="fa fa-info-circle"></i> 申请表
                             </button>
                             </c:if>
+                            <c:if test="${status==3}">
+                                <shiro:hasPermission name="passportApply:edit">
+                                <a class="jqOpenViewBtn btn btn-primary btn-sm tooltip-primary"
+                                   data-url="${ctx}/abroad/passportApply_au"><i
+                                        class="fa fa-edit"></i> 修改</a>
+                                </shiro:hasPermission>
+                            </c:if>
                             <c:if test="${status>=0}">
+                                <shiro:hasPermission name="passportApply:list">
+                                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                   data-url="${ctx}/abroad/passportApply_data?export=1"
+                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                        class="fa fa-download"></i> 导出</a>
+                                </shiro:hasPermission>
                                 <shiro:hasPermission name="passportApply:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/abroad/passportApply_batchDel" data-title="删除办理证件申请"
@@ -89,6 +114,7 @@ pageEncoding="UTF-8" %>
                                        data-url="${ctx}/abroad/passportApply_batchUnDel" data-title="找回已删除办理证件申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
                                 </shiro:hasPermission>
+
                                 <shiro:hasPermission name="passportApply:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/abroad/passportApply_doBatchDel" data-title="删除办理证件申请"
@@ -127,6 +153,11 @@ pageEncoding="UTF-8" %>
                                                         <script type="text/javascript">
                                                             $("#searchForm select[name=classId]").val(${param.classId});
                                                         </script>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>证件号码</label>
+                                                        <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                                   placeholder="请输入证件号码">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>年份</label>
@@ -200,8 +231,9 @@ pageEncoding="UTF-8" %>
             { label:'接收人', name: 'handleUser.realname'},
             </c:if>
             <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS}">
-                { label:'未批准原因', name: 'handleDate', width: 200 }
+                { label:'未批准原因', name: 'handleDate', width: 200 },
             </c:if>
+            { label:'备注', name: 'remark', width: 200, align:'left'}
         ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

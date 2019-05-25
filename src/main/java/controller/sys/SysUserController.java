@@ -14,7 +14,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +54,7 @@ public class SysUserController extends BaseController {
     protected DBServcie dbServcie;
 
     // 门户账号信息
-    @RequiresPermissions("sysUser:ext")
+    @RequiresPermissions("sysUser:view")
     @RequestMapping("/sysUser_ext")
     public String sysUser_ext(int userId, ModelMap modelMap) {
 
@@ -103,26 +102,26 @@ public class SysUserController extends BaseController {
     @RequestMapping("/sysUser_view")
     public String sysUser_view(String to, ModelMap modelMap) {
 
-        if (!ShiroHelper.isPermittedAny(new String[]{"sysUser:base", "sysUser:info"})) {
+        /*if (!ShiroHelper.isPermittedAny(new String[]{"sysUser:base", "sysUser:info"})) {
             throw new UnauthorizedException();
-        }
+        }*/
 
-        if (StringUtils.isBlank(to)) {
+        /*if (StringUtils.isBlank(to)) {
 
             if (ShiroHelper.isPermitted("sysUser:base")) {
                 to = "sysUser_base";
             } else if (ShiroHelper.isPermitted("sysUser:info")) {
                 to = "sysUser_info";
             }
-        }
+        }*/
 
-        modelMap.put("to", to);
+        modelMap.put("to", "sysUser_base");
 
         return "sys/sysUser/sysUser_view";
     }
 
     // 账号信息
-    @RequiresPermissions("sysUser:base")
+    @RequiresPermissions("sysUser:view")
     @RequestMapping("/sysUser_base")
     public String sysUser_base(int userId, ModelMap modelMap) {
 
@@ -149,7 +148,7 @@ public class SysUserController extends BaseController {
     }
 
     // 账号信息
-    @RequiresPermissions("sysUser:info")
+    @RequiresPermissions("sysUser:view")
     @RequestMapping("/sysUser_info")
     public String sysUser_info(int userId, ModelMap modelMap) {
 

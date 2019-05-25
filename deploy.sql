@@ -1,5 +1,13 @@
 
 
+-- 导出数据库结构
+mysqldump  -uroot -p'123' --default-character-set=utf8 -d db_owip>/tmp/db_owip.sql
+-- 提取基础表数据
+mysqldump  -uroot -p'xxx' --default-character-set=utf8 -t -B owip --tables base_annual_type base_content_tpl base_country base_location base_meta_class base_meta_type base_sitemap base_sitemap_role base_stroke_count sys_attach_file sys_role sys_resource sys_config sys_html_fragment sys_property sys_scheduler_job  >/tmp/b.sql
+-- 提取控制台账号
+mysqldump  -uroot -p'xxx' --default-character-set=utf8 -t -B owip --tables sys_user -w "username='zzbgz'" >/tmp/u.sql
+
+
 
 
 -- 统一修改干部的称谓
@@ -17,6 +25,7 @@ update base_content_tpl set content = replace(content, '主楼A306', '行政楼2
 -- 更新系统说明
 select title,content from sys_html_fragment where content like '%师范%'
 update sys_html_fragment set content = replace(content, '北京师范大学', '西安交通大学');
+update sys_html_fragment set content = replace(content, '北师大', '西安交大');
 update sys_html_fragment set content = replace(content, '18612987573', '13800000000');
 update sys_html_fragment set content = replace(content, '58808302', '88888888');
 update sys_html_fragment set content = replace(content, '58806879', '88888888');

@@ -8,7 +8,7 @@
     <result column="job" jdbcType="VARCHAR" property="job" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="cadre_status" jdbcType="TINYINT" property="cadreStatus" />
-    <result column="is_committee_member" jdbcType="INTEGER" property="isCommitteeMember" />
+    <result column="is_committee_member" jdbcType="BOOLEAN" property="isCommitteeMember" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

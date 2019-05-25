@@ -460,9 +460,9 @@
             },
             </c:if>
             {label: '人员类别', name: 'userType', formatter: $.jgrid.formatter.MetaType},
-            {label: '手机号码', name: 'mobile'},
-            {label: '家庭电话', name: 'phone'},
-            {label: '微信', name: 'weixin'},
+            {label: '手机号码', name: 'mobile', width: 120},
+            {label: '家庭电话', name: 'phone', width: 120},
+            {label: '微信', name: 'weixin', width: 120},
             {label: '电子邮箱', name: 'email', width: 200},
             {label: 'QQ号', name: 'qq'},
             {
@@ -499,11 +499,9 @@
             {label: '去往国家', name: 'country'},
             {label: '留学学校或工作单位', name: 'school', width: 200},
             {
-                label: '出国起止时间', name: 'abroadTime', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return
-                $.date(rowObject.startTime, "yyyy-MM")
-                + "至" +
-                $.date(rowObject.endTime, "yyyy-MM");
+                label: '出国起止时间', name: 'abroadTime', width: 160, formatter: function (cellvalue, options, rowObject) {
+                return $.date(rowObject.startTime, "yyyy.MM")
+                    + " ~ " + $.date(rowObject.endTime, "yyyy.MM");
             }
             },
             {label: '预计回国时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
@@ -518,15 +516,15 @@
             {label: '与本人关系', name: 'relate1'},
             {label: '单位', name: 'unit1', width: 200},
             {label: '职务', name: 'post1'},
-            {label: '办公电话', name: 'phone1'},
-            {label: '手机号', name: 'mobile1'},
+            {label: '办公电话', name: 'phone1', width: 120},
+            {label: '手机号', name: 'mobile1', width: 120},
             {label: '电子邮箱', name: 'email1', width: 200},
             {label: '国内第二联系人', name: 'name2', width: 150},
             {label: '与本人关系', name: 'relate2'},
             {label: '单位', name: 'unit2', width: 200},
             {label: '职务', name: 'post2'},
-            {label: '办公电话', name: 'phone2'},
-            {label: '手机号', name: 'mobile2'},
+            {label: '办公电话', name: 'phone2', width: 120},
+            {label: '手机号', name: 'mobile2', width: 120},
             {label: '电子邮箱', name: 'email2', width: 200},
             </c:if>
             <c:if test="${param.type==MEMBER_STAY_TYPE_INTERNAL}">

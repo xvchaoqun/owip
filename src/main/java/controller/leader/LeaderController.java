@@ -7,13 +7,9 @@ import domain.leader.*;
 import domain.sys.SysUserView;
 import mixin.CadreMixin;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,15 +22,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class LeaderController extends BaseController {
@@ -87,6 +83,7 @@ public class LeaderController extends BaseController {
                                     Integer typeId,
                                     String job,
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -112,6 +109,8 @@ public class LeaderController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             leader_export(example, response);
             return ;
         }
@@ -252,37 +251,31 @@ public class LeaderController extends BaseController {
         List<LeaderView> leaders = leaderViewMapper.selectByExample(example);
         int rownum = (int) leaderViewMapper.countByExample(example);
 
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"校领导","类别","分管工作"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        String[] titles = {"工作证号|100", "姓名|100", "所在单位及职务|300|left",
+                "行政级别|100", "类别|100", "是否校领导|100", "是否常委|100", "分管工作|500|left"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
 
             LeaderView leader = leaders.get(i);
+            CadreView cadre = leader.getCadre();
+
             String[] values = {
-                        leader.getUserId()+"",
-                                            leader.getTypeId()+"",
-                                            leader.getJob()
+                    cadre.getCode(),
+                    cadre.getRealname(),
+                    cadre.getTitle(),
+                    metaTypeService.getName(cadre.getAdminLevel()),
+                    metaTypeService.getName(leader.getTypeId()),
+                    (cadre.getStatus()==CadreConstants.CADRE_STATUS_LEADER
+                            || cadre.getStatus()==CadreConstants.CADRE_STATUS_LEADER_LEAVE)?"是":"否",
+                    BooleanUtils.isTrue(leader.getIsCommitteeMember()) ?"是":"否",
+                    leader.getJob()
                     };
 
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+            valuesList.add(values);
         }
 
-        String fileName = "校领导_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.output(wb, fileName + ".xlsx", response);
+        String fileName = "校级领导分工";
+        ExportHelper.export(titles, valuesList,  fileName, response);
     }
 
     @RequiresPermissions("leader:unit")

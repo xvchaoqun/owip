@@ -118,8 +118,7 @@
                 width: 550,
                 align: 'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return ('<a href="javascript:;" data-url="${ctx}/attach?code={1}" data-load-text="下载中..." '
-                        + 'data-failed-text="下载失败，请稍后重试。"'
+                    return ('<a href="javascript:;" data-url="${ctx}/attach?code={1}" data-type="download" '
                         + 'class="downloadBtn">{0}/attach?code={1}</a>')
                         .format('${_sysConfig.siteHome}', rowObject.code);
                 }

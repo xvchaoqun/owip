@@ -9,15 +9,20 @@
                 <jsp:include page="../leader/menu.jsp"/>
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
-<shiro:hasPermission name="leaderUnit:edit">
+                    <shiro:hasPermission name="leaderUnit:edit">
                     <a class="popupBtn btn btn-warning btn-sm"
                        data-url="${ctx}/leaderUnit_escape"><i class="fa fa-search"></i> 未分配校领导的单位（${fn:length(units)}）</a>
-</shiro:hasPermission>
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="leaderUnit:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/leaderUnit_batchDel" data-title="删除"
                            data-msg="确定删除这{0}条记录吗？"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
+
+                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                   data-url="${ctx}/leaderUnit_data?export=1"
+                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                        class="fa fa-download"></i> 导出</a>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

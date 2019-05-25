@@ -6,23 +6,21 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
-public class CountryService extends BaseMapper{
+public class CountryService extends BaseMapper {
 
     @Cacheable(value = "Country:ALL")
-    public Map<Integer, Country> findAll(){
+    public List<String> getCountryList() {
 
-        Map<Integer, Country> map = new HashMap<>();
         List<Country> countries = countryMapper.selectByExample(new CountryExample());
+        List<String> countryList = new ArrayList<>();
         for (Country country : countries) {
-
-            map.put(country.getId(), country);
+            countryList.add(country.getCninfo());
         }
 
-        return map;
+        return countryList;
     }
 }

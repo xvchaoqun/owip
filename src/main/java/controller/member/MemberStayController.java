@@ -471,96 +471,16 @@ public class MemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresPermissions("memberStay:edit")
-    @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_memberStay_au(@CurrentUser SysUserView loginUser, MemberStay record,
-                                    MultipartFile _letter,
-                                    HttpServletRequest request) {
-
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
-
-        Integer partyId = record.getPartyId();
-        Integer branchId = record.getBranchId();
-
-        //===========权限
-        Integer loginUserId = loginUser.getId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) { // 支部或分党委管理员都有权限
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin && branchId != null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-            }
-            if (!isAdmin) throw new UnauthorizedException();
-        }
-
-        Integer id = record.getId();
-
-        if (memberStayService.idDuplicate(id, record.getUserId())) {
-            return failed("添加重复");
-        }
-
-        if (_letter != null && !_letter.isEmpty()) {
-
-            String OriginalFileName = _letter.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "member_stay" + FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMM")
-                    + FILE_SEPARATOR + fileName + FileUtils.getExtention(OriginalFileName);
-
-            FileUtils.copyFile(_letter, new File(springProps.uploadPath + realPath));
-
-            record.setLetter(realPath);
-        }
-
-        if (id == null) {
-            record.setCreateTime(new Date());
-            record.setStatus(MemberConstants.MEMBER_STAY_STATUS_APPLY);
-            memberStayService.insertSelective(record);
-
-            applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(),
-                    loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
-                    "后台添加",
-                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "提交暂留申请");
-
-            logger.info(addLog(LogConstants.LOG_MEMBER, "添加暂留：%s", record.getId()));
-        } else {
-
-            memberStayService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_MEMBER, "更新暂留：%s", record.getId()));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }*/
-
     // 管理员添加
     @RequiresPermissions("memberStay:edit")
     @RequestMapping("/memberStay_au")
     public String memberStay_au(byte type, ModelMap modelMap) {
 
         modelMap.put("type", type);
+        modelMap.put("countryList", countryService.getCountryList());
 
         return "member/memberStay/memberStay_au";
     }
-
-    /*@RequiresPermissions("memberStay:edit")
-    @RequestMapping("/memberStay_au")
-    public String memberStay_au(Integer id, ModelMap modelMap) {
-
-        if (id != null) {
-            MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-            modelMap.put("memberStay", memberStay);
-
-            modelMap.put("userBean", userBeanService.get(memberStay.getUserId()));
-        }
-        return "member/memberStay/memberStay_au";
-    }*/
-
 
     @RequiresPermissions("memberStay:edit")
     @RequestMapping(value = "/memberStay_transfer_au", method = RequestMethod.POST)

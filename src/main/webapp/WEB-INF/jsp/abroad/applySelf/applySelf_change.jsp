@@ -62,26 +62,14 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">前往国家或地区</label>
 				<div class="col-xs-6">
 					<input type="text" name="toCountry" id="form-field-tags" value="${applySelf.toCountry}" placeholder="输入后选择国家或按回车 ..." />
-
-					<%--<select name="toCountry" data-rel="select2" data-placeholder="请选择国家或地区">
-						<option></option>
-						<c:forEach items="${countryMap}" var="country">
-							<option value="${country.key}">${country.value.cninfo}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=toCountry]").val('${applySelf.toCountry}');
-					</script>--%>
 				</div>
 			</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">出国（境）事由</label>
 			<div class="col-xs-9 choice label-text">
-				<input name="_reason" type="checkbox" value="旅游"> 旅游&nbsp;
-				<input name="_reason" type="checkbox" value="探亲"> 探亲&nbsp;
-				<input name="_reason" type="checkbox" value="访友"> 访友&nbsp;
-				<input name="_reason" type="checkbox" value="继承"> 继承&nbsp;
-				<input name="_reason" type="checkbox" value="接受和处理财产"> 接受和处理财产&nbsp;
+				<c:forEach items="${cm:getMetaTypes('mc_abroad_reason')}" var="r">
+				<input name="_reason" type="checkbox" value="${r.value.name}"> ${r.value.name}&nbsp;
+				</c:forEach>
 				<input name="_reason" type="checkbox" value="其他"> 其他
 				<input name="_reason_other" type="text">
 				<input name="reason" type="hidden"/>

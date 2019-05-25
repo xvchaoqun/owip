@@ -320,6 +320,9 @@
                 }
             },
             templateResult: $.register.formatState,
+            escapeMarkup: function (markup) {
+                return markup;
+            },
             ajax: {
                 dataType: 'json',
                 delay: 300,

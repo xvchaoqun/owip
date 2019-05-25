@@ -52,21 +52,34 @@
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=-1"><i
                                 class="fa fa-trash"></i> 已删除</a>
                     </li>
+                    <shiro:hasPermission name="passportDraw:import">
                     <div class="buttons pull-left" style="left: 50px;">
+
+                        <shiro:hasPermission name="passportDraw:edit">
+                            <button class="openView btn btn-info btn-sm tooltip-info"
+                            data-url="${ctx}/abroad/passportDraw_au"><i class="fa fa-plus"></i> 添加</button>
+                        </shiro:hasPermission>
+
                         <button class="popupBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/abroad/passportDraw_import"
                         data-rel="tooltip" data-placement="top"
                         title="从Excel中批量导入"><i class="fa fa-upload"></i> 批量导入</button>
                     </div>
+                    </shiro:hasPermission>
                 </ul>
 
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${type!=-1}">
-                                <button data-url="${ctx}/abroad/passportDraw_au?type=${type}"
-                                        class="popupBtn btn btn-primary btn-sm">
+                                <button data-url="${ctx}/abroad/passportDraw_add?type=${type}"
+                                        class="popupBtn btn btn-success btn-sm">
                                     <i class="fa fa-plus"></i> 申请
+                                </button>
+                                <button data-url="${ctx}/abroad/passportDraw_au"
+                                        data-open-by="page"
+                                        class="jqOpenViewBtn btn btn-primary btn-sm">
+                                    <i class="fa fa-edit"></i> 修改
                                 </button>
                             </c:if>
                             <button data-url="${ctx}/abroad/passportDraw_view" data-open-by="page"
@@ -324,6 +337,7 @@
                 name: 'day',
                 width: 80,
                 formatter: function (cellvalue, options, rowObject) {
+                    if(rowObject.endDate==undefined) return '--'
                     return $.dayDiff(rowObject.startDate, rowObject.endDate);
                 }
             },
@@ -535,7 +549,9 @@
                     //console.log(rowObject.attachmentFilename)
                     return $.swfPreview(rowObject.attachment, rowObject.attachmentFilename, "查看");
                 }
-            }, {hidden: true, name: 'drawStatus'}
+            },
+            {label: '备注', name:'remark', width:350, align:'left'},
+            {hidden: true, name: 'drawStatus'}
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id);

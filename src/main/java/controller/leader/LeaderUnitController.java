@@ -4,18 +4,12 @@ import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.leader.LeaderUnit;
-import domain.leader.LeaderUnitExample;
 import domain.leader.LeaderUnitView;
 import domain.leader.LeaderUnitViewExample;
 import domain.unit.Unit;
 import mixin.CadreMixin;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,15 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class LeaderUnitController extends BaseController {
@@ -45,12 +38,12 @@ public class LeaderUnitController extends BaseController {
     @RequiresPermissions("leaderUnit:list")
     @RequestMapping("/leaderUnit")
     public String leaderUnit(HttpServletResponse response,
-                              @RequestParam(required = false, defaultValue = "1")Byte cls,
-                              Integer cadreId, ModelMap modelMap) {
+                             @RequestParam(required = false, defaultValue = "1") Byte cls,
+                             Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
         }
@@ -60,15 +53,17 @@ public class LeaderUnitController extends BaseController {
 
         return "leader/leaderUnit/leaderUnit_page";
     }
+
     @RequiresPermissions("leaderUnit:list")
     @RequestMapping("/leaderUnit_data")
     @ResponseBody
     public void leaderUnit_data(HttpServletResponse response,
-                                 Integer cadreId,
-                                 Integer typeId,
-                                 String job,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                                Integer cadreId,
+                                Integer typeId,
+                                String job,
+                                @RequestParam(required = false, defaultValue = "0") int export,
+                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -80,13 +75,20 @@ public class LeaderUnitController extends BaseController {
 
         LeaderUnitViewExample example = new LeaderUnitViewExample();
         LeaderUnitViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order asc");
+        example.setOrderByClause("leader_sort_order desc, sort_order asc");
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
+        }
+
+        if (export == 1) {
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+            leaderUnit_export(example, response);
+            return;
         }
 
         long count = leaderUnitViewMapper.countByExample(example);
@@ -184,7 +186,7 @@ public class LeaderUnitController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             leaderUnitService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除校级领导单位：%s", new Object[]{ids}));
         }
@@ -192,41 +194,32 @@ public class LeaderUnitController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void leaderUnit_export(LeaderUnitExample example, HttpServletResponse response) {
+    public void leaderUnit_export(LeaderUnitViewExample example, HttpServletResponse response) {
 
-        List<LeaderUnit> leaderUnits = leaderUnitMapper.selectByExample(example);
-        long rownum = leaderUnitMapper.countByExample(example);
+        List<LeaderUnitView> records = leaderUnitViewMapper.selectByExample(example);
+        long rownum = leaderUnitViewMapper.countByExample(example);
 
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"校级领导","所属单位","类别"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        String[] titles = {"工作证号|100", "姓名|100", "所在单位及职务|300|left",
+                "行政级别|100", "类别|100", "联系单位|500|left"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
 
-            LeaderUnit leaderUnit = leaderUnits.get(i);
+            LeaderUnitView leaderUnit = records.get(i);
+            CadreView cadre = leaderUnit.getCadre();
             String[] values = {
-                        leaderUnit.getUserId()+"",
-                                            leaderUnit.getUnitId()+"",
-                                            leaderUnit.getTypeId()+""
-                    };
+                    cadre.getCode(),
+                    cadre.getRealname(),
+                    cadre.getTitle(),
+                    metaTypeService.getName(cadre.getAdminLevel()),
+                    metaTypeService.getName(leaderUnit.getTypeId()),
+                    unitMap.get(leaderUnit.getUnitId()).getName()
+            };
 
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+            valuesList.add(values);
         }
 
-        String fileName = "校级领导单位_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.output(wb, fileName + ".xlsx", response);
+        String fileName = "校级领导联系单位";
+        ExportHelper.export(titles, valuesList,fileName, response);
     }
 }

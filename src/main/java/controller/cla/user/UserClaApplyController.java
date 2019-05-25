@@ -2,7 +2,6 @@ package controller.cla.user;
 
 import controller.cla.ClaBaseController;
 import controller.global.OpException;
-import domain.base.Country;
 import domain.cadre.CadreView;
 import domain.cla.*;
 import domain.sys.SysUserView;
@@ -321,12 +320,7 @@ public class UserClaApplyController extends ClaBaseController {
         //Map<Integer, Passport> passportMap = passportService.findByCadreId(cadreId);
         //modelMap.put("passportMap", passportMap);
 
-        List<String> countryList = new ArrayList<>();
-        Map<Integer, Country> countryMap = countryService.findAll();
-        for (Country country : countryMap.values()) {
-            countryList.add(country.getCninfo());
-        }
-        modelMap.put("countryList", JSONUtils.toString(countryList));
+        modelMap.put("countryList", JSONUtils.toString(countryService.getCountryList()));
 
         return "cla/user/claApply/claApply_au";
     }

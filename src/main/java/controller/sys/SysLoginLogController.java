@@ -7,6 +7,7 @@ import domain.sys.SysLoginLogExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,14 +36,14 @@ public class SysLoginLogController extends BaseController {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	// 切换账号登录
-	@RequiresPermissions("sysLogin:switch")
+	@RequiresPermissions(value={"sysLogin:switch", "sysLogin:switchParty"}, logical = Logical.OR)
 	@RequestMapping("/sysLogin_switch")
 	public String sysLogin_switch(ModelMap modelMap) {
 
 		return "sys/sysLoginLog/sysLogin_switch";
 	}
 
-	@RequiresPermissions("sysLogin:switch")
+	@RequiresPermissions(value={"sysLogin:switch", "sysLogin:switchParty"}, logical = Logical.OR)
 	@RequestMapping("/sysLogin_switch_status")
 	@ResponseBody
 	public Map sysLogin_switch_status(String username) {
@@ -56,6 +57,12 @@ public class SysLoginLogController extends BaseController {
 			Set<String> roles = sysUserService.findRoles(username);
 			if (roles.contains(RoleConstants.ROLE_ADMIN)) {
 				canSwitch = false;
+			}else if(!ShiroHelper.isPermitted("sysLogin:switch")){
+				// 仅允许切换党组织管理员权限的账号，不允许切换无限制(超管除外)切换权限的人
+				Set<String> permissions = sysUserService.findPermissions(username, false);
+				if(permissions.contains("sysLogin:switch")){
+					canSwitch = false;
+				}
 			}
 		}
 		resultMap.put("canSwitch", canSwitch);

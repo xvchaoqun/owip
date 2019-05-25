@@ -4,7 +4,6 @@ import controller.abroad.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.*;
 import domain.abroad.ApplySelfExample.Criteria;
-import domain.base.Country;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -360,12 +359,7 @@ public class UserApplySelfController extends AbroadBaseController {
         Map<Integer, Passport> passportMap = passportService.findByCadreId(cadreId);
         modelMap.put("passportMap", passportMap);
 
-        List<String> countryList = new ArrayList<>();
-        Map<Integer, Country> countryMap = countryService.findAll();
-        for (Country country : countryMap.values()) {
-            countryList.add(country.getCninfo());
-        }
-        modelMap.put("countryList", JSONUtils.toString(countryList));
+        modelMap.put("countryList", JSONUtils.toString(countryService.getCountryList()));
 
         return "abroad/user/applySelf/applySelf_au";
     }

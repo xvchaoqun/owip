@@ -104,7 +104,7 @@ function _reloadDetail(){
 $.register.fancybox(function () {
         //console.log(this)
         this.title = '<div class="title">' + this.title + '<div class="download">【<a href="javascript:;" class="downloadBtn"' +
-            ' data-load-text="下载中" data-success-text="下载成功" data-failed-text="下载失败"' +
+            ' data-type="download"' +
             ' data-url="${ctx}/attach/download?path={0}&filename={1}" >点击下载</a>】</div></div>'
                         .format($(this.element).data('path'), this.title);
 });

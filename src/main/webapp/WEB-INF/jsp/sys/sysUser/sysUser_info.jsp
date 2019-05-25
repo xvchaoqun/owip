@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="col-xs-offset-1 col-xs-10">
 
     <div class="page-header">
@@ -123,21 +123,17 @@
             <img src="${ctx}/qrcode?content=${cm:encodeURI(content)}&_=<%=new Date().getTime()%>"/>
         </div>
     </div>
-    <div class="clearfix form-actions center">
-        <c:if test="${sysUser.source==USER_SOURCE_YJS
-                            || sysUser.source==USER_SOURCE_BKS || sysUser.source==USER_SOURCE_JZG}">
+    <shiro:hasPermission name="sysSync:edit">
+    <c:if test="${sysUser.casUser}">
+        <div class="clearfix form-actions center">
             <button class="btn btn-info  btn-pink" onclick="sync_user(${param.userId}, this)" type="button"
                     data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步中..." autocomplete="off">
                 <i class="ace-icon fa fa-random"></i>
-                同步学校信息
+                同步校园账号信息
             </button>
-            &nbsp; &nbsp; &nbsp;
-        </c:if>
-        <button class="hideView btn" type="button">
-            <i class="ace-icon fa fa-undo"></i>
-            返回
-        </button>
-    </div>
+        </div>
+    </c:if>
+    </shiro:hasPermission>
 </div>
 <script>
     function _reload() {

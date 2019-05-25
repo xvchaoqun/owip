@@ -110,6 +110,9 @@
 						<script type="text/javascript">
 							$("#modal form select[name=learnStyle]").val(${cadreEdu.learnStyle});
 						</script>
+						<shiro:hasPermission name="cadre:updateWithoutRequired">
+							<span>注：学习方式为空时，不计入任免审批表和信息采集表。</span>
+						</shiro:hasPermission>
 					</div>
 				</div>
 				<div class="form-group">

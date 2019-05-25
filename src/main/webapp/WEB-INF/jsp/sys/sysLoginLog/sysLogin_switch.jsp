@@ -10,7 +10,20 @@
     <div class="form-group">
         <label class="col-xs-3 control-label">登录账号</label>
         <div class="col-xs-6">
-            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="350"
+            <c:choose>
+                <c:when test="${cm:isPermitted('sysLogin:switch')}">
+                    <c:set var="select_url" value="sysUser_selects"/>
+                </c:when>
+                <c:when test="${cm:isPermitted('sysLogin:switchParty')}">
+                    <c:set var="select_url" value="orgAdmin_selects"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="select_url" value=""/>
+                </c:otherwise>
+            </c:choose>
+            <select data-rel="select2-ajax"
+                    data-ajax-url="${ctx}/${select_url}"
+                    data-width="350"
                     name="userId" data-placeholder="请选择">
                 <option></option>
             </select>
@@ -41,6 +54,11 @@
     var $select = $.register.user_select($('#modal select[name=userId]'));
     $select.on("change",function(){
         user = $(this).select2("data")[0];
+        if($.trim(user.username)==''){
+            $("#loginStatus").html("");
+            $("#_submitBtn").prop("disabled", true);
+            return;
+        }
         $("#loginStatus").html("");
         $.getJSON("${ctx}/sysLogin_switch_status",{username: user.username},function(ret){
             if(ret.success){

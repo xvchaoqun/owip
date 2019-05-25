@@ -59,10 +59,9 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">因公事由</label>
     <div class="col-xs-9 choice label-text">
-      <input name="_reason" type="checkbox" value="学术会议"> 学术会议&nbsp;&nbsp;
-      <input name="_reason" type="checkbox" value="考察访问"> 考察访问&nbsp;&nbsp;
-      <input name="_reason" type="checkbox" value="合作研究"> 合作研究&nbsp;&nbsp;
-      <input name="_reason" type="checkbox" value="进修"> 进修&nbsp;&nbsp;
+      <c:forEach items="${cm:getMetaTypes('mc_abroad_public_reason')}" var="r">
+      <input name="_reason" type="checkbox" value="${r.value.name}"> ${r.value.name}&nbsp;&nbsp;
+      </c:forEach>
       <input name="_reason" type="checkbox" value="其他"> 其他
       <input name="_reason_other" type="text">
       <input name="reason" type="hidden"/>
@@ -243,7 +242,7 @@
       var _reason_other = $("input[name=_reason_other]").val().trim();
       if($_reason.is(":checked")){
         if(_reason_other==''){
-          SysMsg.info("请输入其他出访事由", '', function(){
+          SysMsg.info("请输入其他事由", '', function(){
             $("input[name=_reason_other]").val('').focus();
           });
           return false;
@@ -257,7 +256,7 @@
           reasons.push($(this).val());
       });
       if(reasons.length==0){
-        SysMsg.info("请选择出访事由");
+        SysMsg.info("请选择事由");
         return false;
       }
       $("input[name=reason]").val(reasons.join("+++"));

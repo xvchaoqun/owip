@@ -484,52 +484,52 @@ public class LeaderViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberEqualTo(Integer value) {
+        public Criteria andIsCommitteeMemberEqualTo(Boolean value) {
             addCriterion("is_committee_member =", value, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberNotEqualTo(Integer value) {
+        public Criteria andIsCommitteeMemberNotEqualTo(Boolean value) {
             addCriterion("is_committee_member <>", value, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberGreaterThan(Integer value) {
+        public Criteria andIsCommitteeMemberGreaterThan(Boolean value) {
             addCriterion("is_committee_member >", value, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIsCommitteeMemberGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_committee_member >=", value, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberLessThan(Integer value) {
+        public Criteria andIsCommitteeMemberLessThan(Boolean value) {
             addCriterion("is_committee_member <", value, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberLessThanOrEqualTo(Integer value) {
+        public Criteria andIsCommitteeMemberLessThanOrEqualTo(Boolean value) {
             addCriterion("is_committee_member <=", value, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberIn(List<Integer> values) {
+        public Criteria andIsCommitteeMemberIn(List<Boolean> values) {
             addCriterion("is_committee_member in", values, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberNotIn(List<Integer> values) {
+        public Criteria andIsCommitteeMemberNotIn(List<Boolean> values) {
             addCriterion("is_committee_member not in", values, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberBetween(Integer value1, Integer value2) {
+        public Criteria andIsCommitteeMemberBetween(Boolean value1, Boolean value2) {
             addCriterion("is_committee_member between", value1, value2, "isCommitteeMember");
             return (Criteria) this;
         }
 
-        public Criteria andIsCommitteeMemberNotBetween(Integer value1, Integer value2) {
+        public Criteria andIsCommitteeMemberNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_committee_member not between", value1, value2, "isCommitteeMember");
             return (Criteria) this;
         }

@@ -43,9 +43,9 @@ public class UserPassportApplyController extends AbroadBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
-    @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
+    @RequestMapping(value = "/passportApply_apply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_au(int classId, Integer cadreId,  HttpServletRequest request) {
+    public Map do_passportApply_apply(int classId, Integer cadreId,  HttpServletRequest request) {
 
         String ip = ContextHelper.getRealIp();
         PassportApply record = new PassportApply();

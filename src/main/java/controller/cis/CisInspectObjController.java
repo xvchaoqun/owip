@@ -287,6 +287,7 @@ public class CisInspectObjController extends CisBaseController {
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
+        DownloadUtils.addFileDownloadCookieHeader(response);
 
         cisInspectObjService.process(cisInspectObjService.getDataMap(cisInspectObj), response.getWriter());
     }

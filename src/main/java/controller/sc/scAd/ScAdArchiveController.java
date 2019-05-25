@@ -283,6 +283,7 @@ public class ScAdArchiveController extends ScBaseController {
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
+        DownloadUtils.addFileDownloadCookieHeader(response);
 
         scAdArchiveService.getCisInspectObjService().process(XmlSerializeUtils.unserialize(cis, HashMap.class), response.getWriter());
     }
