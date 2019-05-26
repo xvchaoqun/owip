@@ -111,8 +111,8 @@ public class ExtService extends BaseMapper {
                         extJzg==null?"":extJzg.getZhxw(), // 学位
                         extJzg==null?"":extJzg.getXyjg(), // 学员结构 (学位授予国家)
                         extJzg==null?"":extJzg.getRclx(),
-                        extJzg==null?"":extJzg.getRclx(),
                         extJzg==null?"":extJzg.getRcch(),
+                        extJzg==null?"":extJzg.getJg(),
                         member==null?"":DateUtils.formatDate(member.getPositiveTime(), DateUtils.YYYY_MM_DD),
                         uv.getMobile(),
                         extJzg==null?"":extJzg.getDzxx()
