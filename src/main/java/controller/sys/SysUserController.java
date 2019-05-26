@@ -100,22 +100,12 @@ public class SysUserController extends BaseController {
 
     @RequiresPermissions("sysUser:view")
     @RequestMapping("/sysUser_view")
-    public String sysUser_view(String to, ModelMap modelMap) {
+    public String sysUser_view(int userId, String to, ModelMap modelMap) {
 
-        /*if (!ShiroHelper.isPermittedAny(new String[]{"sysUser:base", "sysUser:info"})) {
-            throw new UnauthorizedException();
-        }*/
+        SysUserView sysUser = sysUserService.findById(userId);
+        modelMap.put("uv", sysUser);
 
-        /*if (StringUtils.isBlank(to)) {
-
-            if (ShiroHelper.isPermitted("sysUser:base")) {
-                to = "sysUser_base";
-            } else if (ShiroHelper.isPermitted("sysUser:info")) {
-                to = "sysUser_info";
-            }
-        }*/
-
-        modelMap.put("to", "sysUser_base");
+        modelMap.put("to", StringUtils.defaultString(to, "sysUser_base"));
 
         return "sys/sysUser/sysUser_view";
     }

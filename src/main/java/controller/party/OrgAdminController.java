@@ -268,6 +268,7 @@ public class OrgAdminController extends BaseController {
                 option.put("text", uv.getRealname());
                 option.put("username", uv.getUsername());
                 option.put("code", uv.getCode());
+                option.put("unit", extService.getUnit(uv.getId()));
 
                 options.add(option);
             }

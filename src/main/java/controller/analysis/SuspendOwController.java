@@ -1,5 +1,6 @@
-package controller.member;
+package controller.analysis;
 
+import controller.member.MemberBaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,15 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 
-/**
- * Created by lm on 2018/1/24.
- */
+// 党建待办事项
 @Controller
-public class MemberStaticController extends MemberBaseController {
+@RequiresPermissions("suspend:ow")
+public class SuspendOwController extends MemberBaseController {
 
-    @RequiresPermissions("stat:list")
-    @RequestMapping("/stat_member_page")
-    public String stat_page(ModelMap modelMap) {
+    @RequestMapping("/suspend_ow")
+    public String suspend_ow(ModelMap modelMap) {
 
         modelMap.put("studentGrowOdCheckCount", memberApplyService.count(null, null,
                 OwConstants.OW_APPLY_TYPE_STU, OwConstants.OW_APPLY_STAGE_DRAW, (byte) -1));
@@ -32,6 +31,7 @@ public class MemberStaticController extends MemberBaseController {
                 OwConstants.OW_APPLY_STAGE_GROW, (byte) 1));
         modelMap.put("teacherPositiveOdCheckCount", memberApplyService.count(null, null, OwConstants.OW_APPLY_TYPE_TEACHER,
                 OwConstants.OW_APPLY_STAGE_GROW, (byte) 1));
-        return "analysis/party/stat_member_page";
+
+        return "analysis/suspend/suspend_ow";
     }
 }

@@ -13,13 +13,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by fafa on 2016/8/22.
+ * 系统信息统计
  */
 @Controller
+@RequiresPermissions("stat:sys")
 public class StatSysController extends BaseController {
 
-
-    @RequiresPermissions("stat:list")
     @RequestMapping("/stat_sys_page")
     public String stat_sys_page(@RequestParam(defaultValue = "1")byte type, ModelMap modelMap) {
 
@@ -29,7 +28,6 @@ public class StatSysController extends BaseController {
     }
 
     // type: 1 最近三个月 2 最近半年 3 最近一年 4 全部
-    @RequiresPermissions("stat:list")
     @RequestMapping("/stat_online_day")
     public String stat_online_day(@RequestParam(defaultValue = "1")byte type, ModelMap modelMap) {
 

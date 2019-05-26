@@ -13,20 +13,20 @@
         { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
                 if($.trim(rowObject.username)=='') return ''
                 var avatar = $.trim(rowObject.avatar)
-                <c:if test="${param.type=='admin'}">
+                <shiro:hasPermission name="profile:updateAvatar">
                 var html ='<img title="点击修改头像" src="${ctx}/avatar?path={0}&_={1}"'
                     +'class="avatar" data-id="{2}" data-code="{5}"'
                     +'data-hasimg="{3}" data-avatar="{4}">';
                 html = html.format(avatar, new Date().getTime(), rowObject.id, avatar!='',
                     avatar, rowObject.code);
                 return html;
-                </c:if>
-                <c:if test="${param.type!='admin'}">
+                </shiro:hasPermission>
+                <shiro:lacksPermission name="profile:updateAvatar">
                 return ('<a class="various" title="{2}" data-path="${ctx}/avatar?path={0}&_={1}" data-fancybox-type="image" href="${ctx}/avatar?path={0}&_={1}">'+
                     '<img title="点击放大头像" src="${ctx}/avatar?path={0}&_={1}" class="avatar"/>'
                     +'</a>')
                     .format(encodeURI(avatar), new Date().getTime(), rowObject.realname + ".jpg");
-                </c:if>
+                </shiro:lacksPermission>
 
             },frozen:true},
         { label: '类别', name: 'type', formatter:function(cellvalue, options, rowObject){

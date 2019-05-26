@@ -16,43 +16,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by fafa on 2016/8/1.
- */
 @Controller
-public class StatMemberController extends BaseController {
+@RequiresPermissions("stat:ow")
+public class StatOwController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("stat:list")
+    /**
+     * 党建信息统计
+     * @return
+     */
+    @RequestMapping("/stat_ow_page")
+    public String stat_ow_page() {
+
+        return "analysis/ow/stat_ow_page";
+    }
+
+    // 党员数量统计
     @RequestMapping("/stat_member_count")
     public String stat_member_count(Integer partyId, Integer branchId, ModelMap modelMap) {
 
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
         modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
         modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
-        return "analysis/party/stat_member_count";
+        return "analysis/ow/stat_member_count";
     }
 
-    @RequiresPermissions("stat:list")
+    // 党员年龄结构统计
     @RequestMapping("/stat_member_age")
     public String stat_member_age(Byte type, Integer partyId, Integer branchId, ModelMap modelMap) {
 
         modelMap.put("type", type);
         modelMap.put("statAgeMap", statService.ageMap(type, partyId, branchId));
-        return "analysis/party/stat_member_age";
+        return "analysis/ow/stat_member_age";
     }
 
-    @RequiresPermissions("stat:list")
+    // 发展党员统计
     @RequestMapping("/stat_member_apply")
     public String stat_member_apply(Byte type, Integer partyId, Integer branchId, ModelMap modelMap) {
 
         modelMap.put("type", type);
         modelMap.put("statApplyMap", statService.applyMap(type, partyId, branchId));
-        return "analysis/party/stat_member_apply";
+        return "analysis/ow/stat_member_apply";
     }
 
-    @RequiresPermissions("stat:list")
+    // 二级党委党员数量分布情况
     @RequestMapping("/stat_member_party")
     public String stat_member_party(Integer top, ModelMap modelMap) {
 
@@ -73,6 +81,6 @@ public class StatMemberController extends BaseController {
         modelMap.put("categories", categories);
         modelMap.put("teachers",teachers);
         modelMap.put("students",students);
-        return "analysis/party/stat_member_party";
+        return "analysis/ow/stat_member_party";
     }
 }

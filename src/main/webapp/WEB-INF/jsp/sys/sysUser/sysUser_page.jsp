@@ -309,6 +309,12 @@
             } , parseInt(Math.random() * 800 + 800));
             return false;
         });
-
     }
+    <shiro:lacksPermission name="profile:updateAvatar">
+    $.register.fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '</div>'
+                        .format($(this.element).data('path'), this.title);
+    });
+    </shiro:lacksPermission>
 </script>
