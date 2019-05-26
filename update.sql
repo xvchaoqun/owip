@@ -1,5 +1,20 @@
 
+20190526
+-- stat:* -> stat:ow
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (312, 0, '党建信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:ow', 4, NULL, NULL, 1, NULL);
 
+-- suspend:page  待办事项页
+-- suspend:ow  党建待办事项
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1042, 0, '待办事项', '', 'function', '', NULL, 108, '0/1/108/', 0, 'suspend:page', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1043, 0, '党建待办事项', '', 'function', '', NULL, 1042, '0/1/108/1042/', 1, 'suspend:ow', NULL, NULL, NULL, 1, NULL);
+-- 系统信息统计
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1044, 0, '系统信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:sys', NULL, NULL, NULL, 1, NULL);
+-- 协同待办
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1045, 0, '协同办公待办事项', '', 'function', '', NULL, 1042, '0/1/108/1042/', 1, 'suspend:oa', NULL, NULL, NULL, 1, NULL);
+
+
+-- 删除 StatMemberController
+-- 删除 MemberStaticController
 
 20190525
 -- 增加 mc_abroad_reason
