@@ -12,7 +12,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 -- 协同待办
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1045, 0, '协同办公待办事项', '', 'function', '', NULL, 1042, '0/1/108/1042/', 1, 'suspend:oa', NULL, NULL, NULL, 1, NULL);
 
-
+-- 删除jdbc.properties
 -- 删除 StatMemberController
 -- 删除 MemberStaticController
 

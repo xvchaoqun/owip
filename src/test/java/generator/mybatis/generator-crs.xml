@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <!-- 引入配置文件 -->
-    <properties resource="jdbc.properties"/>
+    <properties resource="spring.properties"/>
 
     <context id="context1" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
@@ -15,7 +15,7 @@
         </commentGenerator>
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="${jdbc_driverClassName}"
-                        connectionURL="${jdbc_url}" userId="${jdbc_username}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_user}"
                         password="${jdbc_password}" />
         <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
             <property name="trimStrings" value="true"/>
