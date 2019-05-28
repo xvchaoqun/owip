@@ -3,6 +3,7 @@ package service.oa;
 import controller.global.OpException;
 import domain.oa.OaTask;
 import domain.oa.OaTaskAdmin;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.oa.*;
 import service.CoreBaseMapper;
@@ -40,9 +41,12 @@ public class OaBaseMapper extends CoreBaseMapper {
     public void checkAuth(Integer taskId, Integer type) {
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
+        OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(currentUserId);
+        // 拥有全部权限
+        if (BooleanUtils.isTrue(oaTaskAdmin.getShowAll())) return;
 
-        if(type!=null) {
-            OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(currentUserId);
+        if (type != null) {
+
             Set<Integer> adminTypeSet = NumberUtils.toIntSet(oaTaskAdmin.getTypes(), ",");
 
             if (!adminTypeSet.contains(type)) {
@@ -50,14 +54,14 @@ public class OaBaseMapper extends CoreBaseMapper {
             }
         }
 
-        if(taskId!=null) {
+        if (taskId != null) {
             OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
             Integer userId = oaTask.getUserId();
             Set<Integer> relateUserIds = new HashSet<>();
             relateUserIds.add(userId);
             relateUserIds.addAll(NumberUtils.toIntSet(oaTask.getUserIds(), ","));
 
-            if(!relateUserIds.contains(currentUserId)){
+            if (!relateUserIds.contains(currentUserId)) {
                 throw new OpException("没有权限操作。");
             }
         }
