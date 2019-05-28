@@ -16,6 +16,7 @@ import sys.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,6 +31,7 @@ public class OaTaskAdminService extends OaBaseMapper {
     @CacheEvict(value = "OaTaskAdmin", key = "#record.userId")
     public void insertSelective(OaTaskAdmin record) {
 
+        record.setCreateTime(new Date());
         oaTaskAdminMapper.insertSelective(record);
         sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_OA_ADMIN);
     }
