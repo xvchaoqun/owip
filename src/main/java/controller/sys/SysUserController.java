@@ -169,6 +169,7 @@ public class SysUserController extends BaseController {
                              @SortParam(required = false, defaultValue = "id", tableName = "sys_user") String sort,
                              @OrderParam(required = false, defaultValue = "desc") String order,
                              Integer pageSize, Integer pageNo,
+                             Integer userId,
                              String username, String realname, String code, String idcard,
                              Byte type, Byte source, Integer roleId, Boolean locked) throws IOException {
 
@@ -183,6 +184,11 @@ public class SysUserController extends BaseController {
         SysUserViewExample example = new SysUserViewExample();
         SysUserViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if(userId != null){
+            criteria.andUserIdEqualTo(userId);
+        }
+
         if (StringUtils.isNotBlank(username)) {
             criteria.andUsernameEqualTo(username.trim());
         }
@@ -190,13 +196,14 @@ public class SysUserController extends BaseController {
             criteria.andCodeEqualTo(code.trim());
         }
 
+        if (StringUtils.isNotBlank(realname)) {
+            criteria.andRealnameLike(SqlUtils.like(realname));
+        }
+
         if (StringUtils.isNotBlank(idcard)) {
             criteria.andIdcardLike(SqlUtils.like(idcard));
         }
 
-        if (StringUtils.isNotBlank(realname)) {
-            criteria.andRealnameLike(SqlUtils.like(realname));
-        }
         if (roleId != null) {
             criteria.andRoleIdsLike("%," + roleId + ",%");
         }

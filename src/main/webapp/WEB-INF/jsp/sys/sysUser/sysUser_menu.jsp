@@ -20,7 +20,7 @@
                                    varStatus="vs">
                             <li style="margin-top: 0">
                                 <i class="ace-icon fa fa-circle green"></i>
-                                    ${roleMap.get(cm:toInt(id)).description}
+                                    ${roleMap.get(cm:toInt(id)).name}
                             </li>
                         </c:forEach>
                     </ul>

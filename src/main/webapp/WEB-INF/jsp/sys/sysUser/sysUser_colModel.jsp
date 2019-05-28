@@ -40,7 +40,7 @@
                 var roleIdArray = cellvalue.split(",");
                 return $.map(roleIdArray, function(item){
                     var role = _cMap.roleMap[item];
-                    return role?role.description:null;
+                    return role?role.name:null;
                 });
             } },
         <c:if test="${param.type=='admin'}">

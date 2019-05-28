@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.OaConstants;
@@ -33,6 +34,7 @@ import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +55,7 @@ public class OaTaskController extends OaBaseController {
 
         modelMap.put("cls", cls);
 
-        List<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
+        List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(ShiroHelper.getCurrentUserId());
         modelMap.put("oaTaskTypes", oaTaskTypes);
 
         return "oa/oaTask/oaTask_page";
@@ -93,13 +95,7 @@ public class OaTaskController extends OaBaseController {
                 break;
         }
 
-        // 只能看到自己所拥有的的权限对应的的任务
-        List<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
-        if (oaTaskTypes.size() > 0) {
-            criteria.andTypeIn(oaTaskTypes);
-        } else {
-            criteria.andTypeIsNull();
-        }
+        criteria.listCreateOrShareTasks(ShiroHelper.getCurrentUserId());
 
         if (type != null) {
             criteria.andTypeEqualTo(type);
@@ -137,7 +133,6 @@ public class OaTaskController extends OaBaseController {
         Integer id = record.getId();
         if (id == null) {
 
-            oaTaskService.checkAuth(record.getType());
             oaTaskService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_OA, "添加协同办公任务：%s", record.getId()));
         } else {
@@ -157,10 +152,38 @@ public class OaTaskController extends OaBaseController {
             OaTask oaTask = oaTaskMapper.selectByPrimaryKey(id);
             modelMap.put("oaTask", oaTask);
         }
-        List<Integer> oaTaskTypes = oaTaskService.getOaTaskTypes();
+        List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(ShiroHelper.getCurrentUserId());
         modelMap.put("oaTaskTypes", oaTaskTypes);
 
         return "oa/oaTask/oaTask_au";
+    }
+
+    @RequiresPermissions("oaTask:edit")
+    @RequestMapping(value = "/oaTask_share", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_oaTask_share(int taskId, int userId, boolean share) {
+
+        oaTaskService.share(taskId, userId, share);
+        logger.info(addLog(LogConstants.LOG_OA, "共享协同办公任务：%s, %s, %s", taskId, userId, share));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("oaTask:edit")
+    @RequestMapping("/oaTask_share")
+    public String oaTask_share(int taskId, ModelMap modelMap) {
+
+        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
+        modelMap.put("oaTask", oaTask);
+
+        List<SysUserView> uvs = new ArrayList<>();
+        Set<Integer> userIdSet = NumberUtils.toIntSet(oaTask.getUserIds(), ",");
+        for (Integer userId : userIdSet) {
+            uvs.add(sysUserService.findById(userId));
+        }
+        modelMap.put("userList", uvs);
+
+        return "oa/oaTask/oaTask_share";
     }
 
     @RequiresPermissions("oaTask:del")
@@ -186,8 +209,7 @@ public class OaTaskController extends OaBaseController {
             return failed("附件不能为空。");
         }
 
-        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
-        oaTaskService.checkAuth(oaTask.getType());
+        oaTaskService.checkAuth(taskId, null);
 
         for (MultipartFile file : files) {
 
@@ -223,7 +245,7 @@ public class OaTaskController extends OaBaseController {
         OaTaskFile oaTaskFile = oaTaskFileMapper.selectByPrimaryKey(id);
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(oaTaskFile.getTaskId());
-        oaTaskService.checkAuth(oaTask.getType());
+        oaTaskService.checkAuth(oaTask.getId(), null);
 
         oaTaskFileMapper.deleteByPrimaryKey(id);
         logger.info(addLog(LogConstants.LOG_OA, "删除协同办公任务附件：%s", oaTaskFile.getFileName()));
@@ -289,13 +311,13 @@ public class OaTaskController extends OaBaseController {
         TaskUser user = new TaskUser();
         if (userId != null) {
             CadreView cv = cadreService.dbFindByUserId(userId);
-            if(cv!=null){
+            if (cv != null) {
                 user.setUserId(cv.getUserId());
                 user.setRealname(cv.getRealname());
                 user.setCode(cv.getCode());
                 user.setTitle(cv.getTitle());
                 user.setMobile(cv.getMobile());
-            }else{
+            } else {
 
                 SysUserView uv = sysUserService.findById(userId);
                 user.setUserId(uv.getId());
@@ -306,7 +328,7 @@ public class OaTaskController extends OaBaseController {
             }
         }
 
-        if(StringUtils.isNotBlank(mobile)){
+        if (StringUtils.isNotBlank(mobile)) {
             user.setMobile(mobile);
         }
 
@@ -338,17 +360,17 @@ public class OaTaskController extends OaBaseController {
                 throw new OpException("第{0}行工作证号为空", row);
             }
             SysUserView uv = sysUserService.findByCode(code);
-            if(uv==null){
+            if (uv == null) {
                 throw new OpException("第{0}行工作证号{1}不存在", row, code);
             }
             CadreView cv = cadreService.dbFindByUserId(uv.getUserId());
-            if(cv!=null){
+            if (cv != null) {
                 user.setUserId(cv.getUserId());
                 user.setRealname(cv.getRealname());
                 user.setCode(cv.getCode());
                 user.setTitle(cv.getTitle());
                 user.setMobile(cv.getMobile());
-            }else{
+            } else {
                 user.setUserId(uv.getId());
                 user.setRealname(uv.getRealname());
                 user.setCode(uv.getCode());
@@ -357,11 +379,11 @@ public class OaTaskController extends OaBaseController {
             }
 
             String mobile = StringUtils.trimToNull(xlsRow.get(2));
-            if(StringUtils.isNotBlank(mobile)){
+            if (StringUtils.isNotBlank(mobile)) {
                 user.setMobile(mobile);
             }
             String title = StringUtils.trimToNull(xlsRow.get(3));
-            if(StringUtils.isNotBlank(title)){
+            if (StringUtils.isNotBlank(title)) {
                 user.setTitle(title);
             }
 
@@ -435,9 +457,12 @@ public class OaTaskController extends OaBaseController {
     @RequiresPermissions("oaTask:edit")
     @RequestMapping(value = "/oaTask_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map oaTask_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map oaTask_abolish(HttpServletRequest request,
+                              @RequestParam(value = "ids[]") Integer[] ids,
+                              @RequestParam(required = false, defaultValue = "1") Boolean isAbolish,
+                              ModelMap modelMap) {
 
-        oaTaskService.batchAbolish(ids);
+        oaTaskService.batchAbolish(ids, isAbolish);
         logger.info(addLog(LogConstants.LOG_OA, "作废任务：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);

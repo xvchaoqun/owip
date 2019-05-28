@@ -27,21 +27,29 @@
                         </div>
                     </c:if>
                     <c:if test="${fn:length(oaTaskTypes)>1}">
-                        <div class="col-xs-6">
-                            <select required class="form-control" name="type"
-                                    data-rel="select2"
-                                    data-width="150"
-                                    data-placeholder="请选择">
-                                <option></option>
-                                <c:forEach items="${oaTaskTypes}" var="oaTaskType">
-                                    <c:set var="_type" value="${cm:getMetaType(oaTaskType)}"/>
-                                    <option value="${_type.id}">${_type.name}</option>
-                                </c:forEach>
-                            </select>
-                            <script>
-                                $("#modalForm select[name=type]").val('${oaTask.type}');
-                            </script>
-                        </div>
+                        <c:if test="${empty oaTask}">
+                            <div class="col-xs-6">
+                                <select required class="form-control" name="type"
+                                        data-rel="select2"
+                                        data-width="150"
+                                        data-placeholder="请选择">
+                                    <option></option>
+                                    <c:forEach items="${oaTaskTypes}" var="oaTaskType">
+                                        <c:set var="_type" value="${cm:getMetaType(oaTaskType)}"/>
+                                        <option value="${_type.id}">${_type.name}</option>
+                                    </c:forEach>
+                                </select>
+                                <script>
+                                    $("#modalForm select[name=type]").val('${oaTask.type}');
+                                </script>
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty oaTask}">
+                            <div class="col-xs-6 label-text">
+                                    ${cm:getMetaType(oaTask.type).name}
+                                <input type="hidden" name="type" value="${oaTask.type}">
+                            </div>
+                        </c:if>
                     </c:if>
                 </div>
                 <div class="form-group">

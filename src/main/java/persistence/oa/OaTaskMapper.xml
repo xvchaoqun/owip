@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.oa.OaTask">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_ids" jdbcType="VARCHAR" property="userIds" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type, name, content, deadline, contact, msg, status, is_publish, pub_date, 
-    is_delete, create_time, ip
+    id, user_id, user_ids, type, name, content, deadline, contact, msg, status, is_publish, 
+    pub_date, is_delete, create_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.oa.OaTaskExample" resultMap="BaseResultMap">
     select
@@ -113,16 +114,16 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into oa_task (user_id, type, name, 
-      content, deadline, contact, 
-      msg, status, is_publish, 
-      pub_date, is_delete, create_time, 
-      ip)
-    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{deadline,jdbcType=TIMESTAMP}, #{contact,jdbcType=VARCHAR}, 
-      #{msg,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{isPublish,jdbcType=BIT}, 
-      #{pubDate,jdbcType=DATE}, #{isDelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR})
+    insert into oa_task (user_id, user_ids, type, 
+      name, content, deadline, 
+      contact, msg, status, 
+      is_publish, pub_date, is_delete, 
+      create_time, ip)
+    values (#{userId,jdbcType=INTEGER}, #{userIds,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{deadline,jdbcType=TIMESTAMP}, 
+      #{contact,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{isPublish,jdbcType=BIT}, #{pubDate,jdbcType=DATE}, #{isDelete,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTask">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -132,6 +133,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="userIds != null">
+        user_ids,
       </if>
       <if test="type != null">
         type,
@@ -173,6 +177,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIds != null">
+        #{userIds,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -227,6 +234,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.userIds != null">
+        user_ids = #{record.userIds,jdbcType=VARCHAR},
+      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
@@ -272,6 +282,7 @@
     update oa_task
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      user_ids = #{record.userIds,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
@@ -293,6 +304,9 @@
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIds != null">
+        user_ids = #{userIds,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
@@ -336,6 +350,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.oa.OaTask">
     update oa_task
     set user_id = #{userId,jdbcType=INTEGER},
+      user_ids = #{userIds,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},

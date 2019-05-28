@@ -63,6 +63,7 @@ public class SysResourceController extends BaseController {
                                 HttpServletResponse response,
                                 String name,
                                 String permission,
+                                String url,
                                 Integer nodeid) throws IOException {
 
         SysResourceExample example = new SysResourceExample();
@@ -70,7 +71,9 @@ public class SysResourceController extends BaseController {
                 .andAvailableEqualTo(SystemConstants.AVAILABLE);
 
         Set<Integer> idSet = new HashSet<>();
-        if (StringUtils.isNotBlank(name) || StringUtils.isNotBlank(permission)) {
+        if (StringUtils.isNotBlank(name)
+                || StringUtils.isNotBlank(permission)
+                || StringUtils.isNotBlank(url)) {
 
             SysResourceExample example2 = new SysResourceExample();
             SysResourceExample.Criteria criteria2 = example2.createCriteria().andIsMobileEqualTo(isMobile)
@@ -81,6 +84,9 @@ public class SysResourceController extends BaseController {
             }
             if (StringUtils.isNotBlank(permission)) {
                 criteria2.andPermissionLike(SqlUtils.like(permission));
+            }
+            if (StringUtils.isNotBlank(url)) {
+                criteria2.andUrlLike(SqlUtils.like(url));
             }
             List<SysResource> sysResources = sysResourceMapper.selectByExample(example2);
             for (SysResource sysResource : sysResources) {

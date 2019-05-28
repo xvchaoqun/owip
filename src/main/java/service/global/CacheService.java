@@ -270,7 +270,7 @@ public class CacheService extends BaseMapper {
         Map<Integer, SysRole> roleMap = sysRoleService.findAll();
         Map<String, SysRole> roleCodeMap = new HashMap<>();
         for (SysRole sysRole : roleMap.values()) {
-            roleCodeMap.put(sysRole.getRole(), sysRole);
+            roleCodeMap.put(sysRole.getCode(), sysRole);
         }
         cMap.put("roleCodeMap", roleCodeMap);
 

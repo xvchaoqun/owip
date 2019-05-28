@@ -42,6 +42,13 @@
                                                value="${param.permission}" placeholder="请输入">
                                     </div>
 
+                                    <div class="form-group">
+                                        <label>资源路径</label>
+                                        <input class="form-control search-query search-input"
+                                               name="url" type="text"
+                                               value="${param.url}" placeholder="请输入">
+                                    </div>
+
                                     <div class="clearfix form-actions center">
                                         <a class="jqSearchBtn btn btn-default btn-sm"
                                            data-url="${ctx}/sysResource?isMobile=${isMobile}"

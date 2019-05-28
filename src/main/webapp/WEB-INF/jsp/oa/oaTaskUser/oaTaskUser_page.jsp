@@ -137,7 +137,7 @@
         colModel: [
             {label: '工作证号', name: 'code', width:120},
             {label: '姓名', name: 'realname', width:120},
-            {label: '所在单位及职务', name: 'title', width:350},
+            {label: '所在单位及职务', name: 'title', width:280, align:'left'},
             {label: '手机号码', name: 'mobile', width:120},
             {label: '指定负责人', name: 'assignRealname', width:180, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--';

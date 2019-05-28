@@ -2,25 +2,28 @@ package service.oa;
 
 import controller.global.OpException;
 import controller.oa.TaskUser;
-import domain.base.MetaType;
 import domain.oa.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shiro.ShiroHelper;
 import sys.constants.OaConstants;
-import sys.tags.CmTag;
 import sys.utils.ContextHelper;
+import sys.utils.NumberUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class OaTaskService extends OaBaseMapper {
 
     @Autowired
     private OaTaskUserService oaTaskUserService;
+    @Autowired
+    private OaTaskAdminService oaTaskAdminService;
 
     // 任务附件
     public List<OaTaskFile> getTaskFiles(int taskId) {
@@ -33,35 +36,10 @@ public class OaTaskService extends OaBaseMapper {
         return oaTaskFiles;
     }
 
-    // 获取管理员权限对应的响应的工作类型
-    public List<Integer> getOaTaskTypes() {
-
-        Set<Integer> oaTaskTypes = new HashSet<>();
-        Map<Integer, MetaType> oaTaskTypeMap = CmTag.getMetaTypes("mc_oa_task_type");
-
-        for (MetaType oaTaskType : oaTaskTypeMap.values()) {
-            String permission = oaTaskType.getExtraAttr();
-            if(StringUtils.isNotBlank(permission) && ShiroHelper.isPermitted(permission)){
-                oaTaskTypes.add(oaTaskType.getId());
-            }
-        }
-
-        return new ArrayList<>(oaTaskTypes);
-    }
-
-    // 检查操作权限
-    public void checkAuth(int type) {
-
-        MetaType oaTaskType = metaTypeMapper.selectByPrimaryKey(type);
-        if(oaTaskType==null){
-            throw new OpException("工作类型为空。");
-        }
-
-        SecurityUtils.getSubject().checkPermission(oaTaskType.getExtraAttr());
-    }
-
     @Transactional
     public void insertSelective(OaTask record) {
+
+        checkAuth(null, record.getType());
 
         record.setUserId(ShiroHelper.getCurrentUserId());
         record.setStatus(OaConstants.OA_TASK_STATUS_INIT);
@@ -75,6 +53,8 @@ public class OaTaskService extends OaBaseMapper {
 
     @Transactional
     public void del(Integer id) {
+
+        checkAuth(id, null);
         oaTaskMapper.deleteByPrimaryKey(id);
     }
 
@@ -85,11 +65,10 @@ public class OaTaskService extends OaBaseMapper {
 
         for (Integer id : ids) {
 
-            OaTask oaTask = oaTaskMapper.selectByPrimaryKey(id);
-            checkAuth(oaTask.getType());
+            checkAuth(id, null);
 
             OaTask record = new OaTask();
-            record.setId(oaTask.getId());
+            record.setId(id);
             record.setIsDelete(true);
             oaTaskMapper.updateByPrimaryKeySelective(record);
 
@@ -108,8 +87,7 @@ public class OaTaskService extends OaBaseMapper {
     @Transactional
     public void updateTaskUsers(int taskId, List<TaskUser> taskUsers) {
 
-        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
-        checkAuth(oaTask.getType());
+        checkAuth(taskId, null);
 
         // 先删除未选择的任务对象（假删除），如果存在的话
         {
@@ -183,18 +161,17 @@ public class OaTaskService extends OaBaseMapper {
     }
 
     @Transactional
-    public void batchAbolish(Integer[] ids) {
+    public void batchAbolish(Integer[] ids, boolean isAbolish) {
 
         if (ids == null || ids.length == 0) return;
 
         for (Integer id : ids) {
 
-            OaTask oaTask = oaTaskMapper.selectByPrimaryKey(id);
-            checkAuth(oaTask.getType());
+            checkAuth(id, null);
 
             OaTask record = new OaTask();
-            record.setId(oaTask.getId());
-            record.setStatus(OaConstants.OA_TASK_STATUS_ABOLISH);
+            record.setId(id);
+            record.setStatus(isAbolish?OaConstants.OA_TASK_STATUS_ABOLISH:OaConstants.OA_TASK_STATUS_PUBLISH);
 
             oaTaskMapper.updateByPrimaryKeySelective(record);
 
@@ -212,8 +189,7 @@ public class OaTaskService extends OaBaseMapper {
     @Transactional
     public void updateByPrimaryKeySelective(OaTask record) {
 
-        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(record.getId());
-        checkAuth(oaTask.getType());
+        checkAuth(record.getId(), record.getType());
 
         record.setType(null);
         oaTaskMapper.updateByPrimaryKeySelective(record);
@@ -232,6 +208,8 @@ public class OaTaskService extends OaBaseMapper {
     @Transactional
     public void finish(int taskId) {
 
+        checkAuth(taskId, null);
+
         OaTaskUserExample example = new OaTaskUserExample();
         example.createCriteria().andTaskIdEqualTo(taskId)
                 .andIsDeleteEqualTo(false)
@@ -246,5 +224,38 @@ public class OaTaskService extends OaBaseMapper {
         record.setStatus(OaConstants.OA_TASK_STATUS_FINISH);
 
         updateByPrimaryKeySelective(record);
+    }
+
+    // 共享任务
+    @Transactional
+    public void share(int taskId, int userId, boolean share) {
+
+        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
+        Set<Integer> userIdSet = NumberUtils.toIntSet(oaTask.getUserIds(), ",");
+        if (share) {
+            userIdSet.add(userId);
+        } else {
+            userIdSet.remove(userId);
+        }
+
+        OaTask record = new OaTask();
+        record.setId(taskId);
+        record.setUserIds(StringUtils.join(userIdSet, ","));
+        updateByPrimaryKeySelective(record);
+
+        if (share) {
+            OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(userId);
+            if (oaTaskAdmin == null) {
+                oaTaskAdmin = new OaTaskAdmin();
+                oaTaskAdmin.setUserId(userId);
+                oaTaskAdmin.setTypes(oaTask.getType() + "");
+                oaTaskAdminService.insertSelective(oaTaskAdmin);
+            } else {
+                Set<Integer> typeSet = NumberUtils.toIntSet(oaTaskAdmin.getTypes(), ",");
+                typeSet.add(oaTask.getType());
+                oaTaskAdmin.setTypes(StringUtils.join(typeSet, ","));
+                oaTaskAdminService.updateByPrimaryKeySelective(oaTaskAdmin);
+            }
+        }
     }
 }

@@ -115,7 +115,7 @@
 			<div class="col-xs-6 ">
 				<select class="multiselect" multiple="" name="countCacheRoles">
 					<c:forEach items="${roleMap}" var="entity">
-						<option value="${entity.key}">${entity.value.description}</option>
+						<option value="${entity.key}">${entity.value.name}</option>
 					</c:forEach>
 				</select>
 			</div>

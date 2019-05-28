@@ -28,10 +28,10 @@ public class SysRoleService extends BaseMapper {
 	@Autowired
 	private CacheHelper cacheHelper;
 
-	public boolean idDuplicate(Integer id, String role){
+	public boolean idDuplicate(Integer id, String code){
 
 		SysRoleExample example = new SysRoleExample();
-		SysRoleExample.Criteria criteria = example.createCriteria().andRoleEqualTo(role);
+		SysRoleExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
 		if(id!=null) criteria.andIdNotEqualTo(id);
 
 		return sysRoleMapper.countByExample(example) > 0;
@@ -107,11 +107,11 @@ public class SysRoleService extends BaseMapper {
 		cacheHelper.clearRoleCache();
 	}
 
-	@Cacheable(value = "SysRoles", key = "#role")
-	public SysRole getByRole(String role){
+	@Cacheable(value = "SysRoles", key = "#code")
+	public SysRole getByRole(String code){
 
 		SysRoleExample example = new SysRoleExample();
-		example.createCriteria().andRoleEqualTo(role);
+		example.createCriteria().andCodeEqualTo(code);
 		List<SysRole> sysRoles = sysRoleMapper.selectByExample(example);
 		if(sysRoles.size()>0) return sysRoles.get(0);
 		return null;
@@ -217,12 +217,12 @@ public class SysRoleService extends BaseMapper {
 		for(SysRole sysRole:sysRoles){
 
 			// 只有超级管理员允许修改为超级管理员（如果不是则不显示超级管理员的选项）
-			if(!superAccount &&  StringUtils.equals(sysRole.getRole(), RoleConstants.ROLE_SUPER)) {
+			if(!superAccount &&  StringUtils.equals(sysRole.getCode(), RoleConstants.ROLE_SUPER)) {
 				continue;
 			}
 
 			TreeNode node = new TreeNode();
-			node.title = sysRole.getDescription();
+			node.title = sysRole.getName();
 			node.key = sysRole.getId() + "";
 			node.expand = false;
 			node.isFolder = false;

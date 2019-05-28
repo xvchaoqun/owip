@@ -16,7 +16,7 @@
                 data-placeholder="请选择">
             <option></option>
             <c:forEach items="${sysRoleMap}" var="sysRole">
-                <option value="${sysRole.key}">${sysRole.value.description} - ${sysRole.value.role}</option>
+                <option value="${sysRole.key}">${sysRole.value.name} - ${sysRole.value.code}</option>
             </c:forEach>
         </select>
         <button id="addRoleBtn" type="button"
@@ -59,9 +59,9 @@
         pager: "jqGridPager_popup",
         url: "${ctx}/sysRole_data?callback=?&resourceId=${param.resourceId}&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
-            {label: '角色代码', name: 'role', width: 150},
-            {label: '角色名称', name: 'description', width: 150},
-            {label: '备注', name: 'description', width: 300, align: 'left'},
+            {label: '角色代码', name: 'code', width: 150},
+            {label: '角色名称', name: 'name', width: 150},
+            {label: '备注', name: 'remark', width: 300, align: 'left'},
             {
                 "name": "_del", "label": "删除", "width": 80, formatter: function (cellvalue, options, rowObject) {
                     return ('<button class="confirm btn btn-danger btn-xs" ' +

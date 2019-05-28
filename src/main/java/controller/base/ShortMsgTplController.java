@@ -276,7 +276,7 @@ public class ShortMsgTplController extends BaseController {
         bean.setSender(ShiroHelper.getCurrentUserId());
         bean.setContent(content);
         bean.setMobile(mobile);
-        bean.setType((sysRole != null ? (sysRole.getDescription() + "-") : "") + shortMsgTpl.getName());
+        bean.setType((sysRole != null ? (sysRole.getName() + "-") : "") + shortMsgTpl.getName());
 
         if(!StringUtils.equals(type, "batch")) {
             shortMsgService.send(bean, ContextHelper.getRealIp());

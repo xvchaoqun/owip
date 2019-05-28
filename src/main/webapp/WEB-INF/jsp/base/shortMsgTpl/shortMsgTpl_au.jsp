@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
                     <select required name="roleId" data-rel="select2" data-placeholder="请选择" data-width="370">
                         <option></option>
                         <c:forEach items="${sysRoles}" var="sysRole">
-                            <option value="${sysRole.id}">${sysRole.description}</option>
+                            <option value="${sysRole.id}">${sysRole.name}</option>
                         </c:forEach>
                     </select>
                     <script>

@@ -1,12 +1,23 @@
 package domain.oa;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class OaTaskView implements Serializable {
+
+    public SysUserView getUser(){
+
+        return CmTag.getUserById(userId);
+    }
+
     private Integer id;
 
     private Integer userId;
+
+    private String userIds;
 
     private Integer type;
 
@@ -54,6 +65,14 @@ public class OaTaskView implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(String userIds) {
+        this.userIds = userIds == null ? null : userIds.trim();
     }
 
     public Integer getType() {

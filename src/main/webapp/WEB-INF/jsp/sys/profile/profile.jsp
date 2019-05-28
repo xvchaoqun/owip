@@ -39,7 +39,7 @@
                                                     <div class="label-text">
                                                         <c:forEach items="${fn:split(_user.roleIds,',')}" var="id"
                                                                    varStatus="vs">
-                                                            ${roleMap.get(cm:toInt(id)).description}
+                                                            ${roleMap.get(cm:toInt(id)).name}
                                                             <c:if test="${!vs.last}">, </c:if>
                                                         </c:forEach>
                                                     </div>

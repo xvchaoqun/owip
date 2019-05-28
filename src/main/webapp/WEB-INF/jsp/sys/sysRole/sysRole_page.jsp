@@ -13,7 +13,6 @@
                         data-open-by="page">
                     <i class="fa fa-edit"></i> 更新权限
                 </button>
-
                 <button id="userHoldBtn" class="jqItemBtn btn btn-success btn-sm"
                         data-url="${ctx}/sysRole_updateIsSysHold"
                         data-callback="_reload"
@@ -28,41 +27,92 @@
                 </button>
                 <button class="jqBatchBtn btn btn-danger btn-sm"
                         data-url="${ctx}/sysRole_del" data-title="删除"
-                        data-msg="确定删除这{0}个角色吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</button>
+                        data-msg="确定删除这{0}个角色吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除
+                </button>
+            </div>
+             <c:set var="_query" value="${not empty param.code ||not empty param.name}"/>
+            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
+                    <div class="widget-toolbar">
+                        <a href="javascript:;" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <form class="form-inline search-form" id="searchForm">
+                            <div class="form-group">
+                                <label>角色代码</label>
+                                <input class="form-control search-query" name="code" type="text"
+                                       value="${param.code}"
+                                       placeholder="请输入角色代码">
+                            </div>
+                            <div class="form-group">
+                                <label>角色名称</label>
+                                <input class="form-control search-query" name="name" type="text" value="${param.name}"
+                                       placeholder="请输入角色名称">
+                            </div>
+                            <div class="clearfix form-actions center">
+                                <a class="jqSearchBtn btn btn-default btn-sm"
+                                data-url="${ctx}/sysRole"><i class="fa fa-search"></i> 查找</a>
+                                <c:if test="${_query}">&nbsp;
+                                    <button type="button" class="reloadBtn btn btn-warning btn-sm"
+                                    data-url="${ctx}/sysRole">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid table-striped"> </table>
-            <div id="jqGridPager"> </div>
-        </div><div id="body-content-view"></div>
+            <table id="jqGrid" class="jqGrid table-striped"></table>
+            <div id="jqGridPager"></div>
+        </div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 
 <script>
-    function _reload(){
+    function _reload() {
         $("#jqGrid").trigger("reloadGrid");
     }
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/sysRole_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '系统代码', name: 'role', width:200, align:'left',frozen:true},
-            { label: '角色名称', name: 'description', width: 300, align:'left',frozen:true},
+            {label: '系统代码', name: 'code', width: 200, align: 'left', frozen: true},
+            {label: '角色名称', name: 'name', width: 300, align: 'left', frozen: true},
+            <c:if test="${!_query}">
             {
                 label: '排序', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions: {url: "${ctx}/sysRole_changeOrder"},frozen:true
+                formatoptions: {url: "${ctx}/sysRole_changeOrder"}, frozen: true
             },
-            { label: '设定级别', name: 'isSysHold', width: 120, formatter: $.jgrid.formatter.TRUEFALSE,
-                formatoptions:{on:'<span class="text-danger bolder">系统自动设定</span>',
-                    off:'<span class="text-success bolder">手动设定</span>'}},
-            {label:'权限拥有人', name:'userCount', width: 110, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '--'
-                return ('<button class="popupBtn btn btn-warning btn-xs" data-width="950" data-url="${ctx}/sysRole_users?roleId={0}">' +
-                    '<i class="fa fa-search"></i> 查看({1})</button>')
-                    .format(rowObject.id, cellvalue);
-            }},
-            { label: '备注', name: 'remark', width: 850, align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
-            {name:'_isSysHold', hidden:true, formatter:function(cellvalue, options, rowObject){
-                return rowObject.isSysHold;
-            }}
+            </c:if>
+            {
+                label: '设定级别', name: 'isSysHold', width: 120, formatter: $.jgrid.formatter.TRUEFALSE,
+                formatoptions: {
+                    on: '<span class="text-danger bolder">系统自动设定</span>',
+                    off: '<span class="text-success bolder">手动设定</span>'
+                }
+            },
+            {
+                label: '权限拥有人', name: 'userCount', width: 110, formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '--'
+                    return ('<button class="popupBtn btn btn-warning btn-xs" data-width="950" data-url="${ctx}/sysRole_users?roleId={0}">' +
+                        '<i class="fa fa-search"></i> 查看({1})</button>')
+                        .format(rowObject.id, cellvalue);
+                }
+            },
+            {label: '备注', name: 'remark', width: 850, align: 'left', formatter: $.jgrid.formatter.NoMultiSpace},
+            {
+                name: '_isSysHold', hidden: true, formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.isSysHold;
+                }
+            }
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
@@ -83,7 +133,7 @@
         } else if (ids.length == 1) {
 
             var rowData = $(grid).getRowData(ids[0]);
-            var isSysHold = (rowData._isSysHold=='true');
+            var isSysHold = (rowData._isSysHold == 'true');
 
             $("#userHoldBtn").prop("disabled", !isSysHold);
             $("#sysHoldBtn").prop("disabled", isSysHold);

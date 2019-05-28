@@ -3,8 +3,8 @@
 <mapper namespace="persistence.sys.SysRoleMapper">
   <resultMap id="BaseResultMap" type="domain.sys.SysRole">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="role" jdbcType="VARCHAR" property="role" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="resource_ids" jdbcType="VARCHAR" property="resourceIds" />
     <result column="m_resource_ids" jdbcType="VARCHAR" property="mResourceIds" />
     <result column="user_count" jdbcType="INTEGER" property="userCount" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, role, description, resource_ids, m_resource_ids, user_count, available, is_sys_hold, 
+    id, code, name, resource_ids, m_resource_ids, user_count, available, is_sys_hold, 
     sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysRoleExample" resultMap="BaseResultMap">
@@ -109,11 +109,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into sys_role (role, description, resource_ids, 
+    insert into sys_role (code, name, resource_ids, 
       m_resource_ids, user_count, available, 
       is_sys_hold, sort_order, remark
       )
-    values (#{role,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{resourceIds,jdbcType=VARCHAR}, 
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{resourceIds,jdbcType=VARCHAR}, 
       #{mResourceIds,jdbcType=VARCHAR}, #{userCount,jdbcType=INTEGER}, #{available,jdbcType=TINYINT}, 
       #{isSysHold,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
       )
@@ -124,11 +124,11 @@
     </selectKey>
     insert into sys_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="role != null">
-        role,
+      <if test="code != null">
+        code,
       </if>
-      <if test="description != null">
-        description,
+      <if test="name != null">
+        name,
       </if>
       <if test="resourceIds != null">
         resource_ids,
@@ -153,11 +153,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="role != null">
-        #{role,jdbcType=VARCHAR},
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="resourceIds != null">
         #{resourceIds,jdbcType=VARCHAR},
@@ -194,11 +194,11 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.role != null">
-        role = #{record.role,jdbcType=VARCHAR},
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
       </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.resourceIds != null">
         resource_ids = #{record.resourceIds,jdbcType=VARCHAR},
@@ -229,8 +229,8 @@
   <update id="updateByExample" parameterType="map">
     update sys_role
     set id = #{record.id,jdbcType=INTEGER},
-      role = #{record.role,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       resource_ids = #{record.resourceIds,jdbcType=VARCHAR},
       m_resource_ids = #{record.mResourceIds,jdbcType=VARCHAR},
       user_count = #{record.userCount,jdbcType=INTEGER},
@@ -245,11 +245,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.sys.SysRole">
     update sys_role
     <set>
-      <if test="role != null">
-        role = #{role,jdbcType=VARCHAR},
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="resourceIds != null">
         resource_ids = #{resourceIds,jdbcType=VARCHAR},
@@ -277,8 +277,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.sys.SysRole">
     update sys_role
-    set role = #{role,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       resource_ids = #{resourceIds,jdbcType=VARCHAR},
       m_resource_ids = #{mResourceIds,jdbcType=VARCHAR},
       user_count = #{userCount,jdbcType=INTEGER},

@@ -140,8 +140,6 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
-<link rel="stylesheet" href="${ctx}/extend/css/jquery.webui-popover.min.css" type="text/css" />
-<script src="${ctx}/extend/js/jquery.webui-popover.min.js"></script>
 <script type="text/template" id="dispatch_del_file_tpl">
     <a class="btn btn-success btn-sm" onclick="dispatch_del_file({{=id}}, '{{=type}}')">
         <i class="fa fa-check"></i> 确定</a>&nbsp;

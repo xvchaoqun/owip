@@ -25,6 +25,7 @@ import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -57,6 +58,8 @@ public class SysRoleController extends BaseController {
 	@ResponseBody
 	public void sysRole_data(HttpServletRequest request,
 							 Integer resourceId,
+							 String code,
+							 String name,
 							 Integer pageSize,
 							 Integer pageNo) throws IOException {
 		
@@ -79,6 +82,13 @@ public class SysRoleController extends BaseController {
 			}else{
 				criteria.andResourceIdsContain(resourceId);
 			}
+		}
+
+		if(StringUtils.isNotBlank(code)){
+			criteria.andCodeLike(SqlUtils.like(code));
+		}
+		if(StringUtils.isNotBlank(name)){
+			criteria.andNameLike(SqlUtils.like(name));
 		}
 
 		long count = sysRoleMapper.countByExample(example);
@@ -109,12 +119,12 @@ public class SysRoleController extends BaseController {
 			@RequestParam(value="m_resIds[]",required=false) Integer[] m_resIds,
 			HttpServletRequest request) {
 
-		String role = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getRole()));
+		String code = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getCode()));
 		if(!CmTag.isSuperAccount(loginUser.getUsername())
-				&& StringUtils.equals(role, RoleConstants.ROLE_ADMIN)) {
+				&& StringUtils.equals(code, RoleConstants.ROLE_ADMIN)) {
 			throw new IllegalArgumentException("不允许添加admin角色");
 		}
-		if (role!=null && sysRoleService.idDuplicate(sysRole.getId(), role)) {
+		if (code!=null && sysRoleService.idDuplicate(sysRole.getId(), code)) {
 			return failed("添加重复");
 		}
 
@@ -129,7 +139,7 @@ public class SysRoleController extends BaseController {
 			sysRole.setmResourceIds(StringUtils.join(m_resIds, ","));
 
 		if(sysRole.getId() == null){
-			if(role==null){
+			if(code==null){
 				throw new IllegalArgumentException("角色不能为空");
 			}
 			sysRoleService.insertSelective(sysRole);
@@ -216,14 +226,14 @@ public class SysRoleController extends BaseController {
 			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
 			if(sysRole.getIsSysHold()==null)
 				sysRole.setIsSysHold(false);
-			String role = sysRole.getRole();
+			String code = sysRole.getCode();
 			Boolean isSysHold = sysRole.getIsSysHold();
 
 			SysRole record = new SysRole();
 			record.setId(id);
 			record.setIsSysHold(!isSysHold);
 			sysRoleService.updateByPrimaryKeySelective(record);
-			logger.info(addLog(LogConstants.LOG_ADMIN, "更改角色是否系统自动控制：%s, %s", role, !isSysHold));
+			logger.info(addLog(LogConstants.LOG_ADMIN, "更改角色是否系统自动控制：%s, %s", code, !isSysHold));
 		}
 
 		return success(FormUtils.SUCCESS);

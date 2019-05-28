@@ -30,8 +30,8 @@
                                     <label class="col-xs-2 control-label"><span class="star">*</span>代码</label>
 
                                     <div class="col-xs-9">
-                                        <input required class="form-control" ${(!cm:isSuperAccount(_user.username) && sysRole.role eq 'admin')?'disabled':''}
-                                        type="text" name="role" value="${sysRole.role}">
+                                        <input required class="form-control" ${(!cm:isSuperAccount(_user.username) && sysRole.code eq ROLE_ADMIN)?'disabled':''}
+                                        type="text" name="code" value="${sysRole.code}">
                                         <span class="help-block small danger">如需修改，请联系系统开发人员</span>
                                     </div>
                                 </div>
@@ -39,8 +39,8 @@
                                     <label required class="col-xs-2 control-label"><span class="star">*</span>名称</label>
 
                                     <div class="col-xs-9">
-                                        <input class="form-control" type="text" name="description"
-                                               value="${sysRole.description}">
+                                        <input class="form-control" type="text" name="name"
+                                               value="${sysRole.name}">
                                     </div>
                                 </div>
                                 <div class="form-group">

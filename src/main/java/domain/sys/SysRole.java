@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class SysRole implements Serializable {
     private Integer id;
 
-    private String role;
+    private String code;
 
-    private String description;
+    private String name;
 
     private String resourceIds;
 
@@ -33,20 +33,20 @@ public class SysRole implements Serializable {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getCode() {
+        return code;
     }
 
-    public void setRole(String role) {
-        this.role = role == null ? null : role.trim();
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getResourceIds() {

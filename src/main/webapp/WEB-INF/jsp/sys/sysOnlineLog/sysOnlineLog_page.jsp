@@ -49,7 +49,7 @@ pageEncoding="UTF-8" %>
                 if(cellvalue==undefined) return '--'
                 return $.map(cellvalue, function(item){
                     var role = _cMap.roleCodeMap[item];
-                    return role?role.description:null;
+                    return role?role.name:null;
                 });
             }, width: 300},
             </shiro:hasAnyRoles>

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.oa.OaTaskView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_ids" jdbcType="VARCHAR" property="userIds" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
@@ -79,8 +80,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type, name, content, deadline, contact, msg, status, is_publish, pub_date, 
-    is_delete, create_time, ip, file_count, user_count, finish_count
+    id, user_id, user_ids, type, name, content, deadline, contact, msg, status, is_publish, 
+    pub_date, is_delete, create_time, ip, file_count, user_count, finish_count
   </sql>
   <select id="selectByExample" parameterType="domain.oa.OaTaskViewExample" resultMap="BaseResultMap">
     select
@@ -103,18 +104,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.oa.OaTaskView">
-    insert into oa_task_view (id, user_id, type, 
-      name, content, deadline, 
-      contact, msg, status, 
-      is_publish, pub_date, is_delete, 
-      create_time, ip, file_count, 
-      user_count, finish_count)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{deadline,jdbcType=TIMESTAMP}, 
-      #{contact,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{isPublish,jdbcType=BOOLEAN}, #{pubDate,jdbcType=DATE}, #{isDelete,jdbcType=BOOLEAN}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{fileCount,jdbcType=BIGINT}, 
-      #{userCount,jdbcType=BIGINT}, #{finishCount,jdbcType=BIGINT})
+    insert into oa_task_view (id, user_id, user_ids, 
+      type, name, content, 
+      deadline, contact, msg, 
+      status, is_publish, pub_date, 
+      is_delete, create_time, ip, 
+      file_count, user_count, finish_count
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userIds,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{deadline,jdbcType=TIMESTAMP}, #{contact,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{isPublish,jdbcType=BOOLEAN}, #{pubDate,jdbcType=DATE}, 
+      #{isDelete,jdbcType=BOOLEAN}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+      #{fileCount,jdbcType=BIGINT}, #{userCount,jdbcType=BIGINT}, #{finishCount,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTaskView">
     insert into oa_task_view
@@ -124,6 +127,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="userIds != null">
+        user_ids,
       </if>
       <if test="type != null">
         type,
@@ -177,6 +183,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIds != null">
+        #{userIds,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -240,6 +249,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.userIds != null">
+        user_ids = #{record.userIds,jdbcType=VARCHAR},
+      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
@@ -294,6 +306,7 @@
     update oa_task_view
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      user_ids = #{record.userIds,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},

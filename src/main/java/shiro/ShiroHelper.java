@@ -32,14 +32,14 @@ public class ShiroHelper extends BaseShiroHelper{
 		if(StringUtils.isBlank(roleIds)) return false;
 		String[] roleIdStrs = roleIds.split(",");
 		Map<Integer, SysRole> roleMap = roleService.findAll();
-		List<String> roles = new ArrayList<>();
+		List<String> roleCodes = new ArrayList<>();
 		for (String roleIdStr : roleIdStrs) {
 			SysRole sysRole = roleMap.get(Integer.valueOf(roleIdStr));
-			roles.add(sysRole.getRole());
+			roleCodes.add(sysRole.getCode());
 		}
 
-		String[] _roles = new String[roles.size()];
-		return hasAnyRoles(roles.toArray(_roles));
+		String[] _roles = new String[roleCodes.size()];
+		return hasAnyRoles(roleCodes.toArray(_roles));
 	}
 
 	public static SysUserView getCurrentUser() {

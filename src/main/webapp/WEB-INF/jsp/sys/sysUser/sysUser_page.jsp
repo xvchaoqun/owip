@@ -108,8 +108,8 @@
                                                 <option></option>
                                                 <c:forEach items="${roleMap}" var="role">
                                                     <c:if test="${cm:isSuperAccount(_user.username)
-                                                    || role.value.role!=ROLE_SUPER}">
-                                                        <option value="${role.key}">${role.value.description}</option>
+                                                    || role.value.code!=ROLE_SUPER}">
+                                                        <option value="${role.key}">${role.value.name}</option>
                                                     </c:if>
                                                 </c:forEach>
                                             </select>

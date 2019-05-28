@@ -33,7 +33,8 @@ public class RoleConstants {
     public static final String ROLE_PCS_VOTE_DW = "role_pcs_vote_dw"; // 党代会-两委选举-党委录入
     public static final String ROLE_PCS_VOTE_JW = "role_pcs_vote_jw"; // 党代会-两委选举-纪委录入
 
-    public static final String ROLE_OA_USER = "role_oa_user"; // 协同办公负责人
+    public static final String ROLE_OA_USER = "role_oa_user"; // 协同办公用户
+    public static final String ROLE_OA_ADMIN = "role_oa_admin"; // 协同办公管理员
 
     public static final String ROLE_PMD_OW = "role_pmd_ow"; // 党费收缴-组织部管理员
     public static final String ROLE_PMD_PARTY = "role_pmd_party"; // 党费收缴-分党委管理员

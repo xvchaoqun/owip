@@ -252,6 +252,81 @@ public class OaTaskViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserIdsIsNull() {
+            addCriterion("user_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsIsNotNull() {
+            addCriterion("user_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsEqualTo(String value) {
+            addCriterion("user_ids =", value, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsNotEqualTo(String value) {
+            addCriterion("user_ids <>", value, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsGreaterThan(String value) {
+            addCriterion("user_ids >", value, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("user_ids >=", value, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsLessThan(String value) {
+            addCriterion("user_ids <", value, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsLessThanOrEqualTo(String value) {
+            addCriterion("user_ids <=", value, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsLike(String value) {
+            addCriterion("user_ids like", value, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsNotLike(String value) {
+            addCriterion("user_ids not like", value, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsIn(List<String> values) {
+            addCriterion("user_ids in", values, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsNotIn(List<String> values) {
+            addCriterion("user_ids not in", values, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsBetween(String value1, String value2) {
+            addCriterion("user_ids between", value1, value2, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdsNotBetween(String value1, String value2) {
+            addCriterion("user_ids not between", value1, value2, "userIds");
+            return (Criteria) this;
+        }
+
+        public Criteria listCreateOrShareTasks(int userId) {
+            addCriterion("(user_id=" + userId + " or find_in_set(" + userId + ", user_ids))");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;

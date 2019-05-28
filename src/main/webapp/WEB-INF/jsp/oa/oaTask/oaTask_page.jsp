@@ -42,8 +42,7 @@
                                    data-title="作废"
                                    data-msg="确定作废这{0}个任务？"
                                    data-url="${ctx}/oa/oaTask_abolish"
-                                   data-grid-id="#jqGrid"
-                                   ><i class="fa fa-times"></i>
+                                   data-grid-id="#jqGrid"><i class="fa fa-times"></i>
                                     作废</a>
                                 <a class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/oa/oaTaskUser_infoMsg"
@@ -54,12 +53,18 @@
                             </c:if>
                             <c:if test="${cls==3}">
                             <shiro:hasPermission name="oaTask:del">
+                                <a class="jqBatchBtn btn btn-warning btn-sm"
+                                   data-title="作废"
+                                   data-msg="确定作废这{0}个任务？"
+                                   data-url="${ctx}/oa/oaTask_abolish?isAbolish=0"
+                                   data-grid-id="#jqGrid"><i class="fa fa-reply"></i>
+                                    返回任务列表</a>
                                 <button data-url="${ctx}/oa/oaTask_batchDel"
                                         data-title="删除"
                                         data-msg="确定删除这{0}个任务？"
                                         data-grid-id="#jqGrid"
                                         class="jqBatchBtn btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i> 删除
+                                    <i class="fa fa-times"></i> 删除
                                 </button>
                             </shiro:hasPermission>
                             </c:if>
@@ -145,22 +150,31 @@
             }},
             <c:if test="${cls==1}">
             {
-                label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {
+                label: '发布', name: '_publish', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.isPublish) return '已发布';
                 return '<button class="confirm btn btn-success btn-xs" data-msg="确定发布？" data-callback="_reload"' +
                         'data-url="${ctx}/oa/oaTask_publish?id={0}&publish=1"><i class="fa fa-check"></i> 发布</button>'
                                 .format(rowObject.id)
-            }
-            },
+            }},
             {
-                label: '召回', name: '_publish', formatter: function (cellvalue, options, rowObject) {
+                label: '召回', name: '_publish', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (!rowObject.isPublish) return '--';
                 return '<button class="confirm btn btn-danger btn-xs" data-msg="确定召回？" data-callback="_reload"' +
                         'data-url="${ctx}/oa/oaTask_publish?id={0}&publish=0"><i class="fa fa-reply"></i> 召回</button>'
                                 .format(rowObject.id)
-            }
-            },
-                </c:if>
+            }},
+            </c:if>
+            {
+                label: '共享任务', name: '_share', width: 90, formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.userId!='${_user.id}') return rowObject.user.realname;
+                var len = 0;
+                if(rowObject.userIds){
+                    len = rowObject.userIds.split(",").length
+                }
+                return '<button class="popupBtn btn btn-success btn-xs" ' +
+                        'data-url="${ctx}/oa/oaTask_share?taskId={0}"><i class="fa fa-share-alt"></i> 共享({1})</button>'
+                                .format(rowObject.id, len)
+            }},
             {label: '工作类型', name: 'type', formatter: $.jgrid.formatter.MetaType},
             {
                 label: '应完成时间',

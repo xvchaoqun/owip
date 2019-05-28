@@ -386,11 +386,11 @@ public class SysUserService extends BaseMapper {
     public Set<String> findRoles(String username) {
 
         Set<SysRole> _roles = _findRoles(username);
-        Set<String> roles = new HashSet<String>();
+        Set<String> roleCodes = new HashSet<String>();
         for (SysRole role : _roles) {
-            roles.add(role.getRole());
+            roleCodes.add(role.getCode());
         }
-        return roles;
+        return roleCodes;
     }
 
     @Cacheable(value = "UserPermissions", key = "#username + ':' + (#isMobile?1:0)")

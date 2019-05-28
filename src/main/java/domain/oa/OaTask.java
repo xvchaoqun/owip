@@ -6,9 +6,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class OaTask implements Serializable {
+
     private Integer id;
 
     private Integer userId;
+
+    private String userIds;
 
     private Integer type;
 
@@ -51,6 +54,14 @@ public class OaTask implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(String userIds) {
+        this.userIds = userIds == null ? null : userIds.trim();
     }
 
     public Integer getType() {

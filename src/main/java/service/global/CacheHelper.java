@@ -3,6 +3,9 @@ package service.global;
 import domain.member.MemberReg;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
@@ -13,15 +16,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class CacheHelper {
 
- @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#u.username"),
-            @CacheEvict(value = "SysUserView", key = "#u.username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
-            @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
-            @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
-    })
-    public void clearUserCache(SysUser u) {}
+    // 清除指定缓存
+    public void clearCache(String name, String key) {
+
+        if (StringUtils.isNotBlank(name)) {
+            CacheManager manager = CacheManager.getInstance();
+            Cache cache = manager.getCache(name);
+            if (StringUtils.isNotBlank(key)) {
+                cache.remove(key);
+            } else {
+                cache.removeAll();
+            }
+        } else {
+            CacheManager.create().clearAll();
+        }
+    }
 
     @Caching(evict = {
             @CacheEvict(value = "UserRoles", key = "#u.username"),
@@ -31,7 +40,8 @@ public class CacheHelper {
             @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
             @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
     })
-    public void clearUserCache(SysUserView u) {}
+    public void clearUserCache(SysUser u) {
+    }
 
     @Caching(evict = {
             @CacheEvict(value = "UserRoles", key = "#u.username"),
@@ -41,19 +51,33 @@ public class CacheHelper {
             @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
             @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
     })
-    public void clearUserCache(MemberReg u) {}
+    public void clearUserCache(SysUserView u) {
+    }
 
-    @Caching(evict={
-            @CacheEvict(value="UserPermissions", allEntries=true),
-            @CacheEvict(value="SysResources", allEntries=true),
-            @CacheEvict(value="UserRoles", allEntries=true),
-            @CacheEvict(value="SysRoles", allEntries=true)
+    @Caching(evict = {
+            @CacheEvict(value = "UserRoles", key = "#u.username"),
+            @CacheEvict(value = "SysUserView", key = "#u.username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
     })
-    public void clearRoleCache() {}
+    public void clearUserCache(MemberReg u) {
+    }
+
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "SysResources", allEntries = true),
+            @CacheEvict(value = "UserRoles", allEntries = true),
+            @CacheEvict(value = "SysRoles", allEntries = true)
+    })
+    public void clearRoleCache() {
+    }
 
     @Caching(evict = {
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public void clearCadreCache() {}
+    public void clearCadreCache() {
+    }
 
 }
