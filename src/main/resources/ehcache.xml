@@ -11,6 +11,15 @@
                       propertySeparator="," />
        </defaultCache>-->
 
+       <cache name="OaTaskAdmin"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LRU"/>
+
        <cache name="ApplySnRange"
            eternal="false"
            maxElementsInMemory="2000"

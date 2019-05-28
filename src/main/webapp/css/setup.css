@@ -385,7 +385,7 @@ body {
     text-align: center!important;
 }*/
 .ui-th-column {
-    text-align: center !important;
+    text-align: center;
 }
 
 /*header部分换行*/
