@@ -1,6 +1,9 @@
 
 
 20190528
+更新南航
+
+20190528
 
 ALTER TABLE `sys_role`
 	CHANGE COLUMN `role` `code` VARCHAR(100) NOT NULL COMMENT '角色代码' AFTER `id`,
