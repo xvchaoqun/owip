@@ -1,4 +1,57 @@
 
+
+20190528
+
+ALTER TABLE `sys_role`
+	CHANGE COLUMN `role` `code` VARCHAR(100) NOT NULL COMMENT '角色代码' AFTER `id`,
+	CHANGE COLUMN `description` `name` VARCHAR(100) NULL DEFAULT NULL COMMENT '角色名称' AFTER `code`;
+
+update sys_role set name='协同办公用户', remark='任务对象或任务指定负责人' where code='role_oa_user';
+
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_oa_admin', '协同办公管理员', '108,1042,1045,560,561,563', '-1', NULL, 0, 0, 57, '任务发布人');
+
+delete from sys_resource where permission like 'oaTaskType%';
+
+ALTER TABLE `oa_task`
+	ADD COLUMN `user_ids` VARCHAR(200) NULL COMMENT '共享任务人，创建人可以共享任务给相关人员，并赋予相应的管理员角色' AFTER `user_id`;
+
+DROP VIEW IF EXISTS `oa_task_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `oa_task_view`
+AS select ot.*, count(distinct otf.id) as file_count,
+-- 任务对象数量
+count(distinct otu.id) as user_count,
+-- 已完成数
+count(distinct otu2.id) as finish_count from oa_task ot
+left join oa_task_file otf on otf.task_id=ot.id
+left join oa_task_user otu on otu.task_id = ot.id and otu.is_delete=0
+left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu2.status=1 group by ot.id;
+
+CREATE TABLE `oa_task_admin` (
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '用户ID',
+	`types` TEXT NULL COMMENT '工作类型',
+	`create_time` DATETIME NULL DEFAULT NULL COMMENT '添加时间',
+	PRIMARY KEY (`user_id`)
+)
+COMMENT='协同办公任务管理员'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+;
+
+-- 删除 OaTaskMsgService.java
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1046, 0, '管理员列表', '', 'url', '', '/oa/oaTaskAdmin', 560, '0/1/560/', 1, 'oaTaskAdmin:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1047, 0, '参数设置', '', 'url', '', '/metaClass_type_list?cls=mc_oa_task_type', 560, '0/1/560/', 1, 'mc_oa_task_type:*', NULL, NULL, NULL, 1, NULL);
+update sys_resource set sort_order=100 where id=561;
+update sys_resource set sort_order=90 where id=562;
+
+-- 删除所有角色的 协同办公的权限
+-- 为admin新增协同办公 管理员列表、参数设置权限
+
+
+20190526
+更新南航
+
 20190526
 -- stat:* -> stat:ow
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (312, 0, '党建信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:ow', 4, NULL, NULL, 1, NULL);

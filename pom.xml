@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <libdir>${basedir}</libdir>
-        <generator.mybatis.modal>leader</generator.mybatis.modal>
+        <generator.mybatis.modal>oa</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
@@ -901,6 +901,7 @@
                                 <include>extend/js/lazyload.js</include>
                                 <include>extend/js/fancybox/source/jquery.fancybox.js</include>
                                 <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js</include>
+                                <include>extend/js/jquery.webui-popover.min.js</include>
                                 <!--在FF下与sidebar scroll冲突-->
                                 <!-- <include>extend/js/jquery.mousewheel.pack.js</include>-->
                             </includes>
@@ -965,6 +966,7 @@
                                 <include>extend/css/navbar.css</include>
                                 <include>extend/js/fancybox/source/jquery.fancybox.css</include>
                                 <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css</include>
+                                <include>extend/css/jquery.webui-popover.min.css</include>
                             </includes>
                         </aggregation>
                         <aggregation>
