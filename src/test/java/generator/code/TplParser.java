@@ -40,7 +40,7 @@ public class TplParser {
 	public void execute() throws Exception{
 		
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-ow.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-party.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-party.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-sys.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-sys2.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-dispatch.json";
@@ -55,7 +55,7 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cet.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-dr.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-oa.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-oa.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-pmd.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-scMotion.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-scRecord.json";
@@ -91,7 +91,7 @@ public class TplParser {
 		String tablePrefix = jsonNode.path("tablePrefix").getTextValue();
 		//String folder = tablePrefix.substring(0, tablePrefix.length() - 1);
 		String folder = jsonNode.path("folder").getTextValue();
-		String resFolder = jsonNode.path("resFolder").getTextValue();
+		String resFolder = StringUtils.trimToEmpty(jsonNode.path("resFolder").getTextValue());
 		String cpath = jsonNode.path("cpath").getTextValue() + "\\" + folder+ "\\";
 		String spath = jsonNode.path("spath").getTextValue() + "\\" + folder+ "\\";
 		String vpath = jsonNode.path("vpath").getTextValue() + "\\" + folder+ "\\";

@@ -28,7 +28,18 @@
         <!--<table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>
+        <table tableName="oa_task_view" domainObjectName="oa.OaTaskView" mapperName="oa.OaTaskViewMapper">
+            <columnOverride column="user_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="is_publish" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_delete" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
+        <table tableName="oa_task_admin" domainObjectName="oa.OaTaskAdmin" mapperName="oa.OaTaskAdminMapper">
+            <columnOverride column="types" jdbcType="VARCHAR"></columnOverride>
+        </table>
+
        <!-- <table tableName="oa_task_file" domainObjectName="oa.OaTaskFile" mapperName="oa.OaTaskFileMapper">
         </table>
         <table tableName="oa_task_msg" domainObjectName="oa.OaTaskMsg" mapperName="oa.OaTaskMsgMapper">
@@ -37,25 +48,17 @@
         <!--<table tableName="oa_task_user" domainObjectName="oa.OaTaskUser" mapperName="oa.OaTaskUserMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-         <table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
+         <!--<table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="has_report" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_back" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="oa_task_user_file" domainObjectName="oa.OaTaskUserFile" mapperName="oa.OaTaskUserFileMapper">
        </table>-->
         <!--<table tableName="oa_task_remind" domainObjectName="oa.OaTaskRemind" mapperName="oa.OaTaskRemindMapper">
         </table>-->
-        <!--<table tableName="oa_task_view" domainObjectName="oa.OaTaskView" mapperName="oa.OaTaskViewMapper">
-            <columnOverride column="user_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="is_publish" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-            <columnOverride column="is_delete" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>-->
-
 
     </context>
 </generatorConfiguration>

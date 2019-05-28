@@ -62,10 +62,10 @@ public class ${TableName}Service extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="${TableName}:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(${TableName} record){
+    public void updateByPrimaryKeySelective(${TableName} record){
         if(StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
-        return ${tableName}Mapper.updateByPrimaryKeySelective(record);
+        ${tableName}Mapper.updateByPrimaryKeySelective(record);
     }
 
     @Cacheable(value="${TableName}:ALL")
