@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div id="body-content" class="rownumbers"
+        <div id="body-content" class="rownumbers multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId ||not empty param.type
@@ -98,6 +98,7 @@
         colModel: [
             {label: '管理员姓名', name: 'user.realname'},
             {label: '学工号', name: 'user.code', width: 120},
+            {label: '允许查看<br/>所有任务', name: 'showAll', width: 80, formatter:$.jgrid.formatter.TRUEFALSE},
             {
                 label: '工作类型', name: 'types', width: 500, align:'left', formatter: function (cellvalue, options, rowObject) {
                     var types = rowObject.types;

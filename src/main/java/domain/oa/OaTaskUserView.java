@@ -44,6 +44,10 @@ public class OaTaskUserView implements Serializable {
 
     private String taskName;
 
+    private Integer taskUserId;
+
+    private String taskUserIds;
+
     private Date taskDeadline;
 
     private String taskContact;
@@ -228,6 +232,22 @@ public class OaTaskUserView implements Serializable {
 
     public void setTaskName(String taskName) {
         this.taskName = taskName == null ? null : taskName.trim();
+    }
+
+    public Integer getTaskUserId() {
+        return taskUserId;
+    }
+
+    public void setTaskUserId(Integer taskUserId) {
+        this.taskUserId = taskUserId;
+    }
+
+    public String getTaskUserIds() {
+        return taskUserIds;
+    }
+
+    public void setTaskUserIds(String taskUserIds) {
+        this.taskUserIds = taskUserIds == null ? null : taskUserIds.trim();
     }
 
     public Date getTaskDeadline() {

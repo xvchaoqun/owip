@@ -22,6 +22,8 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_user_id" jdbcType="INTEGER" property="taskUserId" />
+    <result column="task_user_ids" jdbcType="VARCHAR" property="taskUserIds" />
     <result column="task_deadline" jdbcType="TIMESTAMP" property="taskDeadline" />
     <result column="task_contact" jdbcType="VARCHAR" property="taskContact" />
     <result column="task_is_delete" jdbcType="BIT" property="taskIsDelete" />
@@ -98,9 +100,9 @@
   <sql id="Base_Column_List">
     id, task_id, user_id, mobile, title, assign_user_id, assign_user_mobile, content, 
     remark, has_report, report_user_id, report_time, is_back, is_delete, check_remark, 
-    sort_order, status, code, realname, task_name, task_deadline, task_contact, task_is_delete, 
-    task_is_publish, task_status, task_pub_date, task_type, assign_code, assign_realname, 
-    report_code, report_realname
+    sort_order, status, code, realname, task_name, task_user_id, task_user_ids, task_deadline, 
+    task_contact, task_is_delete, task_is_publish, task_status, task_pub_date, task_type, 
+    assign_code, assign_realname, report_code, report_realname
   </sql>
   <sql id="Blob_Column_List">
     task_content
@@ -148,22 +150,24 @@
       has_report, report_user_id, report_time, 
       is_back, is_delete, check_remark, 
       sort_order, status, code, 
-      realname, task_name, task_deadline, 
-      task_contact, task_is_delete, task_is_publish, 
-      task_status, task_pub_date, task_type, 
-      assign_code, assign_realname, report_code, 
-      report_realname, task_content)
+      realname, task_name, task_user_id, 
+      task_user_ids, task_deadline, task_contact, 
+      task_is_delete, task_is_publish, task_status, 
+      task_pub_date, task_type, assign_code, 
+      assign_realname, report_code, report_realname, 
+      task_content)
     values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{mobile,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{assignUserId,jdbcType=INTEGER}, 
       #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{hasReport,jdbcType=BOOLEAN}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
       #{isBack,jdbcType=BOOLEAN}, #{isDelete,jdbcType=BIT}, #{checkRemark,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
-      #{realname,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{taskDeadline,jdbcType=TIMESTAMP}, 
-      #{taskContact,jdbcType=VARCHAR}, #{taskIsDelete,jdbcType=BIT}, #{taskIsPublish,jdbcType=BIT}, 
-      #{taskStatus,jdbcType=TINYINT}, #{taskPubDate,jdbcType=DATE}, #{taskType,jdbcType=INTEGER}, 
-      #{assignCode,jdbcType=VARCHAR}, #{assignRealname,jdbcType=VARCHAR}, #{reportCode,jdbcType=VARCHAR}, 
-      #{reportRealname,jdbcType=VARCHAR}, #{taskContent,jdbcType=LONGVARCHAR})
+      #{realname,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{taskUserId,jdbcType=INTEGER}, 
+      #{taskUserIds,jdbcType=VARCHAR}, #{taskDeadline,jdbcType=TIMESTAMP}, #{taskContact,jdbcType=VARCHAR}, 
+      #{taskIsDelete,jdbcType=BIT}, #{taskIsPublish,jdbcType=BIT}, #{taskStatus,jdbcType=TINYINT}, 
+      #{taskPubDate,jdbcType=DATE}, #{taskType,jdbcType=INTEGER}, #{assignCode,jdbcType=VARCHAR}, 
+      #{assignRealname,jdbcType=VARCHAR}, #{reportCode,jdbcType=VARCHAR}, #{reportRealname,jdbcType=VARCHAR}, 
+      #{taskContent,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTaskUserView">
     insert into oa_task_user_view
@@ -227,6 +231,12 @@
       </if>
       <if test="taskName != null">
         task_name,
+      </if>
+      <if test="taskUserId != null">
+        task_user_id,
+      </if>
+      <if test="taskUserIds != null">
+        task_user_ids,
       </if>
       <if test="taskDeadline != null">
         task_deadline,
@@ -325,6 +335,12 @@
       </if>
       <if test="taskName != null">
         #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskUserId != null">
+        #{taskUserId,jdbcType=INTEGER},
+      </if>
+      <if test="taskUserIds != null">
+        #{taskUserIds,jdbcType=VARCHAR},
       </if>
       <if test="taskDeadline != null">
         #{taskDeadline,jdbcType=TIMESTAMP},
@@ -433,6 +449,12 @@
       <if test="record.taskName != null">
         task_name = #{record.taskName,jdbcType=VARCHAR},
       </if>
+      <if test="record.taskUserId != null">
+        task_user_id = #{record.taskUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskUserIds != null">
+        task_user_ids = #{record.taskUserIds,jdbcType=VARCHAR},
+      </if>
       <if test="record.taskDeadline != null">
         task_deadline = #{record.taskDeadline,jdbcType=TIMESTAMP},
       </if>
@@ -496,6 +518,8 @@
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
       task_name = #{record.taskName,jdbcType=VARCHAR},
+      task_user_id = #{record.taskUserId,jdbcType=INTEGER},
+      task_user_ids = #{record.taskUserIds,jdbcType=VARCHAR},
       task_deadline = #{record.taskDeadline,jdbcType=TIMESTAMP},
       task_contact = #{record.taskContact,jdbcType=VARCHAR},
       task_is_delete = #{record.taskIsDelete,jdbcType=BIT},
@@ -534,6 +558,8 @@
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
       task_name = #{record.taskName,jdbcType=VARCHAR},
+      task_user_id = #{record.taskUserId,jdbcType=INTEGER},
+      task_user_ids = #{record.taskUserIds,jdbcType=VARCHAR},
       task_deadline = #{record.taskDeadline,jdbcType=TIMESTAMP},
       task_contact = #{record.taskContact,jdbcType=VARCHAR},
       task_is_delete = #{record.taskIsDelete,jdbcType=BIT},

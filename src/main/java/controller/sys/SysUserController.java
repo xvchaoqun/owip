@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,9 +112,13 @@ public class SysUserController extends BaseController {
     }
 
     // 账号信息
-    @RequiresPermissions("sysUser:view")
+    //@RequiresPermissions("sysUser:view")
     @RequestMapping("/sysUser_base")
     public String sysUser_base(int userId, ModelMap modelMap) {
+
+        if(userId!=ShiroHelper.getCurrentUserId()){
+            SecurityUtils.getSubject().checkPermission("sysUser:view");
+        }
 
         SysUserView sysUser = sysUserService.findById(userId);
         modelMap.put("uv", sysUser);

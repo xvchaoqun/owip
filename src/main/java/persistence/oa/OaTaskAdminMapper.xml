@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.oa.OaTaskAdmin">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="types" jdbcType="VARCHAR" property="types" />
+    <result column="show_all" jdbcType="BIT" property="showAll" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, types, create_time
+    user_id, types, show_all, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.oa.OaTaskAdminExample" resultMap="BaseResultMap">
     select
@@ -98,10 +99,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.oa.OaTaskAdmin">
-    insert into oa_task_admin (user_id, types, create_time
-      )
-    values (#{userId,jdbcType=INTEGER}, #{types,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into oa_task_admin (user_id, types, show_all, 
+      create_time)
+    values (#{userId,jdbcType=INTEGER}, #{types,jdbcType=VARCHAR}, #{showAll,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTaskAdmin">
     insert into oa_task_admin
@@ -111,6 +112,9 @@
       </if>
       <if test="types != null">
         types,
+      </if>
+      <if test="showAll != null">
+        show_all,
       </if>
       <if test="createTime != null">
         create_time,
@@ -122,6 +126,9 @@
       </if>
       <if test="types != null">
         #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="showAll != null">
+        #{showAll,jdbcType=BIT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -143,6 +150,9 @@
       <if test="record.types != null">
         types = #{record.types,jdbcType=VARCHAR},
       </if>
+      <if test="record.showAll != null">
+        show_all = #{record.showAll,jdbcType=BIT},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -155,6 +165,7 @@
     update oa_task_admin
     set user_id = #{record.userId,jdbcType=INTEGER},
       types = #{record.types,jdbcType=VARCHAR},
+      show_all = #{record.showAll,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,6 +177,9 @@
       <if test="types != null">
         types = #{types,jdbcType=VARCHAR},
       </if>
+      <if test="showAll != null">
+        show_all = #{showAll,jdbcType=BIT},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -175,6 +189,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.oa.OaTaskAdmin">
     update oa_task_admin
     set types = #{types,jdbcType=VARCHAR},
+      show_all = #{showAll,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>

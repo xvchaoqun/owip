@@ -54,9 +54,12 @@ public class OaTaskController extends OaBaseController {
     public String oaTask(@RequestParam(required = false, defaultValue = "1") Byte cls, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-
-        List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(ShiroHelper.getCurrentUserId());
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
+        List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(currentUserId);
         modelMap.put("oaTaskTypes", oaTaskTypes);
+
+        OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(currentUserId);
+        modelMap.put("oaTaskAdmin", oaTaskAdmin);
 
         return "oa/oaTask/oaTask_page";
     }
@@ -67,6 +70,7 @@ public class OaTaskController extends OaBaseController {
                             @RequestParam(required = false, defaultValue = "1") Byte cls,
                             Integer type,
                             String name,
+                            Boolean showAll,
                             Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -95,7 +99,13 @@ public class OaTaskController extends OaBaseController {
                 break;
         }
 
-        criteria.listCreateOrShareTasks(ShiroHelper.getCurrentUserId());
+        showAll = BooleanUtils.isTrue(showAll)
+                && BooleanUtils.isTrue(oaTaskAdminMapper
+                .selectByPrimaryKey(ShiroHelper.getCurrentUserId()).getShowAll());
+
+        if(!showAll){
+            criteria.listCreateOrShareTasks(ShiroHelper.getCurrentUserId());
+        }
 
         if (type != null) {
             criteria.andTypeEqualTo(type);

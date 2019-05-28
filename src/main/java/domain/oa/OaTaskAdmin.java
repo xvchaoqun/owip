@@ -17,6 +17,8 @@ public class OaTaskAdmin implements Serializable {
 
     private String types;
 
+    private Boolean showAll;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +37,14 @@ public class OaTaskAdmin implements Serializable {
 
     public void setTypes(String types) {
         this.types = types == null ? null : types.trim();
+    }
+
+    public Boolean getShowAll() {
+        return showAll;
+    }
+
+    public void setShowAll(Boolean showAll) {
+        this.showAll = showAll;
     }
 
     public Date getCreateTime() {

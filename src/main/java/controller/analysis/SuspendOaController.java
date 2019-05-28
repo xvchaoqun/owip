@@ -19,6 +19,7 @@ public class SuspendOaController extends OaBaseController {
     @RequestMapping("/suspend_oa")
     public String suspend_oa(ModelMap modelMap) {
 
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
         if(ShiroHelper.isPermitted("userOaTask:report")){   // 待处理任务数量
             OaTaskUserViewExample example = new OaTaskUserViewExample();
             example.createCriteria()
@@ -27,7 +28,7 @@ public class SuspendOaController extends OaBaseController {
                     .andTaskStatusIn(Arrays.asList(OaConstants.OA_TASK_STATUS_PUBLISH,
                             OaConstants.OA_TASK_STATUS_FINISH))
                     .andIsDeleteEqualTo(false)
-                    .isTaskUser(ShiroHelper.getCurrentUserId())
+                    .isTaskUser(currentUserId)
                     .andHasReportEqualTo(false);
             long taskCount = oaTaskUserViewMapper.countByExample(example);
             modelMap.put("taskCount", taskCount);
@@ -36,6 +37,7 @@ public class SuspendOaController extends OaBaseController {
         if(ShiroHelper.isPermitted("oaTaskUser:check")){   // 待审批任务数量
             OaTaskUserViewExample example = new OaTaskUserViewExample();
             example.createCriteria()
+                    .andTaskUserIdEqualTo(currentUserId)
                     .andTaskIsDeleteEqualTo(false)
                     .andTaskIsPublishEqualTo(true)
                     .andTaskStatusIn(Arrays.asList(OaConstants.OA_TASK_STATUS_PUBLISH,

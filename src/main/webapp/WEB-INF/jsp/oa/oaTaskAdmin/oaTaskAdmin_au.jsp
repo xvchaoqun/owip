@@ -32,12 +32,19 @@ pageEncoding="UTF-8"%>
                     <div id="tree"></div>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span> 允许查看<br/>所有任务</label>
+				<div class="col-xs-6" style="margin-top: 12px;">
+                    <input type="checkbox" name="showAll" ${(oaTaskAdmin!=null&&oaTaskAdmin.showAll)?"checked":""}/>
+					<span class="help-block">注：选“是”，则允许该账号查看系统所有人创建的任务</span>
+				</div>
+			</div>
     </form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
-            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"
             class="btn btn-primary"><i class="fa fa-check"></i> ${not empty oaTaskAdmin?'确定':'添加'}</button>
 </div>
 <link href="${ctx}/extend/js/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet"/>
@@ -69,7 +76,7 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    //$("#modalForm :checkbox").bootstrapSwitch();
+    $("#modalForm :checkbox").bootstrapSwitch();
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();

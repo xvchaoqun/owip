@@ -13,17 +13,25 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${cls==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=1"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=1&showAll=${param.showAll}"><i
                                 class="fa fa-list"></i> 新建任务</a>
                     </li>
                     <li class="<c:if test="${cls==2}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=2"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=2&showAll=${param.showAll}"><i
                                 class="fa fa-check-square-o"></i> 已完成</a>
                     </li>
                     <li class="<c:if test="${cls==3}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=3"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=3&showAll=${param.showAll}"><i
                                 class="fa fa-trash-o"></i> 作废</a>
                     </li>
+                    <c:if test="${oaTaskAdmin.showAll}">
+                    <div class="type-select">
+                            <span class="typeCheckbox ${param.showAll==1?"checked":""}">
+                            <input class="big" ${param.showAll==1?"checked":""} type="checkbox"
+                                                                         value="1"> 显示全部任务
+                            </span>
+                    </div>
+                    </c:if>
                 </ul>
 
                 <div class="tab-content">
@@ -85,7 +93,7 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
-
+                                        <input type="hidden" name="showAll" value="${param.showAll}">
                                         <div class="form-group">
                                             <label>工作类型</label>
                                             <select class="form-control" name="type"
@@ -132,7 +140,31 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<style>
+    .type-select {
+        float: right;
+        padding: 5px 50px 0px 5px;
+    }
+
+    .type-select a {
+        padding-left: 20px;
+    }
+
+    .type-select .typeCheckbox {
+        padding: 10px;
+        font-size: 20px;
+    }
+
+    .type-select .typeCheckbox.checked {
+        color: darkred;
+        font-weight: bolder;
+    }
+</style>
 <script>
+    $(":checkbox", ".typeCheckbox").click(function () {
+        $("#searchForm input[name=showAll]").val($(this).prop("checked") ? 1 : 0);
+        $("#searchForm .jqSearchBtn").click();
+    })
     function _reload(){
         $(window).triggerHandler('resize.jqGrid');
     }

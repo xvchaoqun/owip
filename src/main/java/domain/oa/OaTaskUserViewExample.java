@@ -1428,6 +1428,136 @@ public class OaTaskUserViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andTaskUserIdIsNull() {
+            addCriterion("task_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdIsNotNull() {
+            addCriterion("task_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdEqualTo(Integer value) {
+            addCriterion("task_user_id =", value, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdNotEqualTo(Integer value) {
+            addCriterion("task_user_id <>", value, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdGreaterThan(Integer value) {
+            addCriterion("task_user_id >", value, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("task_user_id >=", value, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdLessThan(Integer value) {
+            addCriterion("task_user_id <", value, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("task_user_id <=", value, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdIn(List<Integer> values) {
+            addCriterion("task_user_id in", values, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdNotIn(List<Integer> values) {
+            addCriterion("task_user_id not in", values, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("task_user_id between", value1, value2, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("task_user_id not between", value1, value2, "taskUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsIsNull() {
+            addCriterion("task_user_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsIsNotNull() {
+            addCriterion("task_user_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsEqualTo(String value) {
+            addCriterion("task_user_ids =", value, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsNotEqualTo(String value) {
+            addCriterion("task_user_ids <>", value, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsGreaterThan(String value) {
+            addCriterion("task_user_ids >", value, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("task_user_ids >=", value, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsLessThan(String value) {
+            addCriterion("task_user_ids <", value, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsLessThanOrEqualTo(String value) {
+            addCriterion("task_user_ids <=", value, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsLike(String value) {
+            addCriterion("task_user_ids like", value, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsNotLike(String value) {
+            addCriterion("task_user_ids not like", value, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsIn(List<String> values) {
+            addCriterion("task_user_ids in", values, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsNotIn(List<String> values) {
+            addCriterion("task_user_ids not in", values, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsBetween(String value1, String value2) {
+            addCriterion("task_user_ids between", value1, value2, "taskUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskUserIdsNotBetween(String value1, String value2) {
+            addCriterion("task_user_ids not between", value1, value2, "taskUserIds");
+            return (Criteria) this;
+        }
+
         public Criteria andTaskDeadlineIsNull() {
             addCriterion("task_deadline is null");
             return (Criteria) this;

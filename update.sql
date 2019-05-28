@@ -1,5 +1,7 @@
 
 
+
+
 20190528
 更新南航
 
@@ -51,6 +53,22 @@ update sys_resource set sort_order=90 where id=562;
 -- 删除所有角色的 协同办公的权限
 -- 为admin新增协同办公 管理员列表、参数设置权限
 
+DROP VIEW IF EXISTS `oa_task_user_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `oa_task_user_view` AS
+select otu.*, uv.code, uv.realname, ot.name as task_name, ot.content as task_content,
+ot.user_id as task_user_id, ot.user_ids as task_user_ids,
+ot.deadline as task_deadline, ot.contact as task_contact,
+ot.is_delete as task_is_delete, ot.is_publish as task_is_publish, ot.status as task_status,
+ot.pub_date as task_pub_date, ot.type as task_type,
+ouv.code as assign_code, ouv.realname as assign_realname,
+ruv.code as report_code, ruv.realname as report_realname from oa_task_user otu
+left join oa_task ot on otu.task_id = ot.id
+left join sys_user_view uv on otu.user_id = uv.id
+left join sys_user_view ouv on otu.assign_user_id = ouv.id
+left join sys_user_view ruv on otu.report_user_id = ruv.id;
+
+ALTER TABLE `oa_task_admin`
+	ADD COLUMN `show_all` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否可以查看系统所有的任务' AFTER `types`;
 
 20190526
 更新南航

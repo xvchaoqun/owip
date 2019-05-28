@@ -5,6 +5,7 @@ import domain.oa.OaTaskAdmin;
 import domain.oa.OaTaskAdminExample;
 import domain.oa.OaTaskAdminExample.Criteria;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -97,6 +98,7 @@ public class OaTaskAdminController extends OaBaseController {
     public Map do_oaTaskAdmin_au(OaTaskAdmin record, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
+        record.setShowAll(BooleanUtils.isTrue(record.getShowAll()));
         OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(userId);
         if (oaTaskAdmin == null) {
 

@@ -12,7 +12,7 @@
         <option></option>
     </select>
     <button id="selectBtn" type="button"
-            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 操作中"
             class="btn btn-success"><i
             class="fa fa-plus"></i> 添加
     </button>
@@ -35,7 +35,8 @@
                 <td>${u.realname}</td>
                 <td style="text-align: left">${cm:getCadreByUserId(u.userId).title}</td>
                 <td>
-                    <a class="popoverConfirm" data-user-id="${u.id}"><i class="fa fa-minus-circle fa-2x text-danger"></i> </a>
+                    <a href="javascript:;" class="popoverConfirm btn btn-xs btn-danger"
+                       data-user-id="${u.id}"><i class="fa fa-minus-circle"></i> 移除 </a>
                 </td>
             </tr>
         </c:forEach>
@@ -49,11 +50,11 @@
     <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>
 <script type="text/template" id="popover_tpl">
-    <a class="runBtn btn btn-success btn-sm"
+    <button class="runBtn btn btn-success btn-sm"
        data-url="${ctx}/oa/oaTask_share?taskId=${param.taskId}&userId={{=userId}}&share=0"
        data-callback="_removeSuccess" data-user-id="{{=userId}}" data-tip="no">
-        <i class="fa fa-check"></i> 确定</a>&nbsp;
-     <a class="btn btn-default btn-sm" onclick="_hidePopover()"><i class="fa fa-times"></i> 取消</a>
+        <i class="fa fa-check"></i> 确定</button>&nbsp;
+     <button class="btn btn-default btn-sm" onclick="_hidePopover()"><i class="fa fa-times"></i> 取消</button>
 </script>
 <script>
     function _hidePopover(){

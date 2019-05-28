@@ -234,9 +234,67 @@ public class OaTaskAdminExample {
             addCriterion("types not between", value1, value2, "types");
             return (Criteria) this;
         }
-
         public Criteria andTypesContain(int type) {
             addCriterion("find_in_set("+ type +", types)");
+            return (Criteria) this;
+        }
+        public Criteria andShowAllIsNull() {
+            addCriterion("show_all is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllIsNotNull() {
+            addCriterion("show_all is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllEqualTo(Boolean value) {
+            addCriterion("show_all =", value, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllNotEqualTo(Boolean value) {
+            addCriterion("show_all <>", value, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllGreaterThan(Boolean value) {
+            addCriterion("show_all >", value, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("show_all >=", value, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllLessThan(Boolean value) {
+            addCriterion("show_all <", value, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllLessThanOrEqualTo(Boolean value) {
+            addCriterion("show_all <=", value, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllIn(List<Boolean> values) {
+            addCriterion("show_all in", values, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllNotIn(List<Boolean> values) {
+            addCriterion("show_all not in", values, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllBetween(Boolean value1, Boolean value2) {
+            addCriterion("show_all between", value1, value2, "showAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowAllNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("show_all not between", value1, value2, "showAll");
             return (Criteria) this;
         }
 

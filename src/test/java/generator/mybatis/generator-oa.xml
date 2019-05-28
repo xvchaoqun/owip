@@ -49,7 +49,8 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
          <!--<table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
-            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="task_user_ids" jdbcType="VARCHAR"></columnOverride>
+             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="has_report" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_back" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
