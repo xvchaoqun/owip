@@ -41,7 +41,7 @@ public class OrgAdminController extends BaseController {
 
         if (partyId != null || branchId!=null) {
             if (null == pageSize) {
-                pageSize = springProps.pageSize;
+                pageSize = 5;
             }
             if (null == pageNo) {
                 pageNo = 1;

@@ -132,12 +132,10 @@ public class BranchController extends BaseController {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
-            //if(!ShiroHelper.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的支部
-                List<Integer> partyIdList = loginUserService.adminPartyIdList();
-                if (partyIdList.size() > 0)
-                    criteria.andPartyIdIn(partyIdList);
-                else criteria.andPartyIdIsNull();
-            //}
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            if (partyIdList.size() > 0)
+                criteria.andPartyIdIn(partyIdList);
+            else criteria.andPartyIdIsNull();
         }
 
         if (typeId != null) {
@@ -296,7 +294,7 @@ public class BranchController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             branchService.batchDel(ids, isDeleted);
-            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除党支部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量撤销党支部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -160,6 +160,7 @@ public class BranchService extends BaseMapper {
             checkAuth(branch.getPartyId());
 
             Branch record = new Branch();
+            record.setId(id);
             record.setIsDeleted(isDeleted);
 
             if(!isDeleted){ // 恢复支部

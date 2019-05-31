@@ -110,13 +110,10 @@ public class BranchMemberGroupController extends BaseController {
         //criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
-            if (!ShiroHelper.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的支部
-
-                List<Integer> partyIdList = loginUserService.adminPartyIdList();
-                if (partyIdList.size() > 0)
-                    criteria.andPartyIdIn(partyIdList);
-                else criteria.andPartyIdIsNull();
-            }
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            if (partyIdList.size() > 0)
+                criteria.andPartyIdIn(partyIdList);
+            else criteria.andPartyIdIsNull();
         }
 
         if (branchId != null) {

@@ -30,7 +30,7 @@
 
                                     <div class="col-xs-8">
                                         <select name="userId" data-rel="select2-ajax" data-width="220"
-                                                data-ajax-url="${ctx}/cadre_selects?key=1&type=2"
+                                                data-ajax-url="${ctx}/cadre_selects?key=1"
                                                 data-placeholder="请输入账号或姓名或学工号">
                                             <option></option>
                                         </select>

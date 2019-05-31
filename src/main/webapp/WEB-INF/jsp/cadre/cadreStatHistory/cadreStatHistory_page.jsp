@@ -10,7 +10,7 @@
 
         <div id="body-content"
              class="myTableDiv"
-             data-url-page="${ctx}/cadreStatHistory_page"
+             data-url-page="${ctx}/cadreStatHistory"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.type || not empty param._statDate}"/>
             <div class="jqgrid-vertical-offset buttons">
@@ -36,6 +36,11 @@
                         <i class="fa fa-hourglass-half"></i> 立即统计
                     </button>
                 </shiro:hasPermission>
+                <button class="jqExportBtn btn btn-success btn-sm"
+                    data-grid-id="#jqGrid"
+                    data-search-form-id="#searchForm"
+                    data-url="${ctx}/cadreStatHistory_data"><i class="fa fa-download"></i>
+                    打包下载</button>
                 <shiro:hasPermission name="cadreStatHistory:del">
                     <a class="jqBatchBtn btn btn-danger btn-sm"
                        data-url="${ctx}/cadreStatHistory_batchDel" data-title="删除"

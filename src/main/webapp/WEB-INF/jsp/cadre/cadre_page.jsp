@@ -217,17 +217,17 @@
                                     </div>
 
                                 </shiro:hasPermission>
-                                <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                    <shiro:hasPermission name="cadre:archive">
-                                    <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
-                                            data-need-id="false"
-                                            data-ids-name="cadreIds"
-                                            data-open-by="page"
-                                            data-url="${ctx}/cadre_search_brief">
-                                        <i class="fa fa-hand-pointer-o"></i> 提取简介
-                                    </button>
-                                    </shiro:hasPermission>
-                                </c:if>
+
+                                <shiro:hasPermission name="cadre:archive">
+                                <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                                        data-need-id="false"
+                                        data-ids-name="cadreIds"
+                                        data-open-by="page"
+                                        data-url="${ctx}/cadre_search_brief">
+                                    <i class="fa fa-hand-pointer-o"></i> 提取简介
+                                </button>
+                                </shiro:hasPermission>
+
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
                                             data-title="删除"

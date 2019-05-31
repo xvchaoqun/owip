@@ -15,20 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadreStatHistoryController extends BaseController {
@@ -48,7 +49,7 @@ public class CadreStatHistoryController extends BaseController {
     @RequiresPermissions("cadreStatHistory:list")
     @RequestMapping("/cadreStatHistory")
     public String cadreStatHistory(@RequestParam(required = false, defaultValue = "1") Byte status,
-                                        ModelMap modelMap) {
+                                   ModelMap modelMap) {
 
         modelMap.put("status", status);
         return "cadre/cadreStatHistory/cadreStatHistory_page";
@@ -57,8 +58,12 @@ public class CadreStatHistoryController extends BaseController {
     @RequiresPermissions("cadreStatHistory:list")
     @RequestMapping("/cadreStatHistory_data")
     @ResponseBody
-    public void cadreStatHistory_data(HttpServletResponse response, Byte type,
+    public void cadreStatHistory_data(HttpServletResponse response,
+                                      HttpServletRequest request,
+                                      Byte type,
                                       @RequestDateRange DateRange _statDate,
+                                      @RequestParam(required = false, defaultValue = "0") int export,
+                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                       Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -76,12 +81,19 @@ public class CadreStatHistoryController extends BaseController {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if (_statDate.getStart()!=null) {
+        if (_statDate.getStart() != null) {
             criteria.andStatDateGreaterThanOrEqualTo(_statDate.getStart());
         }
 
-        if (_statDate.getEnd()!=null) {
+        if (_statDate.getEnd() != null) {
             criteria.andStatDateLessThanOrEqualTo(_statDate.getEnd());
+        }
+
+        if (export == 1) {
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+            batch_export(example, request, response);
+            return;
         }
 
         int count = cadreStatHistoryMapper.countByExample(example);
@@ -101,6 +113,27 @@ public class CadreStatHistoryController extends BaseController {
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+
+    private void batch_export(CadreStatHistoryExample example, HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
+
+        List<CadreStatHistory> cadreStatHistories = cadreStatHistoryMapper.selectByExample(example);
+
+        Map<String, File> fileMap = new LinkedHashMap<>();
+        for (CadreStatHistory record : cadreStatHistories) {
+
+            String filePath = record.getSavePath();
+            Byte type = record.getType();
+            String typeName = CadreConstants.CADRE_STAT_HISTORY_TYPE_MAP.get(type);
+
+            fileMap.put(typeName + "(" + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD_DOT) + ").xlsx",
+                    new File(springProps.uploadPath + filePath));
+        }
+
+        DownloadUtils.addFileDownloadCookieHeader(response);
+
+        DownloadUtils.zip(fileMap, "历史信息", request, response);
     }
 
     @RequiresPermissions("cadreStatHistory:del")
