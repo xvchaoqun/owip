@@ -7,12 +7,12 @@
 <meta name="format-detection" content="telephone=no"/>
 <link rel="shortcut icon" href="${ctx}/img/favicon64.ico?_=${cm:lastModified(cm:getAbsolutePath('/img/favicon64.ico'))}" type="image/x-icon">
 <link rel="apple-touch-icon-precomposed" href="${ctx}/img/screen_icon_new.png?_=${cm:lastModified(cm:getAbsolutePath('/img/screen_icon_new.png'))}"/>
-<link rel="stylesheet" href="${ctx}/mobile/css/main.css" />
-<link rel="stylesheet" href="${ctx}/mobile/css/extend.css" />
+<t:link href="${ctx}/mobile/css/main.css"/>
+<t:link href="${ctx}/mobile/css/extend.css"/>
 <t:link href="${ctx}/mobile/css/setup.css"/>
 <title>${_sysConfig.mobileTitle}</title>
 <script src="${ctx}/assets/js/ace-extra.js"></script>
-<script src='${ctx}/mobile/js/main.js'></script>
+<t:script src="/mobile/js/main.js"/>
 <script type="text/javascript">
     if ('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>" + "<" + "/script>");
 </script>
