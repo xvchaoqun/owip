@@ -107,4 +107,48 @@
 		<from casesensitive="true">^/m/pmd/payConfirm</from>
 		<to>/user/pmd/payConfirm</to>
 	</rule>
+	<rule>
+		<note>党组织查询</note>
+		<condition type="method">GET</condition>
+		<from>^/m/party_selects</from>
+		<to>/party_selects</to>
+	</rule>
+	<rule>
+		<note>支部查询</note>
+		<condition type="method">GET</condition>
+		<from>^/m/branch_selects</from>
+		<to>/branch_selects</to>
+	</rule>
+	<rule>
+		<note>申请入党</note>
+		<from>^/m/memberApply</from>
+		<to>/user/memberApply</to>
+	</rule>
+	<rule>
+		<note>撤销申请入党</note>
+		<condition type="method">POST</condition>
+		<from>^/m/applyBack</from>
+		<to>/user/applyBack</to>
+	</rule>
+	<rule>
+		<note>组织关系转入</note>
+		<from>^/m/memberIn</from>
+		<to>/user/memberIn</to>
+	</rule>
+	<rule>
+		<note>恢复组织关系</note>
+		<from>^/m/memberReturn</from>
+		<to>/user/memberReturn</to>
+	</rule>
+	<rule>
+		<note>流入党员申请</note>
+		<from>^/m/memberInflow</from>
+		<to>/user/memberInflow</to>
+	</rule>
+	<rule>
+		<note>系统说明</note>
+		<condition type="method">GET</condition>
+		<from>^/m/hf_content</from>
+		<to>/hf_content</to>
+	</rule>
 </urlrewrite>

@@ -239,6 +239,16 @@ body.mob-safari .navbar-fixed-top+.main-container .sidebar.responsive {
     width: 80px;
 }
 
+form .star {
+    margin: 0 1px;
+    color: red;
+    font-size: larger;
+    font-weight: bolder;
+}
+.form-group label{
+    text-align: right;
+}
+
 /*======select2=*/
 .select2-container .select2-selection--single {
     height: 32px;

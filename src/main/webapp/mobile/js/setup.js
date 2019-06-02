@@ -66,7 +66,7 @@ $.register.m_click(".hashchange", function () {
 $.register.m_click(".ahref", function () {
     location.href = $(this).data("url");
 })
-$.register.m_click(".popView", function () {
+$.register.m_click(".popupBtn", function () {
     var url = $(this).data("url");
     $.loadModal(url, $(this).data("width"), $(this).data("direction"));
 })
@@ -91,11 +91,9 @@ $.register.m_click(".openView", function () {
     }
 });
 
-$.register.m_click("#body-content-view .closeView", function () {
+$.register.m_click("#body-content-view .hideView", function () {
     //var $this = $(this);
-    $("#body-content-view").fadeOut("fast", function () {
-        $("#body-content").show();
-    });
+    $.hideView({mobile:true})
 });
 
 // 左div float时，保证左div高度不小于右div高度

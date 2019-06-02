@@ -283,19 +283,6 @@ $.ajaxSetup({
             }else{
                 location.reload();
             }
-            /*bootbox.dialog({
-                message: "登陆超时或账号已在别处登录，请您重新登陆",
-                closeButton: false,
-                buttons: {
-                    login: {
-                        label: "确定",
-                        className: "btn-success",
-                        callback: function () {
-                            location.reload();
-                        }
-                    }
-                }
-            });*/
 
             try {
                 $(".loading-indicator-overlay, .loading-indicator").hide();
@@ -321,8 +308,6 @@ $.ajaxSetup({
         if (jqXHR.status == 401) {
             alert("您没有权限进行此项操作。");
         }
-        //alert( '发送AJAX请求到"' + this.url + '"时出错[' + jqXHR.status + ']：' + errorMsg );
-        //SysMsg.error('系统异常，请稍后再试。', '系统异常');
     }
 });
 
@@ -533,7 +518,7 @@ $(document).on("click", ".openUrl", function (e) {
     e.preventDefault();
     var width = $(this).data("width") || 720;
     var height = $(this).data("height") || 820;
-    openwindow($(this).data("url"), '', width, height)
+    $.openWindow($(this).data("url"), '', width, height)
 });
 
 $(document).on("click", ".confirm", function (e) {
@@ -648,9 +633,10 @@ $(document).on("click", ".jqEditBtn", function () {
 
     if (openBy == 'page') {
         var $container = $("#body-content");
-        $container.mask()
+        //$container.mask()
         $.get(url, {}, function (html) {
-            $container.unmask().hide();
+            //$container.unmask().hide();
+            $container.hide();
             if (!html.startWith("{")) {
                 $("#body-content-view").hide().html(html).fadeIn("slow");
             }
@@ -696,15 +682,8 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
         var loadEl = $(this).data("load-el");
         var $hide = $(hideEl || loadEl || "#body-content");// hideEl不传，loadEl传时，在当前级别加载页面
         var $show = $(loadEl || "#body-content-view");
-        /*
-        $maskEl.mask();
-        $.get(url, {}, function (html) {
-            $maskEl.unmask().hide();
-            $(loadEl || "#body-content-view").hide().html(html).fadeIn("slow");
-        })*/
 
         $.loadView({url:url, $hide:$hide, $show:$show});
-
     } else {
         $.loadModal(url, $(this).data("width"));
     }
@@ -739,9 +718,10 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
 
     if (openBy == 'page') {
         var $container = $("#body-content");
-        $container.mask()
+        //$container.mask()
         $.get(url, {}, function (html) {
-            $container.unmask().hide();
+           // $container.unmask().hide();
+           $container.hide();
             $("#body-content-view").hide().html(html).fadeIn("slow");
         })
     } else {
@@ -1085,15 +1065,7 @@ $(window).bind("hashchange", function () {
 
             NProgress.done();
         });
-    })/*.fail(function () {
-        if(_hasLoginPage) {
-            SysMsg.info("系统错误，请稍后再试。");
-        }else{
-            location.reload();
-        }
-        NProgress.done();
-    });*/
-
+    })
 });
 
 // 弹出框提交表单
@@ -1114,9 +1086,6 @@ function pop_reload(fn) {
     $target.load($div.data("url-page") + (queryString ? ("?" + queryString) : ""), function () {
         if (typeof fn === "function") fn();
     });
-
-    /*var $div = $(".popTableDiv");
-     $("#modal .modal-content").load($div.data("url-page"));*/
 }
 
 // 删除
@@ -1207,17 +1176,7 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
 });
 
 // 数字输入框
-/*$(document).on("blur, keyup", "input.num", function () {
- var str = $(this).val();
- var num = parseInt(str);
- //console.log(parseInt(str))
- if (isNaN(num)) {
- $(this).val('');
- }
- });*/
 $(document).on("blur keyup keydown paste change", "input.num, input.float", function (event) {
-    //var str = $(this).val();
-    //$(this).val(str.replace(/[^\d|\.]/g, ''))
 
     if(event.keyCode==8) return; // backspace
     if(event.keyCode < 35 || event.keyCode > 40) { // 不是方向键

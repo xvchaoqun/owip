@@ -1,7 +1,48 @@
-﻿/**
- * 仅网页端调用
- *
- * */
+﻿
+/**
+ * toPageNo 显示第几页内容
+ * pageNo 表示指定页码的变量名称，默认为"pageNo"
+ * uri 请求列表的url地址
+ * selector 放置列表代码的容器，jquery选择器
+ * op 对装载的内容操作 html 放入到容器中，replace将容器替换，prepend 放入容器中的前面，append 放入容器中的后面,before放入容器外前面,after放入容器外后面 默认为html
+ * searchStr是用来记录搜索时的条件字符串的，生产格式如下：“&name=abc&id=1&pid=8”;
+ */
+function _tunePage(toPageNo, pageNo, uri, selector, op, searchStr, method) {
+	var topage = 1;
+	if(typeof toPageNo == "string"){
+		try{toPageNo = parseInt(toPageNo);}catch(_e){}
+	}
+    if (typeof(toPageNo) != "number" || toPageNo < 1) topage = 1;
+    else topage = toPageNo;
+    if(!pageNo){
+    	pageNo = "pageNo";
+    }
+    try {
+    	var para = pageNo+"=" + topage ;
+        if (searchStr && searchStr != "null" && searchStr.length>0) {
+            //  alert("add_searchStr_pathname=" + window.location.pathname +"?pageNo="+ toPageNo + searchStr);
+            //window.location = window.location.pathname + "?pageNo=" + toPageNo + searchStr;
+        	//_renderUrl(uri + "?"+pageNo+"=" + topage + searchStr, selector, replace);
+        	para += searchStr;
+        }
+        else {
+          //  _renderUrl(uri + "?"+pageNo+"=" + topage, selector, replace);
+        }
+
+        $(selector).renderUrl({
+    		url : uri,
+    		op : op,
+			params : para,
+			method:method
+    	});
+    }
+    catch(e) {
+       // window.location = window.location.pathname + window.location.search;
+       // _renderUrl(uri + "?"+pageNo+"=1", selector, replace);
+    	$.error("分页出错");
+    }
+}
+
 /*========jquery.validate.extend=====start===*/
 if (jQuery.validator) {
     jQuery.extend(jQuery.validator.messages, {
@@ -54,7 +95,7 @@ if (jQuery.validator) {
                 length++;
             }
         }
-        return this.optional(element) || ( length >= param[0] && length <= param[1] );
+        return this.optional(element) || (length >= param[0] && length <= param[1]);
     }, $.validator.format("请确保输入的值在{0}-{1}个字符之间(一个中文字算2个字符)"));
 
 //中文字两个字节
@@ -66,7 +107,7 @@ if (jQuery.validator) {
             }
         }
 
-        return this.optional(element) || ( length <= param);
+        return this.optional(element) || (length <= param);
     }, $.validator.format("输入长度最多是{0}的字符串(汉字算2个字符)"));
 
 // 邮政编码验证
@@ -91,21 +132,21 @@ if (jQuery.validator) {
     }, "请输入正确的课时（最小单位0.5小时）");
 
     //自定义validate验证输入的数字小数点位数不能大于两位
-    jQuery.validator.addMethod("minNumber",function(value, element){
+    jQuery.validator.addMethod("minNumber", function (value, element) {
         var returnVal = true;
-        inputZ=value;
-        var ArrMen= inputZ.split(".");    //截取字符串
-        if(ArrMen.length==2){
-            if(ArrMen[1].length>2){    //判断小数点后面的字符串长度
+        inputZ = value;
+        var ArrMen = inputZ.split(".");    //截取字符串
+        if (ArrMen.length == 2) {
+            if (ArrMen[1].length > 2) {    //判断小数点后面的字符串长度
                 returnVal = false;
                 return false;
             }
         }
         return returnVal;
-    },"小数点后最多为两位");
+    }, "小数点后最多为两位");
 }
 /*========jquery.validate.extend=====end===*/
-if(typeof _ !== 'undefined') {
+if (typeof _ !== 'undefined') {
     _.templateSettings = {
         evaluate: /\{\{([\s\S]+?)\}\}/g,
         interpolate: /\{\{=([\s\S]+?)\}\}/g,
@@ -218,94 +259,157 @@ SysMsg.confirm = function (msg, title, callback) {
 };
 
 $.fn.extend({
-    fixedTable:function(option){
-        var fixedCell=option.fixedCell||0;
-        var fixedType=option.fixedType||'left';
-        var $table=$(this).clone(true);
+    renderUrl: function (options) {
+        var defaults = {
+            op: "html",
+            params: {},
+            url: "",
+            //method:"POST",
+            fn: function () {
 
-        var fixedCellTheadList=getFixedCellThead($(this),fixedCell,fixedType);
-        var fixedCellTbodyList=getFixedCellTbody($(this),fixedCell,fixedType);
+            }
+        };
+        if (typeof options == "string") {
+            options = {url: options};
+        }
+        options = $.extend(defaults, options);
+
+        //alert(JSON.stringify(defaults))
+        this.each(function () {
+            if (options.url) {
+                var thisContainer = $(this);
+                /*thisContainer.showLoading({'afterShow':
+                    function() {
+                        setTimeout( function(){
+                            thisContainer.hideLoading();
+                        }, 5000 );
+                    }});*/
+                $.ajax({
+                    url: options.url,
+                    type: options.method,
+                    data: options.params,
+                    cache: false,
+                    success: function (html) {
+                        //_img_load_div.remove();
+                        if (options.op == "replace") {
+                            $(thisContainer).replaceWith(html);
+                        } else if (options.op == "append") {
+                            $(thisContainer).append(html);
+                        } else if (options.op == "prepend") {
+                            $(thisContainer).prepend(html);
+                        } else if (options.op == "before") {
+                            $(thisContainer).before(html);
+                        } else if (options.op == "after") {
+                            $(thisContainer).after(html);
+                        } else {
+                            //alert(html)
+                            $(thisContainer).empty().append(html);
+                        }
+                        if (options.fn) {
+                            options.fn(html);
+                        }
+                        thisContainer.hideLoading();
+                    },
+                    error: function () {
+                        $.error("页面出错");
+                        thisContainer.html("页面出错");
+                    }
+                });
+            }
+        });
+        return this;
+    },
+    fixedTable: function (option) {
+        var fixedCell = option.fixedCell || 0;
+        var fixedType = option.fixedType || 'left';
+        var $table = $(this).clone(true);
+
+        var fixedCellTheadList = getFixedCellThead($(this), fixedCell, fixedType);
+        var fixedCellTbodyList = getFixedCellTbody($(this), fixedCell, fixedType);
         //console.log(fixedCellTheadList)
         //console.log(fixedCellTbodyList)
-        setFixedCell($table,fixedCellTheadList.fixedCellList,fixedCellTbodyList);
+        setFixedCell($table, fixedCellTheadList.fixedCellList, fixedCellTbodyList);
         $(this).parent().css({
-            "width":Number($(this).parent().width())-Number(fixedCellTheadList.fixedCellWidth)+"px",
-            "position":"relative",
-            "top":"0"
+            "width": Number($(this).parent().width()) - Number(fixedCellTheadList.fixedCellWidth) + "px",
+            "position": "relative",
+            "top": "0"
         });
-        $(this).parent().parent().css("position","relative");
-        $table.attr("id",$table.attr("id")+"_fixed");
+        $(this).parent().parent().css("position", "relative");
+        $table.attr("id", $table.attr("id") + "_fixed");
         $table.css({
-            "width":fixedCellTheadList.fixedCellWidth+"px",
-            "position":"absolute",
-            "top":0
+            "width": fixedCellTheadList.fixedCellWidth + "px",
+            "position": "absolute",
+            "top": 0
         })
-        if(fixedType=='left'){
-            $table.css("left","0");
-            $(this).parent().css("left",fixedCellTheadList.fixedCellWidth);
-        }else{
-            $table.css("right","0");
-            $(this).parent().css("left","0");
+        if (fixedType == 'left') {
+            $table.css("left", "0");
+            $(this).parent().css("left", fixedCellTheadList.fixedCellWidth);
+        } else {
+            $table.css("right", "0");
+            $(this).parent().css("left", "0");
         }
         $(this).parent().parent().append($table);
-        function setFixedCell($ele,fixedCellTheadList,fixedCellTbodyList){
+
+        function setFixedCell($ele, fixedCellTheadList, fixedCellTbodyList) {
             $ele.find("thead").html(fixedCellTheadList);
             $ele.find("tbody").html(fixedCellTbodyList.join(""));
         }
-        function getFixedCellThead($ele,fixedCell,fixedType){
-            var ret={};
-            var needArr=[];
-            var width=0;
-            var needLength=$ele.find("th").length;
-            if(fixedType=="left"){
+
+        function getFixedCellThead($ele, fixedCell, fixedType) {
+            var ret = {};
+            var needArr = [];
+            var width = 0;
+            var needLength = $ele.find("th").length;
+            if (fixedType == "left") {
                 var removeTh = [];
-                for(var i=0;i<fixedCell;i++){
+                for (var i = 0; i < fixedCell; i++) {
                     needArr.push($ele.find("th").eq(i).clone(true)[0].outerHTML);
-                    width+=$ele.find("th").eq(i).width()+
-                        parseInt($ele.find("th").eq(i).css("padding-left"))+
-                        parseInt($ele.find("th").eq(i).css("padding-right"))+
-                        parseInt($ele.find("th").eq(i).css("border-left"))+
+                    width += $ele.find("th").eq(i).width() +
+                        parseInt($ele.find("th").eq(i).css("padding-left")) +
+                        parseInt($ele.find("th").eq(i).css("padding-right")) +
+                        parseInt($ele.find("th").eq(i).css("border-left")) +
                         parseInt($ele.find("th").eq(i).css("border-right"));
                     //console.log("needArr="+ needArr)
                     removeTh.push($ele.find("th").eq(i));
                 }
-                $.each(removeTh, function(i, th){
+                $.each(removeTh, function (i, th) {
                     th.remove();
                 })
-            }else{
-                for(var i=needLength-fixedCell;i<needLength;i++){
+            } else {
+                for (var i = needLength - fixedCell; i < needLength; i++) {
                     needArr.push($ele.find("th").eq(i).clone(true)[0].outerHTML);
-                    width+=$ele.find("th").eq(i).width();
+                    width += $ele.find("th").eq(i).width();
                     $ele.find("th").eq(i).remove();
                 }
             }
 
-            ret.fixedCellList="<tr>"+needArr.join("")+"</tr>";
-            ret.fixedCellWidth=width;
+            ret.fixedCellList = "<tr>" + needArr.join("") + "</tr>";
+            ret.fixedCellWidth = width;
             return ret;
         }
-        function getFixedCellTbody($ele,fixedCell,fixedType){
-            var needArr=[];
-            var needLength=$ele.find("th").length+fixedCell;
-            var needTr=$ele.find("tbody").children("tr");
-            var needTrLength=needTr.length;
 
-            for(var k=0;k<needTrLength;k++){
-                var $needTdArr=$(needTr[k]).children("td");
-                if(fixedType=="left"){
-                    var nowTr=[];
-                    for(var i=0;i<fixedCell;i++){
+        function getFixedCellTbody($ele, fixedCell, fixedType) {
+            var needArr = [];
+            var needLength = $ele.find("th").length + fixedCell;
+            var needTr = $ele.find("tbody").children("tr");
+            var needTrLength = needTr.length;
+
+            for (var k = 0; k < needTrLength; k++) {
+                var $needTdArr = $(needTr[k]).children("td");
+                if (fixedType == "left") {
+                    var nowTr = [];
+                    for (var i = 0; i < fixedCell; i++) {
                         nowTr.push($needTdArr.eq(i).clone(true)[0].outerHTML);
                         $needTdArr.eq(i).remove();
                     }
-                    needArr.push("<tr>"+nowTr.join("")+"</tr>");
-                }else{
-                    var nowTr=[];
-                    for(var i=needLength-fixedCell;i<needLength;i++){
+                    needArr.push("<tr>" + nowTr.join("") + "</tr>");
+                } else {
+                    var nowTr = [];
+                    for (var i = needLength - fixedCell; i < needLength; i++) {
                         nowTr.push($needTdArr.eq(i).clone(true)[0].outerHTML);
                         $needTdArr.eq(i).remove();
                     }
-                    needArr.push("<tr>"+nowTr.join("")+"</tr>");
+                    needArr.push("<tr>" + nowTr.join("") + "</tr>");
                 }
             }
             return needArr;
@@ -316,27 +420,45 @@ $.fn.extend({
 var _modal_width;
 (function ($) {
     $.extend({
-        trimHtml:function(html){
+        openWindow: function (url, name, iWidth, iHeight) {
+            /* var url; //转向网页的地址;
+            var name; //网页名称，可为空;
+            var iWidth; //弹出窗口的宽度;
+            var iHeight; //弹出窗口的高度;
+            var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
+            var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置; */
+            //win = window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=yes,location=no,status=no');
+
+            iWidth = iWidth || (screen.availWidth - 10);
+            iHeight = iHeight || (screen.availHeight - 30);
+            win = window.open(url, name, 'width=' + iWidth + ',height=' + iHeight + 'fullscreen=yes,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no,status=no');
+            /*win.resizeTo(screen.width,screen.height);
+            win.moveTo(0,0);
+            win.focus();*/
+
+            return win;
+        },
+        trimHtml: function (html) {
             return $.trim($('<div/>').html(html).text());
         },
-        reloadMetaData: function(fn){
-            $.getJSON(ctx+ "/cache/flush_metadata_JSON",function(ret){
+        reloadMetaData: function (fn) {
+            $.getJSON(ctx + "/cache/flush_metadata_JSON", function (ret) {
                 //alert(typeof fn)
-                if(ret.success && $.isJson(ret.metadata)){
+                if (ret.success && $.isJson(ret.metadata)) {
                     _cMap = ret.metadata;
                 }
                 if (typeof fn == 'function') fn();
             })
         },
         // 左div float时，保证左div高度不小于右div高度
-        adjustLeftFloatDivHeight:function($leftFloatDiv){
-            $.each($leftFloatDiv, function(i, e){
+        adjustLeftFloatDivHeight: function ($leftFloatDiv) {
+            $.each($leftFloatDiv, function (i, e) {
                 var thisHeight = $(this).height();
                 //console.log($(e).attr("class"))
                 //console.log($(e).parent().attr("class"))
                 //console.log($(e).next().attr("class"))
                 var nextHeight = $(e).next().height();
-                if(nextHeight>thisHeight) {
+                if (nextHeight > thisHeight) {
                     $(this).height(nextHeight).css("line-height", nextHeight + "px");
                 }
             });
@@ -389,7 +511,7 @@ var _modal_width;
                 _modal_width = undefined;
             }
             dragTarget = dragTarget || ".modal-header,.modal-footer";
-            if(direction){
+            if (direction) {
                 $("#modal").addClass(direction);
             }
             $('#modal .modal-content').load(url, function (data) {
@@ -407,14 +529,14 @@ var _modal_width;
                 _modal_width = undefined;
             }
             dragTarget = dragTarget || ".modal-header";
-            if(direction){
+            if (direction) {
                 $("#modal").addClass(direction);
             }
             //     position: sticky;right: 20px;top: 20px;z-index: 2222;
             var close = '<button type="button" style="padding: 20px; position: absolute;right: 0;top: -10px;z-index: 2222"'
-           // var close = '<button type="button" style="position: sticky;padding: 20px;top: 0px;z-index: 2222;"'
-             +'data-dismiss="modal" aria-hidden="true" class="close">&times;</button>'
-            $('#modal .modal-content').html(close+"<div id='preview'><img src='"+url+"'></div>")
+                // var close = '<button type="button" style="position: sticky;padding: 20px;top: 0px;z-index: 2222;"'
+                + 'data-dismiss="modal" aria-hidden="true" class="close">&times;</button>'
+            $('#modal .modal-content').html(close + "<div id='preview'><img src='" + url + "'></div>")
             $("#preview img").width(window.screen.availWidth)
             $(".modal-dialog").css("margin", "0")
             $("#modal").modal('show').draggable({handle: dragTarget});
@@ -479,8 +601,8 @@ var _modal_width;
                     //inactive: inactive
                 }, position: {
                     container: $container || $('#page-content'),
-                    my: my || $target.data("my") || 'left center',
-                    at: at || $target.data("at") || 'right center'
+                    my: my || $target.data("my") || (isMobile?'bottom center':'left center'),
+                    at: at || $target.data("at") || (isMobile?'top center':'right center')
                 }
             });
         },
@@ -520,23 +642,23 @@ var _modal_width;
         },
         del: function (str, del) { // 显示名称，del：是否带删除线
 
-            if($.trim(str)=='') return str;
+            if ($.trim(str) == '') return str;
             return '<span class="{0}">{1}</span>'
                 .format(del ? "delete" : "", str);
         },
         cadre: function (cadreId, realname, params) {
 
-            if(cadreId==undefined || cadreId<=0){
+            if (cadreId == undefined || cadreId <= 0) {
                 console.log("illegal cadreId:" + cadreId);
                 return $.trim(realname);
             }
             //console.log("==="+$.inArray("cadre:archive", _permissions))
-            if( $.trim(realname) != '' && $.inArray("cadre:archive", _permissions) >= 0 ) {
+            if ($.trim(realname) != '' && $.inArray("cadre:archive", _permissions) >= 0) {
 
-                if (params=='_blank') {
+                if (params == '_blank') {
                     return ('<a href="{2}/#{2}/cadre_view?cadreId={0}&hideBack=1" target="_blank">{1}</a>')
                         .format(cadreId, realname, ctx);
-                } else if($.isJson(params) && params.hideId!=undefined &&  params.loadId!=undefined ){
+                } else if ($.isJson(params) && params.hideId != undefined && params.loadId != undefined) {
 
                     return ('<a href="javascript:;" class="openView" data-hide-el="#{3}"  data-load-el="#{4}" ' +
                         'data-url="{2}/cadre_view?cadreId={0}&hideEl={4}&loadEl={3}">{1}</a>')
@@ -581,7 +703,7 @@ var _modal_width;
         },
         date: function (str, format) {
 
-            if ($.trim(str) == '')return '';
+            if ($.trim(str) == '') return '';
             var date = null;
             //console.log(str + " " + isNaN(str) + " " + $.isIntNum(str))
             if ($.isIntNum(str)) {
@@ -638,7 +760,7 @@ var _modal_width;
             return year + "岁";
         },
         isJson: function (obj) {
-            var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase()
+            var isjson = typeof (obj) == "object" && Object.prototype.toString.call(obj).toLowerCase()
                 == "[object object]" && !obj.length;
             return isjson;
         },
@@ -751,13 +873,13 @@ var _modal_width;
             $("#modal").removeClass("fade").modal('hide').addClass("fade");
 
             //console.log("$maskEl.attr(\"id\")="+$maskEl.attr("id"))
-            if($maskEl.attr("id")=="page-content"){
+            /*if($maskEl.attr("id")=="page-content"){
                 $maskEl = $maskEl.closest(".page-content")
-            }
-            $maskEl.mask();
+            }*/
+            //$maskEl.mask();
             $.ajax({
                 url: url, data: {}, cache: false, success: function (html) {
-                    $maskEl.unmask();
+                    //$maskEl.unmask();
                     $loadEl.html(html);
                     if (typeof callback == 'function') callback();
                     NProgress.done();
@@ -771,12 +893,12 @@ var _modal_width;
         // 载入副区域, params是 url地址 或 {url：url, $mask: $mask, $show:$show, $hide:$hide, callback: callback} 对象
         loadView: function (params) {
 
-            if(typeof NProgress!= 'undefined') NProgress.start();
+            if (typeof NProgress != 'undefined') NProgress.start();
 
             var _params = {};
-            if(!$.isJson(params)){
-                _params.url= params;
-            }else{
+            if (!$.isJson(params)) {
+                _params.url = params;
+            } else {
                 _params = $.extend({}, params);
             }
             var url = _params.url;
@@ -788,54 +910,60 @@ var _modal_width;
             var modal = _params.modal || 'hide';
             //console.log("modal=" + modal)
             // 关闭modal
-            if(modal=='hide') {
+            if (modal == 'hide') {
                 $("#modal").removeClass("fade").modal('hide').addClass("fade");
             }
             //console.log("$mask.attr(\"id\")="+$mask.attr("id"))
-            if($mask.attr("id")=="page-content"){
+            /*if($mask.attr("id")=="page-content"){
                 $mask = $mask.closest(".page-content")
-            }
-            $mask.mask();
+            }*/
+            //$mask.mask();
             $.get(url, {}, function (html) {
-                $mask.unmask();
+                //$mask.unmask();
                 $hide.hide();
                 $show.hide().fadeIn("slow").html(html);
                 if (typeof callback == 'function') callback();
                 $("#btn-scroll-up").click();// 移动端
-                if(typeof NProgress!= 'undefined') NProgress.done();
+                if (typeof NProgress != 'undefined') NProgress.done();
             })
         },
         // 关闭副区域，如果传入了url，则刷新主区域
         hideView: function (params) {
             var _params = {};
-            if(!$.isJson(params)){
-                _params.url= params;
-            }else{
+            if (!$.isJson(params)) {
+                _params.url = params;
+            } else {
                 _params = $.extend({}, params);
             }
-            if($.trim(_params.hideEl)=='#') _params.hideEl=undefined;
-            if($.trim(_params.loadEl)=='#') _params.loadEl=undefined;
+            if ($.trim(_params.hideEl) == '#') _params.hideEl = undefined;
+            if ($.trim(_params.loadEl) == '#') _params.loadEl = undefined;
 
             //console.log("_params=" + JSON.stringify(_params))
             var $hide = $(_params.hideEl || "#body-content-view");
             var $show = $(_params.loadEl || "#body-content");
 
-            $hide.fadeOut("fast", function () {
-                if ($.trim(_params.url) != '') {
-                    $.hashchange('', _params.url);
-                } else {
-                    $show.show(0, function () {
-                        $(window).resize(); // 解决jqgrid不显示的问题
-                    });
-                }
-            });
+            if(isMobile){
+                $hide.fadeOut("fast", function () {
+                    $show.show();
+                });
+            }else {
+                $hide.fadeOut("fast", function () {
+                    if ($.trim(_params.url) != '') {
+                        $.hashchange('', _params.url);
+                    } else {
+                        $show.show(0, function () {
+                            $(window).resize(); // 解决jqgrid不显示的问题
+                        });
+                    }
+                });
+            }
         },
         // 获取url参数
         getQueryString: function (name) {
 
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
             var r = window.location.search.substr(1).match(reg);
-            if (r != null)return decodeURI(r[2]);
+            if (r != null) return decodeURI(r[2]);
             return null;
         },
         print: function (url) {
@@ -898,7 +1026,7 @@ var _modal_width;
                     e.preventDefault();
                 });
                 // 初始图片
-                if(params.value!=undefined) {
+                if (params.value != undefined) {
                     $file.ace_file_input('show_file_list', [{
                         type: 'image',
                         name: params.value
@@ -923,33 +1051,33 @@ var _modal_width;
             } else
                 return $.trim(plainText);
         },
-        button:{
-            confirm:function(params){
+        button: {
+            confirm: function (params) {
                 params = $.extend({
-                    style:'btn-default',
-                    title:'',
-                    msg:'',
-                    callback:"",
-                    url:'',
-                    icon:'',
-                    label:''
+                    style: 'btn-default',
+                    title: '',
+                    msg: '',
+                    callback: "",
+                    url: '',
+                    icon: '',
+                    label: ''
                 }, params);
                 return ('<button class="confirm btn {0} btn-xs" ' +
-                'data-title="{1}" data-msg="{2}" data-callback="{3}" ' +
-                'data-url="{4}" ><i class="fa {5}"></i> {6}</button>')
+                    'data-title="{1}" data-msg="{2}" data-callback="{3}" ' +
+                    'data-url="{4}" ><i class="fa {5}"></i> {6}</button>')
                     .format(params.style, params.title, params.msg,
-                    params.callback, params.url, params.icon, params.label )
+                        params.callback, params.url, params.icon, params.label)
             },
-            modal:function(params){
+            modal: function (params) {
                 params = $.extend({
-                    style:'btn-default',
-                    url:'',
-                    icon:'',
-                    label:''
+                    style: 'btn-default',
+                    url: '',
+                    icon: '',
+                    label: ''
                 }, params);
                 return ('<button class="popupBtn btn {0} btn-xs" ' +
-                'data-url="{1}" ><i class="fa {2}"></i> {3}</button>')
-                    .format(params.style, params.url, params.icon, params.label )
+                    'data-url="{1}" ><i class="fa {2}"></i> {3}</button>')
+                    .format(params.style, params.url, params.icon, params.label)
             }
         }
     });
@@ -987,13 +1115,13 @@ var _modal_width;
             var $this = $(this);
             return $this.hideLoading();
         },
-        download:function(url, type){ // type：export/download, default：export
+        download: function (url, type) { // type：export/download, default：export
 
             var $this = $(this);
             var $btn = $this.button('loading');
-            var loadText = $this.data("load-text") || (type=="download"?"下载中":"正在导出");
-            var successText = $this.data("success-text")|| (type=="download"?"下载完成":"导出成功");
-            var failedText = $this.data("failed-text") || (type=="download"?"下载失败，请稍后重试":"导出失败，请稍后重试");
+            var loadText = $this.data("load-text") || (type == "download" ? "下载中" : "正在导出");
+            var successText = $this.data("success-text") || (type == "download" ? "下载完成" : "导出成功");
+            var failedText = $this.data("failed-text") || (type == "download" ? "下载失败，请稍后重试" : "导出失败，请稍后重试");
 
             $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> ' + loadText)
 
@@ -1008,7 +1136,8 @@ var _modal_width;
             document.cookie = cookieData;
 
             $.fileDownload(url, {
-                prepareCallback:function(url){},
+                prepareCallback: function (url) {
+                },
                 successCallback: function (url) {
                     $('[data-rel="tooltip"]').tooltip('hide');
                     var $tip = $.tip({
@@ -1016,7 +1145,7 @@ var _modal_width;
                         at: 'top center', my: 'bottom center', type: 'success',
                         msg: successText
                     });
-                    setTimeout(function(){
+                    setTimeout(function () {
                         $tip.qtip('destroy', true);
                         //console.log($tip)
                         $this.closest(".btn-group").removeClass("open");
@@ -1033,7 +1162,7 @@ var _modal_width;
                         at: 'top center', my: 'bottom center',
                         msg: failedText
                     });
-                    setTimeout(function(){
+                    setTimeout(function () {
                         $tip.qtip('destroy', true);
                         //console.log($tip)
                     }, 3000)
@@ -1046,7 +1175,7 @@ var _modal_width;
 })(jQuery);
 
 // base64默认编码
-if($.base64) {
+if ($.base64) {
     $.base64.utf8encode = true;
 }
 
@@ -1099,7 +1228,7 @@ if ($.jgrid) {
         responsive: true,
         styleUI: "Bootstrap",
         prmNames: {page: "pageNo", rows: "pageSize", sort: "sort", order: "order"},
-        rowList:[20,50,100,200,500],
+        rowList: [20, 50, 100, 200, 500],
         //width:$(window).width()-$(".nav-list").width()-50,
         //height:$(window).height()-390,
         viewrecords: true,
@@ -1113,13 +1242,15 @@ if ($.jgrid) {
         loadtext: "",
         pager: "#jqGridPager",
         //pagerpos:"right",
-        cmTemplate: {sortable: false, align: 'center', width: 100,
-            formatter:function(cellvalue, options, rowObject){
-            //console.log(options.colModel.hidden)
-            //console.log(cellvalue.length)
-            // if(options.colModel.hidden) console.log(cellvalue==undefined)
-            return (!options.colModel.hidden && (cellvalue==undefined || cellvalue.length == 0))?'--':$.trim(cellvalue)
-        }},
+        cmTemplate: {
+            sortable: false, align: 'center', width: 100,
+            formatter: function (cellvalue, options, rowObject) {
+                //console.log(options.colModel.hidden)
+                //console.log(cellvalue.length)
+                // if(options.colModel.hidden) console.log(cellvalue==undefined)
+                return (!options.colModel.hidden && (cellvalue == undefined || cellvalue.length == 0)) ? '--' : $.trim(cellvalue)
+            }
+        },
         sortorder: "desc",
         ondblClickRow: function (rowid, iRow, iCol, e) {
             $(".jqEditBtn").click();
@@ -1132,41 +1263,41 @@ if ($.jgrid) {
     // 格式化jqGrid字段
     $.jgrid.formatter = {};
     $.extend($.jgrid.formatter, {
-        date:function(cellvalue, options, rowdata, action){
-            return (cellvalue==undefined || $.trim(cellvalue).length == 0)?'--':
+        date: function (cellvalue, options, rowdata, action) {
+            return (cellvalue == undefined || $.trim(cellvalue).length == 0) ? '--' :
                 $.fn.fmatter.call(this, "date", cellvalue, options, rowdata, action);
         },
-        MAP:function(cellvalue, options, rowObject){
+        MAP: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '--';
 
             var op = {map: null}
-            if(options!=undefined && options.colModel!=undefined) {
+            if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
-            if(op.map==undefined || op.map ==null) return '--'
+            if (op.map == undefined || op.map == null) return '--'
 
             return op.map[cellvalue];
         },
         defaultString: function (cellvalue, options, rowObject) {
             var op = {def: '--'}
-            if(options!=undefined && options.colModel!=undefined) {
+            if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
-            if ($.trim(cellvalue)=='') return op.def;
+            if ($.trim(cellvalue) == '') return op.def;
             return cellvalue;
         },
         TRUEFALSE: function (cellvalue, options, rowObject) {
 
             if (cellvalue == undefined) return '--';
             var op = {on: '是', off: '否'}
-            if(options!=undefined && options.colModel!=undefined) {
+            if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
 
             return cellvalue ? op.on : op.off;
         },
         NoMultiSpace: function (cellvalue, options, rowObject) {
-            if ($.trim(cellvalue)=='') return '--'
+            if ($.trim(cellvalue) == '') return '--'
             // console.log(cellvalue)
             return $('<p>' + cellvalue.NoMultiSpace() + '</p>').text()
             //return cellvalue.NoMultiSpace();
@@ -1184,17 +1315,17 @@ if ($.jgrid) {
             if (cellvalue == undefined) return '--'
             var name = null;
             var unit = _cMap.unitMap[cellvalue];
-            if(unit!=undefined) name=unit.name;
+            if (unit != undefined) name = unit.name;
 
-            if($.trim(name)=='') return '--'
+            if ($.trim(name) == '') return '--'
 
-            if($.inArray("unit:view", _permissions) >= 0 || $.inArray("unit:*", _permissions) >= 0) {
+            if ($.inArray("unit:view", _permissions) >= 0 || $.inArray("unit:*", _permissions) >= 0) {
                 return ('<a href="javascript:;" class="openView" data-url="{3}/unit_view?id={0}"><span class="{1}">{2}</span></a>'
                     .format(unit.id, unit.status == 2 ? 'delete' : '', name, ctx));
             }
 
             return ('<span class="{0}">{1}</span>'
-                .format(unit.status==2?'delete':'', name));
+                .format(unit.status == 2 ? 'delete' : '', name));
         },
         AGE: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '';
@@ -1203,12 +1334,12 @@ if ($.jgrid) {
         MetaType: function (cellvalue, options, rowObject) {
 
             var op = {def: '--'}
-            if(options!=undefined && options.colModel!=undefined) {
+            if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
 
             //console.log(cellvalue)
-            if ($.trim(cellvalue)=='') return op.def;
+            if ($.trim(cellvalue) == '') return op.def;
 
             if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return op.def
             return _cMap.metaTypeMap[cellvalue].name
@@ -1216,89 +1347,89 @@ if ($.jgrid) {
         cadreParty: function (cellvalue, options, rowObject) {
 
             var op = {useCadre: false}
-            if(options!=undefined && options.colModel!=undefined) {
+            if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
 
-            if(op.useCadre && rowObject.cadre!=undefined){
+            if (op.useCadre && rowObject.cadre != undefined) {
                 op.isOw = rowObject.cadre.isOw;
-                op.dpTypeId= rowObject.cadre.dpTypeId;
-            }else{
+                op.dpTypeId = rowObject.cadre.dpTypeId;
+            } else {
                 op.isOw = rowObject.isOw;
-                op.dpTypeId= rowObject.dpTypeId;
+                op.dpTypeId = rowObject.dpTypeId;
             }
             var parties = [];
-            if(op.isOw){
+            if (op.isOw) {
                 parties.push("中共党员");
             }
-            if(op.dpTypeId>0 && _cMap.metaTypeMap[op.dpTypeId]!=undefined){
+            if (op.dpTypeId > 0 && _cMap.metaTypeMap[op.dpTypeId] != undefined) {
                 parties.push(_cMap.metaTypeMap[op.dpTypeId].name);
             }
-            if(parties.length>0) return parties.join(",");
+            if (parties.length > 0) return parties.join(",");
 
             return "--"
         },
         growTime: function (cellvalue, options, rowObject) {
 
             var op = {useCadre: false}
-            if(options!=undefined && options.colModel!=undefined) {
+            if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
-            if(op.useCadre && rowObject.cadre!=undefined){
+            if (op.useCadre && rowObject.cadre != undefined) {
                 op.isOw = rowObject.cadre.isOw;
-                op.owGrowTime= rowObject.cadre.owGrowTime;
-                op.dpTypeId= rowObject.cadre.dpTypeId;
-                op.dpGrowTime= rowObject.cadre.dpGrowTime;
-            }else{
+                op.owGrowTime = rowObject.cadre.owGrowTime;
+                op.dpTypeId = rowObject.cadre.dpTypeId;
+                op.dpGrowTime = rowObject.cadre.dpGrowTime;
+            } else {
                 op.isOw = rowObject.isOw;
-                op.owGrowTime= rowObject.owGrowTime;
-                op.dpTypeId= rowObject.dpTypeId;
-                op.dpGrowTime= rowObject.dpGrowTime;
+                op.owGrowTime = rowObject.owGrowTime;
+                op.dpTypeId = rowObject.dpTypeId;
+                op.dpGrowTime = rowObject.dpGrowTime;
             }
             var growTimes = [];
-            if(op.isOw){
-                growTimes.push(op.owGrowTime==undefined?"-":op.owGrowTime.substr(0, 10));
+            if (op.isOw) {
+                growTimes.push(op.owGrowTime == undefined ? "-" : op.owGrowTime.substr(0, 10));
             }
-            if(op.dpTypeId>0){
-                growTimes.push(op.dpGrowTime==undefined?"-":op.dpGrowTime.substr(0, 10));
+            if (op.dpTypeId > 0) {
+                growTimes.push(op.dpGrowTime == undefined ? "-" : op.dpGrowTime.substr(0, 10));
             }
-            if(growTimes.length>0) return growTimes.join(",");
+            if (growTimes.length > 0) return growTimes.join(",");
 
             return "--"
         },
         growAge: function (cellvalue, options, rowObject) {
 
             var op = {useCadre: false}
-            if(options!=undefined && options.colModel!=undefined) {
+            if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
 
-            if(op.useCadre && rowObject.cadre!=undefined){
+            if (op.useCadre && rowObject.cadre != undefined) {
                 op.isOw = rowObject.cadre.isOw;
-                op.owGrowTime= rowObject.cadre.owGrowTime;
-                op.dpTypeId= rowObject.cadre.dpTypeId;
-                op.dpGrowTime= rowObject.cadre.dpGrowTime;
-            }else{
+                op.owGrowTime = rowObject.cadre.owGrowTime;
+                op.dpTypeId = rowObject.cadre.dpTypeId;
+                op.dpGrowTime = rowObject.cadre.dpGrowTime;
+            } else {
                 op.isOw = rowObject.isOw;
-                op.owGrowTime= rowObject.owGrowTime;
-                op.dpTypeId= rowObject.dpTypeId;
-                op.dpGrowTime= rowObject.dpGrowTime;
+                op.owGrowTime = rowObject.owGrowTime;
+                op.dpTypeId = rowObject.dpTypeId;
+                op.dpGrowTime = rowObject.dpGrowTime;
             }
             var growAges = [];
-            if(op.isOw){
-                growAges.push(op.owGrowTime==undefined?"-":$.yearOffNow(op.owGrowTime));
+            if (op.isOw) {
+                growAges.push(op.owGrowTime == undefined ? "-" : $.yearOffNow(op.owGrowTime));
             }
-            if(op.dpTypeId>0){
-                growAges.push(op.dpGrowTime==undefined?"-":$.yearOffNow(op.dpGrowTime));
+            if (op.dpTypeId > 0) {
+                growAges.push(op.dpGrowTime == undefined ? "-" : $.yearOffNow(op.dpGrowTime));
             }
-            if(growAges.length>0) return growAges.join(",");
+            if (growAges.length > 0) return growAges.join(",");
 
             return "-"
         },
         sortOrder: function (cellvalue, options, rowObject) {
 
             var op = {grid: ''}
-            if(options!=undefined && options.colModel!=undefined) {
+            if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
 
@@ -1314,7 +1445,7 @@ if ($.jgrid) {
 $.register = {};
 $.extend($.register, {
     // 移动端点击注册
-    m_click:function(selector, fn) {
+    m_click: function (selector, fn) {
         var _touch = false;
         $(document).on("touchend click", selector, function () {
             event.preventDefault();
@@ -1354,8 +1485,12 @@ $.extend($.register, {
         return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
     },
     defaultTemplateResult: function (state) {
+
+        var $state = state.text;
+        if ($.trim(state.type) != '')
+            $state += ($state != '' ? '-' : '') + state.type;
         // 反转义
-        var $state = $('<div/>').html(state.text).text();
+        $state = $('<div/>').html($state).text();
         return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
     },
     // 下拉多选
@@ -1454,7 +1589,7 @@ $.extend($.register, {
                 cache: true
             }
         }).on("change", function () {
-            if($(this).select2("data").length>0) {
+            if ($(this).select2("data").length > 0) {
                 var unitType = $(this).select2("data")[0]['type'] || '';
                 $unitType.val(unitType);
             }
@@ -1465,14 +1600,14 @@ $.extend($.register, {
         $date.parent().css('z-index', '1030');
         $date.parent().parent().css('z-index', '10');
         var endDate = new Date();
-        endDate.setFullYear(endDate.getFullYear()+50); // 最多允许选择50年以内的年份
+        endDate.setFullYear(endDate.getFullYear() + 50); // 最多允许选择50年以内的年份
         return $date.datepicker($.extend({
             language: "zh-CN",
             autoclose: true,
             todayHighlight: true,
             clearBtn: true,
-            endDate:endDate,
-        }, params)).attr( "autocomplete", "off").attr("disableautocomplete","")
+            endDate: endDate,
+        }, params)).attr("autocomplete", "off").attr("disableautocomplete", "")
     },
     // 日历时间
     datetime: function ($date, params) {
@@ -1482,7 +1617,7 @@ $.extend($.register, {
             todayHighlight: true,
             //todayBtn: true,
             clearBtn: true
-        }, params)).attr( "autocomplete", "off").attr("disableautocomplete","")
+        }, params)).attr("autocomplete", "off").attr("disableautocomplete", "")
     },
 
     // 选择发文类型
@@ -1498,8 +1633,8 @@ $.extend($.register, {
             },
             templateResult: $.register.formatState,
             escapeMarkup: function (markup) {
-                    return markup;
-                },
+                return markup;
+            },
             ajax: {
                 dataType: 'json',
                 delay: 300,
@@ -1536,8 +1671,8 @@ $.extend($.register, {
         return $dispatchSelect.select2({
             templateResult: $.register.formatState,
             escapeMarkup: function (markup) {
-                    return markup;
-                },
+                return markup;
+            },
             ajax: {
                 dataType: 'json',
                 delay: 300,
@@ -1605,7 +1740,8 @@ $.extend($.register, {
 
             $("#" + branchDivId + " select", $container).removeAttr("required");
 
-            var $party_class = $(this).select2("data")[0]['class'] || init_party_class;
+            var partyOption = $(this).select2("data")[0];
+            var $party_class = (partyOption?$(this).select2("data")[0]['class']:null) || init_party_class;
             //alert("${party.id}")
             if ($(this).val() != init_party_id)
                 $('select[name=' + branchId + ']', $container).val(null).trigger("change");
@@ -1692,12 +1828,13 @@ $.extend($.register, {
     },
     ajax_select: function ($select, params) {
         var _params = {};
-        if(!$.isJson(params)){
-            _params.templateResult= params;
-            _params.templateSelection= params;
-        }else{
+        if (!$.isJson(params)) {
+            _params.templateResult = params;
+            _params.templateSelection = params;
+        } else {
             _params = $.extend({}, params);
         }
+        //console.log(_params)
         return $($select).select2($.extend({
                 templateResult: _params.templateResult || $.register.defaultTemplateResult,
                 templateSelection: _params.templateSelection || $.register.defaultTemplateResult,
@@ -1731,9 +1868,9 @@ $.extend($.register, {
     user_select: function ($select, params) {
 
         var _params = {};
-        if(!$.isJson(params)){
-            _params.templateSelection= params;
-        }else{
+        if (!$.isJson(params)) {
+            _params.templateSelection = params;
+        } else {
             _params = $.extend({}, params);
         }
 
@@ -1741,8 +1878,8 @@ $.extend($.register, {
             templateResult: $.register.formatState,
             templateSelection: _params.templateSelection || $.register.templateSelection,
             escapeMarkup: function (markup) {
-                    return markup;
-                },
+                return markup;
+            },
             ajax: {
                 dataType: 'json',
                 delay: 300,
@@ -1769,9 +1906,9 @@ $.extend($.register, {
     del_select: function ($select, params) {
 
         var _params = {};
-        if(!$.isJson(params)){
-            _params.width= params;
-        }else{
+        if (!$.isJson(params)) {
+            _params.width = params;
+        } else {
             _params = $.extend({}, params);
         }
         return $select.select2($.extend({

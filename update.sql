@@ -1,6 +1,7 @@
 
 
-
+20190602
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1048, 1, '权限开通申请', '', 'url', 'fa fa-star-o', '/m/apply', 692, '0/692/', 1, 'm:apply:*', NULL, NULL, NULL, 1, 800);
 
 20190528
 更新南航

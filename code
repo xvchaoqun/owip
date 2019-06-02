@@ -35,7 +35,10 @@ ajax
 <select data-rel="select2-ajax" data-ajax--url="${ctx}/unit_selects" name="unitId" data-placeholder="请选择">
 <option value="${unit.id}">${unit.name}</option>
 </select>
-$.register.user_select($('[data-rel="select2-ajax"]'));
+var selectUser = $.register.user_select($('[data-rel="select2-ajax"]'));
+selectUser.on("change", function(){
+	cadreId = $(this).select2("data")[0]['cadreId'] || '';
+});
 
 <select data-rel="select2" name="eduId" data-placeholder="请选择">
 	<option></option>
