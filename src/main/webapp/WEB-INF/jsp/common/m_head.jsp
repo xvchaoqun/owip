@@ -16,9 +16,10 @@
 <script type="text/javascript">
     if ('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>" + "<" + "/script>");
 </script>
-<script>var ctx = "${ctx}";</script>
+<script>var ctx = "${ctx}", isMobile=true;</script>
 <t:script src="/mobile/js/extend.js"/>
 <t:script src="/js/prototype.js"/>
+<t:script src="/js/location.js"/>
 <t:script src="/js/metadata.js"/>
 <t:script src="/js/jquery.extend.js"/>
 <t:script src="/mobile/js/setup.js"/>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="back-btn">
-    <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
+    <a href="javascript:;" class="hideView"><i class="fa fa-reply"></i> 返回</a>
 </div>
 <c:set var="backTo" value="${ctx}/m/cadre_search_byUnit?unitId=${param.unitId}"/>
 <div class="profile-user-info profile-user-info-striped" style="border:0px; padding-bottom: 20px;">

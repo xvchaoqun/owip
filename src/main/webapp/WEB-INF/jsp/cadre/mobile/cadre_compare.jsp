@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="back-btn">
-  <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
+  <a href="javascript:;" class="hideView"><i class="fa fa-reply"></i> 返回</a>
 </div>
 <div class="center">
   <c:forEach items="${cadres}" var="cadre">
@@ -28,7 +28,7 @@
 </button>
 <%--<div class="space-4"></div>
 <div class="space-4"></div>
-<button class="closeView btn btn-info btn-block">
+<button class="hideView btn btn-info btn-block">
   <i class="ace-icon fa fa-backward"></i>
   返回
 </button>--%>

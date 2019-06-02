@@ -2,8 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_INFLOW_STATUS_BACK" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_BACK%>"/>
-
-<div style="padding-top: 50px;"></div>
 <c:if test="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_BACK}">
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">
@@ -19,15 +17,12 @@
         流入党员申请
     </h1>
 </div>
-<form class="form-horizontal" action="${ctx}/user/memberInflow" autocomplete="off" disableautocomplete id="modalForm" method="post">
+<form class="form-horizontal" action="${ctx}/m/memberInflow" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <input type="hidden" name="id" value="${memberInflow.id}">
-
-    <div class="row">
-        <div class="col-xs-6">
             <div class="form-group">
-                <label class="col-sm-4 control-label no-padding-right"> ${(_user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+                <label class="col-xs-4 control-label no-padding-right"> ${(_user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
 
-                <div class="col-sm-6 label-text">
+                <div class="col-xs-8 label-text">
                     ${_user.code}
                 </div>
             </div>
@@ -35,9 +30,9 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>${_p_partyName}</label>
 
-                <div class="col-xs-6">
+                <div class="col-xs-8">
                     <select required class="form-control" data-rel="select2-ajax"
-                            data-ajax-url="${ctx}/party_selects?del=0"
+                            data-ajax-url="${ctx}/m/party_selects?del=0" data-width="100%"
                             name="partyId" data-placeholder="请选择">
                         <option value="${party.id}">${party.name}</option>
                     </select>
@@ -46,8 +41,8 @@
             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
                 <label class="col-xs-4 control-label">党支部</label>
 
-                <div class="col-xs-6">
-                    <select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?del=0"
+                <div class="col-xs-8">
+                    <select class="form-control" data-rel="select2-ajax" data-width="100%" data-ajax-url="${ctx}/m/branch_selects?del=0"
                             name="branchId" data-placeholder="请选择">
                         <option value="${branch.id}">${branch.name}</option>
                     </select>
@@ -60,8 +55,8 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>原职业</label>
 
-                <div class="col-xs-6">
-                    <select required data-rel="select2" name="originalJob" data-placeholder="请选择">
+                <div class="col-xs-8">
+                    <select required data-rel="select2" name="originalJob" data-width="100%" data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_job"/>
                     </select>
@@ -73,8 +68,8 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>流入前所在省份</label>
 
-                <div class="col-xs-6" id="loc_province_container1">
-                    <select required class="loc_province" name="province" style="width:120px;" data-placeholder="请选择">
+                <div class="col-xs-8" id="loc_province_container1">
+                    <select required class="loc_province" name="province" data-width="100%" data-placeholder="请选择">
                     </select>
                 </div>
             </div>
@@ -82,18 +77,16 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>流入原因</label>
 
-                <div class="col-xs-6">
-          <textarea required class="form-control limited" maxlength="100"
-                    type="text" name="flowReason" rows="5">${memberInflow.flowReason}</textarea>
+                <div class="col-xs-8">
+                    <textarea required class="form-control limited" maxlength="100"
+                        type="text" name="flowReason" rows="2">${memberInflow.flowReason}</textarea>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-6">
 
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>流入时间</label>
 
-                <div class="col-xs-6">
+                <div class="col-xs-8">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_flowTime" type="text"
                                data-date-format="yyyy-mm-dd"
@@ -106,7 +99,7 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>入党时间</label>
 
-                <div class="col-xs-6">
+                <div class="col-xs-8">
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_growTime" type="text"
                                data-date-format="yyyy-mm-dd"
@@ -118,14 +111,14 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>组织关系所在地</label>
 
-                <div class="col-xs-6">
+                <div class="col-xs-8">
                     <input required class="form-control" type="text" name="orLocation"
                            value="${memberInflow.orLocation}">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-xs-8 control-label">是否持有《中国共产党流动党员活动证》</label>
+                <label class="col-xs-6 control-label">是否持有《中国共产党流动党员活动证》</label>
 
                 <div class="col-xs-3">
                     <label>
@@ -134,11 +127,8 @@
                     </label>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="clearfix form-actions">
-        <div class="col-md-offset-3 col-md-9">
+    <div class="clearfix form-actions center">
             <button class="btn btn-info" type="submit" id="submitBtn" data-loading-text="提交中..."
                     data-success-text="您的申请已提交成功" autocomplete="off">
                 <i class="ace-icon fa fa-check bigger-110"></i>
@@ -150,7 +140,6 @@
                 <i class="ace-icon fa fa-undo bigger-110"></i>
                 返回
             </button>
-        </div>
     </div>
 </form>
 <style>
@@ -196,7 +185,7 @@
                     if (ret.success) {
                         SysMsg.success("提交成功。", function () {
                             $btn.button("success").addClass("btn-success");
-                            $.hashchange();
+                            location.reload();
                         });
                     } else {
                         $btn.button('reset');

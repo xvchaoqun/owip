@@ -4,7 +4,7 @@
   <ul class="preview title nav nav-tabs tab-color-blue background-blue"
       style="/*padding-right: 20px;*/margin-bottom: 10px!important;">
       <div class="buttons" style="margin-bottom: 8px;margin-left: 10px; ">
-        <a href="javascript:;" class="closeView btn btn-xs btn-success">
+        <a href="javascript:;" class="hideView btn btn-xs btn-success">
           <i class="ace-icon fa fa-backward"></i>
           返回
         </a>
@@ -290,7 +290,7 @@
           <c:forEach items="${claApplys}" var="claApply">
             <c:set var="cadre" value="${cm:getCadreById(claApply.cadreId)}"/>
             <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-            <div class="popView message-item"  data-url="${ctx}/m/cla/claApply_detail?id=${claApply.id}">
+            <div class="popupBtn message-item"  data-url="${ctx}/m/cla/claApply_detail?id=${claApply.id}">
               <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
               <span class="sender">
                 ${cm:formatDate(claApply.startTime,'MM.dd')}~${cm:formatDate(claApply.endTime,'MM.dd')}，

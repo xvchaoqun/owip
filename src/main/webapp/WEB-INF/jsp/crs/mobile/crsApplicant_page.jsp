@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="back-btn">
-    <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
+    <a href="javascript:;" class="hideView"><i class="fa fa-reply"></i> 返回</a>
 </div>
 <div class="alert alert-block alert-success" style="margin-bottom: 5px; padding: 5px 15px;">
     <i class="ace-icon fa fa-info-circle green"></i> ${crsPost.name}

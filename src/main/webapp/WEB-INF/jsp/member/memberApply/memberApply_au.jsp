@@ -282,13 +282,13 @@
 
             if (!$("#party").is(":hidden")) {
                 if ($('#modalForm select[name=partyId]').val() == '') {
-                    bootbox.alert("请选择${_p_partyName}。");
+                    SysMsg.success("请选择${_p_partyName}。");
                     return;
                 }
             }
             if (!$("#branch").is(":hidden")) {
                 if (!($('#modalForm select[name=branchId]').val() > 0)) {
-                    bootbox.alert("请选择支部。");
+                    SysMsg.success("请选择支部。");
                     return;
                 }
             }

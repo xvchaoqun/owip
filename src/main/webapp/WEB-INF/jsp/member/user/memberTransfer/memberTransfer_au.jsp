@@ -128,7 +128,7 @@
 
             if(!$("#branchDiv").is(":hidden")){
                 if($('#modalForm select[name=branchId]').val()=='') {
-                    bootbox.alert('请选择支部。');
+                    SysMsg.success('请选择支部。');
                     return;
                 }
             }
@@ -136,7 +136,7 @@
                 success:function(ret){
                     $("#submitBtn").button("reset");
                     if(ret.success){
-                        bootbox.alert('提交成功。',function(){
+                        SysMsg.success('提交成功。',function(){
                             $.hashchange();
                         });
                     }

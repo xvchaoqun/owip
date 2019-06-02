@@ -1021,9 +1021,9 @@ public class PassportController extends AbroadBaseController {
         return resultMap;
     }
 
-    /*@RequestMapping("/passport_selects")
+    @RequestMapping("/passport_selects")
     @ResponseBody
-    public Map passport_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map passport_selects(Integer pageSize, Integer pageNo, Integer cadreId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -1034,29 +1034,34 @@ public class PassportController extends AbroadBaseController {
         pageNo = Math.max(1, pageNo);
 
         PassportExample example = new PassportExample();
-        Criteria criteria = example.createCriteria();
+        PassportExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr.trim()+"%");
+        if(cadreId!=null){
+            criteria.andCadreIdEqualTo(cadreId);
         }
 
-        int count = passportMapper.countByExample(example);
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andCodeLike(SqlUtils.like(searchStr));
+        }
+
+        long count = passportMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
         List<Passport> passports = passportMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if(null != passports && passports.size()>0){
 
             for(Passport passport:passports){
 
-                Select2Option option = new Select2Option();
-                option.setText(passport.getName());
-                option.setId(passport.getId() + "");
-
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", passport.getId());
+                option.put("text", passport.getCode());
+                option.put("type", passport.getPassportClass().getName());
+                option.put("del", passport.getType()!=AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
                 options.add(option);
             }
         }
@@ -1065,5 +1070,5 @@ public class PassportController extends AbroadBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
-    }*/
+    }
 }

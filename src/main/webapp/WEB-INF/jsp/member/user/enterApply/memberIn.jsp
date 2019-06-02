@@ -270,7 +270,7 @@
             return;*/
             if(!$("#branchDiv").is(":hidden")){
               if($.trim($('select[name=branchId]').val())=='') {
-                bootbox.alert("请选择支部。");
+                SysMsg.success("请选择支部。");
                 return;
               }
             }
@@ -278,7 +278,7 @@
             $(form).ajaxSubmit({
               success:function(ret){
                 if(ret.success){
-                  bootbox.alert("提交成功。",function(){
+                  SysMsg.success("提交成功。",function(){
                       $btn.button("success").addClass("btn-success");
                     $.hashchange();
                   });

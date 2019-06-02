@@ -44,7 +44,7 @@
       {{_.each(files, function(f, idx){ }}
       <tr>
         <td style="text-align: left">
-          {{if(f.pdfFilePath.length>0){}}
+          {{if(f.pdfFilePath && f.pdfFilePath.length>0){}}
           <a href="javascript:void(0)" data-url="${ctx}/swf/preview?type=url&path={{=f.pdfFilePath}}&filename={{=f.fileName}}"
                   title="PDF文件预览" class="openUrl">{{=f.fileName}}</a>
           {{}else{}}

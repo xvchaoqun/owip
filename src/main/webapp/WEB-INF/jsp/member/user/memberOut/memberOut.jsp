@@ -168,7 +168,7 @@
                 $.post("${ctx}/user/memberOut_back",function(ret){
 
                     if(ret.success){
-                        bootbox.alert("撤销成功。",function(){
+                        SysMsg.success("撤销成功。",function(){
                             $.hashchange();
                         });
                     }

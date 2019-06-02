@@ -7,6 +7,7 @@ import domain.party.Branch;
 import domain.party.EnterApply;
 import domain.party.Party;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
@@ -35,73 +37,68 @@ public class EnterApplyController extends MemberBaseController {
 
     @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/apply")
-    public String apply(@CurrentUser SysUserView loginUser, HttpServletResponse response, ModelMap modelMap) {
+    public String apply(HttpServletResponse response, ModelMap modelMap) {
 
-        Integer userId = loginUser.getId();
+        Integer userId = ShiroHelper.getCurrentUserId();
         EnterApply currentApply = enterApplyService.getCurrentApply(userId);
-        if(currentApply==null) {
+        if (currentApply == null) {
             modelMap.put("applyList", enterApplyService.findApplyList(userId));
             modelMap.put("member", memberService.get(userId));
             return "member/user/enterApply/apply";
         }
-        switch (currentApply.getType()){
+        switch (currentApply.getType()) {
             case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY:
-                return "forward:/user/memberApply_view";
+                return "forward:/user/memberApply";
             case OwConstants.OW_ENTER_APPLY_TYPE_RETURN:
-                return "forward:/user/memberReturn_view";
-             case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN:
-                return "forward:/user/memberIn_view";
-             case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW:
-                return "forward:/user/memberInflow_view";
+                return "forward:/user/memberReturn";
+            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN:
+                return "forward:/user/memberIn";
+            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW:
+                return "forward:/user/memberInflow";
         }
 
         throw new OpException("系统异常");
     }
 
     @RequiresRoles(RoleConstants.ROLE_GUEST)
-    @RequestMapping("/memberApply_view")
-    public String memberApply_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
-
-        modelMap.put("user", loginUser);
-        MemberApply memberApply = memberApplyService.get(loginUser.getId());
-        modelMap.put("memberApply", memberApply);
-
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
-
-        return "member/user/enterApply/memberApply_view";
-    }
-
-    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberApply")
-    public String memberApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberApply(Boolean isMobile, ModelMap modelMap) {
 
-        modelMap.put("user", loginUser);
-        MemberApply memberApply = memberApplyService.get(loginUser.getId());
-        modelMap.put("memberApply", memberApply);
+        Integer userId = ShiroHelper.getCurrentUserId();
+        EnterApply currentApply = enterApplyService.getCurrentApply(userId);
+        isMobile = BooleanUtils.isTrue(isMobile);
+        if (currentApply == null) {
 
-        if(memberApply!=null){
-            Map<Integer, Branch> branchMap = branchService.findAll();
-            Map<Integer, Party> partyMap = partyService.findAll();
-            Integer partyId = memberApply.getPartyId();
-            Integer branchId = memberApply.getBranchId();
-            if (partyId != null) {
-                modelMap.put("party", partyMap.get(partyId));
+            MemberApply memberApply = memberApplyService.get(ShiroHelper.getCurrentUserId());
+            modelMap.put("memberApply", memberApply);
+
+            if (memberApply != null) {
+                Map<Integer, Branch> branchMap = branchService.findAll();
+                Map<Integer, Party> partyMap = partyService.findAll();
+                Integer partyId = memberApply.getPartyId();
+                Integer branchId = memberApply.getBranchId();
+                if (partyId != null) {
+                    modelMap.put("party", partyMap.get(partyId));
+                }
+                if (branchId != null) {
+                    modelMap.put("branch", branchMap.get(branchId));
+                }
             }
-            if (branchId != null) {
-                modelMap.put("branch", branchMap.get(branchId));
-            }
+
+            return isMobile?"member/mobile/memberApply":"member/user/enterApply/memberApply";
+        } else {
+            MemberApply memberApply = memberApplyService.get(ShiroHelper.getCurrentUserId());
+            modelMap.put("memberApply", memberApply);
+
+            return isMobile?"member/mobile/memberApply_view":"member/user/enterApply/memberApply_view";
         }
-
-        return "member/user/enterApply/memberApply";
     }
 
     // 撤回申请
     @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/applyBack", method = RequestMethod.POST)
     @ResponseBody
-    public Map applyBack(@CurrentUser SysUserView loginUser, String remark){
+    public Map applyBack(@CurrentUser SysUserView loginUser, String remark) {
 
         int userId = loginUser.getId();
         enterApplyService.applyBack(userId, remark, OwConstants.OW_ENTER_APPLY_STATUS_SELF_ABORT);
@@ -113,7 +110,7 @@ public class EnterApplyController extends MemberBaseController {
     @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberApply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberApply(@CurrentUser SysUserView loginUser,Integer partyId,
+    public Map do_memberApply(@CurrentUser SysUserView loginUser, Integer partyId,
                               Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
 
         enterApplyService.checkMemberApplyAuth(loginUser.getId());
@@ -121,17 +118,17 @@ public class EnterApplyController extends MemberBaseController {
         MemberApply memberApply = new MemberApply();
         memberApply.setUserId(loginUser.getId());
 
-        if(loginUser.getType() == SystemConstants.USER_TYPE_JZG){
+        if (loginUser.getType() == SystemConstants.USER_TYPE_JZG) {
             memberApply.setType(OwConstants.OW_APPLY_TYPE_TEACHER); // 教职工
-        } else if(loginUser.getType() == SystemConstants.USER_TYPE_BKS
-                || loginUser.getType() == SystemConstants.USER_TYPE_YJS){
+        } else if (loginUser.getType() == SystemConstants.USER_TYPE_BKS
+                || loginUser.getType() == SystemConstants.USER_TYPE_YJS) {
             memberApply.setType(OwConstants.OW_APPLY_TYPE_STU); // 学生
-        }else{
+        } else {
             return failed("没有权限。");
         }
 
         Date birth = loginUser.getBirth();
-        if(birth!=null && DateUtils.intervalYearsUntilNow(birth)<18){
+        if (birth != null && DateUtils.intervalYearsUntilNow(birth) < 18) {
             return failed("您未满18周岁，不能申请入党。");
         }
 
@@ -139,7 +136,7 @@ public class EnterApplyController extends MemberBaseController {
         memberApply.setBranchId(branchId);
 
         Date applyTime = DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD);
-        if(applyTime==null){
+        if (applyTime == null) {
             return failed("提交书面申请书时间不允许为空。");
         }
 
@@ -163,41 +160,41 @@ public class EnterApplyController extends MemberBaseController {
     }
 
     @RequiresRoles(RoleConstants.ROLE_GUEST)
-    @RequestMapping("/memberReturn_view")
-    public String memberReturn_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
-
-        modelMap.put("user", loginUser);
-        MemberReturn memberReturn = memberReturnService.get(loginUser.getId());
-        modelMap.put("memberReturn", memberReturn);
-
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
-        return "member/user/enterApply/memberReturn_view";
-    }
-
-    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberReturn")
-    public String memberReturn(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberReturn(Boolean isMobile, ModelMap modelMap) {
 
-        modelMap.put("user", loginUser);
+        Integer userId = ShiroHelper.getCurrentUserId();
+        EnterApply currentApply = enterApplyService.getCurrentApply(userId);
+        isMobile = BooleanUtils.isTrue(isMobile);
 
-        MemberReturn memberReturn = memberReturnService.get(loginUser.getId());
-        modelMap.put("memberReturn", memberReturn);
+        if (currentApply == null) {
 
-        if(memberReturn!=null){
-            Map<Integer, Branch> branchMap = branchService.findAll();
-            Map<Integer, Party> partyMap = partyService.findAll();
-            Integer partyId = memberReturn.getPartyId();
-            Integer branchId = memberReturn.getBranchId();
-            if (partyId != null) {
-                modelMap.put("party", partyMap.get(partyId));
+            MemberReturn memberReturn = memberReturnService.get(userId);
+            modelMap.put("memberReturn", memberReturn);
+
+            if (memberReturn != null) {
+                Map<Integer, Branch> branchMap = branchService.findAll();
+                Map<Integer, Party> partyMap = partyService.findAll();
+                Integer partyId = memberReturn.getPartyId();
+                Integer branchId = memberReturn.getBranchId();
+                if (partyId != null) {
+                    modelMap.put("party", partyMap.get(partyId));
+                }
+                if (branchId != null) {
+                    modelMap.put("branch", branchMap.get(branchId));
+                }
             }
-            if (branchId != null) {
-                modelMap.put("branch", branchMap.get(branchId));
-            }
+            return isMobile?"member/mobile/memberReturn":"member/user/enterApply/memberReturn";
+        } else {
+
+            MemberReturn memberReturn = memberReturnService.get(userId);
+            modelMap.put("memberReturn", memberReturn);
+
+            modelMap.put("partyMap", partyService.findAll());
+            modelMap.put("branchMap", branchService.findAll());
+
+            return isMobile?"member/mobile/memberReturn_view":"member/user/enterApply/memberReturn_view";
         }
-        return "member/user/enterApply/memberReturn";
     }
 
     @RequiresRoles(RoleConstants.ROLE_GUEST)
@@ -212,39 +209,39 @@ public class EnterApplyController extends MemberBaseController {
 
         record.setUserId(loginUser.getId());
 
-        if(StringUtils.isNotBlank(_returnApplyTime)){
+        if (StringUtils.isNotBlank(_returnApplyTime)) {
             record.setReturnApplyTime(DateUtils.parseDate(_returnApplyTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_applyTime)){
+        if (StringUtils.isNotBlank(_applyTime)) {
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_activeTime)){
+        if (StringUtils.isNotBlank(_activeTime)) {
             Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
-            if(record.getApplyTime()!=null && activeTime.before(record.getApplyTime())){
+            if (record.getApplyTime() != null && activeTime.before(record.getApplyTime())) {
                 return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
             }
             record.setActiveTime(activeTime);
         }
-        if(StringUtils.isNotBlank(_candidateTime)){
+        if (StringUtils.isNotBlank(_candidateTime)) {
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
-            if(record.getActiveTime()!=null && candidateTime.before(record.getActiveTime())){
+            if (record.getActiveTime() != null && candidateTime.before(record.getActiveTime())) {
                 return failed("确定为发展对象时间应该在确定为入党积极分子之后");
             }
             record.setCandidateTime(candidateTime);
         }
-        if(StringUtils.isNotBlank(_growTime)){
+        if (StringUtils.isNotBlank(_growTime)) {
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
-            if(record.getCandidateTime()!=null && growTime.before(record.getCandidateTime())){
-               return failed("入党时间应该在确定为发展对象之后");
+            if (record.getCandidateTime() != null && growTime.before(record.getCandidateTime())) {
+                return failed("入党时间应该在确定为发展对象之后");
             }
             record.setGrowTime(growTime);
         }
-        if(StringUtils.isNotBlank(_positiveTime)){
+        if (StringUtils.isNotBlank(_positiveTime)) {
 
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
-            if(record.getGrowTime()!=null && positiveTime.before(record.getGrowTime())){
+            if (record.getGrowTime() != null && positiveTime.before(record.getGrowTime())) {
                 return failed("转正时间应该在入党之后");
             }
             record.setPositiveTime(positiveTime);
@@ -266,58 +263,58 @@ public class EnterApplyController extends MemberBaseController {
     }
 
     @RequiresRoles(RoleConstants.ROLE_GUEST)
-    @RequestMapping("/memberIn_view")
-    public String memberIn_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
-
-        modelMap.put("user", loginUser);
-        MemberIn memberIn = memberInService.get(loginUser.getId());
-        modelMap.put("memberIn", memberIn);
-
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("branchMap", branchService.findAll());
-
-        return "member/user/enterApply/memberIn_view";
-    }
-
-    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberIn")
-    public String memberIn(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberIn(Boolean isMobile, ModelMap modelMap) {
 
-        int userId = loginUser.getId();
-        modelMap.put("userBean", userBeanService.get(userId));
+        Integer userId = ShiroHelper.getCurrentUserId();
+        EnterApply currentApply = enterApplyService.getCurrentApply(userId);
+        isMobile = BooleanUtils.isTrue(isMobile);
 
-        MemberIn memberIn = memberInService.get(userId);
-        // 允许转出后用原账号转入
-        Member member = memberService.get(userId);
-        if(member!=null && member.getStatus()== MemberConstants.MEMBER_STATUS_TRANSFER){
-            if(memberIn==null)
-                memberIn = new MemberIn();
-            memberIn.setPoliticalStatus(member.getPoliticalStatus());
-            memberIn.setPartyId(member.getPartyId());
-            memberIn.setBranchId(member.getBranchId());
-            memberIn.setUserId(userId);
-            memberIn.setApplyTime(member.getApplyTime());
-            memberIn.setActiveTime(member.getActiveTime());
-            memberIn.setCandidateTime(member.getCandidateTime());
-            memberIn.setGrowTime(member.getGrowTime());
-            memberIn.setPositiveTime(member.getPositiveTime());
-        }
-        modelMap.put("memberIn", memberIn);
+        if (currentApply == null) {
 
-        if(memberIn!=null){
-            Map<Integer, Branch> branchMap = branchService.findAll();
-            Map<Integer, Party> partyMap = partyService.findAll();
-            Integer partyId = memberIn.getPartyId();
-            Integer branchId = memberIn.getBranchId();
-            if (partyId != null) {
-                modelMap.put("party", partyMap.get(partyId));
+            modelMap.put("userBean", userBeanService.get(userId));
+            MemberIn memberIn = memberInService.get(userId);
+            // 允许转出后用原账号转入
+            Member member = memberService.get(userId);
+            if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
+                if (memberIn == null)
+                    memberIn = new MemberIn();
+                memberIn.setPoliticalStatus(member.getPoliticalStatus());
+                memberIn.setPartyId(member.getPartyId());
+                memberIn.setBranchId(member.getBranchId());
+                memberIn.setUserId(userId);
+                memberIn.setApplyTime(member.getApplyTime());
+                memberIn.setActiveTime(member.getActiveTime());
+                memberIn.setCandidateTime(member.getCandidateTime());
+                memberIn.setGrowTime(member.getGrowTime());
+                memberIn.setPositiveTime(member.getPositiveTime());
             }
-            if (branchId != null) {
-                modelMap.put("branch", branchMap.get(branchId));
-            }
-        }
+            modelMap.put("memberIn", memberIn);
 
-        return "member/user/enterApply/memberIn";
+            if (memberIn != null) {
+                Map<Integer, Branch> branchMap = branchService.findAll();
+                Map<Integer, Party> partyMap = partyService.findAll();
+                Integer partyId = memberIn.getPartyId();
+                Integer branchId = memberIn.getBranchId();
+                if (partyId != null) {
+                    modelMap.put("party", partyMap.get(partyId));
+                }
+                if (branchId != null) {
+                    modelMap.put("branch", branchMap.get(branchId));
+                }
+            }
+
+            return isMobile?"member/mobile/memberIn":"member/user/enterApply/memberIn";
+
+        } else {
+            MemberIn memberIn = memberInService.get(userId);
+            modelMap.put("memberIn", memberIn);
+
+            modelMap.put("partyMap", partyService.findAll());
+            modelMap.put("branchMap", branchService.findAll());
+
+            return isMobile?"member/mobile/memberIn_view":"member/user/enterApply/memberIn_view";
+        }
     }
 
     @RequiresRoles(RoleConstants.ROLE_GUEST)
@@ -333,48 +330,48 @@ public class EnterApplyController extends MemberBaseController {
         record.setHasReceipt(null);
         record.setReason(null);
 
-        if(StringUtils.isNotBlank(_payTime)){
+        if (StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
-        if(StringUtils.isNotBlank(_applyTime)){
+        if (StringUtils.isNotBlank(_applyTime)) {
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_activeTime)){
+        if (StringUtils.isNotBlank(_activeTime)) {
             Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
-            if(record.getApplyTime()!=null && activeTime.before(record.getApplyTime())){
+            if (record.getApplyTime() != null && activeTime.before(record.getApplyTime())) {
                 return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
             }
             record.setActiveTime(activeTime);
         }
-        if(StringUtils.isNotBlank(_candidateTime)){
+        if (StringUtils.isNotBlank(_candidateTime)) {
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
-            if(record.getActiveTime()!=null && candidateTime.before(record.getActiveTime())){
+            if (record.getActiveTime() != null && candidateTime.before(record.getActiveTime())) {
                 return failed("确定为发展对象时间应该在确定为入党积极分子之后");
             }
             record.setCandidateTime(candidateTime);
         }
-        if(StringUtils.isNotBlank(_growTime)){
+        if (StringUtils.isNotBlank(_growTime)) {
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
-            if(record.getCandidateTime()!=null && growTime.before(record.getCandidateTime())){
+            if (record.getCandidateTime() != null && growTime.before(record.getCandidateTime())) {
                 return failed("入党时间应该在确定为发展对象之后");
             }
             record.setGrowTime(growTime);
         }
-        if(StringUtils.isNotBlank(_positiveTime)){
+        if (StringUtils.isNotBlank(_positiveTime)) {
 
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
-            if(record.getGrowTime()!=null && positiveTime.before(record.getGrowTime())){
+            if (record.getGrowTime() != null && positiveTime.before(record.getGrowTime())) {
                 return failed("转正时间应该在入党之后");
             }
             record.setPositiveTime(positiveTime);
         }
 
-        if(StringUtils.isNotBlank(_fromHandleTime)){
+        if (StringUtils.isNotBlank(_fromHandleTime)) {
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_handleTime)){
+        if (StringUtils.isNotBlank(_handleTime)) {
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
 
@@ -393,62 +390,60 @@ public class EnterApplyController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-
-    @RequiresRoles(RoleConstants.ROLE_GUEST)
-    @RequestMapping("/memberInflow_view")
-    public String memberInflow_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
-
-        modelMap.put("user", loginUser);
-        MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
-        modelMap.put("memberInflow", memberInflow);
-
-        modelMap.put("locationMap", locationService.codeMap());
-        return "member/user/enterApply/memberInflow_view";
-    }
-
     @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberInflow")
-    public String memberInflow(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberInflow(Boolean isMobile, ModelMap modelMap) {
 
-        modelMap.put("user", loginUser);
+        Integer userId = ShiroHelper.getCurrentUserId();
+        EnterApply currentApply = enterApplyService.getCurrentApply(userId);
+        isMobile = BooleanUtils.isTrue(isMobile);
 
-        MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
-        modelMap.put("memberInflow", memberInflow);
-        if(memberInflow!=null){
-            Map<Integer, Branch> branchMap = branchService.findAll();
-            Map<Integer, Party> partyMap = partyService.findAll();
-            Integer partyId = memberInflow.getPartyId();
-            Integer branchId = memberInflow.getBranchId();
-            if (partyId != null) {
-                modelMap.put("party", partyMap.get(partyId));
+        if (currentApply == null) {
+
+            MemberInflow memberInflow = memberInflowService.get(userId);
+            modelMap.put("memberInflow", memberInflow);
+            if (memberInflow != null) {
+                Map<Integer, Branch> branchMap = branchService.findAll();
+                Map<Integer, Party> partyMap = partyService.findAll();
+                Integer partyId = memberInflow.getPartyId();
+                Integer branchId = memberInflow.getBranchId();
+                if (partyId != null) {
+                    modelMap.put("party", partyMap.get(partyId));
+                }
+                if (branchId != null) {
+                    modelMap.put("branch", branchMap.get(branchId));
+                }
             }
-            if (branchId != null) {
-                modelMap.put("branch", branchMap.get(branchId));
-            }
+            return isMobile?"member/mobile/memberInflow":"member/user/enterApply/memberInflow";
+        } else {
+            MemberInflow memberInflow = memberInflowService.get(userId);
+            modelMap.put("memberInflow", memberInflow);
+
+            modelMap.put("locationMap", locationService.codeMap());
+            return isMobile?"member/mobile/memberInflow_view":"member/user/enterApply/memberInflow_view";
         }
-        return "member/user/enterApply/memberInflow";
     }
 
     @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberInflow", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberInflow(@CurrentUser SysUserView loginUser,MemberInflow record,
+    public Map do_memberInflow(@CurrentUser SysUserView loginUser, MemberInflow record,
                                String _flowTime, String _growTime, HttpServletRequest request) {
 
         //
         record.setUserId(loginUser.getId());
         record.setHasPapers((record.getHasPapers() == null) ? false : record.getHasPapers());
-        if(StringUtils.isNotBlank(_flowTime)){
+        if (StringUtils.isNotBlank(_flowTime)) {
             record.setFlowTime(DateUtils.parseDate(_flowTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_growTime)){
+        if (StringUtils.isNotBlank(_growTime)) {
             record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
         }
 
-        if(record.getPartyId()!=null) {
+        if (record.getPartyId() != null) {
             record.setPartyName(partyService.findAll().get(record.getPartyId()).getName());
         }
-        if(record.getBranchId()!=null) {
+        if (record.getBranchId() != null) {
             record.setBranchName(branchService.findAll().get(record.getBranchId()).getName());
         }
 

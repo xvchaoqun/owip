@@ -1,7 +1,10 @@
 package controller.dispatch.mobile;
 
 import controller.BaseController;
+import domain.dispatch.DispatchWorkFile;
+import domain.dispatch.DispatchWorkFileExample;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import sys.utils.PdfUtils;
 import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @RequestMapping("/m")
@@ -30,7 +34,13 @@ public class MobileDispatchWorkFileController extends BaseController {
 
 	@RequiresPermissions("m:dispatchWorkFile:list")
 	@RequestMapping("/dispatchWorkFile_page")
-	public String dispatchWorkFile_page() {
+	public String dispatchWorkFile_page(ModelMap modelMap) {
+
+		DispatchWorkFileExample example = new DispatchWorkFileExample();
+		example.createCriteria().andStatusEqualTo(true);
+		List<DispatchWorkFile> dispatchWorkFiles =
+				dispatchWorkFileMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 10));
+		modelMap.put("dispatchWorkFiles", dispatchWorkFiles);
 
 		return "dispatch/mobile/dispatchWorkFile_page";
 	}

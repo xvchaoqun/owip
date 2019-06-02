@@ -23,9 +23,9 @@
       <div class="row">
         <div class="col-xs-6">
           <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right"> ${(user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
+            <label class="col-sm-3 control-label no-padding-right"> ${(_user.type==USER_TYPE_JZG)?"教工号":"学号"}</label>
             <div class="col-sm-9 label-text">
-              ${user.code}
+              ${_user.code}
             </div>
           </div>
           <div class="form-group">
@@ -187,13 +187,13 @@
           submitHandler: function (form) {
             if(!$("#party").is(":hidden")){
               if($('select[name=partyId]').val()=='') {
-                bootbox.alert("请选择${_p_partyName}。");
+                SysMsg.success("请选择${_p_partyName}。");
                 return;
               }
             }
             if(!$("#branch").is(":hidden")){
               if($('select[name=branchId]').val()=='') {
-                bootbox.alert("请选择支部。");
+                SysMsg.success("请选择支部。");
                 return;
               }
             }
@@ -201,7 +201,7 @@
             $(form).ajaxSubmit({
               success:function(ret){
                 if(ret.success){
-                  bootbox.alert("提交成功。",function(){
+                  SysMsg.success("提交成功。",function(){
                     $btn.button("success").addClass("btn-success");
                     $.hashchange();
                   });

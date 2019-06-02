@@ -154,7 +154,7 @@
                 $.post("${ctx}/user/memberTransfer_back",function(ret){
 
                     if(ret.success){
-                        bootbox.alert("撤销成功。",function(){
+                        SysMsg.success("撤销成功。",function(){
                             $.hashchange();
                         });
                     }

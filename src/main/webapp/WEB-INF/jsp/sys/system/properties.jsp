@@ -36,7 +36,7 @@
                     }
                 }, error: function (ret) {
 
-                    bootbox.alert("系统异常，请稍后再试。");
+                    SysMsg.success("系统异常，请稍后再试。");
                 }
             });
         }

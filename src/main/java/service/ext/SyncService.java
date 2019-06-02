@@ -693,17 +693,17 @@ public class SyncService extends BaseMapper {
         if (!CmTag.getBoolProperty("useCadrePost") && extJzg != null) {
 
             String proPost = SqlUtils.toParamValue(extJzg.getZc());
-            String proPostTime = DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZyjszwpdsj()),
-                    DateUtils.YYYY_MM_DD);
+            String proPostTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZyjszwpdsj()),
+                    DateUtils.YYYY_MM_DD));
             String proPostLevel = SqlUtils.toParamValue(extJzg.getZjgwdj());
-            String proPostLevelTime = DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZjgwfjsj()),
-                    DateUtils.YYYY_MM_DD);
+            String proPostLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZjgwfjsj()),
+                    DateUtils.YYYY_MM_DD));
             String manageLevel = SqlUtils.toParamValue(extJzg.getGlgwdj());
-            String manageLevelTime = DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getGlgwfjsj()),
-                    DateUtils.YYYY_MM_DD);
+            String manageLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getGlgwfjsj()),
+                    DateUtils.YYYY_MM_DD));
             String officeLevel = SqlUtils.toParamValue(extJzg.getGqgwdjmc());
-            String officeLevelTime = DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getGqgwfjsj()),
-                    DateUtils.YYYY_MM_DD);
+            String officeLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getGqgwfjsj()),
+                    DateUtils.YYYY_MM_DD));
 
             commonMapper.excuteSql(String.format("update sys_teacher_info set pro_post=%s, " +
                             "pro_post_time=%s, pro_post_level=%s, pro_post_level_time=%s," +

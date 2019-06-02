@@ -15,10 +15,10 @@
       </div>
       <div class="profile-user-info profile-user-info-striped">
         <div class="profile-info-row">
-          <div class="profile-info-name">  ${(user.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
+          <div class="profile-info-name">  ${(_user.type==USER_TYPE_JZG)?"教工号":"学号"} </div>
 
           <div class="profile-info-value">
-            <span class="editable">${user.code}</span>
+            <span class="editable">${_user.code}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -137,7 +137,7 @@
         $.post("${ctx}/user/applyBack",function(ret){
 
           if(ret.success){
-            bootbox.alert("撤销成功。",function(){
+            SysMsg.success("撤销成功。",function(){
               $.hashchange();
             });
           }

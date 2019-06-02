@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="taglibs.jsp"%>
 <script type="text/javascript">
-	var ctx="${ctx}", _hasLoginPage= ${_hasLoginPage=='true'},
+	var ctx="${ctx}", isMobile=false, _hasLoginPage= ${_hasLoginPage=='true'},
 			_permissions=${cm:toJSONObject(cm:findPermissions(_user.username, false))},
 		_uploadMaxSize=${_uploadMaxSize}, _mobileRegex="${fn:replace(_pMap['mobileRegex'], "\\", "\\\\")}"
 </script>

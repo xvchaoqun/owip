@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="back-btn">
   <c:if test="${empty param.backTo}">
-    <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
+    <a href="javascript:;" class="hideView"><i class="fa fa-reply"></i> 返回</a>
   </c:if>
   <c:if test="${not empty param.backTo}">
     <a href="javascript:;" class="openView" data-open-by="page"
@@ -187,7 +187,7 @@
 <c:if test="${not empty cadre}">
         <div class="profile-info-row" style="display: table-caption;caption-side: bottom;">
           <div class="profile-info-name" style="width:auto;display: block;">
-            <button class="popView btn btn-success btn-block btn-sm" data-direction="bottom"
+            <button class="popupBtn btn btn-success btn-block btn-sm" data-direction="bottom"
                     data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${cadre.id}"><i class="fa fa-search"></i> 干部任免审批表</button>
           </div>
           </div>

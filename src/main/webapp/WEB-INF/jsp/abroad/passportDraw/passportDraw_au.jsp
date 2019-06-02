@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="ABROAD_PASSPORT_TYPE_KEEP" value="<%=AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP%>"/>
 <div style="width: 900px">
     <h3><c:if test="${passportDraw!=null}">修改</c:if><c:if test="${passportDraw==null}">添加</c:if>证件使用记录</h3>
     <hr/>
@@ -9,20 +10,50 @@
         <input type="hidden" name="id" value="${passportDraw.id}">
         <div class="row">
             <div class="col-xs-6">
-                <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>证件号码</label>
-                    <c:if test="${passportDraw!=null}">
-                        <div class="col-xs-6 label-text">
-                                ${passportDraw.passport.code}
+                <c:if test="${passportDraw==null}">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label"> 证件持有人</label>
+                        <div class="col-xs-6">
+                            <select data-rel="select2-ajax"
+                                    data-ajax-url="${ctx}/cadre_selects"
+                                    name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                <option></option>
+                            </select>
                         </div>
-                    </c:if>
-                    <c:if test="${passportDraw==null}">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label"> 选择证件</label>
+                        <div class="col-xs-6">
+                            <select data-rel="select2-ajax"
+                                    data-ajax-url="${ctx}/abroad/passport_selects"
+                                    name="passportId" data-placeholder="请输入证件号码">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label"><span class="star">*</span>证件号码</label>
                         <div class="col-xs-6">
                             <input required class="form-control" type="text" name="passportCode">
                             <span class="help-block">注：请填写证件库中的证件号码</span>
                         </div>
-                    </c:if>
-                </div>
+                    </div>
+                </c:if>
+                <c:if test="${passportDraw!=null}">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label"> 证件持有人</label>
+                        <div class="col-xs-6 label-text">
+                                ${passportDraw.user.realname}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label"> 证件号码</label>
+                        <div class="col-xs-6 label-text">
+                            <span class="${passportDraw.passport.type!=ABROAD_PASSPORT_TYPE_KEEP?'delete':''}">${passportDraw.passport.code}</span>（${passportDraw.passport.passportClass.name}）
+                        </div>
+                    </div>
+                </c:if>
+
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>使用类别</label>
                     <div class="col-xs-6">
@@ -172,7 +203,7 @@
                 <div class="form-group refuseReturnPassport">
                     <label class="col-xs-4 control-label">附件（pdf格式）</label>
                     <div class="col-xs-7">
-                        <input class="form-control" type="file" name="_attachment" />
+                        <input class="form-control" type="file" name="_attachment"/>
                         <span class="help-block">注：此处会覆盖已上传的附件</span>
                     </div>
                 </div>
@@ -306,7 +337,20 @@
 </script>
 <script>
 
-    $.fileInput($('input[type=file][name=_attachment]'),{
+    var selectCadre = $.register.user_select($('#modalForm select[name=cadreId]'));
+    selectCadre.on("change", function () {
+        var cadreId = $(this).val();
+        $('#modalForm select[name=passportId]').data("ajax-url", "${ctx}/abroad/passport_selects?cadreId=" + cadreId);
+
+        var selectPassport = $.register.ajax_select($('#modalForm select[name=passportId]'));
+        selectPassport.on("change", function () {
+            var code = $(this).select2("data")[0]['text'] || '';
+            $('#modalForm input[name=passportCode]').val(code)
+        });
+        selectPassport.val(null).trigger('change')
+    });
+
+    $.fileInput($('input[type=file][name=_attachment]'), {
         allowExt: ['pdf']
     })
 

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="back-btn">
-    <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
+    <a href="javascript:;" class="hideView"><i class="fa fa-reply"></i> 返回</a>
 </div>
 <div class="alert alert-block alert-success" style="margin-bottom: 5px;font-size: 14px;font-weight: bolder;">
     <i class="ace-icon fa fa-calendar"></i>

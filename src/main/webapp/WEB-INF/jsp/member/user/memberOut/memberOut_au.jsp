@@ -153,7 +153,7 @@
 				success:function(ret){
 					$("#submitBtn").button("reset");
 					if(ret.success){
-						bootbox.alert('提交成功。',function(){
+						SysMsg.success('提交成功。',function(){
 							$.hashchange();
 						});
 					}
