@@ -35,7 +35,7 @@
 		<to>/cadre_selects</to>
 	</rule>
 	<rule>
-		<note>后备干部查询</note>
+		<note>优秀年轻干部查询</note>
 		<condition type="method">GET</condition>
 		<from>^/m/cadreReserve_selects</from>
 		<to>/cadreReserve_selects</to>

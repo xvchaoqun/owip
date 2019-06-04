@@ -115,6 +115,9 @@ $.reloadMetaData(function(){
 	$("#jqGrid").trigger("reloadGrid");
 });
 
+区域加载中
+<div class="block-loading"/>
+
 按钮加载中
 $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 

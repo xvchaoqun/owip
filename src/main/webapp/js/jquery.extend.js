@@ -638,7 +638,7 @@ var _modal_width;
                 return '<span class="{0}">{1}</span>'
                     .format(branch.isDeleted ? "delete" : "", _branchView);
             }
-            return '';
+            return '--';
         },
         del: function (str, del) { // 显示名称，del：是否带删除线
 
@@ -649,7 +649,7 @@ var _modal_width;
         cadre: function (cadreId, realname, params) {
 
             if (cadreId == undefined || cadreId <= 0) {
-                console.log("illegal cadreId:" + cadreId);
+                //console.log("illegal cadreId:" + cadreId);
                 return $.trim(realname);
             }
             //console.log("==="+$.inArray("cadre:archive", _permissions))

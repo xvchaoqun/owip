@@ -66,7 +66,7 @@ from ow_member m
 left join sys_user_info ui on ui.user_id=m.user_id
 left join sys_user u on u.id=m.user_id
 left join ow_party p on p.id = m.party_id
-left join ow_member_out mo on mo.user_id = m.user_id
+left join ow_member_out mo on mo.status!=10 and mo.user_id = m.user_id
 left join sys_teacher_info t on t.user_id = m.user_id
 left join sys_student_info s on s.user_id = m.user_id;
 

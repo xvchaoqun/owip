@@ -21,12 +21,6 @@ CREATE ALGORITHM = UNDEFINED VIEW `cet_project_view` AS
 select cp.*, count(cpo.id) as obj_count from cet_project cp
 left join cet_project_obj cpo on cpo.project_id=cp.id group by cp.id;
 
-DROP VIEW IF EXISTS `cet_project_obj_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_view` AS
-select cpo.*, uv.username, uv.code, uv.realname from cet_project_obj cpo
-left join sys_user_view uv on uv.id=cpo.user_id
-group by cpo.id;
-
 DROP VIEW IF EXISTS `cet_column_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_column_course_view` AS
 SELECT ccc.*, fcc.id as f_column_id, fcc.name as f_column_name,
