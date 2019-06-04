@@ -275,10 +275,20 @@ public class MemberOutService extends MemberBaseMapper {
         record.setIsModify(false);
         record.setPrintCount(0);
         memberOpService.checkOpAuth(record.getUserId());
-        if (record.getId() == null)
+        if (record.getId() == null) {
+            {
+                // 归档之前已完成转出的记录（如果存在的话），保证当前只有一条记录处于未归档状态
+                MemberOut _record = new MemberOut();
+                _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
+                MemberOutExample example = new MemberOutExample();
+                example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+                memberOutMapper.updateByExample(_record, example);
+            }
+
             memberOutMapper.insertSelective(record);
-        else
+        } else {
             memberOutMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     @Transactional

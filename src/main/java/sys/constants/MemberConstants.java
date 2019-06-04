@@ -171,6 +171,7 @@ public class MemberConstants {
     public final static byte MEMBER_OUT_STATUS_APPLY = 0;
     public final static byte MEMBER_OUT_STATUS_PARTY_VERIFY = 1;
     public final static byte MEMBER_OUT_STATUS_OW_VERIFY = 2;
+    public final static byte MEMBER_OUT_STATUS_ARCHIVE = 10; // 已转出的记录归档
     public final static Map<Byte, String> MEMBER_OUT_STATUS_MAP = new LinkedHashMap<>();
 
     static {
@@ -180,6 +181,7 @@ public class MemberConstants {
         MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_APPLY, "申请");
         MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_PARTY_VERIFY, "分党委审核通过");
         MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_OW_VERIFY, "组织部审核通过");
+        MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_ARCHIVE, "已归档");
     }
 
     // 党员转入状态

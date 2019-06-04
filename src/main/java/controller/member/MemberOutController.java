@@ -233,7 +233,8 @@ public class MemberOutController extends MemberBaseController {
             statusList.add(MemberConstants.MEMBER_OUT_STATUS_BACK);
             criteria.andStatusIn(statusList);
         } else {
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+            criteria.andStatusIn(Arrays.asList(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY,
+                    MemberConstants.MEMBER_OUT_STATUS_ARCHIVE));
         }
 
         if (export == 1) {

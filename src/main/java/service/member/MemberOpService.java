@@ -29,7 +29,7 @@ public class MemberOpService extends MemberBaseMapper{
         MemberOut memberOut = memberOutService.getLatest(userId);
         if(memberOut!=null
                 && memberOut.getStatus()>= MemberConstants.MEMBER_OUT_STATUS_APPLY
-                && memberOut.getStatus()!=MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+                && memberOut.getStatus()<MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
             return 1; // 已经申请了组织关系转出
         }
         MemberTransfer memberTransfer = memberTransferService.get(userId);
