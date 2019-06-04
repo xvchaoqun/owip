@@ -1,5 +1,46 @@
 
 
+20190604
+ALTER TABLE `ow_apply_sn_range`
+	CHANGE COLUMN `use_count` `use_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '已使用数量，不含已作废' AFTER `len`,
+	ADD COLUMN `abolish_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '已作废数量' AFTER `use_count`;
+
+ALTER TABLE `cet_project_obj`
+	ADD COLUMN `party_name` VARCHAR(200) NULL DEFAULT NULL COMMENT '所属党委，以下是班子成员信息' AFTER `cadre_sort_order`,
+	ADD COLUMN `branch_name` VARCHAR(200) NULL DEFAULT NULL COMMENT '所属支部' AFTER `party_name`,
+	ADD COLUMN `party_type_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '分党委职务' AFTER `branch_name`,
+	ADD COLUMN `post_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '分党委分工' AFTER `party_type_ids`,
+	ADD COLUMN `branch_type_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '支部委员类别' AFTER `post_id`,
+	ADD COLUMN `organizer_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '组织员类型，以下组织员信息' AFTER `branch_type_id`,
+	ADD COLUMN `organizer_units` VARCHAR(200) NULL DEFAULT NULL COMMENT '组织员联系单位' AFTER `organizer_type`,
+	ADD COLUMN `organizer_party_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '组织员联系党组织' AFTER `organizer_units`,
+	ADD COLUMN `assign_date` DATE NULL DEFAULT NULL COMMENT '任职时间' AFTER `organizer_party_id`,
+	ADD COLUMN `active_time` DATE NULL DEFAULT NULL COMMENT '成为入党积极分子时间' AFTER `assign_date`;
+
+ALTER TABLE `cet_project_obj`
+	CHANGE COLUMN `party_name` `party_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '所属党委，以下是班子成员信息' AFTER `cadre_sort_order`,
+	CHANGE COLUMN `branch_name` `branch_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '所属支部' AFTER `party_id`;
+
+-- 删除 cet_project_obj_view 及对应的类
+drop view cet_project_obj_view;
+
+UPDATE cet_trainee_type SET `name`='优秀年轻干部' WHERE  `id`=2;
+
+
+UPDATE `sys_resource` SET `sort_order`='1000' WHERE  `id`=285;
+UPDATE `sys_resource` SET `sort_order`='900' WHERE  `id`=287;
+UPDATE `sys_resource` SET `sort_order`='800' WHERE  `id`=288;
+UPDATE `sys_resource` SET `sort_order`='700' WHERE  `id`=295;
+UPDATE `sys_resource` SET `sort_order`='600' WHERE  `id`=441;
+UPDATE `sys_resource` SET `sort_order`='500' WHERE  `id`=286;
+
+ALTER TABLE `ow_member_out`
+	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，-1返回修改 0申请 1分党委审批 2组织部审批 10 归档（当第二次转出时，将之前已完成转出的记录归档）' AFTER `has_receipt`;
+
+更新 ow_member_view
+
+20190602
+更新南航
 20190602
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1048, 1, '权限开通申请', '', 'url', 'fa fa-star-o', '/m/apply', 692, '0/692/', 1, 'm:apply:*', NULL, NULL, NULL, 1, 800);
 
