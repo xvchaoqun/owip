@@ -534,6 +534,66 @@ public class ApplySnRangeExample {
             return (Criteria) this;
         }
 
+        public Criteria andAbolishCountIsNull() {
+            addCriterion("abolish_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountIsNotNull() {
+            addCriterion("abolish_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountEqualTo(Integer value) {
+            addCriterion("abolish_count =", value, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountNotEqualTo(Integer value) {
+            addCriterion("abolish_count <>", value, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountGreaterThan(Integer value) {
+            addCriterion("abolish_count >", value, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("abolish_count >=", value, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountLessThan(Integer value) {
+            addCriterion("abolish_count <", value, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountLessThanOrEqualTo(Integer value) {
+            addCriterion("abolish_count <=", value, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountIn(List<Integer> values) {
+            addCriterion("abolish_count in", values, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountNotIn(List<Integer> values) {
+            addCriterion("abolish_count not in", values, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountBetween(Integer value1, Integer value2) {
+            addCriterion("abolish_count between", value1, value2, "abolishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("abolish_count not between", value1, value2, "abolishCount");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

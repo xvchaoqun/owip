@@ -283,7 +283,7 @@
                     if (cellvalue == undefined) return '--';
                     var count = cellvalue.length;
                     <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
-                    if(count==0) return ''
+                    if(count==0) return '--'
                     </shiro:lacksPermission>
                     return _.template($("#dispatch_select_tpl").html().NoMultiSpace())
                     ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
@@ -407,7 +407,7 @@
                     if (cellvalue == undefined) return '--';
                     var count = cellvalue.length;
                     <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
-                    if(count==0) return ''
+                    if(count==0) return '--'
                     </shiro:lacksPermission>
                     return _.template($("#dispatch_select_tpl").html().NoMultiSpace())
                     ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});

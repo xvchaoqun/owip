@@ -27,6 +27,16 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="cadre_status" jdbcType="TINYINT" property="cadreStatus" />
     <result column="cadre_sort_order" jdbcType="INTEGER" property="cadreSortOrder" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="party_type_ids" jdbcType="VARCHAR" property="partyTypeIds" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="branch_type_id" jdbcType="INTEGER" property="branchTypeId" />
+    <result column="organizer_type" jdbcType="TINYINT" property="organizerType" />
+    <result column="organizer_units" jdbcType="VARCHAR" property="organizerUnits" />
+    <result column="organizer_party_id" jdbcType="INTEGER" property="organizerPartyId" />
+    <result column="assign_date" jdbcType="DATE" property="assignDate" />
+    <result column="active_time" jdbcType="DATE" property="activeTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -90,7 +100,8 @@
     id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, finish_period, 
     is_graduate, word_write, write_file_path, remark, cadre_id, title, admin_level, post_type, 
     is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, email, 
-    cadre_status, cadre_sort_order
+    cadre_status, cadre_sort_order, party_id, branch_id, party_type_ids, post_id, branch_type_id, 
+    organizer_type, organizer_units, organizer_party_id, assign_date, active_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">
     select
@@ -133,8 +144,11 @@
       admin_level, post_type, is_ow, 
       ow_grow_time, dp_grow_time, dp_type_id, 
       pro_post, lp_work_time, mobile, 
-      email, cadre_status, cadre_sort_order
-      )
+      email, cadre_status, cadre_sort_order, 
+      party_id, branch_id, party_type_ids, 
+      post_id, branch_type_id, organizer_type, 
+      organizer_units, organizer_party_id, assign_date, 
+      active_time)
     values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
       #{isQuit,jdbcType=BIT}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, 
       #{isGraduate,jdbcType=BIT}, #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, 
@@ -142,8 +156,11 @@
       #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, #{isOw,jdbcType=BIT}, 
       #{owGrowTime,jdbcType=DATE}, #{dpGrowTime,jdbcType=DATE}, #{dpTypeId,jdbcType=INTEGER}, 
       #{proPost,jdbcType=VARCHAR}, #{lpWorkTime,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{cadreStatus,jdbcType=TINYINT}, #{cadreSortOrder,jdbcType=INTEGER}
-      )
+      #{email,jdbcType=VARCHAR}, #{cadreStatus,jdbcType=TINYINT}, #{cadreSortOrder,jdbcType=INTEGER}, 
+      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{partyTypeIds,jdbcType=VARCHAR}, 
+      #{postId,jdbcType=INTEGER}, #{branchTypeId,jdbcType=INTEGER}, #{organizerType,jdbcType=TINYINT}, 
+      #{organizerUnits,jdbcType=VARCHAR}, #{organizerPartyId,jdbcType=INTEGER}, #{assignDate,jdbcType=DATE}, 
+      #{activeTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -223,6 +240,36 @@
       <if test="cadreSortOrder != null">
         cadre_sort_order,
       </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="partyTypeIds != null">
+        party_type_ids,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+      <if test="branchTypeId != null">
+        branch_type_id,
+      </if>
+      <if test="organizerType != null">
+        organizer_type,
+      </if>
+      <if test="organizerUnits != null">
+        organizer_units,
+      </if>
+      <if test="organizerPartyId != null">
+        organizer_party_id,
+      </if>
+      <if test="assignDate != null">
+        assign_date,
+      </if>
+      <if test="activeTime != null">
+        active_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectId != null">
@@ -296,6 +343,36 @@
       </if>
       <if test="cadreSortOrder != null">
         #{cadreSortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="partyTypeIds != null">
+        #{partyTypeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="branchTypeId != null">
+        #{branchTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="organizerType != null">
+        #{organizerType,jdbcType=TINYINT},
+      </if>
+      <if test="organizerUnits != null">
+        #{organizerUnits,jdbcType=VARCHAR},
+      </if>
+      <if test="organizerPartyId != null">
+        #{organizerPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="assignDate != null">
+        #{assignDate,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null">
+        #{activeTime,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -383,6 +460,36 @@
       <if test="record.cadreSortOrder != null">
         cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyTypeIds != null">
+        party_type_ids = #{record.partyTypeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postId != null">
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchTypeId != null">
+        branch_type_id = #{record.branchTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organizerType != null">
+        organizer_type = #{record.organizerType,jdbcType=TINYINT},
+      </if>
+      <if test="record.organizerUnits != null">
+        organizer_units = #{record.organizerUnits,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizerPartyId != null">
+        organizer_party_id = #{record.organizerPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.assignDate != null">
+        assign_date = #{record.assignDate,jdbcType=DATE},
+      </if>
+      <if test="record.activeTime != null">
+        active_time = #{record.activeTime,jdbcType=DATE},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -414,7 +521,17 @@
       mobile = #{record.mobile,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       cadre_status = #{record.cadreStatus,jdbcType=TINYINT},
-      cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER}
+      cadre_sort_order = #{record.cadreSortOrder,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      party_type_ids = #{record.partyTypeIds,jdbcType=VARCHAR},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      branch_type_id = #{record.branchTypeId,jdbcType=INTEGER},
+      organizer_type = #{record.organizerType,jdbcType=TINYINT},
+      organizer_units = #{record.organizerUnits,jdbcType=VARCHAR},
+      organizer_party_id = #{record.organizerPartyId,jdbcType=INTEGER},
+      assign_date = #{record.assignDate,jdbcType=DATE},
+      active_time = #{record.activeTime,jdbcType=DATE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -494,6 +611,36 @@
       <if test="cadreSortOrder != null">
         cadre_sort_order = #{cadreSortOrder,jdbcType=INTEGER},
       </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="partyTypeIds != null">
+        party_type_ids = #{partyTypeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null">
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="branchTypeId != null">
+        branch_type_id = #{branchTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="organizerType != null">
+        organizer_type = #{organizerType,jdbcType=TINYINT},
+      </if>
+      <if test="organizerUnits != null">
+        organizer_units = #{organizerUnits,jdbcType=VARCHAR},
+      </if>
+      <if test="organizerPartyId != null">
+        organizer_party_id = #{organizerPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="assignDate != null">
+        assign_date = #{assignDate,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null">
+        active_time = #{activeTime,jdbcType=DATE},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -522,7 +669,17 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       cadre_status = #{cadreStatus,jdbcType=TINYINT},
-      cadre_sort_order = #{cadreSortOrder,jdbcType=INTEGER}
+      cadre_sort_order = #{cadreSortOrder,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      party_type_ids = #{partyTypeIds,jdbcType=VARCHAR},
+      post_id = #{postId,jdbcType=INTEGER},
+      branch_type_id = #{branchTypeId,jdbcType=INTEGER},
+      organizer_type = #{organizerType,jdbcType=TINYINT},
+      organizer_units = #{organizerUnits,jdbcType=VARCHAR},
+      organizer_party_id = #{organizerPartyId,jdbcType=INTEGER},
+      assign_date = #{assignDate,jdbcType=DATE},
+      active_time = #{activeTime,jdbcType=DATE}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">

@@ -133,55 +133,6 @@ public class PmdBranchAdminService extends PmdBaseMapper {
                 }
             }
         }
-
-        /*
-        // 同步支部书记、组织委员为党费收缴党支部管理员
-        MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
-        MetaType commissaryType = CmTag.getMetaTypeByCode("mt_branch_commissary");
-
-        for (Integer partyId : partyIds) {
-            {
-                // 先删除所有书记、组织委员
-                PmdBranchAdminExample example = new PmdBranchAdminExample();
-                example.createCriteria().andPartyIdEqualTo(partyId)
-                        .andTypeIn(Arrays.asList(PmdConstants.PMD_ADMIN_TYPE_SECRETARY,
-                                PmdConstants.PMD_ADMIN_TYPE_COMMISSARY));
-                pmdBranchAdminMapper.deleteByExample(example);
-            }
-
-            Map<Integer, PmdPayBranch> allPayBranchIdSet = pmdPayBranchService.getAllPayBranchIdSet(partyId);
-            for (Integer branchId : allPayBranchIdSet.keySet()) {
-
-                {
-                    // 书记
-                    List<BranchMember> secretarys = iPartyMapper.findBranchMembers(secretaryType.getId(), branchId);
-                    for (BranchMember secretary : secretarys) {
-                        PmdBranchAdmin record = new PmdBranchAdmin();
-                        record.setPartyId(partyId);
-                        record.setBranchId(branchId);
-                        record.setUserId(secretary.getUserId());
-                        record.setType(PmdConstants.PMD_ADMIN_TYPE_SECRETARY);
-
-                        pmdBranchAdminMapper.insertSelective(record);
-                        sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_BRANCH);
-                    }
-                }
-                {
-                    // 组织委员
-                    List<BranchMember> commissarys = iPartyMapper.findBranchMembers(commissaryType.getId(), branchId);
-                    for (BranchMember commissary : commissarys) {
-                        PmdBranchAdmin record = new PmdBranchAdmin();
-                        record.setPartyId(partyId);
-                        record.setBranchId(branchId);
-                        record.setUserId(commissary.getUserId());
-                        record.setType(PmdConstants.PMD_ADMIN_TYPE_COMMISSARY);
-
-                        pmdBranchAdminMapper.insertSelective(record);
-                        sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_BRANCH);
-                    }
-                }
-            }
-        }*/
     }
 
     @Transactional
@@ -197,21 +148,6 @@ public class PmdBranchAdminService extends PmdBaseMapper {
         if(branchMemberService.isPresentAdmin(userId, partyId, branchId)){
             type = PmdConstants.PMD_ADMIN_TYPE_OW;
         }
-        /*
-        MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
-        MetaType commissaryType = CmTag.getMetaTypeByCode("mt_branch_commissary");
-        // 书记
-        BranchMember secretary = iPartyMapper.findBranchMember(secretaryType.getId(), branchId, userId);
-        if (secretary != null) {
-            type = PmdConstants.PMD_ADMIN_TYPE_SECRETARY;
-        }else {
-            // 组织委员
-            BranchMember commissary = iPartyMapper.findBranchMember(commissaryType.getId(), branchId, userId);
-            if (commissary != null) {
-                type = PmdConstants.PMD_ADMIN_TYPE_COMMISSARY;
-            }
-        }*/
-
         record.setType(type);
 
         pmdBranchAdminMapper.insertSelective(record);

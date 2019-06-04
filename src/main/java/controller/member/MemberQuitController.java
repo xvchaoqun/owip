@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.LogConstants;
-import sys.constants.MemberConstants;
-import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -74,6 +72,8 @@ public class MemberQuitController extends MemberBaseController {
         modelMap.put("partyApprovalCount", memberQuitService.count(null, null, (byte)2));
         // 组织部待审核数目
         modelMap.put("odApprovalCount", memberQuitService.count(null, null, (byte)3));
+        // 完成审核数目
+        modelMap.put("hasApprovalCount", memberQuitService.count(null, null, (byte)4));
         
         return "member/memberQuit/memberQuit_page";
     }
@@ -259,7 +259,7 @@ public class MemberQuitController extends MemberBaseController {
 
         memberQuitService.memberQuit_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "党员出党申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "减员申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -282,7 +282,19 @@ public class MemberQuitController extends MemberBaseController {
 
         memberQuitService.memberQuit_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委打回党员出党申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委打回减员申请：%s", StringUtils.join( ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 撤销已减员记录
+    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
+    @RequestMapping(value = "/memberQuit_abolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberQuit_abolish(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        memberQuitService.memberQuit_abolish(ids);
+
+        logger.info(addLog(LogConstants.LOG_MEMBER, "撤销减员：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -342,7 +354,7 @@ public class MemberQuitController extends MemberBaseController {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, "后台添加",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
 
-            logger.info(addLog(LogConstants.LOG_MEMBER, "添加党员出党：%s", record.getUserId()));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "添加减员：%s", record.getUserId()));
         } else {
 
             if(memberQuit.getStatus()==MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY)
@@ -353,7 +365,7 @@ public class MemberQuitController extends MemberBaseController {
             }
 
             memberQuitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_MEMBER, "更新党员出党：%s", record.getUserId()));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "更新减员：%s", record.getUserId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -396,7 +408,7 @@ public class MemberQuitController extends MemberBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "党员出党_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "减员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

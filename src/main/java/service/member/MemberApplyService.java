@@ -183,7 +183,9 @@ public class MemberApplyService extends MemberBaseMapper {
 
         {
             MemberApplyViewExample example = new MemberApplyViewExample();
-            MemberApplyViewExample.Criteria criteria = example.createCriteria();
+            example.createCriteria()
+                    .andIsRemoveEqualTo(false)
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_ACTIVE);
             example.setOrderByClause("party_sort_order desc, branch_sort_order desc,create_time desc");
 
             List<MemberApplyView> memberApplyViews = memberApplyViewMapper.selectByExample(example);

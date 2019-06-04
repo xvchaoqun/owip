@@ -3,9 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
-        <div id="body-content">
-            <div class="myTableDiv"
+        <div id="body-content" class="myTableDiv"
                  data-url-au="${ctx}/branchMemberGroup_au"
                  data-url-page="${ctx}/branchMemberGroup"
                  data-url-export="${ctx}/branchMemberGroup_data"
@@ -131,7 +129,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         <div id="body-content-view"></div>
     </div>
 </div>

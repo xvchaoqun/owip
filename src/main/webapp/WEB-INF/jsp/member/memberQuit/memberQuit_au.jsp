@@ -61,6 +61,9 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
+    <div class="note">
+        注：如减员原因为“党员去世”，则无需审批直接生效，请谨慎添加。
+    </div>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberQuit!=null}">确定</c:if><c:if test="${memberQuit==null}">添加</c:if>"/>
     <c:if test="${memberQuit!=null && memberQuit.status<MEMBER_QUIT_STATUS_APPLY}">

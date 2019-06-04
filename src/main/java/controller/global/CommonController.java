@@ -110,7 +110,7 @@ public class CommonController extends BaseController {
     @ResponseBody
     public Map cadre_selects(
             @RequestParam(required = false, value = "types") Byte[] types, // 指定多个干部类别
-            // type=0 所有干部（包括后备干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库  （优先级最低）
+            // type=0 所有干部（包括优秀年轻干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库  （优先级最低）
             @RequestParam(defaultValue = "1", required = false) Byte type,
             Byte status, // 特定干部类别 (优先级最高)
             @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所属单位
@@ -302,7 +302,7 @@ public class CommonController extends BaseController {
     }
 
 
-    // 根据账号或姓名或学工号选择后备干部
+    // 根据账号或姓名或学工号选择优秀年轻干部
     @RequestMapping("/cadreReserve_selects")
     @ResponseBody
     public Map cadreReserve_selects(Integer pageSize, Integer pageNo,

@@ -52,10 +52,21 @@ public class CetTraineeController extends CetBaseController {
         List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
+        Map<Integer, Integer> typeCountMap = new HashMap<>();
+        List<Map> typeCountList = iCetMapper.projectObj_typeCount(projectId, false);
+        for (Map resultMap : typeCountList) {
+            int _traineeTypeId = ((Long) resultMap.get("trainee_type_id")).intValue();
+            int num = ((Long) resultMap.get("num")).intValue();
+            typeCountMap.put(_traineeTypeId, num);
+        }
+        modelMap.put("typeCountMap", typeCountMap);
+
         if (traineeTypeId == null) {
             traineeTypeId = cetTraineeTypes.get(0).getId();
         }
         modelMap.put("traineeTypeId", traineeTypeId);
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
+        modelMap.put("cetTraineeType", cetTraineeType);
 
         if(userId!=null) {
             modelMap.put("sysUser", CmTag.getUserById(userId));
@@ -93,45 +104,24 @@ public class CetTraineeController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
-        String code = cetTraineeType.getCode();
+        CetTraineeViewExample example = new CetTraineeViewExample();
+        CetTraineeViewExample.Criteria criteria =
+                example.createCriteria().andTrainIdEqualTo(trainId)
+                        .andTraineeTypeIdEqualTo(traineeTypeId);
+        example.setOrderByClause("id asc");
 
-        List records = null;
-        int count = 0, total = 0;
-        switch (code) {
-            // 干部、后备干部
-            case "t_cadre":
-            case "t_reserve":
-                CetTraineeViewExample example = new CetTraineeViewExample();
-                CetTraineeViewExample.Criteria criteria =
-                        example.createCriteria().andTrainIdEqualTo(trainId)
-                                .andTraineeTypeIdEqualTo(traineeTypeId);
-                example.setOrderByClause("id asc");
-                /*switch (cls){
-                    case 1: // 已选课人员
-                        criteria.andCourseCountGreaterThan(0);
-                        break;
-                    case 2: // 退班人员
-                        criteria.andCourseCountEqualTo(0).andIsQuitEqualTo(true);
-                        break;
-                }*/
-
-                if (userId != null) {
-                    criteria.andUserIdEqualTo(userId);
-                }
-
-                count = (int) cetTraineeViewMapper.countByExample(example);
-                if ((pageNo - 1) * pageSize >= count) {
-
-                    pageNo = Math.max(1, pageNo - 1);
-                }
-                records = cetTraineeViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-                CommonList commonList = new CommonList(count, pageNo, pageSize);
-                total = commonList.pageNum;
-                break;
-            default:
-                break;
+        if (userId != null) {
+            criteria.andUserIdEqualTo(userId);
         }
+
+        int count = (int) cetTraineeViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CetTraineeView> records = cetTraineeViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+        int total = commonList.pageNum;
 
         Map resultMap = new HashMap();
         resultMap.put("rows", records);

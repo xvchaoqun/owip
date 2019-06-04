@@ -128,11 +128,11 @@ public class CadreReserveOriginController extends BaseController {
 
         if (id == null) {
             cadreReserveOriginService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "添加后备干部的产生：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "添加优秀年轻干部的产生：%s", record.getId()));
         } else {
 
             cadreReserveOriginService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "更新后备干部的产生：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "更新优秀年轻干部的产生：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -162,7 +162,7 @@ public class CadreReserveOriginController extends BaseController {
         if (id != null) {
 
             cadreReserveOriginService.del(id);
-            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "删除后备干部的产生：%s", id));
+            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "删除优秀年轻干部的产生：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -175,7 +175,7 @@ public class CadreReserveOriginController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreReserveOriginService.batchDel(ids);
-            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "批量删除后备干部的产生：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "批量删除优秀年轻干部的产生：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -185,7 +185,7 @@ public class CadreReserveOriginController extends BaseController {
 
         List<CadreReserveOrigin> records = cadreReserveOriginMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"产生方式|100","推荐人选|100","后备干部类别|100","推荐单位|100",
+        String[] titles = {"产生方式|100","推荐人选|100","优秀年轻干部类别|100","推荐单位|100",
                 "推荐日期|100","推荐材料|100","推荐材料|100","考察材料|100","备注|100","添加日期|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -204,7 +204,7 @@ public class CadreReserveOriginController extends BaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "后备干部的产生_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "优秀年轻干部的产生_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

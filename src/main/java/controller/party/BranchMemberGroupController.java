@@ -51,6 +51,7 @@ public class BranchMemberGroupController extends BaseController {
     @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup")
     public String branchMemberGroup(@RequestParam(required = false, defaultValue = "1") Byte status,
+                                    Integer userId,
                                     Integer partyId,
                                     Integer branchId, ModelMap modelMap) {
 
@@ -64,7 +65,9 @@ public class BranchMemberGroupController extends BaseController {
         if (branchId != null) {
             modelMap.put("branch", branchMap.get(branchId));
         }
-
+        if(userId!=null){
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
         if (status == 2) {
             return "party/branchMemberGroup/branchMember";
         }

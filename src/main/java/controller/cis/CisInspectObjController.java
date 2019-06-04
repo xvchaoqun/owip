@@ -75,7 +75,7 @@ public class CisInspectObjController extends CisBaseController {
 
         /**
          * 考察报告要排序，规则：先按年份，新的在上，老的在下；
-         * 再按考察类型，选拔任用在上，后备干部在下；
+         * 再按考察类型，选拔任用在上，优秀年轻干部在下；
          * 最后按编号，数字大的在上，数字小的在下。基本上和发文的排序差不多。
          */
         CisInspectObjViewExample example = new CisInspectObjViewExample();

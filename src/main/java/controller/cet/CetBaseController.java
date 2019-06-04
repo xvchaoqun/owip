@@ -7,6 +7,7 @@ import service.cadreReserve.CadreReserveService;
 import service.cet.*;
 import service.member.MemberApplyService;
 import service.party.BranchMemberService;
+import service.party.OrganizerService;
 import service.party.PartyMemberService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysLoginLogService;
@@ -26,6 +27,8 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     protected CadreReserveService cadreReserveService;
     @Autowired(required = false)
     protected MemberApplyService memberApplyService;
+    @Autowired(required = false)
+    protected OrganizerService organizerService;
     @Autowired
     protected PartyMemberService partyMemberService;
     @Autowired

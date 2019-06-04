@@ -123,12 +123,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
         applySnMapper.updateByPrimaryKeySelective(record);
 
         // 更新编码段已使用数量
-        Integer rangeId = applySn.getRangeId();
-        ApplySnExample example = new ApplySnExample();
-        example.createCriteria().andRangeIdEqualTo(rangeId).andIsUsedEqualTo(true);
-        int useCount = (int) applySnMapper.countByExample(example);
-
-        applySnRangeService.updateUseCount(rangeId, useCount);
+        applySnRangeService.updateCount(applySn.getRangeId());
     }
 
     // 更新为未使用
@@ -148,12 +143,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
                 "assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
 
         // 更新编码段已使用数量
-        Integer rangeId = applySn.getRangeId();
-        ApplySnExample example = new ApplySnExample();
-        example.createCriteria().andRangeIdEqualTo(rangeId).andIsUsedEqualTo(true);
-        int useCount = (int) applySnMapper.countByExample(example);
-
-        applySnRangeService.updateUseCount(rangeId, useCount);
+        applySnRangeService.updateCount(applySn.getRangeId());
     }
 
     // 换领志愿书
@@ -190,8 +180,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
                     "user_id = null, assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
 
             // 更新编码段已使用数量
-            Integer rangeId = applySn.getRangeId();
-            updateUseCount(rangeId);
+            applySnRangeService.updateCount(applySn.getRangeId());
 
         } else {
             throw new IllegalArgumentException();
@@ -325,8 +314,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
                     "user_id = null, assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
 
             // 更新编码段已使用数量
-            Integer rangeId = applySn.getRangeId();
-            updateUseCount(rangeId);
+            applySnRangeService.updateCount(applySn.getRangeId());
 
             SysUserView uv = applySn.getUser();
             logger.info(log(LogConstants.LOG_MEMBER,
@@ -334,19 +322,5 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
                             : "恢复已作废的编码<{0}>重新使用，原使用人：{1}",
                             applySn.getDisplaySn(), uv==null?"无":(uv.getRealname()+"-"+uv.getCode())));
         }
-    }
-
-    // 更新已使用数量：包含已使用和已作废之和
-    private void updateUseCount(int rangeId) {
-
-        ApplySnExample example = new ApplySnExample();
-        example.or().andRangeIdEqualTo(rangeId)
-                .andIsUsedEqualTo(true);
-        example.or().andRangeIdEqualTo(rangeId)
-                .andIsAbolishedEqualTo(true);
-
-        int useCount = (int) applySnMapper.countByExample(example);
-
-        applySnRangeService.updateUseCount(rangeId, useCount);
     }
 }

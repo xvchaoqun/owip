@@ -69,11 +69,11 @@ public class CadreReserveController extends BaseController {
             resultMap.put("realname", cadre.getRealname());
 
             if (cadre == null) {
-                msg = "该用户不是后备干部";
+                msg = "该用户不是优秀年轻干部";
             } else {
                 CadreReserve cadreReserve = cadreReserveService.getNormalRecord(cadre.getId());
                 if (cadreReserve == null) {
-                    msg = "该用户不是后备干部";
+                    msg = "该用户不是优秀年轻干部";
                 } else {
                     resultMap.put("cadreId", cadre.getId());
                     resultMap.put("reserveType", cadreReserve.getType());
@@ -134,11 +134,11 @@ public class CadreReserveController extends BaseController {
             reserveType = new ArrayList<>(cadreReserveTypeMap.keySet()).get(0);
         }
         if (reserveType != null) {
-            // 正常状态的后备干部库，读取指定的类别
+            // 正常状态的优秀年轻干部库，读取指定的类别
             status = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
         }
         if (status != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
-            // 非正常状态的后备干部库，读取全部的类别
+            // 非正常状态的优秀年轻干部库，读取全部的类别
             reserveType = null;
         }
 
@@ -195,11 +195,11 @@ public class CadreReserveController extends BaseController {
             reserveType = new ArrayList<>(cadreReserveTypeMap.keySet()).get(0);
         }
         if (reserveType != null) {
-            // 正常状态的后备干部库，读取指定的类别
+            // 正常状态的优秀年轻干部库，读取指定的类别
             status = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
         }
         if (status != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
-            // 非正常状态的后备干部库，读取全部的类别
+            // 非正常状态的优秀年轻干部库，读取全部的类别
             reserveType = null;
         }
 
@@ -263,7 +263,7 @@ public class CadreReserveController extends BaseController {
     }
 
 
-    // 只有干部库中类型为后备干部时，才可以修改干部库的信息
+    // 只有干部库中类型为优秀年轻干部时，才可以修改干部库的信息
     @RequiresPermissions("cadreReserve:edit")
     @RequestMapping(value = "/cadreReserve_au", method = RequestMethod.POST)
     @ResponseBody
@@ -281,10 +281,10 @@ public class CadreReserveController extends BaseController {
         record.setRemark(reserveRemark);
         if (reserveId == null) {
             cadreReserveService.insertOrUpdateSelective(userId, record, cadreRecord);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加后备干部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加优秀年轻干部：%s", record.getId()));
         } else {
             cadreReserveService.updateByPrimaryKeySelective(record, cadreRecord);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新后备干部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新优秀年轻干部：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -313,7 +313,7 @@ public class CadreReserveController extends BaseController {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除后备干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除优秀年轻干部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -346,7 +346,7 @@ public class CadreReserveController extends BaseController {
         Cadre cadre = cadreReserveService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();
-        logger.info(addLog(LogConstants.LOG_ADMIN, "后备干部列为考察对象：%s-%s", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "优秀年轻干部列为考察对象：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -356,7 +356,7 @@ public class CadreReserveController extends BaseController {
     public Map cadreReserve_abolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
 
         cadreReserveService.abolish(id);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "撤销后备干部：%s", id));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "撤销优秀年轻干部：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -366,7 +366,7 @@ public class CadreReserveController extends BaseController {
     public Map cadreReserve_unAbolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
 
         cadreReserveService.unAbolish(id);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "返回后备干部库：%s", id));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "返回优秀年轻干部库：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -378,7 +378,7 @@ public class CadreReserveController extends BaseController {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已撤销后备干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已撤销优秀年轻干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -390,7 +390,7 @@ public class CadreReserveController extends BaseController {
 
         if (null != ids) {
             cadreReserveService.batchDelPass(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已列为考察对象的后备干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已列为考察对象的优秀年轻干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -401,7 +401,7 @@ public class CadreReserveController extends BaseController {
     public Map do_cadreReserve_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreReserveService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "后备干部调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "优秀年轻干部调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -410,10 +410,10 @@ public class CadreReserveController extends BaseController {
         SXSSFWorkbook wb = cadreReserveExportService.export(reserveType, example);
 
         String cadreReserveType = metaTypeService.getName(reserveType);
-        String fileName = CmTag.getSysConfig().getSchoolName() + "后备干部_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+        String fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
 
         if (cadreReserveType != null)
-            fileName = CmTag.getSysConfig().getSchoolName() + "后备干部（" + cadreReserveType + "）_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+            fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部（" + cadreReserveType + "）_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
 
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }

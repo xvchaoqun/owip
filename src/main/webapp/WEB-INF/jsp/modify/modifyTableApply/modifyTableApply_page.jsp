@@ -99,7 +99,7 @@
             {
                 label: '修改方式', name: 'type', formatter: function (cellvalue, options, rowObject) {
 
-                if (cellvalue == undefined) return ''
+                if (cellvalue == undefined) return '--'
                 return _cMap.MODIFY_TABLE_APPLY_TYPE_MAP[cellvalue];
             }
             },
@@ -124,14 +124,14 @@
 
             {
                 label: '审核状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return ''
+                if (cellvalue == undefined) return '--'
                 return _cMap.MODIFY_TABLE_APPLY_STATUS_MAP[cellvalue];
             }
             },
             <c:if test="${cls==1}">
             {
                 label: '操作', name: '_check', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.userId != '${_user.id}') return ''
+                if (rowObject.userId != '${_user.id}') return '--'
                 return '<button data-url="${ctx}/user/modifyTableApply_back?id={0}" data-msg="确定撤销申请？" data-callback="_reload" class="confirm btn btn-danger btn-xs">'
                                 .format(rowObject.id)
                         + '<i class="fa fa-times"></i> 撤销</button>'

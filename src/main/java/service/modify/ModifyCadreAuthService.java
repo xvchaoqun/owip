@@ -59,7 +59,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         Map<Integer, List<Cadre>> postIdCadresMap = new LinkedHashMap<>();
         // 考察对象
         List<Cadre> inspectCadres = new ArrayList<>();
-        // 类别-后备干部库
+        // 类别-优秀年轻干部库
         Map<Integer, List<Cadre>> typeReserveCadresMap = new LinkedHashMap<>();
         Map<Integer, MetaType> cadreReserveTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
         for (Map.Entry<Integer, MetaType> entry : cadreReserveTypeMap.entrySet()) {

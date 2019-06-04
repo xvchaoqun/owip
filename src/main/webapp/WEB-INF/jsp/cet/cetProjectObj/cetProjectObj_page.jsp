@@ -62,17 +62,17 @@
                 data-grid-id="#jqGrid2"
                 data-id-name="objId"
                  data-callback="_callback2"
-                data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
+                data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中..."
                 class="jqItemBtn btn btn-warning btn-sm">
             <i class="fa fa-refresh"></i> 刷新培训学时
         </button>
 
         <button data-url="${ctx}/cet/cetProjectObj_syncTraineeInfo?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"
                 data-title="同步学员信息"
-                data-msg="确定同步学员信息？"
+                data-msg="确定同步学员信息？<br/>（同步最新的行政级别、党派等信息）"
                 data-need-id="false"
                 data-callback="_callback2"
-                data-loading-text="<i class='fa fa-spinner fa-spin'></i> 同步中，请稍后..."
+                data-loading-text="<i class='fa fa-spinner fa-spin'></i> 同步中..."
                 class="jqItemBtn btn btn-warning btn-sm">
             <i class="fa fa-refresh"></i> 同步学员信息
         </button>
@@ -642,11 +642,13 @@
                 return rowObject.objInfo.isFinished?${cetDiscuss.period}:0
             }, frozen: true},
             </c:if>
-            {label: '工作证号', name: 'code', width: 110, frozen: true},
-            {label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
+            {label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue, "_blank");
 
             }, frozen: true},
+
+            <c:if test="${cetTraineeType.code=='t_cadre'||cetTraineeType.code=='t_reserve'}">
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
@@ -658,7 +660,77 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
-             <c:if test="${cls==1}">
+            </c:if>
+            <c:if test="${cetTraineeType.code=='t_party_member'}">
+             {
+                label: '所在党组织',
+                name: 'partyId',
+                align: 'left',
+                width: 550,
+                formatter: function (cellvalue, options, rowObject) {
+                    return $.party(rowObject.partyId, rowObject.branchId);
+                }
+            },
+            {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
+            {
+                label: '分工', name: 'partyTypeIds', width: 300, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '--';
+                var typeIdStrs = [];
+                var typeIds = cellvalue.split(",");
+                for(i in typeIds){
+                    var typeId = typeIds[i];
+                    //console.log(typeId)
+                    if(typeId instanceof Function == false)
+                        typeIdStrs.push($.jgrid.formatter.MetaType(typeId));
+                }
+                //console.log(typeIdStrs)
+                return typeIdStrs.join(",");
+            }
+            },
+            {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            </c:if>
+            <c:if test="${cetTraineeType.code=='t_branch_member'}">
+             {
+                label: '所在党组织',
+                name: 'partyId',
+                align: 'left',
+                width: 550,
+                formatter: function (cellvalue, options, rowObject) {
+                    return $.party(rowObject.partyId, rowObject.branchId);
+                }
+            },
+            {label: '类别', name: 'branchTypeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            </c:if>
+            <c:if test="${cetTraineeType.code=='t_organizer'}">
+            { label: '组织员类别', name: 'organizerType', width: 150, formatter:function(cellvalue, options, rowObject){
+                return _cMap.OW_ORGANIZER_TYPE_MAP[cellvalue];
+            }},
+            { label: '联系单位',name: 'organizerUnits', align:'left', formatter: function (cellvalue, options, rowObject) {
+                    if($.trim(cellvalue)=='') return'--'
+                        return ($.map(cellvalue.split(","), function(u){
+                            return u.split("|")[0];
+                        })).join("、")
+                    }, width:700},
+            { label: '联系${_p_partyName}', name: 'organizerPartyId',align:'left', width: 350, formatter:function(cellvalue, options, rowObject){
+                return $.party(rowObject.organizerPartyId);
+            }},
+            {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            </c:if>
+            <c:if test="${cetTraineeType.code=='t_activist'}">
+             {
+                label: '联系党组织',
+                name: 'partyId',
+                align: 'left',
+                width: 550,
+                formatter: function (cellvalue, options, rowObject) {
+                    return $.party(rowObject.partyId, rowObject.branchId);
+                }
+            },
+            {label: '成为积极分子时间', name: 'activeTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            </c:if>
+
+            <c:if test="${cls==1}">
             {label: '应完成学时数', name: 'shouldFinishPeriod', width: 110, frozen: true},
             {label: '已完成学时数', name: 'finishPeriod', width: 110},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
@@ -671,14 +743,7 @@
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
             </c:if>
             {label: '联系方式', name: 'mobile', width: 120},
-            {label: '电子邮箱', name: 'email', width: 250},
-            /*,
-            {label: '是否达到结业要求', name: '_enough', width: 150, formatter: function (cellvalue, options, rowObject) {
-
-                if(isNaN(requirePeriod) || requirePeriod<=0) return '--';
-                return rowObject.finishPeriod/requirePeriod >= 0.9?"<span class='text-success'>达到</span>"
-                        :"<span class='text-danger'>未达到</span>";
-            }}*/
+            {label: '电子邮箱', name: 'email', width: 250}
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);

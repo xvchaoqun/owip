@@ -115,10 +115,10 @@
 
             {
                 label: '干部任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '--'
                 var count = cellvalue.length;
                 <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
-                if(count==0) return ''
+                if(count==0) return '--'
                 </shiro:lacksPermission>
                 return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
                 ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
@@ -199,10 +199,10 @@
                     label: '干部任免文件',
                     name: 'dispatchCadreRelates',
                     formatter: function (cellvalue, options, rowObject) {
-                        if(cellvalue==undefined) return ''
+                        if(cellvalue==undefined) return '--'
                         var count = cellvalue.length;
                         <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
-                        if(count==0) return ''
+                        if(count==0) return '--'
                         </shiro:lacksPermission>
                         return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
                         ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});

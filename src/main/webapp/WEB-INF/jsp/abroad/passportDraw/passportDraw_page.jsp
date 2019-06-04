@@ -539,7 +539,7 @@
                         return ret;
                     }
 
-                    if (cellvalue == undefined) return ''
+                    if (cellvalue == undefined) return '--'
 
                     return $.date(cellvalue, "yyyy-MM-dd");
                 }

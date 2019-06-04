@@ -94,7 +94,7 @@
             {label: '发生时间', name: 'triggerTime', width: 160},
             {
                 label: '执行状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return ''
+                    if (cellvalue == undefined) return '--'
                     return _cMap.SCHEDULER_JOB_MAP[cellvalue];
                 }
             },

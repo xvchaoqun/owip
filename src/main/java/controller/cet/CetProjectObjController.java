@@ -3,6 +3,7 @@ package controller.cet;
 import bean.UserBean;
 import bean.XlsUpload;
 import domain.cet.*;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -89,6 +90,8 @@ public class CetProjectObjController extends CetBaseController {
             traineeTypeId = cetTraineeTypes.get(0).getId();
         }
         modelMap.put("traineeTypeId", traineeTypeId);
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
+        modelMap.put("cetTraineeType", cetTraineeType);
 
         if (planCourseId != null) {
             CetPlanCourse cetPlanCourse = cetPlanCourseMapper.selectByPrimaryKey(planCourseId);
@@ -169,8 +172,8 @@ public class CetProjectObjController extends CetBaseController {
             finishUserIds = iCetMapper.finishUserIds(planCourseId, isFinish);
         }
 
-        CetProjectObjViewExample example = new CetProjectObjViewExample();
-        CetProjectObjViewExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId)
+        CetProjectObjExample example = new CetProjectObjExample();
+        CetProjectObjExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId)
                 .andTraineeTypeIdEqualTo(traineeTypeId);
         example.setOrderByClause("id asc");
 
@@ -241,21 +244,22 @@ public class CetProjectObjController extends CetBaseController {
             criteria.andUserIdEqualTo(userId);
         }
 
-        List<CetProjectObjView> records;
+        List<CetProjectObj> records;
         if (export == 1) {
 
             criteria.andWriteFilePathIsNotNull();
-            records = cetProjectObjViewMapper.selectByExample(example);
+            records = cetProjectObjMapper.selectByExample(example);
 
             CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
             Map<String, File> fileMap = new LinkedHashMap<>();
             for (Object record : records) {
 
-                CetProjectObjView obj = (CetProjectObjView) record;
+                CetProjectObj obj = (CetProjectObj) record;
                 String writeFilePath = obj.getWriteFilePath();
-                String realname = obj.getRealname();
+                SysUserView uv = obj.getUser();
+                String realname = uv.getRealname();
 
-                fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(writeFilePath),
+                fileMap.put(realname + "(" + uv.getCode() + ")" + FileUtils.getExtention(writeFilePath),
                         new File(springProps.uploadPath + writeFilePath));
             }
             DownloadUtils.addFileDownloadCookieHeader(response);
@@ -266,12 +270,12 @@ public class CetProjectObjController extends CetBaseController {
             return;
         }
 
-        int count = (int) cetProjectObjViewMapper.countByExample(example);
+        int count = (int) cetProjectObjMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        records = cetProjectObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        records = cetProjectObjMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         int total = commonList.pageNum;
 
@@ -523,6 +527,20 @@ public class CetProjectObjController extends CetBaseController {
     }
 
     @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_selectOrganizers_tree")
+    @ResponseBody
+    public Map cetProjectObj_selectOrganizers_tree(int projectId, int traineeTypeId) throws IOException {
+
+        Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
+
+        TreeNode tree = organizerService.getTree(selectIdSet);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping("/cetProjectObj_selectActivists_tree")
     @ResponseBody
     public Map cetProjectObj_selectActivists_tree(int projectId, int traineeTypeId) throws IOException {
@@ -641,7 +659,6 @@ public class CetProjectObjController extends CetBaseController {
     @ResponseBody
     public Map cetProjectObj_clearWrite(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length > 0) {
             cetProjectObjService.clearWrite(ids);
             logger.info(addLog(LogConstants.LOG_CET, "批量删除心得体会：%s", StringUtils.join(ids, ",")));
@@ -665,33 +682,25 @@ public class CetProjectObjController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetProjectObjViewExample example = new CetProjectObjViewExample();
-        //example.setOrderByClause("create_time desc");
-        if (StringUtils.isNotBlank(searchStr)) {
-            example.or().andProjectIdEqualTo(projectId).andUsernameLike(searchStr.trim() + "%");
-            example.or().andProjectIdEqualTo(projectId).andCodeLike(searchStr.trim() + "%");
-            example.or().andProjectIdEqualTo(projectId).andRealnameLike(searchStr.trim() + "%");
-        } else {
-            example.createCriteria().andProjectIdEqualTo(projectId);
-        }
 
-        long count = cetProjectObjViewMapper.countByExample(example);
+        long count = iCetMapper.countObjList(projectId, searchStr);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetProjectObjView> ovs = cetProjectObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetProjectObj> objs = iCetMapper.selectObjList(projectId, searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
     
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
-        if (null != ovs && ovs.size() > 0) {
-            for (CetProjectObjView ov : ovs) {
+        if (null != objs && objs.size() > 0) {
 
+            for (CetProjectObj obj : objs) {
+                SysUserView uv = obj.getUser();
                 Map<String, Object> option = new HashMap<>();
-                option.put("id", ov.getUserId() + "");
-                option.put("text", ov.getRealname());
-                UserBean userBean = userBeanService.get(ov.getUserId());
+                option.put("id", obj.getUserId() + "");
+                option.put("text", uv.getRealname());
+                UserBean userBean = userBeanService.get(obj.getUserId());
                 option.put("user", userBean);
-                option.put("code", ov.getCode());
+                option.put("code", uv.getCode());
                 option.put("unit", userBean.getUnit());
                 options.add(option);
             }

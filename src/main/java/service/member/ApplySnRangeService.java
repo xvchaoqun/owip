@@ -148,13 +148,9 @@ public class ApplySnRangeService extends MemberBaseMapper {
     // 用于更新编码端使用情况
     @Transactional
     @CacheEvict(value = "ApplySnRange", key = "#rangeId")
-    public void updateUseCount(int rangeId, int useCount){
+    public void updateCount(int rangeId){
 
-        ApplySnRange record = new ApplySnRange();
-        record.setId(rangeId);
-        record.setUseCount(useCount);
-
-        applySnRangeMapper.updateByPrimaryKeySelective(record);
+        iMemberMapper.updateApplySnRangeCount(rangeId);
     }
 
     @CacheEvict(value = "ApplySnRange", allEntries = true)

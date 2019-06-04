@@ -74,7 +74,7 @@ public class CadreService extends BaseMapper {
                     + "已经在" + CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
         }
 
-        if (id == null && count == 0) { // 新添加干部的时候，判断一下是否在后备干部库或考察对象库中
+        if (id == null && count == 0) { // 新添加干部的时候，判断一下是否在优秀年轻干部库或考察对象库中
             CadreView cadre = dbFindByUserId(userId);
             if (cadre != null) {
                 Integer cadreId = cadre.getId();
@@ -84,12 +84,12 @@ public class CadreService extends BaseMapper {
                 }
 
                 if (cadreReserveService.getNormalRecord(cadreId) != null) {
-                    throw new OpException(realname + "已经是后备干部");
+                    throw new OpException(realname + "已经是优秀年轻干部");
                 }
 
                 // 此种情况应该不可能发生，上面的考察对象已经检查过了
                 if (cadreReserveService.getFromTempRecord(cadreId) != null) {
-                    throw new OpException(realname + "已经列为考察对象[后备干部]");
+                    throw new OpException(realname + "已经列为考察对象[优秀年轻干部]");
                 }
             }
         }
@@ -270,7 +270,7 @@ public class CadreService extends BaseMapper {
         directAddCheck(null, userId);
 
         Assert.isTrue(record.getStatus() != null && record.getStatus() != CadreConstants.CADRE_STATUS_RESERVE
-                && record.getStatus() != CadreConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
+                && record.getStatus() != CadreConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非优秀年轻干部、考察对象
 
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + record.getStatus()));
         CadreView cadre = dbFindByUserId(userId);
@@ -278,7 +278,7 @@ public class CadreService extends BaseMapper {
             //if(record.getStatus()!=null)
             cadreMapper.insertSelective(record);
         } else {
-            // 考察对象或后备干部被撤销时，干部信息仍然在库中，现在是覆盖更新
+            // 考察对象或优秀年轻干部被撤销时，干部信息仍然在库中，现在是覆盖更新
             record.setId(cadre.getId());
             cadreMapper.updateByPrimaryKeySelective(record);
         }
@@ -345,7 +345,7 @@ public class CadreService extends BaseMapper {
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
             Assert.isTrue(cadre.getStatus() != CadreConstants.CADRE_STATUS_RESERVE
-                    && cadre.getStatus() != CadreConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
+                    && cadre.getStatus() != CadreConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非优秀年轻干部、考察对象
 
             cadreMapper.deleteByPrimaryKey(id);
 
@@ -455,7 +455,7 @@ public class CadreService extends BaseMapper {
         return cadreMapper.updateByExampleSelective(record, example);
     }
 
-    // 干部列表（包含后备干部、考察对象）
+    // 干部列表（包含优秀年轻干部、考察对象）
     @Cacheable(value = "Cadre:ALL")
     public Map<Integer, CadreView> findAll() {
 

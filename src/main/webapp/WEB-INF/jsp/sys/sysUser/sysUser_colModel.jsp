@@ -11,7 +11,7 @@
                 return $.user(rowObject.id, cellvalue);
             },frozen:true  },
         { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
-                if($.trim(rowObject.username)=='') return ''
+                if($.trim(rowObject.username)=='') return '--'
                 var avatar = $.trim(rowObject.avatar)
                 <shiro:hasPermission name="profile:updateAvatar">
                 var html ='<img title="点击修改头像" src="${ctx}/avatar?path={0}&_={1}"'

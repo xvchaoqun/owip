@@ -52,7 +52,7 @@
     url: "${ctx}/cla/claApplyModify_data?callback=?&applyId=${param.applyId}",
     colModel: [
       { label: '操作', name: 'modifyType', width: 150,formatter:function(cellvalue, options, rowObject){
-        if(cellvalue==undefined) return ''
+        if(cellvalue==undefined) return '--'
         return _cMap.CLA_APPLY_MODIFY_TYPE_MAP[cellvalue];
       }, frozen:true },
       { label: '操作人', name: 'modifyUser.realname', width: 150, frozen:true},

@@ -14,9 +14,11 @@ import org.springframework.util.Assert;
 import service.LoginUserService;
 import service.party.MemberService;
 import service.party.PartyService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
@@ -29,6 +31,8 @@ public class MemberQuitService extends MemberBaseMapper {
     private MemberService memberService;
     @Autowired
     private PartyService partyService;
+    @Autowired
+    private SysUserService sysUserService;
 
     @Autowired
     private EnterApplyService enterApplyService;
@@ -60,6 +64,8 @@ public class MemberQuitService extends MemberBaseMapper {
             criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
         } else if(type==3){ //组织部审核
             criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
+        }else if(type==4){ //完成审核
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -203,7 +209,7 @@ public class MemberQuitService extends MemberBaseMapper {
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
-        quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+        quit(userId, MemberConstants.MEMBER_STATUS_QUIT);
     }
     
     @Transactional
@@ -337,5 +343,27 @@ public class MemberQuitService extends MemberBaseMapper {
 
         // 更新系统角色  党员->访客
         enterApplyService.changeRoleMemberToGuest(userId);
+    }
+
+     // 撤销已减员记录
+    @Transactional
+    public void memberQuit_abolish(Integer[] userIds){
+
+        for (int userId : userIds) {
+
+            Member record = new Member();
+            record.setUserId(userId);
+            record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
+            //record.setBranchId(member.getBranchId());
+            memberService.updateByPrimaryKeySelective(record);
+
+            // 删除减员记录
+            memberQuitMapper.deleteByPrimaryKey(userId);
+
+            // 更新系统角色  访客->党员
+            sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
+
+            memberService.addModify(userId, "撤销减员");
+        }
     }
 }

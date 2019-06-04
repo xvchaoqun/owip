@@ -26,13 +26,13 @@
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=11"}><i class="fa fa-circle-o"></i> ${_p_partyName}审核<c:if test="${partyApprovalCount>0}">（${partyApprovalCount}）</c:if> </a>
                         </li>
                         <li class="${cls==12?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=12"}><i class="fa fa-circle-o"></i> 组织部审核<c:if test="${odApprovalCount>0}">（${odApprovalCount}）</c:if> </a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=12"}><i class="fa fa-circle-o"></i> 组织部审核<c:if test="${odApprovalCount>0}">（${odApprovalCount}）</c:if></a>
                         </li>
                         <li class="${cls==2?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=2"}><i class="fa fa-times"></i> 未通过/已撤销</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberQuit?cls=3"}><i class="fa fa-check"></i> 已完成审批<c:if test="${hasApprovalCount>0}">（${hasApprovalCount}）</c:if></a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -85,6 +85,17 @@
                                                 data-count="${odApprovalCount}">
                                             <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）
                                         </button>
+                                </c:if>
+                                <c:if test="${cls==3}">
+                                    <shiro:hasRole name="${ROLE_ODADMIN}">
+                                        <button data-url="${ctx}/memberQuit_abolish"
+                                                data-title="撤销减员"
+                                                data-msg="确定撤销减员？<br/>（已选{0}条数据，撤销后相关审批记录将删除，所选党员将重新返回党员库）"
+                                                data-grid-id="#jqGrid"
+                                                class="jqBatchBtn btn btn-danger btn-sm">
+                                            <i class="fa fa-reply"></i> 撤销减员
+                                        </button>
+                                    </shiro:hasRole>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"

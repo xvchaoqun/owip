@@ -17,6 +17,8 @@ public class ApplySnRange implements Serializable {
 
     private Integer useCount;
 
+    private Integer abolishCount;
+
     private Integer sortOrder;
 
     private String remark;
@@ -77,6 +79,14 @@ public class ApplySnRange implements Serializable {
 
     public void setUseCount(Integer useCount) {
         this.useCount = useCount;
+    }
+
+    public Integer getAbolishCount() {
+        return abolishCount;
+    }
+
+    public void setAbolishCount(Integer abolishCount) {
+        this.abolishCount = abolishCount;
     }
 
     public Integer getSortOrder() {

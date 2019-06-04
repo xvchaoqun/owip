@@ -3,18 +3,32 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
         <div id="body-content" class="myTableDiv"
+             data-url-page="${ctx}/branchMemberGroup?status=${status}"
              data-url-export="${ctx}/branchMember_data?isDeleted=0&isPresent=1"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.partyId
-                ||not empty param.postId || not empty param.typeIds}"/>
+                <c:set var="_query" value="${not empty param.userId||not empty param.partyId
+                || not empty param.typeId}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
 
                     <div class="tab-content">
                         <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
+                    <shiro:hasPermission name="branchMember:edit">
+                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/branchMember_au"><i class="fa fa-edit"></i>
+                        修改</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="branchMember:del">
+                    <button data-url="${ctx}/branchMember_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
+
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                 </div>
@@ -30,7 +44,7 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
-                                <input type="hidden" name="status" value="${status}">
+
                                 <div class="form-group">
                                     <label>姓名</label>
                                     <div class="input-group">
@@ -41,15 +55,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>所属单位</label>
-                                    <select name="unitId" data-rel="select2" data-placeholder="请选择"> 
-                                        <option></option>
-                                          <c:forEach items="${unitMap}" var="unit"> 
-                                            <option value="${unit.key}">${unit.value.name}</option>
-                                              </c:forEach>  </select> 
-                                    <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
-                                </div>
+
                                     <div class="form-group">
                                         <label>所属${_p_partyName}</label>
                                         <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
@@ -61,20 +67,15 @@
                                         </script>
                                     </div>
                                 <div class="form-group">
-                                    <label>职务</label>
-                                    <select name="postId" data-rel="select2" data-placeholder="请选择"> 
+                                    <label>类别</label>
+                                    <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
                                         <option></option>
-                                         <c:import url="/metaTypes?__code=mc_party_member_post"/>
+                                         <c:import url="/metaTypes?__code=mc_branch_member_type"/>
                                     </select> 
-                                    <script>         $("#searchForm select[name=postId]").val('${param.postId}');     </script>
+                                    <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
                                      
                                 </div>
-                                <div class="form-group">
-                                    <label>分工</label>
-                                    <select name="typeIds" class="multiselect" multiple="" data-placeholder="请选择"> 
-                                          <c:import url="/metaTypes?__code=mc_party_member_type"/>
-                                    </select> 
-                                </div>
+
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 

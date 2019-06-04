@@ -154,7 +154,7 @@ pageEncoding="UTF-8" %>
             }},
             </shiro:hasPermission>
             {label: '是否关闭评课', name: 'evaClosed', width:110, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '--'
                 return cellvalue?"是":"否"
             }},
             {label: '评课关闭时间', name: 'evaCloseTime', width: 150, formatter: function (cellvalue, options, rowObject) {

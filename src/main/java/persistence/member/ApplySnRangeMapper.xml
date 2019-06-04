@@ -9,6 +9,7 @@
     <result column="end_sn" jdbcType="BIGINT" property="endSn" />
     <result column="len" jdbcType="INTEGER" property="len" />
     <result column="use_count" jdbcType="INTEGER" property="useCount" />
+    <result column="abolish_count" jdbcType="INTEGER" property="abolishCount" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, prefix, start_sn, end_sn, len, use_count, sort_order, remark
+    id, year, prefix, start_sn, end_sn, len, use_count, abolish_count, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.member.ApplySnRangeExample" resultMap="BaseResultMap">
     select
@@ -109,10 +110,12 @@
     </selectKey>
     insert into ow_apply_sn_range (year, prefix, start_sn, 
       end_sn, len, use_count, 
-      sort_order, remark)
+      abolish_count, sort_order, remark
+      )
     values (#{year,jdbcType=INTEGER}, #{prefix,jdbcType=VARCHAR}, #{startSn,jdbcType=BIGINT}, 
       #{endSn,jdbcType=BIGINT}, #{len,jdbcType=INTEGER}, #{useCount,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{abolishCount,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.ApplySnRange">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -137,6 +140,9 @@
       </if>
       <if test="useCount != null">
         use_count,
+      </if>
+      <if test="abolishCount != null">
+        abolish_count,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -163,6 +169,9 @@
       </if>
       <if test="useCount != null">
         #{useCount,jdbcType=INTEGER},
+      </if>
+      <if test="abolishCount != null">
+        #{abolishCount,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -202,6 +211,9 @@
       <if test="record.useCount != null">
         use_count = #{record.useCount,jdbcType=INTEGER},
       </if>
+      <if test="record.abolishCount != null">
+        abolish_count = #{record.abolishCount,jdbcType=INTEGER},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -222,6 +234,7 @@
       end_sn = #{record.endSn,jdbcType=BIGINT},
       len = #{record.len,jdbcType=INTEGER},
       use_count = #{record.useCount,jdbcType=INTEGER},
+      abolish_count = #{record.abolishCount,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -249,6 +262,9 @@
       <if test="useCount != null">
         use_count = #{useCount,jdbcType=INTEGER},
       </if>
+      <if test="abolishCount != null">
+        abolish_count = #{abolishCount,jdbcType=INTEGER},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -266,6 +282,7 @@
       end_sn = #{endSn,jdbcType=BIGINT},
       len = #{len,jdbcType=INTEGER},
       use_count = #{useCount,jdbcType=INTEGER},
+      abolish_count = #{abolishCount,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

@@ -90,7 +90,7 @@
             {label: '开始时间', name: 'startTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
             {label: '结束时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isGlobal) return '--'
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '--'
                 return cellvalue.substr(0,16);
             }},
             {

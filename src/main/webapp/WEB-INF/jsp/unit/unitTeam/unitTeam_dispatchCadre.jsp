@@ -100,7 +100,7 @@ pageEncoding="UTF-8"%>
             { label:'干部类型', name: 'cadreTypeId', width: 80, formatter: $.jgrid.formatter.MetaType},
             { label:'工作证号', name: 'user.code'},
             { label:'姓名', name: 'user.realname', width: 90, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cadre==undefined) return ''
+                if(rowObject.cadre==undefined) return '--'
                 return $.cadre(rowObject.cadre.id, cellvalue, '_blank');
             }},
             { label:'任免职务', name: 'post', width: 150, cellattr: function (rowId, val, rowObject, cm, rdata) {

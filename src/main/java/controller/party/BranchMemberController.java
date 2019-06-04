@@ -160,12 +160,15 @@ public class BranchMemberController extends BaseController {
 
     @RequiresPermissions("branchMember:edit")
     @RequestMapping("/branchMember_au")
-    public String branchMember_au(Integer id, ModelMap modelMap) {
+    public String branchMember_au(Integer id, Integer groupId, ModelMap modelMap) {
 
         if (id != null) {
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
             modelMap.put("branchMember", branchMember);
+            groupId = branchMember.getGroupId();
         }
+        modelMap.put("groupId", groupId);
+
         return "party/branchMember/branchMember_au";
     }
 

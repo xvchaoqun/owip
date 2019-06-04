@@ -1,6 +1,6 @@
 package domain.cet;
 
-import domain.cadre.CadreView;
+import persistence.cet.CetProjectObjMapper;
 import persistence.cet.CetTrainMapper;
 import sys.tags.CmTag;
 
@@ -16,9 +16,11 @@ public class CetTraineeView implements Serializable {
         return cetTrainMapper.selectByPrimaryKey(trainId);
     }
 
-    public CadreView getCadre(){
+    public CetProjectObj getObj(){
 
-        return CmTag.getCadreByUserId(userId);
+        if(objId==null) return null;
+        CetProjectObjMapper cetProjectObjMapper = CmTag.getBean(CetProjectObjMapper.class);
+        return cetProjectObjMapper.selectByPrimaryKey(objId);
     }
 
     private Integer id;

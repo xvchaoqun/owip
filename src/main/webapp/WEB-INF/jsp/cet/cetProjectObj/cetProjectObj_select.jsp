@@ -7,7 +7,9 @@
   </div>
   <div class="modal-body">
   <form class="form-horizontal"  action="${ctx}/cet/cetProjectObj_add" autocomplete="off" disableautocomplete id="modalForm" method="post">
-  <div id="tree3" style="min-height: 400px"></div>
+  <div id="tree3" style="min-height: 400px">
+      <div class="block-loading"/>
+  </div>
   </form>
   </div>
   <div class="modal-footer">
@@ -32,7 +34,7 @@
           <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectBranchMembers_tree"/>
       </c:when>
       <c:when test="${cetTraineeType.code=='t_organizer'}">
-          <c:set var="selectTreeURL" value=""/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectOrganizers_tree"/>
       </c:when>
       <c:when test="${cetTraineeType.code=='t_activist'}">
           <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectActivists_tree"/>

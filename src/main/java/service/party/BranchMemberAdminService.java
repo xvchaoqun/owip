@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.RoleConstants;
@@ -34,7 +35,7 @@ public class BranchMemberAdminService extends BaseMapper {
     @CacheEvict(value="AdminBranchIdList", key = "#branchMember.userId")
     public void toggleAdmin(BranchMember branchMember) {
 
-        org.eclipse.jdt.internal.core.Assert.isTrue(branchMember != null && branchMember.getId() != null
+        Assert.isTrue(branchMember != null && branchMember.getId() != null
                 && branchMember.getIsAdmin() != null && branchMember.getUserId() != null && branchMember.getGroupId() != null);
 
         BranchMember record = new BranchMember();

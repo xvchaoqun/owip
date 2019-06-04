@@ -67,7 +67,7 @@
         colModel: [
             {label: '集中保管日期', name: 'keepDate', width: 120, formatter:function(cellvalue, options, rowObject){
                 if(!rowObject.isExist) return '--'
-                if($.trim(cellvalue)=='') return ''
+                if($.trim(cellvalue)=='') return '--'
                 return $.date(cellvalue, "yyyy-MM-dd")
             }},
             { label: '证件名称', name: 'classId', width: 200, formatter:$.jgrid.formatter.MetaType },
@@ -77,7 +77,7 @@
             }},
             { label: '证件首页', name: '_pic', width: 80, formatter:function(cellvalue, options, rowObject){
                 if(!rowObject.isExist) return '--'
-                if($.trim(rowObject.pic)=='') return ''
+                if($.trim(rowObject.pic)=='') return '--'
                 return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
                         .format(encodeURI(rowObject.pic), rowObject.code + ".jpg");
             } },
@@ -87,12 +87,12 @@
             }},
             { label:'发证日期', name: 'issueDate', formatter:function(cellvalue, options, rowObject){
                 if(!rowObject.isExist) return '--'
-                if($.trim(cellvalue)=='') return ''
+                if($.trim(cellvalue)=='') return '--'
                 return $.date(cellvalue, "yyyy-MM-dd")
             }},
             { label:'有效期', name: 'expiryDate', formatter:function(cellvalue, options, rowObject){
                 if(!rowObject.isExist) return '--'
-                if($.trim(cellvalue)=='') return ''
+                if($.trim(cellvalue)=='') return '--'
                 return $.date(cellvalue, "yyyy-MM-dd")
             } },
             { label:'存放保险柜', name: 'safeBox.code', width: 130, formatter:function(cellvalue, options, rowObject){

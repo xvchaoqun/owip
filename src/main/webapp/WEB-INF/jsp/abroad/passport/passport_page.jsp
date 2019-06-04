@@ -282,7 +282,7 @@ pageEncoding="UTF-8" %>
                 return ret;
             }  },
             { label:'状态', name: 'cancelConfirm', formatter:function(cellvalue){
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '--'
                 return cellvalue?"已确认":"未确认";
             } },
             </c:if>

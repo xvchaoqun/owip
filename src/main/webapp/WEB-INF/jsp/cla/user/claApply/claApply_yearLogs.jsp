@@ -69,10 +69,10 @@
                 })(tdBean);
             }},
             { label:'备注', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
-                if(rowObject.usePassport==undefined) return "";
+                if(rowObject.usePassport==undefined) return "--";
                 if(rowObject.usePassport==0)
                     return "取消行程，未持证件出国（境）";
-                return ""
+                return "--"
             }}
         ]
     });

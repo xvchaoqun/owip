@@ -102,7 +102,7 @@ public class CadreConstants {
 
     }
 
-    // 后备干部产生方式 1 学校党委推荐、 2 学校组织部门推荐、 3 所在单位推荐、4 所在基层党组织推荐
+    // 优秀年轻干部产生方式 1 学校党委推荐、 2 学校组织部门推荐、 3 所在单位推荐、4 所在基层党组织推荐
     public final static byte CADRE_RESERVE_ORIGIN_WAY_XXDWTJ = 1;
     public final static byte CADRE_RESERVE_ORIGIN_WAY_ZZBTJ = 2;
     public final static byte CADRE_RESERVE_ORIGIN_WAY_SZDWTJ = 3;
@@ -116,7 +116,7 @@ public class CadreConstants {
         CADRE_RESERVE_ORIGIN_WAY_MAP.put(CADRE_RESERVE_ORIGIN_WAY_DZZTJ, "所在基层党组织推荐");
     }
 
-    // 后备干部库状态
+    // 优秀年轻干部库状态
     public final static byte CADRE_RESERVE_STATUS_NORMAL = 1;
     public final static byte CADRE_RESERVE_STATUS_TO_INSPECT = 2;
     public final static byte CADRE_RESERVE_STATUS_ASSIGN = 3;
@@ -124,9 +124,9 @@ public class CadreConstants {
     public final static Map<Byte, String> CADRE_RESERVE_STATUS_MAP = new LinkedHashMap<>();
 
     static {
-        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_NORMAL, "后备干部");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_NORMAL, "优秀年轻干部");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_TO_INSPECT, "已列为考察对象");
-        //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "后备干部已使用");
+        //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "优秀年轻干部已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ABOLISH, "已撤销资格");
     }
@@ -140,7 +140,7 @@ public class CadreConstants {
     static {
         CADRE_AD_LOG_MODULE_MAP.put(CADRE_AD_LOG_MODULE_CADRE, "干部库");
         CADRE_AD_LOG_MODULE_MAP.put(CADRE_AD_LOG_MODULE_INSPECT, "考察对象");
-        CADRE_AD_LOG_MODULE_MAP.put(CADRE_AD_LOG_MODULE_RESERVE, "后备干部");
+        CADRE_AD_LOG_MODULE_MAP.put(CADRE_AD_LOG_MODULE_RESERVE, "优秀年轻干部");
     }
 
     // 考察对象类别，保留字段

@@ -60,6 +60,7 @@ public class PartyMemberGroupController extends BaseController {
     @RequestMapping("/partyMemberGroup")
     public String partyMemberGroup(@RequestParam(required = false, defaultValue = "1") Byte status,
                                    Integer partyId,
+                                   Integer userId,
                                    @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
                                    ModelMap modelMap) {
 
@@ -68,7 +69,9 @@ public class PartyMemberGroupController extends BaseController {
         if (partyId != null) {
             modelMap.put("party", partyService.findAll().get(partyId));
         }
-
+        if (userId != null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
         if (status == 2) {
             if (typeIds != null) {
                 List<Integer> _typeIds = Arrays.asList(typeIds);
@@ -110,10 +113,10 @@ public class PartyMemberGroupController extends BaseController {
 
             //if (!ShiroHelper.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的
 
-                List<Integer> partyIdList = loginUserService.adminPartyIdList();
-                if (partyIdList.size() > 0)
-                    criteria.andPartyIdIn(partyIdList);
-                else criteria.andPartyIdIsNull();
+            List<Integer> partyIdList = loginUserService.adminPartyIdList();
+            if (partyIdList.size() > 0)
+                criteria.andPartyIdIn(partyIdList);
+            else criteria.andPartyIdIsNull();
             //}
         }
 
@@ -328,7 +331,7 @@ public class PartyMemberGroupController extends BaseController {
     @RequestMapping(value = "/partyMemberGroup_realDel", method = RequestMethod.POST)
     @ResponseBody
     public Map partyMemberGroup_realDel(HttpServletRequest request,
-                                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             partyMemberGroupService.realDel(ids);

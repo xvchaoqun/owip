@@ -113,12 +113,13 @@
                 return $.trim(rowObject.prefix) + cellvalue.zfill(rowObject.len);
             }},
 
-            {label: '编码总数', name: '_total', formatter:function(cellvalue, options, rowObject){
+            {label: '编码总数', name: '_total', width: 90, formatter:function(cellvalue, options, rowObject){
                   return rowObject.endSn - rowObject.startSn + 1;
             }},
-            {label: '已使用数量<br/>（含已作废）', name: 'useCount'},
-            {label: '剩余数量', name: '_total', formatter:function(cellvalue, options, rowObject){
-                  return rowObject.endSn - rowObject.startSn + 1 - rowObject.useCount;
+            {label: '已使用<br/>数量', name: 'useCount', width: 90},
+            {label: '已作废<br/>数量', name: 'abolishCount', width: 90},
+            {label: '剩余数量', name: '_total', width: 90, formatter:function(cellvalue, options, rowObject){
+                  return rowObject.endSn - rowObject.startSn + 1 - rowObject.useCount - rowObject.abolishCount;
             }},
             {label: '备注', name: 'remark', align:'left', width: 380}
         ]

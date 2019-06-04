@@ -45,6 +45,8 @@ public class PmdMonthService extends PmdBaseMapper {
     @Autowired
     protected PartyService partyService;
     @Autowired
+    protected PmdService pmdService;
+    @Autowired
     protected PmdPayPartyService pmdPayPartyService;
     @Autowired
     protected PmdPayBranchService pmdPayBranchService;
@@ -254,6 +256,9 @@ public class PmdMonthService extends PmdBaseMapper {
 
         record.setStatus(PmdConstants.PMD_MONTH_STATUS_START);
         pmdMonthMapper.updateByPrimaryKeySelective(record);
+
+        // 同步一次党建管理员
+        pmdService.syncAdmin();
 
         long end = System.currentTimeMillis();
         logger.info("{}党员缴费-启动成功，耗时{}ms", payMonth, (end - start));

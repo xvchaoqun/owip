@@ -247,7 +247,14 @@ public interface IMemberMapper {
     @Update("update sys_teacher_info set retire_time=null where user_id=#{userId}")
     void del_retireTime(@Param("userId") int userId);
 
-
     @Update("update ow_apply_open_time set party_id=null, branch_id=null where id=#{id}")
     void globalApplyOpenTime(@Param("id") int id);
+
+    // 更新志愿书编码端使用情况
+    @Update("update ow_apply_sn_range asr," +
+            "(select range_id, sum(if(is_used=1 and is_abolished=0, 1, 0)) as use_count, " +
+            "sum(if(is_abolished=1, 1, 0)) as abolish_count from ow_apply_sn group by range_id) as tmp " +
+            "set asr.use_count=tmp.use_count, asr.abolish_count=tmp.abolish_count " +
+            "where asr.id=tmp.range_id and asr.id=#{rangeId}")
+    void updateApplySnRangeCount(@Param("rangeId") int rangeId);
 }

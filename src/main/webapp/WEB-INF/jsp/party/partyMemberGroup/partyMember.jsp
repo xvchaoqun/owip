@@ -5,6 +5,7 @@
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
+             data-url-page="${ctx}/partyMemberGroup?status=${status}"
              data-url-export="${ctx}/partyMember_data?isDeleted=0&isPresent=1"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.partyId
@@ -15,6 +16,20 @@
                     <div class="tab-content">
                         <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
+                    <shiro:hasPermission name="partyMember:edit">
+                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/partyMember_au"
+                       ><i class="fa fa-edit"></i>
+                        修改</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="partyMember:del">
+                    <button data-url="${ctx}/partyMember_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                         <i class="fa fa-download"></i> 导出</a>
@@ -31,7 +46,6 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
-                                <input type="hidden" name="status" value="${status}">
                                 <div class="form-group">
                                     <label>姓名</label>
                                     <div class="input-group">

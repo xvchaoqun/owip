@@ -39,7 +39,7 @@
       {label: '接收人', name: 'receiver'},
       {
           label: '接收手续', name: 'receivePdf', width: 80, formatter: function (cellvalue, options, rowObject) {
-          if ($.trim(rowObject.receivePdf) == '') return ''
+          if ($.trim(rowObject.receivePdf) == '') return '--'
           return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
                   .format(encodeURI(rowObject.receivePdf), "接收手续.jpg");
       }
@@ -47,7 +47,7 @@
       {
           label: '归还时间', name: 'returnDate', formatter: function (cellvalue, options, rowObject) {
           if (rowObject.isCopy) return '--'
-          if (cellvalue == undefined) return ''
+          if (cellvalue == undefined) return '--'
           return $.date(cellvalue, "yyyy-MM-dd");
       }
       },

@@ -43,8 +43,6 @@ public class CetBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected CetProjectObjPlanMapper cetProjectObjPlanMapper;
     @Autowired(required = false)
-    protected CetProjectObjViewMapper cetProjectObjViewMapper;
-    @Autowired(required = false)
     protected CetDiscussMapper cetDiscussMapper;
     @Autowired(required = false)
     protected CetDiscussGroupMapper cetDiscussGroupMapper;

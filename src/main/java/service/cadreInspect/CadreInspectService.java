@@ -9,12 +9,12 @@ import domain.cadreReserve.CadreReserve;
 import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
-import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.cadre.CadreAdLogService;
 import service.cadre.CadreService;
@@ -70,10 +70,10 @@ public class CadreInspectService extends BaseMapper {
             throw new OpException(realname + "已经是考察对象");
         }
 
-        // 后备干部库检查
+        // 优秀年轻干部库检查
         if(cadreReserveService.getNormalRecord(cadreId)!=null
                 ||cadreReserveService.getFromTempRecord(cadreId)!=null){
-            throw new OpException(realname + "已经是后备干部");
+            throw new OpException(realname + "已经是优秀年轻干部");
         }
     }
 
@@ -108,9 +108,9 @@ public class CadreInspectService extends BaseMapper {
         // 检查
         if(cadre!=null) {
             int cadreId = cadre.getId();
-            // 后备干部库检查
+            // 优秀年轻干部库检查
             if (cadreReserveService.getNormalRecord(cadreId) != null) {
-                throw new OpException(cadre.getRealname() + "已经是后备干部");
+                throw new OpException(cadre.getRealname() + "已经是优秀年轻干部");
             }
         }
 
@@ -139,7 +139,7 @@ public class CadreInspectService extends BaseMapper {
             } else {
                 cadreId = cadre.getId();
 
-                // 已经在干部库中的情况，如果后备干部[非干部]撤销了，需要更新为考察对象
+                // 已经在干部库中的情况，如果优秀年轻干部[非干部]撤销了，需要更新为考察对象
                 if(cadre.getStatus()== CadreConstants.CADRE_STATUS_NOT_CADRE
                     || cadre.getStatus()== CadreConstants.CADRE_STATUS_RECRUIT
                     || cadre.getStatus()== CadreConstants.CADRE_STATUS_RESERVE) {
@@ -279,7 +279,7 @@ public class CadreInspectService extends BaseMapper {
         _cadre.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
         cadreService.updateByPrimaryKeySelective(_cadre);
 
-        // 如果原来是后备干部发展过来的，此时肯定有一条记录在后备干部【列为考察对象列表中】，需要这条记录的状态更改为【后备干部已使用】
+        // 如果原来是优秀年轻干部发展过来的，此时肯定有一条记录在优秀年轻干部【列为考察对象列表中】，需要这条记录的状态更改为【优秀年轻干部已使用】
         {
             CadreReserve fromTempRecord = cadreReserveService.getFromTempRecord(cadreId);
             if(fromTempRecord!=null){
@@ -338,7 +338,7 @@ public class CadreInspectService extends BaseMapper {
         // 删除考核对象角色
         sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADREINSPECT);
 
-        // 如果原来是后备干部发展过来的，此时肯定有一条记录在后备干部【列为考察对象列表中】，需要将这条记录返回【后备干部库】
+        // 如果原来是优秀年轻干部发展过来的，此时肯定有一条记录在优秀年轻干部【列为考察对象列表中】，需要将这条记录返回【优秀年轻干部库】
         {
             CadreReserve fromTempRecord = cadreReserveService.getFromTempRecord(cadreId);
             if(fromTempRecord!=null){

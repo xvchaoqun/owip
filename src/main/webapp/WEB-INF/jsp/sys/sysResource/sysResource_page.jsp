@@ -84,7 +84,7 @@
             {"name": "sortOrder", "label": "排序", "width": 50},
             {
                 "name": "menuCss", "label": "菜单样式", "width": 70, formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return ""
+                    if (cellvalue == undefined) return "--"
                     return '<i class="{0}"></i>'
                         .format(cellvalue);
                 }

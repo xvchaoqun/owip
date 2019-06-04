@@ -22,10 +22,11 @@
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
                 <shiro:hasPermission name="partyMember:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/partyMember_au?groupId=${partyMemberGroup.id}">
+                    <a class="popupBtn btn btn-info btn-sm"
+                       data-url="${ctx}/partyMember_au?gridId=jqGrid2&groupId=${partyMemberGroup.id}">
                         <i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/partyMember_au"
+                       data-url="${ctx}/partyMember_au?gridId=jqGrid2"
                        data-grid-id="#jqGrid2"
                        ><i class="fa fa-edit"></i>
                         修改</a>

@@ -86,9 +86,9 @@ public class CadreReserveExportService extends BaseMapper {
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
             if(cadreReserveType!=null)
-                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"后备干部（" + cadreReserveType +"）一览表");
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部（" + cadreReserveType +"）一览表");
             else
-                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"后备干部一览表");
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部一览表");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }

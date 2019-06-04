@@ -23,10 +23,10 @@
             <div class="tab-content padding-8">
                 <shiro:hasPermission name="branchMember:edit">
                     <a class="popupBtn btn btn-info btn-sm"
-                    data-url="${ctx}/branchMember_au?groupId=${branchMemberGroup.id}">
+                    data-url="${ctx}/branchMember_au?gridId=jqGrid2&groupId=${branchMemberGroup.id}">
                         <i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/branchMember_au?groupId=${branchMemberGroup.id}"
+                       data-url="${ctx}/branchMember_au?gridId=jqGrid2&groupId=${branchMemberGroup.id}"
                        data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>

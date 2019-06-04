@@ -141,7 +141,7 @@ pageEncoding="UTF-8" %>
             { label: '培训班名称',name: 'name', width: 400, align:'left'},
             {
                 label: '专题分类', name: 'projectTypeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return ''
+                if (cellvalue == undefined) return '--'
                 var projectTypeMap = ${cm:toJSONObject(projectTypeMap)};
                 return projectTypeMap[cellvalue].name
             }

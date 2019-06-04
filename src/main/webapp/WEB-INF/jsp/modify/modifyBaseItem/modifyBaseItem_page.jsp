@@ -92,13 +92,13 @@
             }},
             <c:if test="${param.opType!='check'}">
             { label: '审核状态', name: 'status'  , formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '--'
                 return _cMap.MODIFY_BASE_ITEM_STATUS_MAP[cellvalue];
             }},
             </c:if>
             <c:if test="${param.opType=='check'}">
             { label: '组织部审核', name: 'status'  , formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '--'
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
                     return _cMap.MODIFY_BASE_ITEM_STATUS_MAP[cellvalue];
                 }else{

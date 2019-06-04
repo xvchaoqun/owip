@@ -7,12 +7,11 @@ import domain.cla.ClaApprovalLogExample;
 import domain.cla.ClaApproverType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import persistence.cla.common.ClaApprovalResult;
-import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import sys.constants.ClaConstants;
 import sys.constants.RoleConstants;
@@ -235,24 +234,4 @@ public class ClaApprovalLogService extends ClaBaseMapper {
 
         return claApprovalLogMapper.insertSelective(record);
     }
-    /*@Transactional
-    public void del(Integer id){
-
-        approvalLogMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    public void batchDel(Integer[] ids){
-
-        if(ids==null || ids.length==0) return;
-
-        ApprovalLogExample example = new ApprovalLogExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        approvalLogMapper.deleteByExample(example);
-    }
-
-    @Transactional
-    public int updateByPrimaryKeySelective(ApprovalLog record){
-        return approvalLogMapper.updateByPrimaryKeySelective(record);
-    }*/
 }

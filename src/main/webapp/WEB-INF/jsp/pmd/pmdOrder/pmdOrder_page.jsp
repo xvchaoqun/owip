@@ -68,7 +68,7 @@
             { label: '支付人',name: 'payername'},
             { label: '支付账号',name: 'payer', width:120},
             /*{ label: '缴费人账号类型',name: 'payertype', width:150, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return ''
+                if(cellvalue==undefined) return '--'
                 if(cellvalue==1) return '学工号';
                 return cellvalue;
             }},*/

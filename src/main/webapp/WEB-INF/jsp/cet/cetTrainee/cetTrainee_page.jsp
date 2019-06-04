@@ -7,7 +7,7 @@
     <div class="type-select">
         <c:forEach items="${cetTraineeTypes}" var="cetTraineeType">
         <span class="typeCheckbox ${traineeTypeId==cetTraineeType.id?"checked":""}">
-        <input ${traineeTypeId==cetTraineeType.id?"checked":""} type="checkbox" value="${cetTraineeType.id}"> ${cetTraineeType.name}
+        <input ${traineeTypeId==cetTraineeType.id?"checked":""} type="checkbox" value="${cetTraineeType.id}"> ${cetTraineeType.name}(${cm:trimToZero(typeCountMap.get(cetTraineeType.id))})
         </span>
         </c:forEach>
     </div>

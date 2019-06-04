@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/branchMember_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="groupId" value="${param.groupId}">
+        <input type="hidden" name="groupId" value="${groupId}">
         <input type="hidden" name="id" value="${branchMember.id}">
         <c:set var="sysUser" value="${cm:getUserById(branchMember.userId)}"/>
         <div class="form-group">
@@ -70,7 +70,8 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide")
-                        $("#jqGrid2").trigger("reloadGrid");
+                        var jqGridId = '${param.gridId}'||'jqGrid';
+                        $("#"+jqGridId).trigger("reloadGrid");
                     }
                 }
             });

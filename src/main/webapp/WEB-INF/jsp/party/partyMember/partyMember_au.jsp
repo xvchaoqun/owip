@@ -41,7 +41,7 @@
     <label class="col-xs-3 control-label">任职时间</label>
     <div class="col-xs-6">
       <div class="input-group">
-        <input class="form-control date-picker" name="_assignDate" type="text"
+        <input class="form-control date-picker" name="assignDate" type="text"
                data-date-min-view-mode="1" placeholder="yyyy.mm"
                data-date-format="yyyy.mm" value="${cm:formatDate(partyMember.assignDate,'yyyy.MM')}" />
         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -85,7 +85,8 @@
         success:function(ret){
           if(ret.success){
             $("#modal").modal("hide")
-            $("#jqGrid2").trigger("reloadGrid");
+            var jqGridId = '${param.gridId}'||'jqGrid';
+            $("#"+jqGridId).trigger("reloadGrid");
           }
         }
       });
