@@ -95,7 +95,7 @@
 </style>
 <script>
 function _reloadDetail(){
-    $.loadView("${ctx}/feedback_detail?id=${param.id}")
+    $.openView("${ctx}/feedback_detail?id=${param.id}")
     if (typeof _reloadList != 'undefined'
         && _reloadList instanceof Function) {
         _reloadList();

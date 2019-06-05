@@ -135,8 +135,7 @@
 </div>
 <script>
   function _applyBack(){
-    bootbox.confirm("确定撤销申请吗？", function (result) {
-      if(result){
+    SysMsg.confirm("确定撤销申请吗？", "撤销申请", function () {
         $.post("${ctx}/m/applyBack",function(ret){
 
           if(ret.success){
@@ -145,7 +144,6 @@
             });
           }
         });
-      }
     });
   }
 </script>

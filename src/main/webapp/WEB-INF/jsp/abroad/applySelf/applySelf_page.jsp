@@ -245,13 +245,7 @@
             }
         }
 
-        var $container = $("#body-content");
-        //$container.mask()
-        $.get(url, {}, function (html) {
-            //$container.unmask().hide();
-            $("#body-content-view").hide().html(html).fadeIn("slow");
-        })
-
+        $.openView({url:url});
     });
 
     $("#jqGrid").jqGrid({

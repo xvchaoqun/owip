@@ -8,7 +8,7 @@ import domain.cadre.CadreView;
 import domain.cla.*;
 import domain.leader.LeaderUnitView;
 import domain.sys.SysUserView;
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
@@ -42,7 +42,6 @@ import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Service
@@ -897,10 +896,8 @@ public class ClaApplyService extends ClaBaseMapper {
         ClaApply apply = get(applyId);
         ClaApplyModify modify = new ClaApplyModify();
         try {
-            BeanUtils.copyProperties(modify, apply);
-        } catch (IllegalAccessException e) {
-            logger.error("异常", e);
-        } catch (InvocationTargetException e) {
+            PropertyUtils.copyProperties(modify, apply);
+        } catch (Exception e) {
             logger.error("异常", e);
         }
 

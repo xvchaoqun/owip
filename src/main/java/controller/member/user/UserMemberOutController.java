@@ -5,6 +5,7 @@ import controller.member.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberOut;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
@@ -37,10 +39,10 @@ public class UserMemberOutController extends MemberBaseController {
 
     @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/memberOut")
-    public String memberOut(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberOut(Boolean isMobile, ModelMap modelMap) {
 
-        int userId= loginUser.getId();
-
+        int userId= ShiroHelper.getCurrentUserId();
+        isMobile = BooleanUtils.isTrue(isMobile);
         UserBean userBean = userBeanService.get(userId);
         modelMap.put("userBean", userBean);
         MemberOut memberOut = memberOutService.getLatest(userId);
@@ -53,9 +55,9 @@ public class UserMemberOutController extends MemberBaseController {
         modelMap.put("memberOut", memberOut);
 
         if(memberOut==null || memberOut.getStatus() <= MemberConstants.MEMBER_OUT_STATUS_BACK)
-            return "member/user/memberOut/memberOut_au";
+            return isMobile?"member/mobile/memberOut":"member/user/memberOut/memberOut_au";
 
-        return "member/user/memberOut/memberOut";
+        return isMobile?"member/mobile/memberOut_view":"member/user/memberOut/memberOut";
     }
 
     @RequiresRoles(RoleConstants.ROLE_MEMBER)

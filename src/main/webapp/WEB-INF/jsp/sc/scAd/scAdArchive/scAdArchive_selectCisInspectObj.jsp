@@ -65,6 +65,6 @@
             return;
         }
 
-        $.loadView("${ctx}/sc/scAdArchive_cisPreview?archiveId=${param.archiveId}&objId=" + ids[0]);
+        $.openView("${ctx}/sc/scAdArchive_cisPreview?archiveId=${param.archiveId}&objId=" + ids[0]);
     });
 </script>

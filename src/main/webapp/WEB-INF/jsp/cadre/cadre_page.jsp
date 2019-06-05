@@ -17,7 +17,7 @@
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code
-                ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.state }"/>
+                ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.state  ||not empty param.post  ||not empty param.title }"/>
 
                 <div class="tabbable">
 
@@ -480,6 +480,20 @@
                                                         <script type="text/javascript">
                                                             $("#searchForm select[name=state]").val(${param.state});
                                                         </script>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="name">职务</td>
+                                                    <td class="input">
+                                                        <input type="text" style="width: 200px" name="post" value="${param.post}">
+                                                    </td>
+                                                    <td class="name">所在单位及职务</td>
+                                                    <td class="input">
+                                                        <input type="text" style="width: 200px" name="title" value="${param.title}">
+                                                    </td>
+                                                    <td class="name"></td>
+                                                    <td class="input">
+
                                                     </td>
                                                 </tr>
                                             </table>

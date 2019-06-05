@@ -30,6 +30,6 @@
         var cadreId = $("#modal select[name=cadreId]").val();
         if(cadreId=="") return;
         $("#modal").modal('hide');
-        $.loadView("${ctx}/user/cla/claApply_au?auth=admin&cadreId=" + cadreId);
+        $.openView("${ctx}/user/cla/claApply_au?auth=admin&cadreId=" + cadreId);
     })
 </script>

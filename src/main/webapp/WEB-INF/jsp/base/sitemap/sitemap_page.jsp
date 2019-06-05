@@ -86,15 +86,13 @@
 
     function _del(id) {
 
-        bootbox.confirm("确定删除该资源吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/sitemap_del", {id: id}, function (ret) {
-                    if(ret.success) {
-                        _reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
+        SysMsg.confirm("确定删除该资源吗？", "操作确认", function () {
+            $.post("${ctx}/sitemap_del", {id: id}, function (ret) {
+                if(ret.success) {
+                    _reload();
+                    //SysMsg.success('操作成功。', '成功');
+                }
+            });
         });
     }
 

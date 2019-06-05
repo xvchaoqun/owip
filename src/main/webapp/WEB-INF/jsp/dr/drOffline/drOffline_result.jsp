@@ -211,7 +211,7 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        $.loadView('${ctx}/drOffline_result?id=${param.id}')
+                        $.openView('${ctx}/drOffline_result?id=${param.id}')
                     }
                     $btn.button('reset');
                 }

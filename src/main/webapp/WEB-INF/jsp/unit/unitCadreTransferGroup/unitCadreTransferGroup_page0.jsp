@@ -73,15 +73,13 @@ pageEncoding="UTF-8" %>
     }
 
     function _del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/unitCadreTransferGroup_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
+        SysMsg.confirm("确定删除该记录吗？", "操作确认", function () {
+            $.post("${ctx}/unitCadreTransferGroup_del", {id: id}, function (ret) {
+                if (ret.success) {
+                    _reload();
+                    //SysMsg.success('操作成功。', '成功');
+                }
+            });
         });
     }
 

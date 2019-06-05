@@ -150,6 +150,6 @@
 <script>
 function _reload(btn){
     var selected = $(btn).data("selected");
-    $.loadView({url:"${ctx}/m/cet/courseList_page?trainId=${cetTrain.id}&selected="+selected});
+    $.openView({url:"${ctx}/m/cet/courseList_page?trainId=${cetTrain.id}&selected="+selected});
 }
 </script>

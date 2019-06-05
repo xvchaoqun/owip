@@ -37,13 +37,13 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                    /* if(ret.success){
                         $("#modal").modal('hide');
-                        $.loadView("${ctx}/user/cet/cetProjectPlan_detail?planId=${param.planId}");
+                        $.openView("${ctx}/user/cet/cetProjectPlan_detail?planId=${param.planId}");
                     }
                     $btn.button('reset');*/
 
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $.loadView("${ctx}/user/cet/cetProjectPlan?projectId=${param.projectId}");
+                        $.openView("${ctx}/user/cet/cetProjectPlan?projectId=${param.projectId}");
                     }
                 }
             });

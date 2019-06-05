@@ -124,22 +124,21 @@
     //clearInterval(interval);
     $(".syncBtn").click(function(){
         var $this = $(this);
-        bootbox.confirm("确定"+ $.trim($this.text())+"（将耗费很长时间）？", function (result) {
-            if (result) {
-                var $btn = $this.button('loading')
-                $.post("${ctx}/sync_user_batch",{type:$this.data("type")},function(ret){
-                    if(ret.success){
-                        SysMsg.success('同步任务启动成功，系统将自动完成同步。', '启动成功');
-                        //clearTimeout(t);
-                        $("#jqGrid").trigger("reloadGrid");
-                    }
-                    $btn.button('reset');
-                });
-                /*clearInterval(interval);
-                interval = setInterval(function(){
+
+        SysMsg.confirm("确定"+ $.trim($this.text())+"（将耗费很长时间）？", "操作确认", function () {
+            var $btn = $this.button('loading')
+            $.post("${ctx}/sync_user_batch",{type:$this.data("type")},function(ret){
+                if(ret.success){
+                    SysMsg.success('同步任务启动成功，系统将自动完成同步。', '启动成功');
+                    //clearTimeout(t);
                     $("#jqGrid").trigger("reloadGrid");
-                }, 2000);*/
-            }
+                }
+                $btn.button('reset');
+            });
+            /*clearInterval(interval);
+            interval = setInterval(function(){
+                $("#jqGrid").trigger("reloadGrid");
+            }, 2000);*/
         });
     });
 </script>

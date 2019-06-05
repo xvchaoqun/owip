@@ -57,7 +57,7 @@
           if (ret.success) {
             $("#modal").modal('hide');
             SysMsg.success("审批成功。", function(){
-              $.loadView("${ctx}/cla/claApply_view?id=${param.applyId}")
+              $.openView("${ctx}/cla/claApply_view?id=${param.applyId}")
             })
           }
         }

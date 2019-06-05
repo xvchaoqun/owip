@@ -4,7 +4,7 @@ import domain.base.Sitemap;
 import domain.base.SitemapExample;
 import domain.sys.SysResource;
 import domain.sys.SysUserView;
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import service.BaseMapper;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Service
@@ -170,13 +169,9 @@ public class SitemapService extends BaseMapper{
 
  			Sitemap _siteMap = new Sitemap();
 			try {
-				BeanUtils.copyProperties(_siteMap, sitemap);
-			} catch (IllegalAccessException e) {
-				logger.error("异常", e);
-				continue;
-			} catch (InvocationTargetException e) {
-				logger.error("异常", e);
-				continue;
+				PropertyUtils.copyProperties(_siteMap, sitemap);
+			}catch (Exception e) {
+			   logger.error("异常", e);
 			}
 
 			Integer resourceId = sitemap.getResourceId();

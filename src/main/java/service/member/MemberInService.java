@@ -4,9 +4,7 @@ import controller.global.OpException;
 import domain.member.*;
 import domain.party.EnterApply;
 import domain.sys.SysUserView;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -28,7 +26,6 @@ import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -284,7 +281,7 @@ public class MemberInService extends MemberBaseMapper {
         MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
         Assert.isTrue(memberIn.getStatus()==MemberConstants.MEMBER_IN_STATUS_OW_VERIFY, "wrong status");
         MemberInModify modify = new MemberInModify();
-        try {
+        /*try {
             ConvertUtils.register(new DateConverter(null), Date.class);
             BeanUtils.copyProperties(modify, memberIn);
             modify.setId(null);
@@ -292,6 +289,14 @@ public class MemberInService extends MemberBaseMapper {
         } catch (IllegalAccessException e) {
             logger.error("异常", e);
         } catch (InvocationTargetException e) {
+            logger.error("异常", e);
+        }*/
+
+        try {
+            PropertyUtils.copyProperties(modify, memberIn);
+            modify.setId(null);
+            modify.setApplyUserId(memberIn.getUserId());
+        } catch (Exception e) {
             logger.error("异常", e);
         }
 

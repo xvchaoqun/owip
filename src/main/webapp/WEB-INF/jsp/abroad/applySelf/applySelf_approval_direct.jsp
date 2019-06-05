@@ -69,7 +69,7 @@
           if (ret.success) {
             $("#modal").modal('hide');
             SysMsg.success("审批成功。", function(){
-              $.loadView("${ctx}/abroad/applySelf_view?id=${param.applySelfId}")
+              $.openView("${ctx}/abroad/applySelf_view?id=${param.applySelfId}")
             })
           }
         }

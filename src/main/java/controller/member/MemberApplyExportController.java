@@ -58,7 +58,8 @@ public class MemberApplyExportController extends MemberBaseController {
         }
 
         MemberApplyExample example = new MemberApplyExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria()
+                .andIsRemoveEqualTo(false);
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         example.setOrderByClause("create_time desc");
 
@@ -91,7 +92,6 @@ public class MemberApplyExportController extends MemberBaseController {
             if (_applyTime.getEnd()!=null) {
                 criteria.andApplyTimeLessThanOrEqualTo(_applyTime.getEnd());
             }
-
 
             if(type==OwConstants.OW_APPLY_TYPE_STU) {
                 memberStudent_apply_export(example, response);

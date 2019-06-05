@@ -107,17 +107,15 @@
 </div>
     <script>
     function _applyBack(){
-        bootbox.confirm("确定撤销申请吗？", function (result) {
-            if(result){
-                $.post("${ctx}/user/memberOutflow_back",function(ret){
+        SysMsg.confirm("确定撤销申请吗？", "操作确认", function () {
+            $.post("${ctx}/user/memberOutflow_back",function(ret){
 
-                    if(ret.success){
-                        SysMsg.success("撤销成功。",function(){
-                            $.hashchange();
-                        });
-                    }
-                });
-            }
+                if(ret.success){
+                    SysMsg.success("撤销成功。",function(){
+                        $.hashchange();
+                    });
+                }
+            });
         });
     }
 </script>

@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
-                        $.loadView('${ctx}/cadre_view?cadreId=${cadre.id}&to=cadrePost_page')
+                        $.openView('${ctx}/cadre_view?cadreId=${cadre.id}&to=cadrePost_page')
                     }
                 }
             });

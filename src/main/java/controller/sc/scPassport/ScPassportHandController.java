@@ -8,7 +8,7 @@ import domain.sc.scPassport.ScPassportHand;
 import domain.sc.scPassport.ScPassportHandExample;
 import domain.sc.scPassport.ScPassportHandExample.Criteria;
 import mixin.MixinUtils;
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -34,7 +34,6 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Controller
@@ -231,7 +230,7 @@ public class ScPassportHandController extends ScBaseController {
     @RequiresPermissions("scPassportHand:edit")
     @RequestMapping("/scPassportHand_dispatch_draw")
     @ResponseBody
-    public void scPassportHand_dispatch_draw(int dispatchId, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+    public void scPassportHand_dispatch_draw(int dispatchId, HttpServletResponse response) throws IOException {
 
         List<DispatchCadre> dispatchCadres = scPassportHandService.draw(dispatchId);
         // 已经添加的任免记录
@@ -242,7 +241,13 @@ public class ScPassportHandController extends ScBaseController {
         for (DispatchCadre dispatchCadre : dispatchCadres) {
 
             IScDispatchCadre record = new IScDispatchCadre();
-            BeanUtils.copyProperties(record, dispatchCadre);
+            //BeanUtils.copyProperties(record, dispatchCadre);
+            try {
+                PropertyUtils.copyProperties(record, dispatchCadre);
+            }catch (Exception e) {
+               logger.error("异常", e);
+            }
+
             record.setHasImport(hasDispatchCadreIdSet.contains(dispatchCadre.getId()));
 
             if(passportService!=null) {

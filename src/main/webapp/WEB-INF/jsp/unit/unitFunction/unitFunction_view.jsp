@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 			暂无职能内容。
 		</c:if>
 	</div>
-	<div class="buttons" style="position: relative; top: 8px; right: -785px;">
+	<div class="buttons" style="position: relative; top: 8px; padding-left: 785px;">
 		<a href="javascript:void(0)" class="reloadBtn btn btn-xs btn-primary" data-target="#unitfunctionDiv"
         data-url="${ctx}/unitFunction?unitId=${unitId}&funId=${unitFunction.id}&isEdit=1">
 			<i class="fa fa-edit"></i> 修改

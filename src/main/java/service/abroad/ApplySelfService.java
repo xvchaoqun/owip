@@ -7,7 +7,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.leader.LeaderUnitView;
 import domain.sys.SysUserView;
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -40,7 +40,6 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Service
@@ -860,11 +859,9 @@ public class ApplySelfService extends AbroadBaseMapper {
         ApplySelf applySelf = get(applyId);
         ApplySelfModify modify = new ApplySelfModify();
         try {
-            BeanUtils.copyProperties(modify, applySelf);
-        } catch (IllegalAccessException e) {
-            logger.error("异常", e);
-        } catch (InvocationTargetException e) {
-            logger.error("异常", e);
+            PropertyUtils.copyProperties(modify, applySelf);
+        }catch (Exception e) {
+           logger.error("异常", e);
         }
 
         modify.setId(null);

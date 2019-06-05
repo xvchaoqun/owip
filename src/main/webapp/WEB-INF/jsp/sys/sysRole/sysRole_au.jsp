@@ -101,6 +101,7 @@
 </style>--%>
 <script>
     $('#sidebar-review .sidebar').ace_sidebar();
+    $('#m-sidebar-review .sidebar').ace_sidebar();
 
     function _initMenu() {
 

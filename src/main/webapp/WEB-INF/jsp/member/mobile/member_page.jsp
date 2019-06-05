@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:if test="${param.cls!=2}">
 <div class="ace-settings-container" id="ace-settings-container">
     <div class="btn btn-app btn-xs btn-info ace-settings-btn" id="ace-settings-btn">
         <i class="ace-icon fa fa-search bigger-130"></i>
@@ -27,3 +28,10 @@
         $('#ace-settings-box').toggleClass('open');
     })
 </script>
+</c:if>
+<c:if test="${param.cls==2}">
+<div id="result"></div>
+<script>
+    $("#result").load("${ctx}/m/member_info");
+</script>
+</c:if>

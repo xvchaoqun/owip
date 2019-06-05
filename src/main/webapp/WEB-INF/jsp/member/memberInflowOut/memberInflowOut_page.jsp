@@ -297,17 +297,15 @@
         $.loadModal("${ctx}/memberInflowOut_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
     function apply_pass(id, type, goToNext){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/memberInflowOut_check",{ids: [id], type:type},function(ret){
-                    if(ret.success){
-                        //SysMsg.success('操作成功。', '成功',function(){
-                            //page_reload();
-                            goto_next(goToNext);
-                        //});
-                    }
-                });
-            }
+        SysMsg.confirm("确定通过该申请？", "操作确认", function () {
+            $.post("${ctx}/memberInflowOut_check",{ids: [id], type:type},function(ret){
+                if(ret.success){
+                    //SysMsg.success('操作成功。', '成功',function(){
+                        //page_reload();
+                        goto_next(goToNext);
+                    //});
+                }
+            });
         });
     }
     $("#jqGrid").jqGrid({

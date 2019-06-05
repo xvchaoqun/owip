@@ -100,7 +100,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $.loadView({url:"${ctx}/unit_base?id=${unit.id}&_="+new Date().getTime(),
+                        $.openView({url:"${ctx}/unit_base?id=${unit.id}&_="+new Date().getTime(),
                         $mask:$("#tab-content"), $show:$("#tab-content")})
                     }
                     $btn.button('reset');

@@ -193,17 +193,15 @@
     }
 
     function apply_pass(id, goToNext) {
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if (result) {
-                $.post("${ctx}/memberReg_check", {id: id}, function (ret) {
-                    if (ret.success) {
-                        //SysMsg.success('操作成功。', '成功', function () {
-                        //page_reload();
-                        goto_next(goToNext);
-                        // });
-                    }
-                });
-            }
+        SysMsg.confirm("确定通过该申请？", "操作确认", function () {
+            $.post("${ctx}/memberReg_check", {id: id}, function (ret) {
+                if (ret.success) {
+                    //SysMsg.success('操作成功。', '成功', function () {
+                    //page_reload();
+                    goto_next(goToNext);
+                    // });
+                }
+            });
         });
     }
 

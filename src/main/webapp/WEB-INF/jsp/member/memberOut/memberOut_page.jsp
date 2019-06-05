@@ -361,18 +361,6 @@
                 $(btn).removeAttr("disabled");
             }
         });
-        /*bootbox.confirm("确定通过该申请？", function (result) {
-            if (result) {
-                $.post("${ctx}/memberOut_check", {ids: [id], type: type}, function (ret) {
-                    if (ret.success) {
-                        SysMsg.success('操作成功。', '成功', function () {
-                            //page_reload();
-                            goto_next(goToNext);
-                        });
-                    }
-                });
-            }
-        });*/
     }
 
     $("#jqGrid").jqGrid({

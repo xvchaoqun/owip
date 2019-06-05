@@ -127,17 +127,16 @@
 </div>
 <script>
     function _applyBack() {
-        bootbox.confirm("确定撤销申请吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/m/applyBack", function (ret) {
 
-                    if (ret.success) {
-                        SysMsg.success("撤销成功。", function () {
-                            location.reload();
-                        });
-                    }
-                });
-            }
+        SysMsg.confirm("确定撤销申请吗？", "撤销申请", function () {
+            $.post("${ctx}/m/applyBack", function (ret) {
+
+                if (ret.success) {
+                    SysMsg.success("撤销成功。", function () {
+                        location.reload();
+                    });
+                }
+            });
         });
     }
 </script>

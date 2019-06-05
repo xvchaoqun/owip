@@ -126,7 +126,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         SysMsg.info("上传成功。", function(){
-                            $.loadView("${ctx}/user/crsPost_apply_notice?postId=${crsPost.id}");
+                            $.openView("${ctx}/user/crsPost_apply_notice?postId=${crsPost.id}");
                         })
                     }
                 }

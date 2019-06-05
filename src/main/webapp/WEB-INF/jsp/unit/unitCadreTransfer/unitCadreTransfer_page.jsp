@@ -63,15 +63,14 @@ pageEncoding="UTF-8" %>
     }
 
     function unitCadreTransfer_del(id){
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/unitCadreTransfer_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        unitCadreTransfer_page("${param.groupId}");
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
+
+        SysMsg.confirm("确定删除该记录吗？", "操作确认", function () {
+            $.post("${ctx}/unitCadreTransfer_del", {id: id}, function (ret) {
+                if (ret.success) {
+                    unitCadreTransfer_page("${param.groupId}");
+                    //SysMsg.success('操作成功。', '成功');
+                }
+            });
         });
     }
     $('[data-rel="select2"]').select2();

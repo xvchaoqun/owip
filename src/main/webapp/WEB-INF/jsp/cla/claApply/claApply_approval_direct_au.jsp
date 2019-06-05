@@ -43,7 +43,7 @@
           if (ret.success) {
             $("#modal").modal('hide');
             SysMsg.success("修改成功。", function(){
-              $.loadView("${ctx}/cla/claApply_view?id=${param.applyId}&type=${param.type}&approvalTypeId=${param.approvalTypeId}")
+              $.openView("${ctx}/cla/claApply_view?id=${param.applyId}&type=${param.type}&approvalTypeId=${param.approvalTypeId}")
             })
           }
         }

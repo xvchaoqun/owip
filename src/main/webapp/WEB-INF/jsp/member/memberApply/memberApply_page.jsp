@@ -796,29 +796,26 @@
         }
     }
     function apply_deny(userId, gotoNext){
-        bootbox.confirm("确定拒绝该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/apply_deny",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });
-            }
+
+        SysMsg.confirm("确定拒绝该申请？", "操作确认", function () {
+            $.post("${ctx}/apply_deny",{ids:[userId]},function(ret){
+                if(ret.success){
+                    //page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                    goto_next(gotoNext);
+                }
+            });
         });
     }
     function apply_pass(userId, gotoNext){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/apply_pass",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });
-            }
+        SysMsg.confirm("确定通过该申请？", "操作确认", function () {
+            $.post("${ctx}/apply_pass",{ids:[userId]},function(ret){
+                if(ret.success){
+                    //page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                    goto_next(gotoNext);
+                }
+            });
         });
     }
     function apply_active(userId, gotoNext){
@@ -834,16 +831,15 @@
         $.loadModal(url);
     }
     function apply_candidate_check(userId, gotoNext){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/apply_candidate_check",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });
-            }
+
+        SysMsg.confirm("确定通过该申请？", "操作确认", function () {
+            $.post("${ctx}/apply_candidate_check",{ids:[userId]},function(ret){
+                if(ret.success){
+                    //page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                    goto_next(gotoNext);
+                }
+            });
         });
     }
 
@@ -855,16 +851,14 @@
         $.loadModal(url);
     }
     function apply_plan_check(userId, gotoNext){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/apply_plan_check",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });
-            }
+        SysMsg.confirm("确定通过该申请？", "操作确认", function () {
+            $.post("${ctx}/apply_plan_check",{ids:[userId]},function(ret){
+                if(ret.success){
+                    //page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                    goto_next(gotoNext);
+                }
+            });
         });
     }
 
@@ -875,19 +869,6 @@
             url += "&gotoNext="+ gotoNext;
         $.loadModal(url);
     }
-    /*function apply_draw_check(userId, gotoNext){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/apply_draw_check",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });
-            }
-        });
-    }*/
 
     function apply_grow(userId, gotoNext){
         var url = "${ctx}/apply_grow?ids[]="+userId;
@@ -896,16 +877,14 @@
         $.loadModal(url);
     }
     function apply_grow_check(userId, gotoNext){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/apply_grow_check",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });
-            }
+        SysMsg.confirm("确定通过该申请？", "操作确认", function () {
+            $.post("${ctx}/apply_grow_check",{ids:[userId]},function(ret){
+                if(ret.success){
+                    //page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                    goto_next(gotoNext);
+                }
+            });
         });
     }
     function apply_grow_od_check(userId, gotoNext){
@@ -914,18 +893,6 @@
         if(gotoNext!=undefined)
             url += "&gotoNext="+ gotoNext;
         $.loadModal(url);
-
-        //bootbox.confirm("确定通过该申请？", function (result) {
-            //if(result){
-                /*$.post("${ctx}/apply_grow_od_check",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });*/
-            //}
-        //});
     }
     function apply_positive(userId, gotoNext){
         var url = "${ctx}/apply_positive?ids[]="+userId;
@@ -934,29 +901,25 @@
         $.loadModal(url)
     }
     function apply_positive_check(userId, gotoNext){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/apply_positive_check",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });
-            }
+        SysMsg.confirm("确定通过该申请？", "操作确认", function () {
+            $.post("${ctx}/apply_positive_check",{ids:[userId]},function(ret){
+                if(ret.success){
+                    //page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                    goto_next(gotoNext);
+                }
+            });
         });
     }
     function apply_positive_check2(userId, gotoNext){
-        bootbox.confirm("确定通过该申请？", function (result) {
-            if(result){
-                $.post("${ctx}/apply_positive_check2",{ids:[userId]},function(ret){
-                    if(ret.success){
-                        //page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                        goto_next(gotoNext);
-                    }
-                });
-            }
+        SysMsg.confirm("确定通过该申请？", "操作确认", function () {
+            $.post("${ctx}/apply_positive_check2",{ids:[userId]},function(ret){
+                if(ret.success){
+                    //page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                    goto_next(gotoNext);
+                }
+            });
         });
     }
 

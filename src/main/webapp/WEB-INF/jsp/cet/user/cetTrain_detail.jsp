@@ -170,7 +170,7 @@
                 $.hideView();
             });
         }else{
-            $.loadView("${ctx}/user/cet/cetTrain_detail?cls=${param.cls}&trainId=${cetTrain.id}")
+            $.openView("${ctx}/user/cet/cetTrain_detail?cls=${param.cls}&trainId=${cetTrain.id}")
         }
     }
 </script>

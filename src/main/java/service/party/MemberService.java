@@ -7,9 +7,7 @@ import domain.party.EnterApply;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -389,9 +387,14 @@ public class MemberService extends MemberBaseMapper {
         Member member = memberMapper.selectByPrimaryKey(userId);
         if (member == null) return;
         MemberModify modify = new MemberModify();
-        try {
+        /*try {
             ConvertUtils.register(new DateConverter(null), java.util.Date.class);
             BeanUtils.copyProperties(modify, member);
+        } catch (Exception e) {
+            logger.error("异常", e);
+        }*/
+        try {
+            PropertyUtils.copyProperties(modify, member);
         } catch (Exception e) {
             logger.error("异常", e);
         }

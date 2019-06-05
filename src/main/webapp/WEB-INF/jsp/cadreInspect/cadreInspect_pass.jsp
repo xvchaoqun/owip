@@ -114,7 +114,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        $.loadView('${ctx}/cadre_view?cadreId=${cadre.id}&to=cadrePost_page')
+                        $.openView('${ctx}/cadre_view?cadreId=${cadre.id}&to=cadrePost_page')
                     }
                 }
             });

@@ -7,7 +7,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -36,7 +36,6 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Controller
@@ -455,11 +454,9 @@ public class MemberOutController extends MemberBaseController {
 
                         MemberOutModify _modifyRecord = new MemberOutModify();
                         try {
-                            BeanUtils.copyProperties(_modifyRecord, before);
-                        } catch (IllegalAccessException e) {
-                            logger.error("异常", e);
-                        } catch (InvocationTargetException e) {
-                            logger.error("异常", e);
+                            PropertyUtils.copyProperties(_modifyRecord, before);
+                        }catch (Exception e) {
+                           logger.error("异常", e);
                         }
                         _modifyRecord.setId(null);
                         _modifyRecord.setOutId(_memberOut.getId());
@@ -473,12 +470,11 @@ public class MemberOutController extends MemberBaseController {
                     {
                         MemberOutModify _modifyRecord = new MemberOutModify();
                         try {
-                            BeanUtils.copyProperties(_modifyRecord, _memberOut);
-                        } catch (IllegalAccessException e) {
-                            logger.error("异常", e);
-                        } catch (InvocationTargetException e) {
-                            logger.error("异常", e);
+                            PropertyUtils.copyProperties(_modifyRecord, _memberOut);
+                        }catch (Exception e) {
+                           logger.error("异常", e);
                         }
+
                         _modifyRecord.setId(null);
                         _modifyRecord.setOutId(_memberOut.getId());
                         _modifyRecord.setApplyUserId(_memberOut.getUserId());

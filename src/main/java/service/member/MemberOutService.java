@@ -282,7 +282,7 @@ public class MemberOutService extends MemberBaseMapper {
                 _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
                 MemberOutExample example = new MemberOutExample();
                 example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
-                memberOutMapper.updateByExample(_record, example);
+                memberOutMapper.updateByExampleSelective(_record, example);
             }
 
             memberOutMapper.insertSelective(record);

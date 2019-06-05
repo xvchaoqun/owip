@@ -76,7 +76,7 @@
                 success:function(ret){
                     if(ret.success){
                         SysMsg.success("保存成功。",function(){
-                            $.loadView("${ctx}/user/crsPost_apply?postId=${crsPost.id}")
+                            $.openView("${ctx}/user/crsPost_apply?postId=${crsPost.id}")
                         })
                     }
                 }

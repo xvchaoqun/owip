@@ -149,19 +149,18 @@ pageEncoding="UTF-8"%>
 <script>
 
 	function _delFile(id, name){
-		bootbox.confirm("确定删除'"+name+"'吗？", function (result) {
-			if (result) {
-				$.post("${ctx}/user/cla/claApplyFile_del",{id:id},function(ret){
-					if(ret.success){
-						SysMsg.success("删除成功",'',function(){
-							$("#file"+id).remove();
-							if($("#fileGroup").find(".file").length==0){
-								$("#fileGroup").remove();
-							}
-						});
-					}
-				});
-			}
+
+		SysMsg.confirm("确定删除'"+name+"'吗？", "操作确认", function () {
+			$.post("${ctx}/user/cla/claApplyFile_del",{id:id},function(ret){
+				if(ret.success){
+					SysMsg.success("删除成功",'',function(){
+						$("#file"+id).remove();
+						if($("#fileGroup").find(".file").length==0){
+							$("#fileGroup").remove();
+						}
+					});
+				}
+			});
 		});
 	}
 

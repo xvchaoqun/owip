@@ -59,11 +59,15 @@ pageEncoding="UTF-8" %>
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">
-                                                    注：不选${_p_partyName}、党支部则导出全部
+                                                    注：
+                                                    <ul>
+                                                        <li>不选${_p_partyName}、党支部则导出全部</li>
+                                                        <li>导出结果中包含申请至领取志愿书这五个阶段的数据</li>
+                                                    </ul>
                                                 </div>
                                             </form>
                                                 <div class="space-4"></div>
-                                                <div class="clearfix form-actions center">
+                                                <div class="clearfix form-actions center" style="margin-top: 0;margin-bottom: 0;">
                                                     <button class="btn btn-primary btn-sm" onclick="_exportApply1(this, '${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 
@@ -122,10 +126,15 @@ pageEncoding="UTF-8" %>
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">
-                                                    注：不选${_p_partyName}、党支部则导出全部
+                                                    注：
+                                                    <ul>
+                                                        <li>不选${_p_partyName}、党支部则导出全部</li>
+                                                        <li>导出结果中包含预备党员这个阶段的数据</li>
+                                                    </ul>
                                                 </div>
+
                                             </form>
-                                                <div class="clearfix form-actions center">
+                                                <div class="clearfix form-actions center" style="margin-top: 0;margin-bottom: 0;">
                                                     <button class="btn btn-primary btn-sm"  onclick="_exportApply2(this,'${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 
@@ -184,10 +193,14 @@ pageEncoding="UTF-8" %>
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">
-                                                    注：不选${_p_partyName}、党支部则导出全部
+                                                    注：
+                                                    <ul>
+                                                        <li>不选${_p_partyName}、党支部则导出全部</li>
+                                                        <li>导出结果中包含领取志愿书、预备党员、正式党员这三个阶段的数据</li>
+                                                    </ul>
                                                 </div>
                                             </form>
-                                                <div class="clearfix form-actions center">
+                                                <div class="clearfix form-actions center" style="margin-top: 0;margin-bottom: 0;">
                                                     <button class="btn btn-primary btn-sm"  onclick="_exportApply3(this,'${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 

@@ -202,7 +202,7 @@
         if(location.hash.startWith("#/user/cadre")) isAdmin=false;
         var url = "${ctx}{0}".format((isAdmin ? '/cadre_view' : '/user/cadre')) + $this.data("url");
         if (isAdmin)
-            $.loadView(url);
+            $.openView(url);
         else
             $.loadPage({url: url});
     })

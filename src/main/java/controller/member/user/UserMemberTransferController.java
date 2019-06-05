@@ -7,6 +7,7 @@ import domain.member.MemberTransfer;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
@@ -38,9 +40,11 @@ public class UserMemberTransferController extends MemberBaseController {
 
     @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/memberTransfer")
-    public String memberTransfer(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberTransfer(Boolean isMobile, ModelMap modelMap) {
 
-        Integer userId = loginUser.getId();
+        Integer userId = ShiroHelper.getCurrentUserId();
+        isMobile = BooleanUtils.isTrue(isMobile);
+
         UserBean userBean = userBeanService.get(userId);
         modelMap.put("userBean", userBean);
 
@@ -66,9 +70,9 @@ public class UserMemberTransferController extends MemberBaseController {
 
         if(memberTransfer==null || memberTransfer.getStatus()== MemberConstants.MEMBER_TRANSFER_STATUS_SELF_BACK
                 || memberTransfer.getStatus()== MemberConstants.MEMBER_TRANSFER_STATUS_BACK)
-            return "member/user/memberTransfer/memberTransfer_au";
+            return isMobile?"member/mobile/memberTransfer":"member/user/memberTransfer/memberTransfer_au";
 
-        return "member/user/memberTransfer/memberTransfer";
+        return isMobile?"member/mobile/memberTransfer_view":"member/user/memberTransfer/memberTransfer";
     }
 
     @RequiresRoles(RoleConstants.ROLE_MEMBER)

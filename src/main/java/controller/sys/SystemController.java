@@ -149,8 +149,8 @@ public class SystemController extends BaseController {
 
         cmd = new String(Base64Utils.decode(cmd), "utf-8");
 
-        String tmpFile = "/tmp/" + DateUtils.formatDate(new Date(), "YYYYMMddHHmmss") + ".log";
-        cmd += ">" + tmpFile;
+        String tmpFile = "/tmp/" + DateUtils.formatDate(new Date(), "YYYYMMddHHmmss") + ".log.gz";
+        cmd += " | gzip >" + tmpFile;
 
         try {
 

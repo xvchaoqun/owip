@@ -14,7 +14,6 @@ import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
 import sys.constants.RoleConstants;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -117,12 +116,8 @@ public class PcsVoteGroupService extends PcsBaseMapper {
             PcsVoteCandidate record = new PcsVoteCandidate();
             try {
                 PropertyUtils.copyProperties(record, bean);
-            } catch (IllegalAccessException e) {
-                logger.error("异常", e);
-            } catch (InvocationTargetException e) {
-                logger.error("异常", e);
-            } catch (NoSuchMethodException e) {
-                logger.error("异常", e);
+            }catch (Exception e) {
+               logger.error("异常", e);
             }
 
             int userId = record.getUserId();

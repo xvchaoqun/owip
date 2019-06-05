@@ -388,18 +388,11 @@
         if (type == 2) {
             $.loadModal("${ctx}/memberStay_transfer?ids[]={0}".format(id) + "&goToNext=" + ((goToNext != undefined && goToNext) ? "1" : "0"))
         } else {
-            // bootbox.confirm("确定通过该申请？", function (result) {
-            //   if (result) {
             $.post("${ctx}/memberStay_check", {ids: [id], type: type}, function (ret) {
                 if (ret.success) {
-                    //SysMsg.success('操作成功。', '成功', function () {
-                    //page_reload();
                     goto_next(goToNext);
-                    // });
                 }
             });
-            //}
-            //});
         }
     }
 

@@ -54,7 +54,7 @@ $.register.date($('.date-picker'))
           if (ret.success) {
             $("#modal").modal('hide');
             SysMsg.success("修改成功。", function(){
-              $.loadView("${ctx}/abroad/applySelf_view?id=${param.applySelfId}&type=${param.type}&approvalTypeId=${param.approvalTypeId}")
+              $.openView("${ctx}/abroad/applySelf_view?id=${param.applySelfId}&type=${param.type}&approvalTypeId=${param.approvalTypeId}")
             })
           }
         }

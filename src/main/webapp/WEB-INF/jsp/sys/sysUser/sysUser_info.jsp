@@ -163,6 +163,6 @@
     }
 
     function _delAdminCallback(target) {
-        $.loadView("${ctx}/sysUser_view?userId=${param.userId}")
+        $.openView("${ctx}/sysUser_view?userId=${param.userId}")
     }
 </script>

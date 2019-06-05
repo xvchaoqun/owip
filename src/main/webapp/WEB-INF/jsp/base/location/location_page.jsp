@@ -43,15 +43,13 @@
 
     function _del(id) {
 
-        bootbox.confirm("确定删除该节点吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/location_del", {id: id}, function (ret) {
-                    if(ret.success) {
-                        _reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
+        SysMsg.confirm("确定删除该节点吗？", "操作确认", function () {
+            $.post("${ctx}/location_del", {id: id}, function (ret) {
+                if(ret.success) {
+                    _reload();
+                    //SysMsg.success('操作成功。', '成功');
+                }
+            });
         });
     }
 

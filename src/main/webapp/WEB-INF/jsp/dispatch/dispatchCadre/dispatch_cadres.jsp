@@ -57,14 +57,12 @@
 <script>
     <shiro:hasPermission name="dispatch:check">
     function _check(){
-        bootbox.confirm("确认复核完成？", function(result){
-            if(result){
-                $.post("${ctx}/dispatch_check",{id:'${dispatch.id}'}, function(ret){
-                    if(ret.success){
-                        $.hideView();
-                    }
-                })
-            }
+        SysMsg.confirm("确认复核完成？", "操作确认", function () {
+            $.post("${ctx}/dispatch_check",{id:'${dispatch.id}'}, function(ret){
+                if(ret.success){
+                    $.hideView();
+                }
+            })
         });
     }
     </shiro:hasPermission>

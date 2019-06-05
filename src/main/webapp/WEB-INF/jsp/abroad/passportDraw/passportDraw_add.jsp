@@ -30,14 +30,14 @@ pageEncoding="UTF-8"%>
 		var cadreId = $("#modal select[name=cadreId]").val();
 		if(cadreId=="") return;
 		<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">
-		$.loadView("${ctx}/user/abroad/passportDraw_self?auth=admin&cadreId=" + cadreId);
+		$.openView("${ctx}/user/abroad/passportDraw_self?auth=admin&cadreId=" + cadreId);
 		</c:if>
 		<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
 		$("#modal").modal('hide');
 		$.loadPage({url:"${ctx}/user/abroad/passportDraw_tw?auth=admin&cadreId=" + cadreId});
 		</c:if>
 		<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">
-		$.loadView("${ctx}/user/abroad/passportDraw_other?auth=admin&cadreId=" + cadreId);
+		$.openView("${ctx}/user/abroad/passportDraw_other?auth=admin&cadreId=" + cadreId);
 		</c:if>
 	})
 </script>

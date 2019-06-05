@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set value="${cm:getParentIdSet(_path)}" var="parentIdSet"/>
-<c:set value="${cm:getCurrentSysResource(_path)}" var="currentSysResource"/>
+<c:set var="_requestPath" value="${_path}"/>
+<c:set var="_queryString" value="${fn:escapeXml(requestScope['javax.servlet.forward.query_string'])}"/>
+<c:if test="${not empty _queryString}">
+    <c:set var="_requestPath" value="${_path}?${_queryString}"/>
+</c:if>
+<c:set value="${cm:getParentIdSet(_requestPath)}" var="parentIdSet"/>
+<c:set value="${cm:getCurrentSysResource(_requestPath)}" var="currentSysResource"/>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -106,12 +111,12 @@
 										<a href="${ctx}/m/index">回到首页</a>
 									</li>
 								</c:if>
-								<c:set var="sysResource" value="${cm:getSysResource(parentId, true)}"/>
+								<%--<c:set var="sysResource" value="${cm:getSysResource(parentId, true)}"/>
 								<c:if test="${sysResource.parentId>0}">
 									<li>
-										<a href="javascript:;">${sysResource.name}</a>
+										${sysResource.name}
 									</li>
-								</c:if>
+								</c:if>--%>
 							</c:forEach>
 							<li>
 								${currentSysResource.name}
@@ -147,5 +152,25 @@
 				</div>
 			</div>
 		</div>
+	<script>
+		function _refreshMenu(url) {
+			// 处理左侧菜单
+			$("#sidebar .nav-list li").removeClass("active").removeClass("open")
+			$("#sidebar .nav-list li ul").removeClass("nav-show").css("display", "none")
+			while ($("#sidebar .nav-list a[data-url='" + url + "']").length == 0) {
+				var idx = url.lastIndexOf("&");
+				if (idx == -1) {
+					idx = url.indexOf("?");
+					if (idx == -1) break;
+				}
+				url = url.substr(0, idx);
+				//console.log(url)
+			}
+			//console.log(url + "  " + $(".nav-list a[href='"+url+"']").length)
+			$("#sidebar .nav-list a[data-url='" + url + "']").parents("li").addClass("active open").children("ul").addClass("nav-show").css("display", "block");
+			$("#sidebar .nav-list a[data-url='" + url + "']").closest("li").removeClass("open");
+		}
+		_refreshMenu('${_requestPath}')
+	</script>
 	</body>
 </html>
