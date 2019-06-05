@@ -146,6 +146,26 @@
 		<to>/user/memberInflow</to>
 	</rule>
 	<rule>
+		<note>提交组织关系转出申请</note>
+		<from>^/m/memberOut_au</from>
+		<to>/user/memberOut_au</to>
+	</rule>
+	<rule>
+		<note>撤销组织关系转出申请</note>
+		<from>^/m/memberOut_back</from>
+		<to>/user/memberOut_back</to>
+	</rule>
+	<rule>
+		<note>提交校内组织关系转接申请</note>
+		<from>^/m/memberTransfer_au</from>
+		<to>/user/memberTransfer_au</to>
+	</rule>
+	<rule>
+		<note>撤销校内组织关系转接申请</note>
+		<from>^/m/memberTransfer_back</from>
+		<to>/user/memberTransfer_back</to>
+	</rule>
+	<rule>
 		<note>系统说明</note>
 		<condition type="method">GET</condition>
 		<from>^/m/hf_content</from>

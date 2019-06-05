@@ -238,10 +238,6 @@ $(document).on("click", "button[type=reset],input[type=reset]", function (event)
     //validator.resetForm();
     event.stopPropagation();
 });
-$.fn.inputlimiter.defaults = $.extend({}, $.fn.inputlimiter.defaults, {
-    remText: '还可以输入%n个字符...',
-    limitText: '最多能输入%n个字符。'
-});
 
 var console = window.console || {
         log: function () {
@@ -488,7 +484,7 @@ $(document).on("click", ".openView", function () {
     var $hide = $(hideEl || "#body-content");
     var $show = $(loadEl || "#body-content-view");
 
-    $.loadView({url:$this.data("url"), $hide:$hide, $show:$show, callback:function () {
+    $.openView({url:$this.data("url"), $hide:$hide, $show:$show, callback:function () {
         $this.removeAttr("disabled");
     }});
 });
@@ -683,7 +679,7 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
         var $hide = $(hideEl || loadEl || "#body-content");// hideEl不传，loadEl传时，在当前级别加载页面
         var $show = $(loadEl || "#body-content-view");
 
-        $.loadView({url:url, $hide:$hide, $show:$show});
+        $.openView({url:url, $hide:$hide, $show:$show});
     } else {
         $.loadModal(url, $(this).data("width"));
     }

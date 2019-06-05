@@ -76,6 +76,7 @@
         </table>-->
 
         <!--<table tableName="ow_apply_approval_log" domainObjectName="member.ApplyApprovalLog">
+        <columnOverride column="remark" jdbcType="VARCHAR"/>
         </table>-->
 
         <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">

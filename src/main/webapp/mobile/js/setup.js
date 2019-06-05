@@ -85,7 +85,7 @@ $.register.m_click(".openView", function () {
     if (openBy == 'page') {
         var callback = $this.data("callback");
         if(callback!='') callback=eval(callback)
-        $.loadView({url:url, callback:callback});
+        $.openView({url:url, callback:callback});
     } else {
         $.loadModal(url, $this.data("width"));
     }

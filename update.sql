@@ -1,4 +1,15 @@
 
+20190605
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1049, 1, '党员基本信息', '', 'menu', 'fa fa-info-circle', NULL, 692, '0/692/', 0, 'm:memberInfo', NULL, NULL, NULL, 1, 1860);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1051, 1, '基本信息', '', 'url', '', '/m/member?cls=2', 1049, '0/692/1049/', 1, 'm:member:info', NULL, NULL, NULL, 1, 1000);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1052, 1, '组织关系转出', '', 'url', '', '/m/memberOut', 1049, '0/692/1049/', 1, 'm:memberOut', NULL, NULL, NULL, 1, 900);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1053, 1, '校内组织关系转接', '', 'url', '', '/m/memberTransfer', 1049, '0/692/1049/', 1, 'm:memberTransfer', NULL, NULL, NULL, 1, 600);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1054, 1, '党员出国（境）申请组织关系暂留', '', 'url', '', '/m/memberStay?type=1', 1049, '0/692/1049/', 1, 'm:memberStay1', NULL, NULL, NULL, 1, 500);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1055, 1, '非出国（境）申请组织关系暂留', '', 'url', '', '/m/memberStay', 1049, '0/692/1049/', 1, 'm:memberStay2', NULL, NULL, NULL, 1, 400);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1056, 1, '党员流出', '', 'url', '', '/m/memberOutflow', 1049, '0/692/1049/', 1, 'm:memberOutflow', NULL, NULL, NULL, 1, 300);
+
+ALTER TABLE `ow_apply_approval_log`
+	CHANGE COLUMN `remark` `remark` TEXT NULL DEFAULT NULL COMMENT '说明' AFTER `status`;
 
 20190604
 ALTER TABLE `ow_apply_sn_range`

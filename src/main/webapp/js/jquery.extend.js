@@ -145,6 +145,12 @@ if (jQuery.validator) {
         return returnVal;
     }, "小数点后最多为两位");
 }
+
+$.fn.inputlimiter.defaults = $.extend({}, $.fn.inputlimiter.defaults, {
+    remText: '还可以输入%n个字符...',
+    limitText: '最多能输入%n个字符。'
+});
+
 /*========jquery.validate.extend=====end===*/
 if (typeof _ !== 'undefined') {
     _.templateSettings = {
@@ -703,7 +709,7 @@ var _modal_width;
         },
         date: function (str, format) {
 
-            if ($.trim(str) == '') return '';
+            if ($.trim(str) == '') return '--';
             var date = null;
             //console.log(str + " " + isNaN(str) + " " + $.isIntNum(str))
             if ($.isIntNum(str)) {
@@ -715,6 +721,7 @@ var _modal_width;
         },
         //计算天数差的函数，通用
         dayDiff: function (sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式
+            if(sDate1==undefined || sDate2==undefined) return '--'
             var aDate, oDate1, oDate2, iDays
             sDate1 = sDate1.substr(0, 10)
             sDate2 = sDate2.substr(0, 10)
@@ -727,6 +734,8 @@ var _modal_width;
         },
         //计算月份差
         monthDiff: function (date1, date2) {
+
+            if(date1==undefined || date2==undefined) return '--'
             //默认格式为"2003-03-03",根据自己需要改格式和方法
             // console.log("date1=" + date1)
             var year1 = date1.substr(0, 4);
@@ -891,7 +900,7 @@ var _modal_width;
             })
         },
         // 载入副区域, params是 url地址 或 {url：url, $mask: $mask, $show:$show, $hide:$hide, callback: callback} 对象
-        loadView: function (params) {
+        openView: function (params) {
 
             if (typeof NProgress != 'undefined') NProgress.start();
 
