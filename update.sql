@@ -1,5 +1,8 @@
 
 20190605
+更新南航
+
+20190605
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1049, 1, '党员基本信息', '', 'menu', 'fa fa-info-circle', NULL, 692, '0/692/', 0, 'm:memberInfo', NULL, NULL, NULL, 1, 1860);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1051, 1, '基本信息', '', 'url', '', '/m/member?cls=2', 1049, '0/692/1049/', 1, 'm:member:info', NULL, NULL, NULL, 1, 1000);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1052, 1, '组织关系转出', '', 'url', '', '/m/memberOut', 1049, '0/692/1049/', 1, 'm:memberOut', NULL, NULL, NULL, 1, 900);
