@@ -10,9 +10,47 @@
         </div>
         <div class="buttons">
             <button class="btn btn-danger confirm btn-sm" data-url="${ctx}/cache/clear" data-callback="_reload"
-                    data-msg="确定清空系统缓存？"><i class="fa fa-eraser"></i> 清空缓存
+                    data-msg="确定清空全部的系统缓存？"><i class="fa fa-eraser"></i> 清空全部缓存
             </button>
-
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="page-header">
+            <h1>
+                <i class="fa fa-soundcloud"></i> 清除指定缓存
+            </h1>
+        </div>
+        <div style="width: 600px">
+            <form class="form-horizontal" action="${ctx}/cache/clear" autocomplete="off" disableautocomplete id="cacheForm"
+                  method="post">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label"><span class="star">*</span>缓存名称</label>
+                    <div class="col-xs-6">
+                        <input required class="form-control" type="text" name="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">缓存key</label>
+                    <div class="col-xs-6">
+                        <input class="form-control" type="text" name="key">
+                        <span class="help-block">留空清除所有key</span>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer center">
+                <button type="button" id="cacheBtn"
+                        data-loading-text="<i class='fa fa-spinner fa-spin '></i> 操作中..."
+                        class="btn btn-primary"><i class="fa fa-check"></i> 确定清除</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="page-header">
+            <h1>
+                <i class="fa fa-files-o"></i> 文件缓存管理
+            </h1>
+        </div>
+        <div class="buttons">
             <button class="btn btn-success btn-sm" onclick="_reloadMetaData(this)"
                     data-loading-text="<i class='fa fa-spinner fa-spin '></i> 刷新中，请稍后">
                 <i class="fa fa-refresh"></i> 刷新元数据资源文件（metadata.js）
@@ -42,6 +80,29 @@
     </div>
 </div>
 <script>
+    $("#cacheBtn").click(function () {
+        $("#cacheForm").submit();
+        return false;
+    });
+    $("#cacheForm").validate({
+        submitHandler: function (form) {
+
+             var $btn = $("#cacheBtn").button('loading');
+            $(form).ajaxSubmit({
+                success: function (ret) {
+                    if (ret.success) {
+                        $.tip({
+                            $target: $("#cacheBtn"),
+                            at: 'top center', my: 'bottom center', type: 'success',
+                            msg: "操作成功。"
+                        });
+                    }
+                    $btn.button('reset');
+                }
+            });
+        }
+    });
+
     function _reload() {
         toastr.success('操作成功。', '成功');
     }

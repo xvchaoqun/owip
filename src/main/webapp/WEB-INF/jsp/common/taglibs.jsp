@@ -28,6 +28,8 @@
 <fmt:message key="site.hasLoginPage" bundle="${spring}" var="_hasLoginPage"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
 
+<c:set value="${_pMap['siteHome']}" var="_p_siteHome"/>
+<c:set value="${_pMap['host']}" var="_p_host"/>
 <c:set value="${_pMap['hideHelp']=='true'}" var="_p_hideHelp"/>
 <c:set value="${_pMap['hasPartyModule']=='true'}" var="_p_hasPartyModule"/>
 <c:set value="${_pMap['partyName']}" var="_p_partyName"/>

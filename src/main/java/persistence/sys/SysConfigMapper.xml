@@ -9,7 +9,6 @@
     <result column="term_start_date" jdbcType="DATE" property="termStartDate" />
     <result column="term_end_date" jdbcType="DATE" property="termEndDate" />
     <result column="site_copyright" jdbcType="VARCHAR" property="siteCopyright" />
-    <result column="site_home" jdbcType="VARCHAR" property="siteHome" />
     <result column="site_keywords" jdbcType="VARCHAR" property="siteKeywords" />
     <result column="site_description" jdbcType="VARCHAR" property="siteDescription" />
     <result column="site_name" jdbcType="VARCHAR" property="siteName" />
@@ -90,10 +89,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, school_name, school_short_name, school_login_url, term_start_date, term_end_date, 
-    site_copyright, site_home, site_keywords, site_description, site_name, site_short_name, 
-    mobile_plantform_name, mobile_title, favicon, logo, logo_white, login_bg, login_top, 
-    login_top_bg_color, apple_icon, screen_icon, qr_logo, login_msg, display_login_msg, 
-    login_timeout, city
+    site_copyright, site_keywords, site_description, site_name, site_short_name, mobile_plantform_name, 
+    mobile_title, favicon, logo, logo_white, login_bg, login_top, login_top_bg_color, 
+    apple_icon, screen_icon, qr_logo, login_msg, display_login_msg, login_timeout, city
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -128,24 +126,22 @@
   <insert id="insert" parameterType="domain.sys.SysConfig">
     insert into sys_config (id, school_name, school_short_name, 
       school_login_url, term_start_date, term_end_date, 
-      site_copyright, site_home, site_keywords, 
-      site_description, site_name, site_short_name, 
-      mobile_plantform_name, mobile_title, favicon, 
-      logo, logo_white, login_bg, 
-      login_top, login_top_bg_color, apple_icon, 
-      screen_icon, qr_logo, login_msg, 
-      display_login_msg, login_timeout, city
-      )
+      site_copyright, site_keywords, site_description, 
+      site_name, site_short_name, mobile_plantform_name, 
+      mobile_title, favicon, logo, 
+      logo_white, login_bg, login_top, 
+      login_top_bg_color, apple_icon, screen_icon, 
+      qr_logo, login_msg, display_login_msg, 
+      login_timeout, city)
     values (#{id,jdbcType=INTEGER}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
       #{schoolLoginUrl,jdbcType=VARCHAR}, #{termStartDate,jdbcType=DATE}, #{termEndDate,jdbcType=DATE}, 
-      #{siteCopyright,jdbcType=VARCHAR}, #{siteHome,jdbcType=VARCHAR}, #{siteKeywords,jdbcType=VARCHAR}, 
-      #{siteDescription,jdbcType=VARCHAR}, #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, 
-      #{mobilePlantformName,jdbcType=VARCHAR}, #{mobileTitle,jdbcType=VARCHAR}, #{favicon,jdbcType=VARCHAR}, 
-      #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, 
-      #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, #{appleIcon,jdbcType=VARCHAR}, 
-      #{screenIcon,jdbcType=VARCHAR}, #{qrLogo,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, 
-      #{displayLoginMsg,jdbcType=BIT}, #{loginTimeout,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}
-      )
+      #{siteCopyright,jdbcType=VARCHAR}, #{siteKeywords,jdbcType=VARCHAR}, #{siteDescription,jdbcType=VARCHAR}, 
+      #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, 
+      #{mobileTitle,jdbcType=VARCHAR}, #{favicon,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, 
+      #{loginTopBgColor,jdbcType=VARCHAR}, #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, 
+      #{qrLogo,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT}, 
+      #{loginTimeout,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
     insert into sys_config
@@ -170,9 +166,6 @@
       </if>
       <if test="siteCopyright != null">
         site_copyright,
-      </if>
-      <if test="siteHome != null">
-        site_home,
       </if>
       <if test="siteKeywords != null">
         site_keywords,
@@ -253,9 +246,6 @@
       </if>
       <if test="siteCopyright != null">
         #{siteCopyright,jdbcType=VARCHAR},
-      </if>
-      <if test="siteHome != null">
-        #{siteHome,jdbcType=VARCHAR},
       </if>
       <if test="siteKeywords != null">
         #{siteKeywords,jdbcType=VARCHAR},
@@ -346,9 +336,6 @@
       <if test="record.siteCopyright != null">
         site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
       </if>
-      <if test="record.siteHome != null">
-        site_home = #{record.siteHome,jdbcType=VARCHAR},
-      </if>
       <if test="record.siteKeywords != null">
         site_keywords = #{record.siteKeywords,jdbcType=VARCHAR},
       </if>
@@ -420,7 +407,6 @@
       term_start_date = #{record.termStartDate,jdbcType=DATE},
       term_end_date = #{record.termEndDate,jdbcType=DATE},
       site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
-      site_home = #{record.siteHome,jdbcType=VARCHAR},
       site_keywords = #{record.siteKeywords,jdbcType=VARCHAR},
       site_description = #{record.siteDescription,jdbcType=VARCHAR},
       site_name = #{record.siteName,jdbcType=VARCHAR},
@@ -464,9 +450,6 @@
       </if>
       <if test="siteCopyright != null">
         site_copyright = #{siteCopyright,jdbcType=VARCHAR},
-      </if>
-      <if test="siteHome != null">
-        site_home = #{siteHome,jdbcType=VARCHAR},
       </if>
       <if test="siteKeywords != null">
         site_keywords = #{siteKeywords,jdbcType=VARCHAR},
@@ -536,7 +519,6 @@
       term_start_date = #{termStartDate,jdbcType=DATE},
       term_end_date = #{termEndDate,jdbcType=DATE},
       site_copyright = #{siteCopyright,jdbcType=VARCHAR},
-      site_home = #{siteHome,jdbcType=VARCHAR},
       site_keywords = #{siteKeywords,jdbcType=VARCHAR},
       site_description = #{siteDescription,jdbcType=VARCHAR},
       site_name = #{siteName,jdbcType=VARCHAR},

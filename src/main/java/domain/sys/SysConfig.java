@@ -18,8 +18,6 @@ public class SysConfig implements Serializable {
 
     private String siteCopyright;
 
-    private String siteHome;
-
     private String siteKeywords;
 
     private String siteDescription;
@@ -114,14 +112,6 @@ public class SysConfig implements Serializable {
 
     public void setSiteCopyright(String siteCopyright) {
         this.siteCopyright = siteCopyright == null ? null : siteCopyright.trim();
-    }
-
-    public String getSiteHome() {
-        return siteHome;
-    }
-
-    public void setSiteHome(String siteHome) {
-        this.siteHome = siteHome == null ? null : siteHome.trim();
     }
 
     public String getSiteKeywords() {

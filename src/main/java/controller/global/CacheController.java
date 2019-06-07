@@ -31,6 +31,9 @@ public class CacheController extends BaseController {
         if(StringUtils.isNotBlank(name)) {
             CacheManager manager = CacheManager.getInstance();
             Cache cache = manager.getCache(name);
+            if(cache==null){
+                return failed("缓存{0}不存在", name);
+            }
             if(StringUtils.isNotBlank(key)) {
                 cache.remove(key);
             }else {

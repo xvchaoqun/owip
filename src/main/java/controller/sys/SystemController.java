@@ -38,6 +38,8 @@ public class SystemController extends BaseController {
     @RequestMapping("cmd")
     public String cmd(ModelMap modelMap) throws IOException {
 
+        modelMap.put("isLinux", SystemInfo.isOSLinux());
+
         return "sys/system/cmd";
     }
 
@@ -59,72 +61,14 @@ public class SystemController extends BaseController {
 
             Process process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd.trim()});
-            /*BufferedReader inputBufferedReader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream(), "UTF-8"));
-            String line = null;
-            while ((line = inputBufferedReader.readLine()) != null) {
 
-                returnLines.add(line);
-            }
-            try {
-                process.waitFor();
-            } catch (InterruptedException e) {
-                returnLines.add(e.getMessage());
-            }*/
-
-
-            //获取进程的标准输入流
-            final InputStream is1 = process.getInputStream();
-            //获取进城的错误流
-            final InputStream is2 = process.getErrorStream();
             //启动两个线程，一个线程负责读标准输出流，另一个负责读标准错误流
-            new Thread() {
-                public void run() {
-                    BufferedReader br1 = new BufferedReader(new InputStreamReader(is1));
-                    try {
-                        String line1 = null;
-                        while ((line1 = br1.readLine()) != null) {
-                            if (line1 != null) {
-                                returnLines.add(line1);
-                            }
-                        }
-                    } catch (IOException e) {
-                        logger.error("异常", e);
-                    } finally {
-                        try {
-                            is1.close();
-                        } catch (IOException e) {
-                            logger.error("异常", e);
-                        }
-                    }
-                }
-            }.start();
-
-            new Thread() {
-                public void run() {
-                    BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));
-                    try {
-                        String line2 = null;
-                        while ((line2 = br2.readLine()) != null) {
-                            if (line2 != null) {
-                                returnLines.add(line2);
-                            }
-                        }
-                    } catch (IOException e) {
-                        logger.error("异常", e);
-                    } finally {
-                        try {
-                            is2.close();
-                        } catch (IOException e) {
-                            logger.error("异常", e);
-                        }
-                    }
-                }
-            }.start();
+            StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), returnLines);
+            StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), returnLines);
+            errorGobbler.start();
+            outputGobbler.start();
 
             process.waitFor();
-
-
             logger.debug(addLog(LogConstants.LOG_ADMIN, "执行cmd:%s", cmd));
         } catch (IOException e) {
             returnLines.add(e.getMessage());
@@ -193,7 +137,8 @@ public class SystemController extends BaseController {
         }*/
         sql = new String(Base64Utils.decode(sql), "utf-8");
 
-        sql = sql.replaceAll("\n", ";");
+        //sql = sql.replaceAll("\n", ";");
+        sql = sql.replaceAll("\"", "\\\\\"");
         String cmd = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"",
                 PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"),
@@ -203,21 +148,31 @@ public class SystemController extends BaseController {
         try {
             logger.debug("start cmd:{}", cmd.trim());
 
-            Process process = Runtime.getRuntime().exec(
-                    new String[]{"/bin/sh", "-c", cmd});
-            BufferedReader inputBufferedReader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream(), "UTF-8"));
+            Process proc = null;
+            if(SystemInfo.isOSLinux()){
+                proc = Runtime.getRuntime().exec(
+                        new String[]{"/bin/sh", "-c", cmd});
+            }else {
+                proc = Runtime.getRuntime().exec(cmd);
+            }
+            StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), returnLines);
+            StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), returnLines);
+            errorGobbler.start();
+            outputGobbler.start();
+
+            /*BufferedReader inputBufferedReader = new BufferedReader(
+                    new InputStreamReader(proc.getInputStream(), "UTF-8"));
             String line = null;
             while ((line = inputBufferedReader.readLine()) != null) {
                 returnLines.add(line);
-            }
+            }*/
             try {
-                process.waitFor();
+                proc.waitFor();
             } catch (InterruptedException e) {
                 returnLines.add(e.getMessage());
             }
 
-            logger.debug(addLog(LogConstants.LOG_ADMIN, "执行sql:%s", sql));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "执行sql:%s", sql));
         } catch (IOException e) {
             returnLines.add(e.getMessage());
         }
@@ -226,6 +181,30 @@ public class SystemController extends BaseController {
         resultMap.put("sql", sql);
         resultMap.put("lines", returnLines);
         return resultMap;
+    }
+
+    public class StreamGobbler extends Thread {
+
+        InputStream is;
+        List<String> returnLines;
+
+        public StreamGobbler(InputStream is, List<String> returnLines) {
+            this.is = is;
+            this.returnLines = returnLines;
+        }
+
+        public void run() {
+            try {
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    returnLines.add(line);
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
     }
 
     @RequiresPermissions("properties:*")

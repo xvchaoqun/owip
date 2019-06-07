@@ -119,7 +119,7 @@
             </div>
         </div>
         <div>
-            <c:set var="content" value="${_sysConfig.siteHome}?code=${sysUser.code}"/>
+            <c:set var="content" value="${_p_siteHome}?code=${sysUser.code}"/>
             <img src="${ctx}/qrcode?content=${cm:encodeURI(content)}&_=<%=new Date().getTime()%>"/>
         </div>
     </div>

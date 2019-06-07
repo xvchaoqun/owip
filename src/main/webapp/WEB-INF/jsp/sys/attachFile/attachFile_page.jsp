@@ -120,7 +120,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     return ('<a href="javascript:;" data-url="${ctx}/attach?code={1}" data-type="download" '
                         + 'class="downloadBtn">{0}/attach?code={1}</a>')
-                        .format('${_sysConfig.siteHome}', rowObject.code);
+                        .format('${_p_siteHome}', rowObject.code);
                 }
             },
             {label: '扩展名', name: 'ext'},

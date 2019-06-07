@@ -1190,7 +1190,7 @@ $(document).on("blur keyup keydown paste change", "input.num, input.float", func
 });
 
 // 禁止textarea回车换行
-$(document).on('keydown input propertychange', 'textarea.noEnter, #modalForm textarea',function(event){
+$(document).on('keydown input propertychange', 'textarea.noEnter, #modalForm textarea:not(.canEnter)',function(event){
     //console.log("type=" + event.type + " which =" +event.which )
     if (event.which == 13) {
         if (window.event) {
