@@ -3,6 +3,8 @@ package service.ext;
 import bean.SchoolUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
@@ -18,6 +20,7 @@ public class ExtUnitService extends Source {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Cacheable(value = "schoolUnits")
     public Map<String, SchoolUnit> getSchoolUnitMap(){
 
         Map<String, SchoolUnit> unitMap = new LinkedHashMap<>();
@@ -26,16 +29,18 @@ public class ExtUnitService extends Source {
         Statement stat = null;
         ResultSet rs = null;
 
-        String sql = "select * from ZZB_DATA.UNIT";
+        String sql = "select * from HIT_DMB.XJDM_ZZJG";
         logger.info(sql);
         try {
             stat = conn.createStatement();
             rs = stat.executeQuery(sql);
             while (rs != null && rs.next()) {
                 SchoolUnit record = new SchoolUnit();
-                record.setCode(StringUtils.trim(rs.getString("UNIT_ID")));
-                record.setName(rs.getString("UNIT_NAME"));
-                record.setTop(rs.getString("LSDWH"));
+                record.setCode(StringUtils.trim(rs.getString("DM")));
+                record.setName(rs.getString("MC"));
+                record.setType(rs.getString("XSCJ"));
+                record.setTop(rs.getString("JGID"));
+                record.setRemark(rs.getString("LSJGID"));
                 unitMap.put(record.getCode(), record);
             }
         } catch (SQLException e) {
@@ -45,6 +50,12 @@ public class ExtUnitService extends Source {
         }*/
 
         return unitMap;
+    }
+
+    @CachePut(value = "schoolUnits")
+    public Map<String, SchoolUnit> refreshSchoolUnits(){
+
+        return getSchoolUnitMap();
     }
 
     @Override

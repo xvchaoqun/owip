@@ -9,6 +9,21 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/unit_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unit.id}">
 			<div class="form-group">
+				<label class="col-xs-3 control-label">选择学校单位</label>
+				<div class="col-xs-6">
+					<select name="schoolUnitCode" data-width="272" data-placeholder="请选择">
+						<option></option>
+						<c:forEach items="${schoolUnits}" var="su">
+							<option value="${su.code}">${su.name}</option>
+						</c:forEach>
+					</select>
+					<span class="help-block">注：选择学校单位时会覆盖以下单位编码和单位名称</span>
+					<script>
+						$("#modalForm select[name=schoolUnitCode]").val('${unit.code}');
+					</script>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>单位编号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="code" value="${unit.code}">
@@ -75,5 +90,18 @@ pageEncoding="UTF-8"%>
         }
     });
     $('[data-rel="select2"]').select2();
+    var $schoolUnitSelect = $('#modalForm select[name=schoolUnitCode]').select2();
+    $schoolUnitSelect.on("change", function () {
+		var code = $.trim($(this).val());
+		var name = $.trim($("option:checked", this).text());
+		console.log('name=' + name)
+		if(code != ''){
+			$('#modalForm input[name=code]').val(code);
+		}
+		if(name != ''){
+			$('#modalForm input[name=name]').val(name);
+		}
+	})
+
     $('[data-rel="tooltip"]').tooltip();
 </script>

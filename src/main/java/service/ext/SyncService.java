@@ -750,7 +750,6 @@ public class SyncService extends BaseMapper {
                 //ui.setEmail(StringUtils.trim(extBks.getDzxx()));
                 ui.setNation(extBks.getMz());
                 ui.setNativePlace(extBks.getSf()); // 籍贯
-                ui.setIdcard(extBks.getSfzh());
 
                 //+++++++++++++ 同步后面一系列属性
                 record.setType(extBks.getKslb());

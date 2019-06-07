@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="false">
-    <diskStore path="D:\ehcache\owip"/>
+    <diskStore path="D:\ehcache\owip.hit"/>
     <!-- service 缓存 -->
 
        <!--<defaultCache maxEntriesLocalHeap="0" eternal="false" timeToIdleSeconds="1200" timeToLiveSeconds="1200">
@@ -11,6 +11,14 @@
                       propertySeparator="," />
        </defaultCache>-->
 
+       <cache name="schoolUnits"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LRU"/>
        <cache name="OaTaskAdmin"
            eternal="false"
            maxElementsInMemory="2000"

@@ -110,6 +110,15 @@ public class UnitController extends BaseController {
     }
 
     @RequiresPermissions("unit:list")
+    @RequestMapping(value = "/refreshSchoolUnits", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_refreshSchoolUnits() {
+
+        extUnitService.refreshSchoolUnits();
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("unit:list")
     @RequestMapping("/unit_data")
     @ResponseBody
     public void unit_data(HttpServletResponse response,
@@ -220,6 +229,9 @@ public class UnitController extends BaseController {
 
             return "unit/unit_update";
         }
+
+        modelMap.put("schoolUnits", extUnitService.getSchoolUnitMap().values());
+
         return "unit/unit_au";
     }
 

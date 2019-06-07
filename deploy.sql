@@ -32,6 +32,10 @@ update sys_html_fragment set content = replace(content, '58806879', '88888888');
 update sys_html_fragment set content = replace(content, '64434910', '88888888');
 update sys_html_fragment set content = replace(content, 'zzbgz.bnu.edu.cn', 'gbgz.xjtu.edu.cn');
 
+--
+update sys_role set remark=null;
+
+
 -- 处理空格和换行
 UPDATE cadre SET  title = REPLACE(REPLACE(title, CHAR(10), ''), CHAR(13), '');
 UPDATE cadre SET  post = REPLACE(REPLACE(post, CHAR(10), ''), CHAR(13), '');

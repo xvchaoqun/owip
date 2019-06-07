@@ -1,4 +1,12 @@
 
+
+ALTER TABLE `crs_post`
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位，从“正在运转单位”库中选择' AFTER `admin_level`;
+
+
+20190606
+创建哈工大
+
 20190605
 更新南航
 

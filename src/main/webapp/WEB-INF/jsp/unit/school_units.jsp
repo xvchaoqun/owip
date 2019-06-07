@@ -11,10 +11,14 @@
                        data-url="${ctx}/unit?status=3&export=1"
                        data-rel="tooltip" data-placement="top" title="导出学校单位信息">
                         <i class="fa fa-download"></i> 导出</button>
+                    <button class="runBtn btn btn-primary btn-sm" data-url="${ctx}/refreshSchoolUnits"
+                            data-callback="_reload">
+                        <i class="fa fa-refresh"></i> 刷新
+                    </button>
                 </div>
                 <div class="space-4"></div>
                 <table class="table table-actived table-striped table-bordered table-hover table-center"
-                       style="width: 900px;">
+                       >
                     <thead>
                     <tr>
                         <th width="50">序号</th>
@@ -46,4 +50,10 @@
         </div>
     </div>
 </div>
+<div class="footer-margin lower"/>
+<script>
+    function _reload() {
+        toastr.success('操作成功。', '成功');
+    }
+</script>
 

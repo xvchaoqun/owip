@@ -66,7 +66,7 @@ public class OaTaskUserController extends OaBaseController {
                                 String mobile,
                                 Byte status,
                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录, userId
                                 Integer pageSize,
                                 Integer pageNo) throws IOException {
 
@@ -99,13 +99,13 @@ public class OaTaskUserController extends OaBaseController {
 
         if (export == 1) {
             if (ids != null && ids.length > 0)
-                criteria.andIdIn(Arrays.asList(ids));
+                criteria.andUserIdIn(Arrays.asList(ids));
             oaTaskUser_export(taskId, example, response);
             return;
         } else if (export == 2) {
 
             if (ids != null && ids.length > 0)
-                criteria.andIdIn(Arrays.asList(ids));
+                criteria.andUserIdIn(Arrays.asList(ids));
             oaTaskUser_export2(taskId, example, request, response);
         }
 

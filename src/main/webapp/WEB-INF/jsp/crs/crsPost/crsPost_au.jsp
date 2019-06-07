@@ -70,9 +70,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
+				<label class="col-xs-3 control-label"> 所属单位</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2-ajax"
+					<select data-rel="select2-ajax"
 							data-width="273" data-ajax-url="${ctx}/unit_selects?status=1"
 							name="unitId" data-placeholder="请选择单位">
 						<option value="${crsPost.unit.id}">${crsPost.unit.name}</option>

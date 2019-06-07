@@ -42,7 +42,6 @@
                                 <a class="openView btn btn-success btn-sm"
                                    data-url="${ctx}/oa/oaTask_au"><i class="fa fa-plus"></i> 新建</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                   data-width="750"
                                    data-url="${ctx}/oa/oaTask_au"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"><i class="fa fa-edit"></i> 修改</a>
@@ -59,9 +58,19 @@
                                     下发任务短信通知</a>
                             </shiro:hasPermission>
                             </c:if>
+                            <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/oa/oaTaskUser"
+                                   data-id-name="taskId"
+                                   data-open-by="page"><i class="fa fa-search"></i> 报送详情</button>
+                            <c:if test="${cls==1}">
+                                <button id="finishBtn" class="jqItemBtn btn btn-success btn-sm"
+                                   data-url="${ctx}/oa/oaTask_finish"
+                                   data-msg="确定任务完结？（转移至已完成列表）"data-callback="_reload"
+                                   data-open-by="page"><i class="fa fa-check-square-o"></i> 任务完结</button>
+                            </c:if>
                             <c:if test="${cls==3}">
                             <shiro:hasPermission name="oaTask:del">
-                                <a class="jqBatchBtn btn btn-warning btn-sm"
+                                <a class="jqBatchBtn btn btn-success btn-sm"
                                    data-title="作废"
                                    data-msg="确定作废这{0}个任务？"
                                    data-url="${ctx}/oa/oaTask_abolish?isAbolish=0"
@@ -230,34 +239,51 @@
                         'data-url="${ctx}/oa/oaTask_users?id={0}"><i class="fa fa-search"></i> 任务对象{1}</button>'
                                 .format(rowObject.id, rowObject.userCount>0?"("+rowObject.userCount+")":"")
             }},
-            {label: '已完成数', name: 'finishCount'},
-            {label: '完成率', name: '_rate', formatter: function (cellvalue, options, rowObject) {
+            {label: '已完成数', name: 'finishCount', width: 80},
+            {label: '完成率', name: '_rate', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.userCount==0) return '--'
                 return parseFloat(rowObject.finishCount*100/rowObject.userCount).toFixed(2) + "%";
             }},
-            {
+            /*{
                 label: '报送详情', name: '_detail', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.userCount==0) return '--'
                 return '<button class="openView btn btn-success btn-xs"' +
                         'data-url="${ctx}/oa/oaTaskUser?taskId={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id)
-            }},
-                <c:if test="${cls==1}">
+            }},*/
+            <c:if test="${cls==1}">
             {
-                label: '任务完结', name: '_finish', width: 130, formatter: function (cellvalue, options, rowObject) {
+                label: '任务完结', name: '_finish', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.userCount==0) return '--'
-                if(rowObject.finishCount<rowObject.userCount) return "否"
-                return '是   <button class="confirm btn btn-success btn-xs" data-msg="确定任务完结？"data-callback="_reload"' +
-                        'data-url="${ctx}/oa/oaTask_finish?id={0}"><i class="fa fa-check-square-o"></i> 任务完结</button>'
-                                .format(rowObject.id)
+                return (rowObject.finishCount<rowObject.userCount)?"否":"是"
             }},
             </c:if>
-            {label: '创建时间', name: 'createTime', width: 180}
-        ]
+            {label: '创建时间', name: 'createTime', width: 180}, {name: 'userCount', hidden:true}
+        ],
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
+
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+        if (ids.length > 1) {
+            $("#finishBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+            var isFinish = (rowData.finishCount==rowData.userCount);
+            $("#finishBtn").prop("disabled", !isFinish);
+        }
+    }
+
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>
