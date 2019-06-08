@@ -1,12 +1,13 @@
 
 
+20190608
+更新哈工大
+
+20190608
+更新 common-utils
+
 ALTER TABLE `crs_post`
 	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位，从“正在运转单位”库中选择' AFTER `admin_level`;
-
-
---- 更新哈工大
-
-更新 common-utils
 
 ALTER TABLE `sys_config`
 	DROP COLUMN `site_home`;
