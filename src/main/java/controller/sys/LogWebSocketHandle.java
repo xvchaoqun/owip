@@ -1,54 +1,74 @@
 package controller.sys;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import shiro.ShiroUser;
+
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.io.InputStream;
 
-@ServerEndpoint("/log")
+@ServerEndpoint(value = "/log", configurator = HttpSessionConfigurator.class)
 public class LogWebSocketHandle {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private Process process;
     private InputStream inputStream;
 
-    /**
-     * 新的WebSocket请求开启
-     */
     @OnOpen
     public void onOpen(Session session) {
         try {
+
+            Subject subject = (Subject) session.getUserProperties().get(Subject.class.getName());
+            ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+            if(!shiroUser.getPermissions().contains("system:cmd")){
+                session.close();
+                return;
+            }
+
             // 执行tail -f命令
-            process = Runtime.getRuntime().exec("tail -f /data/logs/info.$(date +%Y-%m-%d).log");
+            String cmd = "tail -f /data/logs/info.$(date \\+%Y-%m-%d).log";
+            process = Runtime.getRuntime().exec(
+                    new String[]{"/bin/sh", "-c", cmd.trim()});
+            //String cmd = "ping -t localhost";
+            //process = Runtime.getRuntime().exec(cmd);
+
             inputStream = process.getInputStream();
+
+            String username = shiroUser.getUsername();
+            logger.info("Open log WebSocket session:" + session.getId() + " " + username);
 
             // 一定要启动新的线程，防止InputStream阻塞处理WebSocket的线程
             TailLogThread thread = new TailLogThread(inputStream, session);
             thread.start();
+
+            InputStream errorStream = process.getErrorStream();
+            TailLogThread thread2 = new TailLogThread(errorStream, session);
+            thread2.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
-    /**
-     * WebSocket请求关闭
-     */
     @OnClose
-    public void onClose() {
+    public void onClose(Session session, CloseReason closeReason) {
         try {
-            if(inputStream != null)
+            if (inputStream != null)
                 inputStream.close();
+            if (process != null)
+                process.destroy();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        if(process != null)
-            process.destroy();
+
+        logger.info("Close log WebSocket session:" + session.getId() + " " + closeReason.toString());
     }
 
     @OnError
     public void onError(Throwable thr) {
-        thr.printStackTrace();
+
+        logger.error(thr.getMessage());
     }
 }

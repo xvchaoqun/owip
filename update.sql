@@ -4,6 +4,18 @@ ALTER TABLE `crs_post`
 	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位，从“正在运转单位”库中选择' AFTER `admin_level`;
 
 
+--- 更新哈工大
+
+更新 common-utils
+
+ALTER TABLE `sys_config`
+	DROP COLUMN `site_home`;
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES (29, 'host', '域名', 'localhost:8080', 1, 29, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES (30, 'siteHome', '系统地址', 'http://localhost:8080', 1, 30, '末尾不带反斜杠');
+
+
 20190606
 创建哈工大
 
