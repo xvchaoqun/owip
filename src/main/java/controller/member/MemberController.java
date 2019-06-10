@@ -117,7 +117,7 @@ public class MemberController extends MemberBaseController {
                         status = "已退休";
                 }
 
-                MemberStay memberStay = memberStayService.get(userId);
+                MemberStay memberStay = memberStayService.get(userId, MemberConstants.MEMBER_STAY_TYPE_ABROAD);
                 if (memberStay != null) {
                     if (memberStay.getStatus() == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
                         status = "出国暂留申请已完成审批";
@@ -1275,7 +1275,7 @@ public class MemberController extends MemberBaseController {
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
 
-            MemberStay memberStay = memberStayService.get(record.getUserId());
+            MemberStay memberStay = memberStayService.get(record.getUserId(), MemberConstants.MEMBER_STAY_TYPE_ABROAD);
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),

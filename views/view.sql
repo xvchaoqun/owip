@@ -694,8 +694,8 @@ SELECT omo.*, om.`status` as member_status from ow_member_outflow omo, ow_member
 DROP VIEW IF EXISTS `ow_member_stay_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER
 VIEW `ow_member_stay_view` AS SELECT wms.*,  om.`status` as member_status
-from ow_member_stay wms, ow_member om
-where wms.user_id=om.user_id  ;
+from ow_member_stay wms left join ow_member om
+on wms.user_id=om.user_id  ;
 
 -- ----------------------------
 --  View definition for `ow_party_member_group_view`

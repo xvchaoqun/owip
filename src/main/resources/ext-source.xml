@@ -11,7 +11,7 @@
 
 	<bean id="extDS" class="com.zaxxer.hikari.HikariDataSource"
         destroy-method="close">
-        <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+        <property name="driverClassName" value="${ext_driverClassName}" />
         <property name="jdbcUrl" value="${ext_jdbc_url}" />
         <property name="username" value="${ext_jdbc_user}" />
         <property name="password" value="${ext_jdbc_password}" />

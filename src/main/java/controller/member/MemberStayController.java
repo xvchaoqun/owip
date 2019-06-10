@@ -58,7 +58,7 @@ public class MemberStayController extends MemberBaseController {
 
         modelMap.put("type", type);
 
-        MemberStay memberStay = memberStayService.get(userId);
+        MemberStay memberStay = memberStayService.get(userId, type);
         if(memberStay!=null && memberStay.getType().intValue() == type)
             modelMap.put("memberStay", memberStay);
 
@@ -276,7 +276,8 @@ public class MemberStayController extends MemberBaseController {
             statusList.add(MemberConstants.MEMBER_STAY_STATUS_BACK);
             criteria.andStatusIn(statusList);
         } else {
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY);
+            criteria.andStatusIn(Arrays.asList(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY,
+                    MemberConstants.MEMBER_STAY_STATUS_ARCHIVE));
             if (cls == 5)
                 criteria.andMemberStatusNotEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
             if (cls == 6)

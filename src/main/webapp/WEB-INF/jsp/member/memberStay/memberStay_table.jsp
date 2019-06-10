@@ -7,7 +7,6 @@
 <c:set var="MEMBER_STAY_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=MemberConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
 <c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=MemberConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
-
 <tbody>
 <tr>
   <td class="bg-right"  style="width: 100px" >
@@ -396,7 +395,7 @@
     &nbsp;
     <c:if test="${memberStay.status==MEMBER_STAY_STATUS_APPLY}">
       <small>
-        <button class="btn btn-white btn-warning" onclick="_applyBack()">
+        <button class="btn btn-white btn-warning" onclick="_applyBack(${memberStay.id})">
           <i class="fa fa-undo"></i>
           撤销申请
         </button>

@@ -3,7 +3,6 @@ package controller.member.user;
 import controller.member.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberStay;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
@@ -23,7 +23,6 @@ import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -47,6 +46,8 @@ public class UserMemberStayController extends MemberBaseController {
     public String memberStay(Integer userId, // 申请人
                              Integer id, // memberStay记录ID, 管理员在后台修改时传入
                              byte type,
+                             // 在已完成的审批的情况下，是否新提交申请
+                             @RequestParam(required = false, defaultValue = "0") boolean isNew,
                              ModelMap modelMap) {
 
         if(id!=null){ // 如果是后台修改的情况
@@ -83,7 +84,7 @@ public class UserMemberStayController extends MemberBaseController {
             }
         }
 
-        MemberStay memberStay = memberStayService.get(userId);
+        MemberStay memberStay = memberStayService.get(userId, type);
         modelMap.put("canSubmit", memberStay==null || memberStay.getType()==type
                 || (memberStay.getStatus()<=MemberConstants.MEMBER_STAY_STATUS_BACK));
         if(memberStay!=null){
@@ -91,6 +92,11 @@ public class UserMemberStayController extends MemberBaseController {
             modelMap.put("hasSubmitType", hasSubmitType);
 
             if(hasSubmitType != type){
+                memberStay = null;
+            }
+
+            // 已完成审批，需要新提交申请
+            if(memberStay.getStatus()== MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY && isNew){
                 memberStay = null;
             }
         }
@@ -204,12 +210,18 @@ public class UserMemberStayController extends MemberBaseController {
             record.setLetter(realPath);
         }
 
-        MemberStay memberStay = memberStayService.get(userId);
+        MemberStay memberStay = memberStayService.get(userId, record.getType());
 
         // 不允许本人修改
         if(selfSubmit && memberStay!=null && memberStay.getStatus()!=MemberConstants.MEMBER_STAY_STATUS_SELF_BACK
-                && memberStay.getStatus()!=MemberConstants.MEMBER_STAY_STATUS_BACK)
-           return failed("不允许修改");
+                && memberStay.getStatus()!=MemberConstants.MEMBER_STAY_STATUS_BACK) {
+            if(record.getId()==null && memberStay.getStatus()==MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
+                // 新提交申请
+                memberStay = null;
+            }else{
+                return failed("不允许修改");
+            }
+        }
 
         if(memberStay!=null){
             // 上一次提交了不同类型，则应清除
@@ -253,10 +265,9 @@ public class UserMemberStayController extends MemberBaseController {
     @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map memberStay_back(@CurrentUser SysUserView loginUser, String remark){
+    public Map memberStay_back(int id,  String remark){
 
-        int userId = loginUser.getId();
-        memberStayService.back(userId);
+        memberStayService.back(id);
         logger.info(addLog(LogConstants.LOG_USER, "取消组织关系暂留申请"));
         return success(FormUtils.SUCCESS);
     }

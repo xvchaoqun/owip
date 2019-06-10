@@ -1,5 +1,19 @@
 
+20190610
 
+ALTER TABLE `ow_member_stay`
+	CHANGE COLUMN `user_id` `user_id` INT(10) UNSIGNED NOT NULL COMMENT '申请人，未归档的记录申请人唯一' AFTER `code`,
+	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，-1返回修改 0申请 1支部审批 2分党委审批3组织部审批 10 归档（当第二次转出时，将之前已完成的记录归档）' AFTER `type`,
+	DROP INDEX `user_id`;
+DROP VIEW IF EXISTS `ow_member_stay_view`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER
+VIEW `ow_member_stay_view` AS SELECT wms.*,  om.`status` as member_status
+from ow_member_stay wms left join ow_member om
+on wms.user_id=om.user_id  ;
+
+
+20190610
+更新北邮
 20190608
 更新哈工大、南航
 

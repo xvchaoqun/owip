@@ -18,7 +18,7 @@
         <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <libdir>${basedir}</libdir>
+        <libdir>D:/IdeaProjects/owip</libdir>
         <generator.mybatis.modal>base</generator.mybatis.modal>
     </properties>
     <dependencies>

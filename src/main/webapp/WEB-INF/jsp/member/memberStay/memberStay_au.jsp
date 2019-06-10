@@ -30,6 +30,6 @@
 
     var userId = $("#modal select[name=userId]").val();
     if(userId=="") return;
-    $.openView("${ctx}/user/memberStay?type=${type}&auth=admin&userId=" + userId);
+    $.openView("${ctx}/user/memberStay?type=${type}&auth=admin&isNew=1&userId=" + userId);
   })
 </script>

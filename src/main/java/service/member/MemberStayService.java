@@ -1,9 +1,7 @@
 package service.member;
 
 import controller.global.OpException;
-import domain.member.Member;
-import domain.member.MemberStay;
-import domain.member.MemberStayExample;
+import domain.member.*;
 import domain.party.Branch;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -160,16 +158,22 @@ public class MemberStayService extends MemberBaseMapper {
     public boolean idDuplicate(Integer id, Integer userId) {
 
         MemberStayExample example = new MemberStayExample();
-        MemberStayExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        MemberStayExample.Criteria criteria =
+                example.createCriteria().andUserIdEqualTo(userId)
+                        .andStatusNotEqualTo(MemberConstants.MEMBER_STAY_STATUS_ARCHIVE);
+
         if (id != null) criteria.andIdNotEqualTo(id);
 
         return memberStayMapper.countByExample(example) > 0;
     }
 
-    public MemberStay get(int userId) {
+    // 读取记录（未归档记录仅有一条）
+    public MemberStay get(int userId, byte type) {
 
         MemberStayExample example = new MemberStayExample();
-        example.createCriteria().andUserIdEqualTo(userId);
+        example.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(type)
+        .andStatusNotEqualTo(MemberConstants.MEMBER_STAY_STATUS_ARCHIVE);
+
         List<MemberStay> memberStays = memberStayMapper.selectByExample(example);
         if (memberStays.size() > 0) return memberStays.get(0);
 
@@ -178,11 +182,14 @@ public class MemberStayService extends MemberBaseMapper {
 
     // 本人撤回
     @Transactional
-    public void back(int userId) {
+    public void back(int id) {
 
-        MemberStay memberStay = get(userId);
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
         if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_APPLY)
             throw new OpException("状态异常");
+        if(memberStay.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
+            throw new UnauthorizedException();
+        }
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_SELF_BACK);
@@ -282,10 +289,24 @@ public class MemberStayService extends MemberBaseMapper {
     @Transactional
     public int insertSelective(MemberStay record) {
 
-        MemberStay memberStay = get(record.getUserId());
-        if(memberStay!=null){ // 提交过申请，先删除?
-            record.setId(memberStay.getId());// 保留原ID
-            memberStayMapper.deleteByPrimaryKey(memberStay.getId());
+        int userId = record.getUserId();
+        byte type = record.getType();
+        MemberStay memberStay = get(userId, type);
+        if (memberStay != null) { // 提交过申请
+            if(memberStay.getStatus()==MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY){
+                // 归档之前已完成的记录（如果存在的话），保证当前只有一条记录处于未归档状态
+                MemberStay _record = new MemberStay();
+                _record.setStatus(MemberConstants.MEMBER_STAY_STATUS_ARCHIVE);
+                MemberStayExample example = new MemberStayExample();
+                example.createCriteria()
+                        .andUserIdEqualTo(userId)
+                        .andTypeEqualTo(type)
+                        .andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY);
+                memberStayMapper.updateByExampleSelective(_record, example);
+            }else {
+                record.setId(memberStay.getId());// 保留原ID
+                memberStayMapper.deleteByPrimaryKey(memberStay.getId());
+            }
         }
 
         Integer year = DateUtils.getYear(new Date());
@@ -297,7 +318,7 @@ public class MemberStayService extends MemberBaseMapper {
         record.setCode(year + "" + String.format("%04d", nextCode));
 
         record.setIsBack(false);
-        memberOpService.checkOpAuth(record.getUserId());
+        memberOpService.checkOpAuth(userId);
 
         record.setPrintCount(0);
         record.setCreateTime(new Date());
@@ -341,8 +362,8 @@ public class MemberStayService extends MemberBaseMapper {
 
     @Transactional
     public void memberStay_check(Integer[] ids, byte type,
-                                     Integer branchId, Integer orgBranchAdminId, String orgBranchAdminPhone,
-                                     int loginUserId) {
+                                 Integer branchId, Integer orgBranchAdminId, String orgBranchAdminPhone,
+                                 int loginUserId) {
 
         for (int id : ids) {
             MemberStay memberStay = null;
@@ -356,16 +377,16 @@ public class MemberStayService extends MemberBaseMapper {
                 } else {
                     check1(memberStay.getId());
                 }
-            }else if (type == 2) {
+            } else if (type == 2) {
                 VerifyAuth<MemberStay> verifyAuth = checkVerityAuth2(id);
                 memberStay = verifyAuth.entity;
 
                 check2(memberStay.getId(), branchId, orgBranchAdminId, orgBranchAdminPhone);
-            }else if (type == 3) {
+            } else if (type == 3) {
                 SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 memberStay = memberStayMapper.selectByPrimaryKey(id);
                 check3(memberStay.getId());
-            }else{
+            } else {
                 throw new UnauthorizedException();
             }
 

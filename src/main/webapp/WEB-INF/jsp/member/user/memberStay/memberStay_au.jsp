@@ -55,7 +55,7 @@
                                     <label class="col-xs-6 control-label"><span class="star">*</span>手机</label>
 
                                     <div class="col-xs-6">
-                                        <input required class="form-control" maxlength="20" type="text" name="mobile"
+                                        <input required class="form-control mobile" maxlength="20" type="text" name="mobile"
                                                value="${memberStay.mobile}">
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">出国原因</label>
+                                    <label class="col-xs-6 control-label"><span class="star">*</span> 出国原因</label>
 
                                     <div class="col-xs-6 choice">
                                         <input name="_reason" type="checkbox" value="留学"> 留学&nbsp;
@@ -319,7 +319,7 @@
                                         <label class="col-xs-4 control-label"><span class="star">*</span>手机号</label>
 
                                         <div class="col-xs-6">
-                                            <input required class="form-control" maxlength="20" type="text"
+                                            <input required class="form-control mobile" maxlength="20" type="text"
                                                    name="mobile1"
                                                    value="${memberStay.mobile1}">
                                         </div>
@@ -382,7 +382,7 @@
                                         <label class="col-xs-4 control-label"><span class="star">*</span>手机号</label>
 
                                         <div class="col-xs-6">
-                                            <input required class="form-control" maxlength="20" type="text"
+                                            <input required class="form-control mobile" maxlength="20" type="text"
                                                    name="mobile2"
                                                    value="${memberStay.mobile2}">
                                         </div>

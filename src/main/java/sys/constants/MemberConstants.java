@@ -291,6 +291,7 @@ public class MemberConstants {
     public final static byte MEMBER_STAY_STATUS_BRANCH_VERIFY = 1;
     public final static byte MEMBER_STAY_STATUS_PARTY_VERIFY = 2;
     public final static byte MEMBER_STAY_STATUS_OW_VERIFY = 3;
+    public final static byte MEMBER_STAY_STATUS_ARCHIVE = 10; // 已归档
     public final static Map<Byte, String> MEMBER_STAY_STATUS_MAP = new LinkedHashMap<>();
 
     static {
@@ -300,5 +301,6 @@ public class MemberConstants {
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_BRANCH_VERIFY, "党支部审核通过");
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_PARTY_VERIFY, "分党委审核通过");
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_OW_VERIFY, "组织部审核通过");
+        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_ARCHIVE, "已归档");
     }
 }
