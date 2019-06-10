@@ -60,12 +60,12 @@
                             </td>
                         </tr>
                     </table>
-                    <div class="col-xs-12 container" style="height: 400px; overflow-y: scroll;">
+                    <div class="log-container" style="height: 400px; overflow-y: scroll;">
                         <div></div>
                     </div>
                 </div>
                 <div id="logTab" class="tab-pane">
-                    <div class="col-xs-12 container" style="height: 650px; overflow-y: scroll;">
+                    <div class="log-container" class="col-xs-12" style="height: 650px; overflow-y: scroll;">
                         <div></div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
 <script type="text/template" id="cmd_container_tpl">
     <div class="space-4"></div>
     {{if(lines.length>=1){}}
-    <table class="table table-striped table-bordered table-condensed table-unhover2">
+    <table class="table table-striped table-bordered table-condensed">
         <tbody>
         {{_.each(lines, function(line, idx){ }}
         <tr class="{{=line.indexOf('WARING')!=-1?'warning':(line.indexOf('ERROR')!=-1?'danger':'')}}">
@@ -100,13 +100,13 @@
     {{}}}
 </script>
 <script>
-
     $(".cpBtn").click(function () {
         $("#modalForm textarea[name=cmd]").val($.trim($(this).closest(".sample").find(".cmd").text()));
     });
-
+    var $cmdContainer = $("#cmdTab .log-container");
+    var $logContainer = $("#logTab .log-container");
     $("#exportBtn").click(function () {
-        $("#cmdTab .container div").html("");
+        $("div", $cmdContainer).html("");
         var cmd = $("#modalForm textarea[name=cmd]").val();
         if ($.trim(cmd) == '') {
             $("#modalForm textarea[name=cmd]").focus();
@@ -115,9 +115,8 @@
         $(this).download("${ctx}/system/cmd_export?cmd=" + $.base64.encode($.trim(cmd)));
         return false;
     });
-
     $("#submitBtn").click(function () {
-        $("#cmdTab .container div").html("");
+        $("div", $cmdContainer).html("");
 
         var cmd = $("#modalForm textarea[name=cmd]").val();
         if ($.trim(cmd) == '') {
@@ -126,22 +125,18 @@
         }
         $.post("${ctx}/system/cmd", {cmd: $.base64.encode($.trim(cmd))}, function (ret) {
             if (ret.msg == "success") {
-                $("#cmdTab .container div").html(_.template($("#cmd_container_tpl").html().NoMultiSpace())({
+                $("div", $cmdContainer).html(_.template($("#cmd_container_tpl").html().NoMultiSpace())({
                     lines: ret.lines
                 }));
-                _scrollTop()
+                $cmdContainer.scrollTop($("div", $cmdContainer).height() - $cmdContainer.height());
             }
         })
         return false;
     });
-
-    function _scrollTop() {
-        $("#logTab .container").scrollTop($("#logTab .container div").height() - $("#logTab .container").height());
-    }
-
-    var websocket = new WebSocket('ws://${_p_host}/log');
+    var websocket = new WebSocket('ws://'+ location.host +'/log');
     websocket.onmessage = function (event) {
-        $("#logTab .container div").append(event.data);
-        _scrollTop()
+        $("div", $logContainer).append(("<span class='{0}'>" + event.data + "</span>")
+            .format(event.data.indexOf('WARING')!=-1?'bg-warning':(event.data.indexOf('ERROR')!=-1?'bg-danger':'')));
+       $logContainer.scrollTop($("div", $logContainer).height() - $logContainer.height());
     };
 </script>

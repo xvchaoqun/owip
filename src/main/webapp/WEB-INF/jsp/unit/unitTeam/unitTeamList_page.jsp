@@ -22,7 +22,6 @@
             <div class="widget-body">
                 <div class="widget-main no-padding">
                     <form class="form-inline search-form" id="searchForm">
-                        <input type="hidden" name="displayEmpty" value="${param.displayEmpty}">
                         <div class="form-group">
                             <label>类型</label>
                             <select class="form-control" data-rel="select2" name="timeLevel"

@@ -36,8 +36,8 @@
                  </shiro:hasPermission>
                 <c:if test="${cls==1}">
                 <div class="type-select">
-                        <span class="typeCheckbox ${param.displayEmpty==1?"checked":""}">
-                        <input ${param.displayEmpty==1?"checked":""} type="checkbox"
+                        <span class="typeCheckbox ${param.displayType==1?"checked":""}">
+                        <input ${param.displayType==1?"checked":""} type="checkbox"
                                                                      value="1"> 只显示空缺岗位
                         </span>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
-                            <input type="hidden" name="displayEmpty" value="${param.displayEmpty}">
+                            <input type="hidden" name="displayType" value="${param.displayType}">
                             <div class="form-group">
                                 <label>岗位编号</label>
                                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
@@ -274,7 +274,7 @@
 </script>
 <script>
     $(":checkbox", ".typeCheckbox").click(function () {
-        $("#searchForm input[name=displayEmpty]").val($(this).prop("checked") ? 1 : 0);
+        $("#searchForm input[name=displayType]").val($(this).prop("checked") ? 1 : 0);
         $("#searchForm .jqSearchBtn").click();
     })
 
