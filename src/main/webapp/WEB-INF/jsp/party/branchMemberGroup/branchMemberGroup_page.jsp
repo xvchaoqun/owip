@@ -10,7 +10,7 @@
                  data-url-co="${ctx}/branchMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.name ||not empty param.isPresent||not empty param.partyId
-            ||not empty param.branchId}"/>
+            ||not empty param.branchId|| not empty param._appointTime || not empty param._tranTime}"/>
 
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
@@ -95,7 +95,26 @@
                                                 $.register.party_branch_select($("#searchForm"), "branchDiv",
                                                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                             </script>
-
+                                            <div class="form-group">
+                                                <label>任命时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="任命时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择任命时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_appointTime" value="${param._appointTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>应换届时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="应换届时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择应换届时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_tranTime" value="${param._tranTime}"/>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label>是否现任</label>
                                                 <select name="isPresent" data-width="80"
@@ -132,8 +151,8 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-
     $("#jqGrid").jqGrid({
         url: '${ctx}/branchMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -162,6 +181,7 @@
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen: true
             },
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '实际换届时间',
@@ -170,8 +190,8 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
             },
-            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '发文号', name: 'dispatchCode', width: 180},
+
+            /*{label: '发文号', name: 'dispatchCode', width: 180},*/
             {
                 hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
                     return (rowObject.isPresent) ? 1 : 0;

@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${partyMemberGroup.name}">
+                    <textarea required class="form-control" name="name">${partyMemberGroup.name}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -45,10 +45,20 @@ pageEncoding="UTF-8"%>
                     <span class="help-block">注：每个${_p_partyName}的“现任班子”只有一个</span>
                 </div>
 			</div>
+            <div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>任命时间</label>
+				<div class="col-xs-6">
+                    <div class="input-group" style="width: 150px">
+                        <input required class="form-control date-picker" name="_appointTime" type="text"
+                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(partyMemberGroup.appointTime,'yyyy-MM-dd')}" />
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
+				</div>
+			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>应换届时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_tranTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(partyMemberGroup.tranTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -58,24 +68,15 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">实际换届时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_actualTranTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(partyMemberGroup.actualTranTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
+                    <span class="help-block">注：实际换届时填写，即将现任班子改为历任班子时</span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>任命时间</label>
-				<div class="col-xs-6">
-                    <div class="input-group">
-                        <input required class="form-control date-picker" name="_appointTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(partyMemberGroup.appointTime,'yyyy-MM-dd')}" />
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
-				</div>
-			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-3 control-label">发文</label>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
@@ -83,7 +84,7 @@ pageEncoding="UTF-8"%>
                         <option value="${partyMemberGroup.dispatchUnitId}">${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}</option>
                     </select>
 				</div>
-			</div>
+			</div>--%>
     </form>
 </div>
 <div class="modal-footer">

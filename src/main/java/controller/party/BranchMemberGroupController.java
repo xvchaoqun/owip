@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -83,6 +85,8 @@ public class BranchMemberGroupController extends BaseController {
                                        Integer branchId,
                                        String name,
                                        Boolean isPresent,
+                                       @RequestDateRange DateRange _appointTime,
+                                       @RequestDateRange DateRange _tranTime,
                                        @RequestParam(required = false, defaultValue = "0") int export,
                                        @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                        Integer pageSize, Integer pageNo) throws IOException {
@@ -124,6 +128,22 @@ public class BranchMemberGroupController extends BaseController {
         }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
+        }
+
+        if (_appointTime.getStart()!=null) {
+            criteria.andAppointTimeGreaterThanOrEqualTo(_appointTime.getStart());
+        }
+
+        if (_appointTime.getEnd()!=null) {
+            criteria.andAppointTimeLessThanOrEqualTo(_appointTime.getEnd());
+        }
+
+        if (_tranTime.getStart()!=null) {
+            criteria.andTranTimeGreaterThanOrEqualTo(_tranTime.getStart());
+        }
+
+        if (_tranTime.getEnd()!=null) {
+            criteria.andTranTimeLessThanOrEqualTo(_tranTime.getEnd());
         }
 
         if (export == 1) {

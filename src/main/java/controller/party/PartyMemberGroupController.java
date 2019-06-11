@@ -29,6 +29,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -90,6 +92,8 @@ public class PartyMemberGroupController extends BaseController {
                                       String name,
                                       Integer partyId,
                                       Boolean isPresent,
+                                      @RequestDateRange DateRange _appointTime,
+                                       @RequestDateRange DateRange _tranTime,
                                       @RequestParam(required = false, defaultValue = "0") int export,
                                       @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                       Integer pageSize, Integer pageNo) throws IOException {
@@ -129,6 +133,22 @@ public class PartyMemberGroupController extends BaseController {
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
+        }
+
+        if (_appointTime.getStart()!=null) {
+            criteria.andAppointTimeGreaterThanOrEqualTo(_appointTime.getStart());
+        }
+
+        if (_appointTime.getEnd()!=null) {
+            criteria.andAppointTimeLessThanOrEqualTo(_appointTime.getEnd());
+        }
+
+        if (_tranTime.getStart()!=null) {
+            criteria.andTranTimeGreaterThanOrEqualTo(_tranTime.getStart());
+        }
+
+        if (_tranTime.getEnd()!=null) {
+            criteria.andTranTimeLessThanOrEqualTo(_tranTime.getEnd());
         }
 
         if (export == 1) {

@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-8">
-                        <input required class="form-control" type="text" name="name" value="${party.name}">
+					<textarea required class="form-control" name="name">${party.name}</textarea>
 				</div>
 			</div>
 			<div class="form-group">

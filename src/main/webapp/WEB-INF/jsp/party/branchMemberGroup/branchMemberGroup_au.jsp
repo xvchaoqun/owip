@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 
         <div class="form-group">
             <label class="col-xs-3 control-label">所属党支部</label>
-            <div class="col-xs-6">
+            <div class="col-xs-7">
                 <div class="help-block">
                 <input type="hidden" name="branchId" value="${branch.id}">
                 ${branch.name}
@@ -21,8 +21,8 @@ pageEncoding="UTF-8"%>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label">上一届委员会</label>
-				<div class="col-xs-6">
-                    <select class="form-control" name="fid"
+				<div class="col-xs-7">
+                    <select class="form-control" name="fid" data-width="292"
                             data-rel="select2-ajax" data-ajax-url="${ctx}/branchMemberGroup_selects?branchId=${branch.id}"
                             data-placeholder="请选择委员会">
                         <option value="${fBranchMemberGroup.id}">${fBranchMemberGroup.name}</option>
@@ -32,22 +32,32 @@ pageEncoding="UTF-8"%>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${branchMemberGroup.name}">
+				<div class="col-xs-7">
+                    <textarea required class="form-control" name="name">${branchMemberGroup.name}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否现任班子</label>
-				<div class="col-xs-6">
+				<label class="col-xs-3 control-label">是否现任委员会</label>
+				<div class="col-xs-7">
                     <label>
                         <input name="isPresent" ${branchMemberGroup.isPresent?"checked":""}  type="checkbox" />
                         <span class="lbl"></span>
                     </label>
 				</div>
 			</div>
+            <div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>任命时间</label>
+				<div class="col-xs-7">
+                    <div class="input-group" style="width: 150px">
+                        <input required class="form-control date-picker" name="_appointTime" type="text"
+                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(branchMemberGroup.appointTime,'yyyy-MM-dd')}" />
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
+				</div>
+			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>应换届时间</label>
-				<div class="col-xs-6">
+				<div class="col-xs-7">
                     <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_tranTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(branchMemberGroup.tranTime,'yyyy-MM-dd')}" />
@@ -57,27 +67,19 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">实际换届时间</label>
-				<div class="col-xs-6">
+				<div class="col-xs-7">
                     <div class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_actualTranTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(branchMemberGroup.actualTranTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
+                    <span class="help-block">注：实际换届时填写，即将现任委员会改为历任委员会时</span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>任命时间</label>
-				<div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input required class="form-control date-picker" name="_appointTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(branchMemberGroup.appointTime,'yyyy-MM-dd')}" />
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
-				</div>
-			</div>
-			<div class="form-group">
+
+			<%--<div class="form-group">
 				<label class="col-xs-3 control-label">发文</label>
-				<div class="col-xs-6">
+				<div class="col-xs-7">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
                             name="dispatchUnitId" data-placeholder="请选择单位发文">
                         <option value="${branchMemberGroup.dispatchUnitId}">
@@ -85,7 +87,7 @@ pageEncoding="UTF-8"%>
                         </option>
                     </select>
 				</div>
-			</div>
+			</div>--%>
     </form>
 </div>
 <div class="modal-footer">

@@ -247,8 +247,13 @@ public class MemberOutService extends MemberBaseMapper {
     public void abolish(int id, String remark, byte type) {
 
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
-        if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY)
-            throw new OpException("还没完成转出审批，不能撤销");
+        if (memberOut.getStatus() == MemberConstants.MEMBER_OUT_STATUS_ARCHIVE) {
+            throw new OpException("已归档记录无须撤销。",
+                    MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus()));
+        }else if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+            throw new OpException("存在未转出审批记录【状态：{0}】，无法撤销",
+                    MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus()));
+        }
 
         Integer userId = memberOut.getUserId();
         MemberOut record = new MemberOut();
@@ -271,17 +276,21 @@ public class MemberOutService extends MemberBaseMapper {
     @Transactional
     public void insertOrUpdateSelective(MemberOut record) {
 
+        int userId = record.getUserId();
         record.setIsBack(false);
         record.setIsModify(false);
         record.setPrintCount(0);
-        memberOpService.checkOpAuth(record.getUserId());
+        memberOpService.checkOpAuth(userId);
         if (record.getId() == null) {
             {
                 // 归档之前已完成转出的记录（如果存在的话），保证当前只有一条记录处于未归档状态
                 MemberOut _record = new MemberOut();
                 _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
                 MemberOutExample example = new MemberOutExample();
-                example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+                example.createCriteria()
+                        .andUserIdEqualTo(userId)
+                        .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+
                 memberOutMapper.updateByExampleSelective(_record, example);
             }
 

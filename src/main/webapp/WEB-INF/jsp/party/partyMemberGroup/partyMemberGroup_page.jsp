@@ -12,7 +12,7 @@
                  data-url-co="${ctx}/partyMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.partyId
-                ||not empty param.isPresent||not empty param.name || not empty param.code || not empty param.sort}"/>
+                ||not empty param.isPresent||not empty param.name || not empty param._appointTime || not empty param._tranTime}"/>
 
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
@@ -81,7 +81,6 @@
                                                        value="${param.name}"
                                                        placeholder="请输入名称">
                                             </div>
-
                                             <div class="form-group">
                                                 <label>所属${_p_partyName}</label>
                                                 <select name="partyId" data-rel="select2-ajax"
@@ -93,6 +92,26 @@
                                                 <script>
                                                     $.register.del_select($("#searchForm select[name=partyId]"), 350)
                                                 </script>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>任命时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="任命时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择任命时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_appointTime" value="${param._appointTime}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>应换届时间</label>
+                                                <div class="input-group tooltip-success" data-rel="tooltip" title="应换届时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                                    <input placeholder="请选择应换届时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                           type="text" name="_tranTime" value="${param._tranTime}"/>
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>是否现任</label>
@@ -132,6 +151,7 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/partyMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -174,19 +194,26 @@
                     return $.party(rowObject.partyId);
                 }
             },
-            {label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {
+                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
+                    return (rowObject.isPresent) ? 1 : 0;
+                }
+            },
+            {label: '应换届时间', name: 'tranTime', width: 130,
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'},
+                cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if (rowObject.isPresent &&
+                        rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
+                        return "class='danger'";
+                }
+            },
             {
                 label: '实际换届时间',
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y-m-d'}
-            },
-            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {
-                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
-                    return (rowObject.isPresent) ? 1 : 0;
-                }
             }
         ]/*,
         rowattr: function(rowData, currentObj, rowId)

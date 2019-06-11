@@ -434,7 +434,8 @@ public class MemberStayService extends MemberBaseMapper {
     private void back(MemberStay memberStay, byte status, int loginUserId, String reason) {
 
         byte _status = memberStay.getStatus();
-        if (_status == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
+        if (_status == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY
+                ||_status == MemberConstants.MEMBER_STAY_STATUS_ARCHIVE) {
             throw new OpException("审核流程已经完成，不可以打回。");
         }
         if (status > _status || status < MemberConstants.MEMBER_STAY_STATUS_BACK) {
