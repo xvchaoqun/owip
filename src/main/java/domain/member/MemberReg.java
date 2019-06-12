@@ -1,9 +1,17 @@
 package domain.member;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberReg implements Serializable {
+
+    public SysUserView getImportUser(){
+        return CmTag.getUserById(importUserId);
+    }
+
     private Integer id;
 
     private Integer userId;

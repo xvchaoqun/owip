@@ -15,6 +15,7 @@
                             <div class="tab-pane in active">
                                 <c:set var="_query"
                                        value="${not empty param.year ||not empty param.displaySn
+                                       ||not empty param.startSnId ||not empty param.endSnId
                                        || not empty param.isUsed || not empty param.userId || not empty param.isAbolished
                                        || not empty param.partyId|| not empty param.branchId}"/>
                                 <div class="jqgrid-vertical-offset buttons">
@@ -95,6 +96,22 @@
                                                            type="text" value="${param.displaySn}"
                                                            placeholder="请输入">
 
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>志愿书起止编码段</label>
+                                                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects"
+                                                            name="startSnId" data-width="180" data-placeholder="请选择">
+                                                        <option value="${startSn.id}" title="${startSn.isAbolished||startSn.isUsed}">
+                                                            ${startSn.displaySn}
+                                                        </option>
+                                                    </select>
+                                                    ~
+                                                    <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects"
+                                                            name="endSnId" data-width="180" data-placeholder="请选择">
+                                                        <option value="${endSn.id}" title="${endSn.isAbolished||endSn.isUsed}">
+                                                            ${endSn.displaySn}
+                                                        </option>
+                                                    </select>
                                                 </div>
                                                 <c:if test="${cls==8}">
                                                 <div class="form-group">
@@ -248,7 +265,7 @@
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
-
+    $.register.ajax_select($('[data-rel="select2-ajax"]'));
     function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {

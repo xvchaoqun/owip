@@ -104,6 +104,8 @@ public class ApplySnController extends MemberBaseController {
                           Integer userId,
                           Integer partyId,
                           Integer branchId,
+                          Integer startSnId,
+                          Integer endSnId,
                           ModelMap modelMap) {
 
         if (userId != null) {
@@ -118,6 +120,14 @@ public class ApplySnController extends MemberBaseController {
         if (branchId != null) {
             modelMap.put("branch", branchMap.get(branchId));
         }
+        if(startSnId!=null){
+            ApplySn applySn = applySnMapper.selectByPrimaryKey(startSnId);
+            modelMap.put("startSn", applySn);
+        }
+        if(endSnId!=null){
+            ApplySn applySn = applySnMapper.selectByPrimaryKey(endSnId);
+            modelMap.put("endSn", applySn);
+        }
         modelMap.put("cls", cls);
 
         return "member/applySn/applySn_page";
@@ -130,6 +140,8 @@ public class ApplySnController extends MemberBaseController {
                              @RequestParam(defaultValue = "1") int cls,
                              Integer year,
                              String displaySn,
+                             Integer startSnId,
+                             Integer endSnId,
                              Boolean isUsed,
                              Integer userId,
                              Integer partyId,
@@ -169,6 +181,18 @@ public class ApplySnController extends MemberBaseController {
 
         if (StringUtils.isNotBlank(displaySn)) {
             criteria.andDisplaySnLike(SqlUtils.like(displaySn));
+        }
+        if(startSnId!=null){
+            ApplySn applySn = applySnMapper.selectByPrimaryKey(startSnId);
+            if(applySn!=null){
+                criteria.andSnGreaterThanOrEqualTo(applySn.getSn());
+            }
+        }
+        if(endSnId!=null){
+            ApplySn applySn = applySnMapper.selectByPrimaryKey(endSnId);
+            if(applySn!=null){
+                criteria.andSnLessThanOrEqualTo(applySn.getSn());
+            }
         }
 
         if (isUsed != null) {
@@ -244,6 +268,7 @@ public class ApplySnController extends MemberBaseController {
     @ResponseBody
     public Map applySn_selects(Integer pageSize, Integer pageNo,
                                Boolean isUsed,
+                               Boolean isAbolished,
                                String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -258,9 +283,13 @@ public class ApplySnController extends MemberBaseController {
 
         ApplySnExample example = new ApplySnExample();
         Criteria criteria = example.createCriteria()
-                .andYearEqualTo(DateUtils.getCurrentYear())
-                .andIsUsedEqualTo(BooleanUtils.isTrue(isUsed))
-                .andIsAbolishedEqualTo(false);
+                .andYearEqualTo(DateUtils.getCurrentYear());
+        if(isUsed!=null){
+            criteria.andIsUsedEqualTo(isUsed);
+        }
+        if(isAbolished!=null){
+            criteria.andIsAbolishedEqualTo(isAbolished);
+        }
         if (searchStr != null) {
             criteria.andDisplaySnLike(SqlUtils.like(searchStr));
         }
@@ -272,13 +301,15 @@ public class ApplySnController extends MemberBaseController {
         List<ApplySn> records = applySnMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
 
-        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != records && records.size() > 0) {
 
             for (ApplySn record : records) {
-                Map<String, String> option = new HashMap<>();
+                Map<String, Object> option = new HashMap<>();
                 option.put("id", record.getId() + "");
                 option.put("text", record.getDisplaySn());
+                option.put("del", BooleanUtils.isTrue(record.getIsUsed())
+                        ||BooleanUtils.isTrue(record.getIsAbolished()));
 
                 options.add(option);
             }

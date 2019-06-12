@@ -18,7 +18,7 @@
         <div class="form-group">
             <label class="col-xs-4 control-label">调换志愿书编码</label>
             <div class="col-xs-7 label-text">
-                <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects?isUsed=1"
+                <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects?isAbolished=0&isUsed=1"
                         name="exchangeSnId" data-placeholder="请选择">
                     <option></option>
                 </select>
