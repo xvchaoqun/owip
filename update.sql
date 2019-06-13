@@ -1,4 +1,18 @@
 
+
+20190613
+
+UPDATE `db_owip`.`base_meta_class` SET `name`='组织类型' WHERE  `id`=19;
+UPDATE `db_owip`.`base_meta_class` SET `name`='党总支类别' WHERE  `id`=20;
+UPDATE `db_owip`.`base_meta_class` SET `name`='所在单位属性' WHERE  `id`=21;
+UPDATE `db_owip`.`base_meta_class` SET `first_level`='党组织机构管理' WHERE  `id`=21;
+UPDATE `db_owip`.`base_meta_class` SET `second_level`='基层党组织' WHERE  `id`=21;
+
+-- 更新导入样表
+
+20190612
+更新南航
+
 20190610
 
 ALTER TABLE `ow_member_stay`
