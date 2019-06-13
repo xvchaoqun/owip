@@ -1,6 +1,7 @@
 package service.crs;
 
 import com.google.gson.*;
+import controller.global.OpException;
 import domain.crs.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -177,14 +178,31 @@ public class CrsPostService extends CrsBaseMapper {
         crsPostMapper.insertSelective(record);
     }
 
-    // 假删除/作废
+    // 更新岗位招聘状态
     @Transactional
-    public void batchDel(Integer[] ids, byte status) {
+    public void updateStatus(Integer[] ids, byte status) {
 
         if (ids == null || ids.length == 0) return;
 
         CrsPostExample example = new CrsPostExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        CrsPostExample.Criteria criteria = example.createCriteria().andIdIn(Arrays.asList(ids));
+
+
+        if(status==CrsConstants.CRS_POST_STATUS_NORMAL){
+
+            // 只有已作废或已删除的记录，可以重新返回招聘列表
+            criteria.andStatusIn(Arrays.asList(CrsConstants.CRS_POST_STATUS_ABOLISH,
+                    CrsConstants.CRS_POST_STATUS_DELETE));
+        }else if(status==CrsConstants.CRS_POST_STATUS_ABOLISH||status==CrsConstants.CRS_POST_STATUS_DELETE){
+
+            // 只有正常招聘的岗位，才可以作废或删除
+            criteria.andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL);
+        }else{
+
+            // 其他情况不允许更新状态
+            throw new OpException("操作有误。");
+        }
+
         CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setStatus(status);
         crsPostMapper.updateByExampleSelective(record, example);

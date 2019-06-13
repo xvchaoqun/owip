@@ -55,7 +55,7 @@ public class CadreCompanyService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             long count = cadreCompanyMapper.countByExample(example);
             if (count != ids.length) {
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("参数有误");
             }
         }
         CadreCompanyExample example = new CadreCompanyExample();
@@ -108,7 +108,7 @@ public class CadreCompanyService extends BaseMapper {
     public void updateModify(CadreCompany record, Integer applyId) {
 
         if (applyId == null) {
-            throw new IllegalArgumentException();
+            throw new OpException("参数有误");
         }
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();

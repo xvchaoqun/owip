@@ -19,9 +19,23 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="branchMemberGroup:edit">
+                                <button data-url="${ctx}/branchMemberGroup_au"
+                                        class="popupBtn btn btn-info btn-sm">
+                                    <i class="fa fa-plus"></i> 添加
+                                </button>
                                 <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                                     <i class="fa fa-edit"></i> 修改信息</a>
                                 </shiro:hasPermission>
+                                <c:if test="${status>=0}">
+                                    <shiro:hasPermission name="branchMemberGroup:realDel">
+                                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                            data-url="${ctx}/branchMemberGroup_import"
+                                            data-rel="tooltip" data-placement="top" title="批量导入"><i
+                                            class="fa fa-upload"></i>
+                                        批量导入
+                                    </button>
+                                    </shiro:hasPermission>
+                                </c:if>
                                 <%--<button data-url="${ctx}/branch_member" data-width="800" class="jqOpenViewBtn btn btn-warning btn-sm">
                                     <i class="fa fa-user"></i> 编辑委员
                                 </button>--%>
@@ -32,7 +46,7 @@
                                     <shiro:hasPermission name="branchMemberGroup:del">
                                         <a class="jqBatchBtn btn btn-danger btn-sm"
                                            data-url="${ctx}/branchMemberGroup_batchDel" data-title="撤销支部委员会"
-                                           data-msg="确定撤销这{0}个支部委员会吗？"><i class="fa fa-trash"></i> 撤销</a>
+                                           data-msg="确定撤销这{0}个支部委员会吗？"><i class="fa fa-history"></i> 撤销</a>
                                         【注：撤销操作将同时删除相关管理员权限，请谨慎操作！】
                                     </shiro:hasPermission>
                                 </c:if>

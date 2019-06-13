@@ -254,7 +254,7 @@ public class CadreInspectService extends BaseMapper {
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
         Integer cadreId = cadre.getId();
         if (cadreInspect.getStatus() != CadreConstants.CADRE_INSPECT_STATUS_NORMAL) {
-            throw new IllegalArgumentException("[通过常委会任命]考察对象"
+            throw new OpException("[通过常委会任命]考察对象"
                     +cadre.getUser().getRealname()+"状态异常：" + cadreInspect.getStatus());
         }
 
@@ -321,7 +321,7 @@ public class CadreInspectService extends BaseMapper {
         int cadreId = cadre.getId();
         // 只有正常状态的考察对象，才可以撤销
         if(cadreInspect.getStatus() != CadreConstants.CADRE_INSPECT_STATUS_NORMAL){
-            throw new IllegalArgumentException("考察对象"
+            throw new OpException("考察对象"
                     +cadre.getUser().getRealname()+"状态异常:" + cadreInspect.getStatus());
         }
 

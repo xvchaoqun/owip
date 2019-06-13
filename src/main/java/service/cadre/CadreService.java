@@ -214,7 +214,7 @@ public class CadreService extends BaseMapper {
             int userId = cadre.getUserId();
             if (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE_LEAVE
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
-                throw new IllegalArgumentException("干部[" + cadre.getUser().getRealname() + "]状态异常：" + cadre.getStatus());
+                throw new OpException("干部[" + cadre.getUser().getRealname() + "]状态异常：" + cadre.getStatus());
             }
 
             // 添加考察对象角色

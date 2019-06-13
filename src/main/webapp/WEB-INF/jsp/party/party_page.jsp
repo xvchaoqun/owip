@@ -39,12 +39,7 @@ pageEncoding="UTF-8" %>
                     </button>
                 </shiro:hasPermission>--%>
                     </shiro:hasPermission>
-                <shiro:hasPermission name="partyMemberGroup:edit">
-                    <button data-url="${ctx}/partyMemberGroup_au"
-                            data-id-name="partyId" class="jqOpenViewBtn btn btn-success btn-sm">
-                        <i class="fa fa-users"></i> 添加领导班子
-                    </button>
-                </shiro:hasPermission>
+
                 <shiro:hasPermission name="orgAdmin:list">
                 <button data-url="${ctx}/org_admin"
                         data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">

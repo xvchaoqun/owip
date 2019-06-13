@@ -1,12 +1,19 @@
 package controller.party;
 
+import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.party.*;
 import domain.party.BranchExample.Criteria;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,12 +26,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -256,10 +266,96 @@ public class BranchController extends BaseController {
                 modelMap.put("party", party);
             }
         }
-
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));
-
         return "party/branch/branch_au";
+    }
+
+    @RequiresPermissions("branch:edit")
+    @RequestMapping("/branch_import")
+    public String branch_import(ModelMap modelMap) {
+
+        return "party/branch/branch_import";
+    }
+
+    @RequiresPermissions("branch:edit")
+    @RequestMapping(value = "/branch_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_branch_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<Branch> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            Branch record = new Branch();
+            row++;
+
+            String name = StringUtils.trimToNull(xlsRow.get(0));
+             if(StringUtils.isBlank(name)){
+                throw new OpException("第{0}行党支部名称为空", row);
+            }
+            record.setName(name);
+
+            String shortName = StringUtils.trimToNull(xlsRow.get(1));
+            record.setShortName(shortName);
+
+            String _foundTime = StringUtils.trimToNull(xlsRow.get(2));
+            Date foundTime = DateUtils.parseStringToDate(_foundTime);
+            if(foundTime==null){
+                throw new OpException("第{0}行党支部成立时间为空", row);
+            }
+            record.setFoundTime(foundTime);
+
+            String partyCode = StringUtils.trimToNull(xlsRow.get(4));
+            if(StringUtils.isBlank(partyCode)){
+                throw new OpException("第{0}行所属分党委编码为空", row);
+            }
+            Party party = partyService.getByCode(partyCode);
+            if(party==null){
+                throw new OpException("第{0}行所属分党委编码[{1}]不存在", row, partyCode);
+            }
+            record.setPartyId(party.getId());
+
+            int startRow = 5;
+            String _branchType = StringUtils.trimToNull(xlsRow.get(startRow++));
+            MetaType branchType = CmTag.getMetaTypeByName("mc_branch_type", _branchType);
+            if (branchType == null) throw new OpException("第{0}行党支部类别[{1}]不存在", row, _branchType);
+            record.setTypeId(branchType.getId());
+
+            String _partyUnitType = StringUtils.trimToNull(xlsRow.get(startRow++));
+            MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", _partyUnitType);
+            if (partyUnitType == null) throw new OpException("第{0}行所在单位属性[{1}]不存在", row, _partyUnitType);
+            record.setUnitTypeId(partyUnitType.getId());
+
+            record.setIsStaff(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(startRow++)), "是"));
+            record.setIsPrefessional(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(startRow++)), "是"));
+            record.setIsBaseTeam(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(startRow++)), "是"));
+            record.setIsEnterpriseBig(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(startRow++)), "是"));
+            record.setIsEnterpriseNationalized(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(startRow++)), "是"));
+            record.setIsUnion(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(startRow++)), "是"));
+
+            record.setPhone(StringUtils.trimToNull(xlsRow.get(startRow++)));
+            record.setFax(StringUtils.trimToNull(xlsRow.get(startRow++)));
+            record.setEmail(StringUtils.trimToNull(xlsRow.get(startRow++)));
+
+            record.setCreateTime(new Date());
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = branchService.bacthImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     /*@RequiresPermissions("branch:del")
@@ -399,9 +495,11 @@ public class BranchController extends BaseController {
             criteria.andIsDeletedEqualTo(del);
         }
 
-        if (partyId == null) criteria.andIdIsNull(); // partyId肯定存在
-
-        criteria.andPartyIdEqualTo(partyId);
+        if (partyId == null){
+            criteria.andIdIsNull(); // partyId肯定存在
+        }else{
+            criteria.andPartyIdEqualTo(partyId);
+        }
 
         if (StringUtils.isNotBlank(searchStr)) {
             criteria.andNameLike(SqlUtils.like(searchStr));

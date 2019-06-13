@@ -9,9 +9,24 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/unitPost_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitPost.id}">
-        <input type="hidden" name="unitId" value="${unitId}">
         <input type="hidden" name="status" value="${status}">
-
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
+				<c:if test="${not empty unit}">
+				<div class="col-xs-6 label-text">
+					${unit.name}
+					<input type="hidden" name="unitId" value="${unit.id}">
+				</div>
+				</c:if>
+				<c:if test="${empty unit}">
+				<div class="col-xs-6">
+					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+							name="unitId" data-placeholder="请选择"  data-width="272">
+						<option></option>
+					</select>
+				</div>
+				</c:if>
+			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>岗位编号</label>
 				<div class="col-xs-6">
@@ -121,6 +136,7 @@ pageEncoding="UTF-8"%>
         }
     });
     $("#modalForm :checkbox").bootstrapSwitch();
+    $.register.ajax_select($("#modalForm select[name=unitId]"))
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();

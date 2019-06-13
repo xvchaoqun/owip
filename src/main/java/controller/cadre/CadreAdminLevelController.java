@@ -1,6 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
@@ -121,7 +122,7 @@ public class CadreAdminLevelController extends BaseController {
             }
             dispatchCadreType = null; // 结束文件不限制，可以在全部干部发文中选择
         }else{
-            throw new IllegalArgumentException("cls 参数有误");
+            throw new OpException("cls 参数有误");
         }
         modelMap.put("dispatchCadreIdSet", dispatchCadreIdSet);
 
@@ -154,7 +155,7 @@ public class CadreAdminLevelController extends BaseController {
             } else if (StringUtils.equalsIgnoreCase(cls, "end")) {
                 record.setEndDispatchCadreId(dispatchCadreId);
             } else {
-                throw new IllegalArgumentException("cls 参数错误");
+                throw new OpException("cls 参数错误");
             }
 
             cadreAdminLevelMapper.updateByPrimaryKey(record); // 可以删除

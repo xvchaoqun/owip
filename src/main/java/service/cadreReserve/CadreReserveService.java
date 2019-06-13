@@ -170,7 +170,7 @@ public class CadreReserveService extends BaseMapper {
         if(cadreReserves.size()>1){
             CadreReserve cadreReserve = cadreReserves.get(0);
             CadreView cadre = iCadreMapper.getCadre(cadreReserve.getCadreId());
-            throw new IllegalArgumentException("优秀年轻干部"+cadre.getUser().getRealname()
+            throw new OpException("优秀年轻干部"+cadre.getUser().getRealname()
                     +"状态异常，存在多条记录");
         }
 
@@ -187,7 +187,7 @@ public class CadreReserveService extends BaseMapper {
         if(cadreReserves.size()>1){
             CadreReserve cadreReserve = cadreReserves.get(0);
             CadreView cadre = iCadreMapper.getCadre(cadreReserve.getCadreId());
-            throw new IllegalArgumentException("优秀年轻干部"+cadre.getUser().getRealname()
+            throw new OpException("优秀年轻干部"+cadre.getUser().getRealname()
                     +"状态异常，存在多条优秀年轻干部[已列为考察对象]记录");
         }
 
@@ -348,7 +348,7 @@ public class CadreReserveService extends BaseMapper {
         int userId = cadre.getUserId();
         int cadreId = cadre.getId();
         if (cadreReserve.getStatus() != CadreConstants.CADRE_INSPECT_STATUS_NORMAL) {
-            throw new IllegalArgumentException("[列为考察对象]优秀年轻干部"
+            throw new OpException("[列为考察对象]优秀年轻干部"
                     +cadre.getUser().getRealname()+"状态异常:" + cadreReserve.getStatus());
         }
 
@@ -438,7 +438,7 @@ public class CadreReserveService extends BaseMapper {
 
         // 只有正常状态的优秀年轻干部，才可以撤销
         if(cadreReserve.getStatus() != CadreConstants.CADRE_RESERVE_STATUS_NORMAL){
-            throw new IllegalArgumentException("优秀年轻干部"+cadre.getUser().getRealname()+"状态异常:" + cadreReserve.getStatus());
+            throw new OpException("优秀年轻干部"+cadre.getUser().getRealname()+"状态异常:" + cadreReserve.getStatus());
         }
 
         // 记录任免日志
@@ -473,7 +473,7 @@ public class CadreReserveService extends BaseMapper {
 
         // 只有撤销状态的优秀年轻干部，才可以拉回来
         if(cadreReserve.getStatus() != CadreConstants.CADRE_RESERVE_STATUS_ABOLISH){
-            throw new IllegalArgumentException("优秀年轻干部"+cadre.getUser().getRealname()+"状态异常:" + cadreReserve.getStatus());
+            throw new OpException("优秀年轻干部"+cadre.getUser().getRealname()+"状态异常:" + cadreReserve.getStatus());
         }
 
         // 经过了优秀年轻干部或考察对象[非干部]的撤销操作的情况，需要更新信息并放入优秀年轻干部库

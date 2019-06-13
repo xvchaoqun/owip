@@ -27,7 +27,7 @@
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
+                        <i class="fa fa-times"></i> 删除
                     </button>
                 </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"

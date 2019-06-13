@@ -240,8 +240,7 @@ public class PartyMemberGroupController extends BaseController {
                     modelMap.put("dispatch", dispatchUnit.getDispatch());
                 }
             }
-        } else {
-            if (partyId == null) throw new IllegalArgumentException("参数错误");
+        } else if (partyId != null) {
             Party party = partyMap.get(partyId);
             modelMap.put("party", party);
         }
@@ -281,28 +280,28 @@ public class PartyMemberGroupController extends BaseController {
             }
             record.setName(name);
 
-            String partyCode = StringUtils.trimToNull(xlsRow.get(1));
+            String partyCode = StringUtils.trimToNull(xlsRow.get(2));
             if (StringUtils.isBlank(partyCode)) {
-                throw new OpException("第{0}行单位编码为空", row);
+                throw new OpException("第{0}行所属分党委编码为空", row);
             }
             Party party = partyService.getByCode(partyCode);
             if (party == null) {
-                throw new OpException("第{0}行所属基层党组织编码[{1}]不存在", row, partyCode);
+                throw new OpException("第{0}行所属分党委编码[{1}]不存在", row, partyCode);
             }
             record.setPartyId(party.getId());
 
-            record.setIsPresent(StringUtils.contains(xlsRow.get(2), "是"));
+            record.setIsPresent(StringUtils.contains(xlsRow.get(3), "是"));
 
-            String tranTime = StringUtils.trimToNull(xlsRow.get(3));
+            String appointTime = StringUtils.trimToNull(xlsRow.get(4));
+            record.setAppointTime(DateUtils.parseStringToDate(appointTime));
+
+            String tranTime = StringUtils.trimToNull(xlsRow.get(5));
             record.setTranTime(DateUtils.parseStringToDate(tranTime));
 
             if (record.getIsPresent()) {
-                String actualTranTime = StringUtils.trimToNull(xlsRow.get(4));
+                String actualTranTime = StringUtils.trimToNull(xlsRow.get(6));
                 record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
             }
-
-            String appointTime = StringUtils.trimToNull(xlsRow.get(5));
-            record.setAppointTime(DateUtils.parseStringToDate(appointTime));
 
             record.setIsDeleted(false);
             records.add(record);
@@ -403,9 +402,10 @@ public class PartyMemberGroupController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
+    // 仅查询某分党委下的班子
     @RequestMapping("/partyMemberGroup_selects")
     @ResponseBody
-    public Map partyMemberGroup_selects(int partyId, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+    public Map partyMemberGroup_selects(Integer partyId, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -416,7 +416,12 @@ public class PartyMemberGroupController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         PartyMemberGroupExample example = new PartyMemberGroupExample();
-        Criteria criteria = example.createCriteria().andPartyIdEqualTo(partyId);
+        Criteria criteria = example.createCriteria();
+        if(partyId!=null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }else{
+            criteria.andIdIsNull();
+        }
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(searchStr)) {

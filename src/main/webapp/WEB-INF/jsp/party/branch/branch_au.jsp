@@ -38,13 +38,12 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-8">
-					<select required class="form-control" name="typeId"
+					<select required class="form-control"
 							data-width="372"
-							data-rel="select2" data-placeholder="请选择类别">
+							name="typeId" data-rel="select2"
+                                data-placeholder="请选择">
 						<option></option>
-						<c:forEach items="${typeMap}" var="type">
-							<option value="${type.key}">${type.value.name}</option>
-						</c:forEach>
+						<c:import url="/metaTypes?__code=mc_branch_type"/>
 					</select>
 					<script>
 						$("#modalForm select[name=typeId]").val('${branch.typeId}');
@@ -79,10 +78,10 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>单位属性</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>所在单位属性</label>
 				<div class="col-xs-8">
 					<select required class="form-control" name="unitTypeId"
-							data-width="372"
+							data-width="150"
 							data-rel="select2" data-placeholder="请选择单位属性">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_branch_unit_type"/>
@@ -153,9 +152,11 @@ pageEncoding="UTF-8"%>
 
 </div>
 <div class="modal-footer">
+	<div class="note">注：支部编号系统自动生成</div>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-	 <button id="submitBtn" type="button" class="btn btn-primary"
-			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> ${not empty branch?"确定":"添加"}</button>
+	<button id="submitBtn" type="button" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+        ${branch!=null?'确定':'添加'}</button>
 </div>
 </form>
 <style>
@@ -166,36 +167,6 @@ pageEncoding="UTF-8"%>
 <script>
 
 	$("#modal :checkbox").bootstrapSwitch();
-
-	/*function isStaffChange(){
-		if(!$("input[name=isStaff]").bootstrapSwitch("state")) {
-			$("input[name=isPrefessional]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$("input[name=isBaseTeam]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$(".form-group.isPrefessional, .form-group.isBaseTeam").hide();
-		}else {
-			$("input[name=isPrefessional]").bootstrapSwitch('disabled', false);
-			$(".form-group.isPrefessional").show();
-		}
-	}
-	$('input[name=isStaff]').on('switchChange.bootstrapSwitch', function(event, state) {
-		isStaffChange();
-	});
-	isStaffChange();
-
-	function isPrefessionalChange(){
-		if(!$("input[name=isPrefessional]").bootstrapSwitch("state")) {
-			$("input[name=isBaseTeam]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$(".form-group.isBaseTeam").hide();
-		}else {
-			$("input[name=isBaseTeam]").bootstrapSwitch('disabled', false);
-			$(".form-group.isBaseTeam").show();
-		}
-	}
-	$('input[name=isPrefessional]').on('switchChange.bootstrapSwitch', function(event, state) {
-		isPrefessionalChange();
-	});
-	isPrefessionalChange();*/
-
 
 	$.register.date($('.date-picker'), {endDate:'${_today}'});
 

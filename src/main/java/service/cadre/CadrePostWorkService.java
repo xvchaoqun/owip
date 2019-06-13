@@ -107,7 +107,7 @@ public class CadrePostWorkService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             long count = cadrePostWorkMapper.countByExample(example);
             if (count != ids.length) {
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("参数有误");
             }
         }
 
@@ -136,7 +136,7 @@ public class CadrePostWorkService extends BaseMapper {
     public void updateModify(CadrePostWork record, Integer applyId) {
 
         if (applyId == null) {
-            throw new IllegalArgumentException();
+            throw new OpException("参数有误");
         }
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();

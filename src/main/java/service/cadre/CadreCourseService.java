@@ -67,7 +67,7 @@ public class CadreCourseService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             int count = cadreCourseMapper.countByExample(example);
             if (count != ids.length) {
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("数据异常");
             }
         }
         CadreCourseExample example = new CadreCourseExample();
@@ -127,7 +127,7 @@ public class CadreCourseService extends BaseMapper {
     public void updateModify(CadreCourse record, Integer applyId) {
 
         if (applyId == null) {
-            throw new IllegalArgumentException();
+            throw new OpException("参数有误");
         }
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();

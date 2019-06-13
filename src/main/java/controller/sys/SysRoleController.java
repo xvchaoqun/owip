@@ -1,6 +1,7 @@
 package controller.sys;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.sys.SysResource;
 import domain.sys.SysRole;
 import domain.sys.SysRoleExample;
@@ -122,7 +123,7 @@ public class SysRoleController extends BaseController {
 		String code = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getCode()));
 		if(!CmTag.isSuperAccount(loginUser.getUsername())
 				&& StringUtils.equals(code, RoleConstants.ROLE_ADMIN)) {
-			throw new IllegalArgumentException("不允许添加admin角色");
+			throw new OpException("不允许添加admin角色");
 		}
 		if (code!=null && sysRoleService.idDuplicate(sysRole.getId(), code)) {
 			return failed("添加重复");
@@ -140,7 +141,7 @@ public class SysRoleController extends BaseController {
 
 		if(sysRole.getId() == null){
 			if(code==null){
-				throw new IllegalArgumentException("角色不能为空");
+				throw new OpException("角色不能为空");
 			}
 			sysRoleService.insertSelective(sysRole);
 			logger.info(addLog(LogConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));

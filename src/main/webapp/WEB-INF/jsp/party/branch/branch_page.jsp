@@ -26,21 +26,22 @@
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                      <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
+
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                            data-url="${ctx}/branch_import"
+                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                        批量导入
+                    </button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="member:edit">
+                <%--<shiro:hasPermission name="member:edit">
                     <button data-url="${ctx}/member_au"
                             data-id-name="branchId"
                             data-open-by="page"
                             class="jqOpenViewBtn btn btn-success btn-sm">
                         <i class="fa fa-user"></i> 添加党员
                     </button>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="branchMemberGroup:edit">
-                    <button data-url="${ctx}/branchMemberGroup_au"
-                            data-id-name="branchId" class="jqOpenViewBtn btn btn-primary btn-sm">
-                        <i class="fa fa-users"></i> 添加支部委员会
-                    </button>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
+
                 <shiro:hasPermission name="orgAdmin:list">
                 <button data-url="${ctx}/org_admin"
                         data-id-name="branchId" class="jqOpenViewBtn btn btn-warning btn-sm">
@@ -63,7 +64,7 @@
                     <shiro:hasPermission name="branch:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/branch_batchDel" data-title="撤销党支部"
-                           data-msg="确定撤销这{0}个党支部吗？"><i class="fa fa-trash"></i> 撤销</a>
+                           data-msg="确定撤销这{0}个党支部吗？"><i class="fa fa-history"></i> 撤销</a>
                         【注：撤销操作将同时删除其下的支部委员会及相关管理员权限，请谨慎操作！】
                     </shiro:hasPermission>
                 </c:if>
@@ -112,7 +113,7 @@
                                             </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>${_p_partyName}</label>
+                                        <label>所属${_p_partyName}</label>
                                         <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1"
                                                 name="partyId" data-placeholder="请选择">
                                             <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>

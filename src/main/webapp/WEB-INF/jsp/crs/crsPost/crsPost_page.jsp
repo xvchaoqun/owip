@@ -58,14 +58,14 @@
                                 </button>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="crsPost:del">
-                                <button data-url="${ctx}/crsPost_batchDel?isAbolish=1"
+                                <button data-url="${ctx}/crsPost_updateStatus?status=${CRS_POST_STATUS_ABOLISH}"
                                         data-title="作废"
                                         data-msg="确定作废这{0}条数据？"
                                         data-grid-id="#jqGrid"
                                         class="jqBatchBtn btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i> 作废
                                 </button>
-                                <button data-url="${ctx}/crsPost_batchDel?isAbolish=0"
+                                <button data-url="${ctx}/crsPost_updateStatus?status=${CRS_POST_STATUS_DELETE}"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？"
                                         data-grid-id="#jqGrid"
@@ -76,14 +76,23 @@
                             <button class="popupBtn btn btn-success btn-sm"
                                     data-url="${ctx}/crsApplicant_search"><i class="fa fa-search"></i> 查询账号报名情况</button>
                              </c:if>
+                            <c:if test="${status==CRS_POST_STATUS_ABOLISH||status==CRS_POST_STATUS_DELETE}">
+                                <button data-url="${ctx}/crsPost_updateStatus?status=${CRS_POST_STATUS_NORMAL}"
+                                        data-title="返回招聘列表"
+                                        data-msg="确定恢复这{0}个招聘岗位？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-warning btn-sm">
+                                    <i class="fa fa-reply"></i> 返回招聘列表
+                                </button>
+                            </c:if>
                             <c:if test="${status==CRS_POST_STATUS_DELETE}">
                             <shiro:hasPermission name="crsPost:del">
                                 <button data-url="${ctx}/crsPost_realDel"
                                         data-title="删除"
-                                        data-msg="确定删除这{0}条数据？"
+                                        data-msg="确定删除这{0}条数据？（相关数据全部删除，不可恢复，请谨慎操作！）"
                                         data-grid-id="#jqGrid"
                                         class="jqBatchBtn btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i> 完全删除
+                                    <i class="fa fa-times"></i> 完全删除
                                 </button>
                             </shiro:hasPermission>
                             </c:if>

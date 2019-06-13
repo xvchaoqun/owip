@@ -353,6 +353,24 @@
                 $("#checkBtn,#reCheckBtn, #addDipatchCadreBtn,#addDipatchUnitBtn,#editBtn").prop("disabled", true);
             } else if (ids.length == 1) {
                 var rowData = $(grid).getRowData(ids[0]);
+
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowData.category.split(","))>0){
+                    $("#addDipatchCadreBtn").prop("disabled", false);
+                }else{
+                    $("#addDipatchCadreBtn").prop("disabled", true);
+                }
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>', rowData.category.split(","))>0
+                    || $.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_PARTY%>', rowData.category.split(","))>0){
+                    $("#addDipatchUnitBtn").prop("disabled", false);
+                }else{
+                    $("#addDipatchUnitBtn").prop("disabled", true);
+                }
+                $("#checkBtn").prop("disabled", !isFinished(parseInt(rowData.appointCount), parseInt(rowData.dismissCount),
+                        parseInt(rowData.realAppointCount), parseInt(rowData.realDismissCount)) || rowData._hasChecked == 1);
+                $("#reCheckBtn").prop("disabled", rowData._hasChecked != 1);
+                //console.log(rowData._hasChecked==1)
+                $("#addDipatchCadreBtn, #editBtn").prop("disabled", rowData._hasChecked == 1)
+                /*
                 if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowData.category.split(","))==-1){
                     $("#checkBtn,#reCheckBtn, #addDipatchCadreBtn").prop("disabled", true);
                     $("#editBtn,#addDipatchUnitBtn").prop("disabled", false)
@@ -363,7 +381,7 @@
                     $("#reCheckBtn").prop("disabled", rowData._hasChecked != 1);
                     //console.log(rowData._hasChecked==1)
                     $("#addDipatchCadreBtn, #editBtn").prop("disabled", rowData._hasChecked == 1)
-                }
+                }*/
             } else {
                 $("#checkBtn, #reCheckBtn, #addDipatchCadreBtn,#addDipatchUnitBtn, #editBtn").prop("disabled", false);
             }

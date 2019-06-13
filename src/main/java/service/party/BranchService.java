@@ -29,6 +29,15 @@ public class BranchService extends BaseMapper {
     @Autowired
     private OrgAdminService orgAdminService;
 
+    public Branch getByCode(String code){
+
+        BranchExample example = new BranchExample();
+        BranchExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+        List<Branch> records = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return records.size()==1?records.get(0):null;
+    }
+
     // 批量转移支部到新的分党委
     @Transactional
     @Caching(evict = {
@@ -215,6 +224,40 @@ public class BranchService extends BaseMapper {
         }
 
         return map;
+    }
+
+    // 查找支部（根据党支部名称查找，用于导入数据）
+    public Branch getBranch(String branchName, int partyId){
+
+        BranchExample _example = new BranchExample();
+        _example.createCriteria().andPartyIdEqualTo(partyId)
+                .andNameEqualTo(branchName.trim());
+        List<Branch> branchs =
+                branchMapper.selectByExampleWithRowbounds(_example, new RowBounds(0,1));
+
+        return branchs.size()==1?branchs.get(0):null;
+    }
+
+    @Transactional
+    @CacheEvict(value = "Branch:ALL", allEntries = true)
+    public int bacthImport(List<Branch> records) {
+
+        int addCount = 0;
+        for (Branch record : records) {
+
+            int partyId = record.getPartyId();
+            Branch _record = getBranch(record.getName(), partyId);
+            if(_record==null){
+                record.setCode(genCode(partyId));
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(_record.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
     }
 
     @Transactional

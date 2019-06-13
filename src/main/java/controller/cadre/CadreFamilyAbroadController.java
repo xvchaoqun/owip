@@ -1,6 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.cadre.CadreFamily;
 import domain.cadre.CadreFamilyAbroad;
 import domain.cadre.CadreFamilyAbroadExample;
@@ -121,7 +122,7 @@ public class CadreFamilyAbroadController extends BaseController {
             // 干部信息本人直接修改数据校验
             CadreFamilyAbroad _record = cadreFamilyAbroadMapper.selectByPrimaryKey(id);
             if (_record.getCadreId().intValue() != record.getCadreId()) {
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("数据异常，没有操作权限");
             }
 
             if (!toApply) {

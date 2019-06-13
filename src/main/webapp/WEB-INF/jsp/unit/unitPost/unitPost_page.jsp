@@ -29,6 +29,10 @@
             || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="unitPost:edit">
+                    <button class="popupBtn btn btn-info btn-sm"
+                            data-url="${ctx}/unitPost_au?jqGrid=jqGrid">
+                        <i class="fa fa-plus"></i> 添加
+                    </button>
                      <button class="jqOpenViewBtn btn btn-primary btn-sm"
                         data-url="${ctx}/unitPost_au?jqGrid=jqGrid"
                         data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
@@ -64,7 +68,7 @@
                     <i class="fa fa-download"></i> 导出
                 </button>
                 <c:if test="${cls==1}">
-                <span class="text-primary" style="padding-left: 10px">【注：如需单个添加岗位，请进入单位档案页操作】</span>
+                <span class="text-primary" style="padding-left: 10px">【注：岗位的维护也可在单位档案页中进行操作】</span>
                 </c:if>
             </div>
             <div style="clear: both"></div>

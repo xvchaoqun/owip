@@ -2,6 +2,7 @@ package controller.cadre;
 
 import bean.CadreResume;
 import controller.BaseController;
+import controller.global.OpException;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreView;
 import domain.cadre.CadreWork;
@@ -225,7 +226,7 @@ public class CadreWorkController extends BaseController {
             // 干部信息本人直接修改数据校验
             CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
             if(cadreWork.getCadreId().intValue() != record.getCadreId()){
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("数据异常，没有操作权限");
             }
 
             if(!toApply) {

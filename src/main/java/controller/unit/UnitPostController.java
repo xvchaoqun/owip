@@ -440,7 +440,9 @@ public class UnitPostController extends BaseController {
             unitId = unitPost.getUnitId();
             status = unitPost.getStatus();
         }
-        modelMap.put("unitId", unitId);
+        if(unitId!=null) {
+            modelMap.put("unit", CmTag.getUnit(unitId));
+        }
         modelMap.put("status", status);
 
         return "unit/unitPost/unitPost_au";

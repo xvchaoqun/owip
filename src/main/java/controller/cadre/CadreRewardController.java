@@ -1,6 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreReward;
 import domain.cadre.CadreRewardExample;
@@ -169,7 +170,7 @@ public class CadreRewardController extends BaseController {
             // 干部信息本人直接修改数据校验
             CadreReward _record = cadreRewardMapper.selectByPrimaryKey(id);
             if (_record.getCadreId().intValue() != record.getCadreId()) {
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("数据异常，没有操作权限");
             }
 
             if (!toApply) {

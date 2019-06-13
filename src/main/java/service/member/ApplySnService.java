@@ -183,7 +183,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
             applySnRangeService.updateCount(applySn.getRangeId());
 
         } else {
-            throw new IllegalArgumentException();
+            throw new OpException("参数有误");
         }
 
         // 清除原申请记录的分配的志愿书（其实可不做这步，因为后面的分配新编码是覆盖操作）

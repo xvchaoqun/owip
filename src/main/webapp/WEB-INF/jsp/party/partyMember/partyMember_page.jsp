@@ -37,7 +37,7 @@
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid2"
                             class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
+                        <i class="fa fa-times"></i> 删除
                     </button>
                 </shiro:hasPermission>
                 <c:if test="${!partyMemberGroup.isPresent}">

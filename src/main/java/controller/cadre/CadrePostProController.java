@@ -1,6 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadrePostPro;
 import domain.cadre.CadrePostProExample;
@@ -152,7 +153,7 @@ public class CadrePostProController extends BaseController {
             // 干部信息本人直接修改数据校验
             CadrePostPro _record = cadrePostProMapper.selectByPrimaryKey(id);
             if (_record.getCadreId().intValue() != record.getCadreId()) {
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("数据异常，没有操作权限");
             }
 
             if (!toApply) {

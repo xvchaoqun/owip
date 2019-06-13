@@ -85,7 +85,7 @@ public class CadreRewardService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             long count = cadreRewardMapper.countByExample(example);
             if (count != ids.length) {
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("参数有误");
             }
         }
         CadreRewardExample example = new CadreRewardExample();
@@ -107,7 +107,7 @@ public class CadreRewardService extends BaseMapper {
     public void updateModify(CadreReward record, Integer applyId) {
 
         if (applyId == null) {
-            throw new IllegalArgumentException();
+            throw new OpException("参数有误");
         }
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();

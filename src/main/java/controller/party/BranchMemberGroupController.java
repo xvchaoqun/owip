@@ -1,6 +1,8 @@
 package controller.party;
 
+import bean.XlsUpload;
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.dispatch.DispatchUnit;
 import domain.party.*;
@@ -10,6 +12,10 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -241,13 +249,82 @@ public class BranchMemberGroupController extends BaseController {
                     modelMap.put("dispatch", dispatchUnit.getDispatch());
                 }
             }
-        } else {
-            if (branchId == null) throw new IllegalArgumentException("参数错误");
+        } else if (branchId != null){
             Branch branch = branchMap.get(branchId);
             modelMap.put("branch", branch);
             modelMap.put("party", partyMap.get(branch.getPartyId()));
         }
+
         return "party/branchMemberGroup/branchMemberGroup_au";
+    }
+
+    @RequiresPermissions("branchMemberGroup:edit")
+    @RequestMapping("/branchMemberGroup_import")
+    public String branchMemberGroup_import(ModelMap modelMap) {
+
+        return "party/branchMemberGroup/branchMemberGroup_import";
+    }
+
+    @RequiresPermissions("branchMemberGroup:edit")
+    @RequestMapping(value = "/branchMemberGroup_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_branchMemberGroup_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        List<BranchMemberGroup> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            BranchMemberGroup record = new BranchMemberGroup();
+            row++;
+            String name = StringUtils.trimToNull(xlsRow.get(0));
+            if (StringUtils.isBlank(name)) {
+                throw new OpException("第{0}行支部委员会名称为空", row);
+            }
+            record.setName(name);
+
+            String branchCode = StringUtils.trimToNull(xlsRow.get(2));
+            if (StringUtils.isBlank(branchCode)) {
+                throw new OpException("第{0}行所在党支部编号为空", row);
+            }
+            Branch branch = branchService.getByCode(branchCode);
+            if (branch == null) {
+                throw new OpException("第{0}行所在党支部编号[{1}]不存在", row, branchCode);
+            }
+            record.setBranchId(branch.getId());
+
+            record.setIsPresent(StringUtils.contains(xlsRow.get(3), "是"));
+
+            String appointTime = StringUtils.trimToNull(xlsRow.get(4));
+            record.setAppointTime(DateUtils.parseStringToDate(appointTime));
+
+            String tranTime = StringUtils.trimToNull(xlsRow.get(5));
+            record.setTranTime(DateUtils.parseStringToDate(tranTime));
+
+            if (record.getIsPresent()) {
+                String actualTranTime = StringUtils.trimToNull(xlsRow.get(6));
+                record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
+            }
+
+            record.setIsDeleted(false);
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = branchMemberGroupService.bacthImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     /*@RequiresPermissions("branchMemberGroup:del")
@@ -362,6 +439,7 @@ public class BranchMemberGroupController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
+    // 仅查询某支部下的委员会
     @RequestMapping("/branchMemberGroup_selects")
     @ResponseBody
     public Map branchMemberGroup_selects(Integer branchId, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
@@ -380,6 +458,8 @@ public class BranchMemberGroupController extends BaseController {
 
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
+        }else{
+            criteria.andIdIsNull();
         }
 
         if (StringUtils.isNotBlank(searchStr)) {

@@ -36,7 +36,7 @@ public class BranchMemberGroupService extends BaseMapper {
         }
     }
     
-    // 查找现任班子
+    // 查找现任委员会
     public BranchMemberGroup getPresentGroup(int branchId) {
         
         BranchMemberGroupExample _example = new BranchMemberGroupExample();
@@ -132,6 +132,52 @@ public class BranchMemberGroupService extends BaseMapper {
         record.setSortOrder(getNextSortOrder("ow_branch_member_group", null));
         return branchMemberGroupMapper.insertSelective(record);
     }
+
+    // 查找历任委员会（根据任命时间查找，用于导入数据）
+    public BranchMemberGroup getHistoryGroup(int branchId, Date appointTime){
+
+        BranchMemberGroupExample _example = new BranchMemberGroupExample();
+        _example.createCriteria().andBranchIdEqualTo(branchId)
+                .andIsPresentEqualTo(false)
+                .andAppointTimeEqualTo(appointTime);
+        List<BranchMemberGroup> branchMemberGroups =
+                branchMemberGroupMapper.selectByExampleWithRowbounds(_example, new RowBounds(0,1));
+
+        return branchMemberGroups.size()==1?branchMemberGroups.get(0):null;
+    }
+
+    @Transactional
+    public int bacthImport(List<BranchMemberGroup> records) {
+
+        int addCount = 0;
+        for (BranchMemberGroup record : records) {
+
+            BranchMemberGroup _record = null;
+            if(record.getIsPresent()) {
+                _record = getPresentGroup(record.getBranchId());
+            }else if(record.getAppointTime()!=null){
+
+                _record = getHistoryGroup(record.getBranchId(), record.getAppointTime());
+            }
+
+            if(_record==null){
+
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(_record.getId());
+                updateByPrimaryKeySelective(record);
+
+                if(record.getIsPresent()==false){
+                    commonMapper.excuteSql("update ow_branch_member_group " +
+                            "set actual_tran_time=null where id="+_record.getId());
+                }
+            }
+        }
+
+        return addCount;
+    }
+
    /* @Transactional
     public void del(Integer id){
 
