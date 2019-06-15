@@ -196,7 +196,13 @@
                 }, frozen: true
             },
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '应换届时间', name: 'tranTime', width: 130,
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'},
+                cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if (rowObject.isPresent &&
+                        rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
+                        return "class='danger'";
+                }},
             {
                 label: '实际换届时间',
                 name: 'actualTranTime',
