@@ -3,6 +3,8 @@ package service.member;
 import controller.global.OpException;
 import domain.member.*;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -731,7 +733,10 @@ public class MemberApplyOpService extends MemberBaseMapper {
     }
 
     @Transactional
-    public void memberApply_back(Integer[] userIds, byte stage, String reason, int loginUserId){
+    public void memberApply_back(Integer[] userIds,
+                                 byte stage, String reason, int loginUserId,
+                                 // 如果已领志愿书编码，需要确认打回后编码如何处理（作废或重新使用）
+                                 Boolean applySnReuse){
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
@@ -741,20 +746,17 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }
 
             byte _stage = memberApply.getStage();
-            if(_stage>=OwConstants.OW_APPLY_STAGE_GROW ){
-
-                if(stage<OwConstants.OW_APPLY_STAGE_GROW) {
-                    throw new OpException("已是党员，不可以打回发展阶段。");
-                }
-            }
             if(stage>_stage || stage<OwConstants.OW_APPLY_STAGE_INIT || stage==OwConstants.OW_APPLY_STAGE_PASS){
                 throw new OpException("打回状态有误。");
             }
-
+            String applySnOp = "";
             // 打回领取志愿书或领取志愿书之前，需要清除志愿书编码
-            if(_stage==OwConstants.OW_APPLY_STAGE_DRAW && stage <= OwConstants.OW_APPLY_STAGE_DRAW){
+            if(_stage>=OwConstants.OW_APPLY_STAGE_DRAW && stage <= OwConstants.OW_APPLY_STAGE_DRAW){
 
-                applySnService.clearAssign(userId);
+                applySnService.clearAssign(userId, BooleanUtils.isTrue(applySnReuse));
+                if(StringUtils.isNotBlank(memberApply.getApplySn())) {
+                    applySnOp = "(" + (BooleanUtils.isTrue(applySnReuse) ? "重新使用编码" : "作废编码") + ")";
+                }
             }
 
             memberApplyService.memberApply_back(userId, stage);
@@ -763,13 +765,16 @@ public class MemberApplyOpService extends MemberBaseMapper {
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
                     loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, OwConstants.OW_APPLY_STAGE_MAP.get(stage),
-                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK,
+                    reason + applySnOp);
         }
     }
 
     //移除记录（只允许移除未发展的）
     @Transactional
-    public void memberApply_remove(Integer[] userIds, boolean isRemove, String reason) {
+    public void memberApply_remove(Integer[] userIds, boolean isRemove, String reason,
+                                   // 如果已领志愿书编码，需要确认打回后编码如何处理（作废或重新使用）
+                                 Boolean applySnReuse) {
 
         int loginUserId = ShiroHelper.getCurrentUserId();
         for (int userId : userIds) {
@@ -788,14 +793,18 @@ public class MemberApplyOpService extends MemberBaseMapper {
             record.setIsRemove(isRemove);
             memberApplyMapper.updateByPrimaryKeySelective(record);
 
+             String applySnOp = "";
             // 清除已使用的志愿书编码，如果有的话
-            applySnService.clearAssign(userId);
+            applySnService.clearAssign(userId, applySnReuse);
+            if(StringUtils.isNotBlank(memberApply.getApplySn())) {
+                applySnOp = "(" + (BooleanUtils.isTrue(applySnReuse) ? "重新使用编码" : "作废编码") + ")";
+            }
 
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
                     loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, isRemove?"移除":"撤销移除",
-                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, reason);
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, reason + applySnOp);
         }
     }
 

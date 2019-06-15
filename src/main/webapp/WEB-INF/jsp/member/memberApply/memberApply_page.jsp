@@ -356,24 +356,17 @@
                                                                 <i class="fa fa-sign-in"></i> 查看操作记录
                                                             </button>
                                                             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
-                                                                <c:if test="${stage<OW_APPLY_STAGE_GROW && stage>=OW_APPLY_STAGE_INIT}">
+                                                                <c:if test="${stage>=OW_APPLY_STAGE_INIT}">
                                                                     <button class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                                                                             data-url="${ctx}/memberApply_back"
                                                                             data-querystr="stage=${param.stage}">
                                                                         <i class="fa fa-reply-all"></i> 打回申请（批量）
                                                                     </button>
                                                                 </c:if>
-                                                                <c:if test="${stage==OW_APPLY_STAGE_POSITIVE || stage==OW_APPLY_STAGE_GROW}">
-                                                                    <button class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                                                                            data-url="${ctx}/memberApply_back"
-                                                                            data-querystr="stage=${stage}">
-                                                                        <i class="fa fa-reply-all"></i> 打回至预备党员初始状态（批量）
-                                                                    </button>
-                                                                </c:if>
                                                                 <c:if test="${stage>=OW_APPLY_STAGE_INIT && stage<OW_APPLY_STAGE_GROW}">
                                                                     <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_remove"
-                                                                            data-querystr="isRemove=1">
+                                                                            data-querystr="stage=${param.stage}&isRemove=1">
                                                                         <i class="fa fa-minus"></i> 移除（批量）
                                                                     </button>
                                                                 </c:if>

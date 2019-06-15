@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${param.isRemove==0?'撤销':''}移除申请</h3>
@@ -16,6 +17,28 @@ pageEncoding="UTF-8"%>
                 ${fn:length(fn:split(param['ids[]'],","))} 条
             </div>
         </div>
+        <c:if test="${param.stage>=OW_APPLY_STAGE_DRAW}">
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><span class="star">*</span>编码处理方式</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input type="radio" checked name="applySnReuse" id="type1" value="1">
+                        <label for="type1">
+                            重新使用
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input type="radio" name="applySnReuse" id="type2" value="2">
+                        <label for="type2">
+                            作废
+                        </label>
+                    </div>
+                </div>
+                <span class="help-block">注：仅对已分配志愿书编码的申请有效</span>
+            </div>
+        </div>
+        </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label">${param.isRemove==0?'*撤销':'*'}移除原因</label>
             <div class="col-xs-6">

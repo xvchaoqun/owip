@@ -154,6 +154,9 @@
                                     <span class="title">领取志愿书</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_PLAN}"> <span class="subtitle">
                                             ${cm:formatDate(memberApply.drawTime,'yyyy-MM-dd')}
+                                        <c:if test="${not empty memberApply.applySn}">
+                                            <br/>（${memberApply.applySn}）
+                                        </c:if>
                                     </span></c:if>
                                 </li>
                                 <li data-step="6" <c:if test="${memberApply.stage>OW_APPLY_STAGE_DRAW}">class="complete"</c:if>>

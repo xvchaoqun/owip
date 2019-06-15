@@ -83,7 +83,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
     // 组织部打回领取志愿书，或从领取志愿书中进行移除操作，则清除已分配的志愿书编码
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
-    public void clearAssign(int userId) {
+    public void clearAssign(int userId, boolean applySnReuse) {
 
         MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
         if (memberApply != null) {
@@ -93,7 +93,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
                 commonMapper.excuteSql("update ow_member_apply set apply_sn_id=null, " +
                         "apply_sn=null where user_id=" + userId);
-                clearUse(applySnId);
+                clearUse(applySnId, applySnReuse);
             }
         }
     }
@@ -126,9 +126,9 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
         applySnRangeService.updateCount(applySn.getRangeId());
     }
 
-    // 更新为未使用
+    // 更新为未使用或作废
     @Transactional
-    public void clearUse(int applySnId) {
+    public void clearUse(int applySnId, boolean applySnReuse) {
 
         ApplySn applySn = applySnMapper.selectByPrimaryKey(applySnId);
         if (applySn == null) {
@@ -139,8 +139,13 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
             throw new OpException("编码{0}已作废。", applySn.getDisplaySn());
         }
 
-        commonMapper.excuteSql("update ow_apply_sn set is_used = 0, user_id = null, " +
-                "assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
+        if(applySnReuse) {
+            commonMapper.excuteSql("update ow_apply_sn set is_used = 0, user_id = null, " +
+                    "assign_time=null, party_id=null, branch_id=null where id=" + applySnId);
+        }else{
+            // 直接作废
+            commonMapper.excuteSql("update ow_apply_sn set is_abolished = 1 where id=" + applySnId);
+        }
 
         // 更新编码段已使用数量
         applySnRangeService.updateCount(applySn.getRangeId());

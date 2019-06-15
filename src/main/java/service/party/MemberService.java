@@ -274,7 +274,7 @@ public class MemberService extends MemberBaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] userIds) {
+    public void batchDel(Integer[] userIds, boolean denyApply) {
 
         if (userIds == null || userIds.length == 0) return;
         {
@@ -283,10 +283,12 @@ public class MemberService extends MemberBaseMapper {
             memberMapper.deleteByExample(example);
         }
 
-        MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
-        // 删除党员发展信息（预备党员、正式党员)
-        for (Integer userId : userIds) {
-            memberApplyService.denyWhenDeleteMember(userId);
+        if(denyApply) {
+            MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
+            // 删除党员发展信息（预备党员、正式党员)
+            for (Integer userId : userIds) {
+                memberApplyService.denyWhenDeleteMember(userId);
+            }
         }
 
         // 删除组织关系转出、出国党员暂留、校内转接、党员流出

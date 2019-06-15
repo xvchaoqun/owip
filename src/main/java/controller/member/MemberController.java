@@ -737,7 +737,7 @@ public class MemberController extends MemberBaseController {
                 members.add(memberService.get(id));
             }
 
-            memberService.batchDel(ids);
+            memberService.batchDel(ids, true);
 
             logger.info(addLog(LogConstants.LOG_MEMBER, "批量删除党员：%s", JSONUtils.toString(members, false)));
         }

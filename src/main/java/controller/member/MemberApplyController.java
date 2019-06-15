@@ -1020,9 +1020,10 @@ public class MemberApplyController extends MemberBaseController {
     @ResponseBody
     public Map do_memberApply_back(@CurrentUser SysUserView loginUser,
                                    @RequestParam(value = "ids[]") Integer[] ids, byte stage,
+                                   @RequestParam(required = false, defaultValue = "1")boolean applySnReuse,
                                    String reason) {
 
-        memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId());
+        memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId(), applySnReuse);
 
         logger.info(addLog(LogConstants.LOG_MEMBER, "打回入党申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
@@ -1041,9 +1042,10 @@ public class MemberApplyController extends MemberBaseController {
     @ResponseBody
     public Map do_memberApply_remove(@RequestParam(value = "ids[]") Integer[] ids,
                                      Boolean isRemove,
+                                     @RequestParam(required = false, defaultValue = "1")boolean applySnReuse,
                                      String reason, HttpServletRequest request) {
 
-        memberApplyOpService.memberApply_remove(ids, BooleanUtils.isTrue(isRemove), reason);
+        memberApplyOpService.memberApply_remove(ids, BooleanUtils.isTrue(isRemove), reason, applySnReuse);
         return success();
     }
 

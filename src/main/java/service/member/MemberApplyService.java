@@ -126,12 +126,12 @@ public class MemberApplyService extends MemberBaseMapper {
                     if(applySnId!=null ){
                         if(applySnId.intValue()!=oldApplySnId){
 
-                            applySnService.clearUse(oldApplySnId);
+                            applySnService.clearUse(oldApplySnId, true);
                             applySnService.use(applySnId, userId);
                         }
                     }else{
 
-                        applySnService.clearUse(oldApplySnId);
+                        applySnService.clearUse(oldApplySnId, true);
                     }
                 }else if(applySnId!=null){
 
@@ -819,16 +819,23 @@ public class MemberApplyService extends MemberBaseMapper {
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void memberApply_back(int userId, byte stage) {
 
+        Member member = memberService.get(userId);
+        if(member!=null){
+            if(stage==OwConstants.OW_APPLY_STAGE_GROW){
+                commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
+                Member record = new Member();
+                record.setUserId(userId);
+                record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW);
+                memberService.updateByPrimaryKeySelective(record, "在党员发展中，打回至预备党员初始状态");
+            }else if(stage<OwConstants.OW_APPLY_STAGE_GROW){
+                // 由正式党员或预备党员打回至预备党员之前的阶段，需要删除党员信息
+                memberService.batchDel(new Integer[]{userId}, false);
+            }
+        }
+
         switch (stage) {
             case OwConstants.OW_APPLY_STAGE_GROW: // 党员(正式或预备)打回至预备党员初始状态
-                if (iMemberMapper.memberApplyBackToGrow(userId) == 1) {
-
-                    commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
-                    Member record = new Member();
-                    record.setUserId(userId);
-                    record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW);
-                    memberService.updateByPrimaryKeySelective(record, "在党员发展中，打回至预备党员初始状态");
-                }
+                iMemberMapper.memberApplyBackToGrow(userId);
                 break;
             case OwConstants.OW_APPLY_STAGE_DRAW:  // 当前状态为领取志愿书，打回领取志愿书初始状态
                 iMemberMapper.memberApplyBackToDraw(userId);
@@ -847,6 +854,4 @@ public class MemberApplyService extends MemberBaseMapper {
                 break;
         }
     }
-
-
 }
