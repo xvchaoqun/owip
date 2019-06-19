@@ -9,7 +9,7 @@ import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
-import domain.partySchool.PartySchool;
+import domain.ps.PsInfo;
 import domain.sys.HtmlFragment;
 import domain.sys.SysConfig;
 import domain.sys.SysResource;
@@ -37,7 +37,7 @@ import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
 import service.party.BranchService;
 import service.party.PartyService;
-import service.partySchool.PartySchoolService;
+import service.ps.PsInfoService;
 import service.sys.*;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
@@ -72,7 +72,7 @@ public class CmTag {
     static UnitService unitService = context.getBean(UnitService.class);
     static PartyService partyService = context.getBean(PartyService.class);
     static BranchService branchService = context.getBean(BranchService.class);
-    static PartySchoolService partySchoolService = context.getBean(PartySchoolService.class);
+    static PsInfoService psInfoService = context.getBean(PsInfoService.class);
 
     static CadreService cadreService = context.getBean(CadreService.class);
     static CadrePostService cadrePostService = context.getBean(CadrePostService.class);
@@ -345,11 +345,11 @@ public class CmTag {
 
         return branchService.findAll().get(id);
     }
-    public static PartySchool getPartySchool(Integer id) {
+    public static PsInfo getPsInfo(Integer id) {
 
         if (id == null) return null;
 
-        return partySchoolService.findAll().get(id);
+        return psInfoService.findAll().get(id);
     }
     public static SysUserView getUserById(Integer id) {
 

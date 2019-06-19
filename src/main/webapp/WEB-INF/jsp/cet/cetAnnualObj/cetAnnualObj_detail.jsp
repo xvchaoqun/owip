@@ -25,6 +25,15 @@
         </div>
     </div>
     </c:if>
+    <c:if test="${empty param.objId && fn:length(years)>1}">
+        <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+          <c:forEach items="${years}" var="_year" varStatus="vs">
+          <li class="<c:if test="${year==_year || (empty year && vs.first)}">active</c:if>">
+            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetAnnualObj_detail?year=${_year}"><i class="fa fa-list"></i> ${_year}年度</a>
+          </li>
+          </c:forEach>
+        </ul>
+    </c:if>
     <c:if test="${empty cetAnnualObj}">
     <h4>暂无</h4>
     </c:if>

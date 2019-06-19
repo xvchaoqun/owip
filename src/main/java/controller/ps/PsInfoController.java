@@ -1,9 +1,7 @@
-package controller.partySchool;
+package controller.ps;
 
-import controller.BaseController;
-import domain.partySchool.PartySchool;
-import domain.partySchool.PartySchoolExample;
-import domain.partySchool.PartySchoolExample.Criteria;
+import domain.ps.PsInfo;
+import domain.ps.PsInfoExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -26,23 +24,23 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-
-public class PartySchoolController extends BaseController {
+@RequestMapping("/ps")
+public class PsInfoController extends PsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("partySchool:list")
-    @RequestMapping("/partySchool")
-    public String partySchool( @RequestParam(required = false, defaultValue = "0") boolean isHistory, ModelMap modelMap) {
+    @RequiresPermissions("psInfo:list")
+    @RequestMapping("/psInfo")
+    public String psInfo( @RequestParam(required = false, defaultValue = "0") boolean isHistory, ModelMap modelMap) {
 
         modelMap.put("isHistory", isHistory);
 
-        return "partySchool/partySchool/partySchool_page";
+        return "ps/psInfo/psInfo_page";
     }
 
-    @RequiresPermissions("partySchool:list")
-    @RequestMapping("/partySchool_data")
-    public void partySchool_data(HttpServletResponse response,
+    @RequiresPermissions("psInfo:list")
+    @RequestMapping("/psInfo_data")
+    public void psInfo_data(HttpServletResponse response,
                                  String name,
                                  @RequestParam(required = false, defaultValue = "0") boolean isHistory,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -57,8 +55,8 @@ public class PartySchoolController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PartySchoolExample example = new PartySchoolExample();
-        Criteria criteria = example.createCriteria().andIsHistoryEqualTo(isHistory);
+        PsInfoExample example = new PsInfoExample();
+        PsInfoExample.Criteria criteria = example.createCriteria().andIsHistoryEqualTo(isHistory);
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(name)) {
@@ -68,16 +66,16 @@ public class PartySchoolController extends BaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            partySchool_export(example, response);
+            psInfo_export(example, response);
             return;
         }
 
-        long count = partySchoolMapper.countByExample(example);
+        long count = psInfoMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PartySchool> records= partySchoolMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PsInfo> records= psInfoMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -87,89 +85,89 @@ public class PartySchoolController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(partySchool.class, partySchoolMixin.class);
+        //baseMixins.put(psInfo.class, psInfoMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 
-    @RequiresPermissions("partySchool:edit")
-    @RequestMapping(value = "/partySchool_au", method = RequestMethod.POST)
+    @RequiresPermissions("psInfo:edit")
+    @RequestMapping(value = "/psInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_partySchool_au(PartySchool record, HttpServletRequest request) {
+    public Map do_psInfo_au(PsInfo record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if (id == null) {
             record.setIsHistory(false);
-            partySchoolService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加二级党校：%s", record.getId()));
+            psInfoService.insertSelective(record);
+            logger.info(addLog(LogConstants.LOG_PS, "添加二级党校：%s", record.getId()));
         } else {
 
-            partySchoolService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新二级党校：%s", record.getId()));
+            psInfoService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(LogConstants.LOG_PS, "更新二级党校：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("partySchool:edit")
-    @RequestMapping("/partySchool_au")
-    public String partySchool_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("psInfo:edit")
+    @RequestMapping("/psInfo_au")
+    public String psInfo_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            PartySchool partySchool = partySchoolMapper.selectByPrimaryKey(id);
-            modelMap.put("partySchool", partySchool);
+            PsInfo psInfo = psInfoMapper.selectByPrimaryKey(id);
+            modelMap.put("psInfo", psInfo);
         }
-        return "partySchool/partySchool/partySchool_au";
+        return "ps/psInfo/psInfo_au";
     }
 
-    @RequiresPermissions("partySchool:history")
-    @RequestMapping(value = "/partySchool_history", method = RequestMethod.POST)
+    @RequiresPermissions("psInfo:history")
+    @RequestMapping(value = "/psInfo_history", method = RequestMethod.POST)
     @ResponseBody
-    public Map partySchool_history(HttpServletRequest request,
+    public Map psInfo_history(HttpServletRequest request,
                                    boolean isHistory,
                                    @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            partySchoolService.history(ids, isHistory);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量转移二级党校：%s", StringUtils.join(ids, ",")));
+            psInfoService.history(ids, isHistory);
+            logger.info(addLog(LogConstants.LOG_PS, "批量转移二级党校：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
-    @RequiresPermissions("partySchool:del")
-    @RequestMapping(value = "/partySchool_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("psInfo:del")
+    @RequestMapping(value = "/psInfo_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map partySchool_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map psInfo_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            partySchoolService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除二级党校：%s", StringUtils.join(ids, ",")));
+            psInfoService.batchDel(ids);
+            logger.info(addLog(LogConstants.LOG_PS, "批量删除二级党校：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("partySchool:changeOrder")
-    @RequestMapping(value = "/partySchool_changeOrder", method = RequestMethod.POST)
+    @RequiresPermissions("psInfo:changeOrder")
+    @RequestMapping(value = "/psInfo_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_partySchool_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_psInfo_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        partySchoolService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "二级党校调序：%s,%s", id, addNum));
+        psInfoService.changeOrder(id, addNum);
+        logger.info(addLog(LogConstants.LOG_PS, "二级党校调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
-    public void partySchool_export(PartySchoolExample example, HttpServletResponse response) {
+    public void psInfo_export(PsInfoExample example, HttpServletResponse response) {
 
-        List<PartySchool> records = partySchoolMapper.selectByExample(example);
+        List<PsInfo> records = psInfoMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"二级党校名称|100","设立日期|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            PartySchool record = records.get(i);
+            PsInfo record = records.get(i);
             String[] values = {
                 record.getName(),
                             DateUtils.formatDate(record.getFoundDate(), DateUtils.YYYY_MM_DD)
@@ -180,9 +178,9 @@ public class PartySchoolController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    @RequestMapping("/partySchool_selects")
+    @RequestMapping("/psInfo_selects")
     @ResponseBody
-    public Map partySchool_selects(Integer pageSize,
+    public Map psInfo_selects(Integer pageSize,
                                    Boolean isHistory,
                                    Integer pageNo,String searchStr) throws IOException {
 
@@ -194,8 +192,8 @@ public class PartySchoolController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PartySchoolExample example = new PartySchoolExample();
-        Criteria criteria = example.createCriteria().andIsHistoryEqualTo(false);
+        PsInfoExample example = new PsInfoExample();
+        PsInfoExample.Criteria criteria = example.createCriteria().andIsHistoryEqualTo(false);
         example.setOrderByClause("is_history asc, sort_order desc");
 
         if(isHistory!=null){
@@ -206,23 +204,23 @@ public class PartySchoolController extends BaseController {
             criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
-        long count = partySchoolMapper.countByExample(example);
+        long count = psInfoMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<PartySchool> partySchools = partySchoolMapper.selectByExampleWithRowbounds(example,
+        List<PsInfo> psInfos = psInfoMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List options = new ArrayList<>();
-        if(null != partySchools && partySchools.size()>0){
+        if(null != psInfos && psInfos.size()>0){
 
-            for(PartySchool partySchool:partySchools){
+            for(PsInfo psInfo:psInfos){
 
                 Map<String, Object> option = new HashMap<>();
-                option.put("text", partySchool.getName());
-                option.put("id", partySchool.getId() + "");
-                option.put("del", partySchool.getIsHistory());
+                option.put("text", psInfo.getName());
+                option.put("id", psInfo.getId() + "");
+                option.put("del", psInfo.getIsHistory());
                 options.add(option);
             }
         }

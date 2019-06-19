@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.ps.PsInfoMapper">
+  <resultMap id="BaseResultMap" type="domain.ps.PsInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="seq" jdbcType="VARCHAR" property="seq" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="found_date" jdbcType="DATE" property="foundDate" />
+    <result column="abolish_date" jdbcType="DATE" property="abolishDate" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="is_history" jdbcType="BIT" property="isHistory" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, seq, name, found_date, abolish_date, sort_order, is_history, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.ps.PsInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ps_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ps_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ps_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.ps.PsInfoExample">
+    delete from ps_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.ps.PsInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ps_info (seq, name, found_date, 
+      abolish_date, sort_order, is_history, 
+      remark)
+    values (#{seq,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{foundDate,jdbcType=DATE}, 
+      #{abolishDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{isHistory,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.ps.PsInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ps_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seq != null">
+        seq,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="foundDate != null">
+        found_date,
+      </if>
+      <if test="abolishDate != null">
+        abolish_date,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="isHistory != null">
+        is_history,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seq != null">
+        #{seq,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="foundDate != null">
+        #{foundDate,jdbcType=DATE},
+      </if>
+      <if test="abolishDate != null">
+        #{abolishDate,jdbcType=DATE},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isHistory != null">
+        #{isHistory,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.ps.PsInfoExample" resultType="java.lang.Long">
+    select count(*) from ps_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ps_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.seq != null">
+        seq = #{record.seq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foundDate != null">
+        found_date = #{record.foundDate,jdbcType=DATE},
+      </if>
+      <if test="record.abolishDate != null">
+        abolish_date = #{record.abolishDate,jdbcType=DATE},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.isHistory != null">
+        is_history = #{record.isHistory,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ps_info
+    set id = #{record.id,jdbcType=INTEGER},
+      seq = #{record.seq,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      found_date = #{record.foundDate,jdbcType=DATE},
+      abolish_date = #{record.abolishDate,jdbcType=DATE},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      is_history = #{record.isHistory,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.ps.PsInfo">
+    update ps_info
+    <set>
+      <if test="seq != null">
+        seq = #{seq,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="foundDate != null">
+        found_date = #{foundDate,jdbcType=DATE},
+      </if>
+      <if test="abolishDate != null">
+        abolish_date = #{abolishDate,jdbcType=DATE},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isHistory != null">
+        is_history = #{isHistory,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.ps.PsInfo">
+    update ps_info
+    set seq = #{seq,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      found_date = #{foundDate,jdbcType=DATE},
+      abolish_date = #{abolishDate,jdbcType=DATE},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      is_history = #{isHistory,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.ps.PsInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ps_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,18 +1,18 @@
-package domain.partySchool;
+package domain.ps;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class PartySchoolExample {
+public class PsInfoExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public PartySchoolExample() {
+    public PsInfoExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -192,6 +192,76 @@ public class PartySchoolExample {
             return (Criteria) this;
         }
 
+        public Criteria andSeqIsNull() {
+            addCriterion("seq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIsNotNull() {
+            addCriterion("seq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqEqualTo(String value) {
+            addCriterion("seq =", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotEqualTo(String value) {
+            addCriterion("seq <>", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqGreaterThan(String value) {
+            addCriterion("seq >", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqGreaterThanOrEqualTo(String value) {
+            addCriterion("seq >=", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLessThan(String value) {
+            addCriterion("seq <", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLessThanOrEqualTo(String value) {
+            addCriterion("seq <=", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLike(String value) {
+            addCriterion("seq like", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotLike(String value) {
+            addCriterion("seq not like", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIn(List<String> values) {
+            addCriterion("seq in", values, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotIn(List<String> values) {
+            addCriterion("seq not in", values, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqBetween(String value1, String value2) {
+            addCriterion("seq between", value1, value2, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotBetween(String value1, String value2) {
+            addCriterion("seq not between", value1, value2, "seq");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -322,6 +392,66 @@ public class PartySchoolExample {
             return (Criteria) this;
         }
 
+        public Criteria andAbolishDateIsNull() {
+            addCriterion("abolish_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateIsNotNull() {
+            addCriterion("abolish_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_date =", value, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_date <>", value, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("abolish_date >", value, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_date >=", value, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateLessThan(Date value) {
+            addCriterionForJDBCDate("abolish_date <", value, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_date <=", value, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateIn(List<Date> values) {
+            addCriterionForJDBCDate("abolish_date in", values, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("abolish_date not in", values, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("abolish_date between", value1, value2, "abolishDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("abolish_date not between", value1, value2, "abolishDate");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;
@@ -379,6 +509,66 @@ public class PartySchoolExample {
 
         public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("sort_order not between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryIsNull() {
+            addCriterion("is_history is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryIsNotNull() {
+            addCriterion("is_history is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryEqualTo(Boolean value) {
+            addCriterion("is_history =", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryNotEqualTo(Boolean value) {
+            addCriterion("is_history <>", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryGreaterThan(Boolean value) {
+            addCriterion("is_history >", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_history >=", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryLessThan(Boolean value) {
+            addCriterion("is_history <", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_history <=", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryIn(List<Boolean> values) {
+            addCriterion("is_history in", values, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryNotIn(List<Boolean> values) {
+            addCriterion("is_history not in", values, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_history between", value1, value2, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_history not between", value1, value2, "isHistory");
             return (Criteria) this;
         }
 
@@ -449,66 +639,6 @@ public class PartySchoolExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryIsNull() {
-            addCriterion("is_history is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryIsNotNull() {
-            addCriterion("is_history is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryEqualTo(Boolean value) {
-            addCriterion("is_history =", value, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryNotEqualTo(Boolean value) {
-            addCriterion("is_history <>", value, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryGreaterThan(Boolean value) {
-            addCriterion("is_history >", value, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_history >=", value, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryLessThan(Boolean value) {
-            addCriterion("is_history <", value, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_history <=", value, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryIn(List<Boolean> values) {
-            addCriterion("is_history in", values, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryNotIn(List<Boolean> values) {
-            addCriterion("is_history not in", values, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_history between", value1, value2, "isHistory");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsHistoryNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_history not between", value1, value2, "isHistory");
             return (Criteria) this;
         }
     }

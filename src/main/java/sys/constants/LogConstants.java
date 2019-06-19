@@ -40,6 +40,7 @@ public class LogConstants {
 
     public static final int LOG_CET = 500; // 干部教育培训
     public static final int LOG_CET_INSPECTOR = 501; // 干部教育培训评课
+    public static final int LOG_PS = 510; // 二级党校
 
     public final static Map<Integer, String> LOG_MAP = new LinkedHashMap<>();
     static {
@@ -76,5 +77,7 @@ public class LogConstants {
 
         LOG_MAP.put(LOG_CET, "干部教育培训");
         LOG_MAP.put(LOG_CET_INSPECTOR, "干部教育培训评课");
+
+        LOG_MAP.put(LOG_PS, "二级党校");
     }
 }

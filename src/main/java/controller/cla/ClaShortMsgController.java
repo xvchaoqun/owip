@@ -48,6 +48,6 @@ public class ClaShortMsgController extends ClaBaseController {
             return success(FormUtils.SUCCESS);
         }
 
-        return failed(FormUtils.FAILED);
+        return failed("短信发送失败（短信接口错误或设定了禁止发送短信）");
     }
 }

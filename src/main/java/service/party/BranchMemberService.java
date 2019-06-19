@@ -13,6 +13,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -23,6 +24,8 @@ public class BranchMemberService extends BaseMapper {
     private OrgAdminService orgAdminService;
     @Autowired
     private BranchMemberAdminService branchMemberAdminService;
+    @Autowired
+    private BranchMemberGroupService branchMemberGroupService;
     @Autowired
     private  PartyMemberService partyMemberService;
     @Autowired
@@ -144,6 +147,21 @@ public class BranchMemberService extends BaseMapper {
         for (OrgAdmin orgAdmin : orgAdmins) { // 理论上只有一个
             orgAdminService.del(orgAdmin.getId(), orgAdmin.getUserId());
         }
+    }
+
+    // 获取现任支部书记
+    public BranchMemberView getBranchSecretary(int branchId){
+
+        BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(branchId);
+        if(presentGroup==null) return null;
+
+        MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
+
+        BranchMemberViewExample example = new BranchMemberViewExample();
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andTypeIdEqualTo(secretaryType.getId());
+
+        List<BranchMemberView> records = branchMemberViewMapper.selectByExample(example);
+        return records.size()==0?null:records.get(0);
     }
 
     public boolean idDuplicate(Integer id, int groupId, int userId, int typeId){

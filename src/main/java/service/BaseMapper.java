@@ -8,7 +8,6 @@ import persistence.modify.ModifyBaseItemMapper;
 import persistence.modify.ModifyCadreAuthMapper;
 import persistence.modify.ModifyTableApplyMapper;
 import persistence.party.*;
-import persistence.partySchool.PartySchoolMapper;
 import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
 
@@ -27,9 +26,6 @@ public class BaseMapper extends CoreBaseMapper{
 
     @Autowired(required = false)
     protected StatCadreMapper statCadreMapper;
-
-    @Autowired(required = false)
-    protected PartySchoolMapper partySchoolMapper;
 
     @Autowired(required = false)
     protected OrganizerGroupMapper organizerGroupMapper;

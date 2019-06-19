@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.partySchool.PartySchoolMapper">
-  <resultMap id="BaseResultMap" type="domain.partySchool.PartySchool">
+<mapper namespace="persistence.ps.PsAdminPartyMapper">
+  <resultMap id="BaseResultMap" type="domain.ps.PsAdminParty">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="found_date" jdbcType="DATE" property="foundDate" />
-    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="is_history" jdbcType="BIT" property="isHistory" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, found_date, sort_order, remark, is_history
+    id, admin_id, party_id, start_date, end_date, is_history, remark
   </sql>
-  <select id="selectByExample" parameterType="domain.partySchool.PartySchoolExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.ps.PsAdminPartyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from party_school
+    from ps_admin_party
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,94 +88,105 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from party_school
+    from ps_admin_party
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from party_school
+    delete from ps_admin_party
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.partySchool.PartySchoolExample">
-    delete from party_school
+  <delete id="deleteByExample" parameterType="domain.ps.PsAdminPartyExample">
+    delete from ps_admin_party
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.partySchool.PartySchool">
+  <insert id="insert" parameterType="domain.ps.PsAdminParty">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into party_school (name, found_date, sort_order, 
-      remark, is_history)
-    values (#{name,jdbcType=VARCHAR}, #{foundDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{isHistory,jdbcType=BIT})
+    insert into ps_admin_party (admin_id, party_id, start_date, 
+      end_date, is_history, remark
+      )
+    values (#{adminId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{isHistory,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.partySchool.PartySchool">
+  <insert id="insertSelective" parameterType="domain.ps.PsAdminParty">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into party_school
+    insert into ps_admin_party
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="adminId != null">
+        admin_id,
       </if>
-      <if test="foundDate != null">
-        found_date,
+      <if test="partyId != null">
+        party_id,
       </if>
-      <if test="sortOrder != null">
-        sort_order,
+      <if test="startDate != null">
+        start_date,
       </if>
-      <if test="remark != null">
-        remark,
+      <if test="endDate != null">
+        end_date,
       </if>
       <if test="isHistory != null">
         is_history,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
       </if>
-      <if test="foundDate != null">
-        #{foundDate,jdbcType=DATE},
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="sortOrder != null">
-        #{sortOrder,jdbcType=INTEGER},
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
       </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
       </if>
       <if test="isHistory != null">
         #{isHistory,jdbcType=BIT},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.partySchool.PartySchoolExample" resultType="java.lang.Long">
-    select count(*) from party_school
+  <select id="countByExample" parameterType="domain.ps.PsAdminPartyExample" resultType="java.lang.Long">
+    select count(*) from ps_admin_party
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update party_school
+    update ps_admin_party
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.adminId != null">
+        admin_id = #{record.adminId,jdbcType=INTEGER},
       </if>
-      <if test="record.foundDate != null">
-        found_date = #{record.foundDate,jdbcType=DATE},
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-      <if test="record.sortOrder != null">
-        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
       </if>
       <if test="record.isHistory != null">
         is_history = #{record.isHistory,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -182,54 +194,59 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update party_school
+    update ps_admin_party
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      found_date = #{record.foundDate,jdbcType=DATE},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      is_history = #{record.isHistory,jdbcType=BIT}
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      is_history = #{record.isHistory,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.partySchool.PartySchool">
-    update party_school
+  <update id="updateByPrimaryKeySelective" parameterType="domain.ps.PsAdminParty">
+    update ps_admin_party
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
       </if>
-      <if test="foundDate != null">
-        found_date = #{foundDate,jdbcType=DATE},
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="sortOrder != null">
-        sort_order = #{sortOrder,jdbcType=INTEGER},
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
       </if>
       <if test="isHistory != null">
         is_history = #{isHistory,jdbcType=BIT},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.partySchool.PartySchool">
-    update party_school
-    set name = #{name,jdbcType=VARCHAR},
-      found_date = #{foundDate,jdbcType=DATE},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR},
-      is_history = #{isHistory,jdbcType=BIT}
+  <update id="updateByPrimaryKey" parameterType="domain.ps.PsAdminParty">
+    update ps_admin_party
+    set admin_id = #{adminId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      is_history = #{isHistory,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.partySchool.PartySchoolExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.ps.PsAdminPartyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from party_school
+    from ps_admin_party
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -27,7 +27,9 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="pcsAdmin:*">
                 【注：更改了当前党代会之后，需要重新同步党代会管理员】
+                </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

@@ -37,7 +37,7 @@ public class CetPartySchoolController extends CetBaseController {
     public String cetPartySchool(Integer partySchoolId, ModelMap modelMap) {
 
         if(partySchoolId!=null){
-            modelMap.put("partySchool", CmTag.getPartySchool(partySchoolId));
+            modelMap.put("partySchool", CmTag.getPsInfo(partySchoolId));
         }
         return "cet/cetPartySchool/cetPartySchool_page";
     }
@@ -129,7 +129,7 @@ public class CetPartySchoolController extends CetBaseController {
 
         if(partySchoolId!=null){
 
-            modelMap.put("partySchool", CmTag.getPartySchool(partySchoolId));
+            modelMap.put("partySchool", CmTag.getPsInfo(partySchoolId));
         }
 
         /*if(userId!=null){

@@ -64,12 +64,6 @@
         <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
         </table>-->
 
-        <!--二级党校-->
-        <!--<table tableName="party_school" domainObjectName="partySchool.PartySchool"
-               mapperName="partySchool.PartySchoolMapper">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-
         <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>

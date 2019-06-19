@@ -67,6 +67,7 @@ public class CetAnnualObjController extends CetBaseController {
             }
         }
 
+        modelMap.put("year", year);
         modelMap.put("cetAnnualObj", cetAnnualObj);
 
         if(cetAnnualObj!=null) {

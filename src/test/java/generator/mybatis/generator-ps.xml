@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="spring.properties"/>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_user}"
+                        password="${jdbc_password}" />
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--二级党校-->
+        <!--<table tableName="ps_info" domainObjectName="ps.PsInfo"
+               mapperName="ps.PsInfoMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <!--<table tableName="ps_admin" domainObjectName="ps.PsAdmin"
+               mapperName="ps.PsAdminMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <table tableName="ps_admin_party" domainObjectName="ps.PsAdminParty"
+               mapperName="ps.PsAdminPartyMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <!--<table tableName="ps_member" domainObjectName="ps.PsMember"
+               mapperName="ps.PsMemberMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="ps_party" domainObjectName="ps.PsParty"
+               mapperName="ps.PsPartyMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="ps_task" domainObjectName="ps.PsTask"
+               mapperName="ps.PsTaskMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="files" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+    </context>
+</generatorConfiguration>

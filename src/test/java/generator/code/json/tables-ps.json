@@ -1,0 +1,64 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "ps",
+  "resFolder": "ps",
+  "tables": [
+    {
+      "table": "ps_info",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,found_date",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PS",
+      "ignore": true
+    },
+    {
+      "table": "ps_party",
+      "key": "id",
+      "searchColumns": "ps_id,party_id,is_host,is_finish",
+      "showColumns": "ps_id,party_id,is_host,is_finish,start_date,end_date,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PS",
+      "ignore": false
+    },
+    {
+      "table": "ps_member",
+      "key": "id",
+      "searchColumns": "ps_id,seq,type,user_id",
+      "showColumns": "ps_id,seq,type,user_id,title,mobile,start_date,end_date,is_history,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PS",
+      "ignore": false
+    },
+    {
+      "table": "ps_admin",
+      "key": "id",
+      "searchColumns": "ps_id,type,user_id",
+      "showColumns": "ps_id,type,user_id,title,mobile,start_date,end_date,is_history,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PS",
+      "ignore": false
+    },
+    {
+      "table": "ps_admin_party",
+      "key": "id",
+      "searchColumns": "ps_id,type,user_id",
+      "showColumns": "ps_id,type,user_id,start_date,end_date,is_history,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PS",
+      "ignore": false
+    },
+    {
+      "table": "ps_task",
+      "key": "id",
+      "searchColumns": "name,year,ps_ids",
+      "showColumns": "name,year,ps_ids,files,is_publish,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_PS",
+      "ignore": false
+    }
+  ]
+}

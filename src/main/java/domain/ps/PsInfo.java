@@ -1,4 +1,4 @@
-package domain.partySchool;
+package domain.ps;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.utils.DateUtils;
@@ -6,19 +6,24 @@ import sys.utils.DateUtils;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PartySchool implements Serializable {
+public class PsInfo implements Serializable {
     private Integer id;
+
+    private String seq;
 
     private String name;
 
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date foundDate;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    private Date abolishDate;
+
     private Integer sortOrder;
 
-    private String remark;
-
     private Boolean isHistory;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -28,6 +33,14 @@ public class PartySchool implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getSeq() {
+        return seq;
+    }
+
+    public void setSeq(String seq) {
+        this.seq = seq == null ? null : seq.trim();
     }
 
     public String getName() {
@@ -46,6 +59,14 @@ public class PartySchool implements Serializable {
         this.foundDate = foundDate;
     }
 
+    public Date getAbolishDate() {
+        return abolishDate;
+    }
+
+    public void setAbolishDate(Date abolishDate) {
+        this.abolishDate = abolishDate;
+    }
+
     public Integer getSortOrder() {
         return sortOrder;
     }
@@ -54,19 +75,19 @@ public class PartySchool implements Serializable {
         this.sortOrder = sortOrder;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
     public Boolean getIsHistory() {
         return isHistory;
     }
 
     public void setIsHistory(Boolean isHistory) {
         this.isHistory = isHistory;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

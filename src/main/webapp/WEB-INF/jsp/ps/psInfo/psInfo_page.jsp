@@ -7,11 +7,11 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${!isHistory}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/partySchool?isHistory=0"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/ps/psInfo?isHistory=0"><i
                                 class="fa fa-circle-o-notch fa-spin"></i> 正在运转</a>
                     </li>
                     <li class="<c:if test="${isHistory}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/partySchool?isHistory=1"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/ps/psInfo?isHistory=1"><i
                                 class="fa fa-history"></i> 历史</a>
                     </li>
                 </ul>
@@ -20,28 +20,28 @@
                         <c:set var="_query"
                                value="${not empty param.name || not empty param.code || not empty param.sort}"/>
                         <div class="jqgrid-vertical-offset buttons">
-                            <shiro:hasPermission name="partySchool:edit">
+                            <shiro:hasPermission name="psInfo:edit">
                                 <button class="popupBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/partySchool_au">
+                                        data-url="${ctx}/ps/psInfo_au">
                                     <i class="fa fa-plus"></i> 添加
                                 </button>
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                        data-url="${ctx}/partySchool_au"
+                                        data-url="${ctx}/ps/psInfo_au"
                                         data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                     修改
                                 </button>
                             </shiro:hasPermission>
                             <c:if test="${!isHistory}">
-                                <shiro:hasPermission name="partySchool:history">
+                                <shiro:hasPermission name="psInfo:history">
                                     <button class="jqBatchBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/partySchool_history?isHistory=1" data-title="转移"
+                                            data-url="${ctx}/ps/psInfo_history?isHistory=1" data-title="转移"
                                             data-msg="确定将这{0}个二级党校转移到历史记录吗？">
                                         <i class="fa fa-recycle"></i> 转移
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
-                            <shiro:hasPermission name="partySchool:del">
-                                <button data-url="${ctx}/partySchool_batchDel"
+                            <shiro:hasPermission name="psInfo:del">
+                                <button data-url="${ctx}/ps/psInfo_batchDel"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？"
                                         data-grid-id="#jqGrid"
@@ -50,7 +50,7 @@
                                 </button>
                             </shiro:hasPermission>
                             <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                    data-url="${ctx}/partySchool_data"
+                                    data-url="${ctx}/ps/psInfo_data"
                                     data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出
                             </button>--%>
@@ -76,12 +76,12 @@
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
-                                               data-url="${ctx}/partySchool?isHistory=${isHistory}"
+                                               data-url="${ctx}/ps/psInfo?isHistory=${isHistory}"
                                                data-target="#page-content"
                                                data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                        data-url="${ctx}/partySchool?isHistory=${isHistory}"
+                                                        data-url="${ctx}/ps/psInfo?isHistory=${isHistory}"
                                                         data-target="#page-content">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
@@ -104,14 +104,23 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers:true,
-        url: '${ctx}/partySchool_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/ps/psInfo_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '二级党校名称', name: 'name', width:300, align:'left'},
-            {label: '设立日期', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '二级党校名称', name: 'name', width:300, align:'left',frozen:true},
             <c:if test="${!_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url:'${ctx}/partySchool_changeOrder'},frozen:true },
+                formatoptions:{url:'${ctx}/ps/psInfo_changeOrder'},frozen:true },
             </c:if>
+            { label: '主建单位', align:'left', name: '_party' },
+            { label: '联合建设单位', align:'left', name: '_partys', width: 300 },
+            {label: '成立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '批次', name: 'seq'},
+            { label: '师生党员总人数', width: 120, name: '_memberCount'},
+            { label: '校长', name: 'master.realname'},
+            { label: '校长所在单位及职务', name: 'master.title', align:'left', width: 300 },
+            { label: '校长联系方式', width: 120, name: 'master.mobile'},
+            { label: '管理员', name: 'admin.realname'},
+            { label: '管理员联系方式', width: 120, name: 'admin.mobile'},
             { label: '备注', align:'left', name: 'remark', width: 500 }
         ]
     }).jqGrid("setFrozenColumns");

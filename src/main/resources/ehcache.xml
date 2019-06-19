@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="false">
-    <diskStore path="D:\ehcache\owip"/>
+    <diskStore path="${cache.diskStore.path}"/>
     <!-- service 缓存 -->
 
        <!--<defaultCache maxEntriesLocalHeap="0" eternal="false" timeToIdleSeconds="1200" timeToLiveSeconds="1200">
@@ -63,7 +63,7 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
-       <cache name="PartySchool:ALL"
+       <cache name="PsInfo:ALL"
            eternal="false"
            maxElementsInMemory="2000"
            overflowToDisk="false"

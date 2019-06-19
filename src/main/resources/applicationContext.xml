@@ -6,7 +6,7 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:cache="http://www.springframework.org/schema/cache"
-       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -18,7 +18,7 @@
         http://www.springframework.org/schema/cache   
         http://www.springframework.org/schema/cache/spring-cache.xsd
         http://www.springframework.org/schema/task
-        http://www.springframework.org/schema/task/spring-task.xsd"
+        http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-autowire="byName" default-lazy-init="true">
 
     <context:property-placeholder location="classpath:spring.properties,classpath:spring-m.properties"
@@ -59,8 +59,19 @@
 
     <cache:annotation-driven cache-manager="cacheManager"/>
 
+    <!-- 注入系统环境变量 -->
+    <bean id="ehcacheSystemProperties"
+          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" value="#{@systemProperties}"/>
+        <property name="targetMethod" value="putAll"/>
+        <property name="arguments">
+            <util:properties>
+                <prop key="cache.diskStore.path">${upload.path}/ehcache</prop>
+            </util:properties>
+        </property>
+    </bean>
     <bean id="cacheManager"
-          class="org.springframework.cache.ehcache.EhCacheCacheManager">
+          class="org.springframework.cache.ehcache.EhCacheCacheManager" depends-on="ehcacheSystemProperties">
         <property name="cacheManager" ref="ehcacheManager"/>
         <property name="transactionAware" value="true"/>
     </bean>

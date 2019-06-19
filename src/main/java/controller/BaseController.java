@@ -22,7 +22,7 @@ import service.global.CacheService;
 import service.leader.LeaderService;
 import service.leader.LeaderUnitService;
 import service.party.*;
-import service.partySchool.PartySchoolService;
+import service.ps.PsInfoService;
 import service.sys.*;
 import service.unit.*;
 import shiro.PasswordHelper;
@@ -158,7 +158,7 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected UnitTeamPlanService unitTeamPlanService;
 
     @Autowired
-    protected PartySchoolService partySchoolService;
+    protected PsInfoService partySchoolService;
     @Autowired
     protected MetaClassService metaClassService;
     @Autowired
