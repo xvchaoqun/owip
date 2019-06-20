@@ -49,7 +49,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">出生年月</label>
+				<label class="col-xs-5 control-label">年龄</label>
 				<div class="col-xs-6">
                         <input disabled class="form-control" type="text" name="birth"
 							   value="${userBean.birth!=null?cm:intervalYearsUntilNow(userBean.birth):''}">

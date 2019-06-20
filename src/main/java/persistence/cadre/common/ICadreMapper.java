@@ -24,6 +24,10 @@ public interface ICadreMapper {
     @ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")
     @Select("select * from cadre_view where id=#{cadreId}")
     CadreView getCadre(@Param("cadreId") int cadreId);
+
+    @ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")
+    @Select("select * from cadre_view where code=#{code}")
+    CadreView getCadreByCode(@Param("code") String code);
     
     // 无此记录
     @Select("select ${columnName} from cadre_info_check where cadre_id=#{cadreId}")
