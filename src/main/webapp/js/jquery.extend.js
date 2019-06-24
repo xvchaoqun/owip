@@ -709,7 +709,7 @@ var _modal_width;
         },
         date: function (str, format) {
 
-            if ($.trim(str) == '') return '--';
+            if ($.trim(str) == '') return ''; // 此处只能返回空字符串
             var date = null;
             //console.log(str + " " + isNaN(str) + " " + $.isIntNum(str))
             if ($.isIntNum(str)) {

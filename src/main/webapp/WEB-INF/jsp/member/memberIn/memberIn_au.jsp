@@ -16,45 +16,18 @@ pageEncoding="UTF-8"%>
 			<div class="row">
 				<div class="col-xs-4">
 					<div class="form-group">
-						<label class="col-xs-5 control-label"><span class="star">*</span>介绍信抬头</label>
-						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="fromTitle" value="${memberIn.fromTitle}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label"><span class="star">*</span>介绍信有效期天数</label>
-						<div class="col-xs-6">
-							<input required class="form-control digits" type="text" name="validDays" value="${memberIn.validDays}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
-						<div class="col-xs-6">
-							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
+						<label class="col-xs-5 control-label">同步已转出人员信息</label>
+						<div class="col-xs-7">
+							<select required
+									data-ajax-url="${ctx}/memberOut_selects?noAuth=0"
+									name="outUserId" data-placeholder="请输入账号或姓名或学工号">
 								<option></option>
-								<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
 							</select>
-							<script>
-								$("#modalForm select[name=type]").val(${memberIn.type});
-							</script>
+							<span class="help-block">注：适用于同一个党员在本系统内转出后，再使用不同的工号进行转入操作</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-5 control-label"><span class="star">*</span>党籍状态</label>
-						<div class="col-xs-6">
-							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
-								<option></option>
-								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-									<option value="${_status.key}">${_status.value}</option>
-								</c:forEach>
-							</select>
-							<script>
-								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
-							</script>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>用户</label>
+						<label class="col-xs-5 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>转入账号</label>
 						<c:if test="${not empty userBean}">
 						<div class="col-xs-6 label-text">
 							<input type="hidden" name="userId" value="${userBean.userId}">
@@ -71,7 +44,6 @@ pageEncoding="UTF-8"%>
 						</div>
 						</c:if>
 					</div>
-					<%--<c:if test="${not empty userBean}">--%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">性别</label>
 						<div class="col-xs-6">
@@ -97,12 +69,20 @@ pageEncoding="UTF-8"%>
 							<input disabled class="form-control" type="text" name="idcard" value="${userBean.idcard}">
 						</div>
 					</div>
-					<%--</c:if>--%>
-
-
-
 					<div class="form-group">
-						<label class="col-xs-5 control-label"><span class="star">*</span>${_p_partyName}</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
+								<option></option>
+								<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
+							</select>
+							<script>
+								$("#modalForm select[name=type]").val(${memberIn.type});
+							</script>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-5 control-label"><span class="star">*</span>转入${_p_partyName}</label>
 						<div class="col-xs-6">
 							<select required class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1"
 									name="partyId" data-placeholder="请选择">
@@ -111,7 +91,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group" id="branchDiv">
-						<label class="col-xs-5 control-label"><span class="star">*</span>党支部</label>
+						<label class="col-xs-5 control-label"><span class="star">*</span>转入党支部</label>
 						<div class="col-xs-6">
 							<select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
 									name="branchId" data-placeholder="请选择">
@@ -124,20 +104,46 @@ pageEncoding="UTF-8"%>
 								'${cm:getMetaTypeByCode("mt_direct_branch").id}',
 								"${party.id}", "${party.classId}", "partyId", "branchId", true );
 					</script>
-
 				</div>
 				<div class="col-xs-4">
 					<div class="form-group">
+						<label class="col-xs-5 control-label"><span class="star">*</span>介绍信抬头</label>
+						<div class="col-xs-6">
+							<textarea required class="form-control" name="fromTitle">${memberIn.fromTitle}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-5 control-label"><span class="star">*</span>介绍信有效期天数</label>
+						<div class="col-xs-6" style="width: 90px">
+							<input required class="form-control digits" type="text" name="validDays" value="${memberIn.validDays}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-xs-5 control-label"><span class="star">*</span>党籍状态</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+								<option></option>
+								<c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+									<option value="${_status.key}">${_status.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#modalForm select[name=politicalStatus]").val(${memberIn.politicalStatus});
+							</script>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="fromUnit" value="${memberIn.fromUnit}">
+							<textarea required class="form-control" name="fromUnit">${memberIn.fromUnit}</textarea>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-xs-5 control-label"><span class="star">*</span>转出单位地址</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="fromAddress" value="${memberIn.fromAddress}">
+							<textarea required class="form-control" name="fromAddress">${memberIn.fromAddress}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -158,6 +164,8 @@ pageEncoding="UTF-8"%>
 							<input required class="form-control" type="text" name="fromPostCode" value="${memberIn.fromPostCode}">
 						</div>
 					</div>
+				</div>
+				<div class="col-xs-4">
 					<div class="form-group">
 						<label class="col-xs-5 control-label"><span class="star">*</span>党费缴纳至年月</label>
 						<div class="col-xs-6">
@@ -191,10 +199,6 @@ pageEncoding="UTF-8"%>
 							</div>
 						</div>
 					</div>
-
-				</div>
-				<div class="col-xs-4">
-
 					<div class="form-group">
 						<label class="col-xs-5 control-label">提交书面申请书时间</label>
 						<div class="col-xs-6">
@@ -326,6 +330,47 @@ pageEncoding="UTF-8"%>
 			$("#modalForm input[name=age]").val('');
 			$("#modalForm input[name=nation]").val('');
 			$("#modalForm input[name=idcard]").val('')
+		}
+	});
+
+	var $selectOutUserId = $.register.user_select($('#modalForm select[name=outUserId]'));
+	$selectOutUserId.on("change",function(){
+		var entity = $(this).select2("data")[0];
+		//console.log(entity)
+		if(entity && entity.id) {
+			var record = entity.record;
+			var member = entity.member;
+			$("#modalForm textarea[name=fromTitle]").val(record.toTitle);
+			$("#modalForm textarea[name=fromUnit]").val(record.fromUnit);
+			$("#modalForm textarea[name=fromAddress]").val(record.fromAddress);
+			$("#modalForm input[name=fromPhone]").val(record.fromPhone);
+			$("#modalForm input[name=fromFax]").val(record.fromFax);
+			$("#modalForm input[name=fromPostCode]").val(record.fromPostCode);
+			$("#modalForm input[name=_payTime]").val($.date(record.payTime, "yyyy-MM"));
+			$("#modalForm input[name=validDays]").val(record.validDays);
+			$("#modalForm input[name=_fromHandleTime]").val($.date(record.handleTime, "yyyy-MM-dd"));
+
+			/*$("#modalForm select[name=userId]").empty()
+						.prepend('<option val="{0}">{1}</option>'.format(entity.id, entity.text));
+			$.register.user_select($("#modalForm select[name=userId]"));*/
+
+			if(member!=undefined) {
+				$("#modalForm select[name=politicalStatus]").val(member.politicalStatus).trigger("change");
+
+				/*$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[member.gender])
+				$("#modalForm input[name=birth]").val($.date(member.birth, "yyyy-MM-dd"))
+				$("#modalForm input[name=nation]").val(member.nation)
+				$("#modalForm input[name=idcard]").val(member.idcard)*/
+
+				$("#modalForm input[name=_applyTime]").val($.date(member.applyTime, "yyyy-MM-dd"));
+				$("#modalForm input[name=_activeTime]").val($.date(member.activeTime, "yyyy-MM-dd"));
+				$("#modalForm input[name=_candidateTime]").val($.date(member.candidateTime, "yyyy-MM-dd"));
+				$("#modalForm input[name=_growTime]").val($.date(member.growTime, "yyyy-MM-dd"));
+				$("#modalForm input[name=_positiveTime]").val($.date(member.positiveTime, "yyyy-MM-dd"));
+			}
+		}else{
+			$("input,textarea", "#modalForm").val('');
+			$("select", "#modalForm").not(this).val(null).trigger("change");
 		}
 	});
 </script>

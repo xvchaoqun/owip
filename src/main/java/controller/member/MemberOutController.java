@@ -526,6 +526,65 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_au";
     }
 
+    @RequiresPermissions("memberOut:list")
+    @RequestMapping("/memberOut_selects")
+    @ResponseBody
+    public Map memberOut_selects(Integer pageSize, Integer pageNo,
+                                 Boolean noAuth, // 默认需要读取权限
+                                 Byte type, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        boolean addPermits = false;
+        List<Integer> adminPartyIdList = null;
+        List<Integer> adminBranchIdList = null;
+        if (BooleanUtils.isNotTrue(noAuth)){
+            addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+            adminPartyIdList = loginUserService.adminPartyIdList();
+            adminBranchIdList = loginUserService.adminBranchIdList();
+        }
+
+        long count = iMemberMapper.countMemberOutList(searchStr, type,
+                addPermits, adminPartyIdList, adminBranchIdList);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<MemberOutView> records = iMemberMapper.selectMemberOutList(searchStr, type,
+                addPermits, adminPartyIdList, adminBranchIdList,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(MemberOutView record:records){
+                SysUserView uv = record.getUser();
+                int userId = uv.getId();
+                Map<String, Object> option = new HashMap<>();
+                option.put("id",  userId + "");
+                option.put("text", uv.getRealname());
+                option.put("username", uv.getUsername());
+                option.put("code", uv.getCode());
+                option.put("unit", extService.getUnit(userId));
+
+                option.put("member", iMemberMapper.getMemberView(userId));
+                option.put("record", record);
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+
     @RequiresPermissions({"memberOut:abolish", SystemConstants.PERMISSION_PARTYVIEWALL})
     @RequestMapping("/memberOut_abolish")
     public String memberOut_abolish(Integer id, ModelMap modelMap) {

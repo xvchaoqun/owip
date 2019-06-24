@@ -265,4 +265,17 @@ public interface IMemberMapper {
             "set asr.use_count=tmp.use_count, asr.abolish_count=tmp.abolish_count " +
             "where asr.id=tmp.range_id and asr.id=#{rangeId}")
     void updateApplySnRangeCount(@Param("rangeId") int rangeId);
+
+    // 查询状态为“组织部审批通过”的记录（不包含已归档记录）
+    List<MemberOutView> selectMemberOutList(@Param("query")String query,
+                                          @Param("type") Byte type,
+                                            @Param("addPermits") Boolean addPermits,
+                                            @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                                            @Param("adminBranchIdList") List<Integer> adminBranchIdList,
+                                          RowBounds rowBounds);
+    int countMemberOutList(@Param("query")String query,
+                           @Param("type") Byte type,
+                              @Param("addPermits") Boolean addPermits,
+                              @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                              @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 }

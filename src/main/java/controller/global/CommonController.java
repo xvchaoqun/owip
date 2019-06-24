@@ -399,7 +399,6 @@ public class CommonController extends BaseController {
         List<Integer> adminPartyIdList = null;
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
-            Subject subject = SecurityUtils.getSubject();
             addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
             adminPartyIdList = loginUserService.adminPartyIdList();
             adminBranchIdList = loginUserService.adminBranchIdList();
