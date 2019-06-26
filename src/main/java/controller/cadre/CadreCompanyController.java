@@ -53,14 +53,14 @@ public class CadreCompanyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreCompany:import")
+    @RequiresPermissions("cadreCompanyList:import")
     @RequestMapping("/cadreCompany_import")
     public String cadreCompany_import(ModelMap modelMap) {
 
         return "cadre/cadreCompany/cadreCompany_import";
     }
 
-    @RequiresPermissions("cadreCompany:import")
+    @RequiresPermissions("cadreCompanyList:import")
     @RequestMapping(value = "/cadreCompany_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreCompany_import(HttpServletRequest request) throws InvalidFormatException, IOException {

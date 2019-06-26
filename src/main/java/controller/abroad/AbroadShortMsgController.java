@@ -9,13 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,9 +43,9 @@ public class AbroadShortMsgController extends AbroadBaseController {
     @RequiresPermissions("ShortMsg:send")
     @RequestMapping(value = "/shortMsg", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_shortMsg(@CurrentUser SysUserView loginUser, String type, Integer id, HttpServletRequest request) {
+    public Map do_shortMsg(String type, Integer id, HttpServletRequest request) {
 
-        ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
+        ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(), null, type, id);
 
         if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
 
@@ -49,5 +54,31 @@ public class AbroadShortMsgController extends AbroadBaseController {
         }
 
         return failed("短信发送失败（短信接口错误或设定了禁止发送短信）");
+    }
+
+    // 批量发送证件信息
+    @RequiresPermissions("ShortMsg:send")
+    @RequestMapping(value = "/shortMsg_batch", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_shortMsg_batch(String type, @RequestParam(name = "ids[]", required = false) Integer[] ids, HttpServletRequest request) {
+
+        int userId = ShiroHelper.getCurrentUserId();
+        List<SysUserView> failedUsers = new ArrayList<>();
+
+        for (Integer id : ids) {
+
+            ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(userId, null, type, id);
+            if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
+                logger.info(addLog(LogConstants.LOG_ADMIN, "发送短信：%s", shortMsgBean.getContent()));
+            }else{
+                Integer receiver = shortMsgBean.getReceiver();
+                failedUsers.add(CmTag.getUserById(receiver));
+            }
+        }
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("failedUsers", failedUsers);
+
+        return resultMap;
     }
 }

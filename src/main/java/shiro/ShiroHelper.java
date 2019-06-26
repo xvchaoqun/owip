@@ -11,14 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.sys.SysRoleService;
 import service.sys.SysUserService;
+import sys.shiro.AuthToken;
 import sys.shiro.BaseShiroHelper;
+import sys.shiro.IncorrectCaptchaException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ShiroHelper extends BaseShiroHelper{
 
@@ -168,4 +167,24 @@ public class ShiroHelper extends BaseShiroHelper{
 		ShiroHelper.roleService = roleService;
 		ShiroHelper.sessionDAO = sessionDAO;
 	}
+
+	// 验证码校验
+    public static void validateCaptcha(HttpServletRequest request,
+									 AuthToken token) {
+
+        //session中的图形码字符串
+        String captcha = (String) request.getSession().getAttribute(
+                com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+        //比对
+        if (StringUtils.isBlank(captcha) || !StringUtils.equalsIgnoreCase(captcha, token.getCaptcha())) {
+            throw new IncorrectCaptchaException();
+        }
+    }
+
+    // 清除验证码（密码校验失败时清除）
+    public static void clearCaptcha(HttpServletRequest request) {
+
+        request.getSession().removeAttribute(
+                com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+    }
 }

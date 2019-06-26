@@ -46,7 +46,7 @@
                     </c:if>
                     <c:if test="${module==2}">
                          <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                        <shiro:hasPermission name="cadreCompany:import">
+                        <shiro:hasPermission name="cadreCompanyList:import">
                             <button class="popupBtn btn btn-info btn-sm tooltip-info"
                                     data-url="${ctx}/cadreCompany_import"
                                     data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
@@ -62,7 +62,9 @@
                     </c:if>
                 </c:if>
                 <c:if test="${cls==1}">
+                    <shiro:hasPermission name="cadreCompanyList:import">
                     <span class="text-primary" style="padding-left: 10px">【注：如需单个添加兼职，请进入干部档案页操作】</span>
+                    </shiro:hasPermission>
                 </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

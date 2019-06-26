@@ -29,6 +29,27 @@ public class PsInfoController extends PsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 基本信息
+    @RequiresPermissions("psInfo:view")
+    @RequestMapping("/psInfo_base")
+    public String psInfo_base(Integer id, ModelMap modelMap) {
+
+        PsInfo psInfo = psInfoMapper.selectByPrimaryKey(id);
+        modelMap.put("psInfo", psInfo);
+
+        return "ps/psInfo/psInfo_base";
+    }
+
+    @RequiresPermissions("psInfo:view")
+    @RequestMapping("/psInfo_view")
+    public String psInfo_view(HttpServletResponse response, int id, ModelMap modelMap) {
+
+        PsInfo psInfo = psInfoMapper.selectByPrimaryKey(id);
+        modelMap.put("psInfo", psInfo);
+
+        return "ps/psInfo/psInfo_view";
+    }
+
     @RequiresPermissions("psInfo:list")
     @RequestMapping("/psInfo")
     public String psInfo( @RequestParam(required = false, defaultValue = "0") boolean isHistory, ModelMap modelMap) {

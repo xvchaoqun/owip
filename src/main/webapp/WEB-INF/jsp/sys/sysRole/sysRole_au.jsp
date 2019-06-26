@@ -88,10 +88,9 @@
         </div>
     </div>
     <div class=" form-actions center" style="margin: 0px;">
-        <button id="submitBtn" class="btn btn-info" type="submit">
-            <i class="ace-icon fa fa-check bigger-110"></i>
-            ${op}
-        </button>
+         <button id="submitBtn" type="button" class="btn btn-primary"
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+             <i class="ace-icon fa fa-check bigger-110"></i> ${op}</button>
     </div>
 </div>
 <%--<style>
@@ -200,12 +199,16 @@
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
-
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: {resIds: resIds, m_resIds:m_resIds},
                 success: function (data) {
                     if (data.success) {
-                        $.hideView();
+                        $.reloadMetaData(function(){
+                            $.hideView();
+                        });
+                    }else {
+                        $btn.button('reset');
                     }
                 }
             });

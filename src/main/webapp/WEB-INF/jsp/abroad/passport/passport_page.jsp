@@ -38,10 +38,29 @@ pageEncoding="UTF-8" %>
                                    data-url="${ctx}/abroad/passport_lost" >
                                     <i class="fa fa-times"></i> 丢失
                                 </a>
-                                <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                <%--<button class="jqOpenViewBtn btn btn-success btn-sm"
                                         data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=passportInfo">
                                     <i class="fa fa-info-circle"></i> 发送证件信息
-                                </button>
+                                </button>--%>
+                                 <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
+                                        <i class="fa fa-send"></i> 发送证件信息  <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-success" role="menu">
+                                        <li>
+                                            <a href="javascript:;" class="jqOpenViewBtn"
+                                               data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=passportInfo">
+                                                <i class="fa fa-file-o"></i> 单一发送</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jqBatchBtn" data-title="批量发送证件信息"
+                                                 data-msg="确定批量发送证件信息吗？（已选{0}个证件）"
+                                               data-callback="_shortMsg_batch"
+                                               data-url="${ctx}/abroad/shortMsg_batch" data-querystr="&type=passportInfo">
+                                                <i class="fa fa-files-o"></i> 批量发送</a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm" data-open-by="page"
                                         data-url="${ctx}/abroad/passport_uploadPic">
                                     <i class="fa fa-upload"></i> 上传证件首页
@@ -225,6 +244,15 @@ pageEncoding="UTF-8" %>
 </div>
 
 <script>
+    function _shortMsg_batch($btn, ret){
+        //console.log(ret);
+        var failedSize = ret.failedUsers.length;
+        if(failedSize>0){
+            SysMsg.success("部分发送成功，其中{0}人发送失败，可在【系统监测-短信日志】中查询发送记录。".format(failedSize));
+        }else{
+            SysMsg.success("发送成功，可在【系统监测-短信日志】中查询发送记录。");
+        }
+    }
     $("#jqGrid").jqGrid({
         //forceFit:true,
         url: '${ctx}/abroad/passport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

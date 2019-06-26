@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ${TableName}Service extends BaseMapper {
+public class ${TableName}Service extends ${tbn(resFolder?trim, "TableName")}BaseMapper {
 
     public boolean idDuplicate(Integer ${tbn(key, "tableName")}, String code){
 

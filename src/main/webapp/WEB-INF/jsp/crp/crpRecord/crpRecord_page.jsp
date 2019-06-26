@@ -60,13 +60,13 @@
                                    data-querystr="&type=${param.type}&isFinished=${isFinished?1:0}"><i
                                         class="fa fa-edit"></i>
                                     修改</a>
-                            </shiro:hasPermission>
                             <c:if test="${!isFinished}">
                                 <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                    data-url="${ctx}/crpRecord_finish"
                                    data-grid-id="#jqGrid"><i class="fa fa-power-off"></i>
                                     挂职结束</a>
                             </c:if>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="crpRecord:del">
                                 <button data-url="${ctx}/crpRecord_batchDel"
                                         data-title="删除"

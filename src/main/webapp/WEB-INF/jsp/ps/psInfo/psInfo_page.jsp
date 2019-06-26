@@ -106,14 +106,19 @@
         rownumbers:true,
         url: '${ctx}/ps/psInfo_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '二级党校名称', name: 'name', width:300, align:'left',frozen:true},
+            {label: '二级党校名称', name: 'name', formatter:function(cellvalue, options, rowObject){
+
+                return ('<a href="javascript:;" class="openView" ' +
+                    'data-url="${ctx}/ps/psInfo_view?id={0}">{1}</a>')
+                        .format(rowObject.id, cellvalue);
+            }, width:300, align:'left',frozen:true},
             <c:if test="${!_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/ps/psInfo_changeOrder'},frozen:true },
             </c:if>
             { label: '主建单位', align:'left', name: '_party' },
             { label: '联合建设单位', align:'left', name: '_partys', width: 300 },
-            {label: '成立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '成立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '批次', name: 'seq'},
             { label: '师生党员总人数', width: 120, name: '_memberCount'},
             { label: '校长', name: 'master.realname'},

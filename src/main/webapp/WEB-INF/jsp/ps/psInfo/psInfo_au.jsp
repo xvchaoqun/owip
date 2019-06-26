@@ -18,9 +18,11 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
 				<div class="col-xs-6">
-                    <input  class="form-control date-picker required" name="foundDate"
-                            type="text" data-date-format="yyyy-mm-dd"
-                            value="${cm:formatDate(psInfo.foundDate, "yyyy-MM-dd")}"/>
+					<div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
+						<input required class="form-control" name="foundDate" type="text"
+								value="${cm:formatDate(psInfo.foundDate,'yyyy.MM.dd')}" />
+						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -56,6 +58,6 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    $.register.date($('.date-picker'));
+    $.register.date($('.input-group.date'));
     $('textarea.limited').inputlimiter();
 </script>

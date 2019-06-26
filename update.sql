@@ -1,4 +1,7 @@
 
+
+
+
 20190624
 更新南航   北师大X
 
@@ -28,6 +31,11 @@ UPDATE sys_resource SET url='/ps/psInfo', permission='psInfo:*' WHERE url = '/pa
 
 删除 party_school相关目录
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (1058, 0, '批量导入', '', 'function', '', NULL, 862, '0/1/862/', 1, 'cadreCompanyList:import', NULL, NULL, NULL, 1, NULL);
+
+-- 给cadreCompanyList:import 添加角色
 
 20190615
 创建北航

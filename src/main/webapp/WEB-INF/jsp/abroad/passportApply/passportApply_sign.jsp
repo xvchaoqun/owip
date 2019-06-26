@@ -2,7 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
-  <h3>完善信息</h3>
+  <h3>请先完善个人信息</h3>
 </div>
 <div class="modal-body">
 <form class="form-horizontal" action="${ctx}/profile_sign" id="signForm" method="post" enctype="multipart/form-data">
@@ -10,7 +10,6 @@
     <label class="col-xs-3 control-label" style="line-height: 200px"><span class="star">*</span>手写签名</label>
     <div class="col-xs-2 file" style="width:360px;height: 200px">
         <input required type="file" name="sign" />
-
     </div>
     <span class="help-block" style="line-height: 200px">为了使显示效果最佳，推荐使用300*200大小的PNG图片</span>
   </div>
@@ -28,7 +27,11 @@
   </div>
 </form>
 </div>
-<div class="modal-footer center">
+<div class="form-actions center">
+    <div class="note">
+        注：<br/>1、以上信息将用于办理证件、领取证件或因私出国（境）等审批流程，填写后方可正常访问功能页面。<br/>
+        2、填写后如需修改，请先点击系统右上角【您的姓名】，然后在“手写签名”中进行修改。
+    </div>
   <input id="submit" class="btn btn-success" value="提交"/>
 </div>
 <style>

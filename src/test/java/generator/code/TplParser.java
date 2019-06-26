@@ -119,7 +119,7 @@ public class TplParser {
 						schema, tablePrefix + tablename));
 			}
 
-			genService(folder, tablePrefix, tablename, key, spath);
+			genService(resFolder, folder, tablePrefix, tablename, key, spath);
 
 			List<ColumnBean> searchColumnBeans = new ArrayList<>();
 			for (String searchColumn : searchColumns.split(",")) {
@@ -182,7 +182,7 @@ public class TplParser {
 		saveFile( System.getProperty("user.dir") +  outpath, filename, false, content, "");
 	}
 
-	public static void genService(String folder, String tablePrefix, String tablesqlname, String key, String outpath) throws IOException, TemplateException{
+	public static void genService(String resFolder, String folder, String tablePrefix, String tablesqlname, String key, String outpath) throws IOException, TemplateException{
 
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\";
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
@@ -190,6 +190,7 @@ public class TplParser {
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 
 		Map root = new HashMap();
+		root.put("resFolder", resFolder);
 		root.put("folder", folder.replaceAll("\\/", "\\."));
 		root.put("tablePrefix", tablePrefix);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));

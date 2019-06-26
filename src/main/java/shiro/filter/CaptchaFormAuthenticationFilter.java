@@ -1,9 +1,9 @@
 package shiro.filter;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.SpringProps;
 import service.sys.SysLoginLogService;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.HttpResponseMethod;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
-import sys.shiro.IncorrectCaptchaException;
 import sys.utils.HttpUtils;
 import sys.utils.JSONUtils;
 
@@ -45,26 +45,13 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
         try {
             if (BooleanUtils.isTrue(springProps.useCaptcha)) {
                 /*图形验证码验证*/
-                doCaptchaValidate((HttpServletRequest) request, token);
+                ShiroHelper.validateCaptcha((HttpServletRequest) request, token);
             }
             Subject subject = getSubject(request, response);
             subject.login(token);//正常验证
             return onLoginSuccess(token, subject, request, response);
         } catch (AuthenticationException e) {
             return onLoginFailure(token, e, request, response);
-        }
-    }
-
-    // 验证码校验
-    protected void doCaptchaValidate(HttpServletRequest request,
-                                     AuthToken token) {
-
-        //session中的图形码字符串
-        String captcha = (String) request.getSession().getAttribute(
-                com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-        //比对
-        if (StringUtils.isBlank(captcha) || !StringUtils.equalsIgnoreCase(captcha, token.getCaptcha())) {
-            throw new IncorrectCaptchaException();
         }
     }
 
@@ -156,6 +143,13 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
             if(e instanceof UnknownAccountException) {
                 logger.info(sysLoginLogService.log(null, token.getPrincipal().toString(),
                         SystemConstants.LOGIN_TYPE_NET, false, "登录失败，用户名不存在") + ", " + ex);
+                ShiroHelper.clearCaptcha(httpServletRequest);
+            }
+
+            if(e instanceof IncorrectCredentialsException) {
+                logger.info(sysLoginLogService.log(null, token.getPrincipal().toString(),
+                        SystemConstants.LOGIN_TYPE_NET, false, "登录失败，密码有误") + ", " + ex);
+                ShiroHelper.clearCaptcha(httpServletRequest);
             }
             /*  String message = e.getClass().getSimpleName();
             String userAgent = RequestUtils.getUserAgent(httpServletRequest);

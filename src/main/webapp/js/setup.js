@@ -896,7 +896,7 @@ $(document).on("click", ".jqBatchBtn", function (e) {
             if (ret.success) {
                 if (callback) {
                     // console.log($this)
-                    window[callback]($this);
+                    window[callback]($this, ret);
                 } else {
                     grid.trigger("reloadGrid");
                 }
