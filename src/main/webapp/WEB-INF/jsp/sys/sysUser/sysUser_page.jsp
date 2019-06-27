@@ -169,7 +169,6 @@
         border: none!important;
     }
 </style>
-<fmt:message key="global.session.timeout" bundle="${spring}" var="_timeout"/>
 <jsp:include page="sysUser_colModel.jsp?type=admin"/>
 <script>
     $("#jqGrid").jqGrid({

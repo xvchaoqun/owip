@@ -426,6 +426,12 @@ $.fn.extend({
 var _modal_width;
 (function ($) {
     $.extend({
+        replace:function(str, searchValue, replaceValue){
+            $.trim(str).replace(searchValue, replaceValue);
+        },
+        substr:function(str, from, length){
+            $.trim(str).substr(from, length);
+        },
         openWindow: function (url, name, iWidth, iHeight) {
             /* var url; //转向网页的地址;
             var name; //网页名称，可为空;

@@ -300,7 +300,8 @@
                 name: 'passport.code',
                 title: false,
                 cellattr: function (rowId, val, rawObject, cm, rdata) {
-                    return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="所在保险柜：' + rawObject.passport.safeBox.code + '<br> (过期时间：' + rawObject.passport.expiryDate.substr(0, 10) + ')"';
+
+                    return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="所在保险柜：' + rawObject.passport.safeBox.code + '<br> (过期时间：' + $.substr(rawObject.passport.expiryDate, 0, 10) + ')"';
                 }
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">
@@ -313,9 +314,10 @@
                     return '<a class="openView" href="javascript:;" ' +
                         'data-url="${ctx}/abroad/applySelf_view?id={0}">S{1}</a>'.format(cellvalue, cellvalue);
                 }, title: false, cellattr: function (rowId, val, rawObject, cm, rdata) {
+
                     return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="出行时间：'
                         + rawObject.applySelf.startDate + '<br> 前往国家或地区：' + rawObject.applySelf.toCountry
-                        + '<br> 出国境事由：' + rawObject.applySelf.reason.replace(/\+\+\+/g, ',') + '"';
+                        + '<br> 出国境事由：' + $.replace(rawObject.applySelf.reason, /\+\+\+/g, ',') + '"';
                 }
             },
             </c:if>
@@ -346,7 +348,7 @@
                 name: 'reason',
                 width: 200,
                 formatter: function (cellvalue, options, rowObject) {
-                    return cellvalue.replace(/\+\+\+/g, ',');
+                    return $.replace(cellvalue, /\+\+\+/g, ',');
                 }, align: 'left'
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">

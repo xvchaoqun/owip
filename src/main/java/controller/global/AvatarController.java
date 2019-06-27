@@ -75,11 +75,20 @@ public class AvatarController extends BaseController {
     @ResponseBody
     public Map avatar(String ext){  // ext: 图片存放路径，在头像基础目录之下
 
+        String extPath = "";
+        if(StringUtils.isNotBlank(ext)){
+            extPath = springProps.avatarFolder + FILE_SEPARATOR + ext;
+        }else{
+            extPath = springProps.avatarFolderExt;
+        }
+        if(!FileUtils.exists(extPath)){
+            return failed("文件路径{0}不存在", extPath);
+        }
+
         logger.info("批量处理头像，文件夹路径：" + ext);
         long startTime=System.currentTimeMillis();
         AvatarImportResult result = new AvatarImportResult();
-        avatarService.importAvatar(new File(springProps.avatarFolder +
-                FILE_SEPARATOR + StringUtils.defaultIfBlank(ext, springProps.avatarFolderExt)), result);
+        avatarService.importAvatar(new File(extPath), result);
         long endTime=System.currentTimeMillis();
         logger.info("total:" + result.total + " save:" + result.save + " error:" + result.error + "处理头像运行时间： " + (endTime - startTime) + "ms");
 

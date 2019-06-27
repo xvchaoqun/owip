@@ -44,7 +44,4 @@ public class SpringProps {
 
 	@Value("${shortMsg.send}")
 	public Boolean shortMsgSend;
-
-	@Value("${shortMsg.url}")
-	public String shortMsgUrl;
 }

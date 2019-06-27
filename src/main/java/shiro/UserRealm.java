@@ -76,7 +76,7 @@ public class UserRealm extends AuthorizingRealm {
         String inputPasswd = String.valueOf(authToken.getPassword());
 
         if (uv.isCasUser()) {
-            if (springProps.useSSO) { // 如果提供了SSO接口
+            if (springProps.useSSO) { // 如果提供了代理接口
 
                 boolean tryLogin;
                 try {

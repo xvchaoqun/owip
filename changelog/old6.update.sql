@@ -779,6 +779,7 @@ ALTER TABLE `sc_committee_vote`
 	CHANGE COLUMN `disagree_count` `disagree_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '表决反对票数' AFTER `abstain_count`;
 
 更换光连接池（必须保证telnet 127.0.0.1 3306 通; 全部jar更换）
+-- 更新jsvc 时区
 
 20190418
 

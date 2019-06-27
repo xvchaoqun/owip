@@ -190,9 +190,7 @@
                 <div class="col-xs-6">
                     <input class="form-control digits" type="text" name="loginTimeout"
                            value="${sysConfig.loginTimeout}">
-
-                    <fmt:message key="global.session.timeout" bundle="${spring}" var="_timeout"/>
-                    <span class="help-block"><span class="star">*</span> 留空则使用系统默认的时间（${cm:stripTrailingZeros(_timeout/(60*1000))}分钟）</span>
+                    <span class="help-block"><span class="star">*</span> 留空则使用系统默认的时间（${cm:stripTrailingZeros(_global_session_timeout/(60*1000))}分钟）</span>
                 </div>
             </div>
         </form>

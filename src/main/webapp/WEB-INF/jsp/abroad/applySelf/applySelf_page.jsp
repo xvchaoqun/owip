@@ -286,7 +286,7 @@
             {label: '前往国家或地区', name: 'toCountry', align:'left', width: 180},
             {
                 label: '因私出国（境）事由', name: 'reason', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return cellvalue.replace(/\+\+\+/g, ',');
+                return $.replace(cellvalue, /\+\+\+/g, ',');
             }, align:'left'
             },
             {

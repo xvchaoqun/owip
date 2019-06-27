@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<fmt:message key="global.session.timeout" bundle="${spring}" var="_timeout"/>
 <script>
     var colModel =[
         { label: '账号', name: 'username', width: 140,frozen:true },
@@ -63,7 +62,7 @@
                 var loginTimeout = parseInt('${_sysConfig.loginTimeout}');
                 if(loginTimeout>0) return loginTimeout + "分钟";
 
-                return '${cm:stripTrailingZeros(_timeout/(60*1000))}' + "分钟";
+                return '${cm:stripTrailingZeros(_global_session_timeout/(60*1000))}' + "分钟";
             } },
         { label:'创建时间', name: 'createTime', width: 150 },
         {  hidden:true, name: 'locked',formatter:function(cellvalue, options, rowObject){

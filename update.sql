@@ -1,9 +1,16 @@
 
+20190627
+修改 avatar.folder.ext
 
+20190626
+更新西交大
+
+20190626
+更新哈工大
 
 
 20190624
-更新南航   北师大X
+更新南航
 
 20190619
 
@@ -29,7 +36,9 @@ ALTER TABLE `ps_info`
 UPDATE sys_resource SET permission=REPLACE(permission, 'partySchool:', 'ps:') WHERE permission LIKE 'partySchool:%';
 UPDATE sys_resource SET url='/ps/psInfo', permission='psInfo:*' WHERE url = '/partySchool';
 
-删除 party_school相关目录
+UPDATE sys_resource SET permission='system:menu' WHERE permission = 'system:*';
+
+-- 删除 party_school相关目录
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
