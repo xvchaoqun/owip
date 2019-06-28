@@ -427,10 +427,12 @@ var _modal_width;
 (function ($) {
     $.extend({
         replace:function(str, searchValue, replaceValue){
-            $.trim(str).replace(searchValue, replaceValue);
+            //console.log("str="+str)
+            return $.trim(str).replace(searchValue, replaceValue);
         },
         substr:function(str, from, length){
-            $.trim(str).substr(from, length);
+            //console.log("str="+str)
+            return $.trim(str).substr(from, length);
         },
         openWindow: function (url, name, iWidth, iHeight) {
             /* var url; //转向网页的地址;

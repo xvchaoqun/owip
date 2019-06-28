@@ -100,14 +100,14 @@
                             <c:if test="${status>=0 && status!=1}">
                                 <shiro:hasPermission name="applySelf:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
-                                       data-url="${ctx}/abroad/applySelf_batchDel" data-title="删除因私出国申请"
+                                       data-url="${ctx}/abroad/applySelf_batchDel?isDeleted=1" data-title="删除因私出国申请"
                                        data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                             </c:if>
                             <c:if test="${status==-1}">
                                 <shiro:hasPermission name="applySelf:del">
                                     <a class="jqBatchBtn btn btn-success btn-sm"
-                                       data-url="${ctx}/abroad/applySelf_batchUnDel" data-title="找回已删除因私出国申请"
+                                       data-url="${ctx}/abroad/applySelf_batchDel?isDeleted=0" data-title="找回已删除因私出国申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="passportApply:del">

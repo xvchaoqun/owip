@@ -558,26 +558,14 @@ public class ApplySelfController extends AbroadBaseController {
     @RequiresPermissions("applySelf:del")
     @RequestMapping(value = "/applySelf_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length > 0) {
-            applySelfService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除[可找回]因私出国申请：%s", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("applySelf:del")
-    @RequestMapping(value = "/applySelf_batchUnDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
+    public Map do_applySelf_batchDel(HttpServletRequest request,
+                          boolean isDeleted,
+                          @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
-            applySelfService.batchUnDel(ids);
-            logger.info(addLog(LogConstants.LOG_ABROAD, "批量找回因私出国申请：%s", StringUtils.join(ids, ",")));
+            applySelfService.batchDel(ids, isDeleted);
+            logger.info(log(LogConstants.LOG_ABROAD, "批量{0}因私出国申请：{1}",
+                    isDeleted?"删除[可找回]":"恢复", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

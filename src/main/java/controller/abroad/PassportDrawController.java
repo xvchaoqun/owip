@@ -802,27 +802,18 @@ public class PassportDrawController extends AbroadBaseController {
     @RequestMapping(value = "/passportDraw_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
+                        Boolean isDeleted,
                         Boolean isReal, // 是否真删除
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
-            passportDrawService.batchDel(ids, BooleanUtils.isTrue(isReal));
-            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除领取证件申请：%s", StringUtils.join(ids, ",")));
-        }
+            isDeleted = BooleanUtils.isTrue(isDeleted);
+            isReal = BooleanUtils.isTrue(isReal);
+            passportDrawService.batchDel(ids, isDeleted, isReal);
+            String op = isReal?"真删除":(isDeleted?"逻辑删除":"恢复");
 
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("passportDraw:del")
-    @RequestMapping(value = "/passportDraw_batchUnDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length > 0) {
-            passportDrawService.batchUnDel(ids);
-            logger.info(addLog(LogConstants.LOG_ABROAD, "批量找回领取证件申请：%s", StringUtils.join(ids, ",")));
+            logger.info(log(LogConstants.LOG_ABROAD, "批量{0}领取证件申请：{1}", op, StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

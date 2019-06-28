@@ -111,7 +111,7 @@
                                 <shiro:hasPermission name="passportDraw:del">
                                     <button id="delBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                             data-rel="tooltip" data-placement="top" title="证件未领取才可以删除"
-                                            data-url="${ctx}/abroad/passportDraw_batchDel" data-title="删除申请使用证件申请"
+                                            data-url="${ctx}/abroad/passportDraw_batchDel?isDeleted=1" data-title="删除申请使用证件申请"
                                             data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
@@ -119,7 +119,7 @@
                             <c:if test="${type==-1}">
                                 <shiro:hasPermission name="passportDraw:del">
                                     <a class="jqBatchBtn btn btn-success btn-sm"
-                                       data-url="${ctx}/abroad/passportDraw_batchUnDel" data-title="找回已删除申请使用证件申请"
+                                       data-url="${ctx}/abroad/passportDraw_batchDel?isDeleted=0" data-title="找回已删除申请使用证件申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
                                 </shiro:hasPermission>
 
@@ -128,7 +128,7 @@
                                             data-rel="tooltip" data-placement="top" title="未审批的记录可以删除"
                                             data-url="${ctx}/abroad/passportDraw_batchDel?isReal=1"
                                             data-title="删除申请使用证件申请"
-                                            data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 完全删除
+                                            data-msg="确定删除这{0}条申请记录吗？<br/>（不可删除审批通过的记录）"><i class="fa fa-trash"></i> 完全删除
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
@@ -561,7 +561,7 @@
             var rowData = $(this).getRowData(id);
             $("#resetReturnDateBtn").prop("disabled", (rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}'));
             $("#resetDrawStatusBtn").prop("disabled", (rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}'));
-            $("#delBtn").prop("disabled", (rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}'));
+            //$("#delBtn").prop("disabled", (rowData.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}'));
         }
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-tooltip="tooltip"]').tooltip({html: true});

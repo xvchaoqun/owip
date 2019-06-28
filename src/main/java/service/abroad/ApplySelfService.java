@@ -766,21 +766,9 @@ public class ApplySelfService extends AbroadBaseMapper {
         applySelfMapper.deleteByPrimaryKey(id);
     }
 
-    // 逻辑删除（只能删除还未通过的记录）
+    // 逻辑删除
     @Transactional
-    public void batchDel(Integer[] ids) {
-
-        if (ids == null || ids.length == 0) return;
-
-        ApplySelfExample example = new ApplySelfExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsAgreedEqualTo(false);
-
-        ApplySelf record = new ApplySelf();
-        record.setIsDeleted(true);
-        applySelfMapper.updateByExampleSelective(record, example);
-    }
-    @Transactional
-    public void batchUnDel(Integer[] ids) {
+    public void batchDel(Integer[] ids, boolean isDeleted) {
 
         if (ids == null || ids.length == 0) return;
 
@@ -788,7 +776,7 @@ public class ApplySelfService extends AbroadBaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
 
         ApplySelf record = new ApplySelf();
-        record.setIsDeleted(false);
+        record.setIsDeleted(isDeleted);
         applySelfMapper.updateByExampleSelective(record, example);
     }
 

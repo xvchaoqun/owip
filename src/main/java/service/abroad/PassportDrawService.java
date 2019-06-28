@@ -154,7 +154,7 @@ public class PassportDrawService extends AbroadBaseMapper {
 
     // 删除（默认逻辑删除），真删除只有在逻辑删除之后
     @Transactional
-    public void batchDel(Integer[] ids, boolean isReal) {
+    public void batchDel(Integer[] ids, boolean isDeleted, boolean isReal) {
 
         if (ids == null || ids.length == 0) return;
 
@@ -178,7 +178,7 @@ public class PassportDrawService extends AbroadBaseMapper {
             example.createCriteria().andIdIn(Arrays.asList(ids));
 
             PassportDraw record = new PassportDraw();
-            record.setIsDeleted(true);
+            record.setIsDeleted(isDeleted);
             passportDrawMapper.updateByExampleSelective(record, example);
 
             for (Integer id : ids) {
@@ -186,32 +186,10 @@ public class PassportDrawService extends AbroadBaseMapper {
                 sysApprovalLogService.add(id, passportDraw.getCadre().getUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
-                        "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+                        isDeleted?"逻辑删除":"恢复", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
             }
         }
     }
-
-    @Transactional
-    public void batchUnDel(Integer[] ids) {
-
-        if (ids == null || ids.length == 0) return;
-
-        PassportDrawExample example = new PassportDrawExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-
-        PassportDraw record = new PassportDraw();
-        record.setIsDeleted(false);
-        passportDrawMapper.updateByExampleSelective(record, example);
-
-        for (Integer id : ids) {
-            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-            sysApprovalLogService.add(id, passportDraw.getCadre().getUserId(),
-                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
-                    "找回", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
-        }
-    }
-
 
     // 领取证件
     @Transactional
