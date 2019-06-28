@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <form action="${ctx}/system/properties" method="post" autocomplete="off" disableautocomplete id="modalForm" class="form-horizontal">
-    <textarea class="span5" rows="25" id="unicode_content" style="width: 100%"></textarea>
-    <textarea name="content" style="display: none;">${content}</textarea>
+    <textarea class="span5 canEnter" rows="25" id="unicode_content" style="width: 100%"></textarea>
+    <textarea name="content" class="canEnter" style="display: none;">${content}</textarea>
 </form>
 <div class="modal-footer center">
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-edit"></i> 修改</button>

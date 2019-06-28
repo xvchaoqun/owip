@@ -2,6 +2,7 @@ package shiro.filter;
 
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
 import shiro.ShiroHelper;
@@ -23,6 +24,8 @@ public class CustomLogoutFilter extends LogoutFilter {
             isCasUser = BooleanUtils.isTrue(uv.isCasUser());
         }
         // 门户账号才需要单点登出
-        return isCasUser?getRedirectUrl(): PropertiesUtils.getString("logout.redirectUrl.default");
+        return isCasUser?getRedirectUrl():
+                StringUtils.defaultIfBlank(
+                        PropertiesUtils.getString("logout.redirectUrl.default"), "/");
     }
 }
