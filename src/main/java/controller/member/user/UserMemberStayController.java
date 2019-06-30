@@ -246,6 +246,9 @@ public class UserMemberStayController extends MemberBaseController {
                 record.setStatus(null);
                 record.setIsBack(null);
                 record.setCreateTime(null);
+                if(memberStay.getStatus()<=MemberConstants.MEMBER_STAY_STATUS_BACK){
+                    record.setStatus(MemberConstants.MEMBER_STAY_STATUS_APPLY); // 修改并提交
+                }
             }
             memberStayService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_USER, "修改提交组织关系暂留申请"));

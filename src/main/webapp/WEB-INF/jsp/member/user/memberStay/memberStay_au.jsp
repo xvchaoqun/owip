@@ -571,10 +571,11 @@
                                 已经提交了${MEMBER_STAY_TYPE_MAP.get(hasSubmitType)}组织关系暂留申请
                         </c:if>
                         <c:if test="${canSubmit}">
+
                             <button class="btn btn-info" id="submitBtn" type="button" data-loading-text="提交中..."
                                     autocomplete="off">
                                 <i class="ace-icon fa fa-check bigger-110"></i>
-                                提交
+                                ${memberStay.status<=MEMBER_STAY_STATUS_BACK?"修改并提交":"提交"}
                             </button>
                         </c:if>
                         &nbsp;&nbsp;
@@ -627,11 +628,7 @@
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
     $("#submitBtn").click(function () {
-        var $btn = $(this).button('loading');
         $("#modalForm").submit();
-        setTimeout(function () {
-            $btn.button('reset');
-        }, 1000);
         return false;
     });
     $("#modalForm").validate({
@@ -663,14 +660,16 @@
             $("#modalForm input[name=stayReason]").val(reasons.join("+++"));
             </c:if>
 
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
-                    $("#submitBtn").button("reset");
+
                     if (ret.success) {
                         SysMsg.success('提交成功。', function () {
                             $.hashchange();
                         });
                     }
+                    $btn.button("reset");
                 }
             });
         }
