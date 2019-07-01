@@ -9,7 +9,10 @@
 		<from>^/m/cas</from>
 		<to>/cas</to>
 	</rule>
-	<!-- 如果服务器使用了nginx动静分离，此处应该创建软链接 -->
+	<!-- 如果服务器使用了nginx动静分离，此处应该创建软链接
+	 cd /pathTo/owip/mobile
+	 ln -s ../fonts fonts
+	 -->
 	<rule>
 		<note>字体</note>
 		<condition type="method">GET</condition>
