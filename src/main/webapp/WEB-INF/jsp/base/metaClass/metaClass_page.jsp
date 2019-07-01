@@ -23,16 +23,16 @@
                             </button>
                             <button class="jqOpenViewBtn btn btn-success btn-sm"
                                     data-url="${ctx}/metaClass_type"
-                                    data-width="<shiro:hasRole name="${ROLE_ADMIN}">800</shiro:hasRole><shiro:lacksRole name="${ROLE_ADMIN}">400</shiro:lacksRole>">
+                                    data-width="<shiro:hasPermission name="metaClass:viewAll">800</shiro:hasPermission><shiro:lacksPermission name="metaClass:viewAll">400</shiro:lacksPermission>">
                                 <i class="fa fa-bars"></i> 编辑属性
                             </button>
                         </shiro:hasPermission>
-                        <shiro:hasRole name="${ROLE_ADMIN}">
+                       <shiro:hasPermission name="metaClass:viewAll">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/metaClassRole">
                                 <i class="fa fa-pencil"></i> 修改角色
                             </button>
-                        </shiro:hasRole>
+                       </shiro:hasPermission>
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                         <shiro:hasPermission name="metaClass:del">
@@ -59,13 +59,13 @@
                                                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                                        placeholder="请输入名称">
                                         </div>
-                                    <shiro:hasRole name="${ROLE_ADMIN}">
+                                    <shiro:hasPermission name="metaClass:viewAll">
                                         <div class="form-group">
                                             <label>代码</label>
                                                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                                        placeholder="请输入代码">
                                         </div>
-                                    </shiro:hasRole>
+                                    </shiro:hasPermission>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
@@ -93,17 +93,17 @@
             { label: '名称', name: 'name', width: 250,frozen:true,align:'left' },
             { label: '所属一级目录', name: 'firstLevel', width: 200,frozen:true },
             { label: '所属二级目录', name: 'secondLevel', width: 200,frozen:true },
-            <shiro:hasRole name="${ROLE_ADMIN}">
+            <shiro:hasPermission name="metaClass:viewAll">
             <c:if test="${!_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
-            </shiro:hasRole>
+            </shiro:hasPermission>
             { label: '布尔属性名称',  name: 'boolAttr', width: 150 },
-            <shiro:hasRole name="${ROLE_ADMIN}">
+            <shiro:hasPermission name="metaClass:viewAll">
             { label: '代码', name: 'code', width: 300, align:'left' },
 
             { label: '附加属性名称',  name: 'extraAttr', width: 150 }
-                </shiro:hasRole>
+            </shiro:hasPermission>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
@@ -111,7 +111,7 @@
     function openView(classId, pageNo){
         pageNo = pageNo||1;
         $.loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,
-                '<shiro:hasRole name="${ROLE_ADMIN}">800</shiro:hasRole><shiro:lacksRole name="${ROLE_ADMIN}">400</shiro:lacksRole>');
+            '<shiro:hasPermission name="metaClass:viewAll">800</shiro:hasPermission><shiro:lacksPermission name="metaClass:viewAll">400</shiro:lacksPermission>');
     }
 
     $.register.date($('.date-picker'));

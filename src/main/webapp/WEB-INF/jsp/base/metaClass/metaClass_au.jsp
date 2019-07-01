@@ -26,7 +26,7 @@
                 <input class="form-control" type="text" name="secondLevel" value="${metaClass.secondLevel}">
             </div>
         </div>
-        <shiro:hasRole name="${ROLE_ADMIN}">
+        <shiro:hasPermission name="metaClass:viewAll">
     	<div class="form-group">
           <label class="col-xs-3 control-label">代码</label>
           <div class="col-xs-6">
@@ -52,7 +52,7 @@
               <span class="help-block red">格式一： jg|机关及直属单位|xxx详细说明,xy|学院<br/>格式二：正高,副高,中级,初级</span>
           </div>
         </div>
-        </shiro:hasRole>
+        </shiro:hasPermission>
         </form>
   </div>
   <div class="modal-footer">

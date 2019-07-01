@@ -28,13 +28,13 @@
                     <c:if test="${not empty metaClass.boolAttr}">
                         <th nowrap width="80">${metaClass.boolAttr}</th>
                     </c:if>
-                    <shiro:hasRole name="${ROLE_ADMIN}">
+                    <shiro:hasPermission name="metaClass:viewAll">
                         <th nowrap>代码</th>
                         <c:if test="${not empty metaClass.extraAttr}">
                             <th>${metaClass.extraAttr}</th>
                         </c:if>
                         <th nowrap>备注</th>
-                    </shiro:hasRole>
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="metaType:changeOrder">
                         <c:if test="${!_query && commonList.recNum>1}">
                             <th style="width: 50px">排序</th>
@@ -52,14 +52,14 @@
                                     ${metaType.boolAttr?"是":"否"}
                             </td>
                         </c:if>
-                        <shiro:hasRole name="${ROLE_ADMIN}">
+                        <shiro:hasPermission name="metaClass:viewAll">
                             <td nowrap>${metaType.code}</td>
                             <c:if test="${not empty metaClass.extraAttr}">
                                 <td>${fn:length(metaClass.options)>0?
                                         metaClass.options.get(metaType.extraAttr).name:metaType.extraAttr}</td>
                             </c:if>
                             <td>${metaType.remark}</td>
-                        </shiro:hasRole>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="metaType:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>
