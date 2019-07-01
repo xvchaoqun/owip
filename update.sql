@@ -1,4 +1,11 @@
 
+20190629  更新 北邮   北师大X
+
+-- + metaClass:viewAll
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (1059, 0, '查看所有元数据的权限', '默认只能查看本角色相关的元数据', 'function', '', NULL, 72, '0/1/67/72/', 1, 'metaClass:viewAll', NULL, NULL, NULL, 1, NULL);
+
 20190628
 更新南航、北航
 

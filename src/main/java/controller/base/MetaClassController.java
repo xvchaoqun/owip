@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -78,7 +76,7 @@ public class MetaClassController extends BaseController {
         Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (!ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {
+        if (!ShiroHelper.isPermitted("metaClass:viewAll")) {
 
             Set<Integer> roleIdSet = sysUserService.getUserRoleIdSet(loginUser.getRoleIds());
             criteria.andRoleIdIn(new ArrayList<>(roleIdSet));
@@ -189,7 +187,7 @@ public class MetaClassController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("metaClass:viewAll")
     @RequestMapping(value = "/metaClassRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_metaClassRole(int id,
@@ -204,7 +202,7 @@ public class MetaClassController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("metaClass:viewAll")
     @RequestMapping("/metaClassRole")
     public String metaClassRole(Integer id, ModelMap modelMap) throws IOException {
 
