@@ -1,6 +1,5 @@
 package controller.cadreInspect;
 
-import bean.XlsUpload;
 import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
@@ -242,7 +241,7 @@ public class CadreInspectController extends BaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<Cadre> records = new ArrayList<>();
         int row = 1;

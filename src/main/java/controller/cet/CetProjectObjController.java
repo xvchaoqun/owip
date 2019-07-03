@@ -1,7 +1,6 @@
 package controller.cet;
 
 import bean.UserBean;
-import bean.XlsUpload;
 import domain.cet.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -28,10 +27,7 @@ import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DownloadUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -404,7 +400,7 @@ public class CetProjectObjController extends CetBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
 
         Map<String, Object> retMap = cetProjectObjService.imports(xlsRows, projectId, trainCourseId);

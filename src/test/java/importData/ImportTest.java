@@ -1,6 +1,5 @@
 package importData;
 
-import bean.XlsUpload;
 import domain.sys.SysUser;
 import domain.sys.SysUserExample;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -21,6 +20,7 @@ import shiro.PasswordHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
+import sys.utils.ExcelUtils;
 import sys.utils.IdcardValidator;
 
 import java.io.File;
@@ -74,7 +74,7 @@ public class ImportTest {
             XlsUser dataRow = new XlsUser();
             XSSFCell cell = row.getCell(0);
             if (null != cell) {
-                String realname = XlsUpload.getCellValue(cell);
+                String realname = ExcelUtils.getCellValue(cell);
                 if (StringUtils.isBlank(realname)) {
                     continue;
                 }
@@ -85,7 +85,7 @@ public class ImportTest {
 
             cell = row.getCell(1);
             if (null != cell) {
-                String _gender = XlsUpload.getCellValue(cell);
+                String _gender = ExcelUtils.getCellValue(cell);
                 if (StringUtils.isBlank(_gender)) {
                     continue;
                 }
@@ -96,7 +96,7 @@ public class ImportTest {
 
             cell = row.getCell(2);
             if (null != cell) {
-                String idcard = XlsUpload.getCellValue(cell);
+                String idcard = ExcelUtils.getCellValue(cell);
                 if (StringUtils.isBlank(idcard)) {
                     continue;
                 }
@@ -106,7 +106,7 @@ public class ImportTest {
             }
 
             cell = row.getCell(3);
-            dataRow.setUnit(XlsUpload.getCellValue(cell));
+            dataRow.setUnit(ExcelUtils.getCellValue(cell));
 
             rows.add(dataRow);
         }

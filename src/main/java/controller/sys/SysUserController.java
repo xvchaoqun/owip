@@ -2,6 +2,8 @@ package controller.sys;
 
 import bean.ColumnBean;
 import controller.BaseController;
+import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.member.MemberView;
 import domain.sys.*;
 import domain.sys.SysUserExample.Criteria;
@@ -10,9 +12,12 @@ import interceptor.SortParam;
 import mixin.SysUserListMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -29,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.DBServcie;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -116,7 +122,7 @@ public class SysUserController extends BaseController {
     @RequestMapping("/sysUser_base")
     public String sysUser_base(int userId, ModelMap modelMap) {
 
-        if(userId!=ShiroHelper.getCurrentUserId()){
+        if (userId != ShiroHelper.getCurrentUserId()) {
             SecurityUtils.getSubject().checkPermission("sysUser:view");
         }
 
@@ -190,7 +196,7 @@ public class SysUserController extends BaseController {
         SysUserViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if(userId != null){
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
 
@@ -444,7 +450,138 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUserRole";
     }
 
-    @RequiresPermissions("sysUser:list")
+    // 抽取工号，根据姓名或身份证号导出带工号的列表
+    @RequiresPermissions("sysUser:filterExport")
+    @RequestMapping("/sysUser_filterExport")
+    public String sysUser_filterExport(ModelMap modelMap) {
+
+        return "sys/sysUser/sysUser_filterExport";
+    }
+
+    @RequiresPermissions("sysUser:filterExport")
+    @RequestMapping(value = "/sysUser_filterExport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUser_filterExport(
+            byte colType, // 0：身份证 1：姓名
+            int col,
+            byte roleType, // 1: 干部  0: 混合
+            byte type, // 类别 教职工、本科生、研究生  0： 混合
+            Integer addCol,
+            @RequestParam(required = false, defaultValue = "1") int sheetNo,
+            HttpServletRequest request, HttpServletResponse response)
+            throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(sheetNo-1);
+
+        int firstNotEmptyRowNum = 0;
+        XSSFRow firstRow = sheet.getRow(firstNotEmptyRowNum++);
+        while (firstRow==null){
+            if(firstNotEmptyRowNum>=100) break;
+            firstRow = sheet.getRow(firstNotEmptyRowNum++);
+        }
+        if(firstRow==null){
+            return failed("该文件前100行数据为空，无法导出");
+        }
+        int cellNum = firstRow.getLastCellNum() - firstRow.getFirstCellNum(); // 列数
+
+        for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
+
+            XSSFRow row = sheet.getRow(i);
+            // 行数据如果为空，不处理
+            if (row == null) continue;
+
+            XSSFCell cell = row.getCell(col - 1);
+            String key = ExcelUtils.getCellValue(cell);
+            if(StringUtils.isBlank(key)) continue;
+
+            String code = null;
+            List<String> codeList = new ArrayList<>();
+            if (roleType == 1) {
+
+                CadreViewExample example = new CadreViewExample();
+                CadreViewExample.Criteria criteria = example.createCriteria();
+                if (colType == 0) {
+                    // 身份证
+                    criteria.andIdcardEqualTo(key);
+                } else {
+                    // 姓名
+                    criteria.andRealnameEqualTo(key);
+                }
+                List<CadreView> cvs = cadreViewMapper.selectByExample(example);
+                if (cvs.size() == 1) {
+                    code = cvs.get(0).getCode();
+                } else if (cvs.size() > 1) {
+                    for (CadreView cv : cvs) {
+                        codeList.add(cv.getCode());
+                    }
+                }
+            } else {
+                SysUserViewExample example = new SysUserViewExample();
+                SysUserViewExample.Criteria criteria = example.createCriteria();
+                if (colType == 0) {
+                    // 身份证
+                    criteria.andIdcardEqualTo(key);
+                } else {
+                    // 姓名
+                    criteria.andRealnameEqualTo(key);
+                }
+                if (type != 0) {
+                    criteria.andTypeEqualTo(type);
+                }
+                List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
+                if (uvs.size() == 1) {
+                    code = uvs.get(0).getCode();
+                } else if (uvs.size() > 1) {
+                    for (SysUserView uv : uvs) {
+                        codeList.add(uv.getCode());
+                    }
+                }
+            }
+            // 每一行插入的位置
+            int rowAddCol = -1;
+            if (addCol != null && addCol <= cellNum) {
+                rowAddCol = rowAddCol-1;
+                cell = row.getCell(rowAddCol);
+                if(cell==null){
+                    cell = row.createCell(rowAddCol);
+                }
+                cell.setCellValue(StringUtils.trimToEmpty(code));
+            } else {
+                rowAddCol = cellNum + 1;
+                cell = row.createCell(rowAddCol);
+                cell.setCellValue(StringUtils.trimToEmpty(code));
+            }
+
+            if (codeList.size() > 0) {
+
+                if (rowAddCol < cellNum) {
+                    rowAddCol = cellNum + 1;
+                } else {
+                    rowAddCol = rowAddCol + 1;
+                }
+
+                cell = row.createCell(rowAddCol);
+                cell.setCellValue(StringUtils.join(codeList, "、"));
+            }
+        }
+
+        String savePath = FILE_SEPARATOR + "_filterExport" + FILE_SEPARATOR + System.currentTimeMillis() + ".xlsx";
+        FileUtils.mkdirs(springProps.uploadPath + savePath, true);
+
+        ExportHelper.save(workbook, springProps.uploadPath + savePath);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("file", savePath);
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("sysUser:export")
     @RequestMapping("/sysUser_export")
     public String sysUser_export(Integer roleId, boolean locked, HttpServletResponse response,
                                  HttpServletRequest request, ModelMap modelMap) throws IOException {

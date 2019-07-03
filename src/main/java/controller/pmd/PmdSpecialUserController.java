@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import bean.XlsUpload;
 import domain.pmd.PmdSpecialUser;
 import domain.pmd.PmdSpecialUserExample;
 import domain.pmd.PmdSpecialUserExample.Criteria;
@@ -158,7 +157,7 @@ public class PmdSpecialUserController extends PmdBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<PmdSpecialUser> records = new ArrayList<>();
         int row = 1;

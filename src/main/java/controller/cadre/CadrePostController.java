@@ -1,6 +1,5 @@
 package controller.cadre;
 
-import bean.XlsUpload;
 import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
@@ -39,6 +38,7 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -317,7 +317,7 @@ public class CadrePostController extends BaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<CadrePost> records = new ArrayList<>();
         int row = 1;

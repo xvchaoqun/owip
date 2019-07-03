@@ -152,7 +152,9 @@ pageEncoding="UTF-8"%>
 
 </div>
 <div class="modal-footer">
-	<div class="note">注：支部编号系统自动生成</div>
+	<c:if test="${empty branch}">
+	<div class="note">注：添加新支部时，编号由系统自动生成（规则：所属分党委编号 + 3位自增数字）</div>
+	</c:if>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
 	<button id="submitBtn" type="button" class="btn btn-primary"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">

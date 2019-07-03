@@ -1,6 +1,5 @@
 package controller.oa;
 
-import bean.XlsUpload;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
@@ -32,10 +31,7 @@ import sys.constants.OaConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.NumberUtils;
-import sys.utils.SqlUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -357,7 +353,7 @@ public class OaTaskController extends OaBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<TaskUser> records = new ArrayList<>();
         int row = 1;

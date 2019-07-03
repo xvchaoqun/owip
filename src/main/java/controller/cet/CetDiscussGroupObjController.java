@@ -1,6 +1,5 @@
 package controller.cet;
 
-import bean.XlsUpload;
 import domain.cet.CetDiscussGroupObj;
 import domain.cet.CetDiscussGroupObjExample;
 import domain.cet.CetDiscussGroupObjExample.Criteria;
@@ -27,10 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -185,7 +181,7 @@ public class CetDiscussGroupObjController extends CetBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
 
         Map<String, Object> retMap = cetDiscussGroupObjService.imports(xlsRows, discussGroupId, BooleanUtils.isTrue(isFinished));

@@ -1,6 +1,5 @@
 package excel;
 
-import bean.XlsUpload;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.util.Units;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
@@ -9,15 +8,11 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
+import sys.utils.ExcelUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +72,7 @@ public class ExcelTest {
         InputStream is = new FileInputStream(new File("C:\\Users\\lm\\Desktop\\党员信息表-特殊党员库.xlsx"));
         XSSFWorkbook workbook = new XSSFWorkbook(is);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         for (Map<Integer, String> xlsRow : xlsRows) {
             System.out.println(xlsRow);

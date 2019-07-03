@@ -1,6 +1,5 @@
 package controller.member;
 
-import bean.XlsUpload;
 import controller.global.OpException;
 import domain.member.MemberReg;
 import domain.member.MemberRegExample;
@@ -417,7 +416,7 @@ public class MemberRegController extends MemberBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<String, Party> runPartyMap = new HashMap<>();

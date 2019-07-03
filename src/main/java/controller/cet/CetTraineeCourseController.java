@@ -1,6 +1,5 @@
 package controller.cet;
 
-import bean.XlsUpload;
 import domain.cet.*;
 import domain.cet.CetTraineeCourseExample.Criteria;
 import domain.sys.SysUserView;
@@ -28,10 +27,7 @@ import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.StringUtil;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -306,7 +302,7 @@ public class CetTraineeCourseController extends CetBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         Map<String, Object> retMap = cetTraineeCourseService.signImport(trainCourseId, xlsRows);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

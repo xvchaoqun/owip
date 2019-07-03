@@ -1,6 +1,5 @@
 package controller.member;
 
-import bean.XlsUpload;
 import controller.global.OpException;
 import domain.member.*;
 import domain.party.Branch;
@@ -102,7 +101,7 @@ public class MemberApplyController extends MemberBaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
 
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<MemberApply> records = new ArrayList<>();
         int row = 1;

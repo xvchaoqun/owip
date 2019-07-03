@@ -1,6 +1,5 @@
 package service.cet;
 
-import bean.XlsUpload;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cet.*;
@@ -17,9 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.ExcelUtils;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetTrainInspectorService extends CetBaseMapper {
@@ -115,7 +118,7 @@ public class CetTrainInspectorService extends CetBaseMapper {
             OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
             XSSFWorkbook workbook = new XSSFWorkbook(pkg);
             XSSFSheet sheet = workbook.getSheetAt(0);
-            List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+            List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
             for (Map<Integer, String> xlsRow : xlsRows) {
 

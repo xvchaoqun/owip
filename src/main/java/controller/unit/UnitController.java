@@ -1,6 +1,5 @@
 package controller.unit;
 
-import bean.XlsUpload;
 import controller.BaseController;
 import domain.base.MetaType;
 import domain.dispatch.DispatchUnit;
@@ -395,7 +394,7 @@ public class UnitController extends BaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
 
         Map<String, Object> retMap = unitService.batchImport(xlsRows);
@@ -426,7 +425,7 @@ public class UnitController extends BaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
 
         Map<String, Object> retMap = unitService.batchImportCodes(xlsRows);

@@ -1,6 +1,5 @@
 package controller.member;
 
-import bean.XlsUpload;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.member.*;
@@ -195,7 +194,7 @@ public class MemberController extends MemberBaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
 
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         Map<String, Object> resultMap = null;
 

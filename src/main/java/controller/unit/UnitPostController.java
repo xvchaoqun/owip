@@ -1,7 +1,6 @@
 package controller.unit;
 
 import bean.MetaClassOption;
-import bean.XlsUpload;
 import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaClass;
@@ -76,7 +75,7 @@ public class UnitPostController extends BaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<UnitPost> records = new ArrayList<>();
         int row = 1;
@@ -353,7 +352,7 @@ public class UnitPostController extends BaseController {
             if (ids != null && ids.length > 0)
               criteria.andIdIn(Arrays.asList(ids));
 
-            if(displayType==1||displayType==2) {
+            if (displayType==null || displayType == 1 || displayType == 2) {
                 if (exportType == 0) {
                     unitPost_export(example, response);
                     return;
@@ -362,7 +361,7 @@ public class UnitPostController extends BaseController {
                     unitPostService.exportOpenList(displayType, example, response);
                     return;
                 }
-            }else if(displayType==3){
+            } else if (displayType == 3) {
 
                 unitPost_cadre_export(example, response);
             }

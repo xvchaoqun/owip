@@ -47,15 +47,15 @@
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
                                 <c:if test="${status==CADRE_STATUS_LEADER}">
-                                    <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-width="700"
                                             data-url="${ctx}/cadre_leave">
-                                        <i class="fa fa-edit"></i> 离任
+                                        <i class="fa fa-sign-out"></i> 离任
                                     </button>
                                 </c:if>
-                                <a class="popupBtn btn btn-info btn-sm tooltip-info"
+                                <%--<a class="popupBtn btn btn-info btn-sm tooltip-info"
                                    data-url="${ctx}/cadre_import?status=${status}"
-                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
+                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>--%>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm"
                                    data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i

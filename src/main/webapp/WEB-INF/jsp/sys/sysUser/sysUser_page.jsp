@@ -49,6 +49,12 @@
                         </button>
                         </shiro:hasPermission>
                     </shiro:hasPermission>
+                <shiro:hasPermission name="sysUser:filterExport">
+                    <a class="popupBtn btn btn-info btn-sm tooltip-info"
+                               data-url="${ctx}/sysUser_filterExport"
+                               data-rel="tooltip" data-placement="top" title="抽取工号"><i class="fa fa-download"></i>
+                                抽取工号</a>
+                </shiro:hasPermission>
                 <shiro:hasPermission name="avatar:import">
                     <button class="popupBtn btn btn-success btn-sm tooltip-info"
                             data-url="${ctx}/avatar_import"

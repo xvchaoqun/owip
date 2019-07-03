@@ -1,7 +1,6 @@
 package controller.cadre;
 
 import bean.MetaClassOption;
-import bean.XlsUpload;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import controller.BaseController;
 import controller.global.OpException;
@@ -38,10 +37,7 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -71,7 +67,7 @@ public class CadreCompanyController extends BaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<CadreCompany> records = new ArrayList<>();
         int row = 1;

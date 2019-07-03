@@ -1,6 +1,5 @@
 package controller.cet;
 
-import bean.XlsUpload;
 import controller.global.OpException;
 import domain.cet.CetExpert;
 import domain.cet.CetExpertExample;
@@ -179,7 +178,7 @@ public class CetExpertController extends CetBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<CetExpert> records = new ArrayList<>();
         int row = 1;

@@ -1,6 +1,5 @@
 package controller.cet;
 
-import bean.XlsUpload;
 import controller.global.OpException;
 import domain.cet.*;
 import mixin.MixinUtils;
@@ -537,7 +536,7 @@ public class CetTrainCourseController extends CetBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<CetTrainCourse> records = new ArrayList<>();
         int row = 1;

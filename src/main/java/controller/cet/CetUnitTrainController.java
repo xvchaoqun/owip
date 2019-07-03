@@ -1,6 +1,5 @@
 package controller.cet;
 
-import bean.XlsUpload;
 import domain.cet.CetUnitProject;
 import domain.cet.CetUnitTrain;
 import domain.cet.CetUnitTrainExample;
@@ -31,10 +30,7 @@ import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -270,7 +266,7 @@ public class CetUnitTrainController extends CetBaseController {
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
 
         Map<String, Object> retMap = cetUnitTrainService.imports(xlsRows, projectId);

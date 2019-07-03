@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import bean.XlsUpload;
 import controller.global.OpException;
 import domain.abroad.*;
 import domain.base.MetaType;
@@ -962,7 +961,7 @@ public class PassportController extends AbroadBaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
 
         XSSFSheet sheet = workbook.getSheetAt(0);
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<Passport> records = new ArrayList<>();
         int row = 1;

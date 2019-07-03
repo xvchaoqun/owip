@@ -1,6 +1,5 @@
 package controller.cadre;
 
-import bean.XlsUpload;
 import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
@@ -29,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -154,7 +154,7 @@ public class CadreEvaController extends BaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
 
-        Map<Integer, String> titleRow = XlsUpload.getXlsTitleRow(sheet);
+        Map<Integer, String> titleRow = ExcelUtils.getTitleRowData(sheet);
         int cols = titleRow.size();
         if(cols < 4){
             throw new OpException("录入表格式有误。");
@@ -174,7 +174,7 @@ public class CadreEvaController extends BaseController {
             yearMap.put(i, year);
         }
 
-        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         List<CadreEva> records = new ArrayList<>();
         int row = 1;
