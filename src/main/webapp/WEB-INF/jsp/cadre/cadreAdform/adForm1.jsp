@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CADRE_FAMILY_TITLE_MAP" value="<%=CadreConstants.CADRE_FAMILY_TITLE_MAP%>"/>
 
 <style type="text/css">.b1{white-space-collapsing:preserve;}
 .b2{margin: 0.4722222in 0.5395833in 0.39375in 0.39375in;}
@@ -373,7 +372,7 @@ td.bolder{font-weight: bolder}
     <c:forEach items="${bean.cadreFamilys}" var="f">
       <tr class="r2">
         <td class="td13 center">
-            ${CADRE_FAMILY_TITLE_MAP.get(f.title)}
+            ${cm:getMetaType(f.title).name}
         </td>
         <td class="td14 center" colspan="2">
             ${f.realname}

@@ -361,7 +361,7 @@ public class CadreInfoFormService extends BaseMapper {
                 cadreFamilyAbroads.add(record);
             } else {
                 for (CadreFamilyAbroad record : cadreFamilyAbroads) {
-                    String familyTitle = CadreConstants.CADRE_FAMILY_TITLE_MAP.get(record.getCadreFamily().getTitle());
+                    String familyTitle = metaTypeService.getName(record.getCadreFamily().getTitle());
                     record.setFamilyTitle(familyTitle);
                 }
             }
@@ -655,7 +655,7 @@ public class CadreInfoFormService extends BaseMapper {
 
         String ftitle = "";
         if (bean != null) {
-            ftitle = CadreConstants.CADRE_FAMILY_TITLE_MAP.get(bean.getTitle());
+            ftitle = metaTypeService.getName(bean.getTitle());
         }
         dataMap.put("a2", StringUtils.trimToNull(ftitle));
         dataMap.put("b2", bean == null ? "" : StringUtils.trimToEmpty(bean.getRealname()));

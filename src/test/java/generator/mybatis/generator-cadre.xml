@@ -28,7 +28,7 @@
          <!-- <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
                 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>-->
-         <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
+         <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
@@ -52,7 +52,7 @@
                  enableDeleteByExample="false">
               <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
               <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-          </table>
+          </table>-->
 
         <!--  <table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
           </table>-->
@@ -87,13 +87,13 @@
         <!--<table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cadre_company_view" domainObjectName="cadre.CadreCompanyView"
+        <!--<table tableName="cadre_company_view" domainObjectName="cadre.CadreCompanyView"
                mapperName="cadre.CadreCompanyViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="is_double" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>
+        </table>-->
 
        <!-- <table tableName="cadre_company_file" domainObjectName="cadre.CadreCompanyFile"
                mapperName="cadre.CadreCompanyFileMapper">

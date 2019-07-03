@@ -359,6 +359,22 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUserInfo_au";
     }
 
+    // 查看中组部干部任免审批表简历
+    @RequiresPermissions("sysUser:resume")
+    @RequestMapping("/sysUserInfo_resume")
+    public String sysUserInfo_resume(Integer userId, ModelMap modelMap) {
+
+        if (userId != null) {
+            SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
+            modelMap.put("ui", ui);
+
+            SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+            modelMap.put("sysUser", sysUser);
+        }
+
+        return "sys/sysUser/sysUserInfo_resume";
+    }
+
     // 预览用户的菜单
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_menu")

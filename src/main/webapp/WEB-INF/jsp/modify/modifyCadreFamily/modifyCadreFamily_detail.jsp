@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
-<c:set var="CADRE_FAMILY_TITLE_MAP" value="<%=CadreConstants.CADRE_FAMILY_TITLE_MAP%>"/>
 
 <div class="jqgrid-vertical-offset clearfix" style="background-color: #f5f5f5;padding: 5px 0 5px 0">
     <div class="col-md-9">
@@ -44,7 +43,7 @@
             <table class="table  table-unhover table-bordered table-striped">
                 <tr>
                     <td data-code="title">称谓</td>
-                    <td class="bg-left">${CADRE_FAMILY_TITLE_MAP.get(modify.title)}</td>
+                    <td class="bg-left">${cm:getMetaType(modify.title).name}</td>
                     <td data-code="realname">姓名</td>
                     <td class="bg-left">${modify.realname}</td>
                     <td data-code="birthday">出生年月</td>

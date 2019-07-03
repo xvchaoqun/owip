@@ -274,7 +274,7 @@ public class CadreFamilyController extends BaseController {
                     cadre.getCode(),
                     cadre.getRealname(),
                     cadre.getTitle(),
-                    cadreFamily.getTitle()==null?"":CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cadreFamily.getTitle()),
+                    cadreFamily.getTitle()==null?"":metaTypeService.getName(cadreFamily.getTitle()),
                     cadreFamily.getRealname(),
                     cadreFamily.getPoliticalStatus()==null?"":metaTypeService.getName(cadreFamily.getPoliticalStatus()),
                     cadreFamily.getUnit()

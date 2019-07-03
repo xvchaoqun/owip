@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CADRE_FAMILY_TITLE_MAP" value="<%=CadreConstants.CADRE_FAMILY_TITLE_MAP%>"/>
 <style>
 <!--
 
@@ -445,7 +444,7 @@ div.WordSection1
           <td width=63 style='width:47.55pt;border-top:none;border-left:none;
           border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
           padding:0cm 5.4pt 0cm 5.4pt;height:38.4pt'>
-          <p class=MsoNormal align=center style='text-align:center'>${CADRE_FAMILY_TITLE_MAP.get(f.title)}</p>
+          <p class=MsoNormal align=center style='text-align:center'>${cm:getMetaType(f.title).name}</p>
           </td>
           <td width=72 style='width:53.7pt;border-top:none;border-left:none;border-bottom:
           solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;

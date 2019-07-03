@@ -28,6 +28,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
     <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
+    <result column="resume" jdbcType="VARCHAR" property="resume" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -91,7 +92,7 @@
     user_id, realname, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
     gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
     msg_mobile, not_send_msg, file_number, unit, phone, home_phone, email, mailing_address, 
-    msg_title
+    msg_title, resume
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysUserInfoExample" resultMap="BaseResultMap">
     select
@@ -132,7 +133,8 @@
       sign, mobile, msg_mobile, 
       not_send_msg, file_number, unit, 
       phone, home_phone, email, 
-      mailing_address, msg_title)
+      mailing_address, msg_title, resume
+      )
     values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
       #{idcardType,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
       #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, #{gender,jdbcType=TINYINT}, 
@@ -141,7 +143,8 @@
       #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{msgMobile,jdbcType=VARCHAR}, 
       #{notSendMsg,jdbcType=BIT}, #{fileNumber,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{mailingAddress,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR})
+      #{mailingAddress,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}, #{resume,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysUserInfo">
     insert into sys_user_info
@@ -224,6 +227,9 @@
       <if test="msgTitle != null">
         msg_title,
       </if>
+      <if test="resume != null">
+        resume,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -303,6 +309,9 @@
       </if>
       <if test="msgTitle != null">
         #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="resume != null">
+        #{resume,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -393,6 +402,9 @@
       <if test="record.msgTitle != null">
         msg_title = #{record.msgTitle,jdbcType=VARCHAR},
       </if>
+      <if test="record.resume != null">
+        resume = #{record.resume,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -425,7 +437,8 @@
       home_phone = #{record.homePhone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       mailing_address = #{record.mailingAddress,jdbcType=VARCHAR},
-      msg_title = #{record.msgTitle,jdbcType=VARCHAR}
+      msg_title = #{record.msgTitle,jdbcType=VARCHAR},
+      resume = #{record.resume,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -508,6 +521,9 @@
       <if test="msgTitle != null">
         msg_title = #{msgTitle,jdbcType=VARCHAR},
       </if>
+      <if test="resume != null">
+        resume = #{resume,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -537,7 +553,8 @@
       home_phone = #{homePhone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       mailing_address = #{mailingAddress,jdbcType=VARCHAR},
-      msg_title = #{msgTitle,jdbcType=VARCHAR}
+      msg_title = #{msgTitle,jdbcType=VARCHAR},
+      resume = #{resume,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SysUserInfoExample" resultMap="BaseResultMap">

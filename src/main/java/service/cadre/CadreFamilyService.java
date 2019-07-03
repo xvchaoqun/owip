@@ -1,6 +1,7 @@
 package service.cadre;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreFamily;
 import domain.cadre.CadreFamilyAbroadExample;
 import domain.cadre.CadreFamilyExample;
@@ -8,12 +9,14 @@ import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import shiro.ShiroHelper;
-import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -28,37 +31,58 @@ import java.util.List;
 @Service
 public class CadreFamilyService extends BaseMapper {
 
+    @Autowired
+    private MetaTypeService metaTypeService;
+
     public CadreFamily get(int id){
 
         return cadreFamilyMapper.selectByPrimaryKey(id);
     }
 
-    public void addCheck(int cadreId, byte title){
+    // 根据姓名查找（正式记录）
+    public CadreFamily get(int cadreId, String realname){
 
-        if(title== CadreConstants.CADRE_FAMILY_TITLE_FATHER
-                || title == CadreConstants.CADRE_FAMILY_TITLE_MOTHER) {
+        if(StringUtils.isBlank(realname)) return null;
+
+        CadreFamilyExample example = new CadreFamilyExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andRealnameEqualTo(realname)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+
+        List<CadreFamily> cadreFamilies = cadreFamilyMapper.selectByExample(example);
+        return cadreFamilies.size()>0?cadreFamilies.get(0):null;
+    }
+
+    public void addCheck(int cadreId, int title){
+
+        MetaType titleType = CmTag.getMetaType(title);
+        boolean isUnique = BooleanUtils.isTrue(titleType.getBoolAttr());
+
+        if(isUnique) {
             CadreFamilyExample example = new CadreFamilyExample();
             CadreFamilyExample.Criteria criteria = example.createCriteria()
                     .andTitleEqualTo(title).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             criteria.andCadreIdEqualTo(cadreId);
 
             if(cadreFamilyMapper.countByExample(example)>0){
-                throw new OpException(CadreConstants.CADRE_FAMILY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+                throw new OpException(metaTypeService.getName(title)+"已经添加了，请不要重复添加");
             }
         }
 
-        CadreFamilyExample example = new CadreFamilyExample();
+        //  2019.07.03 注释
+        /*CadreFamilyExample example = new CadreFamilyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         if(cadreFamilyMapper.countByExample(example)>=6){
             throw new OpException("最多只允许添加6个家庭成员");
-        }
+        }*/
     }
 
-    public void updateCheck(int id, int cadreId, byte title){
+    public void updateCheck(int id, int cadreId, int title){
 
-        if(title== CadreConstants.CADRE_FAMILY_TITLE_FATHER
-                || title == CadreConstants.CADRE_FAMILY_TITLE_MOTHER) {
+        MetaType titleType = CmTag.getMetaType(title);
+        boolean isUnique = BooleanUtils.isTrue(titleType.getBoolAttr());
+        if(isUnique) {
             CadreFamilyExample example = new CadreFamilyExample();
             CadreFamilyExample.Criteria criteria = example.createCriteria()
                     .andTitleEqualTo(title).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -66,7 +90,7 @@ public class CadreFamilyService extends BaseMapper {
             criteria.andIdNotEqualTo(id);
 
             if(cadreFamilyMapper.countByExample(example)>0){
-                throw new OpException(CadreConstants.CADRE_FAMILY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+                throw new OpException(metaTypeService.getName(title)+"已经添加了，请不要重复添加");
             }
         }
     }

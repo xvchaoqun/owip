@@ -1,9 +1,13 @@
 package service.cadre;
 
 import bean.CadreInfoForm;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.*;
+import domain.sys.SysUser;
+import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -20,13 +24,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
+import service.global.CacheHelper;
 import service.party.MemberService;
+import service.sys.AvatarService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
@@ -67,6 +74,12 @@ public class CadreAdformService extends BaseMapper {
     protected CadreWorkService cadreWorkService;
     @Autowired
     protected CadreRewardService cadreRewardService;
+    @Autowired
+    protected CadreFamilyService cadreFamilyService;
+    @Autowired
+    private CacheHelper cacheHelper;
+    @Autowired
+    protected AvatarService avatarService;
     @Autowired
     protected SysConfigService sysConfigService;
 
@@ -470,6 +483,130 @@ public class CadreAdformService extends BaseMapper {
         return text;
     }
 
+    // 导入中组部任免审批表
+    @Transactional
+    public void importRm(String path) throws IOException, DocumentException {
+
+        SAXReader reader = new SAXReader();
+        InputStream is = new FileInputStream(path);
+        Document doc = reader.read(is);
+
+        String realname = XmlUtils.getNodeText(doc, "//Person/XingMing");
+        CadreViewExample example = new CadreViewExample();
+        example.createCriteria().andRealnameEqualTo(realname);
+        List<CadreView> cadreViews = cadreViewMapper.selectByExample(example);
+        CadreView cv = null;
+        int size = cadreViews.size();
+        if (size == 1) {
+            cv = cadreViews.get(0);
+        } else if (size > 1) {
+            throw new OpException("存在{0}个姓名为{1}的干部，无法导入。", size, realname);
+        }
+
+        if (cv == null) {
+            throw new OpException("{0}不在干部库中，无法导入。", realname);
+        }
+
+        String nativePlace = XmlUtils.getNodeText(doc, "//Person/JiGuan");
+        String homeplace = XmlUtils.getNodeText(doc, "//Person/ChuShengDi");
+        String health = XmlUtils.getNodeText(doc, "//Person/JianKangZhuangKuang");
+        String specialty = XmlUtils.getNodeText(doc, "//Person/ShuXiZhuanYeYouHeZhuanChang");
+        String workTime = XmlUtils.getNodeText(doc, "//Person/CanJiaGongZuoShiJian");
+        String title = XmlUtils.getNodeText(doc, "//Person/XianRenZhiWu");
+        String resume = XmlUtils.getNodeText(doc, "//Person/JianLi");
+        String avatarBase64 = XmlUtils.getNodeText(doc, "//Person/ZhaoPian");
+
+        int userId = cv.getUserId();
+        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(userId);
+        int cadreId = cv.getId();
+        SysUserInfo ui = new SysUserInfo();
+        ui.setUserId(userId);
+        ui.setNativePlace(nativePlace);
+        ui.setHomeplace(homeplace);
+
+        if(StringUtils.isNotBlank(avatarBase64)) {
+            String tmpAvatarFile = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                    DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR
+                    + "lrmx" + FILE_SEPARATOR + "avatar" + FILE_SEPARATOR;
+            FileUtils.mkdirs(tmpAvatarFile, false);
+            ImageUtils.decodeBase64ToImage(avatarBase64, tmpAvatarFile, cv.getCode() + ".jpg");
+            String tmpFile = tmpAvatarFile + cv.getCode() + ".jpg";
+            String avatar = avatarService.copyToAvatar(new File(tmpFile));
+            if (avatar != null) {
+                ui.setAvatar(avatar);
+            }
+            FileUtils.delFile(tmpFile);
+        }
+
+        MetaType healthType = CmTag.getMetaTypeByName("mc_health", health);
+        if (healthType != null) {
+            ui.setHealth(healthType.getId());
+        }
+        ui.setSpecialty(specialty);
+        ui.setResume(resume);
+
+        sysUserInfoMapper.updateByPrimaryKeySelective(ui);
+
+        title = StringUtils.removeStart(title, CmTag.getSysConfig().getSchoolName());
+        if (StringUtils.isNotBlank(title)) {
+            Cadre c = new Cadre();
+            c.setId(cadreId);
+            c.setTitle(title);
+            cadreMapper.updateByPrimaryKeySelective(c);
+        }
+
+        Date _workTime = DateUtils.parseStringToDate(workTime);
+        if (_workTime != null) {
+            TeacherInfo record = new TeacherInfo();
+            record.setUserId(userId);
+            record.setWorkTime(_workTime);
+            teacherInfoMapper.updateByPrimaryKeySelective(record);
+        }
+
+        List<Node> nodeList = doc.selectNodes("//Person/JiaTingChengYuan/Item");
+
+        for (Node node : nodeList) {
+            String _title = XmlUtils.getChildNodeText(node, "ChengWei");
+            MetaType familyTitle = CmTag.getMetaTypeByName("mc_family_title", _title);
+
+            CadreFamily cf = new CadreFamily();
+            cf.setCadreId(cadreId);
+            if (familyTitle != null) {
+                cf.setTitle(familyTitle.getId());
+            }
+
+            String _realname = StringUtils.trimToNull(XmlUtils.getChildNodeText(node, "XingMing"));
+            String _birthday = XmlUtils.getChildNodeText(node, "ChuShengRiQi");
+            String _politicalStatus = XmlUtils.getChildNodeText(node, "ZhengZhiMianMao");
+            String _unit = XmlUtils.getChildNodeText(node, "GongZuoDanWeiJiZhiWu");
+
+            boolean withGod = StringUtils.contains(_unit, "去世");
+
+            cf.setRealname(_realname);
+            cf.setBirthday(DateUtils.parseStringToDate(_birthday));
+            MetaType politicalStatus = CmTag.getMetaTypeByName("mc_political_status", _politicalStatus);
+            if (politicalStatus != null) {
+                cf.setPoliticalStatus(politicalStatus.getId());
+            }
+            cf.setUnit(_unit);
+            cf.setWithGod(withGod);
+            cf.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+
+            CadreFamily cadreFamily = cadreFamilyService.get(cadreId, _realname);
+            if (cadreFamily == null) {
+                cadreFamilyMapper.insertSelective(cf);
+            } else {
+                cf.setId(cadreFamily.getId());
+                cadreFamilyMapper.updateByPrimaryKeySelective(cf);
+            }
+        }
+
+        cacheHelper.clearUserCache(_sysUser);
+        cacheHelper.clearCadreCache();
+
+        is.close();
+    }
+
     // 输出中组部任免审批表
     public void zzb(CadreInfoForm adform, Writer out) throws IOException, DocumentException {
 
@@ -542,7 +679,7 @@ public class CadreAdformService extends BaseMapper {
 
             CadreFamily cf = cadreFamilys.get(i);
             Element item = familys.addElement("Item");
-            item.addElement("ChengWei").setText(StringUtils.trimToEmpty(CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cf.getTitle())));
+            item.addElement("ChengWei").setText(StringUtils.trimToEmpty(metaTypeService.getName(cf.getTitle())));
             item.addElement("XingMing").setText(StringUtils.trimToEmpty(cf.getRealname()));
             item.addElement("ChuShengRiQi").setText(StringUtils.trimToEmpty(DateUtils.formatDate(cf.getBirthday(), "yyyyMM")));
 
@@ -584,7 +721,7 @@ public class CadreAdformService extends BaseMapper {
 
         String ftitle = "";
         if (cf != null) {
-            ftitle = CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cf.getTitle());
+            ftitle = metaTypeService.getName(cf.getTitle());
         }
         dataMap.put("ftitle", StringUtils.trimToEmpty(ftitle));
         dataMap.put("fname", cf == null ? "" : StringUtils.trimToEmpty(cf.getRealname()));

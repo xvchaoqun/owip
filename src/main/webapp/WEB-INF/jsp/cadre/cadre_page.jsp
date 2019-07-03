@@ -118,6 +118,12 @@
                                                    data-url="${ctx}/cadreEva_import?isMainPost=0">
                                                     <i class="fa fa-file-excel-o"></i> 导入考核信息</a>
                                             </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="popupBtn"
+                                                   data-url="${ctx}/cadreAdform_import">
+                                                    <i class="fa fa-file-excel-o"></i> 导入中组部干部任免审批表</a>
+                                            </li>
                                         </ul>
                                     </div>
                                     </shiro:hasPermission>

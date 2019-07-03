@@ -531,11 +531,7 @@
     ];
 
     colModels.cadreFamily = [
-        {
-            label: '称谓', name: 'title', frozen: true, formatter: function (cellvalue, options, rowObject) {
-            return _cMap.CADRE_FAMILY_TITLE_MAP[cellvalue]
-        }
-        },
+        {label: '称谓', name: 'title', frozen: true, formatter: $.jgrid.formatter.MetaType},
         <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
         {
                 label: '排序',formatter: $.jgrid.formatter.sortOrder, width:90,
@@ -560,9 +556,7 @@
             label: '称谓',
             name: 'cadreFamily.title',
             frozen: true,
-            formatter: function (cellvalue, options, rowObject) {
-                return _cMap.CADRE_FAMILY_TITLE_MAP[cellvalue]
-            }
+            formatter: $.jgrid.formatter.MetaType
         },
         {label: '姓名', name: 'cadreFamily.realname'},
         {label: '移居国家（地区）', name: 'country', width: 200},

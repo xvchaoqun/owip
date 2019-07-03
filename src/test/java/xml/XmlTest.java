@@ -1,5 +1,6 @@
 package xml;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
@@ -8,18 +9,65 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
+import sys.utils.DateUtils;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by lm on 2018/4/15.
  */
 public class XmlTest {
+
+    public String getNodeText(Document doc, String nodePath){
+        Node node = doc.selectSingleNode(nodePath);
+        return (node!=null)?node.getText():null;
+    }
+
+    public String getChildNodeText(Node node, String childNodePath){
+        Node childNode = node.selectSingleNode(childNodePath);
+        return (childNode!=null)?childNode.getText():null;
+    }
+
+    @Test
+    public void readRm() throws IOException, DocumentException {
+
+        SAXReader reader = new SAXReader();
+        InputStream is = new FileInputStream("D:\\tmp\\陈丽媛.lrmx");
+        Document doc = reader.read(is);
+
+        String realname = getNodeText(doc, "//Person/XingMing");
+        System.out.println("realname = " + realname);
+
+        String nativePlace = getNodeText(doc, "//Person/JiGuan");
+        String homeplace = getNodeText(doc, "//Person/ChuShengDi");
+        String health = getNodeText(doc, "//Person/JianKangZhuangKuang");
+        String specialty = getNodeText(doc, "//Person/ShuXiZhuanYeYouHeZhuanChang");
+        String workTime = getNodeText(doc, "//Person/CanJiaGongZuoShiJian");
+
+        Date _workTime = DateUtils.parseStringToDate(workTime);
+        System.out.println("_workTime = " + _workTime);
+
+        String title = getNodeText(doc, "//Person/XianRenZhiWu");
+        String resume = getNodeText(doc, "//Person/JianLi");
+
+        List<Node> nodeList = doc.selectNodes("//Person/JiaTingChengYuan/Item");
+
+        for (Node node : nodeList) {
+            String _title = getChildNodeText(node, "ChengWei");
+            System.out.println("_title = " + _title);
+            String _realname = getChildNodeText(node, "XingMing");
+            System.out.println("_realname = " + _realname);
+            String _birthday = getChildNodeText(node, "ChuShengRiQi");
+            String _politicalStatus = getChildNodeText(node, "ZhengZhiMianMao");
+            String _unit = getChildNodeText(node, "GongZuoDanWeiJiZhiWu");
+
+            boolean withGod = StringUtils.contains(_unit, "去世");
+        }
+
+        is.close();
+    }
 
     @Test
     public void rm() throws IOException, DocumentException {

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cadre.CadreFamily">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
-    <result column="title" jdbcType="TINYINT" property="title" />
+    <result column="title" jdbcType="INTEGER" property="title" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="with_god" jdbcType="BIT" property="withGod" />
@@ -113,7 +113,7 @@
       birthday, with_god, political_status, 
       unit, sort_order, status
       )
-    values (#{cadreId,jdbcType=INTEGER}, #{title,jdbcType=TINYINT}, #{realname,jdbcType=VARCHAR}, 
+    values (#{cadreId,jdbcType=INTEGER}, #{title,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=DATE}, #{withGod,jdbcType=BIT}, #{politicalStatus,jdbcType=INTEGER}, 
       #{unit,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
       )
@@ -157,7 +157,7 @@
         #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
-        #{title,jdbcType=TINYINT},
+        #{title,jdbcType=INTEGER},
       </if>
       <if test="realname != null">
         #{realname,jdbcType=VARCHAR},
@@ -198,7 +198,7 @@
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
       <if test="record.title != null">
-        title = #{record.title,jdbcType=TINYINT},
+        title = #{record.title,jdbcType=INTEGER},
       </if>
       <if test="record.realname != null">
         realname = #{record.realname,jdbcType=VARCHAR},
@@ -230,7 +230,7 @@
     update cadre_family
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=TINYINT},
+      title = #{record.title,jdbcType=INTEGER},
       realname = #{record.realname,jdbcType=VARCHAR},
       birthday = #{record.birthday,jdbcType=DATE},
       with_god = #{record.withGod,jdbcType=BIT},
@@ -249,7 +249,7 @@
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
-        title = #{title,jdbcType=TINYINT},
+        title = #{title,jdbcType=INTEGER},
       </if>
       <if test="realname != null">
         realname = #{realname,jdbcType=VARCHAR},
@@ -278,7 +278,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreFamily">
     update cadre_family
     set cadre_id = #{cadreId,jdbcType=INTEGER},
-      title = #{title,jdbcType=TINYINT},
+      title = #{title,jdbcType=INTEGER},
       realname = #{realname,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
       with_god = #{withGod,jdbcType=BIT},

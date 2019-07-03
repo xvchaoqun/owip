@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CADRE_FAMILY_TITLE_MAP" value="<%=CadreConstants.CADRE_FAMILY_TITLE_MAP%>"/>
 <style>
 <!--
  /* Font Definitions */
@@ -640,7 +639,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>${CADRE_FAMILY_TITLE_MAP.get(f.title)}</span></p>
+  color:windowtext'>${cm:getMetaType(f.title).name}</span></p>
   </td>
   <td width=85 colspan=2 style='width:63.8pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;

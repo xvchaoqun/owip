@@ -60,6 +60,8 @@ public class SysUserInfo implements Serializable {
 
     private String msgTitle;
 
+    private String resume;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -268,5 +270,13 @@ public class SysUserInfo implements Serializable {
 
     public void setMsgTitle(String msgTitle) {
         this.msgTitle = msgTitle == null ? null : msgTitle.trim();
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume == null ? null : resume.trim();
     }
 }

@@ -251,22 +251,6 @@ public class CadreConstants {
         CADRE_BOOK_TYPE_MAP.put(CADRE_BOOK_TYPE_COAUTHOR, "合著");
     }
 
-    // 称谓，1父亲，2母亲， 3配偶， 4儿子， 5女儿
-    public final static byte CADRE_FAMILY_TITLE_FATHER = 1;
-    public final static byte CADRE_FAMILY_TITLE_MOTHER = 2;
-    public final static byte CADRE_FAMILY_TITLE_MATE = 3;
-    public final static byte CADRE_FAMILY_TITLE_SON = 4;
-    public final static byte CADRE_FAMILY_TITLE_DAUGHTER = 5;
-    public final static Map<Byte, String> CADRE_FAMILY_TITLE_MAP = new LinkedHashMap<>();
-
-    static {
-        CADRE_FAMILY_TITLE_MAP.put(CADRE_FAMILY_TITLE_FATHER, "父亲");
-        CADRE_FAMILY_TITLE_MAP.put(CADRE_FAMILY_TITLE_MOTHER, "母亲");
-        CADRE_FAMILY_TITLE_MAP.put(CADRE_FAMILY_TITLE_MATE, "配偶");
-        CADRE_FAMILY_TITLE_MAP.put(CADRE_FAMILY_TITLE_SON, "儿子");
-        CADRE_FAMILY_TITLE_MAP.put(CADRE_FAMILY_TITLE_DAUGHTER, "女儿");
-    }
-
     // 干部信息检查结果
     public final static byte CADRE_INFO_CHECK_RESULT_NOT_EXIST = 0;
     public final static byte CADRE_INFO_CHECK_RESULT_EXIST = 1;

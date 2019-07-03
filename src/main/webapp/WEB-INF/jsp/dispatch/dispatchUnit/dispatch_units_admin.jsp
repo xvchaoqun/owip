@@ -134,7 +134,7 @@
         var $option = $('#cadreForm select[name=type] option:selected');
         var $unit = $("#cadreForm select[name=unitId]");
         var $oldUnit = $("#cadreForm select[name=oldUnitId]");
-           console.log($option.data('extra-attr'))
+           //console.log($option.data('extra-attr'))
         if($option.data('extra-attr')=='add'){
             $unit.prop("disabled", false).attr("required", "required");
             $.register.del_select($oldUnit,{theme: "default"});

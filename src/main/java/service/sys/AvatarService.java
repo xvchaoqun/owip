@@ -72,6 +72,26 @@ public class AvatarService extends BaseMapper{
         return avatar;
     }
 
+    // 从系统文件拷贝至头像文件（不入库），导入中组部任免审批表申请时调用
+    public String copyToAvatar(File file) throws IOException {
+
+        String avatar = null;
+        if(file!=null && file.exists()){
+            //String originalFilename = _avatar.getOriginalFilename();
+            avatar =  FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
+                    + FILE_SEPARATOR + "upload" + FILE_SEPARATOR + System.currentTimeMillis() +".jpg";
+
+            FileUtils.mkdirs(springProps.avatarFolder + avatar);
+            Thumbnails.of(file)
+                    .size(143, 198)
+                    .outputFormat("jpg")
+                    .outputQuality(1.0f)
+                    .toFile(springProps.avatarFolder + avatar);
+        }
+
+        return avatar;
+    }
+
     // 备份头像
     public String backupAvatar(int userId){
 

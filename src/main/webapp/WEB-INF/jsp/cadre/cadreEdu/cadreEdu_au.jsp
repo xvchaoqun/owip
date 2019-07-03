@@ -3,7 +3,8 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
 	<button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-	<h3><c:if test="${cadreEdu!=null}">编辑</c:if><c:if test="${cadreEdu==null}">添加</c:if>学习经历</h3>
+	<h3><c:if test="${cadreEdu!=null}">编辑</c:if><c:if test="${cadreEdu==null}">添加</c:if>学习经历
+		<shiro:hasPermission name="sysUser:resume">（<a href="/sysUserInfo_resume?userId=${sysUser.userId}" target="_blank">查看干部任免审批表简历</a>）</shiro:hasPermission></h3>
 </div>
 <div class="modal-body">
 	<form class="form-horizontal" action="${ctx}/cadreEdu_au?toApply=${param.toApply}&cadreId=${cadre.id}" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">

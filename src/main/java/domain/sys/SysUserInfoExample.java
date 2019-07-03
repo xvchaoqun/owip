@@ -1891,6 +1891,76 @@ public class SysUserInfoExample {
             addCriterion("msg_title not between", value1, value2, "msgTitle");
             return (Criteria) this;
         }
+
+        public Criteria andResumeIsNull() {
+            addCriterion("resume is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeIsNotNull() {
+            addCriterion("resume is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeEqualTo(String value) {
+            addCriterion("resume =", value, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeNotEqualTo(String value) {
+            addCriterion("resume <>", value, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeGreaterThan(String value) {
+            addCriterion("resume >", value, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeGreaterThanOrEqualTo(String value) {
+            addCriterion("resume >=", value, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeLessThan(String value) {
+            addCriterion("resume <", value, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeLessThanOrEqualTo(String value) {
+            addCriterion("resume <=", value, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeLike(String value) {
+            addCriterion("resume like", value, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeNotLike(String value) {
+            addCriterion("resume not like", value, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeIn(List<String> values) {
+            addCriterion("resume in", values, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeNotIn(List<String> values) {
+            addCriterion("resume not in", values, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeBetween(String value1, String value2) {
+            addCriterion("resume between", value1, value2, "resume");
+            return (Criteria) this;
+        }
+
+        public Criteria andResumeNotBetween(String value1, String value2) {
+            addCriterion("resume not between", value1, value2, "resume");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

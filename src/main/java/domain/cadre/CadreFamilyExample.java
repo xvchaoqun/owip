@@ -262,52 +262,52 @@ public class CadreFamilyExample {
             return (Criteria) this;
         }
 
-        public Criteria andTitleEqualTo(Byte value) {
+        public Criteria andTitleEqualTo(Integer value) {
             addCriterion("title =", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotEqualTo(Byte value) {
+        public Criteria andTitleNotEqualTo(Integer value) {
             addCriterion("title <>", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleGreaterThan(Byte value) {
+        public Criteria andTitleGreaterThan(Integer value) {
             addCriterion("title >", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleGreaterThanOrEqualTo(Byte value) {
+        public Criteria andTitleGreaterThanOrEqualTo(Integer value) {
             addCriterion("title >=", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleLessThan(Byte value) {
+        public Criteria andTitleLessThan(Integer value) {
             addCriterion("title <", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleLessThanOrEqualTo(Byte value) {
+        public Criteria andTitleLessThanOrEqualTo(Integer value) {
             addCriterion("title <=", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleIn(List<Byte> values) {
+        public Criteria andTitleIn(List<Integer> values) {
             addCriterion("title in", values, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotIn(List<Byte> values) {
+        public Criteria andTitleNotIn(List<Integer> values) {
             addCriterion("title not in", values, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleBetween(Byte value1, Byte value2) {
+        public Criteria andTitleBetween(Integer value1, Integer value2) {
             addCriterion("title between", value1, value2, "title");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotBetween(Byte value1, Byte value2) {
+        public Criteria andTitleNotBetween(Integer value1, Integer value2) {
             addCriterion("title not between", value1, value2, "title");
             return (Criteria) this;
         }

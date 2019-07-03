@@ -8,7 +8,7 @@ public class CadreFamily implements Serializable {
 
     private Integer cadreId;
 
-    private Byte title;
+    private Integer title;
 
     private String realname;
 
@@ -42,11 +42,11 @@ public class CadreFamily implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Byte getTitle() {
+    public Integer getTitle() {
         return title;
     }
 
-    public void setTitle(Byte title) {
+    public void setTitle(Integer title) {
         this.title = title;
     }
 
