@@ -552,7 +552,7 @@ public class SysUserController extends BaseController {
                 }
                 cell.setCellValue(StringUtils.trimToEmpty(code));
             } else {
-                rowAddCol = cellNum + 1;
+                rowAddCol = cellNum;
                 cell = row.createCell(rowAddCol);
                 cell.setCellValue(StringUtils.trimToEmpty(code));
             }
@@ -560,7 +560,7 @@ public class SysUserController extends BaseController {
             if (codeList.size() > 0) {
 
                 if (rowAddCol < cellNum) {
-                    rowAddCol = cellNum + 1;
+                    rowAddCol = cellNum;
                 } else {
                     rowAddCol = rowAddCol + 1;
                 }
