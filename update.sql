@@ -4,8 +4,6 @@
 ALTER TABLE `cadre_family`
 	CHANGE COLUMN `title` `title` INT UNSIGNED NULL DEFAULT NULL COMMENT '称谓' AFTER `cadre_id`;
 
-更新common-utils
-
 INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (89, NULL, '家庭成员称谓', '领导干部信息', '家庭成员信息', 'mc_family_title', '是否唯一', '类型', 'zb|长辈,po|配偶,zv|子女', 89, 1);
 
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (89, '父亲', 'mt_aliiib', 1, 'zb', '', 1, 1);
@@ -13,13 +11,6 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (89, '配偶', 'mt_ygndka', 1, 'po', '', 3, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (89, '儿子', 'mt_mehm4n', 0, 'zv', '', 4, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (89, '女儿', 'mt_o7hti2', 0, 'zv', '', 5, 1);
-
--- 根据实际情况更新
-update cadre_family set title=548 where title=1;
-update cadre_family set title=549 where title=2;
-update cadre_family set title=550 where title=3;
-update cadre_family set title=551 where title=4;
-update cadre_family set title=552 where title=5;
 
 DROP TABLE `cadre_concat`;
 
@@ -34,11 +25,22 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
                             `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`,
                             `sort_order`) VALUES (1061, 0, '禁用/解禁账号', '', 'function', '', NULL, 22, '0/1/21/22/', 1, 'sysUser:del', NULL, NULL, NULL, 1, NULL);
--- 更新账号管理的角色权限
+
+-- 根据实际情况更新
+update cadre_family set title=548 where title=1;
+update cadre_family set title=549 where title=2;
+update cadre_family set title=550 where title=3;
+update cadre_family set title=551 where title=4;
+update cadre_family set title=552 where title=5;
+-- 更新[账号管理]的角色权限
+
+更新common-utils
+
 
 
 20190629  更新 北邮   北师大X
 
+删除 cet_party_school_view
 -- + metaClass:viewAll
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
