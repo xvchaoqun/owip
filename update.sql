@@ -2,6 +2,9 @@
 
 删除XlsUpload.java
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1062, 0, '导出附带工号', '', 'function', '', NULL, 22, '0/1/21/22/', 1, 'sysUser:filterExport', NULL, NULL, NULL, 1, NULL);
+
+
 更新common-utils
 
 20190703  更新 北邮   北师大X
