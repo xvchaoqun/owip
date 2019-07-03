@@ -673,6 +673,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
  </tr>
     </c:forEach>
+   <c:if test="${fn:length(bean.cadreFamilys)<6}">
    <c:forEach begin="0" end="${6-fn:length(bean.cadreFamilys)}">
       <tr style='height:31.45pt'>
      <td width=72 style='width:54.05pt;border-top:none;border-left:none;
@@ -712,7 +713,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
      </td>
     </tr>
     </c:forEach>
-
+   </c:if>
  <tr style='height:75.05pt'>
   <td width=79 style='width:59.1pt;border-top:none;border-left:solid windowtext 1.5pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;

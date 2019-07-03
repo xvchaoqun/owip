@@ -390,6 +390,7 @@ td.bolder{font-weight: bolder}
         </td>
       </tr>
     </c:forEach>
+    <c:if test="${fn:length(bean.cadreFamilys)<5}">
     <c:forEach begin="0" end="${5-fn:length(bean.cadreFamilys)}">
       <tr class="r2">
         <td class="td13">
@@ -409,7 +410,7 @@ td.bolder{font-weight: bolder}
         </td>
       </tr>
     </c:forEach>
-
+    </c:if>
 
     <tr>
       <td class="td16 center bolder" colspan="3" style="height: 30px">
