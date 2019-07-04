@@ -1,12 +1,12 @@
 
-20190704 更新 北邮   北师大X
+20190704 更新 北邮
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
  VALUES ('rewardOnlyYear', '仅保存获奖年份', 'true', 3, 31, '获奖日期仅保留年份，否则使用年月');
 
 update base_meta_type SET code='mt_party_member' where name='委员' and class_id=22;
 
-20190704 更新 北邮   北师大X
+20190704 更新 北邮
 
 update base_meta_class set extra_attr='任免简历描述（全日制|在职）' , extra_options='zk|学生|专科,bk|学生|本科,yjs|硕士研究生|研究生,yjskcb|硕士研究生（研究生课程班）|研究生,sstd|硕士研究生（硕士同等学历）|研究生,bs|博士研究生|博士研究生' where code='mc_edu';
 
@@ -21,7 +21,7 @@ update base_meta_type SET extra_attr='yjskcb' where code='mt_edu_yjskcb';
 ALTER TABLE `ow_member_out`
 	CHANGE COLUMN `from_post_code` `from_post_code` VARCHAR(100) NOT NULL COMMENT '转出单位邮编，默认为100875' AFTER `from_fax`;
 
-20190704 更新 北邮   北师大X
+20190704 更新 北邮
 
 删除XlsUpload.java
 
@@ -30,7 +30,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 
 更新common-utils
 
-20190703  更新 北邮   北师大X
+20190703  更新 北邮
 
 ALTER TABLE `cadre_family`
 	CHANGE COLUMN `title` `title` INT UNSIGNED NULL DEFAULT NULL COMMENT '称谓' AFTER `cadre_id`;
@@ -69,7 +69,7 @@ update cadre_family set title=552 where title=5;
 
 
 
-20190629  更新 北邮   北师大X
+20190629  更新 北邮
 
 drop view cet_party_school_view;
 
