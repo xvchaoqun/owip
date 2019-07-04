@@ -392,7 +392,7 @@ public class PartyMemberController extends BaseController {
 
             String userCode = StringUtils.trim(xlsRow.get(3));
             if (StringUtils.isBlank(userCode)) {
-                throw new OpException("第{0}行学工号为空", row);
+                continue; // 学工号为空则忽略该行
             }
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null) {

@@ -303,13 +303,24 @@ public class PartyMemberService extends BaseMapper {
 
             PartyMember _record = get(record.getGroupId(), record.getUserId(), record.getPostId());
 
+            Integer postId = _record.getPostId();
+            MetaType metaType = CmTag.getMetaType(postId);
+            boolean isAdmin = ((StringUtils.equals(metaType.getCode(), "mt_party_secretary")
+                    || StringUtils.equals(metaType.getCode(), "mt_party_vice_secretary")));
+
             if (_record == null) {
 
-                insertSelective(record, true);
+                insertSelective(record, isAdmin);
                 addCount++;
             } else {
+
+                if(_record.getIsAdmin()){
+                    // 先清除管理员
+                    partyMemberAdminService.toggleAdmin(_record);
+                }
+
                 record.setId(_record.getId());
-                updateByPrimaryKey(record, true);
+                updateByPrimaryKey(record, isAdmin);
             }
         }
 
