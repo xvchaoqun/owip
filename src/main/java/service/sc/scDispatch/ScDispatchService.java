@@ -23,6 +23,7 @@ import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
 import service.sc.ScBaseMapper;
 import shiro.ShiroHelper;
+import sys.tags.CmTag;
 import sys.tool.office.WordTemplate;
 import sys.utils.DateUtils;
 import sys.utils.DownloadUtils;
@@ -146,6 +147,7 @@ public class ScDispatchService extends ScBaseMapper {
             sign = springProps.uploadPath + _user.getSign();
 
         Map<String, Object> param = new HashMap<String, Object>();
+        param.put("school", CmTag.getSysConfig().getSchoolName());
         param.put("code", scDispatch.getDispatchCode());
         param.put("date", DateUtils.formatDate(scDispatch.getPubTime(), DateUtils.YYYY_MM_DD_CHINA));
         param.put("title", StringUtils.trimToEmpty(scDispatch.getTitle()));

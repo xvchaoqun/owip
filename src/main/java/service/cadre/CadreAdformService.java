@@ -443,7 +443,7 @@ public class CadreAdformService extends BaseMapper {
 
         if (StringUtils.isBlank(content)) return null;
 
-        org.jsoup.nodes.Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
+        org.jsoup.nodes.Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content.replace("<br", "<p")));
         Elements pElements = doc.getElementsByTag("p");
         int size = pElements.size();
         String str = "";

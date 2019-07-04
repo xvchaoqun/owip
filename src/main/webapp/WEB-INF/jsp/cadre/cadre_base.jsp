@@ -789,10 +789,10 @@
 										$("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, "yyyy-MM-dd")}');
 										</c:when>
 										</c:choose>
-										$("#modalForm select[name=dpTypeId]").on("change",function(){
+										/*$("#modalForm select[name=dpTypeId]").on("change",function(){
 											var val = $.trim($(this).val());
 											$("#modalForm input[name=_dpAddTime]").prop("required", val.length>0 && val >= 0);
-										}).change();
+										}).change();*/
 									</script>
 								</td>
 
@@ -1039,11 +1039,11 @@
 		$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 		$("#modalForm").validate({
 			submitHandler: function (form) {
-				if($("select[name=dpTypeId]").val()>0 && $("input[name=_dpAddTime]").val()==""){
+				if($("select[name=dpTypeId]", "#modalForm").val()>0 && $("input[name=_dpAddTime]").val()==""){
 					SysMsg.info("请填写党派加入时间");
 					return ;
 				}
-				if($("select[name=dpTypeId]").val()=='' && $("input[name=_dpAddTime]").val()!=""){
+				if($("select[name=dpTypeId]", "#modalForm").val()=='' && $("input[name=_dpAddTime]").val()!=""){
 					SysMsg.info("请选择政治面貌");
 					return ;
 				}

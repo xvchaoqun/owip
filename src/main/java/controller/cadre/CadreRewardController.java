@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -137,7 +138,13 @@ public class CadreRewardController extends BaseController {
         Assert.isTrue(record.getRewardType() != null, "rewardType is null");
 
         if (StringUtils.isNotBlank(_rewardTime)) {
-            record.setRewardTime(DateUtils.parseDate(_rewardTime, "yyyy"));
+
+            boolean rewardOnlyYear = CmTag.getBoolProperty("rewardOnlyYear");
+            if(rewardOnlyYear) {
+                record.setRewardTime(DateUtils.parseDate(_rewardTime, "yyyy"));
+            }else{
+                record.setRewardTime(DateUtils.parseDate(_rewardTime, "yyyy.MM"));
+            }
         }
 
         if (_proof != null) {
@@ -239,7 +246,9 @@ public class CadreRewardController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属干部", "日期", "获得奖项", "颁奖单位", "排名"};
+        boolean rewardOnlyYear = CmTag.getBoolProperty("rewardOnlyYear");
+
+        String[] titles = {"所属干部", rewardOnlyYear?"获奖年份":"获奖年月", "获得奖项", "颁奖单位", "排名"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -248,10 +257,17 @@ public class CadreRewardController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
+            String rewardTime = "";
             CadreReward cadreReward = cadreRewards.get(i);
+            if(rewardOnlyYear) {
+                rewardTime = DateUtils.formatDate(cadreReward.getRewardTime(), "yyyy");
+            }else{
+                rewardTime = DateUtils.formatDate(cadreReward.getRewardTime(), "yyyy.MM");
+            }
+
             String[] values = {
                     cadreReward.getCadreId() + "",
-                    DateUtils.formatDate(cadreReward.getRewardTime(), DateUtils.YYYY_MM_DD),
+                    rewardTime,
                     cadreReward.getName() + "",
                     cadreReward.getUnit(),
                     cadreReward.getRank() + ""

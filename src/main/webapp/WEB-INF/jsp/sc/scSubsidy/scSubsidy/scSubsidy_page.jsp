@@ -121,22 +121,28 @@
             {
                 label: '发人事处通知', name: '_hr', width:350, formatter: function (cellvalue, options, rowObject) {
                     if(rowObject.hrCode==undefined) return '--'
+
+                    var hasFeedback = ($.trim(rowObject.hrFilePath)!='');
                 return ('{0} <button class="downloadBtn btn btn-warning btn-xs" ' +
-                'data-url="${ctx}/sc/scSubsidy_export?fileType=1&id={1}"><i class="fa fa-download"></i> 系统生成版</button>' +
-                ' <button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/sc/scSubsidy_upload?fileType=1&id={1}"><i class="fa fa-search"></i> 正式反馈版</button>')
-                        .format(rowObject.hrCode, rowObject.id)
+                'data-url="${ctx}/sc/scSubsidy_export?fileType=1&id={1}"><i class="fa fa-download"></i> 生成</button>' +
+                ' <button class="openView btn {3} btn-xs" ' +
+                'data-url="${ctx}/sc/scSubsidy_upload?fileType=1&id={1}"><i class="fa {4}"></i> {2}</button>')
+                        .format(rowObject.hrCode, rowObject.id,
+                            hasFeedback?'预览':'反馈', hasFeedback?'btn-success':'btn-primary', hasFeedback?'fa-search':'fa-edit')
             }
             },
             {
                 label: '发财经处通知', name: '_fe', width: 350, formatter: function (cellvalue, options, rowObject) {
 
                     if(rowObject.feCode==undefined) return '--'
+
+                    var hasFeedback = ($.trim(rowObject.feFilePath)!='');
                 return ('{0} <button class="downloadBtn btn btn-warning btn-xs" ' +
-                'data-url="${ctx}/sc/scSubsidy_export?fileType=2&id={1}"><i class="fa fa-download"></i> 系统生成版</button>' +
-                ' <button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/sc/scSubsidy_upload?fileType=2&id={1}"><i class="fa fa-search"></i> 正式反馈版</button>')
-                        .format(rowObject.feCode, rowObject.id)
+                'data-url="${ctx}/sc/scSubsidy_export?fileType=2&id={1}"><i class="fa fa-download"></i> 生成</button>' +
+                ' <button class="openView btn {3} btn-xs" ' +
+                'data-url="${ctx}/sc/scSubsidy_upload?fileType=2&id={1}"><i class="fa {4}"></i> {2}</button>')
+                        .format(rowObject.feCode, rowObject.id,
+                            hasFeedback?'预览':'反馈', hasFeedback?'btn-success':'btn-primary', hasFeedback?'fa-search':'fa-edit')
             }
             },
             {

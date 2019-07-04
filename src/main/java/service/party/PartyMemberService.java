@@ -26,14 +26,14 @@ public class PartyMemberService extends BaseMapper {
     private OrgAdminService orgAdminService;
     @Autowired
     private PartyMemberAdminService partyMemberAdminService;
-   @Autowired
+    @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
     protected PartyMemberGroupService partyMemberGroupService;
     @Autowired
     protected SysConfigService sysConfigService;
 
-    public TreeNode getTree(Set<Integer> selectIdSet){
+    public TreeNode getTree(Set<Integer> selectIdSet) {
 
         Map<Integer, List<SysUserView>> groupMap = new LinkedHashMap<>();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_party_member_post");
@@ -56,7 +56,7 @@ public class PartyMemberService extends BaseMapper {
                 SysUserView uv = pmv.getUser();
 
                 List<SysUserView> uvs = groupMap.get(postId);
-                if(uvs==null){
+                if (uvs == null) {
                     uvs = new ArrayList<>();
                     groupMap.put(postId, uvs);
                 }
@@ -71,9 +71,9 @@ public class PartyMemberService extends BaseMapper {
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
 
-        for(Map.Entry<Integer, List<SysUserView>> entry : groupMap.entrySet()) {
+        for (Map.Entry<Integer, List<SysUserView>> entry : groupMap.entrySet()) {
             List<SysUserView> entryValue = entry.getValue();
-            if(entryValue.size()>0) {
+            if (entryValue.size() > 0) {
 
                 TreeNode titleNode = new TreeNode();
                 titleNode.expand = false;
@@ -108,10 +108,10 @@ public class PartyMemberService extends BaseMapper {
     }
 
     // 获取现任分党委委员（拥有某种分工的）
-    public List<PartyMemberView> getPartyMemberViews(int partyId,  int typeId){
+    public List<PartyMemberView> getPartyMemberViews(int partyId, int typeId) {
 
         PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
-        if(presentGroup==null) return new ArrayList<>();
+        if (presentGroup == null) return new ArrayList<>();
 
         PartyMemberViewExample example = new PartyMemberViewExample();
         example.createCriteria().andGroupIdEqualTo(presentGroup.getId())
@@ -121,36 +121,36 @@ public class PartyMemberService extends BaseMapper {
     }
 
     // 获取现任分党委委员（拥有某种分工的）
-    public PartyMemberView getPartyMemberView(int partyId, int userId, int typeId){
+    public PartyMemberView getPartyMemberView(int partyId, int userId, int typeId) {
 
         PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
-        if(presentGroup==null) return null;
+        if (presentGroup == null) return null;
 
         PartyMemberViewExample example = new PartyMemberViewExample();
         example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andUserIdEqualTo(userId)
                 .andTypeIdsIn(Arrays.asList(typeId));
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
-        return records.size()==0?null:records.get(0);
+        return records.size() == 0 ? null : records.get(0);
     }
 
     // 获取现任分党委委员
-    public PartyMemberView getPartyMemberView(int partyId, int userId){
+    public PartyMemberView getPartyMemberView(int partyId, int userId) {
 
         PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
-        if(presentGroup==null) return null;
+        if (presentGroup == null) return null;
 
         PartyMemberViewExample example = new PartyMemberViewExample();
         example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andUserIdEqualTo(userId);
 
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
-        return records.size()==0?null:records.get(0);
+        return records.size() == 0 ? null : records.get(0);
     }
 
     // 获取现任分党委书记
-    public PartyMemberView getPartySecretary(int partyId){
+    public PartyMemberView getPartySecretary(int partyId) {
 
         PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
-        if(presentGroup==null) return null;
+        if (presentGroup == null) return null;
 
         MetaType partySecretaryType = CmTag.getMetaTypeByCode("mt_party_secretary");
 
@@ -158,7 +158,7 @@ public class PartyMemberService extends BaseMapper {
         example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andPostIdEqualTo(partySecretaryType.getId());
 
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
-        return records.size()==0?null:records.get(0);
+        return records.size() == 0 ? null : records.get(0);
     }
 
     // 查询用户是否是现任分党委、党总支、直属党支部班子的管理员
@@ -183,16 +183,16 @@ public class PartyMemberService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, int groupId, int userId, int postId) {
 
-        // 20190405注释 可能存在兼职情况
-        /*{
-            // 同一个人不可以在同一个委员会
+        // 20190405注释 同一个人可能存在兼职情况
+        {
+            // 但同一个人不可以在同一个委员会任同一个职务
             PartyMemberExample example = new PartyMemberExample();
             PartyMemberExample.Criteria criteria = example.createCriteria()
-                    .andGroupIdEqualTo(groupId).andUserIdEqualTo(userId);
+                    .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId).andUserIdEqualTo(userId);
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if (partyMemberMapper.countByExample(example) > 0) return true;
-        }*/
+        }
 
         MetaType metaType = metaTypeService.findAll().get(postId);
         if (StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party_secretary")) {
@@ -207,6 +207,17 @@ public class PartyMemberService extends BaseMapper {
         }
 
         return false;
+    }
+
+    // 根据班子、用户ID、职务获取 班子成员
+    public PartyMember get(int groupId, int userId, int postId) {
+
+        PartyMemberExample example = new PartyMemberExample();
+        PartyMemberExample.Criteria criteria = example.createCriteria()
+                .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId).andUserIdEqualTo(userId);
+
+        List<PartyMember> partyMembers = partyMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return partyMembers.size() == 1 ? partyMembers.get(0) : null;
     }
 
     @Transactional
@@ -277,11 +288,32 @@ public class PartyMemberService extends BaseMapper {
             partyMemberAdminService.toggleAdmin(record);
         }
 
-        if(record.getTypeIds()==null){
-            commonMapper.excuteSql("update ow_party_member set type_ids=null where id="+record.getId());
+        if (record.getTypeIds() == null) {
+            commonMapper.excuteSql("update ow_party_member set type_ids=null where id=" + record.getId());
         }
 
         return 1;
+    }
+
+    @Transactional
+    public int bacthImport(List<PartyMember> records) {
+
+        int addCount = 0;
+        for (PartyMember record : records) {
+
+            PartyMember _record = get(record.getGroupId(), record.getUserId(), record.getPostId());
+
+            if (_record == null) {
+
+                insertSelective(record, true);
+                addCount++;
+            } else {
+                record.setId(_record.getId());
+                updateByPrimaryKey(record, true);
+            }
+        }
+
+        return addCount;
     }
 
     /**

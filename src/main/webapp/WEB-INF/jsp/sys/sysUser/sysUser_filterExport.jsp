@@ -16,9 +16,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>读取第几个sheet</label>
+            <label class="col-xs-4 control-label">读取第几个sheet</label>
             <div class="col-xs-6">
-                <input required class="form-control num"
+                <input class="form-control num"
                        data-rule-min="1"
                        type="text" name="sheetNo" style="width: 100px">
                 <span class="help-block">注：留空将读取第1个sheet</span>

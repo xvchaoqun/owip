@@ -124,8 +124,6 @@ public class CadrePartyController extends BaseController {
         return;
     }
 
-
-
     @RequiresPermissions("cadreParty:edit")
     @RequestMapping(value = "/cadreParty_au", method = RequestMethod.POST)
     @ResponseBody

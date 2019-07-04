@@ -1,6 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.party.*;
 import domain.party.PartyMemberExample.Criteria;
@@ -8,7 +9,10 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.party.PartyExportService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
@@ -28,10 +34,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -345,6 +348,80 @@ public class PartyMemberController extends BaseController {
         partyMemberService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织成员调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("partyMember:edit")
+    @RequestMapping("/partyMember_import")
+    public String partyMember_import(ModelMap modelMap) {
+
+        return "party/partyMember/partyMember_import";
+    }
+
+    @RequiresPermissions("partyMember:edit")
+    @RequestMapping(value = "/partyMember_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_partyMember_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<PartyMember> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            PartyMember record = new PartyMember();
+            row++;
+
+            String partyCode = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.isBlank(partyCode)) {
+                throw new OpException("第{0}行所属分党委编码为空", row);
+            }
+            Party party = partyService.getByCode(partyCode);
+            if (party == null) {
+                throw new OpException("第{0}行所属分党委编码[{1}]不存在", row, partyCode);
+            }
+
+            PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(party.getId());
+            if(presentGroup==null) continue; // 如果分党委还未设置当前班子，则忽略导入；
+            record.setGroupId(presentGroup.getId());
+
+            String userCode = StringUtils.trim(xlsRow.get(3));
+            if (StringUtils.isBlank(userCode)) {
+                throw new OpException("第{0}行学工号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            int userId = uv.getId();
+            record.setUserId(userId);
+
+            String _post = StringUtils.trim(xlsRow.get(4));
+            MetaType postType = CmTag.getMetaTypeByName("mc_party_member_post", _post);
+            if(postType!=null) {
+                record.setPostId(postType.getId());
+            }else{
+                // 默认都是委员
+                MetaType partyMemberType = CmTag.getMetaTypeByCode("mt_party_member");
+                record.setPostId(partyMemberType.getId());
+            }
+
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = partyMemberService.bacthImport(records);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     public void partyMember_export(int groupId, HttpServletResponse response) throws IOException {

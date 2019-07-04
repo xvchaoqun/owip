@@ -4,7 +4,7 @@
 <c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=CadreConstants.CADRE_REWARD_TYPE_OTHER%>"/>
 <c:set value="<%=CadreConstants.CADRE_INFO_TYPE_REWARD_OTHER%>" var="CADRE_INFO_TYPE_REWARD_OTHER"/>
 <c:set value="<%=CadreConstants.CADRE_INFO_TYPE_REWARD%>" var="CADRE_INFO_TYPE_REWARD"/>
-
+<c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">

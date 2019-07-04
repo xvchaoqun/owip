@@ -361,10 +361,15 @@ public class CadreService extends BaseMapper {
     })
     public void addOrUPdateCadreParty(CadreParty record) {
 
-        if (record.getId() == null)
+        if (record.getId() == null) {
             cadrePartyMapper.insertSelective(record);
-        else
+        }else {
+            Date growTime = record.getGrowTime();
+            if(growTime==null){
+                commonMapper.excuteSql("update cadre_party set grow_time=null where id="+ record.getId());
+            }
             cadrePartyMapper.updateByPrimaryKeySelective(record);
+        }
 
         int userId = record.getUserId();
         CadreView cv = dbFindByUserId(userId);
@@ -373,9 +378,9 @@ public class CadreService extends BaseMapper {
             Cadre _cadre = new Cadre();
             _cadre.setUserId(userId);
             _cadre.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
-            // 默认是处级干部
-            if(record.getType()==null){
-                record.setType(CadreConstants.CADRE_TYPE_OTHER);
+            // 标记类型为其他干部
+            if(_cadre.getType()==null){
+                _cadre.setType(CadreConstants.CADRE_TYPE_OTHER);
             }
             insertSelective(_cadre);
         }

@@ -2,6 +2,7 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="CADRE_REWARD_TYPE_RESEARCH" value="<%=CadreConstants.CADRE_REWARD_TYPE_RESEARCH%>"/>
+<c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cadreReward!=null}">编辑</c:if><c:if test="${cadreReward==null}">添加</c:if></h3>
@@ -31,6 +32,7 @@ pageEncoding="UTF-8"%>
                 </script>
             </div>
         </div>
+            <c:if test="${_p_rewardOnlyYear}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>获奖年份</label>
 				<div class="col-xs-6">
@@ -42,6 +44,20 @@ pageEncoding="UTF-8"%>
                     </div>
 				</div>
 			</div>
+            </c:if>
+            <c:if test="${!_p_rewardOnlyYear}">
+			<div class="form-group">
+                <label class="col-xs-3 control-label"><span class="star">*</span>获奖年月</label>
+                <div class="col-xs-6">
+                    <div class="input-group" style="width: 120px">
+                        <input required class="form-control date-picker" name="_rewardTime" type="text"
+                               data-date-min-view-mode="1" placeholder="yyyy.mm"
+                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreReward.rewardTime,'yyyy.MM')}" />
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
+                </div>
+            </div>
+            </c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>获得奖项</label>
 				<div class="col-xs-6">

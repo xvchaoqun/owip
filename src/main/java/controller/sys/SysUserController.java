@@ -509,6 +509,9 @@ public class SysUserController extends BaseController {
             String key = ExcelUtils.getCellValue(cell);
             if(StringUtils.isBlank(key)) continue;
 
+            // 去掉所有空格
+            key = key.replaceAll("\\s*", "");
+
             String code = null;
             List<String> codeList = new ArrayList<>();
             if (roleType == 1) {
@@ -555,7 +558,7 @@ public class SysUserController extends BaseController {
             // 每一行插入的位置
             int rowAddCol = -1;
             if (addCol != null && addCol <= cellNum) {
-                rowAddCol = rowAddCol-1;
+                rowAddCol = addCol-1;
                 cell = row.getCell(rowAddCol);
                 if(cell==null){
                     cell = row.createCell(rowAddCol);
@@ -620,7 +623,7 @@ public class SysUserController extends BaseController {
 
             String userCode = StringUtils.trim(xlsRow.get(0));
             if (StringUtils.isBlank(userCode)) {
-                throw new OpException("第{0}行学工号为空", row);
+                continue; // 学工号为空则忽略行
             }
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null) {
@@ -647,7 +650,7 @@ public class SysUserController extends BaseController {
 
             records.add(record);
 
-            if(uv.getType()==SystemConstants.USER_TYPE_JZG) {
+            if(uv.getType()== SystemConstants.USER_TYPE_JZG) {
                 Date workTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8)));
                 if(workTime!=null) {
                     TeacherInfo ti = new TeacherInfo();
@@ -681,7 +684,7 @@ public class SysUserController extends BaseController {
                     record.getUsername(),
                     record.getCode(),
                     record.getRealname(),
-                    record.getGender()==null?"":SystemConstants.GENDER_MAP.get(record.getGender()),
+                    record.getGender()==null?"": SystemConstants.GENDER_MAP.get(record.getGender()),
                     SystemConstants.USER_TYPE_MAP.get(record.getType()),
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),
                     record.getUnit(),

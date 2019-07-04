@@ -57,6 +57,8 @@ public class FreemarkerService {
 
         try {
 
+            dataMap.put("rewardOnlyYear", CmTag.getBoolProperty("rewardOnlyYear"));
+
             StringWriter writer = new StringWriter();
             FreeMarkerConfigurer freeMarkerConfigurer = CmTag.getBean(FreeMarkerConfigurer.class);
             Configuration cf = freeMarkerConfigurer.getConfiguration();
@@ -80,29 +82,6 @@ public class FreemarkerService {
 
         return freemarker(dataMap, ftlPath);
     }
-
-    // 按段落读取kindEditor中的内容（段首缩进）
-    /*public String genEditorSegment(String content) throws IOException, TemplateException {
-
-        List<String> rows = new ArrayList();
-
-        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
-        Elements ps = doc.getElementsByTag("p");
-        int size = ps.size();
-        for (int i = 0; i < size; i++) {
-            String plainText = StringUtils.trimToEmpty(ps.get(i).text());
-            rows.add(HtmlUtils.htmlEscapeDecimal(plainText));
-        }
-        if (size == 0) {
-            String plainText = StringUtils.trimToEmpty(doc.text());
-            rows.add(HtmlUtils.htmlEscapeDecimal(plainText));
-        }
-
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("dataList", rows);
-
-        return process("/common/editor.ftl", dataMap);
-    }*/
 
     // 按段落读取textarea（段首缩进）
     public String genTextareaSegment(String content, String tpl) throws IOException, TemplateException {
@@ -140,7 +119,7 @@ public class FreemarkerService {
         String title = null;
         List rows = new ArrayList();
 
-        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
+        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content.replace("<br", "<p")));
         Elements ps = doc.getElementsByTag("p");
         int size = ps.size();
 
@@ -225,7 +204,7 @@ public class FreemarkerService {
         //System.out.println(getStringNoBlank(info));
         List rows = new ArrayList();
 
-        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
+        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content.replace("<br", "<p")));
         Elements pElements = doc.getElementsByTag("p");
         int size = pElements.size();
         for (Element pElement : pElements) {

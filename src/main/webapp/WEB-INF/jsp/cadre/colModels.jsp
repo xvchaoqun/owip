@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
 <script>
     var colModels = function () {
     };
@@ -430,8 +431,14 @@
             if($.trim(rowObject.rewardLevel)=='')
                 return "class='danger'";
         }, frozen: true},
+        <c:if test="${_p_rewardOnlyYear}">
         {label: '获奖年份', name: 'rewardTime', formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y'}, frozen: true},
+        </c:if>
+        <c:if test="${!_p_rewardOnlyYear}">
+        {label: '获奖年月', name: 'rewardTime', formatter: $.jgrid.formatter.date,
+            formatoptions: {newformat: 'Y.m'}, frozen: true},
+        </c:if>
         {label: '获得奖项', name: 'name', width: 350, align:'left', frozen: true},
         {label: '颁奖单位', name: 'unit', width: 280, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
             if($.trim(val)=='')

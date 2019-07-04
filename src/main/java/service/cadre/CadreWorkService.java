@@ -160,7 +160,10 @@ public class CadreWorkService extends BaseMapper {
             }else{
                 Integer unitId = record.getUnitId();
                 Unit unit = CmTag.getUnit(unitId);
-                if(unit!=null) unitStr = unit.getName();
+                unitStr = CmTag.getSysConfig().getSchoolName();
+                if(unit!=null){
+                    unitStr += unit.getName();
+                }
             }
 
             String detail = String.format("在%s挂职任%s", unitStr, record.getPost());

@@ -47,7 +47,7 @@ public class CadreRewardService extends BaseMapper {
         CadreRewardExample example = new CadreRewardExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andRewardLevelIn(rewardLevels)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        example.setOrderByClause("reward_time asc");
+        example.setOrderByClause("reward_time desc");
 
         return cadreRewardMapper.selectByExample(example);
     }
@@ -58,7 +58,7 @@ public class CadreRewardService extends BaseMapper {
         CadreRewardExample example = new CadreRewardExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(rewardType)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        example.setOrderByClause("reward_time asc");
+        example.setOrderByClause("reward_time desc");
         return cadreRewardMapper.selectByExample(example);
     }
 

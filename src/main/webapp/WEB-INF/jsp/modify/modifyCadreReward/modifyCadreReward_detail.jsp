@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
+<c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
 <div class="jqgrid-vertical-offset clearfix" style="background-color: #f5f5f5;padding: 5px 0 5px 0">
     <div class="col-md-9">
         <button class="hideView btn btn-success btn-sm" type="button">
@@ -41,10 +42,10 @@
         <div class="widget-main">
             <table class="table  table-unhover table-bordered table-striped">
                 <tr>
-                    <td data-code="rewardTime">奖励级别</td>
+                    <td data-code="rewardLevel">奖励级别</td>
                     <td class="bg-left">${cm:getMetaType(modify.rewardLevel).name}</td>
-                    <td data-code="rewardTime">获奖年份</td>
-                    <td class="bg-left">${cm:formatDate(modify.rewardTime,'yyyy')}</td>
+                    <td data-code="rewardTime">${_p_rewardOnlyYear?'获奖年份':'获奖年月'}</td>
+                    <td class="bg-left">${cm:formatDate(modify.rewardTime,_p_rewardOnlyYear?'yyyy':'yyyy.MM')}</td>
                     <td data-code="name">获得奖项</td>
                     <td class="bg-left">${modify.name}</td>
                     <td data-code="unit">颁奖单位</td>
