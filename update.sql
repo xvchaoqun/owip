@@ -1,4 +1,13 @@
 
+
+20190704 更新 南航
+
+UPDATE `sys_resource` SET `permission`='crpRecord:list' WHERE  `id`=417;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1041, 0, '管理挂职', NULL, 'function', NULL, NULL, 417, '0/1/417/', 1, 'crpRecord:*', NULL, NULL, NULL, 1, NULL);
+
+
 20190704 更新 北邮
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
