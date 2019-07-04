@@ -2,11 +2,12 @@ package controller.sys;
 
 import bean.ColumnBean;
 import controller.BaseController;
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.member.MemberView;
 import domain.sys.*;
-import domain.sys.SysUserExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.SysUserListMixin;
@@ -14,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -176,12 +176,14 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_data")
     @ResponseBody
-    public void sysUser_data(HttpServletRequest request,
+    public void sysUser_data(HttpServletResponse response,
                              @SortParam(required = false, defaultValue = "id", tableName = "sys_user") String sort,
                              @OrderParam(required = false, defaultValue = "desc") String order,
                              Integer pageSize, Integer pageNo,
                              Integer userId,
                              String username, String realname, String code, String idcard,
+                             @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                              Byte type, Byte source, Integer roleId, Boolean locked) throws IOException {
 
         if (null == pageSize) {
@@ -227,6 +229,14 @@ public class SysUserController extends BaseController {
         if (locked != null) {
             criteria.andLockedEqualTo(locked);
         }
+
+        if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
+            sysUser_export(example, response);
+            return;
+        }
+
         long count = sysUserViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
@@ -581,67 +591,108 @@ public class SysUserController extends BaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("sysUser:export")
-    @RequestMapping("/sysUser_export")
-    public String sysUser_export(Integer roleId, boolean locked, HttpServletResponse response,
-                                 HttpServletRequest request, ModelMap modelMap) throws IOException {
+    // 批量更新信息
+    @RequiresPermissions("sysUser:edit")
+    @RequestMapping("/sysUser_batchUpdate")
+    public String cadre_batchSort(ModelMap modelMap) {
 
-        SysUserExample example = new SysUserExample();
-        Criteria criteria = example.createCriteria().andLockedEqualTo(locked);
-        /*if(StringUtils.isNotBlank(role)){
+        return "sys/sysUser/sysUser_batchUpdate";
+    }
 
-			RoleExample _example = new SysUserTypeExample();
-			_example.createCriteria().andTypeEqualTo(role);
-			List<SysUserType> sysUserTypes = sysUserTypeMapper.selectByExample(_example );
-			List<Integer> sysUserIds = new ArrayList<Integer>();
-			for(SysUserType ut:sysUserTypes){
-				sysUserIds.add(ut.getSysUserId());
-			}
-			if(sysUserIds.size()>0)
-				criteria.andIdIn(sysUserIds);
-		}*/
+    @RequiresPermissions("sysUser:edit")
+    @RequestMapping(value = "/sysUser_batchUpdate", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUser_batchUpdate(HttpServletRequest request) throws InvalidFormatException, IOException {
 
-        List<SysUser> sysUsers = sysUserMapper.selectByExample(example);
-        long rownum = sysUserMapper.countByExample(example);
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-        String[] titles = {"账号", "工作证号", "所属单位", "姓名", "工作电话", "手机号码", "单位及职务", "干部身份"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<SysUserInfo> records = new ArrayList<>();
+        List<TeacherInfo> teacherInfos = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+            row++;
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)) {
+                throw new OpException("第{0}行学工号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+
+            SysUserInfo record = new SysUserInfo();
+            record.setUserId(uv.getId());
+            record.setPhone(StringUtils.trimToNull(xlsRow.get(2)));
+            record.setMobile(StringUtils.trimToNull(xlsRow.get(3)));
+            record.setEmail(StringUtils.trimToNull(xlsRow.get(4)));
+
+            record.setNativePlace(StringUtils.trimToNull(xlsRow.get(5)));
+            record.setHomeplace(StringUtils.trimToNull(xlsRow.get(6)));
+            record.setHousehold(StringUtils.trimToNull(xlsRow.get(7)));
+
+            String _health = StringUtils.trimToNull(xlsRow.get(9));
+            if(_health!=null) {
+                MetaType healthType = CmTag.getMetaTypeByName("mc_health", _health);
+                if (healthType == null) throw new OpException("第{0}行健康状态[{1}]不存在", row, _health);
+                record.setHealth(healthType.getId());
+            }
+            record.setSpecialty(StringUtils.trimToNull(xlsRow.get(10)));
+
+            records.add(record);
+
+            if(uv.getType()==SystemConstants.USER_TYPE_JZG) {
+                Date workTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8)));
+                if(workTime!=null) {
+                    TeacherInfo ti = new TeacherInfo();
+                    ti.setUserId(uv.getId());
+                    ti.setWorkTime(workTime);
+
+                    teacherInfos.add(ti);
+                }
+            }
         }
 
-		/*Map<Integer, Post> postMap = postService.getPostsMap(getYear());
-        Map<Integer, Unit> unitMap = unitService.findAll(getYear());
-		for(int i=0; i<rownum; i++){
+        sysUserService.batchUpdate(records, teacherInfos);
 
-			SysUser sysUser = sysUsers.get(i);
-			String[] values ={
-					sysUser.getSysUsername(),
-					sysUser.getCode(),
-					sysUser.getUnitId()==null?"":
-					unitMap.get(sysUser.getUnitId()).getUnitName(),
-					sysUser.getRealname(),
-					sysUser.getPhone(),
-					sysUser.getMobile(),
-					sysUser.getTitle(),
-					sysUser.getPostId()==null?"":
-					postMap.get(sysUser.getPostId()).getPostName()};
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("total", records.size());
+        return resultMap;
+    }
 
-			Row row = sheet.createRow(i+1);
-			for(int j=0; j<titles.length; j++){
+    public void sysUser_export(SysUserViewExample example, HttpServletResponse response) throws IOException {
 
-				XSSFCell cell = (XSSFCell) row.createCell(j);
-				cell.setCellValue(values[j]);
-				cell.setCellStyle(getBodyStyle(wb));
-			}
-		}*/
-        String fileName = "账号";
-        ExportHelper.output(wb, fileName + ".xlsx", response);
+        List<SysUserView> records = sysUserViewMapper.selectByExample(example);
 
-        return null;
+		int rownum = records.size();
+        String[] titles = {"账号|120", "学工号|120", "姓名|100", "性别|50", "账号类别|100", "出生年月|100",
+                "所在单位|300", "办公电话|100", "手机号码|100", "邮箱|300|left"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+
+            SysUserView record = records.get(i);
+            String[] values = {
+                    record.getUsername(),
+                    record.getCode(),
+                    record.getRealname(),
+                    record.getGender()==null?"":SystemConstants.GENDER_MAP.get(record.getGender()),
+                    SystemConstants.USER_TYPE_MAP.get(record.getType()),
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),
+                    record.getUnit(),
+                    record.getPhone(),
+                    record.getMobile(),
+                    record.getEmail()
+            };
+            valuesList.add(values);
+        }
+
+        String fileName = "系统账号信息";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

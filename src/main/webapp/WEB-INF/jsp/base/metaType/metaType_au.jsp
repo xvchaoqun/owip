@@ -48,7 +48,7 @@
 									data-placeholder="请选择">
 								<option></option>
 								<c:forEach items="${metaClass.options}" var="entry">
-									<option value="${entry.key}">${entry.value.name}</option>
+									<option value="${entry.key}">${entry.value.name}<c:if test="${not empty entry.value.detail}">|${entry.value.detail}</c:if></option>
 								</c:forEach>
 							</select>
 							<script>

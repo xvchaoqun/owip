@@ -1,5 +1,7 @@
 package freemarker;
 
+import bean.MetaClassOption;
+import domain.base.MetaClass;
 import domain.base.MetaType;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -20,6 +22,7 @@ import java.util.Map;
  */
 public class EduSuffix implements TemplateDirectiveModel {
 
+    // 干部简历上全日制学历对应的描述
     public static String getEduSuffix(Integer eduId){
 
         if(eduId==null) return null;
@@ -28,27 +31,18 @@ public class EduSuffix implements TemplateDirectiveModel {
         MetaType metaType = CmTag.getMetaType(eduId);
         if(metaType==null) return null;
 
-        switch (metaType.getCode()) {
-            case "mt_edu_zk":
-            case "mt_edu_bk":
-                suffix = "学生";
-                break;
-            case "mt_edu_master":
-                suffix = "硕士研究生";
-                break;
-            case "mt_edu_yjskcb":
-                suffix = "硕士研究生（研究生课程班）";
-                break;
-            case "mt_edu_sstd":
-                suffix = "硕士研究生（硕士同等学历）";
-                break;
-            case "mt_edu_doctor":
-                suffix = "博士研究生";
-                break;
+        MetaClass eduCls = CmTag.getMetaClassByCode("mc_edu");
+        Map<String, MetaClassOption> options = eduCls.getOptions();
+
+        MetaClassOption option = options.get(metaType.getExtraAttr());
+        if(option!=null){
+            suffix = option.getName();
         }
 
         return suffix;
     }
+
+    // 干部简历上在职教育学历对应的描述
     public static String getEduSuffix2(Integer eduId){
 
         if(eduId==null) return null;
@@ -57,21 +51,12 @@ public class EduSuffix implements TemplateDirectiveModel {
         MetaType metaType = CmTag.getMetaType(eduId);
         if(metaType==null) return null;
 
-        switch (metaType.getCode()) {
-            case "mt_edu_zk":
-                suffix = "专科";
-                break;
-            case "mt_edu_bk":
-                suffix = "本科";
-                break;
-            case "mt_edu_master":
-            case "mt_edu_yjskcb":
-            case "mt_edu_sstd":
-                suffix = "研究生";
-                break;
-            case "mt_edu_doctor":
-                suffix = "博士研究生";
-                break;
+        MetaClass eduCls = CmTag.getMetaClassByCode("mc_edu");
+        Map<String, MetaClassOption> options = eduCls.getOptions();
+
+        MetaClassOption option = options.get(metaType.getExtraAttr());
+        if(option!=null){
+            suffix = option.getDetail();
         }
 
         return suffix;

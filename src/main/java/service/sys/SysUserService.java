@@ -77,7 +77,7 @@ public class SysUserService extends BaseMapper {
             sysUserInfo.setUserId(userId);
             sysUserInfoMapper.insertSelective(sysUserInfo);
         }
-        if(record.getType()== SystemConstants.USER_TYPE_JZG){
+        if (record.getType() == SystemConstants.USER_TYPE_JZG) {
             addRole(userId, RoleConstants.ROLE_TEACHER);
         }
         // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
@@ -92,7 +92,7 @@ public class SysUserService extends BaseMapper {
         if (sysUserInfo == null) {
             sysUserInfoMapper.insertSelective(record);
         } else {
-            if(record.getRealname()==null) { // 防止出现 update sys_user_info set user_id=xxxx;报错
+            if (record.getRealname() == null) { // 防止出现 update sys_user_info set user_id=xxxx;报错
                 record.setRealname(StringUtils.trimToEmpty(sysUserInfo.getRealname()));
             }
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
@@ -145,7 +145,7 @@ public class SysUserService extends BaseMapper {
     public List<SysUserView> findByRole(String role) {
 
         SysRole sysRole = sysRoleService.getByRole(role);
-        if(sysRole==null){
+        if (sysRole == null) {
             throw new OpException("角色{0}不存在。", role);
         }
         SysUserViewExample example = new SysUserViewExample();
@@ -163,7 +163,7 @@ public class SysUserService extends BaseMapper {
         SysUser _sysUser = sysUserMapper.selectByPrimaryKey(userId);
         sysUserMapper.updateByPrimaryKeySelective(user);
 
-        if(user.getType()!=null) {
+        if (user.getType() != null) {
             if (user.getType() == SystemConstants.USER_TYPE_JZG) {
                 addRole(userId, RoleConstants.ROLE_TEACHER);
             } else {
@@ -218,7 +218,7 @@ public class SysUserService extends BaseMapper {
         SysUser _sysUser = dbFindById(userId);
 
         SysRole sysRole = sysRoleService.getByRole(role);
-        if(sysRole==null){
+        if (sysRole == null) {
             throw new OpException("角色{0}不存在。", role);
         }
         Set<Integer> roleIdSet = getUserRoleIdSet(_sysUser.getRoleIds());
@@ -313,7 +313,7 @@ public class SysUserService extends BaseMapper {
 
         for (SysRole role : roles) {
 
-            String resourceIdsStr = isMobile?role.getmResourceIds():role.getResourceIds();
+            String resourceIdsStr = isMobile ? role.getmResourceIds() : role.getResourceIds();
 
             if (StringUtils.isBlank(resourceIdsStr)) continue;
 
@@ -338,39 +338,39 @@ public class SysUserService extends BaseMapper {
     }
 
     // 根据拥有的权限，形成菜单栏目
-    public List<SysResource> makeMenus(Set<String> ownPermissions, boolean isMobile){
+    public List<SysResource> makeMenus(Set<String> ownPermissions, boolean isMobile) {
 
         List<SysResource> menus = new ArrayList<>();
         Map<Integer, SysResource> sortedPermissions = sysResourceService.getSortedSysResources(isMobile);
         for (SysResource res : sortedPermissions.values()) {
             String type = res.getType();
             String permission = res.getPermission();
-            if((StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_MENU)
+            if ((StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_MENU)
                     || StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_URL))
                     && ownPermissions.contains(permission)) {
 
-                if(res.getParentId()==null) {
+                if (res.getParentId() == null) {
                     menus.add(res);
-                }else{
+                } else {
                     SysResource parent = sortedPermissions.get(res.getParentId());
 
                     // id=1是顶级节点，此值必须固定为1
-                    if(parent.getParentId()==null ) {
+                    if (parent.getParentId() == null) {
                         menus.add(res);
                         continue;
                     }
 
                     // 必须拥有全部层级的父目录，才显示
                     List<String> parents = new ArrayList<>();
-                    while (parent!=null && parent.getParentId()!=null){
+                    while (parent != null && parent.getParentId() != null) {
                         parents.add(parent.getPermission());
-                        if(parent.getParentId()!=null)
+                        if (parent.getParentId() != null)
                             parent = sortedPermissions.get(parent.getParentId());
                         else
                             parent = null;
                     }
 
-                    if(ownPermissions.containsAll(parents)) {
+                    if (ownPermissions.containsAll(parents)) {
                         menus.add(res);
                         continue;
                     }
@@ -405,8 +405,8 @@ public class SysUserService extends BaseMapper {
                 permissions.add(resource.getPermission().trim());
         }
 
-        return isMobile?mFilterMenus(sysUser.getId(), findRoles(username), permissions)
-                :filterMenus(sysUser.getId(), findRoles(username), permissions);
+        return isMobile ? mFilterMenus(sysUser.getId(), findRoles(username), permissions)
+                : filterMenus(sysUser.getId(), findRoles(username), permissions);
     }
 
     @Transactional
@@ -434,10 +434,10 @@ public class SysUserService extends BaseMapper {
             approverTypeBean = applySelfService.getApproverTypeBean(userId);
 
         // 直属党支部管理员不需要“党支部管理、支部委员会”
-        if(userRoles.contains(RoleConstants.ROLE_PARTYADMIN)){
+        if (userRoles.contains(RoleConstants.ROLE_PARTYADMIN)) {
 
             PartyMemberAdminService partyMemberAdminService = CmTag.getBean(PartyMemberAdminService.class);
-            if(partyMemberAdminService!=null) {
+            if (partyMemberAdminService != null) {
                 List<Integer> adminPartyIdList = partyMemberAdminService.adminPartyIdList(userId);
                 boolean hasAdminParty = false;
                 for (Integer adminPartyId : adminPartyIdList) {
@@ -454,18 +454,18 @@ public class SysUserService extends BaseMapper {
         }
 
         // 党费收缴，直属党支部不具有设置支部管理员的权限
-        if(userRoles.contains(RoleConstants.ROLE_PMD_PARTY)){
+        if (userRoles.contains(RoleConstants.ROLE_PMD_PARTY)) {
             PmdPartyAdminService pmdPartyAdminService = CmTag.getBean(PmdPartyAdminService.class);
-            if(pmdPartyAdminService!=null){
+            if (pmdPartyAdminService != null) {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
                 boolean hasAdminParty = false;
                 for (Integer adminPartyId : adminPartyIds) {
-                    if(!PartyHelper.isDirectBranch(adminPartyId)){
-                        hasAdminParty=true;
+                    if (!PartyHelper.isDirectBranch(adminPartyId)) {
+                        hasAdminParty = true;
                         break;
                     }
                 }
-                if(!hasAdminParty){
+                if (!hasAdminParty) {
                     userPermissions.remove("pmdPayBranch:*");
                 }
             }
@@ -475,9 +475,9 @@ public class SysUserService extends BaseMapper {
         if (userRoles.contains(RoleConstants.ROLE_PCS_ADMIN)) {
 
             PcsAdminService pcsAdminService = CmTag.getBean(PcsAdminService.class);
-            if(pcsAdminService!=null) {
+            if (pcsAdminService != null) {
                 PcsAdmin pcsAdmin = pcsAdminService.getAdmin(userId);
-                if (pcsAdmin==null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY) {
+                if (pcsAdmin == null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY) {
                     userPermissions.remove("pcsPartyAdmin:*");
                 }
             }
@@ -488,7 +488,7 @@ public class SysUserService extends BaseMapper {
             CadreView cadre = CmTag.getCadreByUserId(userId);
 
             //科级干部、考察对象和离任干部不可以看到因私出国申请，现任干部和离任校领导可以
-            if (cadre == null || cadre.getType()== CadreConstants.CADRE_TYPE_KJ
+            if (cadre == null || cadre.getType() == CadreConstants.CADRE_TYPE_KJ
                     || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER_LEAVE)) {
@@ -538,7 +538,7 @@ public class SysUserService extends BaseMapper {
     public Set<String> mFilterMenus(int userId, Set<String> userRoles, Set<String> userPermissions) {
 
         ApproverService approverService = CmTag.getBean(ApproverService.class);
-        if(approverService!=null) {
+        if (approverService != null) {
             // 是干部
             if (userRoles.contains(RoleConstants.ROLE_CADRE)) {
 
@@ -554,4 +554,24 @@ public class SysUserService extends BaseMapper {
         return userPermissions;
     }
 
+    // 批量更新账号信息
+    @Transactional
+    public void batchUpdate(List<SysUserInfo> records, List<TeacherInfo> teacherInfos) {
+
+        for (TeacherInfo record : teacherInfos) {
+
+            SysUser _sysUser = sysUserMapper.selectByPrimaryKey(record.getUserId());
+
+            teacherInfoMapper.updateByPrimaryKeySelective(record);
+
+            cacheHelper.clearUserCache(_sysUser);
+        }
+
+        for (SysUserInfo record : records) {
+
+            insertOrUpdateUserInfoSelective(record);
+        }
+
+        cacheHelper.clearCadreCache();
+    }
 }

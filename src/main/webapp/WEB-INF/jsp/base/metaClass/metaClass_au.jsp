@@ -49,7 +49,7 @@
           <label class="col-xs-3 control-label">附加属性选项</label>
           <div class="col-xs-9">
               <textarea class="form-control" style="width: 273px; height: 100px" name="extraOptions">${metaClass.extraOptions}</textarea>
-              <span class="help-block red">格式一： jg|机关及直属单位|xxx详细说明,xy|学院<br/>格式二：正高,副高,中级,初级</span>
+              <span class="help-block red">格式一： jg|机关及直属单位|行政,xy|学院<br/>格式二：正高,副高,中级,初级</span>
           </div>
         </div>
         </shiro:hasPermission>

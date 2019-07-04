@@ -22,6 +22,7 @@ public class MetaClass implements Serializable {
                 option.setKey(tmp[0]);
                 option.setName((tmp.length>1)?tmp[1]:tmp[0]);
                 option.setDetail((tmp.length>2)?tmp[2]:option.getName());
+                option.setRemark((tmp.length>3)?tmp[3]:option.getName());
 
                 options.put(tmp[0], option);
             }

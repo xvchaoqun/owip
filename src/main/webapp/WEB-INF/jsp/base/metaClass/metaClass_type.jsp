@@ -55,8 +55,15 @@
                         <shiro:hasPermission name="metaClass:viewAll">
                             <td nowrap>${metaType.code}</td>
                             <c:if test="${not empty metaClass.extraAttr}">
-                                <td>${fn:length(metaClass.options)>0?
-                                        metaClass.options.get(metaType.extraAttr).name:metaType.extraAttr}</td>
+                                <td>
+                                    <c:if test="${fn:length(metaClass.options)>0}">
+                                        <c:set var="op" value="${metaClass.options.get(metaType.extraAttr)}"/>
+                                        ${op.name}<c:if test="${not empty op.detail}">|${op.detail}</c:if>
+                                    </c:if>
+                                    <c:if test="${fn:length(metaClass.options)==0}">
+                                        ${metaType.extraAttr}
+                                    </c:if>
+                                </td>
                             </c:if>
                             <td>${metaType.remark}</td>
                         </shiro:hasPermission>

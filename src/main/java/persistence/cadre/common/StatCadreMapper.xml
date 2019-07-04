@@ -5,7 +5,7 @@
         <result column="admin_level_code" property="adminLevelCode" jdbcType="VARCHAR" />
         <result column="gender" property="gender" jdbcType="TINYINT" />
         <result column="nation" property="nation" jdbcType="VARCHAR" />
-        <result column="max_ce_edu_attr" property="maxCeEduAttr" jdbcType="VARCHAR" />
+        <result column="max_ce_edu_code" property="maxCeEduCode" jdbcType="VARCHAR" />
         <result column="num" property="num" jdbcType="INTEGER" />
         <result column="num_1" property="num1" jdbcType="INTEGER" />
         <result column="num_2" property="num2" jdbcType="INTEGER" />
@@ -187,21 +187,21 @@
     </select>
     <!-- 学历 -->
     <select id="cadre_stat_edu" resultMap="BaseResultMap" parameterType="map">
-        select max_ce_edu_attr, count(*) as num from cadre_view where status=1
+        select max_ce_edu_code, count(*) as num from cadre_view where status=1
         <include refid="andSql" />
-         and max_ce_edu_attr is not null  group by max_ce_edu_attr
+         and max_ce_edu_code is not null  group by max_ce_edu_code
     </select>
     <!-- 学历-行政级别 -->
     <select id="cadre_stat_edu_adminLevel" resultMap="BaseResultMap" parameterType="map">
-        select max_ce_edu_attr, admin_level_code, count(*) as num from cadre_view where status=1
+        select max_ce_edu_code, admin_level_code, count(*) as num from cadre_view where status=1
         <include refid="andSql" />
-         and max_ce_edu_attr is not null and admin_level_code is not null  group by max_ce_edu_attr, admin_level_code
+         and max_ce_edu_code is not null and admin_level_code is not null  group by max_ce_edu_code, admin_level_code
     </select>
     <!-- 学历-性别 -->
     <select id="cadre_stat_edu_gender" resultMap="BaseResultMap" parameterType="map">
-        select max_ce_edu_attr, gender, count(*) as num from cadre_view where status=1
+        select max_ce_edu_code, gender, count(*) as num from cadre_view where status=1
         <include refid="andSql" />
-         and max_ce_edu_attr is not null and gender is not null  group by max_ce_edu_attr, gender
+         and max_ce_edu_code is not null and gender is not null  group by max_ce_edu_code, gender
     </select>
     <!-- 专职 -->
     <select id="cadre_stat_double" resultMap="BaseResultMap" parameterType="map">

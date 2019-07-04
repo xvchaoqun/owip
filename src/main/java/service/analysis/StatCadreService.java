@@ -815,13 +815,16 @@ public class StatCadreService extends BaseMapper {
         List<StatCadreBean> eduList = statCadreMapper.cadre_stat_edu(unitTypeGroup, cadreType);
         if(eduList!=null) {
             for (StatCadreBean bean : eduList) {
-                if (StringUtils.equals(bean.getMaxCeEduAttr(), "bs")) {
+                if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_doctor")) {
                     bs += bean.getNum();
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "yjs")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_yjskcb")
+                        || StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_sstd")
+                        || StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_master")
+                ) {
                     yjs += bean.getNum();
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "bk")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_bk")) {
                     bk += bean.getNum();
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "zk")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_zk")) {
                     zk += bean.getNum();
                 }
             }
@@ -848,7 +851,7 @@ public class StatCadreService extends BaseMapper {
         if(adminLevelList!=null) {
             for (StatCadreBean bean : adminLevelList) {
 
-                if (StringUtils.equals(bean.getMaxCeEduAttr(), "bs")) {
+                if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_doctor")) {
                     if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                         mainCount1 += bean.getNum();
                     } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
@@ -856,7 +859,10 @@ public class StatCadreService extends BaseMapper {
                     } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
                         noneCount1 += bean.getNum();
                     }
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "yjs")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_yjskcb")
+                        || StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_sstd")
+                        || StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_master")
+                ) {
                     if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                         mainCount2 += bean.getNum();
                     } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
@@ -864,7 +870,7 @@ public class StatCadreService extends BaseMapper {
                     } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
                         noneCount2 += bean.getNum();
                     }
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "bk")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_bk")) {
                     if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                         mainCount3 += bean.getNum();
                     } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
@@ -872,7 +878,7 @@ public class StatCadreService extends BaseMapper {
                     } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
                         noneCount3 += bean.getNum();
                     }
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "zk")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_zk")) {
                     if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                         mainCount4 += bean.getNum();
                     } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
@@ -921,25 +927,28 @@ public class StatCadreService extends BaseMapper {
         if(genderList!=null) {
             for (StatCadreBean bean : genderList) {
 
-                if (StringUtils.equals(bean.getMaxCeEduAttr(), "bs")) {
+                if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_doctor")) {
                     if (bean.getGender() == SystemConstants.GENDER_MALE) {
                         male1 += bean.getNum();
                     } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                         female1 += bean.getNum();
                     }
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "yjs")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_yjskcb")
+                        || StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_sstd")
+                        || StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_master")
+                ) {
                     if (bean.getGender() == SystemConstants.GENDER_MALE) {
                         male2 += bean.getNum();
                     } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                         female2 += bean.getNum();
                     }
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "bk")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_bk")) {
                     if (bean.getGender() == SystemConstants.GENDER_MALE) {
                         male3 += bean.getNum();
                     } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                         female3 += bean.getNum();
                     }
-                } else if (StringUtils.equals(bean.getMaxCeEduAttr(), "zk")) {
+                } else if (StringUtils.equals(bean.getMaxCeEduCode(), "mt_edu_zk")) {
                     if (bean.getGender() == SystemConstants.GENDER_MALE) {
                         male4 += bean.getNum();
                     } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {

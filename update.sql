@@ -1,3 +1,19 @@
+
+20190704 更新 北邮   北师大X
+
+update base_meta_class set extra_attr='任免简历描述（全日制|在职）' , extra_options='1|学生|专科,2|学生|本科,3|硕士研究生|研究生,4|硕士研究生（研究生课程班）|研究生,5|硕士研究生（硕士同等学历）|研究生,6|博士研究生|博士研究生' where code='mc_edu';
+
+
+update base_meta_type SET extra_attr='2' where code='mt_edu_bk';
+update base_meta_type SET extra_attr='3' where code='mt_edu_master';
+update base_meta_type SET extra_attr='1' where code='mt_edu_zk';
+update base_meta_type SET extra_attr='6' where code='mt_edu_doctor';
+update base_meta_type SET extra_attr='5' where code='mt_edu_sstd';
+update base_meta_type SET extra_attr='4' where code='mt_edu_yjskcb';
+
+ALTER TABLE `ow_member_out`
+	CHANGE COLUMN `from_post_code` `from_post_code` VARCHAR(100) NOT NULL COMMENT '转出单位邮编，默认为100875' AFTER `from_fax`;
+
 20190704 更新 北邮   北师大X
 
 删除XlsUpload.java

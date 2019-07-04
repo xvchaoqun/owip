@@ -8,7 +8,7 @@ public class StatCadreBean {
     public String adminLevelCode;
     public Byte gender;
     public String nation;
-    public String maxCeEduAttr;
+    public String maxCeEduCode;
     public int num;
     public int num1;
     public int num2;
@@ -42,12 +42,12 @@ public class StatCadreBean {
         this.nation = nation;
     }
 
-    public String getMaxCeEduAttr() {
-        return maxCeEduAttr;
+    public String getMaxCeEduCode() {
+        return maxCeEduCode;
     }
 
-    public void setMaxCeEduAttr(String maxCeEduAttr) {
-        this.maxCeEduAttr = maxCeEduAttr;
+    public void setMaxCeEduCode(String maxCeEduCode) {
+        this.maxCeEduCode = maxCeEduCode;
     }
 
     public int getNum() {
@@ -120,7 +120,7 @@ public class StatCadreBean {
                 "adminLevelCode='" + adminLevelCode + '\'' +
                 ", gender=" + gender +
                 ", nation='" + nation + '\'' +
-                ", maxCeEduAttr='" + maxCeEduAttr + '\'' +
+                ", maxCeEduCode='" + maxCeEduCode + '\'' +
                 ", num=" + num +
                 ", num1=" + num1 +
                 ", num2=" + num2 +
