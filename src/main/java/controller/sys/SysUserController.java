@@ -546,12 +546,29 @@ public class SysUserController extends BaseController {
                 if (type != 0) {
                     criteria.andTypeEqualTo(type);
                 }
+
+                if(colType==0){
+                    // 如果是使用身份证查找，则按账号类别 教职工、研究生、本科生的排序
+                    example.setOrderByClause("field(type, 1,3,2) asc");
+                }
+
                 List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
+
                 if (uvs.size() == 1) {
                     code = uvs.get(0).getCode();
                 } else if (uvs.size() > 1) {
+
+                    SysUserView firstUv = uvs.get(0);
+                    byte _type = firstUv.getType();
+                    int _typeNum = 0; // 第一个账号类别对应的账号数量
                     for (SysUserView uv : uvs) {
+                        if(_type==uv.getType()) _typeNum++;
                         codeList.add(uv.getCode());
+                    }
+
+                    if(colType==0 && _typeNum==1){
+                        // 按身份证查找时，如果排第一的账号类型对应的账号数量只有一个，则认为是他当前使用的账号
+                        code = firstUv.getCode();
                     }
                 }
             }

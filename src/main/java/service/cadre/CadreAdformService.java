@@ -289,7 +289,7 @@ public class CadreAdformService extends BaseMapper {
 
         //年度考核结果
         Integer currentYear = DateUtils.getCurrentYear();
-        String evaResult = (currentYear - 3) + "、" + (currentYear - 2) + "、" + (currentYear - 1) + "年年度考核均为合格。"; // 默认
+        String evaResult = (currentYear - 3) + "、" + (currentYear - 2) + "、" + (currentYear - 1) + "年均为合格"; // 默认
         {
             Map<Integer, String> evaMap = new LinkedHashMap<>();
             CadreEvaExample example = new CadreEvaExample();
@@ -301,11 +301,11 @@ public class CadreAdformService extends BaseMapper {
                 for (CadreEva cadreEva : cadreEvas) {
                     int year = cadreEva.getYear();
                     int type = cadreEva.getType();
-                    evaMap.put(year, year + "年度考核" + metaTypeService.getName(type));
+                    evaMap.put(year, year + "年：" + metaTypeService.getName(type));
                 }
                 ArrayList<String> evaList = new ArrayList<>(evaMap.values());
                 Collections.reverse(evaList);
-                evaResult = StringUtils.join(evaList, "，");
+                evaResult = StringUtils.join(evaList, ";");
             }
         }
 

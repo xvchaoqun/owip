@@ -41,6 +41,7 @@
                         </label>
                     </div>
                 </div>
+                <span class="help-block">注：按身份证号查找时，按教职工、研究生、本科生的顺序读取第一个账号（账号类型重复将忽略）</span>
             </div>
         </div>
         <div class="form-group">

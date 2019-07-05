@@ -639,15 +639,17 @@ public class MemberOutController extends MemberBaseController {
 
         List<MemberOutView> records = memberOutViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100", "姓名|50", "人员类别|80", "联系电话|100", "类别|50", "所在分党委|300", "所在党支部|300", "转入单位抬头|280",
+        String[] titles = {"学工号|100", "姓名|50", "性别|50", "人员类别|80", "联系电话|100",
+                "类别|50", "党籍状态|100", "所在分党委|300", "所在党支部|300", "转入单位抬头|280",
                 "转入单位|200", "转出单位|200", "介绍信有效期天数|120", "办理时间|80", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberOutView record = records.get(i);
-            SysUserView sysUser = sysUserService.findById(record.getUserId());
+            int userId = record.getUserId();
+            SysUserView sysUser = sysUserService.findById(userId);
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-
+            Member member = memberService.get(userId);
             String memberTypeName = "";
             Byte memberType = record.getMemberType();
             if (memberType == MemberConstants.MEMBER_TYPE_TEACHER) {
@@ -661,9 +663,11 @@ public class MemberOutController extends MemberBaseController {
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
+                    sysUser.getGender()==null?"": SystemConstants.GENDER_MAP.get(sysUser.getGender()),
                     memberTypeName,
                     record.getPhone(),
                     record.getType() == null ? "" : metaTypeService.getName(record.getType()),
+                    MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(member.getPoliticalStatus()),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     record.getToTitle(),
@@ -675,7 +679,7 @@ public class MemberOutController extends MemberBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "组织关系转出_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "组织关系转出(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

@@ -1,5 +1,11 @@
 
 
+20190704 更新 北邮  xxx
+
+ALTER TABLE `sys_user_info`
+	ADD INDEX `idcard` (`idcard`);
+
+
 20190704 更新 南航
 
 UPDATE `sys_resource` SET `permission`='crpRecord:list' WHERE  `id`=417;
