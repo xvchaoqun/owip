@@ -217,7 +217,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
             </#list>};
             valuesList.add(values);
         }
-        String fileName = "${cnTableName}_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = String.format("${cnTableName}(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

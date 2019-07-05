@@ -1106,7 +1106,7 @@ public class MemberApplyController extends MemberBaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"用户", "所属分党委", "所属党支部", "类型"};
+        String[] titles = {"用户|100", "所属分党委|300|left", "所属党支部|300|left", "类型|150"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -1132,7 +1132,7 @@ public class MemberApplyController extends MemberBaseController {
             }
         }
 
-        String fileName = "申请入党人员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = String.format("申请入党人员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

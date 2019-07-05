@@ -453,8 +453,8 @@ public class MemberTransferController extends MemberBaseController {
 
         List<MemberTransfer> records = memberTransferMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号","姓名","所在分党委","所在党支部", "转入分党委",
-                "转入党支部", "介绍信有效期天数","转出办理时间","状态"};
+        String[] titles = {"学工号|100","姓名|100","所在分党委|300|left","所在党支部|300|left", "转入分党委|300|left",
+                "转入党支部|300|left", "介绍信有效期天数|100","转出办理时间|100","状态|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberTransfer record = records.get(i);

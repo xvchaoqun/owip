@@ -544,7 +544,7 @@ public class MemberRegController extends MemberBaseController {
         int rownum = records.size();
         String[] titles = {"账号|100", "密码|80", "姓名|100", "身份证号码|180", "手机号码|100",
                 "联系"+CmTag.getStringProperty("partyName",
-                "分党委") + "|250"};
+                "分党委") + "|250|left"};
 
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {

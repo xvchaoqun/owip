@@ -8,12 +8,12 @@
     <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
     <li class="${type==2?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 任职经历</a>
+        <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-history"></i> 任职经历</a>
     </li>
         </shiro:lacksPermission>
     </shiro:hasPermission>
     <li class="${type==3?"active":""}">
-        <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 任职级经历</a>
+        <a href="javascript:;" onclick="_innerPage(3)"><i class="fa fa-line-chart"></i> 任职级经历</a>
     </li>
 <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
     <div class="buttons" style="position:absolute;left: 360px;">

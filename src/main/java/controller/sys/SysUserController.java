@@ -600,7 +600,8 @@ public class SysUserController extends BaseController {
             }
         }
 
-        String savePath = FILE_SEPARATOR + "_filterExport" + FILE_SEPARATOR + System.currentTimeMillis() + ".xlsx";
+        String savePath = FILE_SEPARATOR + "_filterExport"
+                + FILE_SEPARATOR + DateUtils.formatDate(new Date(), DateUtils.YYYYMMDD) + ".xlsx";
         FileUtils.mkdirs(springProps.uploadPath + savePath, true);
 
         ExportHelper.save(workbook, springProps.uploadPath + savePath);

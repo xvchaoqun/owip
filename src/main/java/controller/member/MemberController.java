@@ -279,6 +279,13 @@ public class MemberController extends MemberBaseController {
             record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
 
             record.setCreateTime(now);
+
+            //record.setType();
+            record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
+            // 默认为原有党员导入
+            record.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_old").getId());
+            record.setSource(MemberConstants.MEMBER_SOURCE_IMPORT);
+
             records.add(record);
         }
 
@@ -442,6 +449,12 @@ public class MemberController extends MemberBaseController {
             record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
 
             record.setCreateTime(now);
+
+            //record.setType();
+            record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
+            // 默认为原有党员导入
+            record.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_old").getId());
+            record.setSource(MemberConstants.MEMBER_SOURCE_IMPORT);
 
             records.add(record);
             teacherInfos.add(teacherInfo);

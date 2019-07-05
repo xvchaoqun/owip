@@ -640,8 +640,8 @@ public class MemberOutController extends MemberBaseController {
         List<MemberOutView> records = memberOutViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"学工号|100", "姓名|50", "性别|50", "人员类别|80", "联系电话|100",
-                "类别|50", "党籍状态|100", "所在分党委|300", "所在党支部|300", "转入单位抬头|280",
-                "转入单位|200", "转出单位|200", "介绍信有效期天数|120", "办理时间|80", "状态|120"};
+                "类别|50", "党籍状态|100", "所在分党委|300|left", "所在党支部|300|left", "转入单位抬头|280|left",
+                "转入单位|200|left", "转出单位|200|left", "介绍信有效期天数|120", "办理时间|80", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberOutView record = records.get(i);

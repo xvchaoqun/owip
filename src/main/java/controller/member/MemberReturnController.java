@@ -429,8 +429,8 @@ public class MemberReturnController extends MemberBaseController {
 
         List<MemberReturn> records = memberReturnMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号","姓名", "所属分党委","所属党支部","确定为入党积极分子时间",
-                "确定为发展对象时间","入党时间","转正时间","状态","备注","创建时间"};
+        String[] titles = {"学工号|100","姓名|100", "所属分党委|250|left","所属党支部|250|left","确定为入党积极分子时间",
+                "确定为发展对象时间|100","入党时间|100","转正时间|100","状态|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberReturn record = records.get(i);
@@ -447,13 +447,12 @@ public class MemberReturnController extends MemberBaseController {
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     record.getStatus()==null?"":MemberConstants.MEMBER_RETURN_STATUS_MAP.get(record.getStatus()),
-                    record.getRemark(),
-                    DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+                    record.getRemark()
             };
 
             valuesList.add(values);
         }
-        String fileName = "留学归国党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = String.format("留学归国党员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

@@ -414,8 +414,8 @@ public class MemberInflowController extends MemberBaseController {
 
         List<MemberInflow> records = memberInflowMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号","姓名", "所在分党委","所在党支部", "原职业", "流入前所在省份",
-                "是否持有《中国共产党流动党员活动证》", "流入时间", "流入原因", "入党时间", "组织关系所在地"};
+        String[] titles = {"学工号|100","姓名|100", "所在分党委|300|left","所在党支部|300|left", "原职业|150|left", "流入前所在省份|80",
+                "是否持有《中国共产党流动党员活动证》|100", "流入时间|100", "流入原因|100", "入党时间|100", "组织关系所在地|200"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberInflow record = records.get(i);
@@ -438,7 +438,7 @@ public class MemberInflowController extends MemberBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "流入党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = String.format("流入党员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

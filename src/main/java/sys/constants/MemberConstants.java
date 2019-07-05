@@ -105,7 +105,7 @@ public class MemberConstants {
     }
 
     // 党员来源
-    public final static byte MEMBER_SOURCE_IMPORT = 1; // 2015年底统一导入
+    public final static byte MEMBER_SOURCE_IMPORT = 1; // 后台导入
     public final static byte MEMBER_SOURCE_GROW = 2; // 本校发展
     public final static byte MEMBER_SOURCE_TRANSFER = 3; // 外校转入
     public final static byte MEMBER_SOURCE_RETURNED = 4; // 归国人员恢复入党
@@ -113,7 +113,7 @@ public class MemberConstants {
     public final static Map<Byte, String> MEMBER_SOURCE_MAP = new LinkedHashMap<>();
 
     static {
-        MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "2015年底统一导入");
+        MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_IMPORT, "后台导入");
         MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_GROW, "本校发展");
         MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_TRANSFER, "外校转入");
         MEMBER_SOURCE_MAP.put(MEMBER_SOURCE_RETURNED, "归国人员恢复入党");
