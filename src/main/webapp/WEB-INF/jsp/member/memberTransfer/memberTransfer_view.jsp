@@ -14,7 +14,27 @@
     <div class="widget-body">
         <div class="widget-main">
             <table class="table table-bordered table-striped">
-               <jsp:include page="memberTransfer_table.jsp"/>
+                <tbody>
+                    <jsp:include page="memberTransfer_table.jsp"/>
+                    <c:if test="${fn:length(memberTransfers)>0}">
+                       <tr>
+                            <td class="bg-right">
+                                历史办理记录
+                            </td>
+                            <td class="bg-left" colspan="7">
+                                <c:forEach items="${memberTransfers}" var="mt" varStatus="vs">
+                                    <span class="text text-success bolder" style="margin-right: 5px;text-decoration: underline;">
+                                       <a href="javascript:;" class="popupBtn"
+                                           data-width="1200"
+                                           data-url="${ctx}/memberTransfer_view?popup=1&id=${mt.id}">
+                                           <i class="fa fa-hand-o-right"></i> ${cm:formatDate(mt.fromHandleTime,'yyyy.MM.dd')}
+                                       </a>
+                                    </span>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                    </c:if>
+                </tbody>
             </table>
         </div>
     </div>

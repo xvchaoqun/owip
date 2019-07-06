@@ -68,6 +68,13 @@ public class MemberTransferController extends MemberBaseController {
         if(BooleanUtils.isTrue(popup)){
             return "member/memberTransfer/memberTransfer_view_popup";
         }else {
+
+            MemberTransferExample example = new MemberTransferExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
+            List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
+            modelMap.put("memberTransfers", memberTransfers); // 已完成的记录
+
             return "member/memberTransfer/memberTransfer_view";
         }
     }

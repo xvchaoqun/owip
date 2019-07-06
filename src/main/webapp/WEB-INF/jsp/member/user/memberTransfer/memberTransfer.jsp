@@ -17,7 +17,9 @@
     <div class="widget-body">
         <div class="widget-main">
             <table class="table table-bordered table-striped">
+                <tbody>
                 <jsp:include page="/WEB-INF/jsp/member/memberTransfer/memberTransfer_table.jsp"/>
+                </tbody>
             </table>
         </div>
     </div>

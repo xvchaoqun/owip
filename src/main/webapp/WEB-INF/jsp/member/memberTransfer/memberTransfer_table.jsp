@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_TRANSFER_STATUS_MAP" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_MAP%>"/>
 
-<tbody>
+
 <tr>
     <td class="bg-right">
         姓名
@@ -123,4 +123,3 @@
         </c:if>
     </td>
 </tr>
-</tbody>
