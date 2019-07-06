@@ -3,6 +3,12 @@
 
 更新common-utils
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('abroadContactUseSign', '办理证件联系人是否签名', 'true', 3, 32, '否则使用联系人（固定一个人）的姓名');
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('abroadContactUser', '办理证件联系人工号', '', 1, 33, 'abroadContactUseSign=false时才有效，生效时如果为空，则默认为当前登录账号');
+
+
 20190704 更新 南航
 
 

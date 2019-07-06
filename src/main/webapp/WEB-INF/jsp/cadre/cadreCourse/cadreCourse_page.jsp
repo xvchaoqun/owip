@@ -183,7 +183,7 @@
 </c:if>
 <script>
     <c:if test="${!canUpdate}">
-    $("button.btn").prop("disabled", true);
+    $("${empty param.cadreId?'':'#body-content-view '}button.btn").prop("disabled", true);
     </c:if>
     $(".cadre-info-check").prop("checked", ${!canUpdate});
     <c:if test="${!canUpdateInfoCheck}">

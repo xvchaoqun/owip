@@ -640,7 +640,8 @@ public class ApplySelfService extends AbroadBaseMapper {
             // 1、读取所在的全部单位（该干部在这些单位中是正职）
             List<Integer> unitIds = new ArrayList<>();
             CadreView cv = cadreService.findAll().get(cadreId);
-            if(BooleanUtils.isTrue(CmTag.getMetaType(cv.getPostType()).getBoolAttr())){
+            MetaType postType = CmTag.getMetaType(cv.getPostType());
+            if(postType!=null && BooleanUtils.isTrue(postType.getBoolAttr())){
                 if(!approverBlackListMap.containsKey(cadreId + "_" + cv.getUnitId())) // 2、确定拥有该审批身份
                     unitIds.add(cv.getUnitId());
             }

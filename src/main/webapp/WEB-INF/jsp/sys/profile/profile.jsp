@@ -32,7 +32,7 @@
                                                     <div class="label-text"><shiro:principal property="username"/></div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <%--<div class="form-group">
                                                 <label class="col-sm-4 control-label no-padding-right">身份：</label>
 
                                                 <div class="col-sm-8">
@@ -44,7 +44,7 @@
                                                         </c:forEach>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>--%>
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label no-padding-right">类别：</label>
 

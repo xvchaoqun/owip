@@ -30,14 +30,14 @@
            data-url="${ctx}/hf_content?code=hf_cadre_reward">
             <i class="fa fa-info-circle"></i> 填写说明</a>
         <shiro:hasPermission name="cadreReward:edit">
-            <a class="popupBtn btn btn-success btn-sm"
+            <button class="popupBtn btn btn-success btn-sm"
                data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                添加</a>
-            <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                添加</button>
+            <button class="jqOpenViewBtn btn btn-primary btn-sm"
                data-url="${ctx}/cadreReward_au"
                data-grid-id="#jqGrid_cadreReward"
                data-querystr="&rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                修改</a>
+                修改</button>
         </shiro:hasPermission>
         <shiro:hasPermission name="cadreReward:del">
             <button data-url="${ctx}/cadreReward_batchDel"
@@ -224,7 +224,7 @@
 <c:if test="${type==1}">
     <script>
         <c:if test="${!canUpdate}">
-        $("button.btn").prop("disabled", true);
+        $("${empty param.cadreId?'':'#body-content-view '}button.btn").prop("disabled", true);
         </c:if>
         $(".cadre-info-check").prop("checked", ${!canUpdate});
         <c:if test="${!canUpdateInfoCheck}">
