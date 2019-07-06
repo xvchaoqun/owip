@@ -247,8 +247,9 @@ public class CadreAdformService extends BaseMapper {
                 // 进修学习不能进入表格
             } else {
                 Integer eduId = fulltimeEdu.getEduId();
-                //String degree = fulltimeEdu.getDegree();
-                _fulltimeEdu = CmTag.getEduName(eduId) /*+ (degree!=null?degree:"")*/;
+                if(eduId!=null) {
+                    _fulltimeEdu = CmTag.getEduName(eduId);
+                }
 
                 bean.setSchool(StringUtils.trimToEmpty(fulltimeEdu.getSchool()));
                 bean.setDep(StringUtils.trimToEmpty(fulltimeEdu.getDep()));
@@ -263,8 +264,9 @@ public class CadreAdformService extends BaseMapper {
                 // 进修学习不能进入表格
             } else {
                 Integer eduId = onjobEdu.getEduId();
-                //String degree = onjobEdu.getDegree();
-                _onjobEdu = CmTag.getEduName(eduId) /*+ (degree!=null?degree:"")*/;
+                if(eduId!=null) {
+                    _onjobEdu = CmTag.getEduName(eduId);
+                }
 
                 bean.setInSchool(StringUtils.trimToEmpty(onjobEdu.getSchool()));
                 bean.setInDep(StringUtils.trimToEmpty(onjobEdu.getDep()));
