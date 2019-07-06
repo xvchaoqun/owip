@@ -68,15 +68,51 @@
                                     </span>
                                     </div>
                                 </div>
-
-                            </div></div>
-                            <div class="col-xs-6"><div class="profile-user-info profile-user-info-striped">
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 转入组织机构 </div>
 
                                     <div class="profile-info-value">
                                         <span class="editable" >
                                             ${cm:displayParty(memberTransfer.toPartyId, memberTransfer.toBranchId)}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div></div>
+                            <div class="col-xs-6"><div class="profile-user-info profile-user-info-striped">
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出单位联系电话 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >
+                                            ${memberTransfer.fromPhone}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 转出单位传真 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >
+                                            ${memberTransfer.fromFax}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 党费缴纳至年月 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >
+                                            ${cm:formatDate(memberTransfer.payTime,'yyyy-MM')}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> 介绍信有效期天数 </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable" >
+                                            ${memberTransfer.validDays}
                                         </span>
                                     </div>
                                 </div>

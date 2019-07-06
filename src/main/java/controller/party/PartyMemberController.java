@@ -417,9 +417,14 @@ public class PartyMemberController extends BaseController {
         Collections.reverse(records); // 逆序排列，保证导入的顺序正确
 
         int addCount = partyMemberService.bacthImport(records);
+        int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("addCount", addCount);
-        resultMap.put("total", records.size());
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入分党委班子成员成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }

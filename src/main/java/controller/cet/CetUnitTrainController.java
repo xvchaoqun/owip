@@ -270,10 +270,19 @@ public class CetUnitTrainController extends CetBaseController {
 
 
         Map<String, Object> retMap = cetUnitTrainService.imports(xlsRows, projectId);
+
+        int totalCount = xlsRows.size();
+        int successCount = (int) retMap.get("success");
+        List<Map<Integer, String>> failedXlsRows = (List<Map<Integer, String>>)retMap.get("failedXlsRows");
+
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("successCount", retMap.get("success"));
-        resultMap.put("failedXlsRows", retMap.get("failedXlsRows"));
-        resultMap.put("total", xlsRows.size());
+        resultMap.put("successCount", successCount);
+        resultMap.put("failedXlsRows", failedXlsRows);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入调训结果成功，总共{0}条记录，其中成功导入{1}条记录，{2}条失败",
+                totalCount, successCount, failedXlsRows.size()));
 
         return resultMap;
     }

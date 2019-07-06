@@ -1,11 +1,12 @@
 package controller.cadre;
 
-import bean.CadreInfoForm;
 import controller.BaseController;
-import domain.cadre.CadreView;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.dom4j.DocumentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.cadre.CadreAdformService;
+import sys.constants.LogConstants;
 import sys.utils.DateUtils;
-import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
 import sys.utils.ZipUtils;
 
@@ -27,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +37,7 @@ import java.util.Map;
 @Controller
 public class CadreAdformController extends BaseController {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private CadreAdformService cadreAdformService;
 
@@ -113,39 +114,28 @@ public class CadreAdformController extends BaseController {
 
         FileUtils.deleteDir(new File(tmpdir));
 
+        int totalCount = fileList.size();
         Map<String, Object> resultMap = success();
-        resultMap.put("totalCount", fileList.size());
+        resultMap.put("totalCount", totalCount);
         resultMap.put("fails", fails);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入干部任免审批表成功，总共{0}份，其中成功导入{1}份",
+                totalCount, totalCount - fails.size()));
+
         return resultMap;
     }
 
     // 干部任免审批表下载
     @RequiresPermissions("cadreAdform:download")
     @RequestMapping("/cadreAdform_download")
-    public void cadreAdform_download(Integer cadreId, HttpServletRequest request,
-                                     HttpServletResponse response) throws IOException, TemplateException {
+    public void cadreAdform_download(Integer cadreId,
+                                     Boolean isWord, // 否： 中组部格式
+                                     HttpServletRequest request,
+                                     HttpServletResponse response) throws IOException, TemplateException, DocumentException {
         if(cadreId == null) return;
         Integer cadreIds[] = {cadreId};
 
-        cadreAdformService.export(cadreIds, request, response);
-    }
-
-    // 中组部干部任免审批表下载
-    @RequiresPermissions("cadreAdform:download")
-    @RequestMapping("/cadreAdform_zzb")
-    public void cadreAdform_zzb(int cadreId, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
-
-        CadreView cadre = iCadreMapper.getCadre(cadreId);
-        //输出文件
-        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getRealname();
-        response.reset();
-        DownloadUtils.addFileDownloadCookieHeader(response);
-
-        response.setHeader("Content-Disposition",
-                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".lrmx"));
-        response.setContentType("text/xml;charset=UTF-8");
-
-        CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
-        cadreAdformService.zzb(adform, response.getWriter());
+        cadreAdformService.export(cadreIds, BooleanUtils.isTrue(isWord), request, response);
     }
 }

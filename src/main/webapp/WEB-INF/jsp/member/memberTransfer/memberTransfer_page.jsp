@@ -67,6 +67,10 @@
                                             <i class="fa fa-check-circle-o"></i> 转入${_p_partyName}审核（${toPartyApprovalCount}）
                                         </button>
                                 </c:if>
+                                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
+                                   data-width="1200"
+                                   data-url="${ctx}/memberTransfer_view?popup=1">
+                                        <i class="fa fa-search"></i> 详情</a>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER%>"

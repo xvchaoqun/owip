@@ -22,6 +22,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,7 +176,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                            @RequestParam(required = false) Integer[] cols, // 选择导出的列
-                           Integer pageSize, Integer pageNo) throws IOException, TemplateException {
+                           Integer pageSize, Integer pageNo) throws IOException, TemplateException, DocumentException {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
             throw new UnauthorizedException("没有权限访问");
@@ -308,7 +309,7 @@ public class CadreController extends BaseController {
                     .collect(Collectors.toList()).stream().toArray(Integer[]::new);
             if (export == 2) {
                 // 干部任免审批表
-                cadreAdformService.export(cadreIds, request, response);
+                cadreAdformService.export(cadreIds, format==1, request, response);
             } else {
                 // 干部信息采集表
                 cadreInfoFormService.export(cadreIds, request, response);
@@ -773,10 +774,15 @@ public class CadreController extends BaseController {
 
         Collections.reverse(records); // 逆序排列，保证导入的顺序正确
 
-        int successCount = cadreService.batchImport(records);
+        int addCount = cadreService.batchImport(records);
+        int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("successCount", successCount);
-        resultMap.put("total", records.size());
+        resultMap.put("successCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入干部成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }

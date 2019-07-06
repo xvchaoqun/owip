@@ -12,6 +12,7 @@ import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -49,32 +50,26 @@ public class MemberTransferController extends MemberBaseController {
 
     @RequiresPermissions("memberTransfer:list")
     @RequestMapping("/memberTransfer_view")
-    public String memberTransfer_view(int userId, ModelMap modelMap) {
+    public String memberTransfer_view(Integer id, Integer userId, Boolean popup, ModelMap modelMap) {
+
+        MemberTransfer memberTransfer = null;
+        if(id!=null){
+            memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+            userId = memberTransfer.getUserId();
+        }else{
+           memberTransfer = memberTransferService.get(userId);
+        }
+
+        modelMap.put("memberTransfer", memberTransfer);
 
         UserBean userBean = userBeanService.get(userId);
         modelMap.put("userBean", userBean);
 
-        /*Map<Integer, Branch> branchMap = branchService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();*/
-
-        /*modelMap.put("fromParty", partyMap.get(userBean.getPartyId()));
-        modelMap.put("fromBranch", branchMap.get(userBean.getBranchId()));*/
-
-        MemberTransfer memberTransfer = memberTransferService.get(userId);
-        modelMap.put("memberTransfer", memberTransfer);
-
-        modelMap.put("locationMap", locationService.codeMap());
-
-        /*if(memberTransfer!=null) {
-            if (memberTransfer.getToPartyId() != null) {
-                modelMap.put("toParty", partyMap.get(memberTransfer.getToPartyId()));
-            }
-            if (memberTransfer.getToBranchId() != null) {
-                modelMap.put("toBranch", branchMap.get(memberTransfer.getToBranchId()));
-            }
-        }*/
-
-        return "member/memberTransfer/memberTransfer_view";
+        if(BooleanUtils.isTrue(popup)){
+            return "member/memberTransfer/memberTransfer_view_popup";
+        }else {
+            return "member/memberTransfer/memberTransfer_view";
+        }
     }
 
     @RequiresPermissions("memberTransfer:list")

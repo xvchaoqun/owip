@@ -180,9 +180,14 @@ public class CetPlanCourseObjResultController extends CetBaseController {
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         int successCount = cetPlanCourseObjResultService.imports(xlsRows, planCourseId);
+        int totalCount = xlsRows.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
-        resultMap.put("total", xlsRows.size());
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入培训结果成功，总共{0}条记录，其中成功导入{1}条记录，{2}条失败",
+                totalCount, successCount, totalCount - successCount));
 
         return resultMap;
     }

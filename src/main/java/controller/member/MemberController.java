@@ -204,6 +204,13 @@ public class MemberController extends MemberBaseController {
             resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         }
 
+        int successCount = (int) resultMap.get("successCount");
+        int totalCount = (int) resultMap.get("total");
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入党员成功，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, successCount));
+
         return resultMap;
     }
 

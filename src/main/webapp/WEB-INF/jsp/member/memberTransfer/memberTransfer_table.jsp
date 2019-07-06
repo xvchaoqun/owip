@@ -22,7 +22,7 @@
     <td class="bg-left" style="min-width: 80px">
         ${GENDER_MAP.get(userBean.gender)}
     </td>
-    <td class="bg-right">
+    <td class="bg-right" nowrap>
         年龄
     </td>
     <td class="bg-left" style="min-width: 120px">
@@ -63,7 +63,7 @@
         ${cm:displayParty(memberTransfer.partyId, memberTransfer.branchId)}
     </td>
 
-    <td class="bg-right">
+    <td class="bg-right" nowrap>
         转出组织机构
     </td>
     <td class="bg-left" style="min-width: 120px" colspan="5">
@@ -71,7 +71,7 @@
     </td>
 </tr>
 <tr>
-    <td class="bg-right">
+    <td class="bg-right" nowrap>
         转出单位联系电话
     </td>
     <td class="bg-left" style="min-width: 80px">
@@ -84,7 +84,7 @@
         ${memberTransfer.fromFax}
     </td>
 
-    <td class="bg-right">
+    <td class="bg-right" nowrap>
         党费缴纳至年月
     </td>
     <td class="bg-left" style="min-width: 120px" colspan="3">

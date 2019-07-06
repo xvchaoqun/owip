@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import sys.constants.LogConstants;
 import sys.utils.*;
 
 import javax.imageio.ImageIO;
@@ -135,13 +136,14 @@ public class AvatarController extends BaseController {
 
         FileUtils.deleteDir(new File(tmpdir));
 
-        logger.info("total:" + result.total + " save:" + result.save + " error:" + result.error
-                + "导入头像运行时间： " + (endTime - startTime) + "ms");
-
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("save", result.save);
         resultMap.put("error", result.error);
         resultMap.put("total", result.total);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "total:" + result.total + " save:" + result.save + " error:" + result.error
+                + "导入头像运行时间： " + (endTime - startTime) + "ms"));
 
         return resultMap;
     }

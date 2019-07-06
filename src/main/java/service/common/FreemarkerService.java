@@ -227,20 +227,25 @@ public class FreemarkerService {
             }
             List cols = new ArrayList();
             cols.add(type);
-
+            boolean isEmptyRow = true; // 判断当前行是否空行
             String[] textArray = text.trim().split("\\s");
 
             for (int i=0; i< textArray.length; i++) {
 
-                String col = textArray[i];
-                if(i==0 && col.trim().endsWith("—")){ // 简历中结束时间为空，留7个空格
-                    col = col.trim() + "       ";
+                String col = textArray[i].trim();
+                if(StringUtils.isNotBlank(col)){
+                    isEmptyRow = false;
+                }
+                if(i==0 && col.endsWith("—")){ // 简历中结束时间为空，留7个空格
+                    col = col + "       ";
                     cols.add(HtmlUtils.htmlEscapeDecimal(col));
                 }else{
-                    cols.add(HtmlUtils.htmlEscapeDecimal(col.trim()));
+                    cols.add(HtmlUtils.htmlEscapeDecimal(col));
                 }
             }
-            rows.add(cols);
+            if(!isEmptyRow) {
+                rows.add(cols);
+            }
 
             if(_text!=null){
 

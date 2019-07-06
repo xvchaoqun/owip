@@ -11,8 +11,10 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import shiro.ShiroHelper;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 import sys.utils.SqlUtils;
@@ -116,22 +118,26 @@ public class ApplyApprovalLogController extends MemberBaseController {
         if (type != OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER) {
             criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         } else {
-            MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-            Integer partyId1 = memberTransfer.getPartyId();
-            Integer branchId1 = memberTransfer.getBranchId();
-            Integer toPartyId = memberTransfer.getToPartyId();
-            Integer toBranchId = memberTransfer.getToBranchId();
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
-            // 既不是转入支部的管理员或转入分党委的管理员，也不是转出的管理员，没有权限查看
-            if (!adminPartyIdList.contains(partyId1)
-                    && !adminPartyIdList.contains(toPartyId)) {
-                if (branchId1 == null || !adminBranchIdList.contains(branchId1)) {
-                    if (toBranchId == null || !adminBranchIdList.contains(toBranchId)) {
+                MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+                List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+                List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-                        throw new UnauthorizedException();
+                Integer partyId1 = memberTransfer.getPartyId();
+                Integer branchId1 = memberTransfer.getBranchId();
+                Integer toPartyId = memberTransfer.getToPartyId();
+                Integer toBranchId = memberTransfer.getToBranchId();
+
+                // 既不是转入支部的管理员或转入分党委的管理员，也不是转出的管理员，没有权限查看
+                if (!adminPartyIdList.contains(partyId1)
+                        && !adminPartyIdList.contains(toPartyId)) {
+                    if (branchId1 == null || !adminBranchIdList.contains(branchId1)) {
+                        if (toBranchId == null || !adminBranchIdList.contains(toBranchId)) {
+
+                            throw new UnauthorizedException();
+                        }
                     }
                 }
             }

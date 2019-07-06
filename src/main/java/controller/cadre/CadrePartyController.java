@@ -256,8 +256,12 @@ public class CadrePartyController extends BaseController {
         if(records.size()>0) {
             cadreService.cadrePartyImport(records);
         }
-        resultMap.put("successCount", records.size());
+        int successCount = records.size();
+        resultMap.put("successCount", successCount);
         resultMap.put("total", xlsRows.size());
+
+        logger.info(log(LogConstants.LOG_ADMIN, "导入或更新{0}，共{1}人",
+                CadreConstants.CADRE_PARTY_TYPE_MAP.get(type)), successCount);
 
         return resultMap;
     }

@@ -9,8 +9,12 @@
             </h1>
         </div>
         <div class="buttons">
-            <button class="btn btn-danger confirm btn-sm" data-url="${ctx}/cache/clear" data-callback="_reload"
-                    data-msg="确定清空全部的系统缓存？"><i class="fa fa-eraser"></i> 清空全部缓存
+            <button class="btn btn-warning btn-sm" onclick="_clearSysBaseCache(this)"
+                     data-loading-text="<i class='fa fa-spinner fa-spin '></i> 清除中，请稍后"
+                    data-msg="确定清除系统基础数据缓存？"><i class="fa fa-eraser"></i> 清除基础数据缓存
+            </button>
+            <button class="btn btn-danger confirm btn-sm pull-right" data-url="${ctx}/cache/clear" data-callback="_reload"
+                    data-msg="确定清空全部的系统缓存？<br/>（会踢出所有用户，请谨慎操作！）"><i class="fa fa-chain-broken"></i> 清空全部缓存
             </button>
         </div>
     </div>
@@ -113,5 +117,20 @@
             toastr.success('操作成功。', '成功');
             $btn.button('reset');
         });
+    }
+
+    function _clearSysBaseCache(btn) {
+
+        var $btn = $(btn).button('loading');
+        $.getJSON("${ctx}/cache/clear?clearBase=1", function(ret){
+            if(ret.success){
+                $.reloadMetaData(function () {
+                    toastr.success('操作成功。', '成功');
+                    $btn.button('reset');
+                });
+            }else{
+                $btn.button('reset');
+            }
+        })
     }
 </script>

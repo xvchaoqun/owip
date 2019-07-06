@@ -360,10 +360,14 @@ public class CmTag {
 
     public static SysUserView getUserByCode(String code) {
 
+        if(StringUtils.isBlank(code)) return null;
+
         return sysUserService.findByCode(code);
     }
 
     public static SysUserView getUserByUsername(String username) {
+
+        if(StringUtils.isBlank(username)) return null;
 
         return sysUserService.findByUsername(username);
     }

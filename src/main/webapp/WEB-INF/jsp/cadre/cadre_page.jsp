@@ -208,8 +208,16 @@
                                                 <a href="javascript:;" class="jqExportBtn"
                                                    data-need-id="false"
                                                    data-export="2"
-                                                   data-url="${ctx}/cadre_data">
-                                                    <i class="fa fa-file-excel-o"></i> 导出任免审批表（批量）</a>
+                                                   data-url="${ctx}/cadre_data?format=1">
+                                                    <i class="fa fa-file-excel-o"></i> 导出Word版任免审批表（批量）</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false"
+                                                   data-export="2"
+                                                   data-url="${ctx}/cadre_data?format=2">
+                                                    <i class="fa fa-file-excel-o"></i> 导出中组部版任免审批表（批量）</a>
                                             </li>
                                             <li role="separator" class="divider"></li>
                                             <li>

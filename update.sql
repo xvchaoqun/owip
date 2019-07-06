@@ -1,8 +1,12 @@
 
-20190704 更新 南航 xxx
+20190706
+
+更新common-utils
+
+20190704 更新 南航
 
 
-20190704 更新 北邮  xxx
+20190704 更新 北邮
 
 ALTER TABLE `sys_user_info`
 	ADD INDEX `idcard` (`idcard`);

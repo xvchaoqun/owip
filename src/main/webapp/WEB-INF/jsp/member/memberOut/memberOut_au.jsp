@@ -98,25 +98,25 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>转入单位抬头</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="toTitle" value="${memberOut.toTitle}">
+					<textarea required class="form-control" name="toTitle">${memberOut.toTitle}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>转入单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="toUnit" value="${memberOut.toUnit}">
+					<textarea required class="form-control" name="toUnit">${memberOut.toUnit}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>转出单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="fromUnit" value="${memberOut.fromUnit}">
+					<textarea required class="form-control" name="fromUnit">${memberOut.fromUnit}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>转出单位地址</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="fromAddress" value="${memberOut.fromAddress}">
+					<textarea required class="form-control" name="fromAddress" rows="3">${memberOut.fromAddress}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -138,7 +138,10 @@ pageEncoding="UTF-8"%>
 							   value="${empty memberOut.fromPostCode?_pMap['school_postcode']:memberOut.fromPostCode}">
 				</div>
 			</div>
-			<div class="form-group">
+
+				</div>
+			<div class="col-xs-4">
+				<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>党费缴纳至年月</label>
 				<div class="col-xs-6">
 					<div class="input-group">
@@ -149,8 +152,6 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</div>
-				</div>
-			<div class="col-xs-4">
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>介绍信有效期天数</label>
 				<div class="col-xs-6">

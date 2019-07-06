@@ -261,10 +261,15 @@ public class AttachFileController extends BaseController {
 
         FileUtils.deleteDir(new File(tmpdir));
 
+        int totalCount = zipFile.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("addCount", addCount);
         resultMap.put("updateCount", updateCount);
-        resultMap.put("total", zipFile.size());
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入附件成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }

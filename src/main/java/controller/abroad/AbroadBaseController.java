@@ -1,5 +1,6 @@
 package controller.abroad;
 
+import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.abroad.*;
 import service.base.CountryService;
@@ -11,13 +12,30 @@ import service.leader.LeaderService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
+import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
+import sys.tags.CmTag;
 
 /**
  * Created by lm on 2017/9/20.
  */
 public class AbroadBaseController extends AbroadBaseMapper implements HttpResponseMethod {
-    
+
+    // 确定 申请表 的 审批人
+    public int getAbroadApplyConcatUserId() {
+
+        if (CmTag.getBoolProperty("abroadContactUseSign")) {
+            // 使用签名的情况下，使用当前登录的账号
+            return ShiroHelper.getCurrentUserId();
+        } else {
+            // 使用姓名的情况下，使用固定的账号
+            String abroadContactUserCode = CmTag.getStringProperty("abroadContactUser");
+            SysUserView uv = CmTag.getUserByCode(abroadContactUserCode);
+            // 如果留空或不存在，则仍然使用当前登录账号
+            return uv == null ? ShiroHelper.getCurrentUserId() : uv.getUserId();
+        }
+    }
+
     @Autowired
     protected SysUserService sysUserService;
     @Autowired
@@ -36,7 +54,7 @@ public class AbroadBaseController extends AbroadBaseMapper implements HttpRespon
     protected CadreCommonService cadreCommonService;
     @Autowired
     protected MetaTypeService metaTypeService;
-    
+
     @Autowired
     protected AbroadService abroadService;
     @Autowired
@@ -49,10 +67,10 @@ public class AbroadBaseController extends AbroadBaseMapper implements HttpRespon
     protected ApproverBlackListService approverBlackListService;
     @Autowired
     protected ApproverTypeService approverTypeService;
-    
+
     @Autowired
     protected AbroadAdditionalPostService abroadAdditionalPostService;
-    
+
     @Autowired
     protected PassportDrawService passportDrawService;
     @Autowired
@@ -69,7 +87,7 @@ public class AbroadBaseController extends AbroadBaseMapper implements HttpRespon
     protected TaiwanRecordService taiwanRecordService;
     @Autowired
     protected AbroadExportService abroadExportService;
-    
+
     @Autowired
     protected AbroadShortMsgService abroadShortMsgService;
 }

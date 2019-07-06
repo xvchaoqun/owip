@@ -60,7 +60,7 @@ public class PassportApplyController extends AbroadBaseController {
     @RequiresPermissions("passportApply:edit")
     @RequestMapping(value = "/passportApply_agree", method = RequestMethod.POST)
     @ResponseBody
-    public Map passportApply_agree(@CurrentUser SysUserView loginUser, int id, String _expectDate, HttpServletRequest request) {
+    public Map passportApply_agree(int id, String _expectDate, HttpServletRequest request) {
 
         PassportApply record = new PassportApply();
         record.setId(id);
@@ -71,7 +71,7 @@ public class PassportApplyController extends AbroadBaseController {
         record.setExpectDate(date);
 
         record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS);
-        record.setUserId(loginUser.getId());
+        record.setUserId(getAbroadApplyConcatUserId());
         record.setApproveTime(new Date());
 
         passportApplyService.updateByPrimaryKeySelective(record);
@@ -83,14 +83,14 @@ public class PassportApplyController extends AbroadBaseController {
     @RequiresPermissions("passportApply:edit")
     @RequestMapping(value = "/passportApply_disagree", method = RequestMethod.POST)
     @ResponseBody
-    public Map passportApply_disagree(@CurrentUser SysUserView loginUser, int id, String remark, HttpServletRequest request) {
+    public Map passportApply_disagree(int id, String remark, HttpServletRequest request) {
 
         PassportApply record = new PassportApply();
         record.setId(id);
         record.setRemark(remark);
 
         record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS);
-        record.setUserId(loginUser.getId());
+        record.setUserId(getAbroadApplyConcatUserId());
         record.setApproveTime(new Date());
 
         passportApplyService.updateByPrimaryKeySelective(record);
@@ -210,7 +210,7 @@ public class PassportApplyController extends AbroadBaseController {
         return;
     }
 
-    // 添加修改已交证件的记录
+    // 添加/修改已交证件的记录
     @RequiresPermissions("passportApply:edit")
     @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
     @ResponseBody
@@ -233,7 +233,7 @@ public class PassportApplyController extends AbroadBaseController {
             Integer currentUserId = ShiroHelper.getCurrentUserId();
             record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS);
             record.setAbolish(false);
-            record.setUserId(currentUserId);
+            record.setUserId(getAbroadApplyConcatUserId());
             record.setHandleUserId(currentUserId);
             record.setIsDeleted(false);
             record.setCreateTime(new Date());
@@ -433,7 +433,7 @@ public class PassportApplyController extends AbroadBaseController {
 
             record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS);
             record.setAbolish(false);
-            record.setUserId(currentUserId);
+            record.setUserId(getAbroadApplyConcatUserId());
             record.setHandleUserId(currentUserId);
             record.setIsDeleted(false);
 
@@ -451,7 +451,7 @@ public class PassportApplyController extends AbroadBaseController {
         resultMap.put("total", totalCount);
 
         logger.info(log(LogConstants.LOG_ABROAD,
-                "导入证件使用记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                "导入证件办理记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;

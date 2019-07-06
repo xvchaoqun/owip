@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="country" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0c56f016-5d6c-46eb-85c2-0d7144b9a76f">
+	<property name="ireport.zoom" value="0.5644739300537774"/>
+	<property name="ireport.x" value="253"/>
+	<property name="ireport.y" value="589"/>
+	<style name="zh_CN" isDefault="true" hAlign="Center" vAlign="Middle" fontName="新宋体" fontSize="16" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="bg" class="java.lang.String"/>
+	<field name="locate" class="java.lang.String"/>
+	<field name="idcard" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
+	<field name="title" class="java.lang.String"/>
+	<field name="mobile" class="java.lang.String"/>
+	<field name="sign" class="java.lang.String"/>
+	<field name="year" class="java.lang.String"/>
+	<field name="month" class="java.lang.String"/>
+	<field name="day" class="java.lang.String"/>
+	<field name="contactName" class="java.lang.String"/>
+	<detail>
+		<band height="3508" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="2480" height="3508" uuid="1cd5f05b-6eb8-4f96-8795-3e7a0c9a0396"/>
+				<imageExpression><![CDATA["self.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement style="zh_CN" x="1124" y="409" width="591" height="114" uuid="d04bfd85-2afc-4e39-bd98-8098b213bc7c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="90" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="787" width="658" height="76" uuid="5b7afc3c-bbb9-4d9d-bc2c-a2b199fab39d"/>
+				<textElement>
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{locate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="556" y="902" width="348" height="80" uuid="a09565e1-5a1d-494d-bd65-2af0e0e4d0b3"/>
+				<textElement>
+					<font fontName="宋体" size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="1017" width="955" height="81" uuid="54ccf53d-f5fe-4071-b03a-e03d9f0a8b38"/>
+				<textElement>
+					<font fontName="宋体" size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idcard}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="387" y="1142" width="1219" height="73" uuid="e7e65539-a47d-432a-9c02-855d589ac3b2"/>
+				<textElement>
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="449" y="1256" width="776" height="76" uuid="b3cad391-ad58-4886-b7d8-1d1f1ec8baec"/>
+				<textElement>
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="1379" y="1518" width="300" height="200" uuid="4dea5254-6049-4add-88aa-8c3651cdbdcc"/>
+				<imageExpression><![CDATA[$F{sign}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="1379" y="1731" width="464" height="79" uuid="5d67aeb6-7117-4bf3-9f31-bb796725a985"/>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1446" y="2089" width="188" height="59" uuid="72e187a8-fd76-4a70-a043-c707355a0545"/>
+				<textElement textAlignment="Right">
+					<font fontName="宋体" size="50"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1705" y="2090" width="97" height="58" uuid="c815bf7d-4a45-46d5-9ac7-7b5385369125"/>
+				<textElement textAlignment="Right">
+					<font fontName="宋体" size="50"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1876" y="2090" width="102" height="58" uuid="54f38b07-bdc2-405f-8129-9090c369dfb1"/>
+				<textElement textAlignment="Right">
+					<font fontName="宋体" size="50"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{day}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1357" y="1603" width="464" height="79" uuid="056003c2-1da5-471d-a51f-58711a22940b"/>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contactName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

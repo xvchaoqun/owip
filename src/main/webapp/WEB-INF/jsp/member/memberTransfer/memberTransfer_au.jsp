@@ -153,8 +153,8 @@ pageEncoding="UTF-8"%>
 
 <c:if test="${memberTransfer.status!=MEMBER_TRANSFER_STATUS_TO_VERIFY}">
 	<div class="modal-footer center">
-		<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 取消</a>
-		<input type="submit" class="btn btn-primary" value="<c:if test="${memberTransfer!=null}">确定</c:if><c:if test="${memberTransfer==null}">添加</c:if>"/>
+		<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 返回</a>
+		<button id="submitBtn" class="btn btn-primary">${memberTransfer!=null?'确定':'添加'}</button>
 	</div>
 </c:if>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_TO_VERIFY}">
@@ -167,7 +167,7 @@ pageEncoding="UTF-8"%>
 
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));
-	$("#body-content-view input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+	$("#body-content-view #submitBtn").click(function(){$("#modalForm").submit(); return false;});
 	$("#modalForm").validate({
         submitHandler: function (form) {
 

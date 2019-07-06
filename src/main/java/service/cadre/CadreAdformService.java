@@ -83,7 +83,9 @@ public class CadreAdformService extends BaseMapper {
     @Autowired
     protected SysConfigService sysConfigService;
 
-    public void export(Integer[] cadreIds, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
+    public void export(Integer[] cadreIds,
+                       boolean isWord, // 否：中组部格式
+                       HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
 
         if (cadreIds == null) return;
 
@@ -91,18 +93,31 @@ public class CadreAdformService extends BaseMapper {
 
             int cadreId = cadreIds[0];
             CadreView cadre = iCadreMapper.getCadre(cadreId);
-            //输出文件
-            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + " 干部任免审批表 " + cadre.getUser().getRealname() + ".doc";
+
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
+            if (isWord) {
+                //输出WORD任免审批表
+                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                        + " 干部任免审批表 " + cadre.getUser().getRealname() + ".doc";
 
-            response.setHeader("Content-Disposition",
-                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
-            response.setContentType("application/msword;charset=UTF-8");
+                response.setHeader("Content-Disposition",
+                        "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
+                response.setContentType("application/msword;charset=UTF-8");
 
-            CadreInfoForm adform = getCadreAdform(cadreId);
-            process(adform, response.getWriter());
+                CadreInfoForm adform = getCadreAdform(cadreId);
+                process(adform, response.getWriter());
+            } else {
+                // 输出中组部任免审批表
+                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getRealname();
+
+                response.setHeader("Content-Disposition",
+                        "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".lrmx"));
+                response.setContentType("text/xml;charset=UTF-8");
+
+                CadreInfoForm adform = getCadreAdform(cadreId);
+                zzb(adform, response.getWriter());
+            }
         } else {
 
             Map<String, File> fileMap = new LinkedHashMap<>();
@@ -113,21 +128,41 @@ public class CadreAdformService extends BaseMapper {
             Set<String> filenameSet = new HashSet<>();
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
-                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部任免审批表 " + cadre.getRealname() + ".doc";
+                String filename = null;
+                String filepath = null;
+                if(isWord) {
+                    filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                            + " 干部任免审批表 " + cadre.getRealname() + ".doc";
 
-                // 保证文件名不重复
-                if (filenameSet.contains(filename)) {
-                    filename = cadre.getCode() + " " + filename;
+                    // 保证文件名不重复
+                    if (filenameSet.contains(filename)) {
+                        filename = cadre.getCode() + " " + filename;
+                    }
+                    filenameSet.add(filename);
+
+                    filepath = tmpdir + FILE_SEPARATOR + filename;
+                    FileOutputStream output = new FileOutputStream(new File(filepath));
+                    OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+
+                    CadreInfoForm adform = getCadreAdform(cadreId);
+                    process(adform, osw);
+                }else{
+                    filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                            + " 干部任免审批表 " + cadre.getRealname() + ".lrmx";
+
+                    // 保证文件名不重复
+                    if (filenameSet.contains(filename)) {
+                        filename = cadre.getCode() + " " + filename;
+                    }
+                    filenameSet.add(filename);
+
+                    filepath = tmpdir + FILE_SEPARATOR + filename;
+                    FileOutputStream output = new FileOutputStream(new File(filepath));
+                    OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+                    CadreInfoForm adform = getCadreAdform(cadreId);
+
+                    zzb(adform, osw);
                 }
-                filenameSet.add(filename);
-
-                String filepath = tmpdir + FILE_SEPARATOR + filename;
-                FileOutputStream output = new FileOutputStream(new File(filepath));
-                OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
-
-                CadreInfoForm adform = getCadreAdform(cadreId);
-                process(adform, osw);
 
                 fileMap.put(filename, new File(filepath));
             }
@@ -305,7 +340,7 @@ public class CadreAdformService extends BaseMapper {
                 }
                 ArrayList<String> evaList = new ArrayList<>(evaMap.values());
                 Collections.reverse(evaList);
-                evaResult = StringUtils.join(evaList, ";");
+                evaResult = StringUtils.join(evaList, "；");
             }
         }
 
@@ -450,6 +485,8 @@ public class CadreAdformService extends BaseMapper {
         //String lineSeparator = System.getProperty("line.separator", "/n");
         for (org.jsoup.nodes.Element pElement : pElements) {
 
+            if (StringUtils.isBlank(pElement.text())) continue;
+
             String text = StringUtils.trimToEmpty(pElement.text());
             //System.out.println(rowStr);
 
@@ -524,7 +561,7 @@ public class CadreAdformService extends BaseMapper {
         ui.setNativePlace(nativePlace);
         ui.setHomeplace(homeplace);
 
-        if(StringUtils.isNotBlank(avatarBase64)) {
+        if (StringUtils.isNotBlank(avatarBase64)) {
             String tmpAvatarFile = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
                     DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR
                     + "lrmx" + FILE_SEPARATOR + "avatar" + FILE_SEPARATOR;

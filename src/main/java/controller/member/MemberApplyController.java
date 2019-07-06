@@ -196,7 +196,7 @@ public class MemberApplyController extends MemberBaseController {
             records.add(record);
         }
 
-        int successCount = memberApplyService.batchImport(records);
+        int addCount = memberApplyService.batchImport(records);
         int totalCount = records.size();
 
         applyApprovalLogService.add(null,
@@ -205,11 +205,15 @@ public class MemberApplyController extends MemberBaseController {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "批量导入",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 MessageFormat.format("操作成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
-                        totalCount, successCount, totalCount-successCount));
+                        totalCount, addCount, totalCount-addCount));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("successCount", successCount);
+        resultMap.put("successCount", addCount);
         resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入党员发展记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount-addCount));
 
         return resultMap;
     }

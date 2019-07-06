@@ -398,10 +398,17 @@ public class UnitController extends BaseController {
 
 
         Map<String, Object> retMap = unitService.batchImport(xlsRows);
+        int successCount = (int) retMap.get("success");
+        List<Map<Integer, String>> failedXlsRows = (List<Map<Integer, String>>) retMap.get("failedXlsRows");
+        int totalCount = xlsRows.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("successCount", retMap.get("success"));
-        resultMap.put("failedXlsRows", retMap.get("failedXlsRows"));
-        resultMap.put("total", xlsRows.size());
+        resultMap.put("successCount", successCount);
+        resultMap.put("failedXlsRows", failedXlsRows);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入单位成功，总共{0}条记录，其中成功导入{1}条记录，{2}条失败",
+                totalCount, successCount, failedXlsRows.size()));
 
         return resultMap;
     }
@@ -429,9 +436,15 @@ public class UnitController extends BaseController {
 
 
         Map<String, Object> retMap = unitService.batchImportCodes(xlsRows);
+        int successCount = (int) retMap.get("success");
+        int totalCount = xlsRows.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("successCount", retMap.get("success"));
-        resultMap.put("total", xlsRows.size());
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "批量更新单位编码成功，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, successCount));
 
         return resultMap;
     }

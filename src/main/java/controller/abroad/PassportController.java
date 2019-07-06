@@ -1012,11 +1012,15 @@ public class PassportController extends AbroadBaseController {
         }
 
         int successCount = passportService.batchImport(records);
+        int totalCount = records.size();
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
         resultMap.put("total", records.size());
 
+        logger.info(log(LogConstants.LOG_ABROAD,
+                "导入证件成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, successCount, totalCount - successCount));
         return resultMap;
     }
 

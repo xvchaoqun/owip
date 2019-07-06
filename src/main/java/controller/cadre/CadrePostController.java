@@ -442,9 +442,14 @@ public class CadrePostController extends BaseController {
                 records.add(record);
             }
 
-            int successCount = cadrePostService.batchImportMainPosts(records);
-            resultMap.put("successCount", successCount);
-            resultMap.put("total", records.size());
+            int addCount = cadrePostService.batchImportMainPosts(records);
+            int totalCount = records.size();
+            resultMap.put("successCount", addCount);
+            resultMap.put("total", totalCount);
+
+            logger.info(log(LogConstants.LOG_ADMIN,
+                "导入干部主职成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
         }else{
 
             for (Map<Integer, String> xlsRow : xlsRows) {
@@ -537,9 +542,14 @@ public class CadrePostController extends BaseController {
                 records.add(record);
             }
 
-            int successCount = cadrePostService.batchImportSubPosts(records);
-            resultMap.put("successCount", successCount);
-            resultMap.put("total", records.size());
+            int addCount = cadrePostService.batchImportSubPosts(records);
+            int totalCount = records.size();
+            resultMap.put("successCount", addCount);
+            resultMap.put("total", totalCount);
+
+            logger.info(log(LogConstants.LOG_ADMIN,
+                "导入干部兼职成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
         }
 
         return resultMap;

@@ -144,15 +144,22 @@ public class AbroadReportController extends AbroadBaseController {
         String schoolName = CmTag.getSysConfig().getSchoolName();
         map.put("unit", unit.startsWith(schoolName)?unit:(schoolName+unit));
         map.put("title", post);  // 职务
-        map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + to + ".jpg");
+        map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR
+                + "abroadApply" + FILE_SEPARATOR + to + ".jpg");
 
         String sign = ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png";
         String mobile = "";
         if (passportDraw != null) {
             if (passportDraw.getStatus() != null && passportDraw.getStatus() == AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS) {
                 SysUserView _user = sysUserService.findById(passportDraw.getUserId()); // 审核人
-                if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
-                    sign = springProps.uploadPath + _user.getSign();
+
+                if(CmTag.getBoolProperty("abroadContactUseSign")) {
+                    if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
+                        sign = springProps.uploadPath + _user.getSign();
+                }else{
+                    map.put("contactName", _user.getRealname());
+                }
+
                 mobile = _user.getPhone(); // 办公电话
             }
 
@@ -170,7 +177,7 @@ public class AbroadReportController extends AbroadBaseController {
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
         // 动态指定报表模板url
-        model.addAttribute("url", "/WEB-INF/jasper/abroad.jasper");
+        model.addAttribute("url", "/WEB-INF/jasper/abroadApply/abroad.jasper");
 
         model.addAttribute("format", format); // 报表格式
         model.addAttribute("image.zoom", 0.25f);
@@ -213,15 +220,22 @@ public class AbroadReportController extends AbroadBaseController {
         String schoolName = CmTag.getSysConfig().getSchoolName();
         map.put("unit", unit.startsWith(schoolName)?unit:(schoolName+unit));
         map.put("title", post);  // 职务
-        map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + to + ".jpg");
+        map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR
+                + "abroadApply" + FILE_SEPARATOR + to + ".jpg");
 
         String sign = ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png";
         String mobile = "";
         if (passportApply != null) {
             if (passportApply.getStatus() != null && passportApply.getStatus() == AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS) {
                 SysUserView _user = sysUserService.findById(passportApply.getUserId()); // 审核人
-                if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
-                    sign = springProps.uploadPath + _user.getSign();
+
+                if(CmTag.getBoolProperty("abroadContactUseSign")) {
+                    if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
+                        sign = springProps.uploadPath + _user.getSign();
+                }else{
+                    map.put("contactName", _user.getRealname());
+                }
+
                 mobile = _user.getPhone(); // 办公电话
             }
 
@@ -239,7 +253,7 @@ public class AbroadReportController extends AbroadBaseController {
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
         // 动态指定报表模板url
-        model.addAttribute("url", "/WEB-INF/jasper/abroad.jasper");
+        model.addAttribute("url", "/WEB-INF/jasper/abroadApply/abroad.jasper");
 
         model.addAttribute("format", format); // 报表格式
         model.addAttribute("image.zoom", 0.25f);

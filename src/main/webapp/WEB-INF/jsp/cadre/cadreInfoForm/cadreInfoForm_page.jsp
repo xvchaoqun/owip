@@ -496,7 +496,7 @@ td.padding10{
             </td>
             </tr>
         </c:forEach>
-        <c:if test="${fn:length(bean.cadreFamilys)<5}">
+        <c:if test="${fn:length(bean.cadreFamilys)<=5}">
         <c:forEach begin="0" end="${5-fn:length(bean.cadreFamilys)}">
         <tr class="r4">
             <td class="td15">

@@ -394,17 +394,15 @@ public class CadreService extends BaseMapper {
     public void cadrePartyImport(List<CadreParty> records) {
 
         for (CadreParty record : records) {
+
             int userId = record.getUserId();
             byte type = record.getType();
-
             CadreParty cadreParty = get(userId, type);
             if (cadreParty != null) {
                 record.setId(cadreParty.getId());
-                // 覆盖更新
-                cadrePartyMapper.updateByPrimaryKey(record);
-            } else {
-                cadrePartyMapper.insertSelective(record);
             }
+
+            addOrUPdateCadreParty(record);
         }
     }
 

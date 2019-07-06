@@ -80,4 +80,20 @@ public class CacheHelper {
     public void clearCadreCache() {
     }
 
+    // 清除系统基础数据缓存（用于后台数据库手动更新后）
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "SysResources", allEntries = true),
+            @CacheEvict(value = "UserRoles", allEntries = true),
+            @CacheEvict(value = "SysRoles", allEntries = true),
+            @CacheEvict(value = "MetaType:ALL", allEntries = true),
+            @CacheEvict(value = "MetaType:Code:ALL", allEntries = true),
+            @CacheEvict(value = "MetaTyes", allEntries = true),
+            @CacheEvict(value = "MetaClass:ALL", allEntries = true),
+            @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true),
+            @CacheEvict(value = "AnnualTypes", allEntries = true),
+    })
+    public void clearSysBaseCache() {
+    }
+
 }

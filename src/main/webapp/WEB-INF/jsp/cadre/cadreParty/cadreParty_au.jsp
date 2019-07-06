@@ -69,9 +69,8 @@
         <c:if test="${type==1}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">担任党派职务</label>
-
                 <div class="col-xs-6">
-                    <input class="form-control" type="text" name="post" value="${cadreParty.post}">
+                    <textarea class="form-control" name="post" rows="4">${cadreParty.post}</textarea>
                 </div>
             </div>
         </c:if>
@@ -79,7 +78,7 @@
             <label class="col-xs-3 control-label">备注</label>
 
             <div class="col-xs-6">
-                <textarea class="form-control limited" name="remark" rows="5">${cadreParty.remark}</textarea>
+                <textarea class="form-control limited" name="remark" rows="2">${cadreParty.remark}</textarea>
             </div>
         </div>
     </form>

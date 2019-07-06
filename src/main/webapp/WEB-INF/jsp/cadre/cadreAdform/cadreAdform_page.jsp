@@ -3,11 +3,11 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="tabbable myTableDiv">
     <shiro:hasPermission name="${PERMISSION_CADREONLYVIEW}">
-            <a href="javascript:;" class="downloadBtn btn btn-primary" data-url="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
+            <a href="javascript:;" class="downloadBtn btn btn-primary" data-url="${ctx}/cadreAdform_download?isWord=1&cadreId=${param.cadreId}">
                 <i class="ace-icon fa fa-download "></i>
                 下载(WORD)
             </a>
-            <a href="javascript:;" class="downloadBtn btn btn-success" data-url="${ctx}/cadreAdform_zzb?cadreId=${param.cadreId}">
+            <a href="javascript:;" class="downloadBtn btn btn-success" data-url="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
                 <i class="ace-icon fa fa-download "></i>
                 下载(中组部格式)
             </a>
@@ -22,11 +22,11 @@
             </li>--%>
             <c:if test="${type==1}">
             <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
-                <a href="javascript:;" class="downloadBtn btn btn-info btn-sm" data-url="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
+                <a href="javascript:;" class="downloadBtn btn btn-info btn-sm" data-url="${ctx}/cadreAdform_download?isWord=1&cadreId=${param.cadreId}">
                     <i class="ace-icon fa fa-download "></i>
                     下载(WORD)
                 </a>
-                <a href="javascript:;" class="downloadBtn btn btn-success btn-sm" data-url="${ctx}/cadreAdform_zzb?cadreId=${param.cadreId}">
+                <a href="javascript:;" class="downloadBtn btn btn-success btn-sm" data-url="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
                     <i class="ace-icon fa fa-download "></i>
                     下载(中组部格式)
                 </a>

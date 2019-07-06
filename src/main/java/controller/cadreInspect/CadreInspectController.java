@@ -287,10 +287,15 @@ public class CadreInspectController extends BaseController {
             records.add(record);
         }
 
-        int successCount = cadreInspectService.batchImport(records);
+        int addCount = cadreInspectService.batchImport(records);
+        int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("successCount", successCount);
+        resultMap.put("successCount", addCount);
         resultMap.put("total", records.size());
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入考察对象成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }
