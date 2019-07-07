@@ -2,6 +2,15 @@
 20190707
 更新南航，北邮，北航
 
+ALTER TABLE `sys_user_info`
+	CHANGE COLUMN `phone` `phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '办公电话' AFTER `unit`,
+	CHANGE COLUMN `home_phone` `home_phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '家庭电话' AFTER `phone`,
+	CHANGE COLUMN `mailing_address` `mailing_address` VARCHAR(100) NULL DEFAULT NULL COMMENT '通讯地址' AFTER `email`;
+
+ALTER TABLE `cadre_reward`
+	CHANGE COLUMN `unit` `unit` VARCHAR(300) NULL DEFAULT NULL COMMENT '颁奖单位' AFTER `name`;
+
+
 20190706
 更新南航，北邮，北航
 
