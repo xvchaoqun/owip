@@ -24,6 +24,17 @@ pageEncoding="UTF-8"%>
                                 $("select[name=modifyValue]").val('${record.modifyValue}');
                             </script>
                         </c:when>
+                        <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_INT && record.code=='political_status'}">
+                            <select required data-rel="select2" name="modifyValue"
+                                    data-placeholder="请选择" data-width="162">
+                                <option></option>
+                                <option value="0">中共党员</option>
+				                <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
+                            </select>
+                            <script type="text/javascript">
+                                $("select[name=modifyValue]").val('${record.modifyValue}');
+                            </script>
+                        </c:when>
                         <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_STRING}">
                             <input required class="form-control" type="text" name="modifyValue" value="${record.modifyValue}">
                         </c:when>

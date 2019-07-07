@@ -68,7 +68,7 @@
         <tr>
           <td>政治面貌</td>
           <td>
-            <c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
+            <%--<c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
             <input type="text"
                    data-code="political_status"
                    data-table=""
@@ -76,10 +76,41 @@
                    data-name="政治面貌"
                    data-original="${original}"
                    data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
-                   value="${original}">
+                   value="${original}">--%>
+
+              <c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
+            <c:if test="${fn:contains(original, ',')}">${original}</c:if><!--有多个党派不允许在此修改-->
+            <c:if test="${!fn:contains(original, ',')}">
+                  <c:choose>
+                      <c:when test="${cadre.dpTypeId>0}">
+                          <c:set var="original" value="${cadre.dpTypeId}"/>
+                      </c:when>
+                      <c:when test="${cadre.isOw}">
+                          <c:set var="original" value="0"/>
+                      </c:when>
+                  </c:choose>
+                  <select data-rel="select2" name="dpTypeId"
+                          data-code="political_status"
+                          data-table=""
+                          data-table-id-name=""
+                          data-name="政治面貌"
+                          data-original="${original}"
+                          data-type="${MODIFY_BASE_ITEM_TYPE_INT}"
+                          data-placeholder="请选择" data-width="162">
+                      <option></option>
+                      <option value="0">中共党员</option>
+                       <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
+                  </select>
+                  <script type="text/javascript">
+                      $("select[name=dpTypeId]").val(${original});
+                  </script>
+            </c:if>
           </td>
           <td>
             党派加入时间
+              <c:if test="${cadre.dpTypeId>0}">
+                <span>（${cm:getMetaType(cadre.dpTypeId).name}）</span>
+            </c:if>
           </td>
           <td>
               <c:choose>
@@ -102,7 +133,6 @@
                      value="${original}"/>
               <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
             </div>
-
           </td>
 
           <td>国家/地区</td>
@@ -178,17 +208,9 @@
           </td>
         </tr>
         <tr>
-          <td>健康状况</td>
+          <td><span class="star">*</span>健康状况</td>
           <td>
-            <c:set var="original" value="${uv.health}"/>
-            <%--<input type="text"
-                   data-code="health"
-                   data-table="sys_user_info"
-                   data-table-id-name="user_id"
-                   data-name="健康状况"
-                   data-original="${original}"
-                   data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
-                   value="${original}">--%>
+              <c:set var="original" value="${uv.health}"/>
               <select required data-rel="select2" name="health"
                       data-code="health"
                       data-table="sys_user_info"

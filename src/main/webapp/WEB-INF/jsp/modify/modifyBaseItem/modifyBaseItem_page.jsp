@@ -73,6 +73,9 @@
                             .format(encodeURI(cellvalue), "原头像");
                 }else if(rowObject.code=='health'){
                    return $.jgrid.formatter.MetaType(cellvalue, options, rowObject);
+                }else if(rowObject.code=='political_status'){
+                    if(cellvalue=='0') return '中共党员'
+                   return $.jgrid.formatter.MetaType(cellvalue, options, rowObject);
                 }else{
                     return cellvalue;
                 }
@@ -86,6 +89,9 @@
                             .format(path, "新头像");
                 }else if(rowObject.code=='health'){
                     return $.jgrid.formatter.MetaType(cellvalue, options, rowObject);
+                }else if(rowObject.code=='political_status'){
+                    if(cellvalue=='0') return '中共党员'
+                   return $.jgrid.formatter.MetaType(cellvalue, options, rowObject);
                 }else{
                     return cellvalue;
                 }

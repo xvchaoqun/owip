@@ -23,7 +23,7 @@
                             </button>
                             <button class="jqOpenViewBtn btn btn-success btn-sm"
                                     data-url="${ctx}/metaClass_type"
-                                    data-width="<shiro:hasPermission name="metaClass:viewAll">800</shiro:hasPermission><shiro:lacksPermission name="metaClass:viewAll">400</shiro:lacksPermission>">
+                                    data-width="<shiro:hasPermission name="metaClass:viewAll">800</shiro:hasPermission><shiro:lacksPermission name="metaClass:viewAll">600</shiro:lacksPermission>">
                                 <i class="fa fa-bars"></i> 编辑属性
                             </button>
                         </shiro:hasPermission>
@@ -111,7 +111,7 @@
     function openView(classId, pageNo){
         pageNo = pageNo||1;
         $.loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,
-            '<shiro:hasPermission name="metaClass:viewAll">800</shiro:hasPermission><shiro:lacksPermission name="metaClass:viewAll">400</shiro:lacksPermission>');
+            '<shiro:hasPermission name="metaClass:viewAll">800</shiro:hasPermission><shiro:lacksPermission name="metaClass:viewAll">600</shiro:lacksPermission>');
     }
 
     $.register.date($('.date-picker'));

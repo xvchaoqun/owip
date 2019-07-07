@@ -1,10 +1,13 @@
 package controller.modify;
 
+import domain.cadre.CadreParty;
 import domain.cadre.CadreView;
+import domain.member.Member;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;
 import domain.modify.ModifyBaseItemExample;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -14,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -97,16 +101,38 @@ public class ModifyBaseItemController extends ModifyBaseController{
         Integer userId = mba.getUserId();
         modelMap.put("sysUser", sysUserService.findById(userId));
         modelMap.put("cadre", cadreService.dbFindByUserId(userId));
+
+        String code = mbi.getCode();
+        if (StringUtils.equals(code, "grow_time")){
+
+            // 修改 党派加入时间，要判断一下当前账号是否拥有两个党派：
+
+            Member member = memberService.get(userId);
+            boolean isOwParty = (member!=null && (member.getStatus()==1 || member.getStatus()==4));
+            if(!isOwParty) {
+                CadreParty owParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                isOwParty = (owParty != null);
+            }
+            CadreParty dpParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+            boolean isDpParty = (dpParty != null);
+
+            modelMap.put("isOwParty", isOwParty);
+            modelMap.put("isDpParty", isDpParty);
+            modelMap.put("dpParty", dpParty);
+        }
+
         return "modify/modifyBaseItem/modifyBaseItem_approval";
     }
 
     @RequiresPermissions("modifyBaseItem:approval")
     @RequestMapping(value = "/modifyBaseItem_approval", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_modifyBaseItem_approval(Integer id, Boolean status, String checkRemark, String checkReason){
+    public Map do_modifyBaseItem_approval(Integer id, Boolean status,
+                                          Byte owType, // 党派类别 1: 中共党员 2： 民主党派，同时是两种党派时，默认为民主党派
+                                          String checkRemark, String checkReason){
 
         if (null != id){
-            modifyBaseItemService.approval(id, status, checkRemark, checkReason);
+            modifyBaseItemService.approval(id, status, owType, checkRemark, checkReason);
             logger.info(addLog(LogConstants.LOG_ADMIN, "审核基本信息修改申请：%s, %s", id, status));
         }
 

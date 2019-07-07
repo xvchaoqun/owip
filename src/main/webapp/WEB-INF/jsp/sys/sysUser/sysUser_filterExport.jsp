@@ -41,7 +41,9 @@
                         </label>
                     </div>
                 </div>
+                <c:if test="${_p_hasPartyModule}">
                 <span class="help-block">注：按身份证号查找时，按教职工、研究生、本科生的顺序读取第一个账号（如账号类型重复则忽略）</span>
+                </c:if>
             </div>
         </div>
         <div class="form-group">
@@ -80,6 +82,7 @@
                 </div>
             </div>
         </div>
+        <c:if test="${_p_hasPartyModule}">
         <div class="form-group">
             <label class="col-xs-4 control-label">类别</label>
             <div class="col-xs-8">
@@ -102,6 +105,7 @@
                 <span class="help-block">注：身份是干部时，此选项无效</span>
             </div>
         </div>
+        </c:if>
     </form>
     <div class="well" style="margin-bottom: 0">
         <ul>

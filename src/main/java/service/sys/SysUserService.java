@@ -60,6 +60,9 @@ public class SysUserService extends BaseMapper {
     public String buildRoleIds(String roleStr) {
 
         SysRole sysRole = sysRoleService.getByRole(roleStr);
+        if(sysRole==null){
+            throw new OpException("角色[{0}]不存在，请联系管理员。", roleStr);
+        }
         return SystemConstants.USER_ROLEIDS_SEPARTOR + sysRole.getId() + SystemConstants.USER_ROLEIDS_SEPARTOR;
     }
 
@@ -265,8 +268,10 @@ public class SysUserService extends BaseMapper {
         SysRole sysRole = sysRoleService.getByRole(role);
         SysRole toSysRole = sysRoleService.getByRole(toRole);
         Set<Integer> roleIdSet = getUserRoleIdSet(_sysUser.getRoleIds());
-        roleIdSet.remove(sysRole.getId());
-        roleIdSet.add(toSysRole.getId());
+        if(sysRole!=null)
+            roleIdSet.remove(sysRole.getId());
+        if(toSysRole!=null)
+            roleIdSet.add(toSysRole.getId());
 
         SysUser record = new SysUser();
         record.setId(userId);

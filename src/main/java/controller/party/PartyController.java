@@ -412,7 +412,7 @@ public class PartyController extends BaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "基层党组织_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "基层党组织(" + DateUtils.formatDate(new Date(), "yyyyMMddHH") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

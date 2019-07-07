@@ -1,7 +1,9 @@
 package persistence.modify.common;
 
+import domain.modify.ModifyBaseItem;
 import domain.modify.ModifyCadreAuth;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
@@ -21,6 +23,15 @@ public interface IModifyMapper {
                                  @Param("statusList") Byte[] statusList);
     // 删除指定类型的干部直接修改的权限
     public void removeAllCadres(@Param("cadreStatusSet") Set<Byte> cadreStatusSet);
+
+    // 查找某人名下的申请记录
+    @ResultMap("persistence.modify.ModifyBaseItemMapper.BaseResultMap")
+    @Select("SELECT mbi.* FROM modify_base_item mbi, " +
+            "modify_base_apply mba WHERE mbi.apply_id=mba.id " +
+            "AND mbi.code=#{code} AND mba.user_id=#{userId} AND mbi.status=#{status}")
+    List<ModifyBaseItem> selectModifyBaseItems(@Param("userId") int userId,
+                                               @Param("code") String code,
+                                               @Param("status") byte status);
 
     @Select("select cadre_id from modify_cadre_auth where is_unlimited=1 or " +
             "(is_unlimited=0 and ( (curdate() between start_time and end_time) " +

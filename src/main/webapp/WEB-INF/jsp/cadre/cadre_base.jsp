@@ -756,7 +756,10 @@
 							<tr>
 								<td>政治面貌</td>
 								<td>
-									<c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
+									<c:set var="cadreParty" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false)}"/>
+									<c:set var="original" value="${cadreParty.get('partyName')}"/>
+									<c:if test="${fn:contains(original, ',')}">${original}</c:if><!--有多个党派不允许在此修改-->
+									<c:if test="${!fn:contains(original, ',')}">
 									<c:if test="${member!=null}">${original}</c:if>
 									<c:if test="${member==null}">
 										<select data-rel="select2" name="dpTypeId" data-width="150" data-placeholder="请选择">
@@ -764,19 +767,24 @@
 											<option value="0">中共党员</option>
 											<jsp:include page="/metaTypes?__code=mc_democratic_party"/>
 										</select>
+										<div class="inline-block">注：政治面貌为“群众”等不在以上选项中的情况请留空</div>
+									</c:if>
 									</c:if>
 								</td>
 								<td>
 									党派加入时间
 								</td>
 								<td>
-									<c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}"/>
+									<c:set var="original" value="${cadreParty.get('growTime')}"/>
 									<c:if test="${member!=null}">${original}</c:if>
 									<c:if test="${member==null}">
 										<div class="input-group date" data-date-format="yyyy-mm-dd" style="width: 150px;">
 											<input class="form-control" type="text" name="_dpAddTime" placeholder="yyyy-mm-dd"/>
 											<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 										</div>
+										<c:if test="${cadre.dpTypeId>0}">
+											<span class="help-block">${cm:getMetaType(cadre.dpTypeId).name}</span>
+										</c:if>
 									</c:if>
 									<script type="text/javascript">
 										<c:choose>

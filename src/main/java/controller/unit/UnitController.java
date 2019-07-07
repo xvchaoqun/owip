@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.ext.ExtUnitService;
 import service.unit.UnitExportService;
+import shiro.ShiroHelper;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -157,6 +158,13 @@ public class UnitController extends BaseController {
                 criteria.andIdIn(Arrays.asList(ids));
             XSSFWorkbook wb = unitExportService.toXlsx(example);
             ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() + "单位一览表.xlsx", response);
+            return;
+        } else if (export == 2) {
+
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+
+            unit_export(example, response);
             return;
         }
 
@@ -373,6 +381,64 @@ public class UnitController extends BaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    public void unit_export(UnitViewExample example, HttpServletResponse response) {
+
+        List<UnitView> records = unitViewMapper.selectByExample(example);
+        int rownum = records.size();
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"单位编号|100", "单位名称|350|left", "单位类型|150"}));
+
+        boolean isUnitPostAdmin = ShiroHelper.isPermitted("unitPost:*");
+        boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
+        if (isUnitPostAdmin) {
+            titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正处级岗位数|70",
+                    "副处级岗位数|70", "无行政级别岗位数|70"})));
+            if (hasKjCadre) {
+                titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正科级岗位数|70", "副科级岗位数|70"})));
+            }
+            titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正处级干部职数|70",
+                    "副处级干部职数|70", "无行政级别干部职数|90"})));
+            if (hasKjCadre) {
+                titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正科级干部职数|70", "副科级干部职数|70"})));
+            }
+        }
+
+        List<List<String>> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            UnitView record = records.get(i);
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
+                    record.getCode(),
+                    record.getName(),
+                    metaTypeService.getName(record.getTypeId())
+            }));
+
+            if (isUnitPostAdmin) {
+                values.addAll(new ArrayList<>(Arrays.asList(new String[]{
+                        NumberUtils.trimToZero(record.getMainPostCount()) + "",
+                        NumberUtils.trimToZero(record.getVicePostCount()) + "",
+                        NumberUtils.trimToZero(record.getNonePostCount()) + ""})));
+                if (hasKjCadre) {
+                    values.addAll(new ArrayList<>(Arrays.asList(new String[]{
+                            NumberUtils.trimToZero(record.getMainKjPostCount()) + "",
+                            NumberUtils.trimToZero(record.getViceKjPostCount()) + ""})));
+                }
+                values.addAll(new ArrayList<>(Arrays.asList(new String[]{
+                        NumberUtils.trimToZero(record.getMainCount()) + "",
+                        NumberUtils.trimToZero(record.getViceCount()) + "",
+                        NumberUtils.trimToZero(record.getNoneCount()) + ""})));
+                if (hasKjCadre) {
+                    values.addAll(new ArrayList<>(Arrays.asList(new String[]{
+                            NumberUtils.trimToZero(record.getMainKjCount()) + "",
+                            NumberUtils.trimToZero(record.getMainKjCount()) + ""})));
+                }
+            }
+
+            valuesList.add(values);
+        }
+
+        String fileName = "单位列表(" + DateUtils.formatDate(new Date(), "yyyyMMddHH") + ")";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     // 导入单位
