@@ -612,6 +612,66 @@ public class PassportApplyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andOpUserIdIsNull() {
+            addCriterion("op_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdIsNotNull() {
+            addCriterion("op_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdEqualTo(Integer value) {
+            addCriterion("op_user_id =", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdNotEqualTo(Integer value) {
+            addCriterion("op_user_id <>", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdGreaterThan(Integer value) {
+            addCriterion("op_user_id >", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("op_user_id >=", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdLessThan(Integer value) {
+            addCriterion("op_user_id <", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("op_user_id <=", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdIn(List<Integer> values) {
+            addCriterion("op_user_id in", values, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdNotIn(List<Integer> values) {
+            addCriterion("op_user_id not in", values, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("op_user_id between", value1, value2, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("op_user_id not between", value1, value2, "opUserId");
+            return (Criteria) this;
+        }
+
         public Criteria andExpectDateIsNull() {
             addCriterion("expect_date is null");
             return (Criteria) this;
@@ -992,6 +1052,66 @@ public class PassportApplyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
         public Criteria andPassportIdIsNull() {
             addCriterion("passport_id is null");
             return (Criteria) this;
@@ -1119,66 +1239,6 @@ public class PassportApplyViewExample {
 
         public Criteria andCodeNotBetween(String value1, String value2) {
             addCriterion("code not between", value1, value2, "code");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedIsNull() {
-            addCriterion("is_deleted is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedIsNotNull() {
-            addCriterion("is_deleted is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedEqualTo(Boolean value) {
-            addCriterion("is_deleted =", value, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedNotEqualTo(Boolean value) {
-            addCriterion("is_deleted <>", value, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedGreaterThan(Boolean value) {
-            addCriterion("is_deleted >", value, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_deleted >=", value, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedLessThan(Boolean value) {
-            addCriterion("is_deleted <", value, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_deleted <=", value, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedIn(List<Boolean> values) {
-            addCriterion("is_deleted in", values, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedNotIn(List<Boolean> values) {
-            addCriterion("is_deleted not in", values, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_deleted between", value1, value2, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
     }

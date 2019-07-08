@@ -211,11 +211,16 @@ pageEncoding="UTF-8" %>
             <c:if test="${status!=ABROAD_PASSPORT_APPLY_STATUS_INIT}">
             { label: '审批人', name: 'approvalUser.realname', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.approvalUser==undefined) return '--'
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
-                        .format(rowObject.approvalUser.id, cellvalue);
+                return $.user(rowObject.approvalUser.id, cellvalue);
             }},
             { label:'审批日期',name: 'approveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-                </c:if>
+            </c:if>
+            <c:if test="${!_p_abroadContactUseSign}">
+            { label: '操作人', name: 'opUser.realname', formatter:function(cellvalue, options, rowObject){
+                if(rowObject.approvalUser==undefined) return '--'
+                return $.user(rowObject.opUser.id, cellvalue);
+            }},
+            </c:if>
             <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_PASS ||status==3}">
             { label:'应交日期', name: 'expectDate',cellattr:function(rowId, val, rowObject, cm, rdata) {
                 <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_PASS}">

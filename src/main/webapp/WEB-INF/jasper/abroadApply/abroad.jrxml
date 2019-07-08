@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="country" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0c56f016-5d6c-46eb-85c2-0d7144b9a76f">
 	<property name="ireport.zoom" value="0.4665073802097333"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="528"/>
+	<property name="ireport.y" value="432"/>
 	<style name="zh_CN" isDefault="true" hAlign="Center" vAlign="Middle" fontName="新宋体" fontSize="16" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="bg" class="java.lang.String"/>
@@ -68,7 +68,7 @@
 				<reportElement x="1379" y="1518" width="300" height="200" uuid="4dea5254-6049-4add-88aa-8c3651cdbdcc"/>
 				<imageExpression><![CDATA[$F{sign}]]></imageExpression>
 			</image>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="1379" y="1731" width="464" height="79" uuid="5d67aeb6-7117-4bf3-9f31-bb796725a985"/>
 				<textElement textAlignment="Left">
 					<font fontName="宋体" size="60"/>

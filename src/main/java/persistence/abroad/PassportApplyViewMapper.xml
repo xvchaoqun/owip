@@ -1,44 +1,45 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.abroad.PassportApplyViewMapper" >
-  <resultMap id="BaseResultMap" type="domain.abroad.PassportApplyView" >
-    <result column="id" property="id" jdbcType="INTEGER" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="class_id" property="classId" jdbcType="INTEGER" />
-    <result column="apply_date" property="applyDate" jdbcType="DATE" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="abolish" property="abolish" jdbcType="BIT" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="approve_time" property="approveTime" jdbcType="TIMESTAMP" />
-    <result column="expect_date" property="expectDate" jdbcType="DATE" />
-    <result column="handle_date" property="handleDate" jdbcType="DATE" />
-    <result column="handle_user_id" property="handleUserId" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="ip" property="ip" jdbcType="VARCHAR" />
-    <result column="passport_id" property="passportId" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.abroad.PassportApplyViewMapper">
+  <resultMap id="BaseResultMap" type="domain.abroad.PassportApplyView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="apply_date" jdbcType="DATE" property="applyDate" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="abolish" jdbcType="BIT" property="abolish" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="approve_time" jdbcType="TIMESTAMP" property="approveTime" />
+    <result column="op_user_id" jdbcType="INTEGER" property="opUserId" />
+    <result column="expect_date" jdbcType="DATE" property="expectDate" />
+    <result column="handle_date" jdbcType="DATE" property="handleDate" />
+    <result column="handle_user_id" jdbcType="INTEGER" property="handleUserId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="passport_id" jdbcType="INTEGER" property="passportId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -49,25 +50,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -78,219 +79,231 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, cadre_id, class_id, apply_date, status, abolish, user_id, approve_time, expect_date, 
-    handle_date, handle_user_id, remark, create_time, ip, passport_id, code, is_deleted
+  <sql id="Base_Column_List">
+    id, cadre_id, class_id, apply_date, status, abolish, user_id, approve_time, op_user_id, 
+    expect_date, handle_date, handle_user_id, remark, create_time, ip, is_deleted, passport_id, 
+    code
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.abroad.PassportApplyViewExample" >
+  <select id="selectByExample" parameterType="domain.abroad.PassportApplyViewExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from abroad_passport_apply_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="domain.abroad.PassportApplyViewExample" >
+  <delete id="deleteByExample" parameterType="domain.abroad.PassportApplyViewExample">
     delete from abroad_passport_apply_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.abroad.PassportApplyView" >
+  <insert id="insert" parameterType="domain.abroad.PassportApplyView">
     insert into abroad_passport_apply_view (id, cadre_id, class_id, 
       apply_date, status, abolish, 
-      user_id, approve_time, expect_date, 
-      handle_date, handle_user_id, remark, 
-      create_time, ip, passport_id, 
-      code, is_deleted)
+      user_id, approve_time, op_user_id, 
+      expect_date, handle_date, handle_user_id, 
+      remark, create_time, ip, 
+      is_deleted, passport_id, code
+      )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
       #{applyDate,jdbcType=DATE}, #{status,jdbcType=TINYINT}, #{abolish,jdbcType=BIT}, 
-      #{userId,jdbcType=INTEGER}, #{approveTime,jdbcType=TIMESTAMP}, #{expectDate,jdbcType=DATE}, 
-      #{handleDate,jdbcType=DATE}, #{handleUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{passportId,jdbcType=INTEGER}, 
-      #{code,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
+      #{userId,jdbcType=INTEGER}, #{approveTime,jdbcType=TIMESTAMP}, #{opUserId,jdbcType=INTEGER}, 
+      #{expectDate,jdbcType=DATE}, #{handleDate,jdbcType=DATE}, #{handleUserId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=BIT}, #{passportId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.abroad.PassportApplyView" >
+  <insert id="insertSelective" parameterType="domain.abroad.PassportApplyView">
     insert into abroad_passport_apply_view
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="classId != null" >
+      <if test="classId != null">
         class_id,
       </if>
-      <if test="applyDate != null" >
+      <if test="applyDate != null">
         apply_date,
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status,
       </if>
-      <if test="abolish != null" >
+      <if test="abolish != null">
         abolish,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="approveTime != null" >
+      <if test="approveTime != null">
         approve_time,
       </if>
-      <if test="expectDate != null" >
+      <if test="opUserId != null">
+        op_user_id,
+      </if>
+      <if test="expectDate != null">
         expect_date,
       </if>
-      <if test="handleDate != null" >
+      <if test="handleDate != null">
         handle_date,
       </if>
-      <if test="handleUserId != null" >
+      <if test="handleUserId != null">
         handle_user_id,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         ip,
       </if>
-      <if test="passportId != null" >
-        passport_id,
-      </if>
-      <if test="code != null" >
-        code,
-      </if>
-      <if test="isDeleted != null" >
+      <if test="isDeleted != null">
         is_deleted,
       </if>
+      <if test="passportId != null">
+        passport_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="classId != null" >
+      <if test="classId != null">
         #{classId,jdbcType=INTEGER},
       </if>
-      <if test="applyDate != null" >
+      <if test="applyDate != null">
         #{applyDate,jdbcType=DATE},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="abolish != null" >
+      <if test="abolish != null">
         #{abolish,jdbcType=BIT},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="approveTime != null" >
+      <if test="approveTime != null">
         #{approveTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="expectDate != null" >
+      <if test="opUserId != null">
+        #{opUserId,jdbcType=INTEGER},
+      </if>
+      <if test="expectDate != null">
         #{expectDate,jdbcType=DATE},
       </if>
-      <if test="handleDate != null" >
+      <if test="handleDate != null">
         #{handleDate,jdbcType=DATE},
       </if>
-      <if test="handleUserId != null" >
+      <if test="handleUserId != null">
         #{handleUserId,jdbcType=INTEGER},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="passportId != null" >
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="passportId != null">
         #{passportId,jdbcType=INTEGER},
       </if>
-      <if test="code != null" >
+      <if test="code != null">
         #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null" >
-        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.abroad.PassportApplyViewExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.abroad.PassportApplyViewExample" resultType="java.lang.Long">
     select count(*) from abroad_passport_apply_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update abroad_passport_apply_view
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cadreId != null" >
+      <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.classId != null" >
+      <if test="record.classId != null">
         class_id = #{record.classId,jdbcType=INTEGER},
       </if>
-      <if test="record.applyDate != null" >
+      <if test="record.applyDate != null">
         apply_date = #{record.applyDate,jdbcType=DATE},
       </if>
-      <if test="record.status != null" >
+      <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.abolish != null" >
+      <if test="record.abolish != null">
         abolish = #{record.abolish,jdbcType=BIT},
       </if>
-      <if test="record.userId != null" >
+      <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.approveTime != null" >
+      <if test="record.approveTime != null">
         approve_time = #{record.approveTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.expectDate != null" >
+      <if test="record.opUserId != null">
+        op_user_id = #{record.opUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.expectDate != null">
         expect_date = #{record.expectDate,jdbcType=DATE},
       </if>
-      <if test="record.handleDate != null" >
+      <if test="record.handleDate != null">
         handle_date = #{record.handleDate,jdbcType=DATE},
       </if>
-      <if test="record.handleUserId != null" >
+      <if test="record.handleUserId != null">
         handle_user_id = #{record.handleUserId,jdbcType=INTEGER},
       </if>
-      <if test="record.remark != null" >
+      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.ip != null" >
+      <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
-      <if test="record.passportId != null" >
-        passport_id = #{record.passportId,jdbcType=INTEGER},
-      </if>
-      <if test="record.code != null" >
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isDeleted != null" >
+      <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
+      <if test="record.passportId != null">
+        passport_id = #{record.passportId,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update abroad_passport_apply_view
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -300,30 +313,31 @@
       abolish = #{record.abolish,jdbcType=BIT},
       user_id = #{record.userId,jdbcType=INTEGER},
       approve_time = #{record.approveTime,jdbcType=TIMESTAMP},
+      op_user_id = #{record.opUserId,jdbcType=INTEGER},
       expect_date = #{record.expectDate,jdbcType=DATE},
       handle_date = #{record.handleDate,jdbcType=DATE},
       handle_user_id = #{record.handleUserId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       passport_id = #{record.passportId,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
-      is_deleted = #{record.isDeleted,jdbcType=BIT}
-    <if test="_parameter != null" >
+      code = #{record.code,jdbcType=VARCHAR}
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.abroad.PassportApplyViewExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.abroad.PassportApplyViewExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from abroad_passport_apply_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

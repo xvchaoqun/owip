@@ -1,6 +1,7 @@
 <%@ page import="sys.constants.AbroadConstants" %>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set value="${_pMap['abroadContactUseSign']=='true'}" var="_p_abroadContactUseSign"/>
 
 <c:set var="ABROAD_APPLY_SELF_DATE_TYPE_MAP" value="<%=AbroadConstants.ABROAD_APPLY_SELF_DATE_TYPE_MAP%>"/>
 <c:set var="ABROAD_PASSPORT_DRAW_TYPE_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP%>"/>

@@ -72,6 +72,7 @@ public class PassportApplyController extends AbroadBaseController {
 
         record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS);
         record.setUserId(getAbroadApplyConcatUserId());
+        record.setOpUserId(ShiroHelper.getCurrentUserId());
         record.setApproveTime(new Date());
 
         passportApplyService.updateByPrimaryKeySelective(record);
@@ -91,6 +92,7 @@ public class PassportApplyController extends AbroadBaseController {
 
         record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS);
         record.setUserId(getAbroadApplyConcatUserId());
+        record.setOpUserId(ShiroHelper.getCurrentUserId());
         record.setApproveTime(new Date());
 
         passportApplyService.updateByPrimaryKeySelective(record);
@@ -190,7 +192,7 @@ public class PassportApplyController extends AbroadBaseController {
             criteria.andCodeLike(SqlUtils.like(code));
         }
 
-        int count = passportApplyViewMapper.countByExample(example);
+        int count = (int) passportApplyViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -234,6 +236,7 @@ public class PassportApplyController extends AbroadBaseController {
             record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS);
             record.setAbolish(false);
             record.setUserId(getAbroadApplyConcatUserId());
+            record.setOpUserId(ShiroHelper.getCurrentUserId());
             record.setHandleUserId(currentUserId);
             record.setIsDeleted(false);
             record.setCreateTime(new Date());
@@ -434,6 +437,7 @@ public class PassportApplyController extends AbroadBaseController {
             record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS);
             record.setAbolish(false);
             record.setUserId(getAbroadApplyConcatUserId());
+            record.setOpUserId(ShiroHelper.getCurrentUserId());
             record.setHandleUserId(currentUserId);
             record.setIsDeleted(false);
 
@@ -460,7 +464,7 @@ public class PassportApplyController extends AbroadBaseController {
     public void passportApply_export(PassportApplyViewExample example, HttpServletResponse response) {
 
         List<PassportApplyView> passportApplys = passportApplyViewMapper.selectByExample(example);
-        int rownum = passportApplyViewMapper.countByExample(example);
+        int rownum = (int) passportApplyViewMapper.countByExample(example);
 
         String[] titles = {"申请日期|100", "工作证号|100", "姓名|100", "所在单位及职务|300|left",
                 "申办证件名称|100", "审批状态|100", "审批人|100",

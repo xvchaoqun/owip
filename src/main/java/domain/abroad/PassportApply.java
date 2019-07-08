@@ -36,9 +36,11 @@ public class PassportApply implements Serializable {
     }
 
     public SysUserView getApprovalUser(){
-        if(userId!=null)
-            return CmTag.getUserById(userId);
-        return null;
+        return CmTag.getUserById(userId);
+    }
+
+    public SysUserView getOpUser(){
+        return CmTag.getUserById(opUserId);
     }
     public MetaType getPassportClass(){
 
@@ -67,6 +69,8 @@ public class PassportApply implements Serializable {
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date approveTime;
+
+    private Integer opUserId;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date expectDate;
@@ -148,6 +152,14 @@ public class PassportApply implements Serializable {
 
     public void setApproveTime(Date approveTime) {
         this.approveTime = approveTime;
+    }
+
+    public Integer getOpUserId() {
+        return opUserId;
+    }
+
+    public void setOpUserId(Integer opUserId) {
+        this.opUserId = opUserId;
     }
 
     public Date getExpectDate() {

@@ -612,6 +612,66 @@ public class PassportApplyExample {
             return (Criteria) this;
         }
 
+        public Criteria andOpUserIdIsNull() {
+            addCriterion("op_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdIsNotNull() {
+            addCriterion("op_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdEqualTo(Integer value) {
+            addCriterion("op_user_id =", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdNotEqualTo(Integer value) {
+            addCriterion("op_user_id <>", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdGreaterThan(Integer value) {
+            addCriterion("op_user_id >", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("op_user_id >=", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdLessThan(Integer value) {
+            addCriterion("op_user_id <", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("op_user_id <=", value, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdIn(List<Integer> values) {
+            addCriterion("op_user_id in", values, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdNotIn(List<Integer> values) {
+            addCriterion("op_user_id not in", values, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("op_user_id between", value1, value2, "opUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("op_user_id not between", value1, value2, "opUserId");
+            return (Criteria) this;
+        }
+
         public Criteria andExpectDateIsNull() {
             addCriterion("expect_date is null");
             return (Criteria) this;

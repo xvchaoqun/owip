@@ -34,9 +34,10 @@ public class PassportApplyView implements Serializable {
     }
 
     public SysUserView getApprovalUser(){
-        if(userId!=null)
-            return CmTag.getUserById(userId);
-        return null;
+        return CmTag.getUserById(userId);
+    }
+    public SysUserView getOpUser(){
+        return CmTag.getUserById(opUserId);
     }
     public MetaType getPassportClass(){
 
@@ -67,6 +68,8 @@ public class PassportApplyView implements Serializable {
 
     private Date approveTime;
 
+    private Integer opUserId;
+
     private Date expectDate;
 
     private Date handleDate;
@@ -79,11 +82,11 @@ public class PassportApplyView implements Serializable {
 
     private String ip;
 
+    private Boolean isDeleted;
+
     private Integer passportId;
 
     private String code;
-
-    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -151,6 +154,14 @@ public class PassportApplyView implements Serializable {
         this.approveTime = approveTime;
     }
 
+    public Integer getOpUserId() {
+        return opUserId;
+    }
+
+    public void setOpUserId(Integer opUserId) {
+        this.opUserId = opUserId;
+    }
+
     public Date getExpectDate() {
         return expectDate;
     }
@@ -199,6 +210,14 @@ public class PassportApplyView implements Serializable {
         this.ip = ip == null ? null : ip.trim();
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     public Integer getPassportId() {
         return passportId;
     }
@@ -213,13 +232,5 @@ public class PassportApplyView implements Serializable {
 
     public void setCode(String code) {
         this.code = code == null ? null : code.trim();
-    }
-
-    public Boolean getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 }

@@ -152,7 +152,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         CadreView cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
 
-        int count = passportApplyMapper.countByExample(example);
+        int count = (int) passportApplyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
