@@ -15,7 +15,7 @@ public class CadreParty implements Serializable {
 
     private Integer classId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date growTime;
 
     private String post;

@@ -59,9 +59,9 @@
             <label class="col-xs-3 control-label">党派加入时间</label>
 
             <div class="col-xs-6">
-                <div class="input-group" style="width: 120px">
-                    <input class="form-control date-picker" name="growTime" type="text" placeholder="yyyy.mm"
-                           data-date-format="yyyy.mm" value="${cm:formatDate(cadreParty.growTime,'yyyy.MM')}"/>
+                <div class="input-group" style="width: 130px">
+                    <input class="form-control date-picker" name="growTime" type="text" placeholder="yyyy.mm.dd"
+                           data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreParty.growTime,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>

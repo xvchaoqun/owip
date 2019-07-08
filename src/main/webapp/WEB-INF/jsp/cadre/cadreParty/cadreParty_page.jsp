@@ -142,11 +142,11 @@
             },
             <c:if test="${type==1}">
             {label: '民主党派', name: 'dpTypeId', formatter: $.jgrid.formatter.MetaType},
-            {label: '党派加入时间', name: 'dpGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, width: 110},
+            {label: '党派加入时间', name: 'dpGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, width: 110},
             {label: '担任党派职务', name: 'dpPost',align:'left',  width: 250},
             </c:if>
             <c:if test="${type==2}">
-            {label: '党派加入时间', name: 'owGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, width: 110},
+            {label: '党派加入时间', name: 'owGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, width: 110},
             <c:if test="${_p_hasPartyModule}">
             {
                 label: '是否存在于党员信息库', width: 180, name: 'memberStatus', formatter: function (cellvalue, options, rowObject) {

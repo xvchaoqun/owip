@@ -1,6 +1,6 @@
 
 20190707
-更新南航，北邮，北航
+更新南航，北邮，北航，西交大，哈工大
 
 ALTER TABLE `sys_user_info`
 	CHANGE COLUMN `phone` `phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '办公电话' AFTER `unit`,
