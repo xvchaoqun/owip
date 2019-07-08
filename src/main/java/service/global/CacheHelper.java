@@ -92,6 +92,7 @@ public class CacheHelper {
             @CacheEvict(value = "MetaClass:ALL", allEntries = true),
             @CacheEvict(value = "MetaClass:Code:ALL", allEntries = true),
             @CacheEvict(value = "AnnualTypes", allEntries = true),
+            @CacheEvict(value = "schoolUnits", allEntries = true),
     })
     public void clearSysBaseCache() {
     }

@@ -20,9 +20,9 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label"><span class="star">*</span>学历</label>
+					<label class="col-xs-5 control-label">学历</label>
 					<div class="col-xs-7">
-						<select required data-rel="select2" name="eduId"
+						<select data-rel="select2" name="eduId"
 								data-placeholder="请选择" data-width="193">
 							<option></option>
 							<c:import url="/metaTypes?__code=mc_edu"/>

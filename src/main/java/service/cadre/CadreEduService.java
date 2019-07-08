@@ -227,6 +227,10 @@ public class CadreEduService extends BaseMapper {
         //record.setStatus(null);
         cadreEduMapper.updateByPrimaryKey(record);
 
+        // 学历允许为空（有些特殊时期只有学位，没有学历）
+        if(record.getEduId()==null){
+            commonMapper.excuteSql("update cadre_edu set edu_id=null where id="+ record.getId());
+        }
         /*if(!record.getHasDegree()){ // 没有获得学位，清除学位名称等字段
             updateMapper.del_caderEdu_hasDegree(record.getId());
         }*/

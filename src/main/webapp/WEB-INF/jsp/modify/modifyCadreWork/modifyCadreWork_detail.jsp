@@ -141,7 +141,7 @@
     $("td[data-code]").each(function(){
         var $this = $(this);
         var code = $this.data("code");
-        if(modify[code]!=original[code]){
+        if($.trim(modify[code])!=$.trim(original[code])){
             $this.addClass("text-danger bolder");
         }
     });

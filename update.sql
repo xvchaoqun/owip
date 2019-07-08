@@ -1,4 +1,5 @@
-
+20190708
+西交大，南航 北师大xxx
 
 ALTER TABLE `abroad_passport_apply`
 	ADD COLUMN `op_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '操作人，当审批人书写人名时，需要记录操作人' AFTER `approve_time`;
@@ -7,6 +8,8 @@ CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `abroad_passport_ap
 select apa.`*` , ap.id as passport_id, ap.code from abroad_passport_apply apa  left join abroad_passport ap on ap.apply_id=apa.id ;
 
 UPDATE abroad_passport_apply SET op_user_id = user_id;
+
+-- 更新导入样表
 
 20190707
 更新南航，北邮，北航，西交大，哈工大
