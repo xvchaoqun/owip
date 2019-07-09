@@ -136,6 +136,6 @@ public interface IAbroadMapper {
     @Update("update abroad_passport_draw apd, abroad_passport p set p.is_lent=1, apd.draw_status="+AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW
             +" , apd.use_record=null, apd.attachment_filename=null,apd.attachment=null, apd.real_start_date=null, apd.real_end_date=null," +
             "apd.real_to_country=null, apd.return_remark=null," +
-            "apd.use_passport=null, apd.real_return_date=null where apd.id=#{id} and p.id=apd.passport_id")
+            "apd.use_passport=-1, apd.real_return_date=null where apd.id=#{id} and p.id=apd.passport_id")
     int resetReturnPassport(@Param("id") int id);
 }

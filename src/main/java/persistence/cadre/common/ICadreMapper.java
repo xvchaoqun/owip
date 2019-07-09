@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import sys.constants.CadreConstants;
+import sys.constants.SystemConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -134,31 +135,34 @@ public interface ICadreMapper {
 
     // 统计干部兼职情况  干部-兼职类别-数量
     @Select("select cadre_id, type, count(*) as num from cadre_company_view " +
-            "where cadre_status in(${cadreStatus}) group by cadre_id, type " +
+            "where cadre_status in(${cadreStatus}) and is_finished=0 and status="+ SystemConstants.RECORD_STATUS_FORMAL
+            +" group by cadre_id, type " +
             "order by field(cadre_status, 2,5,3,1,4,6) desc, cadre_sort_order desc")
     List<Map> cadreCompany_statMap(@Param("cadreStatus") String cadreStatus);
 
     // 干部兼职汇总   兼职类型、是否双肩挑
     @Select("select is_double, type, count(*) num, count(distinct cadre_id) as person_num " +
-            "from cadre_company_view cc where cadre_status=1 group by is_double, type")
+            "from cadre_company_view cc where cadre_status=1 and is_finished=0 and status="+SystemConstants.RECORD_STATUS_FORMAL
+            +" group by is_double, type")
     List<Map> cadreCompany_doubleStatMap();
 
     // 干部兼职汇总   兼职类型、单位类型
     @Select("select unit_type_group, type, count(*) num, count(distinct cadre_id) as person_num " +
-            "from cadre_company_view cc where cadre_status=1 " +
-            "group by unit_type_group, type")
+            "from cadre_company_view cc where cadre_status=1 and is_finished=0 and status="+SystemConstants.RECORD_STATUS_FORMAL +
+            " group by unit_type_group, type")
     List<Map> cadreCompany_unitTypeGroupStatMap();
 
     // 干部兼职汇总   兼职类型、行政级别
     @Select("select admin_level, type, count(*) num, count(distinct cadre_id) as person_num " +
-            "from cadre_company_view cc where cadre_status=1 " +
-            "and admin_level_code in('mt_admin_level_main','mt_admin_level_vice','mt_admin_level_none') " +
+            "from cadre_company_view cc where cadre_status=1 and is_finished=0 and status="+SystemConstants.RECORD_STATUS_FORMAL +
+            " and admin_level_code in('mt_admin_level_main','mt_admin_level_vice','mt_admin_level_none') " +
             "group by admin_level, type")
     List<Map> cadreCompany_adminLevelStatMap();
 
     // 干部兼职汇总   合计
     @Select("select type, count(*) num, count(distinct cadre_id) as person_num " +
-            "from cadre_company_view cc where cadre_status=1 group by  type")
+            "from cadre_company_view cc where cadre_status=1 and is_finished=0 and status="+SystemConstants.RECORD_STATUS_FORMAL
+            +" group by  type")
     List<Map> cadreCompany_typeStatMap();
 
 }

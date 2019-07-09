@@ -19,6 +19,44 @@
                             ${module==1?'校领导兼职管理文件':'干部兼职管理文件'}
                     </button>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="cadreCompany:edit">
+                    <c:if test="${cls!=10}">
+                    <button class="popupBtn btn btn-success btn-sm" data-width="800"
+                       data-url="${ctx}/cadreCompany_au?isFinished=${cls==1?0:1}"><i class="fa fa-plus"></i>
+                        添加</button>
+                    </c:if>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/cadreCompany_au" data-width="800"
+                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                        修改</button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="cadreCompany:finish">
+                    <c:if test="${cls==1}">
+                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                            data-url="${ctx}/cadreCompany_finish"
+                            data-grid-id="#jqGrid"><i class="fa fa-dot-circle-o"></i>
+                        兼职结束</button>
+                    </c:if>
+                    <c:if test="${cls==2}">
+                    <button class="jqItemBtn btn btn-success btn-sm"
+                            data-msg="确认返回正在兼职？"
+                            data-url="${ctx}/cadreCompany_finish"
+                            data-grid-id="#jqGrid"
+                            data-callback="_reload2"
+                            data-querystr="isFinished=0"><i class="fa fa-reply"></i>
+                        返回正在兼职</button>
+                    </c:if>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="cadreCompany:del">
+                    <button data-url="${ctx}/cadreCompany_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-times"></i> 删除
+                    </button>
+                </shiro:hasPermission>
+
                 <c:if test="${cls==1}">
                     <c:if test="${module==1}">
                         <div class="btn-group">
@@ -61,9 +99,9 @@
                             <i class="fa fa-download"></i> 导出</a>
                     </c:if>
                 </c:if>
-                <c:if test="${cls==1}">
+                <c:if test="${cls==1||cls==2}">
                     <shiro:hasPermission name="cadreCompanyList:import">
-                    <span class="text-primary" style="padding-left: 10px">【注：如需单个添加兼职，请进入干部档案页操作】</span>
+                    <span class="text-primary" style="padding-left: 10px">【注：此处仅包含现任干部兼职情况，可在“全部兼职”列表中查看离任干部的兼职情况】</span>
                     </shiro:hasPermission>
                 </c:if>
             </div>

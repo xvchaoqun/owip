@@ -45,7 +45,7 @@
                     <td class="bg-left">${cm:formatDate(modify.startTime,'yyyy.MM')}</td>
                     <td data-code="endTime">结束日期</td>
                     <td class="bg-left">${cm:formatDate(modify.endTime,'yyyy.MM')}</td>
-                    <td data-code="unit">工作单位及担任职务（或专技职务）</td>
+                    <td data-code="detail">工作单位及担任职务（或专技职务）</td>
                     <td class="bg-left">${modify.detail}</td>
                 </tr>
                 <tr>
@@ -102,17 +102,16 @@
 </c:if>
 
 <div class="clearfix form-actions center">
-    <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
-        <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
+    <c:if test="${(cm:isPermitted(PERMISSION_CADREADMIN)||_user.id==mta.userId)
+    && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
         <button class="popupBtn btn btn-primary" ${mta.status!=MODIFY_TABLE_APPLY_STATUS_APPLY?'disabled':''}
-                data-url="${ctx}/cadreWork_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
-                data-width="900"
+                data-url="${ctx}/cadreWork_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&opType=${param.opType}&id=${modify.id}&applyId=${mta.id}"
                 type="button">
             <i class="ace-icon fa fa-edit"></i>
             编辑
         </button>
-        </c:if>
-    </shiro:hasAnyRoles>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+    </c:if>
     <c:if test="${param.opType=='check'}">
     <shiro:hasPermission name="modifyTableApply:approval">
     <button class="btn btn-success" type="button" id="approvalBtn">

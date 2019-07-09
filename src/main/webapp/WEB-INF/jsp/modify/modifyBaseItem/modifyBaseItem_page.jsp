@@ -119,7 +119,7 @@
             { label: '审核时间', name: 'checkTime', width: 150/*, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}*/},
             { label:'依据', name: 'checkReason', width: 150 },
             { label:'备注', name: 'checkRemark', width: 250 },
-            <c:if test="${param.opType!='check' && apply.status!=MODIFY_BASE_APPLY_STATUS_DELETE && apply.userId==_user.id}">
+
             { label:'编辑', name: '_edit',formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status != '${MODIFY_BASE_APPLY_STATUS_APPLY}') {
                     return '--';
@@ -128,6 +128,7 @@
                                 .format(rowObject.id)
                         + '<i class="fa fa-edit"></i> 编辑</button>'
             }},
+             <c:if test="${param.opType!='check' && apply.status!=MODIFY_BASE_APPLY_STATUS_DELETE && apply.userId==_user.id}">
             { label:'删除', name: '_del',formatter: function (cellvalue, options, rowObject) {
 
                 <c:if test="${apply.status!=MODIFY_BASE_APPLY_STATUS_APPLY}">

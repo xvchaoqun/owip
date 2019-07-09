@@ -17,9 +17,21 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-3 control-label">兼任单位</label>
+            <div class="col-xs-6 label-text">
+                ${cadreCompany.unit}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">兼任职务</label>
+            <div class="col-xs-6 label-text">
+                ${cadreCompany.post}
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>兼职结束时间</label>
             <div class="col-xs-6">
-                <div class="input-group">
+                <div class="input-group" style="width: 130px;">
                     <input required class="form-control date-picker" name="finishTime" type="text" placeholder="yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadreCompany.finishTime,'yyyy.MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -45,7 +57,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
-                        $("#jqGrid_cadreCompany").trigger("reloadGrid");
+                        $('#${not empty param.grid?param.grid:"jqGrid"}').trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

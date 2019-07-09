@@ -249,7 +249,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
             case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
 
-                modelMap.put("modify", cadrePostAdminMapper.selectByPrimaryKey(modifyId));
+                modelMap.put("modify", cadrePostWorkMapper.selectByPrimaryKey(modifyId));
                 return "modify/modifyCadrePostWork/modifyCadrePostWork_detail";
 
             case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:

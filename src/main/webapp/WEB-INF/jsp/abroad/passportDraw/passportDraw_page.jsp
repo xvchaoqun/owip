@@ -316,7 +316,7 @@
                 }, title: false, cellattr: function (rowId, val, rawObject, cm, rdata) {
 
                     return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="出行时间：'
-                        + rawObject.applySelf.startDate + '<br> 前往国家或地区：' + rawObject.applySelf.toCountry
+                        + $.date(rawObject.applySelf.startDate, 'yyyy.MM.dd') + '<br> 前往国家或地区：' + rawObject.applySelf.toCountry
                         + '<br> 出国境事由：' + $.replace(rawObject.applySelf.reason, /\+\+\+/g, ',') + '"';
                 }
             },

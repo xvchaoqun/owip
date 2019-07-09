@@ -9,6 +9,12 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreCompanyList?module=${module}&cls=2"><i
                 class="fa fa-history"></i> 历史兼职</a>
     </li>
+    <c:if test="${module==2}">
+    <li class="<c:if test="${cls==10}">active</c:if>">
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreCompanyList?module=${module}&cls=10"><i
+                class="fa fa-list"></i> 全部兼职</a>
+    </li>
+    </c:if>
     <li class="<c:if test="${cls==3}">active</c:if>">
         <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreCompanyList?module=${module}&cls=3"><i
                 class="fa fa-line-chart"></i> 兼职统计</a>

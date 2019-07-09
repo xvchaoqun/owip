@@ -282,8 +282,10 @@ public class CadreCompanyController extends BaseController {
                 criteria.andCadreStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_LEADER,
                         CadreConstants.CADRE_STATUS_LEADER_LEAVE));
             }else{
-                cadreStatus = CadreConstants.CADRE_STATUS_MIDDLE;
-                criteria.andCadreStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
+                if(cls!=10) {
+                    cadreStatus = CadreConstants.CADRE_STATUS_MIDDLE;
+                    criteria.andCadreStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
+                }
             }
         }
 
@@ -291,7 +293,7 @@ public class CadreCompanyController extends BaseController {
             criteria.andIsFinishedEqualTo(false);
         }else if(cls==2){
             criteria.andIsFinishedEqualTo(true);
-        }else {
+        }else if(cls!=10) {
             criteria.andIdIsNull();
         }
 
@@ -396,7 +398,7 @@ public class CadreCompanyController extends BaseController {
 
     @RequiresPermissions("cadreCompany:edit")
     @RequestMapping("/cadreCompany_au")
-    public String cadreCompany_au(Integer id, int cadreId,
+    public String cadreCompany_au(Integer id, Integer cadreId,
                                   Boolean isFinished,
                                   ModelMap modelMap) {
 
@@ -404,12 +406,13 @@ public class CadreCompanyController extends BaseController {
             CadreCompany cadreCompany = cadreCompanyMapper.selectByPrimaryKey(id);
             modelMap.put("cadreCompany", cadreCompany);
             isFinished = cadreCompany.getIsFinished();
+            cadreId = cadreCompany.getCadreId();
         }
         modelMap.put("isFinished", isFinished);
-        CadreView cadre = iCadreMapper.getCadre(cadreId);
-        modelMap.put("cadre", cadre);
-        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-        modelMap.put("sysUser", sysUser);
+        if(cadreId!=null) {
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
+            modelMap.put("cadre", cadre);
+        }
         return "cadre/cadreCompany/cadreCompany_au";
     }
 
@@ -417,7 +420,7 @@ public class CadreCompanyController extends BaseController {
     @RequestMapping(value = "/cadreCompany_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
-                        int cadreId, // 干部直接修改权限校验用
+                        Integer cadreId, // 干部直接修改权限校验用
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 

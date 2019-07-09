@@ -19,6 +19,9 @@
     <result column="has_hand" jdbcType="BIT" property="hasHand" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="cadre_status" jdbcType="TINYINT" property="cadreStatus" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="admin_level_code" jdbcType="VARCHAR" property="adminLevelCode" />
@@ -59,8 +62,8 @@
   <sql id="Base_Column_List">
     id, cadre_id, type, type_other, unit, post, start_time, is_finished, finish_time, 
     approval_unit, approval_date, approval_file, approval_filename, has_pay, has_hand, 
-    remark, status, cadre_status, admin_level, admin_level_code, is_double, unit_type_id, 
-    unit_type_group, cadre_sort_order
+    remark, status, code, realname, title, cadre_status, admin_level, admin_level_code, 
+    is_double, unit_type_id, unit_type_group, cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreCompanyViewExample" resultMap="BaseResultMap">
     select

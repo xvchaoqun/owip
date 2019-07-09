@@ -44,6 +44,8 @@ public class PassportDrawService extends AbroadBaseMapper {
     @Transactional
     public void addOrUpdate(PassportDraw record, ApplySelf applySelf) {
 
+        int passportId = record.getPassportId();
+
         if(record.getId()==null){
 
             if(applySelf!=null){
@@ -57,11 +59,35 @@ public class PassportDrawService extends AbroadBaseMapper {
             record.setStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS);
             record.setIsDeleted(false);
             record.setCreateTime(new Date());
+
+            Passport passport = record.getPassport();
+            if(record.getDrawStatus()==AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW){
+                if(BooleanUtils.isTrue(passport.getIsLent())){
+                    throw new OpException("添加失败：证件已借出，还未归还");
+                }
+
+                Passport _passport = new Passport();
+                _passport.setId(passportId);
+                _passport.setIsLent(true); // 标记为已借出
+                passportMapper.updateByPrimaryKeySelective(_passport);
+            }
+
             record.setDrawStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN);
             passportDrawMapper.insertSelective(record);
         }else{
 
             passportDrawMapper.updateByPrimaryKeySelective(record);
+
+            {
+                // 根据借出记录更新证件状态
+                PassportDrawExample example = new PassportDrawExample();
+                example.createCriteria().andPassportIdEqualTo(passportId)
+                        .andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW);
+                Passport _passport = new Passport();
+                _passport.setId(passportId);
+                _passport.setIsLent(passportDrawMapper.countByExample(example) > 0);
+                passportMapper.updateByPrimaryKeySelective(_passport);
+            }
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
             if(passportDraw.getApplyId()!=null) {

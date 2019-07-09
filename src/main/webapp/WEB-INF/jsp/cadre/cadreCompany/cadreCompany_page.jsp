@@ -32,14 +32,14 @@ pageEncoding="UTF-8" %>
         <i class="fa fa-info-circle"></i> 填写说明</a>--%>
     <shiro:hasPermission name="cadreCompany:edit">
 
-        <button class="popupBtn btn btn-success btn-sm"
-           data-url="${ctx}/cadreCompany_au?cadreId=${param.cadreId}&isFinished=${cls==1?0:1}"><i class="fa fa-plus"></i>
+        <button class="popupBtn btn btn-success btn-sm" data-width="800"
+           data-url="${ctx}/cadreCompany_au?cadreId=${param.cadreId}&grid=jqGrid_cadreCompany&isFinished=${cls==1?0:1}"><i class="fa fa-plus"></i>
             添加</button>
 
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
            data-url="${ctx}/cadreCompany_au"
-           data-grid-id="#jqGrid_cadreCompany"
-           data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
+           data-grid-id="#jqGrid_cadreCompany" data-width="800"
+           data-querystr="&cadreId=${param.cadreId}&grid=jqGrid_cadreCompany"><i class="fa fa-edit"></i>
             修改</button>
     </shiro:hasPermission>
         <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN)}">
@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                 data-url="${ctx}/cadreCompany_finish"
                 data-grid-id="#jqGrid_cadreCompany"
-                data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-dot-circle-o"></i>
+                data-querystr="&cadreId=${param.cadreId}&grid=jqGrid_cadreCompany"><i class="fa fa-dot-circle-o"></i>
             兼职结束</button>
         </c:if>
         <c:if test="${cls==2}">

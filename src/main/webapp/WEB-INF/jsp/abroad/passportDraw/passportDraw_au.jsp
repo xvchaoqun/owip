@@ -2,6 +2,8 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="ABROAD_PASSPORT_TYPE_KEEP" value="<%=AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW%>"/>
 <div style="width: 900px">
     <h3><c:if test="${passportDraw!=null}">修改</c:if><c:if test="${passportDraw==null}">添加</c:if>证件使用记录</h3>
     <hr/>
@@ -74,7 +76,34 @@
 
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label">归还时间</label>
+                    <label class="col-xs-4 control-label">应归还时间</label>
+                    <div class="col-xs-6">
+                        <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px;">
+                            <input class="form-control" name="returnDate" type="text"
+                                   value="${cm:formatDate(passportDraw.returnDate,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="form-group sign">
+                    <label class="col-xs-4 control-label"><span class="star">*</span>归还状态</label>
+                    <div class="col-xs-8">
+                        <select required data-rel="select2" name="drawStatus" data-placeholder="请选择">
+                            <option></option>
+                            <c:forEach items="${ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP}" var="entity" varStatus="vs">
+                                <option value="${entity.key}">${entity.value}</option>
+                            </c:forEach>
+                        </select>
+                        <script>
+                            $("#modalForm select[name=drawStatus]").val(${passportDraw.drawStatus});
+                        </script>
+                        <span class="help-block">
+                            注：如果选择“已领取”，则系统会根据“应归还时间”进行短信催促交证件
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">实际归还时间</label>
                     <div class="col-xs-6">
                         <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px;">
                             <input class="form-control" name="realReturnDate" type="text"
@@ -97,6 +126,10 @@
                         </script>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="col-xs-6">
                 <div class="form-group sign">
                     <label class="col-xs-4 control-label">是否签注</label>
                     <div class="col-xs-6">
@@ -126,8 +159,6 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="col-xs-6">
                 <div class="form-group">
                     <label class="col-xs-4 control-label">领取日期</label>
                     <div class="col-xs-6">
@@ -386,6 +417,26 @@
         $(".form-group.reason").html(_.template($("#reason_tpl").html())({type: type}));
         $("#dateDiv").html(_.template($("#date_tpl").html())({type: type}));
         $.register.date($('.input-group.date'));
+    }).change();
+
+    $("#modalForm select[name=drawStatus]").change(function () {
+        var drawStatus = $(this).val();
+        if(drawStatus=='${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}'){
+            $("#modalForm input[name=returnDate]").attr("required", "required");
+            $("#modalForm input[name=returnDate]").closest('.form-group')
+                .find('.control-label').html('<span class="star">*</span>应归还时间')
+            $("#modalForm input[name=drawTime]").attr("required", "required");
+            $("#modalForm input[name=drawTime]").closest('.form-group')
+                .find('.control-label').html('<span class="star">*</span>领取时间')
+
+        }else{
+            $("#modalForm input[name=returnDate]").removeAttr("required");
+            $("#modalForm input[name=returnDate]").closest('.form-group')
+                .find('.control-label').html('应归还时间')
+            $("#modalForm input[name=drawTime]").removeAttr("required");
+            $("#modalForm input[name=drawTime]").closest('.form-group')
+                .find('.control-label').html('领取时间')
+        }
     }).change();
 
     $.fileInput($('input[type=file][name="_files[]"]'))

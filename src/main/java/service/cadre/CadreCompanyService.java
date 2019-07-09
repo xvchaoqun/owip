@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,10 +47,10 @@ public class CadreCompanyService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, int cadreId) {
+    public void batchDel(Integer[] ids, Integer cadreId) {
 
         if (ids == null || ids.length == 0) return;
-        {
+        if(cadreId!=null){
             // 干部信息本人直接修改数据校验
             CadreCompanyExample example = new CadreCompanyExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
@@ -57,6 +58,9 @@ public class CadreCompanyService extends BaseMapper {
             if (count != ids.length) {
                 throw new OpException("参数有误");
             }
+        }else{
+            // 必须 拥有 干部兼职管理 模块的管理权限， 才能随意删除
+            SecurityUtils.getSubject().checkPermission("cadreCompanyList:menu");
         }
         CadreCompanyExample example = new CadreCompanyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -103,7 +107,7 @@ public class CadreCompanyService extends BaseMapper {
         return addCount;
     }
 
-    // 更新修改申请的内容（仅允许本人更新自己的申请）
+    // 更新修改申请的内容（仅允许管理员和本人更新自己的申请）
     @Transactional
     public void updateModify(CadreCompany record, Integer applyId) {
 
@@ -113,17 +117,20 @@ public class CadreCompanyService extends BaseMapper {
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(applyId);
-        if (mta.getUserId().intValue() != currentUserId ||
+        if ((!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) && mta.getUserId().intValue() != currentUserId) ||
                 mta.getStatus() != ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
             throw new OpException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
 
-        CadreView cadre = cadreService.dbFindByUserId(currentUserId);
-
         int id = record.getId();
         CadreCompanyExample example = new CadreCompanyExample();
-        example.createCriteria().andIdEqualTo(id).andCadreIdEqualTo(cadre.getId()) // 保证本人只更新自己的记录
+        CadreCompanyExample.Criteria criteria = example.createCriteria().andIdEqualTo(id)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_MODIFY);
+
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)){
+            CadreView cadre = cadreService.dbFindByUserId(currentUserId);
+            criteria.andCadreIdEqualTo(cadre.getId()); // 保证本人只更新自己的记录
+        }
 
         record.setId(null);
         record.setStatus(null);
@@ -329,7 +336,6 @@ public class CadreCompanyService extends BaseMapper {
         for (int i = 0; i < rowCount; i++) {
 
             CadreCompanyView record = records.get(i);
-            CadreView cv = record.getCadre();
             int column = 0;
             row = sheet.getRow(startRow++);
 
@@ -339,11 +345,11 @@ public class CadreCompanyService extends BaseMapper {
 
             // 姓名
             cell = row.getCell(column++);
-            cell.setCellValue(CmTag.realnameWithEmpty(cv.getRealname()));
+            cell.setCellValue(CmTag.realnameWithEmpty(record.getRealname()));
 
             // 所在单位及职务
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.trimToEmpty(cv.getTitle()));
+            cell.setCellValue(StringUtils.trimToEmpty(record.getTitle()));
 
             // 兼职类型
             String _type = "";
@@ -401,7 +407,7 @@ public class CadreCompanyService extends BaseMapper {
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
             cadreType = "离任校领导";
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_MIDDLE) {
-            cadreType = "干部";
+            cadreType = "现任干部";
         }
 
         InputStream is = new FileInputStream(ResourceUtils

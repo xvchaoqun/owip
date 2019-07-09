@@ -1,3 +1,13 @@
+
+20190708 北邮
+
+DROP VIEW IF EXISTS `cadre_company_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cadre_company_view` AS
+select cc.*, c.code, c.realname, c.title, c.`status` as cadre_status, c.admin_level, c.admin_level_code,
+c.is_double, c.unit_type_id, c.unit_type_group,
+c.sort_order as cadre_sort_order from cadre_company cc
+left join cadre_view c on c.id=cc.cadre_id;
+
 20190708
 西交大，南航，北邮
 

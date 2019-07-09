@@ -3,15 +3,16 @@
 <script>
     var colModels_cadreCompany = [
         <c:if test="${param.type=='list'}">
-        {label: '工作证号', name: 'cadre.code', width: 110, frozen: true},
+        {label: '工作证号', name: 'code', width: 110, frozen: true},
         {
-            label: '姓名', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return $.cadre(rowObject.cadre.id, cellvalue);
+            label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+                return $.cadre(rowObject.cadreId, cellvalue);
             }, frozen: true
         },
-        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
+        {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         <c:if test="${module==1}">
-        {label: '是否<br/>双肩挑', width: 60, name: 'cadre.isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>双肩挑', width: 60, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '干部类型', name: 'cadreStatus', formatter: function (cellvalue, options, rowObject) {
             if(cellvalue=='<%=CadreConstants.CADRE_STATUS_LEADER%>'){
                 return '现任校领导'
@@ -42,7 +43,7 @@
             formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m'}
         },
-        <c:if test="${cls==2}">
+        <c:if test="${cls==2 || cls==10}">
         {
             label: '兼职<br/>结束时间',
             name: 'finishTime',

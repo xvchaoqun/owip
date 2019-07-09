@@ -1,16 +1,9 @@
 package domain.cadre;
 
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreCompanyView implements Serializable {
-
-    public CadreView getCadre(){
-        return CmTag.getCadreById(cadreId);
-    }
-
     private Integer id;
 
     private Integer cadreId;
@@ -44,6 +37,12 @@ public class CadreCompanyView implements Serializable {
     private String remark;
 
     private Byte status;
+
+    private String code;
+
+    private String realname;
+
+    private String title;
 
     private Byte cadreStatus;
 
@@ -195,6 +194,30 @@ public class CadreCompanyView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public Byte getCadreStatus() {

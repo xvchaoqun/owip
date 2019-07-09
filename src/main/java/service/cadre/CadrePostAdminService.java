@@ -130,7 +130,7 @@ public class CadrePostAdminService extends BaseMapper {
         }
     }
 
-    // 更新修改申请的内容（仅允许本人更新自己的申请）
+    // 更新修改申请的内容（仅允许管理员和本人更新自己的申请）
     @Transactional
     public void updateModify(CadrePostAdmin record, Integer applyId) {
 
@@ -140,17 +140,20 @@ public class CadrePostAdminService extends BaseMapper {
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(applyId);
-        if (mta.getUserId().intValue() != currentUserId ||
+        if ((!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) && mta.getUserId().intValue() != currentUserId) ||
                 mta.getStatus() != ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
             throw new OpException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
 
-        CadreView cadre = CmTag.getCadreByUserId(currentUserId);
-
         int id = record.getId();
         CadrePostAdminExample example = new CadrePostAdminExample();
-        example.createCriteria().andIdEqualTo(id).andCadreIdEqualTo(cadre.getId()) // 保证本人只更新自己的记录
+        CadrePostAdminExample.Criteria criteria = example.createCriteria().andIdEqualTo(id)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_MODIFY);
+
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)){
+            CadreView cadre = CmTag.getCadreByUserId(currentUserId);
+            criteria.andCadreIdEqualTo(cadre.getId()); // 保证本人只更新自己的记录
+        }
 
         record.setId(null);
         record.setStatus(null);

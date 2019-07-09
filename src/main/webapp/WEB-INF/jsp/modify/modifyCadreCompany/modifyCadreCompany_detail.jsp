@@ -48,7 +48,7 @@
                     </td>
                     <td data-code="unit">兼职单位</td>
                     <td class="bg-left">${modify.unit}</td>
-                    <td data-code="unit">兼任职务</td>
+                    <td data-code="post">兼任职务</td>
                     <td class="bg-left">${modify.post}</td>
                     <td data-code="startTime">兼职起始时间</td>
                     <td class="bg-left" colspan="3">${cm:formatDate(modify.startTime,'yyyy-MM-dd')}</td>
@@ -56,7 +56,7 @@
                 <tr>
                     <td data-code="approvalUnit">审批单位</td>
                     <td class="bg-left">${modify.approvalUnit}</td>
-                    <td data-code="approvalUnit">批复日期</td>
+                    <td data-code="approvalDate">批复日期</td>
                     <td class="bg-left">${cm:formatDate(modify.approvalDate,'yyyy-MM-dd')}</td>
                     <td data-code="approvalFile">批复文件</td>
                     <td class="bg-left">
@@ -64,7 +64,7 @@
                     </td>
                     <td data-code="hasPay">是否取酬</td>
                     <td class="bg-left">${modify.hasPay?"是":"否"}</td>
-                    <td data-code="hasPay">所取酬劳是否全额上交学校</td>
+                    <td data-code="hasHand">所取酬劳是否全额上交学校</td>
                     <td class="bg-left">${modify.hasHand?"是":"否"}</td>
                 </tr>
                 <tr>
@@ -117,16 +117,17 @@
 </c:if>
 
 <div class="clearfix form-actions center">
-    <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
-        <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
+    <c:if test="${(cm:isPermitted(PERMISSION_CADREADMIN)||_user.id==mta.userId)
+    && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
         <button class="popupBtn btn btn-primary" ${mta.status!=MODIFY_TABLE_APPLY_STATUS_APPLY?'disabled':''}
-                data-url="${ctx}/cadreCompany_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
+                data-width="800"
+                data-url="${ctx}/cadreCompany_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&opType=${param.opType}&id=${modify.id}&applyId=${mta.id}"
                 type="button">
             <i class="ace-icon fa fa-edit"></i>
             编辑
         </button>
-        </c:if>
-    </shiro:hasAnyRoles>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+    </c:if>
     <c:if test="${param.opType=='check'}">
     <shiro:hasPermission name="modifyTableApply:approval">
     <button class="btn btn-success" type="button" id="approvalBtn">

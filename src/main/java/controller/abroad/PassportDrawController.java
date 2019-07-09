@@ -281,6 +281,8 @@ public class PassportDrawController extends AbroadBaseController {
             }
         }else{
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+
+            record.setPassportId(passportDraw.getPassportId());
             cadre = passportDraw.getCadre();
         }
 
