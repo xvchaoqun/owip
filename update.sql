@@ -1,5 +1,5 @@
 20190708
-西交大，南航 北师大xxx
+西交大，南航，北邮
 
 ALTER TABLE `abroad_passport_apply`
 	ADD COLUMN `op_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '操作人，当审批人书写人名时，需要记录操作人' AFTER `approve_time`;
