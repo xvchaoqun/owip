@@ -1,5 +1,34 @@
 
-20190708 北邮
+20190712
+
+-- 学历新增 zz|学生|中专
+UPDATE `db_owip`.`base_meta_class` SET `extra_options`='zz|学生|中专,zk|学生|专科,bk|学生|本科,yjs|硕士研究生|研究生,yjskcb|硕士研究生（研究生课程班）|研究生,sstd|硕士研究生（硕士同等学历）|研究生,bs|博士研究生|博士研究生' WHERE  `id`=27;
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+VALUES (27, '中专', 'mt_edu_zz', NULL, 'zz', '', 46, 1);
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+ VALUES ('evaYears', '显示几年考核结果', '3', 2, 34, '');
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1063, 0, '添加', '', 'function', '', NULL, 182, '0/1/260/182/',
+                                    1, 'branch:add', NULL, NULL, NULL, 1, NULL);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (1064, 0, '导入', '', 'function', '', NULL, 182, '0/1/260/182/',
+                                                               1, 'branch:import', NULL, NULL, NULL, 1, NULL);
+UPDATE `sys_resource` SET `name`='修改' WHERE  `id`=193;
+delete FROM sys_resource WHERE permission = 'orgAdmin:*';
+
+-- 为 branch:add（分党委、党建管理员）， branch:edit（支部、分党委、党建管理员） 添加角色
+-- 给支部 增加 支部管理的权限
+
+-- 给西交大新增ct_passportDraw_return_admin
+
+20190708 北邮，西交，南航
 
 DROP VIEW IF EXISTS `cadre_company_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cadre_company_view` AS

@@ -393,7 +393,7 @@ public class PmdOrderService extends PmdBaseMapper {
                 }
             } catch (Exception ex) {
                 
-                logger.error(String.format("支付平台异常, sn=%s, ret=%s", sn, queryRet), ex);
+                logger.error(String.format("支付平台异常, sn=%s, ret=%s", sn, JSONUtils.toString(queryRet,false)), ex);
                 throw new OpException("支付平台异常，请稍后再试。");
             }
         }
