@@ -11,7 +11,14 @@ pageEncoding="UTF-8"%>
         	<input type="hidden" name="id" value="${branch.id}">
 		<div class="row">
 			<div class="col-xs-8">
-
+			<c:if test="${cm:isSuperAccount(_user.username)}">
+			<div class="form-group">
+				<label class="col-xs-4 control-label"><span class="star">*</span>编号</label>
+				<div class="col-xs-8">
+					<input type="text" required class="form-control" name="code" value="${branch.code}">
+				</div>
+			</div>
+			</c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>名称</label>
 				<div class="col-xs-8">

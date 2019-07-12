@@ -1,5 +1,9 @@
 package domain.party;
 
+import org.apache.commons.lang3.StringUtils;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -1047,6 +1051,24 @@ public class BranchMemberGroupViewExample {
 
         protected Criteria() {
             super();
+        }
+        public BranchMemberGroupViewExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
+
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+            if(branchIdList==null) branchIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andBranchIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andIdIsNull();
+            return this;
         }
     }
 

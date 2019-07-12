@@ -37,7 +37,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label"><span class="star">*</span>开始日期</label>
+    <label class="col-xs-3 control-label"><span class="star">*</span>使用开始日期</label>
     <div class="col-xs-2">
       <div class="input-group">
         <input required class="form-control date-picker" name="_startDate" type="text"
@@ -47,7 +47,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label"><span class="star">*</span>结束日期</label>
+    <label class="col-xs-3 control-label"><span class="star">*</span>使用结束日期</label>
     <div class="col-xs-2">
       <div class="input-group">
         <input required class="form-control date-picker" name="_endDate" type="text"

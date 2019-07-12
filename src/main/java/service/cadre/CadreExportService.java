@@ -503,7 +503,9 @@ public class CadreExportService extends BaseMapper {
                 } else if (StringUtils.equals(metaType.getCode(), "mt_edu_bk")) {
                     edu += "学士";
                 } else if (StringUtils.equals(metaType.getCode(), "mt_edu_zk")) {
-                    edu += "专科";
+                    edu += "大专";
+                } else if (StringUtils.equals(metaType.getCode(), "mt_edu_zz")) {
+                    edu += "中专";
                 } else {
                     edu += metaType.getName();
                 }

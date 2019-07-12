@@ -128,10 +128,15 @@ public class CmTag {
     }
     // 获取系统的属性值（整数）
     public static Integer getIntProperty(String key){
-        return Integer.valueOf(getStringProperty(key));
+
+        String stringProperty = getStringProperty(key);
+        if(StringUtils.isBlank(stringProperty)) return null;
+
+        return Integer.valueOf(stringProperty);
     }
     // 获取系统的属性值（布尔类型）
     public static boolean getBoolProperty(String key){
+
         return Boolean.valueOf(getStringProperty(key));
     }
     // 获取系统的属性值（日期）

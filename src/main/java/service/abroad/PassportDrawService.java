@@ -72,7 +72,6 @@ public class PassportDrawService extends AbroadBaseMapper {
                 passportMapper.updateByPrimaryKeySelective(_passport);
             }
 
-            record.setDrawStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN);
             passportDrawMapper.insertSelective(record);
         }else{
 

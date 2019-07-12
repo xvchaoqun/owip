@@ -86,7 +86,7 @@ pageEncoding="UTF-8"%>
                         <c:if test="${_p_hasPartyModule}"><li>如需添加进入党员库中，请联系对应的支部管理员。</li></c:if>
                         </c:if>
                         <c:if test="${record.code=='political_status' && record.orginalValue==0}">
-                        <li>审批通过后，该账号将从【干部其他信息】-【中共党员干部库】<c:if test="${_p_hasPartyModule}">和党员库（如果存在）</c:if>中删除</li>
+                        <li>审批不通过后，该账号将从【干部其他信息】-【中共党员干部库】<c:if test="${_p_hasPartyModule}">和党员库（如果存在）</c:if>中删除</li>
                         </c:if>
                     </ul>
                 </span>

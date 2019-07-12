@@ -325,15 +325,21 @@ public class CadreAdformService extends BaseMapper {
         bean.setResumeDesc(StringUtils.trimToNull(_resume));
 
         //年度考核结果
+        Integer evaYears = CmTag.getIntProperty("evaYears");
+        if(evaYears==null) evaYears = 3;
         Integer currentYear = DateUtils.getCurrentYear();
-        String evaResult = (currentYear - 3) + "、" + (currentYear - 2) + "、" + (currentYear - 1) + "年均为合格"; // 默认
+        List<Integer> years = new ArrayList<>();
+        for (Integer i = 0; i < evaYears; i++) {
+            years.add(currentYear-evaYears + i);
+        }
+        String evaResult = StringUtils.join(years, "、") + "年均为合格"; // 默认
         {
             Map<Integer, String> evaMap = new LinkedHashMap<>();
             CadreEvaExample example = new CadreEvaExample();
             example.createCriteria().andCadreIdEqualTo(cadreId)
-                    .andYearBetween(currentYear - 3, currentYear);
+                    .andYearBetween(currentYear - evaYears, currentYear);
             example.setOrderByClause("year desc");
-            List<CadreEva> cadreEvas = cadreEvaMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 3));
+            List<CadreEva> cadreEvas = cadreEvaMapper.selectByExampleWithRowbounds(example, new RowBounds(0, evaYears));
             if (cadreEvas.size() > 0) {
                 for (CadreEva cadreEva : cadreEvas) {
                     int year = cadreEva.getYear();

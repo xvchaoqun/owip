@@ -17,7 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import service.BaseMapper;
 import service.cadre.CadreInfoFormService;
 import service.common.FreemarkerService;
 import sys.constants.CrsConstants;
@@ -137,7 +136,9 @@ public class CrsExportService extends CrsBaseMapper{
                     } else if (StringUtils.equals(metaType.getCode(), "mt_edu_bk")) {
                         edu += "学士";
                     } else if (StringUtils.equals(metaType.getCode(), "mt_edu_zk")) {
-                        edu += "专科";
+                        edu += "大专";
+                    } else if (StringUtils.equals(metaType.getCode(), "mt_edu_zz")) {
+                        edu += "中专";
                     } else {
                         edu += metaType.getName();
                     }

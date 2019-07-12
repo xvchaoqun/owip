@@ -1,5 +1,9 @@
 package domain.party;
 
+import org.apache.commons.lang3.StringUtils;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1878,6 +1882,25 @@ public class BranchViewExample {
 
         protected Criteria() {
             super();
+        }
+
+        public BranchViewExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
+
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+            if(branchIdList==null) branchIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andIdIsNull();
+            return this;
         }
     }
 

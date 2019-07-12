@@ -287,10 +287,13 @@ public class PartyMemberController extends BaseController {
 
         // 权限控制
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
             // 要求是分党委管理员
             if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 throw new UnauthorizedException();
+            }
+
+            if (userId == ShiroHelper.getCurrentUserId()) {
+                return failed("不能删除自己");
             }
         }
 

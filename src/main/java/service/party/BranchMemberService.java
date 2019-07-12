@@ -5,14 +5,12 @@ import domain.party.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -107,17 +105,6 @@ public class BranchMemberService extends BaseMapper {
         return root;
     }
 
-    public void checkAuth(int partyId){
-
-        //===========权限
-        Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin) throw new UnauthorizedException();
-        }
-    }
-
     // 查询用户是否是支部管理员或直属党支部管理员
     public boolean isPresentAdmin(Integer userId,Integer partyId, Integer branchId){
         if(userId==null) return false;
@@ -137,7 +124,7 @@ public class BranchMemberService extends BaseMapper {
     public void delAdmin(int userId, int branchId){
 
         Branch branch = branchMapper.selectByPrimaryKey(branchId);
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
         List<BranchMember> branchMembers = iPartyMapper.findBranchAdminOfBranchMember(userId, branchId);
         for (BranchMember branchMember : branchMembers) { // 理论上只有一个
@@ -197,7 +184,7 @@ public class BranchMemberService extends BaseMapper {
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(record.getGroupId());
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
         record.setIsAdmin(false);
         record.setSortOrder(getNextSortOrder("ow_branch_member", "group_id=" + record.getGroupId()));
@@ -215,7 +202,7 @@ public class BranchMemberService extends BaseMapper {
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(branchMember.getGroupId());
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
         if(branchMember.getIsAdmin()){
             branchMemberAdminService.toggleAdmin(branchMember);
@@ -232,7 +219,7 @@ public class BranchMemberService extends BaseMapper {
 
             BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(branchMember.getGroupId());
             Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-            checkAuth(branch.getPartyId());
+            PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
             if(branchMember.getIsAdmin()){
                 branchMemberAdminService.toggleAdmin(branchMember);
@@ -249,7 +236,7 @@ public class BranchMemberService extends BaseMapper {
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(old.getGroupId());
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
         record.setIsAdmin(old.getIsAdmin());
         branchMemberMapper.updateByPrimaryKeySelective(record);
@@ -278,7 +265,7 @@ public class BranchMemberService extends BaseMapper {
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(entity.getGroupId());
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
         Integer baseSortOrder = entity.getSortOrder();
         Integer groupId = entity.getGroupId();

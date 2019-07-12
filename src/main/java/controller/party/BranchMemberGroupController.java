@@ -26,9 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.jackson.Select2Option;
@@ -121,14 +119,14 @@ public class BranchMemberGroupController extends BaseController {
         }
 
         //===========权限
-        //criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+        /*if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             if (partyIdList.size() > 0)
                 criteria.andPartyIdIn(partyIdList);
             else criteria.andPartyIdIsNull();
-        }
+        }*/
 
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);

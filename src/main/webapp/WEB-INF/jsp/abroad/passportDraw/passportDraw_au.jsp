@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="ABROAD_PASSPORT_TYPE_KEEP" value="<%=AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP%>"/>
 <c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN%>"/>
 <c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW%>"/>
 <div style="width: 900px">
     <h3><c:if test="${passportDraw!=null}">修改</c:if><c:if test="${passportDraw==null}">添加</c:if>证件使用记录</h3>
@@ -85,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                 <div class="form-group sign">
+                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>归还状态</label>
                     <div class="col-xs-8">
                         <select required data-rel="select2" name="drawStatus" data-placeholder="请选择">
@@ -95,7 +96,7 @@
                             </c:forEach>
                         </select>
                         <script>
-                            $("#modalForm select[name=drawStatus]").val(${passportDraw.drawStatus});
+                            $("#modalForm select[name=drawStatus]").val('${passportDraw.drawStatus}');
                         </script>
                         <span class="help-block">
                             注：如果选择“已领取”，则系统会根据“应归还时间”进行短信催促交证件
@@ -582,4 +583,8 @@
     //$('[data-rel="tooltip"]').tooltip();
     $.register.date($('.input-group.date'));
     $('textarea.limited').inputlimiter();
+
+    <c:if test="${passportDraw.drawStatus==ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}">
+    $("#modalForm select[name=drawStatus]").select2({theme: "default"}).prop("disabled", true);
+    </c:if>
 </script>

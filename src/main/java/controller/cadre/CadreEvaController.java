@@ -184,7 +184,7 @@ public class CadreEvaController extends BaseController {
 
             String userCode = StringUtils.trim(xlsRow.get(0));
             if(StringUtils.isBlank(userCode)){
-                throw new OpException("第{0}行工作证号为空", row);
+                continue;
             }
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null){

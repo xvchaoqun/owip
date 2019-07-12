@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.party.*;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,7 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -35,7 +35,7 @@ public class OrgAdminController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("orgAdmin:list")
+    //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/org_admin")
     public String org_admin(Integer partyId, Integer branchId,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -48,8 +48,8 @@ public class OrgAdminController extends BaseController {
             }
             pageNo = Math.max(1, pageNo);
 
-            OrgAdminExample example = new OrgAdminExample();
-            OrgAdminExample.Criteria criteria = example.createCriteria();
+            OrgAdminViewExample example = new OrgAdminViewExample();
+            OrgAdminViewExample.Criteria criteria = example.createCriteria();
             if(partyId!=null){
                 modelMap.put("party", partyService.findAll().get(partyId));
                 criteria.andPartyIdEqualTo(partyId);
@@ -58,13 +58,14 @@ public class OrgAdminController extends BaseController {
                 modelMap.put("branch", branchService.findAll().get(branchId));
                 criteria.andBranchIdEqualTo(branchId);
             }
+            criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-            int count = orgAdminMapper.countByExample(example);
+            int count = (int) orgAdminViewMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {
 
                 pageNo = Math.max(1, pageNo - 1);
             }
-            List<OrgAdmin> orgAdmins = orgAdminMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            List<OrgAdminView> orgAdmins = orgAdminViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
             modelMap.put("orgAdmins", orgAdmins);
 
             CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -84,7 +85,7 @@ public class OrgAdminController extends BaseController {
         return "party/org_admin";
     }
 
-    @RequiresPermissions("orgAdmin:list")
+    //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin")
     public String orgAdmin(ModelMap modelMap,
                         byte type,
@@ -108,7 +109,7 @@ public class OrgAdminController extends BaseController {
         return "party/orgAdmin/orgAdmin_page";
     }
 
-    @RequiresPermissions("orgAdmin:list")
+    //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin_data")
     public void orgAdmin_data(HttpServletResponse response,
                                  byte type,
@@ -170,7 +171,7 @@ public class OrgAdminController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("orgAdmin:edit")
+    //@RequiresPermissions("orgAdmin:edit")
     @RequestMapping(value = "/orgAdmin_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_orgAdmin_au(OrgAdmin record, HttpServletRequest request) {
@@ -181,20 +182,27 @@ public class OrgAdminController extends BaseController {
 
         SysUserView uv = sysUserService.findById(record.getUserId());
 
-        if (record.getPartyId() != null) {
-            Party party = partyService.findAll().get(record.getPartyId());
-            orgAdminService.addPartyAdmin(record.getUserId(), record.getPartyId());
+        Integer partyId = record.getPartyId();
+        Integer branchId = record.getBranchId();
+        if ( partyId!= null) {
+
+            PartyHelper.checkAuth(partyId);
+            Party party = partyService.findAll().get(partyId);
+            orgAdminService.addPartyAdmin(record.getUserId(), partyId);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加分党委管理员：%s， %s", uv.getCode(), party.getName()));
-        } else if (record.getBranchId() != null) {
-            Branch branch = branchService.findAll().get(record.getBranchId());
-            orgAdminService.addBranchAdmin(record.getUserId(), record.getBranchId());
+        } else if (branchId != null) {
+
+            Branch branch = branchService.findAll().get(branchId);
+            PartyHelper.checkAuth(branch.getPartyId(), branchId);
+
+            orgAdminService.addBranchAdmin(record.getUserId(), branchId);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加党支部管理员：%s， %s", uv.getCode(), branch.getName()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("orgAdmin:edit")
+    //@RequiresPermissions("orgAdmin:edit")
     @RequestMapping("/orgAdmin_au")
     public String orgAdmin_au(Integer id, ModelMap modelMap) {
 
@@ -205,7 +213,7 @@ public class OrgAdminController extends BaseController {
         return "party/orgAdmin/orgAdmin_au";
     }
 
-    @RequiresPermissions("orgAdmin:del")
+    //@RequiresPermissions("orgAdmin:del")
     @RequestMapping(value = "/orgAdmin_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_orgAdmin_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -220,12 +228,18 @@ public class OrgAdminController extends BaseController {
                 }
                 SysUserView uv = sysUserService.findById(orgAdmin.getUserId());
                 Party party = null;
-                if (orgAdmin.getPartyId() != null) {
-                    party = partyService.findAll().get(orgAdmin.getPartyId());
+                Integer partyId = orgAdmin.getPartyId();
+                if (partyId != null) {
+
+                    party = partyService.findAll().get(partyId);
+                    PartyHelper.checkAuth(partyId);
                 }
                 Branch branch = null;
-                if (orgAdmin.getBranchId() != null) {
-                    branch = branchService.findAll().get(orgAdmin.getBranchId());
+                Integer branchId = orgAdmin.getBranchId();
+                if ( branchId != null) {
+
+                    branch = branchService.findAll().get(branchId);
+                    PartyHelper.checkAuth(branch.getPartyId(), branchId);
                 }
 
                 orgAdminService.del(id, orgAdmin.getUserId());
@@ -236,10 +250,13 @@ public class OrgAdminController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("orgAdmin:list")
+    //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin_selects")
     @ResponseBody
     public Map orgAdmin_selects(Integer pageSize, Integer pageNo, Byte type, String searchStr) throws IOException {
+
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            return null;
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;

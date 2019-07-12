@@ -4,6 +4,7 @@ import bean.ShortMsgBean;
 import domain.abroad.*;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
@@ -492,6 +493,89 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
 
         logger.debug("====领取证件之后催交证件短信通知...end====");
     }
+    /*
+    自动发送，发送时间为上午10点，每两天发一次，直到将证件交回。第七天给管理员发短信
+	比如，应交组织部日期为2016年9月1日，那么从第二天9月2日开始发，每两天发一次，直到交回证件为止。
+	 */
+    public void sendReturnMsg2() {
+
+        logger.debug("====领取证件之后催交证件短信通知...start====");
+        int count = 0;
+        Date today = new Date();
+        // 查找已领取证件，但还未归还（该证件昨天应归还）的记录
+        PassportDrawExample example = new PassportDrawExample();
+        example.createCriteria().andIsDeletedEqualTo(false).
+                andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW)
+                .andUsePassportNotEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) // 拒不交回不需要短信提醒
+                .andReturnDateLessThan(today);
+        List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
+        for (PassportDraw passportDraw : passportDraws) {
+
+            Passport passport = passportDraw.getPassport();
+            if (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP
+                    || (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL
+                    && passport.getCancelConfirm() == false)) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
+
+                Period p = new Period(new DateTime(passportDraw.getReturnDate()), new DateTime(today), PeriodType.days());
+                int days = p.getDays();
+                if ((days - 1) % 2 == 0) {  // 间隔第1,3,5...天应发短信提醒
+
+                    ShortMsgBean shortMsgBean = getShortMsgBean(null, null, "passportDrawReturn", passportDraw.getId());
+                    try {
+                        boolean ret = shortMsgService.send(shortMsgBean, "127.0.0.1");
+                        logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", shortMsgBean.getContent()));
+                        if (ret) count++;
+                    } catch (Exception ex) {
+                        logger.error("领取证件之后催交证件短信失败", ex);
+                    }
+                }
+                // 第七天给管理员发短信
+                if(days==7){
+
+                    Cadre cadre = passport.getCadre();
+                    SysUserView applyUser = passport.getUser();
+                    passport.getPassportClass();
+                    String cadreTitle = cadre.getTitle();
+
+                    String drawTime = DateUtils.formatDate(passportDraw.getDrawTime(), "yyyy年MM月dd日");
+                    String returnDate = DateUtils.formatDate(passportDraw.getReturnDate(), "yyyy年MM月dd日");
+
+                    ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_RETURN_ADMIN);
+                    List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
+
+                    for (SysUserView uv : receivers) {
+                        try {
+                            int userId = uv.getId();
+                            String mobile = userBeanService.getMsgMobile(userId);
+                            String msgTitle = userBeanService.getMsgTitle(userId);
+
+                            String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                                    cadreTitle, applyUser.getRealname(), drawTime, returnDate);
+
+                            ShortMsgBean bean = new ShortMsgBean();
+                            bean.setSender(null);
+                            bean.setReceiver(userId);
+                            bean.setMobile(mobile);
+                            bean.setContent(msg);
+                            bean.setRelateId(tpl.getId());
+                            bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
+                            bean.setType(tpl.getName());
+
+                            shortMsgService.send(bean, "127.0.0.1");
+                        }catch (Exception ex){
+                            logger.error("异常", ex);
+                            logger.error("未归还证件第七天给管理员发短信提醒失败。申请人：{}， 审核人：{}, {},{}", new Object[]{
+                                    applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        logger.info(String.format("领取证件之后催交证件短信通知，发送成功%s/%s条", count, passportDraws.size()));
+
+        logger.debug("====领取证件之后催交证件短信通知...end====");
+    }
 
     public ShortMsgBean getShortMsgBean(Integer sender, Integer receiver, String type, Integer id){
 
@@ -747,7 +831,7 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = "";
-            if(passportDraw.getStatus()==AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS){
+            if(passportDraw.getStatus()== AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS){
 
                 if(BooleanUtils.isTrue(passportDraw.getNeedSign())){
                     key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_PASS_NEEDSIGN;
@@ -755,7 +839,7 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
                     key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_PASS;
                 }
             }
-            if(passportDraw.getStatus()==AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS){
+            if(passportDraw.getStatus()== AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS){
 
                 if(BooleanUtils.isTrue(passportDraw.getNeedSign())){
                     key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_UNPASS_NEEDSIGN;

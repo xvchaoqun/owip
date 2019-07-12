@@ -1,4 +1,7 @@
 
+DROP VIEW IF EXISTS `ext_user_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ext_user_view` AS
+  SELECT id as user_id, code from sys_user ;
 
 -- ----------------------------
 --  View definition for `ext_cadre_view`

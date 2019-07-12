@@ -227,18 +227,26 @@ public class SysRoleService extends BaseMapper {
 			node.expand = false;
 			node.isFolder = false;
 			node.hideCheckbox = false;
-			if (checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold())) {
 
-				if (!superAccount) node.unselectable = true;
-				node.addClass = "unselectable";
-			}
 			node.children = new ArrayList<TreeNode>();
-
 			if (selectIdSet.contains(sysRole.getId().intValue())) {
 				node.select = true;
 			}
 
-			root.children.add(node);
+			if(BooleanUtils.isTrue(sysRole.getIsSysHold())) {
+				if (checkIsSysHold) {
+					node.addClass = "unselectable";
+					if (!superAccount) {
+						//node.unselectable = true;
+					} else {
+						// 系统自动维护角色，仅允许超级管理员修改
+						root.children.add(node);
+					}
+				}
+			}else{
+				// 手动维护角色
+				root.children.add(node);
+			}
 		}
 		
 		return  root;

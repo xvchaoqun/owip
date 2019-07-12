@@ -40,12 +40,10 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>--%>
                     </shiro:hasPermission>
 
-                <shiro:hasPermission name="orgAdmin:list">
                 <button data-url="${ctx}/org_admin"
                         data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
-                    </shiro:hasPermission>
                 <shiro:hasPermission name="party:add">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/party_import"

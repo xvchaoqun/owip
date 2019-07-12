@@ -100,8 +100,8 @@
             },
             </c:if>
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW || type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">
-            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate'},
-            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate'},
+            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用开始日期"}', width: 120, name: 'startDate'},
+            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"使用结束日期"}', width: 120, name: 'endDate'},
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
                 name: 'day',

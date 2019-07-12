@@ -74,11 +74,9 @@
                         </td>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <shiro:hasPermission name="orgAdmin:del">
-                                    <button class="delBtn btn btn-danger btn-xs" data-id="${orgAdmin.id}">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                </shiro:hasPermission>
+                                <button class="delBtn btn btn-danger btn-xs" data-id="${orgAdmin.id}">
+                                    <i class="fa fa-trash"></i> 删除
+                                </button>
                             </div>
                         </td>
                     </tr>

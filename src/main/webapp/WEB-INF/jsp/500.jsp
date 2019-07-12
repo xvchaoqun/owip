@@ -56,7 +56,14 @@
             回到首页
           </a>--%>
 
-          <a href="logout" class="btn btn-success">
+           <fmt:message key="logout.redirectUrl" bundle="${spring}" var="_logout_redirectUrl"/>
+          <c:if test="${empty _logout_redirectUrl || _logout_redirectUrl=='/'}">
+            <c:set var="logoutUrl" value="${ctx}/logout"/>
+          </c:if>
+          <c:if test="${not empty _logout_redirectUrl && _logout_redirectUrl!='/'}">
+            <c:set var="logoutUrl" value="${_logout_redirectUrl}"/>
+          </c:if>
+          <a href="${logoutUrl}"  class="btn btn-success">
             <i class="ace-icon fa fa-power-off"></i>
             安全退出
           </a>

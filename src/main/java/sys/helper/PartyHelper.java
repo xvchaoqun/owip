@@ -5,6 +5,7 @@ import domain.member.MemberApplyView;
 import domain.party.Branch;
 import domain.party.Party;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.party.BranchMemberService;
@@ -35,6 +36,26 @@ public class PartyHelper {
     public static Party getParty(Integer partyId) {
 
         return partyService.findAll().get(partyId);
+    }
+
+    public static void checkAuth(int partyId) {
+
+       checkAuth(partyId, null);
+    }
+
+    public static void checkAuth(int partyId, Integer branchId) {
+
+        //===========权限
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+            boolean isAdmin = isPresentPartyAdmin(loginUserId, partyId);
+
+            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以添加党员
+                isAdmin = isPresentBranchAdmin(loginUserId, partyId, branchId);
+            }
+            if (!isAdmin) throw new UnauthorizedException();
+        }
     }
 
     public static Boolean isPresentBranchAdmin(Integer userId, Integer partyId, Integer branchId) {

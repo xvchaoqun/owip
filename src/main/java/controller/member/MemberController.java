@@ -725,8 +725,10 @@ public class MemberController extends MemberBaseController {
 
         if (null != ids) {
             memberService.changeParty(ids, partyId, branchId);
-            logger.info(addLog(LogConstants.LOG_MEMBER, "批量校内组织关系转移：%s, %s, %s", ids, partyId, branchId));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "批量校内组织关系转移：%s, %s, %s",
+                    StringUtils.join( ids, ","), partyId, branchId));
         }
+
         return success(FormUtils.SUCCESS);
     }
 

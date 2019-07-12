@@ -4,15 +4,13 @@ import controller.global.OpException;
 import domain.party.*;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
-import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
 import java.util.*;
@@ -22,19 +20,6 @@ public class BranchMemberGroupService extends BaseMapper {
     
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private PartyMemberService partyMemberService;
-    
-    public void checkAuth(int partyId) {
-        
-        //===========权限
-        Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin) throw new UnauthorizedException();
-        }
-    }
     
     // 查找现任委员会
     public BranchMemberGroup getPresentGroup(int branchId) {
@@ -46,7 +31,6 @@ public class BranchMemberGroupService extends BaseMapper {
         if (size > 1) {
             throw new OpException("数据异常：现任班子不唯一。");
         }
-        
         if (size == 1) return branchMemberGroups.get(0);
         
         return null;
@@ -123,7 +107,7 @@ public class BranchMemberGroupService extends BaseMapper {
     public int insertSelective(BranchMemberGroup record) {
         
         Branch branch = branchMapper.selectByPrimaryKey(record.getBranchId());
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
         
         if (record.getIsPresent()) {
             clearPresentGroup(record.getBranchId());
@@ -200,7 +184,7 @@ public class BranchMemberGroupService extends BaseMapper {
         for (Integer id : ids) {
             BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
             Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-            checkAuth(branch.getPartyId());
+            PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
             
             if (!isDeleted) { // 恢复支部委员会
                 if (branch.getIsDeleted())
@@ -241,7 +225,7 @@ public class BranchMemberGroupService extends BaseMapper {
         
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(record.getId());
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
         
         BranchMemberGroup presentGroup = getPresentGroup(record.getBranchId());
         
@@ -274,7 +258,7 @@ public class BranchMemberGroupService extends BaseMapper {
         BranchMemberGroup entity = branchMemberGroupMapper.selectByPrimaryKey(id);
         
         Branch branch = branchMapper.selectByPrimaryKey(entity.getBranchId());
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId());
         
         Integer baseSortOrder = entity.getSortOrder();
         

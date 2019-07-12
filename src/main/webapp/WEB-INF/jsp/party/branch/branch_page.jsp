@@ -22,11 +22,14 @@
                     <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
             <c:if test="${cls==1}">
-                <shiro:hasPermission name="branch:edit">
+                    <shiro:hasPermission name="branch:add">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="branch:edit">
                      <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
-
+                    </shiro:hasPermission>
+                 <shiro:hasPermission name="branch:import">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/branch_import"
                             data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
@@ -42,12 +45,10 @@
                     </button>
                 </shiro:hasPermission>--%>
 
-                <shiro:hasPermission name="orgAdmin:list">
                 <button data-url="${ctx}/org_admin"
                         data-id-name="branchId" class="jqOpenViewBtn btn btn-warning btn-sm">
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
-                </shiro:hasPermission>
                 </c:if>
 
                 <shiro:hasPermission name="branch:transfer">

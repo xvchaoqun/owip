@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.party.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -14,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.utils.ContextHelper;
 
 import java.util.*;
@@ -22,8 +21,6 @@ import java.util.*;
 @Service
 public class BranchService extends BaseMapper {
 
-    @Autowired
-    private PartyMemberService partyMemberService;
     @Autowired
     private BranchMemberGroupService branchMemberGroupService;
     @Autowired
@@ -105,17 +102,6 @@ public class BranchService extends BaseMapper {
         return branchMapper.countByExample(example) > 0;
     }
 
-    public void checkAuth(int partyId) {
-
-        //===========权限
-        Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin) throw new UnauthorizedException();
-        }
-    }
-
     public String genCode(int partyId) {
 
         int num;
@@ -139,7 +125,7 @@ public class BranchService extends BaseMapper {
     @CacheEvict(value = "Branch:ALL", allEntries = true)
     public void insertSelective(Branch record) {
 
-        checkAuth(record.getPartyId());
+        PartyHelper.checkAuth(record.getPartyId());
 
         record.setIsDeleted(false);
         record.setCode(genCode(record.getPartyId()));
@@ -166,7 +152,7 @@ public class BranchService extends BaseMapper {
 
         for (Integer id : ids) {
             Branch branch = branchMapper.selectByPrimaryKey(id);
-            checkAuth(branch.getPartyId());
+            PartyHelper.checkAuth(branch.getPartyId());
 
             Branch record = new Branch();
             record.setId(id);
@@ -205,7 +191,7 @@ public class BranchService extends BaseMapper {
     public int updateByPrimaryKeySelective(Branch record) {
 
         Branch branch = branchMapper.selectByPrimaryKey(record.getId());
-        checkAuth(branch.getPartyId());
+        PartyHelper.checkAuth(branch.getPartyId(), record.getId());
 
         if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");

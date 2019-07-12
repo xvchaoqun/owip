@@ -137,15 +137,15 @@ public class BranchController extends BaseController {
         }
 
         //===========权限（只有分党委管理员，才可以管理党支部）
-        //criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        /*if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             if (partyIdList.size() > 0)
                 criteria.andPartyIdIn(partyIdList);
             else criteria.andPartyIdIsNull();
-        }
+        }*/
 
         if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
@@ -201,7 +201,7 @@ public class BranchController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("branch:edit")
+    //@RequiresPermissions("branch:edit")
     @RequestMapping(value = "/branch_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branch_au(@CurrentUser SysUserView loginUser, Branch record, String _foundTime, HttpServletRequest request) {
@@ -210,14 +210,19 @@ public class BranchController extends BaseController {
 
         // 权限控制
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            // 要求是分党委管理员
+            // 要求是分党委或支部管理员
             Integer partyId = record.getPartyId();
             if (id != null) {
                 Branch branch = branchService.findAll().get(id);
                 partyId = branch.getPartyId();
             }
+            int loginUserId = loginUser.getId();
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
-                throw new UnauthorizedException();
+                if (!isAdmin && id != null) { // 只有支部管理员或分党委管理员可以添加党员
+                    isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, id);
+                }
+                if (!isAdmin) throw new UnauthorizedException();
             }
         }
 
@@ -240,11 +245,19 @@ public class BranchController extends BaseController {
         }*/
 
         if (id == null) {
+
+            SecurityUtils.getSubject().checkPermission("branch:add");
+
             record.setCreateTime(new Date());
             branchService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加党支部：%s", record.getId()));
         } else {
-            record.setCode(null); // 不修改编号
+
+            SecurityUtils.getSubject().checkPermission("branch:edit");
+
+            if(!CmTag.isSuperAccount(ShiroHelper.getCurrentUsername())) {
+                record.setCode(null); // 不修改编号
+            }
             branchService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_PARTY, "更新党支部：%s", record.getId()));
         }
@@ -252,7 +265,7 @@ public class BranchController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("branch:edit")
+    //@RequiresPermissions("branch:edit")
     @RequestMapping("/branch_au")
     public String branch_au(Integer id, ModelMap modelMap) {
 
@@ -268,14 +281,14 @@ public class BranchController extends BaseController {
         return "party/branch/branch_au";
     }
 
-    @RequiresPermissions("branch:edit")
+    @RequiresPermissions("branch:import")
     @RequestMapping("/branch_import")
     public String branch_import(ModelMap modelMap) {
 
         return "party/branch/branch_import";
     }
 
-    @RequiresPermissions("branch:edit")
+    @RequiresPermissions("branch:import")
     @RequestMapping(value = "/branch_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branch_import(HttpServletRequest request) throws InvalidFormatException, IOException {

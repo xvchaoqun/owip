@@ -99,7 +99,7 @@
                             <i class="fa fa-download"></i> 导出</a>
                     </c:if>
                 </c:if>
-                <c:if test="${cls==1||cls==2}">
+                <c:if test="${module==2 && (cls==1||cls==2)}">
                     <shiro:hasPermission name="cadreCompanyList:import">
                     <span class="text-primary" style="padding-left: 10px">【注：此处仅包含现任干部兼职情况，可在“全部兼职”列表中查看离任干部的兼职情况】</span>
                     </shiro:hasPermission>
