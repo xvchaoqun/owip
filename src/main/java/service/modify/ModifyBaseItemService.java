@@ -86,7 +86,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
 
     // 更新申请变更的值
     @Transactional
-    public void approval(int id, Boolean status, Byte owType, String checkRemark, String checkReason) {
+    public void approval(int id, Boolean status, String checkRemark, String checkReason) {
 
         ModifyBaseItem mbi = modifyBaseItemMapper.selectByPrimaryKey(id);
         if (mbi == null) return;
@@ -323,6 +323,19 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                             ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
                     if (modifyBaseItems.size() > 0) {
                         throw new OpException("当前不允许修改党派加入时间：该用户存在未审批的“政治面貌”修改申请");
+                    }
+
+                    Member member = memberMapper.selectByPrimaryKey(userId);
+                    boolean isOwParty = (member!=null && (member.getStatus()==1 || member.getStatus()==4));
+                    if(!isOwParty) {
+                        CadreParty owParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                        isOwParty = (owParty != null);
+                    }
+                    CadreParty dpParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                    boolean isDpParty = (dpParty != null);
+                    int owType = 2; // 两个党派以上时或民主党派时，默认为民主党派的加入时间
+                    if(isOwParty && !isDpParty){
+                        owType = 1;
                     }
 
                     Date growTime = DateUtils.parseStringToDate(mbi.getModifyValue());

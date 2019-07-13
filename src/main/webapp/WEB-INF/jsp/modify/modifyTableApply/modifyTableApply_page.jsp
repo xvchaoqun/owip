@@ -16,6 +16,13 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls==1}">
+                                <shiro:hasPermission name="modifyTableApply:approval">
+                                <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/modifyTableApply_approval"
+                                        data-querystr="">
+                                    <i class="fa fa-check-square-o"></i> 批量审批
+                                </button>
+                                </shiro:hasPermission>
                                 <shiro:hasPermission name="modifyTableApply:fakeDel">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/modifyTableApply_fakeDel" data-title="删除申请记录"

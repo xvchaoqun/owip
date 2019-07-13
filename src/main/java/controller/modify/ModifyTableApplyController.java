@@ -357,18 +357,31 @@ public class ModifyTableApplyController extends ModifyBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 批量审批
+    @RequiresPermissions("modifyTableApply:approval")
+    @RequestMapping("/modifyTableApply_approval")
+    public String modifyTableApply_approval() {
+
+        return "modify/modifyTableApply/modifyTableApply_approval";
+    }
+
     // 审核
     @RequiresPermissions("modifyTableApply:approval")
     @RequestMapping(value = "/modifyTableApply_approval", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_modifyTableApply_approval(Integer id,
+    public Map do_modifyTableApply_approval(Integer id, // 单个审批
+                                            @RequestParam(value = "ids[]") Integer[] ids, // 批量审批
                                             Boolean status,
                                             String checkRemark,
                                             String checkReason){
-
         if (null != id){
+
             modifyTableApplyService.approval(id, status, checkRemark, checkReason);
             logger.info(addLog(LogConstants.LOG_ADMIN, "审核信息修改申请：%s, %s", id, status));
+        }else if(null != ids && ids.length>0){
+
+            modifyTableApplyService.approval(ids, status, checkRemark, checkReason);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量审核信息修改申请：%s, %s", StringUtils.join(ids, ","), status));
         }
 
         return success(FormUtils.SUCCESS);

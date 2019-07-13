@@ -106,7 +106,6 @@ public class ModifyBaseItemController extends ModifyBaseController{
         if (StringUtils.equals(code, "grow_time")){
 
             // 修改 党派加入时间，要判断一下当前账号是否拥有两个党派：
-
             Member member = memberService.get(userId);
             boolean isOwParty = (member!=null && (member.getStatus()==1 || member.getStatus()==4));
             if(!isOwParty) {
@@ -128,11 +127,10 @@ public class ModifyBaseItemController extends ModifyBaseController{
     @RequestMapping(value = "/modifyBaseItem_approval", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyBaseItem_approval(Integer id, Boolean status,
-                                          Byte owType, // 党派类别 1: 中共党员 2： 民主党派，同时是两种党派时，默认为民主党派
                                           String checkRemark, String checkReason){
 
         if (null != id){
-            modifyBaseItemService.approval(id, status, owType, checkRemark, checkReason);
+            modifyBaseItemService.approval(id, status, checkRemark, checkReason);
             logger.info(addLog(LogConstants.LOG_ADMIN, "审核基本信息修改申请：%s, %s", id, status));
         }
 

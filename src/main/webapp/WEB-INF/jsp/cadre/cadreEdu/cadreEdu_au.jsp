@@ -279,7 +279,8 @@
 	function eduIdChange(){
 		var $eduId = $("select[name=eduId]");
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
-				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"){
+				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"
+				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_sstd").id}"){
 			<c:if test="${sysUser.userId!=_user.userId}">
 			$("input[name=tutorName]").prop("disabled", false);
 			$("input[name=tutorTitle]").prop("disabled", false);

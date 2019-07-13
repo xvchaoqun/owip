@@ -125,7 +125,6 @@ public class ModifyBaseApplyController extends ModifyBaseController{
         return success(FormUtils.SUCCESS);
     }
 
-
     // 真删除
     @RequiresPermissions("modifyBaseApply:del")
     @RequestMapping(value = "/modifyBaseApply_batchDel", method = RequestMethod.POST)
@@ -138,6 +137,29 @@ public class ModifyBaseApplyController extends ModifyBaseController{
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除基本信息修改申请：%s", StringUtils.join(ids, ",")));
         }
 
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 批量审批
+    @RequiresPermissions("modifyBaseItem:approval")
+    @RequestMapping("/modifyBaseApply_approval")
+    public String modifyBaseApply_approval() {
+
+        return "modify/modifyBaseApply/modifyBaseApply_approval";
+    }
+
+    @RequiresPermissions("modifyBaseItem:approval")
+    @RequestMapping(value = "/modifyBaseApply_approval", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_modifyBaseApply_approval(
+                                   @RequestParam(value = "ids[]") Integer[] ids,
+                                   Boolean status,
+                                   String checkRemark,
+                                   String checkReason) {
+
+        modifyBaseApplyService.approval(ids, status, checkRemark, checkReason);
+
+        logger.info(addLog(LogConstants.LOG_ADMIN, "批量审批干部基本信息修改申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 }

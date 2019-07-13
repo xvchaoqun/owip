@@ -21,12 +21,18 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
                             `available`, `sort_order`) VALUES (1064, 0, '导入', '', 'function', '', NULL, 182, '0/1/260/182/',
                                                                1, 'branch:import', NULL, NULL, NULL, 1, NULL);
 UPDATE `sys_resource` SET `name`='修改' WHERE  `id`=193;
-delete FROM sys_resource WHERE permission = 'orgAdmin:*';
+delete FROM sys_resource WHERE permission = 'orgAdmin:*' ;
 
 -- 为 branch:add（分党委、党建管理员）， branch:edit（支部、分党委、党建管理员） 添加角色
 -- 给支部 增加 支部管理的权限
 
 -- 给西交大新增ct_passportDraw_return_admin
+INSERT INTO `base_content_tpl` (`name`, `remark`, `role_id`, `type`, `code`, `content`, `content_type`,
+                                `engine`, `param_count`, `param_names`, `param_def_values`,
+                                `sort_order`, `user_id`, `create_time`, `update_time`)
+                                VALUES ('证件未归还给管理员发短信', '第七天给管理员发短信', NULL,
+                                        1, 'ct_passportDraw_return_admin', '{0}，您好！{1}{2}于{3}领取的{4}应交回时间为{5}，目前还未交回组织部。[系统短信，请勿回复]', 1, 1, NULL, NULL, NULL, 60, NULL, NULL, '2019-07-13 08:58:25');
+
 
 20190708 北邮，西交，南航
 

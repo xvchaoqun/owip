@@ -122,6 +122,15 @@ public class ModifyTableApplyService extends BaseMapper {
         modifyTableApplyMapper.deleteByExample(example);
     }
 
+    // 批量审批
+    @Transactional
+    public void approval(Integer[] ids, Boolean status, String checkRemark, String checkReason) {
+
+        for (Integer id : ids) {
+            approval(id, status, checkRemark, checkReason);
+        }
+    }
+
     // 审核
     @Transactional
     public void approval(int id, Boolean status, String checkRemark, String checkReason) {

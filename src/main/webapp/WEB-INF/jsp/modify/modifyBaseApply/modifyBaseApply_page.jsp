@@ -32,6 +32,13 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==1}">
+                                <shiro:hasPermission name="modifyBaseItem:approval">
+                                <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/modifyBaseApply_approval"
+                                        data-querystr="">
+                                    <i class="fa fa-check-square-o"></i> 批量审批
+                                </button>
+                                </shiro:hasPermission>
                                 <shiro:hasPermission name="<%=SystemConstants.PERMISSION_CADREADMINSELF%>">
                                     <a class="openView btn btn-success btn-sm"
                                        data-url="${ctx}/user/modifyBaseApply_au"

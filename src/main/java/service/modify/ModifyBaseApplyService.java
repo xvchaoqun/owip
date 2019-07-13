@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseApplyExample;
 import domain.modify.ModifyBaseItem;
+import domain.modify.ModifyBaseItemExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class ModifyBaseApplyService extends BaseMapper {
     protected SpringProps springProps;
     @Autowired
     protected AvatarService avatarService;
+    @Autowired
+    protected ModifyBaseItemService modifyBaseItemService;
 
     // 查找未完成审批的申请（只有一条）
     public ModifyBaseApply get(int userId){
@@ -190,5 +193,20 @@ public class ModifyBaseApplyService extends BaseMapper {
         ModifyBaseApplyExample example = new ModifyBaseApplyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         modifyBaseApplyMapper.deleteByExample(example);
+    }
+
+    // 批量审批
+    @Transactional
+    public void approval(Integer[] ids, Boolean status, String checkRemark, String checkReason) {
+
+        ModifyBaseItemExample example = new ModifyBaseItemExample();
+            example.createCriteria().andApplyIdIn(Arrays.asList(ids))
+                    .andStatusEqualTo(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
+        List<ModifyBaseItem> modifyBaseItems = modifyBaseItemMapper.selectByExample(example);
+
+        for (ModifyBaseItem modifyBaseItem : modifyBaseItems) {
+
+            modifyBaseItemService.approval(modifyBaseItem.getId(), status, checkRemark, checkReason);
+        }
     }
 }

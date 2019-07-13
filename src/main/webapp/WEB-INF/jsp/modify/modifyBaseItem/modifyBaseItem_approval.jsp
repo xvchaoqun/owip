@@ -93,26 +93,6 @@ pageEncoding="UTF-8"%>
 
             </div>
         </div>
-        <c:if test="${record.code=='grow_time'}">
-            <c:if test="${isOwParty && isDpParty}">
-            <%--<div class="form-group">
-                <label class="col-xs-3 control-label">选择党派类别</label>
-                <div class="col-xs-8"  style="font-size: 15px;">
-                    <div class="input-group">
-                        <input required name="owType" type="radio" class="big" value="1" checked/> 中共党员
-                        <input required name="owType" type="radio"  class="big" value="2"/> 民主党派
-                    </div>
-                    <span class="help-block red">
-                        请选择该账号对应的一个党派类别
-                    </span>
-                </div>
-             </div>--%>
-                <input type="hidden" name="owType" value="2"> <!-- 两个党派以上时，默认为民主党派-->
-            </c:if>
-            <c:if test="${!isOwParty || !isDpParty}">
-                <input type="hidden" name="owType" value="${isOwParty?1:2}">
-            </c:if>
-        </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label">审核意见</label>
             <div class="col-xs-8"  style="font-size: 15px;">
