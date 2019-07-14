@@ -1,6 +1,12 @@
 
+20190714 更新南航 师大xxx
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('statPartyMemberCount', '统计党委的党员数', '20', 2, 34, '统计前多少个党派的党员人数');
+
+
 20190714
-更新 北航
+更新 北航，南航，北邮
 
 20190713
 

@@ -281,6 +281,8 @@ public class CadreEduService extends BaseMapper {
     @Transactional
     public void modifyApply(CadreEdu record, Integer id, boolean isDelete){
 
+        Integer userId = ShiroHelper.getCurrentUserId();
+
         CadreEdu original = null; // 修改、删除申请对应的原纪录
         byte type;
         if(isDelete){ // 删除申请时id不允许为空
@@ -291,6 +293,19 @@ public class CadreEduService extends BaseMapper {
             if(record.getId()==null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
+
+                {
+                    // 如果不存在删除申请时，则不允许提交存在最高学位（学历）的修改申请
+                    ModifyTableApplyExample example = new ModifyTableApplyExample();
+                    example.createCriteria()
+                            .andApplyUserIdEqualTo(userId)
+                            .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU)
+                            .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
+                    if(modifyTableApplyMapper.countByExample(example) == 0) {
+                        checkUpdate(record);
+                    }
+                }
+
                 original = cadreEduMapper.selectByPrimaryKey(record.getId());
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
 
@@ -319,7 +334,6 @@ public class CadreEduService extends BaseMapper {
             }
         }
 
-        Integer userId = ShiroHelper.getCurrentUserId();
         CadreView cadre = cadreService.dbFindByUserId(userId);
         record.setCadreId(cadre.getId());  // 保证本人只能提交自己的申请
         record.setId(null);
