@@ -370,7 +370,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
     @RequestMapping(value = "/modifyTableApply_approval", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyTableApply_approval(Integer id, // 单个审批
-                                            @RequestParam(value = "ids[]") Integer[] ids, // 批量审批
+                                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 批量审批
                                             Boolean status,
                                             String checkRemark,
                                             String checkReason){
