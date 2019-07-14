@@ -278,6 +278,19 @@
 
 	function eduIdChange(){
 		var $eduId = $("select[name=eduId]");
+		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_zz").id}"){
+
+			$("input[name=dep]").val('').removeAttr("required");
+			$("input[name=major]").val('').removeAttr("required");
+			$("input[name=dep]").closest(".form-group").find(".control-label").html('院系')
+			$("input[name=major]").closest(".form-group").find(".control-label").html('所学专业')
+		}else{
+			$("input[name=dep]").attr("required", "required");
+			$("input[name=major]").attr("required", "required");
+			$("input[name=dep]").closest(".form-group").find(".control-label").html('<span class="star">*</span>院系')
+			$("input[name=major]").closest(".form-group").find(".control-label").html('<span class="star">*</span>所学专业')
+		}
+
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
 				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"
 				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_sstd").id}"){

@@ -129,6 +129,8 @@ public class UnitPostController extends BaseController {
             records.add(record);
         }
 
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
         int addCount = unitPostService.bacthImport(records);
         int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

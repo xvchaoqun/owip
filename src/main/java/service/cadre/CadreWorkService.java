@@ -104,9 +104,15 @@ public class CadreWorkService extends BaseMapper {
                 //String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYYMM);
                 if (learnStyle.intValue() == fulltimeType.getId()) {
 
+                    String major = StringUtils.trimToNull(cadreEdu.getMajor());
+                    if(major!=null){
+                        major = StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业"));
+                    }else{
+                        major = "";
+                    }
                     String detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
                             StringUtils.trimToEmpty(cadreEdu.getDep()),
-                            StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业")),
+                            major,
                             StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId())),
                             StringUtils.isNotBlank(cadreEdu.getNote())?String.format("（%s）", cadreEdu.getNote()):""
                     );
@@ -131,9 +137,16 @@ public class CadreWorkService extends BaseMapper {
 
                 } else if (learnStyle.intValue() == onjobType.getId()) {
 
+                    String major = StringUtils.trimToNull(cadreEdu.getMajor());
+                    if(major!=null){
+                        major = StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业"));
+                    }else{
+                        major = "";
+                    }
+
                     String detail = String.format("在%s%s%s在职%s学习%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
                             StringUtils.trimToEmpty(cadreEdu.getDep()),
-                            StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业")),
+                            major,
                             StringUtils.trimToEmpty(EduSuffix.getEduSuffix2(cadreEdu.getEduId())),
                             cadreEdu.getIsGraduated()?"毕业":"",
                             cadreEdu.getHasDegree()?
