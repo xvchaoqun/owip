@@ -1,4 +1,7 @@
 
+20190716
+
+
 20190716 更新北邮，南航
 
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
