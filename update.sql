@@ -1,5 +1,5 @@
 
-20190716 更新北邮，南航  师大xxx
+20190716 更新北邮，南航
 
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
@@ -7,7 +7,7 @@ INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `
                             VALUES (0, '删除党员', '', 'function', '', NULL, 107, '0/1/105/107/', 1, 'member:del', NULL, NULL, NULL, 1, NULL);
 
 
-20190714 更新南航 师大xxx
+20190714 更新南航
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('statPartyMemberCount', '统计党委的党员数', '20', 2, 34, '统计前多少个党派的党员人数');

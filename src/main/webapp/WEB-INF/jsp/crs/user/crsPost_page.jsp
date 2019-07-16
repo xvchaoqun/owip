@@ -66,9 +66,11 @@
                         //console.log(nowTime + "--" + endTime);
                         if (endTime < nowTime) {
                             if(!canApply) return '报名结束'
+                            // 否则可以补报名
+                        }else{
+                            return '未开启';
                         }
                     }
-                    return '未开启';
                 }
                 if(hasApply){
                     if(hasQuit){
