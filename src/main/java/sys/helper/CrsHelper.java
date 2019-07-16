@@ -23,6 +23,8 @@ public class CrsHelper {
 
     public static CrsPost getCrsPost(Integer id) {
 
+        if(id==null) return null;
+
         CrsPostService crsPostService = CmTag.getBean(CrsPostService.class);
 
         return crsPostService.get(id);
