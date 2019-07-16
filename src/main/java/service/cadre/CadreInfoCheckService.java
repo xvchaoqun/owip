@@ -505,7 +505,7 @@ public class CadreInfoCheckService extends BaseMapper {
 
         if (StringUtils.isBlank(name)) return;
 
-        Assert.isTrue(canUpdateInfoCheck(cadreId, name), "当前不可更新");
+        Assert.isTrue(!isChecked || canUpdateInfoCheck(cadreId, name), "当前不可更新");
 
         CadreInfoCheck cadreInfoCheck = cadreInfoCheckMapper.selectByPrimaryKey(cadreId);
         if (cadreInfoCheck == null) {

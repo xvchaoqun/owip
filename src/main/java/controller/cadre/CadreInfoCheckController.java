@@ -75,9 +75,9 @@ public class CadreInfoCheckController extends BaseController {
             sysUserInfoMapper.updateByExampleSelective(record, example);
 
         }else {
-            if (!cadreInfoCheckService.canUpdateInfoCheck(cadreId, name)) {
+            if (isChecked && !cadreInfoCheckService.canUpdateInfoCheck(cadreId, name)) {
 
-                return failed("当前不可进行此操作");
+                return failed("存在相关数据，无法进行此操作");
             }
             cadreInfoCheckService.update(cadreId, name, isChecked);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加/更新干部信息检查：%s, %s, %s", cadreId, name, isChecked));

@@ -19,3 +19,34 @@
     </li>
   </shiro:hasRole>
 </ul>
+<script>
+  <c:if test="${cls==0}">
+    $(document).off("change", ".cadre-info-check").on("change", ".cadre-info-check", function (e) {
+          var $this = $(this);
+          var name = $this.data("name");
+          var isChecked = $this.prop("checked");
+
+          $.post("${ctx}/cadreInfoCheck_update?cadreId=${cadre.id}&toApply=1", {
+              name: name,
+              isChecked: isChecked
+          }, function (ret) {
+              //console.log(name + ":" + isChecked)
+              if (ret.success) {
+                  $this.tip({content: '操作成功'});
+                  $("button.btn").prop("disabled", isChecked);
+              } else {
+                  $this.prop("checked", !isChecked);
+              }
+          })
+      })
+    $(function(){
+      <c:if test="${!canUpdate}">
+      $("button.btn").prop("disabled", true);
+      </c:if>
+      $(".cadre-info-check").prop("checked", ${!canUpdate});
+      <c:if test="${!canUpdateInfoCheck && canUpdate}">
+      $(".cadre-info-check").prop("disabled", true);
+      </c:if>
+    })
+  </c:if>
+</script>
