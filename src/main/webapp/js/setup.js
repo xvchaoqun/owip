@@ -905,6 +905,58 @@ $(document).on("click", ".jqBatchBtn", function (e) {
     });
 });
 
+$(document).on("click", ".jqRunBtn", function (e) {
+
+    e.stopPropagation();
+     var $this = $(this);
+    var url = $this.data("url");
+    var queryString = $this.data("querystr");
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+
+    var title = $this.data("title");
+    var msg = $this.data("msg");
+    var gridId = $this.data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
+    var ids = grid.getGridParam("selarrrow");
+    var callback = $.trim($this.data("callback"));
+
+    if (ids.length == 0) {
+        SysMsg.warning("请选择行", "提示");
+        return;
+    }
+
+    $this.data("loading-text", $this.data("loading-text") || '<i class="fa fa-spinner fa-spin"></i> 操作中')
+
+    var callback = $.trim($this.data("callback"));
+    SysMsg.confirm(msg.format(ids.length), title, function () {
+
+        var $btn = $this.button('loading');
+        $.post(url, {ids: ids}, function (ret) {
+            if (ret.success) {
+                if($this.data("tip")!='no') {
+                    var $tip = $.tip({
+                        $target: $this,
+                        at: 'top center', my: 'bottom center', type: 'success',
+                        msg: $this.data("success-text") || "操作成功"
+                    });
+                    setTimeout(function () {
+                        $tip.qtip('destroy', true);
+                        //console.log($tip)
+                        $this.closest(".btn-group").removeClass("open");
+                    }, 3000)
+                }
+                if (callback) {
+                    // console.log($this)
+                    window[callback]($this, ret);
+                } else {
+                    grid.trigger("reloadGrid");
+                }
+            }
+            $btn.button('reset');
+        });
+    });
+});
+
 // 操作for jqgrid
 $(document).on("click", ".jqItemBtn", function () {
 

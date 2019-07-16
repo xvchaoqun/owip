@@ -646,6 +646,19 @@ public class MemberController extends MemberBaseController {
     public Map do_member_modify_status(int userId, byte politicalStatus, String remark) {
 
         Member member = memberMapper.selectByPrimaryKey(userId);
+        Integer partyId = member.getPartyId();
+        Integer branchId = member.getBranchId();
+        //===========权限
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以操作
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
+            }
+            if (!isAdmin) throw new UnauthorizedException();
+        }
+
         if (member.getPoliticalStatus() != politicalStatus) {
             memberService.addModify(userId, "修改党籍状态");
             memberService.modifyStatus(userId, politicalStatus, remark);
@@ -746,16 +759,20 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
+    @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map member_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
 
             List<Member> members = new ArrayList<>();
             for (Integer id : ids) {
-                members.add(memberService.get(id));
+
+                Member member = memberService.get(id);
+                PartyHelper.checkAuth(member.getPartyId(), member.getBranchId());
+
+                members.add(member);
             }
 
             memberService.batchDel(ids, true);

@@ -92,11 +92,11 @@
                                 </ul>
                             </div>
                             </c:if>
-                            <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+                            <shiro:hasPermission name="member:del">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/member_batchDel" data-title="删除"
-                                   data-msg="确定删除这{0}条数据吗？"><i class="fa fa-trash"></i> 删除</a>
-                            </shiro:hasAnyRoles>
+                                   data-msg="确定删除这{0}位党员吗？<br/>（相关党员数据将全部删除，请谨慎操作！）"><i class="fa fa-trash"></i> 删除</a>
+                            </shiro:hasPermission>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box collapsed<%--${_query?'':'collapsed'}--%> hidden-sm hidden-xs">
                             <div class="widget-header">

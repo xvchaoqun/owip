@@ -21,7 +21,7 @@
                         <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="openView btn btn-info btn-sm" data-url="${ctx}/dispatch_cadres"><i class="fa fa-plus"></i> 添加干部任免</a>
-                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="700">
+                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="800">
                         <i class="fa fa-edit"></i> 修改信息</button>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>

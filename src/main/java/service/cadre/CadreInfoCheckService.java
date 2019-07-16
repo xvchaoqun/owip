@@ -1,21 +1,6 @@
 package service.cadre;
 
-import domain.cadre.CadreBookExample;
-import domain.cadre.CadreCompanyExample;
-import domain.cadre.CadreCourseExample;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreEduExample;
-import domain.cadre.CadreFamilyAbroadExample;
-import domain.cadre.CadreInfoCheck;
-import domain.cadre.CadrePaperExample;
-import domain.cadre.CadreParttimeExample;
-import domain.cadre.CadrePostAdminExample;
-import domain.cadre.CadrePostProExample;
-import domain.cadre.CadrePostWorkExample;
-import domain.cadre.CadreResearchExample;
-import domain.cadre.CadreRewardExample;
-import domain.cadre.CadreTrainExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import domain.sys.SysUserInfo;
@@ -36,6 +21,8 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -76,9 +63,12 @@ public class CadreInfoCheckService extends BaseMapper {
         if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 9))) return false;
 
         if(notComplete(CmTag.cadreInfoCheck(cadreId, "work", 3))) return false;
-        if(notComplete(cadreId, "post_pro", 4)) return false;
-        if(notComplete(cadreId, "post_admin", 4)) return false;
-        if(notComplete(cadreId, "post_work", 4)) return false;
+
+        if(CmTag.userIsPermitted(userId, "cadrePostInfo:*")) {
+            if (notComplete(cadreId, "post_pro", 4)) return false;
+            if (notComplete(cadreId, "post_admin", 4)) return false;
+            if (notComplete(cadreId, "post_work", 4)) return false;
+        }
 
         if(notComplete(cadreId, "parttime", 3)) return false;
         if(notComplete(cadreId, "train", 3)) return false;
@@ -365,6 +355,27 @@ public class CadreInfoCheckService extends BaseMapper {
                 : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
+    // 把所有的“无此类情况”更新为是（相应模块的记录数为0时）
+    public void batchUpdateInfoCheck(int cadreId){
+
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+        int userId = cadre.getUserId();
+
+        List<String> names = new ArrayList<>();
+        if(CmTag.userIsPermitted(userId, "cadrePostInfo:*")) {
+            names.addAll(Arrays.asList("post_pro", "post_admin", "post_work"));
+        }
+        names.addAll(Arrays.asList("parttime", "train", "course",
+                "course_reward", "research_direct", "research_in", "book",
+                "paper", "research_reward", "reward", "family_abroad", "company"));
+
+        for (String name : names) {
+
+            if(canUpdateInfoCheck(cadreId, name)) {
+                update(cadreId, name, true);
+            }
+        }
+    }
 
     // 必须相应模块的记录数为0， 才可以更新“无此记录”
     public boolean canUpdateInfoCheck(int cadreId, String name) {

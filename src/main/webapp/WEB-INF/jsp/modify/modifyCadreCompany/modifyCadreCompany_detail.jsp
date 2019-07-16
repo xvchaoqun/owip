@@ -43,8 +43,10 @@
                 <tr>
                     <td data-code="type">兼职类型</td>
                     <td class="bg-left">${cm:getMetaType(modify.type).name}
-                        ${(cm:getMetaTypeByCode("mt_cadre_company_other").id==modify.type
-                        && not empty modify.typeOther)?"："+modify.typeOther:""}
+                        <c:if test="${(cm:getMetaTypeByCode('mt_cadre_company_other').id==modify.type
+                        && not empty modify.typeOther)}">
+                            ：${modify.typeOther}
+                        </c:if>
                     </td>
                     <td data-code="unit">兼职单位</td>
                     <td class="bg-left">${modify.unit}</td>

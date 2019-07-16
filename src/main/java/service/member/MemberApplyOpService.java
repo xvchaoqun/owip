@@ -221,9 +221,9 @@ public class MemberApplyOpService extends MemberBaseMapper {
             boolean directParty = verifyAuth.isDirectBranch;
             int partyId = memberApply.getPartyId();
 
-            if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
+            /*if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
                 throw new OpException("不在开放时间范围");
-            }
+            }*/
             Date planTime = DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD);
             if(planTime.before(memberApply.getCandidateTime())){
                 throw new OpException("列入发展计划时间应该在确定为发展对象之后");
@@ -265,9 +265,9 @@ public class MemberApplyOpService extends MemberBaseMapper {
             MemberApply memberApply = verifyAuth.entity;
             Integer partyId = memberApply.getPartyId();
 
-            if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
+            /*if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
                 throw new OpException("不在开放时间范围");
-            }
+            }*/
             MemberApply record = new MemberApply();
             record.setStage(OwConstants.OW_APPLY_STAGE_PLAN);
             record.setPlanStatus(OwConstants.OW_APPLY_STATUS_CHECKED);

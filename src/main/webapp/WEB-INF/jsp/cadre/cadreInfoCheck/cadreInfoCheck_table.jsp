@@ -232,7 +232,7 @@
                     toEdit="${toEdit}" displayEdit="${displayEdit}"/>
         </td>
     </tr>
-
+    <c:if test="${cm:userIsPermitted(sysUser.id, 'cadrePostInfo:*')}">
     <tr>
         <td rowspan="3">
             岗位过程信息
@@ -290,7 +290,7 @@
                     toEdit="${toEdit}" displayEdit="${displayEdit}"/>
         </td>
     </tr>
-
+    </c:if>
 
     <tr>
         <td>

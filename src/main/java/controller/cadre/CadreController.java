@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.cadre.CadreAdformService;
+import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreInfoFormService;
 import service.cadre.CadreService;
 import shiro.ShiroHelper;
@@ -299,7 +300,7 @@ public class CadreController extends BaseController {
             // 一览表
             cadre_export(format, status, cols, example, response);
             return;
-        } else if (export == 2 || export == 3) {
+        } else if (export == 2 || export == 3 || export == 5) {
 
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -310,9 +311,12 @@ public class CadreController extends BaseController {
             if (export == 2) {
                 // 干部任免审批表
                 cadreAdformService.export(cadreIds, format==1, request, response);
-            } else {
+            } else if(export == 3){
                 // 干部信息采集表
                 cadreInfoFormService.export(cadreIds, request, response);
+            } else if(export == 5){
+
+                perfectCadreInfoExport(cadreIds, response);
             }
             return;
         } else if (export == 4) {
@@ -406,6 +410,36 @@ public class CadreController extends BaseController {
         }
         String fileName = String.format("干部批量排序表(%s)",
                 CadreConstants.CADRE_STATUS_MAP.get(status));
+
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    private void perfectCadreInfoExport(Integer[] cadreIds, HttpServletResponse response) {
+
+        CadreViewExample example = new CadreViewExample();
+        example.createCriteria().andIdIn(Arrays.asList(cadreIds));
+        example.setOrderByClause("sort_order desc");
+
+        List<CadreView> records = cadreViewMapper.selectByExample(example);
+
+        int rownum = records.size();
+        String[] titles = {"工作证号|120", "姓名|100", "所在单位及职务|400|left", "完整性校验结果|120"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+
+            CadreView cv = records.get(i);
+
+            boolean perfectCadreInfo = CadreInfoCheckService.perfectCadreInfo(cv.getUserId());
+
+            String[] values = {
+                    cv.getCode(),
+                    cv.getRealname(),
+                    cv.getTitle(),
+                    perfectCadreInfo?"通过":"未通过"
+            };
+            valuesList.add(values);
+        }
+        String fileName = "干部信息完整性校验结果";
 
         ExportHelper.export(titles, valuesList, fileName, response);
     }

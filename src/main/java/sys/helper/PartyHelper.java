@@ -51,7 +51,7 @@ public class PartyHelper {
 
             boolean isAdmin = isPresentPartyAdmin(loginUserId, partyId);
 
-            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以添加党员
+            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以维护党员信息
                 isAdmin = isPresentBranchAdmin(loginUserId, partyId, branchId);
             }
             if (!isAdmin) throw new UnauthorizedException();

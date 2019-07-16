@@ -13,6 +13,7 @@ import domain.dispatch.DispatchType;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysRole;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import mixin.MetaTypeOptionMixin;
 import mixin.OptionMixin;
@@ -40,6 +41,7 @@ import service.party.BranchService;
 import service.party.PartyService;
 import service.sys.SysPropertyService;
 import service.sys.SysRoleService;
+import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import service.unit.UnitService;
 import sys.constants.AbroadConstants;
@@ -67,6 +69,8 @@ public class CacheService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
+    private SysUserService sysUserService;
+    @Autowired
     private SysRoleService sysRoleService;
     @Autowired
     private SysPropertyService sysPropertyService;
@@ -90,6 +94,31 @@ public class CacheService extends BaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public final static String MENU_COUNT_CACHE_NAME = "menu_count_cache";
+
+    // 判断某个角色是否拥有某个权限
+    public boolean roleIsPermitted(String role, String permission){
+
+        SysRole sysRole = sysRoleService.getByRole(role);
+        if(sysRole==null) return false;
+
+        Set<String> rolePermissions = new HashSet<>();
+        rolePermissions.addAll(sysRoleService.getRolePermissions(sysRole.getId(), false));
+        rolePermissions.addAll(sysRoleService.getRolePermissions(sysRole.getId(), true));
+
+        return rolePermissions.contains(permission);
+    }
+
+    // 判断某个用户是否拥有某个权限
+    public boolean userIsPermitted(Integer userId, String permission){
+
+        SysUserView uv = sysUserService.findById(userId);
+
+        Set<String> userPermissions = new HashSet<>();
+        userPermissions.addAll(sysUserService.findPermissions(uv.getUsername(), false));
+        userPermissions.addAll(sysUserService.findPermissions(uv.getUsername(), true));
+
+        return userPermissions.contains(permission);
+    }
 
     // 异步Pdf转图片
     @Async

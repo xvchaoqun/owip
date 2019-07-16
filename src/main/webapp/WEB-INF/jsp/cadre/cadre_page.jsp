@@ -128,11 +128,30 @@
                                     </div>
                                     </shiro:hasPermission>
                                 </c:if>
-                                <shiro:hasPermission name="cadre:import">
-                                     <button class="popupBtn btn btn-warning btn-sm tooltip-info"
-                                       data-url="${ctx}/cadre_batchSort?status=${status}"
-                                       data-rel="tooltip" data-placement="top" title="批量排序"><i class="fa fa-sort"></i>
-                                        批量排序</button>
+                                <shiro:hasPermission name="cadre:edit">
+                                    <div class="btn-group">
+                                        <button data-toggle="dropdown"
+                                                data-rel="tooltip" data-placement="top" data-html="true"
+                                                title="<div style='width:180px'>批量干部信息入口</div>"
+                                                class="btn btn-warning btn-sm dropdown-toggle tooltip-success">
+                                            <i class="fa fa-download"></i> 批量操作 <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                                            <li>
+                                                <a href="javascript:;" class="popupBtn"
+                                                   data-url="${ctx}/cadre_batchSort?status=${status}">
+                                                    <i class="fa fa-file-excel-o"></i> 批量排序</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqRunBtn" data-grid-id="#jqGrid"
+                                                   data-title="更新"
+                                                    data-msg="确定更新这{0}条数据（<span class='text-danger'>更新所有的“无此类情况”为“是”</span>）？"
+                                                   data-url="${ctx}/cadreInfoCheck_batchUpdate?status=${status}">
+                                                    <i class="fa fa-check-circle-o"></i> 更新“无此类情况”为“是”</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:export">
                                     <div class="btn-group">
@@ -226,6 +245,14 @@
                                                    data-export="3"
                                                    data-url="${ctx}/cadre_data">
                                                     <i class="fa fa-file-excel-o"></i> 导出信息采集表（批量）</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false"
+                                                   data-export="5"
+                                                   data-url="${ctx}/cadre_data">
+                                                    <i class="fa fa-info-circle"></i> 干部信息完整性校验结果（批量）</a>
                                             </li>
                                         </ul>
                                     </div>

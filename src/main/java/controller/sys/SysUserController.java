@@ -615,7 +615,7 @@ public class SysUserController extends BaseController {
     // 批量更新信息
     @RequiresPermissions("sysUser:edit")
     @RequestMapping("/sysUser_batchUpdate")
-    public String cadre_batchSort(ModelMap modelMap) {
+    public String sysUser_batchUpdate(ModelMap modelMap) {
 
         return "sys/sysUser/sysUser_batchUpdate";
     }
