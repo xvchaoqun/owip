@@ -1,5 +1,5 @@
 
-20190716 更新北邮 师大xxx
+20190716 更新北邮，南航  师大xxx
 
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
