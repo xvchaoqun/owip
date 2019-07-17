@@ -462,12 +462,12 @@ public class MemberRegController extends MemberBaseController {
             }
 
             String mobile = StringUtils.trimToNull(xlsRow.get(3));
-            if (StringUtils.isBlank(mobile)) {
+            /*if (StringUtils.isBlank(mobile)) {
                 throw new OpException("第{0}行手机号为空", mobile);
             }
             if (!CmTag.validMobile(mobile)) {
                 return failed("手机号码有误");
-            }
+            }*/
             record.setPhone(mobile);
 
             String partyCode = StringUtils.trim(xlsRow.get(5));
