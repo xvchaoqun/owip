@@ -26,7 +26,8 @@
                                 data-open-by="page" data-id-name="userId">
                             <i class="fa fa-info-circle"></i> 修改基本信息
                         </button>
-
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="sysUser:del">
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/sysUserRole">
                             <i class="fa fa-user-circle"></i> 修改角色
@@ -41,6 +42,7 @@
                                 data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
                             <i class="fa fa-lock"></i> 禁用
                         </button>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="menu:preview">
                             <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                     data-url="${ctx}/sysUser_menu" data-width="850"
@@ -48,7 +50,7 @@
                                 <i class="fa fa-search"></i> 菜单预览
                             </button>
                         </shiro:hasPermission>
-                    </shiro:hasPermission>
+                    <shiro:hasPermission name="sysUser:del">
                     <div class="btn-group">
                         <button data-toggle="dropdown"
                                 data-rel="tooltip" data-placement="top" data-html="true"
@@ -90,6 +92,7 @@
                             </li>
                         </ul>
                     </div>
+                    </shiro:hasPermission>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

@@ -51,7 +51,7 @@ public class SyncController extends BaseController {
     private ExtRetireSalaryImport extRetireSalaryImport;
 
     // 离退休人员党费计算基数
-    @RequiresPermissions("sysSync:edit")
+    @RequiresPermissions("sysSync:salary")
     @RequestMapping("/sync_retire_salary")
     @ResponseBody
     public String sync_retire_salary(String rq) {
@@ -61,14 +61,14 @@ public class SyncController extends BaseController {
     }
 
     // 同步学校信息（系统不存在账号插入，已存在的更新）
-    @RequiresPermissions("sysSync:edit")
+    @RequiresPermissions("sysSync:user")
     @RequestMapping("/sync_user_byCode")
     public String sync_user_byCode() {
 
         return "sys/sysSync/sync_user_byCode";
     }
 
-    @RequiresPermissions("sysSync:edit")
+    @RequiresPermissions("sysSync:user")
     @RequestMapping(value = "/sync_user_byCode", method = RequestMethod.POST)
     @ResponseBody
     public Map sync_user_byCode(String code) {
@@ -112,7 +112,7 @@ public class SyncController extends BaseController {
     }
 
     // 同步学校用户信息（系统已存在该账号）
-    @RequiresPermissions("sysSync:edit")
+    @RequiresPermissions("sysSync:user")
     @RequestMapping(value = "/sync_user", method = RequestMethod.POST)
     @ResponseBody
     public Map sync_user(Integer userId) {
@@ -147,7 +147,7 @@ public class SyncController extends BaseController {
     }
 
     // 同步学校信息（批量）
-    @RequiresPermissions("sysSync:edit")
+    @RequiresPermissions("sysSync:batch")
     @RequestMapping("/sync_user_batch")
     @ResponseBody
     public Map sync_user_batch(int type) {

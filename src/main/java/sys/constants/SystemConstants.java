@@ -60,6 +60,10 @@ public class SystemConstants {
 
     public static final String PERMISSION_PARTYVIEWALL = "party:viewAll"; // 查看所有党委、支部的权限
 
+    public static final String PERMISSION_ABROADADMIN = "abroad:admin"; // 因私管理员权限
+
+    public static final String PERMISSION_CLAADMIN = "cla:admin"; // 请假管理员权限
+
     // 系统配置字段：
     // 因私出国（境）申请说明
     public static final String HTML_FRAGMENT_APPLY_SELF_NOTE = "hf_apply_self_note";

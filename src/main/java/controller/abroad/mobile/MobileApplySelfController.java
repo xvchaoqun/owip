@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import persistence.abroad.common.ApprovalResult;
 import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -34,7 +34,6 @@ import java.util.Map;
 public class MobileApplySelfController extends AbroadBaseController {
 
 	@RequiresPermissions("applySelf:list")
-	//@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf")
 	public String applySelf(ModelMap modelMap) {
 
@@ -42,7 +41,6 @@ public class MobileApplySelfController extends AbroadBaseController {
 	}
 
 	@RequiresPermissions("applySelf:list")
-	//@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf_page")
 	public String applySelf_page(HttpServletResponse response,
 							   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
@@ -121,7 +119,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		Integer cadreId = applySelf.getCadreId();
 
 		// 判断一下查看权限++++++++++++++++++++???
-		if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
+		if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
 			CadreView cadre = iCadreMapper.getCadre(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
 				//ShiroUser shiroUser = ShiroHelper.getShiroUser();

@@ -512,7 +512,7 @@ public class SysUserService extends BaseMapper {
                 }
             }
 
-            // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
+            // 没有审批权限的干部，没有（abroad:menu（目录）, applySelf:approvalList)
             if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) || approverTypeBean == null ||
                     !approverTypeBean.isApprover()) {
@@ -520,7 +520,7 @@ public class SysUserService extends BaseMapper {
                 userPermissions.remove("applySelf:approvalList"); // 因私出国境审批
                 if (!userRoles.contains(RoleConstants.ROLE_CADREADMIN)) {
                     // 干部管理员 需要目录，普通干部不需要
-                    userPermissions.remove("abroad:admin"); // 因私出国境审批（目录）
+                    userPermissions.remove("abroad:menu"); // 因私出国境审批（目录）
                 }
             }
 

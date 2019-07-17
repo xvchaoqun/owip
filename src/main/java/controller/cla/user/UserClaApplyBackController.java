@@ -4,7 +4,6 @@ import controller.cla.ClaBaseController;
 import domain.cadre.CadreView;
 import domain.cla.ClaApply;
 import mixin.MixinUtils;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +42,6 @@ public class UserClaApplyBackController extends ClaBaseController {
         return "cla/user/claApply/claApply_back";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/claApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_claApply_back(Integer cadreId,
@@ -52,7 +50,7 @@ public class UserClaApplyBackController extends ClaBaseController {
 
         // 是否本人操作
         boolean self = false;
-        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

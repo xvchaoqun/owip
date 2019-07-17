@@ -275,14 +275,17 @@ pageEncoding="UTF-8"%>
 </table></div></div></div>
 
 <div class="clearfix form-actions center">
+	<shiro:hasPermission name="sysSync:user">
 <c:if test="${sysUser.source==USER_SOURCE_YJS || sysUser.source==USER_SOURCE_BKS}">
 		<button class="btn btn-info  btn-pink" onclick="_sync(${param.userId}, this)" type="button"
 				data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步中..." autocomplete="off">
 			<i class="ace-icon fa fa-random "></i>
 			同步学校信息
 		</button>
+	&nbsp; &nbsp; &nbsp;
 </c:if>
-		&nbsp; &nbsp; &nbsp;
+		</shiro:hasPermission>
+
 		<button class="hideView btn btn-default" type="button">
 			<i class="ace-icon fa fa-undo"></i>
 			返回

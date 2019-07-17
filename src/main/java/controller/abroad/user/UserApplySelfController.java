@@ -10,7 +10,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -201,7 +201,7 @@ public class UserApplySelfController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_au(
@@ -214,7 +214,7 @@ public class UserApplySelfController extends AbroadBaseController {
 
         // 是否本人操作
         boolean self = false;
-        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -331,11 +331,11 @@ public class UserApplySelfController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/applySelf_au")
     public String applySelf_au(Integer cadreId, Integer id, ModelMap modelMap) {
 
-        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

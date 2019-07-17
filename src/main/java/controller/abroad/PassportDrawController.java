@@ -20,7 +20,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -65,8 +64,8 @@ public class PassportDrawController extends AbroadBaseController {
         return "abroad/passportDraw/passportDraw_check";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
-    @RequiresPermissions("passportDraw:edit")
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    //@RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_agree", method = RequestMethod.POST)
     @ResponseBody
     public Map passportDraw_agree(@CurrentUser SysUserView loginUser, int id, String remark, HttpServletRequest request) {
@@ -828,7 +827,7 @@ public class PassportDrawController extends AbroadBaseController {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
             if (passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
                 // 本人、干部管理员或管理员才可以下载
-                if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN)) {
+                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
                     throw new UnauthorizedException();
                 }
             }

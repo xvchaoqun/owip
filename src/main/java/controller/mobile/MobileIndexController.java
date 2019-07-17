@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import service.abroad.ApplySelfService;
 import service.abroad.ApproverService;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -41,7 +41,7 @@ public class MobileIndexController extends BaseController {
 		if(applySelfService!=null) {
 			int notApprovalCount = 0;
 			int hasApprovalCount = 0;
-			if (ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN)) { // 干部管理员登录
+			if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) { // 干部管理员登录
 				{
 					Map map = applySelfService.findApplySelfList(response, null, null,
 							null, null, 0, null, null, null, null, 0);
@@ -54,8 +54,7 @@ public class MobileIndexController extends BaseController {
 					CommonList commonList = (CommonList) map.get("commonList");
 					hasApprovalCount = commonList.recNum;
 				}
-			} else if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)
-					&& approverService!=null && approverService.hasApproveAuth(userId)) { // 具有因私审批权限的干部登录
+			} else if (approverService!=null && approverService.hasApproveAuth(userId)) { // 具有因私审批权限的干部登录
 				{
 					Map map = applySelfService.findApplySelfList(userId, null, null, null, 0, null, null);
 					CommonList commonList = (CommonList) map.get("commonList");
