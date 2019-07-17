@@ -1,6 +1,13 @@
 
 20190717 更新北邮  北师大xxxx
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1069, 0, '更换学工号', '', 'function', '', NULL, 107, '0/1/105/107/', 1,
+                                    'member:changeCode', NULL, NULL, NULL, 1, NULL);
+
+
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
                             `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
                             `available`, `sort_order`) VALUES (1066, 0, '同步学校账号信息', '', 'function', '', NULL, 853,

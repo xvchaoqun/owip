@@ -430,4 +430,34 @@ public class MemberService extends MemberBaseMapper {
             }
         }
     }
+
+    // 更换党员的学工号
+    @Transactional
+    public void changeCode(int userId, int newUserId, String remark) {
+
+        SysUserView user = sysUserService.findById(userId);
+        String oldCode = user.getCode();
+        Member checkMember = memberMapper.selectByPrimaryKey(newUserId);
+        SysUserView newUser = sysUserService.findById(newUserId);
+        String newCode = newUser.getCode();
+        if(checkMember!=null){
+
+            throw new OpException("{0}({1})已经在党员库中({2})，无法更换",
+                    newUser.getRealname(), newCode,
+                    MemberConstants.MEMBER_STATUS_MAP.get(checkMember.getStatus()));
+        }
+
+        if(!StringUtils.equals(user.getIdcard(), newUser.getIdcard())){
+            throw new OpException("身份证号码不相同，无法更换");
+        }
+
+        commonMapper.excuteSql("update ow_member set user_id="+ newUserId + " where user_id="+ userId);
+
+        // 更新新的学工号的系统角色  访客->党员
+        sysUserService.changeRole(newUserId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
+
+        sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
+
+        addModify(userId, "更换学工号" + oldCode + "->" + newCode + "，" + remark);
+    }
 }

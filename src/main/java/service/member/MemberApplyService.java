@@ -852,6 +852,10 @@ public class MemberApplyService extends MemberBaseMapper {
             case OwConstants.OW_APPLY_STAGE_INIT:
                 iMemberMapper.memberApplyBackToInit(userId);
                 break;
+            case OwConstants.OW_APPLY_STAGE_DENY:
+                iMemberMapper.memberApplyBackToInit(userId);
+                enterApplyService.applyBack(userId, "打回申请", OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                break;
         }
     }
 }

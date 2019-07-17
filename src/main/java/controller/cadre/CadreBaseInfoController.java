@@ -62,7 +62,7 @@ public class CadreBaseInfoController extends BaseController {
         int userId = cadre.getUserId();
         Member member = memberService.get(userId);
         if(member==null) {
-            if(dpTypeId!=null && dpTypeId>=0 && _dpAddTime!=null){
+            if(dpTypeId!=null && dpTypeId>=0/* && _dpAddTime!=null*/){
 
                 CadreParty record = new CadreParty();
                 record.setUserId(userId);

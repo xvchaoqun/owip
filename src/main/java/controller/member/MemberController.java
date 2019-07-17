@@ -629,6 +629,28 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 更换学工号
+    @RequiresPermissions("member:changeCode")
+    @RequestMapping("/member_changeCode")
+    public String member_changeCode(int userId, ModelMap modelMap) {
+
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        modelMap.put("member", member);
+
+        return "member/member/member_changeCode";
+    }
+
+    @RequiresPermissions("member:changeCode")
+    @RequestMapping(value = "/member_changeCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_member_changeCode(int userId, int newUserId, String remark) {
+
+        memberService.changeCode(userId, newUserId, remark);
+
+        return success(FormUtils.SUCCESS);
+    }
+
+
     // 修改党籍状态
     @RequiresPermissions("member:modifyStatus")
     @RequestMapping("/member_modify_status")

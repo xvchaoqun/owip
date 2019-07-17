@@ -146,7 +146,7 @@
                     if(ret.success){
 
                         var url = ("${ctx}/attach/download?path={0}&filename={1}")
-                            .format(ret.file, new Date().getTime())
+                            .format(ret.file, ret.filename)
                         //console.log("url=" + url)
                         $btn.download(url);
                     }else{

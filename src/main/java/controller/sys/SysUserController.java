@@ -608,6 +608,7 @@ public class SysUserController extends BaseController {
 
         Map<String, Object> resultMap = success();
         resultMap.put("file", savePath);
+        resultMap.put("filename", xlsx.getOriginalFilename());
 
         return resultMap;
     }

@@ -746,7 +746,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }
 
             byte _stage = memberApply.getStage();
-            if(stage>_stage || stage<OwConstants.OW_APPLY_STAGE_INIT || stage==OwConstants.OW_APPLY_STAGE_PASS){
+            if(stage>_stage || stage<OwConstants.OW_APPLY_STAGE_DENY || stage==OwConstants.OW_APPLY_STAGE_PASS){
                 throw new OpException("打回状态有误。");
             }
             String applySnOp = "";

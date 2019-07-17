@@ -19,7 +19,7 @@ public class OwConstants {
         OW_ORG_ADMIN_MAP.put(OW_ORG_ADMIN_BRANCH, "支部管理员");
     }
 
-    // 权限开通申请状态，0申请 1本人撤销 2 管理员撤回 3通过；
+    // 权限开通申请状态，0申请 1本人撤销 2 打回 3通过；
     public final static byte OW_ENTER_APPLY_STATUS_APPLY = 0;
     public final static byte OW_ENTER_APPLY_STATUS_SELF_ABORT = 1;
     public final static byte OW_ENTER_APPLY_STATUS_ADMIN_ABORT = 2;
@@ -29,7 +29,7 @@ public class OwConstants {
     static {
         OW_ENTER_APPLY_STATUS_MAP.put(OW_ENTER_APPLY_STATUS_APPLY, "申请");
         OW_ENTER_APPLY_STATUS_MAP.put(OW_ENTER_APPLY_STATUS_SELF_ABORT, "本人撤销");
-        OW_ENTER_APPLY_STATUS_MAP.put(OW_ENTER_APPLY_STATUS_ADMIN_ABORT, "管理员撤回");
+        OW_ENTER_APPLY_STATUS_MAP.put(OW_ENTER_APPLY_STATUS_ADMIN_ABORT, "打回");
         OW_ENTER_APPLY_STATUS_MAP.put(OW_ENTER_APPLY_STATUS_PASS, "通过");
     }
 

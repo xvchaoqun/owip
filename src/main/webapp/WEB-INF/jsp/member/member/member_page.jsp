@@ -23,6 +23,12 @@
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
+                            <shiro:hasPermission name="member:changeCode">
+                                <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/member_changeCode"
+                                   data-id-name="userId">
+                                    <i class="fa fa-refresh"></i> 更换学工号</a>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="member:modifyStatus">
                                 <a href="javascript:;" class="jqEditBtn btn btn-info btn-sm"
                                    data-url="${ctx}/member_modify_status"
