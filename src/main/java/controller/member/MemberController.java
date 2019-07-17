@@ -112,7 +112,7 @@ public class MemberController extends MemberBaseController {
                 if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER) {
 
                     MemberView memberView = iMemberMapper.getMemberView(userId);
-                    if (memberView.getIsRetire())
+                    if (BooleanUtils.isTrue(memberView.getIsRetire()))
                         status = "已退休";
                 }
 

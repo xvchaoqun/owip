@@ -110,11 +110,11 @@ public class MemberService extends MemberBaseMapper {
 
     // 批量导入
     @Transactional
-    public int batchImportInSchool(List<Member> records){
+    public int batchImportInSchool(List<Member> records) {
 
         int addCount = 0;
         for (Member record : records) {
-            if(add(record)){
+            if (add(record)) {
                 addCount++;
             }
 
@@ -123,15 +123,16 @@ public class MemberService extends MemberBaseMapper {
 
         return addCount;
     }
+
     // 批量导入
     @Transactional
     public int batchImportOutSchool(List<Member> records,
                                     List<TeacherInfo> teacherInfos,
-                                    List<SysUserInfo> sysUserInfos){
+                                    List<SysUserInfo> sysUserInfos) {
 
         int addCount = 0;
         for (Member record : records) {
-            if(add(record)){
+            if (add(record)) {
                 addCount++;
             }
             addModify(record.getUserId(), "批量导入党员信息");
@@ -283,7 +284,7 @@ public class MemberService extends MemberBaseMapper {
             memberMapper.deleteByExample(example);
         }
 
-        if(denyApply) {
+        if (denyApply) {
             MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
             // 删除党员发展信息（预备党员、正式党员)
             for (Integer userId : userIds) {
@@ -352,12 +353,12 @@ public class MemberService extends MemberBaseMapper {
         }
 
         Byte politicalStatus = record.getPoliticalStatus();
-        if(politicalStatus==null) {
+        if (politicalStatus == null) {
             Member member = memberMapper.selectByPrimaryKey(userId);
             politicalStatus = member.getPoliticalStatus();
         }
         // 更新为预备党员时，删除转正时间
-        if(politicalStatus!=null &&  politicalStatus== MemberConstants.MEMBER_POLITICAL_STATUS_GROW){
+        if (politicalStatus != null && politicalStatus == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
             record.setPositiveTime(null);
             commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
         }
@@ -440,18 +441,40 @@ public class MemberService extends MemberBaseMapper {
         Member checkMember = memberMapper.selectByPrimaryKey(newUserId);
         SysUserView newUser = sysUserService.findById(newUserId);
         String newCode = newUser.getCode();
-        if(checkMember!=null){
+        if (checkMember != null) {
 
             throw new OpException("{0}({1})已经在党员库中({2})，无法更换",
                     newUser.getRealname(), newCode,
                     MemberConstants.MEMBER_STATUS_MAP.get(checkMember.getStatus()));
         }
 
-        if(!StringUtils.equals(user.getIdcard(), newUser.getIdcard())){
+        if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
             throw new OpException("身份证号码不相同，无法更换");
         }
 
-        commonMapper.excuteSql("update ow_member set user_id="+ newUserId + " where user_id="+ userId);
+        Byte memberType = null;
+        Byte type = newUser.getType();
+        if (type == SystemConstants.USER_TYPE_JZG) {
+
+            // 同步教职工信息
+            memberType = MemberConstants.MEMBER_TYPE_TEACHER; // 教职工党员
+            syncService.snycTeacherInfo(userId, newUser);
+        } else if (type == SystemConstants.USER_TYPE_BKS) {
+
+            // 同步本科生信息
+            memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
+            syncService.snycStudent(userId, newUser);
+        } else if (type == SystemConstants.USER_TYPE_YJS) {
+
+            // 同步研究生信息
+            memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
+            syncService.snycStudent(userId, newUser);
+        } else {
+            throw new OpException("账号不是教工或学生。" + newUser.getCode() + "," + newUser.getRealname());
+        }
+
+        commonMapper.excuteSql("update ow_member set user_id=" + newUserId
+                + ", type="+ memberType +" where user_id=" + userId);
 
         // 更新新的学工号的系统角色  访客->党员
         sysUserService.changeRole(newUserId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
