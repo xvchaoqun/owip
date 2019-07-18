@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="GENDER_UNKNOWN" value="<%=SystemConstants.GENDER_UNKNOWN%>"/>
 <h3>修改学生党员基础信息</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}/studentInfo_au" autocomplete="off" disableautocomplete id="modalForm"
@@ -9,15 +10,28 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="form-group">
-                <label class="col-xs-3 control-label">学生证号</label>
+                <label class="col-xs-3 control-label">系统账号</label>
                 <div class="col-xs-6 label-text">
                     ${sysUser.code}
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">姓名</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span>账号类别</label>
                 <div class="col-xs-6">
-                    <input class="form-control" type="text" name="realname" value="${sysUser.realname}">
+                    <select required data-rel="select2" name="syncSource" data-placeholder="请选择">
+                        <option></option>
+                        <option value="${USER_SOURCE_BKS}">本科生</option>
+                        <option value="${USER_SOURCE_YJS}">研究生</option>
+                    </select>
+                    <script>
+                        $("#modalForm select[name=syncSource]").val(${student.syncSource});
+                    </script>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"><span class="star">*</span> 姓名</label>
+                <div class="col-xs-6">
+                    <input required class="form-control" type="text" name="realname" value="${sysUser.realname}">
                 </div>
             </div>
             <div class="form-group">
@@ -25,42 +39,44 @@
                 <div class="col-xs-6 label-text">
                     <div class="input-group">
                         <c:forEach var="gender" items="${GENDER_MAP}">
+                            <c:if test="${gender.key!=GENDER_UNKNOWN}">
                             <label>
                                 <input required name="gender" type="radio" class="ace" value="${gender.key}"
                                        <c:if test="${sysUser.gender==gender.key}">checked</c:if>/>
                                 <span class="lbl" style="padding-right: 5px;"> ${gender.value}</span>
                             </label>
+                            </c:if>
                         </c:forEach>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">出生日期</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span> 出生日期</label>
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_birth" type="text"
+                        <input required class="form-control date-picker" name="_birth" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(sysUser.birth,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">籍贯</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span> 籍贯</label>
                 <div class="col-xs-6">
-                    <input class="form-control" type="text" name="nativePlace" value="${sysUser.nativePlace}">
+                    <input required class="form-control" type="text" name="nativePlace" value="${sysUser.nativePlace}">
                     <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">民族</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span> 民族</label>
                 <div class="col-xs-6">
-                    <input class="form-control" type="text" name="nation" value="${sysUser.nation}">
+                    <input required class="form-control" type="text" name="nation" value="${sysUser.nation}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">身份证号</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span> 身份证号</label>
                 <div class="col-xs-6">
-                    <input class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
+                    <input required class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
                 </div>
             </div>
             <div class="form-group">
@@ -170,20 +186,6 @@
                     <input class="form-control" type="text" name="xjStatus" value="${student.xjStatus}">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>账号分类</label>
-                <div class="col-xs-6">
-                    <select required data-rel="select2" name="syncSource" data-placeholder="请选择">
-                        <option></option>
-                        <option value="${USER_SOURCE_BKS}">本科生</option>
-                        <option value="${USER_SOURCE_YJS}">研究生</option>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=syncSource]").val(${student.syncSource});
-                    </script>
-                </div>
-            </div>
-
         </div>
     </div>
 </form>

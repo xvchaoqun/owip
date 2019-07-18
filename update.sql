@@ -1,5 +1,7 @@
 
-20190717 更新北邮  北师大xxxx
+UPDATE sys_student_info si, sys_user u SET si.sync_source=u.type  WHERE si.sync_source IS NULL AND si.user_id=u.id;
+
+20190717 更新北邮、南航  北师大xxxx
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,

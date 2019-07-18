@@ -726,6 +726,9 @@ public class SyncService extends BaseMapper {
         byte userType = uv.getType();
 
         if (userType == SystemConstants.USER_TYPE_BKS) {  // 同步本科生信息
+
+            record.setSyncSource(SystemConstants.USER_SOURCE_BKS);
+
             ExtBks extBks = extService.getExtBks(code);
             if (extBks != null) {
 
@@ -765,7 +768,7 @@ public class SyncService extends BaseMapper {
                 //student.setExpectGraduateTime(DateUtils.parseStringToDate(extBks.getYjbyny())); 预计毕业年月
                 //student.setDelayYear(extBks.getYqbynx()); 预计毕业年限
                 //student.setActualGraduateTime(DateUtils.parseStringToDate(extBks.getSjbyny())); 实际毕业年月
-                record.setSyncSource(SystemConstants.USER_SOURCE_BKS);
+
                 record.setXjStatus(extBks.getXjzt());
 
                 syncFilter(ui);
@@ -774,6 +777,9 @@ public class SyncService extends BaseMapper {
         }
 
         if (userType == SystemConstants.USER_TYPE_YJS) {  // 同步研究生信息
+
+            record.setSyncSource(SystemConstants.USER_SOURCE_YJS);
+
             ExtYjs extYjs = extService.getExtYjs(code);
             if (extYjs != null) {
 
@@ -807,7 +813,7 @@ public class SyncService extends BaseMapper {
                 record.setExpectGraduateTime(DateUtils.parseStringToDate(extYjs.getYjbyny()));
                 record.setDelayYear(extYjs.getYqbynx());
                 record.setActualGraduateTime(DateUtils.parseStringToDate(extYjs.getSjbyny()));
-                record.setSyncSource(SystemConstants.USER_SOURCE_YJS);
+
                 record.setXjStatus(extYjs.getZt());
 
                 syncFilter(ui);
