@@ -1,5 +1,15 @@
 
-20190718 更新北邮xxx、南航  北师大xxxx
+
+20190718
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1071, 0, '更改干部工号', '', 'function',
+                                    '', NULL, 88, '0/1/88/', 1, 'cadre:changeCode', NULL, NULL, NULL, 1, NULL);
+
+
+20190718 更新北邮、南航
 
 update cadre_family set sort_order=id WHERE sort_order is null and status=0;
 
@@ -11,10 +21,10 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 
 
 
-20190717 更新北邮，南航  北师大xxxx
+20190717 更新北邮，南航
 UPDATE sys_student_info si, sys_user u SET si.sync_source=u.type  WHERE si.sync_source IS NULL AND si.user_id=u.id;
 
-20190717 更新北邮、南航  北师大xxxx
+20190717 更新北邮、南航
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
