@@ -101,6 +101,13 @@
                     name="cadreId" data-width="220" data-placeholder="请选择干部">
               <option value="${dispatchCadre.cadre.id}">${dispatchCadre.user.code}</option>
             </select>
+            <c:if test="${empty dispatch.scDispatchId}">
+            <shiro:hasPermission name="dispatchCadre:addLeaveCadre">
+            <span class="help-block">
+            <a href="javascript:;" class="popupBtn" data-url="${ctx}/dispatchCadre_addLeaveCadre">找不到？点此添加离任干部</a>
+            </span>
+            </shiro:hasPermission>
+            </c:if>
           </div>
         </div>
 

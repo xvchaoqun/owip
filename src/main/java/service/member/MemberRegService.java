@@ -157,18 +157,6 @@ public class MemberRegService extends MemberBaseMapper {
         cacheHelper.clearUserCache(_sysUser);
     }
 
-    // 自动生成学工号,ZG开头+6位数字
-    private String genCode(String prefix) {
-
-        String code = prefix + RandomStringUtils.randomNumeric(6);
-        SysUserExample example = new SysUserExample();
-        example.or().andCodeEqualTo(code);
-        example.or().andUsernameEqualTo(code);
-        long count = sysUserMapper.countByExample(example);
-
-        return (count == 0) ? code : genCode(prefix);
-    }
-
     @Transactional
     @CacheEvict(value = "SysUserView", key = "#username")
     public void reg(String username, String passwd, Byte type,
@@ -189,7 +177,7 @@ public class MemberRegService extends MemberBaseMapper {
         }
 
         String prefix = CmTag.getStringProperty("memberRegCodePrefix", "zg");
-        String code = genCode(prefix);
+        String code = sysUserService.genCode(prefix);
 
         SysUser sysUser = new SysUser();
         sysUser.setUsername(username);
@@ -365,7 +353,7 @@ public class MemberRegService extends MemberBaseMapper {
     @Transactional
     public MemberReg addMemberReg(MemberReg record, String prefix, int importSeq, Date now, String ip) {
 
-        String code = genCode(prefix);
+        String code = sysUserService.genCode(prefix);
         String passwd = RandomStringUtils.randomNumeric(6);
 
         SysUser sysUser = new SysUser();

@@ -1,21 +1,45 @@
 package service.dispatch;
 
+import controller.global.OpException;
+import domain.cadre.Cadre;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreExample;
+import domain.sys.SysUser;
+import domain.sys.SysUserInfo;
+import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.cadre.CadreService;
+import service.sys.SysUserService;
+import shiro.PasswordHelper;
+import sys.constants.CadreConstants;
+import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
+import sys.shiro.SaltPassword;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Service
 public class DispatchCadreService extends BaseMapper {
 
     @Autowired
     private DispatchService dispatchService;
+    @Autowired
+    private CadreService cadreService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    protected PasswordHelper passwordHelper;
+
     // 按类别统计某个发文下的录入人数
-    public int count(int dispatchId, byte type){
+    public int count(int dispatchId, byte type) {
 
         DispatchCadreExample example = new DispatchCadreExample();
         example.createCriteria().andDispatchIdEqualTo(dispatchId).andTypeEqualTo(type);
@@ -23,15 +47,16 @@ public class DispatchCadreService extends BaseMapper {
     }
 
     @Transactional
-    public void insertSelective(DispatchCadre record){
+    public void insertSelective(DispatchCadre record) {
 
         record.setSortOrder(getNextSortOrder("dispatch_cadre", null));
         dispatchCadreMapper.insertSelective(record);
 
         dispatchService.update_dispatch_real_count();
     }
+
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id) {
 
         dispatchCadreMapper.deleteByPrimaryKey(id);
 
@@ -39,9 +64,9 @@ public class DispatchCadreService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
         DispatchCadreExample example = new DispatchCadreExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -51,11 +76,68 @@ public class DispatchCadreService extends BaseMapper {
     }
 
     @Transactional
-    public void updateByPrimaryKeySelective(DispatchCadre record){
+    public void updateByPrimaryKeySelective(DispatchCadre record) {
 
         dispatchCadreMapper.updateByPrimaryKeySelective(record);
 
         dispatchService.update_dispatch_real_count();
+    }
+
+    // 添加历史离任干部
+    @Transactional
+    public void addLeaveCadre(Integer userId, Boolean needCreate, String realname, Cadre record) {
+
+        // 默认是处级干部
+        if (record.getType() == null) {
+            record.setType(CadreConstants.CADRE_TYPE_CJ);
+        }
+
+        record.setStatus(CadreConstants.CADRE_STATUS_MIDDLE_LEAVE);
+
+        if (userId == null) {
+            if (BooleanUtils.isNotTrue(needCreate)) {
+                throw new OpException("请选择系统账号或确认是否需要生成系统账号");
+            }
+
+            if (StringUtils.isBlank(realname)) {
+                throw new OpException("请输入干部姓名");
+            }
+
+            // 需要生成账号
+            String code = sysUserService.genCode("gb");
+            String passwd = RandomStringUtils.randomNumeric(10);
+            SysUser sysUser = new SysUser();
+            sysUser.setUsername(code);
+            sysUser.setCode(code);
+            sysUser.setLocked(false);
+            SaltPassword encrypt = passwordHelper.encryptByRandomSalt(passwd);
+            sysUser.setSalt(encrypt.getSalt());
+            sysUser.setPasswd(encrypt.getPassword());
+            sysUser.setCreateTime(new Date());
+            sysUser.setType(record.getType());
+            sysUser.setSource(SystemConstants.USER_SOURCE_REG);
+            sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
+            sysUserService.insertSelective(sysUser);
+
+            SysUserInfo sysUserInfo = new SysUserInfo();
+            sysUserInfo.setRealname(realname);
+            sysUserInfo.setUserId(sysUser.getId());
+            sysUserService.insertOrUpdateUserInfoSelective(sysUserInfo);
+
+            userId = sysUser.getId();
+
+        } else {
+            SysUserView uv = CmTag.getUserById(userId);
+            if (uv == null) {
+                throw new OpException("所选系统账号不存在。");
+            }
+            if (CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE)) {
+                throw new OpException("所选系统账号已是干部，无需添加。");
+            }
+        }
+
+        record.setUserId(userId);
+        cadreService.insertSelective(record);
     }
 
     /**

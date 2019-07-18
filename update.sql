@@ -1,5 +1,11 @@
 
+20190718 更新北邮  北师大xxxx
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                             VALUES (1070, 0, '添加离任干部账号', '', 'function', '', NULL, 80, '0/1/339/82/80/',
+                                     1, 'dispatchCadre:addLeaveCadre', NULL, NULL, NULL, 1, NULL);
 
 
 

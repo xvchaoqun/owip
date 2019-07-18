@@ -6,6 +6,7 @@ import domain.cadre.CadreView;
 import domain.pcs.PcsAdmin;
 import domain.sys.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -46,7 +47,6 @@ public class SysUserService extends BaseMapper {
         changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
     }
 
-
     public boolean idDuplicate(Integer userId, String username, String code) {
 
         SysUserExample example = new SysUserExample();
@@ -55,6 +55,18 @@ public class SysUserService extends BaseMapper {
         if (StringUtils.isNotBlank(code)) criteria.andCodeEqualTo(code);
 
         return sysUserMapper.countByExample(example) > 0;
+    }
+
+     // 自动生成学工号, prefix开头+6位数字
+    public String genCode(String prefix) {
+
+        String code = prefix + RandomStringUtils.randomNumeric(6);
+        SysUserExample example = new SysUserExample();
+        example.or().andCodeEqualTo(code);
+        example.or().andUsernameEqualTo(code);
+        long count = sysUserMapper.countByExample(example);
+
+        return (count == 0) ? code : genCode(prefix);
     }
 
     public String buildRoleIds(String roleStr) {
