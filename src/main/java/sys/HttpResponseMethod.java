@@ -122,10 +122,12 @@ public interface HttpResponseMethod {
 
         } else if (StringUtils.equalsIgnoreCase(type, "pic")) {
             // 需要缩略图的情况
-            String shortImgPath = realPath + "_s.jpg";
+            String shortImgPath = realPath + "_s"
+                    + StringUtils.defaultIfBlank(FileUtils.getExtention(originalFilename), ".jpg");
+
             Thumbnails.of(file.getInputStream())
                     .size(sImgWidth, sImgHeight)
-                    .outputFormat("jpg")
+                    //.outputFormat("jpg")
                     .outputQuality(1.0f)
                     .toFile(springProps.uploadPath + shortImgPath);
         }

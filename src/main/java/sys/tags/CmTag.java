@@ -45,6 +45,7 @@ import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import java.io.File;
@@ -661,6 +662,7 @@ public class CmTag {
 
     public static String getShortPic(String picPath) {
 
-        return (picPath.contains(".") ? picPath.substring(0, picPath.lastIndexOf(".")) : picPath) + "_s.jpg";
+        return (picPath.contains(".") ? picPath.substring(0, picPath.lastIndexOf(".")) : picPath)
+                + "_s" + StringUtils.defaultIfBlank(FileUtils.getExtention(picPath), ".jpg");
     }
 }

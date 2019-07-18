@@ -57,6 +57,7 @@
     </div>
   </div>
 </div>
+<div class="footer-margin lower"/>
 <style>
   .ace-file-container{
     height: 200px!important;
