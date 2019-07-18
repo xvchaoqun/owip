@@ -639,7 +639,7 @@ public class CadreAdformService extends BaseMapper {
 
             CadreFamily cadreFamily = cadreFamilyService.get(cadreId, _realname);
             if (cadreFamily == null) {
-                cadreFamilyMapper.insertSelective(cf);
+                cadreFamilyService.insertSelective(cf);
             } else {
                 cf.setId(cadreFamily.getId());
                 cadreFamilyMapper.updateByPrimaryKeySelective(cf);

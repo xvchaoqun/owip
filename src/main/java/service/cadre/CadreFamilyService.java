@@ -268,10 +268,8 @@ public class CadreFamilyService extends BaseMapper {
                 CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
                 modify.setId(null);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-                modify.setSortOrder(getNextSortOrder("cadre_family",
-                "cadre_id=" + modify.getCadreId() + " and status="+SystemConstants.RECORD_STATUS_FORMAL));
 
-                cadreFamilyMapper.insertSelective(modify); // 插入新纪录
+                insertSelective(modify); // 插入新纪录
                 record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {

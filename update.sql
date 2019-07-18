@@ -1,6 +1,8 @@
 
 20190718 更新北邮  北师大xxxx
 
+update cadre_family set sort_order=id WHERE sort_order is null and status=0;
+
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`,
                             `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
