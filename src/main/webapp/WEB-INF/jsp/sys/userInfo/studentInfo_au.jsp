@@ -51,6 +51,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-3 control-label"><span class="star">*</span> 身份证号</label>
+                <div class="col-xs-6">
+                    <input required class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 出生日期</label>
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
@@ -71,12 +77,6 @@
                 <label class="col-xs-3 control-label"><span class="star">*</span> 民族</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="nation" value="${sysUser.nation}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span> 身份证号</label>
-                <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
                 </div>
             </div>
             <div class="form-group">

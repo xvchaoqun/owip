@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-xs-4">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">工作证号</label>
+                    <label class="col-xs-3 control-label">系统账号</label>
                     <div class="col-xs-6 label-text">
                         ${sysUser.code}
                     </div>
@@ -36,10 +36,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">出生日期</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span> 身份证号</label>
+                    <div class="col-xs-6">
+                        <input required class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label"><span class="star">*</span> 出生日期</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 150px">
-                            <input class="form-control date-picker" name="_birth" type="text"
+                            <input required class="form-control date-picker" name="_birth" type="text"
                                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(sysUser.birth,'yyyy-MM-dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
@@ -47,23 +53,46 @@
                 </div>
                 <c:if test="${empty cadre}">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">籍贯</label>
+                        <label class="col-xs-3 control-label"><span class="star">*</span> 籍贯</label>
                         <div class="col-xs-6">
-                            <input class="form-control" type="text" name="nativePlace" value="${sysUser.nativePlace}">
+                            <input required class="form-control" type="text" name="nativePlace" value="${sysUser.nativePlace}">
                             <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                         </div>
                     </div>
                 </c:if>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">民族</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span> 民族</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="nation" value="${sysUser.nation}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">身份证号</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span> 是否退休</label>
                     <div class="col-xs-6">
-                        <input class="form-control" type="text" name="idcard" value="${sysUser.idcard}">
+                        <label>
+                            <input name="isRetire" ${teacherInfo.isRetire?"checked":""} type="checkbox"/>
+                            <span class="lbl"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">退休时间</label>
+                    <div class="col-xs-6">
+                        <div class="input-group" style="width: 150px">
+                            <input class="form-control date-picker" name="_retireTime" type="text"
+                                   data-date-format="yyyy-mm-dd"
+                                   value="${cm:formatDate(teacherInfo.retireTime,'yyyy-MM-dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">是否离休</label>
+                    <div class="col-xs-6">
+                        <label>
+                            <input name="isHonorRetire" ${teacherInfo.isHonorRetire?"checked":""} type="checkbox"/>
+                            <span class="lbl"></span>
+                        </label>
                     </div>
                 </div>
                 <c:if test="${empty cadre}">
@@ -82,7 +111,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">学员结构</label>
+                    <label class="col-xs-3 control-label">人员结构</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="fromType" value="${teacherInfo.fromType}">
                         <span class="help-block">例如：本校、境内、境外等</span>
@@ -94,7 +123,8 @@
                         <input class="form-control" type="text" name="unit" value="${sysUser.unit}">
                     </div>
                 </div>
-
+            </div>
+            <div class="col-xs-4">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">最高学历</label>
                     <div class="col-xs-6">
@@ -118,9 +148,6 @@
                         </div>
                     </div>
                 </div>
-
-            </div>
-            <div class="col-xs-4">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">所学专业</label>
                     <div class="col-xs-6">
@@ -194,7 +221,9 @@
                         <input class="form-control" type="text" name="onJob" value="${teacherInfo.onJob}">
                     </div>
                 </div>
-                <div class="form-group">
+            </div>
+            <div class="col-xs-4">
+                 <div class="form-group">
                     <label class="col-xs-3 control-label">专业技术职务</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="proPost" value="${teacherInfo.proPost}">
@@ -212,9 +241,6 @@
                         <input class="form-control" type="text" name="titleLevel" value="${teacherInfo.titleLevel}">
                     </div>
                 </div>
-
-            </div>
-            <div class="col-xs-4">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">管理岗位等级</label>
                     <div class="col-xs-6">
@@ -278,35 +304,7 @@
                         <input class="form-control" type="text" name="homePhone" value="${sysUser.homePhone}">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">是否退休</label>
-                    <div class="col-xs-6">
-                        <label>
-                            <input name="isRetire" ${teacherInfo.isRetire?"checked":""} type="checkbox"/>
-                            <span class="lbl"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">退休时间</label>
-                    <div class="col-xs-6">
-                        <div class="input-group" style="width: 150px">
-                            <input class="form-control date-picker" name="_retireTime" type="text"
-                                   data-date-format="yyyy-mm-dd"
-                                   value="${cm:formatDate(teacherInfo.retireTime,'yyyy-MM-dd')}"/>
-                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">是否离休</label>
-                    <div class="col-xs-6">
-                        <label>
-                            <input name="isHonorRetire" ${teacherInfo.isHonorRetire?"checked":""} type="checkbox"/>
-                            <span class="lbl"></span>
-                        </label>
-                    </div>
-                </div>
+
             </div>
         </div>
     </form>
@@ -335,7 +333,7 @@
                     if (ret.success) {
                         //SysMsg.success('提交成功。', '成功',function(){
                         $("#jqGrid").trigger("reloadGrid");
-                        $.hashchange();
+                        $.hideView();
                         //});
                     }
                 }
