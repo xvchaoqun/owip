@@ -46,6 +46,14 @@
                     <div class="tab-content multi-row-head-table">
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
+
+                                <shiro:hasPermission name="cadre:changeCode">
+                                    <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
+                                       data-url="${ctx}/cadre_changeCode"
+                                       data-id-name="cadreId">
+                                        <i class="fa fa-refresh"></i> 更换工号</a>
+                                </shiro:hasPermission>
+
                                 <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
                                     <shiro:hasPermission name="cadre:edit">
                                     <button class="jqBatchBtn btn btn-warning btn-sm"

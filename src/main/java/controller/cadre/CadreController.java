@@ -667,6 +667,27 @@ public class CadreController extends BaseController {
         return "cadre/cadre_au";
     }
 
+    // 更换工号
+    @RequiresPermissions("cadre:changeCode")
+    @RequestMapping("/cadre_changeCode")
+    public String cadre_changeCode(int cadreId, ModelMap modelMap) {
+
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
+        modelMap.put("cadre", cadre);
+
+        return "cadre/cadre_changeCode";
+    }
+
+    @RequiresPermissions("cadre:changeCode")
+    @RequestMapping(value = "/cadre_changeCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_changeCode(int userId, int newUserId, String remark) {
+
+        cadreService.changeCode(userId, newUserId, remark);
+
+        return success(FormUtils.SUCCESS);
+    }
+
     // 干部库转移
     @RequiresPermissions("cadre:edit")
     @RequestMapping("/cadre_transfer")

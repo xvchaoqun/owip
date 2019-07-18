@@ -32,6 +32,7 @@ import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchTypeService;
 import service.ext.ExtService;
+import service.ext.SyncService;
 import service.global.CacheService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
@@ -69,6 +70,7 @@ public class CmTag {
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
 
     static ExtService extService = context.getBean(ExtService.class);
+    static SyncService syncService = context.getBean(SyncService.class);
 
     static UnitService unitService = context.getBean(UnitService.class);
     static PartyService partyService = context.getBean(PartyService.class);
@@ -396,6 +398,10 @@ public class CmTag {
     public static String getUserUnit(Integer userId) {
 
         return extService.getUnit(userId);
+    }
+    public static void snycTeacherInfo(Integer userId, SysUserView uv){
+
+        syncService.snycTeacherInfo(userId, uv);
     }
 
     public static Unit getUnit(Integer unitId) {

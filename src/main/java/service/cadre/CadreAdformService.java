@@ -309,7 +309,7 @@ public class CadreAdformService extends BaseMapper {
             _reward = freemarkerService.freemarker(cadreRewardService.list(cadreId),
                     "cadreRewards", "/cadre/cadreReward.ftl");
         }
-        bean.setReward(StringUtils.trimToNull(_reward));
+        bean.setReward(StringUtils.defaultIfBlank(_reward, "无"));
 
         // 工作经历
         CadreInfo work = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);

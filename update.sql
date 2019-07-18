@@ -1,5 +1,5 @@
 
-20190718 更新北邮  北师大xxxx
+20190718 更新北邮xxx、南航  北师大xxxx
 
 update cadre_family set sort_order=id WHERE sort_order is null and status=0;
 

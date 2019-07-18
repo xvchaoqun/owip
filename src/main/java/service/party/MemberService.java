@@ -436,6 +436,8 @@ public class MemberService extends MemberBaseMapper {
     @Transactional
     public void changeCode(int userId, int newUserId, String remark) {
 
+        if(userId==newUserId) return;
+
         SysUserView user = sysUserService.findById(userId);
         String oldCode = user.getCode();
         Member checkMember = memberMapper.selectByPrimaryKey(newUserId);
