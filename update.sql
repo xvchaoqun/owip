@@ -1,6 +1,110 @@
 
 
-20190718
+
+20190720
+
+-- 任职情况：修改职务为岗位名称，新增字段职务（同步干部的职务字段），是否正职，是否第一主职
+-- post->post_name
+ALTER TABLE `cadre_post`
+	CHANGE COLUMN `post` `post_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '岗位名称' AFTER `unit_post_id`,
+	ADD COLUMN `post` VARCHAR(100) NULL DEFAULT NULL COMMENT '职务' AFTER `post_name`,
+	CHANGE COLUMN `is_main_post` `is_main_post` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否主职，否则兼职；主职和兼职均可以有多个' AFTER `double_unit_ids`,
+	ADD COLUMN `is_first_main_post` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否第一主职，第一主职只有一个，兼职忽略此字段' AFTER `is_main_post`,
+    ADD COLUMN `is_principal` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否正职' AFTER `admin_level`;
+
+-- 把当前的主职设置为第一主职
+UPDATE cadre_post SET is_first_main_post=1 WHERE is_main_post=1;
+-- 同步干部的职务为第一主职的职务
+UPDATE cadre_post cp, cadre c SET cp.post=c.post WHERE cp.is_first_main_post=1 AND cp.cadre_id=c.id;
+
+-- 更新已有的cadre_post的is_principal字段
+UPDATE cadre_post cp, base_meta_type bmt SET cp.is_principal=bmt.bool_attr WHERE cp.post_type=bmt.id;
+
+-- SELECT realname FROM cadre_view WHERE id NOT IN(SELECT cadre_id FROM cadre_post WHERE is_main_post=1)
+-- 如果干部的第一主职不存在，则从干部库中同步一份过去（行政级别、职务属性、所在单位、职务）
+INSERT INTO cadre_post(cadre_id, post_name, admin_level, post_type, post, unit_id, is_principal, is_main_post, is_first_main_post, sort_order)
+SELECT c.id as cadre_id, title AS post_name, admin_level, post_type, post, unit_id, pt.bool_attr AS is_principal, 1 as is_main_post, 1 AS is_first_main_post, 999 AS sort_order
+FROM cadre_view c LEFT JOIN base_meta_type pt ON c.post_type=pt.id  WHERE c.id NOT IN(SELECT cadre_id FROM cadre_post WHERE is_first_main_post=1);
+
+-- 查找岗位和干部属性不一样的名单
+SELECT tmp.realname AS 姓名, tmp.code AS 工号, if(tmp.is_main_post=1, '主职', '兼职') AS 是否主职, t1.name AS 行政级别（干部）, t2.name AS 行政级别（岗位）, t3.name AS 职务属性（干部）, t4.name AS 职务属性（岗位）
+, u1.name AS 所在单位（干部）, u2.name AS 所在单位（岗位） FROM
+(
+SELECT u.user_id, u.realname, cp.is_main_post, u.code, c.status, c.sort_order,
+c.admin_level, c.post_type, c.unit_id, cp.is_first_main_post,
+cp.admin_level AS _admin_level, cp.post_type AS _post_type, cp.unit_id AS _unit_id
+FROM cadre_post cp, cadre c, sys_user_view u
+WHERE cp.cadre_id=c.id AND c.user_id=u.id and (cp.admin_level!=c.admin_level OR cp.post_type!=c.post_type OR cp.unit_id!=c.unit_id)
+)tmp
+LEFT join base_meta_type t1 ON t1.id= tmp.admin_level
+LEFT join base_meta_type t2 ON t2.id= tmp._admin_level
+LEFT join base_meta_type t3 ON t3.id= tmp.post_type
+LEFT join base_meta_type t4 ON t4.id= tmp._post_type
+LEFT join unit u1 ON u1.id= tmp.unit_id
+LEFT join unit u2 ON u2.id= tmp._unit_id
+ORDER BY tmp.status DESC, tmp.sort_order desc;
+
+
+-- 如果任职情况关联了岗位，则以岗位的属性为准（职务属性、所在单位、岗位名称、是否正职、职务类别）
+update cadre_post cp, unit_post up SET cp.post_type=up.post_type, cp.unit_id=up.unit_id,
+cp.post_name=up.name, cp.is_principal=up.is_principal_post, cp.post_class_id=up.post_class
+WHERE up.id=cp.unit_post_id;
+
+-- 准备删除干部的属性：行政级别、职务属性、所在单位、职务
+ALTER TABLE `cadre`
+	DROP COLUMN `admin_level`,
+	DROP COLUMN `post_type`,
+	DROP COLUMN `unit_id`,
+	DROP COLUMN `post`,
+	DROP INDEX `FK_base_cadre_base_meta_type`,
+	DROP INDEX `FK_base_cadre_base_meta_type_2`,
+	DROP INDEX `FK_base_cadre_base_unit`,
+	DROP FOREIGN KEY `FK_base_cadre_base_meta_type`,
+	DROP FOREIGN KEY `FK_base_cadre_base_meta_type_2`,
+	DROP FOREIGN KEY `FK_base_cadre_base_unit`;
+
+-- 删除元数据“职数属性”的是否正职、代码关联、所属班子成员，西交大等删除前应该先同步一下主职信息
+UPDATE base_meta_class SET bool_attr=NULL, extra_attr=NULL, extra_options=null WHERE CODE='mc_post';
+UPDATE base_meta_type mt, base_meta_class mc SET mt.bool_attr=NULL, mt.extra_attr=null  WHERE mc.CODE='mc_post' AND mt.class_id=mc.id;
+
+-- 更新cadre_view 等 （需在此先更新）
+
+ALTER TABLE `unit_post`
+	CHANGE COLUMN `is_principal_post` `is_principal` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否正职' AFTER `job`;
+
+-- 更新 unit_post_view （cadre_is_principal_post -> cadre_is_principal)
+DROP VIEW IF EXISTS `unit_post_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
+select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id,
+u.status as unit_status, u.sort_order as unit_sort_order,
+cp.cadre_id, cp.id as cadre_post_id, cp.admin_level as cp_admin_level, cp.is_main_post,
+cv.gender, cv.admin_level as cadre_admin_level, cv.post_type as cadre_post_type,
+cv.is_principal as cadre_is_principal, cv.cadre_post_year, cv.admin_level_year from unit_post up
+left join unit u on up.unit_id=u.id
+left join cadre_post cp on up.id=cp.unit_post_id
+left join cadre_view cv on cv.id=cp.cadre_id;
+
+-- 更新 sc_committee_member_view
+DROP VIEW IF EXISTS `sc_committee_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_member_view` AS
+select distinct scm.*, uv.username, uv.code, uv.realname, c.id as cadre_id, c.title, c.post from sc_committee_member scm
+left join sys_user_view uv on uv.id=scm.user_id
+left join cadre_view c on c.user_id=scm.user_id;
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('useCadreState', '启用干部人员类别[M]', 'true', 3, 35, '');
+
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`)
+VALUES ('清理已过期干部信息修改权限', '清理已过期干部信息修改权限的规则', 'job.modify.ClearExpireAuth', '0 0 0/6 * * ?', 1, 0, 23, '2019-07-20 09:26:30');
+
+
+更新 导入excel模板文件
+
+更新 common-utils
+
+
+
+20190718 更新北邮、南航
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,

@@ -33,11 +33,16 @@ public interface IModifyMapper {
                                                @Param("code") String code,
                                                @Param("status") byte status);
 
+    // 生效中的权限配置
     @Select("select cadre_id from modify_cadre_auth where is_unlimited=1 or " +
             "(is_unlimited=0 and ( (curdate() between start_time and end_time) " +
             "or (start_time is null and curdate() <= end_time) " +
             "or (end_time is null and curdate() >= start_time)))")
     List<Integer> selectValidModifyCadreAuth();
+
+    // 清理已过期规则 或 无效规则 (end_time=null)
+    @Update("delete from modify_cadre_auth where is_unlimited=0 and (end_time is null or curdate() > end_time)")
+    void clearExpireAuth();
 
     @Update("update modify_cadre_auth set start_time=null, end_time=null, is_unlimited=1 where id=#{id}")
     void del_ModifyCadreAuth_time(@Param("id") int id);

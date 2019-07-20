@@ -28,27 +28,27 @@
                 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                 <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <table tableName="unit_view" domainObjectName="unit.UnitView" mapperName="unit.UnitViewMapper"
+        <!--<table tableName="unit_view" domainObjectName="unit.UnitView" mapperName="unit.UnitViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!--<table tableName="unit_function" domainObjectName="unit.UnitFunction" mapperName="unit.UnitFunctionMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
 
-        <!--<table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
+        <table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-        <!--<table tableName="unit_post_view" domainObjectName="unit.UnitPostView" mapperName="unit.UnitPostViewMapper"
+        </table>
+        <table tableName="unit_post_view" domainObjectName="unit.UnitPostView" mapperName="unit.UnitPostViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="is_main_post"  javaType="Boolean"></columnOverride>
             <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="unit_post_count_view" domainObjectName="unit.UnitPostCountView"
                mapperName="unit.UnitPostCountViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"

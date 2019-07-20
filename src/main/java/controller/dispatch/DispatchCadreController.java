@@ -86,6 +86,7 @@ public class DispatchCadreController extends DispatchBaseController {
     public String dispatchCadre(@RequestParam(defaultValue = "1") Integer cls,
                                      Integer dispatchId,
                                      Integer dispatchTypeId,
+                                     Integer unitPostId,
                                      @RequestParam(required = false, value = "wayId")Integer[] wayId,
                                      @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
                                      @RequestParam(required = false, value = "adminLevel")Integer[] adminLevel,
@@ -101,6 +102,10 @@ public class DispatchCadreController extends DispatchBaseController {
             Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
         }
+        if(unitPostId!=null){
+            modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+        }
+
         if (cadreId!=null) {
 
             CadreView cadre = iCadreMapper.getCadre(cadreId);

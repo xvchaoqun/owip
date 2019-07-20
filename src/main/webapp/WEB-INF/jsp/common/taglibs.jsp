@@ -35,6 +35,7 @@
 <c:set value="${_pMap['hasPartyModule']=='true'}" var="_p_hasPartyModule"/>
 <c:set value="${_pMap['partyName']}" var="_p_partyName"/>
 <c:set value="${_pMap['hasKjCadre']=='true'}" var="_p_hasKjCadre"/>
+<c:set value="${_pMap['useCadreState']=='true'}" var="_p_useCadreState"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>

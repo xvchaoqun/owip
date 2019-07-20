@@ -185,11 +185,8 @@ public class CadreReserveExportService extends BaseMapper {
 
             String isPositive = ""; // 是否正职
             CadrePost mainCadrePost = record.getMainCadrePost();
-            if(mainCadrePost!=null && mainCadrePost.getPostType()!=null){
-                MetaType metaType = metaTypeMap.get(mainCadrePost.getPostType());
-                if(metaType!=null){
-                    isPositive = (BooleanUtils.isTrue(metaType.getBoolAttr()))?"是":"否";
-                }
+            if(mainCadrePost!=null){
+                isPositive = BooleanUtils.isTrue(mainCadrePost.getIsPrincipal())?"是":"否";
             }
 
             Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), "中共党员",

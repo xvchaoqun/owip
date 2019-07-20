@@ -43,7 +43,7 @@
     </sql>
 
     <select id="selectPassportList" resultMap="persistence.abroad.PassportMapper.BaseResultMap" parameterType="map">
-        select p.* from abroad_passport p, cadre c, base_meta_type mt
+        select p.* from abroad_passport p, cadre_view c, base_meta_type mt
         <include refid="where_selectPassportList"/>
         order by
         <if test="bean.type==1">
@@ -53,7 +53,7 @@
     </select>
 
     <select id="countPassport" parameterType="map" resultType="java.lang.Integer">
-        select count(p.id) from abroad_passport p, cadre c, base_meta_type mt
+        select count(p.id) from abroad_passport p, cadre_view c, base_meta_type mt
         <include refid="where_selectPassportList"/>
     </select>
 
@@ -144,22 +144,13 @@
 
     <!-- 根据保险柜编号，读取统计 集中管理证件和未确认取消管理证件-->
     <select id="selectSafeBoxList" resultType="persistence.abroad.common.SafeBoxBean">
-    /*select asb.id as id, asb.code as code, asb.remark as remark,
-    count(ap.id) as totalCount, group_concat(bc.unit_id) as unitIds,
-    sum(if(ap.type=1, 1, 0)) as keepCount from abroad_safe_box asb ,
-    abroad_passport ap, cadre bc
-    where ap.safe_box_id=asb.id and
-    (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0))
-    and ap.cadre_id=bc.id
-    group by asb.id order by asb.sort_order desc*/
-
     select asb.id as id, asb.code as code, asb.remark as remark,
     count(aap.id) as totalCount, group_concat(DISTINCT aap.unit_id) as unitIds,
     sum(if(aap.type=1, 1, 0)) as keepCount, asb.sort_order from abroad_safe_box asb
 
     left join
 
-    (select ap.id, ap.safe_box_id, ap.type, bc.unit_id from abroad_passport ap , cadre bc
+    (select ap.id, ap.safe_box_id, ap.type, bc.unit_id from abroad_passport ap , cadre_view bc
     where (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0)) and ap.cadre_id=bc.id ) as aap
 
     on aap.safe_box_id=asb.id group by asb.id order by asb.sort_order desc
@@ -186,7 +177,7 @@ select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as
     <!-- 职务属性  因私  港澳 台湾 合计-->
     <select id="passportStatByPost" resultType="persistence.abroad.common.PassportStatByPostBean" parameterType="map">
     select c.post_type as postId, count(*) as num, sum(if(class_id=#{selfPassportTypeId}, 1, 0)) as selfNum,
-    sum(if(class_id=#{twPassportTypeId}, 1, 0)) as twNum from abroad_passport ap, cadre c where
+    sum(if(class_id=#{twPassportTypeId}, 1, 0)) as twNum from abroad_passport ap, cadre_view c where
     ap.type=1 and ap.cadre_id = c.id
     group by c.post_type order by c.sort_order desc
   </select>

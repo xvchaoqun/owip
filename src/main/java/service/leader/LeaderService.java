@@ -150,6 +150,7 @@ public class LeaderService extends BaseMapper {
         return leaderMapper.updateByPrimaryKeySelective(record);
     }
 
+    // <userId, Leader>
     @Cacheable(value = "Leader:ALL")
     public Map<Integer, Leader> findAll() {
 
@@ -158,7 +159,7 @@ public class LeaderService extends BaseMapper {
         List<Leader> leaderes = leaderMapper.selectByExample(example);
         Map<Integer, Leader> map = new LinkedHashMap<>();
         for (Leader leader : leaderes) {
-            map.put(leader.getId(), leader);
+            map.put(leader.getUserId(), leader);
         }
 
         return map;

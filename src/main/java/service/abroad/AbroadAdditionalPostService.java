@@ -4,7 +4,6 @@ import domain.abroad.AbroadAdditionalPost;
 import domain.abroad.AbroadAdditionalPostExample;
 import domain.abroad.ApproverBlackList;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
@@ -41,18 +40,15 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
     private SysUserService sysUserService;
 
     // 获取某个单位下的兼审正职
-    public List<CadreView> findAdditionalPrincipals(int unitId) {
+    public List<CadreView> findAdditionalPrincipals(Integer unitId) {
 
         List<CadreView> cadreList = new ArrayList<>();
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        if(unitId==null) return cadreList;
         AbroadAdditionalPostExample example = new AbroadAdditionalPostExample();
         example.createCriteria().andUnitIdEqualTo(unitId);
         List<AbroadAdditionalPost> cPosts = abroadAdditionalPostMapper.selectByExample(example);
         for (AbroadAdditionalPost cPost : cPosts) {
-            MetaType postType = metaTypeMap.get(cPost.getPostId());
-            if (BooleanUtils.isTrue(postType.getBoolAttr())) {
-                cadreList.add(CmTag.getCadreById(cPost.getCadreId()));
-            }
+            cadreList.add(CmTag.getCadreById(cPost.getCadreId()));
         }
         return cadreList;
     }
@@ -122,8 +118,7 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
         for (CadreView cadre : cadreMap.values()) {
             if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && cadre.getPostType()!=null && postMap.get(cadre.getPostType())!=null &&
-                    BooleanUtils.isTrue(postMap.get(cadre.getPostType()).getBoolAttr())) {
+                    && BooleanUtils.isTrue(cadre.getIsPrincipal())) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cadre.getUnitId();
                 if (unitIdCadresMap.containsKey(unitId)) {
@@ -142,8 +137,7 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
         for (AbroadAdditionalPost cPost : abroadAdditionalPostMap.values()) {
             CadreView cadre = cadreMap.get(cPost.getCadreId());
             if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
+                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cPost.getUnitId();
                 if (unitIdCadresMap.containsKey(unitId)) {
@@ -219,9 +213,10 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
             if (abroadAdditionalPostMapper.countByExample(example) > 0) return true;
         }
         {
-            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             // 这个单位是该干部的主职单位
-            if(cadre!=null && cadre.getUnitId().intValue()==unitId) return true;
+            if(cadre!=null && cadre.getUnitId()!=null
+                    && cadre.getUnitId().intValue()==unitId) return true;
         }
 
         return false;

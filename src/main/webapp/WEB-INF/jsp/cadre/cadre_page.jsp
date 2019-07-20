@@ -16,7 +16,7 @@
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
-                ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code
+                ||not empty param.isPrincipal ||not empty param.isDouble || not empty param.code
                 ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.state  ||not empty param.post  ||not empty param.title }"/>
 
                 <div class="tabbable">
@@ -454,14 +454,14 @@
                                                 <tr>
                                                     <td class="name">是否正职</td>
                                                     <td class="input">
-                                                        <select name="isPrincipalPost" data-width="100"
+                                                        <select name="isPrincipal" data-width="100"
                                                                 data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
                                                             <option value="1">是</option>
                                                             <option value="0">否</option>
                                                         </select>
                                                         <script>
-                                                            $("#searchForm select[name=isPrincipalPost]").val('${param.isPrincipalPost}');
+                                                            $("#searchForm select[name=isPrincipal]").val('${param.isPrincipal}');
                                                         </script>
                                                     </td>
                                                     <td class="name">现职级始任年限</td>
@@ -520,6 +520,7 @@
                                                             $("#searchForm select[name=type]").val('${param.type}');
                                                         </script>
                                                     </td>
+                                                    <c:if test="${_p_useCadreState}">
                                                     <td class="name">${_pMap['cadreStateName']}</td>
                                                     <td class="input">
                                                         <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
@@ -530,6 +531,7 @@
                                                             $("#searchForm select[name=state]").val(${param.state});
                                                         </script>
                                                     </td>
+                                                    </c:if>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">职务</td>

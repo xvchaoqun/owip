@@ -14,7 +14,7 @@
                 <c:set var="_query" value="${not empty param.startYear ||not empty param.endYear||not empty param.year||not empty param.year ||not empty param.dispatchTypeId ||not empty param.code
                 || not empty param.type|| not empty param.dispatchId
             ||not empty param.wayId ||not empty param.procedureId ||not empty param.cadreId
-            ||not empty param.adminLevel ||not empty param.unitId }"/>
+            ||not empty param.adminLevel ||not empty param.unitId ||not empty param.unitPostId }"/>
                 <div class="tabbable">
                     <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
                     <div class="tab-content">
@@ -114,6 +114,18 @@
                                                 <script>
                                                     $("#searchForm select[name=unitId]").val('${param.unitId}');
                                                 </script>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>关联岗位</label>
+                                            <select name="unitPostId" data-rel="select2-ajax"
+                                                    data-ajax-url="${ctx}/unitPost_selects"
+                                                    data-placeholder="请选择">
+                                                <option value="${unitPost.id}"
+                                                        title="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.name}</option>
+                                            </select>
+                                            <script>
+                                                $.register.del_select($("#searchForm select[name=unitPostId]"))
+                                            </script>
                                         </div>
                                 <div class="clearfix form-actions center">
 

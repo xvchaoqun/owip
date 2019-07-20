@@ -10,17 +10,17 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
-    <result column="post_type" jdbcType="INTEGER" property="postType" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
-    <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="is_committee_member" jdbcType="BOOLEAN" property="isCommitteeMember" />
     <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -69,7 +69,7 @@
     <result column="main_cadre_post_id" jdbcType="INTEGER" property="mainCadrePostId" />
     <result column="is_double" jdbcType="BIT" property="isDouble" />
     <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
-    <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
+    <result column="is_principal" jdbcType="BIT" property="isPrincipal" />
     <result column="leader_type" jdbcType="TINYINT" property="leaderType" />
     <result column="cadre_post_year" jdbcType="BIGINT" property="cadrePostYear" />
     <result column="admin_level_year" jdbcType="BIGINT" property="adminLevelYear" />
@@ -134,19 +134,19 @@
   </sql>
   <sql id="Base_Column_List">
     reserve_id, reserve_type, reserve_status, reserve_remark, reserve_sort_order, username, 
-    id, user_id, admin_level, post_type, unit_id, type, state, title, dispatch_cadre_id, 
-    post, remark, sort_order, status, is_committee_member, msg_title, mobile, phone, 
-    home_phone, email, code, realname, gender, nation, native_place, idcard, birth, party_id, 
-    branch_id, member_status, dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, 
-    is_ow, ow_grow_time, ow_remark, edu_id, finish_time, learn_style, school, dep, school_type, 
+    id, user_id, type, state, title, dispatch_cadre_id, remark, sort_order, status, unit_id, 
+    admin_level, post_type, post, is_committee_member, msg_title, mobile, phone, home_phone, 
+    email, code, realname, gender, nation, native_place, idcard, birth, party_id, branch_id, 
+    member_status, dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, is_ow, 
+    ow_grow_time, ow_remark, edu_id, finish_time, learn_style, school, dep, school_type, 
     major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
     pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, work_time, 
-    work_start_time, main_cadre_post_id, is_double, double_unit_ids, is_principal_post, 
-    leader_type, cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, 
-    np_file, np_work_time, lp_relate_id, lp_id, lp_file_name, lp_file, lp_work_time, 
-    s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, admin_level_code, admin_level_name, 
-    max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, 
-    unit_type_name, unit_type_group, verify_birth, verify_work_time
+    work_start_time, main_cadre_post_id, is_double, double_unit_ids, is_principal, leader_type, 
+    cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, np_file, np_work_time, 
+    lp_relate_id, lp_id, lp_file_name, lp_file, lp_work_time, s_dispatch_id, s_work_time, 
+    e_dispatch_id, e_work_time, admin_level_code, admin_level_name, max_ce_edu_attr, 
+    max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, 
+    unit_type_group, verify_birth, verify_work_time
   </sql>
   <sql id="Blob_Column_List">
     talent_title

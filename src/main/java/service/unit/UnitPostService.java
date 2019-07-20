@@ -364,7 +364,7 @@ public class UnitPostService extends BaseMapper {
             cell.setCellValue(record.getJob());
 
             cell = row.getCell(column++);
-            cell.setCellValue(BooleanUtils.isTrue(record.getIsPrincipalPost())?"是":"否");
+            cell.setCellValue(BooleanUtils.isTrue(record.getIsPrincipal())?"是":"否");
 
             cell = row.getCell(column++);
             cell.setCellValue(metaTypeService.getName(record.getAdminLevel()));

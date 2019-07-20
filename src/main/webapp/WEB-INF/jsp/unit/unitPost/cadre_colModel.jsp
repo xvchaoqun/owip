@@ -12,7 +12,7 @@
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
         {label: '行政级别', name: 'cadre.adminLevel', formatter: $.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'cadre.postType', width: 150, formatter: $.jgrid.formatter.MetaType},
-        {label: '是否正职', name: 'cadre.isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否正职', name: 'cadre.isPrincipal', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {
             label: '是否<br/>班子负责人', name: 'leaderType', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';

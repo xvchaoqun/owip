@@ -462,63 +462,63 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostIsNull() {
-            addCriterion("is_principal_post is null");
+        public Criteria andIsPrincipalIsNull() {
+            addCriterion("is_principal is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostIsNotNull() {
-            addCriterion("is_principal_post is not null");
+        public Criteria andIsPrincipalIsNotNull() {
+            addCriterion("is_principal is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostEqualTo(Boolean value) {
-            addCriterion("is_principal_post =", value, "isPrincipalPost");
+        public Criteria andIsPrincipalEqualTo(Boolean value) {
+            addCriterion("is_principal =", value, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostNotEqualTo(Boolean value) {
-            addCriterion("is_principal_post <>", value, "isPrincipalPost");
+        public Criteria andIsPrincipalNotEqualTo(Boolean value) {
+            addCriterion("is_principal <>", value, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostGreaterThan(Boolean value) {
-            addCriterion("is_principal_post >", value, "isPrincipalPost");
+        public Criteria andIsPrincipalGreaterThan(Boolean value) {
+            addCriterion("is_principal >", value, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_principal_post >=", value, "isPrincipalPost");
+        public Criteria andIsPrincipalGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_principal >=", value, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostLessThan(Boolean value) {
-            addCriterion("is_principal_post <", value, "isPrincipalPost");
+        public Criteria andIsPrincipalLessThan(Boolean value) {
+            addCriterion("is_principal <", value, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_principal_post <=", value, "isPrincipalPost");
+        public Criteria andIsPrincipalLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_principal <=", value, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostIn(List<Boolean> values) {
-            addCriterion("is_principal_post in", values, "isPrincipalPost");
+        public Criteria andIsPrincipalIn(List<Boolean> values) {
+            addCriterion("is_principal in", values, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostNotIn(List<Boolean> values) {
-            addCriterion("is_principal_post not in", values, "isPrincipalPost");
+        public Criteria andIsPrincipalNotIn(List<Boolean> values) {
+            addCriterion("is_principal not in", values, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_principal_post between", value1, value2, "isPrincipalPost");
+        public Criteria andIsPrincipalBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_principal between", value1, value2, "isPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andIsPrincipalPostNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_principal_post not between", value1, value2, "isPrincipalPost");
+        public Criteria andIsPrincipalNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_principal not between", value1, value2, "isPrincipal");
             return (Criteria) this;
         }
 
@@ -1872,63 +1872,63 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostIsNull() {
-            addCriterion("cadre_is_principal_post is null");
+        public Criteria andCadreIsPrincipalIsNull() {
+            addCriterion("cadre_is_principal is null");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostIsNotNull() {
-            addCriterion("cadre_is_principal_post is not null");
+        public Criteria andCadreIsPrincipalIsNotNull() {
+            addCriterion("cadre_is_principal is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostEqualTo(Boolean value) {
-            addCriterion("cadre_is_principal_post =", value, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalEqualTo(Boolean value) {
+            addCriterion("cadre_is_principal =", value, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostNotEqualTo(Boolean value) {
-            addCriterion("cadre_is_principal_post <>", value, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalNotEqualTo(Boolean value) {
+            addCriterion("cadre_is_principal <>", value, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostGreaterThan(Boolean value) {
-            addCriterion("cadre_is_principal_post >", value, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalGreaterThan(Boolean value) {
+            addCriterion("cadre_is_principal >", value, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("cadre_is_principal_post >=", value, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("cadre_is_principal >=", value, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostLessThan(Boolean value) {
-            addCriterion("cadre_is_principal_post <", value, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalLessThan(Boolean value) {
+            addCriterion("cadre_is_principal <", value, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostLessThanOrEqualTo(Boolean value) {
-            addCriterion("cadre_is_principal_post <=", value, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalLessThanOrEqualTo(Boolean value) {
+            addCriterion("cadre_is_principal <=", value, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostIn(List<Boolean> values) {
-            addCriterion("cadre_is_principal_post in", values, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalIn(List<Boolean> values) {
+            addCriterion("cadre_is_principal in", values, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostNotIn(List<Boolean> values) {
-            addCriterion("cadre_is_principal_post not in", values, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalNotIn(List<Boolean> values) {
+            addCriterion("cadre_is_principal not in", values, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostBetween(Boolean value1, Boolean value2) {
-            addCriterion("cadre_is_principal_post between", value1, value2, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalBetween(Boolean value1, Boolean value2) {
+            addCriterion("cadre_is_principal between", value1, value2, "cadreIsPrincipal");
             return (Criteria) this;
         }
 
-        public Criteria andCadreIsPrincipalPostNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("cadre_is_principal_post not between", value1, value2, "cadreIsPrincipalPost");
+        public Criteria andCadreIsPrincipalNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("cadre_is_principal not between", value1, value2, "cadreIsPrincipal");
             return (Criteria) this;
         }
 

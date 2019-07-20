@@ -50,12 +50,12 @@
     </sql>
     <!--待审批-->
     <select id="selectNotApprovalList" resultMap="persistence.cla.ClaApplyMapper.BaseResultMap" parameterType="map">
-        select aas.* from cla_apply aas, cadre bc
+        select aas.* from cla_apply aas, cadre_view bc
         <include refid="Where_selectNotApproval"/>
         order by aas.create_time desc
     </select>
     <select id="countNotApproval" parameterType="map" resultType="java.lang.Integer">
-        select count(aas.id) from cla_apply aas, cadre bc
+        select count(aas.id) from cla_apply aas, cadre_view bc
         <include refid="Where_selectNotApproval"/>
     </select>
     <sql id="Where_hasApprovalList">
@@ -100,12 +100,12 @@
     </sql>
     <!-- 已审批 -->
     <select id="selectHasApprovalList" resultMap="persistence.cla.ClaApplyMapper.BaseResultMap" parameterType="map">
-        select aas.* from cla_apply aas, cadre bc
+        select aas.* from cla_apply aas, cadre_view bc
         <include refid="Where_hasApprovalList"/>
         order by aas.create_time desc
     </select>
     <select id="countHasApproval" parameterType="map" resultType="java.lang.Integer">
-        select count(aas.id) from cla_apply aas, cadre bc
+        select count(aas.id) from cla_apply aas, cadre_view bc
         <include refid="Where_hasApprovalList"/>
     </select>
 </mapper>

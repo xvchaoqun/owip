@@ -5,6 +5,7 @@ import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
 import domain.dispatch.*;
+import domain.leader.Leader;
 import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
 import domain.party.Party;
@@ -34,6 +35,7 @@ import service.dispatch.DispatchTypeService;
 import service.ext.ExtService;
 import service.ext.SyncService;
 import service.global.CacheService;
+import service.leader.LeaderService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
 import service.party.BranchService;
@@ -78,6 +80,7 @@ public class CmTag {
     static PsInfoService psInfoService = context.getBean(PsInfoService.class);
 
     static CadreService cadreService = context.getBean(CadreService.class);
+    static LeaderService leaderService = context.getBean(LeaderService.class);
     static CadrePostService cadrePostService = context.getBean(CadrePostService.class);
     static CadreAdminLevelService cadreAdminLevelService = context.getBean(CadreAdminLevelService.class);
     static CadreFamilyService cadreFamilyService = context.getBean(CadreFamilyService.class);
@@ -318,6 +321,13 @@ public class CmTag {
         if(userId==null) return null;
 
         return cadreService.dbFindByUserId(userId);
+    }
+
+    public static Leader getLeader(Integer userId) {
+
+        if(userId==null) return null;
+
+        return leaderService.findAll().get(userId);
     }
 
     // 主职

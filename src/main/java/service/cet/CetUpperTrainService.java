@@ -1,7 +1,7 @@
 package service.cet;
 
 import controller.global.OpException;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.cet.CetUpperTrain;
 import domain.cet.CetUpperTrainExample;
 import org.apache.commons.lang3.BooleanUtils;
@@ -41,7 +41,7 @@ public class CetUpperTrainService extends CetBaseMapper {
         int addUserId = ShiroHelper.getCurrentUserId();
         Date now = new Date();
 
-        Map<Integer, Cadre> cadreMap = cadreService.dbFindByUserIds(Arrays.asList(userIds));
+        Map<Integer, CadreView> cadreMap = cadreService.dbFindByUserIds(Arrays.asList(userIds));
 
         for (Integer userId : userIds) {
 
@@ -49,7 +49,7 @@ public class CetUpperTrainService extends CetBaseMapper {
             record.setAddUserId(addUserId);
             record.setAddTime(now);
 
-            Cadre cadre = cadreMap.get(userId);
+            CadreView cadre = cadreMap.get(userId);
             if(cadre!=null){
                 record.setTitle(cadre.getTitle());
                 record.setPostId(cadre.getPostType());

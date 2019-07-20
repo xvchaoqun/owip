@@ -29,13 +29,13 @@
                                 <c:if test="${status==CRS_EXPERT_STATUS_NOW}">
                                 <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/crsExpert_au"><i
                                         class="fa fa-plus"></i> 个别添加</a>
-                                    <a class="popupBtn btn btn-warning btn-sm" data-url="${ctx}/crsExpert/selectCadres"><i
+                                    <a class="popupBtn btn btn-primary btn-sm" data-url="${ctx}/crsExpert/selectCadres"><i
                                         class="fa fa-indent"></i> 批量添加</a>
                                     <button data-url="${ctx}/crsExpert_abolish"
                                             data-title="撤销"
                                             data-msg="确定将这{0}个成员转移到专家组过去成员？"
                                             data-grid-id="#jqGrid"
-                                            class="jqBatchBtn btn btn-primary btn-sm">
+                                            class="jqBatchBtn btn btn-warning btn-sm">
                                         <i class="fa fa-times"></i> 撤销
                                     </button>
                                 </c:if>

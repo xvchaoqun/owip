@@ -116,6 +116,7 @@ public class CadreExportService extends BaseMapper {
         int count = records.size();
 
         List<String> titles = getTitles();
+
         int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 13, 17, 18, 19, 20, 21, 23, 37, 44, 54, 57};
         if (exportType == 1) {
             //新增一个角色，限制查看干部库权限，
@@ -128,6 +129,9 @@ public class CadreExportService extends BaseMapper {
             titles.clear();
             titles.addAll(_titles);
         }else {
+            if(BooleanUtils.isNotTrue(CmTag.getBoolProperty("useCadreState"))){
+                titles.remove(3);
+            }
             if(cols!=null && cols.length>0){
                 // 选择导出列
                 List<String> _titles = new ArrayList<>();
@@ -170,11 +174,8 @@ public class CadreExportService extends BaseMapper {
 
             String isPositive = ""; // 是否正职
             CadrePost mainCadrePost = record.getMainCadrePost();
-            if (mainCadrePost != null && mainCadrePost.getPostType() != null) {
-                MetaType metaType = metaTypeMap.get(mainCadrePost.getPostType());
-                if (metaType != null) {
-                    isPositive = (BooleanUtils.isTrue(metaType.getBoolAttr())) ? "是" : "否";
-                }
+            if(mainCadrePost!=null){
+                isPositive = BooleanUtils.isTrue(mainCadrePost.getIsPrincipal())?"是":"否";
             }
 
             String _leaderType = "--"; // 是否班子负责人
@@ -271,7 +272,7 @@ public class CadreExportService extends BaseMapper {
                         subPost += StringUtils.trimToEmpty(unit.getName());
                     }
                 }
-                subPost += cadrePost.getPost();
+                subPost += StringUtils.trimToEmpty(cadrePost.getPost());
 
                 DispatchCadreRelateBean dispatchCadreRelateBean = cadrePost.getDispatchCadreRelateBean();
                 if (dispatchCadreRelateBean != null) {
@@ -393,7 +394,9 @@ public class CadreExportService extends BaseMapper {
                 values.clear();
                 values.addAll(_values);
             }else{
-
+                if(BooleanUtils.isNotTrue(CmTag.getBoolProperty("useCadreState"))){
+                    values.remove(3);
+                }
                 if(cols!=null && cols.length>0){
                     // 选择导出列
                     List<String> _values = new ArrayList<>();

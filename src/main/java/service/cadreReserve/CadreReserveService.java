@@ -21,7 +21,6 @@ import service.cadre.CadreAdLogService;
 import service.cadre.CadreService;
 import service.cadreInspect.CadreInspectService;
 import service.sys.SysUserService;
-import service.unit.UnitService;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
@@ -41,8 +40,6 @@ public class CadreReserveService extends BaseMapper {
     private CadreInspectService cadreInspectService;
     @Autowired
     private CadreAdLogService cadreAdLogService;
-    @Autowired
-    private UnitService unitService;
     @Autowired
     private MetaTypeService metaTypeService;
 

@@ -24,54 +24,11 @@ pageEncoding="UTF-8"%>
                     </c:if>
                 </div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label">现行政级别</label>
-				<div class="col-xs-6">
-                    <select  data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
-                        <option></option>
-                        <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                    </select>
-                    <script type="text/javascript">
-                        $("#modalForm select[name=typeId]").val(${cadre.adminLevel});
-                    </script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label">现职务属性</label>
-				<div class="col-xs-6">
-                    <select  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
-                        <option></option>
-                        <jsp:include page="/metaTypes?__code=mc_post"/>
-                    </select>
-                    <script type="text/javascript">
-                        $("#modalForm select[name=postId]").val(${cadre.postType});
-                    </script>
-				</div>
-			</div>
-            <div class="form-group">
-                <label class="col-xs-4 control-label">现所在单位</label>
-                <div class="col-xs-8">
-                    <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                        <option></option>
-                        <c:forEach items="${unitMap}" var="unit">
-                            <option value="${unit.key}">${unit.value.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=unitId]").val('${cadre.unitId}');
-                    </script>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-4 control-label">现任职务</label>
-                <div class="col-xs-6">
-                    <input  class="form-control" type="text" name="post" value="${cadre.post}">
-                </div>
-            </div>
+
 			<div class="form-group">
 				<label class="col-xs-4 control-label">现所在单位及职务</label>
 				<div class="col-xs-6">
-                        <input  class="form-control" type="text" name="title" value="${cadre.title}">
+                    <textarea class="form-control" rows="3" name="title">${cadre.title}</textarea>
 				</div>
 			</div>
 			<div class="form-group">

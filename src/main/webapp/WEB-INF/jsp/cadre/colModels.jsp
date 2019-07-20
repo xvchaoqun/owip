@@ -25,7 +25,9 @@
         }},
         </c:if>
         </c:if>
+        <c:if test="${_p_useCadreState}">
         {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
+        </c:if>
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
@@ -33,7 +35,7 @@
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-        {label: '是否正职', name: 'isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否正职', name: 'isPrincipal', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         { label: '是否<br/>班子负责人',name: 'leaderType', width: 120, formatter:function(cellvalue, options, rowObject){
             if(cellvalue==undefined) return '--';
             return _cMap.UNIT_POST_LEADER_TYPE_MAP[cellvalue];
@@ -260,7 +262,9 @@
         }},
         </c:if>
         </c:if>
+        <c:if test="${_p_useCadreState}">
         {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
+        </c:if>
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '原职务', name: 'post', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},

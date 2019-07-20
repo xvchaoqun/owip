@@ -52,12 +52,6 @@ public class CadreReserveView implements Serializable {
 
     private Integer userId;
 
-    private Integer adminLevel;
-
-    private Integer postType;
-
-    private Integer unitId;
-
     private Byte type;
 
     private Integer state;
@@ -66,13 +60,19 @@ public class CadreReserveView implements Serializable {
 
     private Integer dispatchCadreId;
 
-    private String post;
-
     private String remark;
 
     private Integer sortOrder;
 
     private Byte status;
+
+    private Integer unitId;
+
+    private Integer adminLevel;
+
+    private Integer postType;
+
+    private String post;
 
     private Boolean isCommitteeMember;
 
@@ -170,7 +170,7 @@ public class CadreReserveView implements Serializable {
 
     private String doubleUnitIds;
 
-    private Boolean isPrincipalPost;
+    private Boolean isPrincipal;
 
     private Byte leaderType;
 
@@ -298,30 +298,6 @@ public class CadreReserveView implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getAdminLevel() {
-        return adminLevel;
-    }
-
-    public void setAdminLevel(Integer adminLevel) {
-        this.adminLevel = adminLevel;
-    }
-
-    public Integer getPostType() {
-        return postType;
-    }
-
-    public void setPostType(Integer postType) {
-        this.postType = postType;
-    }
-
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
-    }
-
     public Byte getType() {
         return type;
     }
@@ -354,14 +330,6 @@ public class CadreReserveView implements Serializable {
         this.dispatchCadreId = dispatchCadreId;
     }
 
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post == null ? null : post.trim();
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -384,6 +352,38 @@ public class CadreReserveView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
+    }
+
+    public Integer getAdminLevel() {
+        return adminLevel;
+    }
+
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
+    }
+
+    public Integer getPostType() {
+        return postType;
+    }
+
+    public void setPostType(Integer postType) {
+        this.postType = postType;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
     }
 
     public Boolean getIsCommitteeMember() {
@@ -770,12 +770,12 @@ public class CadreReserveView implements Serializable {
         this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
     }
 
-    public Boolean getIsPrincipalPost() {
-        return isPrincipalPost;
+    public Boolean getIsPrincipal() {
+        return isPrincipal;
     }
 
-    public void setIsPrincipalPost(Boolean isPrincipalPost) {
-        this.isPrincipalPost = isPrincipalPost;
+    public void setIsPrincipal(Boolean isPrincipal) {
+        this.isPrincipal = isPrincipal;
     }
 
     public Byte getLeaderType() {

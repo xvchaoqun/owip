@@ -239,12 +239,7 @@
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter: $.jgrid.formatter.MetaType},
-            {
-                label: '是否正职', name: 'mainCadrePost.postType', formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '--';
-                    return _cMap.metaTypeMap[cellvalue].boolAttr ? "是" : "否"
-                }
-            },
+            {label: '是否正职', name: 'isPrincipal', formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation', width: 60},
             {label: '籍贯', name: 'nativePlace', width: 120},

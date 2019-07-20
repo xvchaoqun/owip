@@ -55,7 +55,7 @@ public interface IAbroadMapper {
 
     // 审批人类型为“本单位人员”时，查找某个单位（包含兼审单位）的审批人
     @ResultMap("persistence.abroad.ApproverMapper.BaseResultMap")
-    @Select("select aa.* from abroad_approver aa, cadre c where aa.cadre_id=c.id and aa.type_id=#{approverTypeId} and c.unit_id=#{unitId} " +
+    @Select("select aa.* from abroad_approver aa, cadre_view c where aa.cadre_id=c.id and aa.type_id=#{approverTypeId} and c.unit_id=#{unitId} " +
             "union all select aa.* from abroad_approver aa, abroad_additional_post aap " +
             "where aa.cadre_id=aap.cadre_id and aa.type_id=#{approverTypeId} and aap.unit_id=#{unitId}")
     List<Approver> findApprovarByTypeAndUnit(@Param("approverTypeId") int approverTypeId, @Param("unitId") int unitId);
@@ -68,7 +68,7 @@ public interface IAbroadMapper {
     List<Integer> getApprovalCadreIds_approverTypeId(@Param("cadreId") Integer cadreId, @Param("approverTypeId") Integer approverTypeId);
 
     // 审批人身份为本单位人员时，查找某个审批人可以审批的干部
-    @Select("select bc.id from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre bc where aat.id in(" +
+    @Select("select bc.id from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre_view bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) " +
             "and bc.unit_id in(select unit_id from cadre where id=#{cadreId} union all select unit_id from abroad_additional_post where cadre_id=#{cadreId})" +
@@ -77,14 +77,14 @@ public interface IAbroadMapper {
                                                            @Param("approverTypeId") Integer approverTypeId);
 
     // 在指定的单位中，查找需要某种审批身份审批的申请人
-    @Select("select bc.id from abroad_applicat_cadre aac, abroad_approval_order aao, cadre bc where " +
+    @Select("select bc.id from abroad_applicat_cadre aac, abroad_approval_order aao, cadre_view bc where " +
             "aao.approver_type_id=#{approverTypeId} and aac.type_id=aao.applicat_type_id " +
             "and bc.id = aac.cadre_id and bc.unit_id in(${unitIdStr})")
     List<Integer> getApprovalCadreIds_approverTypeIdInUnits( @Param("approverTypeId") Integer approverTypeId,
                                                              @Param("unitIdStr") String unitIdStr);
 
     // 其他审批人身份 的所在单位 给定一个干部id， 和审批人类别，查找他可以审批的干部的职务属性
-    /*@Select("select distinct bc.post_type from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre bc where aat.id in(" +
+    /*@Select("select distinct bc.post_type from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre_view bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
             "and bc.id = aac.cadre_id")

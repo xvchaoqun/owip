@@ -5,15 +5,18 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="post_name" jdbcType="VARCHAR" property="postName" />
     <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="is_principal" jdbcType="BIT" property="isPrincipal" />
     <result column="is_cpc" jdbcType="BIT" property="isCpc" />
     <result column="post_class_id" jdbcType="INTEGER" property="postClassId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="is_double" jdbcType="BIT" property="isDouble" />
     <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
     <result column="is_main_post" jdbcType="BIT" property="isMainPost" />
+    <result column="is_first_main_post" jdbcType="BIT" property="isFirstMainPost" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -75,8 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, unit_post_id, post, post_type, admin_level, is_cpc, post_class_id, 
-    unit_id, is_double, double_unit_ids, is_main_post, sort_order
+    id, cadre_id, unit_post_id, post_name, post, post_type, admin_level, is_principal, 
+    is_cpc, post_class_id, unit_id, is_double, double_unit_ids, is_main_post, is_first_main_post, 
+    sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadrePostExample" resultMap="BaseResultMap">
     select
@@ -112,15 +116,17 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre_post (cadre_id, unit_post_id, post, 
-      post_type, admin_level, is_cpc, 
-      post_class_id, unit_id, is_double, 
-      double_unit_ids, is_main_post, sort_order
+    insert into cadre_post (cadre_id, unit_post_id, post_name, 
+      post, post_type, admin_level, 
+      is_principal, is_cpc, post_class_id, 
+      unit_id, is_double, double_unit_ids, 
+      is_main_post, is_first_main_post, sort_order
       )
-    values (#{cadreId,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
-      #{postType,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, 
-      #{postClassId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, 
-      #{doubleUnitIds,jdbcType=VARCHAR}, #{isMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
+    values (#{cadreId,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, #{postName,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, 
+      #{isPrincipal,jdbcType=BIT}, #{isCpc,jdbcType=BIT}, #{postClassId,jdbcType=INTEGER}, 
+      #{unitId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, 
+      #{isMainPost,jdbcType=BIT}, #{isFirstMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadrePost">
@@ -135,6 +141,9 @@
       <if test="unitPostId != null">
         unit_post_id,
       </if>
+      <if test="postName != null">
+        post_name,
+      </if>
       <if test="post != null">
         post,
       </if>
@@ -143,6 +152,9 @@
       </if>
       <if test="adminLevel != null">
         admin_level,
+      </if>
+      <if test="isPrincipal != null">
+        is_principal,
       </if>
       <if test="isCpc != null">
         is_cpc,
@@ -162,6 +174,9 @@
       <if test="isMainPost != null">
         is_main_post,
       </if>
+      <if test="isFirstMainPost != null">
+        is_first_main_post,
+      </if>
       <if test="sortOrder != null">
         sort_order,
       </if>
@@ -173,6 +188,9 @@
       <if test="unitPostId != null">
         #{unitPostId,jdbcType=INTEGER},
       </if>
+      <if test="postName != null">
+        #{postName,jdbcType=VARCHAR},
+      </if>
       <if test="post != null">
         #{post,jdbcType=VARCHAR},
       </if>
@@ -181,6 +199,9 @@
       </if>
       <if test="adminLevel != null">
         #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isPrincipal != null">
+        #{isPrincipal,jdbcType=BIT},
       </if>
       <if test="isCpc != null">
         #{isCpc,jdbcType=BIT},
@@ -199,6 +220,9 @@
       </if>
       <if test="isMainPost != null">
         #{isMainPost,jdbcType=BIT},
+      </if>
+      <if test="isFirstMainPost != null">
+        #{isFirstMainPost,jdbcType=BIT},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -223,6 +247,9 @@
       <if test="record.unitPostId != null">
         unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       </if>
+      <if test="record.postName != null">
+        post_name = #{record.postName,jdbcType=VARCHAR},
+      </if>
       <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
       </if>
@@ -231,6 +258,9 @@
       </if>
       <if test="record.adminLevel != null">
         admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.isPrincipal != null">
+        is_principal = #{record.isPrincipal,jdbcType=BIT},
       </if>
       <if test="record.isCpc != null">
         is_cpc = #{record.isCpc,jdbcType=BIT},
@@ -250,6 +280,9 @@
       <if test="record.isMainPost != null">
         is_main_post = #{record.isMainPost,jdbcType=BIT},
       </if>
+      <if test="record.isFirstMainPost != null">
+        is_first_main_post = #{record.isFirstMainPost,jdbcType=BIT},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -263,15 +296,18 @@
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      post_name = #{record.postName,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
       post_type = #{record.postType,jdbcType=INTEGER},
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      is_principal = #{record.isPrincipal,jdbcType=BIT},
       is_cpc = #{record.isCpc,jdbcType=BIT},
       post_class_id = #{record.postClassId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       is_double = #{record.isDouble,jdbcType=BIT},
       double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
       is_main_post = #{record.isMainPost,jdbcType=BIT},
+      is_first_main_post = #{record.isFirstMainPost,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -286,6 +322,9 @@
       <if test="unitPostId != null">
         unit_post_id = #{unitPostId,jdbcType=INTEGER},
       </if>
+      <if test="postName != null">
+        post_name = #{postName,jdbcType=VARCHAR},
+      </if>
       <if test="post != null">
         post = #{post,jdbcType=VARCHAR},
       </if>
@@ -294,6 +333,9 @@
       </if>
       <if test="adminLevel != null">
         admin_level = #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isPrincipal != null">
+        is_principal = #{isPrincipal,jdbcType=BIT},
       </if>
       <if test="isCpc != null">
         is_cpc = #{isCpc,jdbcType=BIT},
@@ -313,6 +355,9 @@
       <if test="isMainPost != null">
         is_main_post = #{isMainPost,jdbcType=BIT},
       </if>
+      <if test="isFirstMainPost != null">
+        is_first_main_post = #{isFirstMainPost,jdbcType=BIT},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -323,15 +368,18 @@
     update cadre_post
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      post_name = #{postName,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
       post_type = #{postType,jdbcType=INTEGER},
       admin_level = #{adminLevel,jdbcType=INTEGER},
+      is_principal = #{isPrincipal,jdbcType=BIT},
       is_cpc = #{isCpc,jdbcType=BIT},
       post_class_id = #{postClassId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       is_double = #{isDouble,jdbcType=BIT},
       double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},
       is_main_post = #{isMainPost,jdbcType=BIT},
+      is_first_main_post = #{isFirstMainPost,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

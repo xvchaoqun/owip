@@ -107,7 +107,7 @@ public class UnitPostController extends BaseController {
 
             record.setJob(StringUtils.trimToNull(xlsRow.get(3)));
             record.setRemark(StringUtils.trimToNull(xlsRow.get(9)));
-            record.setIsPrincipalPost(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(4)), "是"));
+            record.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(4)), "是"));
             record.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(8)), "是"));
 
             String adminLevel = StringUtils.trimToNull(xlsRow.get(5));
@@ -232,7 +232,7 @@ public class UnitPostController extends BaseController {
                                     Integer adminLevel,
                                     Integer postType,
                                     Integer postClass,
-                              Boolean isPrincipalPost,
+                              Boolean isPrincipal,
                               Byte leaderType,
                               Boolean isCpc,
                               Boolean isMainPost,
@@ -240,7 +240,7 @@ public class UnitPostController extends BaseController {
                               Byte displayType,
                               Integer cadreId,
                                Byte gender,
-                               Boolean cadreIsPrincipalPost,
+                               Boolean cadreIsPrincipal,
                               Integer cadrePostType,
                               Integer startNowPostAge,
                               Integer endNowPostAge,
@@ -294,8 +294,8 @@ public class UnitPostController extends BaseController {
             criteria.andPostClassEqualTo(postClass);
         }
 
-        if (isPrincipalPost!=null) {
-            criteria.andIsPrincipalPostEqualTo(isPrincipalPost);
+        if (isPrincipal!=null) {
+            criteria.andIsPrincipalEqualTo(isPrincipal);
         }
         if(leaderType!=null){
             criteria.andLeaderTypeEqualTo(leaderType);
@@ -323,8 +323,8 @@ public class UnitPostController extends BaseController {
         if (cadrePostType!=null) {
             criteria.andCadrePostTypeEqualTo(cadrePostType);
         }
-        if (cadreIsPrincipalPost!=null) {
-            criteria.andCadreIsPrincipalPostEqualTo(cadreIsPrincipalPost);
+        if (cadreIsPrincipal!=null) {
+            criteria.andCadreIsPrincipalEqualTo(cadreIsPrincipal);
         }
 
         // 搜索始任年限时只考虑主职
@@ -401,7 +401,7 @@ public class UnitPostController extends BaseController {
 
         Integer id = record.getId();
 
-        record.setIsPrincipalPost(BooleanUtils.isTrue(record.getIsPrincipalPost()));
+        record.setIsPrincipal(BooleanUtils.isTrue(record.getIsPrincipal()));
         record.setIsCpc(BooleanUtils.isTrue(record.getIsCpc()));
 
         record.setName(HtmlUtils.htmlUnescape(record.getName()));
@@ -541,7 +541,7 @@ public class UnitPostController extends BaseController {
                     record.getUnitCode(),
                     record.getUnitName(),
                             record.getJob(),
-                            BooleanUtils.isTrue(record.getIsPrincipalPost())?"是":"否",
+                            BooleanUtils.isTrue(record.getIsPrincipal())?"是":"否",
                             metaTypeService.getName(record.getAdminLevel()),
                             metaTypeService.getName(record.getPostType()),
                             metaTypeService.getName(record.getPostClass()),
@@ -592,7 +592,7 @@ public class UnitPostController extends BaseController {
                             metaTypeService.getName(cv.getAdminLevel()),
                             metaTypeService.getName(cv.getPostType()),
 
-                    BooleanUtils.isTrue(record.getCadreIsPrincipalPost())?"是":"否",
+                    BooleanUtils.isTrue(record.getCadreIsPrincipal())?"是":"否",
                     SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(record.getLeaderType()),
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     cv.getNation(),

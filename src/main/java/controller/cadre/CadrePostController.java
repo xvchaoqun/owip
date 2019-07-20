@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.util.HtmlUtils;
 import service.dispatch.DispatchCadreRelateService;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
@@ -61,8 +60,7 @@ public class CadrePostController extends BaseController {
 
         modelMap.put("type", type);
         if (type == 1) {
-            // 主职
-            modelMap.put("mainCadrePost", cadrePostService.getCadreMainCadrePost(cadreId));
+
             // 兼职
             modelMap.put("subCadrePosts", cadrePostService.getSubCadrePosts(cadreId));
         }
@@ -91,9 +89,9 @@ public class CadrePostController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadrePostExample example = new CadrePostExample();
-        CadrePostExample.Criteria criteria = example.createCriteria()
+        example.createCriteria()
                 .andCadreIdEqualTo(cadreId).andIsMainPostEqualTo(isMainPost);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("is_first_main_post desc, sort_order desc");
 
         long count = cadrePostMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -124,7 +122,7 @@ public class CadrePostController extends BaseController {
                                HttpServletRequest request) {
 
         Integer id = record.getId();
-        record.setPost(HtmlUtils.htmlUnescape(record.getPost()));
+
         // 只用于主职
         if(BooleanUtils.isTrue(record.getIsMainPost())) {
             record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
@@ -148,6 +146,8 @@ public class CadrePostController extends BaseController {
             record.setIsCpc(BooleanUtils.isTrue(isCpc));
 
         record.setIsMainPost(BooleanUtils.isTrue(record.getIsMainPost()));
+        record.setIsFirstMainPost(BooleanUtils.isTrue(record.getIsFirstMainPost()));
+
         if (id == null) {
             cadrePostService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
@@ -164,6 +164,11 @@ public class CadrePostController extends BaseController {
     public String cadrePost_au(Integer id,
                                @RequestParam(defaultValue = "0") boolean isMainPost,
                                int cadreId, ModelMap modelMap) {
+
+        if(isMainPost){
+            // 第一主职
+            modelMap.put("mainCadrePost", cadrePostService.getCadreMainCadrePost(cadreId));
+        }
 
         if (id != null) {
             CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(id);
@@ -343,14 +348,8 @@ public class CadrePostController extends BaseController {
                 }
                 record.setCadreId(cv.getId());
 
-                String post = StringUtils.trimToNull(xlsRow.get(2));
-                if (StringUtils.isBlank(post)) {
-                    throw new OpException("第{0}行职务为空", row);
-                }
-                record.setPost(post);
-
                 UnitPost unitPost = null;
-                String postCode = StringUtils.trimToNull(xlsRow.get(4));
+                String postCode = StringUtils.trimToNull(xlsRow.get(3));
                 if (StringUtils.isNotBlank(postCode)) {
 
                     unitPost = unitPostService.getByCode(postCode);
@@ -367,75 +366,90 @@ public class CadrePostController extends BaseController {
                     }
 
                     record.setUnitPostId(unitPost.getId());
-                    record.setPostType(unitPost.getPostType());
+                    record.setPostName(unitPost.getName());
                     record.setAdminLevel(unitPost.getAdminLevel());
+                    record.setPostType(unitPost.getPostType());
                     record.setPostClassId(unitPost.getPostClass());
+                    record.setUnitId(unitPost.getUnitId());
                 }
 
-                String _postType = StringUtils.trimToNull(xlsRow.get(5));
-                MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
-                if (postType == null && record.getPostType() == null) {
-                    throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
-                } else if (postType != null) {
-                    record.setPostType(postType.getId());
+                if(unitPost==null) {
+                    String post = StringUtils.trimToNull(xlsRow.get(4));
+                    if (StringUtils.isBlank(post)) {
+                        throw new OpException("第{0}行岗位名称为空", row);
+                    }
+                    record.setPost(post);
+
+                    String _postType = StringUtils.trimToNull(xlsRow.get(5));
+                    MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+                    if (postType == null && record.getPostType() == null) {
+                        throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+                    } else if (postType != null) {
+                        record.setPostType(postType.getId());
+                    }
+
+                    String _postClass = StringUtils.trimToNull(xlsRow.get(7));
+                    MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
+                    if (postClass == null && record.getPostClassId() == null) {
+                        throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
+                    } else if (postClass != null) {
+                        record.setPostClassId(postClass.getId());
+                    }
+
+                    String unitCode = StringUtils.trimToNull(xlsRow.get(9));
+                    if (StringUtils.isBlank(unitCode)) {
+                        throw new OpException("第{0}行单位编码为空", row);
+                    }
+                    Unit unit = unitService.findUnitByCode(unitCode);
+                    if (unit == null) {
+                        throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+                    }
+                    record.setUnitId(unit.getId());
                 }
 
                 String _adminLevel = StringUtils.trimToNull(xlsRow.get(6));
                 MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
-                if (adminLevel == null && record.getAdminLevel() == null) {
-                    throw new OpException("第{0}行行政级别[{1}]不存在", row, _postType);
-                } else if (adminLevel != null) {
+                if(unitPost==null && adminLevel==null){
+                    throw new OpException("第{0}行行政级别[{1}]不存在", row, _adminLevel);
+                }else if (adminLevel != null ) {
                     record.setAdminLevel(adminLevel.getId());
                 }
 
-                String _postClass = StringUtils.trimToNull(xlsRow.get(7));
-                MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _adminLevel);
-                if (postClass == null && record.getPostClassId() == null) {
-                    throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
-                } else if (postClass != null) {
-                    record.setPostClassId(postClass.getId());
-                }
+                record.setPost(StringUtils.trimToNull(xlsRow.get(10)));
+                record.setIsFirstMainPost(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(11)), "是"));
 
-                String unitCode = StringUtils.trimToNull(xlsRow.get(9));
-                if (StringUtils.isBlank(unitCode)) {
-                    throw new OpException("第{0}行单位编码为空", row);
-                }
-                Unit unit = unitService.findUnitByCode(unitCode);
-                if (unit == null) {
-                    throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
-                }
-                record.setUnitId(unit.getId());
+                if(record.getIsFirstMainPost()) {
+                    String _isDouble = StringUtils.trimToNull(xlsRow.get(12));
+                    record.setIsDouble(StringUtils.equals(_isDouble, "是"));
 
-                String _isDouble = StringUtils.trimToNull(xlsRow.get(10));
-                record.setIsDouble(StringUtils.equals(_isDouble, "是"));
+                    if (record.getIsDouble()) {
 
-                if (record.getIsDouble()) {
+                        List<Integer> doubleUnitIds = new ArrayList<>();
 
-                    List<Integer> doubleUnitIds = new ArrayList<>();
-
-                    unitCode = StringUtils.trimToNull(xlsRow.get(12));
-                    if (StringUtils.isNotBlank(unitCode)) {
-                        unit = unitService.findUnitByCode(unitCode);
-                        if (unit == null) {
-                            throw new OpException("第{0}行双肩挑单位1编码[{1}]不存在", row, unitCode);
+                        String unitCode = StringUtils.trimToNull(xlsRow.get(14));
+                        if (StringUtils.isNotBlank(unitCode)) {
+                            Unit unit = unitService.findUnitByCode(unitCode);
+                            if (unit == null) {
+                                throw new OpException("第{0}行双肩挑单位1编码[{1}]不存在", row, unitCode);
+                            }
+                            doubleUnitIds.add(unit.getId());
                         }
-                        doubleUnitIds.add(unit.getId());
-                    }
 
-                    unitCode = StringUtils.trimToNull(xlsRow.get(14));
-                    if (StringUtils.isNotBlank(unitCode)) {
-                        unit = unitService.findUnitByCode(unitCode);
-                        if (unit == null) {
-                            throw new OpException("第{0}行双肩挑单位2编码[{1}]不存在", row, unitCode);
+                        unitCode = StringUtils.trimToNull(xlsRow.get(16));
+                        if (StringUtils.isNotBlank(unitCode)) {
+                            Unit unit = unitService.findUnitByCode(unitCode);
+                            if (unit == null) {
+                                throw new OpException("第{0}行双肩挑单位2编码[{1}]不存在", row, unitCode);
+                            }
+                            doubleUnitIds.add(unit.getId());
                         }
-                        doubleUnitIds.add(unit.getId());
-                    }
 
-                    if (doubleUnitIds.size() == 0) {
-                        throw new OpException("第{0}行双肩挑单位编码至少需要填写一个", row);
-                    }
+                        if (doubleUnitIds.size() == 0) {
+                            throw new OpException("第{0}行双肩挑单位编码至少需要填写一个", row);
+                        }
 
-                    record.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
+                        record.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
+                    }
                 }
 
                 record.setIsMainPost(true);
@@ -472,14 +486,8 @@ public class CadrePostController extends BaseController {
                 }
                 record.setCadreId(cv.getId());
 
-                String post = StringUtils.trimToNull(xlsRow.get(2));
-                if (StringUtils.isBlank(post)) {
-                    throw new OpException("第{0}行兼任职务为空", row);
-                }
-                record.setPost(post);
-
                 UnitPost unitPost = null;
-                String postCode = StringUtils.trimToNull(xlsRow.get(4));
+                String postCode = StringUtils.trimToNull(xlsRow.get(3));
                 if (StringUtils.isNotBlank(postCode)) {
 
                     unitPost = unitPostService.getByCode(postCode);
@@ -496,44 +504,54 @@ public class CadrePostController extends BaseController {
                     }
 
                     record.setUnitPostId(unitPost.getId());
+                    record.setPostName(unitPost.getName());
                     record.setPostType(unitPost.getPostType());
                     record.setAdminLevel(unitPost.getAdminLevel());
                     record.setPostClassId(unitPost.getPostClass());
+                    record.setUnitId(unitPost.getUnitId());
                 }
 
-                String _postType = StringUtils.trimToNull(xlsRow.get(5));
-                MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
-                if (postType == null && record.getPostType() == null) {
-                    throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
-                } else if (postType != null) {
-                    record.setPostType(postType.getId());
+                if(unitPost==null) {
+                    String post = StringUtils.trimToNull(xlsRow.get(4));
+                    if (StringUtils.isBlank(post)) {
+                        throw new OpException("第{0}行岗位名称为空", row);
+                    }
+                    record.setPost(post);
+
+                    String _postType = StringUtils.trimToNull(xlsRow.get(5));
+                    MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+                    if (postType == null && record.getPostType() == null) {
+                        throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+                    } else if (postType != null) {
+                        record.setPostType(postType.getId());
+                    }
+
+                    String _postClass = StringUtils.trimToNull(xlsRow.get(7));
+                    MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
+                    if (postClass == null && record.getPostClassId() == null) {
+                        throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
+                    } else if (postClass != null) {
+                        record.setPostClassId(postClass.getId());
+                    }
+
+                    String unitCode = StringUtils.trimToNull(xlsRow.get(9));
+                    if (StringUtils.isBlank(unitCode)) {
+                        throw new OpException("第{0}行兼任单位编码为空", row);
+                    }
+                    Unit unit = unitService.findUnitByCode(unitCode);
+                    if (unit == null) {
+                        throw new OpException("第{0}行兼任单位编码[{1}]不存在", row, unitCode);
+                    }
+                    record.setUnitId(unit.getId());
                 }
 
                 String _adminLevel = StringUtils.trimToNull(xlsRow.get(6));
                 MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
-                if (adminLevel == null && record.getAdminLevel() == null) {
-                    throw new OpException("第{0}行职务级别[{1}]不存在", row, _postType);
-                } else if (adminLevel != null) {
+                if(unitPost==null && adminLevel==null){
+                    throw new OpException("第{0}行行政级别[{1}]不存在", row, _adminLevel);
+                }else if (adminLevel != null ) {
                     record.setAdminLevel(adminLevel.getId());
                 }
-
-                String _postClass = StringUtils.trimToNull(xlsRow.get(7));
-                MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _adminLevel);
-                if (postClass == null && record.getPostClassId() == null) {
-                    throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
-                } else if (postClass != null) {
-                    record.setPostClassId(postClass.getId());
-                }
-
-                String unitCode = StringUtils.trimToNull(xlsRow.get(9));
-                if (StringUtils.isBlank(unitCode)) {
-                    throw new OpException("第{0}行兼任单位编码为空", row);
-                }
-                Unit unit = unitService.findUnitByCode(unitCode);
-                if (unit == null) {
-                    throw new OpException("第{0}行兼任单位编码[{1}]不存在", row, unitCode);
-                }
-                record.setUnitId(unit.getId());
 
                 String _isCpc = StringUtils.trimToNull(xlsRow.get(10));
                 record.setIsCpc(StringUtils.equals(_isCpc, "是"));

@@ -86,8 +86,8 @@
             </foreach>
         </if>
      </sql>
-    <select id="selectCadreList" resultMap="persistence.cadre.CadreMapper.BaseResultMap" parameterType="map">
-        select c.* from cadre c
+    <select id="selectCadreList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+        select c.* from cadre_view c
         <if test="isCommitteeMember != null">
         left join cm_member cm on cm.user_id=c.user_id and cm.is_quit=0
         left join base_meta_type pc_post on cm.post=pc_post.id and pc_post.bool_attr=1
@@ -97,7 +97,7 @@
         order by c.sort_order desc
     </select>
     <select id="countCadreList" parameterType="map" resultType="java.lang.Integer">
-        select count(c.id) from cadre c
+        select count(c.id) from cadre_view c
         <if test="isCommitteeMember != null">
             left join cm_member cm on cm.user_id=c.user_id and cm.is_quit=0
             left join base_meta_type pc_post on cm.post=pc_post.id and pc_post.bool_attr=1

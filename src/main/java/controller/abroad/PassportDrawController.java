@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.abroad.*;
 import domain.abroad.PassportDrawExample.Criteria;
 import domain.base.ContentTpl;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
@@ -31,7 +30,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.AbroadConstants;
+import sys.constants.ContentTplConstants;
+import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -255,7 +257,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         Integer id = record.getId();
         byte type = record.getType();
-        Cadre cadre = null;
+        CadreView cadre = null;
         Integer classId = null;
         if (id == null) {
 

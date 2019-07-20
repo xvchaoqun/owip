@@ -86,6 +86,7 @@
                     </div>
                 </div>
             </c:if>
+
             <div class="form-group">
                 <label class="col-xs-3 control-label">办公电话</label>
 
@@ -105,6 +106,11 @@
 </form>
 
 <div class="clearfix form-actions">
+    <c:if test="${not empty cadre}">
+        <div class="note">
+            注：如果是处级干部（含离任），则籍贯、出生地、户籍地、手机号信息由干部专员维护。
+        </div>
+    </c:if>
     <div class="col-md-offset-3 col-md-9">
         <button class="btn btn-info" type="submit">
             <i class="ace-icon fa fa-check bigger-110"></i>

@@ -40,7 +40,7 @@ public class UnitPostView implements Serializable {
 
     private String job;
 
-    private Boolean isPrincipalPost;
+    private Boolean isPrincipal;
 
     private Byte leaderType;
 
@@ -86,7 +86,7 @@ public class UnitPostView implements Serializable {
 
     private Integer cadrePostType;
 
-    private Boolean cadreIsPrincipalPost;
+    private Boolean cadreIsPrincipal;
 
     private Integer cadrePostYear;
 
@@ -134,12 +134,12 @@ public class UnitPostView implements Serializable {
         this.job = job == null ? null : job.trim();
     }
 
-    public Boolean getIsPrincipalPost() {
-        return isPrincipalPost;
+    public Boolean getIsPrincipal() {
+        return isPrincipal;
     }
 
-    public void setIsPrincipalPost(Boolean isPrincipalPost) {
-        this.isPrincipalPost = isPrincipalPost;
+    public void setIsPrincipal(Boolean isPrincipal) {
+        this.isPrincipal = isPrincipal;
     }
 
     public Byte getLeaderType() {
@@ -318,12 +318,12 @@ public class UnitPostView implements Serializable {
         this.cadrePostType = cadrePostType;
     }
 
-    public Boolean getCadreIsPrincipalPost() {
-        return cadreIsPrincipalPost;
+    public Boolean getCadreIsPrincipal() {
+        return cadreIsPrincipal;
     }
 
-    public void setCadreIsPrincipalPost(Boolean cadreIsPrincipalPost) {
-        this.cadreIsPrincipalPost = cadreIsPrincipalPost;
+    public void setCadreIsPrincipal(Boolean cadreIsPrincipal) {
+        this.cadreIsPrincipal = cadreIsPrincipal;
     }
 
     public Integer getCadrePostYear() {

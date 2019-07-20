@@ -4,7 +4,6 @@ import bean.ShortMsgBean;
 import domain.abroad.*;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
@@ -532,7 +531,7 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
                 // 第七天给管理员发短信
                 if(days==7){
 
-                    Cadre cadre = passport.getCadre();
+                    CadreView cadre = passport.getCadre();
                     SysUserView applyUser = passport.getUser();
                     passport.getPassportClass();
                     String cadreTitle = cadre.getTitle();

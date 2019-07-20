@@ -1,7 +1,6 @@
 package service.sc.scSubsidy;
 
 import controller.global.OpException;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
@@ -137,7 +136,7 @@ public class ScSubsidyService extends ScBaseMapper {
             scSubsidyDcMapper.insertSelective(scSubsidyDc);
         }
         for (Integer cadreId : cadreIdSet) {
-            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             ScSubsidyCadre scSubsidyCadre = new ScSubsidyCadre();
             scSubsidyCadre.setSubsidyId(subsidyId);
             scSubsidyCadre.setCadreId(cadreId);

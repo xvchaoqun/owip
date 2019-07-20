@@ -22,7 +22,7 @@
             </ul>
             <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.unitId ||not empty param.name
-            ||not empty param.isPrincipalPost||not empty param.leaderType||not empty param.isMainPost ||not empty param.isCpc  ||not empty param.cadreId
+            ||not empty param.isPrincipal||not empty param.leaderType||not empty param.isMainPost ||not empty param.isCpc  ||not empty param.cadreId
             ||not empty param.adminLevel ||not empty param.postType ||not empty param.postClass
             ||not empty param.unitTypes||not empty param.adminLevels
             ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
@@ -114,15 +114,15 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>是否正职</label>
-                                <select name="isPrincipalPost" data-width="100"
+                                <label>是否正职岗位</label>
+                                <select name="isPrincipal" data-width="100"
                                         data-rel="select2" data-placeholder="请选择">
                                     <option></option>
                                     <option value="1">是</option>
                                     <option value="0">否</option>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=isPrincipalPost]").val('${param.isPrincipalPost}');
+                                    $("#searchForm select[name=isPrincipal]").val('${param.isPrincipal}');
                                 </script>
                             </div>
                             <div class="form-group">

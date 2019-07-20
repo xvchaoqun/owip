@@ -66,7 +66,7 @@
             {label: '拟调整岗位编号', name: 'unitPost.code', width: 120},
             {label: '拟调整岗位名称', name: 'unitPost.name', align: 'left', width: 150},
             {label: '分管工作', name: 'unitPost.job', align: 'left', width: 450},
-            {label: '正/副职', name: 'unitPost.isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE,
+            {label: '正/副职', name: 'unitPost.isPrincipal', width: 80, formatter: $.jgrid.formatter.TRUEFALSE,
                 formatoptions:{on:'正职', off:'副职'}},
             {label: '行政级别', name: 'unitPost.adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'unitPost.postType', width: 150, formatter: $.jgrid.formatter.MetaType},

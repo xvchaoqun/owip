@@ -28,11 +28,15 @@ public class CadrePost implements Serializable {
 
     private Integer unitPostId;
 
+    private String postName;
+
     private String post;
 
     private Integer postType;
 
     private Integer adminLevel;
+
+    private Boolean isPrincipal;
 
     private Boolean isCpc;
 
@@ -45,6 +49,8 @@ public class CadrePost implements Serializable {
     private String doubleUnitIds;
 
     private Boolean isMainPost;
+
+    private Boolean isFirstMainPost;
 
     private Integer sortOrder;
 
@@ -74,6 +80,14 @@ public class CadrePost implements Serializable {
         this.unitPostId = unitPostId;
     }
 
+    public String getPostName() {
+        return postName;
+    }
+
+    public void setPostName(String postName) {
+        this.postName = postName == null ? null : postName.trim();
+    }
+
     public String getPost() {
         return post;
     }
@@ -96,6 +110,14 @@ public class CadrePost implements Serializable {
 
     public void setAdminLevel(Integer adminLevel) {
         this.adminLevel = adminLevel;
+    }
+
+    public Boolean getIsPrincipal() {
+        return isPrincipal;
+    }
+
+    public void setIsPrincipal(Boolean isPrincipal) {
+        this.isPrincipal = isPrincipal;
     }
 
     public Boolean getIsCpc() {
@@ -144,6 +166,14 @@ public class CadrePost implements Serializable {
 
     public void setIsMainPost(Boolean isMainPost) {
         this.isMainPost = isMainPost;
+    }
+
+    public Boolean getIsFirstMainPost() {
+        return isFirstMainPost;
+    }
+
+    public void setIsFirstMainPost(Boolean isFirstMainPost) {
+        this.isFirstMainPost = isFirstMainPost;
     }
 
     public Integer getSortOrder() {

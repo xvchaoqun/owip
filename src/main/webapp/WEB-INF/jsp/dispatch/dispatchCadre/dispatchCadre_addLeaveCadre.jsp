@@ -31,7 +31,6 @@
                 <input type="text" name="realname"/>
             </div>
         </div>
-
         <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
             <c:if test="${_p_hasKjCadre}">
                 <div class="form-group">
@@ -52,41 +51,6 @@
                 </div>
             </c:if>
         </c:if>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">行政级别</label>
-            <div class="col-xs-6">
-                <select data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">职务属性</label>
-            <div class="col-xs-6">
-                <select data-rel="select2" name="postType" data-placeholder="请选择职务属性">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_post"/>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">所属单位</label>
-            <div class="col-xs-8">
-                <select class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                    <option></option>
-                    <c:forEach items="${unitMap}" var="unit">
-                        <option value="${unit.key}">${unit.value.name}</option>
-                    </c:forEach>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">职务</label>
-            <div class="col-xs-6">
-                <input class="form-control" type="text" name="post">
-            </div>
-        </div>
         <div class="form-group">
             <label class="col-xs-4 control-label">离任后所在单位及职务</label>
             <div class="col-xs-6">

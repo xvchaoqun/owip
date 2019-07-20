@@ -194,7 +194,7 @@ DROP VIEW IF EXISTS `sc_committee_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_member_view` AS
 select distinct scm.*, uv.username, uv.code, uv.realname, c.id as cadre_id, c.title, c.post from sc_committee_member scm
 left join sys_user_view uv on uv.id=scm.user_id
-left join cadre c on c.user_id=scm.user_id;
+left join cadre_view c on c.user_id=scm.user_id;
 
 DROP VIEW IF EXISTS `sc_committee_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_view` AS
@@ -650,7 +650,7 @@ select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id
 u.status as unit_status, u.sort_order as unit_sort_order,
 cp.cadre_id, cp.id as cadre_post_id, cp.admin_level as cp_admin_level, cp.is_main_post,
 cv.gender, cv.admin_level as cadre_admin_level, cv.post_type as cadre_post_type,
-cv.is_principal_post as cadre_is_principal_post, cv.cadre_post_year, cv.admin_level_year from unit_post up
+cv.is_principal as cadre_is_principal, cv.cadre_post_year, cv.admin_level_year from unit_post up
 left join unit u on up.unit_id=u.id
 left join cadre_post cp on up.id=cp.unit_post_id
 left join cadre_view cv on cv.id=cp.cadre_id;

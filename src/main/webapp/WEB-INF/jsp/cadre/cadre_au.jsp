@@ -47,6 +47,7 @@
         </div>
         </c:if>
          </c:if>
+        <c:if test="${_p_useCadreState}">
         <div class="form-group">
             <label class="col-xs-4 control-label">${cm:getTextFromHTML(_pMap['cadreStateName'])}</label>
             <div class="col-xs-6">
@@ -59,50 +60,7 @@
                 </script>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">行政级别</label>
-            <div class="col-xs-6">
-                <select data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                </select>
-                <script type="text/javascript">
-                    $("#modalForm select[name=adminLevel]").val(${cadre.adminLevel});
-                </script>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">职务属性</label>
-            <div class="col-xs-6">
-                <select data-rel="select2" name="postType" data-placeholder="请选择职务属性">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_post"/>
-                </select>
-                <script type="text/javascript">
-                    $("#modalForm select[name=postType]").val(${cadre.postType});
-                </script>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">所属单位</label>
-            <div class="col-xs-8">
-                <select class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                    <option></option>
-                    <c:forEach items="${unitMap}" var="unit">
-                        <option value="${unit.key}">${unit.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#modalForm select[name=unitId]").val('${cadre.unitId}');
-                </script>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">职务</label>
-            <div class="col-xs-6">
-                <input class="form-control" type="text" name="post" value="${cadre.post}">
-            </div>
-        </div>
+        </c:if>
         <c:if test="${cadre.id!=null && (status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
             <div class="form-group">
                 <label class="col-xs-4 control-label">离任文件</label>
@@ -116,7 +74,7 @@
             <label class="col-xs-4 control-label"><c:if
                     test="${status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
             <div class="col-xs-6">
-                <input class="form-control" type="text" name="title" value="${cadre.title}">
+                <textarea class="form-control" rows="3" name="title">${cadre.title}</textarea>
             </div>
         </div>
         <div class="form-group">

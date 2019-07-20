@@ -7,7 +7,7 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="job" jdbcType="VARCHAR" property="job" />
-    <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
+    <result column="is_principal" jdbcType="BIT" property="isPrincipal" />
     <result column="leader_type" jdbcType="TINYINT" property="leaderType" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
@@ -30,7 +30,7 @@
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="cadre_admin_level" jdbcType="INTEGER" property="cadreAdminLevel" />
     <result column="cadre_post_type" jdbcType="INTEGER" property="cadrePostType" />
-    <result column="cadre_is_principal_post" jdbcType="BIT" property="cadreIsPrincipalPost" />
+    <result column="cadre_is_principal" jdbcType="BIT" property="cadreIsPrincipal" />
     <result column="cadre_post_year" jdbcType="INTEGER" property="cadrePostYear" />
     <result column="admin_level_year" jdbcType="INTEGER" property="adminLevelYear" />
   </resultMap>
@@ -64,11 +64,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_id, code, name, job, is_principal_post, leader_type, admin_level, post_type, 
+    id, unit_id, code, name, job, is_principal, leader_type, admin_level, post_type, 
     post_class, is_cpc, status, abolish_date, open_date, sort_order, remark, unit_name, 
     unit_code, unit_type_id, unit_status, unit_sort_order, cadre_id, cadre_post_id, cp_admin_level, 
-    is_main_post, gender, cadre_admin_level, cadre_post_type, cadre_is_principal_post, 
-    cadre_post_year, admin_level_year
+    is_main_post, gender, cadre_admin_level, cadre_post_type, cadre_is_principal, cadre_post_year, 
+    admin_level_year
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostViewExample" resultMap="BaseResultMap">
     select

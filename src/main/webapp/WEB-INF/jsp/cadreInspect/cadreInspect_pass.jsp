@@ -30,6 +30,7 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
         </c:if>
+        <c:if test="${_p_useCadreState}">
         <div class="form-group">
             <label class="col-xs-3 control-label">${cm:getTextFromHTML(_pMap['cadreStateName'])}</label>
             <div class="col-xs-8">
@@ -42,62 +43,19 @@ pageEncoding="UTF-8"%>
                 </script>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">任职单位</label>
-            <div class="col-xs-8">
-                <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                    <option></option>
-                    <c:forEach items="${unitMap}" var="unit">
-                        <option value="${unit.key}">${unit.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#modalForm select[name=unitId]").val('${cadre.unitId}');
-                </script>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">任命职务</label>
-            <div class="col-xs-6">
-                <input  class="form-control" type="text" name="post" value="${cadre.post}">
-            </div>
-        </div>
+        </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label">任职单位及职务</label>
             <div class="col-xs-6">
-                <input  class="form-control" type="text" name="title" value="${cadre.title}">
+                <textarea class="form-control" rows="3" name="title">${cadre.title}</textarea>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">职务属性</label>
+            <label class="col-xs-3 control-label">备注</label>
             <div class="col-xs-6">
-                <select  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_post"/>
-                </select>
-                <script type="text/javascript">
-                    $("#modalForm select[name=postId]").val(${cadre.postType});
-                </script>
+                <textarea class="form-control limited" name="inspectRemark" rows="5">${cadreInspect.remark}</textarea>
             </div>
         </div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
-				<div class="col-xs-6">
-                    <select  data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
-                        <option></option>
-                        <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                    </select>
-                    <script type="text/javascript">
-                        $("#modalForm select[name=typeId]").val(${cadre.adminLevel});
-                    </script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">
-                    <textarea class="form-control limited" name="inspectRemark" rows="5">${cadreInspect.remark}</textarea>
-				</div>
-			</div>
     </form>
 </div>
 <div class="modal-footer">

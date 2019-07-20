@@ -1,6 +1,7 @@
 DROP VIEW IF EXISTS `cadre_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS
-SELECT c.*
+SELECT c.*,
+	main_cadre_post.unit_id, main_cadre_post.admin_level, main_cadre_post.post_type, main_cadre_post.post
 	,if(!isnull(cm.id), 1, 0) as is_committee_member
 	,`uv`.`msg_title` AS `msg_title`
 	,`uv`.`mobile` AS `mobile`
@@ -52,7 +53,7 @@ SELECT c.*
 	,main_cadre_post.id as main_cadre_post_id
 	,main_cadre_post.is_double
 	,main_cadre_post.double_unit_ids
-	,main_cadre_post_type.bool_attr as is_principal_post
+	,main_cadre_post.is_principal
 	-- 是否班子负责人
 	,up.leader_type
 	,TIMESTAMPDIFF(YEAR,np_work_time,now()) as cadre_post_year
@@ -79,12 +80,11 @@ LEFT JOIN `sys_teacher_info` `t` ON `t`.`user_id` = `c`.`user_id`
 LEFT JOIN `ow_member` `om` ON `om`.`user_id` = `c`.`user_id`
 LEFT JOIN `cadre_edu` `max_ce` ON  `max_ce`.`cadre_id` = `c`.`id` AND `max_ce`.`is_high_edu` = 1 and max_ce.status=0
 LEFT JOIN `cadre_edu` `max_degree` ON `max_degree`.`cadre_id` = `c`.`id` AND `max_degree`.`is_high_degree` = 1 and max_degree.status=0
-left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_main_post=1)
+left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_first_main_post=1)
 left join unit_post up on up.id=main_cadre_post.unit_post_id
-left join base_meta_type main_cadre_post_type on(main_cadre_post_type.id=main_cadre_post.post_type)
-left join base_meta_type admin_level on(c.admin_level=admin_level.id)
+left join base_meta_type admin_level on(main_cadre_post.admin_level=admin_level.id)
 left join base_meta_type max_ce_edu on(max_ce.edu_id=max_ce_edu.id)
-left join unit u on(c.unit_id=u.id)
+left join unit u on(main_cadre_post.unit_id=u.id)
 left join base_meta_type unit_type on(u.type_id=unit_type.id)
 left join
 (select * from (select distinct dcr.relate_id as np_relate_id, d.id as np_id, d.file_name as np_file_name, d.file as np_file, d.work_time as np_work_time  from dispatch_cadre_relate dcr,
@@ -102,7 +102,6 @@ left join dispatch_cadre edc on edc.id=cal.end_dispatch_cadre_id
 left join dispatch ed on ed.id=edc.dispatch_id) nl on nl.cadre_id=c.id and nl.admin_level=main_cadre_post.admin_level
 left join (select cadre_id, verify_birth from verify_age where status=0) _va on _va.cadre_id=c.id
 left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id;
-
 
 DROP VIEW IF EXISTS `crs_candidate_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `crs_candidate_view` AS

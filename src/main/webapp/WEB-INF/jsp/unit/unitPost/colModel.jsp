@@ -24,7 +24,7 @@
     { label: '单位类型', name: 'unitTypeId', width: 120,frozen:true, formatter: $.jgrid.formatter.MetaType },
     </c:if>
     { label: '分管工作', align:'left', name: 'job', width: 200 },
-    { label: '是否<br/>正职',name: 'isPrincipalPost', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
+    { label: '是否<br/>正职',name: 'isPrincipal', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
     { label: '是否<br/>班子负责人',name: 'leaderType', width: 120, formatter:function(cellvalue, options, rowObject){
         if(cellvalue==undefined) return '--';
         return _cMap.UNIT_POST_LEADER_TYPE_MAP[cellvalue];

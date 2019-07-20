@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="widget-body">
-        <div class="widget-main table-nonselect">
+        <div class="widget-main">
             <table id="jqGrid_cadreFamily" class="jqGrid4" data-width-reduce="50"></table>
             <div id="jqGridPager_cadreFamily"></div>
         </div>
@@ -90,7 +90,7 @@
 
     </div>
     <div class="widget-body">
-        <div class="widget-main table-nonselect">
+        <div class="widget-main">
             <table id="jqGrid_cadreFamilyAbroad" class="jqGrid4" data-width-reduce="50"></table>
             <div id="jqGridPager_cadreFamilyAbroad"></div>
         </div>

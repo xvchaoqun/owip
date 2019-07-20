@@ -48,6 +48,8 @@ public class CadreService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
+    private CadrePostService cadrePostService;
+    @Autowired
     private CacheHelper cacheHelper;
     @Autowired
     private CadreReserveService cadreReserveService;
@@ -248,14 +250,14 @@ public class CadreService extends BaseMapper {
         return null;
     }
 
-    // <userId, cadre>
-    public Map<Integer, Cadre> dbFindByUserIds(List<Integer> userIds) {
+    // <userId, cadreView>
+    public Map<Integer, CadreView> dbFindByUserIds(List<Integer> userIds) {
 
-        Map<Integer, Cadre> cadreMap = new HashMap<>();
-        CadreExample example = new CadreExample();
+        Map<Integer, CadreView> cadreMap = new HashMap<>();
+        CadreViewExample example = new CadreViewExample();
         example.createCriteria().andUserIdIn(userIds);
-        List<Cadre> cadres = cadreMapper.selectByExample(example);
-        for (Cadre cadre : cadres) {
+        List<CadreView> cadres = cadreViewMapper.selectByExample(example);
+        for (CadreView cadre : cadres) {
             cadreMap.put(cadre.getUserId(), cadre);
         }
 

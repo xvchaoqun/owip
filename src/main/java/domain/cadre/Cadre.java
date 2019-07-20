@@ -14,12 +14,6 @@ public class Cadre implements Serializable {
 
     private Integer userId;
 
-    private Integer adminLevel;
-
-    private Integer postType;
-
-    private Integer unitId;
-
     private Byte type;
 
     private Integer state;
@@ -27,8 +21,6 @@ public class Cadre implements Serializable {
     private String title;
 
     private Integer dispatchCadreId;
-
-    private String post;
 
     private String remark;
 
@@ -52,30 +44,6 @@ public class Cadre implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getAdminLevel() {
-        return adminLevel;
-    }
-
-    public void setAdminLevel(Integer adminLevel) {
-        this.adminLevel = adminLevel;
-    }
-
-    public Integer getPostType() {
-        return postType;
-    }
-
-    public void setPostType(Integer postType) {
-        this.postType = postType;
-    }
-
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
     }
 
     public Byte getType() {
@@ -108,14 +76,6 @@ public class Cadre implements Serializable {
 
     public void setDispatchCadreId(Integer dispatchCadreId) {
         this.dispatchCadreId = dispatchCadreId;
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post == null ? null : post.trim();
     }
 
     public String getRemark() {

@@ -32,6 +32,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 一键清理
                     </button>
                 </shiro:hasPermission>
+                注：已过期的记录系统将自动定期删除
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

@@ -2,9 +2,12 @@ package domain.abroad;
 
 import domain.base.MetaType;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cadre.CadreMapper;
+import persistence.cadre.CadreViewMapper;
+import persistence.cadre.common.ICadreMapper;
 import sys.constants.AbroadConstants;
 import sys.helper.AbroadHelper;
 import sys.tags.CmTag;
@@ -17,21 +20,21 @@ import java.util.Map;
 
 public class PassportDraw implements Serializable {
 
-    private Cadre cadre;
+    private CadreView cadre;
     private SysUserView sysUserView;
     public SysUserView getUser(){
 
         if(sysUserView==null) {
-            Cadre cadre = getCadre();
+            CadreView cadre = getCadre();
             sysUserView = CmTag.getUserById(cadre.getUserId());
         }
         return sysUserView;
     }
-    public Cadre getCadre(){
+    public CadreView getCadre(){
 
         if(cadre==null){
-            CadreMapper cadreMapper = CmTag.getBean(CadreMapper.class);
-            cadre = cadreMapper.selectByPrimaryKey(cadreId);
+            ICadreMapper iCadreMapper = CmTag.getBean(ICadreMapper.class);
+            cadre = iCadreMapper.getCadre(cadreId);
         }
         return cadre;
     }

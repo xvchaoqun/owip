@@ -1,7 +1,6 @@
 package service.sys;
 
 import controller.global.OpException;
-import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.pcs.PcsAdmin;
 import domain.sys.*;
@@ -515,13 +514,11 @@ public class SysUserService extends BaseMapper {
                 userPermissions.remove("userPassportApply:*"); // 因私出国境证件（干部）
             }
 
-            if (/*approverTypeBean != null && */cadre != null) {
-                MetaType leaderPostType = CmTag.getMetaTypeByCode("mt_leader");
-                if (cadre.getPostType() != null && cadre.getPostType().intValue() == leaderPostType.getId()) {
-                    // 没有职务属性或干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
-                    userPermissions.remove("userApplySelf:*");
-                    userPermissions.remove("userPassportDraw:*");
-                }
+            if (cadre != null && CmTag.getLeader(cadre.getUserId())!=null) {
+
+                // 校领导没有(userApplySelf:*， userPassportDraw:*)
+                userPermissions.remove("userApplySelf:*");
+                userPermissions.remove("userPassportDraw:*");
             }
 
             // 没有审批权限的干部，没有（abroad:menu（目录）, applySelf:approvalList)

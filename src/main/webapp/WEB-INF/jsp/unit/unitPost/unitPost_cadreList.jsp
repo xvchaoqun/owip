@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div id="body-content" class="multi-row-head-table">
      <c:set var="_query" value="${not empty param.unitId ||not empty param.unitTypes
-        ||not empty param.cadreIsPrincipalPost||not empty param.leaderType ||not empty param.gender  ||not empty param.cadreId
+        ||not empty param.cadreIsPrincipal||not empty param.leaderType ||not empty param.gender  ||not empty param.cadreId
          ||not empty param.cadrePostType ||
          (not empty startNowPostAge && startNowPostAge!=8 && startNowPostAge!=10)
          ||not empty param.endNowPostAge
@@ -81,15 +81,15 @@
                         </script>
                     </div>
                     <div class="form-group">
-                        <label>是否正职</label>
-                        <select name="cadreIsPrincipalPost" data-width="100"
+                        <label>是否正职干部</label>
+                        <select name="cadreIsPrincipal" data-width="100"
                                 data-rel="select2" data-placeholder="请选择">
                             <option></option>
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
                         <script>
-                            $("#searchForm select[name=cadreIsPrincipalPost]").val('${param.cadreIsPrincipalPost}');
+                            $("#searchForm select[name=cadreIsPrincipal]").val('${param.cadreIsPrincipal}');
                         </script>
                     </div>
                     <div class="form-group">

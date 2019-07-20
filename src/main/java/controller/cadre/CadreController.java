@@ -11,6 +11,7 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import domain.unit.UnitPost;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -137,6 +138,9 @@ public class CadreController extends BaseController {
 
         // 导出的列名字
         List<String> titles = cadreExportService.getTitles();
+        if(BooleanUtils.isNotTrue(CmTag.getBoolProperty("useCadreState"))){
+            titles.remove(3);
+        }
         modelMap.put("titles", titles);
 
         return "cadre/cadre_page";
@@ -166,7 +170,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
                            @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
                            @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 专技岗位等级
-                           Boolean isPrincipalPost, // 是否正职
+                           Boolean isPrincipal, // 是否正职
                            @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
                            Boolean isDouble, // 是否双肩挑
                            Byte type,
@@ -269,8 +273,8 @@ public class CadreController extends BaseController {
             criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
         }
 
-        if (isPrincipalPost != null) {
-            criteria.andIsPrincipalPostEqualTo(isPrincipalPost);
+        if (isPrincipal != null) {
+            criteria.andIsPrincipalEqualTo(isPrincipal);
         }
         if (leaderTypes != null) {
             criteria.andLeaderTypeIn(Arrays.asList(leaderTypes));
@@ -782,46 +786,50 @@ public class CadreController extends BaseController {
             int userId = uv.getId();
             record.setUserId(userId);
 
-            // 干部类型，仅针对干部
-            String _type = StringUtils.trim(xlsRow.get(2));
-            if (status == CadreConstants.CADRE_STATUS_MIDDLE
-                    || status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
-                if (StringUtils.contains(_type, "科级")) {
-                    record.setType((byte) 2);
-                } else {
-                    record.setType((byte) 1); // 默认是处级
+            boolean useCadreState = BooleanUtils.isTrue(CmTag.getBoolProperty("useCadreState"));
+            boolean hasKjCadre = BooleanUtils.isTrue(CmTag.getBoolProperty("hasKjCadre"));
+
+            int kjCol = 2;
+            int stateCol = 3;
+            int titleCol = 4;
+            int remarkCol = 5;
+
+            if(hasKjCadre && useCadreState){
+                //
+            }else if(hasKjCadre) {
+                titleCol = 3;
+                remarkCol = 4;
+            }else if(useCadreState) {
+                stateCol = 2;
+                titleCol = 3;
+                remarkCol = 4;
+            }
+
+            if(hasKjCadre) {
+                // 干部类型，仅针对干部
+                String _type = StringUtils.trim(xlsRow.get(kjCol));
+                if (status == CadreConstants.CADRE_STATUS_MIDDLE
+                        || status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
+                    if (StringUtils.contains(_type, "科级")) {
+                        record.setType((byte) 2);
+                    } else {
+                        record.setType((byte) 1); // 默认是处级
+                    }
                 }
             }
 
-            String _state = StringUtils.trim(xlsRow.get(3));
-            MetaType state = CmTag.getMetaTypeByName("mc_cadre_state", _state);
-            if(state!=null) {
-                record.setState(state.getId());
+            if(useCadreState) {
+                String _state = StringUtils.trim(xlsRow.get(stateCol));
+                MetaType state = CmTag.getMetaTypeByName("mc_cadre_state", _state);
+                if (state != null) {
+                    record.setState(state.getId());
+                }
             }
 
-            String adminLevel = StringUtils.trimToNull(xlsRow.get(4));
-            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
-            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
-            record.setAdminLevel(adminLevelType.getId());
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(titleCol)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(remarkCol)));
 
-            String _postType = StringUtils.trimToNull(xlsRow.get(5));
-            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
-            if (postType == null) throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
-            record.setPostType(postType.getId());
-
-            String unitCode = StringUtils.trimToNull(xlsRow.get(6));
-            if (StringUtils.isBlank(unitCode)) {
-                throw new OpException("第{0}行单位编号为空", row);
-            }
-            Unit unit = unitService.findUnitByCode(unitCode);
-            if (unit == null) {
-                throw new OpException("第{0}行单位编号[{1}]不存在", row, unitCode);
-            }
-            record.setUnitId(unit.getId());
-
-            record.setTitle(StringUtils.trimToNull(xlsRow.get(7)));
-            record.setPost(StringUtils.trimToNull(xlsRow.get(8)));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(9)));
+            record.setStatus(status);
 
             record.setStatus(status);
             records.add(record);
