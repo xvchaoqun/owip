@@ -9,7 +9,7 @@
                 if($.trim(rowObject.filePath)=='') return cellvalue;
                 return $.swfPreview(rowObject.filePath, cellvalue);
             }, frozen: true},
-            {label: '党委常委会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '议题数量',name: 'topicNum', width: 70},
             { label: '常委总数',name: 'committeeMemberCount', width: 70},
             { label: '应参会<br/>常委数',name: '_total', width: 60, formatter: function (cellvalue, options, rowObject) {

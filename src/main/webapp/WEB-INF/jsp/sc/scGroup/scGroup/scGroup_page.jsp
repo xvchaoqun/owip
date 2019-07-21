@@ -113,7 +113,7 @@
                 if($.trim(rowObject.filePath)=='') return _num;
                 return $.swfPreview(rowObject.filePath, _num);
             }, frozen: true},
-            {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '议题数量', name: 'topicNum'},
 
             {label: '议题word版', name: 'wordFilePath', width: 105, formatter: function (cellvalue, options, rowObject) {

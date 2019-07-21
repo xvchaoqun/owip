@@ -199,9 +199,9 @@
             }, frozen:true},
             </c:if>
             <c:if test="${cls==3}">
-            {label: '撤销日期', name: 'abolishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            {label: '撤销日期', name: 'abolishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
                 </c:if>
-            {label: '新提任日期', name: 'appointDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            {label: '新提任日期', name: 'appointDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
             {label: '工作证号', name: 'cadre.code', width: 110, frozen: true, frozen:true},
             { label: '姓名', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 

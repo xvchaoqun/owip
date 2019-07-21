@@ -87,7 +87,7 @@
         url: '${ctx}/sc/scMatterTransfer_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '移交对象', name: 'user.realname'},
-            {label: '移交日期', name: 'transferDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '移交日期', name: 'transferDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '移交填报记录', name: '_items', formatter: function (cellvalue, options, rowObject) {
                 return ('<a href="javascript:;" class="popupBtn" data-width="900" ' +

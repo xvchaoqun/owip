@@ -46,8 +46,8 @@
                 label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.cetTrain.isFinished ? '已结课' : '未结课';
             }, frozen: true},
-            {label: '开课日期', name: 'cetTrain.startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-            {label: '结课日期', name: 'cetTrain.endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '开课日期', name: 'cetTrain.startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
+            {label: '结课日期', name: 'cetTrain.endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
             {label: '培训班名称', name: 'cetTrain.name', width: 300, align: 'left', frozen: true},
             {
                 label: '内容简介', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {

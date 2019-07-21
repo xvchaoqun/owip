@@ -233,7 +233,7 @@
             }, frozen: true},
             </c:if>
             {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
-            {label: '出生时间', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出生时间', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '民族', name: 'cadre.nation', width: 60},
             {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
@@ -248,14 +248,14 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
             },
-            {label: '到校时间', name: 'cadre.arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '到校时间', name: 'cadre.arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '专业技术职务', name: 'cadre.proPost', width: 120},
             {
                 label: '专技职务评定时间',
                 name: 'cadre.proPostTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {label: '专技岗位等级', name: 'cadre.proPostLevel', width: 150},
             {
@@ -263,7 +263,7 @@
                 name: 'cadre.proPostLevelTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {label: '管理岗位等级', name: 'cadre.manageLevel', width: 150},
             {
@@ -271,7 +271,7 @@
                 name: 'cadre.manageLevelTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '推荐/自荐', name: 'isRecommend', width: 180, formatter: function (cellvalue, options, rowObject) {

@@ -222,7 +222,7 @@
                 label: '任职日期',
                 name: 'dispatchCadreRelateBean.last.workTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '现任职务年限',
@@ -250,7 +250,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.first.workTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '现任职务始任年限',
@@ -342,7 +342,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.last.workTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '兼任职务年限',
@@ -370,7 +370,7 @@
                 width: 150,
                 name: 'dispatchCadreRelateBean.first.workTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '兼任职务始任年限',
@@ -468,7 +468,7 @@
                 width: 120,
                 name: 'startDispatch.workTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}, frozen:true
+                formatoptions: {newformat: 'Y.m.d'}, frozen:true
             },
             {label: '职级始任职务', width: 200, align:'left', name: 'startDispatchCadre.post', frozen:true},
             {
@@ -486,7 +486,7 @@
                 width: 120,
                 name: 'endDispatch.workTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '职级结束文件', width: 150, name: 'endDispatch', formatter: function (cellvalue, options, rowObject) {

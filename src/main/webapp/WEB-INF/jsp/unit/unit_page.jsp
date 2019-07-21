@@ -182,7 +182,7 @@
             </c:if>
             </shiro:hasPermission>
             </c:if>
-            /*{ label: '成立时间', name: 'workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            /*{ label: '成立时间', name: 'workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '成立文件', name: 'filePath', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return $.swfPreview(cellvalue, rowObject.name + "-成立文件", "查看");
             }},*/

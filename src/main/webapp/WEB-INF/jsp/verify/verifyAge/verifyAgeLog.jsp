@@ -64,19 +64,19 @@
                 return _cMap.VERIFY_AGE_TYPE_MAP[cellvalue]
             }
             },
-            {label: '认定前日期', name: 'oldBirth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '认定后日期', name: 'verifyBirth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '认定前日期', name: 'oldBirth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '认定后日期', name: 'verifyBirth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '材料名称', name: 'materialName', width: 200},
-            {label: '形成时间', name: 'materialTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '形成时间', name: 'materialTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '记载的出生时间',
                 width: 150,
                 name: 'materialBirth',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
-            {label: '形成时间', name: 'adTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '身份证出生时间', width: 150, name: 'idcardBirth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '形成时间', name: 'adTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '身份证出生时间', width: 150, name: 'idcardBirth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '备注', name: 'remark', width: 500}
         ],
         rowattr: function (rowData, currentObj, rowId) {

@@ -117,7 +117,7 @@
         url: '${ctx}/sc/scSubsidy_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '年份', name: 'year',width:80},
-            {label: '通知日期', name: 'infoDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '通知日期', name: 'infoDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '发人事处通知', name: '_hr', width:350, formatter: function (cellvalue, options, rowObject) {
                     if(rowObject.hrCode==undefined) return '--'

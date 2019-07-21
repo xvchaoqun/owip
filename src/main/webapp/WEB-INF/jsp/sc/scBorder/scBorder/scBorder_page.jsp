@@ -92,7 +92,7 @@
         colModel: [
             {label: '年度', name: 'year', width: 80},
             {label: '报备编号', name: 'code', width: 180, frozen: true},
-            {label: '报备日期', name: 'recordDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '报备日期', name: 'recordDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '新增表', name: 'newFile', width: 120, formatter: function (cellvalue, options, rowObject) {
 

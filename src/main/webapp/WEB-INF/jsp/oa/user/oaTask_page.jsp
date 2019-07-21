@@ -103,7 +103,7 @@
         rownumbers: true,
         url: '${ctx}/user/oa/oaTask_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '发布日期', name: 'taskPubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '发布日期', name: 'taskPubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
             {label: '标题', name: 'taskName', width: 300, frozen: true},
             {label: '工作类型', name: 'taskType', formatter: $.jgrid.formatter.MetaType, frozen: true},
             {
@@ -153,7 +153,7 @@
                 name: 'taskDeadline',
                 width: 140,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
+                formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}
             },
             {label: '联系方式', name: 'taskContact', width: 250},
 

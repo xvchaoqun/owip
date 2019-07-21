@@ -658,7 +658,7 @@
                 label: '任现职时间',
                 name: 'lpWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             </c:if>
             <c:if test="${cetTraineeType.code=='t_party_member'}">

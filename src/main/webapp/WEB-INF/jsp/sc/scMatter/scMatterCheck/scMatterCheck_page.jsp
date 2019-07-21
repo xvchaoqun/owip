@@ -116,7 +116,7 @@
                 return $.swfPreview(rowObject.checkFile, rowObject.checkFileName, _num, _num);
             }, frozen: true
             },
-            {label: '核查日期', name: 'checkDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '核查日期', name: 'checkDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '核查类型', name: 'isRandom', width: 130, formatter: function (cellvalue, options, rowObject) {
                 return (rowObject.isRandom) ? '年度随机抽查' : '重点抽查';

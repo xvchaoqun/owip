@@ -103,8 +103,8 @@ pageEncoding="UTF-8" %>
                 if (cellvalue == undefined) return '--';
                 return _cMap.CADRE_STATUS_MAP[cellvalue];
             }},
-            { label: '起始日期',name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            { label: '结束日期',name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '起始日期',name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            { label: '结束日期',name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '是否永久有效',name: 'isUnlimited', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
                 return cellvalue ? "是" : "否"

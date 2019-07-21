@@ -121,7 +121,7 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/cadreReserveOrigin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '添加日期',name: 'addTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+                { label: '添加日期',name: 'addTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
                 { label: '产生方式',name: 'way', width: 160, formatter: $.jgrid.formatter.MAP,
                     formatoptions:{map:_cMap.CADRE_RESERVE_ORIGIN_WAY_MAP}, frozen: true},
                 {
@@ -135,7 +135,7 @@ pageEncoding="UTF-8" %>
                 { label: '推荐形式',name: 'way', width: 160, formatter: $.jgrid.formatter.MAP,
                     formatoptions:{map:_cMap.CADRE_RESERVE_ORIGIN_WAY_MAP}},
                 { label: '推荐单位',name: 'recommendUnit', width: 400},
-                { label: '推荐日期',name: 'recommendDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+                { label: '推荐日期',name: 'recommendDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 {
                     label: '推荐材料', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 

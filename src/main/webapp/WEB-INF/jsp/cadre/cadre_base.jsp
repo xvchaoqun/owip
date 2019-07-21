@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="${_pMap['proPostTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_proPostTimeFormat"/>
 <c:set value="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="CADRE_SCHOOL_TYPE_MAP"/>
 <c:if test="${(cm:isPermitted(PERMISSION_CADREADMIN)&&!cm:isPermitted(PERMISSION_CADREONLYVIEW))
 	|| hasDirectModifyCadreAuth}">
@@ -68,7 +69,7 @@
 						</td>
 						<td>出生日期</td>
 						<td >
-								${cm:formatDate(uv.birth,'yyyy-MM-dd')}
+								${cm:formatDate(uv.birth,'yyyy.MM.dd')}
 						</td>
 						<td>
 							年龄
@@ -272,7 +273,7 @@
 							工龄起算日期
 						</td>
 						<td>
-								${cm:formatDate(teacherInfo.workStartTime, "yyyy-MM-dd")}
+								${cm:formatDate(teacherInfo.workStartTime, "yyyy.MM.dd")}
 						</td>
 						<td>间断工龄</td>
 						<td >
@@ -282,7 +283,7 @@
 							到校时间
 						</td>
 						<td>
-								${cm:formatDate(teacherInfo.arriveTime, "yyyy-MM-dd")}
+								${cm:formatDate(teacherInfo.arriveTime, "yyyy.MM.dd")}
 						</td>
 					</tr>
 					<tr>
@@ -295,7 +296,7 @@
 							转正定级时间
 						</td>
 						<td colspan="3">
-								${cm:formatDate(teacherInfo.regularTime, "yyyy-MM-dd")}
+								${cm:formatDate(teacherInfo.regularTime, "yyyy.MM.dd")}
 						</td>
 
 					</tr>
@@ -364,12 +365,12 @@
 						<td >
 							任现职时间
 						</td>
-						<td>${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}
+						<td>${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.last.workTime,'yyyy.MM.dd')}
 						</td>
 						<td>
 							现职务始任时间
 						</td>
-						<td>${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.first.workTime,'yyyy-MM-dd')}
+						<td>${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.first.workTime,'yyyy.MM.dd')}
 						</td>
 					</tr>
 					<tr>
@@ -381,7 +382,7 @@
 						</td>
 						<td>任现职级时间</td>
 						<td >
-								${cm:formatDate(cadreAdminLevel.startDispatch.workTime,'yyyy-MM-dd')}
+								${cm:formatDate(cadreAdminLevel.startDispatch.workTime,'yyyy.MM.dd')}
 						</td>
 						<td>
 							任现职级年限
@@ -408,7 +409,7 @@
 						<td >
 							任兼职时间1
 						</td>
-						<td>${cm:formatDate(subCadrePost1.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}
+						<td>${cm:formatDate(subCadrePost1.dispatchCadreRelateBean.last.workTime,'yyyy.MM.dd')}
 						</td>
 					</tr>
 					<tr>
@@ -426,7 +427,7 @@
 						<td >
 							任兼职时间2
 						</td>
-						<td>${cm:formatDate(subCadrePost2.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}
+						<td>${cm:formatDate(subCadrePost2.dispatchCadreRelateBean.last.workTime,'yyyy.MM.dd')}
 						</td>
 					</tr>
 						<%--<tr>
@@ -500,7 +501,7 @@
 							专业技术职务评定时间
 						</td>
 						<td  style="min-width: 80px"  class="bg-left">
-								${cm:formatDate(teacherInfo.proPostTime, "yyyy.MM")}
+								${cm:formatDate(teacherInfo.proPostTime, _p_proPostTimeFormat)}
 						</td>
 					</tr>
 					<tr>
@@ -744,7 +745,7 @@
 								</td>
 								<td class="bg-right">出生日期</td>
 								<td class="bg-left">
-										${cm:formatDate(uv.birth,'yyyy-MM-dd')}
+										${cm:formatDate(uv.birth,'yyyy.MM.dd')}
 								</td>
 								<td class="bg-right">
 									年龄
@@ -778,8 +779,8 @@
 									<c:set var="original" value="${cadreParty.get('growTime')}"/>
 									<c:if test="${member!=null}">${original}</c:if>
 									<c:if test="${member==null}">
-										<div class="input-group date" data-date-format="yyyy-mm-dd" style="width: 150px;">
-											<input class="form-control" type="text" name="_dpAddTime" placeholder="yyyy-mm-dd"/>
+										<div class="input-group date" data-date-format="yyyy-mm.dd" style="width: 150px;">
+											<input class="form-control" type="text" name="_dpAddTime" placeholder="yyyy-mm.dd"/>
 											<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 										</div>
 										<c:if test="${cadre.dpTypeId>0}">
@@ -790,11 +791,11 @@
 										<c:choose>
 										<c:when test="${cadre.dpTypeId>0}">
 										$("#modalForm select[name=dpTypeId]").val(${cadre.dpTypeId});
-										$("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, "yyyy-MM-dd")}');
+										$("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, "yyyy.MM.dd")}');
 										</c:when>
 										<c:when test="${cadre.isOw}">
 										$("#modalForm select[name=dpTypeId]").val(0);
-										$("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, "yyyy-MM-dd")}');
+										$("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, "yyyy.MM.dd")}');
 										</c:when>
 										</c:choose>
 										/*$("#modalForm select[name=dpTypeId]").on("change",function(){

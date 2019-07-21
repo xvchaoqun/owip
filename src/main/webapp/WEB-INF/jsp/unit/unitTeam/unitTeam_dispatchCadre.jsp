@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                     cellvalue, cellvalue, 'url');
             },frozen:true },
-            { label: '任免日期',  name: 'dispatch.workTime',frozen:true , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label: '任免日期',  name: 'dispatch.workTime',frozen:true , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             { label:'类别', name: 'type', width: 50, formatter:function(cellvalue, options, rowObject){
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
             },frozen:true },

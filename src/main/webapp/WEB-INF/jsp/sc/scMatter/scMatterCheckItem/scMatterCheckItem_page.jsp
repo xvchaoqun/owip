@@ -141,7 +141,7 @@
                 return "个人事项核查〔{0}〕{1}号".format(rowObject.year, rowObject.num)
             }, frozen: true
             },
-            {label: '核查日期', name: 'checkDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '核查日期', name: 'checkDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '核查类型', name: 'isRandom', width: 130, formatter: function (cellvalue, options, rowObject) {
                 return (rowObject.isRandom) ? '年度随机抽查' : '重点抽查';
@@ -158,7 +158,7 @@
                     if (cellvalue == undefined) return '--';
                     return _cMap.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP[cellvalue]
                 }},
-            {label: '认定日期', name: 'confirmDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '认定日期', name: 'confirmDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '本人说明材料', name: 'selfFile', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
                 return $.swfPreview(rowObject.selfFile, "本人说明材料", "查看");

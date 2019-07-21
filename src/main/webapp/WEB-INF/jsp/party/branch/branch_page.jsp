@@ -246,7 +246,7 @@
             { label: '联系电话', name: 'phone', width: 130 },
             { label: '传真', name: 'fax' },
             { label: '邮箱', name: 'email' },
-            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} }
+            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

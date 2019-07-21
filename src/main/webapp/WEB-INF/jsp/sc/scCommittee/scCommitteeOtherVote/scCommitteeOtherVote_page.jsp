@@ -102,7 +102,7 @@
                 if($.trim(rowObject.filePath)=='') return _num;
                 return $.swfPreview(rowObject.filePath, _num);
             }, frozen: true},
-            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '议题名称',name: 'name', width: 400, align:'left'},
             {
                 label: '议题内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {

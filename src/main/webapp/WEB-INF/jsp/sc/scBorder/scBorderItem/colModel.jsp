@@ -30,7 +30,7 @@
         {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
          <c:if test="${param.type=='list'}">
          {label: '报备编号', name: 'code', width: 180, frozen: true},
-            {label: '报备日期', name: 'recordDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '报备日期', name: 'recordDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {
                 label: '报备表', name: '_file', width: 120, formatter: function (cellvalue, options, rowObject) {
 

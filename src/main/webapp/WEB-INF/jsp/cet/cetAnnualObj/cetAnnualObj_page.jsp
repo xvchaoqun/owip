@@ -261,7 +261,7 @@
             {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
             {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter: $.jgrid.formatter.MetaType},
-            {label: '任现职时间', name: 'lpWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任现职时间', name: 'lpWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年度学习任务', name: 'period'},
             {
                 label: '已完成学时数<br/>/归档学时', name: '_finishPeriod', formatter: function (cellvalue, options, rowObject) {

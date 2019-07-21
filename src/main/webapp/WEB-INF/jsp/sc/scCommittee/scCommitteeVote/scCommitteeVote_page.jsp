@@ -130,7 +130,7 @@
                 return $.swfPreview(rowObject.filePath, _num);
             }, frozen: true},
             {label: '党委常委会<br/>日期', name: 'holdDate', width: 95,
-                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '议题名称',name: 'name', width: 400, align:'left'},
             {
                 label: '议题内容和<br/>讨论备忘', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {

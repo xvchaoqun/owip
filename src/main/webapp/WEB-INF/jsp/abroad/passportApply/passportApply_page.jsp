@@ -194,7 +194,7 @@ pageEncoding="UTF-8" %>
         //forceFit:true,
         url: '${ctx}/abroad/passportApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '申请日期', name: 'applyDate',frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '申请日期', name: 'applyDate',frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '工作证号', name: 'applyUser.code',frozen:true},
             { label: '姓名',name: 'applyUser.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.cadre(rowObject.cadre.id, cellvalue);
@@ -213,7 +213,7 @@ pageEncoding="UTF-8" %>
                 if(rowObject.approvalUser==undefined) return '--'
                 return $.user(rowObject.approvalUser.id, cellvalue);
             }},
-            { label:'审批日期',name: 'approveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label:'审批日期',name: 'approveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             <c:if test="${!_p_abroadContactUseSign}">
             { label: '操作人', name: 'opUser.realname', formatter:function(cellvalue, options, rowObject){
@@ -228,10 +228,10 @@ pageEncoding="UTF-8" %>
                 if(expectDate<=new Date().format('yyyy-MM-dd'))
                     return "class='danger'";
                 </c:if>
-            }, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            }, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             <c:if test="${status==3}">
-            { label:'实交日期', name: 'handleDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label:'实交日期', name: 'handleDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label:'证件号码', name: 'code'},
             { label:'接收人', name: 'handleUser.realname'},
             </c:if>

@@ -94,7 +94,7 @@
         url: '${ctx}/sc/scAdUse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '年份', name: 'year'},
-            {label: '日期', name: 'useDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '日期', name: 'useDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
             {label: '使用单位类型', name: 'isOnCampus', width:120, formatter: $.jgrid.formatter.TRUEFALSE,
                 formatoptions: {on: '校内单位', off:'校外单位'}},
             {label: '使用单位', name: '_unit', width:200, formatter: function (cellvalue, options, rowObject) {

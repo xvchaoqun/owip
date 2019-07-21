@@ -54,6 +54,7 @@
                                         <i class="fa fa-refresh"></i> 更换工号</a>
                                 </shiro:hasPermission>
 
+                                <c:if test="${cm:roleIsPermitted(ROLE_CADREADMIN, 'cadreInspect:list')}">
                                 <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
                                     <shiro:hasPermission name="cadre:edit">
                                     <button class="jqBatchBtn btn btn-warning btn-sm"
@@ -64,6 +65,8 @@
                                     </button>
                                     </shiro:hasPermission>
                                 </c:if>
+                                </c:if>
+
                                 <shiro:hasPermission name="cadre:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
                                        data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i> 添加</a>

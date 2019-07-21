@@ -272,7 +272,7 @@
                 name: 'applyDate',
                 frozen: true,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
             {
@@ -326,13 +326,13 @@
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用开始日期"}',
                 name: 'startDate', width: 120,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"使用结束日期"}',
                 name: 'endDate', width: 120,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
@@ -451,7 +451,7 @@
                     }
                 },
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '催交证件',

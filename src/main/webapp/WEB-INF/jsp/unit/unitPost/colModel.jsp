@@ -10,7 +10,7 @@
             rowObject.status != <%=SystemConstants.UNIT_POST_STATUS_NORMAL%> ? 'delete' : '', cellvalue);
     }},
     <c:if test="${cls==2}">
-    {label: '撤销日期', name: 'abolishDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+    {label: '撤销日期', name: 'abolishDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
     </c:if>
        <shiro:hasPermission name="unitPost:changeOrder">
     <c:if test="${param.list==1 && !_query}">
@@ -51,7 +51,7 @@
           label: '任职日期',
           name: 'cadrePost.dispatchCadreRelateBean.last.workTime',
           formatter: $.jgrid.formatter.date,
-          formatoptions: {newformat: 'Y-m-d'}
+          formatoptions: {newformat: 'Y.m.d'}
       },
       {
           label: '现任职务<br/>年限',
@@ -78,7 +78,7 @@
           label: '现任职务<br/>始任日期',
           name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
           formatter: $.jgrid.formatter.date,
-          formatoptions: {newformat: 'Y-m-d'}
+          formatoptions: {newformat: 'Y.m.d'}
       },
       {
           label: '现任职务<br/>始任年限',

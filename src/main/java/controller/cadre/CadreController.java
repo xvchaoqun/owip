@@ -138,9 +138,21 @@ public class CadreController extends BaseController {
 
         // 导出的列名字
         List<String> titles = cadreExportService.getTitles();
-        if(BooleanUtils.isNotTrue(CmTag.getBoolProperty("useCadreState"))){
+        boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
+        boolean useCadreState = CmTag.getBoolProperty("useCadreState");
+        boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
+        if(!hasKjCadre && !useCadreState){
+                titles.remove(2);
+                titles.remove(2);
+        }else if(!hasKjCadre){
+            titles.remove(2);
+        }else if(!useCadreState){
             titles.remove(3);
         }
+        if(!hasPartyModule){
+            titles.remove(titles.size()-2); // 去掉所在党组织
+        }
+
         modelMap.put("titles", titles);
 
         return "cadre/cadre_page";

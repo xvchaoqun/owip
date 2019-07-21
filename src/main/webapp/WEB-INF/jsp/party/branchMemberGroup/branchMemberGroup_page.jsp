@@ -195,9 +195,9 @@
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen: true
             },
-            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '应换届时间', name: 'tranTime', width: 130,
-                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'},
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     if (rowObject.isPresent &&
                         rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
@@ -208,7 +208,7 @@
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
 
             /*{label: '发文号', name: 'dispatchCode', width: 180},*/

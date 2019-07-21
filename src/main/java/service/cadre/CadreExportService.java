@@ -63,17 +63,18 @@ public class CadreExportService extends BaseMapper {
 
         String cadreStateName = HtmlEscapeUtils.getTextFromHTML(CmTag.getStringProperty("cadreStateName"));
         return new ArrayList<>(Arrays.asList(new String[]{
-                "工作证号|100", "姓名|100", "干部类型|100", cadreStateName + "|100", "部门属性|150", "所在单位|300", "现任职务|160",
-                "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120",  "是否班子负责人|120", "性别|50",
-                "民族|100", "籍贯|100", "出生地|100", "身份证号|150", "出生时间|100",
-                "年龄|50", "党派|150", "党派加入时间|120", "参加工作时间|120", "到校时间|100",
-                "最高学历|120", "最高学位|120", "毕业时间|100", "学习方式|120", "毕业学校|200",
-                "学校类型|100", "所学专业|200", "全日制教育学历|150", "全日制教育毕业院校系及专业|400", "在职教育学历|150",
-                "在职教育毕业院系及专业|400", "岗位类别|100", "主岗等级|160", "专业技术职务|150", "专技职务评定时间|200",
-                "专技职务等级|200", "专技岗位分级时间|200", "管理岗位等级|120", "管理岗位分级时间|200", "现职务任命文件|150",
-                "任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
-                "兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
-                "联系方式|100", "党委委员|100", "纪委委员|120", "电子信箱|200", "所属党组织|500",
+                /*1*/"工作证号|100", "姓名|100", "干部类型|100", cadreStateName + "|100", "部门属性|150",
+                /*6*/"所在单位|300", "现任职务|160", "所在单位及职务|300", "行政级别|100", "职务属性|100",
+                /*11*/"是否正职|120",  "是否班子负责人|120", "性别|50", "民族|100", "籍贯|100",
+                /*16*/"出生地|100", "身份证号|150", "出生时间|100", "年龄|50", "党派|150",
+                /*21*/"党派加入时间|120", "参加工作时间|120", "到校时间|100", "最高学历|120", "最高学位|120",
+                /*26*/"毕业时间|100", "学习方式|120", "毕业学校|200", "学校类型|100", "所学专业|200",
+                /*31*/"全日制教育学历|150", "全日制教育毕业院校系及专业|400", "在职教育学历|150", "在职教育毕业院系及专业|400",
+                /*35*//*"岗位类别|100", "主岗等级|160",*/ "专业技术职务|150", "专技职务评定时间|200",
+                /*37*//*"专技职务等级|200", "专技岗位分级时间|200", "管理岗位等级|120", "管理岗位分级时间|200", */"现职务任命文件|150",
+                /*38*/"任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
+                /*43*/"兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
+                /*48*/"联系方式|100", /*"党委委员|100", "纪委委员|120",*/ "电子信箱|200", "所属党组织|500",
                 "备注|500"}));
     }
 
@@ -117,21 +118,39 @@ public class CadreExportService extends BaseMapper {
 
         List<String> titles = getTitles();
 
-        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 13, 17, 18, 19, 20, 21, 23, 37, 44, 54, 57};
+        boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
+        boolean useCadreState = CmTag.getBoolProperty("useCadreState");
+        boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
+
+        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 13, 17, 18, 19, 20, 21, 24, 35, 38, 48, 51};
         if (exportType == 1) {
             //新增一个角色，限制查看干部库权限，
-            // 字段为：工作证号，姓名，干部类型，性别，身份证号、出生时间、年龄、学历、专业技术职务、任现职时间、
-            // 部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
+            // 字段为：1工作证号，姓名，干部类型，5部门属性，所在单位、8所在单位及职务、行政级别、职务属性，13性别，
+            // 17身份证号、出生时间、19年龄、党派、党派加入时间、24最高学历、
+            // 35专业技术职务、任现职时间、联系方式、电子邮箱。
             List<String> _titles = new ArrayList<>();
             for (int exportCloumn : exportCloumns_1) {
                 _titles.add(titles.get(exportCloumn - 1));
             }
             titles.clear();
             titles.addAll(_titles);
+
+            if(!hasKjCadre){
+                titles.remove(2);
+            }
         }else {
-            if(BooleanUtils.isNotTrue(CmTag.getBoolProperty("useCadreState"))){
+            if(!hasKjCadre && !useCadreState){
+                titles.remove(2);
+                titles.remove(2);
+            }else if(!hasKjCadre){
+                titles.remove(2);
+            }else if(!useCadreState){
                 titles.remove(3);
             }
+            if(!hasPartyModule){
+                titles.remove(titles.size()-2); // 去掉所在党组织
+            }
+
             if(cols!=null && cols.length>0){
                 // 选择导出列
                 List<String> _titles = new ArrayList<>();
@@ -142,7 +161,6 @@ public class CadreExportService extends BaseMapper {
                 titles.addAll(_titles);
             }
         }
-
 
         int columnCount = titles.size();
         Row firstRow = sheet.createRow(rowNum++);
@@ -204,14 +222,14 @@ public class CadreExportService extends BaseMapper {
                     Dispatch last = dispatchCadreRelateBean.getLast();
                     if (first != null) {
                         postDispatchCode = first.getDispatchCode();
-                        postStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYY_MM_DD);
+                        postStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYYMMDD_DOT);
                         Integer year = DateUtils.intervalYearsUntilNow(first.getWorkTime());
                         if (year == 0) postYear = "未满一年";
                         else postYear = year + "";
                     }
 
                     if (last != null) {
-                        postTime = DateUtils.formatDate(last.getWorkTime(), DateUtils.YYYY_MM_DD);
+                        postTime = DateUtils.formatDate(last.getWorkTime(), DateUtils.YYYYMMDD_DOT);
                     }
                 }
                 isDouble = BooleanUtils.isTrue(mainCadrePost.getIsDouble()) ? "是" : "否";
@@ -234,7 +252,7 @@ public class CadreExportService extends BaseMapper {
                 Date endDate = new Date();
                 if (endDispatch != null) endDate = endDispatch.getWorkTime();
                 if (startDispatch != null) {
-                    adminLevelStartTime = DateUtils.formatDate(startDispatch.getWorkTime(), DateUtils.YYYY_MM_DD);
+                    adminLevelStartTime = DateUtils.formatDate(startDispatch.getWorkTime(), DateUtils.YYYYMMDD_DOT);
 
                     Integer monthDiff = DateUtils.monthDiff(startDispatch.getWorkTime(), endDate);
                     int year = monthDiff / 12;
@@ -279,9 +297,9 @@ public class CadreExportService extends BaseMapper {
                     Dispatch first = dispatchCadreRelateBean.getFirst();
                     Dispatch last = dispatchCadreRelateBean.getLast();
 
-                    if (last != null) subPostTime = DateUtils.formatDate(last.getWorkTime(), DateUtils.YYYY_MM_DD);
+                    if (last != null) subPostTime = DateUtils.formatDate(last.getWorkTime(), DateUtils.YYYYMMDD_DOT);
                     if (first != null)
-                        subPostStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYY_MM_DD);
+                        subPostStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYYMMDD_DOT);
                 }
             }
 
@@ -316,87 +334,101 @@ public class CadreExportService extends BaseMapper {
                     CadreConstants.CADRE_TYPE_MAP.get(record.getType()),
                     metaTypeService.getName(record.getState()),
                     unit == null ? "" : unit.getUnitType().getName(),
+
                     unit == null ? "" : unit.getName(),
                     record.getPost(),
-
                     record.getTitle(),
                     metaTypeService.getName(record.getAdminLevel()),
                     metaTypeService.getName(record.getPostType()),
+
                     isPositive,
                     _leaderType,
                     record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),
-
                     record.getNation(),
                     record.getNativePlace(),
+
                     record.getUser().getHomeplace(),
                     record.getIdcard(),
-                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
-
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),
                     record.getBirth() == null ? "" : DateUtils.yearOffNow(record.getBirth()) + "",
                     StringUtils.trimToEmpty(partyName),
-                    StringUtils.trimToEmpty(partyAddTime),
-                    DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYY_MM_DD), //参加工作时间
-                    DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD),
 
+                    StringUtils.trimToEmpty(partyAddTime),
+                    DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYYMM), //参加工作时间
+                    DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYYMM),
                     metaTypeService.getName(record.getEduId()),
                     record.getDegree(),
+
                     DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYYMM),
                     metaTypeService.getName(record.getLearnStyle()),
                     record.getSchool(),
-
                     // 学校类型
                     record.getSchoolType() == null ? "" : CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
                     record.getMajor(),
+
                     _fulltimeEdu,
                     _fulltimeMajor,
                     _onjobEdu,
                     _onjobMajor,
-                    record.getPostClass(),
-                    record.getMainPostLevel(),
+
+                    /*record.getPostClass(),
+                    record.getMainPostLevel(),*/
                     record.getProPost(),
+                    DateUtils.formatDate(record.getProPostTime(),
+                            CmTag.getBoolProperty("proPostTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
 
-                    DateUtils.formatDate(record.getProPostTime(), DateUtils.YYYY_MM_DD),
-                    record.getProPostLevel(),
-                    DateUtils.formatDate(record.getProPostLevelTime(), DateUtils.YYYY_MM_DD),
+                    /*record.getProPostLevel(),
+                    DateUtils.formatDate(record.getProPostLevelTime(), DateUtils.YYYYMMDD_DOT),
                     record.getManageLevel(),
-                    DateUtils.formatDate(record.getManageLevelTime(), DateUtils.YYYY_MM_DD),
-
+                    DateUtils.formatDate(record.getManageLevelTime(), DateUtils.YYYYMMDD_DOT),*/
                     postDispatchCode, // 现职务任命文件
+
                     postTime,
                     postStartTime,
                     postYear,
                     adminLevelStartTime,
-
                     adminLevelYear,
+
                     subPost,
                     subPostTime,
                     subPostStartTime,
                     isDouble,
-
                     doubleUnit,
-                    record.getMobile(),
-                    "", // 党委委员
-                    "",
-                    record.getEmail(),
 
+                    record.getMobile(),
+                    /*"", // 党委委员
+                    "",*/
+                    record.getEmail(),
                     partyFullName,
+
                     record.getRemark()
             }));
 
             if (exportType == 1) {
-                //新增一个角色，限制查看干部库权限，
-                // 字段为：工作证号，姓名，部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
+
                 List<String> _values = new ArrayList<>();
-                //int[] exportCloumns = new int[]{1, 2, 3, 4, 6, 7, 8, 17, 18, 51, 54};
                 for (int exportCloumn : exportCloumns_1) {
                     _values.add(values.get(exportCloumn - 1));
                 }
                 values.clear();
                 values.addAll(_values);
+
+                if(!hasKjCadre){
+                    values.remove(2);
+                }
             }else{
-                if(BooleanUtils.isNotTrue(CmTag.getBoolProperty("useCadreState"))){
+                if(!hasKjCadre && !useCadreState){
+                    values.remove(2);
+                    values.remove(2);
+                }else if(!hasKjCadre){
+                    values.remove(2);
+                }else if(!useCadreState){
                     values.remove(3);
                 }
+                if(!hasPartyModule){
+                    values.remove(values.size()-2); // 去掉所在党组织
+                }
+
                 if(cols!=null && cols.length>0){
                     // 选择导出列
                     List<String> _values = new ArrayList<>();

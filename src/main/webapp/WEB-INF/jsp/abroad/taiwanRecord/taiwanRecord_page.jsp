@@ -93,15 +93,15 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/abroad/taiwanRecord_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '备案时间',name: 'recordDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '备案时间',name: 'recordDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadre.id, cellvalue);
             }, frozen: true
             },
-            { label: '离境时间',name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            { label: '回国时间',name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '离境时间',name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            { label: '回国时间',name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '出访天数', name: '_day', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.startDate)=='' || $.trim(rowObject.endDate)=='') return '--'

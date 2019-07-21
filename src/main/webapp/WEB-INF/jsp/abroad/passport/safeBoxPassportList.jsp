@@ -40,9 +40,9 @@
             { label: '职位属性', name: 'cadre.postType', width: 200, formatter:$.jgrid.formatter.MetaType},
             { label: '证件名称', name: 'passportClass.name', width: 200 },
             { label: '证件号码', name: 'code', width: 110 },
-            { label:'发证日期', name: 'issueDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
-            { label:'有效期', name: 'expiryDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
-            { label:'集中保管日期', name: 'keepDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label:'发证日期', name: 'issueDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
+            { label:'有效期', name: 'expiryDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
+            { label:'集中保管日期', name: 'keepDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             { label:'证件状态', name: 'passportType', width: 130 },
             { label:'是否借出', name: 'isLent', formatter:function(cellvalue){
                 return cellvalue?"借出":"-";

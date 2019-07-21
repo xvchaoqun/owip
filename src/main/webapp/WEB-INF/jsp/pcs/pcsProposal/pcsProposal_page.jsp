@@ -205,7 +205,7 @@ pageEncoding="UTF-8" %>
             }, frozen:true},
             </c:if>
             { label: '提案编号',name: 'code', frozen:true},
-            { label: '提交日期',name: 'createTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            { label: '提交日期',name: 'createTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
             <c:if test="${!(cls==1 && module==1)}">
             { label: '提案人姓名',name: 'user.realname', frozen:true},
                 </c:if>

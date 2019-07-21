@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="${_pMap['proPostTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_proPostTimeFormat"/>
 <div class="back-btn">
   <c:if test="${empty param.backTo}">
     <a href="javascript:;" class="hideView"><i class="fa fa-reply"></i> 返回</a>
@@ -296,7 +297,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 专技职务评定时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.proPostTime, "yyyy.MM")}</span>
+            <span class="editable">${cm:formatDate(teacherInfo.proPostTime, _p_proPostTimeFormat)}</span>
           </div>
         </div>
         <div class="profile-info-row">

@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
+<c:set value="${_pMap['proPostTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_proPostTimeFormat"/>
 <script>
     var colModels = function () {
     };
@@ -45,7 +46,7 @@
         {label: '籍贯', name: 'nativePlace', width: 120},
         {label: '出生地', name: 'user.homeplace', width: 120},
         {label: '身份证号', name: 'idcard', width: 170},
-        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派<br/>加入时间', name: '_growTime', formatter: $.jgrid.formatter.growTime},
@@ -53,7 +54,7 @@
         {
             label: '参加工作时间', name: 'workTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}
         },
-        {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '最高学位', name: 'degree'},
         {label: '毕业时间', name: 'finishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
@@ -103,11 +104,12 @@
                 return cadreEdus[1].school + cadreEdus[1].dep + cadreEdus[1].major;
             }
         },
-        {label: '岗位类别', name: 'postClass'},
-        {label: '主岗等级', name: 'mainPostLevel', width: 150},
+        /*{label: '岗位类别', name: 'postClass'},
+        {label: '主岗等级', name: 'mainPostLevel', width: 150},*/
         {label: '专业技术职务', name: 'proPost', width: 120},
-        {label: '专技职务<br/>评定时间', name: 'proPostTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-        {label: '专技岗位等级', name: 'proPostLevel', width: 150},
+        {label: '专技职务<br/>评定时间', name: 'proPostTime',
+            formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_proPostTimeFormat}'}},
+        /*{label: '专技岗位等级', name: 'proPostLevel', width: 150},
         {
             label: '专技岗位<br/>分级时间',
             name: 'proPostLevelTime',
@@ -120,7 +122,7 @@
             name: 'manageLevelTime',
             formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m'}
-        },
+        },*/
         {
             label: '现职务任命文件',
             width: 150,
@@ -136,13 +138,13 @@
             label: '任现职时间',
             name: 'lpWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
             label: '现职务<br/>始任时间',
             name: 'npWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
             label: '现职务<br/>始任年限',
@@ -156,7 +158,7 @@
             label: '现职级<br/>始任时间',
             name: 'sWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
             label: '任现职级年限',
@@ -224,7 +226,7 @@
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '身份证号', name: 'idcard', width: 170},
-        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '专业技术职务', name: 'proPost', width: 120},
@@ -232,7 +234,7 @@
             label: '任现职时间',
             name: 'lpWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
@@ -383,7 +385,7 @@
         {label: '备注', name: 'remark', width: 180, align:'left'},  {hidden: true, key: true, name: 'id'}];
 
     colModels.cadreBook = [
-        {label: '出版日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '出版日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '著作名称', name: 'name', width: 350, align:'left'},
         {label: '出版社', name: 'publisher', width: 280, align:'left'},
         {
@@ -415,7 +417,7 @@
     ];
 
     colModels.cadrePaper = [
-        {label: '发表日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '发表日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '论文题目', name: 'name', width: 650, align:'left'},
         {label: '期刊名称', name: 'press', width: 350, align:'left'},
         /*{label: '论文', name: 'fileName', width: 150},*/
@@ -594,7 +596,7 @@
 
     colModels.cisInspectObj = [
         {label: '编号', name: 'sn', width: 180, frozen: true},
-        {label: '考察日期', name: 'inspectDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '考察日期', name: 'inspectDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
         {label: '考察对象', name: 'cadre.realname', formatter: function (cellvalue, options, rowObject) {
             return $.cadre(rowObject.cadre.id, cellvalue);
@@ -671,7 +673,7 @@
         {label: '备注', name: 'remark'}, {hidden: true, name: 'inspectorType'}
     ];
     colModels.cadreReport = [
-        {label: '形成日期', name: 'createDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '形成日期', name: 'createDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
         {label: '姓名', name: 'cadre.realname', frozen: true},
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
@@ -684,7 +686,7 @@
         {label: '备注', name: 'remark'}
     ];
     colModels.cisEvaluate = [
-        {label: '形成日期', name: 'createDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '形成日期', name: 'createDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
         {label: '考察对象', name: 'cadre.realname', frozen: true},
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 450},

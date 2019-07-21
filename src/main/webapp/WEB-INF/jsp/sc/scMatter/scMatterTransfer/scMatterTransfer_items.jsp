@@ -38,7 +38,7 @@
       {label: '工作证号', name: 'code', width: 120, frozen: true},
       {label: '姓名', name: 'realname', frozen: true},
       {label: '所在单位及职务', name: 'title', align: 'left', width: 250},
-      {label: '封面填表日期', name: 'fillTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}}
+      {label: '封面填表日期', name: 'fillTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}}
     ]
   });
 

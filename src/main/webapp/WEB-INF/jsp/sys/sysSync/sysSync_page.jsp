@@ -17,7 +17,7 @@
              data-url-co="${ctx}/sysLog_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
-            <div class="jqgrid-vertical-offset btn-group">
+            <%--<div class="jqgrid-vertical-offset btn-group">
                 <button class="btn btn-warning"><i class="fa fa-refresh"></i>  数据同步</button>
 
                 <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle" aria-expanded="false">
@@ -61,7 +61,7 @@
                            autocomplete="off"><i class="fa fa-refresh"></i> 同步本月教职工工资</a>
                     </li>
                 </ul>
-            </div>
+            </div>--%>
             <a class="popupBtn btn btn-info"
                    data-url="${ctx}/sync_user_byCode"><i class="fa fa-level-down"></i> 同步账号信息</a>
             <c:if test="${_pMap['useCadrePost']=='true'}">

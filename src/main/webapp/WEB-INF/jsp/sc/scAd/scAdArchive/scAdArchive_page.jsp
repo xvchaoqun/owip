@@ -106,7 +106,7 @@
                         .format(rowObject.year, holdDate,code)
 
             }, frozen: true},
-            {label: '党委常委会<br/>日期', name: 'holdDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会<br/>日期', name: 'holdDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label:'工作证号', name: 'code'},
             { label:'姓名', name: 'realname', formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue);

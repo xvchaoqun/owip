@@ -1406,10 +1406,10 @@ if ($.jgrid) {
             }
             var growTimes = [];
             if (op.isOw) {
-                growTimes.push(op.owGrowTime == undefined ? "-" : op.owGrowTime.substr(0, 10));
+                growTimes.push(op.owGrowTime == undefined ? "--" : $.date(op.owGrowTime, "yyyy.MM"));
             }
             if (op.dpTypeId > 0) {
-                growTimes.push(op.dpGrowTime == undefined ? "-" : op.dpGrowTime.substr(0, 10));
+                growTimes.push(op.dpGrowTime == undefined ? "--" : $.date(op.dpGrowTime, "yyyy.MM"));
             }
             if (growTimes.length > 0) return growTimes.join(",");
 

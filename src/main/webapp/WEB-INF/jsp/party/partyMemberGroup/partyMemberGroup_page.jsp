@@ -212,14 +212,14 @@
                     return $.party(rowObject.partyId);
                 }
             },
-            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
                     return (rowObject.isPresent) ? 1 : 0;
                 }
             },
             {label: '应换届时间', name: 'tranTime', width: 130,
-                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'},
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     if (rowObject.isPresent &&
                         rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
@@ -231,7 +231,7 @@
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             }
         ]/*,
         rowattr: function(rowData, currentObj, rowId)

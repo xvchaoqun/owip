@@ -463,7 +463,7 @@
                 return $.date(rowObject.saveStartTime, "yyyy.MM") + " ~ " + $.date(rowObject.saveEndTime, "yyyy.MM");
             }
             },
-            {label: '党费交纳截止时间', name: 'payTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+            {label: '党费交纳截止时间', name: 'payTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
 
             <c:if test="${param.type==MEMBER_STAY_TYPE_ABROAD}">
             {
@@ -497,7 +497,7 @@
                     + " ~ " + $.date(rowObject.endTime, "yyyy.MM");
             }
             },
-            {label: '预计回国时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+            {label: '预计回国时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {
                 label: '留学方式', name: 'type', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
@@ -533,7 +533,7 @@
                 }
             },
             {label: '暂留原因', name: 'stayReason', width: 200},
-            {label: '预计转出时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+            {label: '预计转出时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '联系人', name: 'name1', width: 150},
             {label: '联系人手机号', name: 'mobile1', width: 120},
             </c:if>

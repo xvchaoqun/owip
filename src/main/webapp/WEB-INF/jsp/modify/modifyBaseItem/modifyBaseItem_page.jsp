@@ -62,7 +62,7 @@
         url: "${ctx}/modifyBaseItem_data?callback=?&applyId=${param.applyId}",
         colModel: [
             { label: '序号', name: 'id', width: 80 },
-            { label: '申请时间', name: 'createTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label: '申请时间', name: 'createTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             { label: '字段名称', name: 'name', width: 150},
             { label: '修改前', name:'orginalValue', width: 150,formatter:function(cellvalue, options, rowObject){
 
@@ -116,7 +116,7 @@
 
             </c:if>
             { label:'审核人', name: 'checkUser.realname' },
-            { label: '审核时间', name: 'checkTime', width: 150/*, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}*/},
+            { label: '审核时间', name: 'checkTime', width: 150/*, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}*/},
             { label:'依据', name: 'checkReason', width: 150 },
             { label:'备注', name: 'checkRemark', width: 250 },
 

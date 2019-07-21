@@ -141,7 +141,7 @@
       return str;
     }},
     </c:if>
-    { label: '缴费日期',name: 'payTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+    { label: '缴费日期',name: 'payTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
     { label: '代缴人',name: 'chargeUser.realname', formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return '--'
       if(rowObject.isSelfPay) return '--'

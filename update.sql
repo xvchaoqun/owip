@@ -1,6 +1,4 @@
 
-
-
 20190720
 
 -- 任职情况：修改职务为岗位名称，新增字段职务（同步干部的职务字段），是否正职，是否第一主职
@@ -93,6 +91,9 @@ left join cadre_view c on c.user_id=scm.user_id;
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('useCadreState', '启用干部人员类别[M]', 'true', 3, 35, '');
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('proPostTimeToDay', '专业技术职务评定时间是否精确到日', 'false', 3, 36, '');
 
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`)
 VALUES ('清理已过期干部信息修改权限', '清理已过期干部信息修改权限的规则', 'job.modify.ClearExpireAuth', '0 0 0/6 * * ?', 1, 0, 23, '2019-07-20 09:26:30');

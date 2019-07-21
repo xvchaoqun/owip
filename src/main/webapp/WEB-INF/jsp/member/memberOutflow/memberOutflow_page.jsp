@@ -327,7 +327,7 @@
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             { label:'原职业',  name:'originalJob',width: 200 , formatter: $.jgrid.formatter.MetaType},
             { label: '外出流向',   name: 'direction', width: 150 , formatter: $.jgrid.formatter.MetaType},
-            { label: '流出时间',   name: 'flowTime' , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '流出时间',   name: 'flowTime' , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '流出省份',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _cMap.locationMap[cellvalue].name;
             }},
@@ -336,7 +336,7 @@
             { label: '组织关系状态',   name: 'orStatus', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.OW_OR_STATUS_MAP[cellvalue];
             }  },
-            { label: '申请时间',   name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label: '申请时间',   name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             {hidden:true, name:'status'}
         ],
         onSelectRow: function(id,status){

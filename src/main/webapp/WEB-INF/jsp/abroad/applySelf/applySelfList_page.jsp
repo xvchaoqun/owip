@@ -177,12 +177,12 @@
                 return "S{0}".format(rowObject.id);
             }, frozen: true
             },
-            {label: '申请日期', name: 'applyDate', frozen: true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '申请日期', name: 'applyDate', frozen: true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {label: '姓名', name: 'user.realname', width: 75, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', width: 250, align:'left'},
-            {label: '出行时间', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '回国时间', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出行时间', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '回国时间', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '出行天数',
                 align: 'center',

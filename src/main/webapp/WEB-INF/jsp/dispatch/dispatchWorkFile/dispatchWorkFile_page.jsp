@@ -180,7 +180,7 @@
             },
             {label: '发文单位', name: 'unitType', width: 120, formatter: $.jgrid.formatter.MetaType},
             {label: '发文号', name: 'code', width: 150},
-            {label: '发文日期', name: 'pubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '发文日期', name: 'pubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年度', name: 'year', width: 75},
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder

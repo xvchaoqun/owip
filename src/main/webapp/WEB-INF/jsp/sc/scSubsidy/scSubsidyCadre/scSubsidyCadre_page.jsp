@@ -128,7 +128,7 @@
             },
             {label: '时任职务', name: 'title', width: 300, align:'left'},
             {label: '时任行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType, formatoptions:{def:'-'}},
-            {label: '通知日期', name: 'infoDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '通知日期', name: 'infoDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '发人事处通知', name: 'hrCode', width: 200},
             {label: '发财经处通知', name: 'feCode', width: 200},
             /*{ label: '备注',name: 'remark', width:300, align:'left'}*/

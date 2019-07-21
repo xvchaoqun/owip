@@ -239,9 +239,9 @@
                 label: '党委常委会<br/>日期',
                 name: 'meetingTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
-            {label: '发文日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '发文日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '任免日期', name: 'workTime', formatter: function (cellvalue, options, rowObject) {
 
