@@ -95,6 +95,10 @@ VALUES ('useCadreState', '启用干部人员类别[M]', 'true', 3, 35, '');
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('proPostTimeToDay', '专业技术职务评定时间是否精确到日', 'false', 3, 36, '');
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('memberOutTypeRemark', '组织关系转出类型说明', '“京内”指党组织隶属北京市委的单位，如北京市各级政府、企事业单位党委，在京高等院校党委等。<br/>“京外”指党组织隶属关系不在北京市委的，如京外企事业单位党委、在京的中央直属企事业单位（央企、各大部委等）。', 1, 37, '');
+
+
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`)
 VALUES ('清理已过期干部信息修改权限', '清理已过期干部信息修改权限的规则', 'job.modify.ClearExpireAuth', '0 0 0/6 * * ?', 1, 0, 23, '2019-07-20 09:26:30');
 

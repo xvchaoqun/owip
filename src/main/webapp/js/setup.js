@@ -1321,3 +1321,16 @@ $(document).on("click", "a.change-order", function () {
         }
     }).draggable({handle: ".modal-header"});
 });
+
+$(document).on("mouseover", ".prompt", function () {
+
+    var settings = {
+        animation:'pop',
+        width:$(this).data("width")||300,
+        title:$(this).data("title")||'提示',
+        content:'<div class="alert alert-success">' + $(this).data("prompt") + '</div>'
+    };
+    $(this).webuiPopover(settings).webuiPopover('show');
+    //$(elem).qtip({content:$(elem).data("msg"),show: true});
+    event.stopPropagation();
+});

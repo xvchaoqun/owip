@@ -35,7 +35,12 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
+							<label class="col-xs-5 control-label"><span class="star">*</span>类别
+							<c:if test="${not empty _pMap['memberOutTypeRemark']}">
+							<span class="prompt" data-title="类别说明" data-width="400"
+							  data-prompt="${_pMap['memberOutTypeRemark']}"><i class="fa fa-question-circle-o"></i></span>
+							</c:if>
+							</label>
 							<div class="col-xs-7">
 								<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100%">
 									<option></option>
