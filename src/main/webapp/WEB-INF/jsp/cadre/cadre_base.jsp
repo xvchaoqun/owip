@@ -776,8 +776,8 @@
 									<c:set var="original" value="${cadreParty.get('growTime')}"/>
 									<c:if test="${member!=null}">${original}</c:if>
 									<c:if test="${member==null}">
-										<div class="input-group date" data-date-format="yyyy-mm.dd" style="width: 150px;">
-											<input class="form-control" type="text" name="_dpAddTime" placeholder="yyyy-mm.dd"/>
+										<div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 150px;">
+											<input class="form-control" type="text" name="_dpAddTime" placeholder="yyyy.mm.dd"/>
 											<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 										</div>
 										<c:if test="${cadre.dpTypeId>0}">
