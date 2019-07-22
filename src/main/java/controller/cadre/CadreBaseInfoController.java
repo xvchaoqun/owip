@@ -3,6 +3,7 @@ package controller.cadre;
 import controller.BaseController;
 import domain.cadre.CadreParty;
 import domain.cadre.CadreView;
+import domain.cadreReserve.CadreReserve;
 import domain.member.Member;
 import domain.sys.SysUserInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -47,6 +48,7 @@ public class CadreBaseInfoController extends BaseController {
                                   Integer dpTypeId,
                                   @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date _dpAddTime,
                                   @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _workTime,
+                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _postTime, // 后备干部任职时间
                                   String nativePlace,
                                   String homeplace,
                                   String household,
@@ -99,6 +101,15 @@ public class CadreBaseInfoController extends BaseController {
         {
             if(_workTime!=null)
                 cadreService.updateWorkTime(userId, _workTime);
+        }
+        if(_postTime!=null){
+            CadreReserve normalRecord = cadreReserveService.getNormalRecord(cadreId);
+            if(normalRecord!=null) {
+                CadreReserve record = new CadreReserve();
+                record.setId(normalRecord.getId());
+                record.setPostTime(_postTime);
+                cadreReserveMapper.updateByPrimaryKeySelective(record);
+            }
         }
 
         {

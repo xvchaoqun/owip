@@ -380,13 +380,13 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任现职时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(mainCadrePost.lpWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 现职务始任时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.first.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(mainCadrePost.npWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -430,7 +430,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任兼职时间1</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(subCadrePost1.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(subCadrePost1.lpWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -451,7 +451,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任兼职时间2</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(subCadrePost2.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(subCadrePost2.lpWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
       </div>

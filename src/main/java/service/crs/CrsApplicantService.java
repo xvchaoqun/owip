@@ -390,6 +390,7 @@ public class CrsApplicantService extends CrsBaseMapper {
                 Cadre record = new Cadre();
                 record.setId(cadreId);
                 record.setStatus(CadreConstants.CADRE_STATUS_RECRUIT);
+                record.setIsDouble(cv.getIsDouble());
                 cadreService.updateByPrimaryKeySelective(record);
             }
         }else{

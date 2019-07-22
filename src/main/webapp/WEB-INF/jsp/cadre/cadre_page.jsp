@@ -16,7 +16,7 @@
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
-                ||not empty param.isPrincipal ||not empty param.isDouble || not empty param.code
+                ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
                 ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.state  ||not empty param.post  ||not empty param.title }"/>
 
                 <div class="tabbable">
@@ -222,6 +222,12 @@
                                                         <a href="javascript:;" class="jqExportBtn"
                                                            data-need-id="false" data-url="${ctx}/cadreEdu_data">
                                                             <i class="fa fa-file-excel-o"></i> 导出学习经历（批量）</a>
+                                                    </li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="jqExportBtn"
+                                                           data-need-id="false" data-url="${ctx}/cadreWork_data">
+                                                            <i class="fa fa-file-excel-o"></i> 导出工作经历（批量）</a>
                                                     </li>
                                                 </shiro:hasPermission>
                                                 <shiro:hasPermission name="cadre:exportFamily">
@@ -500,6 +506,7 @@
                                                             $("#searchForm select[name=isDouble]").val('${param.isDouble}');
                                                         </script>
                                                     </td>
+
                                                 </tr>
                                                 <tr>
                                                     <td class="name">是否班子负责人</td>
@@ -545,9 +552,17 @@
                                                     <td class="input">
                                                         <input type="text" style="width: 200px" name="title" value="${param.title}">
                                                     </td>
-                                                    <td class="name"></td>
+                                                    <td class="name">是否有挂职经历</td>
                                                     <td class="input">
-
+                                                        <select name="hasCrp" data-width="100" data-rel="select2"
+                                                                data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="1">是</option>
+                                                            <option value="0">否</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=hasCrp]").val('${param.hasCrp}');
+                                                        </script>
                                                     </td>
                                                 </tr>
                                             </table>

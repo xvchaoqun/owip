@@ -63,7 +63,7 @@
               {
                     label: '现职务任命文件',
                     width: 150,
-                    name: 'dwLeader.mainCadrePost.dispatchCadreRelateBean.first',
+                    name: 'dwLeader.npDispatch',
                     formatter: function (cellvalue, options, rowObject) {
                         if (!cellvalue || cellvalue.id == undefined) return '--';
                         var dispatchCode = cellvalue.dispatchCode;

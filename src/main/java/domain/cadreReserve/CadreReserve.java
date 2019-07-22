@@ -1,6 +1,7 @@
 package domain.cadreReserve;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class CadreReserve implements Serializable {
     private Integer id;
@@ -8,6 +9,8 @@ public class CadreReserve implements Serializable {
     private Integer cadreId;
 
     private Integer type;
+
+    private Date postTime;
 
     private Byte status;
 
@@ -39,6 +42,14 @@ public class CadreReserve implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Date getPostTime() {
+        return postTime;
+    }
+
+    public void setPostTime(Date postTime) {
+        this.postTime = postTime;
     }
 
     public Byte getStatus() {

@@ -284,6 +284,196 @@ public class CadreExample {
             return (Criteria) this;
         }
 
+        public Criteria andHasCrpIsNull() {
+            addCriterion("has_crp is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpIsNotNull() {
+            addCriterion("has_crp is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpEqualTo(Boolean value) {
+            addCriterion("has_crp =", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpNotEqualTo(Boolean value) {
+            addCriterion("has_crp <>", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpGreaterThan(Boolean value) {
+            addCriterion("has_crp >", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_crp >=", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpLessThan(Boolean value) {
+            addCriterion("has_crp <", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_crp <=", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpIn(List<Boolean> values) {
+            addCriterion("has_crp in", values, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpNotIn(List<Boolean> values) {
+            addCriterion("has_crp not in", values, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_crp between", value1, value2, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_crp not between", value1, value2, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIsNull() {
+            addCriterion("is_double is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIsNotNull() {
+            addCriterion("is_double is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleEqualTo(Boolean value) {
+            addCriterion("is_double =", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotEqualTo(Boolean value) {
+            addCriterion("is_double <>", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleGreaterThan(Boolean value) {
+            addCriterion("is_double >", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_double >=", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLessThan(Boolean value) {
+            addCriterion("is_double <", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_double <=", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIn(List<Boolean> values) {
+            addCriterion("is_double in", values, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotIn(List<Boolean> values) {
+            addCriterion("is_double not in", values, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double between", value1, value2, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double not between", value1, value2, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsIsNull() {
+            addCriterion("double_unit_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsIsNotNull() {
+            addCriterion("double_unit_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsEqualTo(String value) {
+            addCriterion("double_unit_ids =", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotEqualTo(String value) {
+            addCriterion("double_unit_ids <>", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsGreaterThan(String value) {
+            addCriterion("double_unit_ids >", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("double_unit_ids >=", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsLessThan(String value) {
+            addCriterion("double_unit_ids <", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsLessThanOrEqualTo(String value) {
+            addCriterion("double_unit_ids <=", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsLike(String value) {
+            addCriterion("double_unit_ids like", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotLike(String value) {
+            addCriterion("double_unit_ids not like", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsIn(List<String> values) {
+            addCriterion("double_unit_ids in", values, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotIn(List<String> values) {
+            addCriterion("double_unit_ids not in", values, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsBetween(String value1, String value2) {
+            addCriterion("double_unit_ids between", value1, value2, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotBetween(String value1, String value2) {
+            addCriterion("double_unit_ids not between", value1, value2, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
         public Criteria andStateIsNull() {
             addCriterion("state is null");
             return (Criteria) this;

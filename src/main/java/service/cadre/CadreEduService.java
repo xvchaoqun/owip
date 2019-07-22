@@ -7,6 +7,7 @@ import domain.cadre.CadreEduExample;
 import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import domain.unit.Unit;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -16,18 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Service
 public class CadreEduService extends BaseMapper {
@@ -406,5 +403,64 @@ public class CadreEduService extends BaseMapper {
         cadreEduMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
 
         return record;
+    }
+
+    public void cadreEdu_export(Integer[] ids, int exportType, Integer reserveType, HttpServletResponse response) {
+
+        List<CadreEdu> cadreEdus = new ArrayList<>();
+        if(exportType==0) { // 现任干部
+            cadreEdus = iCadreMapper.getCadreEdus(ids, CadreConstants.CADRE_STATUS_MIDDLE);
+        }else if(exportType==1) { // 年轻干部
+            cadreEdus = iCadreMapper.getCadreReserveEdus(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+        }
+        long rownum = cadreEdus.size();
+        Set<Integer> needTutorEduTypes = new HashSet<>(needTutorEduTypes());
+
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100","所在单位及职务|150|left", "学历|100",
+                "毕业/在读|80","入学时间|100","毕业时间|90","是否最高学历|100","毕业/在读学校|100",
+                "院系|80","所学专业|80","学校类型|80","学习方式|80","是否获得学位|100",
+                "学位|80","是否最高学位|100","学位授予国家|100","学位授予单位|100","学位授予日期|100",
+                "导师姓名|80","导师所在单位及职务|100|left","学历学位证书|100","备注|80","补充说明|80"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            CadreEdu record = cadreEdus.get(i);
+            CadreView cadre = CmTag.getCadreById(record.getCadreId());
+
+            Unit unit = CmTag.getUnit(cadre.getUnitId());
+            boolean hasDegree = org.apache.commons.lang3.BooleanUtils.isTrue(record.getHasDegree());
+            String[] values = {
+                    cadre.getCode(),
+                    cadre.getRealname(),
+                    unit==null?"":unit.getName(),
+                    cadre.getTitle(),
+                    metaTypeService.getName(record.getEduId()),
+
+                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getIsGraduated())?"毕业":"在读",
+                    DateUtils.formatDate(record.getEnrolTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYYMM),
+                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getIsHighDegree())?"是":"否",
+                    record.getSchool(),
+
+                    record.getDep(),
+                    record.getMajor(),
+                    CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
+                    metaTypeService.getName(record.getLearnStyle()),
+                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getHasDegree())?"是":"否",
+
+                    hasDegree?record.getDegree() :"-",
+                    hasDegree?(record.getIsHighDegree()?"是":"否"):"-",
+                    hasDegree?record.getDegreeCountry():"-",
+                    hasDegree?record.getDegreeUnit():"-",
+                    hasDegree?DateUtils.formatDate(record.getDegreeTime(), DateUtils.YYYYMM):"-",
+
+                    needTutorEduTypes.contains(record.getEduId())?record.getTutorName():"-",
+                    needTutorEduTypes.contains(record.getEduId())?record.getTutorTitle():"-",
+                    StringUtils.isBlank(record.getCertificate())?"-":"已上传",
+                    "", ""
+            };
+            valuesList.add(values);
+        }
+        String fileName = "学习经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd")+")";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

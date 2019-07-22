@@ -50,6 +50,12 @@ public class CrsCandidateView implements Serializable {
 
     private Byte type;
 
+    private Boolean hasCrp;
+
+    private Boolean isDouble;
+
+    private String doubleUnitIds;
+
     private Integer state;
 
     private String title;
@@ -164,37 +170,21 @@ public class CrsCandidateView implements Serializable {
 
     private Integer mainCadrePostId;
 
-    private Boolean isDouble;
-
-    private String doubleUnitIds;
-
     private Boolean isPrincipal;
+
+    private Integer lpDispatchId;
+
+    private Date lpWorkTime;
+
+    private Integer npDispatchId;
+
+    private Date npWorkTime;
 
     private Byte leaderType;
 
     private Long cadrePostYear;
 
     private Long adminLevelYear;
-
-    private Integer npRelateId;
-
-    private Integer npId;
-
-    private String npFileName;
-
-    private String npFile;
-
-    private Date npWorkTime;
-
-    private Integer lpRelateId;
-
-    private Integer lpId;
-
-    private String lpFileName;
-
-    private String lpFile;
-
-    private Date lpWorkTime;
 
     private Integer sDispatchId;
 
@@ -412,6 +402,30 @@ public class CrsCandidateView implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getHasCrp() {
+        return hasCrp;
+    }
+
+    public void setHasCrp(Boolean hasCrp) {
+        this.hasCrp = hasCrp;
+    }
+
+    public Boolean getIsDouble() {
+        return isDouble;
+    }
+
+    public void setIsDouble(Boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    public String getDoubleUnitIds() {
+        return doubleUnitIds;
+    }
+
+    public void setDoubleUnitIds(String doubleUnitIds) {
+        this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
     }
 
     public Integer getState() {
@@ -870,28 +884,44 @@ public class CrsCandidateView implements Serializable {
         this.mainCadrePostId = mainCadrePostId;
     }
 
-    public Boolean getIsDouble() {
-        return isDouble;
-    }
-
-    public void setIsDouble(Boolean isDouble) {
-        this.isDouble = isDouble;
-    }
-
-    public String getDoubleUnitIds() {
-        return doubleUnitIds;
-    }
-
-    public void setDoubleUnitIds(String doubleUnitIds) {
-        this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
-    }
-
     public Boolean getIsPrincipal() {
         return isPrincipal;
     }
 
     public void setIsPrincipal(Boolean isPrincipal) {
         this.isPrincipal = isPrincipal;
+    }
+
+    public Integer getLpDispatchId() {
+        return lpDispatchId;
+    }
+
+    public void setLpDispatchId(Integer lpDispatchId) {
+        this.lpDispatchId = lpDispatchId;
+    }
+
+    public Date getLpWorkTime() {
+        return lpWorkTime;
+    }
+
+    public void setLpWorkTime(Date lpWorkTime) {
+        this.lpWorkTime = lpWorkTime;
+    }
+
+    public Integer getNpDispatchId() {
+        return npDispatchId;
+    }
+
+    public void setNpDispatchId(Integer npDispatchId) {
+        this.npDispatchId = npDispatchId;
+    }
+
+    public Date getNpWorkTime() {
+        return npWorkTime;
+    }
+
+    public void setNpWorkTime(Date npWorkTime) {
+        this.npWorkTime = npWorkTime;
     }
 
     public Byte getLeaderType() {
@@ -916,86 +946,6 @@ public class CrsCandidateView implements Serializable {
 
     public void setAdminLevelYear(Long adminLevelYear) {
         this.adminLevelYear = adminLevelYear;
-    }
-
-    public Integer getNpRelateId() {
-        return npRelateId;
-    }
-
-    public void setNpRelateId(Integer npRelateId) {
-        this.npRelateId = npRelateId;
-    }
-
-    public Integer getNpId() {
-        return npId;
-    }
-
-    public void setNpId(Integer npId) {
-        this.npId = npId;
-    }
-
-    public String getNpFileName() {
-        return npFileName;
-    }
-
-    public void setNpFileName(String npFileName) {
-        this.npFileName = npFileName == null ? null : npFileName.trim();
-    }
-
-    public String getNpFile() {
-        return npFile;
-    }
-
-    public void setNpFile(String npFile) {
-        this.npFile = npFile == null ? null : npFile.trim();
-    }
-
-    public Date getNpWorkTime() {
-        return npWorkTime;
-    }
-
-    public void setNpWorkTime(Date npWorkTime) {
-        this.npWorkTime = npWorkTime;
-    }
-
-    public Integer getLpRelateId() {
-        return lpRelateId;
-    }
-
-    public void setLpRelateId(Integer lpRelateId) {
-        this.lpRelateId = lpRelateId;
-    }
-
-    public Integer getLpId() {
-        return lpId;
-    }
-
-    public void setLpId(Integer lpId) {
-        this.lpId = lpId;
-    }
-
-    public String getLpFileName() {
-        return lpFileName;
-    }
-
-    public void setLpFileName(String lpFileName) {
-        this.lpFileName = lpFileName == null ? null : lpFileName.trim();
-    }
-
-    public String getLpFile() {
-        return lpFile;
-    }
-
-    public void setLpFile(String lpFile) {
-        this.lpFile = lpFile == null ? null : lpFile.trim();
-    }
-
-    public Date getLpWorkTime() {
-        return lpWorkTime;
-    }
-
-    public void setLpWorkTime(Date lpWorkTime) {
-        this.lpWorkTime = lpWorkTime;
     }
 
     public Integer getsDispatchId() {

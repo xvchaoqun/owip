@@ -309,7 +309,8 @@
     </div>
     {{}}}
     {{if(type==<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW%>
-    || type==<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>){}}
+    || type==<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>
+    || type==<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF%>){}}
     <label class="col-xs-4 control-label">因公事由</label>
     <div class="col-xs-7 choice">
         <c:forEach items="${cm:getMetaTypes('mc_abroad_public_reason')}" var="r">
@@ -408,7 +409,8 @@
                 $(".form-group.sign").show();
             }
             if (type == '<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW%>'
-                || type == '<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>') {
+                || type == '<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>'
+                || type == '<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF%>') {
                 $(".form-group.tw").show();
             } else {
                 $(".form-group.tw").hide();

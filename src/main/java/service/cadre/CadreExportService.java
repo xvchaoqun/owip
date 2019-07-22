@@ -1,7 +1,10 @@
 package service.cadre;
 
 import domain.base.MetaType;
-import domain.cadre.*;
+import domain.cadre.CadreEdu;
+import domain.cadre.CadrePost;
+import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.dispatch.Dispatch;
 import domain.party.Branch;
 import domain.party.Party;
@@ -20,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import persistence.dispatch.common.DispatchCadreRelateBean;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.party.BranchService;
@@ -75,7 +77,7 @@ public class CadreExportService extends BaseMapper {
                 /*38*/"任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
                 /*43*/"兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
                 /*48*/"联系方式|100", /*"党委委员|100", "纪委委员|120",*/ "电子信箱|200", "所属党组织|500",
-                "备注|500"}));
+                 /*51*/"是否有挂职经历|100", "备注|500"}));
     }
 
     // 导出一览表
@@ -122,7 +124,7 @@ public class CadreExportService extends BaseMapper {
         boolean useCadreState = CmTag.getBoolProperty("useCadreState");
         boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
 
-        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 13, 17, 18, 19, 20, 21, 24, 35, 38, 48, 51};
+        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 13, 17, 18, 19, 20, 21, 24, 35, 38, 48, 49};
         if (exportType == 1) {
             //新增一个角色，限制查看干部库权限，
             // 字段为：1工作证号，姓名，干部类型，5部门属性，所在单位、8所在单位及职务、行政级别、职务属性，13性别，
@@ -148,7 +150,7 @@ public class CadreExportService extends BaseMapper {
                 titles.remove(3);
             }
             if(!hasPartyModule){
-                titles.remove(titles.size()-2); // 去掉所在党组织
+                titles.remove(titles.size()-3); // 去掉所在党组织
             }
 
             if(cols!=null && cols.length>0){
@@ -190,11 +192,7 @@ public class CadreExportService extends BaseMapper {
             CadreView record = records.get(i);
             SysUserView sysUser = record.getUser();
 
-            String isPositive = ""; // 是否正职
-            CadrePost mainCadrePost = record.getMainCadrePost();
-            if(mainCadrePost!=null){
-                isPositive = BooleanUtils.isTrue(mainCadrePost.getIsPrincipal())?"是":"否";
-            }
+            String isPositive = BooleanUtils.isTrue(record.getIsPrincipal())?"是":"否"; // 是否正职
 
             String _leaderType = "--"; // 是否班子负责人
             Byte leaderType = record.getLeaderType();
@@ -215,50 +213,41 @@ public class CadreExportService extends BaseMapper {
             String adminLevelYear = ""; // 任现职级年限
             String isDouble = ""; // 是否双肩挑
             String doubleUnit = ""; // 双肩挑单位
-            if (mainCadrePost != null) {
-                DispatchCadreRelateBean dispatchCadreRelateBean = mainCadrePost.getDispatchCadreRelateBean();
-                if (dispatchCadreRelateBean != null) {
-                    Dispatch first = dispatchCadreRelateBean.getFirst();
-                    Dispatch last = dispatchCadreRelateBean.getLast();
-                    if (first != null) {
-                        postDispatchCode = first.getDispatchCode();
-                        postStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYYMMDD_DOT);
-                        Integer year = DateUtils.intervalYearsUntilNow(first.getWorkTime());
-                        if (year == 0) postYear = "未满一年";
-                        else postYear = year + "";
-                    }
 
-                    if (last != null) {
-                        postTime = DateUtils.formatDate(last.getWorkTime(), DateUtils.YYYYMMDD_DOT);
-                    }
-                }
-                isDouble = BooleanUtils.isTrue(mainCadrePost.getIsDouble()) ? "是" : "否";
-                String doubleUnitIds = mainCadrePost.getDoubleUnitIds();
-                if (doubleUnitIds != null) {
-                    List<String> doubleUnits = new ArrayList<>();
-                    for (String doubleUnitId : doubleUnitIds.split(",")) {
-                        Unit unit = unitMap.get(Integer.valueOf(doubleUnitId));
-                        doubleUnits.add((unit != null) ? unit.getName() : "");
-                    }
-                    doubleUnit = StringUtils.join(doubleUnits, ",");
-                }
+            Dispatch first = CmTag.getDispatch(record.getNpDispatchId()); // 现职务始任文件
+            if (first != null) {
+                postDispatchCode = first.getDispatchCode();
             }
 
-            CadreAdminLevel presentAdminLevel = record.getPresentAdminLevel();
-            if (presentAdminLevel != null) {
-                Dispatch startDispatch = presentAdminLevel.getStartDispatch();
-                Dispatch endDispatch = presentAdminLevel.getEndDispatch();
+            if(record.getNpWorkTime()!=null) {
+                postStartTime = DateUtils.formatDate(record.getNpWorkTime(), DateUtils.YYYYMMDD_DOT);
+                Integer year = DateUtils.intervalYearsUntilNow(record.getNpWorkTime());
+                if (year == 0) postYear = "未满一年";
+                else postYear = year + "";
+            }
 
-                Date endDate = new Date();
-                if (endDispatch != null) endDate = endDispatch.getWorkTime();
-                if (startDispatch != null) {
-                    adminLevelStartTime = DateUtils.formatDate(startDispatch.getWorkTime(), DateUtils.YYYYMMDD_DOT);
+            if(record.getLpWorkTime()!=null) {
+                postTime = DateUtils.formatDate(record.getLpWorkTime(), DateUtils.YYYYMMDD_DOT);
+            }
 
-                    Integer monthDiff = DateUtils.monthDiff(startDispatch.getWorkTime(), endDate);
-                    int year = monthDiff / 12;
-                    if (year == 0) adminLevelYear = "未满一年";
-                    else adminLevelYear = year + "";
+            if(record.getsWorkTime()!=null) {
+                adminLevelStartTime = DateUtils.formatDate(record.getsWorkTime(), DateUtils.YYYYMMDD_DOT);
+                Date eWorkTime = record.geteWorkTime();
+                Integer monthDiff = DateUtils.monthDiff(record.getsWorkTime(), eWorkTime == null ? new Date() : eWorkTime);
+                int year = monthDiff / 12;
+                if (year == 0) adminLevelYear = "未满一年";
+                else adminLevelYear = year + "";
+            }
+
+            isDouble = BooleanUtils.isTrue(record.getIsDouble()) ? "是" : "否";
+            String doubleUnitIds = record.getDoubleUnitIds();
+            if (doubleUnitIds != null) {
+                List<String> doubleUnits = new ArrayList<>();
+                for (String doubleUnitId : doubleUnitIds.split(",")) {
+                    Unit unit = unitMap.get(Integer.valueOf(doubleUnitId));
+                    doubleUnits.add((unit != null) ? unit.getName() : "");
                 }
+                doubleUnit = StringUtils.join(doubleUnits, ",");
             }
 
             String partyFullName = ""; // 所属党组织
@@ -292,15 +281,8 @@ public class CadreExportService extends BaseMapper {
                 }
                 subPost += StringUtils.trimToEmpty(cadrePost.getPost());
 
-                DispatchCadreRelateBean dispatchCadreRelateBean = cadrePost.getDispatchCadreRelateBean();
-                if (dispatchCadreRelateBean != null) {
-                    Dispatch first = dispatchCadreRelateBean.getFirst();
-                    Dispatch last = dispatchCadreRelateBean.getLast();
-
-                    if (last != null) subPostTime = DateUtils.formatDate(last.getWorkTime(), DateUtils.YYYYMMDD_DOT);
-                    if (first != null)
-                        subPostStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYYMMDD_DOT);
-                }
+                subPostTime = DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT);
+                subPostStartTime = DateUtils.formatDate(cadrePost.getNpWorkTime(), DateUtils.YYYYMMDD_DOT);
             }
 
             String _fulltimeEdu = "";
@@ -401,6 +383,7 @@ public class CadreExportService extends BaseMapper {
                     record.getEmail(),
                     partyFullName,
 
+                    BooleanUtils.isTrue(record.getHasCrp()) ? "是" : "否",
                     record.getRemark()
             }));
 
@@ -426,7 +409,7 @@ public class CadreExportService extends BaseMapper {
                     values.remove(3);
                 }
                 if(!hasPartyModule){
-                    values.remove(values.size()-2); // 去掉所在党组织
+                    values.remove(values.size()-3); // 去掉所在党组织
                 }
 
                 if(cols!=null && cols.length>0){
@@ -569,41 +552,27 @@ public class CadreExportService extends BaseMapper {
                 cell.setCellValue("--");
             }
 
-            CadrePost mainCadrePost = cv.getMainCadrePost();
             String postStartTime = ""; // 现职务始任时间
             String postYear = ""; // 现职务始任年限
             String adminLevelStartTime = ""; // 现职级始任时间
             String adminLevelYear = ""; // 任现职级年限
 
-            if (mainCadrePost != null) {
-                DispatchCadreRelateBean dispatchCadreRelateBean = mainCadrePost.getDispatchCadreRelateBean();
-                if (dispatchCadreRelateBean != null) {
-                    Dispatch first = dispatchCadreRelateBean.getFirst();
-                    if (first != null) {
-                        postStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYYMM);
-                        Integer year = DateUtils.intervalYearsUntilNow(first.getWorkTime());
-                        if (year == 0) postYear = "未满一年";
-                        else postYear = year + "";
-                    }
-                }
+            if(cv.getNpWorkTime()!=null) {
+                postStartTime = DateUtils.formatDate(cv.getNpWorkTime(), DateUtils.YYYYMM);
+                Integer year = DateUtils.intervalYearsUntilNow(cv.getNpWorkTime());
+                if (year == 0) postYear = "未满一年";
+                else postYear = year + "";
             }
 
-            CadreAdminLevel presentAdminLevel = cv.getPresentAdminLevel();
-            if (presentAdminLevel != null) {
-                Dispatch startDispatch = presentAdminLevel.getStartDispatch();
-                Dispatch endDispatch = presentAdminLevel.getEndDispatch();
-
-                Date endDate = new Date();
-                if (endDispatch != null) endDate = endDispatch.getWorkTime();
-                if (startDispatch != null) {
-                    adminLevelStartTime = DateUtils.formatDate(startDispatch.getWorkTime(), DateUtils.YYYYMM);
-
-                    Integer monthDiff = DateUtils.monthDiff(startDispatch.getWorkTime(), endDate);
-                    int year = monthDiff / 12;
-                    if (year == 0) adminLevelYear = "未满一年";
-                    else adminLevelYear = year + "";
-                }
+            if(cv.getsWorkTime()!=null) {
+                adminLevelStartTime = DateUtils.formatDate(cv.getsWorkTime(), DateUtils.YYYYMM);
+                Date eWorkTime = cv.geteWorkTime();
+                Integer monthDiff = DateUtils.monthDiff(cv.getsWorkTime(), eWorkTime==null?new Date():eWorkTime);
+                int year = monthDiff / 12;
+                if (year == 0) adminLevelYear = "未满一年";
+                else adminLevelYear = year + "";
             }
+
             // 现职务始任时间
             cell = row.getCell(column++);
             cell.setCellValue(postStartTime);

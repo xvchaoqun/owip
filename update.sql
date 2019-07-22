@@ -1,4 +1,124 @@
 
+20190722
+
+UPDATE cadre_post SET post=post_name WHERE is_main_post=0;
+
+ALTER TABLE `cadre_reserve`
+	ADD COLUMN `post_time` DATE NULL COMMENT '任职时间' AFTER `type`;
+
+ALTER TABLE `cadre`
+	ADD COLUMN `has_crp` TINYINT(1) UNSIGNED NULL COMMENT '是否有挂职锻炼经历，工作经历添加挂职锻炼经历或挂职锻炼模块中添加时更新此字段' AFTER `type`;
+
+ALTER TABLE `cadre`
+	ADD COLUMN `is_double` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否双肩挑，只用于主职' AFTER `has_crp`,
+	ADD COLUMN `double_unit_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '双肩挑单位' AFTER `is_double`;
+
+update cadre set is_double=0;
+UPDATE cadre c ,(
+SELECT cadre_id, is_double, double_unit_ids FROM cadre_post WHERE is_first_main_post=1 AND is_double=1
+) cp SET c.is_double=cp.is_double, c.double_unit_ids=cp.double_unit_ids WHERE c.id=cp.cadre_id;
+
+ALTER TABLE `cadre_post`
+	DROP COLUMN `is_double`,
+	DROP COLUMN `double_unit_ids`;
+
+ALTER TABLE `cadre_post`
+	ADD COLUMN `lp_work_time` DATE NULL DEFAULT NULL COMMENT '任职日期，最后一个任职日期' AFTER `post`,
+	ADD COLUMN `np_work_time` DATE NULL DEFAULT NULL COMMENT '现任职务始任日期' AFTER `lp_work_time`;
+
+ALTER TABLE `cadre_post`
+	ADD COLUMN `lp_dispatch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联始任文件' AFTER `post`,
+	ADD COLUMN `np_dispatch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联任免文件' AFTER `lp_work_time`;
+
+-- 计算覆盖一下 任职日期和现任职务始任日期
+UPDATE  cadre_post cp,
+(
+SELECT p.cadre_id, p.id AS p_id, np.*, lp.* FROM  cadre c left join cadre_post p ON p.cadre_id=c.id
+left join
+(select * from (select distinct dcr.relate_id as np_relate_id, d.id as np_id, d.file_name as np_file_name, d.file as np_file, d.work_time as np_work_time  from dispatch_cadre_relate dcr,
+dispatch_cadre dc ,dispatch d where dcr.relate_type=2 and dc.id=dcr.dispatch_cadre_id and d.id=dc.dispatch_id order by d.work_time asc)t group by np_relate_id) np  on np.np_relate_id=p.id
+
+left join
+(select * from (select distinct dcr.relate_id as lp_relate_id, d.id as lp_id, d.file_name as lp_file_name, d.file as lp_file, d.work_time as lp_work_time  from dispatch_cadre_relate dcr,
+dispatch_cadre dc ,dispatch d where dcr.relate_type=2 and dc.id=dcr.dispatch_cadre_id and d.id=dc.dispatch_id order by d.work_time desc)t group by lp_relate_id) lp on lp.lp_relate_id=p.id
+) tmp SET cp.lp_dispatch_id=tmp.lp_id, cp.lp_work_time=tmp.lp_work_time,
+cp.np_dispatch_id=tmp.np_id, cp.np_work_time=tmp.np_work_time
+WHERE cp.id=tmp.p_id;
+
+
+ALTER TABLE `cadre_admin_level`
+	CHANGE COLUMN `admin_level` `admin_level` INT(10) UNSIGNED NOT NULL COMMENT '行政级别' AFTER `cadre_id`,
+	ADD COLUMN `s_work_time` INT(10) UNSIGNED NULL COMMENT '职级始任日期' AFTER `admin_level`,
+	ADD COLUMN `e_work_time` INT(10) UNSIGNED NULL COMMENT '职级结束日期' AFTER `s_work_time`,
+	ADD COLUMN `s_post` INT(10) UNSIGNED NULL COMMENT '职级始任职务' AFTER `e_work_time`;
+
+ALTER TABLE `cadre_admin_level`
+	ADD COLUMN `s_dispatch_id` INT(10) UNSIGNED NULL COMMENT '关联始任任免文件' AFTER `admin_level`,
+	ADD COLUMN `e_dispatch_id` INT(10) UNSIGNED NULL COMMENT '关联结束任免文件' AFTER `s_work_time`,
+	CHANGE COLUMN `s_post` `s_post` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职级始任职务，以上5个字段在选择关联干部任免文件时被覆盖' AFTER `e_work_time`,
+	CHANGE COLUMN `start_dispatch_cadre_id` `start_dispatch_cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联始任干部任免文件' AFTER `s_post`,
+	CHANGE COLUMN `end_dispatch_cadre_id` `end_dispatch_cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联结束干部任免文件' AFTER `start_dispatch_cadre_id`;
+
+ALTER TABLE `cadre_admin_level`
+	CHANGE COLUMN `s_work_time` `s_work_time` DATE NULL DEFAULT NULL COMMENT '职级始任日期' AFTER `s_dispatch_id`,
+	CHANGE COLUMN `e_work_time` `e_work_time` DATE NULL DEFAULT NULL COMMENT '职级结束日期' AFTER `e_dispatch_id`,
+    CHANGE COLUMN `s_post` `s_post` VARCHAR(200) NULL DEFAULT NULL COMMENT '职级始任职务，以上5个字段在选择关联干部任免文件时被覆盖' AFTER `e_work_time`;
+
+-- 计算覆盖一下 职级始任日期、职级结束日期、职级始任职务
+UPDATE cadre_admin_level cal,
+(
+SELECT cal.id AS admin_level_id, cal.cadre_id, cal.admin_level , sdc.post AS s_post, sdc.dispatch_id as s_dispatch_id ,
+sd.work_time as s_work_time, edc.dispatch_id as e_dispatch_id,
+if(isnull(ed.work_time), null,ed.work_time) as e_work_time  from cadre_admin_level cal
+left join dispatch_cadre sdc on sdc.id=cal.start_dispatch_cadre_id
+left join dispatch sd on sd.id=sdc.dispatch_id
+left join dispatch_cadre edc on edc.id=cal.end_dispatch_cadre_id
+left join dispatch ed on ed.id=edc.dispatch_id
+) tmp SET cal.s_post=tmp.s_post, cal.s_dispatch_id=tmp.s_dispatch_id, cal.s_work_time=tmp.s_work_time, cal.e_dispatch_id=tmp.e_dispatch_id, cal.e_work_time=tmp.e_work_time
+WHERE cal.id=tmp.admin_level_id;
+
+------------------ 更新 cadre_view 等
+
+-- 修改 mc_cadre_work_type : 是否挂职
+UPDATE base_meta_class SET bool_attr='是否挂职' WHERE CODE='mc_cadre_work_type';
+update base_meta_type set bool_attr=1 where code='mt_gz';
+
+
+-- 更新是否有干部挂职情况
+update cadre set has_crp=0;
+UPDATE cadre c,
+(
+SELECT c.id, ct.num AS work_num, crp.num AS crp_num FROM cadre c
+LEFT JOIN (
+SELECT cadre_id, COUNT(*) AS num FROM cadre_work cw, base_meta_type wt WHERE cw.work_type=wt.id AND wt.bool_attr=1 and cw.`status`=0 GROUP BY cadre_id
+) ct ON ct.cadre_id=c.id
+LEFT JOIN (
+SELECT user_id, COUNT(*) num FROM crp_record WHERE user_id IS NOT null GROUP BY user_id
+) crp ON crp.user_id=c.user_id
+WHERE ct.num>0 OR crp.num>0) ct SET c.has_crp=1 WHERE c.id=ct.id;
+
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`)
+VALUES ('统计是否有挂职经历', '', 'job.cadre.RefreshHasCrp', '0 0/1 * * * ?', 1, 0, 24, '2019-07-22 23:17:42');
+
+-- 更新 unit_post_view （cadre_is_principal_post -> cadre_is_principal)
+DROP VIEW IF EXISTS `unit_post_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
+select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id,
+u.status as unit_status, u.sort_order as unit_sort_order,
+cp.cadre_id, cp.id as cadre_post_id, cp.admin_level as cp_admin_level, cp.is_main_post,
+cv.gender, cv.admin_level as cadre_admin_level, cv.post_type as cadre_post_type,
+cv.is_principal as cadre_is_principal, cv.cadre_post_year, cv.admin_level_year from unit_post up
+left join unit u on up.unit_id=u.id
+left join cadre_post cp on up.id=cp.unit_post_id
+left join cadre_view cv on cv.id=cp.cadre_id;
+
+-- 更新 sc_committee_member_view
+DROP VIEW IF EXISTS `sc_committee_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_member_view` AS
+select distinct scm.*, uv.username, uv.code, uv.realname, c.id as cadre_id, c.title, c.post from sc_committee_member scm
+left join sys_user_view uv on uv.id=scm.user_id
+left join cadre_view c on c.user_id=scm.user_id;
+
 20190720
 
 -- 任职情况：修改职务为岗位名称，新增字段职务（同步干部的职务字段），是否正职，是否第一主职
@@ -65,29 +185,8 @@ ALTER TABLE `cadre`
 UPDATE base_meta_class SET bool_attr=NULL, extra_attr=NULL, extra_options=null WHERE CODE='mc_post';
 UPDATE base_meta_type mt, base_meta_class mc SET mt.bool_attr=NULL, mt.extra_attr=null  WHERE mc.CODE='mc_post' AND mt.class_id=mc.id;
 
--- 更新cadre_view 等 （需在此先更新）
-
 ALTER TABLE `unit_post`
 	CHANGE COLUMN `is_principal_post` `is_principal` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否正职' AFTER `job`;
-
--- 更新 unit_post_view （cadre_is_principal_post -> cadre_is_principal)
-DROP VIEW IF EXISTS `unit_post_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
-select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id,
-u.status as unit_status, u.sort_order as unit_sort_order,
-cp.cadre_id, cp.id as cadre_post_id, cp.admin_level as cp_admin_level, cp.is_main_post,
-cv.gender, cv.admin_level as cadre_admin_level, cv.post_type as cadre_post_type,
-cv.is_principal as cadre_is_principal, cv.cadre_post_year, cv.admin_level_year from unit_post up
-left join unit u on up.unit_id=u.id
-left join cadre_post cp on up.id=cp.unit_post_id
-left join cadre_view cv on cv.id=cp.cadre_id;
-
--- 更新 sc_committee_member_view
-DROP VIEW IF EXISTS `sc_committee_member_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_member_view` AS
-select distinct scm.*, uv.username, uv.code, uv.realname, c.id as cadre_id, c.title, c.post from sc_committee_member scm
-left join sys_user_view uv on uv.id=scm.user_id
-left join cadre_view c on c.user_id=scm.user_id;
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('useCadreState', '启用干部人员类别[M]', 'true', 3, 35, '');

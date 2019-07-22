@@ -9,6 +9,7 @@ import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import domain.unit.Unit;
 import freemarker.EduSuffix;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +19,11 @@ import service.base.MetaTypeService;
 import service.crp.CrpRecordService;
 import service.dispatch.DispatchCadreRelateService;
 import shiro.ShiroHelper;
-import sys.constants.CrpConstants;
-import sys.constants.DispatchConstants;
-import sys.constants.ModifyConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Service
@@ -568,5 +564,44 @@ public class CadreWorkService extends BaseMapper {
         cadreWorkMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
 
         return record;
+    }
+
+    public void cadreWork_export(Integer[] ids, int exportType, Integer reserveType, HttpServletResponse response) {
+
+        List<CadreWork> cadreWorks = new ArrayList<>();
+        if(exportType==0) { // 现任干部
+            cadreWorks = iCadreMapper.getCadreWorks(ids, CadreConstants.CADRE_STATUS_MIDDLE);
+        }else if(exportType==1) { // 年轻干部
+            cadreWorks = iCadreMapper.getCadreReserveWorks(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+        }
+
+        long rownum = cadreWorks.size();
+
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100","所在单位及职务|150|left",
+                "开始日期|90", "结束日期|90", "工作类型|150|left",
+                "工作单位及担任职务（或专技职务）|350|left", "是否担任领导职务|70", "备注|150|left"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+
+            CadreWork record = cadreWorks.get(i);
+            CadreView cadre = CmTag.getCadreById(record.getCadreId());
+            Unit unit = CmTag.getUnit(cadre.getUnitId());
+            String[] values = {
+                    cadre.getCode(),
+                    cadre.getRealname(),
+                    unit==null?"":unit.getName(),
+                    cadre.getTitle(),
+                    DateUtils.formatDate(record.getStartTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getEndTime(), DateUtils.YYYYMM),
+                    metaTypeService.getName(record.getWorkType()),
+                    record.getDetail(),
+                    BooleanUtils.isTrue(record.getIsCadre())?"是":"否",
+                    record.getRemark()
+            };
+            valuesList.add(values);
+        }
+
+        String fileName = "工作经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd")+")";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

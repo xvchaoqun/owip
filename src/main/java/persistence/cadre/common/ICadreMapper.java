@@ -133,6 +133,17 @@ public interface ICadreMapper {
     // 查询干部学习经历
     List<CadreEdu> getCadreEdus(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
 
+    // 查询年轻干部学习经历
+    List<CadreEdu> getCadreReserveEdus(@Param("reserveIds") Integer[] reserveIds,
+                                       @Param("reserveType") Integer reserveType, @Param("status") Byte status);
+
+    // 查询干部工作经历
+    List<CadreWork> getCadreWorks(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+
+    // 查询年轻干部工作经历
+    List<CadreWork> getCadreReserveWorks(@Param("reserveIds") Integer[] reserveIds,
+                                       @Param("reserveType") Integer reserveType, @Param("status") Byte status);
+
     // 统计干部兼职情况  干部-兼职类别-数量
     @Select("select cadre_id, type, count(*) as num from cadre_company_view " +
             "where cadre_status in(${cadreStatus}) and is_finished=0 and status="+ SystemConstants.RECORD_STATUS_FORMAL
@@ -165,6 +176,8 @@ public interface ICadreMapper {
             +" group by  type")
     List<Map> cadreCompany_typeStatMap();
 
+    // 统计是否有挂职经历
+    void refreshHasCrp();
 }
 
 

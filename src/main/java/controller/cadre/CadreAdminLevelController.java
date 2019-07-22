@@ -4,6 +4,7 @@ import controller.BaseController;
 import controller.global.OpException;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadreView;
+import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
@@ -149,11 +150,35 @@ public class CadreAdminLevelController extends BaseController {
     @ResponseBody
     public Map do_cadreAdminLevel_addDispatch(HttpServletRequest request, String cls, int id, Integer dispatchCadreId, ModelMap modelMap) {
 
-        CadreAdminLevel record = cadreAdminLevelMapper.selectByPrimaryKey(id);
+            CadreAdminLevel record = cadreAdminLevelMapper.selectByPrimaryKey(id);
             if (StringUtils.equalsIgnoreCase(cls, "start")) {
                 record.setStartDispatchCadreId(dispatchCadreId);
+                if(dispatchCadreId==null){
+
+                    record.setsDispatchId(null);
+                    record.setsWorkTime(null);
+                    record.setsPost(null);
+                }else {
+
+                    DispatchCadre dispatchCadre = CmTag.getDispatchCadre(dispatchCadreId);
+                    Dispatch dispatch = dispatchCadre.getDispatch();
+                    record.setsDispatchId(dispatch.getId());
+                    record.setsWorkTime(dispatch.getWorkTime());
+                    record.setsPost(dispatchCadre.getPost());
+                }
             } else if (StringUtils.equalsIgnoreCase(cls, "end")) {
                 record.setEndDispatchCadreId(dispatchCadreId);
+                if(dispatchCadreId==null){
+
+                    record.seteDispatchId(null);
+                    record.seteWorkTime(null);
+                }else {
+
+                    DispatchCadre dispatchCadre = CmTag.getDispatchCadre(dispatchCadreId);
+                    Dispatch dispatch = dispatchCadre.getDispatch();
+                    record.seteDispatchId(dispatch.getId());
+                    record.seteWorkTime(dispatch.getWorkTime());
+                }
             } else {
                 throw new OpException("cls 参数错误");
             }

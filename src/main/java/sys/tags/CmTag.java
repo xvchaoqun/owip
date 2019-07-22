@@ -530,6 +530,11 @@ public class CmTag {
         return cacheService.userIsPermitted(userId, permission);
     }
 
+    public static Boolean userHasRole(Integer userId, String role){
+
+        return cacheService.userHasRole(userId, role);
+    }
+
     public static Byte cadreInfoCheck(Integer cadreId, String name, Integer type){
 
         CadreInfoCheckService cadreInfoCheckService = getBean(CadreInfoCheckService.class);

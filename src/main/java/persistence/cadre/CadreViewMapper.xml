@@ -5,6 +5,9 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="has_crp" jdbcType="BIT" property="hasCrp" />
+    <result column="is_double" jdbcType="BIT" property="isDouble" />
+    <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
@@ -62,26 +65,18 @@
     <result column="work_start_time" jdbcType="DATE" property="workStartTime" />
     <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
     <result column="main_cadre_post_id" jdbcType="INTEGER" property="mainCadrePostId" />
-    <result column="is_double" jdbcType="BIT" property="isDouble" />
-    <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
     <result column="is_principal" jdbcType="BIT" property="isPrincipal" />
+    <result column="lp_dispatch_id" jdbcType="INTEGER" property="lpDispatchId" />
+    <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
+    <result column="np_dispatch_id" jdbcType="INTEGER" property="npDispatchId" />
+    <result column="np_work_time" jdbcType="DATE" property="npWorkTime" />
     <result column="leader_type" jdbcType="TINYINT" property="leaderType" />
     <result column="cadre_post_year" jdbcType="INTEGER" property="cadrePostYear" />
     <result column="admin_level_year" jdbcType="INTEGER" property="adminLevelYear" />
-    <result column="np_relate_id" jdbcType="INTEGER" property="npRelateId" />
-    <result column="np_id" jdbcType="INTEGER" property="npId" />
-    <result column="np_file_name" jdbcType="VARCHAR" property="npFileName" />
-    <result column="np_file" jdbcType="VARCHAR" property="npFile" />
-    <result column="np_work_time" jdbcType="DATE" property="npWorkTime" />
-    <result column="lp_relate_id" jdbcType="INTEGER" property="lpRelateId" />
-    <result column="lp_id" jdbcType="INTEGER" property="lpId" />
-    <result column="lp_file_name" jdbcType="VARCHAR" property="lpFileName" />
-    <result column="lp_file" jdbcType="VARCHAR" property="lpFile" />
-    <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
     <result column="s_dispatch_id" jdbcType="INTEGER" property="sDispatchId" />
     <result column="s_work_time" jdbcType="DATE" property="sWorkTime" />
     <result column="e_dispatch_id" jdbcType="INTEGER" property="eDispatchId" />
-    <result column="e_work_time" jdbcType="TIMESTAMP" property="eWorkTime" />
+    <result column="e_work_time" jdbcType="DATE" property="eWorkTime" />
     <result column="admin_level_code" jdbcType="VARCHAR" property="adminLevelCode" />
     <result column="admin_level_name" jdbcType="VARCHAR" property="adminLevelName" />
     <result column="max_ce_edu_attr" jdbcType="VARCHAR" property="maxCeEduAttr" />
@@ -125,19 +120,18 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type, state, title, dispatch_cadre_id, remark, sort_order, status, unit_id, 
-    admin_level, post_type, post, is_committee_member, msg_title, mobile, phone, home_phone, 
-    email, code, realname, gender, nation, native_place, idcard, birth, party_id, branch_id, 
-    member_status, dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, is_ow, 
-    ow_grow_time, ow_remark, edu_id, finish_time, learn_style, school, dep, school_type, 
-    major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
-    pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, work_time, 
-    work_start_time, talent_title, main_cadre_post_id, is_double, double_unit_ids, is_principal, 
-    leader_type, cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, 
-    np_file, np_work_time, lp_relate_id, lp_id, lp_file_name, lp_file, lp_work_time, 
-    s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, admin_level_code, admin_level_name, 
-    max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, 
-    unit_type_name, unit_type_group, verify_birth, verify_work_time
+    id, user_id, type, has_crp, is_double, double_unit_ids, state, title, dispatch_cadre_id, 
+    remark, sort_order, status, unit_id, admin_level, post_type, post, is_committee_member, 
+    msg_title, mobile, phone, home_phone, email, code, realname, gender, nation, native_place, 
+    idcard, birth, party_id, branch_id, member_status, dp_id, dp_type_id, dp_post, dp_grow_time, 
+    dp_remark, ow_id, is_ow, ow_grow_time, ow_remark, edu_id, finish_time, learn_style, 
+    school, dep, school_type, major, degree, post_class, sub_post_class, main_post_level, 
+    pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, manage_level_time, 
+    arrive_time, work_time, work_start_time, talent_title, main_cadre_post_id, is_principal, 
+    lp_dispatch_id, lp_work_time, np_dispatch_id, np_work_time, leader_type, cadre_post_year, 
+    admin_level_year, s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, admin_level_code, 
+    admin_level_name, max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, 
+    unit_type_code, unit_type_name, unit_type_group, verify_birth, verify_work_time
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreViewExample" resultMap="BaseResultMap">
     select

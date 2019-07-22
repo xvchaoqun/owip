@@ -336,22 +336,20 @@
 							任职单位
 						</td>
 						<td style="min-width: 80px">
-								${unitMap.get(mainCadrePost.unitId).name}
+								${unitMap.get(cadre.unitId).name}
 						</td>
 						<td>
 							单位属性
 						</td>
 						<td style="min-width: 80px">
-								${cm:getMetaType(unitMap.get(mainCadrePost.unitId).typeId).name}
+								${cm:getMetaType(unitMap.get(cadre.unitId).typeId).name}
 						</td>
 
 						<td>
 							是否双肩挑
 						</td>
 						<td  style="min-width: 80px">
-							<c:if test="${not empty mainCadrePost}">
-								${mainCadrePost.isDouble?"是":"否"}
-							</c:if>
+							${cadre.isDouble?"是":"否"}
 						</td>
 
 					</tr>
@@ -360,17 +358,17 @@
 							现任职务
 						</td>
 						<td style="min-width: 120px">
-								${mainCadrePost.post}
+								${cadre.post}
 						</td>
 						<td >
 							任现职时间
 						</td>
-						<td>${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.last.workTime,'yyyy.MM.dd')}
+						<td>${cm:formatDate(cadre.lpWorkTime,'yyyy.MM.dd')}
 						</td>
 						<td>
 							现职务始任时间
 						</td>
-						<td>${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.first.workTime,'yyyy.MM.dd')}
+						<td>${cm:formatDate(cadre.npWorkTime,'yyyy.MM.dd')}
 						</td>
 					</tr>
 					<tr>
@@ -378,19 +376,18 @@
 							行政级别
 						</td>
 						<td>
-								${cm:getMetaType(cadreAdminLevel.adminLevel).name}
+								${cm:getMetaType(cadre.adminLevel).name}
 						</td>
 						<td>任现职级时间</td>
 						<td >
-								${cm:formatDate(cadreAdminLevel.startDispatch.workTime,'yyyy.MM.dd')}
+								${cm:formatDate(cadre.sWorkTime,'yyyy.MM.dd')}
 						</td>
 						<td>
 							任现职级年限
 						</td>
 						<td>
-							<c:if test="${not empty cadreAdminLevel}">
-								<c:set value="${cm:intervalYearsUntilNow(cadreAdminLevel.startDispatch.workTime)}" var="workYear"/>
-								${workYear==0?"未满一年":workYear}
+							<c:if test="${not empty cadre.adminLevelYear}">
+								${cadre.adminLevelYear==0?"未满一年":cadre.adminLevelYear}
 							</c:if>
 						</td>
 					</tr>
@@ -409,7 +406,7 @@
 						<td >
 							任兼职时间1
 						</td>
-						<td>${cm:formatDate(subCadrePost1.dispatchCadreRelateBean.last.workTime,'yyyy.MM.dd')}
+						<td>${cm:formatDate(subCadrePost1.lpWorkTime,'yyyy.MM.dd')}
 						</td>
 					</tr>
 					<tr>
@@ -427,7 +424,7 @@
 						<td >
 							任兼职时间2
 						</td>
-						<td>${cm:formatDate(subCadrePost2.dispatchCadreRelateBean.last.workTime,'yyyy.MM.dd')}
+						<td>${cm:formatDate(subCadrePost2.lpWorkTime,'yyyy.MM.dd')}
 						</td>
 					</tr>
 						<%--<tr>
@@ -917,7 +914,7 @@
 					</div>
 				</div>
 			</div>
-			<shiro:hasAnyRoles name="${ROLE_CADRERECRUIT},${ROLE_CADREADMIN}">
+			<shiro:hasAnyRoles name="${ROLE_CADRERECRUIT},${ROLE_CADRERESERVE},${ROLE_CADREADMIN}">
 				<div class="widget-box transparent">
 					<div class="widget-header widget-header-flat">
 						<h4 class="widget-title lighter">
@@ -935,10 +932,26 @@
 										<span class="star">*</span>所在单位及职务
 									</td>
 									<td>
-										<input required type="text" name="title" value="${cadre.title}" style="width: 500px">
+										<textarea required type="text" name="title" style="width: 500px">${cadre.title}</textarea>
 									</td>
 								</tr>
-
+								<c:if test="${not empty cadreReserve}">
+									<tr>
+										<td style="width: 300px;">
+											<span class="star">*</span>任职时间
+										</td>
+										<td>
+											<c:set var="original" value="${cm:formatDate(cadreReserve.postTime,'yyyy.MM')}"/>
+											<div class="input-group date" data-date-min-view-mode="1"
+												 data-date-format="yyyy.mm"
+												 style="width: 130px">
+												<input class="form-control" type="text" name="_postTime"
+														placeholder="yyyy.mm" value="${original}"/>
+												<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+											</div>
+										</td>
+									</tr>
+									</c:if>
 								</tbody>
 							</table>
 						</div>

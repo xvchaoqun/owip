@@ -16,6 +16,12 @@ public class Cadre implements Serializable {
 
     private Byte type;
 
+    private Boolean hasCrp;
+
+    private Boolean isDouble;
+
+    private String doubleUnitIds;
+
     private Integer state;
 
     private String title;
@@ -52,6 +58,30 @@ public class Cadre implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getHasCrp() {
+        return hasCrp;
+    }
+
+    public void setHasCrp(Boolean hasCrp) {
+        this.hasCrp = hasCrp;
+    }
+
+    public Boolean getIsDouble() {
+        return isDouble;
+    }
+
+    public void setIsDouble(Boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    public String getDoubleUnitIds() {
+        return doubleUnitIds;
+    }
+
+    public void setDoubleUnitIds(String doubleUnitIds) {
+        this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
     }
 
     public Integer getState() {

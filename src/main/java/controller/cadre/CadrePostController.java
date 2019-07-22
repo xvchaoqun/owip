@@ -34,7 +34,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.dispatch.DispatchCadreRelateService;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.ExcelUtils;
@@ -118,21 +117,10 @@ public class CadrePostController extends BaseController {
     @ResponseBody
     public Map do_cadrePost_au(CadrePost record,
                                Boolean isCpc,
-                               @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
                                HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        // 只用于主职
-        if(BooleanUtils.isTrue(record.getIsMainPost())) {
-            record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
-            if(record.getIsDouble()){
-                if(unitIds==null || unitIds.length==0) {
-                    return failed("请选择双肩挑单位");
-                }
-                record.setDoubleUnitIds(StringUtils.join(unitIds, ","));
-            }
-        }
         if(record.getUnitPostId()!=null) {
             CadrePost byUnitPostId = cadrePostService.getByUnitPostId(record.getUnitPostId());
             if(byUnitPostId!=null && (id==null || id!=byUnitPostId.getId().intValue())){
@@ -180,37 +168,9 @@ public class CadrePostController extends BaseController {
             }
 
             modelMap.put("unit", unitService.findAll().get(cadrePost.getUnitId()));
-            /*if (cadrePost.getDoubleUnitId() != null)
-                modelMap.put("doubleUnit", unitService.findAll().get(cadrePost.getDoubleUnitId()));*/
         }
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         modelMap.put("cadre", cadre);
-
-        // MAP<unitTypeId, List<unitId>>
-        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
-        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
-        Map<Integer, Unit> unitMap = unitService.findAll();
-        for (Unit unit : unitMap.values()) {
-
-            Integer unitTypeId = unit.getTypeId();
-            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
-                List<Integer> units = historyUnitListMap.get(unitTypeId);
-                if (units == null) {
-                    units = new ArrayList<>();
-                    historyUnitListMap.put(unitTypeId, units);
-                }
-                units.add(unit.getId());
-            }else {
-                List<Integer> units = unitListMap.get(unitTypeId);
-                if (units == null) {
-                    units = new ArrayList<>();
-                    unitListMap.put(unitTypeId, units);
-                }
-                units.add(unit.getId());
-            }
-        }
-        modelMap.put("unitListMap", unitListMap);
-        modelMap.put("historyUnitListMap", historyUnitListMap);
 
         return isMainPost?"cadre/cadrePost/mainCadrePost_au":"cadre/cadrePost/subCadrePost_au";
     }
@@ -417,40 +377,6 @@ public class CadrePostController extends BaseController {
 
                 record.setPost(StringUtils.trimToNull(xlsRow.get(10)));
                 record.setIsFirstMainPost(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(11)), "是"));
-
-                if(record.getIsFirstMainPost()) {
-                    String _isDouble = StringUtils.trimToNull(xlsRow.get(12));
-                    record.setIsDouble(StringUtils.equals(_isDouble, "是"));
-
-                    if (record.getIsDouble()) {
-
-                        List<Integer> doubleUnitIds = new ArrayList<>();
-
-                        String unitCode = StringUtils.trimToNull(xlsRow.get(14));
-                        if (StringUtils.isNotBlank(unitCode)) {
-                            Unit unit = unitService.findUnitByCode(unitCode);
-                            if (unit == null) {
-                                throw new OpException("第{0}行双肩挑单位1编码[{1}]不存在", row, unitCode);
-                            }
-                            doubleUnitIds.add(unit.getId());
-                        }
-
-                        unitCode = StringUtils.trimToNull(xlsRow.get(16));
-                        if (StringUtils.isNotBlank(unitCode)) {
-                            Unit unit = unitService.findUnitByCode(unitCode);
-                            if (unit == null) {
-                                throw new OpException("第{0}行双肩挑单位2编码[{1}]不存在", row, unitCode);
-                            }
-                            doubleUnitIds.add(unit.getId());
-                        }
-
-                        if (doubleUnitIds.size() == 0) {
-                            throw new OpException("第{0}行双肩挑单位编码至少需要填写一个", row);
-                        }
-
-                        record.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
-                    }
-                }
 
                 record.setIsMainPost(true);
                 records.add(record);

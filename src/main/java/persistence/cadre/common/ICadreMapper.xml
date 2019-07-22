@@ -217,4 +217,66 @@
         </if>
         order by c.sort_order desc, cf.enrol_time asc
     </select>
+
+    <select id="getCadreReserveEdus" resultMap="persistence.cadre.CadreEduMapper.BaseResultMap" parameterType="map">
+        select cf.* from cadre_edu cf, cadre_reserve c where cf.cadre_id=c.cadre_id and cf.status=0
+        <if test="reserveIds != null and reserveIds.length>0">
+            and c.id IN
+            <foreach collection="reserveIds" item="reserveId" separator="," open="(" close=")">
+                #{reserveId}
+            </foreach>
+        </if>
+        <if test="reserveType != null">
+            and c.type = #{reserveType}
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order asc, cf.enrol_time asc
+    </select>
+
+    <select id="getCadreWorks" resultMap="persistence.cadre.CadreWorkMapper.BaseResultMap" parameterType="map">
+        select cf.* from cadre_work cf, cadre c where cf.cadre_id=c.id and cf.status=0
+        <if test="cadreIds != null and cadreIds.length>0">
+            and c.id IN
+            <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">
+                #{cadreId}
+            </foreach>
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order desc, cf.start_time asc
+    </select>
+
+    <select id="getCadreReserveWorks" resultMap="persistence.cadre.CadreWorkMapper.BaseResultMap" parameterType="map">
+        select cf.* from cadre_work cf, cadre_reserve c where cf.cadre_id=c.cadre_id and cf.status=0
+        <if test="reserveIds != null and reserveIds.length>0">
+            and c.id IN
+            <foreach collection="reserveIds" item="reserveId" separator="," open="(" close=")">
+                #{reserveId}
+            </foreach>
+        </if>
+        <if test="reserveType != null">
+            and c.type = #{reserveType}
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order asc, cf.start_time asc
+    </select>
+    <!-- 统计是否有挂职经历-->
+    <update id="refreshHasCrp">
+        update cadre set has_crp=0;
+        UPDATE cadre c,
+        (
+        SELECT c.id, ct.num AS work_num, crp.num AS crp_num FROM cadre c
+        LEFT JOIN (
+        SELECT cadre_id, COUNT(*) AS num FROM cadre_work cw, base_meta_type wt WHERE cw.work_type=wt.id AND wt.bool_attr=1 and cw.`status`=0 GROUP BY cadre_id
+        ) ct ON ct.cadre_id=c.id
+        LEFT JOIN (
+        SELECT user_id, COUNT(*) num FROM crp_record WHERE user_id IS NOT null GROUP BY user_id
+        ) crp ON crp.user_id=c.user_id
+        WHERE ct.num>0 OR crp.num>0) ct SET c.has_crp=1 WHERE c.id=ct.id;
+    </update>
 </mapper>

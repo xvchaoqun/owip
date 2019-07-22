@@ -19,11 +19,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -38,7 +34,9 @@ import service.dispatch.DispatchCadreRelateService;
 import sys.constants.*;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -82,12 +80,15 @@ public class CadreWorkController extends BaseController {
     public void cadreWork_data(HttpServletResponse response,
                               /* @SortParam(required = false, defaultValue = "id", tableName = "cadre_work") String sort,
                                @OrderParam(required = false, defaultValue = "desc") String order,*/
-                              Integer cadreId,
+                              Integer cadreId, Integer pageSize, Integer pageNo,
                               Integer fid, // fid=null时，读取工作经历；fid<=0时，读取全部 fid>0 读取其间工作
                               Boolean isCadre,
                               Integer unitId, // 所属内设机构
                               @RequestParam(required = false, defaultValue = "0") int export,
-                              Integer pageSize, Integer pageNo) throws IOException {
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（exportType=0时为现任干部id)
+                              @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                              Integer reserveType // 年轻干部类别
+                              ) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -118,7 +119,8 @@ public class CadreWorkController extends BaseController {
         }
 
         if (export == 1) {
-            cadreWork_export(example, response);
+            SecurityUtils.getSubject().checkPermission("cadre:export");
+            cadreWorkService.cadreWork_export(ids, exportType, reserveType, response);
             return;
         }
 
@@ -415,45 +417,5 @@ public class CadreWorkController extends BaseController {
         logger.info(addLog(LogConstants.LOG_ADMIN, "修改工作经历%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         //}
         return success(FormUtils.SUCCESS);
-    }
-
-    public void cadreWork_export(CadreWorkExample example, HttpServletResponse response) {
-
-        List<CadreWork> cadreWorks = cadreWorkMapper.selectByExample(example);
-        long rownum = cadreWorkMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"所属干部", "开始日期", "结束日期", "工作单位及担任职务（或专技职务）", "院系/机关工作经历"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
-        for (int i = 0; i < rownum; i++) {
-
-            CadreWork cadreWork = cadreWorks.get(i);
-            String[] values = {
-                    cadreWork.getCadreId() + "",
-                    DateUtils.formatDate(cadreWork.getStartTime(), DateUtils.YYYYMM),
-                    DateUtils.formatDate(cadreWork.getEndTime(), DateUtils.YYYYMM),
-                    cadreWork.getDetail(),
-                    cadreWork.getWorkType() + ""
-            };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
-        }
-
-        String fileName = "工作经历_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

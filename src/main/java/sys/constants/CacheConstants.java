@@ -32,6 +32,7 @@ public class CacheConstants {
     public final static byte CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW = 18;
     public final static byte CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER = 19;
     public final static byte CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF = 20;
+    public final static byte CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF = 25;
 
     public final static byte CACHE_KEY_TAIWAN_RECORD_HANDLE_TYPE = 21;
 
@@ -70,6 +71,7 @@ public class CacheConstants {
         CACHE_KEY_MAP.put(CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW, "因公赴台-领取证件");
         CACHE_KEY_MAP.put(CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER, "其他事务-领取证件");
         CACHE_KEY_MAP.put(CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国-领取证件");
+        CACHE_KEY_MAP.put(CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF, "因公出访持因私证件");
 
         CACHE_KEY_MAP.put(CACHE_KEY_TAIWAN_RECORD_HANDLE_TYPE, "因公赴台备案-提醒管理员选择办理新证件方式");
 

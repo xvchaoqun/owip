@@ -242,9 +242,10 @@ public class UserPassportDrawController extends AbroadBaseController {
         if(type==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF ||
                 type==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER){
             criteria.andTypeEqualTo(type);
-        }else{ // 因公赴台、长期因公出国
+        }else{ // 因公赴台、长期因公出国、因公出访持因私证件
             criteria.andTypeIn(Arrays.asList(AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW,
-                    AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF));
+                    AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF,
+                    AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF));
         }
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -376,7 +377,8 @@ public class UserPassportDrawController extends AbroadBaseController {
         }
 
         if(type==null || (type != AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW
-                && type != AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF)){
+                && type != AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF
+                && type != AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF)){
            return failed("请选择申请类型");
         }
         if(passportId==null || passportMapper.selectByPrimaryKey(passportId)==null){

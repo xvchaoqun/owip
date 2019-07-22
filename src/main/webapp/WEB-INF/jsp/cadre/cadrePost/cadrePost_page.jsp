@@ -179,14 +179,12 @@
         结束文件{{=!hasEnd?'(0)':'(1)'}}
     </button>{{}}}
 </script>
-<c:set value="${cm:toJSONObject(mainCadrePost)}" var="mainCadrePostStr"/>
 <script>
     function _innerPage(type) {
         $("#view-box .tab-content").loadPage("${ctx}/cadrePost_page?cadreId=${param.cadreId}&type=" + type)
     }
 
     <c:if test="${type==1}">
-    var mainCadrePost = ${mainCadrePostStr};
     $("#jqGrid_mainCadrePosts").jqGrid({
         <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
         multiselect:false,
@@ -220,14 +218,14 @@
             },
             {
                 label: '任职日期',
-                name: 'dispatchCadreRelateBean.last.workTime',
+                name: 'lpWorkTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '现任职务年限',
                 width: 120,
-                name: 'dispatchCadreRelateBean.last.workTime',
+                name: 'lpWorkTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
@@ -248,14 +246,14 @@
             {
                 label: '现任职务始任日期',
                 width: 150,
-                name: 'dispatchCadreRelateBean.first.workTime',
+                name: 'npWorkTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '现任职务始任年限',
                 width: 150,
-                name: 'dispatchCadreRelateBean.first.workTime',
+                name: 'npWorkTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
@@ -286,22 +284,7 @@
                     ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                 },
                 width: 120
-            },
-            {
-                label: '是否双肩挑', name: 'isDouble', formatter: function (cellvalue, options, rowObject) {
-                    if(!rowObject.isFirstMainPost) return '--'
-                return cellvalue ? "是" : "否";
             }
-            },
-            {
-                label: '双肩挑单位', name: 'doubleUnitIds',formatter: function (cellvalue, options, rowObject) {
-
-                if(!rowObject.isFirstMainPost || $.trim(cellvalue)=='') return '--'
-                return ($.map(cellvalue.split(","), function(unitId){
-                    return $.jgrid.formatter.unit(unitId);
-                })).join("，")
-
-            }, width: 500, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
 
@@ -340,14 +323,14 @@
             {
                 label: '兼任职务任职日期',
                 width: 150,
-                name: 'dispatchCadreRelateBean.last.workTime',
+                name: 'lpWorkTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '兼任职务年限',
                 width: 120,
-                name: 'dispatchCadreRelateBean.last.workTime',
+                name: 'lpWorkTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
@@ -368,14 +351,14 @@
             {
                 label: '兼任职务始任日期',
                 width: 150,
-                name: 'dispatchCadreRelateBean.first.workTime',
+                name: 'npWorkTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '兼任职务始任年限',
                 width: 150,
-                name: 'dispatchCadreRelateBean.first.workTime',
+                name: 'npWorkTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var year = $.yearOffNow(cellvalue);
@@ -460,21 +443,20 @@
             {
                 label: '是否现任职级', width: 120, name: 'isNow', formatter: function (cellvalue, options, rowObject) {
                 return (rowObject.adminLevel == '${cadre.adminLevel}') ? "是" : "否";
-                //return (rowObject.adminLevel == mainCadrePost.adminLevel) ? "是" : "否";
             }, frozen:true
             },
             {
                 label: '职级始任日期',
                 width: 120,
-                name: 'startDispatch.workTime',
+                name: 'sWorkTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}, frozen:true
             },
-            {label: '职级始任职务', width: 200, align:'left', name: 'startDispatchCadre.post', frozen:true},
+            {label: '职级始任职务', width: 200, align:'left', name: 'sPost', frozen:true},
             {
                 label: '职级始任文件',
                 width: 150,
-                name: 'startDispatch',
+                name: 'sDispatch',
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
@@ -484,12 +466,12 @@
             {
                 label: '职级结束日期',
                 width: 120,
-                name: 'endDispatch.workTime',
+                name: 'eWorkTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
             {
-                label: '职级结束文件', width: 150, name: 'endDispatch', formatter: function (cellvalue, options, rowObject) {
+                label: '职级结束文件', width: 150, name: 'eDispatch', formatter: function (cellvalue, options, rowObject) {
                 if (!cellvalue || cellvalue.id == undefined) return '--';
                 var dispatchCode = cellvalue.dispatchCode;
                 return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
@@ -501,14 +483,12 @@
                 name: 'workYear',
                 formatter: function (cellvalue, options, rowObject) {
                     //console.log(rowObject.endDispatch)
-                    var end;
-                    if (rowObject.endDispatch != undefined)
-                        end = rowObject.endDispatch.workTime;
-                    if (rowObject.adminLevel == mainCadrePost.adminLevel)
+                    var end = rowObject.eWorkTime;
+                    if (rowObject.adminLevel == '${cadre.adminLevel}')
                         end = new Date().format("yyyy-MM-dd");
-                    if (rowObject.startDispatch == undefined || end == undefined) return '--';
+                    if (end == undefined || rowObject.sWorkTime==undefined) return '--';
 
-                    var month = $.monthDiff(rowObject.startDispatch.workTime, end);
+                    var month = $.monthDiff(rowObject.sWorkTime, end);
                     //console.log("month="+month)
                     var year = Math.floor(month / 12);
                     return year == 0 ? "未满一年" : year;

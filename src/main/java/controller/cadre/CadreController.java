@@ -185,6 +185,7 @@ public class CadreController extends BaseController {
                            Boolean isPrincipal, // 是否正职
                            @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
                            Boolean isDouble, // 是否双肩挑
+                           Boolean hasCrp, // 是否有干部挂职经历
                            Byte type,
                            Integer state,
                            String post,
@@ -293,6 +294,9 @@ public class CadreController extends BaseController {
         }
         if (isDouble != null) {
             criteria.andIsDoubleEqualTo(isDouble);
+        }
+        if (hasCrp != null) {
+            criteria.andHasCrpEqualTo(hasCrp);
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
@@ -643,7 +647,17 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_au(Cadre record, HttpServletRequest request) {
+    public Map do_cadre_au(Cadre record,
+                           @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
+                           HttpServletRequest request) {
+
+        record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
+        if(record.getIsDouble()){
+            if(unitIds==null || unitIds.length==0) {
+                return failed("请选择双肩挑单位");
+            }
+            record.setDoubleUnitIds(StringUtils.join(unitIds, ","));
+        }
 
         Integer id = record.getId();
         if (id == null) {
@@ -679,6 +693,32 @@ public class CadreController extends BaseController {
             TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, DispatchConstants.DISPATCH_CADRE_TYPE_DISMISS);
             modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
         }
+
+        // MAP<unitTypeId, List<unitId>>
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        modelMap.put("unitListMap", unitListMap);
+        modelMap.put("historyUnitListMap", historyUnitListMap);
 
         return "cadre/cadre_au";
     }
@@ -730,6 +770,7 @@ public class CadreController extends BaseController {
         Cadre record = new Cadre();
         record.setId(cadre.getId());
         record.setStatus(status);
+        record.setIsDouble(cadre.getIsDouble());
         record.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
         cadreService.updateByPrimaryKeySelective(record);
 
@@ -839,6 +880,39 @@ public class CadreController extends BaseController {
             }
 
             record.setTitle(StringUtils.trimToNull(xlsRow.get(titleCol)));
+
+            String _isDouble = StringUtils.trimToNull(xlsRow.get(titleCol+1));
+            record.setIsDouble(StringUtils.equals(_isDouble, "是"));
+
+            if (record.getIsDouble()) {
+
+                List<Integer> doubleUnitIds = new ArrayList<>();
+
+                String unitCode = StringUtils.trimToNull(xlsRow.get(titleCol+3));
+                if (StringUtils.isNotBlank(unitCode)) {
+                    Unit unit = unitService.findUnitByCode(unitCode);
+                    if (unit == null) {
+                        throw new OpException("第{0}行双肩挑单位1编码[{1}]不存在", row, unitCode);
+                    }
+                    doubleUnitIds.add(unit.getId());
+                }
+
+                unitCode = StringUtils.trimToNull(xlsRow.get(titleCol+5));
+                if (StringUtils.isNotBlank(unitCode)) {
+                    Unit unit = unitService.findUnitByCode(unitCode);
+                    if (unit == null) {
+                        throw new OpException("第{0}行双肩挑单位2编码[{1}]不存在", row, unitCode);
+                    }
+                    doubleUnitIds.add(unit.getId());
+                }
+
+                if (doubleUnitIds.size() == 0) {
+                    throw new OpException("第{0}行双肩挑单位编码至少需要填写一个", row);
+                }
+
+                record.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
+            }
+
             record.setRemark(StringUtils.trimToNull(xlsRow.get(remarkCol)));
 
             record.setStatus(status);

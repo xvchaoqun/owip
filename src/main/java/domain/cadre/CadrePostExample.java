@@ -1,6 +1,8 @@
 package domain.cadre;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class CadrePostExample {
@@ -102,6 +104,32 @@ public class CadrePostExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -421,6 +449,246 @@ public class CadrePostExample {
 
         public Criteria andPostNotBetween(String value1, String value2) {
             addCriterion("post not between", value1, value2, "post");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdIsNull() {
+            addCriterion("lp_dispatch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdIsNotNull() {
+            addCriterion("lp_dispatch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdEqualTo(Integer value) {
+            addCriterion("lp_dispatch_id =", value, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdNotEqualTo(Integer value) {
+            addCriterion("lp_dispatch_id <>", value, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdGreaterThan(Integer value) {
+            addCriterion("lp_dispatch_id >", value, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("lp_dispatch_id >=", value, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdLessThan(Integer value) {
+            addCriterion("lp_dispatch_id <", value, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("lp_dispatch_id <=", value, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdIn(List<Integer> values) {
+            addCriterion("lp_dispatch_id in", values, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdNotIn(List<Integer> values) {
+            addCriterion("lp_dispatch_id not in", values, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdBetween(Integer value1, Integer value2) {
+            addCriterion("lp_dispatch_id between", value1, value2, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpDispatchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("lp_dispatch_id not between", value1, value2, "lpDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeIsNull() {
+            addCriterion("lp_work_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeIsNotNull() {
+            addCriterion("lp_work_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("lp_work_time =", value, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("lp_work_time <>", value, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("lp_work_time >", value, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("lp_work_time >=", value, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeLessThan(Date value) {
+            addCriterionForJDBCDate("lp_work_time <", value, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("lp_work_time <=", value, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("lp_work_time in", values, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("lp_work_time not in", values, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("lp_work_time between", value1, value2, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLpWorkTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("lp_work_time not between", value1, value2, "lpWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdIsNull() {
+            addCriterion("np_dispatch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdIsNotNull() {
+            addCriterion("np_dispatch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdEqualTo(Integer value) {
+            addCriterion("np_dispatch_id =", value, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdNotEqualTo(Integer value) {
+            addCriterion("np_dispatch_id <>", value, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdGreaterThan(Integer value) {
+            addCriterion("np_dispatch_id >", value, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("np_dispatch_id >=", value, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdLessThan(Integer value) {
+            addCriterion("np_dispatch_id <", value, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("np_dispatch_id <=", value, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdIn(List<Integer> values) {
+            addCriterion("np_dispatch_id in", values, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdNotIn(List<Integer> values) {
+            addCriterion("np_dispatch_id not in", values, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdBetween(Integer value1, Integer value2) {
+            addCriterion("np_dispatch_id between", value1, value2, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpDispatchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("np_dispatch_id not between", value1, value2, "npDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeIsNull() {
+            addCriterion("np_work_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeIsNotNull() {
+            addCriterion("np_work_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("np_work_time =", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("np_work_time <>", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("np_work_time >", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("np_work_time >=", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeLessThan(Date value) {
+            addCriterionForJDBCDate("np_work_time <", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("np_work_time <=", value, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("np_work_time in", values, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("np_work_time not in", values, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("np_work_time between", value1, value2, "npWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNpWorkTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("np_work_time not between", value1, value2, "npWorkTime");
             return (Criteria) this;
         }
 
@@ -781,136 +1049,6 @@ public class CadrePostExample {
 
         public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
             addCriterion("unit_id not between", value1, value2, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleIsNull() {
-            addCriterion("is_double is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleIsNotNull() {
-            addCriterion("is_double is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleEqualTo(Boolean value) {
-            addCriterion("is_double =", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleNotEqualTo(Boolean value) {
-            addCriterion("is_double <>", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleGreaterThan(Boolean value) {
-            addCriterion("is_double >", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_double >=", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleLessThan(Boolean value) {
-            addCriterion("is_double <", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_double <=", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleIn(List<Boolean> values) {
-            addCriterion("is_double in", values, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleNotIn(List<Boolean> values) {
-            addCriterion("is_double not in", values, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_double between", value1, value2, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_double not between", value1, value2, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsIsNull() {
-            addCriterion("double_unit_ids is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsIsNotNull() {
-            addCriterion("double_unit_ids is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsEqualTo(String value) {
-            addCriterion("double_unit_ids =", value, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsNotEqualTo(String value) {
-            addCriterion("double_unit_ids <>", value, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsGreaterThan(String value) {
-            addCriterion("double_unit_ids >", value, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsGreaterThanOrEqualTo(String value) {
-            addCriterion("double_unit_ids >=", value, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsLessThan(String value) {
-            addCriterion("double_unit_ids <", value, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsLessThanOrEqualTo(String value) {
-            addCriterion("double_unit_ids <=", value, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsLike(String value) {
-            addCriterion("double_unit_ids like", value, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsNotLike(String value) {
-            addCriterion("double_unit_ids not like", value, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsIn(List<String> values) {
-            addCriterion("double_unit_ids in", values, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsNotIn(List<String> values) {
-            addCriterion("double_unit_ids not in", values, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsBetween(String value1, String value2) {
-            addCriterion("double_unit_ids between", value1, value2, "doubleUnitIds");
-            return (Criteria) this;
-        }
-
-        public Criteria andDoubleUnitIdsNotBetween(String value1, String value2) {
-            addCriterion("double_unit_ids not between", value1, value2, "doubleUnitIds");
             return (Criteria) this;
         }
 

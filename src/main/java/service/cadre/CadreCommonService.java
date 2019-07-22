@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.cadreReserve.CadreReserveService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -45,6 +46,8 @@ public class CadreCommonService extends BaseMapper {
     protected TeacherInfoService teacherInfoService;
     @Autowired
     protected CadrePostService cadrePostService;
+    @Autowired
+    protected CadreReserveService cadreReserveService;
     @Autowired
     protected CadreAdminLevelService cadreAdminLevelService;
     @Autowired
@@ -316,14 +319,6 @@ public class CadreCommonService extends BaseMapper {
         TeacherInfo teacherInfo = teacherInfoService.get(uv.getId());
         modelMap.put("teacherInfo", teacherInfo);
 
-        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
-        // 主职,现任职务
-        modelMap.put("mainCadrePost", mainCadrePost);
-
-        // 任现职级
-        modelMap.put("cadreAdminLevel", cadreAdminLevelService.getPresentByCadreId(cadreId,
-                mainCadrePost != null ? mainCadrePost.getAdminLevel() : null));
-
         // 兼职单位
         List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);
         if (subCadrePosts.size() >= 1) {
@@ -340,5 +335,8 @@ public class CadreCommonService extends BaseMapper {
 
         // 是否已认定了参加工作时间，没认定前可修改
         modelMap.put("hasVerifyWorkTime", cadre.getVerifyWorkTime()!=null);
+
+        // 如果是后备干部
+        modelMap.put("cadreReserve", cadreReserveService.getNormalRecord(cadreId));
     }
 }

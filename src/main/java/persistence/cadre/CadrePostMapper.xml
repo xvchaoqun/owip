@@ -7,14 +7,16 @@
     <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="post_name" jdbcType="VARCHAR" property="postName" />
     <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="lp_dispatch_id" jdbcType="INTEGER" property="lpDispatchId" />
+    <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
+    <result column="np_dispatch_id" jdbcType="INTEGER" property="npDispatchId" />
+    <result column="np_work_time" jdbcType="DATE" property="npWorkTime" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="is_principal" jdbcType="BIT" property="isPrincipal" />
     <result column="is_cpc" jdbcType="BIT" property="isCpc" />
     <result column="post_class_id" jdbcType="INTEGER" property="postClassId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="is_double" jdbcType="BIT" property="isDouble" />
-    <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
     <result column="is_main_post" jdbcType="BIT" property="isMainPost" />
     <result column="is_first_main_post" jdbcType="BIT" property="isFirstMainPost" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -78,9 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, unit_post_id, post_name, post, post_type, admin_level, is_principal, 
-    is_cpc, post_class_id, unit_id, is_double, double_unit_ids, is_main_post, is_first_main_post, 
-    sort_order
+    id, cadre_id, unit_post_id, post_name, post, lp_dispatch_id, lp_work_time, np_dispatch_id, 
+    np_work_time, post_type, admin_level, is_principal, is_cpc, post_class_id, unit_id, 
+    is_main_post, is_first_main_post, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadrePostExample" resultMap="BaseResultMap">
     select
@@ -117,17 +119,17 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cadre_post (cadre_id, unit_post_id, post_name, 
-      post, post_type, admin_level, 
-      is_principal, is_cpc, post_class_id, 
-      unit_id, is_double, double_unit_ids, 
-      is_main_post, is_first_main_post, sort_order
-      )
+      post, lp_dispatch_id, lp_work_time, 
+      np_dispatch_id, np_work_time, post_type, 
+      admin_level, is_principal, is_cpc, 
+      post_class_id, unit_id, is_main_post, 
+      is_first_main_post, sort_order)
     values (#{cadreId,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, #{postName,jdbcType=VARCHAR}, 
-      #{post,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, 
-      #{isPrincipal,jdbcType=BIT}, #{isCpc,jdbcType=BIT}, #{postClassId,jdbcType=INTEGER}, 
-      #{unitId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, 
-      #{isMainPost,jdbcType=BIT}, #{isFirstMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{post,jdbcType=VARCHAR}, #{lpDispatchId,jdbcType=INTEGER}, #{lpWorkTime,jdbcType=DATE}, 
+      #{npDispatchId,jdbcType=INTEGER}, #{npWorkTime,jdbcType=DATE}, #{postType,jdbcType=INTEGER}, 
+      #{adminLevel,jdbcType=INTEGER}, #{isPrincipal,jdbcType=BIT}, #{isCpc,jdbcType=BIT}, 
+      #{postClassId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{isMainPost,jdbcType=BIT}, 
+      #{isFirstMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadrePost">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -147,6 +149,18 @@
       <if test="post != null">
         post,
       </if>
+      <if test="lpDispatchId != null">
+        lp_dispatch_id,
+      </if>
+      <if test="lpWorkTime != null">
+        lp_work_time,
+      </if>
+      <if test="npDispatchId != null">
+        np_dispatch_id,
+      </if>
+      <if test="npWorkTime != null">
+        np_work_time,
+      </if>
       <if test="postType != null">
         post_type,
       </if>
@@ -164,12 +178,6 @@
       </if>
       <if test="unitId != null">
         unit_id,
-      </if>
-      <if test="isDouble != null">
-        is_double,
-      </if>
-      <if test="doubleUnitIds != null">
-        double_unit_ids,
       </if>
       <if test="isMainPost != null">
         is_main_post,
@@ -194,6 +202,18 @@
       <if test="post != null">
         #{post,jdbcType=VARCHAR},
       </if>
+      <if test="lpDispatchId != null">
+        #{lpDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="lpWorkTime != null">
+        #{lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="npDispatchId != null">
+        #{npDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="npWorkTime != null">
+        #{npWorkTime,jdbcType=DATE},
+      </if>
       <if test="postType != null">
         #{postType,jdbcType=INTEGER},
       </if>
@@ -211,12 +231,6 @@
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
-      </if>
-      <if test="isDouble != null">
-        #{isDouble,jdbcType=BIT},
-      </if>
-      <if test="doubleUnitIds != null">
-        #{doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="isMainPost != null">
         #{isMainPost,jdbcType=BIT},
@@ -253,6 +267,18 @@
       <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
       </if>
+      <if test="record.lpDispatchId != null">
+        lp_dispatch_id = #{record.lpDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.lpWorkTime != null">
+        lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="record.npDispatchId != null">
+        np_dispatch_id = #{record.npDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.npWorkTime != null">
+        np_work_time = #{record.npWorkTime,jdbcType=DATE},
+      </if>
       <if test="record.postType != null">
         post_type = #{record.postType,jdbcType=INTEGER},
       </if>
@@ -270,12 +296,6 @@
       </if>
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
-      </if>
-      <if test="record.isDouble != null">
-        is_double = #{record.isDouble,jdbcType=BIT},
-      </if>
-      <if test="record.doubleUnitIds != null">
-        double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="record.isMainPost != null">
         is_main_post = #{record.isMainPost,jdbcType=BIT},
@@ -298,14 +318,16 @@
       unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       post_name = #{record.postName,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
+      lp_dispatch_id = #{record.lpDispatchId,jdbcType=INTEGER},
+      lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
+      np_dispatch_id = #{record.npDispatchId,jdbcType=INTEGER},
+      np_work_time = #{record.npWorkTime,jdbcType=DATE},
       post_type = #{record.postType,jdbcType=INTEGER},
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
       is_principal = #{record.isPrincipal,jdbcType=BIT},
       is_cpc = #{record.isCpc,jdbcType=BIT},
       post_class_id = #{record.postClassId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
-      is_double = #{record.isDouble,jdbcType=BIT},
-      double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
       is_main_post = #{record.isMainPost,jdbcType=BIT},
       is_first_main_post = #{record.isFirstMainPost,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
@@ -328,6 +350,18 @@
       <if test="post != null">
         post = #{post,jdbcType=VARCHAR},
       </if>
+      <if test="lpDispatchId != null">
+        lp_dispatch_id = #{lpDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="lpWorkTime != null">
+        lp_work_time = #{lpWorkTime,jdbcType=DATE},
+      </if>
+      <if test="npDispatchId != null">
+        np_dispatch_id = #{npDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="npWorkTime != null">
+        np_work_time = #{npWorkTime,jdbcType=DATE},
+      </if>
       <if test="postType != null">
         post_type = #{postType,jdbcType=INTEGER},
       </if>
@@ -345,12 +379,6 @@
       </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
-      </if>
-      <if test="isDouble != null">
-        is_double = #{isDouble,jdbcType=BIT},
-      </if>
-      <if test="doubleUnitIds != null">
-        double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="isMainPost != null">
         is_main_post = #{isMainPost,jdbcType=BIT},
@@ -370,14 +398,16 @@
       unit_post_id = #{unitPostId,jdbcType=INTEGER},
       post_name = #{postName,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
+      lp_dispatch_id = #{lpDispatchId,jdbcType=INTEGER},
+      lp_work_time = #{lpWorkTime,jdbcType=DATE},
+      np_dispatch_id = #{npDispatchId,jdbcType=INTEGER},
+      np_work_time = #{npWorkTime,jdbcType=DATE},
       post_type = #{postType,jdbcType=INTEGER},
       admin_level = #{adminLevel,jdbcType=INTEGER},
       is_principal = #{isPrincipal,jdbcType=BIT},
       is_cpc = #{isCpc,jdbcType=BIT},
       post_class_id = #{postClassId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
-      is_double = #{isDouble,jdbcType=BIT},
-      double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},
       is_main_post = #{isMainPost,jdbcType=BIT},
       is_first_main_post = #{isFirstMainPost,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER}

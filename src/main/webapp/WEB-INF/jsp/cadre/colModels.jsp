@@ -126,11 +126,10 @@
         {
             label: '现职务任命文件',
             width: 150,
-            name: 'mainCadrePost.dispatchCadreRelateBean.first',
+            name: 'npDispatch',
             formatter: function (cellvalue, options, rowObject) {
                 if (!cellvalue || cellvalue.id == undefined) return '--';
                 var dispatchCode = cellvalue.dispatchCode;
-
                 return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
             }
         },
@@ -169,13 +168,8 @@
                 return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         },
-        {label: '是否<br/>双肩挑', width:60, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
-        /*{
-            label: '双肩挑单位',
-            name: 'doubleUnitId',
-            width: 150,
-            formatter: $.jgrid.formatter.unit
-        },*/
+        {label: '是否有<br/>挂职经历', width:80, name: 'hasCrp', formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>双肩挑', width:70, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
         {
             label: '双肩挑单位', name: 'doubleUnitIds',width: 250,formatter: function (cellvalue, options, rowObject) {
 

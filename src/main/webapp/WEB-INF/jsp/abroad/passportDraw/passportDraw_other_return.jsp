@@ -69,8 +69,9 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label">类别</label>
                     <div class="col-xs-6">
-                    <input type="radio" name="usePassport" value="0" class="bigger"> 没有使用证件出国（境）
-                    <input type="radio" name="usePassport" value="1" class="bigger"> 违规使用证件出国（境）
+                    <input type="radio" name="usePassport" value="3" class="bigger"> 使用完毕交回证件（持证件出国（境）<br/>
+                    <input type="radio" name="usePassport" value="0" class="bigger"> 使用完毕交回证件（未持证件出国（境））<br/>
+                    <input type="radio" name="usePassport" value="1" class="bigger"> 违规使用证件出国（境）<br/>
                     <input type="radio" name="usePassport" value="2" class="bigger"> 拒不交回证件
                     </div>
                 </div>
@@ -126,8 +127,9 @@
     <input type="submit" data-name="${sysUser.realname}"
            data-cls="${passportType.name}"
            class="btn btn-success" value="确认归还"/>
-    <input  class="hideView btn btn-default" value="返回"/>
+    <input type="button" class="hideView btn btn-default" value="返回"/>
 </div>
+<div class="footer-margin lower"/>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
@@ -167,7 +169,7 @@
         if(val==0){
             $("#illegalUsePassport").slideUp();
         }
-        if(val==1){
+        if(val==1 || val==3){
             $("#illegalUsePassport").slideDown();
         }
         if(val==2){ // 拒不交回

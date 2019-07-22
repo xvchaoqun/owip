@@ -53,6 +53,14 @@
               <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
               <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
           </table>
+         <table tableName="crs_candidate_view" domainObjectName="crs.CrsCandidateView" mapperName="crs.CrsCandidateViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+        </table>
 
         <!--  <table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
           </table>-->
@@ -64,9 +72,9 @@
          <!--<table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
          </table>-->
 
-       <!-- <table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
+        <table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
        <!-- <table tableName="cadre_reserve_origin" domainObjectName="cadreReserve.CadreReserveOrigin"
                mapperName="cadreReserve.CadreReserveOriginMapper">
         </table>-->
@@ -124,12 +132,12 @@
         <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper" mapperName="cadre.CadrePaperMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel"
+        <table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel"
                mapperName="cadre.CadreAdminLevelMapper">
-        </table>-->
-         <!--<table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
+        </table>
+         <table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>-->
+         </table>
          <!--<table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->

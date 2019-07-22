@@ -185,9 +185,10 @@ public class PassportDrawController extends AbroadBaseController {
                 if (type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF ||
                         type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
                     criteria.andTypeEqualTo(type);
-                } else { // 因公赴台、长期因公出国
+                } else { // 因公赴台、长期因公出国、因公出访持因私证件
                     criteria.andTypeIn(Arrays.asList(AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW,
-                            AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF));
+                            AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF,
+                            AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF));
                 }
             }
         }
@@ -472,6 +473,7 @@ public class PassportDrawController extends AbroadBaseController {
 
             if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW
             || passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF
+            || passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF
             || passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
 
                 passportDraw.setReason(reason); // 台湾

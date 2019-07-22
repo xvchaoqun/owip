@@ -120,6 +120,15 @@ public class CacheService extends BaseMapper {
         return userPermissions.contains(permission);
     }
 
+    // 判断某个用户是否拥有某个角色
+    public boolean userHasRole(Integer userId, String role){
+
+        SysUserView uv = sysUserService.findById(userId);
+        Set<String> roles = sysUserService.findRoles(uv.getUsername());
+
+        return roles.contains(role);
+    }
+
     // 异步Pdf转图片
     @Async
     public void asyncPdf2jpg(String pdfFilePath){
@@ -247,6 +256,8 @@ public class CacheService extends BaseMapper {
                     cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER; break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF:
                     cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF; break;
+                case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF:
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF; break;
             }
             countCache.put(cacheKey, num);
         }

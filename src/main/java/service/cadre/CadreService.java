@@ -11,6 +11,7 @@ import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -450,18 +451,13 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public int updateByPrimaryKeySelective(Cadre record) {
-        return cadreMapper.updateByPrimaryKeySelective(record);
-    }
+    public void updateByPrimaryKeySelective(Cadre record) {
 
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
-    public int updateByExampleSelective(Cadre record, CadreExample example) {
+        cadreMapper.updateByPrimaryKeySelective(record);
 
-        return cadreMapper.updateByExampleSelective(record, example);
+        if (BooleanUtils.isNotTrue(record.getIsDouble())) { // 不是双肩挑
+            commonMapper.excuteSql("update cadre set double_unit_ids=null where id=" + record.getId());
+        }
     }
 
     // 干部列表（包含优秀年轻干部、考察对象）

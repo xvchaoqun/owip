@@ -49,14 +49,14 @@
        }},
       {
           label: '任职日期',
-          name: 'cadrePost.dispatchCadreRelateBean.last.workTime',
+          name: 'cadrePost.lpWorkTime',
           formatter: $.jgrid.formatter.date,
           formatoptions: {newformat: 'Y.m.d'}
       },
       {
           label: '现任职务<br/>年限',
           width: 80,
-          name: 'cadrePost.dispatchCadreRelateBean.last.workTime',
+          name: 'cadrePost.lpWorkTime',
           formatter: function (cellvalue, options, rowObject) {
               if (cellvalue == undefined) return '--';
               var year = $.yearOffNow(cellvalue);
@@ -66,7 +66,7 @@
       {
           label: '现职务<br/>任职文件',
           width: 150,
-          name: 'cadrePost.dispatchCadreRelateBean.last',
+          name: 'cadrePost.lpDispatch',
           formatter: function (cellvalue, options, rowObject) {
               if (!cellvalue || cellvalue.id == undefined) return '--';
               var dispatchCode = cellvalue.dispatchCode;
@@ -76,14 +76,14 @@
       },
       {
           label: '现任职务<br/>始任日期',
-          name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
+          name: 'cadrePost.npWorkTime',
           formatter: $.jgrid.formatter.date,
           formatoptions: {newformat: 'Y.m.d'}
       },
       {
           label: '现任职务<br/>始任年限',
           width: 80,
-          name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
+          name: 'cadrePost.npWorkTime',
           formatter: function (cellvalue, options, rowObject) {
               if (cellvalue == undefined) return '--';
               var year = $.yearOffNow(cellvalue);
@@ -93,7 +93,7 @@
       {
           label: '现任职务<br/>始任文件',
           width: 150,
-          name: 'cadrePost.dispatchCadreRelateBean.first',
+          name: 'cadrePost.npDispatch',
           formatter: function (cellvalue, options, rowObject) {
               if (!cellvalue || cellvalue.id == undefined) return '--';
               var dispatchCode = cellvalue.dispatchCode;

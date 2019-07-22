@@ -87,6 +87,28 @@
 					</div>
 				</div>
 				<div class="form-group">
+                    <label class="col-xs-3 control-label">任职日期</label>
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <input class="form-control date-picker" name="lpWorkTime" type="text"
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(cadrePost.lpWorkTime,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">任职始任日期</label>
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <input class="form-control date-picker" name="npWorkTime" type="text"
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(cadrePost.npWorkTime,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
 					<label class="col-xs-3 control-label">是否占职数</label>
 					<div class="col-xs-6 label-text"  style="font-size: 15px;">
 						<input type="checkbox" class="big" name="isCpc" ${(cadrePost==null ||cadrePost.isCpc)?"checked":""}/>

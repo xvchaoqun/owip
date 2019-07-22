@@ -8,7 +8,6 @@ import domain.cadre.CadreEduExample.Criteria;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,9 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.FileUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,7 +77,9 @@ public class CadreEduController extends BaseController {
     public void cadreEdu_data(HttpServletResponse response,
                               Integer cadreId, Integer pageSize, Integer pageNo,
                               @RequestParam(required = false, defaultValue = "0") int export,
-                              @RequestParam(required = false, value = "ids[]") Integer[] ids // 导出的记录（干部id)
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（exportType=0时为现任干部id)
+                              @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                              Integer reserveType // 年轻干部类别
                               ) throws IOException {
 
         if (null == pageSize) {
@@ -98,7 +100,7 @@ public class CadreEduController extends BaseController {
 
         if (export == 1) {
             SecurityUtils.getSubject().checkPermission("cadre:export");
-            cadreEdu_export(ids, CadreConstants.CADRE_STATUS_MIDDLE, response);
+            cadreEduService.cadreEdu_export(ids, exportType, reserveType, response);
             return;
         }
 
@@ -260,59 +262,5 @@ public class CadreEduController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
-
-    public void cadreEdu_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
-
-        List<CadreEdu> cadreEdus = iCadreMapper.getCadreEdus(cadreIds, status);
-        long rownum = cadreEdus.size();
-        Set<Integer> needTutorEduTypes = new HashSet<>(cadreEduService.needTutorEduTypes());
-
-        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100","所在单位及职务|150|left", "学历|100",
-                "毕业/在读|80","入学时间|100","毕业时间|90","是否最高学历|100","毕业/在读学校|100",
-                "院系|80","所学专业|80","学校类型|80","学习方式|80","是否获得学位|100",
-                "学位|80","是否最高学位|100","学位授予国家|100","学位授予单位|100","学位授予日期|100",
-                "导师姓名|80","导师所在单位及职务|100|left","学历学位证书|100","备注|80","补充说明|80"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            CadreEdu record = cadreEdus.get(i);
-            CadreView cadre = CmTag.getCadreById(record.getCadreId());
-
-            Unit unit = CmTag.getUnit(cadre.getUnitId());
-            boolean hasDegree = BooleanUtils.isTrue(record.getHasDegree());
-            String[] values = {
-                    cadre.getCode(),
-                    cadre.getRealname(),
-                    unit==null?"":unit.getName(),
-                    cadre.getTitle(),
-                    metaTypeService.getName(record.getEduId()),
-
-                    BooleanUtils.isTrue(record.getIsGraduated())?"毕业":"在读",
-                    DateUtils.formatDate(record.getEnrolTime(), DateUtils.YYYYMM),
-                    DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYYMM),
-                    BooleanUtils.isTrue(record.getIsHighDegree())?"是":"否",
-                    record.getSchool(),
-
-                    record.getDep(),
-                    record.getMajor(),
-                    CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
-                    metaTypeService.getName(record.getLearnStyle()),
-                    BooleanUtils.isTrue(record.getHasDegree())?"是":"否",
-
-                    hasDegree?record.getDegree() :"-",
-                    hasDegree?(record.getIsHighDegree()?"是":"否"):"-",
-                    hasDegree?record.getDegreeCountry():"-",
-                    hasDegree?record.getDegreeUnit():"-",
-                    hasDegree?DateUtils.formatDate(record.getDegreeTime(), DateUtils.YYYYMM):"-",
-
-                    needTutorEduTypes.contains(record.getEduId())?record.getTutorName():"-",
-                    needTutorEduTypes.contains(record.getEduId())?record.getTutorTitle():"-",
-                    StringUtils.isBlank(record.getCertificate())?"-":"已上传",
-                    "", ""
-            };
-            valuesList.add(values);
-        }
-        String fileName = "干部学习经历_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

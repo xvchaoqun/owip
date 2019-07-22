@@ -5,6 +5,8 @@
 <c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW%>"/>
 <c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF"
        value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
+<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF"
+       value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF%>"/>
 <c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER"
        value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER%>"/>
 
@@ -26,12 +28,12 @@
                         </a>
                     </li>
                     <c:set var="countCacheKeys"
-                           value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
+                           value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
                            data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_TW}"><i
-                                class="fa fa-credit-card"></i> 因公赴台、长期因公出国
+                                class="fa fa-credit-card"></i> 因公赴台、长期因公出国、因公出访持因私证件
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
@@ -276,12 +278,12 @@
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
             {
-                label: '申请类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
+                label: '申请类型', name: 'type',width: 130, formatter: function (cellvalue, options, rowObject) {
                     return _cMap.ABROAD_PASSPORT_DRAW_TYPE_MAP[cellvalue];
                 }, frozen: true
             },
             </c:if>
-            {label: '工作证号', name: 'user.code', frozen: true},
+            {label: '工作证号', name: 'user.code',width: 120, frozen: true},
             {
                 label: '姓名',
                 align: 'center',

@@ -1,6 +1,8 @@
 package domain.cadre;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class CadreAdminLevelExample {
@@ -102,6 +104,32 @@ public class CadreAdminLevelExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -281,6 +309,316 @@ public class CadreAdminLevelExample {
 
         public Criteria andAdminLevelNotBetween(Integer value1, Integer value2) {
             addCriterion("admin_level not between", value1, value2, "adminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdIsNull() {
+            addCriterion("s_dispatch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdIsNotNull() {
+            addCriterion("s_dispatch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdEqualTo(Integer value) {
+            addCriterion("s_dispatch_id =", value, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdNotEqualTo(Integer value) {
+            addCriterion("s_dispatch_id <>", value, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdGreaterThan(Integer value) {
+            addCriterion("s_dispatch_id >", value, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("s_dispatch_id >=", value, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdLessThan(Integer value) {
+            addCriterion("s_dispatch_id <", value, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("s_dispatch_id <=", value, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdIn(List<Integer> values) {
+            addCriterion("s_dispatch_id in", values, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdNotIn(List<Integer> values) {
+            addCriterion("s_dispatch_id not in", values, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdBetween(Integer value1, Integer value2) {
+            addCriterion("s_dispatch_id between", value1, value2, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSDispatchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("s_dispatch_id not between", value1, value2, "sDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeIsNull() {
+            addCriterion("s_work_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeIsNotNull() {
+            addCriterion("s_work_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("s_work_time =", value, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("s_work_time <>", value, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("s_work_time >", value, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("s_work_time >=", value, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeLessThan(Date value) {
+            addCriterionForJDBCDate("s_work_time <", value, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("s_work_time <=", value, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("s_work_time in", values, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("s_work_time not in", values, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("s_work_time between", value1, value2, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSWorkTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("s_work_time not between", value1, value2, "sWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdIsNull() {
+            addCriterion("e_dispatch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdIsNotNull() {
+            addCriterion("e_dispatch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdEqualTo(Integer value) {
+            addCriterion("e_dispatch_id =", value, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdNotEqualTo(Integer value) {
+            addCriterion("e_dispatch_id <>", value, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdGreaterThan(Integer value) {
+            addCriterion("e_dispatch_id >", value, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("e_dispatch_id >=", value, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdLessThan(Integer value) {
+            addCriterion("e_dispatch_id <", value, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("e_dispatch_id <=", value, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdIn(List<Integer> values) {
+            addCriterion("e_dispatch_id in", values, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdNotIn(List<Integer> values) {
+            addCriterion("e_dispatch_id not in", values, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdBetween(Integer value1, Integer value2) {
+            addCriterion("e_dispatch_id between", value1, value2, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEDispatchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("e_dispatch_id not between", value1, value2, "eDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeIsNull() {
+            addCriterion("e_work_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeIsNotNull() {
+            addCriterion("e_work_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("e_work_time =", value, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("e_work_time <>", value, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("e_work_time >", value, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("e_work_time >=", value, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeLessThan(Date value) {
+            addCriterionForJDBCDate("e_work_time <", value, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("e_work_time <=", value, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("e_work_time in", values, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("e_work_time not in", values, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("e_work_time between", value1, value2, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEWorkTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("e_work_time not between", value1, value2, "eWorkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostIsNull() {
+            addCriterion("s_post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostIsNotNull() {
+            addCriterion("s_post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostEqualTo(String value) {
+            addCriterion("s_post =", value, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostNotEqualTo(String value) {
+            addCriterion("s_post <>", value, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostGreaterThan(String value) {
+            addCriterion("s_post >", value, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostGreaterThanOrEqualTo(String value) {
+            addCriterion("s_post >=", value, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostLessThan(String value) {
+            addCriterion("s_post <", value, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostLessThanOrEqualTo(String value) {
+            addCriterion("s_post <=", value, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostLike(String value) {
+            addCriterion("s_post like", value, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostNotLike(String value) {
+            addCriterion("s_post not like", value, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostIn(List<String> values) {
+            addCriterion("s_post in", values, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostNotIn(List<String> values) {
+            addCriterion("s_post not in", values, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostBetween(String value1, String value2) {
+            addCriterion("s_post between", value1, value2, "sPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andSPostNotBetween(String value1, String value2) {
+            addCriterion("s_post not between", value1, value2, "sPost");
             return (Criteria) this;
         }
 

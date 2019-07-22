@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
 <c:set value="${CADRE_STATUS_SET.contains(cadre.status)}" var="isCadre"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${cadreReserve!=null?'编辑':'添加'}${cm:getMetaType(reserveType).name}
+    <h3>${cadreReserve!=null?'编辑':'添加'}（${cm:getMetaType(reserveType).name}）
     </h3>
 </div>
 <div class="modal-body">

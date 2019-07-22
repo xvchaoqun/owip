@@ -26,7 +26,34 @@ pageEncoding="UTF-8"%>
                     </script>
 				</div>
 			</div>
-
+            <div class="form-group">
+                <label class="col-xs-3 control-label">职级始任职务</label>
+                <div class="col-xs-6">
+                    <textarea class="form-control noEnter" name="sPost">${cadreAdminLevel.sPost}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">职级始任日期</label>
+                <div class="col-xs-6">
+                    <div class="input-group">
+                        <input class="form-control date-picker" name="sWorkTime" type="text"
+                               data-date-format="yyyy.mm.dd"
+                               value="${cm:formatDate(cadreAdminLevel.sWorkTime,'yyyy.MM.dd')}"/>
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">职级结束日期</label>
+                <div class="col-xs-6">
+                    <div class="input-group">
+                        <input class="form-control date-picker" name="eWorkTime" type="text"
+                               data-date-format="yyyy.mm.dd"
+                               value="${cm:formatDate(cadreAdminLevel.eWorkTime,'yyyy.MM.dd')}"/>
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                    </div>
+                </div>
+            </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">

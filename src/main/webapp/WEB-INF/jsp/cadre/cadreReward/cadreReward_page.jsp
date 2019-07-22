@@ -174,7 +174,7 @@
             }, function (ret) {
                 if (ret.success) {
 
-                    _innerPage(2, function () {
+                    _innerPage(3, function () {
                         $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
                     });
                 }
