@@ -349,7 +349,14 @@
 							是否双肩挑
 						</td>
 						<td  style="min-width: 80px">
-							${cadre.isDouble?"是":"否"}
+							<c:if test="${cadre.isDouble}">
+							<c:forEach var="unitId" items="${fn:split(cadre.doubleUnitIds, ',')}" varStatus="vs">
+								<c:set var="unit" value="${cm:getUnitById(cm:toInt(unitId))}"/>
+								<span class="${unit.status==UNIT_STATUS_HISTORY?'delete':''}">${unit.name}</span>
+								${vs.last?'':','}
+							</c:forEach>
+							</c:if>
+							<c:if test="${!cadre.isDouble}">否</c:if>
 						</td>
 
 					</tr>

@@ -11,12 +11,14 @@
 
 <c:if test="${displayEdit}">
 <c:if test="${notExist}">
-  <c:if test="${toEdit}">
-    <a href="javascript:;" class="cadre-info-check-edit" data-url="?cadreId=${param.cadreId}&type=1">编辑</a>
-  </c:if>
-  <c:if test="${!toEdit}">
-    <c:if test="${cm:isPermitted('modifyBaseApply:list')}">
-    <a href="javascript:;" class="hashchange" data-url="${ctx}/modifyBaseApply?admin=0">编辑</a>
+  <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || cm:userIsPermitted(_user.id, 'userModifyBaseApply:*')}">
+    <c:if test="${toEdit}">
+      <a href="javascript:;" class="cadre-info-check-edit" data-url="?cadreId=${param.cadreId}&type=1">编辑</a>
+    </c:if>
+    <c:if test="${!toEdit}">
+      <c:if test="${cm:isPermitted('modifyBaseApply:list')}">
+      <a href="javascript:;" class="hashchange" data-url="${ctx}/modifyBaseApply?admin=0">编辑</a>
+      </c:if>
     </c:if>
   </c:if>
 </c:if>

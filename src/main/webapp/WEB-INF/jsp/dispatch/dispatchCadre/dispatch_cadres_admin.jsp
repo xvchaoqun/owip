@@ -42,7 +42,7 @@
           <div class="col-xs-6">
             <select data-ajax-url="${ctx}/unitPost_selects" data-width="590"
                     name="unitPostId" data-placeholder="请选择">
-              <option value="${unitPost.id}" title="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
+              <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
             </select>
           </div>
         </div>

@@ -120,8 +120,7 @@
                                             <select name="unitPostId" data-rel="select2-ajax"
                                                     data-ajax-url="${ctx}/unitPost_selects"
                                                     data-placeholder="请选择">
-                                                <option value="${unitPost.id}"
-                                                        title="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.name}</option>
+                                                <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.name}</option>
                                             </select>
                                             <script>
                                                 $.register.del_select($("#searchForm select[name=unitPostId]"))

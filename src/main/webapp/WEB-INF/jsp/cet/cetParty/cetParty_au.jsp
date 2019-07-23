@@ -13,7 +13,7 @@
             <div class="col-xs-6">
                 <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
                         data-placeholder="请选择党委">
-                    <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                 </select>
                 <script>
                     $.register.del_select($("#modalForm select[name=partyId]"), 350)

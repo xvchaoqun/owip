@@ -79,7 +79,7 @@
                         <c:set var="unit" value="${cm:getUnitById(party.unitId)}"/>
                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                                 name="unitId" data-placeholder="请选择">
-                            <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                            <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                         </select>
                     </div>
                 </div>

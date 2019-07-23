@@ -70,8 +70,12 @@
                     <td class="bg-left">${modify.hasHand?"是":"否"}</td>
                 </tr>
                 <tr>
+                    <td data-code="isFinished">兼职是否结束</td>
+                    <td class="bg-left">${modify.isFinished?"是":"否"}</td>
+                    <td data-code="finishTime">兼职结束时间</td>
+                    <td class="bg-left">${cm:formatDate(modify.finishTime,'yyyy-MM-dd')}</td>
                     <td data-code="remark">备注</td>
-                    <td colspan="9" class="bg-left">${modify.remark}</td>
+                    <td colspan="5" class="bg-left">${modify.remark}</td>
                 </tr>
             </table>
         </div>

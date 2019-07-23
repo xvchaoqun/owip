@@ -4,6 +4,7 @@
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ attribute name="editUrl" type="java.lang.String" required="true" description="地址参数" %>
+<%@ attribute name="permission" type="java.lang.String" required="false" %>
 <%@ attribute name="applyUrl" type="java.lang.String" required="false" %>
 <%@ attribute name="notExist" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="toEdit" type="java.lang.Boolean" required="true" %>
@@ -17,7 +18,7 @@
   <c:if test="${toEdit}">
     <a href="javascript:;" class="cadre-info-check-edit" data-url="${editUrl}">编辑</a>
   </c:if>
-  <c:if test="${!toEdit && not empty applyUrl}">
+  <c:if test="${!toEdit && not empty applyUrl && (empty permission || cm:userIsPermitted(_user.id, permission))}">
     <c:if test="${cm:isPermitted('modifyTableApply:list')}">
     <a href="javascript:;" class="hashchange" data-url="${applyUrl}">编辑</a>
     </c:if>

@@ -131,7 +131,7 @@
                                 <label>${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位</label>
                                 <select data-ajax-url="${ctx}/unit_selects"
                                         name="unitId" data-placeholder="请选择">
-                                    <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                                    <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                                 </select>
                             </div>
                             </c:if>

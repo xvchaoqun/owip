@@ -60,7 +60,7 @@
                                         <label>所属${_p_partyName}</label>
                                         <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                                                 data-placeholder="请选择">
-                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                            <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                         </select>
                                         <script>
                                             $.register.del_select($("#searchForm select[name=partyId]"), 350)

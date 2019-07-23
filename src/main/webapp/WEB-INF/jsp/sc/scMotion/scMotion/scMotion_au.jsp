@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select name="unitPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
 							data-placeholder="请选择">
-						<option value="${unitPost.id}" title="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
+						<option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
 					</select>
 					<script>
 						$.register.del_select($("#modalForm select[name=unitPostId]"), {
@@ -42,12 +42,12 @@ pageEncoding="UTF-8"%>
 							templateResult: function (state) {
 								var txt = state.text;
 								if(state.code) txt = state.code+"-"+txt;
-								return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", txt);
+								return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", txt);
 							},
 							templateSelection: function (state) {
 								var txt = state.text;
 								if(state.code) txt = state.code+"-"+txt;
-								return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", txt);
+								return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", txt);
 							}
 						})
 					</script>

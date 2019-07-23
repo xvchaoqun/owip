@@ -58,7 +58,7 @@
                                                  <select required class="form-control" data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/party_selects?auth=1&notBranchAdmin=1" data-width="390"
                                                             name="partyId" data-placeholder="请选择">
-                                                        <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                                        <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                  </select>
                                             </div>
                                         </div>

@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
                             <label>所属二级党校</label>
                             <select name="partySchoolId" data-rel="select2-ajax" data-ajax-url="${ctx}/partySchool_selects"
                                     data-placeholder="请选择所属二级党校">
-                                <option value="${partySchool.id}" title="${partySchool.isHistory}">${partySchool.name}</option>
+                                <option value="${partySchool.id}" delete="${partySchool.isHistory}">${partySchool.name}</option>
                             </select>
                             <script>
                                 $.register.del_select($("#searchForm select[name=partySchoolId]"), 350)

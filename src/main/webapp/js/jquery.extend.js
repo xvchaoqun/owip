@@ -1493,14 +1493,14 @@ $.extend($.register, {
         }
         //console.log($state)
 
-        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
+        return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", $state);
     },
     templateSelection: function (state) {
         var $state = state.text;
         if ($.trim(state.code) != '')
             $state += ($state != '' ? '-' : '') + state.code;
 
-        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
+        return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", $state);
     },
     defaultTemplateResult: function (state) {
 
@@ -1509,7 +1509,7 @@ $.extend($.register, {
             $state += ($state != '' ? '-' : '') + state.type;
         // 反转义
         $state = $('<div/>').html($state).text();
-        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
+        return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", $state);
     },
     // 下拉多选
     multiselect: function ($select, selected, params) {
@@ -1723,11 +1723,12 @@ $.extend($.register, {
         branchId = branchId || "branchId";
         $('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
             templateResult: function (state) {
-
-                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                //console.log("-----------")
+                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
             },
             templateSelection: function (state) {
-                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                //console.log($(state.element).attr('delete'))
+                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
             },
             escapeMarkup: function (markup) {
                 return markup;
@@ -1932,10 +1933,10 @@ $.extend($.register, {
         return $select.select2($.extend({
             templateResult: _params.templateResult || function (state) {
 
-                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
             },
             templateSelection: _params.templateSelection || function (state) {
-                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
             },
             escapeMarkup: function (markup) {
                 return markup;

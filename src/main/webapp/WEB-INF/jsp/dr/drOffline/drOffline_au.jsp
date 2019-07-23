@@ -64,8 +64,7 @@
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/drMember_selects"
                         name="chiefMemberId" data-placeholder="请输入账号或姓名或学工号" data-width="270">
-                    <option value="${chiefMember.id}"
-                            title="${chiefMember.status!=DR_MEMBER_STATUS_NOW}">${chiefMember.user.realname}-${chiefMember.user.code}</option>
+                    <option value="${chiefMember.id}" delete="${chiefMember.status!=DR_MEMBER_STATUS_NOW}">${chiefMember.user.realname}-${chiefMember.user.code}</option>
                 </select>
             </div>
         </div>

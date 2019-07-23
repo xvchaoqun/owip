@@ -25,8 +25,7 @@
                     <div class="col-xs-8">
                         <select data-ajax-url="${ctx}/unitPost_selects" data-width="258"
                                 name="unitPostId" data-placeholder="请选择">
-                            <option value="${unitPost.id}"
-                                    title="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}(${unitPost.code})-${unitPost.unitName}</option>
+                            <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}(${unitPost.code})-${unitPost.unitName}</option>
                         </select>
                         <span class="help-block blue">注：如果选择了关联岗位，则以下蓝色字段将同步此岗位相关的信息，且不可修改</span>
                     </div>
@@ -111,7 +110,7 @@
                         <select required data-rel="select2-ajax"
                                 data-width="256" data-ajax-url="${ctx}/unit_selects"
                                 name="unitId" data-placeholder="请选择所属单位">
-                            <option value="${unit.id}">${unit.name}</option>
+                            <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                         </select>
                     </div>
                 </div>
@@ -182,12 +181,14 @@
             if ($.trim(state.up.unitName) != '')
                 $state += "-" + state.up.unitName;
         }
+        //console.log("$state=" + $state);
+        state.text = $state;
         return $state;
     }
 
     $.register.ajax_select($('#modalForm select[name=unitId]'));
     $.register.del_select($('#modalForm select[name=unitPostId]'),
-        {templateResult: _templateResult, templateSelection: _templateResult})
+        {templateResult: _templateResult})
         .on("change", function () {
             //console.log($(this).select2("data")[0])
             var data = $(this).select2("data")[0];

@@ -171,7 +171,7 @@
         {label: '是否有<br/>挂职经历', width:80, name: 'hasCrp', formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '是否<br/>双肩挑', width:70, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
         {
-            label: '双肩挑单位', name: 'doubleUnitIds',width: 250,formatter: function (cellvalue, options, rowObject) {
+            label: '双肩挑单位', name: 'doubleUnitIds', align:'left',width: 250,formatter: function (cellvalue, options, rowObject) {
 
             if($.trim(cellvalue)=='') return '--'
             return ($.map(cellvalue.split(","), function(unitId){

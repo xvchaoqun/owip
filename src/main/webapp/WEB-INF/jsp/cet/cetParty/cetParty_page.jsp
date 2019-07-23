@@ -47,7 +47,7 @@ pageEncoding="UTF-8" %>
                             <label>所属院系级党委</label>
                             <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                                     data-placeholder="请选择所属党委">
-                                <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                             </select>
                             <script>
                                 $.register.del_select($("#searchForm select[name=partyId]"), 350)
