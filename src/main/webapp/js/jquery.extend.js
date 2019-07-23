@@ -1266,7 +1266,7 @@ if ($.jgrid) {
                 //console.log(cellvalue.length)
                 // if(options.colModel.hidden) console.log(cellvalue==undefined)
                 return (!options.colModel.hidden && (cellvalue == undefined || cellvalue.length == 0))
-                    ? '--' : $.trim(cellvalue).htmlencode().NoMultiSpace()
+                    ? '--' : $.trim(cellvalue).htmldecode().NoMultiSpace()
             }
         },
         sortorder: "desc",

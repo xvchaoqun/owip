@@ -68,11 +68,11 @@
                 <input type="hidden" value="${param.id}" name="id">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">类别</label>
-                    <div class="col-xs-6">
-                    <input type="radio" name="usePassport" value="3" class="bigger"> 使用完毕交回证件（持证件出国（境）<br/>
-                    <input type="radio" name="usePassport" value="0" class="bigger"> 使用完毕交回证件（未持证件出国（境））<br/>
-                    <input type="radio" name="usePassport" value="1" class="bigger"> 违规使用证件出国（境）<br/>
-                    <input type="radio" name="usePassport" value="2" class="bigger"> 拒不交回证件
+                    <div class="col-xs-6 checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input type="radio" name="usePassport" value="3" id="type3"> <label for="type3">使用完毕交回证件（持证件出国（境）</label><br/>
+                    <input type="radio" name="usePassport" value="0" id="type0"> <label for="type0">使用完毕交回证件（未持证件出国（境））</label><br/>
+                    <input type="radio" name="usePassport" value="1" id="type1"> <label for="type1">违规使用证件出国（境）</label><br/>
+                    <input type="radio" name="usePassport" value="2" id="type2"> <label for="type2">拒不交回证件</label>
                     </div>
                 </div>
                 <div id="illegalUsePassport" style="display: none">
@@ -124,10 +124,10 @@
 <div class="modal-footer center">
     <c:set var="passport" value="${cm:getPassport(passportDraw.passportId)}"/>
     <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
-    <input type="submit" data-name="${sysUser.realname}"
+    <button id="submitBtn" type="button" data-name="${sysUser.realname}"
            data-cls="${passportType.name}"
-           class="btn btn-success" value="确认归还"/>
-    <input type="button" class="hideView btn btn-default" value="返回"/>
+            class="btn btn-success"><i class="fa fa-check"></i> 确认归还</button>
+    <button class="hideView btn btn-default"><i class="fa fa-reply"></i> 返回</button>
 </div>
 <div class="footer-margin lower"/>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
@@ -179,7 +179,7 @@
             $("textarea[name=remark]").removeAttr("required");
         }
     });
-    $("input[type=submit]").click(function(){
+    $("#submitBtn").click(function(){
 
         var usePassport = $("input[name=usePassport]:checked").val();
         if(usePassport==undefined){

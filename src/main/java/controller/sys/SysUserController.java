@@ -126,16 +126,16 @@ public class SysUserController extends BaseController {
             SecurityUtils.getSubject().checkPermission("sysUser:view");
         }
 
-        SysUserView sysUser = sysUserService.findById(userId);
-        modelMap.put("uv", sysUser);
-
         MemberView member = iMemberMapper.getMemberView(userId);
         modelMap.put("member", member);
+
+        SysUserView sysUser = sysUserService.findById(userId);
+        modelMap.put("uv", sysUser);
 
         if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
 
             // 系统教职工账号（注册或后台添加）基础信息维护
-            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+            TeacherInfo teacherInfo = teacherInfoService.get(userId);
             modelMap.put("teacherInfo", teacherInfo);
 
             return "sys/sysUser/teacher_base";

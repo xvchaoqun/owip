@@ -32,16 +32,16 @@
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
-        {label: '是否<br/>常委', name: 'isCommitteeMember', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>常委', name: 'isCommitteeMember', width: 60, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-        {label: '是否正职', name: 'isPrincipal', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
-        { label: '是否<br/>班子负责人',name: 'leaderType', width: 120, formatter:function(cellvalue, options, rowObject){
+        {label: '是否<br/>正职', name: 'isPrincipal', width: 60, formatter: $.jgrid.formatter.TRUEFALSE},
+        { label: '是否<br/>班子负责人',name: 'leaderType', width: 80, formatter:function(cellvalue, options, rowObject){
             if(cellvalue==undefined) return '--';
             return _cMap.UNIT_POST_LEADER_TYPE_MAP[cellvalue];
         }},
-        {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
+        {label: '性别', name: 'gender', width: 60, formatter:$.jgrid.formatter.GENDER},
         {label: '民族', name: 'nation', width: 60},
         {label: '籍贯', name: 'nativePlace', width: 120},
         {label: '出生地', name: 'user.homeplace', width: 120},
@@ -49,10 +49,10 @@
         {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
-        {label: '党派<br/>加入时间', name: '_growTime', formatter: $.jgrid.formatter.growTime},
+        {label: '党派<br/>加入时间', name: '_growTime', width: 80, formatter: $.jgrid.formatter.growTime},
         {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
         {
-            label: '参加工作时间', name: 'workTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}
+            label: '参加工作<br/>时间', name: 'workTime', width: 80, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}
         },
         {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
@@ -61,7 +61,7 @@
         {label: '学习方式', name: 'learnStyle', formatter: $.jgrid.formatter.MetaType},
         {label: '毕业学校', name: 'school', width: 150},
         {
-            label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
+            label: '学校类型', name: 'schoolType', width: 80, formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '--';
             return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
         }
@@ -160,8 +160,8 @@
             formatoptions: {newformat: 'Y.m.d'}
         },
         {
-            label: '任现职级年限',
-            width: 120,
+            label: '任现职级<br/>年限',
+            width: 80,
             name: 'adminLevelYear',
             formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
@@ -206,7 +206,7 @@
         }
         },
         </shiro:lacksPermission>
-        {label: '备注', name: 'remark', width: 150, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
+        {label: '备注', name: 'remark', align:'left', width: 250, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
     ];
     colModels.cadre2 = [
         {label: '工作证号', name: 'code', width: 110, frozen: true},

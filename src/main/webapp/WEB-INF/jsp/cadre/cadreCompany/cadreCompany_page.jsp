@@ -103,7 +103,7 @@ pageEncoding="UTF-8" %>
         $("#jqGrid_cadreCompany").trigger("reloadGrid");
     }
     <c:if test="${!canUpdate}">
-    $("${empty param.cadreId?'':'#body-content-view '}button.btn").prop("disabled", true);
+    $(".cadreView button.btn").prop("disabled", true);
     </c:if>
     $(".cadre-info-check").prop("checked", ${!canUpdate});
     <c:if test="${!canUpdateInfoCheck}">

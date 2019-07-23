@@ -1149,9 +1149,14 @@ public class MemberController extends MemberBaseController {
 
         MemberView member = iMemberMapper.getMemberView(userId);
         modelMap.put("member", member);
-        if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER)
-            return "member/member/teacher_base";
+        modelMap.put("uv", sysUserService.findById(userId));
+        if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER) {
 
+            modelMap.put("teacherInfo", teacherInfoService.get(userId));
+            return "member/member/teacher_base";
+        }
+
+        modelMap.put("studentInfo", studentInfoService.get(userId));
         return "member/member/student_base";
     }
 

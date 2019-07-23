@@ -27,7 +27,7 @@
     <div id="body-content-view">
 </c:if>
 
-<div class="widget-box transparent" id="view-box">
+<div class="widget-box transparent cadreView" id="view-box">
     <div class="widget-header" style="border-bottom:none">
         <div class="widget-toolbar no-border"
              style="float:left;border-bottom: 1px solid #dce8f1;">

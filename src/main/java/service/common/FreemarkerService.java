@@ -119,7 +119,8 @@ public class FreemarkerService {
         String title = null;
         List rows = new ArrayList();
 
-        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content.replace("<br", "<p")));
+        //Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content.replace("<br", "<p")));
+        Document doc = Jsoup.parse(content.replace("<br", "<p"));
         Elements ps = doc.getElementsByTag("p");
         int size = ps.size();
 
@@ -204,7 +205,8 @@ public class FreemarkerService {
         //System.out.println(getStringNoBlank(info));
         List rows = new ArrayList();
 
-        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content.replace("<br", "<p")));
+        //Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content.replace("<br", "<p")));
+        Document doc = Jsoup.parse(content.replace("<br", "<p"));
         Elements pElements = doc.getElementsByTag("p");
         int size = pElements.size();
         for (Element pElement : pElements) {
