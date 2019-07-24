@@ -2059,7 +2059,7 @@
 									<w:sz w:val="28"/>
 									<w:sz-cs w:val="28"/>
 								</w:rPr>
-								<w:t>${schoolDepMajor!}</w:t>
+								<w:t>${schoolDepMajor1!}<#if !sameSchool><w:br/></#if>${schoolDepMajor2!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2281,7 +2281,7 @@
 									<w:sz w:val="28"/>
 									<w:sz-cs w:val="28"/>
 								</w:rPr>
-								<w:t>${inSchoolDepMajor!}</w:t>
+								<w:t>${inSchoolDepMajor1!}<#if !sameInSchool><w:br/></#if>${inSchoolDepMajor2!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>

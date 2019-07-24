@@ -175,6 +175,13 @@ public class CadreAdformService extends BaseMapper {
         }
     }
 
+    // 判断是否是进修学习，进修学习不能进入任免审批表
+    public boolean isJxxx(int eduId){
+
+        MetaType jxxx = CmTag.getMetaTypeByCode("mt_edu_jxxx");
+        return (jxxx!=null && jxxx.getId()==eduId);
+    }
+
     // 获取任免审批表属性值
     public CadreInfoForm getCadreAdform(int cadreId) {
 
@@ -229,44 +236,41 @@ public class CadreAdformService extends BaseMapper {
                 StringUtils.trimToEmpty(highEdu.getSchool())+
                         StringUtils.trimToEmpty(highEdu.getDep())
                         +StringUtils.trimToEmpty(highEdu.getMajor()));*/
-        String _fulltimeEdu = "";
-        String _fulltimeDegree = "";
-        String _fulltimeMajor = "";
-        String _onjobEdu = "";
-        String _onjobDegree = "";
-        String _onjobMajor = "";
-        CadreEdu[] cadreEdus = cadre.getCadreEdus();
+        String _fulltimeEdu = ""; // 全日制最高学历
+        String _fulltimeDegree = ""; // 全日制最高学位
+        String _fulltimeMajor = "";  // 全日制毕业院校及专业
+        String _onjobEdu = ""; // 在职最高学历
+        String _onjobDegree = ""; // 在职最高学位
+        String _onjobMajor = "";  // 在职毕业院校及专业
+        /*CadreEdu[] cadreEdus = cadre.getCadreEdus();
         CadreEdu fulltimeEdu = cadreEdus[0];
         CadreEdu onjobEdu = cadreEdus[1];
-
-        Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
-        MetaType jxxx = codeKeyMap.get("mt_edu_jxxx");
 
         if (fulltimeEdu != null && fulltimeEdu.getIsGraduated()) {
             if (jxxx != null && fulltimeEdu.getId().intValue() == jxxx.getId()) {
                 // 进修学习不能进入表格
             } else {
-                Integer eduId = fulltimeEdu.getEduId();
+                *//*Integer eduId = fulltimeEdu.getEduId();
                 if(eduId!=null) {
                     _fulltimeEdu = CmTag.getEduName(eduId);
-                }
+                }*//*
 
                 bean.setSchool(StringUtils.trimToEmpty(fulltimeEdu.getSchool()));
                 bean.setDep(StringUtils.trimToEmpty(fulltimeEdu.getDep()));
                 bean.setDepMajor(StringUtils.trimToEmpty(CadreUtils.major(fulltimeEdu.getMajor())));
                 _fulltimeMajor = bean.getSchool() + StringUtils.trimToEmpty(fulltimeEdu.getDep()) + bean.getDepMajor();
 
-                _fulltimeDegree = fulltimeEdu.getDegree(); // 学位
+                //_fulltimeDegree = fulltimeEdu.getDegree(); // 学位
             }
         }
         if (onjobEdu != null && onjobEdu.getIsGraduated()) {
             if (jxxx != null && onjobEdu.getId().intValue() == jxxx.getId()) {
                 // 进修学习不能进入表格
             } else {
-                Integer eduId = onjobEdu.getEduId();
+                *//*Integer eduId = onjobEdu.getEduId();
                 if(eduId!=null) {
                     _onjobEdu = CmTag.getEduName(eduId);
-                }
+                }*//*
 
                 bean.setInSchool(StringUtils.trimToEmpty(onjobEdu.getSchool()));
                 bean.setInDep(StringUtils.trimToEmpty(onjobEdu.getDep()));
@@ -274,17 +278,100 @@ public class CadreAdformService extends BaseMapper {
 
                 _onjobMajor = bean.getInSchool() + StringUtils.trimToEmpty(onjobEdu.getDep()) + bean.getInDepMajor();
 
-                _onjobDegree = onjobEdu.getDegree();
+                //_onjobDegree = onjobEdu.getDegree();
             }
+        }*/
+
+        MetaType fullltimeType = CmTag.getMetaTypeByCode("mt_fulltime");
+        MetaType onjobType = CmTag.getMetaTypeByCode("mt_onjob");
+        CadreEdu fulltimeHighEdu = cadreEduService.getHighEdu(cadreId, fullltimeType.getId());
+        CadreEdu onjobHighEdu = cadreEduService.getHighEdu(cadreId, onjobType.getId());
+        if(fulltimeHighEdu!=null && !isJxxx(fulltimeHighEdu.getEduId())){
+            _fulltimeEdu = CmTag.getEduName(fulltimeHighEdu.getEduId());
         }
+        if(onjobHighEdu!=null && !isJxxx(onjobHighEdu.getEduId())){
+            _onjobEdu = CmTag.getEduName(onjobHighEdu.getEduId());
+        }
+
+
+        CadreEdu fulltimeHighDegree = cadreEduService.getHighDegree(cadreId, fullltimeType.getId());
+        CadreEdu onjobHighDegree = cadreEduService.getHighDegree(cadreId, onjobType.getId());
+        if(fulltimeHighDegree!=null && !isJxxx(fulltimeHighDegree.getEduId())){
+            _fulltimeDegree = fulltimeHighDegree.getDegree();
+        }
+        if(onjobHighDegree!=null && !isJxxx(onjobHighDegree.getEduId())){
+            _onjobDegree = onjobHighDegree.getDegree();
+        }
+
+        // 全日制 - 根据学历、学位对应的毕业院系是否相同，读取 “毕业院系及专业”
+        if(fulltimeHighEdu!=null && fulltimeHighDegree !=null){
+            if(fulltimeHighEdu.getId().intValue()==fulltimeHighDegree.getId()){
+                // 最高学历和学位毕业学校及专业相同
+                bean.setSameSchool(true);
+                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
+                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+            }else{
+                bean.setSameSchool(false);
+                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
+                        + StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
+                        + StringUtils.trimToEmpty(fulltimeHighDegree.getDep())
+                        + StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
+            }
+        }else if(fulltimeHighEdu!=null){
+
+            bean.setSameSchool(true);
+            bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                    + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
+            bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+        }else if(fulltimeHighDegree!=null){
+
+            bean.setSameSchool(true);
+            bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
+                    + StringUtils.trimToEmpty(fulltimeHighDegree.getDep()));
+            bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
+        }
+
+        // 在职 - 根据学历、学位对应的毕业院系是否相同，读取 “毕业院系及专业”
+        if(onjobHighEdu!=null && onjobHighDegree !=null){
+            if(onjobHighEdu.getId().intValue()==onjobHighDegree.getId()){
+                // 最高学历和学位毕业学校及专业相同
+                bean.setSameInSchool(true);
+                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
+                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+            }else{
+                bean.setSameInSchool(false);
+                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(onjobHighEdu.getDep())
+                        + StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
+                        + StringUtils.trimToEmpty(onjobHighDegree.getDep())
+                        + StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
+            }
+        }else if(onjobHighEdu!=null){
+
+            bean.setSameInSchool(true);
+            bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                    + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
+            bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+        }else if(onjobHighDegree!=null){
+
+            bean.setSameInSchool(true);
+            bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
+                    + StringUtils.trimToEmpty(onjobHighDegree.getDep()));
+            bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
+        }
+
         // 全日制最高学历
         bean.setEdu(_fulltimeEdu);
         bean.setDegree(_fulltimeDegree);
-        bean.setSchoolDepMajor(_fulltimeMajor);
+
         // 在职最高学历
         bean.setInEdu(_onjobEdu);
         bean.setInDegree(_onjobDegree);
-        bean.setInSchoolDepMajor(_onjobMajor);
 
         bean.setTitle(cadre.getTitle());
         // 主职,现任职务
@@ -299,12 +386,10 @@ public class CadreAdformService extends BaseMapper {
         }
 
         // 学习经历
-        CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
-        bean.setLearnDesc(edu == null ? null : edu.getContent());
+        bean.setLearnDesc(cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU));
 
         // 奖惩情况
-        CadreInfo reward = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD);
-        String _reward = (reward == null) ? null : reward.getContent();
+        String _reward = cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD);
         if (StringUtils.isBlank(_reward)) {
             _reward = freemarkerService.freemarker(cadreRewardService.list(cadreId),
                     "cadreRewards", "/cadre/cadreReward.ftl");
@@ -312,12 +397,10 @@ public class CadreAdformService extends BaseMapper {
         bean.setReward(StringUtils.defaultIfBlank(_reward, "无"));
 
         // 工作经历
-        CadreInfo work = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
-        bean.setWorkDesc(work == null ? null : work.getContent());
+        bean.setWorkDesc(cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK));
 
         // 简历
-        CadreInfo resume = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESUME);
-        String _resume = (resume == null) ? null : resume.getContent();
+        String _resume = cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_RESUME);
         if (StringUtils.isBlank(_resume)) {
             _resume = freemarkerService.freemarker(cadreWorkService.resume(bean.getCadreId()),
                     "cadreResumes", "/cadre/cadreResume.ftl");
@@ -355,8 +438,7 @@ public class CadreAdformService extends BaseMapper {
         bean.setCes(evaResult);
 
         // 培训情况
-        CadreInfo train = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
-        bean.setTrainDesc(train == null ? null : train.getContent());
+        bean.setTrainDesc(cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN));
 
         // 社会关系
         CadreFamilyExample example = new CadreFamilyExample();
@@ -410,10 +492,17 @@ public class CadreAdformService extends BaseMapper {
 
         dataMap.put("edu", bean.getEdu());
         dataMap.put("degree", bean.getDegree());
-        dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
         dataMap.put("inEdu", bean.getInEdu());
         dataMap.put("inDegree", bean.getInDegree());
-        dataMap.put("inSchoolDepMajor", bean.getInSchoolDepMajor());
+
+        dataMap.put("sameSchool", bean.isSameSchool());
+        dataMap.put("schoolDepMajor1", bean.getSchoolDepMajor1());
+        dataMap.put("schoolDepMajor2", bean.getSchoolDepMajor2());
+
+        dataMap.put("sameInSchool", bean.isSameInSchool());
+        dataMap.put("inSchoolDepMajor1", bean.getInSchoolDepMajor1());
+        dataMap.put("inSchoolDepMajor2", bean.getInSchoolDepMajor2());
+
 
         dataMap.put("post", bean.getPost());
         dataMap.put("inPost", bean.getInPost());
@@ -653,23 +742,23 @@ public class CadreAdformService extends BaseMapper {
     }
 
     // 输出中组部任免审批表
-    public void zzb(CadreInfoForm adform, Writer out) throws IOException, DocumentException {
+    public void zzb(CadreInfoForm bean, Writer out) throws IOException, DocumentException {
 
         Document doc = getZZBTemplate();
 
-        setNodeText(doc, "XingMing", adform.getRealname());
-        setNodeText(doc, "XingBie", SystemConstants.GENDER_MAP.get(adform.getGender()));
-        setNodeText(doc, "ChuShengNianYue", DateUtils.formatDate(adform.getBirth(), "yyyyMM"));
-        setNodeText(doc, "MinZu", adform.getNation());
-        setNodeText(doc, "JiGuan", adform.getNativePlace());
-        setNodeText(doc, "ChuShengDi", adform.getHomeplace());
+        setNodeText(doc, "XingMing", bean.getRealname());
+        setNodeText(doc, "XingBie", SystemConstants.GENDER_MAP.get(bean.getGender()));
+        setNodeText(doc, "ChuShengNianYue", DateUtils.formatDate(bean.getBirth(), "yyyyMM"));
+        setNodeText(doc, "MinZu", bean.getNation());
+        setNodeText(doc, "JiGuan", bean.getNativePlace());
+        setNodeText(doc, "ChuShengDi", bean.getHomeplace());
 
         String dpPartyName = null;
-        if (adform.getDpTypeId() != null && adform.getDpTypeId() > 0) {
-            MetaType metaType = CmTag.getMetaType(adform.getDpTypeId());
+        if (bean.getDpTypeId() != null && bean.getDpTypeId() > 0) {
+            MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
             dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
         }
-        String owGrowTime = DateUtils.formatDate(adform.getOwGrowTime(), "yyyyMM");
+        String owGrowTime = DateUtils.formatDate(bean.getOwGrowTime(), "yyyyMM");
         if (owGrowTime == null && dpPartyName != null) {
             setNodeText(doc, "RuDangShiJian", dpPartyName);
         } else if (owGrowTime != null && dpPartyName == null) {
@@ -678,47 +767,45 @@ public class CadreAdformService extends BaseMapper {
             setNodeText(doc, "RuDangShiJian", owGrowTime + "；" + dpPartyName);
         }
 
-        setNodeText(doc, "CanJiaGongZuoShiJian", DateUtils.formatDate(adform.getWorkTime(), "yyyyMM"));
-        setNodeText(doc, "JianKangZhuangKuang", adform.getHealth());
-        setNodeText(doc, "ZhuanYeJiShuZhiWu", adform.getProPost());
-        setNodeText(doc, "ShuXiZhuanYeYouHeZhuanChang", adform.getSpecialty());
+        setNodeText(doc, "CanJiaGongZuoShiJian", DateUtils.formatDate(bean.getWorkTime(), "yyyyMM"));
+        setNodeText(doc, "JianKangZhuangKuang", bean.getHealth());
+        setNodeText(doc, "ZhuanYeJiShuZhiWu", bean.getProPost());
+        setNodeText(doc, "ShuXiZhuanYeYouHeZhuanChang", bean.getSpecialty());
 
-        setNodeText(doc, "QuanRiZhiJiaoYu_XueLi", adform.getEdu());
-        setNodeText(doc, "QuanRiZhiJiaoYu_XueWei", adform.getDegree());
-        setNodeText(doc, "QuanRiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", StringUtils.trimToEmpty(adform.getSchool())
-                + StringUtils.trimToEmpty(adform.getDep()));
-        setNodeText(doc, "QuanRiZhiJiaoYu_XueWei_BiYeYuanXiaoXi", adform.getDepMajor());
-        setNodeText(doc, "ZaiZhiJiaoYu_XueLi", adform.getInEdu());
-        setNodeText(doc, "ZaiZhiJiaoYu_XueWei", adform.getInDegree());
-        setNodeText(doc, "ZaiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", StringUtils.trimToEmpty(adform.getInSchool()) +
-                StringUtils.trimToEmpty(adform.getInDep()));
-        setNodeText(doc, "ZaiZhiJiaoYu_XueWei_BiYeYuanXiaoXi", adform.getInDepMajor());
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueLi", bean.getEdu());
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueWei", bean.getDegree());
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", bean.getSchoolDepMajor1());
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueWei_BiYeYuanXiaoXi", bean.getSchoolDepMajor2());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueLi", bean.getInEdu());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueWei", bean.getInDegree());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", bean.getInSchoolDepMajor1());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueWei_BiYeYuanXiaoXi", bean.getInSchoolDepMajor2());
 
-        setNodeText(doc, "XianRenZhiWu", adform.getPost());
-        setNodeText(doc, "NiRenZhiWu", adform.getInPost());
-        setNodeText(doc, "NiMianZhiWu", adform.getPrePost());
+        setNodeText(doc, "XianRenZhiWu", bean.getPost());
+        setNodeText(doc, "NiRenZhiWu", bean.getInPost());
+        setNodeText(doc, "NiMianZhiWu", bean.getPrePost());
 
         String jianli = "";
-        String resumeDesc = adform.getResumeDesc();
+        String resumeDesc = bean.getResumeDesc();
         if (StringUtils.isNotBlank(resumeDesc)) {
-            jianli += adform.getResumeDesc();
+            jianli += bean.getResumeDesc();
         } else {
-            if (StringUtils.isNotBlank(adform.getLearnDesc())) {
-                jianli += adform.getLearnDesc();
+            if (StringUtils.isNotBlank(bean.getLearnDesc())) {
+                jianli += bean.getLearnDesc();
             }
-            if (StringUtils.isNotBlank(adform.getWorkDesc())) {
-                jianli += adform.getWorkDesc();
+            if (StringUtils.isNotBlank(bean.getWorkDesc())) {
+                jianli += bean.getWorkDesc();
             }
         }
 
         setNodeText(doc, "JianLi", html2Paragraphs(jianli));
-        setNodeText(doc, "JiangChengQingKuang", html2Paragraphs(adform.getReward()));
-        setNodeText(doc, "NianDuKaoHeJieGuo", adform.getCes());
-        setNodeText(doc, "RenMianLiYou", adform.getReason());
+        setNodeText(doc, "JiangChengQingKuang", html2Paragraphs(bean.getReward()));
+        setNodeText(doc, "NianDuKaoHeJieGuo", bean.getCes());
+        setNodeText(doc, "RenMianLiYou", bean.getReason());
 
         // 家庭成员
         Element familys = (Element) doc.selectSingleNode("//Person//JiaTingChengYuan");
-        List<CadreFamily> cadreFamilys = adform.getCadreFamilys();
+        List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
         int size = Math.min(cadreFamilys.size(), 10);
         for (int i = 0; i < size; i++) {
 
@@ -741,8 +828,8 @@ public class CadreAdformService extends BaseMapper {
         setNodeText(doc, "TianBiaoShiJian", "");
         SysUserView currentUser = ShiroHelper.getCurrentUser();
         setNodeText(doc, "TianBiaoRen", currentUser == null ? "" : currentUser.getRealname());
-        setNodeText(doc, "ShenFenZheng", adform.getIdCard());
-        setNodeText(doc, "ZhaoPian", adform.getAvatar());
+        setNodeText(doc, "ShenFenZheng", bean.getIdCard());
+        setNodeText(doc, "ZhaoPian", bean.getAvatar());
         setNodeText(doc, "Version", "3.2.1.6");
 
 

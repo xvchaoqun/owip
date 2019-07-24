@@ -624,15 +624,17 @@ public class CmTag {
     }
 
     // 读取学历名称，用于任免审批表
-    public static String getEduName(int eduId){
+    public static String getEduName(Integer eduId){
+
+        if(eduId==null) return "";
 
         MetaType bk = CmTag.getMetaTypeByCode("mt_edu_bk");
         MetaType master = CmTag.getMetaTypeByCode("mt_edu_master");
         MetaType doctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
 
-        if(eduId == bk.getId()){
+        if(eduId == bk.getId().intValue()){
             return "大学";
-        }else if(eduId == master.getId() || eduId == doctor.getId()){
+        }else if(eduId == master.getId().intValue() || eduId == doctor.getId().intValue()){
             return "研究生";
         }
 

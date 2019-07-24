@@ -3209,7 +3209,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${degree!}</w:t>
+									<w:t>${edu!}<#if degree??><w:br/></#if>${degree!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3276,7 +3276,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${schoolDepMajor!}</w:t>
+									<w:t>${schoolDepMajor1!}<#if !sameSchool><w:br/></#if>${schoolDepMajor2!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3367,7 +3367,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${inDegree!}</w:t>
+									<w:t>${inEdu!}<#if inDegree??><w:br/></#if>${inDegree!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3434,7 +3434,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${inSchoolDepMajor!}</w:t>
+									<w:t>${inSchoolDepMajor1!}<#if !sameInSchool><w:br/></#if>${inSchoolDepMajor2!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>

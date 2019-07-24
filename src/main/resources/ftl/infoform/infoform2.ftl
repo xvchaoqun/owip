@@ -2040,7 +2040,7 @@
 									<w:rFonts w:ascii="宋体" w:fareast="宋体" w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 								</w:rPr>
-								<w:t>${edu!} ${degree!}</w:t>
+								<w:t>${edu!}<#if degree??><w:br/></#if>${degree!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2093,7 +2093,7 @@
 									<w:u w:color="000000"/>
 									<w:lang w:val="ZH-TW" w:fareast="ZH-TW"/>
 								</w:rPr>
-								<w:t>${schoolDepMajor!}</w:t>
+								<w:t>${schoolDepMajor1!}<#if !sameSchool><w:br/></#if>${schoolDepMajor2!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2189,7 +2189,7 @@
 									<w:rFonts w:ascii="宋体" w:fareast="宋体" w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 								</w:rPr>
-								<w:t>${inEdu!} ${inDegree!}</w:t>
+								<w:t>${inEdu!}<#if inDegree??><w:br/></#if>${inDegree!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2239,7 +2239,7 @@
 									<w:rFonts w:ascii="宋体" w:fareast="宋体" w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 								</w:rPr>
-								<w:t>${inSchoolDepMajor!}</w:t>
+								<w:t>${inSchoolDepMajor1!}<#if !sameInSchool><w:br/></#if>${inSchoolDepMajor2!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>

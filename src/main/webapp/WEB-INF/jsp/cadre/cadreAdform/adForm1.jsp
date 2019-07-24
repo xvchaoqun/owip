@@ -198,7 +198,7 @@ td.bolder{font-weight: bolder}
         </div>
       </td>
       <td class="td9 padding10" colspan="3">
-        ${bean.schoolDepMajor}
+          ${bean.schoolDepMajor1}${bean.sameSchool?'':'<br/>'}${bean.schoolDepMajor2}
       </td>
     </tr>
     <tr>
@@ -220,7 +220,7 @@ td.bolder{font-weight: bolder}
         </div>
       </td>
       <td class="td9 padding10" colspan="3">
-        ${bean.inSchoolDepMajor}
+        ${bean.inSchoolDepMajor1}${bean.sameInSchool?'':'<br/>'}${bean.inSchoolDepMajor2}
       </td>
     </tr>
     <tr class="r1">

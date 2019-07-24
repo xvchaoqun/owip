@@ -339,7 +339,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>${bean.schoolDepMajor}</span></p>
+  color:windowtext'>${bean.schoolDepMajor1}${bean.sameSchool?'':'<br/>'}${bean.schoolDepMajor2}</span></p>
   </td>
  </tr>
  <tr style='height:31.45pt'>
@@ -379,7 +379,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   padding:0cm 5.4pt 0cm 5.4pt;height:31.45pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
-  color:windowtext'>${bean.inSchoolDepMajor}</span></p>
+  color:windowtext'>${bean.inSchoolDepMajor1}${bean.sameInSchool?'':'<br/>'}${bean.inSchoolDepMajor2}</span></p>
   </td>
  </tr>
  <tr style='height:31.45pt'>

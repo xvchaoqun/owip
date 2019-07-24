@@ -410,10 +410,16 @@ public class CadreInfoFormService extends BaseMapper {
 
         dataMap.put("edu", bean.getEdu());
         dataMap.put("degree", StringUtils.trimToNull(bean.getDegree()));
-        dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
         dataMap.put("inEdu", bean.getInEdu());
         dataMap.put("inDegree", StringUtils.trimToNull(bean.getInDegree()));
-        dataMap.put("inSchoolDepMajor", bean.getInSchoolDepMajor());
+
+        dataMap.put("sameSchool", bean.isSameSchool());
+        dataMap.put("schoolDepMajor1", bean.getSchoolDepMajor1());
+        dataMap.put("schoolDepMajor2", bean.getSchoolDepMajor2());
+
+        dataMap.put("sameInSchool", bean.isSameInSchool());
+        dataMap.put("inSchoolDepMajor1", bean.getInSchoolDepMajor1());
+        dataMap.put("inSchoolDepMajor2", bean.getInSchoolDepMajor2());
 
         dataMap.put("masterTutor", bean.getMasterTutor());
         dataMap.put("doctorTutor", bean.getDoctorTutor());
@@ -538,10 +544,16 @@ public class CadreInfoFormService extends BaseMapper {
 
         dataMap.put("edu", bean.getEdu());
         dataMap.put("degree", StringUtils.trimToNull(bean.getDegree()));
-        dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
         dataMap.put("inEdu", bean.getInEdu());
         dataMap.put("inDegree", StringUtils.trimToNull(bean.getInDegree()));
-        dataMap.put("inSchoolDepMajor", bean.getInSchoolDepMajor());
+
+        dataMap.put("sameSchool", bean.isSameSchool());
+        dataMap.put("schoolDepMajor1", bean.getSchoolDepMajor1());
+        dataMap.put("schoolDepMajor2", bean.getSchoolDepMajor2());
+
+        dataMap.put("sameInSchool", bean.isSameInSchool());
+        dataMap.put("inSchoolDepMajor1", bean.getInSchoolDepMajor1());
+        dataMap.put("inSchoolDepMajor2", bean.getInSchoolDepMajor2());
 
         dataMap.put("masterTutor", bean.getMasterTutor());
         dataMap.put("doctorTutor", bean.getDoctorTutor());

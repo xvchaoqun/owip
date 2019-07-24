@@ -61,7 +61,7 @@ public class CadreEduService extends BaseMapper {
         return cadreEduMapper.selectByExample(example);
     }
 
-    // 获取全日制教育、在职教育（仅读取已毕业的记录）
+    // 获取全日制教育、在职教育（各读取已毕业的最后一条记录）
     public CadreEdu[] getByLearnStyle(int cadreId){
 
         CadreEduExample example = new CadreEduExample();
@@ -138,7 +138,8 @@ public class CadreEduService extends BaseMapper {
     public CadreEdu getHighEdu(int cadreId){
 
         CadreEduExample example = new CadreEduExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId).andIsHighEduEqualTo(true)
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andIsGraduatedEqualTo(true).andIsHighEduEqualTo(true)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(cadreEdus.size()>0) return  cadreEdus.get(0);
@@ -147,8 +148,39 @@ public class CadreEduService extends BaseMapper {
     public CadreEdu getHighDegree(int cadreId){
 
         CadreEduExample example = new CadreEduExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId).andIsHighDegreeEqualTo(true)
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andIsGraduatedEqualTo(true).andIsHighDegreeEqualTo(true)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(cadreEdus.size()>0) return  cadreEdus.get(0);
+        return null;
+    }
+
+    // 获取全日制/在职的最高学历
+    public CadreEdu getHighEdu(int cadreId, int learnStyle){
+
+        CadreEduExample example = new CadreEduExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andIsGraduatedEqualTo(true)
+                .andLearnStyleEqualTo(learnStyle).andEduIdIsNotNull()
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+
+        example.setOrderByClause("is_high_edu desc, enrol_time desc");
+        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(cadreEdus.size()>0) return  cadreEdus.get(0);
+        return null;
+    }
+
+    // 获取全日制/在职的最高学位
+    public CadreEdu getHighDegree(int cadreId, int learnStyle){
+
+        CadreEduExample example = new CadreEduExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andIsGraduatedEqualTo(true)
+                .andLearnStyleEqualTo(learnStyle).andHasDegreeEqualTo(true)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+
+        example.setOrderByClause("is_high_degree desc, enrol_time desc");
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(cadreEdus.size()>0) return  cadreEdus.get(0);
         return null;

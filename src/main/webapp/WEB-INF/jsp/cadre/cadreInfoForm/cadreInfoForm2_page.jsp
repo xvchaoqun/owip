@@ -261,7 +261,7 @@ div.WordSection1
   <td width=219 colspan=2 style='width:163.9pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
-  <p class=MsoNormal align=center style='text-align:center'>${bean.schoolDepMajor}</p>
+  <p class=MsoNormal align=center style='text-align:center'>${bean.schoolDepMajor1}${bean.sameSchool?'':'<br/>'}${bean.schoolDepMajor2}</p>
   </td>
  </tr>
  <tr style='page-break-inside:avoid;height:32.55pt'>
@@ -285,7 +285,7 @@ div.WordSection1
   <td width=219 colspan=2 style='width:163.9pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
-  <p class=MsoNormal align=center style='text-align:center'>${bean.inSchoolDepMajor}</p>
+  <p class=MsoNormal align=center style='text-align:center'>${bean.inSchoolDepMajor1}${bean.sameInSchool?'':'<br/>'}${bean.inSchoolDepMajor2}</p>
   </td>
  </tr>
  <tr style='page-break-inside:avoid;height:23.55pt'>

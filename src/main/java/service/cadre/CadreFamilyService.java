@@ -274,8 +274,11 @@ public class CadreFamilyService extends BaseMapper {
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
+                CadreFamily original = cadreFamilyMapper.selectByPrimaryKey(originalId);
+
                 CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
                 modify.setId(originalId);
+                modify.setSortOrder(original.getSortOrder()); // 保持和原纪录排序一致
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
                 cadreFamilyMapper.updateByPrimaryKey(modify); // 覆盖原纪录

@@ -5,7 +5,9 @@ import domain.cadre.CadreInfoExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
+import sys.utils.StringUtil;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -28,6 +30,15 @@ public class CadreInfoService extends BaseMapper {
         CadreInfoExample example = new CadreInfoExample();
         example.createCriteria().andCadreIdIn(Arrays.asList(cadreIds));
         cadreInfoMapper.deleteByExample(example);
+    }
+
+    public String getTrimContent(int cadreId, byte type){
+
+        CadreInfo cadreInfo = get(cadreId, type);
+        if(cadreInfo==null) return null;
+        String content = HtmlUtils.htmlUnescape(cadreInfo.getContent()); // 去掉 &nbsp;
+
+        return StringUtil.trim(content);
     }
 
     public CadreInfo get(int cadreId, byte type){

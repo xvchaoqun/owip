@@ -3212,7 +3212,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${bean.schoolDepMajor!}</w:t>
+									<w:t>${bean.schoolDepMajor1!}<#if !bean.sameSchool><w:br/></#if>${bean.schoolDepMajor2!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3384,7 +3384,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${bean.inSchoolDepMajor!}</w:t>
+									<w:t>${bean.inSchoolDepMajor1!}<#if !bean.sameInSchool><w:br/></#if>${bean.inSchoolDepMajor2!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
