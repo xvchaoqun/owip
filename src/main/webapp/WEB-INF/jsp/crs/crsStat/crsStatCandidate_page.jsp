@@ -154,7 +154,7 @@
         {label: '所学专业', name: 'major', width: 180, align: 'left'},
         {label: '专业技术职务', name: 'proPost', width: 120},
         {label: '专技职务评定时间', name: 'proPostTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-        {label: '专技岗位等级', name: 'proPostLevel', width: 150},
+        {label: '职称级别', name: 'proPostLevel', width: 150},
         {
             label: '专技岗位分级时间',
             name: 'proPostLevelTime',
@@ -162,14 +162,14 @@
             formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m.d'}
         },
-        {label: '管理岗位等级', name: 'manageLevel', width: 150},
+        /*{label: '管理岗位等级', name: 'manageLevel', width: 150},
         {
             label: '管理岗位分级时间',
             name: 'manageLevelTime',
             width: 130,
             formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m.d'}
-        },
+        },*/
         {
             label: '推荐/自荐', name: 'isRecommend', width: 180, formatter: function (cellvalue, options, rowObject) {
 

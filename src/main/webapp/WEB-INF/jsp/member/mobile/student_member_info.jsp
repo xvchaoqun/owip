@@ -74,10 +74,10 @@
         </div>
 
         <div class="profile-info-row">
-          <div class="profile-info-name td"> 年级</div>
+          <div class="profile-info-name td"> 所在年级</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${member.grade}
+              ${member.enrolYear}
             </span>
           </div>
         </div>
@@ -105,14 +105,14 @@
             </span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 招生年度</div>
           <div class="profile-info-value td">
             <span class="editable">
               ${member.enrolYear}
             </span>
           </div>
-        </div>
+        </div>--%>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 学生类别 </div>
           <div class="profile-info-value td">

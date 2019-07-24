@@ -77,10 +77,10 @@
 </tr>
 <tr>
   <td class="bg-right">
-    毕业班级
+    所在年级
   </td>
   <td class="bg-left" style="min-width: 80px">
-    ${student.grade}
+    ${student.enrolYear}
   </td>
   <td class="bg-right">
     学号

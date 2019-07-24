@@ -181,7 +181,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
                            @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
                            @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
-                           @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 专技岗位等级
+                           @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
                            Boolean isPrincipal, // 是否正职
                            @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
                            Boolean isDouble, // 是否双肩挑

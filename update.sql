@@ -3,6 +3,10 @@
 
 20190722
 
+ALTER TABLE `sys_student_info`
+	CHANGE COLUMN `enrol_year` `enrol_year` VARCHAR(50) NULL DEFAULT NULL COMMENT '所在年级，即招生年度' AFTER `is_full_time`,
+	CHANGE COLUMN `grade` `grade` VARCHAR(10) NULL DEFAULT NULL COMMENT '年级，弃用' AFTER `period`;
+
 UPDATE cadre_post SET post=post_name WHERE is_main_post=0;
 
 ALTER TABLE `cadre_reserve`

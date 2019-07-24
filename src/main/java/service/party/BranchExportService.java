@@ -81,8 +81,8 @@ public class BranchExportService extends BaseMapper {
         int count = records.size();
         String[] titles = {"工作证号", "姓名", "所在单位", "所属分党委", "所属支部", "类别",
                 "任职时间","性别", "民族", "身份证号",
-                "出生时间", "党派", "党派加入时间", "到校时间", "岗位类别",
-                "主岗等级", "专业技术职务", "专技职务等级", "管理岗位等级", "办公电话",
+                "出生时间", "党派", "党派加入时间", "到校时间", /*"岗位类别",
+                "主岗等级",*/ "专业技术职务", "职称级别", /*"管理岗位等级",*/ "办公电话",
                 "手机号", "所属党组织"};
         int columnCount = titles.length;
         Row firstRow = sheet.createRow(rowNum++);
@@ -110,12 +110,12 @@ public class BranchExportService extends BaseMapper {
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
+        /*sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));// 主岗等级
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));// 主岗等级*/
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
+        /*sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));*/
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
         
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150)); // 手机号
@@ -166,12 +166,12 @@ public class BranchExportService extends BaseMapper {
                     partyName,
                     partyAddTime,
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD),
-                    record.getPostClass(),
+                    /*record.getPostClass(),
                     
-                    record.getMainPostLevel(),
+                    record.getMainPostLevel(),*/
                     record.getProPost(),
                     record.getProPostLevel(),
-                    record.getManageLevel(),
+                    /*record.getManageLevel(),*/
                     record.getOfficePhone(),
                     
                     record.getMobile(),

@@ -55,7 +55,7 @@ public class CadrePostProController extends BaseController {
                 options1.add(option);
             }
         }
-        // 专技岗位等级
+        // 职称级别
         List<Map<String, Object>> options2 = new ArrayList<Map<String, Object>>();
         for (MetaType metaType : metaTypeService.metaTypes("mc_post_pro_level").values()) {
             if(StringUtils.equals(postLevel, metaType.getExtraAttr())){

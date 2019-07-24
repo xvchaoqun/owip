@@ -52,11 +52,11 @@ public class ExtService extends BaseMapper {
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
         List<BranchView> records = branchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号|100","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级|150",
+        String[] titles = {"工作证号|100","姓名","编制类别","人员类别","人员状态","在岗情况",/*"岗位类别", "主岗等级|150",*/
                 "性别","出生日期|100", "年龄","年龄范围","民族", "国家/地区", "证件号码|150",
                 "政治面貌","所在分党委、党总支、直属党支部|300|left","所在党支部|200|left", "所在单位", "入党时间|100","到校日期|100",
-                "专业技术职务|150","专技岗位等级|150","管理岗位等级","任职级别","行政职务","学历","学历毕业学校|150|left","学位授予学校",
-                "学位|100","学员结构", "人才类型", "人才称号", "籍贯","转正时间|100","手机号码|100","电子邮箱|150"};
+                "专业技术职务|150","职称级别|150",/*"管理岗位等级","任职级别","行政职务",*/"学历","毕业学校|150|left",/*"学位授予学校",*/
+                "学位|100","人员结构", /*"人才类型", "人才称号",*/ "籍贯","转正时间|100","手机号码|100","电子邮箱|150"};
 
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -84,8 +84,8 @@ public class ExtService extends BaseMapper {
                         extJzg==null?"":extJzg.getRylx(),
                         extJzg==null?"":extJzg.getRyzt(), // 人员状态
                         extJzg==null?"":extJzg.getSfzg(), // 在岗情况
-                        extJzg==null?"":extJzg.getGwlb(), // 岗位类别
-                        extJzg==null?"":extJzg.getGwjb(), // 主岗等级--岗位级别
+                        /*extJzg==null?"":extJzg.getGwlb(), // 岗位类别
+                        extJzg==null?"":extJzg.getGwjb(), // 主岗等级--岗位级别*/
                         extJzg==null?"":extJzg.getXb(),
                         DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
                         birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
@@ -101,17 +101,17 @@ public class ExtService extends BaseMapper {
                         member==null?"":DateUtils.formatDate(member.getGrowTime(), DateUtils.YYYY_MM_DD),
                         extJzg==null?"":DateUtils.formatDate(extJzg.getLxrq(), DateUtils.YYYY_MM_DD), // 到校日期
                         "", // 专业技术职务
-                        extJzg==null?"":extJzg.getZjgwdj(), //专技岗位等级
-                        extJzg==null?"":extJzg.getGlgwdj(), // 管理岗位等级
+                        extJzg==null?"":extJzg.getZjgwdj(), //职称级别
+                        /*extJzg==null?"":extJzg.getGlgwdj(), // 管理岗位等级
                         extJzg==null?"":extJzg.getXzjb(), // 任职级别 -- 行政级别
-                        extJzg==null?"":extJzg.getZwmc(), // 行政职务 -- 职务
+                        extJzg==null?"":extJzg.getZwmc(), // 行政职务 -- 职务*/
                         extJzg==null?"":extJzg.getZhxlmc(), // 学历
-                        extJzg==null?"":extJzg.getXlbyxx(), // 学历毕业学校
-                        extJzg==null?"":extJzg.getXwsyxx(), // 学位授予学校
+                        extJzg==null?"":extJzg.getXlbyxx(), // 毕业学校
+                        /*extJzg==null?"":extJzg.getXwsyxx(), // 学位授予学校*/
                         extJzg==null?"":extJzg.getZhxw(), // 学位
-                        extJzg==null?"":extJzg.getXyjg(), // 学员结构 (学位授予国家)
-                        extJzg==null?"":extJzg.getRclx(),
-                        extJzg==null?"":extJzg.getRcch(),
+                        extJzg==null?"":extJzg.getXyjg(), // 人员结构 (学位授予国家)
+                        /*extJzg==null?"":extJzg.getRclx(),
+                        extJzg==null?"":extJzg.getRcch(),*/
                         extJzg==null?"":extJzg.getJg(),
                         member==null?"":DateUtils.formatDate(member.getPositiveTime(), DateUtils.YYYY_MM_DD),
                         uv.getMobile(),

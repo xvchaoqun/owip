@@ -761,9 +761,9 @@ public class SyncService extends BaseMapper {
                 //student.setEduCategory(extBks.getJylb()); 培养级别
                 record.setEduWay(extBks.getPyfs());
                 //student.setIsFullTime(extBks.get); 是否全日制
-                //student.setEnrolYear(extBks.getZsnd()+""); 招生年度
+                record.setEnrolYear(extBks.getNj()+""); // 招生年度
                 //student.setPeriod(extBks.getXz()+""); 学制
-                record.setGrade(extBks.getNj());
+                //record.setGrade(extBks.getNj());
                 //student.setActualEnrolTime(DateUtils.parseStringToDate(extBks.getSjrxny())); 实际入学年月
                 //student.setExpectGraduateTime(DateUtils.parseStringToDate(extBks.getYjbyny())); 预计毕业年月
                 //student.setDelayYear(extBks.getYqbynx()); 预计毕业年限
@@ -807,7 +807,7 @@ public class SyncService extends BaseMapper {
                 //student.setIsFullTime(extYjs.get); 是否全日制
                 record.setEnrolYear(extYjs.getZsnd() + "");
                 record.setPeriod(extYjs.getXz() + "");
-                record.setGrade(extYjs.getNj() + "");
+                //record.setGrade(extYjs.getNj() + "");
 
                 record.setActualEnrolTime(DateUtils.parseStringToDate(extYjs.getSjrxny()));
                 record.setExpectGraduateTime(DateUtils.parseStringToDate(extYjs.getYjbyny()));

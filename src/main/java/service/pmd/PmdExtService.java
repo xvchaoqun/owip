@@ -42,7 +42,7 @@ public class PmdExtService extends PmdBaseMapper{
         return rcchNormMap;
     }
 
-    // 专技岗位等级收费标准
+    // 职称级别收费标准
     public Map<String, Integer> getProPostLevelNormMap(){
 
         if(proPostLevelNormMap!=null) return proPostLevelNormMap;

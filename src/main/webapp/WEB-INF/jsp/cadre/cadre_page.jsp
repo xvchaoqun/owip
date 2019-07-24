@@ -451,7 +451,7 @@
                                                                                                           value="${param.endNowPostAge}">
 
                                                     </td>
-                                                    <td class="name">专技岗位等级</td>
+                                                    <td class="name">职称级别</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="proPostLevels">
                                                             <c:forEach items="${proPostLevels}" var="proPostLevel">

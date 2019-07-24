@@ -107,7 +107,7 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label">国家/地区</label>
                     <div class="col-xs-6">
-                        <input class="form-control" type="text" name="country" value="${sysUser.country}">
+                        <input class="form-control" type="text" name="country" value="${empty sysUser.country?'中国':sysUser.country}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -148,30 +148,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">所学专业</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="major" value="${teacherInfo.major}">
                     </div>
-                </div>
+                </div>--%>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">学历毕业学校</label>
+                    <label class="col-xs-3 control-label">毕业学校</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="school" value="${teacherInfo.school}">
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">毕业学校类型</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="schoolType" value="${teacherInfo.schoolType}">
                     </div>
-                </div>
-                <div class="form-group">
+                </div>--%>
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">学位授予学校</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="degreeSchool" value="${teacherInfo.degreeSchool}">
                     </div>
-                </div>
+                </div>--%>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">到校日期</label>
                     <div class="col-xs-6">
@@ -188,24 +188,28 @@
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="authorizedType"
                                value="${teacherInfo.authorizedType}">
+                        <span>注：事业编制、非事业编等</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">人员分类</label>
+                    <label class="col-xs-3 control-label">人员类别</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="staffType" value="${teacherInfo.staffType}">
+                        <span>注：普通编制、校聘、院处聘、合同制等</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">人员状态</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="staffStatus" value="${teacherInfo.staffStatus}">
+                        <span>注：在职、离校、离退等</span>
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">岗位类别</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="postClass" value="${teacherInfo.postClass}">
+                        <span>注：专业技术岗位、工勤技能岗位、管理岗位等</span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -214,34 +218,35 @@
                         <input class="form-control" type="text" name="mainPostLevel"
                                value="${teacherInfo.mainPostLevel}">
                     </div>
-                </div>
+                </div>--%>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">在岗情况</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="onJob" value="${teacherInfo.onJob}">
+                        <span>注：在岗、离校、退休、离休等</span>
                     </div>
                 </div>
             </div>
             <div class="col-xs-4">
                  <div class="form-group">
-                    <label class="col-xs-3 control-label">专业技术职务</label>
+                    <label class="col-xs-3 control-label">专业技术职务（职称）</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="proPost" value="${teacherInfo.proPost}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">专技岗位等级</label>
+                    <label class="col-xs-3 control-label">职称级别</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="proPostLevel" value="${teacherInfo.proPostLevel}">
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">职称级别</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="titleLevel" value="${teacherInfo.titleLevel}">
                     </div>
-                </div>
-                <div class="form-group">
+                </div>--%>
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">管理岗位等级</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="manageLevel" value="${teacherInfo.manageLevel}">
@@ -252,8 +257,8 @@
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="officeLevel" value="${teacherInfo.officeLevel}">
                     </div>
-                </div>
-                <div class="form-group">
+                </div>--%>
+               <%-- <div class="form-group">
                     <label class="col-xs-3 control-label">行政职务</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="post" value="${teacherInfo.post}">
@@ -264,8 +269,8 @@
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="postLevel" value="${teacherInfo.postLevel}">
                     </div>
-                </div>
-                <div class="form-group">
+                </div>--%>
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">人才类型</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="talentType" value="${teacherInfo.talentType}">
@@ -276,21 +281,21 @@
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="talentTitle" value="${teacherInfo.talentTitle}">
                     </div>
-                </div>
+                </div>--%>
 
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">居住地址</label>
+                    <label class="col-xs-3 control-label">联系地址</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="address" value="${teacherInfo.address}">
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">婚姻状况</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="maritalStatus"
                                value="${teacherInfo.maritalStatus}">
                     </div>
-                </div>
+                </div>--%>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">联系邮箱</label>
                     <div class="col-xs-6">

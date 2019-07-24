@@ -109,7 +109,7 @@
         {label: '专业技术职务', name: 'proPost', width: 120},
         {label: '专技职务<br/>评定时间', name: 'proPostTime',
             formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_proPostTimeFormat}'}},
-        /*{label: '专技岗位等级', name: 'proPostLevel', width: 150},
+        /*{label: '职称级别', name: 'proPostLevel', width: 150},
         {
             label: '专技岗位<br/>分级时间',
             name: 'proPostLevelTime',
@@ -504,7 +504,7 @@
         {label: '职级', name: 'postLevel', frozen:true},
         {label: '专业技术职务', name: 'post', width: 250, formatter: $.jgrid.formatter.MetaType},
         {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-        {label: '专技岗位等级', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
+        {label: '职称级别', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
         {label: '专技岗位分级时间', name: 'gradeTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '专技岗位备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];

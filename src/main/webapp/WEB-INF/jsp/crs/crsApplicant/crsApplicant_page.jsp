@@ -257,7 +257,7 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            {label: '专技岗位等级', name: 'cadre.proPostLevel', width: 150},
+            {label: '职称级别', name: 'cadre.proPostLevel', width: 150},
             {
                 label: '专技岗位分级时间',
                 name: 'cadre.proPostLevelTime',
@@ -265,14 +265,14 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            {label: '管理岗位等级', name: 'cadre.manageLevel', width: 150},
+            /*{label: '管理岗位等级', name: 'cadre.manageLevel', width: 150},
             {
                 label: '管理岗位分级时间',
                 name: 'cadre.manageLevelTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
-            },
+            },*/
             {
                 label: '推荐/自荐', name: 'isRecommend', width: 180, formatter: function (cellvalue, options, rowObject) {
 

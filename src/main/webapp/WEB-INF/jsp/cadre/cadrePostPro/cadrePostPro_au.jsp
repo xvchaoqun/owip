@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">${cadrePostPro_noNeed?'':'<span class="star">*</span>'} 专技岗位等级</label>
+            <label class="col-xs-4 control-label">${cadrePostPro_noNeed?'':'<span class="star">*</span>'} 职称级别</label>
 
             <div class="col-xs-6">
                 <c:set value="${cm:getMetaType(cadrePostPro.level)}" var="level"/>

@@ -53,7 +53,7 @@ public interface IPropertyMapper {
     @Select("select distinct pro_post from cadre_view where pro_post is not null and pro_post!='' order by pro_post asc")
     List<String> teacherProPosts();
 
-    // 干部专技岗位等级
+    // 干部职称级别
     @Select("select distinct pro_post_level from cadre_view where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
     List<String> teacherProPostLevels();
 }

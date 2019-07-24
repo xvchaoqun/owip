@@ -124,8 +124,8 @@
             {label: '岗位类别', name: 'postClass'},
             {label: '主岗等级', name: 'mainPostLevel', width: 150},
             {label: '专业技术职务', name: 'proPost', width: 120},
-            {label: '专技岗位等级', name: 'proPostLevel', width: 150},
-            {label: '管理岗位等级', name: 'manageLevel', width: 150},
+            {label: '职称级别', name: 'proPostLevel', width: 150},
+            /*{label: '管理岗位等级', name: 'manageLevel', width: 150},*/
             { label: '办公电话', name: 'officePhone' },
             { label: '手机号', name: 'mobile' },
             {

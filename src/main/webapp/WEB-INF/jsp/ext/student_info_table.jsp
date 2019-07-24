@@ -59,12 +59,23 @@
         </td>
     </tr>
     <tr>
+
+        <td class="bg-right">所在年级</td>
+        <td class="bg-left">
+            ${studentInfo.enrolYear}
+        </td>
         <td class="bg-right">
-            年级
+            学生类别
         </td>
         <td class="bg-left">
-            ${studentInfo.grade}
+            ${studentInfo.type}
         </td>
+        <td class="bg-right">教育类别</td>
+        <td class="bg-left" colspan="3">
+            ${studentInfo.eduCategory}
+        </td>
+    </tr>
+    <tr>
         <td class="bg-right">培养类型</td>
         <td class="bg-left">
             ${studentInfo.eduType}
@@ -78,25 +89,8 @@
         <td class="bg-right">
             培养方式
         </td>
-        <td class="bg-left">
-            ${studentInfo.eduWay}
-        </td>
-    </tr>
-    <tr>
-
-        <td class="bg-right">招生年度</td>
-        <td class="bg-left">
-            ${studentInfo.enrolYear}
-        </td>
-        <td class="bg-right">
-            学生类别
-        </td>
-        <td class="bg-left">
-            ${studentInfo.type}
-        </td>
-        <td class="bg-right">教育类别</td>
         <td class="bg-left" colspan="3">
-            ${studentInfo.eduCategory}
+            ${studentInfo.eduWay}
         </td>
     </tr>
     <tr>

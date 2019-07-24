@@ -365,7 +365,7 @@ public class MemberController extends MemberBaseController {
             sysUserInfo.setIdcard(StringUtils.trimToNull(xlsRow.get(col++)));
             sysUserInfo.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
             sysUserInfo.setCountry(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setFromType(StringUtils.trimToNull(xlsRow.get(col++))); // 学员结构，本校、境内、京外等
+            teacherInfo.setFromType(StringUtils.trimToNull(xlsRow.get(col++))); // 人员结构，本校、境内、京外等
 
             sysUserInfo.setUnit(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
@@ -374,32 +374,32 @@ public class MemberController extends MemberBaseController {
             teacherInfo.setMajor(StringUtils.trimToNull(xlsRow.get(col++)));
 
             teacherInfo.setSchool(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setSchoolType(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setDegreeSchool(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setSchoolType(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setDegreeSchool(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setArriveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             teacherInfo.setAuthorizedType(StringUtils.trimToNull(xlsRow.get(col++)));
 
             teacherInfo.setStaffType(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setStaffStatus(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setPostClass(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setMainPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setPostClass(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setMainPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setOnJob(StringUtils.trimToNull(xlsRow.get(col++)));
 
             teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setTitleLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setManageLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setOfficeLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setTitleLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setManageLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setOfficeLevel(StringUtils.trimToNull(xlsRow.get(col++)));
 
-            teacherInfo.setPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setTalentType(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setTalentTitle(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setPost(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setTalentType(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setTalentTitle(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
 
-            teacherInfo.setMaritalStatus(StringUtils.trimToNull(xlsRow.get(col++)));
+            //teacherInfo.setMaritalStatus(StringUtils.trimToNull(xlsRow.get(col++)));
             sysUserInfo.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
-            sysUserInfo.setHomePhone(StringUtils.trimToNull(xlsRow.get(col++)));
+            //sysUserInfo.setHomePhone(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setIsRetire(StringUtils.equals(xlsRow.get(col++), "是"));
             teacherInfo.setRetireTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
 
@@ -1184,15 +1184,15 @@ public class MemberController extends MemberBaseController {
     private List<String> getTeacherExportTitles() {
 
         return new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|80",
-                "编制类别|80", "人员类别|100", "人员状态|80", "在岗情况|80", "岗位类别|80", "主岗等级|120",
+                "编制类别|80", "人员类别|100", "人员状态|80", "在岗情况|80",/* "岗位类别|80", "主岗等级|120",*/
                 "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", "国家/地区|80", "证件号码|150",
                 "政治面貌|80", "所属" + CmTag.getStringProperty("partyName", "党委") + "|300", "所在党支部|300", "所在单位|200",
                 "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "到校日期|80",
-                "专业技术职务|120", "专技岗位等级|120", "管理岗位等级|120", "任职级别|120",
-                "行政职务|180", "学历|120", "学历毕业学校|200", "学位授予学校|200",
-                "学位|100", "学员结构|100", "人才类型|100", "人才称号|200", "手机号码|100"}));
+                "专业技术职务|120", "职称级别|120", /*"管理岗位等级|120","任职级别|120",*/
+                /*"行政职务|180", */"学历|120", "毕业学校|200", /*"学位授予学校|200",*/
+                "学位|100", "人员结构|100", /*"人才类型|100", "人才称号|200",*/ "手机号码|100"}));
     }
 
     public void teacher_export(int cls, MemberViewExample example, Integer[] cols, HttpServletResponse response) {
@@ -1245,8 +1245,8 @@ public class MemberController extends MemberBaseController {
                     record.getStaffType(),
                     record.getStaffStatus(), // 人员状态
                     record.getOnJob(), // 在岗情况
-                    record.getPostClass(), // 岗位类别
-                    record.getMainPostLevel(), // 主岗等级
+                    /*record.getPostClass(), // 岗位类别
+                    record.getMainPostLevel(), // 主岗等级*/
                     gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
                     birth != null ? DateUtils.intervalYearsUntilNow(birth) + "" : "",
@@ -1271,17 +1271,17 @@ public class MemberController extends MemberBaseController {
 
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record.getProPost(), // 专业技术职务
-                    record.getProPostLevel(), //专技岗位等级
-                    record.getManageLevel(), // 管理岗位等级
-                    adminLevel, // 任职级别 -- 行政级别
-                    post, // 行政职务 -- 职务
+                    record.getProPostLevel(), //职称级别
+                    /*record.getManageLevel(), // 管理岗位等级
+                    adminLevel, // 任职级别 -- 行政级别*/
+                    /*post, // 行政职务 -- 职务*/
                     record.getEducation(), // 学历
-                    record.getSchool(), // 学历毕业学校
-                    record.getDegreeSchool(),
+                    record.getSchool(), // 毕业学校
+                    /*record.getDegreeSchool(),*/
                     record.getDegree(), // 学位
-                    record.getFromType(), // 学员结构
-                    record.getTalentType(), // 人才类型
-                    record.getTalentTitle(),
+                    record.getFromType(), // 人员结构
+                    /*record.getTalentType(), // 人才类型
+                    record.getTalentTitle(),*/
                     record.getMobile()
             }));
 
@@ -1312,8 +1312,8 @@ public class MemberController extends MemberBaseController {
                 "民族|100", "年级|50", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
                 "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
-                "培养层次（研究生）|150", "培养类型（研究生）|150", "教育类别（研究生）|150",
-                "培养方式（研究生）|150", "预计毕业年月|100", "学籍状态|100", "是否出国留学|100"}));
+                "培养层次（研究生）|150", "培养类型（研究生）|150", "教育类别|150",
+                "培养方式|150", "预计毕业年月|100", "学籍状态|100", "是否出国留学|100"}));
     }
 
     public void student_export(int cls, MemberViewExample example, Integer[] cols, HttpServletResponse response) {
@@ -1350,7 +1350,7 @@ public class MemberController extends MemberBaseController {
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
                     record.getIdcard(),
                     record.getNation(),
-                    record.getGrade(), // 年级
+                    record.getEnrolYear(), // 年级
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
