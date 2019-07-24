@@ -86,13 +86,15 @@ public class CadreCourseService extends BaseMapper {
 
         if (addNum == 0) return;
 
+        byte orderBy = ORDER_BY_ASC;
+
         CadreCourse entity = cadreCourseMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         Integer cadreId = entity.getCadreId();
         Byte type = entity.getType();
 
         CadreCourseExample example = new CadreCourseExample();
-        if (addNum > 0) { // 下降
+        if (addNum*orderBy > 0) { // 下降
 
             example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderGreaterThan(baseSortOrder);
@@ -108,7 +110,7 @@ public class CadreCourseService extends BaseMapper {
         if (overEntities.size() > 0) {
 
             CadreCourse targetEntity = overEntities.get(overEntities.size() - 1);
-            if (addNum > 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder("cadre_course", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL
                         + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
             else
