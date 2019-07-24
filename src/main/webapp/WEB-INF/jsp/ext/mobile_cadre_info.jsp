@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['proPostTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_proPostTimeFormat"/>
 <div id="pi" class="tab-pane">
     <div class="profile-user-info profile-user-info-striped">
         <div class="profile-info-row">
