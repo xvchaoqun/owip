@@ -1,6 +1,9 @@
 20190723
 南航
 
+更正家庭成员排序
+更正课程排序
+
 20190722
 
 ALTER TABLE `sys_student_info`

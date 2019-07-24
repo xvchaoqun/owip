@@ -176,10 +176,10 @@ public class CadreAdformService extends BaseMapper {
     }
 
     // 判断是否是进修学习，进修学习不能进入任免审批表
-    public boolean isJxxx(int eduId){
+    public boolean isJxxx(Integer eduId){
 
         MetaType jxxx = CmTag.getMetaTypeByCode("mt_edu_jxxx");
-        return (jxxx!=null && jxxx.getId()==eduId);
+        return (jxxx!=null && eduId!=null && jxxx.getId()==eduId);
     }
 
     // 获取任免审批表属性值
