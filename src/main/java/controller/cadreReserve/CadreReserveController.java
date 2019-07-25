@@ -5,6 +5,7 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
+import domain.cadreInspect.CadreInspect;
 import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
@@ -349,6 +350,42 @@ public class CadreReserveController extends BaseController {
 
         SysUserView user = cadre.getUser();
         logger.info(addLog(LogConstants.LOG_ADMIN, "年轻干部列为考察对象：%s-%s", user.getRealname(), user.getCode()));
+        return success(FormUtils.SUCCESS);
+    }
+
+
+    @RequiresPermissions("cadreReserve:edit")
+    @RequestMapping("/cadreReserve_inspectPass")
+    public String cadreReserve_inspectPass(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
+            Integer cadreId = cadreReserve.getCadreId();
+            CadreInspect cadreInspect = cadreInspectService.getNormalRecord(cadreId);
+
+            CadreView cadre = iCadreMapper.getCadre(cadreInspect.getCadreId());
+            modelMap.put("cadreInspect", cadreInspect);
+            modelMap.put("cadre", cadre);
+        }
+
+        return "cadreReserve/cadreReserve_inspectPass";
+    }
+
+    // 通过常委会任命 （没有确定考察对象的模块情况下，直接在年轻干部库-已列为考察对象中进行操作）
+    @RequiresPermissions("cadreReserve:edit")
+    @RequestMapping(value = "/cadreReserve_inspectPass", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreReserve_inspectPass(Integer inspectId, String inspectRemark,
+                                           Cadre cadreRecord, HttpServletRequest request) {
+
+        CadreInspect record = new CadreInspect();
+        record.setId(inspectId);
+        record.setRemark(inspectRemark);
+
+        Cadre cadre = cadreInspectService.pass(record, cadreRecord);
+
+        SysUserView user = cadre.getUser();
+        logger.info(addLog(LogConstants.LOG_ADMIN, "考察对象通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 

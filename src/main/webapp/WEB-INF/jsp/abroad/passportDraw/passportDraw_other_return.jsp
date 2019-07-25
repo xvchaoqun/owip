@@ -67,7 +67,7 @@
                   autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" value="${param.id}" name="id">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">类别</label>
+                    <label class="col-xs-3 control-label" style="padding-top: 65px;">类别</label>
                     <div class="col-xs-6 checkbox checkbox-inline checkbox-sm checkbox-circle">
                         <input type="radio" name="usePassport" value="3" id="type3"> <label for="type3">使用完毕交回证件（持证件出国（境）</label><br/>
                     <input type="radio" name="usePassport" value="0" id="type0"> <label for="type0">使用完毕交回证件（未持证件出国（境））</label><br/>

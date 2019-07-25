@@ -75,7 +75,7 @@ public class CadreReserveExportService extends BaseMapper {
 
         int count = records.size();
         String[] titles = {"工作证号","姓名","部门属性","所在单位","现任职务",
-                "所在单位及职务","行政级别","职务属性", "是否正职","性别",
+                "所在单位及职务","任职时间","行政级别","职务属性", "是否正职","性别",
                 "民族","籍贯","出生地","身份证号","出生时间",
                 "年龄","党派","党派加入时间","参加工作时间","到校时间",
                 "最高学历","最高学位","毕业时间","学习方式","毕业学校",
@@ -103,6 +103,7 @@ public class CadreReserveExportService extends BaseMapper {
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 160));
 
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 300)); // 所在单位及职务
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
@@ -260,6 +261,7 @@ public class CadreReserveExportService extends BaseMapper {
                     record.getPost(),
 
                     record.getTitle(),
+                    DateUtils.formatDate(record.getReservePostTime(), DateUtils.YYYYMM),
                     metaTypeService.getName(record.getAdminLevel()),
                     metaTypeService.getName(record.getPostType()),
                     isPositive,
@@ -269,13 +271,13 @@ public class CadreReserveExportService extends BaseMapper {
                     record.getNativePlace(),
                     record.getUser().getHomeplace(),
                     record.getIdcard(),
-                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),
 
                     DateUtils.calAge(record.getBirth()),
                     StringUtils.trimToEmpty(partyName),
                     StringUtils.trimToEmpty(partyAddTime),
                     "", //参加工作时间
-                    DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYYMMDD_DOT),
 
                     metaTypeService.getName(record.getEduId()),
                     record.getDegree(),
@@ -289,11 +291,11 @@ public class CadreReserveExportService extends BaseMapper {
                     record.getMainPostLevel(),*/
                     record.getProPost(),
 
-                    DateUtils.formatDate(record.getProPostTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getProPostTime(), DateUtils.YYYYMMDD_DOT),
                     /*record.getProPostLevel(),
-                    DateUtils.formatDate(record.getProPostLevelTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getProPostLevelTime(), DateUtils.YYYYMMDD_DOT),
                     record.getManageLevel(),
-                    DateUtils.formatDate(record.getManageLevelTime(), DateUtils.YYYY_MM_DD),*/
+                    DateUtils.formatDate(record.getManageLevelTime(), DateUtils.YYYYMMDD_DOT),*/
 
                     postDispatchCode, // 现职务任命文件
                     postTime,

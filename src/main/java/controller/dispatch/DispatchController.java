@@ -345,6 +345,9 @@ public class DispatchController extends DispatchBaseController {
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             }*/
             dispatchService.updateByPrimaryKeySelective(record, true);
+            if(record.getMeetingTime()==null){
+                commonMapper.excuteSql("update dispatch set meeting_time=null where id=" + id);
+            }
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新发文：%s", id));
         }
 

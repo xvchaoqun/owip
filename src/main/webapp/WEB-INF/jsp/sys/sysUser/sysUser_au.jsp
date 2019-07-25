@@ -36,7 +36,7 @@
                     <c:forEach var="userType" items="${USER_TYPE_MAP}">
                         <label>
                             <input required name="type" type="radio" class="ace" value="${userType.key}"
-                                   <c:if test="${sysUser.type==userType.key}">checked</c:if>/>
+                                    <c:if test="${sysUser.type==userType.key}">checked</c:if>/>
                             <span class="lbl" style="padding-right: 5px;"> ${userType.value}</span>
                         </label>
                     </c:forEach>
@@ -47,6 +47,12 @@
             <label class="col-xs-3 control-label"><span class="star">*</span>学工号</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="code" value="${sysUser.code}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><span class="star">*</span>姓名</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="realname" value="${sysUser.realname}">
             </div>
         </div>
         <div class="form-group">

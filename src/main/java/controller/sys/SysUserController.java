@@ -271,7 +271,7 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUser_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_au(@Validated SysUser record, BindingResult result, HttpServletRequest request) {
+    public Map do_sysUser_au(@Validated SysUser record, String realname, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
             FieldError fieldError = result.getFieldError();
@@ -330,6 +330,14 @@ public class SysUserController extends BaseController {
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户：%s", record.getId()));
         }
 
+        if(StringUtils.isNotBlank(realname)){
+
+            SysUserInfo ui = new SysUserInfo();
+            ui.setUserId(record.getId());
+            ui.setRealname(realname);
+            sysUserService.insertOrUpdateUserInfoSelective(ui);
+        }
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -339,7 +347,7 @@ public class SysUserController extends BaseController {
 
         if (id != null) {
 
-            SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
+            SysUserView sysUser = CmTag.getUserById(id);
             modelMap.put("sysUser", sysUser);
         }
 

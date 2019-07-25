@@ -41,7 +41,12 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
+                        <shiro:hasPermission name="cadreInspect:list">
                         $.hashchange('', '${ctx}/cadreInspect');
+                        </shiro:hasPermission>
+                        <shiro:lacksPermission name="cadreInspect:list">
+                        $.hashchange();
+                        </shiro:lacksPermission>
                     }
                 }
             });
