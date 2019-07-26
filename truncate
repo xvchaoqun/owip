@@ -113,6 +113,7 @@ select cadre_id, sort_order, count(*) from cadre_family where status=0 and sort_
 select id,cadre_id from cadre_course where status=0 and sort_order is null;
 update cadre_course set sort_order=id where status=0 and sort_order is null;
 select cadre_id, sort_order, count(*) from cadre_course where status=0 and sort_order is not null group by cadre_id, sort_order having count(*)>1;
+
 update cadre_course c,
 (
 select cadre_id, sort_order, count(*) from cadre_course where status=0 and sort_order is not null group by cadre_id, sort_order having count(*)>1
