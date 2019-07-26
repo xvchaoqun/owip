@@ -70,7 +70,7 @@
                         </td>
                         <td>出生日期</td>
                         <td>
-                                ${cm:formatDate(uv.birth,'yyyy.MM.dd')}
+                                ${cm:formatDate(cadre.birth,'yyyy.MM.dd')}
                         </td>
                         <td>
                             年龄
@@ -552,7 +552,6 @@
                                                 <option value="0">中共党员</option>
                                                 <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
                                             </select>
-                                            <div class="inline-block">注：政治面貌为“群众”等不在以上选项中的情况请留空</div>
                                         </c:if>
                                     </c:if>
                                 </td>

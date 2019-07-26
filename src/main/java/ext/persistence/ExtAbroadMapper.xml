@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ext.persistence.ExtAbroadMapper">
+  <resultMap id="BaseResultMap" type="ext.domain.ExtAbroad">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="lsh" jdbcType="VARCHAR" property="lsh" />
+    <result column="gzzh" jdbcType="VARCHAR" property="gzzh" />
+    <result column="gj" jdbcType="VARCHAR" property="gj" />
+    <result column="jfly" jdbcType="VARCHAR" property="jfly" />
+    <result column="cgjlb" jdbcType="VARCHAR" property="cgjlb" />
+    <result column="cgjfs" jdbcType="VARCHAR" property="cgjfs" />
+    <result column="yqdw" jdbcType="VARCHAR" property="yqdw" />
+    <result column="yqdwdz" jdbcType="VARCHAR" property="yqdwdz" />
+    <result column="yqr" jdbcType="VARCHAR" property="yqr" />
+    <result column="sqrzc" jdbcType="VARCHAR" property="sqrzc" />
+    <result column="sqrsjh" jdbcType="VARCHAR" property="sqrsjh" />
+    <result column="sqryx" jdbcType="VARCHAR" property="sqryx" />
+    <result column="yjcfsj" jdbcType="DATE" property="yjcfsj" />
+    <result column="ygsj" jdbcType="DATE" property="ygsj" />
+    <result column="yjtlts" jdbcType="INTEGER" property="yjtlts" />
+    <result column="sjcfsj" jdbcType="DATE" property="sjcfsj" />
+    <result column="sgsj" jdbcType="DATE" property="sgsj" />
+    <result column="sjtlts" jdbcType="INTEGER" property="sjtlts" />
+    <result column="yq1s" jdbcType="DATE" property="yq1s" />
+    <result column="yq1z" jdbcType="DATE" property="yq1z" />
+    <result column="yq2s" jdbcType="DATE" property="yq2s" />
+    <result column="yq2z" jdbcType="DATE" property="yq2z" />
+    <result column="pzwh" jdbcType="DATE" property="pzwh" />
+    <result column="cgjzt" jdbcType="VARCHAR" property="cgjzt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, lsh, gzzh, gj, jfly, cgjlb, cgjfs, yqdw, yqdwdz, yqr, sqrzc, sqrsjh, sqryx, yjcfsj, 
+    ygsj, yjtlts, sjcfsj, sgsj, sjtlts, yq1s, yq1z, yq2s, yq2z, pzwh, cgjzt
+  </sql>
+  <select id="selectByExample" parameterType="ext.domain.ExtAbroadExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ext_abroad
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ext_abroad
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ext_abroad
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="ext.domain.ExtAbroadExample">
+    delete from ext_abroad
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="ext.domain.ExtAbroad">
+    insert into ext_abroad (id, lsh, gzzh, 
+      gj, jfly, cgjlb, cgjfs, 
+      yqdw, yqdwdz, yqr, 
+      sqrzc, sqrsjh, sqryx, 
+      yjcfsj, ygsj, yjtlts, sjcfsj, 
+      sgsj, sjtlts, yq1s, yq1z, 
+      yq2s, yq2z, pzwh, cgjzt
+      )
+    values (#{id,jdbcType=INTEGER}, #{lsh,jdbcType=VARCHAR}, #{gzzh,jdbcType=VARCHAR}, 
+      #{gj,jdbcType=VARCHAR}, #{jfly,jdbcType=VARCHAR}, #{cgjlb,jdbcType=VARCHAR}, #{cgjfs,jdbcType=VARCHAR}, 
+      #{yqdw,jdbcType=VARCHAR}, #{yqdwdz,jdbcType=VARCHAR}, #{yqr,jdbcType=VARCHAR}, 
+      #{sqrzc,jdbcType=VARCHAR}, #{sqrsjh,jdbcType=VARCHAR}, #{sqryx,jdbcType=VARCHAR}, 
+      #{yjcfsj,jdbcType=DATE}, #{ygsj,jdbcType=DATE}, #{yjtlts,jdbcType=INTEGER}, #{sjcfsj,jdbcType=DATE}, 
+      #{sgsj,jdbcType=DATE}, #{sjtlts,jdbcType=INTEGER}, #{yq1s,jdbcType=DATE}, #{yq1z,jdbcType=DATE}, 
+      #{yq2s,jdbcType=DATE}, #{yq2z,jdbcType=DATE}, #{pzwh,jdbcType=DATE}, #{cgjzt,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ext.domain.ExtAbroad">
+    insert into ext_abroad
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="lsh != null">
+        lsh,
+      </if>
+      <if test="gzzh != null">
+        gzzh,
+      </if>
+      <if test="gj != null">
+        gj,
+      </if>
+      <if test="jfly != null">
+        jfly,
+      </if>
+      <if test="cgjlb != null">
+        cgjlb,
+      </if>
+      <if test="cgjfs != null">
+        cgjfs,
+      </if>
+      <if test="yqdw != null">
+        yqdw,
+      </if>
+      <if test="yqdwdz != null">
+        yqdwdz,
+      </if>
+      <if test="yqr != null">
+        yqr,
+      </if>
+      <if test="sqrzc != null">
+        sqrzc,
+      </if>
+      <if test="sqrsjh != null">
+        sqrsjh,
+      </if>
+      <if test="sqryx != null">
+        sqryx,
+      </if>
+      <if test="yjcfsj != null">
+        yjcfsj,
+      </if>
+      <if test="ygsj != null">
+        ygsj,
+      </if>
+      <if test="yjtlts != null">
+        yjtlts,
+      </if>
+      <if test="sjcfsj != null">
+        sjcfsj,
+      </if>
+      <if test="sgsj != null">
+        sgsj,
+      </if>
+      <if test="sjtlts != null">
+        sjtlts,
+      </if>
+      <if test="yq1s != null">
+        yq1s,
+      </if>
+      <if test="yq1z != null">
+        yq1z,
+      </if>
+      <if test="yq2s != null">
+        yq2s,
+      </if>
+      <if test="yq2z != null">
+        yq2z,
+      </if>
+      <if test="pzwh != null">
+        pzwh,
+      </if>
+      <if test="cgjzt != null">
+        cgjzt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lsh != null">
+        #{lsh,jdbcType=VARCHAR},
+      </if>
+      <if test="gzzh != null">
+        #{gzzh,jdbcType=VARCHAR},
+      </if>
+      <if test="gj != null">
+        #{gj,jdbcType=VARCHAR},
+      </if>
+      <if test="jfly != null">
+        #{jfly,jdbcType=VARCHAR},
+      </if>
+      <if test="cgjlb != null">
+        #{cgjlb,jdbcType=VARCHAR},
+      </if>
+      <if test="cgjfs != null">
+        #{cgjfs,jdbcType=VARCHAR},
+      </if>
+      <if test="yqdw != null">
+        #{yqdw,jdbcType=VARCHAR},
+      </if>
+      <if test="yqdwdz != null">
+        #{yqdwdz,jdbcType=VARCHAR},
+      </if>
+      <if test="yqr != null">
+        #{yqr,jdbcType=VARCHAR},
+      </if>
+      <if test="sqrzc != null">
+        #{sqrzc,jdbcType=VARCHAR},
+      </if>
+      <if test="sqrsjh != null">
+        #{sqrsjh,jdbcType=VARCHAR},
+      </if>
+      <if test="sqryx != null">
+        #{sqryx,jdbcType=VARCHAR},
+      </if>
+      <if test="yjcfsj != null">
+        #{yjcfsj,jdbcType=DATE},
+      </if>
+      <if test="ygsj != null">
+        #{ygsj,jdbcType=DATE},
+      </if>
+      <if test="yjtlts != null">
+        #{yjtlts,jdbcType=INTEGER},
+      </if>
+      <if test="sjcfsj != null">
+        #{sjcfsj,jdbcType=DATE},
+      </if>
+      <if test="sgsj != null">
+        #{sgsj,jdbcType=DATE},
+      </if>
+      <if test="sjtlts != null">
+        #{sjtlts,jdbcType=INTEGER},
+      </if>
+      <if test="yq1s != null">
+        #{yq1s,jdbcType=DATE},
+      </if>
+      <if test="yq1z != null">
+        #{yq1z,jdbcType=DATE},
+      </if>
+      <if test="yq2s != null">
+        #{yq2s,jdbcType=DATE},
+      </if>
+      <if test="yq2z != null">
+        #{yq2z,jdbcType=DATE},
+      </if>
+      <if test="pzwh != null">
+        #{pzwh,jdbcType=DATE},
+      </if>
+      <if test="cgjzt != null">
+        #{cgjzt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ext.domain.ExtAbroadExample" resultType="java.lang.Long">
+    select count(*) from ext_abroad
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ext_abroad
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.lsh != null">
+        lsh = #{record.lsh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gzzh != null">
+        gzzh = #{record.gzzh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gj != null">
+        gj = #{record.gj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jfly != null">
+        jfly = #{record.jfly,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cgjlb != null">
+        cgjlb = #{record.cgjlb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cgjfs != null">
+        cgjfs = #{record.cgjfs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yqdw != null">
+        yqdw = #{record.yqdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yqdwdz != null">
+        yqdwdz = #{record.yqdwdz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yqr != null">
+        yqr = #{record.yqr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqrzc != null">
+        sqrzc = #{record.sqrzc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqrsjh != null">
+        sqrsjh = #{record.sqrsjh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqryx != null">
+        sqryx = #{record.sqryx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjcfsj != null">
+        yjcfsj = #{record.yjcfsj,jdbcType=DATE},
+      </if>
+      <if test="record.ygsj != null">
+        ygsj = #{record.ygsj,jdbcType=DATE},
+      </if>
+      <if test="record.yjtlts != null">
+        yjtlts = #{record.yjtlts,jdbcType=INTEGER},
+      </if>
+      <if test="record.sjcfsj != null">
+        sjcfsj = #{record.sjcfsj,jdbcType=DATE},
+      </if>
+      <if test="record.sgsj != null">
+        sgsj = #{record.sgsj,jdbcType=DATE},
+      </if>
+      <if test="record.sjtlts != null">
+        sjtlts = #{record.sjtlts,jdbcType=INTEGER},
+      </if>
+      <if test="record.yq1s != null">
+        yq1s = #{record.yq1s,jdbcType=DATE},
+      </if>
+      <if test="record.yq1z != null">
+        yq1z = #{record.yq1z,jdbcType=DATE},
+      </if>
+      <if test="record.yq2s != null">
+        yq2s = #{record.yq2s,jdbcType=DATE},
+      </if>
+      <if test="record.yq2z != null">
+        yq2z = #{record.yq2z,jdbcType=DATE},
+      </if>
+      <if test="record.pzwh != null">
+        pzwh = #{record.pzwh,jdbcType=DATE},
+      </if>
+      <if test="record.cgjzt != null">
+        cgjzt = #{record.cgjzt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ext_abroad
+    set id = #{record.id,jdbcType=INTEGER},
+      lsh = #{record.lsh,jdbcType=VARCHAR},
+      gzzh = #{record.gzzh,jdbcType=VARCHAR},
+      gj = #{record.gj,jdbcType=VARCHAR},
+      jfly = #{record.jfly,jdbcType=VARCHAR},
+      cgjlb = #{record.cgjlb,jdbcType=VARCHAR},
+      cgjfs = #{record.cgjfs,jdbcType=VARCHAR},
+      yqdw = #{record.yqdw,jdbcType=VARCHAR},
+      yqdwdz = #{record.yqdwdz,jdbcType=VARCHAR},
+      yqr = #{record.yqr,jdbcType=VARCHAR},
+      sqrzc = #{record.sqrzc,jdbcType=VARCHAR},
+      sqrsjh = #{record.sqrsjh,jdbcType=VARCHAR},
+      sqryx = #{record.sqryx,jdbcType=VARCHAR},
+      yjcfsj = #{record.yjcfsj,jdbcType=DATE},
+      ygsj = #{record.ygsj,jdbcType=DATE},
+      yjtlts = #{record.yjtlts,jdbcType=INTEGER},
+      sjcfsj = #{record.sjcfsj,jdbcType=DATE},
+      sgsj = #{record.sgsj,jdbcType=DATE},
+      sjtlts = #{record.sjtlts,jdbcType=INTEGER},
+      yq1s = #{record.yq1s,jdbcType=DATE},
+      yq1z = #{record.yq1z,jdbcType=DATE},
+      yq2s = #{record.yq2s,jdbcType=DATE},
+      yq2z = #{record.yq2z,jdbcType=DATE},
+      pzwh = #{record.pzwh,jdbcType=DATE},
+      cgjzt = #{record.cgjzt,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="ext.domain.ExtAbroad">
+    update ext_abroad
+    <set>
+      <if test="lsh != null">
+        lsh = #{lsh,jdbcType=VARCHAR},
+      </if>
+      <if test="gzzh != null">
+        gzzh = #{gzzh,jdbcType=VARCHAR},
+      </if>
+      <if test="gj != null">
+        gj = #{gj,jdbcType=VARCHAR},
+      </if>
+      <if test="jfly != null">
+        jfly = #{jfly,jdbcType=VARCHAR},
+      </if>
+      <if test="cgjlb != null">
+        cgjlb = #{cgjlb,jdbcType=VARCHAR},
+      </if>
+      <if test="cgjfs != null">
+        cgjfs = #{cgjfs,jdbcType=VARCHAR},
+      </if>
+      <if test="yqdw != null">
+        yqdw = #{yqdw,jdbcType=VARCHAR},
+      </if>
+      <if test="yqdwdz != null">
+        yqdwdz = #{yqdwdz,jdbcType=VARCHAR},
+      </if>
+      <if test="yqr != null">
+        yqr = #{yqr,jdbcType=VARCHAR},
+      </if>
+      <if test="sqrzc != null">
+        sqrzc = #{sqrzc,jdbcType=VARCHAR},
+      </if>
+      <if test="sqrsjh != null">
+        sqrsjh = #{sqrsjh,jdbcType=VARCHAR},
+      </if>
+      <if test="sqryx != null">
+        sqryx = #{sqryx,jdbcType=VARCHAR},
+      </if>
+      <if test="yjcfsj != null">
+        yjcfsj = #{yjcfsj,jdbcType=DATE},
+      </if>
+      <if test="ygsj != null">
+        ygsj = #{ygsj,jdbcType=DATE},
+      </if>
+      <if test="yjtlts != null">
+        yjtlts = #{yjtlts,jdbcType=INTEGER},
+      </if>
+      <if test="sjcfsj != null">
+        sjcfsj = #{sjcfsj,jdbcType=DATE},
+      </if>
+      <if test="sgsj != null">
+        sgsj = #{sgsj,jdbcType=DATE},
+      </if>
+      <if test="sjtlts != null">
+        sjtlts = #{sjtlts,jdbcType=INTEGER},
+      </if>
+      <if test="yq1s != null">
+        yq1s = #{yq1s,jdbcType=DATE},
+      </if>
+      <if test="yq1z != null">
+        yq1z = #{yq1z,jdbcType=DATE},
+      </if>
+      <if test="yq2s != null">
+        yq2s = #{yq2s,jdbcType=DATE},
+      </if>
+      <if test="yq2z != null">
+        yq2z = #{yq2z,jdbcType=DATE},
+      </if>
+      <if test="pzwh != null">
+        pzwh = #{pzwh,jdbcType=DATE},
+      </if>
+      <if test="cgjzt != null">
+        cgjzt = #{cgjzt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ext.domain.ExtAbroad">
+    update ext_abroad
+    set lsh = #{lsh,jdbcType=VARCHAR},
+      gzzh = #{gzzh,jdbcType=VARCHAR},
+      gj = #{gj,jdbcType=VARCHAR},
+      jfly = #{jfly,jdbcType=VARCHAR},
+      cgjlb = #{cgjlb,jdbcType=VARCHAR},
+      cgjfs = #{cgjfs,jdbcType=VARCHAR},
+      yqdw = #{yqdw,jdbcType=VARCHAR},
+      yqdwdz = #{yqdwdz,jdbcType=VARCHAR},
+      yqr = #{yqr,jdbcType=VARCHAR},
+      sqrzc = #{sqrzc,jdbcType=VARCHAR},
+      sqrsjh = #{sqrsjh,jdbcType=VARCHAR},
+      sqryx = #{sqryx,jdbcType=VARCHAR},
+      yjcfsj = #{yjcfsj,jdbcType=DATE},
+      ygsj = #{ygsj,jdbcType=DATE},
+      yjtlts = #{yjtlts,jdbcType=INTEGER},
+      sjcfsj = #{sjcfsj,jdbcType=DATE},
+      sgsj = #{sgsj,jdbcType=DATE},
+      sjtlts = #{sjtlts,jdbcType=INTEGER},
+      yq1s = #{yq1s,jdbcType=DATE},
+      yq1z = #{yq1z,jdbcType=DATE},
+      yq2s = #{yq2s,jdbcType=DATE},
+      yq2z = #{yq2z,jdbcType=DATE},
+      pzwh = #{pzwh,jdbcType=DATE},
+      cgjzt = #{cgjzt,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="ext.domain.ExtAbroadExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ext_abroad
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

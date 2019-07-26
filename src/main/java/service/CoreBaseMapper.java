@@ -15,7 +15,7 @@ import persistence.common.IPropertyMapper;
 import persistence.cpc.common.ICpcMapper;
 import persistence.dispatch.*;
 import persistence.dispatch.common.IDispatchMapper;
-import persistence.ext.*;
+import ext.persistence.*;
 import persistence.leader.LeaderMapper;
 import persistence.leader.LeaderUnitMapper;
 import persistence.leader.LeaderUnitViewMapper;

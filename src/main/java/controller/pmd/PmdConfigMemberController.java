@@ -1,7 +1,7 @@
 package controller.pmd;
 
-import domain.ext.ExtJzgSalary;
-import domain.ext.ExtRetireSalary;
+import ext.domain.ExtJzgSalary;
+import ext.domain.ExtRetireSalary;
 import domain.member.Member;
 import domain.party.Branch;
 import domain.party.Party;

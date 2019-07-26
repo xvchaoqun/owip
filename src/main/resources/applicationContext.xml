@@ -53,7 +53,7 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="persistence"/>
+        <property name="basePackage" value="persistence,ext.persistence"/>
         <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
     </bean>
 
@@ -83,7 +83,7 @@
 
     <import resource="classpath:spring-freemarker.xml"/>
 
-    <context:component-scan base-package="service,sys.service"/>
+    <context:component-scan base-package="service,sys.service,ext.service"/>
     <!--<context:annotation-config />-->
 
     <!-- quartz的定时任务的factorybean,配置其他config -->

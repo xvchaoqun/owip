@@ -100,14 +100,11 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
-        String msg = "访问出错<1>，请稍后重试";
+        String msg = "数据请求错误，请稍后重试";
         if (ex instanceof FileNotFoundException) {
             msg = "文件不存在";
         } else if (ex instanceof OpException) {
             msg = ex.getMessage();
-        } else if (ex instanceof IOException) {
-            // org.apache.catalina.connector.ClientAbortException ??
-            logger.warn(getMsg(request, ex));
         } else if (ex instanceof HttpRequestMethodNotSupportedException) {
 
             ModelAndView mv = new ModelAndView();
@@ -187,7 +184,7 @@ public class ExceptionHandlerController {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
         attributes.put("success", false);
-        attributes.put("msg", "访问出错<0>，请稍后重试");
+        attributes.put("msg", "数据请求错误[空]，请稍后重试");
         view.setAttributesMap(attributes);
         mav.setView(view);
 

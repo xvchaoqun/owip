@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.ext.SyncService;
+import ext.service.SyncService;
 import service.member.EnterApplyService;
 import service.member.MemberApplyService;
 import service.member.MemberBaseMapper;

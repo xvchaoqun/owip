@@ -101,7 +101,6 @@
                       <option value="0">中共党员</option>
                        <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
                   </select>
-                    <div class="inline-block">注：政治面貌为“群众”等不在以上选项中的情况请留空</div>
                   <script type="text/javascript">
                       $("select[name=dpTypeId]").val(${original});
                   </script>

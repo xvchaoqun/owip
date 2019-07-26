@@ -1,3 +1,20 @@
+
+20190726
+
+转移 service.ext -> ext.service
+删除 controller.ext
+
+修改民主党派，增加群众
+UPDATE base_meta_class SET bool_attr='是否群众'  WHERE CODE='mc_democratic_party';
+
+
+UPDATE `sys_scheduler_job` SET `name`='系统数据校正',
+                                         `clazz`='job.base.DataAutoAdjust' WHERE clazz='job.cadre.RefreshHasCrp';
+
+删除 job.cadre.RefreshHasCrp
+
+增加 imageio-tiff.jar
+
 20190725
 西交
 

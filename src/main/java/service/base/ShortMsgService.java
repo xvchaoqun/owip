@@ -22,7 +22,7 @@ import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.PasswordHelper;
 import sys.SendMsgResult;
-import sys.SendMsgUtils;
+import ext.utils.SendMsgUtils;
 import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;

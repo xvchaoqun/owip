@@ -1,10 +1,10 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.ext.ExtJzgSalary;
-import domain.ext.ExtJzgSalaryExample;
-import domain.ext.ExtRetireSalary;
-import domain.ext.ExtRetireSalaryExample;
+import ext.domain.ExtJzgSalary;
+import ext.domain.ExtJzgSalaryExample;
+import ext.domain.ExtRetireSalary;
+import ext.domain.ExtRetireSalaryExample;
 import domain.member.Member;
 import domain.member.MemberExample;
 import domain.pmd.*;

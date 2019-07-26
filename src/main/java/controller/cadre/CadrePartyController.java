@@ -8,6 +8,7 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -27,16 +28,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadrePartyController extends BaseController {
@@ -79,10 +78,22 @@ public class CadrePartyController extends BaseController {
         CadreViewExample example = new CadreViewExample();
         CadreViewExample.Criteria criteria = example.createCriteria();
 
-        if(type==1)
-            criteria.andDpIdIsNotNull();
-        else if(type==2)
+        if(type==1) {
+            //criteria.andDpIdIsNotNull();
+
+            // 仅显示民主党派，不显示群众
+            Set<Integer> dpTypeIds = new HashSet<>();
+            Map<Integer, MetaType> dpTypes = CmTag.getMetaTypes("mc_democratic_party");
+            for (MetaType metaType : dpTypes.values()) {
+                if(BooleanUtils.isNotTrue(metaType.getBoolAttr())){
+                    dpTypeIds.add(metaType.getId());
+                }
+            }
+            criteria.andDpTypeIdIn(dpTypeIds);
+
+        }else if(type==2) {
             criteria.andOwIdIsNotNull();
+        }
 
         example.setOrderByClause("sort_order desc");
         if (status!=null) {

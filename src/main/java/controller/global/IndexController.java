@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.member.MemberRegService;
 import shiro.ShiroHelper;
-import sys.CasUtils;
+import ext.utils.CasUtils;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;

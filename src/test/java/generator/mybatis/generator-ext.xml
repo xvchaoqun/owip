@@ -16,26 +16,26 @@
         <jdbcConnection driverClass="${jdbc_driverClassName}"
                         connectionURL="${jdbc_url}" userId="${jdbc_user}"
                         password="${jdbc_password}" />
-        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="ext.domain" targetProject="src/main/java">
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
-        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="ext.persistence" targetProject="src/main/java">
         </sqlMapGenerator>
-        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="ext.persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
-        <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks" mapperName="ext.ExtBksMapper">
+        <table tableName="ext_bks" domainObjectName="ExtBks" mapperName="ExtBksMapper">
         </table>
-        <table tableName="ext_jzg" domainObjectName="ext.ExtJzg" mapperName="ext.ExtJzgMapper">
-        </table>-->
-        <table tableName="ext_yjs" domainObjectName="ext.ExtYjs" mapperName="ext.ExtYjsMapper">
+        <table tableName="ext_jzg" domainObjectName="ExtJzg" mapperName="ExtJzgMapper">
         </table>
-        <!--<table tableName="ext_abroad" domainObjectName="ext.ExtAbroad">
-        </table>-->
-       <!-- <table tableName="ext_retire_salary" domainObjectName="ext.ExtRetireSalary"  mapperName="ext.ExtRetireSalaryMapper">
-        </table>-->
-        <!--<table tableName="ext_jzg_salary" domainObjectName="ext.ExtJzgSalary"  mapperName="ext.ExtJzgSalaryMapper">
-        </table>-->
+        <table tableName="ext_yjs" domainObjectName="ExtYjs" mapperName="ExtYjsMapper">
+        </table>
+        <table tableName="ext_abroad" domainObjectName="ExtAbroad">
+        </table>
+        <table tableName="ext_retire_salary" domainObjectName="ExtRetireSalary"  mapperName="ExtRetireSalaryMapper">
+        </table>
+        <table tableName="ext_jzg_salary" domainObjectName="ExtJzgSalary"  mapperName="ExtJzgSalaryMapper">
+        </table>
 
 
     </context>

@@ -178,6 +178,12 @@ public interface ICadreMapper {
 
     // 统计是否有挂职经历
     void refreshHasCrp();
+
+    // 查找同时是中共党员和群众的干部的 CadreParty ID
+    @Select("SELECT cp.id FROM cadre_party cp, base_meta_type bmt WHERE cp.class_id=bmt.id AND bmt.bool_attr=1 " +
+            "AND (user_id IN(SELECT user_id FROM ow_member WHERE STATUS IN(1,4)) " +
+            "OR user_id IN(SELECT user_id FROM cadre_party WHERE TYPE=2))")
+    List<Integer> selectCadrePartyIds();
 }
 
 
