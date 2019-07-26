@@ -11,6 +11,10 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -21,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
@@ -42,6 +48,102 @@ import java.util.*;
 public class MemberOutController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions({"memberOut:import", SystemConstants.PERMISSION_PARTYVIEWALL})
+    @RequestMapping("/memberOut_import")
+    public String memberOut_import(ModelMap modelMap) {
+
+        return "member/memberOut/memberOut_import";
+    }
+
+    // 导入
+    @RequiresPermissions({"memberOut:import", SystemConstants.PERMISSION_PARTYVIEWALL})
+    @RequestMapping(value = "/memberOut_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOut_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        Date now = new Date();
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<MemberOut> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            MemberOut record = new MemberOut();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(userCode)){
+                continue;
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getId());
+
+            Member member = memberService.get(uv.getId());
+            if(member==null){
+                throw new OpException("第{0}行学工号[{1}]不在党员库中", row, userCode);
+            }
+            record.setPartyId(member.getPartyId());
+            record.setBranchId(member.getBranchId());
+
+            String _type = StringUtils.trimToNull(xlsRow.get(2));
+            MetaType type = CmTag.getMetaTypeByName("mc_member_in_out_type", _type);
+            if (type == null) throw new OpException("第{0}行组织关系转出类别[{1}]不存在", row, _type);
+            record.setType(type.getId());
+
+            int rowNum = 3;
+            record.setPhone(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            record.setToTitle(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            record.setToUnit(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            record.setFromUnit(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            record.setFromAddress(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            record.setFromPhone(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            record.setFromFax(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            record.setFromPostCode(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            record.setPayTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+
+            Integer days = null;
+            String _days = StringUtils.trimToNull(xlsRow.get(rowNum++));
+            if(_days!=null){
+                try {
+                    days = Integer.valueOf(_days);
+                }catch (Exception e){
+                    throw new OpException("第{0}行介绍信有效期天数[{1}]有误", row, _type);
+                }
+            }
+            record.setValidDays(days);
+            record.setHandleTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+            record.setHasReceipt(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(rowNum++)), "是"));
+
+            record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+
+            records.add(record);
+        }
+
+        int addCount = memberOutService.batchImport(records);
+        int totalCount = records.size();
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入组织关系转出记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount-addCount));
+
+        return resultMap;
+    }
 
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_view")

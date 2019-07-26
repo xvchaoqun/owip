@@ -236,7 +236,7 @@ public class PcsProposalController extends PcsBaseController {
                 PcsConstants.PCS_PROPOSAL_STATUS_SAVE,
                 PcsConstants.PCS_PROPOSAL_STATUS_INIT,
                 PcsConstants.PCS_PROPOSAL_STATUS_DENY)) {
-            return failed("状态异常");
+            return failed("提案状态错误");
         }
 
         if (_files == null) _files = new MultipartFile[]{};

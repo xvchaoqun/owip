@@ -64,6 +64,14 @@
                             有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
                         </div>
                         </c:if>
+                        <div class="buttons pull-left" style="margin-left: 25px">
+                            <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+                                <button class="popupBtn btn btn-success btn-sm tooltip-primary"
+                                   data-url="${ctx}/memberOut_import"
+                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                    批量导入</button>
+                            </shiro:hasPermission>
+                        </div>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active">

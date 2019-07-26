@@ -98,7 +98,7 @@ public class PmdOrderService extends PmdBaseMapper {
         }
         if (!isCurrentMonth && !pmdMember.getIsDelay()) {
             
-            throw new OpException("缴费状态异常，请联系管理员。");
+            throw new OpException("缴费状态错误，请联系管理员。");
         }
         
         // 重复确认一下当前是否允许缴费
@@ -125,12 +125,12 @@ public class PmdOrderService extends PmdBaseMapper {
             // 代缴
             Integer currentUserId = ShiroHelper.getCurrentUserId();
             if (currentUserId == null) {
-                logger.error("代缴异常，currentUserId = null. 缴费账号{}", pmdMember.getUser().getRealname());
+                logger.error("代缴错误，currentUserId = null. 缴费账号{}", pmdMember.getUser().getRealname());
                 throw new OpException("操作失败，请您重新登录系统后再试。");
             }
             SysUserView uv = sysUserService.findById(currentUserId);
             if (uv == null) {
-                logger.error("代缴异常，currentUserId={} but uv = null. 缴费账号{}",
+                logger.error("代缴错误，currentUserId={} but uv = null. 缴费账号{}",
                         currentUserId, pmdMember.getUser().getRealname());
                 throw new OpException("操作失败，请您重新登录系统后再试。");
             }
@@ -223,7 +223,7 @@ public class PmdOrderService extends PmdBaseMapper {
             record.setRetTime(new Date());
             record.setIp(ContextHelper.getRealIp());
         } catch (Exception ex) {
-            logger.error("支付通知异常", ex);
+            logger.error("支付通知错误", ex);
         }
         
         pmdNotifyMapper.insertSelective(record);
@@ -315,7 +315,7 @@ public class PmdOrderService extends PmdBaseMapper {
         if (pmdMemberPayMapper.updateByPrimaryKeySelective(record) == 0) {
             
             logger.error("确认缴费时，对应的党员账单不存在...%s, %s", pmdMemberId, userId);
-            throw new OpException("缴费异常，请稍后再试。");
+            throw new OpException("缴费请求有误，请稍后再试。");
         }
         
         // 如果新生成的订单号和原订单号不一致，则关闭原订单号
@@ -323,7 +323,7 @@ public class PmdOrderService extends PmdBaseMapper {
             try {
                 closeTrade(oldOrderNo);
             } catch (IOException e) {
-                throw new OpException("关闭原订单{0}异常，请稍后再试。{1}", oldOrderNo, e.getMessage());
+                throw new OpException("关闭原订单{0}错误，请稍后再试。{1}", oldOrderNo, e.getMessage());
             }
         }
         
@@ -351,7 +351,7 @@ public class PmdOrderService extends PmdBaseMapper {
                 try {
                     closeTrade(sn);
                 } catch (IOException e) {
-                    throw new OpException("关闭原订单{0}异常，请稍后再试。{1}", sn, e.getMessage());
+                    throw new OpException("关闭原订单{0}错误，请稍后再试。{1}", sn, e.getMessage());
                 }
             }
         }
@@ -393,8 +393,8 @@ public class PmdOrderService extends PmdBaseMapper {
                 }
             } catch (Exception ex) {
                 
-                logger.error(String.format("支付平台异常, sn=%s, ret=%s", sn, JSONUtils.toString(queryRet,false)), ex);
-                throw new OpException("支付平台异常，请稍后再试。");
+                logger.error(String.format("支付平台错误, sn=%s, ret=%s", sn, JSONUtils.toString(queryRet,false)), ex);
+                throw new OpException("支付平台错误，请稍后再试。");
             }
         }
     }

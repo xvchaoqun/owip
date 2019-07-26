@@ -173,7 +173,7 @@ public class CrsApplicantService extends CrsBaseMapper {
 
             CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
             Assert.isTrue(crsApplicant != null && crsApplicant.getPostId() == postId
-                    && crsApplicant.getUserId() == userId, "数据异常。");
+                    && crsApplicant.getUserId() == userId, "数据错误。");
 
             // 只要报名成功了，上传PPT的时候无需再次检查是否信息都全。只要报名成功了，就可以上传PPT。
             if (crsApplicant.getStatus() == CrsConstants.CRS_APPLICANT_STATUS_SAVE

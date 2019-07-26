@@ -84,14 +84,14 @@ public class ApplySelfService extends AbroadBaseMapper {
                     ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
                     return contentTplService.getShorMsgReceivers(tpl.getId());
                 }catch (Exception ex){
-                    logger.error("初审审批人读取异常", ex);
+                    logger.error("初审审批人读取错误", ex);
                 }
             }else if(approverTypeId==0){ // 组织部终审
                 try {
                     ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
                     return contentTplService.getShorMsgReceivers(tpl.getId());
                 }catch (Exception ex){
-                    logger.error("终审审批人读取异常", ex);
+                    logger.error("终审审批人读取错误", ex);
                 }
             }
 
@@ -558,7 +558,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                 List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
                 if (applicatCadres.size() == 0) {
                     SysUserView uv = applySelf.getUser();
-                    logger.error("因私审批数据异常，干部没有任何身份: {}, {}", uv.getCode(), uv.getRealname());
+                    logger.error("因私审批数据错误，干部没有任何身份: {}, {}", uv.getCode(), uv.getRealname());
                     return approvalResultMap;// 异常情况，不允许申请人没有任何身份
                 }
                 ApplicatCadre applicatCadre = applicatCadres.get(0);

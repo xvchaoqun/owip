@@ -67,7 +67,7 @@ public class CadreCourseService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             int count = cadreCourseMapper.countByExample(example);
             if (count != ids.length) {
-                throw new OpException("数据异常");
+                throw new OpException("数据请求校验不通过");
             }
         }
         CadreCourseExample example = new CadreCourseExample();

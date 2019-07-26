@@ -177,7 +177,7 @@ public class CadreRewardController extends BaseController {
             // 干部信息本人直接修改数据校验
             CadreReward _record = cadreRewardMapper.selectByPrimaryKey(id);
             if (_record.getCadreId().intValue() != record.getCadreId()) {
-                throw new OpException("数据异常，没有操作权限");
+                throw new OpException("数据请求错误，没有操作权限");
             }
 
             if (!toApply) {

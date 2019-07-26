@@ -153,7 +153,7 @@ public class CadrePostProController extends BaseController {
             // 干部信息本人直接修改数据校验
             CadrePostPro _record = cadrePostProMapper.selectByPrimaryKey(id);
             if (_record.getCadreId().intValue() != record.getCadreId()) {
-                throw new OpException("数据异常，没有操作权限");
+                throw new OpException("数据请求错误，没有操作权限");
             }
 
             if (!toApply) {

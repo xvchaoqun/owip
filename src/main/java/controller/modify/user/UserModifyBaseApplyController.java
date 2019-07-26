@@ -82,7 +82,7 @@ public class UserModifyBaseApplyController extends ModifyBaseController {
                 || modifys==null || modifys.length==0
                 || originals.length!= codes.length
                 || originals.length!= modifys.length){
-            return failed("数据异常，请重试。");
+            return failed("数据请求错误，请重试。");
         }
 
         for (int i = 0; i < originals.length; i++) {

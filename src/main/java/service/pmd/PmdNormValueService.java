@@ -31,7 +31,7 @@ public class PmdNormValueService extends PmdBaseMapper {
 
         List<PmdNormValue> pmdNormValues = pmdNormValueMapper.selectByExample(example);
         if(pmdNormValues.size()>1){
-            throw new OpException("数据异常，请稍后重试。");
+            throw new OpException("数据错误，请稍后重试。");
         }
         return pmdNormValues.size()==0?null:pmdNormValues.get(0);
     }

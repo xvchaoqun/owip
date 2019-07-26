@@ -564,7 +564,7 @@ public class ClaApplyService extends ClaBaseMapper {
                 List<ClaApplicatCadre> applicatCadres = claApplicatCadreMapper.selectByExample(example);
                 if (applicatCadres.size() == 0) {
                     CadreView cv = apply.getCadre();
-                    logger.error("请假审批数据异常，干部没有任何身份: {}, {}", cv.getCode(), cv.getRealname());
+                    logger.error("请假审批数据错误，干部没有任何身份: {}, {}", cv.getCode(), cv.getRealname());
                     return approvalResultMap;// 异常情况，不允许申请人没有任何身份
                 }
                 ClaApplicatCadre applicatCadre = applicatCadres.get(0);

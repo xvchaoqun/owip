@@ -11,7 +11,7 @@
 <c:if test="${!param.__includePage}">
 <html>
 <head>
-    <title>系统异常</title>
+    <title>系统服务暂不可用</title>
   <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
   <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.css" />
 </head>
@@ -28,7 +28,7 @@
 						<i class="ace-icon fa fa-sitemap"></i>
 						500
 					</span>
-          系统异常
+          系统服务暂不可用
         </h1>
         <hr />
         <div style="/*padding-left: 50px*/">

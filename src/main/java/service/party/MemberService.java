@@ -222,12 +222,12 @@ public class MemberService extends MemberBaseMapper {
                 .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
         int count = (int) memberMapper.countByExample(example);
         if (count != userIds.length) {
-            throw new OpException("数据异常，请重新选择");
+            throw new OpException("数据请求有误，请重新选择");
         }
         Map<Integer, Branch> branchMap = branchService.findAll();
         Branch branch = branchMap.get(branchId);
         if (branch.getPartyId().intValue() != partyId) {
-            throw new OpException("数据异常，请重新选择");
+            throw new OpException("数据请求有误，请重新选择");
         }
 
         Member record = new Member();
@@ -251,18 +251,18 @@ public class MemberService extends MemberBaseMapper {
                 .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
         int count = (int) memberMapper.countByExample(example);
         if (count != userIds.length) {
-            throw new OpException("数据异常，请重新选择[0]");
+            throw new OpException("数据请求有误，请重新选择[0]");
         }
         if (branchId != null) {
             Map<Integer, Branch> branchMap = branchService.findAll();
             Branch branch = branchMap.get(branchId);
             if (branch.getPartyId().intValue() != partyId) {
-                throw new OpException("数据异常，请重新选择[1]");
+                throw new OpException("数据请求有误，请重新选择[1]");
             }
         } else {
             // 直属党支部
             if (!partyService.isDirectBranch(partyId)) {
-                throw new OpException("数据异常，请重新选择[2]");
+                throw new OpException("数据请求有误，请重新选择[2]");
             }
         }
 

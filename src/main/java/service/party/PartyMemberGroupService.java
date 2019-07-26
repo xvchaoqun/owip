@@ -30,7 +30,7 @@ public class PartyMemberGroupService extends BaseMapper {
         List<PartyMemberGroup> partyMemberGroups = partyMemberGroupMapper.selectByExample(_example);
         int size = partyMemberGroups.size();
         if(size>1){
-            throw new OpException("数据异常：现任班子不唯一。");
+            throw new OpException("数据请求错误：现任班子不唯一。");
         }
 
         if(size==1) return partyMemberGroups.get(0);
