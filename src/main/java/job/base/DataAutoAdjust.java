@@ -32,9 +32,11 @@ public class DataAutoAdjust implements Job {
             {
                 // 清理民主党派为群众，同时是中共党员的情况
                 List<Integer> dpIds = iCadreMapper.selectCadrePartyIds();
-                CadrePartyExample example = new CadrePartyExample();
-                example.createCriteria().andIdIn(dpIds).andTypeEqualTo(CadreConstants.CADRE_PARTY_TYPE_DP);
-                cadrePartyMapper.deleteByExample(example);
+                if(dpIds.size()>0) {
+                    CadrePartyExample example = new CadrePartyExample();
+                    example.createCriteria().andIdIn(dpIds).andTypeEqualTo(CadreConstants.CADRE_PARTY_TYPE_DP);
+                    cadrePartyMapper.deleteByExample(example);
+                }
             }
 
             // 统计是否有挂职经历

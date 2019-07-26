@@ -781,8 +781,8 @@
                                 <td>
                                     电子邮箱
                                 </td>
-                                <td style="min-width: 80px">
-                                    <input class="email" type="text" name="email" value="${uv.email}">
+                                <td>
+                                    <input style="width: 380px" class="email" type="text" name="email" value="${uv.email}">
                                 </td>
                             </tr>
 
