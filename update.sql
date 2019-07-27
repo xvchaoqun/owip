@@ -1,5 +1,8 @@
 
 20190727
+更新北邮、哈工大、北航
+
+20190727
 
 删除 service.base.ShortMsgService
 删除 service.auth
