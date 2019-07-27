@@ -1,6 +1,10 @@
 
+20190727
+
 删除 service.base.ShortMsgService
 删除 service.auth
+
+改 login.service / xss.ignoreUrIs
 
 20190726
 更新 南航、西交大、 北化工
