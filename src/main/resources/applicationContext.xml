@@ -82,6 +82,7 @@
           p:configLocation="classpath:ehcache.xml"/>
 
     <import resource="classpath:spring-freemarker.xml"/>
+    <import resource="classpath:spring-mail.xml"/>
 
     <context:component-scan base-package="service,sys.service,ext.service"/>
     <!--<context:annotation-config />-->

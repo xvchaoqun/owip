@@ -1,6 +1,7 @@
 package controller;
 
 import ext.service.ExtService;
+import ext.service.ShortMsgService;
 import ext.service.SyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

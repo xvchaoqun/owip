@@ -1,7 +1,7 @@
 package controller.oa;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.oa.*;

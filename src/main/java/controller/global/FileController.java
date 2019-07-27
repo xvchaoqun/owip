@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -47,6 +48,9 @@ public class FileController extends BaseController {
 
     @RequestMapping(value = "/attach/download")
     public void download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
+
+        path = HtmlUtils.htmlUnescape(path);
+        filename = HtmlUtils.htmlUnescape(filename);
 
         if(!FileUtils.exists(springProps.uploadPath, path)){
             throw new OpException("文件不存在："+ path);

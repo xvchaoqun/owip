@@ -1,4 +1,4 @@
-package service.auth;
+package ext.service.auth;
 
 
 import service.LoginService;

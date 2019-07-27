@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
@@ -245,6 +246,8 @@ public class CrsPostController extends CrsBaseController {
     @ResponseBody
     public Map do_crsPost_templateContent(Integer id, byte type, String content) {
 
+        content = HtmlUtils.htmlUnescape(content);
+
         CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
         if (type == CrsConstants.CRS_TEMPLATE_TYPE_BASE) {
@@ -280,6 +283,8 @@ public class CrsPostController extends CrsBaseController {
     @RequestMapping(value = "/crsPost_meetingSummary", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsPost_meetingSummary(Integer id, String meetingSummary) {
+
+        meetingSummary = HtmlUtils.htmlUnescape(meetingSummary);
 
         CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);

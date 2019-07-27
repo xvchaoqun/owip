@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.cadre.CadreService;
 import service.sc.ScBaseMapper;
 import service.sys.UserBeanService;

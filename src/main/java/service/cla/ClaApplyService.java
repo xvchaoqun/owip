@@ -22,7 +22,7 @@ import persistence.cla.common.ClaApproverTypeBean;
 import service.SpringProps;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.sys.UserBeanService;

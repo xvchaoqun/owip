@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import persistence.dispatch.DispatchCadreMapper;
 import service.abroad.PassportService;
 import service.base.AnnualTypeService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.sc.ScBaseMapper;

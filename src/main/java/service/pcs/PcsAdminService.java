@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.base.MetaTypeService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;

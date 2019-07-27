@@ -1,4 +1,4 @@
-package service.auth;
+package ext.service.auth;
 
 import jixiantech.api.sso.SSOLogin;
 import service.LoginService;

@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import persistence.abroad.common.ApprovalResult;
 import service.base.ContentTplService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.cadre.CadreService;
 import service.sys.UserBeanService;
 import shiro.PasswordHelper;

@@ -33,7 +33,7 @@
         for (Integer roleId : roleIds) {
             SysRole role = roleMap.get(roleId);
 
-            System.out.println(role.getRole() + "= " + role.getResourceIds());
+            System.out.println(role.getName() + "= " + role.getResourceIds());
 
             if (role != null)
                 roles.add(role);
@@ -83,7 +83,7 @@
 
         SysRoleMapper sysRoleMapper = CmTag.getBean(SysRoleMapper.class);
         SysRoleExample example = new SysRoleExample();
-        example.createCriteria().andRoleEqualTo(role);
+        example.createCriteria().andNameEqualTo(role);
         List<SysRole> sysRoles = sysRoleMapper.selectByExample(example);
         if (sysRoles.size() > 0) return sysRoles.get(0);
         return null;
@@ -95,8 +95,8 @@
     SysRoleService sysRoleService = CmTag.getBean(SysRoleService.class);
     Map<Integer, SysRole> roleMap = sysRoleService.findAll();
     for (SysRole role : roleMap.values()) {
-        if(StringUtils.equals(role.getRole(), r))
-        out.println(role.getRole() + "= " + role.getResourceIds() + "<br/>");
+        if(StringUtils.equals(role.getName(), r))
+        out.println(role.getName() + "= " + role.getResourceIds() + "<br/>");
     }
     out.println("==================<br/>");
 
@@ -105,7 +105,7 @@
     example.setOrderByClause("sort_order desc");
     List<SysRole> sysRoles = sysRoleMapper.selectByExample(example);
     for (SysRole role : sysRoles) {
-        if(StringUtils.equals(role.getRole(), r))
-        out.println(role.getRole() + "= " + role.getResourceIds() + "<br/>");
+        if(StringUtils.equals(role.getName(), r))
+        out.println(role.getName() + "= " + role.getResourceIds() + "<br/>");
     }
 %>

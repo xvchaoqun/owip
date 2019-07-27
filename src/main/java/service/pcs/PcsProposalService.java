@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.base.ContentTplService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;

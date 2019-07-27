@@ -6,6 +6,7 @@ import domain.base.ContentTpl;
 import domain.base.ShortMsg;
 import domain.base.ShortMsgExample;
 import domain.sys.SysUserView;
+import ext.utils.SendMsgUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +15,6 @@ import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
@@ -22,7 +22,6 @@ import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.PasswordHelper;
 import sys.SendMsgResult;
-import ext.utils.SendMsgUtils;
 import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -34,8 +33,7 @@ import sys.utils.StringUtil;
 import java.text.MessageFormat;
 import java.util.*;
 
-@Service
-public class ShortMsgService extends BaseMapper {
+public abstract class AbstractShortMsgService extends BaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

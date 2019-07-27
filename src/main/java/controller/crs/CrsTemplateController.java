@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -91,7 +92,7 @@ public class CrsTemplateController extends CrsBaseController {
     public Map do_crsTemplate_au(CrsTemplate record, HttpServletRequest request) {
 
         Integer id = record.getId();
-
+        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
         if (id == null) {
             crsTemplateService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CRS, "添加招聘条件通用模板：%s", record.getId()));

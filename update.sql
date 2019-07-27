@@ -1,4 +1,7 @@
 
+删除 service.base.ShortMsgService
+删除 service.auth
+
 20190726
 更新 南航、西交大、 北化工
 

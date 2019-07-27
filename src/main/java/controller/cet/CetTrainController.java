@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
@@ -180,7 +181,7 @@ public class CetTrainController extends CetBaseController {
 
         CetTrain record = new CetTrain();
         record.setId(trainId);
-        record.setEvaNote(evaNote);
+        record.setEvaNote(HtmlUtils.htmlUnescape(evaNote));
 
         cetTrainMapper.updateByPrimaryKeySelective(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "更新培训评课说明：%s", record.getId()));
