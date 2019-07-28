@@ -1,5 +1,7 @@
 
 20190728
+哈工大
+20190728
 
 更新common-utils
 
@@ -7,7 +9,7 @@
 UPDATE unit_post SET sort_order=code;
 
 20190727
-更新北邮、哈工大、北航
+北邮、哈工大、北航
 
 20190727
 
