@@ -110,6 +110,7 @@ public class CadreAdformController extends BaseController {
             try {
                 cadreAdformService.importRm(file.getAbsolutePath(), importResume);
             }catch (Exception e){
+                logger.error(file.getName(), e);
                 fails.add(e.getMessage());
             }
         }

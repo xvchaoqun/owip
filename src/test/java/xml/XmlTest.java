@@ -73,8 +73,10 @@ public class XmlTest {
     public void readRmJL() throws IOException, DocumentException {
 
         SAXReader reader = new SAXReader();
-        InputStream is = new FileInputStream("D:\\tmp\\杜育红.lrmx");
-        //InputStream is = new FileInputStream("D:\\tmp\\陈丽媛.lrmx");
+        //InputStream is = new FileInputStream("D:\\tmp\\孟祥海.lrmx");
+        //InputStream is = new FileInputStream("D:\\tmp\\张宝军.lrmx");
+        //InputStream is = new FileInputStream("D:\\tmp\\杜育红.lrmx");
+        InputStream is = new FileInputStream("D:\\tmp\\陈丽媛.lrmx");
         Document doc = reader.read(is);
 
         String resume = getNodeText(doc, "//Person/JianLi");
