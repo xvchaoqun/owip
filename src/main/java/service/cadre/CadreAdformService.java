@@ -890,7 +890,8 @@ public class CadreAdformService extends BaseMapper {
                 } else if (StringUtils.contains(resumeRow.desc, "博士")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_doctor").getId();
                     degree = "博士学位";
-                } else if (StringUtils.contains(resumeRow.desc, "硕士同等")) {
+                } else if (StringUtils.contains(resumeRow.desc, "同等")
+                        &&StringUtils.contains(resumeRow.desc, "硕士")) { // 硕士同等学历、同等学历硕士
                     eduId = CmTag.getMetaTypeByCode("mt_edu_sstd").getId();
                     degree = "硕士学位";
                 } else if (StringUtils.containsAny(resumeRow.desc, "硕士", "研究生")) {
@@ -965,12 +966,14 @@ public class CadreAdformService extends BaseMapper {
                 cadreWork.setDetail(resumeRow.desc);
 
                 int workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_jg").getId();
-                if (StringUtils.containsAny(resumeRow.desc, "学院", "系", "专业")) {
+                if (StringUtils.containsAny(resumeRow.desc, "学院", "系", "专业", "教师", "讲师", "助教", "教授")) {
                     workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_xy").getId();
                 } else if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {
                     workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_abroad").getId();
                 }
                 cadreWork.setWorkType(workType);
+                cadreWork.setIsCadre(StringUtils.containsAny(resumeRow.desc, "处长", "院长",
+                        "主任", "处级", "部长", "书记"));
 
                 CadreWork byWorkTime = cadreWorkService.getByWorkTime(cadreId, cadreWork.getStartTime(), cadreWork.getEndTime());
                 if (byWorkTime == null) {
