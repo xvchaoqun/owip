@@ -66,10 +66,10 @@ public class QueryOrderTest {
 
         System.out.println(_signStr);
 
-        // {"code":"3001","desc":"该交易已关闭，请勿重复关闭"}
-        // {"code":"3001","desc":"该订单不存在"}
-        // {"code":"0000","desc":"成功"}
-        // {"code":"0000","desc":"该交易已成功，请确认"}
+        // {"code":"3001","parseResumeRow":"该交易已关闭，请勿重复关闭"}
+        // {"code":"3001","parseResumeRow":"该订单不存在"}
+        // {"code":"0000","parseResumeRow":"成功"}
+        // {"code":"0000","parseResumeRow":"该交易已成功，请确认"}
 
         System.out.println(EntityUtils.toString(res.getEntity()));
     }

@@ -264,7 +264,7 @@ public class UnitPostController extends BaseController {
 
         UnitPostViewExample example = new UnitPostViewExample();
         UnitPostViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("unit_sort_order asc, sort_order desc");
+        example.setOrderByClause("unit_sort_order asc, sort_order asc");
         if(cls==1){
             criteria.andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
         }else if(cls==2){

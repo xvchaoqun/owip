@@ -30,6 +30,7 @@
 						<script type="text/javascript">
 							$("#modal form select[name=eduId]").val(${cadreEdu.eduId});
 						</script>
+						<span class="help-block" style="font-size: 10px;">注：如未获得学历证书请留空</span>
 					</div>
 				</div>
 				<div class="form-group">
@@ -193,14 +194,14 @@
 				<div class="form-group">
 					<label class="col-xs-4 control-label">补充说明</label>
 					<div class="col-xs-8">
-						<textarea class="form-control noEnter" name="note" maxlength="50">${cadreEdu.note}</textarea>
+						<textarea class="form-control" name="note" maxlength="50">${cadreEdu.note}</textarea>
 						<span class="help-block" style="font-size: 10px;">例如：硕博连读、美国哈佛大学联合培养一年等</span>
 					</div>
 				</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">备注</label>
 						<div class="col-xs-8">
-							<textarea class="form-control noEnter" name="remark" rows="2" maxlength="100">${cadreEdu.remark}</textarea>
+							<textarea class="form-control" name="remark" rows="2" maxlength="100">${cadreEdu.remark}</textarea>
 						</div>
 					</div>
 
@@ -228,30 +229,30 @@
 	});
 	$("#modal :checkbox").bootstrapSwitch();
 	function hasDegreeChange(){
-		if($("input[name=hasDegree]").bootstrapSwitch("state")){
-			$("input[name=degree]").prop("disabled", false).attr("required", "required");
-			$("input[name=isHighDegree]").bootstrapSwitch('disabled', false);
-			$("input[name=degreeCountry]").val('${cadreEdu.degreeCountry}').prop("disabled", false).attr("required", "required");
-			$("input[name=degreeUnit]").val('${cadreEdu.degreeUnit}').prop("disabled", false).attr("required", "required");
+		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")){
+			$("#modalForm input[name=degree]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=isHighDegree]").bootstrapSwitch('disabled', false);
+			$("#modalForm input[name=degreeCountry]").val('${cadreEdu.degreeCountry}').prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=degreeUnit]").val('${cadreEdu.degreeUnit}').prop("disabled", false).attr("required", "required");
 
 			var finishTime = $("input[name=finishTime]").val();
 			//alert(finishTime)
-			if($.trim($("input[name=degreeTime]").val())==''){
+			if($.trim($("#modalForm input[name=degreeTime]").val())==''){
 				var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM");
-				$("input[name=degreeTime]").val(degreeTime);
+				$("#modalForm input[name=degreeTime]").val(degreeTime);
 			}
-			$("input[name=degreeTime]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=degreeTime]").prop("disabled", false).attr("required", "required");
 
-			$("input[name=school]").trigger("keyup");
+			$("#modalForm input[name=school]").trigger("keyup");
 		}else{
-			$("input[name=degree]").val('').prop("disabled", true).removeAttr("required");
-			$("input[name=isHighDegree]").bootstrapSwitch('state', false).bootstrapSwitch('disabled', true);
-			$("input[name=degreeCountry]").val('').prop("disabled", true).removeAttr("required");
-			$("input[name=degreeUnit]").val('').prop("disabled", true).removeAttr("required");
-			$("input[name=degreeTime]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=degree]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=isHighDegree]").bootstrapSwitch('state', false).bootstrapSwitch('disabled', true);
+			$("#modalForm input[name=degreeCountry]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=degreeUnit]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=degreeTime]").val('').prop("disabled", true).removeAttr("required");
 		}
 	}
-	$('input[name=hasDegree]').on('switchChange.bootstrapSwitch', function(event, state) {
+	$('#modalForm input[name=hasDegree]').on('switchChange.bootstrapSwitch', function(event, state) {
 		/*console.log(this); // DOM element
 		 console.log(event); // jQuery event
 		 console.log(state); // true | false*/
@@ -261,23 +262,23 @@
 	hasDegreeChange();
 
 	function schoolTypeChange(){
-		if($("input[name=hasDegree]").bootstrapSwitch("state")){
-			var $schoolType = $("select[name=schoolType]");
+		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")){
+			var $schoolType = $("#modalForm select[name=schoolType]");
 			if($schoolType.val()=='<%=CadreConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL%>'
 					|| $schoolType.val()=='<%=CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC%>'){
-				$("input[name=degreeCountry]").val('中国').prop("disabled", true).removeAttr("required");
+				$("#modalForm input[name=degreeCountry]").val('中国').prop("disabled", true).removeAttr("required");
 			}else{
-				$("input[name=degreeCountry]").prop("disabled", false).attr("required", "required");
+				$("#modalForm input[name=degreeCountry]").prop("disabled", false).attr("required", "required");
 			}
 		}
 	}
-	$("select[name=schoolType]").change(function(){
+	$("#modalForm select[name=schoolType]").change(function(){
 		schoolTypeChange();
 	});
 	schoolTypeChange();
 
 	function eduIdChange(){
-		var $eduId = $("select[name=eduId]");
+		var $eduId = $("#modalForm select[name=eduId]");
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_zz").id}"){
 
 			$("input[name=dep]").val('').removeAttr("required");
@@ -295,72 +296,73 @@
 				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"
 				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_sstd").id}"){
 			<c:if test="${sysUser.userId!=_user.userId}">
-			$("input[name=tutorName]").prop("disabled", false);
-			$("input[name=tutorTitle]").prop("disabled", false);
+			$("#modalForm input[name=tutorName]").prop("disabled", false);
+			$("#modalForm input[name=tutorTitle]").prop("disabled", false);
 			</c:if>
 			<c:if test="${sysUser.userId==_user.userId}">
-			$("input[name=tutorName]").prop("disabled", false).attr("required", "required");
-			$("input[name=tutorTitle]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=tutorName]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=tutorTitle]").prop("disabled", false).attr("required", "required");
 			</c:if>
 		}else{
-			$("input[name=tutorName]").val('').prop("disabled", true).removeAttr("required");
-			$("input[name=tutorTitle]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=tutorName]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=tutorTitle]").val('').prop("disabled", true).removeAttr("required");
 		}
 
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_jxxx").id}"){
-			$("input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$("input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$("input[name=isHighDegreee]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("#modalForm input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("#modalForm input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("#modalForm input[name=isHighDegreee]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
 		}else{
-			$("input[name=hasDegree]").bootstrapSwitch('disabled', false);
-			$("input[name=isHighEdu]").bootstrapSwitch('disabled', false);
-			$("input[name=isHighDegreee]").bootstrapSwitch('disabled', false);
+			$("#modalForm input[name=hasDegree]").bootstrapSwitch('disabled', false);
+			$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+			$("#modalForm input[name=isHighDegreee]").bootstrapSwitch('disabled', false);
 		}
 	}
-	$("select[name=eduId]").change(function(){
+	$("#modalForm select[name=eduId]").change(function(){
 		eduIdChange();
 	});
 	eduIdChange();
 
 	function isGraduatedChange(){
-		if(!$("input[name=isGraduated]").bootstrapSwitch("state")) {
-			$("input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$("input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$("input[name='_files[]']").prop("disabled", true);
+		if(!$("#modalForm input[name=isGraduated]").bootstrapSwitch("state")) {
+			$("#modalForm input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("#modalForm input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("#modalForm input[name='_files[]']").prop("disabled", true);
 
-			$("input[name=finishTime]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=finishTime]").val('').prop("disabled", true).removeAttr("required");
 			//$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
 
 		}else {
-			$("input[name=hasDegree]").bootstrapSwitch('disabled', false);
-			$("input[name=isHighEdu]").bootstrapSwitch('disabled', false);
-			$("input[name='_files[]']").prop("disabled", false);
+			$("#modalForm input[name=hasDegree]").bootstrapSwitch('disabled', false);
+			$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+			$("#modalForm input[name='_files[]']").prop("disabled", false);
 
-			$("input[name=finishTime]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=finishTime]").prop("disabled", false).attr("required", "required");
 			//$("input[name=schoolLen]").prop("disabled", false).attr("required", "required");
 		}
 	}
-	$('input[name=isGraduated]').on('switchChange.bootstrapSwitch', function(event, state) {
+	$('#modalForm input[name=isGraduated]').on('switchChange.bootstrapSwitch', function(event, state) {
 		isGraduatedChange();
 	});
 	isGraduatedChange();
 
 
 
-	$("input[name=school]").keyup(function(){
+	$("#modalForm input[name=school]").keyup(function(){
 		//console.log($("input[name=hasDegree]").bootstrapSwitch("state"));
-		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
-			var $degreeUnit = $("input[name=degreeUnit]");
-			if ($degreeUnit.val() == '' || $(this).val().startWith($degreeUnit.val())) {
+		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")) {
+			var $degreeUnit = $("#modalForm input[name=degreeUnit]");
+			/*if ($degreeUnit.val() == '' || $(this).val().startWith($degreeUnit.val())) {
 				$degreeUnit.val($(this).val());
-			}
+			}*/
+			$degreeUnit.val($(this).val());
 		}
 	});
 
-	$("input[name=finishTime]").on('changeDate',function(ev){
+	$("#modalForm input[name=finishTime]").on('changeDate',function(ev){
 
-		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
-			var $degreeTime = $("input[name=degreeTime]");
+		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")) {
+			var $degreeTime = $("#modalForm input[name=degreeTime]");
 			//console.log("$degreeTime.val()=" + $degreeTime.val())
 			if ($degreeTime.val() == '') {
 				//$degreeTime.val(ev.date.format("yyyy.MM"));

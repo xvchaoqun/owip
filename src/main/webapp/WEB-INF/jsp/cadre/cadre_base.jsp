@@ -563,15 +563,12 @@
                                     <c:if test="${member!=null}">${original}</c:if>
                                     <c:if test="${member==null}">
                                         <div class="input-group date" data-date-format="yyyy.mm.dd"
-                                             style="width: 150px;">
+                                             style="width: 150px; float: left;">
                                             <input class="form-control" type="text" name="_dpAddTime"
                                                    placeholder="yyyy.mm.dd"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
                                         </div>
-                                        <c:if test="${cadre.dpTypeId>0}">
-                                            <span class="help-block">${cm:getMetaType(cadre.dpTypeId).name}</span>
-                                        </c:if>
                                     </c:if>
                                     <script type="text/javascript">
                                         <c:choose>
@@ -584,10 +581,14 @@
                                         $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, "yyyy.MM.dd")}');
                                         </c:when>
                                         </c:choose>
-                                        /*$("#modalForm select[name=dpTypeId]").on("change",function(){
+                                        $("#modalForm select[name=dpTypeId]").on("change",function(){
                                             var val = $.trim($(this).val());
-                                            $("#modalForm input[name=_dpAddTime]").prop("required", val.length>0 && val >= 0);
-                                        }).change();*/
+                                            if(val>0 && _cMap.metaTypeMap[val].boolAttr){
+                                                $("#modalForm input[name=_dpAddTime]").val('').prop("disabled", true);
+                                            }else{
+                                                $("#modalForm input[name=_dpAddTime]").prop("disabled", false);
+                                            }
+                                        }).change();
                                     </script>
                                 </td>
 
@@ -622,14 +623,14 @@
                                 </td>
                                 <td style="min-width: 100px">
                                     <input required type="text" name="nativePlace" value="${uv.nativePlace}">
-                                    <div class="inline-block">
+                                    <div class="help-block">
                                             ${_pMap['nativePlaceHelpBlock']}
                                     </div>
                                 </td>
                                 <td><span class="star">*</span>出生地</td>
                                 <td>
                                     <input required type="text" name="homeplace" value="${uv.homeplace}">
-                                    <div class="inline-block">
+                                    <div class="help-block">
                                             ${_pMap['nativePlaceHelpBlock']}
                                     </div>
                                 </td>
@@ -638,7 +639,7 @@
                                 </td>
                                 <td>
                                     <input required type="text" name="household" value="${uv.household}">
-                                    <div class="inline-block">
+                                    <div class="help-block">
                                             ${_pMap['nativePlaceHelpBlock']}
                                     </div>
                                 </td>

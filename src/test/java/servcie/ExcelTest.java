@@ -106,7 +106,7 @@ public class ExcelTest {
 
             CadreViewExample example = new CadreViewExample();
             example.createCriteria().andUnitIdEqualTo(unit.getId()).andStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
-            example.setOrderByClause("sort_order desc");
+            example.setOrderByClause("sort_order parseResumeRow");
             List<CadreView> cadres = cadreViewMapper.selectByExample(example);
 
             int startRowNum = 2;

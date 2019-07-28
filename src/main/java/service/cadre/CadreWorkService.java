@@ -11,6 +11,7 @@ import domain.unit.Unit;
 import freemarker.EduSuffix;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,26 @@ public class CadreWorkService extends BaseMapper {
     private CrpRecordService crpRecordService;
     @Autowired
     private MetaTypeService metaTypeService;
+
+    // 根据起始时间读取工作经历（用于任免审批表导入时）
+    public CadreWork getByWorkTime(int cadreId, Date startTime, Date endTime){
+
+        if(startTime ==null) return null;
+
+        CadreWorkExample example = new CadreWorkExample();
+        CadreWorkExample.Criteria criteria = example.createCriteria()
+                .andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);;
+        criteria.andStartTimeEqualTo(startTime);
+        if(endTime != null){
+            criteria.andEndTimeEqualTo(endTime);
+        }else{
+            criteria.andEndTimeIsNull();
+        }
+
+        List<CadreWork> records = cadreWorkMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return records.size()>0?records.get(0):null;
+    }
 
     // 干部任免审批表简历预览
     public List<CadreResume> resume(Integer cadreId) {

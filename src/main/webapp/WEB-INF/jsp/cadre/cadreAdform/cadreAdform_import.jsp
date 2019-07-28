@@ -20,12 +20,19 @@
 				<input type="file" name="zip" extension="zip"/>
 			</div>
 		</div>
+		<div class="form-group">
+			<label class="col-xs-4 text-right red">是否解析并导入简历</label>
+			<div class="col-xs-6">
+                <input type="checkbox" name="importResume" checked/>
+                <span class="help-block">解析导入后请务必手动调整学习经历和工作经历。</span>
+			</div>
+		</div>
         </form>
         <div class="well" style="margin-bottom: 0">
             <ul>
                 <li>如需批量上传，请先将中组部格式的任免审批表打包成zip文件</li>
                 <li>系统将以审批表内的姓名为依据进行导入，如果存在重名的干部会导入失败</li>
-                <li class="red">审批表内的简历无法直接导入，可在学习经历或工作经历中点击【添加】-【查看干部任免审批表简历】进行查看。</li>
+                <li class="red">如果不选择解析并导入简历，审批表内的简历无法直接导入，可在学习经历或工作经历中点击【添加】-【查看干部任免审批表简历】进行查看。</li>
                 <li>请确保系统中的[元数据-家庭成员称谓]中，已包含任免审批表中的称谓</li>
                 <li>家庭成员以姓名为依据进行导入，如果第二次导入会根据姓名进行覆盖</li>
                 <li class="red">重复导入任免审批表将进行覆盖操作</li>
@@ -39,6 +46,8 @@
   </div>
 
   <script>
+      $("#modalForm :checkbox").bootstrapSwitch();
+
 	  $.fileInput($('#modalForm input[name=lrmx]'),{
             allowExt: ['lrmx']
         })

@@ -34,6 +34,26 @@ public class CadreEduService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
 
+    // 根据起始时间读取学习经历（用于任免审批表导入时）
+    public CadreEdu getByEduTime(int cadreId, Date enrolTime, Date finishTime){
+
+        if(enrolTime==null) return null;
+
+        CadreEduExample example = new CadreEduExample();
+        CadreEduExample.Criteria criteria = example.createCriteria()
+                        .andCadreIdEqualTo(cadreId)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        criteria.andEnrolTimeEqualTo(enrolTime);
+        if(finishTime != null){
+            criteria.andFinishTimeEqualTo(finishTime);
+        }else{
+            criteria.andFinishTimeIsNull();
+        }
+
+        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return cadreEdus.size()>0?cadreEdus.get(0):null;
+    }
+
     public List<Integer> needTutorEduTypes(){
 
         MetaType eduDoctor = CmTag.getMetaTypeByCode("mt_edu_doctor");

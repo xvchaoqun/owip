@@ -95,7 +95,7 @@ public class UnitPostService extends BaseMapper {
         UnitPostExample.Criteria criteria = example.createCriteria()
                 .andUnitIdEqualTo(unitId)
                 .andStatusNotEqualTo(SystemConstants.UNIT_POST_STATUS_DELETE);
-        example.setOrderByClause("status asc, sort_order desc");
+        example.setOrderByClause("status asc, sort_order asc");
 
         return unitPostMapper.selectByExample(example);
     }
@@ -109,7 +109,7 @@ public class UnitPostService extends BaseMapper {
                 .andAdminLevelEqualTo(adminLevel)
                 .andIsCpcEqualTo(true)
                 .andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
 
         if(BooleanUtils.isTrue(displayEmpty)){
             criteria.andCadreIdIsNull();
@@ -177,7 +177,7 @@ public class UnitPostService extends BaseMapper {
 
         if (addNum == 0) return;
 
-        byte orderBy = ORDER_BY_DESC;
+        byte orderBy = ORDER_BY_ASC;
 
         UnitPost entity = unitPostMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
