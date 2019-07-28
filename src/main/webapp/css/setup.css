@@ -1063,6 +1063,7 @@ form .star {
 .help-block {
     margin-top: 0px;
     margin-bottom: 0px;
+    font-size: smaller;
 }
 
 .form-group .label-text {
