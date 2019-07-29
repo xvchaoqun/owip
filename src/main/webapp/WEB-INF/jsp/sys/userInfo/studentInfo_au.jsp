@@ -83,35 +83,35 @@
                 <label class="col-xs-3 control-label">学生类别</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="type" value="${student.type}">
-                    <span>注：城镇应届、农村应届等</span>
+                    <span class="help-block">注：城镇应届、农村应届等</span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">学籍状态</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="xjStatus" value="${student.xjStatus}">
-                    <span>注：注册学籍、无学籍、已毕业、肄业、延期等</span>
+                    <span class="help-block">注：注册学籍、无学籍、已毕业、肄业、延期等</span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">培养层次<br/>（研究生）</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="eduLevel" value="${student.eduLevel}">
-                    <span>注：硕士、博士等</span>
+                    <span class="help-block">注：硕士、博士等</span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">培养类型<br/>（研究生）</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="eduType" value="${student.eduType}">
-                    <span>注：专业学位、学术型学位等</span>
+                    <span class="help-block">注：专业学位、学术型学位等</span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">教育类别</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="eduCategory" value="${student.eduCategory}">
-                    <span>注：全日制、非全日制等</span>
+                    <span class="help-block">注：全日制、非全日制等</span>
                 </div>
             </div>
 
@@ -119,7 +119,7 @@
                 <label class="col-xs-3 control-label">培养方式</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="eduWay" value="${student.eduWay}">
-                    <span>注：定向、非定向、委托培养等</span>
+                    <span class="help-block">注：定向、非定向、委托培养等</span>
                 </div>
             </div>
         </div>

@@ -188,28 +188,28 @@
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="authorizedType"
                                value="${teacherInfo.authorizedType}">
-                        <span>注：事业编制、非事业编等</span>
+                        <span class="help-block">注：事业编制、非事业编等</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">人员类别</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="staffType" value="${teacherInfo.staffType}">
-                        <span>注：普通编制、校聘、院处聘、合同制等</span>
+                        <span class="help-block">注：普通编制、校聘、院处聘、合同制等</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">人员状态</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="staffStatus" value="${teacherInfo.staffStatus}">
-                        <span>注：在职、离校、离退等</span>
+                        <span class="help-block">注：在职、离校、离退等</span>
                     </div>
                 </div>
                 <%--<div class="form-group">
                     <label class="col-xs-3 control-label">岗位类别</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="postClass" value="${teacherInfo.postClass}">
-                        <span>注：专业技术岗位、工勤技能岗位、管理岗位等</span>
+                        <span class="help-block">注：专业技术岗位、工勤技能岗位、管理岗位等</span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -223,13 +223,13 @@
                     <label class="col-xs-3 control-label">在岗情况</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="onJob" value="${teacherInfo.onJob}">
-                        <span>注：在岗、离校、退休、离休等</span>
+                        <span class="help-block">注：在岗、离校、退休、离休等</span>
                     </div>
                 </div>
             </div>
             <div class="col-xs-4">
                  <div class="form-group">
-                    <label class="col-xs-3 control-label">专业技术职务（职称）</label>
+                    <label class="col-xs-3 control-label">专业技术职务<br/>（职称）</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="proPost" value="${teacherInfo.proPost}">
                     </div>
@@ -238,6 +238,7 @@
                     <label class="col-xs-3 control-label">职称级别</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="proPostLevel" value="${teacherInfo.proPostLevel}">
+                        <span class="help-block">注：正高、副高、中级、初级等</span>
                     </div>
                 </div>
                 <%--<div class="form-group">
