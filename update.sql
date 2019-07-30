@@ -16,6 +16,9 @@ update cet_train SET pub_status = 1;
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`)
 VALUES ('培训数据校正', '包含：自动修改培训班的结课状态', 'job.cet.CetAutoAdjust', '0 0 0/1 * * ?', 1, 0, 25, '2019-07-29 16:47:26');
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('scSubsidyLogo', '津贴调整文件LOGO', '', 5, 38, '大小628*205，PNG格式');
+
 
 20190728
 哈工大

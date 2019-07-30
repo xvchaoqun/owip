@@ -54,6 +54,39 @@ public class ExcelTest {
         output.close();
     }
     @Test
+    public void tt1() throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/sc/sc_subsidy_fe.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+        BufferedImage bufferImg = ImageIO.read(new File("D:/tmp/11.png"));
+        ImageIO.write(bufferImg, "png", byteArrayOut);
+
+        XSSFDrawing drawingPatriarch = sheet.createDrawingPatriarch();
+        //   XSSFClientAnchor的参数说明：
+        //   参数   说明
+        //  dx1  第1个单元格中x轴的偏移量
+        //  dy1  第1个单元格中y轴的偏移量
+        //  dx2     第2个单元格中x轴的偏移量
+        //  dy2  第2个单元格中y轴的偏移量
+        //  col1 第1个单元格的列号
+        //  row1  第1个单元格的行号
+        //  col2 第2个单元格的列号
+        //  row2 第2个单元格的行号
+        XSSFClientAnchor anchor = new XSSFClientAnchor(0, 0,
+                0, -20* Units.EMU_PER_PIXEL, 0, 0, 10, 6);
+        anchor.setAnchorType(ClientAnchor.AnchorType.DONT_MOVE_DO_RESIZE);
+        drawingPatriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), XSSFWorkbook.PICTURE_TYPE_PNG));
+
+        FileOutputStream output = new FileOutputStream(new File("D:/tmp/test.xlsx"));  //读取的文件路径
+
+        wb.write(output);
+        output.close();
+    }
+
+    @Test
     public void t2() throws IOException {
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cet/1.xlsx"));

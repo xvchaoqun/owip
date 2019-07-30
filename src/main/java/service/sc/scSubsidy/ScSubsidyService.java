@@ -7,10 +7,9 @@ import domain.dispatch.DispatchCadre;
 import domain.sc.scSubsidy.*;
 import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.util.Units;
+import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +24,12 @@ import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
+import sys.utils.FileUtils;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.*;
 
 @Service
@@ -232,6 +232,19 @@ public class ScSubsidyService extends ScBaseMapper {
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/sc/"+filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
+
+        ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+        String scSubsidyLogo = CmTag.getStringProperty("scSubsidyLogo");
+        if(StringUtils.isNotBlank(scSubsidyLogo)
+                && FileUtils.exists(springProps.uploadPath + scSubsidyLogo)) {
+            BufferedImage bufferImg = ImageIO.read(new File(springProps.uploadPath + scSubsidyLogo));
+            ImageIO.write(bufferImg, "png", byteArrayOut);
+            XSSFDrawing drawingPatriarch = sheet.createDrawingPatriarch();
+            XSSFClientAnchor anchor = new XSSFClientAnchor(0, 0,
+                    0, -20 * Units.EMU_PER_PIXEL, 0, 0, 10, 6);
+            anchor.setAnchorType(ClientAnchor.AnchorType.DONT_MOVE_DO_RESIZE);
+            drawingPatriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), XSSFWorkbook.PICTURE_TYPE_PNG));
+        }
 
         XSSFRow row = sheet.getRow(6);
         XSSFCell cell = row.getCell(0);
