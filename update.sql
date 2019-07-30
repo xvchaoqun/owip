@@ -22,6 +22,7 @@ VALUES ('培训数据校正', '包含：自动修改培训班的结课状态', '
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('scSubsidyLogo', '津贴调整文件LOGO', '', 5, 38, '大小628*205，PNG格式');
 
+删除 OaTaskMsgService.java
 
 20190728
 哈工大
