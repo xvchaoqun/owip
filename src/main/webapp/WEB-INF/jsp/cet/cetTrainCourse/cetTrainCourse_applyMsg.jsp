@@ -8,6 +8,7 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_applyMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="trainCourseIds[]" value="${param["trainCourseIds[]"]}">
+        <input type="hidden" name="projectId" value="${param.projectId}">
         <div class="form-group">
             <label class="col-xs-3 control-label">实践教学名称</label>
             <div class="col-xs-8 label-text">
@@ -51,13 +52,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">是否添加后缀</label>
+            <label class="col-xs-3 control-label">是否添加短信后缀</label>
             <div class="col-xs-8">
                 <input type="checkbox" class="big" name="addSuffix" />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">后缀</label>
+            <label class="col-xs-3 control-label">短信后缀</label>
             <div class="col-xs-8">
                 <input class="form-control" type="text" name="suffix" value="（系统短信，请勿直接回复）">
             </div>
@@ -66,13 +67,17 @@
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="确定发送"/>
+
+ <button id="submitBtn" type="button" class="btn btn-primary"
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 发送中，请不要关闭此窗口"> 确定发送</button>
 </div>
 
 <script>
     $("#modalForm :checkbox").bootstrapSwitch();
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
@@ -80,9 +85,9 @@
                         //$("#jqGrid").trigger("reloadGrid");
                         SysMsg.info("共发送{0}条短信，其中发送成功{1}条".format(ret.totalCount, ret.successCount))
                     }
+                    $btn.button('reset');
                 }
             });
         }
     });
-    //$('textarea.limited').inputlimiter();
 </script>

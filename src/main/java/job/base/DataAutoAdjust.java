@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.cadre.CadrePartyMapper;
 import persistence.cadre.common.ICadreMapper;
+import persistence.common.CommonMapper;
 import sys.constants.CadreConstants;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public class DataAutoAdjust implements Job {
     private ICadreMapper iCadreMapper;
     @Autowired
     private CadrePartyMapper cadrePartyMapper;
+    @Autowired
+    private CommonMapper commonMapper;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -38,6 +41,10 @@ public class DataAutoAdjust implements Job {
                     cadrePartyMapper.deleteByExample(example);
                 }
             }
+
+            // 自动修改干部的称谓（仅更新还没设置称谓的）
+            commonMapper.excuteSql("update sys_user_info ui, cadre c set ui.msg_title=concat(left(ui.realname,1), '老师') " +
+                    "where ui.user_id=c.user_id and ui.msg_title is null");
 
             // 统计是否有挂职经历
             iCadreMapper.refreshHasCrp();

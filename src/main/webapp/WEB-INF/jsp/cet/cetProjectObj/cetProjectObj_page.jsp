@@ -38,7 +38,7 @@
 
         <button class="downloadBtn btn btn-info btn-sm"
                 data-url="${ctx}/cet/cetProjectObj_exportFinishPeriod?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
-            <i class="fa fa-download"></i> 导出学时情况</button>
+            <i class="prompt fa fa-question-circle" data-prompt="导出列表中所有的人员"></i> 导出学时情况</button>
 
         <button data-url="${ctx}/cet/cetProjectObj_autoGraduate?projectId=${cetProject.id}"
                 data-title="自动结业"
@@ -46,7 +46,8 @@
                 data-grid-id="#jqGrid2"
                 data-callback="_detailReload"
                 class="confirm btn btn-success btn-sm">
-            <i class="fa fa-sign-out"></i> 自动结业
+            <i class="prompt fa fa-question-circle"
+               data-prompt="针对当前列表中所有的人员，系统根据已设置的达到结业要求的学时数和学员已完成学时数进行自动计算"></i> 自动结业
         </button>
 
         <button data-url="${ctx}/cet/cetProjectObj_forceGraduate"
@@ -54,7 +55,8 @@
                 data-msg="确定将这{0}个人员手动结业？"
                 data-grid-id="#jqGrid2"
                 class="jqBatchBtn btn btn-warning btn-sm">
-            <i class="fa fa-sign-out"></i> 手动结业
+            <i class="prompt fa fa-question-circle"
+               data-prompt="选择某一个参训人员，进行手动结业/取消结业"></i> 手动结业
         </button>
          <button data-url="${ctx}/cet/refreshObjFinishPeriod?projectId=${cetProject.id}"
                 data-title="刷新培训学时"
@@ -64,7 +66,8 @@
                  data-callback="_callback2"
                 data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中..."
                 class="jqItemBtn btn btn-warning btn-sm">
-            <i class="fa fa-refresh"></i> 刷新培训学时
+            <i class="prompt fa fa-question-circle"
+               data-prompt="统计汇总当前培训班中学员的培训学时（已完成学时数）"></i>  刷新培训学时
         </button>
 
         <button data-url="${ctx}/cet/cetProjectObj_syncTraineeInfo?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"

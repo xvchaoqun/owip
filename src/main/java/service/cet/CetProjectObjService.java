@@ -657,7 +657,7 @@ public class CetProjectObjService extends CetBaseMapper {
         }
     }
 
-    // 获取培训对象的已完成学时分项
+    // 获取培训对象的已完成学时分项 Map<planId, period>
     public Map<Integer, BigDecimal> getObjPlanFinishPeriodMap(int objId) {
 
         CetProjectObjPlanExample example = new CetProjectObjPlanExample();
@@ -668,7 +668,7 @@ public class CetProjectObjService extends CetBaseMapper {
 
         for (CetProjectObjPlan cetProjectObjPlan : cetProjectObjPlans) {
 
-            periodMap.put(cetProjectObjPlan.getId(), cetProjectObjPlan.getFinishPeriod());
+            periodMap.put(cetProjectObjPlan.getPlanId(), cetProjectObjPlan.getFinishPeriod());
         }
 
         return periodMap;

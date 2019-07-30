@@ -10,7 +10,7 @@
              data-url-export="${ctx}/unit_data"
              data-url-del="${ctx}/unit_del"
              data-url-bd="${ctx}/unit_batchDel"
-             data-url-co="${ctx}/unit_changeOrder?status=${status}"
+             data-url-co="${ctx}/unit_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.name
             ||not empty param.typeId || not empty param.sort}"/>

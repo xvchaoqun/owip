@@ -51,6 +51,11 @@ public class ShortMsgTplService extends BaseMapper {
 		ShortMsgTpl entity = shortMsgTplMapper.selectByPrimaryKey(id);
 		Integer baseSortOrder = entity.getSortOrder();
 
+		String tableName = "base_short_msg_tpl";
+        String whereSql = null;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
 		ShortMsgTplExample example = new ShortMsgTplExample();
 		if (addNum*orderBy > 0) {
 
@@ -68,9 +73,9 @@ public class ShortMsgTplService extends BaseMapper {
 			ShortMsgTpl targetEntity = overEntities.get(overEntities.size()-1);
 
 			if (addNum*orderBy > 0)
-				commonMapper.downOrder("base_short_msg_tpl", null, baseSortOrder, targetEntity.getSortOrder());
+				commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 			else
-				commonMapper.upOrder("base_short_msg_tpl", null, baseSortOrder, targetEntity.getSortOrder());
+				commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
 			ShortMsgTpl record = new ShortMsgTpl();
 			record.setId(id);

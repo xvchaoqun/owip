@@ -284,9 +284,9 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:changeOrder")
     @RequestMapping(value = "/unit_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unit_changeOrder(Integer id, byte status, Integer addNum, HttpServletRequest request) {
+    public Map do_unit_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        unitService.changeOrder(id, status, addNum);
+        unitService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "单位调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }

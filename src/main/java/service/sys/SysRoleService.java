@@ -143,6 +143,11 @@ public class SysRoleService extends BaseMapper {
 		SysRole entity = sysRoleMapper.selectByPrimaryKey(id);
 		Integer baseSortOrder = entity.getSortOrder();
 
+		String tableName = "sys_role";
+        String whereSql = null;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
 		SysRoleExample example = new SysRoleExample();
 		if (addNum*orderBy > 0) {
 
@@ -160,9 +165,9 @@ public class SysRoleService extends BaseMapper {
 			SysRole targetEntity = overEntities.get(overEntities.size()-1);
 
 			if (addNum*orderBy > 0)
-				commonMapper.downOrder("sys_role", null, baseSortOrder, targetEntity.getSortOrder());
+				commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 			else
-				commonMapper.upOrder("sys_role", null, baseSortOrder, targetEntity.getSortOrder());
+				commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
 			SysRole record = new SysRole();
 			record.setId(id);

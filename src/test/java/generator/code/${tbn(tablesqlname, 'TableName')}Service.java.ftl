@@ -92,38 +92,6 @@ public class ${TableName}Service extends ${tbn(resFolder?trim, "TableName")}Base
     @CacheEvict(value = "${TableName}:ALL", allEntries = true)
     public void changeOrder(int ${tbn(key, "tableName")}, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
-        ${TableName} entity = ${tableName}Mapper.selectByPrimaryKey(${tbn(key, "tableName")});
-        Integer baseSortOrder = entity.getSortOrder();
-
-        ${TableName}Example example = new ${TableName}Example();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<${TableName}> overEntities = ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            ${TableName} targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("${tablePrefix}${tablesqlname}", null, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("${tablePrefix}${tablesqlname}", null, baseSortOrder, targetEntity.getSortOrder());
-
-            ${TableName} record = new ${TableName}();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            ${tableName}Mapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("${tablePrefix}${tablesqlname}", null, ORDER_BY_DESC, ${tbn(key, "tableName")}, addNum);
     }
 }

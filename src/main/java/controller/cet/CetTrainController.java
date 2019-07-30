@@ -109,6 +109,12 @@ public class CetTrainController extends CetBaseController {
 
         Integer id = record.getId();
         record.setIsOnCampus(BooleanUtils.isTrue(record.getIsOnCampus()));
+        record.setIsFinished(BooleanUtils.isTrue(record.getIsFinished()));
+
+        if(record.getEndDate()!=null && record.getEndDate().before(new Date())
+        && !record.getIsFinished()){
+            return failed("结课日期已过，不可变更为未结课状态。");
+        }
 
         if (id == null) {
 

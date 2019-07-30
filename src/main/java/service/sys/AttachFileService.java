@@ -91,6 +91,11 @@ public class AttachFileService extends BaseMapper {
 		AttachFile entity = attachFileMapper.selectByPrimaryKey(id);
 		Integer baseSortOrder = entity.getSortOrder();
 
+		String tableName = "sys_attach_file";
+        String whereSql = null;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
 		AttachFileExample example = new AttachFileExample();
 		if (addNum*orderBy > 0) {
 
@@ -108,9 +113,9 @@ public class AttachFileService extends BaseMapper {
 			AttachFile targetEntity = overEntities.get(overEntities.size()-1);
 
 			if (addNum*orderBy > 0)
-				commonMapper.downOrder("sys_attach_file", null, baseSortOrder, targetEntity.getSortOrder());
+				commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 			else
-				commonMapper.upOrder("sys_attach_file", null, baseSortOrder, targetEntity.getSortOrder());
+				commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
 			AttachFile record = new AttachFile();
 			record.setId(id);

@@ -82,6 +82,11 @@ public class AnnualTypeService extends BaseMapper {
         Integer baseSortOrder = entity.getSortOrder();
         byte module = entity.getModule();
 
+        String tableName = "base_annual_type";
+        String whereSql = "module="+ module;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
         AnnualTypeExample example = new AnnualTypeExample();
         if (addNum*orderBy > 0) {
 
@@ -99,9 +104,9 @@ public class AnnualTypeService extends BaseMapper {
             AnnualType targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("base_annual_type", "module="+ module, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_annual_type", "module="+ module, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
             AnnualType record = new AnnualType();
             record.setId(id);

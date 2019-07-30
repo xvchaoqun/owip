@@ -96,7 +96,7 @@
     <!--未选课学员-->
     <select id="notApplyUserIds" parameterType="map" resultType="java.lang.Integer">
         select user_id from cet_project_obj cpo
-        where not exists(select 1 from cet_trainee_course_view where train_course_id in
+        where cpo.project_id = #{projectId} and not exists(select 1 from cet_trainee_course_view where train_course_id in
         <foreach collection="trainCourseIds" item="trainCourseId" separator="," open="(" close=")">
             #{trainCourseId}
         </foreach>

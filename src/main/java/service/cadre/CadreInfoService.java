@@ -2,7 +2,9 @@ package service.cadre;
 
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreInfoExample;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
@@ -37,6 +39,8 @@ public class CadreInfoService extends BaseMapper {
         CadreInfo cadreInfo = get(cadreId, type);
         if(cadreInfo==null) return null;
         String content = HtmlUtils.htmlUnescape(cadreInfo.getContent()); // 去掉 &nbsp;
+
+        if(StringUtils.isBlank(Jsoup.parse(content).text())) return null; // 防止出现<p></p>和<br/>之类的文本
 
         return StringUtil.trim(content);
     }

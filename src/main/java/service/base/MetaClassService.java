@@ -161,6 +161,11 @@ public class MetaClassService extends BaseMapper {
         MetaClass entity = metaClassMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
 
+        String tableName = "base_meta_class";
+        String whereSql = null;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
         MetaClassExample example = new MetaClassExample();
         if (addNum > 0) {
 
@@ -178,9 +183,9 @@ public class MetaClassService extends BaseMapper {
             MetaClass targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_meta_class", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_meta_class", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
             MetaClass record = new MetaClass();
             record.setId(id);

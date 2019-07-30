@@ -161,6 +161,11 @@ public class HtmlFragmentService extends BaseMapper {
         HtmlFragment entity = htmlFragmentMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
 
+        String tableName = "sys_html_fragment";
+        String whereSql = null;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
         HtmlFragmentExample example = new HtmlFragmentExample();
         if (addNum > 0) {
 
@@ -178,9 +183,9 @@ public class HtmlFragmentService extends BaseMapper {
             HtmlFragment targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("sys_html_fragment", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("sys_html_fragment", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
             HtmlFragment record = new HtmlFragment();
             record.setId(id);

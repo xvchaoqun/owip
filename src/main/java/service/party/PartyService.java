@@ -245,36 +245,6 @@ public class PartyService extends BaseMapper {
     @CacheEvict(value = "Party:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
-        Party entity = partyMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        PartyExample example = new PartyExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andIsDeletedEqualTo(false).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andIsDeletedEqualTo(false).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<Party> overEntities = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            Party targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum > 0)
-                commonMapper.downOrder("ow_party", "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_party", "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
-
-            Party record = new Party();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            partyMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("ow_party", "is_deleted=0", ORDER_BY_DESC, id, addNum);
     }
 }

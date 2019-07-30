@@ -9,6 +9,21 @@
     </where>
   </select>
 
+  <!-- 查找sort_order为空或重复的记录-->
+  <select id="getWrongSortOrderRecordIds" parameterType="map" resultType="java.lang.Integer">
+    select ${idName} from ${table}
+    <where>
+      <if test="whereSql!=null">${whereSql}</if>
+      and (sort_order is null or
+      sort_order in(select sort_order from ${table}
+      <where>
+      <if test="whereSql!=null">${whereSql}</if>
+      </where>
+      group by sort_order having count(*)>1)
+      )
+    </where>
+  </select>
+
   <update id="downOrder" parameterType="map" >
     update ${table} set sort_order = sort_order - 1
     <where>

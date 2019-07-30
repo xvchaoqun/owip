@@ -96,6 +96,11 @@ public class SysPropertyService extends BaseMapper {
         SysProperty entity = sysPropertyMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
 
+        String tableName = "sys_property";
+        String whereSql = null;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
         SysPropertyExample example = new SysPropertyExample();
         if (addNum*orderBy > 0) {
 
@@ -113,9 +118,9 @@ public class SysPropertyService extends BaseMapper {
             SysProperty targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("sys_property", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("sys_property", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
             SysProperty record = new SysProperty();
             record.setId(id);
