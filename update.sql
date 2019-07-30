@@ -1,5 +1,8 @@
 
 20190730
+南航
+
+20190730
 
 -- 弃用 cet_project的 status 和 pub_status字段
 ALTER TABLE `cet_project`
