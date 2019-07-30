@@ -120,7 +120,7 @@
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: ke.html(),
+                content: ke.html().removeSpan(),
                 type: "<%=CadreConstants.CADRE_INFO_TYPE_EDU%>"
             }, function (ret) {
                 if (ret.success) {

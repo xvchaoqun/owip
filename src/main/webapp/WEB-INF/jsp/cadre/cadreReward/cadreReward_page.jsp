@@ -169,7 +169,7 @@
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: ke.html(),
+                content: ke.html().removeSpan(),
                 type:"${CADRE_INFO_TYPE_REWARD}"
             }, function (ret) {
                 if (ret.success) {
@@ -202,7 +202,7 @@
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: ke.html(),
+                content: ke.html().removeSpan(),
                 type:"${CADRE_INFO_TYPE_REWARD_OTHER}"
             }, function (ret) {
                 if (ret.success) {
