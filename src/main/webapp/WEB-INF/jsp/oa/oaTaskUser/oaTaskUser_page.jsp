@@ -21,7 +21,7 @@
     </div>
     <div class="widget-body">
          <c:set var="_query"
-                   value="${not empty param.userId ||not empty param.mobile ||not empty param.status}"/>
+                   value="${not empty param.userId ||not empty param.mobile ||not empty param.hasReport ||not empty param.status}"/>
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
@@ -78,6 +78,18 @@
                                             <input class="form-control search-query" name="mobile" type="text"
                                                    value="${param.mobile}"
                                                    placeholder="请输入">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>报送情况</label>
+                                            <select name="hasReport" data-width="100" data-rel="select2"
+                                                            data-placeholder="请选择">
+                                                <option></option>
+                                                <option value="1">已报送</option>
+                                                <option value="0">未报送</option>
+                                            </select>
+                                            <script>
+                                                $("#searchForm2 select[name=hasReport]").val('${param.hasReport}');
+                                            </script>
                                         </div>
                                         <div class="form-group">
                                             <label>审批状态</label>

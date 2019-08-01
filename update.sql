@@ -1,4 +1,50 @@
 
+20190801
+
+ALTER TABLE `ow_member`
+	CHANGE COLUMN `transfer_time` `transfer_time` DATE NULL DEFAULT NULL COMMENT '组织关系转入时间，进入系统方式为外校转入时显示' AFTER `add_type`;
+
+CREATE TABLE `ow_member_check` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '用户',
+	`party_id` INT(10) UNSIGNED NOT NULL COMMENT '当前所属分党委，用于权限分配',
+	`branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '当前所属党支部，直属党支部没有这一项',
+	`native_place` VARCHAR(100) NULL DEFAULT NULL COMMENT '籍贯',
+	`mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '手机号',
+	`phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '办公电话',
+	`email` VARCHAR(100) NULL DEFAULT NULL COMMENT '邮箱',
+	`political_status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '政治面貌，1 预备党员、2 正式党员',
+	`transfer_time` DATE NULL DEFAULT NULL COMMENT '组织关系转入时间，进入系统方式为外校转入时显示',
+	`apply_time` DATE NULL DEFAULT NULL COMMENT '提交书面申请书时间，时间从入党申请同步过来',
+	`active_time` DATE NULL DEFAULT NULL COMMENT '确定为入党积极分子时间',
+	`candidate_time` DATE NULL DEFAULT NULL COMMENT '确定为发展对象时间',
+	`sponsor` VARCHAR(50) NULL DEFAULT NULL COMMENT '入党介绍人',
+	`grow_time` DATE NULL DEFAULT NULL COMMENT '入党时间',
+	`grow_branch` VARCHAR(200) NULL DEFAULT NULL COMMENT '入党时所在党支部',
+	`positive_time` DATE NULL DEFAULT NULL COMMENT '转正时间',
+	`positive_branch` VARCHAR(200) NULL DEFAULT NULL COMMENT '转正时所在党支部',
+	`party_post` VARCHAR(100) NULL DEFAULT NULL COMMENT '党内职务',
+	`party_reward` VARCHAR(255) NULL DEFAULT NULL COMMENT '党内奖励',
+	`other_reward` VARCHAR(255) NULL DEFAULT NULL COMMENT '其他奖励',
+	`original_json` TEXT NULL COMMENT '变更记录对应的原来的值，JSON对象格式',
+	`create_time` DATETIME NULL DEFAULT NULL COMMENT '申请时间',
+	`ip` VARCHAR(50) NULL DEFAULT NULL COMMENT '申请人IP',
+	`status` TINYINT(3) NOT NULL COMMENT '状态，-1返回修改 0申请 1审批通过',
+	`reason` VARCHAR(200) NULL DEFAULT NULL COMMENT '返回修改原因',
+	PRIMARY KEY (`id`)
+)
+COMMENT='党员信息修改申请'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=5
+;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1072, 0, '党员信息修改审批', '', 'url', '', '/member/memberCheck?cls=2', 105, '0/1/105/', 1, 'memberCheck:*', NULL, NULL, NULL, 1, 29800);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1073, 0, '党员信息修改申请', '', 'url', '', '/member/memberCheck?cls=1', 258, '0/1/258/', 1, 'memberCheck:list', NULL, NULL, NULL, 1, 980);
+
+-- 党员信息修改申请/审批 设置角色权限
+
 20190730
 南航
 

@@ -13,21 +13,21 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${cls==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=1&showAll=${param.showAll}"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=1&showAll=${showAll?1:0}"><i
                                 class="fa fa-list"></i> 新建任务</a>
                     </li>
                     <li class="<c:if test="${cls==2}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=2&showAll=${param.showAll}"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=2&showAll=${showAll?1:0}"><i
                                 class="fa fa-check-square-o"></i> 已完成</a>
                     </li>
                     <li class="<c:if test="${cls==3}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=3&showAll=${param.showAll}"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=3&showAll=${showAll?1:0}"><i
                                 class="fa fa-trash-o"></i> 作废</a>
                     </li>
                     <c:if test="${oaTaskAdmin.showAll}">
                     <div class="type-select">
-                            <span class="typeCheckbox ${param.showAll==1?"checked":""}">
-                            <input class="big" ${param.showAll==1?"checked":""} type="checkbox"
+                            <span class="typeCheckbox ${showAll?"checked":""}">
+                            <input class="big" ${showAll?"checked":""} type="checkbox"
                                                                          value="1"> 显示全部任务
                             </span>
                     </div>
@@ -102,7 +102,7 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
-                                        <input type="hidden" name="showAll" value="${param.showAll}">
+                                        <input type="hidden" name="showAll" value="${showAll?1:0}">
                                         <div class="form-group">
                                             <label>工作类型</label>
                                             <select class="form-control" name="type"

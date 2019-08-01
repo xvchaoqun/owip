@@ -79,6 +79,7 @@
                                value="${cm:formatDate(member.transferTime,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
+                    <span class="help-block">注：本校发展党员请留空</span>
                 </div>
             </div>
             <div class="form-group">

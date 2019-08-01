@@ -39,7 +39,7 @@ public class TplParser {
 	@Test
 	public void execute() throws Exception{
 		
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-ow.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-ow.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-party.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-sys.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-sys2.json";
@@ -51,7 +51,7 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crp.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cpc.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-train.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-ps.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-ps.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cet.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-dr.json";
@@ -119,7 +119,7 @@ public class TplParser {
 						schema, tablePrefix + tablename));
 			}
 
-			genService(resFolder, folder, tablePrefix, tablename, key, spath);
+			genService(resFolder, folder, tablePrefix, tablename, key, tableColumnsMap, spath);
 
 			List<ColumnBean> searchColumnBeans = new ArrayList<>();
 			for (String searchColumn : searchColumns.split(",")) {
@@ -182,7 +182,8 @@ public class TplParser {
 		saveFile( System.getProperty("user.dir") +  outpath, filename, false, content, "");
 	}
 
-	public static void genService(String resFolder, String folder, String tablePrefix, String tablesqlname, String key, String outpath) throws IOException, TemplateException{
+	public static void genService(String resFolder, String folder, String tablePrefix, String tablesqlname, String key,
+								  Map<String, ColumnBean> tableColumnsMap, String outpath) throws IOException, TemplateException{
 
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\";
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
@@ -195,6 +196,7 @@ public class TplParser {
 		root.put("tablePrefix", tablePrefix);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("key",  StringUtils.lowerCase(key));
+		root.put("tableColumnsMap",  tableColumnsMap);
 
 		Template tpl = cfg.getTemplate("${tbn(tablesqlname, 'TableName')}Service.java.ftl");
 

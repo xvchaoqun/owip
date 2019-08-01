@@ -38,8 +38,6 @@ public class MemberApplyOpService extends MemberBaseMapper {
     @Autowired
     private MemberApplyService memberApplyService;
     @Autowired
-    private ApplyOpenTimeService applyOpenTimeService;
-    @Autowired
     private ApplyApprovalLogService applyApprovalLogService;
     @Autowired
     private ApplySnService applySnService;

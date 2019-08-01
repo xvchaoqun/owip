@@ -132,6 +132,18 @@ public class MemberConstants {
         MEMBER_QUIT_TYPE_MAP.put(MEMBER_QUIT_TYPE_WITHGOD, "党员去世");
     }
 
+    // 党员信息修改申请状态
+    public final static byte MEMBER_CHECK_STATUS_BACK = -1;
+    public final static byte MEMBER_CHECK_STATUS_APPLY = 0;
+    public final static byte MEMBER_CHECK_STATUS_PASS = 1;
+    public final static Map<Byte, String> MEMBER_CHECK_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        MEMBER_CHECK_STATUS_MAP.put(MEMBER_CHECK_STATUS_BACK, "返回修改");
+        MEMBER_CHECK_STATUS_MAP.put(MEMBER_CHECK_STATUS_APPLY, "申请");
+        MEMBER_CHECK_STATUS_MAP.put(MEMBER_CHECK_STATUS_PASS, "审核通过");
+    }
+
     // 留学归国人员申请恢复组织生活状态
     public final static byte MEMBER_RETURN_STATUS_DENY = -1;
     public final static byte MEMBER_RETURN_STATUS_APPLY = 0;

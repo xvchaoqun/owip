@@ -82,7 +82,7 @@ public class ${TableName}Service extends ${tbn(resFolder?trim, "TableName")}Base
 
         return map;
     }
-
+    <#if tableColumnsMap['sort_order']??>
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * @param id
@@ -94,4 +94,5 @@ public class ${TableName}Service extends ${tbn(resFolder?trim, "TableName")}Base
 
         changeOrder("${tablePrefix}${tablesqlname}", null, ORDER_BY_DESC, ${tbn(key, "tableName")}, addNum);
     }
+    </#if>
 }

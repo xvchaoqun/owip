@@ -123,6 +123,15 @@
       "ignore": true
     },
     {
+      "table": "member_check",
+      "key": "id",
+      "searchColumns": "user_id,party_id,branch_id",
+      "showColumns": "user_id,party_id,branch_id,reason",
+      "excludeEditColumns": "user_id,create_time,ip,status,reason",
+      "logType":"LogConstants.LOG_MEMBER",
+      "ignore": false
+    },
+    {
       "table": "apply_log",
       "key": "id",
       "searchColumns": "user_id, operator_id,stage",
@@ -156,7 +165,7 @@
       "showColumns": "year,start_sn,end_sn,remark",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_MEMBER",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "apply_sn",
@@ -165,7 +174,7 @@
       "showColumns": "range_id,is_used",
       "excludeEditColumns": "sn",
       "logType":"LogConstants.LOG_MEMBER",
-      "ignore": false
+      "ignore": true
     }
   ]
 }
