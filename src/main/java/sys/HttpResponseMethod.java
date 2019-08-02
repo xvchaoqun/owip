@@ -80,7 +80,7 @@ public interface HttpResponseMethod {
 		String imgPath = pdfFilePath+".jpg";
 		if(!FileUtils.exists(imgPath)){
 
-			PdfUtils.pdf2jpg(pdfFilePath, PropertiesUtils.getString("gs.command"));
+			PdfUtils.pdf2jpg(pdfFilePath, 300, PropertiesUtils.getString("gs.command"));
 		}
 
 		ImageUtils.displayImage(FileUtils.getBytes(imgPath), response);

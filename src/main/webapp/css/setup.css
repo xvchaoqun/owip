@@ -1150,7 +1150,7 @@ form .star {
     height: 750px;
     text-align: center;
     line-height: 750px;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .swf-file-view {
@@ -1158,7 +1158,7 @@ form .star {
     line-height: 750px;
     text-align: center;
     height: 750px;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .dispatch_au .swf-file.none {

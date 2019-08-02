@@ -1051,7 +1051,7 @@ var _modal_width;
                 }
             })
         },
-        swfPreview: function (filepath, filename, hrefLabel, plainText, type) {
+        pdfPreview: function (filepath, filename, hrefLabel, plainText, type) {
             filepath = $.trim(filepath);
             filename = $.trim(filename);
             hrefLabel = $.trim(hrefLabel)
@@ -1063,10 +1063,38 @@ var _modal_width;
             }
             if (filepath != '' && filename != '') {
                 hrefLabel = hrefLabel || filename;
-                return '<a href="javascript:void(0)" class="{4}" data-url="{3}/swf/preview?path={0}&filename={1}&type={5}">{2}</a>'
+                return '<a href="javascript:void(0)" class="{4}" data-url="{3}/pdf_preview?path={0}&filename={1}&type={5}">{2}</a>'
                     .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, cls, type || '');
             } else
                 return $.trim(plainText);
+        },
+        pdfShow: function (filepath, filename, hrefLabel) {
+            filepath = $.trim(filepath);
+            filename = $.trim(filename) || new Date().getTime();
+            hrefLabel = $.trim(hrefLabel)
+
+            if (filepath != '') {
+                hrefLabel = hrefLabel || filename;
+                return ('<a href="{3}/{1}.pdf?path={0}" target="_blank">{2}</a>')
+                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx);
+            } else {
+                return '--';
+            }
+        },
+        download: function (filepath, filename, hrefLabel, type) {
+            filepath = $.trim(filepath);
+            filename = $.trim(filename) || new Date().getTime();
+            hrefLabel = $.trim(hrefLabel)
+            type = type||'download';
+
+            if (filepath != '') {
+                hrefLabel = hrefLabel || filename;
+                return ('<a href="javascript:void(0)" class="downloadBtn" data-type="{4}" ' +
+                    'data-url="{3}/attach_download?path={0}&filename={1}">{2}</a>')
+                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, type);
+            } else {
+                return '--';
+            }
         },
         button: {
             confirm: function (params) {

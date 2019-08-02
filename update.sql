@@ -1,4 +1,11 @@
 
+20190802
+
+更新common-utils
+
+删除 swfTools.command 和 swfTools.languagedir
+运行 /test/dispatch.jsp
+
 20190801
 
 ALTER TABLE `ow_member`
