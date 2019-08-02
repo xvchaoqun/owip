@@ -1,7 +1,11 @@
 
+
 20190802
 
 更新common-utils
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('pdfResolution', 'PDF图像的解析度', '300', 2, 39, '');
 
 删除 swfTools.command 和 swfTools.languagedir
 运行 /test/dispatch.jsp

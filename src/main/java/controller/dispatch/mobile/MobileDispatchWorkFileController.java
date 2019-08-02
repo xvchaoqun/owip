@@ -3,6 +3,7 @@ package controller.dispatch.mobile;
 import controller.BaseController;
 import domain.dispatch.DispatchWorkFile;
 import domain.dispatch.DispatchWorkFileExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -42,9 +43,9 @@ public class MobileDispatchWorkFileController extends BaseController {
 
 	@RequiresPermissions("m:dispatchWorkFile:list")
 	@RequestMapping("/dispatchWorkFile_preview")
-	public void dispatchWorkFile_preview(int id, HttpServletResponse response) throws Exception {
+	public void dispatchWorkFile_preview(int id, Boolean flush, Integer r, HttpServletResponse response) throws Exception {
 
 		DispatchWorkFile dwf = dispatchWorkFileMapper.selectByPrimaryKey(id);
-		displayPdfImage(dwf.getPdfFilePath(), response);
+		displayPdfImage(dwf.getPdfFilePath(), BooleanUtils.isTrue(flush), r, response);
 	}
 }

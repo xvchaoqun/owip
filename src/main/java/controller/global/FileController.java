@@ -137,9 +137,9 @@ public class FileController extends BaseController {
 
     // pdf转图片显示
     @RequestMapping("/pdf_image")
-    public void pdf_image(String path, HttpServletResponse response) throws IOException, InterruptedException {
+    public void pdf_image(String path, Boolean flush, Integer r, HttpServletResponse response) throws IOException, InterruptedException {
 
-       displayPdfImage(path, response);
+       displayPdfImage(path, BooleanUtils.isTrue(flush), r, response);
     }
 
     // swf内容

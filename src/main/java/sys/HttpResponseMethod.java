@@ -67,7 +67,7 @@ public interface HttpResponseMethod {
         resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
         return resultMap;
     }
-    default void displayPdfImage(String path, HttpServletResponse response) throws IOException, InterruptedException {
+    default void displayPdfImage(String path, boolean flush, Integer resolution, HttpServletResponse response) throws IOException, InterruptedException {
 
         String ext = FileUtils.getExtention(path); // linux区分文件名大小写
 		path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf")?ext:".pdf");
@@ -78,9 +78,10 @@ public interface HttpResponseMethod {
 		if(!FileUtils.exists(pdfFilePath)) return;
 
 		String imgPath = pdfFilePath+".jpg";
-		if(!FileUtils.exists(imgPath)){
+		if(flush || !FileUtils.exists(imgPath)){
 
-			PdfUtils.pdf2jpg(pdfFilePath, 300, PropertiesUtils.getString("gs.command"));
+		    resolution = resolution==null?CmTag.getIntProperty("pdfResolution", 300):resolution;
+			PdfUtils.pdf2jpg(pdfFilePath, resolution, PropertiesUtils.getString("gs.command"));
 		}
 
 		ImageUtils.displayImage(FileUtils.getBytes(imgPath), response);

@@ -140,6 +140,13 @@ public class CmTag {
 
         return Integer.valueOf(stringProperty);
     }
+    public static Integer getIntProperty(String key, int def){
+
+        String stringProperty = getStringProperty(key);
+        if(StringUtils.isBlank(stringProperty)) return def;
+
+        return Integer.valueOf(stringProperty);
+    }
     // 获取系统的属性值（布尔类型）
     public static boolean getBoolProperty(String key){
 
