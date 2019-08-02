@@ -7,7 +7,7 @@
                 label: '编号', name: 'code', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
                 if($.trim(rowObject.filePath)=='') return cellvalue;
-                return $.swfPreview(rowObject.filePath, cellvalue);
+                return $.pdfPreview(rowObject.filePath, cellvalue);
             }, frozen: true},
             {label: '党委常委会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '议题数量',name: 'topicNum', width: 70},
@@ -40,12 +40,12 @@
             /*{ label: '列席人',name: 'attendUsers', width: 400,align:'left'},*/
             {label: '会议记录', name: 'logFile', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '--';
-                return $.swfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
+                return $.pdfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
             {label: '上会PPT', name: 'pptFile', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.pptFile==undefined) return '--';
                 return ('&nbsp;<button class="downloadBtn btn btn-warning btn-xs" ' +
-                'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
                         .format(rowObject.pptFile, rowObject.code+"(上会PPT)")
             }},
             {

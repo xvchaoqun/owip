@@ -302,7 +302,10 @@
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 
     $('textarea.limited').inputlimiter();
-    $.fileInput($('#modalForm input[type=file]'));
+    $.fileInput($('#modalForm input[name=_ppt]'),{
+        allowExt: ['ppt', 'pptx'],
+        //allowMime: ['application/pdf']
+    });
 
     $.register.dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
     $.register.date($('.date-picker'));

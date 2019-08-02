@@ -119,7 +119,7 @@
                      if(_cMap.metaTypeMap[rowObject.letterType]==undefined) return '--'
 
                 var _num = _cMap.metaTypeMap[rowObject.letterType].name+"〔{0}〕{1}号".format(rowObject.letterYear, rowObject.letterNum)
-                return $.swfPreview(rowObject.letterFilePath, rowObject.letterFileName, _num, _num);
+                return $.pdfPreview(rowObject.letterFilePath, rowObject.letterFileName, _num, _num);
             }, frozen: true
             },
             {label: '函询日期', name: 'letterQueryDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
@@ -127,7 +127,7 @@
                 label: '纪委回复文件编号', name: 'replyNum', width: 200, formatter: function (cellvalue, options, rowObject) {
                   if(_cMap.metaTypeMap[rowObject.replyType]==undefined) return '--'
                 var _num = _cMap.metaTypeMap[rowObject.replyType].name+"〔{0}〕{1}号".format(rowObject.letterYear, rowObject.replyNum)
-                return $.swfPreview(rowObject.replyFilePath, rowObject.replyFileName, _num, _num);
+                return $.pdfPreview(rowObject.replyFilePath, rowObject.replyFileName, _num, _num);
             }},
             {label: '纪委回复日期', name: 'replyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '函询对象工作证号', name: 'code', width: 130},

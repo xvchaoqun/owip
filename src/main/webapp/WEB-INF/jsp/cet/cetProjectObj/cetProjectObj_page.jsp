@@ -590,7 +590,7 @@
             <c:if test="${cetPlanCourse.needNote}">
             { label: '学习心得',name: 'objInfo.note', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
-                return ($.trim(cellvalue)=='')?"未上传": $.swfPreview(cellvalue,
+                return ($.trim(cellvalue)=='')?"未上传": $.pdfPreview(cellvalue,
                         "学习心得({0})".format(rowObject.realname), '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
             },frozen: true},
             </c:if>
@@ -606,7 +606,7 @@
                 var writeFilePath = rowObject.writeFilePath;
                 if ($.trim(writeFilePath) != '') {
                     //console.log(fileName + " =" + writeFilePath.substr(writeFilePath.indexOf(".")))
-                    return '<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
+                    return '<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
                                     .format(encodeURI(writeFilePath), encodeURI(fileName));
                 }else{
                    return "未上传"

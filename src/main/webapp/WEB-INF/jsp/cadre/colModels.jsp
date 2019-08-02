@@ -130,7 +130,7 @@
             formatter: function (cellvalue, options, rowObject) {
                 if (!cellvalue || cellvalue.id == undefined) return '--';
                 var dispatchCode = cellvalue.dispatchCode;
-                return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
             }
         },
         {
@@ -269,7 +269,7 @@
             label: '离任文件', name: 'dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
 
             if (cellvalue == undefined) return '--';
-            return $.swfPreview(cellvalue.file, cellvalue.fileName, cellvalue.dispatchCode, cellvalue.dispatchCode);
+            return $.pdfPreview(cellvalue.file, cellvalue.fileName, cellvalue.dispatchCode, cellvalue.dispatchCode);
 
         }, frozen: true
         },
@@ -418,7 +418,7 @@
         {
             label: '预览', width: 70, formatter: function (cellvalue, options, rowObject) {
 
-            return $.swfPreview(rowObject.filePath, rowObject.fileName, "预览");
+            return $.pdfShow(rowObject.filePath, rowObject.fileName, "预览");
         }
         },
         {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, key: true, name: 'id'}
@@ -652,7 +652,7 @@
 
                 var code =  _cMap.metaTypeMap[rowObject.typeId].name + "[" + rowObject.year + "]" + rowObject.seq + "号";
                 var fileName = code + "考察原始记录.pdf";
-                ret = $.swfPreview(logFile, fileName, '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 预览</button>');
+                ret = $.pdfPreview(logFile, fileName, '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 预览</button>');
             }
 
             return ret;
@@ -674,7 +674,7 @@
         {
             label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
 
-            return $.swfPreview(rowObject.filePath, rowObject.fileName, "查看");
+            return $.pdfPreview(rowObject.filePath, rowObject.fileName, "查看");
         }
         },
         {label: '备注', name: 'remark'}
@@ -692,7 +692,7 @@
         /*{
             label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
 
-            return $.swfPreview(rowObject.filePath, rowObject.fileName, "查看");
+            return $.pdfPreview(rowObject.filePath, rowObject.fileName, "查看");
         }
         },*/
         {
@@ -703,16 +703,16 @@
                 if ($.trim(pdfFilePath) != '') {
                     var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName));
                 }
                 var wordFilePath = rowObject.wordFilePath;
                 if ($.trim(wordFilePath) != '') {
 
                     var fileName = (rowObject.fileName || rowObject.id) + (wordFilePath.substr(wordFilePath.indexOf(".")));
-                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                    ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
                             .format(encodeURI(wordFilePath), encodeURI(fileName));
                 }
                 return ret;

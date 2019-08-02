@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
 
                 <a class="popupBtn btn btn-warning btn-sm"
-                   data-url="${ctx}/swf/preview?code=af_pmd_help&np=1"><i class="fa fa-info-circle"></i> 操作说明</a>
+                   data-url="${ctx}/pdf_preview?code=af_pmd_help&np=1"><i class="fa fa-info-circle"></i> 操作说明</a>
                <%-- <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
                    data-url="${ctx}/hf_content?code=hf_pmd_party">

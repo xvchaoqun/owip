@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -52,7 +53,7 @@ public class PcsPrFileTemplateController extends PcsBaseController {
             String originalFilename = _file.getOriginalFilename();
             String savePath = upload(_file, "pcsPrFileTemplate");
             record.setFilePath(savePath);
-            record.setFileName(originalFilename);
+            record.setFileName(FileUtils.getFileName(originalFilename));
         }
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();

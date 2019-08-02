@@ -116,7 +116,7 @@ pageEncoding="UTF-8" %>
             {
                 label: '干部任免文件', name: '_dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
                     if(rowObject.dispatch==undefined) return '--'
-                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
+                return $.pdfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                         rowObject.dispatch.dispatchCode, rowObject.dispatch.dispatchCode);
             }, frozen: true},
             {label: '任免日期', name: 'dispatch.workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

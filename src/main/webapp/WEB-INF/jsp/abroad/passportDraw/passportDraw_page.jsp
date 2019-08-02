@@ -551,7 +551,7 @@
             {
                 label: '附件', formatter: function (cellvalue, options, rowObject) {
                     //console.log(rowObject.attachmentFilename)
-                    return $.swfPreview(rowObject.attachment, rowObject.attachmentFilename, "查看");
+                    return $.pdfPreview(rowObject.attachment, rowObject.attachmentFilename, "查看");
                 }
             },
             {label: '备注', name:'remark', width:350, align:'left'},
@@ -575,7 +575,7 @@
 
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
             .format($(this.element).data('path'), this.title);
     });
 

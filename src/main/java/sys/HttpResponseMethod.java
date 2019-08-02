@@ -7,9 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 import service.SpringProps;
 import service.sys.LogService;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
+import sys.utils.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -67,14 +67,32 @@ public interface HttpResponseMethod {
         resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
         return resultMap;
     }
+    default void displayPdfImage(String path, HttpServletResponse response) throws IOException, InterruptedException {
 
-    default void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedException {
+        String ext = FileUtils.getExtention(path); // linux区分文件名大小写
+		path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf")?ext:".pdf");
+
+		SpringProps springProps = CmTag.getBean(SpringProps.class);
+		String pdfFilePath = springProps.uploadPath + path;
+
+		if(!FileUtils.exists(pdfFilePath)) return;
+
+		String imgPath = pdfFilePath+".jpg";
+		if(!FileUtils.exists(imgPath)){
+
+			PdfUtils.pdf2jpg(pdfFilePath, PropertiesUtils.getString("gs.command"));
+		}
+
+		ImageUtils.displayImage(FileUtils.getBytes(imgPath), response);
+    }
+
+    /*default void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedException {
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
 
         FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + filePath,
                 springProps.uploadPath + swfPath, springProps.swfToolsLanguagedir);
-    }
+    }*/
 
     /**
      * 上传文件
@@ -112,13 +130,13 @@ public interface HttpResponseMethod {
 
             String pdfPath = realPath + ".pdf";
             FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath + pdfPath);
-            String swfPath = realPath + ".swf";
-            pdf2Swf(pdfPath, swfPath);
+            //String swfPath = realPath + ".swf";
+            //pdf2Swf(pdfPath, swfPath);
 
         }else if (StringUtils.equalsIgnoreCase(type, "pdf")) {
 
-            String swfPath = realPath + ".swf";
-            pdf2Swf(savePath, swfPath);
+            //String swfPath = realPath + ".swf";
+            //pdf2Swf(savePath, swfPath);
 
         } else if (StringUtils.equalsIgnoreCase(type, "pic")) {
             // 需要缩略图的情况

@@ -38,7 +38,6 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -500,32 +499,11 @@ public class ApplySelfController extends AbroadBaseController {
         if (_modifyProof != null && !_modifyProof.isEmpty()) {
 
             modifyProofFileName = _modifyProof.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "apply_self_modify" + FILE_SEPARATOR
-                    + fileName;
-            String ext = FileUtils.getExtention(modifyProofFileName);
-            modifyProof = realPath + ext;
-            FileUtils.copyFile(_modifyProof, new File(springProps.uploadPath + modifyProof));
-
-            String swfPath = realPath + ".swf";
-            pdf2Swf(modifyProof, swfPath);
+            modifyProof = upload(_modifyProof, "apply_self_modify");
         }
 
-        /*if (id == null) {
-            record.setCreateTime(new Date());
-            record.setIp(IpUtils.getRealIp(request));
-
-            record.setStatus(true);// 提交
-            record.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
-
-            applySelfService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
-        } else {*/
-        //record.setStatus(true);
         applySelfService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
         logger.info(addLog(LogConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
-        /*}*/
 
         return success(FormUtils.SUCCESS);
     }

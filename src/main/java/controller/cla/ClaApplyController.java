@@ -35,11 +35,13 @@ import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -467,32 +469,11 @@ public class ClaApplyController extends ClaBaseController {
         if (_modifyProof != null && !_modifyProof.isEmpty()) {
 
             modifyProofFileName = _modifyProof.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "cla_apply_modify" + FILE_SEPARATOR
-                    + fileName;
-            String ext = FileUtils.getExtention(modifyProofFileName);
-            modifyProof = realPath + ext;
-            FileUtils.copyFile(_modifyProof, new File(springProps.uploadPath + modifyProof));
-
-            String swfPath = realPath + ".swf";
-            pdf2Swf(modifyProof, swfPath);
+            modifyProof = upload(_modifyProof, "cla_apply_modify");
         }
 
-        /*if (id == null) {
-            record.setCreateTime(new Date());
-            record.setIp(IpUtils.getRealIp(request));
-
-            record.setStatus(true);// 提交
-            record.setFlowNode(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST);
-
-            claApplyService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CLA, "添加干部请假申请：%s", record.getId()));
-        } else {*/
-        //record.setStatus(true);
         claApplyService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
         logger.info(addLog(LogConstants.LOG_CLA, "更新干部请假申请：%s", record.getId()));
-        /*}*/
 
         return success(FormUtils.SUCCESS);
     }

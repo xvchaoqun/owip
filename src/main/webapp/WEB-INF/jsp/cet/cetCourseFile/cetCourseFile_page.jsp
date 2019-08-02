@@ -108,11 +108,11 @@
 
                                     <c:if test="${not empty cetCourseFile.filePath}">
                                     <button class='openUrl btn btn-xs btn-primary'
-                                            data-url='${ctx}/swf/preview?type=url&path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
+                                            data-url='${ctx}/pdf_preview?type=url&path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
                                         <i class="fa fa-search"></i>
                                         预览</button>
                                     <button class='downloadBtn btn btn-xs btn-success'
-                                            data-url='${ctx}/attach/download?path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
+                                            data-url='${ctx}/attach_download?path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
                                         <i class="fa fa-download"></i>
                                         下载</button>
                                     </c:if>

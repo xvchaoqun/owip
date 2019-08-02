@@ -9,7 +9,7 @@
           <c:if test="${param.cls!=-1}">
       {
           label: '调阅函', name: 'accessFile', width: 80, formatter: function (cellvalue, options, rowObject) {
-          return $.swfPreview(rowObject.accessFile, "调阅函", "查看");
+          return $.pdfPreview(rowObject.accessFile, "调阅函", "查看");
       }
       },
       </c:if>

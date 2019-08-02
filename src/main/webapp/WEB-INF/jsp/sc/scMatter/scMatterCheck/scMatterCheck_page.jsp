@@ -113,7 +113,7 @@
             {
                 label: '核查编号', name: 'num', width: 200, formatter: function (cellvalue, options, rowObject) {
                 var _num = "个人事项核查〔{0}〕{1}号".format(rowObject.year, rowObject.num)
-                return $.swfPreview(rowObject.checkFile, rowObject.checkFileName, _num, _num);
+                return $.pdfPreview(rowObject.checkFile, rowObject.checkFileName, _num, _num);
             }, frozen: true
             },
             {label: '核查日期', name: 'checkDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

@@ -10,8 +10,9 @@
                 <a href="javascript:;" data-dismiss="modal" class="printBtn btn btn-info btn-xs"
                    data-url="${ctx}/pdf?path=${cm:encodeURI(crsPost.notice)}"><i class="fa fa-print"></i> 打印</a>
                 &nbsp;
-                <a href="${ctx}/attach/download?path=${cm:encodeURI(crsPost.notice)}&filename=招聘公告（${crsPost.name}）"
-                   class="btn btn-primary btn-xs"><i class="fa fa-download"></i> 下载</a>
+                <a href="javascript:;" class="downloadBtn btn btn-primary btn-xs"
+                   data-url="${ctx}/attach_download?path=${cm:encodeURI(crsPost.notice)}&filename=招聘公告（${crsPost.name}）"
+                   ><i class="fa fa-download"></i> 下载</a>
             </c:if>
             <div class="pull-right" style="margin-right: 10px">
 
@@ -35,11 +36,12 @@
     <div class="widget-body">
         <div class="widget-main">
             <div class="swf-file-view">
-                <c:import url="${ctx}/swf/preview?type=html&path=${crsPost.notice}"/>
+                <c:import url="${ctx}/pdf_preview?type=html&path=${crsPost.notice}"/>
             </div>
         </div>
     </div>
 </div>
+<div class="footer-margin lower"/>
 <script>
     $("#upload-file").change(function () {
         //console.log($(this).val())
@@ -53,7 +55,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $(".swf-file-view").load("${ctx}/swf/preview?type=html&path=" + encodeURI(ret.file));
+                        $(".swf-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
 
                         $("#modalForm input[name=file]").val(ret.file);
                         $("#modalForm input[name=fileName]").val(ret.fileName);

@@ -31,9 +31,11 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CadrePaperController extends BaseController {
@@ -106,7 +108,7 @@ public class CadrePaperController extends BaseController {
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
 
-            CadrePaper record, MultipartFile _file, String _pubTime, HttpServletRequest request) {
+            CadrePaper record, MultipartFile _file, String _pubTime, HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
@@ -121,25 +123,9 @@ public class CadrePaperController extends BaseController {
             }
 
             String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "cadre" + FILE_SEPARATOR
-                    + "paper" + FILE_SEPARATOR
-                    + fileName;
-            String savePath = realPath + FileUtils.getExtention(originalFilename);
-            //String pdfPath = realPath + ".pdf";
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
-            //FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
+            String savePath = uploadPdf(_file, "cadre_paper");
 
-            try {
-                String swfPath = realPath + ".swf";
-                pdf2Swf(savePath, swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                logger.error("异常", e);
-            }
-
-            record.setFileName(originalFilename);
+            record.setFileName(FileUtils.getFileName(originalFilename));
             record.setFilePath(savePath);
         }
 

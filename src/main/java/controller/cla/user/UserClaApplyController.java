@@ -198,7 +198,7 @@ public class UserClaApplyController extends ClaBaseController {
             FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
 
             ClaApplyFile claApplyFile = new ClaApplyFile();
-            claApplyFile.setFileName(originalFilename);
+            claApplyFile.setFileName(FileUtils.getFileName(originalFilename));
             claApplyFile.setFilePath(savePath);
             claApplyFile.setCreateTime(new Date());
 

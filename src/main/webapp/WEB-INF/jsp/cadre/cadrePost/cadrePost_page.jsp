@@ -240,7 +240,7 @@
                     if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
 
-                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                    return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -268,7 +268,7 @@
                     if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
 
-                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                    return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -345,7 +345,7 @@
                     if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
 
-                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                    return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -372,7 +372,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
-                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                    return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -460,7 +460,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
-                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                    return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -474,7 +474,7 @@
                 label: '职级结束文件', width: 150, name: 'eDispatch', formatter: function (cellvalue, options, rowObject) {
                 if (!cellvalue || cellvalue.id == undefined) return '--';
                 var dispatchCode = cellvalue.dispatchCode;
-                return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
             }
             },
             {

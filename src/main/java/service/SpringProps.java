@@ -27,11 +27,11 @@ public class SpringProps {
 	@Value("${avatar.folder.ext}")
 	public String avatarFolderExt;
 
-	@Value("${swfTools.command}")
+	/*@Value("${swfTools.command}")
 	public String swfToolsCommand;
 
 	@Value("${swfTools.languagedir}")
-	public String swfToolsLanguagedir;
+	public String swfToolsLanguagedir;*/
 
 	@Value("${login.useSSO}")
 	public Boolean useSSO;

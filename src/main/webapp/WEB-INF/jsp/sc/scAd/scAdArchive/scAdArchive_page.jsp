@@ -98,7 +98,7 @@
                 var code = "党委常委会〔{0}〕号".format(holdDate)
                 /*
                 if($.trim(rowObject.committeeFilePath)=='') return _num;
-                return $.swfPreview(rowObject.committeeFilePath, _num);*/
+                return $.pdfPreview(rowObject.committeeFilePath, _num);*/
 
                 return ('<a href="javascript:;" class="linkBtn"'
                 +'data-url="${ctx}#/sc/scCommittee?year={0}&holdDate={1}"'
@@ -132,10 +132,10 @@
             {label: '干部任免审批表<br/>归档扫描件', name: '_pdf', width: 120, formatter: function (cellvalue, options, rowObject) {
                 var str = "";
                 if($.trim(rowObject.signFilePath)!='') {
-                    str += $.swfPreview(rowObject.signFilePath, "干部任免审批表归档扫描件",
+                    str += $.pdfPreview(rowObject.signFilePath, "干部任免审批表归档扫描件",
                             '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
                     + ('&nbsp;<button class="downloadBtn btn btn-warning btn-xs" ' +
-                    'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                    'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
                             .format(rowObject.signFilePath, "干部任免审批表归档扫描件("+ rowObject.realname+")")
                 }
                 return str;
@@ -166,10 +166,10 @@
 
                 var str = "";
                 if($.trim(rowObject.cisSignFilePath)!='') {
-                    str += $.swfPreview(rowObject.cisSignFilePath, "干部考察报告归档扫描件",
+                    str += $.pdfPreview(rowObject.cisSignFilePath, "干部考察报告归档扫描件",
                                     '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
                             + ('&nbsp;<button class="downloadBtn btn btn-warning btn-xs" ' +
-                            'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                            'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
                                     .format(rowObject.cisSignFilePath, "干部考察报告归档扫描件("+ rowObject.realname+")")
                 }
                 return str;

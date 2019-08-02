@@ -18,16 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.utils.ContentTypeUtils;
-import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class CrsApplicantCheckController extends CrsBaseController {
@@ -61,7 +57,7 @@ public class CrsApplicantCheckController extends CrsBaseController {
         CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
         modelMap.put("crsApplicant", crsApplicant);
 
-        if(crsApplicant!=null) {
+        if (crsApplicant != null) {
 
             Map<Byte, String> realValMap = crsPostRequireService.getRealValMap(crsApplicant.getUserId());
             modelMap.put("realValMap", realValMap);
@@ -99,6 +95,7 @@ public class CrsApplicantCheckController extends CrsBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_requireCheck_back", method = RequestMethod.POST)
     @ResponseBody
@@ -124,8 +121,8 @@ public class CrsApplicantCheckController extends CrsBaseController {
     @RequestMapping(value = "/crsApplicant_special", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsApplicant_special(CrsApplicant record,
-                                         String filePath,
-                                         HttpServletRequest request) {
+                                       String filePath,
+                                       HttpServletRequest request) {
 
         boolean specialStatus = BooleanUtils.isTrue(record.getSpecialStatus());
         crsApplicantCheckService.special(record.getId(), specialStatus,
@@ -135,44 +132,18 @@ public class CrsApplicantCheckController extends CrsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    private String uploadFile(MultipartFile _file) {
-
-        String originalFilename = _file.getOriginalFilename();
-        String ext = FileUtils.getExtention(originalFilename);
-        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(_file, "pdf")) {
-            throw new OpException("文件格式错误，请上传pdf文件");
-        }
-
-        String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
-
-        String fileName = UUID.randomUUID().toString();
-        String realPath = FILE_SEPARATOR
-                + "crs_applicant_special" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
-                + "file" + FILE_SEPARATOR
-                + fileName;
-        String savePath = realPath + FileUtils.getExtention(originalFilename);
-        FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
-
-        try {
-            String swfPath = realPath + ".swf";
-            pdf2Swf(savePath, swfPath);
-        } catch (IOException | InterruptedException e) {
-            // TODO Auto-generated catch block
-            logger.error("异常", e);
-
-            return null;
-        }
-
-        return savePath;
-    }
-
     @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_special_upload", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsApplicant_special_upload(MultipartFile file) throws InterruptedException {
+    public Map do_crsApplicant_special_upload(MultipartFile file) throws InterruptedException, IOException {
 
-        String savePath = uploadFile(file);
+        String originalFilename = file.getOriginalFilename();
+        String ext = FileUtils.getExtention(originalFilename);
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
+                && !ContentTypeUtils.isFormat(file, "pdf")) {
+            throw new OpException("文件格式错误，请上传pdf文件");
+        }
+        String savePath = uploadPdf(file, "crs_applicant_special");
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
         resultMap.put("file", savePath);

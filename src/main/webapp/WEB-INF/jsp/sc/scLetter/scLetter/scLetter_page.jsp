@@ -116,7 +116,7 @@
             {
                 label: '函询编号', name: 'num', width: 200, formatter: function (cellvalue, options, rowObject) {
                 var _num = _cMap.metaTypeMap[rowObject.type].name+"〔{0}〕{1}号".format(rowObject.year, rowObject.num)
-                return $.swfPreview(rowObject.filePath, rowObject.fileName, _num, _num);
+                return $.pdfPreview(rowObject.filePath, rowObject.fileName, _num, _num);
             }, frozen: true
             },
             {label: '函询日期', name: 'queryDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

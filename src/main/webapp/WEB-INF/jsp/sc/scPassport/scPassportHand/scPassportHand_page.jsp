@@ -216,7 +216,7 @@
                 label: '发文号', name: 'dispatch.dispatchCode',
                 width: 180, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.dispatch==undefined) return '--'
-                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, cellvalue, cellvalue);
+                return $.pdfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, cellvalue, cellvalue);
             }},
             {label: '短信通知', name: '_msg', width: 150, formatter: function (cellvalue, options, rowObject) {
 

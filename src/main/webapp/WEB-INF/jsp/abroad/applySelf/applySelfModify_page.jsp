@@ -66,8 +66,8 @@
       { label:'因私出国（境）事由',  name: 'reason', width: 200,cellattr:cellattr, formatter:function(cellvalue, options, rowObject){
         return cellvalue.replace(/\+\+\+/g, ',');
       }},
-      {label: '本人说明材料', name: 'modifyProof', width: 150, formatter: function (cellvalue, options, rowObject) {
-        return $.swfPreview(cellvalue, rowObject.modifyProofFileName, "查看");
+      {label: '本人说明材料', name: 'modifyProof', formatter: function (cellvalue, options, rowObject) {
+        return $.download(cellvalue, rowObject.modifyProofFileName, "下载");
       }},
       {label: '备注', name: 'remark', width: 500}
     ]

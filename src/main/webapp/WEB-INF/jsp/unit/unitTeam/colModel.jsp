@@ -16,7 +16,7 @@
             {label: '是否<br/>现任班子', name: 'isPresent', width: 70, formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '任职文件', name: 'appoint.file', width: 180, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.appoint==undefined) return '--'
-                return $.swfPreview(cellvalue, rowObject.name + "-任职文件", rowObject.appoint.dispatchCode);
+                return $.pdfPreview(cellvalue, rowObject.name + "-任职文件", rowObject.appoint.dispatchCode);
             }},
             {label: '任职时间', name: 'appointDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '应换届时间', name: 'expectDeposeDate',
@@ -49,7 +49,7 @@
             <c:if test="${param.load!='page'}">
             {label: '免职文件', name: 'depose.file', align: 'left', width: 170, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.depose==undefined) return '--'
-                return $.swfPreview(cellvalue, rowObject.name + "-免职文件", rowObject.depose.dispatchCode);
+                return $.pdfPreview(cellvalue, rowObject.name + "-免职文件", rowObject.depose.dispatchCode);
             }},
             {label: '免职时间', name: 'deposeDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
@@ -68,7 +68,7 @@
                         if (!cellvalue || cellvalue.id == undefined) return '--';
                         var dispatchCode = cellvalue.dispatchCode;
 
-                        return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                        return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                     }
                 },
                 {

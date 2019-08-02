@@ -161,7 +161,7 @@
             {label: '认定日期', name: 'confirmDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '本人说明材料', name: 'selfFile', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
-                return $.swfPreview(rowObject.selfFile, "本人说明材料", "查看");
+                return $.pdfPreview(rowObject.selfFile, "本人说明材料", "查看");
             }},
             {label: '认定依据', width: 200, name: 'checkReason', formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--'
@@ -171,7 +171,7 @@
             {label: '干部管理机构处理意见', width: 200, name: 'handleType'},
             {label: '核查情况表', name: 'checkFile', formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--'
-                return $.swfPreview(rowObject.checkFile, "核查情况表", "查看");
+                return $.pdfPreview(rowObject.checkFile, "核查情况表", "查看");
             }},
             {label: '组织处理方式', width: 130, name: 'owHandleType'},
             {label: '组织处理日期', name: 'owHandleDate', width: 130, formatter:function (cellvalue, options, rowObject) {
@@ -180,7 +180,7 @@
                 }},
             {label: '组织处理记录', width: 130, name: 'owHandleFile', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
-                return $.swfPreview(rowObject.owHandleFile, "组织处理记录", "查看");
+                return $.pdfPreview(rowObject.owHandleFile, "组织处理记录", "查看");
             }},
             {label: '组织处理影响期', width: 130, name: 'owAffectDate', formatter:function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--'

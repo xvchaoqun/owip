@@ -145,7 +145,7 @@
                 var filename = "${_school}" + _cMap.CADRE_STAT_HISTORY_TYPE_MAP[rowObject.type] +
                         "（"+rowObject.statDate.substr(0, 10)+"）"
                         + ".xlsx";
-                return '<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
+                return '<a href="${ctx}/attach_download?path={0}&filename={1}">下载</a>'
                         .format(encodeURI(rowObject.savePath), encodeURI(filename));
             }}
         ]

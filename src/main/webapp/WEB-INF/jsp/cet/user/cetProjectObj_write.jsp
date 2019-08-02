@@ -42,7 +42,7 @@
                         <div style="text-align: left;padding: 20px 0 10px 0;">已上传心得体会：</div>
 
                                         <button class='downloadBtn btn btn-sm btn-success'
-                                                data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.writeFilePath)}&filename=心得体会'>
+                                                data-url='${ctx}/attach_download?path=${cm:encodeURI(cetProjectObj.writeFilePath)}&filename=心得体会'>
                                             <i class="fa fa-download"></i>
                                             下载
                                         </button>

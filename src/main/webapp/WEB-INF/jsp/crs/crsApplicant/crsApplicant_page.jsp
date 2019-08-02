@@ -197,7 +197,7 @@
             <c:if test="${cls==4}">
             { label: '退出申请', width: 90, formatter:function(cellvalue, options, rowObject){
                 if($.trim(rowObject.quitProof)=='') return '--'
-                return $.swfPreview(rowObject.quitProof, "退出申请", "查看");
+                return $.pdfPreview(rowObject.quitProof, "退出申请", "查看");
             }},
             </c:if>
             {
@@ -282,7 +282,7 @@
                     if ($.trim(rowObject.recommendCadre) != '') str.push(rowObject.recommendCadre);
                     if ($.trim(rowObject.recommendCrowd) != '') str.push(rowObject.recommendCrowd);
 
-                    return $.swfPreview(rowObject.recommendPdf, "${crsPost.name}-推荐-" + rowObject.user.realname + ".pdf", str.join(","));
+                    return $.pdfPreview(rowObject.recommendPdf, "${crsPost.name}-推荐-" + rowObject.user.realname + ".pdf", str.join(","));
                 } else {
                     return "个人报名";
                 }

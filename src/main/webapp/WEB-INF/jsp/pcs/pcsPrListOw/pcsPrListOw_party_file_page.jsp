@@ -27,7 +27,7 @@ pageEncoding="UTF-8" %>
                             <tr>
                                 <td>${vs.count}</td>
                                 <td>${template.name}</td>
-                                <td><a href="${ctx}/attach/download?path=${cm:encodeURI(template.filePath)}
+                                <td><a href="${ctx}/attach_download?path=${cm:encodeURI(template.filePath)}
                                 &filename=${cm:encodeURI(template.fileName)}">下载</a></td>
                                 <td>
                                         <a class="popupBtn btn ${not empty file?"btn-success":"btn-primary"} btn-xs"
@@ -36,7 +36,7 @@ pageEncoding="UTF-8" %>
                                 <td>
                                     <c:if test="${not empty file}">
                                         <a href="javascript:void(0)" class="popupBtn"
-                                           data-url="${ctx}/swf/preview?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}">预览</a>
+                                           data-url="${ctx}/pdf_preview?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}">预览</a>
                                     </c:if>
                                 </td>
                             </tr>

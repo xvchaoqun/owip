@@ -107,7 +107,7 @@ public class CrsPostFileController extends CrsBaseController {
             record.setFile(savePath);
 
             if(StringUtils.isBlank(record.getFileName())){
-                record.setFileName(originalFilename);
+                record.setFileName(FileUtils.getFileName(originalFilename));
             }
         }
 

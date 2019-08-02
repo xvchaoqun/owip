@@ -57,7 +57,7 @@
                     if ($.trim(rowObject.recommendCadre) != '') str.push(rowObject.recommendCadre);
                     if ($.trim(rowObject.recommendCrowd) != '') str.push(rowObject.recommendCrowd);
 
-                    return $.swfPreview(rowObject.recommendPdf, rowObject.crsPostName+"-推荐-" + rowObject.realname + ".pdf", str.join(","));
+                    return $.pdfPreview(rowObject.recommendPdf, rowObject.crsPostName+"-推荐-" + rowObject.realname + ".pdf", str.join(","));
                 } else {
                     return "个人报名";
                 }
@@ -93,7 +93,7 @@
             {label: '应聘PPT', name: 'ppt', formatter: function (cellvalue, options, rowObject) {
                 if(_applyStatus(rowObject)!='参加招聘会') return "-";
                 if(rowObject.ppt==undefined) return '--'
-                return '<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
+                return '<a href="${ctx}/attach_download?path={0}&filename={1}">下载</a>'
                         .format(rowObject.ppt, rowObject.pptName)
             }}
         ]

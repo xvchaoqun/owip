@@ -45,7 +45,7 @@
       <tr>
         <td style="text-align: left">
           {{if(f.pdfFilePath && f.pdfFilePath.length>0){}}
-          <a href="javascript:void(0)" data-url="${ctx}/swf/preview?type=url&path={{=f.pdfFilePath}}&filename={{=f.fileName}}"
+          <a href="javascript:void(0)" data-url="${ctx}/pdf_preview?type=url&path={{=f.pdfFilePath}}&filename={{=f.fileName}}"
                   title="PDF文件预览" class="openUrl">{{=f.fileName}}</a>
           {{}else{}}
           {{=f.fileName}}

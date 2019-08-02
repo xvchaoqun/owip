@@ -25,9 +25,11 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CrsApplicantController extends CrsBaseController {
@@ -252,44 +254,20 @@ public class CrsApplicantController extends CrsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    private String uploadFile(MultipartFile _file) {
-
-        String originalFilename = _file.getOriginalFilename();
-        String ext = FileUtils.getExtention(originalFilename);
-        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(_file, "pdf")) {
-            throw new OpException("文件格式错误，请上传pdf文件");
-        }
-
-        String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
-
-        String fileName = UUID.randomUUID().toString();
-        String realPath = FILE_SEPARATOR
-                + "crs_applicant_recommend" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
-                + "file" + FILE_SEPARATOR
-                + fileName;
-        String savePath = realPath + FileUtils.getExtention(originalFilename);
-        FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
-
-        try {
-            String swfPath = realPath + ".swf";
-            pdf2Swf(savePath, swfPath);
-        } catch (IOException | InterruptedException e) {
-            // TODO Auto-generated catch block
-            logger.error("异常", e);
-
-            return null;
-        }
-
-        return savePath;
-    }
-
     @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_recommend_upload", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsApplicant_recommend_upload(MultipartFile file) throws InterruptedException {
+    public Map do_crsApplicant_recommend_upload(MultipartFile file) throws InterruptedException, IOException {
 
-        String savePath = uploadFile(file);
+        String originalFilename = file.getOriginalFilename();
+        String ext = FileUtils.getExtention(originalFilename);
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
+                && !ContentTypeUtils.isFormat(file, "pdf")) {
+            throw new OpException("文件格式错误，请上传pdf文件");
+        }
+
+        String savePath = uploadPdf(file, "crs_applicant_recommend");
+
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
         resultMap.put("file", savePath);

@@ -17,7 +17,7 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-info-circle"></i> 操作说明</a>--%>
 
                 <a class="popupBtn btn btn-warning btn-sm"
-                   data-url="${ctx}/swf/preview?code=af_pmd_help&np=1"><i class="fa fa-info-circle"></i> 操作说明</a>
+                   data-url="${ctx}/pdf_preview?code=af_pmd_help&np=1"><i class="fa fa-info-circle"></i> 操作说明</a>
                 <%--<shiro:hasPermission name="pmdBranch:edit">
                     <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pmdBranch_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"

@@ -62,7 +62,7 @@
                     <td class="bg-left">${cm:formatDate(modify.approvalDate,'yyyy-MM-dd')}</td>
                     <td data-code="approvalFile">批复文件</td>
                     <td class="bg-left">
-                        <a href="${ctx}/attach/download?path=${cm:encodeURI(modify.approvalFile)}&filename=${cm:encodeURI(modify.approvalFilename)}">${modify.approvalFilename}</a>
+                        <a href="${ctx}/attach_download?path=${cm:encodeURI(modify.approvalFile)}&filename=${cm:encodeURI(modify.approvalFilename)}">${modify.approvalFilename}</a>
                     </td>
                     <td data-code="hasPay">是否取酬</td>
                     <td class="bg-left">${modify.hasPay?"是":"否"}</td>
@@ -203,7 +203,7 @@
     $(window).triggerHandler('resize.jqGrid4');
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'));
     });
 </script>

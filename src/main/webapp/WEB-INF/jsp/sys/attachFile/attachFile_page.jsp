@@ -104,7 +104,7 @@
                 align: 'left',
                 frozen: true,
                 formatter: function (cellvalue, options, rowObject) {
-                    return rowObject.type == '<%=SystemConstants.ATTACH_FILE_TYPE_PDF%>' ? $.swfPreview(rowObject.path, cellvalue) : cellvalue;
+                    return rowObject.type == '<%=SystemConstants.ATTACH_FILE_TYPE_PDF%>' ? $.pdfPreview(rowObject.path, cellvalue) : cellvalue;
                 }
             },
             {label: '唯一标识', name: 'code', frozen: true, align: 'left', width: 250},

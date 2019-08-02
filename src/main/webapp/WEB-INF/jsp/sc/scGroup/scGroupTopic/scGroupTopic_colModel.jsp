@@ -7,7 +7,7 @@
           label: '编号', name: '_num', width: 200, formatter: function (cellvalue, options, rowObject) {
               var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
               if(rowObject.groupFilePath==undefined) return _num;
-              return $.swfPreview(rowObject.groupFilePath, _num);
+              return $.pdfPreview(rowObject.groupFilePath, _num);
           }, frozen: true},
       {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
       { label: '议题名称',name: 'name', width: 350, align:'left'},
@@ -52,7 +52,7 @@
       { label: '列席人',name: 'attendUsers'},
       {label: '会议记录', name: 'logFile', formatter: function (cellvalue, options, rowObject) {
               if(rowObject.logFile==undefined) return '--';
-              return $.swfPreview(rowObject.logFile, '会议记录', '查看');
+              return $.pdfPreview(rowObject.logFile, '会议记录', '查看');
           }},
       { label: '备注',name: 'remark', width:300}
   ]

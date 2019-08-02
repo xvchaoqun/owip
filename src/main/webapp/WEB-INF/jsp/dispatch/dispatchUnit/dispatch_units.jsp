@@ -33,7 +33,7 @@
             </div>
         </div>
         <div id="dispatch-file-view">
-            <c:import url="${ctx}/swf/preview?type=html&path=${cm:encodeURI(dispatch.file)}"/>
+            <c:import url="${ctx}/pdf_preview?type=html&path=${cm:encodeURI(dispatch.file)}"/>
         </div>
                     </div></div></div>
     </div>

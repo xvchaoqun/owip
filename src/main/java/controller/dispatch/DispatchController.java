@@ -29,11 +29,7 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URLEncoder;
 import java.util.*;
 
 @Controller
@@ -182,38 +178,6 @@ public class DispatchController extends DispatchBaseController {
         return "dispatch/dispatch_au";
     }
 
-    /*private String uploadFile(MultipartFile _file) {
-
-        String originalFilename = _file.getOriginalFilename();
-        String ext = FileUtils.getExtention(originalFilename);
-        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(_file, "pdf")) {
-            throw new OpException("任免文件格式错误，请上传pdf文件");
-        }
-
-        String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
-
-        String fileName = UUID.randomUUID().toString();
-        String realPath = FILE_SEPARATOR
-                + "dispatch" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
-                + "file" + FILE_SEPARATOR
-                + fileName;
-        String savePath = realPath + FileUtils.getExtention(originalFilename);
-        FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
-
-        try {
-            String swfPath = realPath + ".swf";
-            pdf2Swf(savePath, swfPath);
-        } catch (IOException | InterruptedException e) {
-            // TODO Auto-generated catch block
-            logger.error("异常", e);
-
-            return null;
-        }
-
-        return savePath;
-    }*/
-
     @RequiresPermissions("dispatch:edit")
     @RequestMapping(value = "/dispatch_upload", method = RequestMethod.POST)
     @ResponseBody
@@ -246,7 +210,7 @@ public class DispatchController extends DispatchBaseController {
                               String file,
                               String fileName,
                               MultipartFile _ppt,
-                              HttpServletRequest request) throws InterruptedException {
+                              HttpServletRequest request) throws InterruptedException, IOException {
 
         Integer id = record.getId();
 
@@ -289,32 +253,11 @@ public class DispatchController extends DispatchBaseController {
         record.setCategory(StringUtils.join(_category, ","));
         
         if (_ppt != null) {
-            String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
-            String ext = FileUtils.getExtention(_ppt.getOriginalFilename());
-            if (!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx")) {
-               return failed("上会ppt文件格式错误，请上传ppt文件");
-            }
 
             String originalFilename = _ppt.getOriginalFilename();
-            String _fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "dispatch" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
-                    + "ppt" + FILE_SEPARATOR
-                    + _fileName;
-            String savePath = realPath + FileUtils.getExtention(originalFilename);
-            String pdfPath = realPath + ".pdf";
-            FileUtils.copyFile(_ppt, new File(springProps.uploadPath + savePath));
-            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath + pdfPath);
+            String savePath = uploadDoc(_ppt, "dispatch_ppt");
 
-            try {
-                String swfPath = realPath + ".swf";
-                pdf2Swf(pdfPath, swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                logger.error("异常", e);
-            }
-
-            record.setPptName(originalFilename);
+            record.setPptName(FileUtils.getFileName(originalFilename));
             record.setPpt(savePath);
         }
 
@@ -354,79 +297,6 @@ public class DispatchController extends DispatchBaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("id", id);
         return resultMap;
-    }
-
-    // swf内容
-   /* @RequestMapping("/dispatch_swf")
-    public void dispatch_swf(Integer id, @RequestParam(required = false,defaultValue = "file")String type
-            , HttpServletResponse response) throws IOException{
-
-        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
-        String filePath = (StringUtils.equalsIgnoreCase(type, "file")?dispatch.getFile():dispatch.getPpt());
-        filePath = springProps.uploadPath + FileUtils.getFileName(filePath) + ".swf";
-
-        byte[] bytes = FileUtils.getBytes(filePath);
-        if(bytes==null) return ;
-
-        response.reset();
-        response.addHeader("Content-Length", "" + bytes.length);
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(bytes);
-        outputStream.flush();
-        outputStream.close();
-    }
-
-    @RequestMapping("/swf_preview")
-    public String swf_preview(Integer id,
-                              @RequestParam(required = false,defaultValue = "file")String type,
-                              @RequestParam(required = false,defaultValue = "1")int way,
-                              ModelMap modelMap) {
-        if(id!=null) {
-            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
-            if(dispatch!=null) {
-                String filePath = null;
-                String path = (StringUtils.equalsIgnoreCase(type, "file") ? dispatch.getFile() : dispatch.getPpt());
-                if (StringUtils.isNotBlank(path))
-                    filePath = springProps.uploadPath + path;
-                modelMap.put("dispatch", dispatch);
-                modelMap.put("filePath", filePath);
-            }
-        }
-
-        switch (way) {
-            case 1:
-                return "dispatch/swf_preview";
-            case 2:// 可以设置关闭js方法
-                return "dispatch/swf_preview2";
-            case 3: // 不弹出，在页面中打开
-                return "dispatch/swf_preview3";
-        }
-
-        return null;
-    }*/
-
-    @RequiresPermissions("dispatch:download")
-    @RequestMapping("/dispatch_download")
-    public void dispatch_download(Integer id,
-                                  @RequestParam(required = false, defaultValue = "file") String type,
-                                  HttpServletResponse response) throws IOException {
-
-        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
-        String filePath = springProps.uploadPath +
-                (StringUtils.equalsIgnoreCase(type, "file") ? dispatch.getFile() : dispatch.getPpt());
-        byte[] bytes = FileUtils.getBytes(filePath);
-
-        String fileName = URLEncoder.encode(StringUtils.equalsIgnoreCase(type, "file") ?
-                dispatch.getFileName() : dispatch.getPptName(), "UTF-8");
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-        response.addHeader("Content-Length", "" + bytes.length);
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(bytes);
-        outputStream.flush();
-        outputStream.close();
     }
 
     // 复核

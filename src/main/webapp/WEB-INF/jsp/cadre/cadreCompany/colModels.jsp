@@ -58,7 +58,7 @@
             label: '批复文件', name: 'approvalFile', width: 80,
             formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
-                return $.swfPreview(rowObject.approvalFile, rowObject.approvalFilename, "预览");
+                return $.pdfPreview(rowObject.approvalFile, rowObject.approvalFilename, "预览");
             }
         },
         {label: '是否取酬', name: 'hasPay', formatter: $.jgrid.formatter.TRUEFALSE, width: 80},

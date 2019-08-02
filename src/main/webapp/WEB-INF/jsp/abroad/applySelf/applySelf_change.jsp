@@ -117,7 +117,7 @@ pageEncoding="UTF-8"%>
 				</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">变更原因</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>变更原因</label>
 			<div class="col-xs-2">
 				<textarea  class="form-control" name="modifyRemark"></textarea>
 			</div>
@@ -141,10 +141,7 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
 
-	$.fileInput($("input[name=_modifyProof]"), {
-		allowExt: ['pdf'],
-		no_file:'请上传pdf文件 ...'
-	})
+	$.fileInput($("input[name=_modifyProof]"))
 
 	<c:forEach var="reason" items="${fn:split(applySelf.reason,'+++')}">
 	$("input[name=_reason][value='${reason}']").prop("checked", true);

@@ -118,7 +118,7 @@
                                                 <c:if test="${not empty scGroupTopic.filePath}">
                                                     已上传附件：
                                                 <c:forEach var="file" items="${fn:split(scGroupTopic.filePath,',')}" varStatus="vs">
-                                                    <a href="${ctx}/attach/download?path=${cm:encodeURI(file)}&filename=附件${vs.count}">附件${vs.count}</a>
+                                                    <a href="${ctx}/attach_download?path=${cm:encodeURI(file)}&filename=附件${vs.count}">附件${vs.count}</a>
                                                     ${vs.last?"":"、"}
                                                 </c:forEach>
                                                 </c:if>
@@ -228,7 +228,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path=" + encodeURI(ret.filePath));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.filePath));
 
                         $("#modalForm input[name=filePath]").val(ret.filePath);
                     } else {

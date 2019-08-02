@@ -317,7 +317,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
-                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                    return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {

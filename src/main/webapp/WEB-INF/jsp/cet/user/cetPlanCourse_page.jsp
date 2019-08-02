@@ -52,7 +52,7 @@
             { label: '学习心得',name: 'objInfo.note', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(!rowObject.needNote) return '--'
                 if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
-                return ($.trim(cellvalue)=='')?"未上传": $.swfPreview(cellvalue,
+                return ($.trim(cellvalue)=='')?"未上传": $.pdfPreview(cellvalue,
                         "学习心得({0})".format(rowObject.realname), '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
             },frozen: true},
             {label: '编号', name: 'cetCourse.sn'},
@@ -86,7 +86,7 @@
                 var str = "";
                 if(rowObject.filePath!=undefined){
                     str += ("<button class='downloadBtn btn btn-xs btn-success' " +
-                    "data-url='${ctx}/attach/download?path={0}&filename={1}'>"+
+                    "data-url='${ctx}/attach_download?path={0}&filename={1}'>"+
                             "<i class='fa fa-download'></i> 下载</button> &nbsp;").format(rowObject.filePath, rowObject.fileName)
                 }
                 return '--';
