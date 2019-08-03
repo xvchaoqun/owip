@@ -28,16 +28,20 @@
                 <div class="widget-main">
                     <table id="nowTable" class="table table-unhover table-bordered table-striped">
                         <tr>
-                            <td data-code="nativePlace">籍贯</td>
+                            <td rowspan="5" style="text-align: center;vertical-align: middle;
+                                     width: 50px;background-color: #fff;">
+                                <img src="${ctx}/avatar?path=${cm:encodeURI(original.avatar)}" class="avatar">
+                            </td>
+                            <td data-code="nativePlace" class="text-right">籍贯</td>
                             <td class="bg-left">${original.nativePlace}</td>
-                            <td data-code="mobile">手机号</td>
+                            <td data-code="mobile" class="text-right">手机号</td>
                             <td class="bg-left">${original.mobile}</td>
                             <c:if test="${sysUser.type==USER_TYPE_JZG}">
-                                <td data-code="phone">办公电话</td>
+                                <td data-code="phone" class="text-right">办公电话</td>
                                 <td class="bg-left">${original.phone}</td>
                             </c:if>
-                            <td data-code="email">邮箱</td>
-                            <td class="bg-left" colspan="${sysUser.type==USER_TYPE_JZG?3:1}">${original.email}</td>
+                            <td data-code="email" class="text-right">邮箱</td>
+                            <td class="bg-left" colspan="${sysUser.type==USER_TYPE_JZG?1:3}">${original.email}</td>
                         </tr>
                         <tr>
                             <td data-code="politicalStatus">政治面貌</td>
@@ -92,16 +96,20 @@
                 <div class="widget-main">
                     <table id="modifyTable" class="table table-unhover table-bordered table-striped">
                         <tr>
-                            <td data-code="nativePlace">籍贯</td>
+                            <td rowspan="5" style="text-align: center;vertical-align: middle;
+                                     width: 50px;background-color: #fff;">
+                                <img src="${ctx}/avatar?path=${cm:encodeURI(memberCheck.avatar)}" class="avatar">
+                            </td>
+                            <td data-code="nativePlace" class="text-right">籍贯</td>
                             <td class="bg-left">${memberCheck.nativePlace}</td>
-                            <td data-code="mobile">手机号</td>
+                            <td data-code="mobile" class="text-right">手机号</td>
                             <td class="bg-left">${memberCheck.mobile}</td>
                             <c:if test="${sysUser.type==USER_TYPE_JZG}">
-                                <td data-code="phone">办公电话</td>
+                                <td data-code="phone" class="text-right">办公电话</td>
                                 <td class="bg-left">${memberCheck.phone}</td>
                             </c:if>
-                            <td data-code="email">邮箱</td>
-                            <td class="bg-left" colspan="${sysUser.type==USER_TYPE_JZG?3:1}">${memberCheck.email}</td>
+                            <td data-code="email" class="text-right">邮箱</td>
+                            <td class="bg-left" colspan="${sysUser.type==USER_TYPE_JZG?1:3}">${memberCheck.email}</td>
                         </tr>
                         <tr>
                             <td data-code="politicalStatus">政治面貌</td>

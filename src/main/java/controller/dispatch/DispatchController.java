@@ -236,17 +236,6 @@ public class DispatchController extends DispatchBaseController {
             return failed("发文号重复");
         }
 
-        /*if(_file!=null){
-
-            String savePath = uploadFile(_file);
-            if(savePath!=null) {
-                record.setFileName(_file.getOriginalFilename());
-                record.setFile(savePath);
-                if (_ppt != null) {
-                    Thread.sleep(2000);
-                }
-            }
-        }*/
         record.setFileName(StringUtils.trimToNull(fileName));
         record.setFile(StringUtils.trimToNull(file));
         

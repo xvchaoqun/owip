@@ -22,6 +22,8 @@ public class MemberCheck implements Serializable {
 
     private Integer branchId;
 
+    private String avatar;
+
     private String nativePlace;
 
     private String mobile;
@@ -104,6 +106,14 @@ public class MemberCheck implements Serializable {
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 
     public String getNativePlace() {

@@ -3,6 +3,9 @@ package sys;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 import service.SpringProps;
 import service.sys.LogService;
@@ -20,12 +23,14 @@ import java.util.UUID;
 
 public interface HttpResponseMethod {
 
+    Logger logger = LoggerFactory.getLogger(HttpResponseMethod.class);
+
     default Map<String, Object> success() {
 
         return success(null);
     }
 
-    default  Map<String, Object> success(String msg) {
+    default Map<String, Object> success(String msg) {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("success", true);
@@ -33,7 +38,7 @@ public interface HttpResponseMethod {
         return resultMap;
     }
 
-    default  Map<String, Object> formValidError(String fieldName, String msg) {
+    default Map<String, Object> formValidError(String fieldName, String msg) {
 
         Map<String, Object> resultMap = success(msg);
         resultMap.put("success", true);
@@ -67,24 +72,47 @@ public interface HttpResponseMethod {
         resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
         return resultMap;
     }
-    default void displayPdfImage(String path, boolean flush, Integer resolution, HttpServletResponse response) throws IOException, InterruptedException {
+
+    default String toPdfImage(String path){
+
+        return toPdfImage(path, true, null);
+    }
+
+    default String toPdfImage(String path, boolean flush, Integer resolution){
 
         String ext = FileUtils.getExtention(path); // linux区分文件名大小写
-		path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf")?ext:".pdf");
+        path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf") ? ext : ".pdf");
 
-		SpringProps springProps = CmTag.getBean(SpringProps.class);
-		String pdfFilePath = springProps.uploadPath + path;
+        SpringProps springProps = CmTag.getBean(SpringProps.class);
+        String pdfFilePath = springProps.uploadPath + path;
 
-		if(!FileUtils.exists(pdfFilePath)) return;
+        if (!FileUtils.exists(pdfFilePath)) return null;
 
-		String imgPath = pdfFilePath+".jpg";
-		if(flush || !FileUtils.exists(imgPath)){
+        String imgPath = pdfFilePath + ".jpg";
+        if (flush || !FileUtils.exists(imgPath)) {
 
-		    resolution = resolution==null?CmTag.getIntProperty("pdfResolution", 300):resolution;
-			PdfUtils.pdf2jpg(pdfFilePath, resolution, PropertiesUtils.getString("gs.command"));
-		}
+            resolution = resolution == null ? CmTag.getIntProperty("pdfResolution", 300) : resolution;
+            try {
+                String cmd = PdfUtils.pdf2jpg(pdfFilePath, resolution, PropertiesUtils.getString("gs.command"));
+                logger.info(cmd);
+            } catch (Exception e) {
+                logger.error("gs {}, {}", pdfFilePath, e.getMessage());
+            }
+        }
+        return imgPath;
+    }
 
-		ImageUtils.displayImage(FileUtils.getBytes(imgPath), response);
+    default void displayPdfImage(String path, boolean flush, Integer resolution, HttpServletResponse response) throws IOException {
+
+        String imgPath = toPdfImage(path, flush, resolution);
+        ImageUtils.displayImage(FileUtils.getBytes(imgPath), response);
+    }
+
+    // 异步Pdf转图片
+    @Async
+    default void asyncPdf2jpg(String pdfFilePath) {
+
+        toPdfImage(pdfFilePath, true, 300);
     }
 
     /*default void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedException {
@@ -108,9 +136,9 @@ public interface HttpResponseMethod {
      * @throws InterruptedException
      */
     default String upload(MultipartFile file, String saveFolder,
-                         String type,
-                         int sImgWidth,
-                         int sImgHeight) throws IOException, InterruptedException {
+                          String type,
+                          int sImgWidth,
+                          int sImgHeight) throws IOException, InterruptedException {
 
         if (file == null || file.isEmpty()) return null;
 
@@ -134,7 +162,7 @@ public interface HttpResponseMethod {
             //String swfPath = realPath + ".swf";
             //pdf2Swf(pdfPath, swfPath);
 
-        }else if (StringUtils.equalsIgnoreCase(type, "pdf")) {
+        } else if (StringUtils.equalsIgnoreCase(type, "pdf")) {
 
             //String swfPath = realPath + ".swf";
             //pdf2Swf(savePath, swfPath);
@@ -186,14 +214,14 @@ public interface HttpResponseMethod {
 
     default String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
 
-        if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image")==-1) {
+        if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image") == -1) {
             throw new FileFormatException("文件格式错误，请上传pdf或图片文件");
         }
 
         if (StringUtils.contains(file.getContentType(), "pdf")) {
 
             return uploadPdf(file, saveFolder);
-        }else{
+        } else {
 
             return uploadPic(file, saveFolder, 400, 300);
         }

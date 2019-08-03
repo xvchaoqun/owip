@@ -7,29 +7,35 @@
 <hr/>
 <form class="form-horizontal" action="${ctx}/member/memberCheck_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <input type="hidden" name="id" value="${memberCheck.id}">
+    <input type="hidden" name="userId" value="${sysUser.id}">
+    <input type="hidden" name="partyId" value="${party.id}">
+    <input type="hidden" name="branchId" value="${branch.id}">
     <div class="row">
         <div class="col-xs-7">
             <div class="form-group">
+                <label class="col-xs-4 control-label">头像</label>
+                <div class="col-xs-6" style="width:170px">
+                    <input type="file" name="_avatar" id="_avatar"/>
+                </div>
+            </div>
+            <%--<div class="form-group">
                 <label class="col-xs-4 control-label">姓名</label>
                 <div class="col-xs-6 label-text">
-                    <input type="hidden" name="userId" value="${sysUser.id}">
                     ${sysUser.realname}
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>所属${_p_partyName}</label>
                 <div class="col-xs-6 label-text">
-                    <input type="hidden" name="partyId" value="${party.id}">
                     ${party.name}
                 </div>
             </div>
             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
                 <label class="col-xs-4 control-label"><span class="star">*</span>所属党支部</label>
                 <div class="col-xs-6 label-text">
-                    <input type="hidden" name="branchId" value="${branch.id}">
                     ${branch.name}
                 </div>
-            </div>
+            </div>--%>
 
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>党籍状态</label>
@@ -90,7 +96,7 @@
                     </div>
                 </div>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label class="col-xs-4 control-label">入党介绍人</label>
                 <div class="col-xs-6">
                     <input class="form-control" style="width: 150px" type="text" name="sponsor" value="${memberCheck.sponsor}"/>
@@ -106,16 +112,16 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="col-xs-5">
             <div class="form-group">
-                <label class="col-xs-4 control-label">入党时所在党支部</label>
-                <div class="col-xs-6">
+                <label class="col-xs-3 control-label">入党时所在党支部</label>
+                <div class="col-xs-8">
                     <textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="growBranch" rows="3">${memberCheck.growBranch}</textarea>
                 </div>
             </div>
-
-        </div>
-        <div class="col-xs-5">
             <div class="form-group">
                 <label class="col-xs-3 control-label">${memberCheck.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'<span class="star">*</span>':''} 转正时间</label>
                 <div class="col-xs-8">
@@ -201,8 +207,29 @@
 </div>
 </div>
 <script>
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+    $.fileInput($("#_avatar"), {
+        style: 'well',
+        btn_choose: '更换头像',
+        btn_change: null,
+        no_icon: 'ace-icon fa fa-picture-o',
+        thumbnail: 'large',
+        droppable: true,
+        previewWidth: 143,
+        previewHeight: 198,
+        allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+    });
+    $("#_avatar").find('button[type=reset]').on(ace.click_event, function () {
+        //$('#user-profile input[type=file]').ace_file_input('reset_input');
+        $("#_avatar").ace_file_input('show_file_list', [{
+            type: 'image',
+            name: '${ctx}/avatar?path=${cm:encodeURI(memberCheck.avatar)}'
+        }]);
+    });
+    $("#_avatar").ace_file_input('show_file_list', [{
+        type: 'image',
+        name: '${ctx}/avatar?path=${cm:encodeURI(memberCheck.avatar)}'
+    }]);
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'), {endDate: '${_today}'});
 

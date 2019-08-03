@@ -6,6 +6,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -88,7 +89,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, party_id, branch_id, native_place, mobile, phone, email, political_status, 
+    id, user_id, party_id, branch_id, avatar, native_place, mobile, phone, email, political_status, 
     transfer_time, apply_time, active_time, candidate_time, sponsor, grow_time, grow_branch, 
     positive_time, positive_branch, party_post, party_reward, other_reward, original_json, 
     create_time, ip, status, reason
@@ -128,23 +129,23 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ow_member_check (user_id, party_id, branch_id, 
-      native_place, mobile, phone, 
-      email, political_status, transfer_time, 
-      apply_time, active_time, candidate_time, 
-      sponsor, grow_time, grow_branch, 
-      positive_time, positive_branch, party_post, 
-      party_reward, other_reward, original_json, 
-      create_time, ip, status, 
-      reason)
+      avatar, native_place, mobile, 
+      phone, email, political_status, 
+      transfer_time, apply_time, active_time, 
+      candidate_time, sponsor, grow_time, 
+      grow_branch, positive_time, positive_branch, 
+      party_post, party_reward, other_reward, 
+      original_json, create_time, ip, 
+      status, reason)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{nativePlace,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, #{transferTime,jdbcType=DATE}, 
-      #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, 
-      #{sponsor,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{growBranch,jdbcType=VARCHAR}, 
-      #{positiveTime,jdbcType=DATE}, #{positiveBranch,jdbcType=VARCHAR}, #{partyPost,jdbcType=VARCHAR}, 
-      #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}, #{originalJson,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{reason,jdbcType=VARCHAR})
+      #{avatar,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, 
+      #{transferTime,jdbcType=DATE}, #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
+      #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, 
+      #{growBranch,jdbcType=VARCHAR}, #{positiveTime,jdbcType=DATE}, #{positiveBranch,jdbcType=VARCHAR}, 
+      #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}, 
+      #{originalJson,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberCheck">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -160,6 +161,9 @@
       </if>
       <if test="branchId != null">
         branch_id,
+      </if>
+      <if test="avatar != null">
+        avatar,
       </if>
       <if test="nativePlace != null">
         native_place,
@@ -237,6 +241,9 @@
       </if>
       <if test="branchId != null">
         #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="nativePlace != null">
         #{nativePlace,jdbcType=VARCHAR},
@@ -327,6 +334,9 @@
       <if test="record.branchId != null">
         branch_id = #{record.branchId,jdbcType=INTEGER},
       </if>
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
       <if test="record.nativePlace != null">
         native_place = #{record.nativePlace,jdbcType=VARCHAR},
       </if>
@@ -404,6 +414,7 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
       native_place = #{record.nativePlace,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
@@ -441,6 +452,9 @@
       </if>
       <if test="branchId != null">
         branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="nativePlace != null">
         native_place = #{nativePlace,jdbcType=VARCHAR},
@@ -516,6 +530,7 @@
     set user_id = #{userId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
+      avatar = #{avatar,jdbcType=VARCHAR},
       native_place = #{nativePlace,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},

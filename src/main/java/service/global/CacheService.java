@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
 import service.BaseMapper;
 import service.SpringProps;
-import service.base.CountryService;
 import service.base.LocationService;
 import service.base.MetaTypeService;
 import service.cadre.CadreAdminLevelService;
@@ -44,12 +43,15 @@ import service.sys.SysRoleService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import service.unit.UnitService;
+import sys.HttpResponseMethod;
 import sys.constants.AbroadConstants;
 import sys.constants.CacheConstants;
 import sys.constants.MemberConstants;
 import sys.constants.ModifyConstants;
 import sys.tags.CmTag;
-import sys.utils.*;
+import sys.utils.ClassUtils;
+import sys.utils.FileUtils;
+import sys.utils.JSONUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -57,8 +59,8 @@ import java.util.*;
 /**
  * Created by fafa on 2017/4/11.
  */
-@Service
-public class CacheService extends BaseMapper {
+@Service(value="cacheService")
+public class CacheService extends BaseMapper implements HttpResponseMethod {
 
     @Autowired
     protected CountMapper countMapper;
@@ -76,8 +78,6 @@ public class CacheService extends BaseMapper {
     private SysPropertyService sysPropertyService;
     @Autowired(required = false)
     private UnitService unitService;
-    @Autowired(required = false)
-    private CountryService countryService;
     @Autowired
     protected TeacherInfoService teacherInfoService;
     @Autowired
@@ -94,6 +94,13 @@ public class CacheService extends BaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public final static String MENU_COUNT_CACHE_NAME = "menu_count_cache";
+
+    // 异步Pdf转图片
+    @Async
+    public void asyncPdf2jpg(String pdfFilePath) {
+
+        toPdfImage(pdfFilePath);
+    }
 
     // 判断某个角色是否拥有某个权限
     public boolean roleIsPermitted(String role, String permission){
@@ -127,20 +134,6 @@ public class CacheService extends BaseMapper {
         Set<String> roles = sysUserService.findRoles(uv.getUsername());
 
         return roles.contains(role);
-    }
-
-    // 异步Pdf转图片
-    @Async
-    public void asyncPdf2jpg(String pdfFilePath){
-    
-        try {
-            //Thread.sleep(10000);
-            String cmd = PdfUtils.pdf2jpg(springProps.uploadPath + pdfFilePath,
-                    PropertiesUtils.getString("gs.command"));
-            logger.info(cmd);
-        } catch (Exception e) {
-            logger.error("gs {}, {}", pdfFilePath, e.getMessage());
-        }
     }
     
     // 菜单缓存数量

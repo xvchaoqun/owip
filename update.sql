@@ -7,8 +7,11 @@
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('pdfResolution', 'PDF图像的解析度', '300', 2, 39, '');
 
-删除 swfTools.command 和 swfTools.languagedir
-运行 /test/dispatch.jsp
+1.删除 swfTools.command 和 swfTools.languagedir
+2.运行 /test/dispatch.jsp
+
+ALTER TABLE `ow_member_check`
+	ADD COLUMN `avatar` VARCHAR(100) NULL DEFAULT NULL COMMENT '头像' AFTER `branch_id`;
 
 20190801
 

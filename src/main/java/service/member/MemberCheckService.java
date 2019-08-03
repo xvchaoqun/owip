@@ -47,7 +47,7 @@ public class MemberCheckService extends MemberBaseMapper {
         MemberCheckExample example = new MemberCheckExample();
         example.createCriteria()
                 .andUserIdEqualTo(userId)
-                .andStatusEqualTo(MemberConstants.MEMBER_CHECK_STATUS_APPLY);
+                .andStatusNotEqualTo(MemberConstants.MEMBER_CHECK_STATUS_PASS);
         List<MemberCheck> memberChecks = memberCheckMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return memberChecks.size() > 0 ? memberChecks.get(0) : null;
@@ -65,6 +65,7 @@ public class MemberCheckService extends MemberBaseMapper {
         }
 
         SysUserView uv = sysUserService.findById(userId);
+        memberCheck.setAvatar(uv.getAvatar());
         memberCheck.setMobile(uv.getMobile());
         memberCheck.setNativePlace(uv.getNativePlace());
         memberCheck.setPhone(uv.getPhone());
@@ -78,7 +79,7 @@ public class MemberCheckService extends MemberBaseMapper {
         MemberCheckExample example = new MemberCheckExample();
         MemberCheckExample.Criteria criteria = example.createCriteria()
                 .andUserIdEqualTo(userId)
-                .andStatusEqualTo(MemberConstants.MEMBER_CHECK_STATUS_APPLY);
+                .andStatusNotEqualTo(MemberConstants.MEMBER_CHECK_STATUS_PASS);
         if (id != null) criteria.andIdNotEqualTo(id);
 
         return memberCheckMapper.countByExample(example) > 0;
@@ -156,6 +157,7 @@ public class MemberCheckService extends MemberBaseMapper {
 
             SysUserInfo ui = new SysUserInfo();
             ui.setUserId(userId);
+            ui.setAvatar(memberCheck.getAvatar());
             ui.setMobile(memberCheck.getMobile());
             ui.setNativePlace(memberCheck.getNativePlace());
             ui.setPhone(memberCheck.getPhone());

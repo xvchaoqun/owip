@@ -35,12 +35,12 @@
                         <i class="fa fa-plus"></i> 申请
                     </button>
                 </c:if>
+                <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                        data-open-by="page"
+                        data-url="${ctx}/member/memberCheck_approval">
+                    <i class="fa fa-search"></i> 详情
+                </button>
                 <c:if test="${cls==2}">
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                            data-open-by="page"
-                            data-url="${ctx}/member/memberCheck_approval">
-                        <i class="fa fa-search"></i> 详情
-                    </button>
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-open-by="page"
                             data-url="${ctx}/member/memberCheck_approval?opType=check">

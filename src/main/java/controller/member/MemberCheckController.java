@@ -14,12 +14,15 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import service.sys.AvatarService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
@@ -39,6 +42,8 @@ import java.util.*;
 public class MemberCheckController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    protected AvatarService avatarService;
 
     @RequiresPermissions("memberCheck:list")
     @RequestMapping("/memberCheck")
@@ -152,7 +157,7 @@ public class MemberCheckController extends MemberBaseController {
     //@RequiresPermissions("memberCheck:edit")
     @RequestMapping(value = "/memberCheck_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberCheck_au(MemberCheck record, HttpServletRequest request) {
+    public Map do_memberCheck_au(MemberCheck record, MultipartFile _avatar, HttpServletRequest request) throws IOException {
 
         Integer id = record.getId();
         int userId = record.getUserId();
@@ -177,6 +182,12 @@ public class MemberCheckController extends MemberBaseController {
 
         MemberCheck memberCheck = memberCheckService.getNotApply(userId);
         record.setOriginalJson(JSONUtils.toString(memberCheck, false));
+
+        String avatar = avatarService.uploadAvatar(_avatar);
+        record.setAvatar(avatar);
+        if(record.getAvatar()==null){
+            record.setAvatar(memberCheck.getAvatar());
+        }
 
         if (id == null) {
 
