@@ -18,6 +18,8 @@
 </head>
 <body>
 <%
+    final boolean flush = StringUtils.equals(request.getParameter("flush"), "1");
+
     Thread t = new Thread(new Runnable() {
         public void run() {
             SpringProps springProps = CmTag.getBean(SpringProps.class);
@@ -36,18 +38,17 @@
                 if (!FileUtils.exists(pdfFilePath)) continue;
 
                 String imgPath = pdfFilePath + ".jpg";
-                //if(!FileUtils.exists(imgPath)){
+                if (flush || !FileUtils.exists(imgPath)) {
 
-                try {
-                    PdfUtils.pdf2jpg(pdfFilePath, 300, PropertiesUtils.getString("gs.command"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    logger.info(dispatch.getDispatchCode());
+                    try {
+                        PdfUtils.pdf2jpg(pdfFilePath, 300, PropertiesUtils.getString("gs.command"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    logger.info(count + "/" + total + ":" + imgPath);
                 }
-
-                logger.info(count + "/" + total + ":" + imgPath);
-                //}
             }
 
             example = new DispatchExample();
@@ -63,18 +64,17 @@
                 String ext = FileUtils.getExtention(path);
                 path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf") ? ext : ".pdf");
                 String imgPath = path + ".jpg";
-                //if(!FileUtils.exists(imgPath)){
+                if (flush || !FileUtils.exists(imgPath)) {
 
-                try {
-                    PdfUtils.pdf2jpg(path, 300, PropertiesUtils.getString("gs.command"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    logger.info(dispatch.getDispatchCode());
+                    try {
+                        PdfUtils.pdf2jpg(path, 300, PropertiesUtils.getString("gs.command"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    logger.info(count + "/" + total + ":" + imgPath);
                 }
-
-                logger.info(count + "/" + total + "(ppt):" + imgPath);
-                //}
             }
 
             logger.info("finished.");
