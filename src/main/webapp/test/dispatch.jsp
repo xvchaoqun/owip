@@ -28,8 +28,10 @@
             DispatchExample example = new DispatchExample();
             example.createCriteria().andFileIsNotNull();
             List<Dispatch> dispatches = dispatchMapper.selectByExample(example);
+            int total = dispatches.size();
             for (Dispatch dispatch : dispatches) {
 
+                count++;
                 String pdfFilePath = springProps.uploadPath + dispatch.getFile();
                 if (!FileUtils.exists(pdfFilePath)) continue;
 
@@ -43,16 +45,18 @@
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                count++;
-                logger.info(count + ":" + imgPath);
+
+                logger.info(count + "/" + total + ":" + imgPath);
                 //}
             }
 
             example = new DispatchExample();
             example.createCriteria().andPptIsNotNull();
             dispatches = dispatchMapper.selectByExample(example);
+            total = dispatches.size();
             for (Dispatch dispatch : dispatches) {
 
+                count++;
                 String path = springProps.uploadPath + dispatch.getPpt();
                 if (!FileUtils.exists(path)) continue;
 
@@ -68,8 +72,8 @@
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                count++;
-                logger.info(count + ":" + imgPath);
+
+                logger.info(count + "/" + total + "(ppt):" + imgPath);
                 //}
             }
 
