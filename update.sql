@@ -1,4 +1,6 @@
 
+20190804
+南航
 
 20190802
 
@@ -10,9 +12,6 @@ VALUES ('pdfResolution', 'PDF图像的解析度', '300', 2, 39, '');
 1.删除 swfTools.command 和 swfTools.languagedir
 2.运行 /test/dispatch.jsp
 
-ALTER TABLE `ow_member_check`
-	ADD COLUMN `avatar` VARCHAR(100) NULL DEFAULT NULL COMMENT '头像' AFTER `branch_id`;
-
 20190801
 
 ALTER TABLE `ow_member`
@@ -23,6 +22,7 @@ CREATE TABLE `ow_member_check` (
 	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '用户',
 	`party_id` INT(10) UNSIGNED NOT NULL COMMENT '当前所属分党委，用于权限分配',
 	`branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '当前所属党支部，直属党支部没有这一项',
+	`avatar` VARCHAR(100) NULL DEFAULT NULL COMMENT '头像',
 	`native_place` VARCHAR(100) NULL DEFAULT NULL COMMENT '籍贯',
 	`mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '手机号',
 	`phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '办公电话',
@@ -51,8 +51,9 @@ COMMENT='党员信息修改申请'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC
-AUTO_INCREMENT=5
+AUTO_INCREMENT=17
 ;
+
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1072, 0, '党员信息修改审批', '', 'url', '', '/member/memberCheck?cls=2', 105, '0/1/105/', 1, 'memberCheck:*', NULL, NULL, NULL, 1, 29800);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1073, 0, '党员信息修改申请', '', 'url', '', '/member/memberCheck?cls=1', 258, '0/1/258/', 1, 'memberCheck:list', NULL, NULL, NULL, 1, 980);
