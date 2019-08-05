@@ -35,6 +35,9 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 
 update sys_resource SET sort_order=4320, permission='psInfo:list' WHERE permission = 'psInfo:*';
 
+ALTER TABLE `ps_party`
+	CHANGE COLUMN `end_date` `end_date` DATE NULL COMMENT '结束时间' AFTER `start_date`;
+
 2019-07-30
 -- 新增发布时间字段 桑文帅
 ALTER TABLE `ps_task` ADD COLUMN `release_date` DATETIME NULL COMMENT '发布时间' AFTER `files`;
