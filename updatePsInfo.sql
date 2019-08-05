@@ -38,6 +38,16 @@ update sys_resource SET sort_order=4320, permission='psInfo:list' WHERE permissi
 ALTER TABLE `ps_party`
 	CHANGE COLUMN `end_date` `end_date` DATE NULL COMMENT '结束时间' AFTER `start_date`;
 
+-- 新建ps_task_file表 桑文帅
+CREATE TABLE IF NOT EXISTS `ps_task_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `task_id` int(11) NOT NULL DEFAULT '0',
+  `file_name` varchar(50) NOT NULL DEFAULT '0',
+  `file_path` varchar(200) NOT NULL DEFAULT '0',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='二级党校年度工作任务附件';
+
 2019-07-30
 -- 新增发布时间字段 桑文帅
 ALTER TABLE `ps_task` ADD COLUMN `release_date` DATETIME NULL COMMENT '发布时间' AFTER `files`;
