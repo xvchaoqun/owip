@@ -3,18 +3,15 @@
 新增元数据 桑文帅
 INSERT INTO `base_meta_class` (`role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (NULL, '二级党校职务', '二级党校管理', '二级党校信息', 'mc_party_school_position', '', '', '', 90, 1);
 
-2019-08-05
 新增元数据属性 桑文帅
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (90, '校长', 'ps_principal', NULL, '', '', 1, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (90, '副校长', 'ps_viceprincipal', NULL, '', '', 2, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (90, '工作人员', 'ps_staff', NULL, '', '', 3, 1);
 
-2019-08-05
 新增角色 桑文帅
 INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_allPs_Admin', '全部二级党校管理员', '728,729,2065,2066,2067,2068,2069,2071,2072,2073,2076,2074,2077,2078,2079,2080,2075,2081,2082,2083,2070', '-1', NULL, 0, 0, 58, '');
 INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_ps_admin', '二级党校管理员', '1068,2071,2072,2073,2074,2075,2070', '-1', NULL, 0, 1, 59, '');
 
-2019-08-05
 新增系统资源 桑文帅
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2065, 0, '添加、修改二级党校', '', 'function', '', NULL, 729, '0/1/728/729/', 1, 'psInfo:edit', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2066, 0, '批量转移二级党校', '', 'function', '', NULL, 729, '0/1/728/729/', 1, 'psInfo:history', NULL, NULL, NULL, 1, NULL);
