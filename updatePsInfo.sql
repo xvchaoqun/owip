@@ -33,6 +33,8 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2082, 0, '删除系统管理员', '', 'function', '', NULL, 2075, '0/1/728/729/2075/', 1, 'psAdmin:del', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2083, 0, '撤销系统管理员', '', 'function', '', NULL, 2075, '0/1/728/729/2075/', 1, 'psAdmin:history', NULL, NULL, NULL, 1, NULL);
 
+update sys_resource SET sort_order=4320, permission='psInfo:list' WHERE permission = 'psInfo:*';
+
 2019-07-30
 -- 新增发布时间字段 桑文帅
 ALTER TABLE `ps_task` ADD COLUMN `release_date` DATETIME NULL COMMENT '发布时间' AFTER `files`;
