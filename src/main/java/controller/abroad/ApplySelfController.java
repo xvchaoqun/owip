@@ -14,7 +14,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,7 +29,6 @@ import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -40,7 +38,6 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -87,7 +84,7 @@ public class ApplySelfController extends AbroadBaseController {
         String filePath = null;
         String fileName = null;
         if(BooleanUtils.isTrue(isAdmin)){
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
             if(approvalTime==null) approvalTime = new Date();
             if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
             if(_filePath!=null) {
@@ -127,7 +124,7 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     // 干部管理员直接修改审批
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/applySelf_approval_direct_au")
     public String applySelf_approval_direct_au(int approvalLogId, ModelMap modelMap) {
 
@@ -137,7 +134,7 @@ public class ApplySelfController extends AbroadBaseController {
         return "abroad/applySelf/applySelf_approval_direct_au";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/applySelf_approval_direct_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_approval_direct_au(HttpServletRequest request,
@@ -193,7 +190,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
 
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) { // 干部管理员有下载权限
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
             int cadreId = cadre.getId();
@@ -219,7 +216,7 @@ public class ApplySelfController extends AbroadBaseController {
         Integer cadreId = applySelf.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -281,7 +278,7 @@ public class ApplySelfController extends AbroadBaseController {
                                         Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -329,7 +326,6 @@ public class ApplySelfController extends AbroadBaseController {
 
 
     @RequiresPermissions("applySelf:list")
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
     @RequestMapping("/applySelf")
     public String applySelf(Integer cadreId,
                             // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
@@ -380,8 +376,7 @@ public class ApplySelfController extends AbroadBaseController {
         return;
     }
 
-    @RequiresPermissions("applySelf:list")
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/applySelf_data")
     public void applySelf_data(HttpServletResponse response,
                                @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
@@ -429,7 +424,7 @@ public class ApplySelfController extends AbroadBaseController {
         if(userId==null){
             SecurityUtils.getSubject().checkPermission("applySelf:approvalList");
         }else{
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
         }
 
         if (cadreId != null) {
@@ -458,7 +453,7 @@ public class ApplySelfController extends AbroadBaseController {
             userId = ShiroHelper.getCurrentUserId();
             SecurityUtils.getSubject().checkPermission("applySelf:approvalList");
         }else{
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_ABROADADMIN);
         }
 
         Map map = applySelfService.findApplySelfList(userId, cadreId, _applyDate,
@@ -504,32 +499,11 @@ public class ApplySelfController extends AbroadBaseController {
         if (_modifyProof != null && !_modifyProof.isEmpty()) {
 
             modifyProofFileName = _modifyProof.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "apply_self_modify" + FILE_SEPARATOR
-                    + fileName;
-            String ext = FileUtils.getExtention(modifyProofFileName);
-            modifyProof = realPath + ext;
-            FileUtils.copyFile(_modifyProof, new File(springProps.uploadPath + modifyProof));
-
-            String swfPath = realPath + ".swf";
-            pdf2Swf(modifyProof, swfPath);
+            modifyProof = upload(_modifyProof, "apply_self_modify");
         }
 
-        /*if (id == null) {
-            record.setCreateTime(new Date());
-            record.setIp(IpUtils.getRealIp(request));
-
-            record.setStatus(true);// 提交
-            record.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
-
-            applySelfService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
-        } else {*/
-        //record.setStatus(true);
         applySelfService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
         logger.info(addLog(LogConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
-        /*}*/
 
         return success(FormUtils.SUCCESS);
     }

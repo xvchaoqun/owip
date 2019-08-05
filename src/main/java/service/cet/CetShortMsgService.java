@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.base.ContentTplService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
@@ -352,7 +352,7 @@ public class CetShortMsgService extends CetBaseMapper {
     }
 
     // 补选课报名通知
-    public Map<String, Integer> sendApplyMsg(Integer[] trainCourseIds, String mobile, String msg) {
+    public Map<String, Integer> sendApplyMsg(int projectId, Integer[] trainCourseIds, String mobile, String msg) {
 
         String tplKey = "cet_tc_apply_msg";
         int total = 0;
@@ -378,7 +378,7 @@ public class CetShortMsgService extends CetBaseMapper {
             saveMsg(tplKey, StringUtils.join(trainCourseIds, ","), null, mobile, msg, send, null);
         } else {
 
-            List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseIds);
+            List<Integer> userIds = iCetMapper.notApplyUserIds(projectId, trainCourseIds);
             if (userIds != null) {
                 total = userIds.size();
                 for (Integer userId : userIds) {

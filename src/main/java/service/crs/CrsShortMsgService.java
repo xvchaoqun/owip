@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.base.ContentTplService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.cadre.CadreService;
 import service.sys.UserBeanService;
 import sys.constants.ContentTplConstants;

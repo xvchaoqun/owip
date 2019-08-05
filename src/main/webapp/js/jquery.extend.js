@@ -1051,7 +1051,7 @@ var _modal_width;
                 }
             })
         },
-        swfPreview: function (filepath, filename, hrefLabel, plainText, type) {
+        pdfPreview: function (filepath, filename, hrefLabel, plainText, type) {
             filepath = $.trim(filepath);
             filename = $.trim(filename);
             hrefLabel = $.trim(hrefLabel)
@@ -1063,10 +1063,38 @@ var _modal_width;
             }
             if (filepath != '' && filename != '') {
                 hrefLabel = hrefLabel || filename;
-                return '<a href="javascript:void(0)" class="{4}" data-url="{3}/swf/preview?path={0}&filename={1}&type={5}">{2}</a>'
+                return '<a href="javascript:void(0)" class="{4}" data-url="{3}/pdf_preview?path={0}&filename={1}&type={5}">{2}</a>'
                     .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, cls, type || '');
             } else
                 return $.trim(plainText);
+        },
+        pdfShow: function (filepath, filename, hrefLabel) {
+            filepath = $.trim(filepath);
+            filename = $.trim(filename) || new Date().getTime();
+            hrefLabel = $.trim(hrefLabel)
+
+            if (filepath != '') {
+                hrefLabel = hrefLabel || filename;
+                return ('<a href="{3}/{1}.pdf?path={0}" target="_blank">{2}</a>')
+                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx);
+            } else {
+                return '--';
+            }
+        },
+        download: function (filepath, filename, hrefLabel, type) {
+            filepath = $.trim(filepath);
+            filename = $.trim(filename) || new Date().getTime();
+            hrefLabel = $.trim(hrefLabel)
+            type = type||'download';
+
+            if (filepath != '') {
+                hrefLabel = hrefLabel || filename;
+                return ('<a href="javascript:void(0)" class="downloadBtn" data-type="{4}" ' +
+                    'data-url="{3}/attach_download?path={0}&filename={1}">{2}</a>')
+                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, type);
+            } else {
+                return '--';
+            }
         },
         button: {
             confirm: function (params) {
@@ -1266,7 +1294,7 @@ if ($.jgrid) {
                 //console.log(cellvalue.length)
                 // if(options.colModel.hidden) console.log(cellvalue==undefined)
                 return (!options.colModel.hidden && (cellvalue == undefined || cellvalue.length == 0))
-                    ? '--' : $.trim(cellvalue).htmlencode().NoMultiSpace()
+                    ? '--' : $.trim(cellvalue).htmldecode().NoMultiSpace()
             }
         },
         sortorder: "desc",
@@ -1406,10 +1434,10 @@ if ($.jgrid) {
             }
             var growTimes = [];
             if (op.isOw) {
-                growTimes.push(op.owGrowTime == undefined ? "-" : op.owGrowTime.substr(0, 10));
+                growTimes.push(op.owGrowTime == undefined ? "--" : $.date(op.owGrowTime, "yyyy.MM"));
             }
             if (op.dpTypeId > 0) {
-                growTimes.push(op.dpGrowTime == undefined ? "-" : op.dpGrowTime.substr(0, 10));
+                growTimes.push(op.dpGrowTime == undefined ? "--" : $.date(op.dpGrowTime, "yyyy.MM"));
             }
             if (growTimes.length > 0) return growTimes.join(",");
 
@@ -1493,14 +1521,14 @@ $.extend($.register, {
         }
         //console.log($state)
 
-        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
+        return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", $state);
     },
     templateSelection: function (state) {
         var $state = state.text;
         if ($.trim(state.code) != '')
             $state += ($state != '' ? '-' : '') + state.code;
 
-        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
+        return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", $state);
     },
     defaultTemplateResult: function (state) {
 
@@ -1509,7 +1537,7 @@ $.extend($.register, {
             $state += ($state != '' ? '-' : '') + state.type;
         // 反转义
         $state = $('<div/>').html($state).text();
-        return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", $state);
+        return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", $state);
     },
     // 下拉多选
     multiselect: function ($select, selected, params) {
@@ -1723,11 +1751,12 @@ $.extend($.register, {
         branchId = branchId || "branchId";
         $('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
             templateResult: function (state) {
-
-                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                //console.log("-----------")
+                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
             },
             templateSelection: function (state) {
-                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                //console.log($(state.element).attr('delete'))
+                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
             },
             escapeMarkup: function (markup) {
                 return markup;
@@ -1932,10 +1961,10 @@ $.extend($.register, {
         return $select.select2($.extend({
             templateResult: _params.templateResult || function (state) {
 
-                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
             },
             templateSelection: _params.templateSelection || function (state) {
-                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
             },
             escapeMarkup: function (markup) {
                 return markup;

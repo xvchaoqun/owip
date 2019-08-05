@@ -64,7 +64,7 @@
                         <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">出生地</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="homeplace" value="${ui.homeplace}">
@@ -78,7 +78,7 @@
                         <input class="form-control" type="text" name="household" value="${ui.household}">
                         <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                     </div>
-                </div>
+                </div>--%>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">手机号</label>
                     <div class="col-xs-6">
@@ -86,6 +86,7 @@
                     </div>
                 </div>
             </c:if>
+            <c:if test="${sysUser.type==USER_TYPE_JZG}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">办公电话</label>
 
@@ -93,8 +94,9 @@
                     <input class="form-control" type="text" name="phone" value="${ui.phone}">
                 </div>
             </div>
+            </c:if>
             <div class="form-group">
-                <label class="col-xs-3 control-label">邮箱</label>
+                <label class="col-xs-3 control-label">电子邮箱</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="email" value="${ui.email}">
@@ -105,6 +107,11 @@
 </form>
 
 <div class="clearfix form-actions">
+    <c:if test="${not empty cadre}">
+        <div class="note">
+            注：如果是处级干部（含离任），则籍贯、出生地、户籍地、手机号信息由干部专员维护。
+        </div>
+    </c:if>
     <div class="col-md-offset-3 col-md-9">
         <button class="btn btn-info" type="submit">
             <i class="ace-icon fa fa-check bigger-110"></i>

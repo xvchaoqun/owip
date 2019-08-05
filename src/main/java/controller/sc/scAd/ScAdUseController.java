@@ -175,6 +175,7 @@ public class ScAdUseController extends ScBaseController {
         //输出文件
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getRealname();
         response.reset();
+        DownloadUtils.addFileDownloadCookieHeader(response);
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");

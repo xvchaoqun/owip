@@ -130,7 +130,7 @@
                 if(rowObject.type=='<%=CetConstants.CET_PROJECT_PLAN_TYPE_WRITE%>'){
                     <c:if test="${not empty cetProjectObj.writeFilePath}">
                     return '已上传' + ' <button class="downloadBtn btn btn-xs btn-success"' +
-                    'data-url="${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.writeFilePath)}&filename=心得体会"> ' +
+                    'data-url="${ctx}/attach_download?path=${cm:encodeURI(cetProjectObj.writeFilePath)}&filename=心得体会"> ' +
                     '<i class="fa fa-download"></i> 下载 </button>'
                     </c:if>
                 }

@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="post_time" jdbcType="DATE" property="postTime" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, type, status, remark, sort_order
+    id, cadre_id, type, post_time, status, remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadreReserve.CadreReserveExample" resultMap="BaseResultMap">
     select
@@ -104,10 +105,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre_reserve (cadre_id, type, status, 
-      remark, sort_order)
-    values (#{cadreId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+    insert into cadre_reserve (cadre_id, type, post_time, 
+      status, remark, sort_order
+      )
+    values (#{cadreId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{postTime,jdbcType=DATE}, 
+      #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadreReserve.CadreReserve">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -120,6 +123,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="postTime != null">
+        post_time,
       </if>
       <if test="status != null">
         status,
@@ -137,6 +143,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="postTime != null">
+        #{postTime,jdbcType=DATE},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -167,6 +176,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
+      <if test="record.postTime != null">
+        post_time = #{record.postTime,jdbcType=DATE},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -186,6 +198,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
+      post_time = #{record.postTime,jdbcType=DATE},
       status = #{record.status,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
@@ -201,6 +214,9 @@
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="postTime != null">
+        post_time = #{postTime,jdbcType=DATE},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -218,6 +234,7 @@
     update cadre_reserve
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
+      post_time = #{postTime,jdbcType=DATE},
       status = #{status,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER}

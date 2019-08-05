@@ -1,5 +1,6 @@
 package controller.dispatch;
 
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.dispatch.*;
 import domain.sys.SysUserView;
@@ -85,6 +86,7 @@ public class DispatchCadreController extends DispatchBaseController {
     public String dispatchCadre(@RequestParam(defaultValue = "1") Integer cls,
                                      Integer dispatchId,
                                      Integer dispatchTypeId,
+                                     Integer unitPostId,
                                      @RequestParam(required = false, value = "wayId")Integer[] wayId,
                                      @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
                                      @RequestParam(required = false, value = "adminLevel")Integer[] adminLevel,
@@ -100,6 +102,10 @@ public class DispatchCadreController extends DispatchBaseController {
             Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
         }
+        if(unitPostId!=null){
+            modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+        }
+
         if (cadreId!=null) {
 
             CadreView cadre = iCadreMapper.getCadre(cadreId);
@@ -300,6 +306,37 @@ public class DispatchCadreController extends DispatchBaseController {
         }
 
         return "dispatch/dispatchCadre/dispatchCadre_au";
+    }
+
+    // 添加历史离任干部
+    @RequiresPermissions("dispatchCadre:addLeaveCadre")
+    @RequestMapping(value = "/dispatchCadre_addLeaveCadre", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dispatchCadre_addLeaveCadre(
+            Integer userId,
+            Boolean needCreate,
+            String realname,
+            Cadre record) {
+
+        dispatchCadreService.addLeaveCadre(userId, needCreate, realname, record);
+
+        userId = record.getUserId();
+        SysUserView uv = sysUserService.findById(userId);
+        logger.info(log(LogConstants.LOG_ADMIN, "添加离任干部：{0}, {1}", uv.getCode(), uv.getRealname()));
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("cadreId", record.getId());
+        resultMap.put("code", uv.getCode());
+        resultMap.put("realname", uv.getRealname());
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("dispatchCadre:addLeaveCadre")
+    @RequestMapping("/dispatchCadre_addLeaveCadre")
+    public String dispatchCadre_addLeaveCadre() {
+
+        return "dispatch/dispatchCadre/dispatchCadre_addLeaveCadre";
     }
 
     @RequiresPermissions("dispatchCadre:del")

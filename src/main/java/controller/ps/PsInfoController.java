@@ -1,20 +1,24 @@
 package controller.ps;
 
-import domain.ps.PsInfo;
-import domain.ps.PsInfoExample;
+import domain.base.MetaType;
+import domain.ps.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.ps.common.IPsMapper;
 import sys.constants.LogConstants;
+import sys.constants.PsInfoConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -26,6 +30,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/ps")
 public class PsInfoController extends PsBaseController {
+    @Autowired
+    protected IPsMapper iPsMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -34,15 +40,40 @@ public class PsInfoController extends PsBaseController {
     @RequestMapping("/psInfo_base")
     public String psInfo_base(Integer id, ModelMap modelMap) {
 
+        //党校信息
         PsInfo psInfo = psInfoMapper.selectByPrimaryKey(id);
         modelMap.put("psInfo", psInfo);
+
+        //建设单位信息
+        PsParty hostParty = new PsParty();
+        List<PsParty> psParties = getPsPsParty(true,id);
+        if(psParties.size()>0) hostParty = psParties.get(0);//主建单位信息
+        List<PsParty> jointPartyList = getPsPsParty(false,id);//联合建设单位信息
+        modelMap.put("hostParty",hostParty);
+        modelMap.put("jointPartyList",jointPartyList);
+
+        //组织架构信息
+        PsMember principal = new PsMember();
+        List<PsMember> psMembers = getPsMember("ps_principal",id);
+        if(psMembers.size()>0) principal = psMembers.get(0);//二级党校校长信息
+        List<PsMember> viceprincipalList = getPsMember("ps_viceprincipal",id);//二级党校副校长信息
+        modelMap.put("principal",principal);
+        modelMap.put("viceprincipalList",viceprincipalList);
+
+        //党员人数信息
+        Map allPartyNubmerCount = iPsMapper.count(getPartyIdList(null,id));//全部建设单位
+        Map hostPartyNumberCount = iPsMapper.count(getPartyIdList(true,id));//主建设单位
+        Map notHostPartyNumberCount = iPsMapper.count(getPartyIdList(false,id));//联合建设单位
+        modelMap.put("allPartyNubmerCount",allPartyNubmerCount);
+        modelMap.put("hostPartyNumberCount",hostPartyNumberCount);
+        modelMap.put("notHostPartyNumberCount",notHostPartyNumberCount);
 
         return "ps/psInfo/psInfo_base";
     }
 
     @RequiresPermissions("psInfo:view")
     @RequestMapping("/psInfo_view")
-    public String psInfo_view(HttpServletResponse response, int id, ModelMap modelMap) {
+    public String psInfo_view(int id, ModelMap modelMap) {
 
         PsInfo psInfo = psInfoMapper.selectByPrimaryKey(id);
         modelMap.put("psInfo", psInfo);
@@ -67,6 +98,7 @@ public class PsInfoController extends PsBaseController {
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
+
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -119,6 +151,7 @@ public class PsInfoController extends PsBaseController {
         Integer id = record.getId();
 
         if (id == null) {
+
             record.setIsHistory(false);
             psInfoService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_PS, "添加二级党校：%s", record.getId()));
@@ -145,18 +178,23 @@ public class PsInfoController extends PsBaseController {
     @RequiresPermissions("psInfo:history")
     @RequestMapping(value = "/psInfo_history", method = RequestMethod.POST)
     @ResponseBody
-    public Map psInfo_history(HttpServletRequest request,
-                                   boolean isHistory,
-                                   @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
+    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,String _abolishDate) {
 
         if (null != ids && ids.length>0){
-            psInfoService.history(ids, isHistory);
+            psInfoService.history(ids,_abolishDate);
             logger.info(addLog(LogConstants.LOG_PS, "批量转移二级党校：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("psInfo:history")
+    @RequestMapping("/psInfo_history")
+    public String psInfo_history() {
+
+        return "ps/psInfo/psInfo_plan";
+    }
+
     @RequiresPermissions("psInfo:del")
     @RequestMapping(value = "/psInfo_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -250,5 +288,71 @@ public class PsInfoController extends PsBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    /**
+     * 获取未结束的二级党校建设单位
+     * @param isHost 是否主建单位
+     * @param psId 二级党校id
+     * @return 建设单位信息
+     */
+    public List<PsParty> getPsPsParty(Boolean isHost,Integer psId){
+        PsPartyExample psPartyExample = new PsPartyExample();
+        psPartyExample.createCriteria()
+                .andPsIdEqualTo(psId)
+                .andIsFinishEqualTo(PsInfoConstants.PS_STATUS_NOT_HISTORY);
+
+        List<PsParty> allPsParties = psPartyMapper.selectByExample(psPartyExample);
+        if(isHost == null) return allPsParties;//全部建设单位
+
+        List<PsParty> psParties = new ArrayList<>();
+        for(PsParty psParty : allPsParties){
+            if (psParty.getIsHost() == isHost){
+                psParties.add(psParty);
+            }
+        }
+        return psParties;
+    }
+    //获取现任的组织人员
+    public List<PsMember> getPsMember(String code, Integer id){
+        MetaType metaType = CmTag.getMetaTypeByCode(code);
+        PsMemberExample psMemberExample = new PsMemberExample();
+        psMemberExample.createCriteria().andPsIdEqualTo(id)
+                .andIsHistoryEqualTo(false).andTypeEqualTo(metaType.getId());
+        return psMemberMapper.selectByExample(psMemberExample);
+    }
+    //获取未结束的建设单位ID
+    public List<Integer> getPartyIdList(Boolean isHost, Integer psId){
+        List<PsParty> psPartyList = getPsPsParty(null,psId);
+        List<Integer> psPartyIdList = new ArrayList<Integer>();
+        for (PsParty psParty : psPartyList){
+            if(isHost == null){//全部未结束的建设单位Id
+                psPartyIdList.add(psParty.getPartyId());
+                continue;
+            }
+            if (isHost){//未结束的主建设单位ID
+                if(psParty.getIsHost()){
+                    psPartyIdList.add(psParty.getPartyId());
+                }
+            }else {//未结束的联合建设单位ID
+                if(!psParty.getIsHost()){
+                    psPartyIdList.add(psParty.getPartyId());
+                }
+            }
+        }
+        if(psPartyIdList.size() == 0) psPartyIdList.add(-1);
+        return psPartyIdList;
+    }
+
+    public Integer getPsIdbyUserId(Integer userId){
+        PsAdminExample psAdminExample = new PsAdminExample();
+        psAdminExample.createCriteria()
+                .andUserIdEqualTo(userId).andIsHistoryEqualTo(false)
+                .andTypeEqualTo(PsInfoConstants.PS_ADMIN_TYPE_PARTY);
+        List<PsAdmin> psAdmins = psAdminMapper.selectByExample(psAdminExample);
+        if (psAdmins.size() == 0){
+            return -1;
+        }
+        return psAdmins.get(0).getPsId();
     }
 }

@@ -64,6 +64,14 @@
                             有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
                         </div>
                         </c:if>
+                        <div class="buttons pull-left" style="margin-left: 25px">
+                            <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+                                <button class="popupBtn btn btn-success btn-sm tooltip-primary"
+                                   data-url="${ctx}/memberOut_import"
+                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                    批量导入</button>
+                            </shiro:hasPermission>
+                        </div>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active">
@@ -194,7 +202,7 @@
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects?auth=1"
                                                         name="partyId" data-placeholder="请选择">
-                                                    <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
@@ -202,7 +210,7 @@
                                                 <select class="form-control" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/branch_selects?auth=1"
                                                         name="branchId" data-placeholder="请选择党支部">
-                                                    <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
+                                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
                                                 </select>
                                             </div>
                                             <script>
@@ -423,9 +431,9 @@
             {label: '转出单位联系电话', name: 'fromPhone', width: 150},
             {label: '转出单位传真', name: 'fromFax', width: 120},
             {label: '转出单位邮编', name: 'fromPostCode', width: 120},
-            {label: '党费缴纳至年月', name: 'payTime', width: 150,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+            {label: '党费缴纳至年月', name: 'payTime', width: 150,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '介绍信有效期天数', name: 'validDays', width: 150},
-            {label: '办理时间', name: 'handleTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '办理时间', name: 'handleTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '是否有回执', name: 'hasReceipt', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue?"是":"否"
             }},

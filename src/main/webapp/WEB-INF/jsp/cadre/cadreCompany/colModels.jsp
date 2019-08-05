@@ -53,12 +53,12 @@
         },
         </c:if>
         {label: '审批单位', name: 'approvalUnit',align:'left', width: 280},
-        {label: '批复日期', name: 'approvalDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '批复日期', name: 'approvalDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {
             label: '批复文件', name: 'approvalFile', width: 80,
             formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
-                return $.swfPreview(rowObject.approvalFile, rowObject.approvalFilename, "预览");
+                return $.pdfPreview(rowObject.approvalFile, rowObject.approvalFilename, "预览");
             }
         },
         {label: '是否取酬', name: 'hasPay', formatter: $.jgrid.formatter.TRUEFALSE, width: 80},

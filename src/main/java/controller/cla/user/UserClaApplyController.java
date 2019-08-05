@@ -8,7 +8,6 @@ import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -171,7 +170,6 @@ public class UserClaApplyController extends ClaBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/claApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_claApply_au(Integer cadreId,
@@ -181,7 +179,7 @@ public class UserClaApplyController extends ClaBaseController {
 
         // 是否本人操作
         boolean self = false;
-        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -200,7 +198,7 @@ public class UserClaApplyController extends ClaBaseController {
             FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
 
             ClaApplyFile claApplyFile = new ClaApplyFile();
-            claApplyFile.setFileName(originalFilename);
+            claApplyFile.setFileName(FileUtils.getFileName(originalFilename));
             claApplyFile.setFilePath(savePath);
             claApplyFile.setCreateTime(new Date());
 
@@ -292,11 +290,10 @@ public class UserClaApplyController extends ClaBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/claApply_au")
     public String claApply_au(Integer cadreId, Integer id, ModelMap modelMap) {
 
-        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

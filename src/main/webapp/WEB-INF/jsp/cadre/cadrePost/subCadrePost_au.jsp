@@ -20,18 +20,19 @@
 					<div class="col-xs-6">
 						<select data-ajax-url="${ctx}/unitPost_selects" data-width="272"
 								name="unitPostId" data-placeholder="请选择">
-							<option value="${unitPost.id}" title="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}(${unitPost.code})-${unitPost.unitName}</option>
+							<option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}(${unitPost.code})-${unitPost.unitName}</option>
 						</select>
+						<span class="help-block blue">注：如果选择了关联岗位，则以下蓝色字段将同步此岗位相关的信息，且不可修改</span>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><span class="star">*</span>兼任职务</label>
+					<label class="col-xs-3 control-label blue"><span class="star">*</span>岗位名称</label>
 					<div class="col-xs-6">
-						<textarea required class="form-control noEnter" name="post" rows="2">${cadrePost.post}</textarea>
+						<textarea required class="form-control noEnter" name="postName" rows="2">${cadrePost.postName}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><span class="star">*</span>职务属性</label>
+					<label class="col-xs-3 control-label blue"><span class="star">*</span>职务属性</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="postType"
 								data-width="272" data-placeholder="请选择">
@@ -44,7 +45,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><span class="star">*</span>职务级别</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>行政级别</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="adminLevel"
 								data-width="272" data-placeholder="请选择">
@@ -57,7 +58,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><span class="star">*</span>职务类别</label>
+					<label class="col-xs-3 control-label blue"><span class="star">*</span>职务类别</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="postClassId"
 								data-width="272" data-placeholder="请选择">
@@ -69,16 +70,44 @@
 						</script>
 					</div>
 				</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>兼任单位</label>
-			<div class="col-xs-6">
-				<select required data-rel="select2-ajax"
-						data-width="272" data-ajax-url="${ctx}/unit_selects"
-						name="unitId" data-placeholder="请选择所属单位">
-					<option value="${unit.id}">${unit.name}</option>
-				</select>
-			</div>
-		</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label blue"><span class="star">*</span>兼任单位</label>
+					<div class="col-xs-6">
+						<select required data-rel="select2-ajax"
+								data-width="272" data-ajax-url="${ctx}/unit_selects"
+								name="unitId" data-placeholder="请选择所属单位">
+							<option value="${unit.id}">${unit.name}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label"><span class="star">*</span>职务</label>
+					<div class="col-xs-6">
+						<textarea required class="form-control noEnter" name="post">${cadrePost.post}</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-3 control-label">任职日期</label>
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <input class="form-control date-picker" name="lpWorkTime" type="text"
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(cadrePost.lpWorkTime,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">任职始任日期</label>
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <input class="form-control date-picker" name="npWorkTime" type="text"
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(cadrePost.npWorkTime,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">是否占职数</label>
 					<div class="col-xs-6 label-text"  style="font-size: 15px;">
@@ -93,10 +122,10 @@
 </div>
 
 <script>
-	$("#modal :checkbox").bootstrapSwitch();
+	$("#modalForm :checkbox").bootstrapSwitch();
 	$.register.date($('.date-picker'));
 
-	$("#modal form").validate({
+	$("#modalForm").validate({
 		submitHandler: function (form) {
 			$(form).ajaxSubmit({
 				success:function(ret){
@@ -110,26 +139,7 @@
 	});
 	$('#modalForm [data-rel="select2"]').select2();
 	$('[data-rel="tooltip"]').tooltip();
-	$('#modalForm [data-rel="select2-ajax"]').select2({
-		ajax: {
-			dataType: 'json',
-			delay: 300,
-			data: function (params) {
-				return {
-					searchStr: params.term,
-					pageSize: 10,
-					pageNo: params.page
-				};
-			},
-			processResults: function (data, params) {
-				params.page = params.page || 1;
-				return {results: data.options,  pagination: {
-					more: (params.page * 10) < data.totalCount
-				}};
-			},
-			cache: true
-		}
-	});
+	$.register.ajax_select($('#modalForm select[name=unitId]'));
 
 	function _templateResult(state) {
         var $state = state.text;
@@ -151,13 +161,24 @@
         var up = $(this).select2("data")[0]['up'] ;
         //console.log(up)
         if(up!=undefined){
-            $('#modalForm textarea[name=post]').val(up.name)
+            $('#modalForm textarea[name=postName]').val(up.name)
             $("#modalForm select[name=postType]").val(up.postType).trigger("change");
             $("#modalForm select[name=adminLevel]").val(up.adminLevel).trigger("change");
             $("#modalForm select[name=postClassId]").val(up.postClass).trigger("change");
             var option = new Option(up.unitName, up.unitId, true, true);
             $("#modalForm select[name=unitId]").append(option).trigger('change');
             $("input[name=isCpc]").bootstrapSwitch("state", up.isCpc)
+
+        	$('#modalForm label.blue').closest(".form-group")
+                .find("select,input,textarea").prop("disabled", true)
+        }else{
+            $('#modalForm label.blue').closest(".form-group")
+                .find("select,input,textarea").prop("disabled", false)
         }
     });
+
+	<c:if test="${not empty unitPost}">
+    $('#modalForm label.blue').closest(".form-group")
+                .find("select,input,textarea").prop("disabled", true);
+    </c:if>
 </script>

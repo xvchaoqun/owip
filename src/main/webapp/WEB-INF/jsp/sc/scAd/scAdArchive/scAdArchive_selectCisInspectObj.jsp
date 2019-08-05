@@ -39,7 +39,7 @@
 
             }, width: 180, frozen: true
             },
-            {label: '考察日期', name: 'inspectDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '考察日期', name: 'inspectDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
             {label: '工作证号', name: 'cadre.code', frozen: true},
             {label: '考察对象', name: 'cadre.realname', frozen: true},
             {label: '所在单位及职务', name: 'post', align: 'left', width: 300},

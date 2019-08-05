@@ -116,11 +116,11 @@ pageEncoding="UTF-8" %>
             {
                 label: '干部任免文件', name: '_dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
                     if(rowObject.dispatch==undefined) return '--'
-                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
+                return $.pdfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                         rowObject.dispatch.dispatchCode, rowObject.dispatch.dispatchCode);
             }, frozen: true},
-            {label: '任免日期', name: 'dispatch.workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '通知日期', name: 'infoDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任免日期', name: 'dispatch.workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '通知日期', name: 'infoDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '发人事处通知', name: 'hrCode', width: 200},
             {label: '发财经处通知', name: 'feCode', width: 200},
             /*{ label: '备注',name: 'remark', width:300, align:'left'}*/

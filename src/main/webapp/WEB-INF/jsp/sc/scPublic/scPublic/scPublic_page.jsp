@@ -121,7 +121,7 @@
                 if(rowObject.year==undefined) return '--'
                 var _num = rowObject.code;
                 if(rowObject.pdfFilePath==undefined) return _num;
-                return $.swfPreview(rowObject.pdfFilePath, _num);
+                return $.pdfPreview(rowObject.pdfFilePath, _num);
             }, frozen: true},
             {
                 label: '公示文件', width: 200, formatter: function (cellvalue, options, rowObject) {
@@ -131,15 +131,15 @@
                 var pdfFilePath = rowObject.pdfFilePath;
                 if ($.trim(pdfFilePath) != '') {
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(_num))
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(_num));
                 }
                 var wordFilePath = rowObject.wordFilePath;
                 if ($.trim(wordFilePath) != '') {
 
-                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                    ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
                             .format(encodeURI(wordFilePath), _num);
                 }
                 return ret;
@@ -150,8 +150,8 @@
                 var _num = "党委常委会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 return _num;
             }, frozen: true},
-            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '发布时间', name: 'publishDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '发布时间', name: 'publishDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '公示开始时间', name: 'publicStartDate', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:m'}},
             {label: '公示结束时间', name: 'publicEndDate', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:m'}},
             /*{label: '确认结束公示', name: 'isConfirmed', formatter: function (cellvalue, options, rowObject) {

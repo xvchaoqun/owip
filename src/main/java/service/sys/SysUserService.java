@@ -1,11 +1,11 @@
 package service.sys;
 
 import controller.global.OpException;
-import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.pcs.PcsAdmin;
 import domain.sys.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -46,7 +46,6 @@ public class SysUserService extends BaseMapper {
         changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
     }
 
-
     public boolean idDuplicate(Integer userId, String username, String code) {
 
         SysUserExample example = new SysUserExample();
@@ -55,6 +54,18 @@ public class SysUserService extends BaseMapper {
         if (StringUtils.isNotBlank(code)) criteria.andCodeEqualTo(code);
 
         return sysUserMapper.countByExample(example) > 0;
+    }
+
+     // 自动生成学工号, prefix开头+6位数字
+    public String genCode(String prefix) {
+
+        String code = prefix + RandomStringUtils.randomNumeric(6);
+        SysUserExample example = new SysUserExample();
+        example.or().andCodeEqualTo(code);
+        example.or().andUsernameEqualTo(code);
+        long count = sysUserMapper.countByExample(example);
+
+        return (count == 0) ? code : genCode(prefix);
     }
 
     public String buildRoleIds(String roleStr) {
@@ -503,16 +514,14 @@ public class SysUserService extends BaseMapper {
                 userPermissions.remove("userPassportApply:*"); // 因私出国境证件（干部）
             }
 
-            if (/*approverTypeBean != null && */cadre != null) {
-                MetaType leaderPostType = CmTag.getMetaTypeByCode("mt_leader");
-                if (cadre.getPostType() != null && cadre.getPostType().intValue() == leaderPostType.getId()) {
-                    // 没有职务属性或干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
-                    userPermissions.remove("userApplySelf:*");
-                    userPermissions.remove("userPassportDraw:*");
-                }
+            if (cadre != null && CmTag.getLeader(cadre.getUserId())!=null) {
+
+                // 校领导没有(userApplySelf:*， userPassportDraw:*)
+                userPermissions.remove("userApplySelf:*");
+                userPermissions.remove("userPassportDraw:*");
             }
 
-            // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
+            // 没有审批权限的干部，没有（abroad:menu（目录）, applySelf:approvalList)
             if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) || approverTypeBean == null ||
                     !approverTypeBean.isApprover()) {
@@ -520,7 +529,7 @@ public class SysUserService extends BaseMapper {
                 userPermissions.remove("applySelf:approvalList"); // 因私出国境审批
                 if (!userRoles.contains(RoleConstants.ROLE_CADREADMIN)) {
                     // 干部管理员 需要目录，普通干部不需要
-                    userPermissions.remove("abroad:admin"); // 因私出国境审批（目录）
+                    userPermissions.remove("abroad:menu"); // 因私出国境审批（目录）
                 }
             }
 

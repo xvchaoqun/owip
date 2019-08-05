@@ -1,5 +1,13 @@
 
 
+-- 部署程序后操作
+1. 删除岗位过程管理模块
+2. 干部人事信息、职称信息
+3. 删除具有人才荣誉称号的干部
+4. 调整查看系统附件权限
+5. 删除发展党员时间限制
+
+
 -- 导出数据库结构
 mysqldump  -uroot -p'123' --default-character-set=utf8 -d db_owip>/tmp/db_owip.sql
 -- 提取基础表数据
@@ -8,10 +16,9 @@ mysqldump  -uroot -p'xxx' --default-character-set=utf8 -t -B owip --tables base_
 mysqldump  -uroot -p'xxx' --default-character-set=utf8 -t -B owip --tables sys_user -w "username='zzbgz'" >/tmp/u.sql
 
 
-
-
--- 统一修改干部的称谓
-update sys_user_info ui, cadre c set ui.msg_title=concat(left(ui.realname,1), '老师') where  ui.user_id=c.user_id;
+-- 统一修改干部的称谓（仅更新还没设置称谓的）
+update sys_user_info ui, cadre c set ui.msg_title=concat(left(ui.realname,1), '老师')
+where  ui.user_id=c.user_id and ui.msg_title is null;
 
 -- 更新短信内容
 update base_content_tpl set content = replace(content, '18612987573', '13581513455');
@@ -23,7 +30,7 @@ update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz
 update base_content_tpl set content = replace(content, '主楼A306', '行政楼216');
 
 -- 更新系统说明
-select title,content from sys_html_fragment where content like '%师范%'
+select title,content from sys_html_fragment where content like '%师范%';
 update sys_html_fragment set content = replace(content, '北京师范大学', '西安交通大学');
 update sys_html_fragment set content = replace(content, '北师大', '西安交大');
 update sys_html_fragment set content = replace(content, '18612987573', '13800000000');

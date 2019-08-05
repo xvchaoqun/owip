@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
-<c:set var="OW_APPLY_STAGE_INIT" value="<%=OwConstants.OW_APPLY_STAGE_INIT%>"/>
+<c:set var="OW_APPLY_STAGE_DENY" value="<%=OwConstants.OW_APPLY_STAGE_DENY%>"/>
 <c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
 <c:set var="OW_APPLY_STAGE_POSITIVE" value="<%=OwConstants.OW_APPLY_STAGE_POSITIVE%>"/>
 <div class="modal-header">
@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
                 <select name="stage" data-rel="select2">
                     <c:forEach var="_stage" items="${cm:inverseMap(OW_APPLY_STAGE_MAP)}">
                         <c:if test="${_stage.key<OW_APPLY_STAGE_POSITIVE
-                        && _stage.key>=OW_APPLY_STAGE_INIT && _stage.key<=param.stage}">
+                        && _stage.key>=OW_APPLY_STAGE_DENY && _stage.key<=param.stage}">
                         <option value="${_stage.key}">${_stage.value}</option>
                         </c:if>
                     </c:forEach>

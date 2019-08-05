@@ -7,6 +7,7 @@ import domain.dispatch.DispatchUnitView;
 import domain.dispatch.DispatchUnitViewExample;
 import domain.unit.*;
 import domain.unit.UnitExample.Criteria;
+import ext.service.ExtUnitService;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import service.ext.ExtUnitService;
 import service.unit.UnitExportService;
 import shiro.ShiroHelper;
 import sys.constants.DispatchConstants;
@@ -284,9 +284,9 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:changeOrder")
     @RequestMapping(value = "/unit_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unit_changeOrder(Integer id, byte status, Integer addNum, HttpServletRequest request) {
+    public Map do_unit_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        unitService.changeOrder(id, status, addNum);
+        unitService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "单位调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }

@@ -623,52 +623,52 @@ public class MemberExample {
         }
 
         public Criteria andTransferTimeEqualTo(Date value) {
-            addCriterion("transfer_time =", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time =", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeNotEqualTo(Date value) {
-            addCriterion("transfer_time <>", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time <>", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeGreaterThan(Date value) {
-            addCriterion("transfer_time >", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time >", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("transfer_time >=", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time >=", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeLessThan(Date value) {
-            addCriterion("transfer_time <", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time <", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeLessThanOrEqualTo(Date value) {
-            addCriterion("transfer_time <=", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time <=", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeIn(List<Date> values) {
-            addCriterion("transfer_time in", values, "transferTime");
+            addCriterionForJDBCDate("transfer_time in", values, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeNotIn(List<Date> values) {
-            addCriterion("transfer_time not in", values, "transferTime");
+            addCriterionForJDBCDate("transfer_time not in", values, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeBetween(Date value1, Date value2) {
-            addCriterion("transfer_time between", value1, value2, "transferTime");
+            addCriterionForJDBCDate("transfer_time between", value1, value2, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeNotBetween(Date value1, Date value2) {
-            addCriterion("transfer_time not between", value1, value2, "transferTime");
+            addCriterionForJDBCDate("transfer_time not between", value1, value2, "transferTime");
             return (Criteria) this;
         }
 

@@ -27,7 +27,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 彻底删除
                     </button>
                 </shiro:hasPermission>
-                <button id="startBtn" class="jqItemBtn btn btn-success btn-sm"
+                <%--<button id="startBtn" class="jqItemBtn btn btn-success btn-sm"
                         data-url="${ctx}/cet/cetProject_status?status=${CET_PROJECT_STATUS_START}"
                         data-title="启动"
                         data-msg="确定启动？"
@@ -44,7 +44,7 @@ pageEncoding="UTF-8" %>
                         data-grid-id="#jqGrid"
                         ><i class="fa fa-dot-circle-o"></i>
                     结束
-                </button>
+                </button>--%>
 
                 <button data-url="${ctx}/cet/refreshAllObjsFinishPeriod"
                         data-title="刷新培训学时"
@@ -53,7 +53,8 @@ pageEncoding="UTF-8" %>
                         data-id-name="projectId"
                         data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
                         class="jqItemBtn btn btn-warning btn-sm">
-                    <i class="fa fa-refresh"></i> 刷新培训学时
+                     <i class="prompt fa fa-question-circle"
+               data-prompt="统计汇总培训班中所有学员的培训学时（已完成学时数）"></i> 刷新培训学时
                 </button>
                 <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/cet/cetProject_data"
@@ -130,10 +131,10 @@ pageEncoding="UTF-8" %>
                 'data-url="${ctx}/cet/cetProject_detail?projectId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
             }, frozen: true},
-            {label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {
+            /*{label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == undefined) return '--';
                 return _cMap.CET_PROJECT_STATUS_MAP[rowObject.status];
-            }, frozen: true},
+            }, frozen: true},*/
             { label: '年度',name: 'year', frozen: true},
             { label: '培训时间',name: 'startDate', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
@@ -154,9 +155,9 @@ pageEncoding="UTF-8" %>
                 if ($.trim(pdfFilePath) != '') {
                     var fileName = (rowObject.fileName || rowObject.id);
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName));
                 }
                 var wordFilePath = rowObject.wordFilePath;
@@ -164,7 +165,7 @@ pageEncoding="UTF-8" %>
 
                     //console.log(rowObject.fileName)
                     var fileName = (rowObject.fileName || rowObject.id);
-                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                    ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
                             .format(encodeURI(wordFilePath), encodeURI(fileName));
                 }
                 return ret;
@@ -178,7 +179,7 @@ pageEncoding="UTF-8" %>
               return cellvalue?'是':'否'
             }},
             { label: '参训人数',name: 'objCount'},
-            {label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
+            /*{label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
                 return _cMap.CET_PROJECT_PUB_STATUS_MAP[cellvalue];
             }},
@@ -186,7 +187,7 @@ pageEncoding="UTF-8" %>
                 return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id,
                     status:rowObject.status,
                     isPublish:(rowObject.pubStatus==${CET_PROJECT_PUB_STATUS_PUBLISHED})})
-            }},
+            }},*/
             { name: 'status', hidden:true},
             { label: '备注',name: 'remark', width: 300}
         ],

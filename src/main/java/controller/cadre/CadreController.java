@@ -11,6 +11,7 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import domain.unit.UnitPost;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.cadre.CadreAdformService;
+import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreInfoFormService;
 import service.cadre.CadreService;
 import shiro.ShiroHelper;
@@ -136,6 +138,21 @@ public class CadreController extends BaseController {
 
         // 导出的列名字
         List<String> titles = cadreExportService.getTitles();
+        boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
+        boolean useCadreState = CmTag.getBoolProperty("useCadreState");
+        boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
+        if(!hasKjCadre && !useCadreState){
+                titles.remove(2);
+                titles.remove(2);
+        }else if(!hasKjCadre){
+            titles.remove(2);
+        }else if(!useCadreState){
+            titles.remove(3);
+        }
+        if(!hasPartyModule){
+            titles.remove(titles.size()-3); // 去掉所在党组织
+        }
+
         modelMap.put("titles", titles);
 
         return "cadre/cadre_page";
@@ -164,10 +181,11 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
                            @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
                            @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
-                           @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 专技岗位等级
-                           Boolean isPrincipalPost, // 是否正职
+                           @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
+                           Boolean isPrincipal, // 是否正职
                            @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
                            Boolean isDouble, // 是否双肩挑
+                           Boolean hasCrp, // 是否有干部挂职经历
                            Byte type,
                            Integer state,
                            String post,
@@ -268,14 +286,17 @@ public class CadreController extends BaseController {
             criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
         }
 
-        if (isPrincipalPost != null) {
-            criteria.andIsPrincipalPostEqualTo(isPrincipalPost);
+        if (isPrincipal != null) {
+            criteria.andIsPrincipalEqualTo(isPrincipal);
         }
         if (leaderTypes != null) {
             criteria.andLeaderTypeIn(Arrays.asList(leaderTypes));
         }
         if (isDouble != null) {
             criteria.andIsDoubleEqualTo(isDouble);
+        }
+        if (hasCrp != null) {
+            criteria.andHasCrpEqualTo(hasCrp);
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
@@ -299,7 +320,7 @@ public class CadreController extends BaseController {
             // 一览表
             cadre_export(format, status, cols, example, response);
             return;
-        } else if (export == 2 || export == 3) {
+        } else if (export == 2 || export == 3 || export == 5) {
 
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -310,9 +331,12 @@ public class CadreController extends BaseController {
             if (export == 2) {
                 // 干部任免审批表
                 cadreAdformService.export(cadreIds, format==1, request, response);
-            } else {
+            } else if(export == 3){
                 // 干部信息采集表
                 cadreInfoFormService.export(cadreIds, request, response);
+            } else if(export == 5){
+
+                perfectCadreInfoExport(cadreIds, response);
             }
             return;
         } else if (export == 4) {
@@ -406,6 +430,36 @@ public class CadreController extends BaseController {
         }
         String fileName = String.format("干部批量排序表(%s)",
                 CadreConstants.CADRE_STATUS_MAP.get(status));
+
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    private void perfectCadreInfoExport(Integer[] cadreIds, HttpServletResponse response) {
+
+        CadreViewExample example = new CadreViewExample();
+        example.createCriteria().andIdIn(Arrays.asList(cadreIds));
+        example.setOrderByClause("sort_order desc");
+
+        List<CadreView> records = cadreViewMapper.selectByExample(example);
+
+        int rownum = records.size();
+        String[] titles = {"工作证号|120", "姓名|100", "所在单位及职务|400|left", "完整性校验结果|120"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+
+            CadreView cv = records.get(i);
+
+            boolean perfectCadreInfo = CadreInfoCheckService.perfectCadreInfo(cv.getUserId());
+
+            String[] values = {
+                    cv.getCode(),
+                    cv.getRealname(),
+                    cv.getTitle(),
+                    perfectCadreInfo?"通过":"未通过"
+            };
+            valuesList.add(values);
+        }
+        String fileName = "干部信息完整性校验结果";
 
         ExportHelper.export(titles, valuesList, fileName, response);
     }
@@ -593,7 +647,17 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_au(Cadre record, HttpServletRequest request) {
+    public Map do_cadre_au(Cadre record,
+                           @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
+                           HttpServletRequest request) {
+
+        record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
+        if(record.getIsDouble()){
+            if(unitIds==null || unitIds.length==0) {
+                return failed("请选择双肩挑单位");
+            }
+            record.setDoubleUnitIds(StringUtils.join(unitIds, ","));
+        }
 
         Integer id = record.getId();
         if (id == null) {
@@ -630,7 +694,54 @@ public class CadreController extends BaseController {
             modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
         }
 
+        // MAP<unitTypeId, List<unitId>>
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        modelMap.put("unitListMap", unitListMap);
+        modelMap.put("historyUnitListMap", historyUnitListMap);
+
         return "cadre/cadre_au";
+    }
+
+    // 更换工号
+    @RequiresPermissions("cadre:changeCode")
+    @RequestMapping("/cadre_changeCode")
+    public String cadre_changeCode(int cadreId, ModelMap modelMap) {
+
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
+        modelMap.put("cadre", cadre);
+
+        return "cadre/cadre_changeCode";
+    }
+
+    @RequiresPermissions("cadre:changeCode")
+    @RequestMapping(value = "/cadre_changeCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_changeCode(int userId, int newUserId, String remark) {
+
+        cadreService.changeCode(userId, newUserId, remark);
+
+        return success(FormUtils.SUCCESS);
     }
 
     // 干部库转移
@@ -659,6 +770,7 @@ public class CadreController extends BaseController {
         Cadre record = new Cadre();
         record.setId(cadre.getId());
         record.setStatus(status);
+        record.setIsDouble(cadre.getIsDouble());
         record.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
         cadreService.updateByPrimaryKeySelective(record);
 
@@ -727,46 +839,83 @@ public class CadreController extends BaseController {
             int userId = uv.getId();
             record.setUserId(userId);
 
-            // 干部类型，仅针对干部
-            String _type = StringUtils.trim(xlsRow.get(2));
-            if (status == CadreConstants.CADRE_STATUS_MIDDLE
-                    || status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
-                if (StringUtils.contains(_type, "科级")) {
-                    record.setType((byte) 2);
-                } else {
-                    record.setType((byte) 1); // 默认是处级
+            boolean useCadreState = BooleanUtils.isTrue(CmTag.getBoolProperty("useCadreState"));
+            boolean hasKjCadre = BooleanUtils.isTrue(CmTag.getBoolProperty("hasKjCadre"));
+
+            int kjCol = 2;
+            int stateCol = 3;
+            int titleCol = 4;
+            int remarkCol = 5;
+
+            if(hasKjCadre && useCadreState){
+                //
+            }else if(hasKjCadre) {
+                titleCol = 3;
+                remarkCol = 4;
+            }else if(useCadreState) {
+                stateCol = 2;
+                titleCol = 3;
+                remarkCol = 4;
+            }
+
+            if(hasKjCadre) {
+                // 干部类型，仅针对干部
+                String _type = StringUtils.trim(xlsRow.get(kjCol));
+                if (status == CadreConstants.CADRE_STATUS_MIDDLE
+                        || status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
+                    if (StringUtils.contains(_type, "科级")) {
+                        record.setType((byte) 2);
+                    } else {
+                        record.setType((byte) 1); // 默认是处级
+                    }
                 }
             }
 
-            String _state = StringUtils.trim(xlsRow.get(3));
-            MetaType state = CmTag.getMetaTypeByName("mc_cadre_state", _state);
-            if(state!=null) {
-                record.setState(state.getId());
+            if(useCadreState) {
+                String _state = StringUtils.trim(xlsRow.get(stateCol));
+                MetaType state = CmTag.getMetaTypeByName("mc_cadre_state", _state);
+                if (state != null) {
+                    record.setState(state.getId());
+                }
             }
 
-            String adminLevel = StringUtils.trimToNull(xlsRow.get(4));
-            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
-            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
-            record.setAdminLevel(adminLevelType.getId());
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(titleCol)));
 
-            String _postType = StringUtils.trimToNull(xlsRow.get(5));
-            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
-            if (postType == null) throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
-            record.setPostType(postType.getId());
+            String _isDouble = StringUtils.trimToNull(xlsRow.get(titleCol+1));
+            record.setIsDouble(StringUtils.equals(_isDouble, "是"));
 
-            String unitCode = StringUtils.trimToNull(xlsRow.get(6));
-            if (StringUtils.isBlank(unitCode)) {
-                throw new OpException("第{0}行单位编号为空", row);
+            if (record.getIsDouble()) {
+
+                List<Integer> doubleUnitIds = new ArrayList<>();
+
+                String unitCode = StringUtils.trimToNull(xlsRow.get(titleCol+3));
+                if (StringUtils.isNotBlank(unitCode)) {
+                    Unit unit = unitService.findUnitByCode(unitCode);
+                    if (unit == null) {
+                        throw new OpException("第{0}行双肩挑单位1编码[{1}]不存在", row, unitCode);
+                    }
+                    doubleUnitIds.add(unit.getId());
+                }
+
+                unitCode = StringUtils.trimToNull(xlsRow.get(titleCol+5));
+                if (StringUtils.isNotBlank(unitCode)) {
+                    Unit unit = unitService.findUnitByCode(unitCode);
+                    if (unit == null) {
+                        throw new OpException("第{0}行双肩挑单位2编码[{1}]不存在", row, unitCode);
+                    }
+                    doubleUnitIds.add(unit.getId());
+                }
+
+                if (doubleUnitIds.size() == 0) {
+                    throw new OpException("第{0}行双肩挑单位编码至少需要填写一个", row);
+                }
+
+                record.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
             }
-            Unit unit = unitService.findUnitByCode(unitCode);
-            if (unit == null) {
-                throw new OpException("第{0}行单位编号[{1}]不存在", row, unitCode);
-            }
-            record.setUnitId(unit.getId());
 
-            record.setTitle(StringUtils.trimToNull(xlsRow.get(7)));
-            record.setPost(StringUtils.trimToNull(xlsRow.get(8)));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(9)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(remarkCol)));
+
+            record.setStatus(status);
 
             record.setStatus(status);
             records.add(record);

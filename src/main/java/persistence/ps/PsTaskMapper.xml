@@ -7,6 +7,7 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="ps_ids" jdbcType="VARCHAR" property="psIds" />
     <result column="files" jdbcType="VARCHAR" property="files" />
+    <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
     <result column="is_publish" jdbcType="BIT" property="isPublish" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, year, ps_ids, files, is_publish, remark
+    id, name, year, ps_ids, files, release_date, is_publish, remark
   </sql>
   <select id="selectByExample" parameterType="domain.ps.PsTaskExample" resultMap="BaseResultMap">
     select
@@ -106,11 +107,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ps_task (name, year, ps_ids, 
-      files, is_publish, remark
-      )
+      files, release_date, is_publish, 
+      remark)
     values (#{name,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, #{psIds,jdbcType=VARCHAR}, 
-      #{files,jdbcType=VARCHAR}, #{isPublish,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
-      )
+      #{files,jdbcType=VARCHAR}, #{releaseDate,jdbcType=TIMESTAMP}, #{isPublish,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.ps.PsTask">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -129,6 +130,9 @@
       </if>
       <if test="files != null">
         files,
+      </if>
+      <if test="releaseDate != null">
+        release_date,
       </if>
       <if test="isPublish != null">
         is_publish,
@@ -149,6 +153,9 @@
       </if>
       <if test="files != null">
         #{files,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        #{releaseDate,jdbcType=TIMESTAMP},
       </if>
       <if test="isPublish != null">
         #{isPublish,jdbcType=BIT},
@@ -182,6 +189,9 @@
       <if test="record.files != null">
         files = #{record.files,jdbcType=VARCHAR},
       </if>
+      <if test="record.releaseDate != null">
+        release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.isPublish != null">
         is_publish = #{record.isPublish,jdbcType=BIT},
       </if>
@@ -200,6 +210,7 @@
       year = #{record.year,jdbcType=INTEGER},
       ps_ids = #{record.psIds,jdbcType=VARCHAR},
       files = #{record.files,jdbcType=VARCHAR},
+      release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
       is_publish = #{record.isPublish,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -221,6 +232,9 @@
       <if test="files != null">
         files = #{files,jdbcType=VARCHAR},
       </if>
+      <if test="releaseDate != null">
+        release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="isPublish != null">
         is_publish = #{isPublish,jdbcType=BIT},
       </if>
@@ -236,6 +250,7 @@
       year = #{year,jdbcType=INTEGER},
       ps_ids = #{psIds,jdbcType=VARCHAR},
       files = #{files,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
       is_publish = #{isPublish,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

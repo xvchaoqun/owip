@@ -126,7 +126,7 @@ public class PcsPrFileController extends PcsBaseController {
         }
         String savePath = uploadPdf(_file, "pcsPrFile");
         record.setFilePath(savePath);
-        record.setFileName(originalFilename);
+        record.setFileName(FileUtils.getFileName(originalFilename));
 
         record.setUserId(ShiroHelper.getCurrentUserId());
         record.setIp(ContextHelper.getRealIp());

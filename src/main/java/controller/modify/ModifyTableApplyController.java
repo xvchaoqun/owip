@@ -28,10 +28,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ModifyTableApplyController extends ModifyBaseController {
@@ -63,20 +60,36 @@ public class ModifyTableApplyController extends ModifyBaseController {
         if (cls == 0) {
             // 干部只能看到自己的
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            cadreId = cadre.getId();
             modelMap.put("cadre", cadre);
+
+            // 默认可修改
+            modelMap.put("canUpdate", true);
 
             // 当module>100时，是干部本人的申请地址
             module = (byte) (module%100);
             switch (module){
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
 
+                    String name="book";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                     return "modify/modifyCadreBook/modifyCadreBook_page";
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
 
+                    name="company";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                     return "modify/modifyCadreCompany/modifyCadreCompany_page";
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
+
+                    name="course";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
 
                     return "modify/modifyCadreCourse/modifyCadreCourse_page";
 
@@ -89,9 +102,17 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
 
+                    name="paper";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                     return "modify/modifyCadrePaper/modifyCadrePaper_page";
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
+
+                    name="parttime";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
 
                     return "modify/modifyCadreParttime/modifyCadreParttime_page";
 
@@ -99,12 +120,24 @@ public class ModifyTableApplyController extends ModifyBaseController {
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
 
                     Byte researchType = null;
+                    name = null;
                     if(module == ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT){
+
+                        name="research_direct";
+                        modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                        modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                         researchType= CadreConstants.CADRE_RESEARCH_TYPE_DIRECT;
                     }else if(module == ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN){
+
+                        name="research_in";
+                        modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                        modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                         researchType=CadreConstants.CADRE_RESEARCH_TYPE_IN;
                     }
                     modelMap.put("researchType", researchType);
+                    modelMap.put("infoCheckName", name);
 
                     return "modify/modifyCadreResearch/modifyCadreResearch_page";
 
@@ -113,19 +146,40 @@ public class ModifyTableApplyController extends ModifyBaseController {
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
 
                     Byte rewardType = null;
+                    name = null;
                     if(module == ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH){
+
+                        name="course_reward";
+                        modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                        modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                         rewardType = CadreConstants.CADRE_REWARD_TYPE_TEACH;
                     }else if(module == ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH){
+
+                        name="research_reward";
+                        modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                        modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                         rewardType = CadreConstants.CADRE_REWARD_TYPE_RESEARCH;
                     }else if(module == ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER){
+
+                        name="reward";
+                        modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                        modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                         rewardType = CadreConstants.CADRE_REWARD_TYPE_OTHER;
                     }
 
                     modelMap.put("rewardType", rewardType);
+                    modelMap.put("infoCheckName", name);
 
                     return "modify/modifyCadreReward/modifyCadreReward_page";
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
+
+                    name="train";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
 
                     return "modify/modifyCadreTrain/modifyCadreTrain_page";
 
@@ -135,13 +189,25 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO:
 
+                    name="post_pro";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                     return "modify/modifyCadrePostPro/modifyCadrePostPro_page";
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN:
 
+                    name="post_admin";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
                     return "modify/modifyCadrePostAdmin/modifyCadrePostAdmin_page";
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
+
+                    name="post_work";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
 
                     return "modify/modifyCadrePostWork/modifyCadrePostWork_page";
 
@@ -150,6 +216,10 @@ public class ModifyTableApplyController extends ModifyBaseController {
                     return "modify/modifyCadreFamily/modifyCadreFamily_page";
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
+
+                    name="family_abroad";
+                    modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+                    modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
 
                     return "modify/modifyCadreFamilyAbroad/modifyCadreFamilyAbroad_page";
             }
@@ -370,7 +440,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
     @RequestMapping(value = "/modifyTableApply_approval", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyTableApply_approval(Integer id, // 单个审批
-                                            @RequestParam(value = "ids[]") Integer[] ids, // 批量审批
+                                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 批量审批
                                             Boolean status,
                                             String checkRemark,
                                             String checkReason){

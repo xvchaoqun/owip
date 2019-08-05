@@ -69,13 +69,13 @@ public class CadreConstants {
     }
 
     // 干部党派类别
-    public final static byte CADRE_PARTY_TYPE_NONE = 0; // 无，此时党派由党员库确认
+   // public final static byte CADRE_PARTY_TYPE_NONE = 0; // 无，此时党派由党员库确认
     public final static byte CADRE_PARTY_TYPE_DP = 1; // 民主党派
     public final static byte CADRE_PARTY_TYPE_OW = 2; // 中共党员
     public final static Map<Byte, String> CADRE_PARTY_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_NONE, "无");
+        //CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_NONE, "无");
         CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_DP, "民主党派");
         CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_OW, "中共党员");
 
@@ -124,9 +124,9 @@ public class CadreConstants {
     public final static Map<Byte, String> CADRE_RESERVE_STATUS_MAP = new LinkedHashMap<>();
 
     static {
-        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_NORMAL, "优秀年轻干部");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_NORMAL, "年轻干部");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_TO_INSPECT, "已列为考察对象");
-        //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "优秀年轻干部已使用");
+        //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "年轻干部已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ABOLISH, "已撤销资格");
     }

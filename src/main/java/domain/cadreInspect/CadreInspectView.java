@@ -1,7 +1,5 @@
 package domain.cadreInspect;
 
-import domain.cadre.CadreAdminLevel;
-import domain.cadre.CadrePost;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUserView;
@@ -17,14 +15,6 @@ public class CadreInspectView implements Serializable {
     }
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
-    }
-    // 主职
-    public CadrePost getMainCadrePost(){
-        return CmTag.getCadreMainCadrePostById(mainCadrePostId);
-    }
-    // 现任职务
-    public CadreAdminLevel getPresentAdminLevel() {
-        return CmTag.getPresentByCadreId(id);
     }
 
     // 离任文件
@@ -50,13 +40,13 @@ public class CadreInspectView implements Serializable {
 
     private Integer userId;
 
-    private Integer adminLevel;
-
-    private Integer postType;
-
-    private Integer unitId;
-
     private Byte type;
+
+    private Boolean hasCrp;
+
+    private Boolean isDouble;
+
+    private String doubleUnitIds;
 
     private Integer state;
 
@@ -64,13 +54,19 @@ public class CadreInspectView implements Serializable {
 
     private Integer dispatchCadreId;
 
-    private String post;
-
     private String remark;
 
     private Integer sortOrder;
 
     private Byte status;
+
+    private Integer unitId;
+
+    private Integer adminLevel;
+
+    private Integer postType;
+
+    private String post;
 
     private Boolean isCommitteeMember;
 
@@ -164,37 +160,21 @@ public class CadreInspectView implements Serializable {
 
     private Integer mainCadrePostId;
 
-    private Boolean isDouble;
+    private Boolean isPrincipal;
 
-    private String doubleUnitIds;
+    private Integer lpDispatchId;
 
-    private Boolean isPrincipalPost;
+    private Date lpWorkTime;
+
+    private Integer npDispatchId;
+
+    private Date npWorkTime;
 
     private Byte leaderType;
 
     private Long cadrePostYear;
 
     private Long adminLevelYear;
-
-    private Integer npRelateId;
-
-    private Integer npId;
-
-    private String npFileName;
-
-    private String npFile;
-
-    private Date npWorkTime;
-
-    private Integer lpRelateId;
-
-    private Integer lpId;
-
-    private String lpFileName;
-
-    private String lpFile;
-
-    private Date lpWorkTime;
 
     private Integer sDispatchId;
 
@@ -288,36 +268,36 @@ public class CadreInspectView implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getAdminLevel() {
-        return adminLevel;
-    }
-
-    public void setAdminLevel(Integer adminLevel) {
-        this.adminLevel = adminLevel;
-    }
-
-    public Integer getPostType() {
-        return postType;
-    }
-
-    public void setPostType(Integer postType) {
-        this.postType = postType;
-    }
-
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
-    }
-
     public Byte getType() {
         return type;
     }
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getHasCrp() {
+        return hasCrp;
+    }
+
+    public void setHasCrp(Boolean hasCrp) {
+        this.hasCrp = hasCrp;
+    }
+
+    public Boolean getIsDouble() {
+        return isDouble;
+    }
+
+    public void setIsDouble(Boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    public String getDoubleUnitIds() {
+        return doubleUnitIds;
+    }
+
+    public void setDoubleUnitIds(String doubleUnitIds) {
+        this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
     }
 
     public Integer getState() {
@@ -344,14 +324,6 @@ public class CadreInspectView implements Serializable {
         this.dispatchCadreId = dispatchCadreId;
     }
 
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post == null ? null : post.trim();
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -374,6 +346,38 @@ public class CadreInspectView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
+    }
+
+    public Integer getAdminLevel() {
+        return adminLevel;
+    }
+
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
+    }
+
+    public Integer getPostType() {
+        return postType;
+    }
+
+    public void setPostType(Integer postType) {
+        this.postType = postType;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
     }
 
     public Boolean getIsCommitteeMember() {
@@ -744,28 +748,44 @@ public class CadreInspectView implements Serializable {
         this.mainCadrePostId = mainCadrePostId;
     }
 
-    public Boolean getIsDouble() {
-        return isDouble;
+    public Boolean getIsPrincipal() {
+        return isPrincipal;
     }
 
-    public void setIsDouble(Boolean isDouble) {
-        this.isDouble = isDouble;
+    public void setIsPrincipal(Boolean isPrincipal) {
+        this.isPrincipal = isPrincipal;
     }
 
-    public String getDoubleUnitIds() {
-        return doubleUnitIds;
+    public Integer getLpDispatchId() {
+        return lpDispatchId;
     }
 
-    public void setDoubleUnitIds(String doubleUnitIds) {
-        this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
+    public void setLpDispatchId(Integer lpDispatchId) {
+        this.lpDispatchId = lpDispatchId;
     }
 
-    public Boolean getIsPrincipalPost() {
-        return isPrincipalPost;
+    public Date getLpWorkTime() {
+        return lpWorkTime;
     }
 
-    public void setIsPrincipalPost(Boolean isPrincipalPost) {
-        this.isPrincipalPost = isPrincipalPost;
+    public void setLpWorkTime(Date lpWorkTime) {
+        this.lpWorkTime = lpWorkTime;
+    }
+
+    public Integer getNpDispatchId() {
+        return npDispatchId;
+    }
+
+    public void setNpDispatchId(Integer npDispatchId) {
+        this.npDispatchId = npDispatchId;
+    }
+
+    public Date getNpWorkTime() {
+        return npWorkTime;
+    }
+
+    public void setNpWorkTime(Date npWorkTime) {
+        this.npWorkTime = npWorkTime;
     }
 
     public Byte getLeaderType() {
@@ -790,86 +810,6 @@ public class CadreInspectView implements Serializable {
 
     public void setAdminLevelYear(Long adminLevelYear) {
         this.adminLevelYear = adminLevelYear;
-    }
-
-    public Integer getNpRelateId() {
-        return npRelateId;
-    }
-
-    public void setNpRelateId(Integer npRelateId) {
-        this.npRelateId = npRelateId;
-    }
-
-    public Integer getNpId() {
-        return npId;
-    }
-
-    public void setNpId(Integer npId) {
-        this.npId = npId;
-    }
-
-    public String getNpFileName() {
-        return npFileName;
-    }
-
-    public void setNpFileName(String npFileName) {
-        this.npFileName = npFileName == null ? null : npFileName.trim();
-    }
-
-    public String getNpFile() {
-        return npFile;
-    }
-
-    public void setNpFile(String npFile) {
-        this.npFile = npFile == null ? null : npFile.trim();
-    }
-
-    public Date getNpWorkTime() {
-        return npWorkTime;
-    }
-
-    public void setNpWorkTime(Date npWorkTime) {
-        this.npWorkTime = npWorkTime;
-    }
-
-    public Integer getLpRelateId() {
-        return lpRelateId;
-    }
-
-    public void setLpRelateId(Integer lpRelateId) {
-        this.lpRelateId = lpRelateId;
-    }
-
-    public Integer getLpId() {
-        return lpId;
-    }
-
-    public void setLpId(Integer lpId) {
-        this.lpId = lpId;
-    }
-
-    public String getLpFileName() {
-        return lpFileName;
-    }
-
-    public void setLpFileName(String lpFileName) {
-        this.lpFileName = lpFileName == null ? null : lpFileName.trim();
-    }
-
-    public String getLpFile() {
-        return lpFile;
-    }
-
-    public void setLpFile(String lpFile) {
-        this.lpFile = lpFile == null ? null : lpFile.trim();
-    }
-
-    public Date getLpWorkTime() {
-        return lpWorkTime;
-    }
-
-    public void setLpWorkTime(Date lpWorkTime) {
-        this.lpWorkTime = lpWorkTime;
     }
 
     public Integer getsDispatchId() {

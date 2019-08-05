@@ -285,7 +285,7 @@
                 return "L{0}".format(rowObject.id);
             }, frozen: true
             },
-            {label: '申请日期', name: 'applyDate', frozen: true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '申请日期', name: 'applyDate', frozen: true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
 
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {

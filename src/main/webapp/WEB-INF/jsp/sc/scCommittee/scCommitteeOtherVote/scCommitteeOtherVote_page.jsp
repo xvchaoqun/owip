@@ -100,9 +100,9 @@
                 //console.log(rowObject.holdDate)
                 var _num = "党委常委会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 if($.trim(rowObject.filePath)=='') return _num;
-                return $.swfPreview(rowObject.filePath, _num);
+                return $.pdfPreview(rowObject.filePath, _num);
             }, frozen: true},
-            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '议题名称',name: 'name', width: 400, align:'left'},
             {
                 label: '议题内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -142,7 +142,7 @@
             { label: '列席人',name: 'attendUsers', width: 400,align:'left'},
             {label: '会议记录', name: 'logFile', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '--';
-                return $.swfPreview(rowObject.logFile, '会议记录', '查看');
+                return $.pdfPreview(rowObject.logFile, '会议记录', '查看');
             }},
             { label: '备注',name: 'remark', width:300}
         ]

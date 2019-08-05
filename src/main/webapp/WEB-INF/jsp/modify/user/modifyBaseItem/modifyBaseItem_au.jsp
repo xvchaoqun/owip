@@ -39,10 +39,21 @@ pageEncoding="UTF-8"%>
                             <input required class="form-control" type="text" name="modifyValue" value="${record.modifyValue}">
                         </c:when>
                         <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_DATE}">
+                            <c:if test="${record.code=='work_time'}">
                             <div class="input-group" style="width: 150px">
-                                <input class="form-control date-picker" type="text" name="modifyValue" data-date-format="yyyy-mm-dd" value="${record.modifyValue}"/>
+                                <input class="form-control date-picker" type="text" name="modifyValue"
+                                       data-date-min-view-mode="1"
+                                       data-date-format="yyyy.mm" value="${record.modifyValue}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
+                            </c:if>
+                            <c:if test="${record.code!='work_time'}">
+                            <div class="input-group" style="width: 150px">
+                                <input class="form-control date-picker" type="text" name="modifyValue"
+                                       data-date-format="yyyy-mm-dd" value="${record.modifyValue}"/>
+                                <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                            </div>
+                            </c:if>
                             <script>
                                 $.register.date($('.date-picker'));
                             </script>

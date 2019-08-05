@@ -2,7 +2,8 @@ package service.modify;
 
 import domain.base.MetaType;
 import domain.cadre.Cadre;
-import domain.cadre.CadreExample;
+import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectExample;
 import domain.cadreReserve.CadreReserve;
@@ -38,7 +39,7 @@ public class ModifyCadreAuthService extends BaseMapper {
     // 干部库类别-职务属性-干部
     public TreeNode getTree(){
 
-        // 已经设置为永久生效的干部，不可选
+        // 已经设置为生效的干部，不可选
         Set<Integer> disabledCadreIdSet = new HashSet();
         {
             List<Integer> validCadreIds = iModifyMapper.selectValidModifyCadreAuth();
@@ -56,7 +57,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         root.children = rootChildren;
 
         // 职务属性-现任干部
-        Map<Integer, List<Cadre>> postIdCadresMap = new LinkedHashMap<>();
+        Map<Integer, List<CadreView>> postIdCadresMap = new LinkedHashMap<>();
         // 考察对象
         List<Cadre> inspectCadres = new ArrayList<>();
         // 类别-优秀年轻干部库
@@ -67,12 +68,12 @@ public class ModifyCadreAuthService extends BaseMapper {
         }
 
         {
-            CadreExample example = new CadreExample();
+            CadreViewExample example = new CadreViewExample();
             example.createCriteria().andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
                     CadreConstants.CADRE_STATUS_LEADER));
-            List<Cadre> cadres = cadreMapper.selectByExample(example);
-            for (Cadre cadre : cadres) {
-                List<Cadre> list = null;
+            List<CadreView> cadres = cadreViewMapper.selectByExample(example);
+            for (CadreView cadre : cadres) {
+                List<CadreView> list = null;
                 if(cadre.getPostType()!=null) {
                     MetaType postType = postMap.get(cadre.getPostType());
                     int postId = postType.getId();
@@ -117,7 +118,7 @@ public class ModifyCadreAuthService extends BaseMapper {
 
 
         // 按职务属性排序
-        Map<String, List<Cadre>> postCadresMap = new LinkedHashMap<>();
+        Map<String, List<CadreView>> postCadresMap = new LinkedHashMap<>();
         for (MetaType metaType : postMap.values()) {
             if(postIdCadresMap.containsKey(metaType.getId()))
                 postCadresMap.put(metaType.getName(), postIdCadresMap.get(metaType.getId()));
@@ -130,9 +131,9 @@ public class ModifyCadreAuthService extends BaseMapper {
         List<TreeNode> cadreRootChildren = new ArrayList<TreeNode>();
         cadreRoot.children = cadreRootChildren;
         rootChildren.add(cadreRoot);
-        for (Map.Entry<String, List<Cadre>> entry : postCadresMap.entrySet()) {
+        for (Map.Entry<String, List<CadreView>> entry : postCadresMap.entrySet()) {
 
-            List<Cadre> entryValue = entry.getValue();
+            List<CadreView> entryValue = entry.getValue();
             TreeNode titleNode = new TreeNode();
             titleNode.title = entry.getKey();
             titleNode.expand = false;
@@ -140,17 +141,22 @@ public class ModifyCadreAuthService extends BaseMapper {
             List<TreeNode> titleChildren = new ArrayList<TreeNode>();
             titleNode.children = titleChildren;
 
-            for (Cadre cadre : entryValue) {
+            int hasAuth = 0;
+            for (CadreView cadre : entryValue) {
 
                 String title = cadre.getTitle();
                 TreeNode node = new TreeNode();
                 node.title = cadre.getUser().getRealname() + (title!=null?("-" + title):"");
                 node.key =  cadre.getId() + "";
                 if(disabledCadreIdSet.contains(cadre.getId())){
-                    node.hideCheckbox = true;
+                    //node.hideCheckbox = true;
+                    node.addClass = "hasAuth";
+                    hasAuth++;
                 }
                 titleChildren.add(node);
             }
+            titleNode.title += String.format("(%s/%s)", hasAuth, entryValue.size());
+
             cadreRootChildren.add(titleNode);
         }
 
@@ -162,6 +168,8 @@ public class ModifyCadreAuthService extends BaseMapper {
             List<TreeNode> children = new ArrayList<TreeNode>();
             inspectCadreRoot.children = children;
             rootChildren.add(inspectCadreRoot);
+
+            int hasAuth = 0;
             for (Cadre cadre : inspectCadres) {
 
                 String title = cadre.getTitle();
@@ -169,10 +177,13 @@ public class ModifyCadreAuthService extends BaseMapper {
                 node.title = cadre.getUser().getRealname() + (title != null ? ("-" + title) : "");
                 node.key = cadre.getId() + "";
                 if(disabledCadreIdSet.contains(cadre.getId())){
-                    node.hideCheckbox = true;
+                    //node.hideCheckbox = true;
+                    node.addClass = "hasAuth";
+                    hasAuth++;
                 }
                 children.add(node);
             }
+            inspectCadreRoot.title += String.format("(%s/%s)", hasAuth, inspectCadres.size());
         }
 
 
@@ -195,6 +206,8 @@ public class ModifyCadreAuthService extends BaseMapper {
                 titleNode.isFolder = true;
                 List<TreeNode> titleChildren = new ArrayList<TreeNode>();
                 titleNode.children = titleChildren;
+
+                int hasAuth = 0;
                 for (Cadre cadre : entryValue) {
 
                     String title = cadre.getTitle();
@@ -202,10 +215,14 @@ public class ModifyCadreAuthService extends BaseMapper {
                     node.title = cadre.getUser().getRealname() + (title != null ? ("-" + title) : "");
                     node.key = cadre.getId() + "";
                     if (disabledCadreIdSet.contains(cadre.getId())) {
-                        node.hideCheckbox = true;
+                        //node.hideCheckbox = true;
+                        node.addClass = "hasAuth";
+                        hasAuth++;
                     }
                     titleChildren.add(node);
                 }
+
+                titleNode.title += String.format("(%s/%s)", hasAuth, entryValue.size());
                 reserveCadreRootChildren.add(titleNode);
             }
         }

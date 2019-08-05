@@ -2,11 +2,14 @@ package service.ps;
 
 import domain.ps.PsInfo;
 import domain.ps.PsInfoExample;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.constants.PsInfoConstants;
+import sys.utils.DateUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -20,7 +23,7 @@ public class PsInfoService extends PsBaseMapper {
     @CacheEvict(value="PsInfo:ALL", allEntries = true)
     public void insertSelective(PsInfo record){
 
-        record.setSortOrder(getNextSortOrder("ps_info", "is_history="+ record.getIsHistory()));
+        record.setSortOrder(getNextSortOrder("ps_info",""));
         psInfoMapper.insertSelective(record);
     }
 
@@ -33,7 +36,7 @@ public class PsInfoService extends PsBaseMapper {
 
     @Transactional
     @CacheEvict(value="PsInfo:ALL", allEntries = true)
-    public void history(Integer[] ids, boolean isHistory){
+    public void history(Integer[] ids, String _abolishDate){
 
         if(ids==null || ids.length==0) return;
 
@@ -41,7 +44,10 @@ public class PsInfoService extends PsBaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
 
         PsInfo record = new PsInfo();
-        record.setIsHistory(isHistory);
+        if (StringUtils.isNotBlank(_abolishDate)){
+            record.setAbolishDate(DateUtils.parseDate(_abolishDate,DateUtils.YYYYMMDD_DOT));
+        }
+        record.setIsHistory(PsInfoConstants.PS_STATUS_IS_HISTORY);
         psInfoMapper.updateByExampleSelective(record, example);
     }
 

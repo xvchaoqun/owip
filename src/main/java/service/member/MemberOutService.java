@@ -282,17 +282,16 @@ public class MemberOutService extends MemberBaseMapper {
         record.setPrintCount(0);
         memberOpService.checkOpAuth(userId);
         if (record.getId() == null) {
-            {
-                // 归档之前已完成转出的记录（如果存在的话），保证当前只有一条记录处于未归档状态
-                MemberOut _record = new MemberOut();
-                _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
-                MemberOutExample example = new MemberOutExample();
-                example.createCriteria()
-                        .andUserIdEqualTo(userId)
-                        .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
 
-                memberOutMapper.updateByExampleSelective(_record, example);
-            }
+            // 归档之前已完成转出的记录（如果存在的话），保证当前只有一条记录处于未归档状态
+            MemberOut _record = new MemberOut();
+            _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
+            MemberOutExample example = new MemberOutExample();
+            example.createCriteria()
+                    .andUserIdEqualTo(userId)
+                    .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+
+            memberOutMapper.updateByExampleSelective(_record, example);
 
             memberOutMapper.insertSelective(record);
         } else {
@@ -410,5 +409,47 @@ public class MemberOutService extends MemberBaseMapper {
                 loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, MemberConstants.MEMBER_OUT_STATUS_MAP.get(status),
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+    }
+
+    @Transactional
+    public int batchImport(List<MemberOut> records) {
+
+        int addCount = 0;
+        for (MemberOut record : records) {
+
+            int userId = record.getUserId();
+            MemberOut memberOut = getLatest(userId);
+            if (memberOut != null
+                    && memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+                record.setId(memberOut.getId());
+            }
+
+            if (record.getId() == null) {
+
+                // 归档之前已完成转出的记录（如果存在的话），保证当前只有一条记录处于未归档状态
+                MemberOut _record = new MemberOut();
+                _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
+                MemberOutExample example = new MemberOutExample();
+                example.createCriteria()
+                        .andUserIdEqualTo(userId)
+                        .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+
+                memberOutMapper.updateByExampleSelective(_record, example);
+
+                memberOutMapper.insertSelective(record);
+                addCount++;
+            } else {
+
+                memberOutMapper.updateByPrimaryKeySelective(record);
+            }
+
+            applyApprovalLogService.add(record.getId(),
+                    record.getPartyId(), record.getBranchId(), userId,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "批量导入",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+        }
+
+        return addCount;
     }
 }

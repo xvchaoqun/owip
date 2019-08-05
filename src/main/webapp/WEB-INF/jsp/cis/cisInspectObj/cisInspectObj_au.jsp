@@ -112,7 +112,7 @@
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cisInspector_selects"
                         name="chiefInspectorId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
-                    <option value="${chiefInspector.id}" title="${chiefInspector.status!=CIS_INSPECTOR_STATUS_NOW}">${chiefInspector.user.realname}-${chiefInspector.user.code}</option>
+                    <option value="${chiefInspector.id}" delete="${chiefInspector.status!=CIS_INSPECTOR_STATUS_NOW}">${chiefInspector.user.realname}-${chiefInspector.user.code}</option>
                 </select>
             </div>
         </div>

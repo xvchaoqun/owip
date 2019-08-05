@@ -35,11 +35,13 @@ import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -83,7 +85,7 @@ public class ClaApplyController extends ClaBaseController {
         //int userId = ShiroHelper.getCurrentUserId();
 
         if(BooleanUtils.isTrue(isAdmin)){
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_CLAADMIN);
             if(approvalTime==null) approvalTime = new Date();
             if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
         }else{
@@ -119,7 +121,7 @@ public class ClaApplyController extends ClaBaseController {
     }
 
     // 干部管理员直接修改审批
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(SystemConstants.PERMISSION_CLAADMIN)
     @RequestMapping("/claApply_approval_direct_au")
     public String claApply_approval_direct_au(int approvalLogId, ModelMap modelMap) {
 
@@ -129,7 +131,7 @@ public class ClaApplyController extends ClaBaseController {
         return "cla/claApply/claApply_approval_direct_au";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequiresPermissions(SystemConstants.PERMISSION_CLAADMIN)
     @RequestMapping(value = "/claApply_approval_direct_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_claApply_approval_direct_au(HttpServletRequest request,
@@ -164,7 +166,7 @@ public class ClaApplyController extends ClaBaseController {
 
         ClaApplyFile claApplyFile = claApplyFileMapper.selectByPrimaryKey(id);
 
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) { // 干部管理员有下载权限
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
             Integer applyId = claApplyFile.getApplyId();
@@ -189,7 +191,7 @@ public class ClaApplyController extends ClaBaseController {
         Integer cadreId = claApply.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -251,7 +253,7 @@ public class ClaApplyController extends ClaBaseController {
                                         Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -298,8 +300,8 @@ public class ClaApplyController extends ClaBaseController {
     }
 
 
-    @RequiresPermissions("claApply:list")
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    //@RequiresPermissions("claApply:list")
+    @RequiresPermissions(SystemConstants.PERMISSION_CLAADMIN)
     @RequestMapping("/claApply")
     public String claApply(Integer cadreId,
                             // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
@@ -362,8 +364,8 @@ public class ClaApplyController extends ClaBaseController {
         return;
     }
 
-    @RequiresPermissions("claApply:list")
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    //@RequiresPermissions("claApply:list")
+    @RequiresPermissions(SystemConstants.PERMISSION_CLAADMIN)
     @RequestMapping("/claApply_data")
     public void claApply_data(HttpServletResponse response,
                                @SortParam(required = false, defaultValue = "create_time", tableName = "cla_apply") String sort,
@@ -467,32 +469,11 @@ public class ClaApplyController extends ClaBaseController {
         if (_modifyProof != null && !_modifyProof.isEmpty()) {
 
             modifyProofFileName = _modifyProof.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "cla_apply_modify" + FILE_SEPARATOR
-                    + fileName;
-            String ext = FileUtils.getExtention(modifyProofFileName);
-            modifyProof = realPath + ext;
-            FileUtils.copyFile(_modifyProof, new File(springProps.uploadPath + modifyProof));
-
-            String swfPath = realPath + ".swf";
-            pdf2Swf(modifyProof, swfPath);
+            modifyProof = upload(_modifyProof, "cla_apply_modify");
         }
 
-        /*if (id == null) {
-            record.setCreateTime(new Date());
-            record.setIp(IpUtils.getRealIp(request));
-
-            record.setStatus(true);// 提交
-            record.setFlowNode(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST);
-
-            claApplyService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CLA, "添加干部请假申请：%s", record.getId()));
-        } else {*/
-        //record.setStatus(true);
         claApplyService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
         logger.info(addLog(LogConstants.LOG_CLA, "更新干部请假申请：%s", record.getId()));
-        /*}*/
 
         return success(FormUtils.SUCCESS);
     }

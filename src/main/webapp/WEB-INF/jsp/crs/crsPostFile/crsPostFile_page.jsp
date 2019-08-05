@@ -68,7 +68,7 @@
                         <c:forEach items="${audios}" var="audio" varStatus="vs">
                             <div class="audio">
                                 <input type="checkbox" value="${audio.id}">
-                                <a href="${ctx}/attach/download?path=${cm:encodeURI(audio.file)}&filename=${cm:encodeURI(image.fileName)}">
+                                <a href="${ctx}/attach_download?path=${cm:encodeURI(audio.file)}&filename=${cm:encodeURI(image.fileName)}">
                                     <i class="fa fa-download"></i> 音频${vs.count}</a>
                                 <a class="confirm del"
                                    data-url="${ctx}/crsPostFile_del?id=${audio.id}"
@@ -152,7 +152,7 @@
 <script type="text/template" id="audio-tpl">
     <div class="audio">
         <input type="checkbox" value="{{=record.id}}">
-    <a href="${ctx}/attach/download?path={{=record.file}}&filename={{=record.fileName}}">
+    <a href="${ctx}/attach_download?path={{=record.file}}&filename={{=record.fileName}}">
        <i class="fa fa-download"></i> {{=name}}</a>
         <a class="confirm del"
            data-url="${ctx}/crsPostFile_del?id={{=record.id}}"
@@ -342,7 +342,7 @@
 
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'), this.title);
     });
 

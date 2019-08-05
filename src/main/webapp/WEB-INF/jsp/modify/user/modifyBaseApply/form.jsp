@@ -101,7 +101,6 @@
                       <option value="0">中共党员</option>
                        <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
                   </select>
-                    <div class="inline-block">注：政治面貌为“群众”等不在以上选项中的情况请留空</div>
                   <script type="text/javascript">
                       $("select[name=dpTypeId]").val(${original});
                   </script>
@@ -109,9 +108,6 @@
           </td>
           <td>
             党派加入时间
-              <c:if test="${cadre.dpTypeId>0}">
-                <span>（${cm:getMetaType(cadre.dpTypeId).name}）</span>
-            </c:if>
           </td>
           <td>
               <c:choose>
@@ -134,6 +130,16 @@
                      value="${original}"/>
               <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
             </div>
+              <script>
+                  $("#modalForm select[name=dpTypeId]").on("change",function(){
+                        var val = $.trim($(this).val());
+                        if(val>0 && _cMap.metaTypeMap[val].boolAttr){
+                            $("#modalForm input[data-code=grow_time]").val('').prop("disabled", true);
+                        }else{
+                            $("#modalForm input[data-code=grow_time]").prop("disabled", false);
+                        }
+                    }).change();
+              </script>
           </td>
 
           <td>国家/地区</td>

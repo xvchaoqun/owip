@@ -47,9 +47,9 @@ pageEncoding="UTF-8" %>
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
-            { label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
-            { label: '实际换届时间', name: 'actualTranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
-            { label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
+            { label: '实际换届时间', name: 'actualTranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
+            { label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             { label:'发文号',  name: 'dispatchCode', width: 180},
             {  hidden:true, name: 'isPresent',formatter:function(cellvalue, options, rowObject){
                 return (rowObject.isPresent)?1:0;

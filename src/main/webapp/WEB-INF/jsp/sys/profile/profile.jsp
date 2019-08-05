@@ -254,6 +254,7 @@
         </div>
     </div>
 </div>
+<div class="footer-margin lower"/>
 <script>
     /*$.fileInput($('#user-profile input[type=file]'), {
         style: 'well',

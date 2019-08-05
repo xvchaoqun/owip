@@ -47,7 +47,7 @@
                 <div class="col-xs-6">
                     <select required data-rel="select2" name="classId" data-width="272" data-placeholder="请选择民主党派">
                         <option></option>
-                        <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
+                        <jsp:include page="/WEB-INF/jsp/base/metaType/dpTypes.jsp?dp=1"/>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=classId]").val(${cadreParty.classId});

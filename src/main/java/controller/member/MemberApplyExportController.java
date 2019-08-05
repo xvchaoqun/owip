@@ -180,7 +180,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     DateUtils.formatDate(uv.getBirth(), DateUtils.YYYY_MM_DD),
                     uv.getIdcard(),
                     uv.getNation(),
-                    record==null?"":record.getGrade(), // 年级
+                    record==null?"":record.getEnrolYear(), // 年级
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
                     stage,
@@ -233,7 +233,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     record==null?"":DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
                     record==null?"":record.getIdcard(),
                     record==null?"":record.getNation(),
-                    studentInfo==null?"":studentInfo.getGrade(), // 年级
+                    studentInfo==null?"":studentInfo.getEnrolYear(), // 年级
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
                     record==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
@@ -269,13 +269,13 @@ public class MemberApplyExportController extends MemberBaseController {
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
         String[] titles = {"工作证号|100","姓名|100","编制类别|100","人员类别|100",
-                "人员状态|100","在岗情况|100","岗位类别|100", "主岗等级|100",
+                "人员状态|100","在岗情况|100",/*"岗位类别|100", "主岗等级|100",*/
                 "性别|100","出生日期|100", "年龄|100","年龄范围|100","民族|100", "国家/地区|100", "证件号码|180",
                 "发展程度|100","所在分党委、党总支、直属党支部|300|left","所在党支部|300|left","所在单位|200",
                 "提交书面申请书时间|150" , "确定为入党积极分子时间|150", "确定为发展对象时间|150","到校日期|100",
-                "专业技术职务|120","专技岗位等级|120","管理岗位等级|120","任职级别|120","行政职务|180","单位全称|200",
-                "学历|120","学历毕业学校|200","学位授予学校|200",
-                "学位|120","学员结构|100", "人才类型|100", "人才称号|200", "籍贯|100","手机号码|100"};
+                "专业技术职务|120","职称级别|120",/*"管理岗位等级|120",*/"任职级别|120","行政职务|180","单位全称|200",
+                "学历|120","毕业学校|200",/*"学位授予学校|200",*/
+                "学位|120","人员结构|100", /*"人才类型|100", "人才称号|200", */"籍贯|100","手机号码|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
 
@@ -319,8 +319,8 @@ public class MemberApplyExportController extends MemberBaseController {
                     record==null?"":record.getStaffType(),
                     record==null?"":record.getStaffStatus(), // 人员状态
                     record==null?"":record.getOnJob(), // 在岗情况
-                    record==null?"":record.getPostClass(), // 岗位类别
-                    record==null?"":record.getMainPostLevel(), // 主岗等级
+                    /*record==null?"":record.getPostClass(), // 岗位类别
+                    record==null?"":record.getMainPostLevel(), // 主岗等级*/
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
@@ -337,18 +337,18 @@ public class MemberApplyExportController extends MemberBaseController {
                     DateUtils.formatDate(memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD),
                     record==null?"":DateUtils.formatDate(record.getArriveTime(),DateUtils.YYYY_MM_DD), // 到校日期
                     record==null?"":record.getProPost(),
-                    record==null?"":record.getProPostLevel(), //专技岗位等级
-                    record==null?"":record.getManageLevel(), // 管理岗位等级
+                    record==null?"":record.getProPostLevel(), //职称
+                    /*record==null?"":record.getManageLevel(), // 管理岗位等级*/
                     adminLevel, // 任职级别 -- 行政级别
                     post, // 行政职务 -- 职务
                     record==null?"":uv.getUnit(),
                     record==null?"":record.getEducation(), // 学历
-                    record==null?"":record.getSchool(), // 学历毕业学校
-                    record==null?"":record.getDegreeSchool(), // 学位授予学校
+                    record==null?"":record.getSchool(), // 毕业学校
+                    /*record==null?"":record.getDegreeSchool(), // 学位授予学校*/
                     record==null?"":record.getDegree(), // 学位
-                    record==null?"":record.getFromType(), // 学员结构 (学位授予国家)
-                    record==null?"":record.getTalentType(),
-                    record==null?"":record.getTalentTitle(),
+                    record==null?"":record.getFromType(), // 人员结构 (学位授予国家)
+                    /*record==null?"":record.getTalentType(),
+                    record==null?"":record.getTalentTitle(),*/
                     uv.getNativePlace(),
                     uv.getMobile()
             };
@@ -367,12 +367,12 @@ public class MemberApplyExportController extends MemberBaseController {
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100","姓名|100","编制类别|100","人员类别|100",
-                "人员状态|80","在岗情况|80","岗位类别|80", "主岗等级|120",
+                "人员状态|80","在岗情况|80",/*"岗位类别|80", "主岗等级|120",*/
                 "性别|100","出生日期|80", "年龄|100","年龄范围|100","民族|100", "国家/地区|100", "证件号码|180",
                 "政治面貌|100","所在分党委、党总支、直属党支部|300|left","所在党支部|300|left", "所在单位|200", "入党时间|80","到校日期|80",
-                "专业技术职务|120","专技岗位等级|120","管理岗位等级|120","任职级别|100","行政职务|180",
-                "学历|100","学历毕业学校|200","学位授予学校|200",
-                "学位|100","学员结构|100", "人才类型|100", "人才称号|200", "籍贯|100","转正时间|80","手机号码|100"}));
+                "专业技术职务|120","职称|120",/*"管理岗位等级|120",*/"任职级别|100","行政职务|180",
+                "学历|100","毕业学校|200",/*"学位授予学校|200",*/
+                "学位|100","人员结构|100", /*"人才类型|100", "人才称号|200",*/ "籍贯|100","转正时间|80","手机号码|100"}));
         if(exportType==3){
             titles.set(19, "领取志愿书时间|130");
             titles.add(20, "发展程度|100");
@@ -412,8 +412,8 @@ public class MemberApplyExportController extends MemberBaseController {
                     record==null?"":record.getStaffType(),
                     record==null?"":record.getStaffStatus(), // 人员状态
                     record==null?"":record.getOnJob(), // 在岗情况
-                    record==null?"":record.getPostClass(), // 岗位类别
-                    record==null?"":record.getMainPostLevel(), // 主岗等级
+                    /*record==null?"":record.getPostClass(), // 岗位类别
+                    record==null?"":record.getMainPostLevel(), // 主岗等级*/
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
@@ -428,17 +428,17 @@ public class MemberApplyExportController extends MemberBaseController {
                     memberView==null?"":DateUtils.formatDate(memberView.getGrowTime(), DateUtils.YYYY_MM_DD),
                     record==null?"":DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record==null?"":record.getProPost(),
-                    record==null?"":record.getProPostLevel(), //专技岗位等级
-                    record==null?"":record.getManageLevel(), // 管理岗位等级
+                    record==null?"":record.getProPostLevel(), //职称级别
+                    /*record==null?"":record.getManageLevel(), // 管理岗位等级*/
                     adminLevel, // 任职级别 -- 行政级别
                     post, // 行政职务 -- 职务
                     record==null?"":record.getEducation(), // 学历
                     record==null?"":record.getSchool(), // 学历毕业学校
-                    record==null?"":record.getDegreeSchool(), // 学位授予学校
+                    /*record==null?"":record.getDegreeSchool(), // 学位授予学校*/
                     record==null?"":record.getDegree(), // 学位
-                    record==null?"":record.getFromType(), // 学员结构
-                    record==null?"":record.getTalentType(), // 人才类型
-                    record==null?"":record.getTalentTitle(),
+                    record==null?"":record.getFromType(), // 人员结构
+                    /*record==null?"":record.getTalentType(), // 人才类型
+                    record==null?"":record.getTalentTitle(),*/
                     userBean==null?"":userBean.getNativePlace(),
                     memberView==null?"":DateUtils.formatDate(memberView.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     userBean==null?"":userBean.getMobile()

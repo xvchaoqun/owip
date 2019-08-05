@@ -47,9 +47,12 @@ public class OaTaskController extends OaBaseController {
 
     @RequiresPermissions("oaTask:list")
     @RequestMapping("/oaTask")
-    public String oaTask(@RequestParam(required = false, defaultValue = "1") Byte cls, ModelMap modelMap) {
+    public String oaTask(@RequestParam(required = false, defaultValue = "1") Byte cls,
+                         @RequestParam(required = false, defaultValue = "1") Boolean showAll,
+                         ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+        modelMap.put("showAll", showAll);
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(currentUserId);
         modelMap.put("oaTaskTypes", oaTaskTypes);
@@ -66,7 +69,7 @@ public class OaTaskController extends OaBaseController {
                             @RequestParam(required = false, defaultValue = "1") Byte cls,
                             Integer type,
                             String name,
-                            Boolean showAll,
+                            @RequestParam(required = false, defaultValue = "1") Boolean showAll,
                             Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {

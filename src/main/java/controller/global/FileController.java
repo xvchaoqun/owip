@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -45,8 +46,11 @@ public class FileController extends BaseController {
                 attachFile.getFilename() + attachFile.getExt());
     }
 
-    @RequestMapping(value = "/attach/download")
-    public void download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/attach_download")
+    public void attach_download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
+
+        path = HtmlUtils.htmlUnescape(path);
+        filename = HtmlUtils.htmlUnescape(filename);
 
         if(!FileUtils.exists(springProps.uploadPath, path)){
             throw new OpException("文件不存在："+ path);
@@ -55,8 +59,8 @@ public class FileController extends BaseController {
         DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 
-    @RequestMapping("/swf/preview")
-    public String swf_preview(String type, String path, String filename,
+    @RequestMapping("/pdf_preview")
+    public String pdf_preview(String type, String path, String filename,
                               // pdf附件标识
                               String code,
                               Boolean nd, // 不需要下载按钮
@@ -80,12 +84,12 @@ public class FileController extends BaseController {
         modelMap.put("filename", filename);
 
         if(StringUtils.equals(type, "url")) // 查看swf 页面打开
-             return "common/swf_preview_url";
+             return "common/pdf_preview_url";
 
         if(StringUtils.equals(type, "html")) // 嵌入页面
-            return "common/swf_preview_html";
+            return "common/pdf_preview_html";
 
-        return "common/swf_preview"; // 查看swf modal
+        return "common/pdf_preview"; // 查看swf modal
     }
 
     // pdf内容
@@ -107,6 +111,35 @@ public class FileController extends BaseController {
         outputStream.write(bytes);
         outputStream.flush();
         outputStream.close();
+    }
+
+    // 显示pdf内容
+    @RequestMapping("/{fileName}.pdf")
+    public void pdfShow(String path, HttpServletResponse response) throws IOException {
+
+        // path的后缀可能为大写的, .PDF
+        if(path.toLowerCase().endsWith(".pdf") == false) {
+            path = FileUtils.getFileName(path) + ".pdf";
+        }
+        String filePath = springProps.uploadPath + path;
+
+        byte[] bytes = FileUtils.getBytes(filePath);
+        if (bytes == null) return;
+
+        response.reset();
+        response.addHeader("Content-Length", "" + bytes.length);
+        response.setContentType("application/pdf;charset=UTF-8");
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        outputStream.write(bytes);
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    // pdf转图片显示
+    @RequestMapping("/pdf_image")
+    public void pdf_image(String path, Boolean flush, Integer r, HttpServletResponse response) throws IOException, InterruptedException {
+
+       displayPdfImage(path, BooleanUtils.isTrue(flush), r, response);
     }
 
     // swf内容

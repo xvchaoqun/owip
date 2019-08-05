@@ -78,7 +78,7 @@
         pager:"jqGridPager2",
         url: "${ctx}/${param.type=='user'?'user/':''}abroad/passportDraw_data?callback=?&passportId=${passport.id}&year=${param.year}",
         colModel: [
-            { label: '申请日期', name: 'applyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '申请日期', name: 'applyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '申请编码', name: 'id', width: 75, formatter:function(cellvalue, options, rowObject){
                 return 'D{0}'.format(cellvalue);
             } },
@@ -120,8 +120,8 @@
                     return rowObject.applySelf.reason.replace(/\+\+\+/g, ',');;
                 return cellvalue;
             } },
-            { label:'借出日期', name: 'drawTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
-            { label:'归还日期', name: 'realReturnDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} }
+            { label:'借出日期', name: 'drawTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
+            { label:'归还日期', name: 'realReturnDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} }
         ]
     });
     $(window).triggerHandler('resize.jqGrid2');

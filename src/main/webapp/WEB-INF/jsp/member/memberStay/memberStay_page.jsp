@@ -235,8 +235,7 @@
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects?auth=1"
                                                         name="partyId" data-placeholder="请选择">
-                                                    <option value="${party.id}"
-                                                            title="${party.isDeleted}">${party.name}</option>
+                                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                 </select>
                                             </div>
 
@@ -246,8 +245,7 @@
                                                 <select class="form-control" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/branch_selects?auth=1"
                                                         name="branchId" data-placeholder="请选择党支部">
-                                                    <option value="${branch.id}"
-                                                            title="${branch.isDeleted}">${branch.name}</option>
+                                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
                                                 </select>
                                             </div>
                                             <script>
@@ -463,7 +461,7 @@
                 return $.date(rowObject.saveStartTime, "yyyy.MM") + " ~ " + $.date(rowObject.saveEndTime, "yyyy.MM");
             }
             },
-            {label: '党费交纳截止时间', name: 'payTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+            {label: '党费交纳截止时间', name: 'payTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
 
             <c:if test="${param.type==MEMBER_STAY_TYPE_ABROAD}">
             {
@@ -497,7 +495,7 @@
                     + " ~ " + $.date(rowObject.endTime, "yyyy.MM");
             }
             },
-            {label: '预计回国时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+            {label: '预计回国时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {
                 label: '留学方式', name: 'type', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
@@ -533,7 +531,7 @@
                 }
             },
             {label: '暂留原因', name: 'stayReason', width: 200},
-            {label: '预计转出时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+            {label: '预计转出时间', name: 'overDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '联系人', name: 'name1', width: 150},
             {label: '联系人手机号', name: 'mobile1', width: 120},
             </c:if>
@@ -640,7 +638,7 @@
 
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'), this.title);
     });
 </script>

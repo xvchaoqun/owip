@@ -1,86 +1,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
-    <div class="col-xs-12">
-        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${ not empty param.code || not empty param.sort}"/>
-            <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="psAdminParty:edit">
-                    <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/ps/psAdminParty_au">
-                        <i class="fa fa-plus"></i> 添加</button>
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/ps/psAdminParty_au"
-                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改</button>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="psAdminParty:del">
-                    <button data-url="${ctx}/ps/psAdminParty_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
-                    </button>
-                </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/ps/psAdminParty_data"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
-            </div>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-                <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4>
-
-                    <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="widget-body">
-                    <div class="widget-main no-padding">
-                        <form class="form-inline search-form" id="searchForm">
-                            <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/ps/psAdminParty"
-                                   data-target="#page-content"
-                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
-                                <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/ps/psAdminParty"
-                                            data-target="#page-content">
-                                        <i class="fa fa-reply"></i> 重置
-                                    </button>
-                                </c:if>
+<div class="modal-header">
+    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+    <div class="buttons pull-right" style="margin-right: 20px">
+        <button onclick="metaType_au()" class="btn btn-info">
+            <i class="fa fa-plus"></i> 添加
+        </button>
+    </div>
+    <h3>管理的单位</h3>
+</div>
+<div class="modal-body">
+    <div class="popTableDiv"
+         data-url-page="${ctx}/ps/psAdminParty"
+         data-url-del="${ctx}/ps/psAdminParty_del"
+         data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+        <c:if test="${true}">
+            <table class="table table-actived table-center table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th nowrap>管理的单位</th>
+                    <th nowrap>开始时间</th>
+                    <th nowrap>操作</th>
+                    <th nowrap>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${psAdminParties}" var="psAdminParty">
+                    <tr>
+                        <td nowrap>${partyMap.get(psAdminParty.partyId).name}</td>
+                        <td nowrap>${cm:formatDate(psAdminParty.startDate, "yyyy.MM.dd")}</td>
+                        <td>
+                            <div class="hidden-sm hidden-xs action-buttons">
+                                <button onclick="metaType_au(${psAdminParty.id})" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-edit"></i> 修改
+                                </button>
+                                <button class="delBtn btn btn-danger btn-xs" data-id="${psAdminParty.id}">
+                                    <i class="fa fa-trash"></i> 删除
+                                </button>
+                                <button onclick="metaType_au(${psAdminParty.id},true)" class="btn btn-danger btn-xs">
+                                    <i class="fa fa-trash"></i> 结束管理
+                                </button>
                             </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid table-striped"></table>
-            <div id="jqGridPager"></div>
-        </div>
-        <div id="body-content-view"></div>
+                        </td>
+                        <td>${psAdminParty.remark}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
     </div>
 </div>
 <script>
-    $("#jqGrid").jqGrid({
-        rownumbers:true,
-        url: '${ctx}/ps/psAdminParty_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-                { label: '开始管理时间',name: 'startDate'},
-                { label: '结束管理时间',name: 'endDate'},
-                { label: '现任/离任',name: 'isHistory'},
-                { label: '备注',name: 'remark'}
-        ]
-    }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
-    $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
+    function metaType_au(id,isHistory) {
+        var url = "${ctx}/ps/psAdminParty_au?adminId=${param.adminId}";
+        if (id > 0) url += "&id=" + id;
+        if (isHistory) url += "&isHistory=" +isHistory;
+        $.loadModal(url);
+    }
 </script>

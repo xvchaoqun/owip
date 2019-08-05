@@ -42,7 +42,7 @@ public class PmdExtService extends PmdBaseMapper{
         return rcchNormMap;
     }
 
-    // 专技岗位等级收费标准
+    // 职称级别收费标准
     public Map<String, Integer> getProPostLevelNormMap(){
 
         if(proPostLevelNormMap!=null) return proPostLevelNormMap;
@@ -454,7 +454,7 @@ public class PmdExtService extends PmdBaseMapper{
         }
         
         if(partyBase.compareTo(BigDecimal.ZERO)<=0){
-            logger.info("党费计算异常，工号{}", record.getUser().getCode());
+            logger.info("党费计算有误，工号{}", record.getUser().getCode());
             return null;
         }
         return partyBase.multiply(rate).setScale(2, BigDecimal.ROUND_HALF_UP);

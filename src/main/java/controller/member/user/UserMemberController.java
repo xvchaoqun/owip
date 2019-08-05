@@ -28,10 +28,15 @@ public class UserMemberController extends MemberBaseController {
         MemberView memberView = iMemberMapper.getMemberView(userId);
         modelMap.put("member", memberView);
 
-        Byte type = loginUser.getType();
-        if(type==SystemConstants.USER_TYPE_JZG)
-            return "member/user/member/teacher_base";
+        modelMap.put("uv", loginUser);
 
-         return "member/user/member/student_base";
+        Byte type = loginUser.getType();
+        if(type==SystemConstants.USER_TYPE_JZG) {
+            modelMap.put("teacherInfo", teacherInfoService.get(userId));
+            return "member/member/teacher_base";
+        }
+
+        modelMap.put("studentInfo", studentInfoService.get(userId));
+        return "member/member/student_base";
     }
 }

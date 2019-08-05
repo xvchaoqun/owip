@@ -5,7 +5,6 @@ import domain.sys.SchedulerJob;
 import domain.sys.SchedulerJobExample;
 import domain.sys.SchedulerLog;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
@@ -76,7 +75,7 @@ public class SchedulerJobService extends BaseMapper {
                 needLog = schedulerJob.getNeedLog() || record.getIsManualTrigger();
             }
         }
-        if(needLog) {
+        if (needLog) {
             schedulerLogMapper.insertSelective(record);
         }
     }
@@ -149,7 +148,7 @@ public class SchedulerJobService extends BaseMapper {
             throw new OpException("类{0}不存在", schedulerJob.getClazz());
         }
         String jobName = schedulerJob.getJobName();
-        if(!allJobsMap().containsKey(jobName)) {
+        if (!allJobsMap().containsKey(jobName)) {
             QuartzManager.addJob(scheduler, jobName, cls, schedulerJob.getCron());
         }
         logger.info("启动定时任务[{}]成功", schedulerJob.getName());
@@ -218,38 +217,9 @@ public class SchedulerJobService extends BaseMapper {
         schedulerJobMapper.deleteByExample(example);
     }
 
+    @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
-        SchedulerJob entity = schedulerJobMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        SchedulerJobExample example = new SchedulerJobExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<SchedulerJob> overEntities = schedulerJobMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            SchedulerJob targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum > 0)
-                commonMapper.downOrder("sys_scheduler_job", null, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("sys_scheduler_job", null, baseSortOrder, targetEntity.getSortOrder());
-
-            SchedulerJob record = new SchedulerJob();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            schedulerJobMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("sys_scheduler_job", null, ORDER_BY_DESC, id, addNum);
     }
 }

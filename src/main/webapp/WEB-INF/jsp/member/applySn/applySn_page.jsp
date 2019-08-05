@@ -101,14 +101,14 @@
                                                     <label>志愿书起止编码段</label>
                                                     <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects"
                                                             name="startSnId" data-width="180" data-placeholder="请选择">
-                                                        <option value="${startSn.id}" title="${startSn.isAbolished||startSn.isUsed}">
+                                                        <option value="${startSn.id}" delete="${startSn.isAbolished||startSn.isUsed}">
                                                             ${startSn.displaySn}
                                                         </option>
                                                     </select>
                                                     ~
                                                     <select data-rel="select2-ajax" data-ajax--url="${ctx}/applySn_selects"
                                                             name="endSnId" data-width="180" data-placeholder="请选择">
-                                                        <option value="${endSn.id}" title="${endSn.isAbolished||endSn.isUsed}">
+                                                        <option value="${endSn.id}" delete="${endSn.isAbolished||endSn.isUsed}">
                                                             ${endSn.displaySn}
                                                         </option>
                                                     </select>
@@ -119,7 +119,7 @@
                                                         <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                                 data-ajax-url="${ctx}/party_selects?auth=1"
                                                                 name="partyId" data-placeholder="请选择">
-                                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                                            <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                         </select>
                                                 </div>
 
@@ -128,7 +128,7 @@
                                                         <select class="form-control" data-rel="select2-ajax"
                                                                 data-ajax-url="${ctx}/branch_selects?auth=1"
                                                                 name="branchId" data-placeholder="请选择党支部">
-                                                            <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
+                                                            <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
                                                         </select>
                                                 </div>
                                                 <script>

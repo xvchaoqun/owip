@@ -31,7 +31,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/swf/preview?type=html&path=${scMatterAccess.accessFile}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${scMatterAccess.accessFile}"/>
                     </div>
                 </div>
             </div>
@@ -270,7 +270,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path=" + encodeURI(ret.file));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
                         $("#modalForm input[name=accessFile]").val(ret.file);
                     } else {
                         $("#dispatch-file-view").html(viewHtml)

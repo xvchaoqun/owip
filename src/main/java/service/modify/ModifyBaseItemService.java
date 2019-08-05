@@ -378,14 +378,19 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                             throw new OpException("该用户不在民主党员干部库中。");
                         }
 
-                        CadreParty record = new CadreParty();
-                        record.setGrowTime(growTime);
+                        if(growTime==null){
+                            commonMapper.excuteSql("update cadre_party set grow_time=null " +
+                                    "where user_id="+userId + " and type="+CadreConstants.CADRE_PARTY_TYPE_DP);
+                        }else {
+                            CadreParty record = new CadreParty();
+                            record.setGrowTime(growTime);
 
-                        CadrePartyExample example = new CadrePartyExample();
-                        example.createCriteria().andUserIdEqualTo(userId)
-                                .andTypeEqualTo(CadreConstants.CADRE_PARTY_TYPE_DP);
+                            CadrePartyExample example = new CadrePartyExample();
+                            example.createCriteria().andUserIdEqualTo(userId)
+                                    .andTypeEqualTo(CadreConstants.CADRE_PARTY_TYPE_DP);
 
-                        cadrePartyMapper.updateByExampleSelective(record, example);
+                            cadrePartyMapper.updateByExampleSelective(record, example);
+                        }
                     }
                 } else if (StringUtils.isNotBlank(tableName)) {
 

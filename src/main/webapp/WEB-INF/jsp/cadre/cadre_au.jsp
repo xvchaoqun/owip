@@ -47,6 +47,7 @@
         </div>
         </c:if>
          </c:if>
+        <c:if test="${_p_useCadreState}">
         <div class="form-group">
             <label class="col-xs-4 control-label">${cm:getTextFromHTML(_pMap['cadreStateName'])}</label>
             <div class="col-xs-6">
@@ -59,50 +60,7 @@
                 </script>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">行政级别</label>
-            <div class="col-xs-6">
-                <select data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                </select>
-                <script type="text/javascript">
-                    $("#modalForm select[name=adminLevel]").val(${cadre.adminLevel});
-                </script>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">职务属性</label>
-            <div class="col-xs-6">
-                <select data-rel="select2" name="postType" data-placeholder="请选择职务属性">
-                    <option></option>
-                    <jsp:include page="/metaTypes?__code=mc_post"/>
-                </select>
-                <script type="text/javascript">
-                    $("#modalForm select[name=postType]").val(${cadre.postType});
-                </script>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">所属单位</label>
-            <div class="col-xs-8">
-                <select class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                    <option></option>
-                    <c:forEach items="${unitMap}" var="unit">
-                        <option value="${unit.key}">${unit.value.name}</option>
-                    </c:forEach>
-                </select>
-                <script>
-                    $("#modalForm select[name=unitId]").val('${cadre.unitId}');
-                </script>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">职务</label>
-            <div class="col-xs-6">
-                <input class="form-control" type="text" name="post" value="${cadre.post}">
-            </div>
-        </div>
+        </c:if>
         <c:if test="${cadre.id!=null && (status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
             <div class="form-group">
                 <label class="col-xs-4 control-label">离任文件</label>
@@ -116,7 +74,57 @@
             <label class="col-xs-4 control-label"><c:if
                     test="${status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
             <div class="col-xs-6">
-                <input class="form-control" type="text" name="title" value="${cadre.title}">
+                <textarea class="form-control" rows="3" name="title">${cadre.title}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否双肩挑</label>
+
+            <div class="col-xs-8">
+                <label>
+                    <input name="isDouble" ${cadre.isDouble?"checked":""} type="checkbox"/>
+                    <span class="lbl"></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-xs-4 control-label">双肩挑单位</label>
+            <div class="col-xs-6 input-group" style="padding-left: 12px">
+                <select class="multiselect" multiple="" name="unitIds">
+                    <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
+                        <c:set var="unitList" value="${unitListMap.get(unitType.value.id)}"/>
+                        <c:if test="${fn:length(unitList)>0}">
+                        <optgroup label="${unitType.value.name}">
+                            <c:forEach
+                                    items="${unitList}"
+                                    var="unitId">
+                                <c:set var="unit"
+                                       value="${unitMap.get(unitId)}"></c:set>
+                                <option value="${unit.id}">${unit.name}</option>
+                            </c:forEach>
+                        </optgroup>
+                        </c:if>
+                    </c:forEach>
+                </select>
+                <div>（从正在运转单位中选择）</div>
+                <div class="space-4"></div>
+                <select class="multiselect" multiple="" name="historyUnitIds">
+                    <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
+                        <c:set var="unitList" value="${historyUnitListMap.get(unitType.value.id)}"/>
+                        <c:if test="${fn:length(unitList)>0}">
+                        <optgroup label="${unitType.value.name}">
+                            <c:forEach
+                                    items="${unitList}"
+                                    var="unitId">
+                                <c:set var="unit"
+                                       value="${unitMap.get(unitId)}"></c:set>
+                                <option value="${unit.id}">${unit.name}</option>
+                            </c:forEach>
+                        </optgroup>
+                        </c:if>
+                    </c:forEach>
+                </select>
+                <div>（从历史单位中选择）</div>
             </div>
         </div>
         <div class="form-group">
@@ -133,8 +141,24 @@
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"> ${not empty cadre?"确定":"添加"}
     </button>
 </div>
-
+<style>
+    .modal .modal-body{
+        overflow: visible;
+    }
+</style>
 <script>
+    var doubleUnitIds = '${cadre.doubleUnitIds}';
+    $.register.multiselect($('#modalForm select[name=unitIds]'), doubleUnitIds.split(","), {
+        enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
+    });
+
+    $.register.multiselect($('#modalForm select[name=historyUnitIds]'), doubleUnitIds.split(","), {
+        enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
+    });
+    $("#modal input[name=isDouble]").bootstrapSwitch();
+
     <c:if test="${cadre.id!=null && (status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
     var treeNode = ${tree};
     if (treeNode.children.length == 0) {
@@ -150,7 +174,7 @@
             onCustomRender: function (node) {
                 if (!node.data.isFolder)
                     return "<span class='dynatree-title'>" + node.data.title
-                        + "</span>&nbsp;&nbsp;<button class='openUrl btn btn-xs btn-default' data-url='${ctx}/swf/preview?type=url&path=" + node.data.tooltip + "'>查看</button>"
+                        + "</span>&nbsp;&nbsp;<button class='openUrl btn btn-xs btn-default' data-url='${ctx}/pdf_preview?type=url&path=" + node.data.tooltip + "'>查看</button>"
             },
             cookieId: "dynatree-Cb3",
             idPrefix: "dynatree-Cb3-"
@@ -178,8 +202,26 @@
                 $("#modal input[name=dispatchCadreId]").val(selectIds[0]);
             }
             </c:if>
+
+            var selectedUnitIds = [];
+            if($("input[name=isDouble]").bootstrapSwitch("state")){
+                selectedUnitIds = $.map($('#modalForm select[name=unitIds] option:selected, ' +
+                        '#modalForm select[name=historyUnitIds] option:selected'), function(option){
+                    return $(option).val();
+                });
+                if(selectedUnitIds.length==0){
+                    $.tip({
+                        $target: $("#modalForm select[name=unitIds]").closest(".input-group"),
+                        at: 'right center', my: 'left center', type: 'info',
+                        msg: "请选择双肩挑单位。"
+                    });
+                    return;
+                }
+            }
+
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
+                data:{unitIds: selectedUnitIds},
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal('hide');
@@ -194,6 +236,5 @@
     });
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $("#modal :checkbox").bootstrapSwitch();
     $.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

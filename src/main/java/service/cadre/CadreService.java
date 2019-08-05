@@ -7,8 +7,11 @@ import domain.cadre.*;
 import domain.cadreInspect.CadreInspect;
 import domain.cm.CmMemberView;
 import domain.modify.ModifyCadreAuth;
+import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,13 +26,15 @@ import service.base.MetaTypeService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveService;
 import service.cm.CmMemberService;
+import service.global.CacheHelper;
 import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
-import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.JSONUtils;
 
 import java.util.*;
@@ -44,7 +49,9 @@ public class CadreService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
-    private UnitService unitService;
+    private CadrePostService cadrePostService;
+    @Autowired
+    private CacheHelper cacheHelper;
     @Autowired
     private CadreReserveService cadreReserveService;
     @Autowired
@@ -244,14 +251,14 @@ public class CadreService extends BaseMapper {
         return null;
     }
 
-    // <userId, cadre>
-    public Map<Integer, Cadre> dbFindByUserIds(List<Integer> userIds) {
+    // <userId, cadreView>
+    public Map<Integer, CadreView> dbFindByUserIds(List<Integer> userIds) {
 
-        Map<Integer, Cadre> cadreMap = new HashMap<>();
-        CadreExample example = new CadreExample();
+        Map<Integer, CadreView> cadreMap = new HashMap<>();
+        CadreViewExample example = new CadreViewExample();
         example.createCriteria().andUserIdIn(userIds);
-        List<Cadre> cadres = cadreMapper.selectByExample(example);
-        for (Cadre cadre : cadres) {
+        List<CadreView> cadres = cadreViewMapper.selectByExample(example);
+        for (CadreView cadre : cadres) {
             cadreMap.put(cadre.getUserId(), cadre);
         }
 
@@ -444,18 +451,13 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public int updateByPrimaryKeySelective(Cadre record) {
-        return cadreMapper.updateByPrimaryKeySelective(record);
-    }
+    public void updateByPrimaryKeySelective(Cadre record) {
 
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
-    public int updateByExampleSelective(Cadre record, CadreExample example) {
+        cadreMapper.updateByPrimaryKeySelective(record);
 
-        return cadreMapper.updateByExampleSelective(record, example);
+        if (BooleanUtils.isNotTrue(record.getIsDouble())) { // 不是双肩挑
+            commonMapper.excuteSql("update cadre set double_unit_ids=null where id=" + record.getId());
+        }
     }
 
     // 干部列表（包含优秀年轻干部、考察对象）
@@ -578,5 +580,72 @@ public class CadreService extends BaseMapper {
 
             cadreMapper.updateByPrimaryKeySelective(record);
         }
+    }
+
+    // 更换干部的工号（仅更换两个账号的code和username，不改变干部的cadreId和userId）
+    @Transactional
+    public void changeCode(int userId, int newUserId, String remark) {
+
+        if(userId==newUserId) return;
+
+        SysUserView user = sysUserService.findById(userId);
+        String oldCode = user.getCode();
+        String oldUsername = user.getUsername();
+        CadreView checkCadre = dbFindByUserId(newUserId);
+        SysUserView newUser = sysUserService.findById(newUserId);
+        String newCode = newUser.getCode();
+        String newUsername = newUser.getUsername();
+        if (checkCadre != null) {
+
+            throw new OpException("{0}({1})已经在干部库中({2})，无法更换",
+                    newUser.getRealname(), newCode,
+                    CadreConstants.CADRE_STATUS_MAP.get(checkCadre.getStatus()));
+        }
+
+        if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
+            throw new OpException("身份证号码不相同，无法更换");
+        }
+
+        Byte type = newUser.getType();
+        if (type != SystemConstants.USER_TYPE_JZG) {
+            throw new OpException("账号不是教职工。" + newUser.getCode() + "," + newUser.getRealname());
+        }
+
+        // 仅更换两个账号的code和username
+        SysUser record = new SysUser();
+        record.setId(userId);
+        record.setUsername(oldUsername + "_");
+        record.setCode(oldCode + "_");
+        sysUserMapper.updateByPrimaryKeySelective(record);
+
+        record = new SysUser();
+        record.setId(newUserId);
+        record.setUsername(oldUsername);
+        record.setCode(oldCode);
+        sysUserMapper.updateByPrimaryKeySelective(record);
+
+        record = new SysUser();
+        record.setId(userId);
+        record.setUsername(newUsername);
+        record.setCode(newCode);
+        sysUserMapper.updateByPrimaryKeySelective(record);
+
+
+        user = sysUserService.findById(userId);
+        newUser = sysUserService.findById(newUserId);
+        // 重新同步教职工信息
+        CmTag.snycTeacherInfo(newUserId, newUser);
+        CmTag.snycTeacherInfo(userId, user);
+
+        cacheHelper.clearUserCache(user);
+        cacheHelper.clearUserCache(newUser);
+
+        cacheHelper.clearCadreCache();
+
+        CadreView cv = dbFindByUserId(userId);
+        int cadreId = cv.getId();
+        // 记录任免日志
+        cadreAdLogService.addLog(cadreId, "更换工号" + oldCode + "->" + newCode + "，" + remark,
+                        CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
     }
 }

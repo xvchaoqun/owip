@@ -16,7 +16,7 @@
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
-                ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code
+                ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
                 ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.state  ||not empty param.post  ||not empty param.title }"/>
 
                 <div class="tabbable">
@@ -46,6 +46,15 @@
                     <div class="tab-content multi-row-head-table">
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
+
+                                <shiro:hasPermission name="cadre:changeCode">
+                                    <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
+                                       data-url="${ctx}/cadre_changeCode"
+                                       data-id-name="cadreId">
+                                        <i class="fa fa-refresh"></i> 更换工号</a>
+                                </shiro:hasPermission>
+
+                                <c:if test="${cm:roleIsPermitted(ROLE_CADREADMIN, 'cadreInspect:list')}">
                                 <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
                                     <shiro:hasPermission name="cadre:edit">
                                     <button class="jqBatchBtn btn btn-warning btn-sm"
@@ -56,6 +65,8 @@
                                     </button>
                                     </shiro:hasPermission>
                                 </c:if>
+                                </c:if>
+
                                 <shiro:hasPermission name="cadre:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
                                        data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i> 添加</a>
@@ -128,11 +139,30 @@
                                     </div>
                                     </shiro:hasPermission>
                                 </c:if>
-                                <shiro:hasPermission name="cadre:import">
-                                     <button class="popupBtn btn btn-warning btn-sm tooltip-info"
-                                       data-url="${ctx}/cadre_batchSort?status=${status}"
-                                       data-rel="tooltip" data-placement="top" title="批量排序"><i class="fa fa-sort"></i>
-                                        批量排序</button>
+                                <shiro:hasPermission name="cadre:edit">
+                                    <div class="btn-group">
+                                        <button data-toggle="dropdown"
+                                                data-rel="tooltip" data-placement="top" data-html="true"
+                                                title="<div style='width:180px'>批量干部信息入口</div>"
+                                                class="btn btn-warning btn-sm dropdown-toggle tooltip-success">
+                                            <i class="fa fa-download"></i> 批量操作 <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                                            <li>
+                                                <a href="javascript:;" class="popupBtn"
+                                                   data-url="${ctx}/cadre_batchSort?status=${status}">
+                                                    <i class="fa fa-file-excel-o"></i> 批量排序</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqRunBtn" data-grid-id="#jqGrid"
+                                                   data-title="更新"
+                                                    data-msg="确定更新这{0}条数据（<span class='text-danger'>更新所有的“无此类情况”为“是”</span>）？"
+                                                   data-url="${ctx}/cadreInfoCheck_batchUpdate?status=${status}">
+                                                    <i class="fa fa-check-circle-o"></i> 更新“无此类情况”为“是”</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:export">
                                     <div class="btn-group">
@@ -193,6 +223,12 @@
                                                            data-need-id="false" data-url="${ctx}/cadreEdu_data">
                                                             <i class="fa fa-file-excel-o"></i> 导出学习经历（批量）</a>
                                                     </li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="jqExportBtn"
+                                                           data-need-id="false" data-url="${ctx}/cadreWork_data">
+                                                            <i class="fa fa-file-excel-o"></i> 导出工作经历（批量）</a>
+                                                    </li>
                                                 </shiro:hasPermission>
                                                 <shiro:hasPermission name="cadre:exportFamily">
                                                     <li role="separator" class="divider"></li>
@@ -226,6 +262,14 @@
                                                    data-export="3"
                                                    data-url="${ctx}/cadre_data">
                                                     <i class="fa fa-file-excel-o"></i> 导出信息采集表（批量）</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false"
+                                                   data-export="5"
+                                                   data-url="${ctx}/cadre_data">
+                                                    <i class="fa fa-info-circle"></i> 干部信息完整性校验结果（批量）</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -407,7 +451,7 @@
                                                                                                           value="${param.endNowPostAge}">
 
                                                     </td>
-                                                    <td class="name">专技岗位等级</td>
+                                                    <td class="name">职称级别</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="proPostLevels">
                                                             <c:forEach items="${proPostLevels}" var="proPostLevel">
@@ -419,14 +463,14 @@
                                                 <tr>
                                                     <td class="name">是否正职</td>
                                                     <td class="input">
-                                                        <select name="isPrincipalPost" data-width="100"
+                                                        <select name="isPrincipal" data-width="100"
                                                                 data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
                                                             <option value="1">是</option>
                                                             <option value="0">否</option>
                                                         </select>
                                                         <script>
-                                                            $("#searchForm select[name=isPrincipalPost]").val('${param.isPrincipalPost}');
+                                                            $("#searchForm select[name=isPrincipal]").val('${param.isPrincipal}');
                                                         </script>
                                                     </td>
                                                     <td class="name">现职级始任年限</td>
@@ -462,6 +506,7 @@
                                                             $("#searchForm select[name=isDouble]").val('${param.isDouble}');
                                                         </script>
                                                     </td>
+
                                                 </tr>
                                                 <tr>
                                                     <td class="name">是否班子负责人</td>
@@ -485,6 +530,7 @@
                                                             $("#searchForm select[name=type]").val('${param.type}');
                                                         </script>
                                                     </td>
+                                                    <c:if test="${_p_useCadreState}">
                                                     <td class="name">${_pMap['cadreStateName']}</td>
                                                     <td class="input">
                                                         <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
@@ -495,6 +541,7 @@
                                                             $("#searchForm select[name=state]").val(${param.state});
                                                         </script>
                                                     </td>
+                                                    </c:if>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">职务</td>
@@ -505,9 +552,17 @@
                                                     <td class="input">
                                                         <input type="text" style="width: 200px" name="title" value="${param.title}">
                                                     </td>
-                                                    <td class="name"></td>
+                                                    <td class="name">是否有挂职经历</td>
                                                     <td class="input">
-
+                                                        <select name="hasCrp" data-width="100" data-rel="select2"
+                                                                data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="1">是</option>
+                                                            <option value="0">否</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=hasCrp]").val('${param.hasCrp}');
+                                                        </script>
                                                     </td>
                                                 </tr>
                                             </table>

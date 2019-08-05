@@ -3,6 +3,7 @@ package controller.cadre;
 import controller.BaseController;
 import domain.cadre.CadreParty;
 import domain.cadre.CadreView;
+import domain.cadreReserve.CadreReserve;
 import domain.member.Member;
 import domain.sys.SysUserInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -45,8 +46,9 @@ public class CadreBaseInfoController extends BaseController {
     public Map do_cadreBaseInfo(int cadreId,
                                   MultipartFile _avatar,
                                   Integer dpTypeId,
-                                  @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date _dpAddTime,
+                                  @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date _dpAddTime,
                                   @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _workTime,
+                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _postTime, // 后备干部任职时间
                                   String nativePlace,
                                   String homeplace,
                                   String household,
@@ -62,7 +64,7 @@ public class CadreBaseInfoController extends BaseController {
         int userId = cadre.getUserId();
         Member member = memberService.get(userId);
         if(member==null) {
-            if(dpTypeId!=null && dpTypeId>=0 && _dpAddTime!=null){
+            if(dpTypeId!=null && dpTypeId>=0/* && _dpAddTime!=null*/){
 
                 CadreParty record = new CadreParty();
                 record.setUserId(userId);
@@ -99,6 +101,15 @@ public class CadreBaseInfoController extends BaseController {
         {
             if(_workTime!=null)
                 cadreService.updateWorkTime(userId, _workTime);
+        }
+        if(_postTime!=null){
+            CadreReserve normalRecord = cadreReserveService.getNormalRecord(cadreId);
+            if(normalRecord!=null) {
+                CadreReserve record = new CadreReserve();
+                record.setId(normalRecord.getId());
+                record.setPostTime(_postTime);
+                cadreReserveMapper.updateByPrimaryKeySelective(record);
+            }
         }
 
         {

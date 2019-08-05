@@ -100,7 +100,7 @@
                                 </button>
                                 </c:if>
                                 <button class='openUrl btn btn-xs btn-primary'
-                                        data-url='${ctx}/swf/preview?type=url&path=${cm:encodeURI(scGroupFile.filePath)}&filename=${scGroupFile.fileName}'>
+                                        data-url='${ctx}/pdf_preview?type=url&path=${cm:encodeURI(scGroupFile.filePath)}&filename=${scGroupFile.fileName}'>
                                     <i class="fa fa-search"></i>
                                     预览</button>
                                 <shiro:hasPermission name="scGroupFile:del">

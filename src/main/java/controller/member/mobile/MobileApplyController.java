@@ -49,6 +49,6 @@ public class MobileApplyController extends MemberBaseController {
                 return "forward:/user/memberInflow?isMobile=1";
         }
 
-        throw new OpException("系统异常");
+        return null;
     }
 }

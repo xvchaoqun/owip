@@ -146,7 +146,7 @@
             },
             {label: '民族', name: 'nation', width: 60},
             {label: '职称', name: 'proPost', width: 200},
-            {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+            {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             /*{
              label: '参加工作时间',
@@ -161,7 +161,7 @@
                 width: 120,
                 sortable: true,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             }, {
                 label: '所在单位及职务',
                 name: '_title',

@@ -191,12 +191,12 @@
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '任命文件', name: 'postFilePath',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
-                return $.swfPreview(cellvalue, '任命文件', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
+                return $.pdfPreview(cellvalue, '任命文件', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
             <c:if test="${isQuit}">
             {label: '离任文件', name: 'quitFilePath',formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
-                    return $.swfPreview(cellvalue, '离任文件', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
+                    return $.pdfPreview(cellvalue, '离任文件', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
                 }},
             {label: '离职原因', name: 'quitReason', align: 'left', width: 200},
             </c:if>

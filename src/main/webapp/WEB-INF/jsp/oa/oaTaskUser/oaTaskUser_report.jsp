@@ -26,7 +26,7 @@
       <td>
         <c:forEach var="file" items="${oaTaskUserFiles}" varStatus="vs">
           <div class="file">
-            ${vs.count}、<a href="${ctx}/attach/download?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}">${file.fileName}</a>
+            ${vs.count}、<a href="${ctx}/attach_download?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}">${file.fileName}</a>
           </div>
         </c:forEach>
       </td>

@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.abroad.*;
 import domain.abroad.PassportDrawExample.Criteria;
 import domain.base.ContentTpl;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
@@ -20,7 +19,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -32,7 +30,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.AbroadConstants;
+import sys.constants.ContentTplConstants;
+import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -65,8 +66,8 @@ public class PassportDrawController extends AbroadBaseController {
         return "abroad/passportDraw/passportDraw_check";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
-    @RequiresPermissions("passportDraw:edit")
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
+    //@RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_agree", method = RequestMethod.POST)
     @ResponseBody
     public Map passportDraw_agree(@CurrentUser SysUserView loginUser, int id, String remark, HttpServletRequest request) {
@@ -184,9 +185,10 @@ public class PassportDrawController extends AbroadBaseController {
                 if (type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF ||
                         type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
                     criteria.andTypeEqualTo(type);
-                } else { // 因公赴台、长期因公出国
+                } else { // 因公赴台、长期因公出国、因公出访持因私证件
                     criteria.andTypeIn(Arrays.asList(AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW,
-                            AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF));
+                            AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF,
+                            AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF));
                 }
             }
         }
@@ -256,7 +258,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         Integer id = record.getId();
         byte type = record.getType();
-        Cadre cadre = null;
+        CadreView cadre = null;
         Integer classId = null;
         if (id == null) {
 
@@ -471,6 +473,7 @@ public class PassportDrawController extends AbroadBaseController {
 
             if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW
             || passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF
+            || passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF
             || passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
 
                 passportDraw.setReason(reason); // 台湾
@@ -828,7 +831,7 @@ public class PassportDrawController extends AbroadBaseController {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
             if (passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
                 // 本人、干部管理员或管理员才可以下载
-                if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN)) {
+                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)) {
                     throw new UnauthorizedException();
                 }
             }

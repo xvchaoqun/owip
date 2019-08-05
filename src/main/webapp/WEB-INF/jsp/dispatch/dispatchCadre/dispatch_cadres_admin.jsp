@@ -42,7 +42,7 @@
           <div class="col-xs-6">
             <select data-ajax-url="${ctx}/unitPost_selects" data-width="590"
                     name="unitPostId" data-placeholder="请选择">
-              <option value="${unitPost.id}" title="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
+              <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
             </select>
           </div>
         </div>
@@ -101,6 +101,13 @@
                     name="cadreId" data-width="220" data-placeholder="请选择干部">
               <option value="${dispatchCadre.cadre.id}">${dispatchCadre.user.code}</option>
             </select>
+            <c:if test="${empty dispatch.scDispatchId}">
+            <shiro:hasPermission name="dispatchCadre:addLeaveCadre">
+            <span class="help-block">
+            <a href="javascript:;" class="popupBtn" data-url="${ctx}/dispatchCadre_addLeaveCadre">找不到？点此添加离任干部</a>
+            </span>
+            </shiro:hasPermission>
+            </c:if>
           </div>
         </div>
 

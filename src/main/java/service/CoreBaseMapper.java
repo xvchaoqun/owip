@@ -1,5 +1,9 @@
 package service;
 
+import ext.persistence.*;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.base.*;
 import persistence.base.common.IBaseMapper;
@@ -15,7 +19,6 @@ import persistence.common.IPropertyMapper;
 import persistence.cpc.common.ICpcMapper;
 import persistence.dispatch.*;
 import persistence.dispatch.common.IDispatchMapper;
-import persistence.ext.*;
 import persistence.leader.LeaderMapper;
 import persistence.leader.LeaderUnitMapper;
 import persistence.leader.LeaderUnitViewMapper;
@@ -34,9 +37,12 @@ import persistence.unit.common.IUnitMapper;
 import sys.constants.CadreConstants;
 
 import java.io.File;
+import java.util.List;
 
 public class CoreBaseMapper {
-    
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired(required = false)
     protected HistoryUnitMapper historyUnitMapper;
     @Autowired(required = false)
@@ -330,6 +336,73 @@ public class CoreBaseMapper {
         
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
+    }
+
+    // 调整错误的sort_order
+    public void adjustSortOrder(String tableName, String whereSql){
+
+        adjustSortOrder(tableName, "id", whereSql);
+    }
+
+    public void adjustSortOrder(String tableName, String idName, String whereSql){
+
+        List<Integer> ids = commonMapper.getWrongSortOrderRecordIds(tableName, idName, whereSql);
+        if(ids.size()>0) {
+
+            logger.error("adjustSortOrder, {}, {}, {}, {}", tableName, idName, whereSql, StringUtils.join(ids, ","));
+            for (Integer id : ids) {
+
+                int nextSortOrder = getNextSortOrder(tableName, whereSql);
+                commonMapper.excuteSql("update " + tableName + " set sort_order = " + nextSortOrder + " where " + idName + "=" + id);
+            }
+        }
+    }
+
+    public void changeOrder(String tableName, String whereSql, byte orderBy,
+                            Integer id, int addNum) {
+
+        changeOrder(tableName, "id", whereSql, orderBy, id, addNum);
+    }
+
+    /**
+     * 表排序，要求表的主键为int类型，排序字段名为sort_order，且为int类型
+     *
+     * @param tableName 表名
+     * @param idName  主键字段名
+     * @param whereSql 排序范围查询条件
+     * @param orderBy 正序/逆序
+     * @param id 主键值
+     * @param addNum 调整步长，id=null 或 addNum=0时，仅进行校正sort_order操作
+     */
+    public void changeOrder(String tableName, String idName, String whereSql, byte orderBy,
+                            Integer id, int addNum){
+
+        // 校正sort_order
+        adjustSortOrder(tableName, idName, whereSql);
+
+        if(addNum==0 || id==null) return;
+
+        Integer baseSortOrder = commonMapper.getSortOrder(tableName, idName, id);
+        if (baseSortOrder == null) return;
+
+        String targetSql = StringUtils.trimToEmpty(whereSql) + (StringUtils.isBlank(whereSql)?"":" and ");
+        if (addNum * orderBy > 0) {
+            targetSql += "sort_order > " + baseSortOrder + " order by sort_order asc limit " + (Math.abs(addNum) - 1) + ",1";
+        } else {
+            targetSql += "sort_order < " + baseSortOrder + " order by sort_order desc limit " + (Math.abs(addNum) - 1) + ",1";
+        }
+
+        Integer targetSortOrder = commonMapper.getTargetSortOrder(tableName, targetSql);
+        if (targetSortOrder != null) {
+
+            if (addNum * orderBy > 0) {
+                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetSortOrder);
+            } else {
+                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetSortOrder);
+            }
+
+            commonMapper.excuteSql("update " + tableName + " set sort_order=" + targetSortOrder + " where "+ idName +"=" + id);
+        }
     }
 
     public String getMainAdminLevelCode(byte cadreType){

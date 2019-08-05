@@ -76,7 +76,7 @@
                                     </td>
                                     <td colspan="3" width="50">选举结果报告单<c:if test="${not empty pcsPrRecommend.reportFilePath}">
                                         (<a href="javascript:void(0)" class="popupBtn"
-                                        data-url="${ctx}/swf/preview?path=${cm:encodeURI(pcsPrRecommend.reportFilePath)}&filename=${cm:encodeURI("选举结果报告单.pdf")}">预览已上传</a>)
+                                        data-url="${ctx}/pdf_preview?path=${cm:encodeURI(pcsPrRecommend.reportFilePath)}&filename=${cm:encodeURI("选举结果报告单.pdf")}">预览已上传</a>)
                                     </c:if>：
                                     </td>
                                     <td width="200">
@@ -226,7 +226,7 @@
         {
             label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
         },
-        {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '民族', name: 'nation', width: 60},
         {
@@ -253,7 +253,7 @@
             width: 120,
             sortable: true,
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
             label: '职别', name: 'proPost', formatter: function (cellvalue, options, rowObject) {

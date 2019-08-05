@@ -1,5 +1,8 @@
 package controller;
 
+import ext.service.ExtService;
+import ext.service.ShortMsgService;
+import ext.service.SyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.BaseMapper;
@@ -16,8 +19,6 @@ import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveOriginService;
 import service.cadreReserve.CadreReserveService;
 import service.crp.CrpRecordService;
-import service.ext.ExtService;
-import service.ext.SyncService;
 import service.global.CacheService;
 import service.leader.LeaderService;
 import service.leader.LeaderUnitService;

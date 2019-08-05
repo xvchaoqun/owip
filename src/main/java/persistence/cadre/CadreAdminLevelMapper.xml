@@ -5,6 +5,11 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="s_dispatch_id" jdbcType="INTEGER" property="sDispatchId" />
+    <result column="s_work_time" jdbcType="DATE" property="sWorkTime" />
+    <result column="e_dispatch_id" jdbcType="INTEGER" property="eDispatchId" />
+    <result column="e_work_time" jdbcType="DATE" property="eWorkTime" />
+    <result column="s_post" jdbcType="VARCHAR" property="sPost" />
     <result column="start_dispatch_cadre_id" jdbcType="INTEGER" property="startDispatchCadreId" />
     <result column="end_dispatch_cadre_id" jdbcType="INTEGER" property="endDispatchCadreId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -68,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, admin_level, start_dispatch_cadre_id, end_dispatch_cadre_id, remark
+    id, cadre_id, admin_level, s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, 
+    s_post, start_dispatch_cadre_id, end_dispatch_cadre_id, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreAdminLevelExample" resultMap="BaseResultMap">
     select
@@ -102,11 +108,13 @@
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadreAdminLevel">
     insert into cadre_admin_level (id, cadre_id, admin_level, 
-      start_dispatch_cadre_id, end_dispatch_cadre_id, 
-      remark)
+      s_dispatch_id, s_work_time, e_dispatch_id, 
+      e_work_time, s_post, start_dispatch_cadre_id, 
+      end_dispatch_cadre_id, remark)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, 
-      #{startDispatchCadreId,jdbcType=INTEGER}, #{endDispatchCadreId,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR})
+      #{sDispatchId,jdbcType=INTEGER}, #{sWorkTime,jdbcType=DATE}, #{eDispatchId,jdbcType=INTEGER}, 
+      #{eWorkTime,jdbcType=DATE}, #{sPost,jdbcType=VARCHAR}, #{startDispatchCadreId,jdbcType=INTEGER}, 
+      #{endDispatchCadreId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreAdminLevel">
     insert into cadre_admin_level
@@ -119,6 +127,21 @@
       </if>
       <if test="adminLevel != null">
         admin_level,
+      </if>
+      <if test="sDispatchId != null">
+        s_dispatch_id,
+      </if>
+      <if test="sWorkTime != null">
+        s_work_time,
+      </if>
+      <if test="eDispatchId != null">
+        e_dispatch_id,
+      </if>
+      <if test="eWorkTime != null">
+        e_work_time,
+      </if>
+      <if test="sPost != null">
+        s_post,
       </if>
       <if test="startDispatchCadreId != null">
         start_dispatch_cadre_id,
@@ -139,6 +162,21 @@
       </if>
       <if test="adminLevel != null">
         #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sDispatchId != null">
+        #{sDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="sWorkTime != null">
+        #{sWorkTime,jdbcType=DATE},
+      </if>
+      <if test="eDispatchId != null">
+        #{eDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="eWorkTime != null">
+        #{eWorkTime,jdbcType=DATE},
+      </if>
+      <if test="sPost != null">
+        #{sPost,jdbcType=VARCHAR},
       </if>
       <if test="startDispatchCadreId != null">
         #{startDispatchCadreId,jdbcType=INTEGER},
@@ -169,6 +207,21 @@
       <if test="record.adminLevel != null">
         admin_level = #{record.adminLevel,jdbcType=INTEGER},
       </if>
+      <if test="record.sDispatchId != null">
+        s_dispatch_id = #{record.sDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sWorkTime != null">
+        s_work_time = #{record.sWorkTime,jdbcType=DATE},
+      </if>
+      <if test="record.eDispatchId != null">
+        e_dispatch_id = #{record.eDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.eWorkTime != null">
+        e_work_time = #{record.eWorkTime,jdbcType=DATE},
+      </if>
+      <if test="record.sPost != null">
+        s_post = #{record.sPost,jdbcType=VARCHAR},
+      </if>
       <if test="record.startDispatchCadreId != null">
         start_dispatch_cadre_id = #{record.startDispatchCadreId,jdbcType=INTEGER},
       </if>
@@ -188,6 +241,11 @@
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      s_dispatch_id = #{record.sDispatchId,jdbcType=INTEGER},
+      s_work_time = #{record.sWorkTime,jdbcType=DATE},
+      e_dispatch_id = #{record.eDispatchId,jdbcType=INTEGER},
+      e_work_time = #{record.eWorkTime,jdbcType=DATE},
+      s_post = #{record.sPost,jdbcType=VARCHAR},
       start_dispatch_cadre_id = #{record.startDispatchCadreId,jdbcType=INTEGER},
       end_dispatch_cadre_id = #{record.endDispatchCadreId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
@@ -203,6 +261,21 @@
       </if>
       <if test="adminLevel != null">
         admin_level = #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sDispatchId != null">
+        s_dispatch_id = #{sDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="sWorkTime != null">
+        s_work_time = #{sWorkTime,jdbcType=DATE},
+      </if>
+      <if test="eDispatchId != null">
+        e_dispatch_id = #{eDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="eWorkTime != null">
+        e_work_time = #{eWorkTime,jdbcType=DATE},
+      </if>
+      <if test="sPost != null">
+        s_post = #{sPost,jdbcType=VARCHAR},
       </if>
       <if test="startDispatchCadreId != null">
         start_dispatch_cadre_id = #{startDispatchCadreId,jdbcType=INTEGER},
@@ -220,6 +293,11 @@
     update cadre_admin_level
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       admin_level = #{adminLevel,jdbcType=INTEGER},
+      s_dispatch_id = #{sDispatchId,jdbcType=INTEGER},
+      s_work_time = #{sWorkTime,jdbcType=DATE},
+      e_dispatch_id = #{eDispatchId,jdbcType=INTEGER},
+      e_work_time = #{eWorkTime,jdbcType=DATE},
+      s_post = #{sPost,jdbcType=VARCHAR},
       start_dispatch_cadre_id = #{startDispatchCadreId,jdbcType=INTEGER},
       end_dispatch_cadre_id = #{endDispatchCadreId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}

@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import sys.utils.FormUtils;
 
 import java.util.Map;
@@ -49,7 +50,7 @@ public class HtmlFragmentListController extends BaseController{
         HtmlFragment htmlFragment = htmlFragmentService.codeKeyMap().get(cls);
         HtmlFragment record = new HtmlFragment();
         record.setId(htmlFragment.getId());
-        record.setContent(content);
+        record.setContent(HtmlUtils.htmlUnescape(content));
 
         htmlFragmentService.updateByPrimaryKeySelective(record);
 

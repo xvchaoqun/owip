@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.ps.common.IPsMapper">
+    <sql id="countNumberSql">
+        <if test="partyIdList != null and partyIdList.size()>0">
+              and party_id in
+            <foreach collection="partyIdList" item="partyId"
+                     index="index" open="(" close=")" separator=",">
+                  #{partyId}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="count" parameterType="map" resultType="map">
+        SELECT
+          NULLIF ((
+		    SELECT COUNT(*)
+		    FROM ow_member_view as omv
+		    WHERE omv.`type`=1 and omv.`status`=1 and omv.is_retire = 0
+		    <include refid="countNumberSql"/>
+	      ),0) AS teacherNumber,
+          NULLIF ((
+		    SELECT COUNT(*)
+		    FROM ow_member_view as omv
+		    WHERE omv.`type`=2 and omv.`status`=1
+        <include refid="countNumberSql"/>
+	      ),0) AS studentNumber,
+          NULLIF ((
+   	        SELECT COUNT(*)
+   	        FROM ow_member_view as omv
+   	        where omv.`status`=1 and omv.is_retire = 1
+        <include refid="countNumberSql"/>
+	      ),0)as retireNumber,
+          NULLIF ((
+		    select count(*)
+		    from ow_member_view as omv
+		    where omv.`status`=1
+        <include refid="countNumberSql"/>
+          ),0)as countNumber;
+    </select>
+</mapper>

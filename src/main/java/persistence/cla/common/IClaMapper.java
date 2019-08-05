@@ -4,7 +4,6 @@ import domain.cla.ClaApply;
 import domain.cla.ClaApprovalOrder;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 import sys.constants.AbroadConstants;
@@ -43,7 +42,7 @@ public interface IClaMapper {
     List<Integer> getApprovalCadreIds_approverTypeId(@Param("cadreId") Integer cadreId, @Param("approverTypeId") Integer approverTypeId);
 
     // 其他审批人身份 的所在单位 给定一个干部id， 和审批人类别，查找他可以审批的干部的职务属性
-    @Select("select distinct c.post_type from cla_applicat_cadre aac, cla_applicat_type aat, cadre c where aat.id in(" +
+    @Select("select distinct c.post_type from cla_applicat_cadre aac, cla_applicat_type aat, cadre_view c where aat.id in(" +
             "select aao.applicat_type_id from cla_approver_type aat, cla_approver aa, cla_approval_order aao " +
             "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
             "and c.id = aac.cadre_id")

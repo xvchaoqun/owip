@@ -121,7 +121,7 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/cadreReserveOrigin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '添加日期',name: 'addTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+                { label: '添加日期',name: 'addTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
                 { label: '产生方式',name: 'way', width: 160, formatter: $.jgrid.formatter.MAP,
                     formatoptions:{map:_cMap.CADRE_RESERVE_ORIGIN_WAY_MAP}, frozen: true},
                 {
@@ -135,7 +135,7 @@ pageEncoding="UTF-8" %>
                 { label: '推荐形式',name: 'way', width: 160, formatter: $.jgrid.formatter.MAP,
                     formatoptions:{map:_cMap.CADRE_RESERVE_ORIGIN_WAY_MAP}},
                 { label: '推荐单位',name: 'recommendUnit', width: 400},
-                { label: '推荐日期',name: 'recommendDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+                { label: '推荐日期',name: 'recommendDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 {
                     label: '推荐材料', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 
@@ -144,16 +144,16 @@ pageEncoding="UTF-8" %>
                     if ($.trim(pdfFilePath) != '') {
                         var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
                         //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                        ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                        ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                         .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                                + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                                + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                         .format(encodeURI(pdfFilePath), encodeURI(fileName));
                     }
                     var wordFilePath = rowObject.wordFilePath;
                     if ($.trim(wordFilePath) != '') {
 
                         var fileName = (rowObject.fileName || rowObject.id) + (wordFilePath.substr(wordFilePath.indexOf(".")));
-                        ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                        ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
                                 .format(encodeURI(wordFilePath), encodeURI(fileName));
                     }
                     return ret;

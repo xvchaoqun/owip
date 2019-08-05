@@ -141,35 +141,35 @@
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '民族', name: 'nation', width: 60},
-        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
         {
             label: '参加工作时间', name: 'workTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}
         },
-        {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '毕业学校', name: 'school', width: 150},
         {label: '所学专业', name: 'major', width: 180, align: 'left'},
         {label: '专业技术职务', name: 'proPost', width: 120},
-        {label: '专技职务评定时间', name: 'proPostTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-        {label: '专技岗位等级', name: 'proPostLevel', width: 150},
+        {label: '专技职务评定时间', name: 'proPostTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+        {label: '职称级别', name: 'proPostLevel', width: 150},
         {
             label: '专技岗位分级时间',
             name: 'proPostLevelTime',
             width: 130,
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
-        {label: '管理岗位等级', name: 'manageLevel', width: 150},
+        /*{label: '管理岗位等级', name: 'manageLevel', width: 150},
         {
             label: '管理岗位分级时间',
             name: 'manageLevelTime',
             width: 130,
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
-        },
+            formatoptions: {newformat: 'Y.m.d'}
+        },*/
         {
             label: '推荐/自荐', name: 'isRecommend', width: 180, formatter: function (cellvalue, options, rowObject) {
 
@@ -179,7 +179,7 @@
                 if ($.trim(rowObject.recommendCadre) != '') str.push(rowObject.recommendCadre);
                 if ($.trim(rowObject.recommendCrowd) != '') str.push(rowObject.recommendCrowd);
 
-                return $.swfPreview(rowObject.recommendPdf, rowObject.crsPostName+"-推荐-" + rowObject.realname + ".pdf", str.join(","));
+                return $.pdfPreview(rowObject.recommendPdf, rowObject.crsPostName+"-推荐-" + rowObject.realname + ".pdf", str.join(","));
             } else {
                 return "个人报名";
             }
@@ -193,7 +193,7 @@
         }},
         {label: '应聘PPT', name: 'ppt', formatter: function (cellvalue, options, rowObject) {
             if(rowObject.ppt==undefined) return '--'
-            return '<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
+            return '<a href="${ctx}/attach_download?path={0}&filename={1}">下载</a>'
                     .format(rowObject.ppt, rowObject.pptName)
         }},
         {label: '是否为现任干部', name: 'status', width: 180, formatter: function (cellvalue, options, rowObject) {

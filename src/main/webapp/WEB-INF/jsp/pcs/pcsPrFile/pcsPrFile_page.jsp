@@ -47,7 +47,7 @@
                                         <td  style="text-align: left">${template.name}</td>
                                         <c:if test="${empty param.partyId}">
                                             <td>
-                                                <a href="${ctx}/attach/download?path=${cm:encodeURI(template.filePath)}&filename=${cm:encodeURI(template.fileName)}">下载</a>
+                                                <a href="${ctx}/attach_download?path=${cm:encodeURI(template.filePath)}&filename=${cm:encodeURI(template.fileName)}">下载</a>
                                             </td>
                                             <td>
                                                 <a class="popupBtn btn ${not empty file?"btn-success":"btn-primary"} btn-xs ${allowModify?"":"disabled"}"
@@ -58,7 +58,7 @@
                                         <td>
                                             <c:if test="${not empty file}">
                                                 <a href="javascript:void(0)" class="popupBtn"
-                                                   data-url="${ctx}/swf/preview?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}">预览</a>
+                                                   data-url="${ctx}/pdf_preview?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}">预览</a>
                                             </c:if>
                                         </td>
                                     </tr>
@@ -139,7 +139,7 @@
         {
             label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
         },
-        {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生年月', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '民族', name: 'nation', width: 60},
         {
@@ -166,7 +166,7 @@
             width: 120,
             sortable: true,
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
             label: '职别', name: 'proPost', formatter: function (cellvalue, options, rowObject) {

@@ -51,10 +51,10 @@
          </table>
         <table tableName="cla_approver_type" domainObjectName="cla.ClaApproverType" mapperName="cla.ClaApproverTypeMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <table tableName="cla_additional_post" domainObjectName="cla.ClaAdditionalPost"
                mapperName="cla.ClaAdditionalPostMapper">
-        </table>-->
+        </table>
 
         <table tableName="cla_additional_post_view" domainObjectName="cla.ClaAdditionalPostView"
                mapperName="cla.ClaAdditionalPostViewMapper"

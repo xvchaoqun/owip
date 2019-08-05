@@ -117,15 +117,19 @@ public class CrsExpertService extends CrsBaseMapper {
         for (CadreView cadre : cadreList) {
             if (CrsConstants.CRS_EXPERT_CADRE_STATUS_SET.contains(cadre.getStatus())) {
                 List<CadreView> list = null;
-                MetaType postType = postMap.get(cadre.getPostType());
-                int postId = postType.getId();
-                if (postIdCadresMap.containsKey(postId)) {
-                    list = postIdCadresMap.get(postId);
-                }
-                if (null == list) list = new ArrayList<>();
-                list.add(cadre);
+                if(cadre.getPostType()!=null) {
+                    MetaType postType = postMap.get(cadre.getPostType());
+                    if(postType!=null) {
+                        int postId = postType.getId();
+                        if (postIdCadresMap.containsKey(postId)) {
+                            list = postIdCadresMap.get(postId);
+                        }
+                        if (null == list) list = new ArrayList<>();
+                        list.add(cadre);
 
-                postIdCadresMap.put(postId, list);
+                        postIdCadresMap.put(postId, list);
+                    }
+                }
             }
         }
 

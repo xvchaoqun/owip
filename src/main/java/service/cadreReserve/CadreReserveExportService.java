@@ -1,40 +1,27 @@
 package service.cadreReserve;
 
-import domain.base.MetaType;
-import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadrePost;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.dispatch.Dispatch;
-import domain.party.Branch;
-import domain.party.Party;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import persistence.dispatch.common.DispatchCadreRelateBean;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
-import service.party.BranchService;
-import service.party.PartyService;
 import service.unit.UnitService;
 import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,20 +36,13 @@ public class CadreReserveExportService extends BaseMapper {
     @Autowired
     protected UnitService unitService;
     @Autowired
-    protected PartyService partyService;
-    @Autowired
-    protected BranchService branchService;
-    @Autowired
     protected CadrePostService cadrePostService;
 
     public SXSSFWorkbook export(Integer type, CadreReserveViewExample example) {
 
         String cadreReserveType = metaTypeService.getName(type);
 
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Map<Integer, Unit> unitMap = unitService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();
-        Map<Integer, Branch> branchMap = branchService.findAll();
         List<CadreReserveView> records = cadreReserveViewMapper.selectByExample(example);
 
         int rowNum = 0;
@@ -95,16 +75,16 @@ public class CadreReserveExportService extends BaseMapper {
 
         int count = records.size();
         String[] titles = {"工作证号","姓名","部门属性","所在单位","现任职务",
-                "所在单位及职务","行政级别","职务属性", "是否正职","性别",
+                "所在单位及职务","任职时间","行政级别","职务属性", "是否正职","性别",
                 "民族","籍贯","出生地","身份证号","出生时间",
                 "年龄","党派","党派加入时间","参加工作时间","到校时间",
                 "最高学历","最高学位","毕业时间","学习方式","毕业学校",
-                "学校类型","所学专业","岗位类别", "主岗等级","专业技术职务",
-                "专技职务评定时间","专技职务等级","专技岗位分级时间","管理岗位等级", "管理岗位分级时间",
+                "学校类型","所学专业",/*"岗位类别", "主岗等级",*/"专业技术职务",
+                "专技职务评定时间",/*"专技职务等级","专技岗位分级时间","管理岗位等级", "管理岗位分级时间",*/
                 "现职务任命文件","任现职时间","现职务始任时间","现职务始任年限","现职级始任时间",
                 "任现职级年限","兼任单位及职务", "兼任职务现任时间", "兼任职务始任时间", "是否双肩挑",
-                "双肩挑单位","联系方式","党委委员", "纪委委员","电子信箱",
-                "所属党组织","备注"};
+                "双肩挑单位","联系方式",/*"党委委员", "纪委委员",*/"电子信箱",
+                "是否有挂职经历", "备注"};
 
         int columnCount = titles.length;
         Row firstRow = sheet.createRow(rowNum++);
@@ -112,7 +92,7 @@ public class CadreReserveExportService extends BaseMapper {
         for (int i = 0; i < columnCount; i++) {
             Cell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
-            cell.setCellStyle(getHeadStyle(wb));
+            cell.setCellStyle(ExportHelper.getHeadStyle(wb));
         }
 
         int columnIndex = 0;
@@ -123,6 +103,7 @@ public class CadreReserveExportService extends BaseMapper {
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 160));
 
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 300)); // 所在单位及职务
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
@@ -147,16 +128,16 @@ public class CadreReserveExportService extends BaseMapper {
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
 
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100)); // 学校类型
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
+        /*sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));*/
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 160));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
 
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200)); // 专技职务评定时间
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
+        /*sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));*/
 
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150)); // 现职务任命文件
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
@@ -172,25 +153,19 @@ public class CadreReserveExportService extends BaseMapper {
 
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
+        /*sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));*/
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
 
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 500));
+        //sheet.setColumnWidth(columnIndex++, (short) (35.7 * 500));
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 500));
 
         for (int i = 0; i < count; i++) {
             CadreReserveView record = records.get(i);
             SysUserView sysUser =  record.getUser();
 
-            String isPositive = ""; // 是否正职
-            CadrePost mainCadrePost = record.getMainCadrePost();
-            if(mainCadrePost!=null && mainCadrePost.getPostType()!=null){
-                MetaType metaType = metaTypeMap.get(mainCadrePost.getPostType());
-                if(metaType!=null){
-                    isPositive = (BooleanUtils.isTrue(metaType.getBoolAttr()))?"是":"否";
-                }
-            }
+            String isPositive = BooleanUtils.isTrue(record.getIsPrincipal())?"是":"否"; // 是否正职
 
             Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), "中共党员",
                     record.getDpTypeId(), record.getDpGrowTime(), true);
@@ -205,85 +180,76 @@ public class CadreReserveExportService extends BaseMapper {
             String adminLevelYear = ""; // 任现职级年限
             String isDouble = ""; // 是否双肩挑
             String doubleUnit = ""; // 双肩挑单位
-            if(mainCadrePost!=null){
-                DispatchCadreRelateBean dispatchCadreRelateBean = mainCadrePost.getDispatchCadreRelateBean();
-                if(dispatchCadreRelateBean!=null){
-                    Dispatch first = dispatchCadreRelateBean.getFirst();
-                    Dispatch last = dispatchCadreRelateBean.getLast();
-                    if(first!=null){
-                        postDispatchCode = first.getDispatchCode();
-                        postStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYY_MM_DD);
-                        Integer year = DateUtils.intervalYearsUntilNow(first.getWorkTime());
-                        if(year==0) postYear= "未满一年";
-                        else postYear = year + "";
-                    }
 
-                    if(last!=null){
-                        postTime = DateUtils.formatDate(last.getWorkTime(), DateUtils.YYYY_MM_DD);
-                    }
-                }
-                isDouble = BooleanUtils.isTrue(mainCadrePost.getIsDouble())?"是":"否";
-                String doubleUnitIds = mainCadrePost.getDoubleUnitIds();
-                if(doubleUnitIds!=null){
-                    List<String> doubleUnits = new ArrayList<>();
-                    for (String doubleUnitId : doubleUnitIds.split(",")) {
-                        Unit unit = unitMap.get(Integer.valueOf(doubleUnitId));
-                        doubleUnits.add((unit!=null)?unit.getName():"");
-                    }
-                    doubleUnit = StringUtils.join(doubleUnits, ",");
-                }
+            Dispatch first = CmTag.getDispatch(record.getNpDispatchId()); // 现职务始任文件
+            if (first != null) {
+                postDispatchCode = first.getDispatchCode();
             }
 
-            CadreAdminLevel presentAdminLevel = record.getPresentAdminLevel();
-            if(presentAdminLevel!=null){
-                Dispatch startDispatch = presentAdminLevel.getStartDispatch();
-                Dispatch endDispatch = presentAdminLevel.getEndDispatch();
-
-                Date endDate = new Date();
-                if(endDispatch!=null) endDate =endDispatch.getWorkTime();
-                if(startDispatch!=null){
-                    adminLevelStartTime = DateUtils.formatDate(startDispatch.getWorkTime(), DateUtils.YYYY_MM_DD);
-
-                    Integer monthDiff = DateUtils.monthDiff(startDispatch.getWorkTime(), endDate);
-                    int year = monthDiff/12;
-                    if(year==0) adminLevelYear= "未满一年";
-                    else adminLevelYear = year + "";
-                }
+            if(record.getNpWorkTime()!=null) {
+                postStartTime = DateUtils.formatDate(record.getNpWorkTime(), DateUtils.YYYYMMDD_DOT);
+                Integer year = DateUtils.intervalYearsUntilNow(record.getNpWorkTime());
+                if (year == 0) postYear = "未满一年";
+                else postYear = year + "";
             }
 
-            String partyFullName = ""; // 所属党组织
-            if(record.getPartyId()!=null){
+            if(record.getLpWorkTime()!=null) {
+                postTime = DateUtils.formatDate(record.getLpWorkTime(), DateUtils.YYYYMMDD_DOT);
+            }
+
+            if(record.getsWorkTime()!=null) {
+                adminLevelStartTime = DateUtils.formatDate(record.getsWorkTime(), DateUtils.YYYYMMDD_DOT);
+                Date eWorkTime = record.geteWorkTime();
+                Integer monthDiff = DateUtils.monthDiff(record.getsWorkTime(), eWorkTime == null ? new Date() : eWorkTime);
+                int year = monthDiff / 12;
+                if (year == 0) adminLevelYear = "未满一年";
+                else adminLevelYear = year + "";
+            }
+
+            isDouble = BooleanUtils.isTrue(record.getIsDouble()) ? "是" : "否";
+            String doubleUnitIds = record.getDoubleUnitIds();
+            if (doubleUnitIds != null) {
+                List<String> doubleUnits = new ArrayList<>();
+                for (String doubleUnitId : doubleUnitIds.split(",")) {
+                    Unit unit = unitMap.get(Integer.valueOf(doubleUnitId));
+                    doubleUnits.add((unit != null) ? unit.getName() : "");
+                }
+                doubleUnit = StringUtils.join(doubleUnits, ",");
+            }
+
+            /*String partyFullName = ""; // 所属党组织
+            if (record.getPartyId() != null) {
                 Party party = partyMap.get(record.getPartyId());
-                if(party!=null){
+                if (party != null) {
                     partyFullName = party.getName();
-                    if(record.getBranchId()!=null){
+                    if (record.getBranchId() != null) {
                         Branch branch = branchMap.get(record.getBranchId());
-                        if(branch!=null){
+                        if (branch != null) {
                             partyFullName += "-" + branch.getName();
                         }
                     }
                 }
-            }
+            }*/
 
             String subPost = ""; // 兼任单位及职务
             String subPostTime = ""; // 兼任职务现任时间
             String subPostStartTime = ""; // 兼任职务始任时间
             List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(record.getId());
-            if(subCadrePosts.size()>0){
+            if (subCadrePosts.size() > 0) {
                 CadrePost cadrePost = subCadrePosts.get(0);
                 //Unit unit = unitMap.get(cadrePost.getUnitId());
                 //MetaType metaType = metaTypeMap.get(cadrePost.getPostId());
                 //subPost = unit.getName() + ((metaType==null)?"":metaType.getName());
-                subPost = cadrePost.getPost();
-
-                DispatchCadreRelateBean dispatchCadreRelateBean = cadrePost.getDispatchCadreRelateBean();
-                if(dispatchCadreRelateBean!=null){
-                    Dispatch first = dispatchCadreRelateBean.getFirst();
-                    Dispatch last = dispatchCadreRelateBean.getLast();
-
-                    if(last!=null) subPostTime = DateUtils.formatDate(last.getWorkTime(), DateUtils.YYYY_MM_DD);
-                    if(first!=null) subPostStartTime = DateUtils.formatDate(first.getWorkTime(), DateUtils.YYYY_MM_DD);
+                if (cadrePost.getUnitId() != null) {
+                    Unit unit = unitMap.get(cadrePost.getUnitId());
+                    if (unit != null) {
+                        subPost += StringUtils.trimToEmpty(unit.getName());
+                    }
                 }
+                subPost += StringUtils.trimToEmpty(cadrePost.getPost());
+
+                subPostTime = DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT);
+                subPostStartTime = DateUtils.formatDate(cadrePost.getNpWorkTime(), DateUtils.YYYYMMDD_DOT);
             }
 
             Unit unit = record.getUnit();
@@ -295,6 +261,7 @@ public class CadreReserveExportService extends BaseMapper {
                     record.getPost(),
 
                     record.getTitle(),
+                    DateUtils.formatDate(record.getReservePostTime(), DateUtils.YYYYMM),
                     metaTypeService.getName(record.getAdminLevel()),
                     metaTypeService.getName(record.getPostType()),
                     isPositive,
@@ -304,13 +271,13 @@ public class CadreReserveExportService extends BaseMapper {
                     record.getNativePlace(),
                     record.getUser().getHomeplace(),
                     record.getIdcard(),
-                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),
 
                     DateUtils.calAge(record.getBirth()),
                     StringUtils.trimToEmpty(partyName),
                     StringUtils.trimToEmpty(partyAddTime),
                     "", //参加工作时间
-                    DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYYMMDD_DOT),
 
                     metaTypeService.getName(record.getEduId()),
                     record.getDegree(),
@@ -320,15 +287,15 @@ public class CadreReserveExportService extends BaseMapper {
 
                     record.getSchoolType()==null?"":CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
                     record.getMajor(),
-                    record.getPostClass(),
-                    record.getMainPostLevel(),
+                    /*record.getPostClass(),
+                    record.getMainPostLevel(),*/
                     record.getProPost(),
 
-                    DateUtils.formatDate(record.getProPostTime(), DateUtils.YYYY_MM_DD),
-                    record.getProPostLevel(),
-                    DateUtils.formatDate(record.getProPostLevelTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getProPostTime(), DateUtils.YYYYMMDD_DOT),
+                    /*record.getProPostLevel(),
+                    DateUtils.formatDate(record.getProPostLevelTime(), DateUtils.YYYYMMDD_DOT),
                     record.getManageLevel(),
-                    DateUtils.formatDate(record.getManageLevelTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getManageLevelTime(), DateUtils.YYYYMMDD_DOT),*/
 
                     postDispatchCode, // 现职务任命文件
                     postTime,
@@ -344,11 +311,12 @@ public class CadreReserveExportService extends BaseMapper {
 
                     doubleUnit,
                     record.getMobile(),
-                    "", // 党委委员
-                    "",
+                    /*"", // 党委委员
+                    "",*/
                     record.getEmail(),
 
-                    partyFullName,
+                    //partyFullName,
+                    BooleanUtils.isTrue(record.getHasCrp()) ? "是" : "否",
                     record.getRemark()
             };
 
@@ -360,53 +328,10 @@ public class CadreReserveExportService extends BaseMapper {
                 String value = values[j];
                 if(StringUtils.isBlank(value)) value="-";
                 cell.setCellValue(value);
-                cell.setCellStyle(getBodyStyle(wb));
+                cell.setCellStyle(ExportHelper.getBodyStyle(wb));
             }
         }
 
        return wb;
-    }
-
-    public static CellStyle getBodyStyle(Workbook wb) {
-        // 创建单元格样式
-        CellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(HorizontalAlignment.CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        Font font = wb.createFont();
-        // 设置字体加粗
-        //font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 220);
-        cellStyle.setFont(font);
-        return cellStyle;
-    }
-
-    public static CellStyle getHeadStyle(Workbook wb) {
-        // 创建单元格样式
-        CellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(HorizontalAlignment.CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        Font font = wb.createFont();
-        // 设置字体加粗
-        font.setBold(true);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 250);
-        cellStyle.setFont(font);
-        // 设置单元格边框为细线条
-       /* cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);*/
-        return cellStyle;
     }
 }

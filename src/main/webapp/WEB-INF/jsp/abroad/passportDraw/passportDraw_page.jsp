@@ -5,6 +5,8 @@
 <c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW%>"/>
 <c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF"
        value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
+<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF"
+       value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF%>"/>
 <c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER"
        value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER%>"/>
 
@@ -26,12 +28,12 @@
                         </a>
                     </li>
                     <c:set var="countCacheKeys"
-                           value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
+                           value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
                            data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_TW}"><i
-                                class="fa fa-credit-card"></i> 因公赴台、长期因公出国
+                                class="fa fa-credit-card"></i> 因公赴台、长期因公出国、因公出访持因私证件
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
@@ -272,16 +274,16 @@
                 name: 'applyDate',
                 frozen: true,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
             {
-                label: '申请类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
+                label: '申请类型', name: 'type',width: 130, formatter: function (cellvalue, options, rowObject) {
                     return _cMap.ABROAD_PASSPORT_DRAW_TYPE_MAP[cellvalue];
                 }, frozen: true
             },
             </c:if>
-            {label: '工作证号', name: 'user.code', frozen: true},
+            {label: '工作证号', name: 'user.code',width: 120, frozen: true},
             {
                 label: '姓名',
                 align: 'center',
@@ -326,13 +328,13 @@
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用开始日期"}',
                 name: 'startDate', width: 120,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"使用结束日期"}',
                 name: 'endDate', width: 120,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
@@ -451,7 +453,7 @@
                     }
                 },
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '催交证件',
@@ -549,7 +551,7 @@
             {
                 label: '附件', formatter: function (cellvalue, options, rowObject) {
                     //console.log(rowObject.attachmentFilename)
-                    return $.swfPreview(rowObject.attachment, rowObject.attachmentFilename, "查看");
+                    return $.pdfPreview(rowObject.attachment, rowObject.attachmentFilename, "查看");
                 }
             },
             {label: '备注', name:'remark', width:350, align:'left'},
@@ -573,7 +575,7 @@
 
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
             .format($(this.element).data('path'), this.title);
     });
 

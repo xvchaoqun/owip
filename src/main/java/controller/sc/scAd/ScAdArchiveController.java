@@ -212,6 +212,7 @@ public class ScAdArchiveController extends ScBaseController {
         //输出文件 (系统一开始没设定归档时间，所以部分数据无归档时间）
         String filename = StringUtils.trimToEmpty(DateUtils.formatDate(saveTime, "yyyy.MM.dd")) + " 干部任免审批表 " + cadre.getRealname();
         response.reset();
+        DownloadUtils.addFileDownloadCookieHeader(response);
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");

@@ -52,11 +52,11 @@
       { label:'状态',name: 'status', formatter:function(cellvalue, options, rowObject){
         return _cMap.MEMBER_STATUS_MAP[cellvalue];
       }},
-      { label:'提交书面申请书时间',  name: 'applyTime', width: 180, formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
-      { label:'确定为入党积极分子时间',  name: 'activeTime', width: 180, formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
-      { label:'确定为发展对象时间',  name: 'candidateTime', width: 180, formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
-      { label:'入党时间',  name: 'growTime', formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
-      { label:'转正时间',  name: 'positiveTime', formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y-m-d'}},
+      { label:'提交书面申请书时间',  name: 'applyTime', width: 180, formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y.m.d'}},
+      { label:'确定为入党积极分子时间',  name: 'activeTime', width: 180, formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y.m.d'}},
+      { label:'确定为发展对象时间',  name: 'candidateTime', width: 180, formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y.m.d'}},
+      { label:'入党时间',  name: 'growTime', formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y.m.d'}},
+      { label:'转正时间',  name: 'positiveTime', formatter:$.jgrid.formatter.date,formatoptions: {newformat:'Y.m.d'}},
       { label:'党内职务',  name: 'partyPost', width: 150},
       { label:'党内奖励',  name: 'partyReward', width: 150},
       { label:'其他奖励',  name: 'otherReward', width: 150},

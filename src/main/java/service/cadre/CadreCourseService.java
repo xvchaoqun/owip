@@ -67,7 +67,7 @@ public class CadreCourseService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             int count = cadreCourseMapper.countByExample(example);
             if (count != ids.length) {
-                throw new OpException("数据异常");
+                throw new OpException("数据请求校验不通过");
             }
         }
         CadreCourseExample example = new CadreCourseExample();
@@ -86,13 +86,15 @@ public class CadreCourseService extends BaseMapper {
 
         if (addNum == 0) return;
 
+        byte orderBy = ORDER_BY_ASC;
+
         CadreCourse entity = cadreCourseMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         Integer cadreId = entity.getCadreId();
         Byte type = entity.getType();
 
         CadreCourseExample example = new CadreCourseExample();
-        if (addNum > 0) { // 下降
+        if (addNum*orderBy > 0) { // 下降
 
             example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderGreaterThan(baseSortOrder);
@@ -108,7 +110,7 @@ public class CadreCourseService extends BaseMapper {
         if (overEntities.size() > 0) {
 
             CadreCourse targetEntity = overEntities.get(overEntities.size() - 1);
-            if (addNum > 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder("cadre_course", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL
                         + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
             else
@@ -236,13 +238,16 @@ public class CadreCourseService extends BaseMapper {
                 modify.setId(null);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-                cadreCourseMapper.insertSelective(modify); // 插入新纪录
+                batchAdd(modify, modify.getName()); // 插入新纪录
                 record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
+                CadreCourse original = cadreCourseMapper.selectByPrimaryKey(originalId);
+
                 CadreCourse modify = cadreCourseMapper.selectByPrimaryKey(modifyId);
                 modify.setId(originalId);
+                modify.setSortOrder(original.getSortOrder()); // 保持原排序
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
                 cadreCourseMapper.updateByPrimaryKey(modify); // 覆盖原纪录

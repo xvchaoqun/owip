@@ -70,13 +70,22 @@
             </div>
         </div>
     </div>
-    <div class="clearfix form-actions center">
+    <div class="clearfix form-actions center" style="margin-top: 0">
+        <div class="note">
+            淡黄色底色的人员已经生效中，如果再次选择并提交，将新增一条记录。
+        </div>
         <button class="btn btn-info" type="submit">
             <i class="ace-icon fa fa-check bigger-110"></i>
             提交
         </button>
     </div>
 </div>
+<style>
+ul.dynatree-container{border: none;}
+  .hasAuth .dynatree-title{
+      background-color: lightgoldenrodyellow;
+  }
+</style>
 <script>
 
     $('#batchForm input[name=isUnlimited]').on('switchChange.bootstrapSwitch', function(event, state) {

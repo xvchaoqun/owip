@@ -367,7 +367,7 @@
             width: 120,
             sortable: true,
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
             label: '职别', name: 'proPost', formatter: function (cellvalue, options, rowObject) {

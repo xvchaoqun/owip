@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.cla.common.ClaApproverTypeBean;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class ClaExportController extends ClaBaseController {
         Integer cadreId = claApply.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();

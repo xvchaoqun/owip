@@ -236,6 +236,11 @@ public class MetaTypeService extends BaseMapper {
         Integer baseSortOrder = entity.getSortOrder();
         int classId = entity.getClassId();
 
+        String tableName = "base_meta_type";
+        String whereSql = "class_id=" + classId;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
         MetaTypeExample example = new MetaTypeExample();
         if (addNum*orderBy > 0) {
 
@@ -253,9 +258,9 @@ public class MetaTypeService extends BaseMapper {
             MetaType targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("base_meta_type", "class_id=" + classId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_meta_type", "class_id=" + classId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
             MetaType record = new MetaType();
             record.setId(id);

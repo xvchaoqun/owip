@@ -69,7 +69,7 @@
                                         <label>所属${_p_partyName}</label>
                                         <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                                                 data-placeholder="请选择所属${_p_partyName}">
-                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                            <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                         </select>
                                         <script>
                                             $.register.del_select($("#searchForm select[name=partyId]"), 350)
@@ -165,16 +165,16 @@
             {label: '身份证号', name: 'idcard', width: 170},
 
             {
-                label: '出生日期', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}
+                label: '出生日期', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}
             },
             {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
-            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '岗位类别', name: 'postClass'},
             {label: '主岗等级', name: 'mainPostLevel', width: 150},
             {label: '专业技术职务', name: 'proPost', width: 120},
-            {label: '专技岗位等级', name: 'proPostLevel', width: 150},
-            {label: '管理岗位等级', name: 'manageLevel', width: 150},
+            {label: '职称级别', name: 'proPostLevel', width: 150},
+            /*{label: '管理岗位等级', name: 'manageLevel', width: 150},*/
             { label: '办公电话', name: 'officePhone' },
             { label: '手机号', name: 'mobile' },
             {

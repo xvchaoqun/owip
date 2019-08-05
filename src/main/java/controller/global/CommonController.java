@@ -2,7 +2,6 @@ package controller.global;
 
 import controller.BaseController;
 import domain.abroad.Passport;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
@@ -162,13 +161,13 @@ public class CommonController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, unitIds, isCommittee,
+        List<CadreView> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, unitIds, isCommittee,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != cadres && cadres.size() > 0) {
 
-            for (Cadre cadre : cadres) {
+            for (CadreView cadre : cadres) {
                 Map<String, String> option = new HashMap<>();
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 option.put("id", (key == 0) ? (cadre.getId() + "") : (cadre.getUserId() + ""));
@@ -274,13 +273,13 @@ public class CommonController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null, null,
+        List<CadreView> cadres = iCadreMapper.selectCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null, null,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != cadres && cadres.size() > 0) {
 
-            for (Cadre cadre : cadres) {
+            for (CadreView cadre : cadres) {
                 Map<String, String> option = new HashMap<>();
                 option.put("id", cadre.getId() + "");
                 SysUserView uv = sysUserService.findById(cadre.getUserId());

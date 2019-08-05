@@ -1,7 +1,7 @@
 package controller.pmd;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;

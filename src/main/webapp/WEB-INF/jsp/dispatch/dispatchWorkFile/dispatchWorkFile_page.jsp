@@ -163,16 +163,16 @@
                 if ($.trim(pdfFilePath) != '') {
                     var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName));
                 }
                 var wordFilePath = rowObject.wordFilePath;
                 if ($.trim(wordFilePath) != '') {
 
                     var fileName = (rowObject.fileName || rowObject.id) + (wordFilePath.substr(wordFilePath.indexOf(".")));
-                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                    ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
                             .format(encodeURI(wordFilePath), encodeURI(fileName));
                 }
                 return ret;
@@ -180,7 +180,7 @@
             },
             {label: '发文单位', name: 'unitType', width: 120, formatter: $.jgrid.formatter.MetaType},
             {label: '发文号', name: 'code', width: 150},
-            {label: '发文日期', name: 'pubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '发文日期', name: 'pubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年度', name: 'year', width: 75},
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder

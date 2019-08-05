@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
@@ -57,6 +58,8 @@ public class SitemapController extends BaseController {
     @RequestMapping(value="/sitemap_au", method= RequestMethod.POST)
     @ResponseBody
     public Map do_sitemap_au(@CurrentUser SysUserView loginUser, Sitemap sitemap, HttpServletRequest request) {
+
+        sitemap.setUrl(HtmlUtils.htmlUnescape(sitemap.getUrl()));
 
         if(sitemap.getId() == null){
 

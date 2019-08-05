@@ -123,7 +123,7 @@
             <img src="${ctx}/qrcode?content=${cm:encodeURI(content)}&_=<%=new Date().getTime()%>"/>
         </div>
     </div>
-    <shiro:hasPermission name="sysSync:edit">
+    <shiro:hasPermission name="sysSync:user">
     <c:if test="${sysUser.casUser}">
         <div class="clearfix form-actions center">
             <button class="btn btn-info  btn-pink" onclick="sync_user(${param.userId}, this)" type="button"

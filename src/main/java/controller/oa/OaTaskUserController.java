@@ -64,6 +64,7 @@ public class OaTaskUserController extends OaBaseController {
                                 int taskId,
                                 Integer userId,
                                 String mobile,
+                                Boolean hasReport,
                                 Byte status,
                                 @RequestParam(required = false, defaultValue = "0") int export,
                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录, userId
@@ -92,6 +93,9 @@ public class OaTaskUserController extends OaBaseController {
         }
         if (StringUtils.isNotBlank(mobile)) {
             criteria.andMobileLike(SqlUtils.like(mobile));
+        }
+        if(hasReport!=null){
+            criteria.andHasReportEqualTo(hasReport);
         }
         if (status != null) {
             criteria.andStatusEqualTo(status);

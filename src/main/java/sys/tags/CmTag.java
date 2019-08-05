@@ -5,6 +5,7 @@ import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
 import domain.dispatch.*;
+import domain.leader.Leader;
 import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
 import domain.party.Party;
@@ -31,8 +32,10 @@ import service.cadre.*;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchTypeService;
-import service.ext.ExtService;
+import ext.service.ExtService;
+import ext.service.SyncService;
 import service.global.CacheService;
+import service.leader.LeaderService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
 import service.party.BranchService;
@@ -45,6 +48,7 @@ import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import java.io.File;
@@ -68,6 +72,7 @@ public class CmTag {
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
 
     static ExtService extService = context.getBean(ExtService.class);
+    static SyncService syncService = context.getBean(SyncService.class);
 
     static UnitService unitService = context.getBean(UnitService.class);
     static PartyService partyService = context.getBean(PartyService.class);
@@ -75,6 +80,7 @@ public class CmTag {
     static PsInfoService psInfoService = context.getBean(PsInfoService.class);
 
     static CadreService cadreService = context.getBean(CadreService.class);
+    static LeaderService leaderService = context.getBean(LeaderService.class);
     static CadrePostService cadrePostService = context.getBean(CadrePostService.class);
     static CadreAdminLevelService cadreAdminLevelService = context.getBean(CadreAdminLevelService.class);
     static CadreFamilyService cadreFamilyService = context.getBean(CadreFamilyService.class);
@@ -131,6 +137,13 @@ public class CmTag {
 
         String stringProperty = getStringProperty(key);
         if(StringUtils.isBlank(stringProperty)) return null;
+
+        return Integer.valueOf(stringProperty);
+    }
+    public static Integer getIntProperty(String key, int def){
+
+        String stringProperty = getStringProperty(key);
+        if(StringUtils.isBlank(stringProperty)) return def;
 
         return Integer.valueOf(stringProperty);
     }
@@ -317,6 +330,13 @@ public class CmTag {
         return cadreService.dbFindByUserId(userId);
     }
 
+    public static Leader getLeader(Integer userId) {
+
+        if(userId==null) return null;
+
+        return leaderService.findAll().get(userId);
+    }
+
     // 主职
     public static CadrePost getCadreMainCadrePostById(Integer id) {
         return cadrePostService.getCadreMainCadrePostById(id);
@@ -395,6 +415,10 @@ public class CmTag {
     public static String getUserUnit(Integer userId) {
 
         return extService.getUnit(userId);
+    }
+    public static void snycTeacherInfo(Integer userId, SysUserView uv){
+
+        syncService.snycTeacherInfo(userId, uv);
     }
 
     public static Unit getUnit(Integer unitId) {
@@ -503,6 +527,21 @@ public class CmTag {
         return cadreInfoCheckService.canUpdate(cadreId, name);
     }
 
+    public static Boolean roleIsPermitted(String role, String permission){
+
+        return cacheService.roleIsPermitted(role, permission);
+    }
+
+    public static Boolean userIsPermitted(Integer userId, String permission){
+
+        return cacheService.userIsPermitted(userId, permission);
+    }
+
+    public static Boolean userHasRole(Integer userId, String role){
+
+        return cacheService.userHasRole(userId, role);
+    }
+
     public static Byte cadreInfoCheck(Integer cadreId, String name, Integer type){
 
         CadreInfoCheckService cadreInfoCheckService = getBean(CadreInfoCheckService.class);
@@ -592,15 +631,17 @@ public class CmTag {
     }
 
     // 读取学历名称，用于任免审批表
-    public static String getEduName(int eduId){
+    public static String getEduName(Integer eduId){
+
+        if(eduId==null) return "";
 
         MetaType bk = CmTag.getMetaTypeByCode("mt_edu_bk");
         MetaType master = CmTag.getMetaTypeByCode("mt_edu_master");
         MetaType doctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
 
-        if(eduId == bk.getId()){
+        if(eduId == bk.getId().intValue()){
             return "大学";
-        }else if(eduId == master.getId() || eduId == doctor.getId()){
+        }else if(eduId == master.getId().intValue() || eduId == doctor.getId().intValue()){
             return "研究生";
         }
 
@@ -651,6 +692,7 @@ public class CmTag {
 
     public static String getShortPic(String picPath) {
 
-        return (picPath.contains(".") ? picPath.substring(0, picPath.lastIndexOf(".")) : picPath) + "_s.jpg";
+        return (picPath.contains(".") ? picPath.substring(0, picPath.lastIndexOf(".")) : picPath)
+                + "_s" + StringUtils.defaultIfBlank(FileUtils.getExtention(picPath), ".jpg");
     }
 }

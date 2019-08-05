@@ -1,5 +1,6 @@
 package controller.ps;
 
+import domain.party.Party;
 import domain.ps.PsAdminParty;
 import domain.ps.PsAdminPartyExample;
 import domain.ps.PsAdminPartyExample.Criteria;
@@ -11,12 +12,15 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.party.PartyMapper;
+import persistence.ps.PsAdminPartyMapper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -32,17 +36,24 @@ import java.util.*;
 @Controller
 @RequestMapping("/ps")
 public class PsAdminPartyController extends PsBaseController {
+    @Autowired
+    private PartyMapper partyMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("psAdminParty:list")
+    //@RequiresPermissions("psAdminParty:list")
     @RequestMapping("/psAdminParty")
-    public String psAdminParty() {
-
+    public String psAdminParty(Integer adminId,ModelMap modelMap) {
+        PsAdminPartyExample psAdminPartyExample = new PsAdminPartyExample();
+        psAdminPartyExample.createCriteria()
+                .andAdminIdEqualTo(adminId)
+                .andIsHistoryEqualTo(false);
+        List<PsAdminParty> psAdminParties = psAdminPartyMapper.selectByExample(psAdminPartyExample);
+        modelMap.put("psAdminParties",psAdminParties);
         return "ps/psAdminParty/psAdminParty_page";
     }
 
-    @RequiresPermissions("psAdminParty:list")
+    //@RequiresPermissions("psAdminParty:list")
     @RequestMapping("/psAdminParty_data")
     @ResponseBody
     public void psAdminParty_data(HttpServletResponse response,
@@ -92,18 +103,21 @@ public class PsAdminPartyController extends PsBaseController {
         return;
     }
 
-    @RequiresPermissions("psAdminParty:edit")
+    //@RequiresPermissions("psAdminParty:edit")
     @RequestMapping(value = "/psAdminParty_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psAdminParty_au(PsAdminParty record, HttpServletRequest request) {
+    public Map do_psAdminParty_au(PsAdminParty record, String _startDate, String _endDate, HttpServletRequest request) {
 
         Integer id = record.getId();
-
-        /*if (psAdminPartyService.idDuplicate(id, code)) {
-            return failed("添加重复");
-        }*/
+        if (StringUtils.isNotBlank(_startDate)){
+            record.setStartDate(DateUtils.parseDate(_startDate,DateUtils.YYYYMMDD_DOT));
+        }
+        if (StringUtils.isNotBlank(_endDate)){
+            record.setEndDate(DateUtils.parseDate(_endDate,DateUtils.YYYYMMDD_DOT));
+        }
         if (id == null) {
-            
+
+            record.setIsHistory(false);
             psAdminPartyService.insertSelective(record);
             logger.info(log( LogConstants.LOG_PS, "添加二级党校管理员管理的单位：{0}", record.getId()));
         } else {
@@ -115,18 +129,22 @@ public class PsAdminPartyController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("psAdminParty:edit")
+    //@RequiresPermissions("psAdminParty:edit")
     @RequestMapping("/psAdminParty_au")
-    public String psAdminParty_au(Integer id, ModelMap modelMap) {
+    public String psAdminParty_au(Integer id,ModelMap modelMap,
+                                  @RequestParam(required = false, defaultValue = "0")boolean isHistory) {
 
         if (id != null) {
             PsAdminParty psAdminParty = psAdminPartyMapper.selectByPrimaryKey(id);
+            Party party = partyMapper.selectByPrimaryKey(psAdminParty.getPartyId());
             modelMap.put("psAdminParty", psAdminParty);
+            modelMap.put("party",party);
         }
+        modelMap.put("isHistory",isHistory);
         return "ps/psAdminParty/psAdminParty_au";
     }
 
-    @RequiresPermissions("psAdminParty:del")
+    //@RequiresPermissions("psAdminParty:del")
     @RequestMapping(value = "/psAdminParty_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psAdminParty_del(HttpServletRequest request, Integer id) {
@@ -139,18 +157,16 @@ public class PsAdminPartyController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("psAdminParty:del")
+    //@RequiresPermissions("psAdminParty:del")
     @RequestMapping(value = "/psAdminParty_batchDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map psAdminParty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
+    public String psAdminParty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
             psAdminPartyService.batchDel(ids);
             logger.info(log( LogConstants.LOG_PS, "批量删除二级党校管理员管理的单位：{0}", StringUtils.join(ids, ",")));
         }
 
-        return success(FormUtils.SUCCESS);
+        return "ps/psAdminParty/psAdminParty_au";
     }
 
     /*@RequiresPermissions("psAdminParty:changeOrder")

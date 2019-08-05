@@ -154,8 +154,7 @@
                                                         data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects?auth=1"
                                                         name="partyId" data-placeholder="请选择">
-                                                    <option value="${party.id}"
-                                                            title="${party.isDeleted}">${party.name}</option>
+                                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group" style="${(empty branch)?'display: none':''}"
@@ -164,8 +163,7 @@
                                                 <select class="form-control" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/branch_selects?auth=1"
                                                         name="branchId" data-placeholder="请选择党支部">
-                                                    <option value="${branch.id}"
-                                                            title="${branch.isDeleted}">${branch.name}</option>
+                                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
                                                 </select>
                                             </div>
                                             <script>
@@ -351,9 +349,9 @@
             }
             },
             {label: '是否持有《中国共产党流动党员活动证》', name: 'hasPapers', width: 300, formatter: $.jgrid.formatter.TRUEFALSE},
-            {label: '流入时间', name: 'flowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '流入时间', name: 'flowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '流入原因', name: 'flowReason',  align:'left',width: 350},
-            {label: '入党时间', name: 'growTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '入党时间', name: 'growTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '组织关系所在地', name: 'orLocation', align:'left', width: 150},
             {hidden: true, name: 'inflowStatus'}
         ],

@@ -72,7 +72,7 @@
                                         data-fancybox-type="image"
                                         href="${ctx}/pic?path=${cetTrainCourseFile.filePath}"><i class="fa fa-search"></i> 预览</button>
                                 <button class='downloadBtn btn btn-xs btn-success'
-                                        data-url='${ctx}/attach/download?path=${cm:encodeURI(cetTrainCourseFile.filePath)}&filename=${cetTrainCourseFile.fileName}'>
+                                        data-url='${ctx}/attach_download?path=${cm:encodeURI(cetTrainCourseFile.filePath)}&filename=${cetTrainCourseFile.fileName}'>
                                     <i class="fa fa-download"></i>
                                     下载</button>
                                 <shiro:hasPermission name="cetTrainCourseFile:del">
@@ -119,7 +119,7 @@
 
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'), this.title);
     });
 </script>

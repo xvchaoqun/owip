@@ -1,9 +1,15 @@
 package service.ps;
 
+import domain.ps.PsInfo;
+import domain.ps.PsInfoExample;
 import domain.ps.PsParty;
 import domain.ps.PsPartyExample;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.constants.PsInfoConstants;
+import sys.utils.DateUtils;
 
 import java.util.Arrays;
 
@@ -37,4 +43,21 @@ public class PsPartyService extends PsBaseMapper {
 
         psPartyMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Transactional
+    public void history(Integer[] ids, String _endDate){
+
+        if(ids==null || ids.length==0) return;
+
+        PsPartyExample example = new PsPartyExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        PsParty record = new PsParty();
+        if (StringUtils.isNotBlank(_endDate)){
+            record.setEndDate(DateUtils.parseDate(_endDate,DateUtils.YYYYMM));
+        }
+        record.setIsFinish(true);
+        psPartyMapper.updateByExampleSelective(record, example);
+    }
+
 }

@@ -199,9 +199,6 @@
 								</c:if>
 								//SysMsg.success('操作成功。', '成功');
 							}
-						},error:function(ret){
-							
-							SysMsg.success("系统异常，请稍后再试。");
 						}
 					});
 				}

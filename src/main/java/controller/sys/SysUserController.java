@@ -126,16 +126,16 @@ public class SysUserController extends BaseController {
             SecurityUtils.getSubject().checkPermission("sysUser:view");
         }
 
-        SysUserView sysUser = sysUserService.findById(userId);
-        modelMap.put("uv", sysUser);
-
         MemberView member = iMemberMapper.getMemberView(userId);
         modelMap.put("member", member);
+
+        SysUserView sysUser = sysUserService.findById(userId);
+        modelMap.put("uv", sysUser);
 
         if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
 
             // 系统教职工账号（注册或后台添加）基础信息维护
-            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+            TeacherInfo teacherInfo = teacherInfoService.get(userId);
             modelMap.put("teacherInfo", teacherInfo);
 
             return "sys/sysUser/teacher_base";
@@ -271,7 +271,7 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUser_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_au(@Validated SysUser record, BindingResult result, HttpServletRequest request) {
+    public Map do_sysUser_au(@Validated SysUser record, String realname, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
             FieldError fieldError = result.getFieldError();
@@ -330,6 +330,14 @@ public class SysUserController extends BaseController {
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户：%s", record.getId()));
         }
 
+        if(StringUtils.isNotBlank(realname)){
+
+            SysUserInfo ui = new SysUserInfo();
+            ui.setUserId(record.getId());
+            ui.setRealname(realname);
+            sysUserService.insertOrUpdateUserInfoSelective(ui);
+        }
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -339,7 +347,7 @@ public class SysUserController extends BaseController {
 
         if (id != null) {
 
-            SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
+            SysUserView sysUser = CmTag.getUserById(id);
             modelMap.put("sysUser", sysUser);
         }
 
@@ -475,7 +483,7 @@ public class SysUserController extends BaseController {
             byte colType, // 0：身份证 1：姓名
             int col,
             byte roleType, // 1: 干部  0: 混合
-            byte type, // 类别 教职工、本科生、研究生  0： 混合
+            @RequestParam(required = false, defaultValue = "0") byte type, // 类别 教职工、本科生、研究生  0： 混合
             Integer addCol,
             @RequestParam(required = false, defaultValue = "1") int sheetNo,
             HttpServletRequest request, HttpServletResponse response)
@@ -608,6 +616,7 @@ public class SysUserController extends BaseController {
 
         Map<String, Object> resultMap = success();
         resultMap.put("file", savePath);
+        resultMap.put("filename", xlsx.getOriginalFilename());
 
         return resultMap;
     }
@@ -615,7 +624,7 @@ public class SysUserController extends BaseController {
     // 批量更新信息
     @RequiresPermissions("sysUser:edit")
     @RequestMapping("/sysUser_batchUpdate")
-    public String cadre_batchSort(ModelMap modelMap) {
+    public String sysUser_batchUpdate(ModelMap modelMap) {
 
         return "sys/sysUser/sysUser_batchUpdate";
     }

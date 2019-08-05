@@ -5,11 +5,11 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
+import domain.cadreInspect.CadreInspect;
 import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -68,11 +68,11 @@ public class CadreReserveController extends BaseController {
             resultMap.put("realname", cadre.getRealname());
 
             if (cadre == null) {
-                msg = "该用户不是优秀年轻干部";
+                msg = "该用户不是年轻干部";
             } else {
                 CadreReserve cadreReserve = cadreReserveService.getNormalRecord(cadre.getId());
                 if (cadreReserve == null) {
-                    msg = "该用户不是优秀年轻干部";
+                    msg = "该用户不是年轻干部";
                 } else {
                     resultMap.put("cadreId", cadre.getId());
                     resultMap.put("reserveType", cadreReserve.getType());
@@ -133,11 +133,11 @@ public class CadreReserveController extends BaseController {
             reserveType = new ArrayList<>(cadreReserveTypeMap.keySet()).get(0);
         }
         if (reserveType != null) {
-            // 正常状态的优秀年轻干部库，读取指定的类别
+            // 正常状态的年轻干部库，读取指定的类别
             status = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
         }
         if (status != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
-            // 非正常状态的优秀年轻干部库，读取全部的类别
+            // 非正常状态的年轻干部库，读取全部的类别
             reserveType = null;
         }
 
@@ -183,6 +183,7 @@ public class CadreReserveController extends BaseController {
                                   Integer adminLevel,
                                   Integer postType,
                                   String title,
+                                  Boolean hasCrp, // 是否有干部挂职经历
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -194,11 +195,11 @@ public class CadreReserveController extends BaseController {
             reserveType = new ArrayList<>(cadreReserveTypeMap.keySet()).get(0);
         }
         if (reserveType != null) {
-            // 正常状态的优秀年轻干部库，读取指定的类别
+            // 正常状态的年轻干部库，读取指定的类别
             status = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
         }
         if (status != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
-            // 非正常状态的优秀年轻干部库，读取全部的类别
+            // 非正常状态的年轻干部库，读取全部的类别
             reserveType = null;
         }
 
@@ -234,6 +235,9 @@ public class CadreReserveController extends BaseController {
         if (StringUtils.isNotBlank(title)) {
             criteria.andTitleLike(SqlUtils.like(title));
         }
+        if (hasCrp != null) {
+            criteria.andHasCrpEqualTo(hasCrp);
+        }
 
         if (export == 1) {
             if (ids != null && ids.length > 0)
@@ -262,7 +266,7 @@ public class CadreReserveController extends BaseController {
     }
 
 
-    // 只有干部库中类型为优秀年轻干部时，才可以修改干部库的信息
+    // 只有干部库中类型为年轻干部时，才可以修改干部库的信息
     @RequiresPermissions("cadreReserve:edit")
     @RequestMapping(value = "/cadreReserve_au", method = RequestMethod.POST)
     @ResponseBody
@@ -280,10 +284,10 @@ public class CadreReserveController extends BaseController {
         record.setRemark(reserveRemark);
         if (reserveId == null) {
             cadreReserveService.insertOrUpdateSelective(userId, record, cadreRecord);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加优秀年轻干部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加年轻干部：%s", record.getId()));
         } else {
             cadreReserveService.updateByPrimaryKeySelective(record, cadreRecord);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新优秀年轻干部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新年轻干部：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -312,7 +316,7 @@ public class CadreReserveController extends BaseController {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除优秀年轻干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除年轻干部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -345,7 +349,43 @@ public class CadreReserveController extends BaseController {
         Cadre cadre = cadreReserveService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();
-        logger.info(addLog(LogConstants.LOG_ADMIN, "优秀年轻干部列为考察对象：%s-%s", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "年轻干部列为考察对象：%s-%s", user.getRealname(), user.getCode()));
+        return success(FormUtils.SUCCESS);
+    }
+
+
+    @RequiresPermissions("cadreReserve:edit")
+    @RequestMapping("/cadreReserve_inspectPass")
+    public String cadreReserve_inspectPass(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
+            Integer cadreId = cadreReserve.getCadreId();
+            CadreInspect cadreInspect = cadreInspectService.getNormalRecord(cadreId);
+
+            CadreView cadre = iCadreMapper.getCadre(cadreInspect.getCadreId());
+            modelMap.put("cadreInspect", cadreInspect);
+            modelMap.put("cadre", cadre);
+        }
+
+        return "cadreReserve/cadreReserve_inspectPass";
+    }
+
+    // 通过常委会任命 （没有确定考察对象的模块情况下，直接在年轻干部库-已列为考察对象中进行操作）
+    @RequiresPermissions("cadreReserve:edit")
+    @RequestMapping(value = "/cadreReserve_inspectPass", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreReserve_inspectPass(Integer inspectId, String inspectRemark,
+                                           Cadre cadreRecord, HttpServletRequest request) {
+
+        CadreInspect record = new CadreInspect();
+        record.setId(inspectId);
+        record.setRemark(inspectRemark);
+
+        Cadre cadre = cadreInspectService.pass(record, cadreRecord);
+
+        SysUserView user = cadre.getUser();
+        logger.info(addLog(LogConstants.LOG_ADMIN, "考察对象通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -355,7 +395,7 @@ public class CadreReserveController extends BaseController {
     public Map cadreReserve_abolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
 
         cadreReserveService.abolish(id);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "撤销优秀年轻干部：%s", id));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "撤销年轻干部：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -365,7 +405,7 @@ public class CadreReserveController extends BaseController {
     public Map cadreReserve_unAbolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
 
         cadreReserveService.unAbolish(id);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "返回优秀年轻干部库：%s", id));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "返回年轻干部库：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -377,7 +417,7 @@ public class CadreReserveController extends BaseController {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已撤销优秀年轻干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已撤销年轻干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -389,7 +429,7 @@ public class CadreReserveController extends BaseController {
 
         if (null != ids) {
             cadreReserveService.batchDelPass(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已列为考察对象的优秀年轻干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已列为考察对象的年轻干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -400,7 +440,7 @@ public class CadreReserveController extends BaseController {
     public Map do_cadreReserve_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreReserveService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "优秀年轻干部调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "年轻干部调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -409,43 +449,14 @@ public class CadreReserveController extends BaseController {
         SXSSFWorkbook wb = cadreReserveExportService.export(reserveType, example);
 
         String cadreReserveType = metaTypeService.getName(reserveType);
-        String fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+        String fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部";
 
         if (cadreReserveType != null)
-            fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部（" + cadreReserveType + "）_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+            fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部（" + cadreReserveType + "）";
 
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-    /*public void cadreReserve_export(CadreReserveViewExample example, HttpServletResponse response) {
-
-        List<CadreReserveView> records = cadreReserveViewMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"工号", "姓名", "行政级别", "职务属性", "职务", "所在单位及职务", "手机号", "办公电话", "家庭电话", "电子邮箱", "备注"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            CadreReserveView record = records.get(i);
-            SysUserView sysUser = record.getUser();
-            String[] values = {
-                    sysUser.getCode(),
-                    sysUser.getRealname(),
-                    metaTypeService.getName(record.getTypeId()),
-                    metaTypeService.getName(record.getPostId()),
-                    record.getPost(),
-                    record.getTitle(),
-                    record.getMobile(),
-                    record.getPhone(),
-                    record.getHomePhone(),
-                    record.getEmail(),
-                    record.getRemark()
-            };
-            valuesList.add(values);
-        }
-
-        String fileName = "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
-    }
-*/
     @RequiresPermissions("cadreReserve:import")
     @RequestMapping("/cadreReserve_import")
     public String cadreReserve_import(int reserveType, ModelMap modelMap) {
@@ -484,29 +495,8 @@ public class CadreReserveController extends BaseController {
             int userId = uv.getId();
             record.setUserId(userId);
 
-            String adminLevel = StringUtils.trimToNull(xlsRow.get(2));
-            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
-            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
-            record.setAdminLevel(adminLevelType.getId());
-
-            String _postType = StringUtils.trimToNull(xlsRow.get(3));
-            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
-            if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
-            record.setPostType(postType.getId());
-
-            String unitCode = StringUtils.trimToNull(xlsRow.get(4));
-            if(StringUtils.isBlank(unitCode)){
-                throw new OpException("第{0}行单位编号为空", row);
-            }
-            Unit unit = unitService.findUnitByCode(unitCode);
-            if(unit==null){
-                throw new OpException("第{0}行单位编号[{1}]不存在", row, unitCode);
-            }
-            record.setUnitId(unit.getId());
-
-            record.setPost(StringUtils.trimToNull(xlsRow.get(5)));
-            record.setTitle(StringUtils.trimToNull(xlsRow.get(6)));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(7)));
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(2)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(3)));
 
             records.add(record);
         }
@@ -518,7 +508,7 @@ public class CadreReserveController extends BaseController {
         resultMap.put("total", records.size());
 
         logger.info(log(LogConstants.LOG_ADMIN,
-                "导入优秀年轻干部成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                "导入年轻干部成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;

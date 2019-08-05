@@ -1,10 +1,16 @@
 package service.dispatch;
 
+import domain.cadre.CadrePost;
+import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadreRelate;
 import domain.dispatch.DispatchCadreRelateExample;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.dispatch.common.DispatchCadreRelateBean;
 import service.BaseMapper;
+import service.global.CacheHelper;
+import sys.constants.DispatchConstants;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +18,9 @@ import java.util.Set;
 
 @Service
 public class DispatchCadreRelateService extends BaseMapper {
+
+    @Autowired
+    private CacheHelper cacheHelper;
 
     // 删除已关联的干部发文
     public int delDispatchCadreRelates(List<Integer> relateIds, byte relateType){
@@ -59,6 +68,31 @@ public class DispatchCadreRelateService extends BaseMapper {
                 record.setRelateType(relateType);
                 dispatchCadreRelateMapper.insertSelective(record);
             }
+        }
+
+        // 任职关联文件，更新任职时间等
+        if(relateType== DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST){
+
+            commonMapper.excuteSql("update cadre_post set np_dispatch_id=null, " +
+                    "lp_dispatch_id=null, np_work_time=null, lp_work_time=null where id=" + relateId);
+
+            if(ids!=null && ids.length>0) {
+                CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(relateId);
+                DispatchCadreRelateBean dispatchCadreRelateBean = cadrePost.getDispatchCadreRelateBean();
+
+                Dispatch first = dispatchCadreRelateBean.getFirst();
+                Dispatch last = dispatchCadreRelateBean.getLast();
+
+                CadrePost record = new CadrePost();
+                record.setId(cadrePost.getId());
+                record.setNpDispatchId(first.getId());
+                record.setNpWorkTime(first.getWorkTime());
+                record.setLpDispatchId(last.getId());
+                record.setLpWorkTime(last.getWorkTime());
+
+                cadrePostMapper.updateByPrimaryKeySelective(record);
+            }
+            cacheHelper.clearCadreCache();
         }
     }
 }

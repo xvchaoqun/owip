@@ -35,6 +35,7 @@
 <c:set value="${_pMap['hasPartyModule']=='true'}" var="_p_hasPartyModule"/>
 <c:set value="${_pMap['partyName']}" var="_p_partyName"/>
 <c:set value="${_pMap['hasKjCadre']=='true'}" var="_p_hasKjCadre"/>
+<c:set value="${_pMap['useCadreState']=='true'}" var="_p_useCadreState"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
@@ -49,6 +50,7 @@
 <c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
 
+<c:set var="PERMISSION_PARTYVIEWALL" value="<%=SystemConstants.PERMISSION_PARTYVIEWALL%>"/>
 <c:set var="PERMISSION_CADREONLYVIEW" value="<%=SystemConstants.PERMISSION_CADREONLYVIEW%>"/>
 <c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
 <c:set var="PERMISSION_CADREADMINSELF" value="<%=SystemConstants.PERMISSION_CADREADMINSELF%>"/>

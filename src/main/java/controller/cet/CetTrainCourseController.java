@@ -346,6 +346,7 @@ public class CetTrainCourseController extends CetBaseController {
     @RequestMapping(value = "/cetTrainCourse_applyMsg", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetTrainCourse_applyMsg(
+                                int projectId,
                                 @RequestParam(value = "trainCourseIds[]") Integer[] trainCourseIds,
                                String mobile,
                                String msg,
@@ -359,7 +360,7 @@ public class CetTrainCourseController extends CetBaseController {
         if(BooleanUtils.isTrue(addSuffix)){
             msg += StringUtils.trim(suffix);
         }
-        Map<String, Integer> result = cetShortMsgService.sendApplyMsg(trainCourseIds, mobile, msg);
+        Map<String, Integer> result = cetShortMsgService.sendApplyMsg(projectId, trainCourseIds, mobile, msg);
         logger.info(addLog(LogConstants.LOG_CET, "补选课报名：%s-%s-%s", msg, mobile, StringUtils.join(trainCourseIds, ",")));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
@@ -369,14 +370,15 @@ public class CetTrainCourseController extends CetBaseController {
 
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping("/cetTrainCourse_applyMsg")
-    public String cetTrainCourse_applyMsg(@RequestParam(value = "trainCourseIds[]") Integer[] trainCourseIds, ModelMap modelMap) {
+    public String cetTrainCourse_applyMsg(int projectId, @RequestParam(value = "trainCourseIds[]") Integer[] trainCourseIds,
+                                          ModelMap modelMap) {
 
         CetTrainCourseExample example = new CetTrainCourseExample();
         example.createCriteria().andIdIn(Arrays.asList(trainCourseIds));
         List<CetTrainCourse> cetTrainCourses = cetTrainCourseMapper.selectByExample(example);
         modelMap.put("cetTrainCourses", cetTrainCourses);
 
-        List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseIds);
+        List<Integer> userIds = iCetMapper.notApplyUserIds(projectId, trainCourseIds);
         modelMap.put("userIds", userIds);
 
         return "cet/cetTrainCourse/cetTrainCourse_applyMsg";

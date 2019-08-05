@@ -13,6 +13,7 @@ import domain.dispatch.DispatchType;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysRole;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import mixin.MetaTypeOptionMixin;
 import mixin.OptionMixin;
@@ -30,7 +31,6 @@ import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
 import service.BaseMapper;
 import service.SpringProps;
-import service.base.CountryService;
 import service.base.LocationService;
 import service.base.MetaTypeService;
 import service.cadre.CadreAdminLevelService;
@@ -40,14 +40,18 @@ import service.party.BranchService;
 import service.party.PartyService;
 import service.sys.SysPropertyService;
 import service.sys.SysRoleService;
+import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import service.unit.UnitService;
+import sys.HttpResponseMethod;
 import sys.constants.AbroadConstants;
 import sys.constants.CacheConstants;
 import sys.constants.MemberConstants;
 import sys.constants.ModifyConstants;
 import sys.tags.CmTag;
-import sys.utils.*;
+import sys.utils.ClassUtils;
+import sys.utils.FileUtils;
+import sys.utils.JSONUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -55,8 +59,8 @@ import java.util.*;
 /**
  * Created by fafa on 2017/4/11.
  */
-@Service
-public class CacheService extends BaseMapper {
+@Service(value="cacheService")
+public class CacheService extends BaseMapper implements HttpResponseMethod {
 
     @Autowired
     protected CountMapper countMapper;
@@ -67,13 +71,13 @@ public class CacheService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
+    private SysUserService sysUserService;
+    @Autowired
     private SysRoleService sysRoleService;
     @Autowired
     private SysPropertyService sysPropertyService;
     @Autowired(required = false)
     private UnitService unitService;
-    @Autowired(required = false)
-    private CountryService countryService;
     @Autowired
     protected TeacherInfoService teacherInfoService;
     @Autowired
@@ -93,16 +97,43 @@ public class CacheService extends BaseMapper {
 
     // 异步Pdf转图片
     @Async
-    public void asyncPdf2jpg(String pdfFilePath){
-    
-        try {
-            //Thread.sleep(10000);
-            String cmd = PdfUtils.pdf2jpg(springProps.uploadPath + pdfFilePath,
-                    PropertiesUtils.getString("gs.command"));
-            logger.info(cmd);
-        } catch (Exception e) {
-            logger.error("gs {}, {}", pdfFilePath, e.getMessage());
-        }
+    public void asyncPdf2jpg(String pdfFilePath) {
+
+        toPdfImage(pdfFilePath);
+    }
+
+    // 判断某个角色是否拥有某个权限
+    public boolean roleIsPermitted(String role, String permission){
+
+        SysRole sysRole = sysRoleService.getByRole(role);
+        if(sysRole==null) return false;
+
+        Set<String> rolePermissions = new HashSet<>();
+        rolePermissions.addAll(sysRoleService.getRolePermissions(sysRole.getId(), false));
+        rolePermissions.addAll(sysRoleService.getRolePermissions(sysRole.getId(), true));
+
+        return rolePermissions.contains(permission);
+    }
+
+    // 判断某个用户是否拥有某个权限
+    public boolean userIsPermitted(Integer userId, String permission){
+
+        SysUserView uv = sysUserService.findById(userId);
+
+        Set<String> userPermissions = new HashSet<>();
+        userPermissions.addAll(sysUserService.findPermissions(uv.getUsername(), false));
+        userPermissions.addAll(sysUserService.findPermissions(uv.getUsername(), true));
+
+        return userPermissions.contains(permission);
+    }
+
+    // 判断某个用户是否拥有某个角色
+    public boolean userHasRole(Integer userId, String role){
+
+        SysUserView uv = sysUserService.findById(userId);
+        Set<String> roles = sysUserService.findRoles(uv.getUsername());
+
+        return roles.contains(role);
     }
     
     // 菜单缓存数量
@@ -218,6 +249,8 @@ public class CacheService extends BaseMapper {
                     cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER; break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF:
                     cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF; break;
+                case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF:
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF; break;
             }
             countCache.put(cacheKey, num);
         }

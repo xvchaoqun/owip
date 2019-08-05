@@ -224,186 +224,6 @@ public class CadreExample {
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelIsNull() {
-            addCriterion("admin_level is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelIsNotNull() {
-            addCriterion("admin_level is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelEqualTo(Integer value) {
-            addCriterion("admin_level =", value, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelNotEqualTo(Integer value) {
-            addCriterion("admin_level <>", value, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelGreaterThan(Integer value) {
-            addCriterion("admin_level >", value, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelGreaterThanOrEqualTo(Integer value) {
-            addCriterion("admin_level >=", value, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelLessThan(Integer value) {
-            addCriterion("admin_level <", value, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelLessThanOrEqualTo(Integer value) {
-            addCriterion("admin_level <=", value, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelIn(List<Integer> values) {
-            addCriterion("admin_level in", values, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelNotIn(List<Integer> values) {
-            addCriterion("admin_level not in", values, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelBetween(Integer value1, Integer value2) {
-            addCriterion("admin_level between", value1, value2, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminLevelNotBetween(Integer value1, Integer value2) {
-            addCriterion("admin_level not between", value1, value2, "adminLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeIsNull() {
-            addCriterion("post_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeIsNotNull() {
-            addCriterion("post_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeEqualTo(Integer value) {
-            addCriterion("post_type =", value, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeNotEqualTo(Integer value) {
-            addCriterion("post_type <>", value, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeGreaterThan(Integer value) {
-            addCriterion("post_type >", value, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("post_type >=", value, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeLessThan(Integer value) {
-            addCriterion("post_type <", value, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("post_type <=", value, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeIn(List<Integer> values) {
-            addCriterion("post_type in", values, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeNotIn(List<Integer> values) {
-            addCriterion("post_type not in", values, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeBetween(Integer value1, Integer value2) {
-            addCriterion("post_type between", value1, value2, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("post_type not between", value1, value2, "postType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIsNull() {
-            addCriterion("unit_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIsNotNull() {
-            addCriterion("unit_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdEqualTo(Integer value) {
-            addCriterion("unit_id =", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotEqualTo(Integer value) {
-            addCriterion("unit_id <>", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdGreaterThan(Integer value) {
-            addCriterion("unit_id >", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("unit_id >=", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdLessThan(Integer value) {
-            addCriterion("unit_id <", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("unit_id <=", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIn(List<Integer> values) {
-            addCriterion("unit_id in", values, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotIn(List<Integer> values) {
-            addCriterion("unit_id not in", values, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id between", value1, value2, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id not between", value1, value2, "unitId");
-            return (Criteria) this;
-        }
-
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;
@@ -461,6 +281,196 @@ public class CadreExample {
 
         public Criteria andTypeNotBetween(Byte value1, Byte value2) {
             addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpIsNull() {
+            addCriterion("has_crp is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpIsNotNull() {
+            addCriterion("has_crp is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpEqualTo(Boolean value) {
+            addCriterion("has_crp =", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpNotEqualTo(Boolean value) {
+            addCriterion("has_crp <>", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpGreaterThan(Boolean value) {
+            addCriterion("has_crp >", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_crp >=", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpLessThan(Boolean value) {
+            addCriterion("has_crp <", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_crp <=", value, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpIn(List<Boolean> values) {
+            addCriterion("has_crp in", values, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpNotIn(List<Boolean> values) {
+            addCriterion("has_crp not in", values, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_crp between", value1, value2, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCrpNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_crp not between", value1, value2, "hasCrp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIsNull() {
+            addCriterion("is_double is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIsNotNull() {
+            addCriterion("is_double is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleEqualTo(Boolean value) {
+            addCriterion("is_double =", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotEqualTo(Boolean value) {
+            addCriterion("is_double <>", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleGreaterThan(Boolean value) {
+            addCriterion("is_double >", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_double >=", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLessThan(Boolean value) {
+            addCriterion("is_double <", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_double <=", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIn(List<Boolean> values) {
+            addCriterion("is_double in", values, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotIn(List<Boolean> values) {
+            addCriterion("is_double not in", values, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double between", value1, value2, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double not between", value1, value2, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsIsNull() {
+            addCriterion("double_unit_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsIsNotNull() {
+            addCriterion("double_unit_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsEqualTo(String value) {
+            addCriterion("double_unit_ids =", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotEqualTo(String value) {
+            addCriterion("double_unit_ids <>", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsGreaterThan(String value) {
+            addCriterion("double_unit_ids >", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("double_unit_ids >=", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsLessThan(String value) {
+            addCriterion("double_unit_ids <", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsLessThanOrEqualTo(String value) {
+            addCriterion("double_unit_ids <=", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsLike(String value) {
+            addCriterion("double_unit_ids like", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotLike(String value) {
+            addCriterion("double_unit_ids not like", value, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsIn(List<String> values) {
+            addCriterion("double_unit_ids in", values, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotIn(List<String> values) {
+            addCriterion("double_unit_ids not in", values, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsBetween(String value1, String value2) {
+            addCriterion("double_unit_ids between", value1, value2, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotBetween(String value1, String value2) {
+            addCriterion("double_unit_ids not between", value1, value2, "doubleUnitIds");
             return (Criteria) this;
         }
 
@@ -651,76 +661,6 @@ public class CadreExample {
 
         public Criteria andDispatchCadreIdNotBetween(Integer value1, Integer value2) {
             addCriterion("dispatch_cadre_id not between", value1, value2, "dispatchCadreId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostIsNull() {
-            addCriterion("post is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostIsNotNull() {
-            addCriterion("post is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostEqualTo(String value) {
-            addCriterion("post =", value, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostNotEqualTo(String value) {
-            addCriterion("post <>", value, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostGreaterThan(String value) {
-            addCriterion("post >", value, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostGreaterThanOrEqualTo(String value) {
-            addCriterion("post >=", value, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostLessThan(String value) {
-            addCriterion("post <", value, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostLessThanOrEqualTo(String value) {
-            addCriterion("post <=", value, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostLike(String value) {
-            addCriterion("post like", value, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostNotLike(String value) {
-            addCriterion("post not like", value, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostIn(List<String> values) {
-            addCriterion("post in", values, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostNotIn(List<String> values) {
-            addCriterion("post not in", values, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostBetween(String value1, String value2) {
-            addCriterion("post between", value1, value2, "post");
-            return (Criteria) this;
-        }
-
-        public Criteria andPostNotBetween(String value1, String value2) {
-            addCriterion("post not between", value1, value2, "post");
             return (Criteria) this;
         }
 

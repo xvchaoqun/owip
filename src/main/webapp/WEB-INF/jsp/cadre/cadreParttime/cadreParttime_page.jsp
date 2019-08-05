@@ -113,7 +113,7 @@
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: ke.html(),
+                content: ke.html().removeSpan(),
                 type: "<%=CadreConstants.CADRE_INFO_TYPE_PARTTIME%>"
             }, function (ret) {
                 if (ret.success) {
@@ -135,7 +135,7 @@
     <script>
 
         <c:if test="${!canUpdate}">
-        $("${empty param.cadreId?'':'#body-content-view '}button.btn").prop("disabled", true);
+        $(".cadreView button.btn").prop("disabled", true);
         </c:if>
         $(".cadre-info-check").prop("checked", ${!canUpdate});
         <c:if test="${!canUpdateInfoCheck}">

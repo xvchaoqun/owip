@@ -188,6 +188,7 @@ public class CadreInspectService extends BaseMapper {
             cadreRecord.setId(cadre.getId());
             cadreRecord.setUserId(null);
             cadreRecord.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
+            cadreRecord.setIsDouble(cadre.getIsDouble());
             cadreService.updateByPrimaryKeySelective(cadreRecord);
         }
 
@@ -275,7 +276,7 @@ public class CadreInspectService extends BaseMapper {
         if(status==CadreConstants.CADRE_STATUS_MIDDLE){
             _cadre.setType(CadreConstants.CADRE_TYPE_CJ);
         }
-
+        _cadre.setIsDouble(cadre.getIsDouble());
         _cadre.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
         cadreService.updateByPrimaryKeySelective(_cadre);
 

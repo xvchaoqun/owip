@@ -144,7 +144,7 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id, hasUpload?"更新":"上传");
                         if(hasUpload){
                             str += ('&nbsp;&nbsp;<button class="downloadBtn btn btn-xs btn-success" ' +
-                             'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                             'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
                                 .format(rowObject.ballotSample, "推荐票样")
                         }
                         return str;

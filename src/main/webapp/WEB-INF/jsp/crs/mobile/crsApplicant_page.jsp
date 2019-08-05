@@ -53,10 +53,10 @@
                         <th>到校时间</th>
                         <th>专业技术职务</th>
                         <th>专技职务评定时间</th>
-                        <th>专技岗位等级</th>
+                        <th>职称级别</th>
                         <th>专技岗位分级时间</th>
-                        <th>管理岗位等级</th>
-                        <th>管理岗位分级时间</th>
+                        <%--<th>管理岗位等级</th>
+                        <th>管理岗位分级时间</th>--%>
                         <th>推荐/自荐</th>
                     </tr>
                     </thead>
@@ -96,8 +96,8 @@
                             <td>${cm:formatDate(cadre.proPostTime, "yyyy-MM-dd")}</td>
                             <td>${cadre.proPostLevel}</td>
                             <td>${cm:formatDate(cadre.proPostLevelTime, "yyyy-MM-dd")}</td>
-                            <td>${cadre.manageLevel}</td>
-                            <td>${cm:formatDate(cadre.manageLevelTime, "yyyy-MM-dd")}</td>
+                            <%--<td>${cadre.manageLevel}</td>
+                            <td>${cm:formatDate(cadre.manageLevelTime, "yyyy-MM-dd")}</td>--%>
                             <td>${crsApplicant.isRecommend?'推荐':'个人报名'}</td>
                         </tr>
                     </c:forEach>

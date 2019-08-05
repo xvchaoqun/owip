@@ -169,12 +169,12 @@
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: ke.html(),
+                content: ke.html().removeSpan(),
                 type:"${CADRE_INFO_TYPE_REWARD}"
             }, function (ret) {
                 if (ret.success) {
 
-                    _innerPage(2, function () {
+                    _innerPage(3, function () {
                         $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
                     });
                 }
@@ -202,7 +202,7 @@
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
-                content: ke.html(),
+                content: ke.html().removeSpan(),
                 type:"${CADRE_INFO_TYPE_REWARD_OTHER}"
             }, function (ret) {
                 if (ret.success) {
@@ -224,7 +224,7 @@
 <c:if test="${type==1}">
     <script>
         <c:if test="${!canUpdate}">
-        $("${empty param.cadreId?'':'#body-content-view '}button.btn").prop("disabled", true);
+        $(".cadreView button.btn").prop("disabled", true);
         </c:if>
         $(".cadre-info-check").prop("checked", ${!canUpdate});
         <c:if test="${!canUpdateInfoCheck}">
@@ -254,7 +254,7 @@
 
         $.register.fancybox(function () {
             //console.log(this)
-            this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+            this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}" target="_blank">点击下载</a>】</div></div>'
                             .format($(this.element).data('path'));
         });
     </script>

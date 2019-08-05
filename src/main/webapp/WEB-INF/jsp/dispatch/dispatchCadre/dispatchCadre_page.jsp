@@ -14,14 +14,14 @@
                 <c:set var="_query" value="${not empty param.startYear ||not empty param.endYear||not empty param.year||not empty param.year ||not empty param.dispatchTypeId ||not empty param.code
                 || not empty param.type|| not empty param.dispatchId
             ||not empty param.wayId ||not empty param.procedureId ||not empty param.cadreId
-            ||not empty param.adminLevel ||not empty param.unitId }"/>
+            ||not empty param.adminLevel ||not empty param.unitId ||not empty param.unitPostId }"/>
                 <div class="tabbable">
                     <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
                     <div class="tab-content">
                         <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="openView btn btn-info btn-sm" data-url="${ctx}/dispatch_cadres"><i class="fa fa-plus"></i> 添加干部任免</a>
-                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="700">
+                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="800">
                         <i class="fa fa-edit"></i> 修改信息</button>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
@@ -114,6 +114,17 @@
                                                 <script>
                                                     $("#searchForm select[name=unitId]").val('${param.unitId}');
                                                 </script>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>关联岗位</label>
+                                            <select name="unitPostId" data-rel="select2-ajax"
+                                                    data-ajax-url="${ctx}/unitPost_selects"
+                                                    data-placeholder="请选择">
+                                                <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.name}</option>
+                                            </select>
+                                            <script>
+                                                $.register.del_select($("#searchForm select[name=unitPostId]"))
+                                            </script>
                                         </div>
                                 <div class="clearfix form-actions center">
 

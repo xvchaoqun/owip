@@ -14,21 +14,19 @@ public class Cadre implements Serializable {
 
     private Integer userId;
 
-    private Integer adminLevel;
-
-    private Integer postType;
-
-    private Integer unitId;
-
     private Byte type;
+
+    private Boolean hasCrp;
+
+    private Boolean isDouble;
+
+    private String doubleUnitIds;
 
     private Integer state;
 
     private String title;
 
     private Integer dispatchCadreId;
-
-    private String post;
 
     private String remark;
 
@@ -54,36 +52,36 @@ public class Cadre implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getAdminLevel() {
-        return adminLevel;
-    }
-
-    public void setAdminLevel(Integer adminLevel) {
-        this.adminLevel = adminLevel;
-    }
-
-    public Integer getPostType() {
-        return postType;
-    }
-
-    public void setPostType(Integer postType) {
-        this.postType = postType;
-    }
-
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
-    }
-
     public Byte getType() {
         return type;
     }
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getHasCrp() {
+        return hasCrp;
+    }
+
+    public void setHasCrp(Boolean hasCrp) {
+        this.hasCrp = hasCrp;
+    }
+
+    public Boolean getIsDouble() {
+        return isDouble;
+    }
+
+    public void setIsDouble(Boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    public String getDoubleUnitIds() {
+        return doubleUnitIds;
+    }
+
+    public void setDoubleUnitIds(String doubleUnitIds) {
+        this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
     }
 
     public Integer getState() {
@@ -108,14 +106,6 @@ public class Cadre implements Serializable {
 
     public void setDispatchCadreId(Integer dispatchCadreId) {
         this.dispatchCadreId = dispatchCadreId;
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post == null ? null : post.trim();
     }
 
     public String getRemark() {

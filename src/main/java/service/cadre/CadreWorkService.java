@@ -9,7 +9,9 @@ import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import domain.unit.Unit;
 import freemarker.EduSuffix;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,16 +20,11 @@ import service.base.MetaTypeService;
 import service.crp.CrpRecordService;
 import service.dispatch.DispatchCadreRelateService;
 import shiro.ShiroHelper;
-import sys.constants.CrpConstants;
-import sys.constants.DispatchConstants;
-import sys.constants.ModifyConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Service
@@ -43,6 +40,26 @@ public class CadreWorkService extends BaseMapper {
     private CrpRecordService crpRecordService;
     @Autowired
     private MetaTypeService metaTypeService;
+
+    // 根据起始时间读取工作经历（用于任免审批表导入时）
+    public CadreWork getByWorkTime(int cadreId, Date startTime, Date endTime){
+
+        if(startTime ==null) return null;
+
+        CadreWorkExample example = new CadreWorkExample();
+        CadreWorkExample.Criteria criteria = example.createCriteria()
+                .andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);;
+        criteria.andStartTimeEqualTo(startTime);
+        if(endTime != null){
+            criteria.andEndTimeEqualTo(endTime);
+        }else{
+            criteria.andEndTimeIsNull();
+        }
+
+        List<CadreWork> records = cadreWorkMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return records.size()>0?records.get(0):null;
+    }
 
     // 干部任免审批表简历预览
     public List<CadreResume> resume(Integer cadreId) {
@@ -104,9 +121,15 @@ public class CadreWorkService extends BaseMapper {
                 //String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYYMM);
                 if (learnStyle.intValue() == fulltimeType.getId()) {
 
+                    String major = StringUtils.trimToNull(cadreEdu.getMajor());
+                    if(major!=null){
+                        major = StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业"));
+                    }else{
+                        major = "";
+                    }
                     String detail = String.format("%s%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
                             StringUtils.trimToEmpty(cadreEdu.getDep()),
-                            StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业")),
+                            major,
                             StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId())),
                             StringUtils.isNotBlank(cadreEdu.getNote())?String.format("（%s）", cadreEdu.getNote()):""
                     );
@@ -131,9 +154,16 @@ public class CadreWorkService extends BaseMapper {
 
                 } else if (learnStyle.intValue() == onjobType.getId()) {
 
+                    String major = StringUtils.trimToNull(cadreEdu.getMajor());
+                    if(major!=null){
+                        major = StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业"));
+                    }else{
+                        major = "";
+                    }
+
                     String detail = String.format("在%s%s%s在职%s学习%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
                             StringUtils.trimToEmpty(cadreEdu.getDep()),
-                            StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业")),
+                            major,
                             StringUtils.trimToEmpty(EduSuffix.getEduSuffix2(cadreEdu.getEduId())),
                             cadreEdu.getIsGraduated()?"毕业":"",
                             cadreEdu.getHasDegree()?
@@ -555,5 +585,44 @@ public class CadreWorkService extends BaseMapper {
         cadreWorkMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
 
         return record;
+    }
+
+    public void cadreWork_export(Integer[] ids, int exportType, Integer reserveType, HttpServletResponse response) {
+
+        List<CadreWork> cadreWorks = new ArrayList<>();
+        if(exportType==0) { // 现任干部
+            cadreWorks = iCadreMapper.getCadreWorks(ids, CadreConstants.CADRE_STATUS_MIDDLE);
+        }else if(exportType==1) { // 年轻干部
+            cadreWorks = iCadreMapper.getCadreReserveWorks(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+        }
+
+        long rownum = cadreWorks.size();
+
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100","所在单位及职务|150|left",
+                "开始日期|90", "结束日期|90", "工作类型|150|left",
+                "工作单位及担任职务（或专技职务）|350|left", "是否担任领导职务|70", "备注|150|left"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+
+            CadreWork record = cadreWorks.get(i);
+            CadreView cadre = CmTag.getCadreById(record.getCadreId());
+            Unit unit = CmTag.getUnit(cadre.getUnitId());
+            String[] values = {
+                    cadre.getCode(),
+                    cadre.getRealname(),
+                    unit==null?"":unit.getName(),
+                    cadre.getTitle(),
+                    DateUtils.formatDate(record.getStartTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getEndTime(), DateUtils.YYYYMM),
+                    metaTypeService.getName(record.getWorkType()),
+                    record.getDetail(),
+                    BooleanUtils.isTrue(record.getIsCadre())?"是":"否",
+                    record.getRemark()
+            };
+            valuesList.add(values);
+        }
+
+        String fileName = "工作经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd")+")";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

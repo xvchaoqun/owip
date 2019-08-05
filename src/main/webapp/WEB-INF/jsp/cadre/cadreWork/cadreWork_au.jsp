@@ -3,7 +3,8 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">其间</c:if>工作经历</h3>
+    <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">其间</c:if>工作经历
+        <shiro:hasPermission name="sysUser:resume">（<a href="/sysUserInfo_resume?userId=${sysUser.userId}" target="_blank">查看干部任免审批表简历</a>）</shiro:hasPermission></h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreWork_au?toApply=${param.toApply}&cadreId=${cadre.id}" autocomplete="off" disableautocomplete id="modalForm" method="post">

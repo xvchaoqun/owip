@@ -1,109 +1,120 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
-    <div class="col-xs-12">
-        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.psId ||not empty param.partyId ||not empty param.isHost ||not empty param.isFinish || not empty param.code || not empty param.sort}"/>
-            <div class="jqgrid-vertical-offset buttons">
+<jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
+<div class="widget-box">
+    <div class="widget-header">
+        <h4 class="widget-title"><i class="fa fa-user"></i> 主建单位
+            <div class="buttons">
                 <shiro:hasPermission name="psParty:edit">
-                    <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/ps/psParty_au">
-                        <i class="fa fa-plus"></i> 添加</button>
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/ps/psParty_au"
-                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改</button>
+                <button class="popupBtn btn btn-success btn-sm"
+                   data-url="${ctx}/ps/psParty_au?psId=${param.psId}&isHost=1">
+                    <i class="fa fa-plus"></i>
+                    添加</button>
+                <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                   data-url="${ctx}/ps/psParty_au"
+                   data-grid-id="#jqGrid_hostUnit">
+                    <i class="fa fa-edit"></i>
+                    修改</button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="psParty:history">
+                <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                        data-grid-id="#jqGrid_hostUnit"
+                        data-url="${ctx}/ps/psParty_history">
+                    <i class="fa fa-recycle"></i>
+                    撤销</button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="psParty:del">
-                    <button data-url="${ctx}/ps/psParty_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
-                    </button>
+                <button class="jqBatchBtn btn btn-danger btn-sm"
+                        data-url="${ctx}/ps/psParty_batchDel"
+                        data-title="删除"
+                        data-msg="确定删除这{0}条数据？"
+                        data-grid-id="#jqGrid_hostUnit">
+                    <i class="fa fa-trash"></i>
+                    删除</button>
                 </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/ps/psParty_data"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
             </div>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-                <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4>
-
-                    <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="widget-body">
-                    <div class="widget-main no-padding">
-                        <form class="form-inline search-form" id="searchForm">
-                        <div class="form-group">
-                            <label>所属二级党校</label>
-                            <input class="form-control search-query" name="psId" type="text" value="${param.psId}"
-                                   placeholder="请输入所属二级党校">
-                        </div>
-                        <div class="form-group">
-                            <label>建设单位</label>
-                            <input class="form-control search-query" name="partyId" type="text" value="${param.partyId}"
-                                   placeholder="请输入建设单位">
-                        </div>
-                        <div class="form-group">
-                            <label>主建设单位/联合建设单位</label>
-                            <input class="form-control search-query" name="isHost" type="text" value="${param.isHost}"
-                                   placeholder="请输入主建设单位/联合建设单位">
-                        </div>
-                        <div class="form-group">
-                            <label>是否结束</label>
-                            <input class="form-control search-query" name="isFinish" type="text" value="${param.isFinish}"
-                                   placeholder="请输入是否结束">
-                        </div>
-                            <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/ps/psParty"
-                                   data-target="#page-content"
-                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
-                                <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/ps/psParty"
-                                            data-target="#page-content">
-                                        <i class="fa fa-reply"></i> 重置
-                                    </button>
-                                </c:if>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid table-striped"></table>
-            <div id="jqGridPager"></div>
+        </h4>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main table-nonselect">
+            <table id="jqGrid_hostUnit" class="jqGrid4" data-width-reduce="50"></table>
+            <div id="jqGridPager_hostUnit"></div>
         </div>
-        <div id="body-content-view"></div>
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="widget-box">
+    <div class="widget-header">
+        <h4 class="widget-title"><i class="fa fa-users"></i> 联合建设单位
+            <div class="buttons">
+                <shiro:hasPermission name="psParty:edit">
+                <button class="popupBtn btn btn-success btn-sm"
+                        data-url="${ctx}/ps/psParty_au?psId=${param.psId}">
+                    <i class="fa fa-plus"></i>
+                    添加</button>
+                <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                        data-url="${ctx}/ps/psParty_au"
+                        data-grid-id="#jqGrid_jointUnit">
+                    <i class="fa fa-edit"></i>
+                    修改</button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="psParty:history">
+                <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                        data-grid-id="#jqGrid_jointUnit"
+                        data-url="${ctx}/ps/psParty_history">
+                    <i class="fa fa-recycle"></i>
+                    撤销</button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="psParty:del">
+                <button class="jqBatchBtn btn btn-danger btn-sm"
+                        data-url="${ctx}/ps/psParty_batchDel"
+                        data-title="删除"
+                        data-msg="确定删除这{0}条数据？"
+                        data-grid-id="#jqGrid_jointUnit">
+                    <i class="fa fa-trash"></i>
+                    删除</button>
+                </shiro:hasPermission>
+            </div>
+        </h4>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main table-nonselect">
+            <table id="jqGrid_jointUnit" class="jqGrid4" data-width-reduce="50"></table>
+            <div id="jqGridPager_jointUnit"></div>
+        </div>
     </div>
 </div>
 <script>
-    $("#jqGrid").jqGrid({
+    $("#jqGrid_hostUnit").jqGrid({
         rownumbers:true,
-        url: '${ctx}/ps/psParty_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        pager: "#jqGridPager_hostUnit",
+        url: '${ctx}/ps/psParty_data?callback=?&isHost=1&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '所属二级党校',name: 'psId'},
-                { label: '建设单位',name: 'partyId'},
-                { label: '主建设单位/联合建设单位',name: 'isHost'},
-                { label: '是否结束',name: 'isFinish'},
-                { label: '开始时间',name: 'startDate'},
-                { label: '结束时间',name: 'endDate'},
-                { label: '备注',name: 'remark'}
+            {label: '主建单位名称', name: 'partyId', width: 250, frozen: true, formatter:function(cellvalue, options, rowObject){
+                    return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;}},
+            {label: '开始时间', name: 'startDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
+            {label: '结束时间', name: 'endDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
+            {label: '状态', name: 'isFinish', formatter: function (cellvalue, options, rowObject) {
+                    return cellvalue == true?"已结束":"未结束";
+                }},
+            {label: '备注', name: 'remark', width: 400}, {hidden: true, key: true, name: 'id'}
+            ]
+    }).jqGrid("setFrozenColumns");
+    $("#jqGrid_jointUnit").jqGrid({
+        rownumbers:true,
+        pager: "#jqGridPager_jointUnit",
+        url: '${ctx}/ps/psParty_data?callback=?&isHost=0&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '联合建设单位名称', name: 'partyId', width: 250, frozen: true, formatter:function(cellvalue, options, rowObject){
+                    return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;}},
+            {label: '开始时间', name: 'startDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
+            {label: '结束时间', name: 'endDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
+            {label: '状态', name: 'isFinish', formatter: function (cellvalue, options, rowObject) {
+                    return cellvalue == true?"已结束":"未结束";
+                }},
+            {label: '备注', name: 'remark', width: 400}, {hidden: true, key: true, name: 'id'}
         ]
     }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
-    $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
+    $(window).triggerHandler('resize.jqGrid4');
 </script>

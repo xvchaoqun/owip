@@ -23,7 +23,7 @@ import persistence.abroad.common.ApproverTypeBean;
 import service.SpringProps;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.sys.SysApprovalLogService;
@@ -84,14 +84,14 @@ public class ApplySelfService extends AbroadBaseMapper {
                     ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
                     return contentTplService.getShorMsgReceivers(tpl.getId());
                 }catch (Exception ex){
-                    logger.error("初审审批人读取异常", ex);
+                    logger.error("初审审批人读取错误", ex);
                 }
             }else if(approverTypeId==0){ // 组织部终审
                 try {
                     ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
                     return contentTplService.getShorMsgReceivers(tpl.getId());
                 }catch (Exception ex){
-                    logger.error("终审审批人读取异常", ex);
+                    logger.error("终审审批人读取错误", ex);
                 }
             }
 
@@ -101,23 +101,26 @@ public class ApplySelfService extends AbroadBaseMapper {
             Map<String, ApproverBlackList> approverBlackListMap = approverBlackListService.findAll(approverTypeId);
 
             CadreView cadre = CmTag.getCadreById(cadreId);
+            Integer unitId = cadre.getUnitId();
             ApproverType approverType = approverTypeService.findAll().get(approverTypeId);
             if (approverType.getType() == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL) { // 查找本单位正职
                 List<SysUserView> _users = new ArrayList<SysUserView>();
-                List<Cadre> mainPostList = cadreCommonService.findMainPost(cadre.getUnitId());
-                for (Cadre _cadre : mainPostList) {
-                    if ((_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
-                            && (approverBlackListMap.get(_cadre.getId()+"_" + _cadre.getUnitId())==null))  // 排除本单位正职黑名单（不包括兼审单位正职）
-                        _users.add(_cadre.getUser());
-                }
+                if(unitId!=null) {
+                    List<CadreView> mainPostList = cadreCommonService.findMainPost(unitId);
+                    for (CadreView _cadre : mainPostList) {
+                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                                && (approverBlackListMap.get(_cadre.getId() + "_" + _cadre.getUnitId()) == null))  // 排除本单位正职黑名单（不包括兼审单位正职）
+                            _users.add(_cadre.getUser());
+                    }
 
-                List<CadreView> additionalPrincipals = abroadAdditionalPostService.findAdditionalPrincipals(cadre.getUnitId());
-                for (CadreView _cadre : additionalPrincipals) {
-                    if ((_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
-                            && (approverBlackListMap.get(_cadre.getId()+"_" + cadre.getUnitId())==null)){
-                        _users.add(_cadre.getUser());
+                    List<CadreView> additionalPrincipals = abroadAdditionalPostService.findAdditionalPrincipals(unitId);
+                    for (CadreView _cadre : additionalPrincipals) {
+                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                                && (approverBlackListMap.get(_cadre.getId() + "_" + unitId) == null)) {
+                            _users.add(_cadre.getUser());
+                        }
                     }
                 }
 
@@ -125,40 +128,42 @@ public class ApplySelfService extends AbroadBaseMapper {
             }else if (approverType.getType() == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 查找本单位人员（包含兼审单位）
 
                 List<SysUserView> _users = new ArrayList<SysUserView>();
-                List<Approver> approvers = iAbroadMapper.findApprovarByTypeAndUnit(approverTypeId, cadre.getUnitId());
-                for (Approver approver : approvers) {
-                    CadreView _cadre = approver.getCadre();
-                    if (_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
-                        _users.add(approver.getUser());
+                if(unitId!=null) {
+                    List<Approver> approvers = iAbroadMapper.findApprovarByTypeAndUnit(approverTypeId, unitId);
+                    for (Approver approver : approvers) {
+                        CadreView _cadre = approver.getCadre();
+                        if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                            _users.add(approver.getUser());
+                    }
                 }
-
                 return _users;
             } else if (approverType.getType() == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) { // 查找分管校领导
 
                 List<SysUserView> users = new ArrayList<SysUserView>();
-
-                String auth = approverType.getAuth();
-                if(ContentUtils.contains(auth, "1")) { // 分管部门
-                    MetaType leaderType = CmTag.getMetaTypeByCode("mt_leader_manager");
-                    List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderType.getId());
-                    for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
-                        CadreView _cadre = managerUnitLeader.getCadre();
-                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                                && approverBlackListMap.get(_cadre.getId()) == null)  // 排除黑名单
-                            users.add(_cadre.getUser());
+                if(unitId!=null) {
+                    String auth = approverType.getAuth();
+                    if (ContentUtils.contains(auth, "1")) { // 分管部门
+                        MetaType leaderType = CmTag.getMetaTypeByCode("mt_leader_manager");
+                        List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(unitId, leaderType.getId());
+                        for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
+                            CadreView _cadre = managerUnitLeader.getCadre();
+                            if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                                    || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                                    && approverBlackListMap.get(_cadre.getId()) == null)  // 排除黑名单
+                                users.add(_cadre.getUser());
+                        }
                     }
-                }
-                if(ContentUtils.contains(auth, "2")) { // 联系学院
-                    MetaType leaderType = CmTag.getMetaTypeByCode("mt_leader_contact");
-                    List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderType.getId());
-                    for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
-                        CadreView _cadre = managerUnitLeader.getCadre();
-                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                                && approverBlackListMap.get(_cadre.getId()) == null)  // 排除黑名单
-                            users.add(_cadre.getUser());
+                    if (ContentUtils.contains(auth, "2")) { // 联系学院
+                        MetaType leaderType = CmTag.getMetaTypeByCode("mt_leader_contact");
+                        List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(unitId, leaderType.getId());
+                        for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
+                            CadreView _cadre = managerUnitLeader.getCadre();
+                            if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                                    || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                                    && approverBlackListMap.get(_cadre.getId()) == null)  // 排除黑名单
+                                users.add(_cadre.getUser());
+                        }
                     }
                 }
 
@@ -553,7 +558,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                 List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
                 if (applicatCadres.size() == 0) {
                     SysUserView uv = applySelf.getUser();
-                    logger.error("因私审批数据异常，干部没有任何身份: {}, {}", uv.getCode(), uv.getRealname());
+                    logger.error("因私审批数据错误，干部没有任何身份: {}, {}", uv.getCode(), uv.getRealname());
                     return approvalResultMap;// 异常情况，不允许申请人没有任何身份
                 }
                 ApplicatCadre applicatCadre = applicatCadres.get(0);
@@ -640,17 +645,17 @@ public class ApplySelfService extends AbroadBaseMapper {
             // 1、读取所在的全部单位（该干部在这些单位中是正职）
             List<Integer> unitIds = new ArrayList<>();
             CadreView cv = cadreService.findAll().get(cadreId);
-            MetaType postType = CmTag.getMetaType(cv.getPostType());
-            if(postType!=null && BooleanUtils.isTrue(postType.getBoolAttr())){
+            if(BooleanUtils.isTrue(cv.getIsPrincipal())){
+
                 if(!approverBlackListMap.containsKey(cadreId + "_" + cv.getUnitId())) // 2、确定拥有该审批身份
                     unitIds.add(cv.getUnitId());
             }
+
             List<AbroadAdditionalPost> additionalPosts = abroadAdditionalPostService.findCadrePosts(cadreId);
             for (AbroadAdditionalPost additionalPost : additionalPosts) {
-                if(BooleanUtils.isTrue(CmTag.getMetaType(additionalPost.getPostId()).getBoolAttr())){
-                    if(!approverBlackListMap.containsKey(cadreId + "_" + additionalPost.getUnitId())) // 2、确定拥有该审批身份
+
+                if(!approverBlackListMap.containsKey(cadreId + "_" + additionalPost.getUnitId())) // 2、确定拥有该审批身份
                         unitIds.add(additionalPost.getUnitId());
-                }
             }
             if(unitIds.size()==0) return cadreIds;
 

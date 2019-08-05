@@ -117,7 +117,7 @@
                                         <label>所属${_p_partyName}</label>
                                         <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1"
                                                 name="partyId" data-placeholder="请选择">
-                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                            <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -246,7 +246,7 @@
             { label: '联系电话', name: 'phone', width: 130 },
             { label: '传真', name: 'fax' },
             { label: '邮箱', name: 'email' },
-            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} }
+            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

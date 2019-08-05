@@ -79,8 +79,7 @@ pageEncoding="UTF-8"%>
 					<c:set var="realname" value="${cetUnit.user.realname}"/>
 					<select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetUnit_selects"
 							data-placeholder="请选择内设机构">
-						<option value="${cetUnit.id}"
-								title="${cetUnit.unitStatus==UNIT_STATUS_HISTORY}">${cetUnit.unitName}</option>
+						<option value="${cetUnit.id}" delete="${cetUnit.unitStatus==UNIT_STATUS_HISTORY}">${cetUnit.unitName}</option>
 					</select>
 				</c:if>
 				<c:if test="${cetDiscuss.unitType==CET_DISCUSS_UNIT_TYPE_PARTY}">
@@ -90,7 +89,7 @@ pageEncoding="UTF-8"%>
 							data-placeholder="请选择院系级党委">
 						<option value="${cetParty.id}"
 								realname="${realname}"
-								title="${cetParty.partyIsDeleted}">${cetParty.partyName}</option>
+								delete="${cetParty.partyIsDeleted}">${cetParty.partyName}</option>
 					</select>
 				</c:if>
 				<c:if test="${cetDiscuss.unitType==CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL}">
@@ -100,7 +99,7 @@ pageEncoding="UTF-8"%>
 							data-placeholder="请选择二级党校">
 						<option value="${cetPartySchool.id}"
 								realname="${realname}"
-								title="${cetPartySchool.partySchoolIsHistory}">${cetPartySchool.partySchoolName}</option>
+								delete="${cetPartySchool.partySchoolIsHistory}">${cetPartySchool.partySchoolName}</option>
 					</select>
 				</c:if>
 				</div>

@@ -10,7 +10,7 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="source" jdbcType="TINYINT" property="source" />
     <result column="add_type" jdbcType="INTEGER" property="addType" />
-    <result column="transfer_time" jdbcType="TIMESTAMP" property="transferTime" />
+    <result column="transfer_time" jdbcType="DATE" property="transferTime" />
     <result column="apply_time" jdbcType="DATE" property="applyTime" />
     <result column="active_time" jdbcType="DATE" property="activeTime" />
     <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
@@ -128,7 +128,7 @@
       )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
-      #{source,jdbcType=TINYINT}, #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=TIMESTAMP}, 
+      #{source,jdbcType=TINYINT}, #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=DATE}, 
       #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, 
       #{sponsor,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{growBranch,jdbcType=VARCHAR}, 
       #{positiveTime,jdbcType=DATE}, #{positiveBranch,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
@@ -228,7 +228,7 @@
         #{addType,jdbcType=INTEGER},
       </if>
       <if test="transferTime != null">
-        #{transferTime,jdbcType=TIMESTAMP},
+        #{transferTime,jdbcType=DATE},
       </if>
       <if test="applyTime != null">
         #{applyTime,jdbcType=DATE},
@@ -302,7 +302,7 @@
         add_type = #{record.addType,jdbcType=INTEGER},
       </if>
       <if test="record.transferTime != null">
-        transfer_time = #{record.transferTime,jdbcType=TIMESTAMP},
+        transfer_time = #{record.transferTime,jdbcType=DATE},
       </if>
       <if test="record.applyTime != null">
         apply_time = #{record.applyTime,jdbcType=DATE},
@@ -355,7 +355,7 @@
       status = #{record.status,jdbcType=TINYINT},
       source = #{record.source,jdbcType=TINYINT},
       add_type = #{record.addType,jdbcType=INTEGER},
-      transfer_time = #{record.transferTime,jdbcType=TIMESTAMP},
+      transfer_time = #{record.transferTime,jdbcType=DATE},
       apply_time = #{record.applyTime,jdbcType=DATE},
       active_time = #{record.activeTime,jdbcType=DATE},
       candidate_time = #{record.candidateTime,jdbcType=DATE},
@@ -397,7 +397,7 @@
         add_type = #{addType,jdbcType=INTEGER},
       </if>
       <if test="transferTime != null">
-        transfer_time = #{transferTime,jdbcType=TIMESTAMP},
+        transfer_time = #{transferTime,jdbcType=DATE},
       </if>
       <if test="applyTime != null">
         apply_time = #{applyTime,jdbcType=DATE},
@@ -447,7 +447,7 @@
       status = #{status,jdbcType=TINYINT},
       source = #{source,jdbcType=TINYINT},
       add_type = #{addType,jdbcType=INTEGER},
-      transfer_time = #{transferTime,jdbcType=TIMESTAMP},
+      transfer_time = #{transferTime,jdbcType=DATE},
       apply_time = #{applyTime,jdbcType=DATE},
       active_time = #{activeTime,jdbcType=DATE},
       candidate_time = #{candidateTime,jdbcType=DATE},

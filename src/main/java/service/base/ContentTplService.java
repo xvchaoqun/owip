@@ -141,6 +141,11 @@ public class ContentTplService extends BaseMapper {
         ContentTpl entity = contentTplMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
 
+        String tableName = "base_content_tpl";
+        String whereSql = null;
+        adjustSortOrder(tableName, whereSql);
+        if(baseSortOrder==null) return;
+
         ContentTplExample example = new ContentTplExample();
         if (addNum > 0) {
 
@@ -158,9 +163,9 @@ public class ContentTplService extends BaseMapper {
             ContentTpl targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("base_content_tpl", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("base_content_tpl", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
 
             ContentTpl record = new ContentTpl();
             record.setId(id);

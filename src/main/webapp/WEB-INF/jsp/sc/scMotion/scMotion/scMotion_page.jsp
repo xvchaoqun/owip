@@ -73,8 +73,7 @@
                                 <label>所属单位</label>
                                 <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                                         data-placeholder="请选择">
-                                    <option value="${unit.id}"
-                                            title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                                    <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                                 </select>
                                 <script>
                                     $.register.del_select($("#searchForm select[name=unitId]"))
@@ -86,8 +85,7 @@
                                     <select name="unitPostId" data-rel="select2-ajax"
                                             data-ajax-url="${ctx}/unitPost_selects"
                                             data-placeholder="请选择">
-                                        <option value="${unitPost.id}"
-                                                title="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.name}</option>
+                                        <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.name}</option>
                                     </select>
                                     <script>
                                         $.register.del_select($("#searchForm select[name=unitPostId]"))

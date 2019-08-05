@@ -3,16 +3,27 @@ import org.junit.Test;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.RoleConstants;
 import sys.ip.IPSeeker;
+import sys.utils.DateUtils;
 import sys.utils.PatternUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
+import java.util.Date;
 
 /**
  * Created by fafa on 2016/8/24.
  */
 public class TTtest {
 
+    @Test
+    public void xxxxx() {
+
+        String name = "2010-06-01";
+        Date date = DateUtils.parseStringToDate(name);
+
+        System.out.println("date = " + DateUtils.formatDate(DateUtils.parseStringToDate(name),
+                    DateUtils.YYYY_MM_DD));
+    }
     @Test
     public void xxx() {
 

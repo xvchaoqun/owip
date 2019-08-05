@@ -14,7 +14,7 @@ public class UnitPost implements Serializable {
 
     private String job;
 
-    private Boolean isPrincipalPost;
+    private Boolean isPrincipal;
 
     private Byte leaderType;
 
@@ -78,12 +78,12 @@ public class UnitPost implements Serializable {
         this.job = job == null ? null : job.trim();
     }
 
-    public Boolean getIsPrincipalPost() {
-        return isPrincipalPost;
+    public Boolean getIsPrincipal() {
+        return isPrincipal;
     }
 
-    public void setIsPrincipalPost(Boolean isPrincipalPost) {
-        this.isPrincipalPost = isPrincipalPost;
+    public void setIsPrincipal(Boolean isPrincipal) {
+        this.isPrincipal = isPrincipal;
     }
 
     public Byte getLeaderType() {

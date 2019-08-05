@@ -1,5 +1,6 @@
 package xml;
 
+import bean.ResumeRow;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -9,25 +10,83 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
+import service.cadre.CadreUtils;
 import sys.utils.DateUtils;
+import sys.utils.PatternUtils;
 
 import java.io.*;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by lm on 2018/4/15.
  */
 public class XmlTest {
 
-    public String getNodeText(Document doc, String nodePath){
-        Node node = doc.selectSingleNode(nodePath);
-        return (node!=null)?node.getText():null;
+    @Test
+    public void test2() {
+
+        String content = "2016、2017、2018年均为合格";
+        //String content = "2015年，合格；2016年，合格。";
+
+        Pattern pattern = Pattern.compile("([1|2]\\d{3})[^\\d]+");
+        Matcher matcher = pattern.matcher(content);
+
+        while (matcher.find()){
+            String _year = matcher.group(1);
+            System.out.println("_year = " + _year);
+            int start = matcher.start(1);
+            System.out.println("start = " + start);
+        }
+
+        pattern = Pattern.compile("[^优秀|合格|不合格|良好]*(优秀|合格|不合格|良好)[^优秀|合格|不合格|良好]*");
+        matcher = pattern.matcher(content);
+        while (matcher.find()){
+            String result = matcher.group(1);
+            System.out.println("result = " + result);
+            int start = matcher.start(1);
+            System.out.println("start = " + start);
+        }
+    }
+    @Test
+    public void test() {
+
+        String content = "(1993.09-1997.07  北京邮电大学机电系机电控制及自动化专业 同等学力攻读在职硕士研究生)";
+        String desc = PatternUtils.withdraw("[（|\\(]{0,1}[0-9]{4}\\.[0-9]{2}-{1,2}[0-9]{4}\\.[0-9]{2}\\s*([^(\\)|）)]*)[）|\\)]{0,1}", content);
+
+        System.out.println("parseResumeRow = " + desc);
     }
 
-    public String getChildNodeText(Node node, String childNodePath){
+    public String getNodeText(Document doc, String nodePath) {
+        Node node = doc.selectSingleNode(nodePath);
+        return (node != null) ? node.getText() : null;
+    }
+
+    public String getChildNodeText(Node node, String childNodePath) {
         Node childNode = node.selectSingleNode(childNodePath);
-        return (childNode!=null)?childNode.getText():null;
+        return (childNode != null) ? childNode.getText() : null;
+    }
+
+    @Test
+    public void readRmJL() throws IOException, DocumentException {
+
+        SAXReader reader = new SAXReader();
+        //InputStream is = new FileInputStream("D:\\tmp\\孟祥海.lrmx");
+        //InputStream is = new FileInputStream("D:\\tmp\\张宝军.lrmx");
+        //InputStream is = new FileInputStream("D:\\tmp\\杜育红.lrmx");
+        //InputStream is = new FileInputStream("D:\\tmp\\陈丽媛.lrmx");
+        //InputStream is = new FileInputStream("D:\\tmp\\张连振.lrmx");
+        InputStream is = new FileInputStream("D:\\tmp\\周善宝.lrmx");
+        Document doc = reader.read(is);
+
+        String resume = getNodeText(doc, "//Person/JianLi");
+
+        List<ResumeRow> resumeRows = CadreUtils.parseResume(resume);
+        for (ResumeRow resumeRow : resumeRows) {
+            System.out.println(resumeRow);
+        }
     }
 
     @Test
@@ -81,7 +140,7 @@ public class XmlTest {
         node.setText(realname);
 
         OutputFormat format = OutputFormat.createPrettyPrint();
-        XMLWriter writer = new XMLWriter(new FileOutputStream("D://tmp/"+realname+".lrmx"),format);
+        XMLWriter writer = new XMLWriter(new FileOutputStream("D://tmp/" + realname + ".lrmx"), format);
         writer.write(doc);
         writer.close();
     }
@@ -93,7 +152,7 @@ public class XmlTest {
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xml/pmd/main_post.xml"));
         Document document = reader.read(is);
 
-        List<Node> nodeList = document.selectNodes( "//main-post-list/main-post" );
+        List<Node> nodeList = document.selectNodes("//main-post-list/main-post");
         for (Node node : nodeList) {
 
             String mainPost = node.valueOf("@name");

@@ -1,34 +1,21 @@
 package domain.cadre;
 
 import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchCadre;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class CadreAdminLevel implements Serializable {
 
-    public DispatchCadre getStartDispatchCadre(){
-        if(startDispatchCadreId!=null){
-            return CmTag.getDispatchCadre(startDispatchCadreId);
-        }
-        return null;
+    public Dispatch getsDispatch(){
+        return CmTag.getDispatch(sDispatchId);
     }
 
-    public Dispatch getStartDispatch(){
-
-        DispatchCadre startDispatchCadre = getStartDispatchCadre();
-        if(startDispatchCadre!=null){
-            return startDispatchCadre.getDispatch();
-        }
-        return null;
-    }
-    public Dispatch getEndDispatch(){
-        if(endDispatchCadreId!=null){
-            DispatchCadre dispatchCadre = CmTag.getDispatchCadre(endDispatchCadreId);
-            return dispatchCadre.getDispatch();
-        }
-        return null;
+    public Dispatch geteDispatch(){
+        return CmTag.getDispatch(eDispatchId);
     }
 
     private Integer id;
@@ -36,6 +23,18 @@ public class CadreAdminLevel implements Serializable {
     private Integer cadreId;
 
     private Integer adminLevel;
+
+    private Integer sDispatchId;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date sWorkTime;
+
+    private Integer eDispatchId;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date eWorkTime;
+
+    private String sPost;
 
     private Integer startDispatchCadreId;
 
@@ -67,6 +66,46 @@ public class CadreAdminLevel implements Serializable {
 
     public void setAdminLevel(Integer adminLevel) {
         this.adminLevel = adminLevel;
+    }
+
+    public Integer getsDispatchId() {
+        return sDispatchId;
+    }
+
+    public void setsDispatchId(Integer sDispatchId) {
+        this.sDispatchId = sDispatchId;
+    }
+
+    public Date getsWorkTime() {
+        return sWorkTime;
+    }
+
+    public void setsWorkTime(Date sWorkTime) {
+        this.sWorkTime = sWorkTime;
+    }
+
+    public Integer geteDispatchId() {
+        return eDispatchId;
+    }
+
+    public void seteDispatchId(Integer eDispatchId) {
+        this.eDispatchId = eDispatchId;
+    }
+
+    public Date geteWorkTime() {
+        return eWorkTime;
+    }
+
+    public void seteWorkTime(Date eWorkTime) {
+        this.eWorkTime = eWorkTime;
+    }
+
+    public String getsPost() {
+        return sPost;
+    }
+
+    public void setsPost(String sPost) {
+        this.sPost = sPost == null ? null : sPost.trim();
     }
 
     public Integer getStartDispatchCadreId() {

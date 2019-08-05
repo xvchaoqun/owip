@@ -43,8 +43,10 @@
                 <tr>
                     <td data-code="type">兼职类型</td>
                     <td class="bg-left">${cm:getMetaType(modify.type).name}
-                        ${(cm:getMetaTypeByCode("mt_cadre_company_other").id==modify.type
-                        && not empty modify.typeOther)?"："+modify.typeOther:""}
+                        <c:if test="${(cm:getMetaTypeByCode('mt_cadre_company_other').id==modify.type
+                        && not empty modify.typeOther)}">
+                            ：${modify.typeOther}
+                        </c:if>
                     </td>
                     <td data-code="unit">兼职单位</td>
                     <td class="bg-left">${modify.unit}</td>
@@ -60,7 +62,7 @@
                     <td class="bg-left">${cm:formatDate(modify.approvalDate,'yyyy-MM-dd')}</td>
                     <td data-code="approvalFile">批复文件</td>
                     <td class="bg-left">
-                        <a href="${ctx}/attach/download?path=${cm:encodeURI(modify.approvalFile)}&filename=${cm:encodeURI(modify.approvalFilename)}">${modify.approvalFilename}</a>
+                        <a href="${ctx}/attach_download?path=${cm:encodeURI(modify.approvalFile)}&filename=${cm:encodeURI(modify.approvalFilename)}">${modify.approvalFilename}</a>
                     </td>
                     <td data-code="hasPay">是否取酬</td>
                     <td class="bg-left">${modify.hasPay?"是":"否"}</td>
@@ -68,8 +70,12 @@
                     <td class="bg-left">${modify.hasHand?"是":"否"}</td>
                 </tr>
                 <tr>
+                    <td data-code="isFinished">兼职是否结束</td>
+                    <td class="bg-left">${modify.isFinished?"是":"否"}</td>
+                    <td data-code="finishTime">兼职结束时间</td>
+                    <td class="bg-left">${cm:formatDate(modify.finishTime,'yyyy-MM-dd')}</td>
                     <td data-code="remark">备注</td>
-                    <td colspan="9" class="bg-left">${modify.remark}</td>
+                    <td colspan="5" class="bg-left">${modify.remark}</td>
                 </tr>
             </table>
         </div>
@@ -197,7 +203,7 @@
     $(window).triggerHandler('resize.jqGrid4');
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'));
     });
 </script>

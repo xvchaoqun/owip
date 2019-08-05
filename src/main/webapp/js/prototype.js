@@ -57,13 +57,20 @@ String.prototype.htmldecode = function(){
     div.innerHTML = this;
     return div.innerText || div.textContent;
 }
+// 移除span标签（保留文本）
+String.prototype.removeSpan = function(){
+    return this.replace(/<span[^\>]*>(.*?)<\/span>/g, '$1');
+}
 
+// 不足位数在前面填充0
 if (!String.prototype.zfill) {
     String.prototype.zfill = function(len) {
         if (len == undefined || typeof len != 'number' || this.length >= len) {return this.toString()}
         return Array(len - this.length + 1).join('0') + this;
     }
 }
+
+// 不足位数在前面填充0
 if (!Number.prototype.zfill) {
     Number.prototype.zfill = function(len) {
         if (len == undefined || typeof len != 'number' || this.toString().length >= len) {return this.toString()}

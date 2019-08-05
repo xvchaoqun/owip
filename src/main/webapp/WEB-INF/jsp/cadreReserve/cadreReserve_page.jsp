@@ -12,10 +12,10 @@
              data-url-page="${ctx}/cadreReserve"
 
              data-url-co="${ctx}/cadreReserve_changeOrder"
-             data-url-export="${ctx}/cadreReserve_data"
+             data-url-export="${ctx}/cadreReserve_data?reserveType=${reserveType}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.adminLevel
-            ||not empty param.postType ||not empty param.title || not empty param.code }"/>
+            ||not empty param.postType ||not empty param.title || not empty param.hasCrp|| not empty param.code }"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
 
@@ -53,7 +53,7 @@
                         </div>
                     </shiro:lacksPermission>
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content  multi-row-head-table">
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
@@ -101,6 +101,12 @@
                                 </button>
 
                                 <c:if test="${status==CADRE_RESERVE_STATUS_TO_INSPECT}">
+                                    <shiro:lacksPermission name="cadreInspect:list">
+                                    <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                            data-url="${ctx}/cadreReserve_inspectPass">
+                                        <i class="fa fa-check"></i> 通过常委会任命
+                                    </button>
+                                    </shiro:lacksPermission>
                                     <button class="jqBatchBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/cadreReserve_batchDelPass" data-title="删除"
                                             data-msg="确定删除这{0}条记录吗？（该考察对象的关联数据都将删除，不可恢复。）"><i class="fa fa-trash"></i>
@@ -120,9 +126,37 @@
                                     </button>
                                 </c:if>
                             </shiro:lacksPermission>
-                            <a class="jqExportBtn btn btn-success btn-sm"
+                            <%--<a class="jqExportBtn btn btn-success btn-sm"
                                data-rel="tooltip" data-placement="bottom"
-                               title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+                               title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>--%>
+                            <div class="btn-group">
+                                <button data-toggle="dropdown"
+                                        data-rel="tooltip" data-placement="top" data-html="true"
+                                        title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
+                                        class="btn btn-success btn-sm dropdown-toggle tooltip-success">
+                                    <i class="fa fa-download"></i> 导出  <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                                    <li>
+                                        <a href="javascript:;" class="jqExportBtn" data-need-id="false">
+                                            <i class="fa fa-file-excel-o"></i> 导出一览表（全部字段）</a>
+                                    </li>
+                                    <shiro:hasPermission name="cadre:list">
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreEdu_data?exportType=1&reserveType=${reserveType}">
+                                                <i class="fa fa-file-excel-o"></i> 导出学习经历（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreWork_data?exportType=1&reserveType=${reserveType}">
+                                                <i class="fa fa-file-excel-o"></i> 导出工作经历（批量）</a>
+                                        </li>
+                                    </shiro:hasPermission>
+                                </ul>
+                            </div>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -176,6 +210,18 @@
                                             <input class="form-control search-query" name="title" type="text"
                                                    value="${param.title}"
                                                    placeholder="请输入单位及职务">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>是否有挂职经历</label>
+                                            <select name="hasCrp" data-width="100" data-rel="select2"
+                                                    data-placeholder="请选择">
+                                                <option></option>
+                                                <option value="1">是</option>
+                                                <option value="0">否</option>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=hasCrp]").val('${param.hasCrp}');
+                                            </script>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i
@@ -237,24 +283,20 @@
             {label: '所在单位', name: 'unit.name', width: 200, align: 'left'},
             {label: '现任职务', name: 'post', align: 'left', width: 250},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
+            {label: '任职时间', name: 'reservePostTime', width: 80, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter: $.jgrid.formatter.MetaType},
-            {
-                label: '是否正职', name: 'mainCadrePost.postType', formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '--';
-                    return _cMap.metaTypeMap[cellvalue].boolAttr ? "是" : "否"
-                }
-            },
+            {label: '是否正职', name: 'isPrincipal', formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation', width: 60},
             {label: '籍贯', name: 'nativePlace', width: 120},
-            {label: '身份证号', name: 'idcard', width: 150},
-            {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '身份证号', name: 'idcard', width: 160},
+            {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '党派', name: '_cadreParty', width: 80, width: 80, formatter: $.jgrid.formatter.cadreParty},
-            {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
+            {label: '党派<br/>加入时间', name: '_growTime', width: 80, formatter: $.jgrid.formatter.growTime},
             {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
-            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
             {label: '最高学位', name: 'degree'},
             {label: '毕业时间', name: 'finishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
@@ -267,86 +309,65 @@
                 }
             },
             {label: '所学专业', name: 'major'},
-
-            {label: '岗位类别', name: 'postClass'},
             {label: '专业技术职务', name: 'proPost', width: 120},
-            {label: '专技岗位等级', name: 'proPostLevel', width: 150},
-            {label: '管理岗位等级', name: 'manageLevel', width: 150},
             {
                 label: '现职务任命文件',
                 width: 150,
-                name: 'mainCadrePost.dispatchCadreRelateBean.first',
+                name: 'npDispatch',
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '--';
                     var dispatchCode = cellvalue.dispatchCode;
-                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                    return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
                 label: '任现职时间',
-                name: 'mainCadrePost.dispatchCadreRelateBean.last.workTime',
+                name: 'lpWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
-                label: '现职务始任时间',
-                width: 150,
-                name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
+                label: '现职务<br/>始任时间',
+                width: 90,
+                name: 'npWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
-                label: '任现职务年限',
-                width: 120,
-                name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
+                label: '任现职务<br/>年限',
+                width: 70,
+                name: 'cadrePostYear',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
-                    var year = $.yearOffNow(cellvalue);
-                    return year == 0 ? "未满一年" : year;
+                    return cellvalue == 0 ? "未满一年" : cellvalue;
                 }
             },
             {
-                label: '职级始任日期',
-                width: 120,
-                name: 'presentAdminLevel.startDispatch.workTime',
+                label: '职级<br/>始任日期',
+                width: 90,
+                name: 'sWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
-                label: '任职级年限',
-                width: 120,
-                name: 'workYear',
+                label: '任职级<br/>年限',
+                width: 60,
+                name: 'adminLevelYear',
                 formatter: function (cellvalue, options, rowObject) {
-                    //console.log(rowObject.endDispatch)
-                    if (rowObject.presentAdminLevel == undefined || rowObject.presentAdminLevel.startDispatch == undefined) return '--';
-
-                    var end;
-                    if (rowObject.presentAdminLevel.endDispatch != undefined)
-                        end = rowObject.presentAdminLevel.endDispatch.workTime;
-                    if (rowObject.presentAdminLevel.adminLevel == rowObject.mainCadrePost.adminLevel)
-                        end = new Date().format("yyyy-MM-dd");
-                    if (rowObject.presentAdminLevel.startDispatch.workTime == undefined || end == undefined) return '--';
-
-                    var month = $.monthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
-                    var year = Math.floor(month / 12);
-                    return year == 0 ? "未满一年" : year;
+                    if (cellvalue == undefined) return '--';
+                    return cellvalue == 0 ? "未满一年" : cellvalue;
                 }
             },
+            {label: '是否有<br/>挂职经历', width:80, name: 'hasCrp', formatter: $.jgrid.formatter.TRUEFALSE},
             {
-                label: '是否双肩挑', name: 'mainCadrePost.isDouble', formatter: function (cellvalue, options, rowObject) {
+                label: '是否<br/>双肩挑', width:70, name: 'isDouble', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     return cellvalue ? "是" : "否";
                 }
             },
-            /* {
-                 label: '双肩挑单位',
-                 name: 'mainCadrePost.doubleUnitId',
-                 width: 150,
-                 formatter: $.jgrid.formatter.unit
-             },*/
             {
                 label: '双肩挑单位',
-                name: 'mainCadrePost.doubleUnitIds',
+                name: 'doubleUnitIds',
                 width: 250,
                 formatter: function (cellvalue, options, rowObject) {
 
@@ -354,12 +375,9 @@
                     return ($.map(cellvalue.split(","), function (unitId) {
                         return $.jgrid.formatter.unit(unitId);
                     })).join("，")
-
                 }
             },
             {label: '联系方式', name: 'mobile'},
-            /*{ label: '办公电话', name: 'phone' },
-             { label: '家庭电话', name: 'homePhone' },*/
             {label: '电子邮箱', name: 'email', width: 150},
             <c:if test="${_p_hasPartyModule}">
             {

@@ -1,0 +1,66 @@
+package ext.service;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import ext.domain.ExtJzg;
+import ext.domain.ExtJzgExample;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ext.persistence.ExtJzgMapper;
+import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+@Service
+public class ExtJzgImport extends Source {
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    public ExtJzgMapper extJzgMapper;
+    public String schema = PropertiesUtils.getString("ext_jzg_schema");
+    public String tableName = PropertiesUtils.getString("ext_jzg_tableName");
+    public String key = PropertiesUtils.getString("ext_jzg_key");
+
+    public void byCode(String code) {
+
+        logger.info("更新教职工账号库基本信息:" + code);
+        excute(schema, tableName, String.format("where "+ key +"='%s'", code));
+    }
+
+    public void excute(Integer syncId){
+        logger.info("更新教职工账号库基本信息");
+        long startTime=System.currentTimeMillis();
+        excute(schema, tableName, "order by " + key, syncId);
+        long endTime=System.currentTimeMillis();
+        logger.info("更新教职工账号库基本信息程序运行时间： " + (endTime - startTime) + "ms");
+    }
+
+    public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
+
+        String zgh = StringUtils.trimToEmpty(map.get(key).toString());
+        map.put("zgh", zgh);
+
+        /*if(zgh.startsWith("113120180")){
+            logger.info("zgh=========" + rs.getString("zgh"));
+        }*/
+        //Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        ExtJzg extJzg = gson.fromJson(JSONUtils.toString(map), ExtJzg.class);
+        ExtJzgExample example = new ExtJzgExample();
+        example.createCriteria().andZghEqualTo(zgh);
+        List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
+        if (extJzges.size() > 0) {
+            extJzgMapper.updateByExample(extJzg, example);
+        } else {
+            extJzgMapper.insert(extJzg);
+           /* if(StringUtils.equals("11312018031", zgh))
+                    logger.info("插入=========" + rs.getString("zgh"));*/
+        }
+    }
+
+}

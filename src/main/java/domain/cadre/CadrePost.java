@@ -1,25 +1,38 @@
 package domain.cadre;
 
-import persistence.dispatch.common.DispatchCadreRelateBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadreRelate;
+import org.springframework.format.annotation.DateTimeFormat;
+import persistence.dispatch.common.DispatchCadreRelateBean;
 import sys.constants.DispatchConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class CadrePost implements Serializable {
 
-    public DispatchCadreRelateBean getDispatchCadreRelateBean(){
+    @JsonIgnore
+    public CadreView getCadre(){
+        return CmTag.getCadreById(cadreId);
+    }
+
+     public DispatchCadreRelateBean getDispatchCadreRelateBean(){
+
         List<DispatchCadreRelate> all = CmTag.findDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
         if(all==null) return null;
         return new DispatchCadreRelateBean(all);
     }
 
-    @JsonIgnore
-    public CadreView getCadre(){
-        return CmTag.getCadreById(cadreId);
+    public Dispatch getNpDispatch(){
+        return CmTag.getDispatch(npDispatchId);
+    }
+
+    public Dispatch getLpDispatch(){
+        return CmTag.getDispatch(npDispatchId);
     }
 
     private Integer id;
@@ -28,11 +41,25 @@ public class CadrePost implements Serializable {
 
     private Integer unitPostId;
 
+    private String postName;
+
     private String post;
+
+    private Integer lpDispatchId;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date lpWorkTime;
+
+    private Integer npDispatchId;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date npWorkTime;
 
     private Integer postType;
 
     private Integer adminLevel;
+
+    private Boolean isPrincipal;
 
     private Boolean isCpc;
 
@@ -40,11 +67,9 @@ public class CadrePost implements Serializable {
 
     private Integer unitId;
 
-    private Boolean isDouble;
-
-    private String doubleUnitIds;
-
     private Boolean isMainPost;
+
+    private Boolean isFirstMainPost;
 
     private Integer sortOrder;
 
@@ -74,12 +99,52 @@ public class CadrePost implements Serializable {
         this.unitPostId = unitPostId;
     }
 
+    public String getPostName() {
+        return postName;
+    }
+
+    public void setPostName(String postName) {
+        this.postName = postName == null ? null : postName.trim();
+    }
+
     public String getPost() {
         return post;
     }
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
+    }
+
+    public Integer getLpDispatchId() {
+        return lpDispatchId;
+    }
+
+    public void setLpDispatchId(Integer lpDispatchId) {
+        this.lpDispatchId = lpDispatchId;
+    }
+
+    public Date getLpWorkTime() {
+        return lpWorkTime;
+    }
+
+    public void setLpWorkTime(Date lpWorkTime) {
+        this.lpWorkTime = lpWorkTime;
+    }
+
+    public Integer getNpDispatchId() {
+        return npDispatchId;
+    }
+
+    public void setNpDispatchId(Integer npDispatchId) {
+        this.npDispatchId = npDispatchId;
+    }
+
+    public Date getNpWorkTime() {
+        return npWorkTime;
+    }
+
+    public void setNpWorkTime(Date npWorkTime) {
+        this.npWorkTime = npWorkTime;
     }
 
     public Integer getPostType() {
@@ -96,6 +161,14 @@ public class CadrePost implements Serializable {
 
     public void setAdminLevel(Integer adminLevel) {
         this.adminLevel = adminLevel;
+    }
+
+    public Boolean getIsPrincipal() {
+        return isPrincipal;
+    }
+
+    public void setIsPrincipal(Boolean isPrincipal) {
+        this.isPrincipal = isPrincipal;
     }
 
     public Boolean getIsCpc() {
@@ -122,28 +195,20 @@ public class CadrePost implements Serializable {
         this.unitId = unitId;
     }
 
-    public Boolean getIsDouble() {
-        return isDouble;
-    }
-
-    public void setIsDouble(Boolean isDouble) {
-        this.isDouble = isDouble;
-    }
-
-    public String getDoubleUnitIds() {
-        return doubleUnitIds;
-    }
-
-    public void setDoubleUnitIds(String doubleUnitIds) {
-        this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
-    }
-
     public Boolean getIsMainPost() {
         return isMainPost;
     }
 
     public void setIsMainPost(Boolean isMainPost) {
         this.isMainPost = isMainPost;
+    }
+
+    public Boolean getIsFirstMainPost() {
+        return isFirstMainPost;
+    }
+
+    public void setIsFirstMainPost(Boolean isFirstMainPost) {
+        this.isFirstMainPost = isFirstMainPost;
     }
 
     public Integer getSortOrder() {

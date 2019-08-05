@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
+<c:set value="${_pMap['proPostTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_proPostTimeFormat"/>
 <script>
     var colModels = function () {
     };
@@ -25,40 +26,42 @@
         }},
         </c:if>
         </c:if>
+        <c:if test="${_p_useCadreState}">
         {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
+        </c:if>
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
-        {label: '是否<br/>常委', name: 'isCommitteeMember', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>常委', name: 'isCommitteeMember', width: 60, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-        {label: '是否正职', name: 'isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
-        { label: '是否<br/>班子负责人',name: 'leaderType', width: 120, formatter:function(cellvalue, options, rowObject){
+        {label: '是否<br/>正职', name: 'isPrincipal', width: 60, formatter: $.jgrid.formatter.TRUEFALSE},
+        { label: '是否<br/>班子负责人',name: 'leaderType', width: 80, formatter:function(cellvalue, options, rowObject){
             if(cellvalue==undefined) return '--';
             return _cMap.UNIT_POST_LEADER_TYPE_MAP[cellvalue];
         }},
-        {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
+        {label: '性别', name: 'gender', width: 60, formatter:$.jgrid.formatter.GENDER},
         {label: '民族', name: 'nation', width: 60},
         {label: '籍贯', name: 'nativePlace', width: 120},
         {label: '出生地', name: 'user.homeplace', width: 120},
         {label: '身份证号', name: 'idcard', width: 170},
-        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
-        {label: '党派<br/>加入时间', name: '_growTime', formatter: $.jgrid.formatter.growTime},
+        {label: '党派<br/>加入时间', name: '_growTime', width: 80, formatter: $.jgrid.formatter.growTime},
         {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
         {
-            label: '参加工作时间', name: 'workTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}
+            label: '参加工作<br/>时间', name: 'workTime', width: 80, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}
         },
-        {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '最高学位', name: 'degree'},
         {label: '毕业时间', name: 'finishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '学习方式', name: 'learnStyle', formatter: $.jgrid.formatter.MetaType},
         {label: '毕业学校', name: 'school', width: 150},
         {
-            label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
+            label: '学校类型', name: 'schoolType', width: 80, formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '--';
             return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
         }
@@ -101,11 +104,12 @@
                 return cadreEdus[1].school + cadreEdus[1].dep + cadreEdus[1].major;
             }
         },
-        {label: '岗位类别', name: 'postClass'},
-        {label: '主岗等级', name: 'mainPostLevel', width: 150},
+        /*{label: '岗位类别', name: 'postClass'},
+        {label: '主岗等级', name: 'mainPostLevel', width: 150},*/
         {label: '专业技术职务', name: 'proPost', width: 120},
-        {label: '专技职务<br/>评定时间', name: 'proPostTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-        {label: '专技岗位等级', name: 'proPostLevel', width: 150},
+        {label: '专技职务<br/>评定时间', name: 'proPostTime',
+            formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_proPostTimeFormat}'}},
+        /*{label: '职称级别', name: 'proPostLevel', width: 150},
         {
             label: '专技岗位<br/>分级时间',
             name: 'proPostLevelTime',
@@ -118,29 +122,28 @@
             name: 'manageLevelTime',
             formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m'}
-        },
+        },*/
         {
             label: '现职务任命文件',
             width: 150,
-            name: 'mainCadrePost.dispatchCadreRelateBean.first',
+            name: 'npDispatch',
             formatter: function (cellvalue, options, rowObject) {
                 if (!cellvalue || cellvalue.id == undefined) return '--';
                 var dispatchCode = cellvalue.dispatchCode;
-
-                return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+                return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
             }
         },
         {
             label: '任现职时间',
             name: 'lpWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
             label: '现职务<br/>始任时间',
             name: 'npWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
             label: '现职务<br/>始任年限',
@@ -154,26 +157,21 @@
             label: '现职级<br/>始任时间',
             name: 'sWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {
-            label: '任现职级年限',
-            width: 120,
+            label: '任现职级<br/>年限',
+            width: 80,
             name: 'adminLevelYear',
             formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
                 return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         },
-        {label: '是否<br/>双肩挑', width:60, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
-        /*{
-            label: '双肩挑单位',
-            name: 'doubleUnitId',
-            width: 150,
-            formatter: $.jgrid.formatter.unit
-        },*/
+        {label: '是否有<br/>挂职经历', width:80, name: 'hasCrp', formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否<br/>双肩挑', width:70, name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
         {
-            label: '双肩挑单位', name: 'doubleUnitIds',width: 250,formatter: function (cellvalue, options, rowObject) {
+            label: '双肩挑单位', name: 'doubleUnitIds', align:'left',width: 250,formatter: function (cellvalue, options, rowObject) {
 
             if($.trim(cellvalue)=='') return '--'
             return ($.map(cellvalue.split(","), function(unitId){
@@ -208,7 +206,7 @@
         }
         },
         </shiro:lacksPermission>
-        {label: '备注', name: 'remark', width: 150, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
+        {label: '备注', name: 'remark', align:'left', width: 250, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
     ];
     colModels.cadre2 = [
         {label: '工作证号', name: 'code', width: 110, frozen: true},
@@ -222,7 +220,7 @@
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '身份证号', name: 'idcard', width: 170},
-        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '专业技术职务', name: 'proPost', width: 120},
@@ -230,7 +228,7 @@
             label: '任现职时间',
             name: 'lpWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m.d'}
         },
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
@@ -260,7 +258,9 @@
         }},
         </c:if>
         </c:if>
+        <c:if test="${_p_useCadreState}">
         {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
+        </c:if>
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '原职务', name: 'post', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
@@ -269,7 +269,7 @@
             label: '离任文件', name: 'dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
 
             if (cellvalue == undefined) return '--';
-            return $.swfPreview(cellvalue.file, cellvalue.fileName, cellvalue.dispatchCode, cellvalue.dispatchCode);
+            return $.pdfPreview(cellvalue.file, cellvalue.fileName, cellvalue.dispatchCode, cellvalue.dispatchCode);
 
         }, frozen: true
         },
@@ -379,7 +379,7 @@
         {label: '备注', name: 'remark', width: 180, align:'left'},  {hidden: true, key: true, name: 'id'}];
 
     colModels.cadreBook = [
-        {label: '出版日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '出版日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '著作名称', name: 'name', width: 350, align:'left'},
         {label: '出版社', name: 'publisher', width: 280, align:'left'},
         {
@@ -411,14 +411,14 @@
     ];
 
     colModels.cadrePaper = [
-        {label: '发表日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '发表日期', name: 'pubTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '论文题目', name: 'name', width: 650, align:'left'},
         {label: '期刊名称', name: 'press', width: 350, align:'left'},
         /*{label: '论文', name: 'fileName', width: 150},*/
         {
             label: '预览', width: 70, formatter: function (cellvalue, options, rowObject) {
 
-            return $.swfPreview(rowObject.filePath, rowObject.fileName, "预览");
+            return $.pdfShow(rowObject.filePath, rowObject.fileName, "预览");
         }
         },
         {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, key: true, name: 'id'}
@@ -504,7 +504,7 @@
         {label: '职级', name: 'postLevel', frozen:true},
         {label: '专业技术职务', name: 'post', width: 250, formatter: $.jgrid.formatter.MetaType},
         {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-        {label: '专技岗位等级', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
+        {label: '职称级别', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
         {label: '专技岗位分级时间', name: 'gradeTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '专技岗位备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
@@ -590,7 +590,7 @@
 
     colModels.cisInspectObj = [
         {label: '编号', name: 'sn', width: 180, frozen: true},
-        {label: '考察日期', name: 'inspectDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '考察日期', name: 'inspectDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
         {label: '考察对象', name: 'cadre.realname', formatter: function (cellvalue, options, rowObject) {
             return $.cadre(rowObject.cadre.id, cellvalue);
@@ -652,7 +652,7 @@
 
                 var code =  _cMap.metaTypeMap[rowObject.typeId].name + "[" + rowObject.year + "]" + rowObject.seq + "号";
                 var fileName = code + "考察原始记录.pdf";
-                ret = $.swfPreview(logFile, fileName, '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 预览</button>');
+                ret = $.pdfPreview(logFile, fileName, '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 预览</button>');
             }
 
             return ret;
@@ -667,20 +667,20 @@
         {label: '备注', name: 'remark'}, {hidden: true, name: 'inspectorType'}
     ];
     colModels.cadreReport = [
-        {label: '形成日期', name: 'createDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '形成日期', name: 'createDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
         {label: '姓名', name: 'cadre.realname', frozen: true},
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
         {
             label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
 
-            return $.swfPreview(rowObject.filePath, rowObject.fileName, "查看");
+            return $.pdfPreview(rowObject.filePath, rowObject.fileName, "查看");
         }
         },
         {label: '备注', name: 'remark'}
     ];
     colModels.cisEvaluate = [
-        {label: '形成日期', name: 'createDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '形成日期', name: 'createDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
         {label: '考察对象', name: 'cadre.realname', frozen: true},
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 450},
@@ -692,7 +692,7 @@
         /*{
             label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
 
-            return $.swfPreview(rowObject.filePath, rowObject.fileName, "查看");
+            return $.pdfPreview(rowObject.filePath, rowObject.fileName, "查看");
         }
         },*/
         {
@@ -703,16 +703,16 @@
                 if ($.trim(pdfFilePath) != '') {
                     var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName));
                 }
                 var wordFilePath = rowObject.wordFilePath;
                 if ($.trim(wordFilePath) != '') {
 
                     var fileName = (rowObject.fileName || rowObject.id) + (wordFilePath.substr(wordFilePath.indexOf(".")));
-                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                    ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
                             .format(encodeURI(wordFilePath), encodeURI(fileName));
                 }
                 return ret;

@@ -15,8 +15,8 @@
           if ($.trim(rowObject.realHandTime)=='' && _date <= new Date().format('yyyy-MM-dd hh:mm'))
               return "class='danger'";
       }, width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
-      {label: '实交回日期', name: 'realHandTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-      {label: '封面填表日期', name: 'fillTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+      {label: '实交回日期', name: 'realHandTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+      {label: '封面填表日期', name: 'fillTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
       { label: '备注',name: 'remark', width: 230}
   ]
 </script>

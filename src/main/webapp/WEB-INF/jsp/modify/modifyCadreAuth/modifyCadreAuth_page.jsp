@@ -32,6 +32,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 一键清理
                     </button>
                 </shiro:hasPermission>
+                注：已过期的记录系统将自动定期删除
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -102,8 +103,8 @@ pageEncoding="UTF-8" %>
                 if (cellvalue == undefined) return '--';
                 return _cMap.CADRE_STATUS_MAP[cellvalue];
             }},
-            { label: '起始日期',name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            { label: '结束日期',name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '起始日期',name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            { label: '结束日期',name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '是否永久有效',name: 'isUnlimited', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
                 return cellvalue ? "是" : "否"

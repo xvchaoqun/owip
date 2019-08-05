@@ -11,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.member.common.MemberStatByPartyBean;
 import sys.constants.MemberConstants;
+import sys.tags.CmTag;
+import sys.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,12 @@ public class StatOwController extends BaseController {
      * @return
      */
     @RequestMapping("/stat_ow_page")
-    public String stat_ow_page() {
+    public String stat_ow_page(ModelMap modelMap) {
+
+        Integer statPartyMemberCount = CmTag.getIntProperty("statPartyMemberCount");
+        statPartyMemberCount = (statPartyMemberCount==null)?20:statPartyMemberCount;
+
+        modelMap.put("statPartyMemberCount", NumberUtils.toHanStr(statPartyMemberCount));
 
         return "analysis/ow/stat_ow_page";
     }
@@ -62,14 +69,15 @@ public class StatOwController extends BaseController {
 
     // 二级党委党员数量分布情况
     @RequestMapping("/stat_member_party")
-    public String stat_member_party(Integer top, ModelMap modelMap) {
+    public String stat_member_party(ModelMap modelMap) {
 
         List<String> categories = new ArrayList<>();
         List<Integer> teachers = new ArrayList<>();
         List<Integer> students = new ArrayList<>();
 
+        Integer statPartyMemberCount = CmTag.getIntProperty("statPartyMemberCount");
         Map<Integer, Party> partyMap = partyService.findAll();
-        List<MemberStatByPartyBean> memberStatByPartyBeans = statService.partyMap(top);
+        List<MemberStatByPartyBean> memberStatByPartyBeans = statService.partyMap(statPartyMemberCount);
         for (MemberStatByPartyBean bean : memberStatByPartyBeans) {
             Party party = partyMap.get(bean.getPartyId());
             categories.add(StringUtils.defaultIfBlank(party.getShortName(), party.getName()));

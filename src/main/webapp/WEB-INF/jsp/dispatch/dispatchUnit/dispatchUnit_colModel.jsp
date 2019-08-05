@@ -5,10 +5,10 @@
             { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
             { label:'发文号',  name: 'dispatch.dispatchCode', width: 190, formatter:function(cellvalue, options, rowObject){
 
-                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
+                return $.pdfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                     cellvalue, cellvalue, '${param.type eq 'all'?'modal':'url'}');
             },frozen:true },
-            { label: '发文日期',  name: 'dispatch.pubTime',frozen:true , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'} },
+            { label: '发文日期',  name: 'dispatch.pubTime',frozen:true , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
 
             { label:'机构类型', name: 'type', width: 90, formatter:function(cellvalue, options, rowObject){
 

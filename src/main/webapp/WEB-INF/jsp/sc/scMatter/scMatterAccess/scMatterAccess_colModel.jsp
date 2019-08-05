@@ -5,11 +5,11 @@
 <c:if test="${param.cls!=-1}">
       {label: '年份', name: 'year', width: 80, frozen: true},
     </c:if>
-      {label: '调阅日期', name: 'accessDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+      {label: '调阅日期', name: 'accessDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
           <c:if test="${param.cls!=-1}">
       {
           label: '调阅函', name: 'accessFile', width: 80, formatter: function (cellvalue, options, rowObject) {
-          return $.swfPreview(rowObject.accessFile, "调阅函", "查看");
+          return $.pdfPreview(rowObject.accessFile, "调阅函", "查看");
       }
       },
       </c:if>
@@ -33,7 +33,7 @@
       }
       },
     </c:if>
-      {label: '办理日期', name: 'handleDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+      {label: '办理日期', name: 'handleDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
       {label: '经办人', name: 'handleUser.realname'},
 <c:if test="${param.cls!=-1}">
       {label: '接收人', name: 'receiver'},

@@ -36,7 +36,7 @@
                             data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改
                     </button>
-                    <button id="pubBtn" class="jqItemBtn btn btn-success btn-sm"
+                    <%--<button id="pubBtn" class="jqItemBtn btn btn-success btn-sm"
                             data-url="${ctx}/cet/cetTrain_pub"
                             data-title="发布"
                             data-msg="确定发布该培训班？"
@@ -53,14 +53,15 @@
                             data-grid-id="#jqGrid2"
                             data-querystr="pubStatus=2"><i class="fa fa-times"></i>
                         取消发布
-                    </button>
-                    <button id="finishBtn" class="jqItemBtn btn btn-primary btn-sm"
+                    </button>--%>
+                    <button id="finishBtn" class="jqItemBtn btn btn-warning btn-sm"
                             data-url="${ctx}/cet/cetTrain_finish"
                             data-title="结课"
                             data-msg="确定培训班结课？"
                             data-callback="_reload3"
-                            data-grid-id="#jqGrid2"
-                            ><i class="fa fa-dot-circle-o"></i>
+                            data-grid-id="#jqGrid2">
+                        <i class="prompt fa fa-question-circle"
+                           data-prompt="结课后，该培训班将不显示在参训人员的[学习培训中心-选课中心]"></i>
                         结课
                     </button>
                 </shiro:hasPermission>
@@ -145,13 +146,13 @@
                         .format(rowObject.id);
             }, frozen: true
             },
-            {
+            /*{
                 label: '发布状态', name: '_pubStatus', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.pubStatus == undefined) return '--';
                 return ('<span class="{0}">' + _cMap.CET_TRAIN_PUB_STATUS_MAP[rowObject.pubStatus] + '</span>')
                         .format(rowObject.pubStatus !=${CET_TRAIN_PUB_STATUS_PUBLISHED} ? 'text-danger bolder' : 'text-success');
 
-            }, frozen: true},
+            }, frozen: true},*/
             {
                 label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFinished ? '已结课' : '未结课';
@@ -195,8 +196,8 @@
             /*{label: '开班时间', name: 'openTime', width: 150, formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},},
             {label: '开班地点', name: 'openAddress', width: 220, align: 'left'},*/
-            {label: '开课日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '结课日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '开课日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '结课日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '备注', name: 'remark', width: 300}, {hidden: true, name: 'pubStatus'},
             {hidden: true, name: 'isFinished'}
         ],

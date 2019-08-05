@@ -54,7 +54,7 @@
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects?auth=1"
                                                         name="partyId" data-placeholder="请选择">
-                                                    <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                 </select>
                                         </div>
                                         <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
@@ -62,7 +62,7 @@
                                                 <select class="form-control" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/branch_selects?auth=1"
                                                         name="branchId" data-placeholder="请选择党支部">
-                                                    <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
+                                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
                                                 </select>
                                         </div>
                                     <script>
@@ -120,17 +120,17 @@
             {label: '申请人职称', name: 'sqrzc'},
             {label: '申请人手机号', name: 'sqrsjh'},
             {label: '申请人邮箱', name: 'sqryx'},
-            {label: '预计出发时间', name: 'yjcfsj', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '应归时间', name: 'ygsj', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '预计出发时间', name: 'yjcfsj', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '应归时间', name: 'ygsj', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '预计停留天数', name: 'yjtlts'},
-            {label: '实际出发时间', name: 'sjcfsj', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '实归时间', name: 'sgsj', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '实际出发时间', name: 'sjcfsj', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '实归时间', name: 'sgsj', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '实际停留天数', name: 'sjtlts'},
-            {label: '延期1始', name: 'yq1s', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '延期1止', name: 'yq1z', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '延期2始', name: 'yq2s', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '延期2止', name: 'yq2z', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            {label: '批准文号', name: 'pzwh', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '延期1始', name: 'yq1s', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '延期1止', name: 'yq1z', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '延期2始', name: 'yq2s', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '延期2止', name: 'yq2z', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '批准文号', name: 'pzwh', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '出国境状态', name: 'cgjzt'}
         ]
     }).jqGrid("setFrozenColumns");

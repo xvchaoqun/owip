@@ -65,14 +65,14 @@
                                             <label>内设机构</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                                                         name="unitId" data-width="340" data-placeholder="请选择">
-                                                  <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                                                  <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                                                 </select>
                                         </div>
                                         <div class="form-group">
                                             <label>组织机构</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
                                                         name="partyId" data-width="340" data-placeholder="请选择">
-                                                  <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                                  <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                 </select>
                                         </div>
 

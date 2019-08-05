@@ -5,7 +5,6 @@ import domain.sys.StudentInfo;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -135,8 +134,6 @@ public class MemberBaseInfoController extends MemberBaseController {
         if (StringUtils.isNotBlank(_birth)) {
             userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
         }
-
-        record.setIsFullTime(BooleanUtils.isTrue(record.getIsFullTime()));
 
         record.setActualEnrolTime(_actualEnrolTime);
         record.setExpectGraduateTime(_expectGraduateTime);

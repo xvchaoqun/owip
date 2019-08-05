@@ -1,7 +1,7 @@
 package persistence.pmd.common;
 
-import domain.ext.ExtJzgSalary;
-import domain.ext.ExtRetireSalary;
+import ext.domain.ExtJzgSalary;
+import ext.domain.ExtRetireSalary;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdOrder;
@@ -68,32 +68,32 @@ public interface IPmdMapper {
     public List<String> extRetireSalaryMonthList();
 
     // 读取当前缴费党员库中的教职工设定
-    @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")
+    @ResultMap("ext.persistence.ExtJzgSalaryMapper.BaseResultMap")
     @Select("select ejs.* from pmd_config_member pcm, ext_jzg_salary ejs, sys_user u " +
             "where pcm.user_id= u.id and ejs.zgh=u.code and ejs.rq=#{rq};")
     public List<ExtJzgSalary> extJzgSalaryList(@Param("rq") String salaryMonth);
 
     // 读取全部的教职工工资
-    @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")
+    @ResultMap("ext.persistence.ExtJzgSalaryMapper.BaseResultMap")
     @Select("select * from ext_jzg_salary where rq=#{rq};")
     public List<ExtJzgSalary> extJzgSalaryAllList(@Param("rq") String salaryMonth);
 
-    @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")
+    @ResultMap("ext.persistence.ExtJzgSalaryMapper.BaseResultMap")
     @Select("select * from ext_jzg_salary where zgh=#{zgh} and rq=#{rq}")
     public ExtJzgSalary getExtJzgSalary(@Param("rq") String salaryMonth, @Param("zgh") String code);
 
     // 读取当前缴费党员库中的离退休人员设定
-    @ResultMap("persistence.ext.ExtRetireSalaryMapper.BaseResultMap")
+    @ResultMap("ext.persistence.ExtRetireSalaryMapper.BaseResultMap")
     @Select("select ers.* from pmd_config_member pcm, ext_retire_salary ers, sys_user u " +
             "where pcm.user_id= u.id and ers.zgh=u.code and ers.rq=#{rq};")
     public List<ExtRetireSalary> extRetireSalaryList(@Param("rq") String salaryMonth);
 
     // 读取全部的离退休工资
-    @ResultMap("persistence.ext.ExtRetireSalaryMapper.BaseResultMap")
+    @ResultMap("ext.persistence.ExtRetireSalaryMapper.BaseResultMap")
     @Select("select * from ext_retire_salary where rq=#{rq};")
     public List<ExtRetireSalary> extRetireSalaryAllList(@Param("rq") String salaryMonth);
 
-    @ResultMap("persistence.ext.ExtRetireSalaryMapper.BaseResultMap")
+    @ResultMap("ext.persistence.ExtRetireSalaryMapper.BaseResultMap")
     @Select("select * from ext_retire_salary where zgh=#{zgh} and rq=#{rq}")
     public ExtRetireSalary getExtRetireSalary(@Param("rq") String salaryMonth, @Param("zgh") String code);
 

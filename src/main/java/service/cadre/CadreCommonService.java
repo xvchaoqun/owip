@@ -2,21 +2,21 @@ package service.cadre;
 
 import domain.base.MetaType;
 import domain.cadre.Cadre;
-import domain.cadre.CadreExample;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.cadreReserve.CadreReserveService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -47,6 +47,8 @@ public class CadreCommonService extends BaseMapper {
     @Autowired
     protected CadrePostService cadrePostService;
     @Autowired
+    protected CadreReserveService cadreReserveService;
+    @Autowired
     protected CadreAdminLevelService cadreAdminLevelService;
     @Autowired
     protected PartyService partyService;
@@ -54,27 +56,20 @@ public class CadreCommonService extends BaseMapper {
     protected BranchService branchService;
 
     // 查找某个单位的正职（现任）
-    public List<Cadre> findMainPost(int unitId) {
+    public List<CadreView> findMainPost(Integer unitId) {
 
-        List<Cadre> cadreList = new ArrayList<>();
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
-        {
-            CadreExample example = new CadreExample();
-            example.createCriteria().andUnitIdEqualTo(unitId)
-                    .andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
-                            CadreConstants.CADRE_STATUS_LEADER));
-            List<Cadre> cadres = cadreMapper.selectByExample(example);
-            for (Cadre cadre : cadres) {
-                if(cadre.getPostType()!=null) {
-                    MetaType postType = metaTypeMap.get(cadre.getPostType());
-                    if (BooleanUtils.isTrue(postType.getBoolAttr())) {
-                        cadreList.add(cadre);
-                    }
-                }
-            }
-        }
+        List<CadreView> cadreList = new ArrayList<>();
+        if(unitId==null) return cadreList;
 
-        return cadreList;
+        CadreViewExample example = new CadreViewExample();
+        example.createCriteria().andUnitIdEqualTo(unitId)
+                .andIsPrincipalEqualTo(true)
+                .andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+                        CadreConstants.CADRE_STATUS_LEADER));
+
+        example.setOrderByClause("status desc, sort_order desc");
+
+        return cadreViewMapper.selectByExample(example);
     }
 
     // 获取干部发文
@@ -324,14 +319,6 @@ public class CadreCommonService extends BaseMapper {
         TeacherInfo teacherInfo = teacherInfoService.get(uv.getId());
         modelMap.put("teacherInfo", teacherInfo);
 
-        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
-        // 主职,现任职务
-        modelMap.put("mainCadrePost", mainCadrePost);
-
-        // 任现职级
-        modelMap.put("cadreAdminLevel", cadreAdminLevelService.getPresentByCadreId(cadreId,
-                mainCadrePost != null ? mainCadrePost.getAdminLevel() : null));
-
         // 兼职单位
         List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);
         if (subCadrePosts.size() >= 1) {
@@ -348,5 +335,8 @@ public class CadreCommonService extends BaseMapper {
 
         // 是否已认定了参加工作时间，没认定前可修改
         modelMap.put("hasVerifyWorkTime", cadre.getVerifyWorkTime()!=null);
+
+        // 如果是后备干部
+        modelMap.put("cadreReserve", cadreReserveService.getNormalRecord(cadreId));
     }
 }

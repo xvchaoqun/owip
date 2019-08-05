@@ -1,9 +1,17 @@
 package domain.ps;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class PsAdmin implements Serializable {
+
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
+
     private Integer id;
 
     private Integer psId;
@@ -23,6 +31,8 @@ public class PsAdmin implements Serializable {
     private Boolean isHistory;
 
     private String remark;
+
+    private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -104,5 +114,13 @@ public class PsAdmin implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

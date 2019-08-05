@@ -63,8 +63,8 @@
                 'data-url="${ctx}/cet/cetDiscussGroup?discussId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
             }, frozen: true},
-            {label: '开始日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-            {label: '结束日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '开始日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
+            {label: '结束日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
             {
                 label: '排序',formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {grid:'#jqGrid2', url: "${ctx}/cet/cetDiscuss_changeOrder"}, frozen: true

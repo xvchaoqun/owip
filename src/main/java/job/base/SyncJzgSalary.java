@@ -1,12 +1,12 @@
 package job.base;
 
+import ext.service.SyncService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.ext.SyncService;
 
 public class SyncJzgSalary implements Job {
 

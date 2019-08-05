@@ -57,7 +57,7 @@ public class EnterApplyController extends MemberBaseController {
                 return "forward:/user/memberInflow";
         }
 
-        throw new OpException("系统异常");
+        return null;
     }
 
     @RequiresRoles(RoleConstants.ROLE_GUEST)

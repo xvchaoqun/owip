@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="${_pMap['proPostTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_proPostTimeFormat"/>
 <div class="back-btn">
   <c:if test="${empty param.backTo}">
     <a href="javascript:;" class="hideView"><i class="fa fa-reply"></i> 返回</a>
@@ -195,154 +196,7 @@
 
       </div>
     </div>
-    <div id="pi" class="tab-pane">
-      <div class="profile-user-info profile-user-info-striped">
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 所在单位</div>
-          <div class="profile-info-value td">
-            <span class="editable">${uv.unit}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 编制类别</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.authorizedType}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 人员分类</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.staffType}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 人员状态</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.staffStatus}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 在岗情况</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.onJob}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 人事转否</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.personnelStatus}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 岗位类别</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.postClass}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 岗位子类别</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.subPostClass}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 主岗等级</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.mainPostLevel}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 工龄起算日期</div>
-          <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.workStartTime, "yyyy-MM-dd")}</span>
-          </div>
-        </div>
-
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 到校时间</div>
-          <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.arriveTime, "yyyy-MM-dd")}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 参加工作时间</div>
-          <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.workTime, "yyyy.MM")}</span>
-          </div>
-        </div>
-
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 人才/荣誉称号 </div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.talentTitle}</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div id="title" class="tab-pane">
-      <div class="profile-user-info profile-user-info-striped">
-
-        <div class="profile-info-row">
-          <div class="profile-info-name"> 专 技 岗 位</div>
-        </div>
-
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 专业技术职务</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.proPost}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 专技职务评定时间</div>
-          <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.proPostTime, "yyyy.MM")}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 专技职务等级</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.proPostLevel}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 专技职务分级时间</div>
-          <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.proPostLevelTime, "yyyy.MM")}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name"> 管 理 岗 位</div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 管理岗位等级</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.manageLevel}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 管理岗位分级时间</div>
-          <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.manageLevelTime, "yyyy.MM")}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name"> 工 勤 岗 位</div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 工勤岗位等级</div>
-          <div class="profile-info-value td">
-            <span class="editable">${teacherInfo.officeLevel}</span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 工勤岗位分级时间</div>
-          <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.officeLevelTime, "yyyy.MM")}</span>
-          </div>
-        </div>
-        </div>
-    </div>
+    <jsp:include page="/WEB-INF/jsp/ext/mobile_cadre_info.jsp"/>
     <div id="post" class="tab-pane">
       <div class="profile-user-info profile-user-info-striped">
 
@@ -380,13 +234,13 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任现职时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(mainCadrePost.lpWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 现职务始任时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(mainCadrePost.dispatchCadreRelateBean.first.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(mainCadrePost.npWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -430,7 +284,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任兼职时间1</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(subCadrePost1.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(subCadrePost1.lpWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -451,7 +305,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任兼职时间2</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(subCadrePost2.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(subCadrePost2.lpWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
       </div>

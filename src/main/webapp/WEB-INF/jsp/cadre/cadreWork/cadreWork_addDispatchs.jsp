@@ -61,9 +61,11 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${cm:getMetaType(dispatchCadre.adminLevel).name}</td>
 								<td >${unitMap.get(dispatchCadre.unitId).name}</td>
                                 <td nowrap><c:if test="${not empty dispatch.fileName}">
-                                    <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>
+                                    <a href="javascript:;" data-type="download"
+                                       data-url="${ctx}/attach_download?path=${cm:encodeURI(dispatch.file)}&filename=${dispatch.fileName}"
+                                                class="downloadBtn">下载</a>
                                     <a href="javascript:void(0)" class="openUrl"
-                                       data-url="${ctx}/swf/preview?type=url&path=${cm:encodeURI(dispatch.file)}&filename=${cm:encodeURI(dispatch.fileName)}">预览</a>
+                                       data-url="${ctx}/pdf_preview?type=url&path=${cm:encodeURI(dispatch.file)}&filename=${cm:encodeURI(dispatch.fileName)}">预览</a>
                                 </c:if>
                                 </td>
                         </tr>

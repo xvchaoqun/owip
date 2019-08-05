@@ -108,8 +108,8 @@ pageEncoding="UTF-8" %>
                 var str = '<i class="fa fa-id-card-o red" title="实名测评"></i>&nbsp;';
                 return (rowObject.evaCount>0&&!rowObject.evaAnonymous)?str+cellvalue:cellvalue;
             }},
-            { label: '开始日期',name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-            { label: '结束日期',name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            { label: '开始日期',name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            { label: '结束日期',name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '培训课程', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue==0)
                     return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/cet/cetTrainCourse?trainId={0}&isOnCampus=0">编辑课程</a>'

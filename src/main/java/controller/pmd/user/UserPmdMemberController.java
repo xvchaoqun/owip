@@ -1,10 +1,11 @@
 package controller.pmd.user;
 
 import controller.pmd.PmdBaseController;
-import domain.ext.ExtRetireSalary;
-import domain.ext.ExtRetireSalaryExample;
+import ext.domain.ExtRetireSalary;
+import ext.domain.ExtRetireSalaryExample;
 import domain.pmd.*;
 import domain.sys.SysUserView;
+import ext.service.ExtRetireSalaryImport;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.ext.ExtRetireSalaryImport;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;

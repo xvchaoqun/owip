@@ -42,7 +42,7 @@
                                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                         <i class="fa fa-download"></i> 导出
                                     </button>--%>
-                                    <span>注：号段排序采取年内排序的方式，最新的年份在前</span>
+                                    <span class="help-block">注：号段排序采取年内排序的方式，最新的年份在前</span>
                                 </div>
                                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                     <div class="widget-header">

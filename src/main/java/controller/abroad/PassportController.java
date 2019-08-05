@@ -3,7 +3,6 @@ package controller.abroad;
 import controller.global.OpException;
 import domain.abroad.*;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.SysUserView;
@@ -18,9 +17,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -38,7 +35,7 @@ import persistence.abroad.common.PassportStatByPostBean;
 import sys.constants.AbroadConstants;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -209,7 +206,7 @@ public class PassportController extends AbroadBaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView sysUser = record.getUser();
-                Cadre cadre = record.getCadre();
+                CadreView cadre = record.getCadre();
                 String[] values = {
                         sysUser.getCode(),
                         sysUser.getRealname(),
@@ -239,7 +236,7 @@ public class PassportController extends AbroadBaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                Cadre cadre = record.getCadre();
+                CadreView cadre = record.getCadre();
                 String[] values = {
                         uv.getCode(),
                         uv.getRealname(),
@@ -270,7 +267,7 @@ public class PassportController extends AbroadBaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                Cadre cadre = record.getCadre();
+                CadreView cadre = record.getCadre();
                 String[] values = {
                         uv.getCode(),
                         uv.getRealname(),
@@ -300,7 +297,7 @@ public class PassportController extends AbroadBaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                Cadre cadre = record.getCadre();
+                CadreView cadre = record.getCadre();
                 String keepDate = "";
                 if(!record.getKeepDate().after(record.getLostTime())){
                     keepDate=record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"";
@@ -421,7 +418,7 @@ public class PassportController extends AbroadBaseController {
     }
 
     // 批量上传证件首页
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passport_uploadPic_batch")
     @ResponseBody
     public Map passport_uploadPic_batch(String folder, String type) { // folder是具体的系统文件夹路径，下面都是图片。
@@ -474,14 +471,14 @@ public class PassportController extends AbroadBaseController {
         return resultMap;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passport_uploadPic")
     public String passport_uploadPic() {
 
         return "abroad/passport/passport_uploadPic";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/passport_uploadPic", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passport_uploadPic(int id, String _base64,
@@ -519,7 +516,7 @@ public class PassportController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/updateLostProof")
     public String updateLostProof(int id, ModelMap modelMap) {
 
@@ -529,7 +526,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/updateLostProof";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/updateLostProof", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateLostProof(
@@ -571,7 +568,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/passport_cancel_view";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/updateCancelPic")
     public String updateCancelProof(int id, ModelMap modelMap) {
 
@@ -581,7 +578,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/updateCancelPic";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/updateCancelPic", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateCancelProof(

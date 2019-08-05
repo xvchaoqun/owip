@@ -53,7 +53,7 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="persistence"/>
+        <property name="basePackage" value="persistence,ext.persistence"/>
         <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
     </bean>
 
@@ -82,8 +82,9 @@
           p:configLocation="classpath:ehcache.xml"/>
 
     <import resource="classpath:spring-freemarker.xml"/>
+    <import resource="classpath:spring-mail.xml"/>
 
-    <context:component-scan base-package="service,sys.service"/>
+    <context:component-scan base-package="service,sys.service,ext.service"/>
     <!--<context:annotation-config />-->
 
     <!-- quartz的定时任务的factorybean,配置其他config -->
@@ -102,7 +103,7 @@
     <aop:config proxy-target-class="true"></aop:config>
 
     <!-- 缺省的异步任务线程池 -->
-    <task:annotation-driven executor="asyncExecutor" />
+    <task:annotation-driven executor="asyncExecutor" proxy-target-class="true"/>
     <task:executor id="asyncExecutor" pool-size="100-10000" queue-capacity="10" />
 
     <!--<task:executor id="executor" pool-size="5"/>

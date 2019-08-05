@@ -87,22 +87,22 @@
             </span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 学位授予日期</div>
           <div class="profile-info-value td">
             <span class="editable">
               ${cm:formatDate(member.degreeTime, "yyyy-MM-dd")}
             </span>
           </div>
-        </div>
-        <div class="profile-info-row">
+        </div>--%>
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 所学专业</div>
           <div class="profile-info-value td">
             <span class="editable">
               ${member.major}
             </span>
           </div>
-        </div>
+        </div>--%>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 毕业学校</div>
           <div class="profile-info-value td">
@@ -111,14 +111,14 @@
             </span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 毕业学校类型</div>
           <div class="profile-info-value td">
             <span class="editable">
               ${member.schoolType}
             </span>
           </div>
-        </div>
+        </div>--%>
         <div class="profile-info-row">
           <div class="profile-info-name"> 到校日期 </div>
           <div class="profile-info-value">
@@ -162,12 +162,12 @@
             <span class="editable">${member.postClass}</span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 主岗等级</div>
           <div class="profile-info-value td">
             <span class="editable">${member.mainPostLevel}</span>
           </div>
-        </div>
+        </div>--%>
 
         <div class="profile-info-row">
           <div class="profile-info-name td"> 专业技术职务</div>
@@ -176,18 +176,18 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name td"> 专技岗位等级</div>
+          <div class="profile-info-name td"> 职称级别</div>
           <div class="profile-info-value td">
             <span class="editable">${member.proPostLevel}</span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 职称级别</div>
           <div class="profile-info-value td">
             <span class="editable">${member.titleLevel}</span>
           </div>
-        </div>
-        <div class="profile-info-row">
+        </div>--%>
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 管理岗位等级</div>
           <div class="profile-info-value td">
             <span class="editable">${member.manageLevel}</span>
@@ -210,21 +210,21 @@
           <div class="profile-info-value td">
             <span class="editable">${member.postLevel}</span>
           </div>
-        </div>
-        <div class="profile-info-row">
+        </div>--%>
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 人才类型</div>
           <div class="profile-info-value td">
             <span class="editable">${member.talentType}</span>
           </div>
-        </div>
-        <div class="profile-info-row">
+        </div>--%>
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 婚姻状况</div>
           <div class="profile-info-value td">
             <span class="editable">${member.maritalStatus}</span>
           </div>
-        </div>
+        </div>--%>
         <div class="profile-info-row">
-          <div class="profile-info-name td"> 居住地址</div>
+          <div class="profile-info-name td"> 联系地址</div>
           <div class="profile-info-value td">
             <span class="editable">${member.address}</span>
           </div>
@@ -247,12 +247,12 @@
             <span class="editable">${member.isHonorRetire?"是":"否"}</span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name"> 人才/荣誉称号</div>
           <div class="profile-info-value">
             <span class="editable">${member.talentTitle}</span>
           </div>
-        </div>
+        </div>--%>
       </div>
     </div>
     <div id="dropdown2" class="tab-pane">

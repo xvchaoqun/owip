@@ -25,7 +25,7 @@ import service.sys.SysLoginLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
-import sys.CasUtils;
+import ext.utils.CasUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.utils.HttpRequestDeviceUtils;

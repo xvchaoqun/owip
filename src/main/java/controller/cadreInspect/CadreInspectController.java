@@ -2,14 +2,12 @@ package controller.cadreInspect;
 
 import controller.BaseController;
 import controller.global.OpException;
-import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectView;
 import domain.cadreInspect.CadreInspectViewExample;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -260,29 +258,8 @@ public class CadreInspectController extends BaseController {
             int userId = uv.getId();
             record.setUserId(userId);
 
-            String adminLevel = StringUtils.trimToNull(xlsRow.get(2));
-            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
-            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
-            record.setAdminLevel(adminLevelType.getId());
-
-            String _postType = StringUtils.trimToNull(xlsRow.get(3));
-            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
-            if (postType == null)throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
-            record.setPostType(postType.getId());
-
-            String unitCode = StringUtils.trimToNull(xlsRow.get(4));
-            if(StringUtils.isBlank(unitCode)){
-                throw new OpException("第{0}行单位编号为空", row);
-            }
-            Unit unit = unitService.findUnitByCode(unitCode);
-            if(unit==null){
-                throw new OpException("第{0}行单位编号[{1}]不存在", row, unitCode);
-            }
-            record.setUnitId(unit.getId());
-
-            record.setPost(StringUtils.trimToNull(xlsRow.get(5)));
-            record.setTitle(StringUtils.trimToNull(xlsRow.get(6)));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(7)));
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(2)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(3)));
 
             records.add(record);
         }

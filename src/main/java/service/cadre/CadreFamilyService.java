@@ -10,7 +10,6 @@ import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,15 +33,15 @@ public class CadreFamilyService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
 
-    public CadreFamily get(int id){
+    public CadreFamily get(int id) {
 
         return cadreFamilyMapper.selectByPrimaryKey(id);
     }
 
     // 根据姓名查找（正式记录）
-    public CadreFamily get(int cadreId, String realname){
+    public CadreFamily get(int cadreId, String realname) {
 
-        if(StringUtils.isBlank(realname)) return null;
+        if (StringUtils.isBlank(realname)) return null;
 
         CadreFamilyExample example = new CadreFamilyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -50,22 +49,22 @@ public class CadreFamilyService extends BaseMapper {
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
 
         List<CadreFamily> cadreFamilies = cadreFamilyMapper.selectByExample(example);
-        return cadreFamilies.size()>0?cadreFamilies.get(0):null;
+        return cadreFamilies.size() > 0 ? cadreFamilies.get(0) : null;
     }
 
-    public void addCheck(int cadreId, int title){
+    public void addCheck(int cadreId, int title) {
 
         MetaType titleType = CmTag.getMetaType(title);
         boolean isUnique = BooleanUtils.isTrue(titleType.getBoolAttr());
 
-        if(isUnique) {
+        if (isUnique) {
             CadreFamilyExample example = new CadreFamilyExample();
             CadreFamilyExample.Criteria criteria = example.createCriteria()
                     .andTitleEqualTo(title).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             criteria.andCadreIdEqualTo(cadreId);
 
-            if(cadreFamilyMapper.countByExample(example)>0){
-                throw new OpException(metaTypeService.getName(title)+"已经添加了，请不要重复添加");
+            if (cadreFamilyMapper.countByExample(example) > 0) {
+                throw new OpException(metaTypeService.getName(title) + "已经添加了，请不要重复添加");
             }
         }
 
@@ -78,51 +77,52 @@ public class CadreFamilyService extends BaseMapper {
         }*/
     }
 
-    public void updateCheck(int id, int cadreId, int title){
+    public void updateCheck(int id, int cadreId, int title) {
 
         MetaType titleType = CmTag.getMetaType(title);
         boolean isUnique = BooleanUtils.isTrue(titleType.getBoolAttr());
-        if(isUnique) {
+        if (isUnique) {
             CadreFamilyExample example = new CadreFamilyExample();
             CadreFamilyExample.Criteria criteria = example.createCriteria()
                     .andTitleEqualTo(title).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             criteria.andCadreIdEqualTo(cadreId);
             criteria.andIdNotEqualTo(id);
 
-            if(cadreFamilyMapper.countByExample(example)>0){
-                throw new OpException(metaTypeService.getName(title)+"已经添加了，请不要重复添加");
+            if (cadreFamilyMapper.countByExample(example) > 0) {
+                throw new OpException(metaTypeService.getName(title) + "已经添加了，请不要重复添加");
             }
         }
     }
 
     @Transactional
-    public int insertSelective(CadreFamily record){
+    public int insertSelective(CadreFamily record) {
 
         addCheck(record.getCadreId(), record.getTitle());
-        if(BooleanUtils.isTrue(record.getWithGod())){
+        if (BooleanUtils.isTrue(record.getWithGod())) {
             record.setBirthday(null);
         }
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
         record.setSortOrder(getNextSortOrder("cadre_family",
-                "cadre_id=" + record.getCadreId() + " and status="+SystemConstants.RECORD_STATUS_FORMAL));
+                "cadre_id=" + record.getCadreId() + " and status=" + SystemConstants.RECORD_STATUS_FORMAL));
         return cadreFamilyMapper.insertSelective(record);
     }
+
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id) {
 
         cadreFamilyMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, int cadreId){
+    public void batchDel(Integer[] ids, int cadreId) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
         {
             // 干部信息本人直接修改数据校验
             CadreFamilyExample example = new CadreFamilyExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             long count = cadreFamilyMapper.countByExample(example);
-            if(count!=ids.length){
+            if (count != ids.length) {
                 throw new OpException("参数有误");
             }
         }
@@ -140,25 +140,25 @@ public class CadreFamilyService extends BaseMapper {
     }
 
     @Transactional
-    public void updateByPrimaryKeySelective(CadreFamily record){
+    public void updateByPrimaryKeySelective(CadreFamily record) {
 
-        if(record.getTitle()!=null)
+        if (record.getTitle() != null)
             updateCheck(record.getId(), record.getCadreId(), record.getTitle());
 
         record.setCadreId(null);
         record.setStatus(null);
         cadreFamilyMapper.updateByPrimaryKeySelective(record);
 
-        if(BooleanUtils.isTrue(record.getWithGod())){
-            commonMapper.excuteSql("update cadre_family set birthday=null where id="+ record.getId());
+        if (BooleanUtils.isTrue(record.getWithGod())) {
+            commonMapper.excuteSql("update cadre_family set birthday=null where id=" + record.getId());
         }
     }
 
     // 更新修改申请的内容（仅允许管理员和本人更新自己的申请）
     @Transactional
-    public void updateModify(CadreFamily record, Integer applyId){
+    public void updateModify(CadreFamily record, Integer applyId) {
 
-        if(applyId==null){
+        if (applyId == null) {
             throw new OpException("参数有误");
         }
 
@@ -174,17 +174,17 @@ public class CadreFamilyService extends BaseMapper {
         CadreFamilyExample.Criteria criteria = example.createCriteria().andIdEqualTo(id)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_MODIFY);
 
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)){
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)) {
             CadreView cadre = CmTag.getCadreByUserId(currentUserId);
             criteria.andCadreIdEqualTo(cadre.getId()); // 保证本人只更新自己的记录
         }
 
         record.setId(null);
         record.setStatus(null);
-        if(cadreFamilyMapper.updateByExampleSelective(record, example)>0) {
+        if (cadreFamilyMapper.updateByExampleSelective(record, example) > 0) {
 
             // 更新申请时间
-            ModifyTableApply _record= new ModifyTableApply();
+            ModifyTableApply _record = new ModifyTableApply();
             _record.setId(mta.getId());
             _record.setCreateTime(new Date());
             modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
@@ -193,16 +193,16 @@ public class CadreFamilyService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreFamily record, Integer id, boolean isDelete){
+    public void modifyApply(CadreFamily record, Integer id, boolean isDelete) {
 
         CadreFamily original = null; // 修改、删除申请对应的原纪录
         byte type;
-        if(isDelete){ // 删除申请时id不允许为空
+        if (isDelete) { // 删除申请时id不允许为空
             record = cadreFamilyMapper.selectByPrimaryKey(id);
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
-        }else{
-            if(record.getId()==null) // 添加申请
+        } else {
+            if (record.getId() == null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
                 original = cadreFamilyMapper.selectByPrimaryKey(record.getId());
@@ -211,20 +211,20 @@ public class CadreFamilyService extends BaseMapper {
         }
 
         // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
+        if (CmTag.canDirectUpdateCadreInfo(record.getCadreId())) {
             throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
         }
 
-        Integer originalId = original==null?null:original.getId();
-        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
-                type== ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
+        Integer originalId = original == null ? null : original.getId();
+        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
                     .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY)
                     .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
-            if(applies.size()>0){
+            if (applies.size() > 0) {
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
         }
@@ -255,29 +255,30 @@ public class CadreFamilyService extends BaseMapper {
 
     // 审核修改申请
     @Transactional
-    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status){
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status) {
 
         Integer originalId = mta.getOriginalId();
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if(status) {
+        if (status) {
 
             if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
                 CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
                 modify.setId(null);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-                modify.setSortOrder(getNextSortOrder("cadre_family",
-                "cadre_id=" + modify.getCadreId() + " and status="+SystemConstants.RECORD_STATUS_FORMAL));
 
-                cadreFamilyMapper.insertSelective(modify); // 插入新纪录
+                insertSelective(modify); // 插入新纪录
                 record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
+                CadreFamily original = cadreFamilyMapper.selectByPrimaryKey(originalId);
+
                 CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
                 modify.setId(originalId);
+                modify.setSortOrder(original.getSortOrder()); // 保持和原纪录排序一致
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
                 cadreFamilyMapper.updateByPrimaryKey(modify); // 覆盖原纪录
@@ -302,46 +303,10 @@ public class CadreFamilyService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_ASC;
-
         CadreFamily entity = cadreFamilyMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
         Integer cadreId = entity.getCadreId();
 
-        CadreFamilyExample example = new CadreFamilyExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andCadreIdEqualTo(cadreId)
-                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andCadreIdEqualTo(cadreId)
-                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CadreFamily> overEntities = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            CadreFamily targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cadre_family",
-                        "cadre_id=" + cadreId + " and status="+SystemConstants.RECORD_STATUS_FORMAL,
-                        baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cadre_family",
-                        "cadre_id=" + cadreId + " and status="+SystemConstants.RECORD_STATUS_FORMAL,
-                        baseSortOrder, targetEntity.getSortOrder());
-
-            CadreFamily record = new CadreFamily();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cadreFamilyMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cadre_family", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL,
+                ORDER_BY_ASC, id, addNum);
     }
-
 }

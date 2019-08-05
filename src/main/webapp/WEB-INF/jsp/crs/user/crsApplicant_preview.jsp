@@ -677,7 +677,7 @@ td.padding10 {
                                             </div>
                                         </td>
                                         <td class="td10 padding10" colspan="3">
-                                            ${bean.schoolDepMajor}
+                                            ${bean.schoolDepMajor1}${bean.sameSchool?'':'<br/>'}${bean.schoolDepMajor2}
                                         </td>
                                     </tr>
                                     <tr class="r1">
@@ -701,7 +701,7 @@ td.padding10 {
                                             </div>
                                         </td>
                                         <td class="td10 padding10" colspan="3">
-                                            ${bean.inSchoolDepMajor}
+                                            ${bean.inSchoolDepMajor1}${bean.sameInSchool?'':'<br/>'}${bean.inSchoolDepMajor2}
                                         </td>
                                     </tr>
                                     <tr class="r1">

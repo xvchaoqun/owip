@@ -58,28 +58,31 @@ public class CadreInfoForm {
 
     // 全日制教育-最高学历
     private String edu;
-    // 全日制教育-学位
+    // 全日制教育-最高学位
     private String degree;
-    // 全日制教育-毕业院校
-    private String school;
-    // 全日制教育-系
-    private String dep;
-    // 全日制教育-系及专业
-    private String depMajor;
-    // 全日制教育-毕业院校系及专业
-    private String schoolDepMajor;
+    /*
+     全日制教育-学历学位毕业学校是否一致
+     如果学历学位毕业学校一致（或只有学历或只有学位），则schoolDepMajor1是学校和院系，schoolDepMajor2是专业
+    */
+    private boolean sameSchool;
+    // 全日制教育-学历毕业院校系及专业
+    private String schoolDepMajor1;
+    // 全日制教育-学位毕业院校系及专业
+    private String schoolDepMajor2;
+
     // 在职教育-最高学历
     private String inEdu;
-    // 在职教育-最高学历
+    // 在职教育-最高学位
     private String inDegree;
-    // 在职教育-毕业院校
-    private String inSchool;
-    // 在职教育-系
-    private String inDep;
-    // 在职教育-系及专业
-    private String inDepMajor;
-    // 在职教育-毕业院校系及专业
-    private String inSchoolDepMajor;
+    /*
+     在职教育-学历学位毕业学校是否一致
+     如果学历学位毕业学校一致（或只有学历或只有学位），则inSchoolDepMajor1是学校和院系，inSchoolDepMajor2是专业
+    */
+    private boolean sameInSchool;
+    // 在职教育-学历毕业院校系及专业
+    private String inSchoolDepMajor1;
+    // 在职教育-学位毕业院校系及专业
+    private String inSchoolDepMajor2;
 
     // 硕士研究生导师信息
     private String masterTutor;
@@ -337,46 +340,6 @@ public class CadreInfoForm {
         this.degree = degree;
     }
 
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
-    }
-
-    public String getDepMajor() {
-        return depMajor;
-    }
-
-    public void setDepMajor(String depMajor) {
-        this.depMajor = depMajor;
-    }
-    
-    public String getDep() {
-        return dep;
-    }
-    
-    public void setDep(String dep) {
-        this.dep = dep;
-    }
-    
-    public String getInDep() {
-        return inDep;
-    }
-    
-    public void setInDep(String inDep) {
-        this.inDep = inDep;
-    }
-    
-    public String getSchoolDepMajor() {
-        return schoolDepMajor;
-    }
-
-    public void setSchoolDepMajor(String schoolDepMajor) {
-        this.schoolDepMajor = schoolDepMajor;
-    }
-
     public String getInEdu() {
         return inEdu;
     }
@@ -393,28 +356,52 @@ public class CadreInfoForm {
         this.inDegree = inDegree;
     }
 
-    public String getInSchool() {
-        return inSchool;
+    public boolean isSameSchool() {
+        return sameSchool;
     }
 
-    public void setInSchool(String inSchool) {
-        this.inSchool = inSchool;
+    public void setSameSchool(boolean sameSchool) {
+        this.sameSchool = sameSchool;
     }
 
-    public String getInDepMajor() {
-        return inDepMajor;
+    public String getSchoolDepMajor1() {
+        return schoolDepMajor1;
     }
 
-    public void setInDepMajor(String inDepMajor) {
-        this.inDepMajor = inDepMajor;
+    public void setSchoolDepMajor1(String schoolDepMajor1) {
+        this.schoolDepMajor1 = schoolDepMajor1;
     }
 
-    public String getInSchoolDepMajor() {
-        return inSchoolDepMajor;
+    public String getSchoolDepMajor2() {
+        return schoolDepMajor2;
     }
 
-    public void setInSchoolDepMajor(String inSchoolDepMajor) {
-        this.inSchoolDepMajor = inSchoolDepMajor;
+    public void setSchoolDepMajor2(String schoolDepMajor2) {
+        this.schoolDepMajor2 = schoolDepMajor2;
+    }
+
+    public boolean isSameInSchool() {
+        return sameInSchool;
+    }
+
+    public void setSameInSchool(boolean sameInSchool) {
+        this.sameInSchool = sameInSchool;
+    }
+
+    public String getInSchoolDepMajor1() {
+        return inSchoolDepMajor1;
+    }
+
+    public void setInSchoolDepMajor1(String inSchoolDepMajor1) {
+        this.inSchoolDepMajor1 = inSchoolDepMajor1;
+    }
+
+    public String getInSchoolDepMajor2() {
+        return inSchoolDepMajor2;
+    }
+
+    public void setInSchoolDepMajor2(String inSchoolDepMajor2) {
+        this.inSchoolDepMajor2 = inSchoolDepMajor2;
     }
 
     public String getMasterTutor() {

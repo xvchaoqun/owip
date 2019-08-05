@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
 
                 <c:if test="${cls==1 && module==1}">
                     <a class="popupBtn btn btn-warning btn-sm"
-                       data-url="${ctx}/swf/preview?code=af_pcs_proposal_info&np=1&nd=1"><i class="fa fa-info-circle"></i> 提案通知</a>
+                       data-url="${ctx}/pdf_preview?code=af_pcs_proposal_info&np=1&nd=1"><i class="fa fa-info-circle"></i> 提案通知</a>
 
                     <a class="popupBtn btn btn-info btn-sm"
                        data-width="500"
@@ -176,7 +176,7 @@ pageEncoding="UTF-8" %>
     })
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'));
     });
     $.register.user_select($("#searchForm select[name=userId]"))
@@ -205,7 +205,7 @@ pageEncoding="UTF-8" %>
             }, frozen:true},
             </c:if>
             { label: '提案编号',name: 'code', frozen:true},
-            { label: '提交日期',name: 'createTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+            { label: '提交日期',name: 'createTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
             <c:if test="${!(cls==1 && module==1)}">
             { label: '提案人姓名',name: 'user.realname', frozen:true},
                 </c:if>

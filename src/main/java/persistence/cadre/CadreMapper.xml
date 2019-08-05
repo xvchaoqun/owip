@@ -4,14 +4,13 @@
   <resultMap id="BaseResultMap" type="domain.cadre.Cadre">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
-    <result column="post_type" jdbcType="INTEGER" property="postType" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="has_crp" jdbcType="BIT" property="hasCrp" />
+    <result column="is_double" jdbcType="BIT" property="isDouble" />
+    <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
-    <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -75,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, admin_level, post_type, unit_id, type, state, title, dispatch_cadre_id, 
-    post, remark, sort_order, status
+    id, user_id, type, has_crp, is_double, double_unit_ids, state, title, dispatch_cadre_id, 
+    remark, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreExample" resultMap="BaseResultMap">
     select
@@ -112,16 +111,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre (user_id, admin_level, post_type, 
-      unit_id, type, state, 
-      title, dispatch_cadre_id, post, 
-      remark, sort_order, status
-      )
-    values (#{userId,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
-      #{unitId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{state,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
-      )
+    insert into cadre (user_id, type, has_crp, 
+      is_double, double_unit_ids, state, 
+      title, dispatch_cadre_id, remark, 
+      sort_order, status)
+    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{hasCrp,jdbcType=BIT}, 
+      #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{dispatchCadreId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.Cadre">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -132,17 +129,17 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="adminLevel != null">
-        admin_level,
-      </if>
-      <if test="postType != null">
-        post_type,
-      </if>
-      <if test="unitId != null">
-        unit_id,
-      </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="hasCrp != null">
+        has_crp,
+      </if>
+      <if test="isDouble != null">
+        is_double,
+      </if>
+      <if test="doubleUnitIds != null">
+        double_unit_ids,
       </if>
       <if test="state != null">
         state,
@@ -152,9 +149,6 @@
       </if>
       <if test="dispatchCadreId != null">
         dispatch_cadre_id,
-      </if>
-      <if test="post != null">
-        post,
       </if>
       <if test="remark != null">
         remark,
@@ -170,17 +164,17 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="adminLevel != null">
-        #{adminLevel,jdbcType=INTEGER},
-      </if>
-      <if test="postType != null">
-        #{postType,jdbcType=INTEGER},
-      </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
-      </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="hasCrp != null">
+        #{hasCrp,jdbcType=BIT},
+      </if>
+      <if test="isDouble != null">
+        #{isDouble,jdbcType=BIT},
+      </if>
+      <if test="doubleUnitIds != null">
+        #{doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -190,9 +184,6 @@
       </if>
       <if test="dispatchCadreId != null">
         #{dispatchCadreId,jdbcType=INTEGER},
-      </if>
-      <if test="post != null">
-        #{post,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -220,17 +211,17 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.adminLevel != null">
-        admin_level = #{record.adminLevel,jdbcType=INTEGER},
-      </if>
-      <if test="record.postType != null">
-        post_type = #{record.postType,jdbcType=INTEGER},
-      </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
-      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.hasCrp != null">
+        has_crp = #{record.hasCrp,jdbcType=BIT},
+      </if>
+      <if test="record.isDouble != null">
+        is_double = #{record.isDouble,jdbcType=BIT},
+      </if>
+      <if test="record.doubleUnitIds != null">
+        double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null">
         state = #{record.state,jdbcType=INTEGER},
@@ -240,9 +231,6 @@
       </if>
       <if test="record.dispatchCadreId != null">
         dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
-      </if>
-      <if test="record.post != null">
-        post = #{record.post,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -262,14 +250,13 @@
     update cadre
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      admin_level = #{record.adminLevel,jdbcType=INTEGER},
-      post_type = #{record.postType,jdbcType=INTEGER},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      has_crp = #{record.hasCrp,jdbcType=BIT},
+      is_double = #{record.isDouble,jdbcType=BIT},
+      double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
-      post = #{record.post,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
@@ -283,17 +270,17 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="adminLevel != null">
-        admin_level = #{adminLevel,jdbcType=INTEGER},
-      </if>
-      <if test="postType != null">
-        post_type = #{postType,jdbcType=INTEGER},
-      </if>
-      <if test="unitId != null">
-        unit_id = #{unitId,jdbcType=INTEGER},
-      </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="hasCrp != null">
+        has_crp = #{hasCrp,jdbcType=BIT},
+      </if>
+      <if test="isDouble != null">
+        is_double = #{isDouble,jdbcType=BIT},
+      </if>
+      <if test="doubleUnitIds != null">
+        double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
@@ -303,9 +290,6 @@
       </if>
       <if test="dispatchCadreId != null">
         dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
-      </if>
-      <if test="post != null">
-        post = #{post,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -322,14 +306,13 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadre.Cadre">
     update cadre
     set user_id = #{userId,jdbcType=INTEGER},
-      admin_level = #{adminLevel,jdbcType=INTEGER},
-      post_type = #{postType,jdbcType=INTEGER},
-      unit_id = #{unitId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      has_crp = #{hasCrp,jdbcType=BIT},
+      is_double = #{isDouble,jdbcType=BIT},
+      double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
-      post = #{post,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}

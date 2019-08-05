@@ -1,11 +1,11 @@
 package controller.member;
 
+import ext.service.ExtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginUserService;
 import service.base.CountryService;
 import service.base.LocationService;
 import service.base.MetaTypeService;
-import service.ext.ExtService;
 import service.global.CacheService;
 import service.member.*;
 import service.party.*;
@@ -48,6 +48,8 @@ public class MemberBaseController extends MemberBaseMapper  implements HttpRespo
     @Autowired
     protected BranchMemberService branchMemberService;
     
+    @Autowired
+    protected MemberCheckService memberCheckService;
     @Autowired
     protected MemberRegService memberRegService;
     @Autowired

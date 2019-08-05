@@ -1,7 +1,6 @@
 package service.cla;
 
 import domain.base.MetaType;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cla.ClaAdditionalPost;
 import domain.cla.ClaAdditionalPostExample;
@@ -47,15 +46,11 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
     public List<CadreView> findAdditionalPost(int unitId) {
 
         List<CadreView> cadreList = new ArrayList<>();
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         ClaAdditionalPostExample example = new ClaAdditionalPostExample();
         example.createCriteria().andUnitIdEqualTo(unitId);
         List<ClaAdditionalPost> cPosts = claAdditionalPostMapper.selectByExample(example);
         for (ClaAdditionalPost cPost : cPosts) {
-            MetaType postType = metaTypeMap.get(cPost.getPostId());
-            if (BooleanUtils.isTrue(postType.getBoolAttr())) {
-                cadreList.add(CmTag.getCadreById(cPost.getCadreId()));
-            }
+            cadreList.add(CmTag.getCadreById(cPost.getCadreId()));
         }
         return cadreList;
     }
@@ -115,8 +110,7 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
         for (CadreView cadre : cadreMap.values()) {
             if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && postMap.get(cadre.getPostType())!=null
-                    && BooleanUtils.isTrue(postMap.get(cadre.getPostType()).getBoolAttr())) {
+                    && BooleanUtils.isTrue(cadre.getIsPrincipal())) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cadre.getUnitId();
                 if (unitIdCadresMap.containsKey(unitId)) {
@@ -133,9 +127,8 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
         Map<String, ClaAdditionalPost> claAdditionalPostMap = findAll();
         for (ClaAdditionalPost cPost : claAdditionalPostMap.values()) {
             CadreView cadre = cadreMap.get(cPost.getCadreId());
-            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
+            if (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cPost.getUnitId();
                 if (unitIdCadresMap.containsKey(unitId)) {
@@ -216,9 +209,10 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
             if (claAdditionalPostMapper.countByExample(example) > 0) return true;
         }
         {
-            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
             // 这个单位是该干部的主职单位
-            if(cadre!=null && cadre.getUnitId().intValue()==unitId) return true;
+            if(cadre!=null && cadre.getUnitId()!=null
+                    && cadre.getUnitId().intValue()==unitId) return true;
         }
 
         return false;

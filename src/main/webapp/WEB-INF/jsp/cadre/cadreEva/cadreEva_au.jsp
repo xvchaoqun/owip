@@ -40,6 +40,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <textarea class="form-control noEnter" name="title" rows="3">${empty cadreEva?cadre.title:cadreEva.title}</textarea>
 				</div>
+                <a href="javascript:;" onclick="$('#modalForm textarea[name=title]').val('').focus()">清空</a>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>

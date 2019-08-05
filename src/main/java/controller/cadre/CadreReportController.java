@@ -27,12 +27,10 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class CadreReportController extends BaseController {
@@ -101,7 +99,7 @@ public class CadreReportController extends BaseController {
     public Map do_cadreReport_au(CadreReport record,
                                  String _createDate,
                                  MultipartFile _file,
-                                 HttpServletRequest request) {
+                                 HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
         if (StringUtils.isNotBlank(_createDate)) {
@@ -114,22 +112,9 @@ public class CadreReportController extends BaseController {
             }
 
             String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "cis" + FILE_SEPARATOR
-                    + fileName;
-            String savePath =  realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+            String savePath = uploadPdf(_file, "cis");
 
-            try {
-                String swfPath = realPath + ".swf";
-                pdf2Swf(savePath, swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                logger.error("异常", e);
-            }
-
-            record.setFileName(originalFilename);
+            record.setFileName(FileUtils.getFileName(originalFilename));
             record.setFilePath(savePath);
         }
         if (id == null) {

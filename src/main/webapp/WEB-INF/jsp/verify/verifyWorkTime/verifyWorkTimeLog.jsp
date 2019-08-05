@@ -67,7 +67,7 @@
             {label: '认定前参加工作时间', width: 180, name: 'oldWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '认定后参加工作时间', width: 180, name: 'verifyWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '材料名称', name: 'materialName', width: 200},
-            {label: '形成时间', name: 'materialTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '形成时间', name: 'materialTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '记载的参加工作时间',
                 width: 150,
@@ -75,7 +75,7 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
             },
-            {label: '形成时间', name: 'adTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '形成时间', name: 'adTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '备注', name: 'remark', width: 500}
         ],
         rowattr: function (rowData, currentObj, rowId) {

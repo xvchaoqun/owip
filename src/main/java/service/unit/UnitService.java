@@ -5,7 +5,6 @@ import domain.base.MetaType;
 import domain.unit.Unit;
 import domain.unit.UnitExample;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,15 +17,7 @@ import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UnitService extends BaseMapper {
@@ -232,39 +223,10 @@ public class UnitService extends BaseMapper {
      */
     @Transactional
     @CacheEvict(value = "Unit:ALL", allEntries = true)
-    public void changeOrder(int id, byte status, int addNum) {
+    public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
-        Unit entity = unitMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        UnitExample example = new UnitExample();
-        if (addNum < 0) {
-
-            example.createCriteria().andStatusEqualTo(status).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andStatusEqualTo(status).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<Unit> overEntities = unitMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            Unit targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum < 0)
-                commonMapper.downOrder("unit", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("unit", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
-
-            Unit record = new Unit();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            unitMapper.updateByPrimaryKeySelective(record);
-        }
+        Unit unit = unitMapper.selectByPrimaryKey(id);
+        changeOrder("unit", "status=" + unit.getStatus(), ORDER_BY_ASC, id, addNum);
     }
 
     // 导入单位

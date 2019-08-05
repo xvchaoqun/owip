@@ -73,12 +73,14 @@ public class AbroadConstants {
     public final static byte ABROAD_PASSPORT_DRAW_TYPE_TW = 2;
     public final static byte ABROAD_PASSPORT_DRAW_TYPE_OTHER = 3;
     public final static byte ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF = 4;
+    public final static byte ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF = 5;
     public final static Map<Byte, String> ABROAD_PASSPORT_DRAW_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_SELF, "因私出国（境）");
         ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_TW, "因公赴台");
         ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国");
+        ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF, "因公出访持因私证件");
         ABROAD_PASSPORT_DRAW_TYPE_MAP.put(ABROAD_PASSPORT_DRAW_TYPE_OTHER, "其他事务");
     }
 

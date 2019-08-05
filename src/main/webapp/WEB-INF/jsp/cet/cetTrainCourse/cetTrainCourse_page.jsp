@@ -29,7 +29,7 @@
             选课/退课状态</button>
 
         <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
-           data-url="${ctx}/cet/cetTrainCourse_applyMsg"
+           data-url="${ctx}/cet/cetTrainCourse_applyMsg?projectId=${cetTrain.projectId}"
            data-grid-id="#jqGrid2"
            data-ids-name="trainCourseIds[]"><i class="fa fa-send"></i>
             补选课通知</button>

@@ -28,7 +28,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>培训班名称</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${cetTrain.name}">
+						<textarea required class="form-control"
+								 name="name">${cetTrain.name}</textarea>
 				</div>
 			</div>
 
@@ -56,6 +57,14 @@ pageEncoding="UTF-8"%>
                                             <span class="input-group-addon"> <i
 													class="fa fa-calendar bigger-110"></i></span>
 					</div>
+					<span class="help-block">超过该日期，系统将自动结课，结课后该培训班将不显示在参训人员的[学习培训中心-选课中心]</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">是否已结课</label>
+				<div class="col-xs-6">
+					<input type="checkbox" name="isFinished" ${cetTrain.isFinished?"checked":""}/>
+					<span class="help-block">可在结课日期之前提前结课，未结课之前该培训班将显示在参训人员的[学习培训中心-选课中心]</span>
 				</div>
 			</div>
 
@@ -75,7 +84,7 @@ pageEncoding="UTF-8"%>
 		<i class="fa fa-check"></i> <c:if test="${cetTrain!=null}">确定</c:if><c:if test="${cetTrain==null}">添加</c:if></button>
 </div>
 <script>
-
+	$("#modalForm :checkbox").bootstrapSwitch();
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {

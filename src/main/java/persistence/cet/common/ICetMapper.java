@@ -168,7 +168,8 @@ public interface ICetMapper {
                                        @Param("isFinished") Boolean isFinished);
 
     // 未选课学员
-    public List<Integer> notApplyUserIds(@Param("trainCourseIds") Integer[] trainCourseIds);
+    public List<Integer> notApplyUserIds(@Param("projectId") Integer projectId,
+                                         @Param("trainCourseIds") Integer[] trainCourseIds);
 
     // 未上传心得体会学员
     public List<Integer> notUploadWriteUserIds(@Param("projectId") Integer projectId,

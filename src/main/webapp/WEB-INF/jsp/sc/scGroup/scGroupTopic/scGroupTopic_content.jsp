@@ -21,7 +21,7 @@
 				<div class="well" style="margin-bottom: 0px;">
 						附件：
 						<c:forEach var="file" items="${fn:split(scGroupTopic.filePath,',')}" varStatus="vs">
-							<a href="${ctx}/attach/download?path=${cm:encodeURI(file)}&filename=附件${vs.count}">附件${vs.count}</a>
+							<a href="${ctx}/attach_download?path=${cm:encodeURI(file)}&filename=附件${vs.count}">附件${vs.count}</a>
 							${vs.last?"":"、"}
 						</c:forEach>
 				</div>

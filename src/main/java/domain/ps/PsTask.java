@@ -1,6 +1,7 @@
 package domain.ps;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class PsTask implements Serializable {
     private Integer id;
@@ -12,6 +13,8 @@ public class PsTask implements Serializable {
     private String psIds;
 
     private String files;
+
+    private Date releaseDate;
 
     private Boolean isPublish;
 
@@ -57,6 +60,14 @@ public class PsTask implements Serializable {
 
     public void setFiles(String files) {
         this.files = files == null ? null : files.trim();
+    }
+
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Boolean getIsPublish() {

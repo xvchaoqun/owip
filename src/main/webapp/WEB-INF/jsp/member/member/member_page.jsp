@@ -23,6 +23,12 @@
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
+                            <shiro:hasPermission name="member:changeCode">
+                                <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/member_changeCode"
+                                   data-id-name="userId">
+                                    <i class="fa fa-refresh"></i> 更换学工号</a>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="member:modifyStatus">
                                 <a href="javascript:;" class="jqEditBtn btn btn-info btn-sm"
                                    data-url="${ctx}/member_modify_status"
@@ -92,11 +98,11 @@
                                 </ul>
                             </div>
                             </c:if>
-                            <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+                            <shiro:hasPermission name="member:del">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/member_batchDel" data-title="删除"
-                                   data-msg="确定删除这{0}条数据吗？"><i class="fa fa-trash"></i> 删除</a>
-                            </shiro:hasAnyRoles>
+                                   data-msg="确定删除这{0}位党员吗？<br/>（相关党员数据将全部删除，请谨慎操作！）"><i class="fa fa-trash"></i> 删除</a>
+                            </shiro:hasPermission>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box collapsed<%--${_query?'':'collapsed'}--%> hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -294,8 +300,7 @@
                                             <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                     data-ajax-url="${ctx}/party_selects?auth=1"
                                                     name="partyId" data-placeholder="请选择">
-                                                <option value="${party.id}"
-                                                        title="${party.isDeleted}">${party.name}</option>
+                                                <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                             </select>
                                         </div>
                                         <div class="form-group" style="${(empty branch)?'display: none':''}"
@@ -304,8 +309,7 @@
                                             <select class="form-control" data-rel="select2-ajax"
                                                     data-ajax-url="${ctx}/branch_selects?auth=1"
                                                     name="branchId" data-placeholder="请选择党支部">
-                                                <option value="${branch.id}"
-                                                        title="${branch.isDeleted}">${branch.name}</option>
+                                                <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
                                             </select>
                                         </div>
                                         <script>
@@ -453,13 +457,13 @@
                 width: 120,
                 sortable: true,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '转正时间',
                 name: 'positiveTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             <c:if test="${cls==1 || cls==6}">
             {label: '学生类别', name: 'studentType', width: 150},
@@ -480,12 +484,12 @@
                 label: '转出时间',
                 name: 'outHandleTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             </c:if>
 
             <c:if test="${cls==3||cls==7}">
-            {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
             {label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},

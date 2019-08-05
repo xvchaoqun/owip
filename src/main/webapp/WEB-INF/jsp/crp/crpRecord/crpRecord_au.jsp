@@ -163,7 +163,7 @@
                                 data-width="222"
                                 data-ajax-url="${ctx}/unit_selects?status=<%=SystemConstants.UNIT_STATUS_RUN%>"
                                 data-placeholder="请选择">
-                            <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                            <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                         </select>
                         <script>
                             $.register.del_select($("#modalForm select[name=unitId]"), 350)

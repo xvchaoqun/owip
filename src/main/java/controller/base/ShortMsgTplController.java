@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.AbroadConstants;
@@ -194,6 +195,8 @@ public class ShortMsgTplController extends BaseController {
 
         Integer id = record.getId();
 
+        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
+
         if (id == null) {
 
             record.setAddUserId(ShiroHelper.getCurrentUserId());
@@ -258,7 +261,7 @@ public class ShortMsgTplController extends BaseController {
                 return failed("手机号码有误");
             }
         }
-
+        content = HtmlUtils.htmlUnescape(content);
         if(StringUtils.isBlank(content)){
             return failed("短信内容不能为空");
         }

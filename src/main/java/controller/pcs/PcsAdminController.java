@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -174,7 +175,7 @@ public class PcsAdminController extends PcsBaseController {
         if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
-
+        msg = HtmlUtils.htmlUnescape(msg);
         Map<String, Integer> result = pcsAdminService.sendMsg(type, stage, adminType, mobile, msg);
         logger.info(addLog(LogConstants.LOG_PCS, "发送短信给分党委管理员：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
@@ -194,7 +195,7 @@ public class PcsAdminController extends PcsBaseController {
         if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
-
+        msg = HtmlUtils.htmlUnescape(msg);
         Map<String, Integer> result = pcsAdminService.sendMsg2( mobile, msg);
         logger.info(addLog(LogConstants.LOG_PCS, "两委委员-下发名单短信通知，发送给全部的分党委管理员：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
@@ -217,7 +218,7 @@ public class PcsAdminController extends PcsBaseController {
         if(partyId==null&&StringUtils.isBlank(mobile)){
             return failed("参数有误");
         }
-
+        msg = HtmlUtils.htmlUnescape(msg);
         Map<String, Integer> result = pcsAdminService.sendMsg3(partyId, mobile, msg);
         logger.info(addLog(LogConstants.LOG_PCS, "党代表给单个分党委的所有管理员发送审核通知，分为审核通过/审核不通过：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

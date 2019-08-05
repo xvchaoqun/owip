@@ -114,10 +114,7 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
 
-	$.fileInput($("input[name=_modifyProof]"), {
-		allowExt: ['pdf'],
-		no_file:'请上传pdf文件 ...'
-	})
+	$.fileInput($("input[name=_modifyProof]"))
 
 	$("button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({

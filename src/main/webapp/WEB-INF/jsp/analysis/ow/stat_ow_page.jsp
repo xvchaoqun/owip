@@ -38,7 +38,7 @@
                     <div class="widget-header widget-header-flat">
                         <h4 class="widget-title lighter">
                             <i class="ace-icon fa fa-signal"></i>
-                            党员人数分布（前二十）
+                            党员人数分布（前${statPartyMemberCount})
                         </h4>
                         <div class="widget-toolbar">
                             <a href="javascript:;" data-action="collapse">

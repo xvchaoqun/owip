@@ -10,7 +10,7 @@
             rowObject.status != <%=SystemConstants.UNIT_POST_STATUS_NORMAL%> ? 'delete' : '', cellvalue);
     }},
     <c:if test="${cls==2}">
-    {label: '撤销日期', name: 'abolishDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+    {label: '撤销日期', name: 'abolishDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
     </c:if>
        <shiro:hasPermission name="unitPost:changeOrder">
     <c:if test="${param.list==1 && !_query}">
@@ -24,7 +24,7 @@
     { label: '单位类型', name: 'unitTypeId', width: 120,frozen:true, formatter: $.jgrid.formatter.MetaType },
     </c:if>
     { label: '分管工作', align:'left', name: 'job', width: 200 },
-    { label: '是否<br/>正职',name: 'isPrincipalPost', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
+    { label: '是否<br/>正职',name: 'isPrincipal', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
     { label: '是否<br/>班子负责人',name: 'leaderType', width: 120, formatter:function(cellvalue, options, rowObject){
         if(cellvalue==undefined) return '--';
         return _cMap.UNIT_POST_LEADER_TYPE_MAP[cellvalue];
@@ -49,14 +49,14 @@
        }},
       {
           label: '任职日期',
-          name: 'cadrePost.dispatchCadreRelateBean.last.workTime',
+          name: 'cadrePost.lpWorkTime',
           formatter: $.jgrid.formatter.date,
-          formatoptions: {newformat: 'Y-m-d'}
+          formatoptions: {newformat: 'Y.m.d'}
       },
       {
           label: '现任职务<br/>年限',
           width: 80,
-          name: 'cadrePost.dispatchCadreRelateBean.last.workTime',
+          name: 'cadrePost.lpWorkTime',
           formatter: function (cellvalue, options, rowObject) {
               if (cellvalue == undefined) return '--';
               var year = $.yearOffNow(cellvalue);
@@ -66,24 +66,24 @@
       {
           label: '现职务<br/>任职文件',
           width: 150,
-          name: 'cadrePost.dispatchCadreRelateBean.last',
+          name: 'cadrePost.lpDispatch',
           formatter: function (cellvalue, options, rowObject) {
               if (!cellvalue || cellvalue.id == undefined) return '--';
               var dispatchCode = cellvalue.dispatchCode;
 
-              return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+              return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
           }
       },
       {
           label: '现任职务<br/>始任日期',
-          name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
+          name: 'cadrePost.npWorkTime',
           formatter: $.jgrid.formatter.date,
-          formatoptions: {newformat: 'Y-m-d'}
+          formatoptions: {newformat: 'Y.m.d'}
       },
       {
           label: '现任职务<br/>始任年限',
           width: 80,
-          name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
+          name: 'cadrePost.npWorkTime',
           formatter: function (cellvalue, options, rowObject) {
               if (cellvalue == undefined) return '--';
               var year = $.yearOffNow(cellvalue);
@@ -93,12 +93,12 @@
       {
           label: '现任职务<br/>始任文件',
           width: 150,
-          name: 'cadrePost.dispatchCadreRelateBean.first',
+          name: 'cadrePost.npDispatch',
           formatter: function (cellvalue, options, rowObject) {
               if (!cellvalue || cellvalue.id == undefined) return '--';
               var dispatchCode = cellvalue.dispatchCode;
 
-              return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+              return $.pdfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
           }
       },
       {

@@ -102,3 +102,19 @@ SET FOREIGN_KEY_CHECKS=1;
     delete from abroad_apply_self;
 
 ###############################
+
+-- 更正家庭成员排序
+select id,cadre_id from cadre_family where status=0 and sort_order is null;
+update cadre_family set sort_order=id where status=0 and sort_order is null;
+-- 查重
+select cadre_id, sort_order, count(*) from cadre_family where status=0 and sort_order is not null group by cadre_id, sort_order having count(*)>1;
+
+-- 更正课程排序
+select id,cadre_id from cadre_course where status=0 and sort_order is null;
+update cadre_course set sort_order=id where status=0 and sort_order is null;
+select cadre_id, sort_order, count(*) from cadre_course where status=0 and sort_order is not null group by cadre_id, sort_order having count(*)>1;
+
+update cadre_course c,
+(
+select cadre_id, sort_order, count(*) from cadre_course where status=0 and sort_order is not null group by cadre_id, sort_order having count(*)>1
+)t set c.sort_order=c.id where c.cadre_id=t.cadre_id and c.sort_order=t.sort_order and c.status=0;

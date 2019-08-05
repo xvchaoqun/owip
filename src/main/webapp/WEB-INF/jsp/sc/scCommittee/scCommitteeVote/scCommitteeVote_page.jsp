@@ -127,10 +127,10 @@
                 //console.log(rowObject.holdDate)
                 var _num = "党委常委会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 if($.trim(rowObject.filePath)=='') return _num;
-                return $.swfPreview(rowObject.filePath, _num);
+                return $.pdfPreview(rowObject.filePath, _num);
             }, frozen: true},
             {label: '党委常委会<br/>日期', name: 'holdDate', width: 95,
-                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '议题名称',name: 'name', width: 400, align:'left'},
             {
                 label: '议题内容和<br/>讨论备忘', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -196,11 +196,11 @@
             /*{ label: '列席人',name: 'attendUsers', width: 400,align:'left'},*/
             {label: '表决票', name: 'voteFilePath', width: 70, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.voteFilePath==undefined) return '--';
-                return $.swfPreview(rowObject.voteFilePath, '表决票', '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 查看</button>');
+                return $.pdfPreview(rowObject.voteFilePath, '表决票', '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 查看</button>');
             }},
             {label: '会议记录', name: 'logFile', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '--';
-                return $.swfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
+                return $.pdfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
             {label: '备注', name: 'remark', width:300}
         ]

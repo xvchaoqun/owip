@@ -42,7 +42,7 @@
           <div class="col-xs-6">
             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/${isUnit?'unit_selects':'party_selects'}"
                     name="unitId" data-width="340" data-placeholder="请选择">
-              <option value="${unit.id}" title="${unitIsDelete}">${unit.name}</option>
+              <option value="${unit.id}" delete="${unitIsDelete}">${unit.name}</option>
             </select>
           </div>
         </div>
@@ -51,7 +51,7 @@
           <div class="col-xs-6">
             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/${isUnit?'unit_selects':'party_selects'}"
                     name="oldUnitId" data-width="340" data-placeholder="请选择">
-              <option value="${oldUnit.id}" title="${oldUnitIsDelete}">${oldUnit.name}</option>
+              <option value="${oldUnit.id}" delete="${oldUnitIsDelete}">${oldUnit.name}</option>
             </select>
           </div>
         </div>

@@ -75,7 +75,12 @@ pageEncoding="UTF-8"%>
 			</div>
 				<%--</c:if>--%>
 				<div class="form-group">
-					<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>类别
+						<c:if test="${not empty _pMap['memberOutTypeRemark']}">
+						<span class="prompt" data-title="类别说明" data-width="400"
+							  data-prompt="${_pMap['memberOutTypeRemark']}"><i class="fa fa-question-circle-o"></i></span>
+							</c:if>
+					</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="type" data-width="180" data-placeholder="请选择"  >
 							<option></option>
@@ -84,6 +89,7 @@ pageEncoding="UTF-8"%>
 						<script>
 							$("#modalForm select[name=type]").val(${memberOut.type});
 						</script>
+
 					</div>
 				</div>
 				<div class="form-group">

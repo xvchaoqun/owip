@@ -1,23 +1,33 @@
 package controller.ps;
 
+import domain.oa.OaTask;
+import domain.oa.OaTaskAdmin;
+import domain.oa.OaTaskFile;
+import domain.ps.PsInfo;
 import domain.ps.PsTask;
 import domain.ps.PsTaskExample;
 import domain.ps.PsTaskExample.Criteria;
+import domain.ps.PsTaskFile;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import persistence.oa.OaTaskAdminMapper;
+import persistence.ps.PsTaskFileMapper;
 import sys.constants.LogConstants;
+import sys.tool.fancytree.TreeNode;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -30,16 +40,19 @@ import java.util.*;
 @RequestMapping("/ps")
 public class PsTaskController extends PsBaseController {
 
+    @Autowired
+    private PsTaskFileMapper psTaskFileMapper;
+
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("psTask:list")
+    //@RequiresPermissions("psTask:list")
     @RequestMapping("/psTask")
     public String psTask() {
 
         return "ps/psTask/psTask_page";
     }
 
-    @RequiresPermissions("psTask:list")
+    //@RequiresPermissions("psTask:list")
     @RequestMapping("/psTask_data")
     @ResponseBody
     public void psTask_data(HttpServletResponse response,
@@ -62,7 +75,7 @@ public class PsTaskController extends PsBaseController {
 
         PsTaskExample example = new PsTaskExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        //example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
@@ -101,16 +114,25 @@ public class PsTaskController extends PsBaseController {
         return;
     }
 
-    @RequiresPermissions("psTask:edit")
+    //@RequiresPermissions("psTask:edit")
     @RequestMapping(value = "/psTask_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psTask_au(PsTask record, HttpServletRequest request) {
+    public Map do_psTask_au(PsTask record, String _year,String _releaseDate, HttpServletRequest request) {
 
         Integer id = record.getId();
+
+        if (StringUtils.isNotBlank(_year)){
+            record.setYear(Integer.parseInt(_year));
+        }
+        if (StringUtils.isNotBlank(_releaseDate)){
+            record.setReleaseDate(DateUtils.parseDate(_releaseDate,DateUtils.YYYY_MM_DD));
+        }
+        record.setIsPublish(BooleanUtils.isTrue(record.getIsPublish()));
 
         /*if (psTaskService.idDuplicate(id, code)) {
             return failed("添加重复");
         }*/
+
         if (id == null) {
             
             psTaskService.insertSelective(record);
@@ -124,7 +146,7 @@ public class PsTaskController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("psTask:edit")
+    //@RequiresPermissions("psTask:edit")
     @RequestMapping("/psTask_au")
     public String psTask_au(Integer id, ModelMap modelMap) {
 
@@ -135,7 +157,7 @@ public class PsTaskController extends PsBaseController {
         return "ps/psTask/psTask_au";
     }
 
-    @RequiresPermissions("psTask:del")
+    //@RequiresPermissions("psTask:del")
     @RequestMapping(value = "/psTask_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psTask_del(HttpServletRequest request, Integer id) {
@@ -148,7 +170,7 @@ public class PsTaskController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("psTask:del")
+    //@RequiresPermissions("psTask:del")
     @RequestMapping(value = "/psTask_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map psTask_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -239,4 +261,110 @@ public class PsTaskController extends PsBaseController {
         resultMap.put("options", options);
         return resultMap;
     }
+
+
+    //二级党校年度工作任务附件
+    @RequestMapping("/psTaskFiles")
+    public String oaTaskFiles(Integer taskId, ModelMap modelMap) {
+
+        modelMap.put("psTask", psTaskMapper.selectByPrimaryKey(taskId));
+        modelMap.put("psTaskFiles", psTaskService.getTaskFiles(taskId));
+
+        return "ps/psTask/psTaskFiles";
+    }
+
+    //添加二级党校年度工作任务附件
+    @RequestMapping(value = "/psTaskFile_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_oaTaskFile_au(int taskId, MultipartFile[] files, HttpServletRequest request) throws IOException, InterruptedException {
+
+        if (files == null || files.length == 0) {
+            return failed("附件不能为空。");
+        }
+
+        //psTaskService.checkAuth(taskId, null);
+
+        for (MultipartFile file : files) {
+
+            PsTaskFile record = new PsTaskFile();
+            record.setTaskId(taskId);
+            record.setFileName(file.getOriginalFilename());
+            record.setFilePath(upload(file, "ps_task_file"));
+            record.setCreateTime(new Date());
+
+            psTaskFileMapper.insertSelective(record);
+            logger.info(addLog(LogConstants.LOG_OA, "添加二级党校年度工作任务附件：%s", record.getFileName()));
+
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/psTaskScope_au")
+    public String oaTaskAdmin_au(Integer taskId, ModelMap modelMap) {
+
+        Set<Integer> selectTaskPsIdSet = new HashSet<>();
+
+        if (taskId != null) {
+            PsTask psTask = psTaskMapper.selectByPrimaryKey(taskId);
+            modelMap.put("psTask",psTask);
+            String psIds = psTask.getPsIds();
+            if (StringUtils.isNotBlank(psIds)){
+                for (String psId:psIds.split(",")){
+                    selectTaskPsIdSet.add(Integer.valueOf(psId));
+                }
+            }
+        }
+
+        TreeNode root = new TreeNode();
+        root.title = "选择二级党校";
+        root.expanded = true;
+        root.folder = true;
+        root.checkbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        Map<Integer, PsInfo> psInfoMap = psInfoService.findAll();
+        for (PsInfo psInfo : psInfoMap.values()){
+            TreeNode treeNode = new TreeNode();
+            treeNode.key = psInfo.getId() + "";
+            treeNode.title = psInfo.getName();
+            treeNode.selected = selectTaskPsIdSet.contains(psInfo.getId());
+            treeNode.checkbox = true;
+            rootChildren.add(treeNode);
+        }
+
+        modelMap.put("treeData", root);
+
+        return "ps/psTask/psTaskScope_au";
+    }
+
+    @RequestMapping(value = "/psTaskScope_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_oaTaskAdmin_au(PsTask record, HttpServletRequest request) {
+
+        Integer id = record.getId();
+        if (id != null){
+            psTaskService.updateByPrimaryKeySelective(record);
+            logger.info(log(LogConstants.LOG_OA, "添加年度任务发布范围：{0}", record.getId()));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping(value = "/psTaskFile_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_oaTaskFile_del(HttpServletRequest request, Integer id) {
+
+        PsTaskFile psTaskFile = psTaskFileMapper.selectByPrimaryKey(id);
+
+        //OaTask oaTask = oaTaskMapper.selectByPrimaryKey(oaTaskFile.getTaskId());
+        //oaTaskService.checkAuth(oaTask.getId(), null);
+
+        psTaskFileMapper.deleteByPrimaryKey(id);
+        logger.info(addLog(LogConstants.LOG_OA, "删除二级党校年度任务附件：%s",psTaskFile.getFileName()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
 }

@@ -55,7 +55,7 @@
                     <td colspan="3" class="bg-left">${cm:formatDate(modify.holdTime,'yyyy.MM')}</td>
                 </tr>
                 <tr>
-                    <td data-code="level">专技岗位等级</td>
+                    <td data-code="level">职称级别</td>
                     <td class="bg-left">${cm:getMetaType(modify.level).name}</td>
                     <td data-code="gradeTime">专技岗位分级时间</td>
                     <td colspan="3" class="bg-left">${cm:formatDate(modify.gradeTime,'yyyy.MM')}</td>
@@ -189,7 +189,7 @@
     $(window).triggerHandler('resize.jqGrid4');
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'));
     });
 </script>

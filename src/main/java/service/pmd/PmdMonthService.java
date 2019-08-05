@@ -1,8 +1,8 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.ext.ExtJzgSalary;
-import domain.ext.ExtRetireSalary;
+import ext.domain.ExtJzgSalary;
+import ext.domain.ExtRetireSalary;
 import domain.member.Member;
 import domain.member.MemberExample;
 import domain.member.MemberView;
@@ -161,7 +161,7 @@ public class PmdMonthService extends PmdBaseMapper {
         example.createCriteria().andStatusEqualTo(PmdConstants.PMD_MONTH_STATUS_START);
         List<PmdMonth> pmdMonths = pmdMonthMapper.selectByExample(example);
 
-        if (pmdMonths.size() > 1) throw new OpException("缴费系统异常，请稍后再试。");
+        if (pmdMonths.size() > 1) throw new OpException("缴费操作错误，请稍后再试。");
 
         return pmdMonths.size() > 0 ? pmdMonths.get(0) : null;
     }
@@ -196,7 +196,7 @@ public class PmdMonthService extends PmdBaseMapper {
 
             PmdParty pmdParty = pmdPartyService.get(monthId, partyId);
             if (pmdParty == null)
-                throw new OpException("数据异常，党委不存在。[{0}-{1}]", monthId, partyId);
+                throw new OpException("数据错误，党委不存在。[{0}-{1}]", monthId, partyId);
             // 直属党支部特殊处理
             if (partyService.isDirectBranch(partyId)) {
                 // 同步党员（直属党支部）
@@ -283,7 +283,7 @@ public class PmdMonthService extends PmdBaseMapper {
             // 更新当月党支部信息（党员总数、本月应交党费数）
             PmdBranch pmdBranch = pmdBranchService.get(monthId, partyId, branchId);
             if (pmdBranch == null)
-                throw new OpException("数据异常，党支部不存在。[{0}-{1}-{2}]",
+                throw new OpException("数据错误，党支部不存在。[{0}-{1}-{2}]",
                         monthId, partyId, branchId);
 
             PmdBranch record = new PmdBranch();

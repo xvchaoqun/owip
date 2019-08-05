@@ -62,11 +62,10 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
     @RequestMapping("/${tableName}_data")
     @ResponseBody
     public void ${tableName}_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "${tablePrefix}${tablesqlname}") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                 <#list searchColumnBeans as column>
                                     <#if column.type=="varchar"||column.type=="text">String<#elseif column.type=="datetime"||column.type=="date">Date<#elseif column.type=="int">Integer<#elseif column.type=="smallint">Short<#elseif column.type=="tinyint">Byte</#if> ${tbn(column.name, "tableName")},
                                 </#list>
+                                <#if tableColumnsMap['status']??>Byte status,</#if>
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -80,8 +79,8 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         pageNo = Math.max(1, pageNo);
 
         ${TableName}Example example = new ${TableName}Example();
-        Criteria criteria = example.createCriteria()<#if tableColumnsMap['status']??>.andStatusEqualTo(true)</#if>;
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        Criteria criteria = example.createCriteria()<#if tableColumnsMap['status']??>.andStatusEqualTo(status)</#if>;
+        example.setOrderByClause(<#if tableColumnsMap['sort_order']??>"sort_order desc"<#else>"id desc"</#if>);
 
         <#list searchColumnBeans as column>
         <#if column.type=="int" || column.type=="tinyint" || column.type=="smallint">
@@ -186,7 +185,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
 
         return success(FormUtils.SUCCESS);
     }
-
+    <#if tableColumnsMap['sort_order']??>
     @RequiresPermissions("${tableName}:changeOrder")
     @RequestMapping(value = "/${tableName}_changeOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -196,7 +195,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         logger.info(log( ${logType}, "${cnTableName}调序：{0}, {1}", ${tbn(key, "tableName")}, addNum));
         return success(FormUtils.SUCCESS);
     }
-
+    </#if>
     public void ${tableName}_export(${TableName}Example example, HttpServletResponse response) {
 
         List<${TableName}> records = ${tableName}Mapper.selectByExample(example);
@@ -234,8 +233,8 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         pageNo = Math.max(1, pageNo);
 
         ${TableName}Example example = new ${TableName}Example();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(true);
-        example.setOrderByClause("sort_order desc");
+        Criteria criteria = example.createCriteria()<#if tableColumnsMap['status']??>.andStatusEqualTo(true)</#if>;
+        example.setOrderByClause(<#if tableColumnsMap['sort_order']??>"sort_order desc"<#else>"id desc"</#if>);
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike(SqlUtils.like(searchStr));

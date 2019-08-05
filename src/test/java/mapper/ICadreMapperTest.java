@@ -1,6 +1,6 @@
 package mapper;
 
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class ICadreMapperTest {
 	@Test
 	public void list() {
 
-		List<Cadre> cadres = iCadreMapper.selectCadreList("%sd%", CadreConstants.CADRE_STATUS_SET, null,null, new RowBounds(0, 2));
+		List<CadreView> cadres = iCadreMapper.selectCadreList("%sd%", CadreConstants.CADRE_STATUS_SET, null,null, new RowBounds(0, 2));
 		System.out.println("================" + cadres.size());
 
 		int sd = iCadreMapper.countCadreList("sd", CadreConstants.CADRE_STATUS_SET, null,null);

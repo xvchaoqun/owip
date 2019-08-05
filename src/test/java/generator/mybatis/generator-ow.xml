@@ -85,6 +85,10 @@
         <!--<table tableName="ow_member" domainObjectName="member.Member">
              <ignoreColumn column="update_time"/>
          </table>-->
+        <table tableName="ow_member_check" domainObjectName="member.MemberCheck">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
+        </table>
 
         <!--<table tableName="ow_member_view" domainObjectName="member.MemberView"
                mapperName="member.MemberViewMapper"
@@ -99,10 +103,10 @@
         </table>-->
         <!--<table tableName="ow_apply_open_time" domainObjectName="member.ApplyOpenTime">
         </table>-->
-         <table tableName="ow_apply_sn_range" domainObjectName="member.ApplySnRange"
+         <!--<table tableName="ow_apply_sn_range" domainObjectName="member.ApplySnRange"
                 mapperName="member.ApplySnRangeMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+         </table>-->
         <!--<table tableName="ow_apply_sn" domainObjectName="member.ApplySn"
                 mapperName="member.ApplySnMapper">
          </table>-->

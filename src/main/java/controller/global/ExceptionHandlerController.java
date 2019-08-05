@@ -83,13 +83,13 @@ public class ExceptionHandlerController {
                 resultMap.put("msg", msg);
                 logger.warn(getMsg(request, ex));
             } else {
-                resultMap.put("msg", "数据异常，请稍后重试");
+                resultMap.put("msg", "数据关联错误，请稍后重试");
                 logger.error(getMsg(request, ex), ex);
             }
         } else if (ex.getCause() instanceof SQLException) {
 
             resultMap.put("success", false);
-            resultMap.put("msg", "系统异常，请稍后重试");
+            resultMap.put("msg", "数据请求错误，请稍后重试");
             logger.error(getMsg(request, ex), ex);
         }
 
@@ -100,14 +100,11 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
-        String msg = "系统异常，请稍后重试";
+        String msg = "数据请求错误，请稍后重试";
         if (ex instanceof FileNotFoundException) {
             msg = "文件不存在";
         } else if (ex instanceof OpException) {
             msg = ex.getMessage();
-        } else if (ex instanceof IOException) {
-            // org.apache.catalina.connector.ClientAbortException ??
-            logger.warn(getMsg(request, ex));
         } else if (ex instanceof HttpRequestMethodNotSupportedException) {
 
             ModelAndView mv = new ModelAndView();
@@ -178,7 +175,7 @@ public class ExceptionHandlerController {
 
             //logger.error("异常", ex);
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", "系统异常[" + ex.getMessage() + "]，请稍后重试");
+            mv.addObject("exception", "访问出错<0>，请稍后重试");
             mv.setViewName("500");
             return mv;
         }
@@ -187,7 +184,7 @@ public class ExceptionHandlerController {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
         attributes.put("success", false);
-        attributes.put("msg", "系统异常[NULL]，请稍后重试");
+        attributes.put("msg", "数据请求错误[空]，请稍后重试");
         view.setAttributesMap(attributes);
         mav.setView(view);
 

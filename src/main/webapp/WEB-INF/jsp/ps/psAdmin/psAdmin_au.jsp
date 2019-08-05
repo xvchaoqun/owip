@@ -8,60 +8,67 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/ps/psAdmin_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${psAdmin.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 所属二级党校</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="psId" value="${psAdmin.psId}">
+		<input type="hidden" name="psId" value="${param.psId}">
+		<div class="form-group">
+			<label class="col-xs-3 control-label"><span class="star">*</span> 管理员类型</label>
+			<div class="col-xs-6 ">
+				<select required id="typeSelect" name="type" data-placeholder="请选择管理员类型"
+						data-rel="select2" data-width="270">
+					<option></option>
+					<option value="1">二级党校管理员</option>
+					<option value="2">院系级党委管理员</option>
+				</select>
+				<script>
+					$("#typeSelect").val('${psAdmin.type}');
+				</script>
+			</div>
+		</div>
+		<div class="form-group" id="personnelTypeDiv">
+			<label class="col-xs-3 control-label"><span class="star">*</span> 姓名</label>
+			<div class="col-xs-6">
+				<select required name="userId"
+						data-rel="select2-ajax"
+						data-toggle="userId"
+						data-ajax-url="${ctx}/member_selects"
+						data-width="270"
+						data-placeholder="请输入账号或姓名或学工号">
+					<option value="${psAdmin.userId}">${sysUser.realname}-${sysUser.code}</option>
+				</select>
+			</div>
+		</div>
+		<c:if test="${not empty psAdmin}">
+		<div class="form-group">
+			<label class="col-xs-3 control-label"> 所在单位及职务</label>
+			<div class="col-xs-6">
+				<input class="form-control" type="text" name="title" value="${psAdmin.title}">
+			</div>
+		</div>
+		</c:if>
+		<div class="form-group">
+			<label class="col-xs-3 control-label"> 任职起始时间</label>
+			<div class="col-xs-6">
+				<div class="input-group">
+					<input class="form-control date-picker" name="_startDate" type="text"
+						   data-date-format="yyyy.mm.dd"
+						   value="${empty psMember?cm:formatDate(now,'yyyy.MM.dd'):cm:formatDate(psMember.startDate,'yyyy.MM.dd')}"/>
+					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 类型</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="type" value="${psAdmin.type}">
-				</div>
+		</div>
+		<c:if test="${not empty psAdmin}">
+		<div class="form-group">
+			<label class="col-xs-3 control-label"> 联系方式</label>
+			<div class="col-xs-6">
+				<input class="form-control" type="text" name="mobile" value="${psAdmin.mobile}">
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 管理员</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="userId" value="${psAdmin.userId}">
-				</div>
+		</div>
+		</c:if>
+		<div class="form-group">
+			<label class="col-xs-3 control-label"> 备注</label>
+			<div class="col-xs-6">
+				<textarea class="form-control" name="remark">${psAdmin.remark}</textarea>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 所在单位及职务</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="title" value="${psAdmin.title}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 联系方式</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="mobile" value="${psAdmin.mobile}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 任职起始时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="startDate" value="${psAdmin.startDate}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 任职结束时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="endDate" value="${psAdmin.endDate}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 现任/离任</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="isHistory" value="${psAdmin.isHistory}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 备注</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${psAdmin.remark}">
-				</div>
-			</div>
+		</div>
     </form>
 </div>
 <div class="modal-footer">
@@ -79,7 +86,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid").trigger("reloadGrid");
+                        $("#jqGrid2").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }
@@ -87,9 +94,9 @@ pageEncoding="UTF-8"%>
         }
     });
     //$("#modalForm :checkbox").bootstrapSwitch();
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#modalForm [data-rel="select2"]').select2();
+    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
+    $.register.date($('.date-picker'));
 </script>

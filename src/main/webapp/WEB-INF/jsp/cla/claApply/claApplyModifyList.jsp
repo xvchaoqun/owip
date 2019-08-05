@@ -16,7 +16,8 @@
 		<tr>
 			<td>${cm:formatDate(modify.createTime, "yyyy-MM-dd")}</td>
 			<td>${modify.remark}</td>
-			<td><a href="${ctx}/attach/download?path=${cm:encodeURI(modify.modifyProof)}&filename=${cm:encodeURI(modify.modifyProofFileName)}" target="_blank">${modify.modifyProofFileName}</a></td>
+			<td><a href="javascript:;" class="downloadBtn" data-type="download"
+				   data-url="${ctx}/attach_download?path=${cm:encodeURI(modify.modifyProof)}&filename=${cm:encodeURI(modify.modifyProofFileName)}">${modify.modifyProofFileName}</a></td>
 		</tr>
 		</c:forEach>
 	</table>

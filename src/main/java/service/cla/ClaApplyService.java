@@ -2,9 +2,8 @@ package service.cla;
 
 import domain.base.ContentTpl;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
-import domain.cadre.CadreExample;
 import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.cla.*;
 import domain.leader.LeaderUnitView;
 import domain.sys.SysUserView;
@@ -23,7 +22,7 @@ import persistence.cla.common.ClaApproverTypeBean;
 import service.SpringProps;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
-import service.base.ShortMsgService;
+import ext.service.ShortMsgService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.sys.UserBeanService;
@@ -103,22 +102,25 @@ public class ClaApplyService extends ClaBaseMapper {
             Map<Integer, ClaApproverBlackList> leaderBlackList = claApproverBlackListService.findAll(leaderApproverType.getId());
 
             CadreView cadre = CmTag.getCadreById(cadreId);
+            Integer unitId = cadre.getUnitId();
             ClaApproverType approverType = claApproverTypeService.findAll().get(approvalTypeId);
             if (approverType.getType() == ClaConstants.CLA_APPROVER_TYPE_UNIT) { // 查找本单位正职
                 List<SysUserView> _users = new ArrayList<SysUserView>();
-                List<Cadre> mainPostList = cadreCommonService.findMainPost(cadre.getUnitId());
-                for (Cadre _cadre : mainPostList) {
-                    if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                            && (mainPostBlackList.get(_cadre.getId()) == null))  // 排除本单位正职黑名单（不包括兼审单位正职）
-                        _users.add(_cadre.getUser());
-                }
+                if(unitId!=null) {
+                    List<CadreView> mainPostList = cadreCommonService.findMainPost(unitId);
+                    for (CadreView _cadre : mainPostList) {
+                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                                && (mainPostBlackList.get(_cadre.getId()) == null))  // 排除本单位正职黑名单（不包括兼审单位正职）
+                            _users.add(_cadre.getUser());
+                    }
 
-                List<CadreView> additionalPost = claAdditionalPostService.findAdditionalPost(cadre.getUnitId());
-                for (CadreView _cadre : additionalPost) {
-                    if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER) {
-                        _users.add(_cadre.getUser());
+                    List<CadreView> additionalPost = claAdditionalPostService.findAdditionalPost(unitId);
+                    for (CadreView _cadre : additionalPost) {
+                        if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER) {
+                            _users.add(_cadre.getUser());
+                        }
                     }
                 }
 
@@ -126,14 +128,16 @@ public class ClaApplyService extends ClaBaseMapper {
             } else if (approverType.getType() == ClaConstants.CLA_APPROVER_TYPE_LEADER) { // 查找分管校领导
 
                 List<SysUserView> users = new ArrayList<SysUserView>();
-                MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
-                List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
-                for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
-                    CadreView _cadre = managerUnitLeader.getCadre();
-                    if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                            && leaderBlackList.get(_cadre.getId()) == null)  // 排除黑名单
-                        users.add(_cadre.getUser());
+                if(unitId!=null) {
+                    MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
+                    List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(unitId, leaderManagerType.getId());
+                    for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
+                        CadreView _cadre = managerUnitLeader.getCadre();
+                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                                || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                                && leaderBlackList.get(_cadre.getId()) == null)  // 排除黑名单
+                            users.add(_cadre.getUser());
+                    }
                 }
                 return users;
             } else { // 查找其他身份下的审批人
@@ -560,7 +564,7 @@ public class ClaApplyService extends ClaBaseMapper {
                 List<ClaApplicatCadre> applicatCadres = claApplicatCadreMapper.selectByExample(example);
                 if (applicatCadres.size() == 0) {
                     CadreView cv = apply.getCadre();
-                    logger.error("请假审批数据异常，干部没有任何身份: {}, {}", cv.getCode(), cv.getRealname());
+                    logger.error("请假审批数据错误，干部没有任何身份: {}, {}", cv.getCode(), cv.getRealname());
                     return approvalResultMap;// 异常情况，不允许申请人没有任何身份
                 }
                 ClaApplicatCadre applicatCadre = applicatCadres.get(0);
@@ -642,14 +646,9 @@ public class ClaApplyService extends ClaBaseMapper {
                 && (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
                 || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId()) == null) { // 必须是现任干部，且不在黑名单
-            MetaType postType = metaTypeMap.get(cadre.getPostType());
-            if (postType != null && BooleanUtils.isTrue(postType.getBoolAttr())) {
+
+            if (BooleanUtils.isTrue(cadre.getIsPrincipal())) {
                 unitIds.add(cadre.getUnitId());
-            }
-            if (postType == null) {
-                SysUserView uv = cadre.getUser();
-                logger.error(String.format("读取职务属性出错：%s %s postId=%s",
-                        uv.getUsername(), uv.getRealname(), cadre.getPostType()));
             }
         }
         {
@@ -658,10 +657,8 @@ public class ClaApplyService extends ClaBaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadre.getId());
             List<ClaAdditionalPost> cPosts = claAdditionalPostMapper.selectByExample(example);
             for (ClaAdditionalPost cPost : cPosts) {
-                MetaType postType = metaTypeMap.get(cPost.getPostId());
-                if (BooleanUtils.isTrue(postType.getBoolAttr())) {
-                    unitIds.add(cPost.getUnitId());
-                }
+
+                unitIds.add(cPost.getUnitId());
             }
         }
 
@@ -715,10 +712,10 @@ public class ClaApplyService extends ClaBaseMapper {
         unitIds.addAll(getLeaderMangerUnitIds(userId));
 
         if (!unitIds.isEmpty()) {
-            CadreExample example = new CadreExample();
+            CadreViewExample example = new CadreViewExample();
             example.createCriteria().andUnitIdIn(unitIds);
-            List<Cadre> cadreIdList = cadreMapper.selectByExample(example);
-            for (Cadre record : cadreIdList) {
+            List<CadreView> cadreIdList = cadreViewMapper.selectByExample(example);
+            for (CadreView record : cadreIdList) {
                 cadreIdSet.add(record.getId());
             }
         }

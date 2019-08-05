@@ -46,15 +46,34 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否正职</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否正职</label>
 				<div class="col-xs-6">
-					<input type="checkbox" class="big" name="isPrincipalPost" ${unitPost.isPrincipalPost?"checked":""}/>
+					<div class="input-group">
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="isPrincipal" id="isPrincipal1" value="1">
+							<label for="isPrincipal1">
+								正职
+							</label>
+						</div>
+						&nbsp;&nbsp;
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="isPrincipal" id="isPrincipal0" value="0">
+							<label for="isPrincipal0">
+								副职
+							</label>
+						</div>
+					</div>
+					<c:if test="${not empty unitPost.isPrincipal}">
+					<script>
+						$("#modalForm input[name=isPrincipal][value=${unitPost.isPrincipal?1:0}]").prop("checked", true);
+					</script>
+					</c:if>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否班子负责人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否班子负责人</label>
 				<div class="col-xs-6">
-				<select name="leaderType" data-width="272" data-placeholder="请选择" data-rel="select2">
+				<select required name="leaderType" data-width="272" data-placeholder="请选择" data-rel="select2">
 					<option></option>
 					<c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
 						<option value="${leaderType.key}">${leaderType.value}</option>
@@ -104,9 +123,28 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否占干部职数</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否占干部职数</label>
 				<div class="col-xs-6">
-					<input type="checkbox" class="big" name="isCpc" ${unitPost.isCpc?"checked":""}/>
+					<div class="input-group">
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="isCpc" id="isCpc1" value="1">
+							<label for="isCpc1">
+								占职数
+							</label>
+						</div>
+						&nbsp;&nbsp;
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="isCpc" id="isCpc0" value="0">
+							<label for="isCpc0">
+								不占职数
+							</label>
+						</div>
+					</div>
+					<c:if test="${not empty unitPost.isCpc}">
+					<script>
+						$("#modalForm input[name=isCpc][value=${unitPost.isCpc?1:0}]").prop("checked", true);
+					</script>
+					</c:if>
 				</div>
 			</div>
 			<div class="form-group">

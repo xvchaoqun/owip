@@ -11,7 +11,9 @@
         <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
         <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadreCompany.id}">
+        <c:if test="${param.toApply!=1}">
         <input type="hidden" name="isFinished" value="${isFinished}">
+        </c:if>
         <div class="col-xs-12">
             <div class="col-xs-6">
                 <div class="form-group">
@@ -75,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <c:if test="${isFinished}">
+                <c:if test="${isFinished || param.toApply==1}">
                     <div class="form-group">
                         <label class="col-xs-3 control-label">兼职结束时间</label>
                         <div class="col-xs-6">
@@ -86,6 +88,17 @@
                                        value="${cm:formatDate(cadreCompany.finishTime,'yyyy.MM')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${param.toApply==1}">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">兼职是否结束</label>
+                        <div class="col-xs-6">
+                            <label>
+                            <input name="isFinished" ${cadreCompany.isFinished?"checked":""} type="checkbox"/>
+                            <span class="lbl"></span>
+                        </label>
                         </div>
                     </div>
                 </c:if>

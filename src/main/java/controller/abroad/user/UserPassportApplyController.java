@@ -23,6 +23,7 @@ import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.ContextHelper;
@@ -42,7 +43,6 @@ public class UserPassportApplyController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/passportApply_apply", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_apply(int classId, Integer cadreId,  HttpServletRequest request) {
@@ -50,7 +50,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         String ip = ContextHelper.getRealIp();
         PassportApply record = new PassportApply();
 
-        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -96,26 +96,23 @@ public class UserPassportApplyController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportApply_begin")
     public String passportApply_begin() {
 
         return "abroad/user/passportApply/passportApply_begin";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportApply_select")
     public String passportApply_select() {
 
         return "abroad/user/passportApply/passportApply_select";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportApply_confirm")
     public String passportApply_confirm(Integer cadreId, ModelMap modelMap) {
 
         CadreView cadre = null;
-        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || !ShiroHelper.isPermitted(SystemConstants.PERMISSION_ABROADADMIN)){
             // 确认干部只能提交自己的申请
             cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
         }else{

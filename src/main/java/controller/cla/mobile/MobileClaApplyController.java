@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import persistence.cla.common.ClaApprovalResult;
 import persistence.cla.common.ClaApproverTypeBean;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class MobileClaApplyController extends ClaBaseController {
 
 	@RequiresPermissions("claApply:list")
-	//@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+	//@RequiresPermissions(SystemConstants.PERMISSION_CLAADMIN)
 	@RequestMapping("/claApply")
 	public String claApply(ModelMap modelMap) {
 
@@ -42,7 +42,7 @@ public class MobileClaApplyController extends ClaBaseController {
 	}
 
 	@RequiresPermissions("claApply:list")
-	//@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+	//@RequiresPermissions(SystemConstants.PERMISSION_CLAADMIN)
 	@RequestMapping("/claApply_page")
 	public String claApply_page(HttpServletResponse response,
 							   @SortParam(required = false, defaultValue = "create_time", tableName = "cla_apply") String sort,
@@ -121,7 +121,7 @@ public class MobileClaApplyController extends ClaBaseController {
 		Integer cadreId = claApply.getCadreId();
 
 		// 判断一下查看权限++++++++++++++++++++???
-		if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
+		if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CLAADMIN)) {
 			CadreView cadre = iCadreMapper.getCadre(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
 				//ShiroUser shiroUser = ShiroHelper.getShiroUser();

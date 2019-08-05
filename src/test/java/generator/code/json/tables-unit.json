@@ -10,7 +10,7 @@
       "table": "unit_post",
       "key": "id",
       "searchColumns": "unit_id,name,admin_level,post_type,post_class",
-      "showColumns": "code,name,job,is_principal_post,admin_level,post_type,post_class,is_cpc,status,sort_order,remark",
+      "showColumns": "code,name,job,is_principal,admin_level,post_type,post_class,is_cpc,status,sort_order,remark",
       "excludeEditColumns": "id,sort_order",
       "logType":"LogConstants.LOG_ADMIN",
       "ignore": true

@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
                             <label>所属内设机构</label>
                             <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                                     data-placeholder="请选择">
-                                <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                                <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                             </select>
                             <script>
                                 $.register.del_select($("#searchForm select[name=unitId]"), 350)
