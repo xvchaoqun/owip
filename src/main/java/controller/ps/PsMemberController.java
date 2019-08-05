@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.base.MetaTypeMapper;
 import persistence.member.MemberViewMapper;
 import service.LoginUserService;
-import service.ext.ExtService;
 import sys.constants.LogConstants;
 import sys.constants.PsInfoConstants;
 import sys.tags.CmTag;
