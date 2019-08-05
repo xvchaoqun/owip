@@ -1,18 +1,18 @@
 
 2019-08-05
-新增元数据 桑文帅
+-- 新增元数据 桑文帅
 INSERT INTO `base_meta_class` (`role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (NULL, '二级党校职务', '二级党校管理', '二级党校信息', 'mc_party_school_position', '', '', '', 90, 1);
 
-新增元数据属性 桑文帅
+-- 新增元数据属性 桑文帅
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (90, '校长', 'ps_principal', NULL, '', '', 1, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (90, '副校长', 'ps_viceprincipal', NULL, '', '', 2, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (90, '工作人员', 'ps_staff', NULL, '', '', 3, 1);
 
-新增角色 桑文帅
+-- 新增角色 桑文帅
 INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_allPs_Admin', '全部二级党校管理员', '728,729,2065,2066,2067,2068,2069,2071,2072,2073,2076,2074,2077,2078,2079,2080,2075,2081,2082,2083,2070', '-1', NULL, 0, 0, 58, '');
 INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_ps_admin', '二级党校管理员', '1068,2071,2072,2073,2074,2075,2070', '-1', NULL, 0, 1, 59, '');
 
-新增系统资源 桑文帅
+-- 新增系统资源 桑文帅
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2065, 0, '添加、修改二级党校', '', 'function', '', NULL, 729, '0/1/728/729/', 1, 'psInfo:edit', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2066, 0, '批量转移二级党校', '', 'function', '', NULL, 729, '0/1/728/729/', 1, 'psInfo:history', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2067, 0, '删除二级党校', '', 'function', '', NULL, 729, '0/1/728/729/', 1, 'psInfo:del', NULL, NULL, NULL, 1, NULL);
@@ -34,18 +34,18 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2083, 0, '撤销系统管理员', '', 'function', '', NULL, 2075, '0/1/728/729/2075/', 1, 'psAdmin:history', NULL, NULL, NULL, 1, NULL);
 
 2019-07-30
-新增发布时间字段 桑文帅
+-- 新增发布时间字段 桑文帅
 ALTER TABLE `ps_task` ADD COLUMN `release_date` DATETIME NULL COMMENT '发布时间' AFTER `files`;
 
 2019-07-25
-新增排序字段 桑文帅
+-- 新增排序字段 桑文帅
 ALTER TABLE `ps_admin` ADD COLUMN `sort_order` INT(11) NULL DEFAULT NULL COMMENT '排序' AFTER `remark`;
 
 2019-07-22
-新增排序字段 桑文帅
+-- 新增排序字段 桑文帅
 ALTER TABLE `ps_member` ADD COLUMN `sort_order` INT NULL DEFAULT NULL COMMENT '排序' AFTER `remark`;
 
 2019-07-20
-修改表字段属性 桑文帅
+-- 修改表字段属性 桑文帅
 ALTER TABLE `ps_member` ALTER `type` DROP DEFAULT;
 ALTER TABLE `ps_member` CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '党校职务' AFTER `seq`;
