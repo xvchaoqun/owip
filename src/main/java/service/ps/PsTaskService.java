@@ -2,13 +2,21 @@ package service.ps;
 
 import domain.ps.PsTask;
 import domain.ps.PsTaskExample;
+import domain.ps.PsTaskFile;
+import domain.ps.PsTaskFileExample;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.ps.PsTaskFileMapper;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class PsTaskService extends PsBaseMapper {
+
+    @Autowired
+    protected PsTaskFileMapper psTaskFileMapper;
 
     @Transactional
     public void insertSelective(PsTask record){
@@ -36,5 +44,13 @@ public class PsTaskService extends PsBaseMapper {
     public void updateByPrimaryKeySelective(PsTask record){
 
         psTaskMapper.updateByPrimaryKeySelective(record);
+    }
+
+    public List<PsTaskFile> getTaskFiles(Integer taskId){
+
+        PsTaskFileExample psTaskFileExample = new PsTaskFileExample();
+        psTaskFileExample.createCriteria().andTaskIdEqualTo(taskId);
+        List<PsTaskFile> psTaskFiles = psTaskFileMapper.selectByExample(psTaskFileExample);
+        return psTaskFiles;
     }
 }

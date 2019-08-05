@@ -1,16 +1,24 @@
 package domain.ps;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class PsMember implements Serializable {
+
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
+
     private Integer id;
 
     private Integer psId;
 
     private String seq;
 
-    private Byte type;
+    private Integer type;
 
     private Integer userId;
 
@@ -25,6 +33,8 @@ public class PsMember implements Serializable {
     private Boolean isHistory;
 
     private String remark;
+
+    private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -52,11 +62,11 @@ public class PsMember implements Serializable {
         this.seq = seq == null ? null : seq.trim();
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -114,5 +124,13 @@ public class PsMember implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

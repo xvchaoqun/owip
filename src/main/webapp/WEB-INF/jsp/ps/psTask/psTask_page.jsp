@@ -24,10 +24,10 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/ps/psTask_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
+                    <i class="fa fa-download"></i> 导出</button>--%>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -86,12 +86,26 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/ps/psTask_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '名称',name: 'name'},
-                { label: '年度',name: 'year'},
-                { label: '发布范围',name: 'psIds'},
-                { label: '附件',name: 'files'},
-                { label: '是否发布',name: 'isPublish'},
-                { label: '备注',name: 'remark'}
+                { label: '名称',name: 'name', width: 250},
+                { label: '年度',name: 'year',width: 80},
+                { label: '发布范围',name: 'psIds',formatter: function (cellvalue, options, rowObject) {
+                    var count = 0;
+                    if ($.trim(rowObject.psIds)!=''){
+                        count = rowObject.psIds.split(',').length;
+                    }
+                     return ('<button class="popupBtn btn {2} btn-xs" data-width="500" data-callback="_reload"' +
+                            'data-url="${ctx}/ps/psTaskScope_au?taskId={0}"><i class="fa fa-{3}"></i> {1}</button>')
+                                .format(rowObject.id, count==0?"添加":"编辑("+count+")",
+                                    count==0?"btn-info":"btn-success", count == 0?"plus":"edit");
+                    }},
+                {label: '发布时间', name: 'releaseDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+                { label: '附件',name: 'files',formatter: function (cellvalue, options, rowObject) {
+                        return '<button class="popupBtn btn btn-info btn-xs" data-width="500" data-callback="_reload"' +
+                            'data-url="${ctx}/ps/psTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件{1}</button>'
+                                .format(rowObject.id, rowObject.fileCount>0?"("+rowObject.fileCount+")":"")
+                    }},
+                { label: '是否发布',name: 'isPublish', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+                { label: '备注',name: 'remark', width: 250}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
