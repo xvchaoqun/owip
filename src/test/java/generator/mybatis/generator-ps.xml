@@ -33,22 +33,26 @@
                mapperName="ps.PsAdminMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="ps_admin_party" domainObjectName="ps.PsAdminParty"
+        <!--<table tableName="ps_task_file" domainObjectName="ps.PsTaskFile"
+               mapperName="ps.PsTaskFileMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <!--<table tableName="ps_admin_party" domainObjectName="ps.PsAdminParty"
                mapperName="ps.PsAdminPartyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--<table tableName="ps_member" domainObjectName="ps.PsMember"
                mapperName="ps.PsMemberMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="ps_party" domainObjectName="ps.PsParty"
+        </table>-->
+        <!--<table tableName="ps_party" domainObjectName="ps.PsParty"
                mapperName="ps.PsPartyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <table tableName="ps_task" domainObjectName="ps.PsTask"
                mapperName="ps.PsTaskMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="files" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
     </context>
 </generatorConfiguration>

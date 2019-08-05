@@ -7,77 +7,71 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/ps/psParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="id" value="${psParty.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 所属二级党校</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="psId" value="${psParty.psId}">
+        <input type="hidden" name="id" value="${psParty.id}"/>
+		<c:if test="${empty psParty}">
+			<input type="hidden" name="psId" value="${param.psId}"/>
+			<input type="hidden" name="isHost" value="${isHost}"/>
+		</c:if>
+		<div class="form-group">
+			<label class="col-xs-4 control-label"><span class="star">*</span> ${isHost?"主建":"联合建设"}单位名称</label>
+			<div class="col-xs-6">
+				<select required name="partyId" class="form-control" data-width="272"
+						data-rel="select2-ajax"
+						data-ajax-url="${ctx}/party_selects"
+						data-placeholder="请选择">
+					<option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label"> 开始时间</label>
+			<div class="col-xs-6">
+				<div class="input-group">
+					<input class="form-control date-picker" name="_startDate" type="text"
+						   data-date-format="yyyy.mm"
+						   data-date-min-view-mode="1"
+						   value="${empty psParty.startDate?'':cm:formatDate(psParty.startDate,'yyyy.MM')}"/>
+					<span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 建设单位</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="partyId" value="${psParty.partyId}">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label"> 备注</label>
+			<div class="col-xs-6">
+				<textarea class="form-control" name="remark">${psParty.remark}</textarea>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 主建设单位/联合建设单位</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="isHost" value="${psParty.isHost}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 是否结束</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="isFinish" value="${psParty.isFinish}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 开始时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="startDate" value="${psParty.startDate}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 结束时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="endDate" value="${psParty.endDate}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 备注</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${psParty.remark}">
-				</div>
-			</div>
+		</div>
     </form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn"
-            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty psParty?'确定':'添加'}</button>
+    <button id="submitBtn" class="btn btn-primary"
+			data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+		<i class="fa fa-check"></i>
+		${not empty psParty?'确定':'添加'}</button>
 </div>
-<script>
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
-        submitHandler: function (form) {
-            var $btn = $("#submitBtn").button('loading');
-            $(form).ajaxSubmit({
-                success:function(ret){
-                    if(ret.success){
-                        $("#modal").modal('hide');
-                        $("#jqGrid").trigger("reloadGrid");
-                    }
-                    $btn.button('reset');
-                }
-            });
-        }
-    });
-    //$("#modalForm :checkbox").bootstrapSwitch();
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#modalForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
-</script>
+	<script>
+		$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+		$("#modalForm").validate({
+			submitHandler: function (form) {
+				var $btn = $("#submitBtn").button('loading');
+				$(form).ajaxSubmit({
+					success:function(ret){
+						if(ret.success){
+							$("#modal").modal('hide');
+							<c:if test="${isHost}">
+								$("#jqGrid_hostUnit").trigger("reloadGrid");
+							</c:if>
+							<c:if test="${!isHost}">
+								$("#jqGrid_jointUnit").trigger("reloadGrid");
+							</c:if>
+						}
+						$btn.button('reset');
+					}
+				});
+			}
+		});
+		$('[data-rel="select2"]').select2();
+		$.register.user_select($('[data-rel="select2-ajax"]'));
+		$.register.date($('.date-picker'));
+	</script>

@@ -1,23 +1,30 @@
 package controller.ps;
 
+import domain.member.MemberView;
+import domain.member.MemberViewExample;
 import domain.ps.PsAdmin;
 import domain.ps.PsAdminExample;
 import domain.ps.PsAdminExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.member.MemberViewMapper;
 import sys.constants.LogConstants;
+import sys.constants.PsInfoConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -32,13 +39,17 @@ import java.util.*;
 @Controller
 @RequestMapping("/ps")
 public class PsAdminController extends PsBaseController {
+    @Autowired
+    private MemberViewMapper memberViewMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("psAdmin:list")
     @RequestMapping("/psAdmin")
-    public String psAdmin() {
+    public String psAdmin(@RequestParam(required = false, defaultValue = "0")boolean isHistory,
+                          ModelMap modelMap) {
 
+        modelMap.put("isHistory",isHistory);
         return "ps/psAdmin/psAdmin_page";
     }
 
@@ -46,14 +57,15 @@ public class PsAdminController extends PsBaseController {
     @RequestMapping("/psAdmin_data")
     @ResponseBody
     public void psAdmin_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ps_admin") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer psId,
-                                    Byte type,
-                                    Integer userId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                             @SortParam(required = false, defaultValue = "sort_order", tableName = "ps_admin") String sort,
+                             @OrderParam(required = false, defaultValue = "desc") String order,
+                             Integer psId,
+                             Byte type,
+                             Integer userId,
+                             @RequestParam(required = false, defaultValue = "0")Boolean isHistory,
+                             @RequestParam(required = false, defaultValue = "0") int export,
+                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                             Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -83,6 +95,9 @@ public class PsAdminController extends PsBaseController {
             psAdmin_export(example, response);
             return;
         }
+        if(isHistory!=null){
+            criteria.andIsHistoryEqualTo(isHistory);
+        }
 
         long count = psAdminMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -107,15 +122,41 @@ public class PsAdminController extends PsBaseController {
     @RequiresPermissions("psAdmin:edit")
     @RequestMapping(value = "/psAdmin_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psAdmin_au(PsAdmin record, HttpServletRequest request) {
+    public Map do_psAdmin_au(PsAdmin record, String _startDate, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if (psAdminService.idDuplicate(id, record.getUserId())) {
-            return failed("添加重复");
+        if(StringUtils.isNotBlank(_startDate)){
+            record.setStartDate(DateUtils.parseDate(_startDate,DateUtils.YYYYMMDD_DOT));
         }
+
+        /*if (psAdminService.idDuplicate(id, record.getUserId())) {
+            return failed("添加重复");
+        }*/
+
         if (id == null) {
-            
+
+            //判断管理员类型是否是'二级党校管理员'
+            if(record.getType() == PsInfoConstants.PS_ADMIN_TYPE_PARTY){
+                PsAdminExample psAdminExample = new PsAdminExample();
+                psAdminExample.createCriteria()
+                        .andTypeEqualTo(PsInfoConstants.PS_ADMIN_TYPE_PARTY)
+                        .andPsIdEqualTo(record.getPsId())
+                        .andIsHistoryEqualTo(false);
+                List<PsAdmin> psAdmins = psAdminMapper.selectByExample(psAdminExample);
+                if(psAdmins.size()>0){
+                    return failed("重复添加二级党校管理员。");
+                }
+            }
+
+            //新增时自动插入'所在单位'、'联系方式'；
+            MemberViewExample memberViewExample = new MemberViewExample();
+            memberViewExample.createCriteria().andUserIdEqualTo(record.getUserId());
+            MemberView memberView = memberViewMapper.selectByExample(memberViewExample).get(0);
+            record.setTitle(memberView.getUnit());
+            record.setMobile(memberView.getMobile());
+
+            record.setIsHistory(false);
             psAdminService.insertSelective(record);
             logger.info(log( LogConstants.LOG_PS, "添加二级党校管理员：{0}", record.getId()));
         } else {
@@ -134,7 +175,9 @@ public class PsAdminController extends PsBaseController {
         if (id != null) {
             PsAdmin psAdmin = psAdminMapper.selectByPrimaryKey(id);
             modelMap.put("psAdmin", psAdmin);
+            modelMap.put("sysUser",CmTag.getUserById(psAdmin.getUserId()));
         }
+
         return "ps/psAdmin/psAdmin_au";
     }
 
@@ -165,7 +208,7 @@ public class PsAdminController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresPermissions("psAdmin:changeOrder")
+    //@RequiresPermissions("psAdmin:changeOrder")
     @RequestMapping(value = "/psAdmin_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psAdmin_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -173,7 +216,7 @@ public class PsAdminController extends PsBaseController {
         psAdminService.changeOrder(id, addNum);
         logger.info(log( LogConstants.LOG_PS, "二级党校管理员调序：{0}, {1}", id, addNum));
         return success(FormUtils.SUCCESS);
-    }*/
+    }
 
     public void psAdmin_export(PsAdminExample example, HttpServletResponse response) {
 
@@ -244,5 +287,25 @@ public class PsAdminController extends PsBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequiresPermissions("psAdmin:history")
+    @RequestMapping("/psAdmin_history")
+    public String psInfo_history() {
+
+        return "ps/psAdmin/psAdmin_plan";
+    }
+
+    @RequiresPermissions("psAdmin:history")
+    @RequestMapping(value = "/psAdmin_history", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,String _endDate) {
+
+        if (null != ids && ids.length>0){
+            psAdminService.history(ids,_endDate);
+            logger.info(addLog(LogConstants.LOG_PS, "批量结束党校管理员职务：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 }

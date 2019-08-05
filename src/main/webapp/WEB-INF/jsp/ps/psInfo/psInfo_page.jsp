@@ -27,16 +27,15 @@
                                 </button>
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/ps/psInfo_au"
-                                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                                    修改
+                                        data-grid-id="#jqGrid">
+                                    <i class="fa fa-edit"></i> 修改
                                 </button>
                             </shiro:hasPermission>
                             <c:if test="${!isHistory}">
                                 <shiro:hasPermission name="psInfo:history">
-                                    <button class="jqBatchBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/ps/psInfo_history?isHistory=1" data-title="转移"
-                                            data-msg="确定将这{0}个二级党校转移到历史记录吗？">
-                                        <i class="fa fa-recycle"></i> 转移
+                                    <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/ps/psInfo_history">
+                                        <i class="fa fa-recycle"></i> 撤销
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
@@ -49,16 +48,10 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-                            <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                    data-url="${ctx}/ps/psInfo_data"
-                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                <i class="fa fa-download"></i> 导出
-                            </button>--%>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
-
                                 <div class="widget-toolbar">
                                     <a href="#" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -78,7 +71,9 @@
                                             <a class="jqSearchBtn btn btn-default btn-sm"
                                                data-url="${ctx}/ps/psInfo?isHistory=${isHistory}"
                                                data-target="#page-content"
-                                               data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
+                                               data-form="#searchForm">
+                                                <i class="fa fa-search"></i> 查找
+                                            </a>
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
                                                         data-url="${ctx}/ps/psInfo?isHistory=${isHistory}"
@@ -106,16 +101,19 @@
         rownumbers:true,
         url: '${ctx}/ps/psInfo_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '二级党校名称', name: 'name', formatter:function(cellvalue, options, rowObject){
-
-                return ('<a href="javascript:;" class="openView" ' +
-                    'data-url="${ctx}/ps/psInfo_view?id={0}">{1}</a>')
-                        .format(rowObject.id, cellvalue);
-            }, width:300, align:'left',frozen:true},
+            {label: '二级党校名称', name: 'name',
+                <shiro:hasPermission name="psInfo:view">
+                    formatter:function(cellvalue, options, rowObject){
+                    return ('<a href="javascript:;" class="openView" ' +
+                        'data-url="${ctx}/ps/psInfo_view?id={0}">{1}</a>')
+                            .format(rowObject.id, cellvalue);},
+                </shiro:hasPermission> width:300, align:'left',frozen:true},
+            <shiro:hasPermission name="psInfo:changeOrder">
             <c:if test="${!_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/ps/psInfo_changeOrder'},frozen:true },
             </c:if>
+            </shiro:hasPermission>
             { label: '主建单位', align:'left', name: '_party' },
             { label: '联合建设单位', align:'left', name: '_partys', width: 300 },
             {label: '成立时间', name: 'foundDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

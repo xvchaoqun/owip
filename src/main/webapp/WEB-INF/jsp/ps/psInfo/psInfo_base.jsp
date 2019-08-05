@@ -5,13 +5,7 @@
     <div class="widget-header widget-header-flat">
         <h4 class="widget-title lighter" style="margin-right: 20px;">
             <i class="ace-icon fa fa-info-circle"></i>
-            基本信息
-        </h4>
-        <shiro:hasPermission name="unit:edit">
-        <button class="popupBtn btn btn-primary btn-xs"
-                data-width="1100"
-                 data-url="${ctx}/unit_au?update=1&id=${unit.id}"><i class="fa fa-edit"/> 编辑</button>
-        </shiro:hasPermission>
+            基本信息</h4>
         <div class="widget-toolbar">
             <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-up"></i>
@@ -22,59 +16,22 @@
         <div class="widget-main no-padding">
             <table class="table table-unhover table-bordered table-striped">
                 <tbody>
-                <tr>
-
-                    <td>
-                        单位名称
-                    </td>
-                    <td style="min-width: 80px">
-                        ${unit.name}
-                    </td>
-                    <td>
-                        单位编号
-                    </td>
-                    <td style="min-width: 80px">
-                        ${unit.code}
-                    </td>
-                    <td>
-                        单位网址
-                    </td>
-                    <td style="min-width: 80px">
-                        <c:if test="${not empty unit.url}">
-                            <a href="${unit.url}" target="_blank">${unit.url}</a>
-                        </c:if>
-                    </td>
-                </tr>
-                <tr>
-                    <td>单位类型</td>
-                    <td>
-                        ${cm:getMetaType(unit.typeId).name}
-                    </td>
-                    <td>
-                        成立文件
-                    </td>
-                    <td>
-                        ${dispatch.dispatchCode}
-                        <c:if test="${not empty dispatch.file}">
-                        （<t:preview filePath="${dispatch.file}" fileName="${dispatch.fileName}"
-                                   label="<i class='fa fa-search'></i> 预览"/>）
-                            </c:if>
-                    </td>
-                    <td>
-                        成立时间
-                    </td>
-                    <td>
-                        ${cm:formatDate(unit.workTime, "yyyy-MM-dd")}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        备注
-                    </td>
-                    <td colspan="5">
-                        ${unit.remark}
-                    </td>
-                </tr>
+                    <tr>
+                        <td>二级党校名称</td>
+                        <td style="min-width: 80px">${psInfo.name}</td>
+                        <td>主建单位</td>
+                        <td style="min-width: 80px">${cm:displayParty(hostParty.partyId, null)}</td>
+                        <td>成立时间</td>
+                        <td style="min-width: 80px">${cm:formatDate(psInfo.foundDate,'yyyy-MM')}</td>
+                    </tr>
+                    <tr>
+                        <td>联合建设单位</td>
+                        <td colspan="5">
+                            <c:forEach items="${jointPartyList}" var="jointParty">
+                                ${cm:displayParty(jointParty.partyId, null)}&nbsp;&nbsp;
+                            </c:forEach>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -84,60 +41,45 @@
     <div class="widget-header widget-header-flat">
         <h4 class="widget-title lighter" style="margin-right: 20px;">
             <i class="ace-icon fa fa-history"></i>
-            历史单位
-        </h4>
-        <shiro:hasPermission name="unit:history">
-        <button class="popupBtn btn btn-primary btn-xs"
-                data-url="${ctx}/unit_history?id=${unit.id}">
-            <i class="fa fa-edit"></i> 编辑
-        </button>
-    </shiro:hasPermission>
-
+            组织架构</h4>
         <div class="widget-toolbar">
             <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-up"></i>
             </a>
         </div>
     </div>
-
     <div class="widget-body">
         <div class="widget-main no-padding">
-            <table class="table table-unhover table-actived table-striped table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>单位编号</th>
-                    <th>单位名称</th>
-                    <th>单位类型</th>
-                    <th>成立时间</th>
-                    <th>备注</th>
-                </tr>
-                </thead>
+            <table class="table table-unhover table-bordered table-striped">
                 <tbody>
-                <c:forEach items="${historyUnits}" var="unit" varStatus="st">
                     <tr>
-                        <td>${unit.code}</td>
-                        <td>
-                            <t:unit unit="${unit}"/>
-                        </td>
-                        <td class="hidden-480 hidden-xs">${cm:getMetaType(unit.typeId).name}</td>
-                        <td class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
-
-                        <td class="hidden-480 hidden-xs">${unit.remark}</td>
+                        <td>校长</td>
+                        <td style="min-width: 80px">${cm:getUserById(principal.userId).realname}</td>
+                        <td>所在单位及职务</td>
+                        <td style="min-width: 80px">${principal.title}</td>
+                        <td>联系方式</td>
+                        <td style="min-width: 80px">${principal.mobile}</td>
                     </tr>
-                </c:forEach>
+                    <c:forEach items="${viceprincipalList}" var="viceprincipal">
+                        <tr>
+                            <td>副校长</td>
+                            <td>${cm:getUserById(viceprincipal.userId).realname}</td>
+                            <td>所在单位及职务</td>
+                            <td>${viceprincipal.title}</td>
+                            <td>联系方式</td>
+                            <td>${viceprincipal.mobile}</td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <div class="widget-box transparent">
-
     <div class="widget-header widget-header-flat">
         <h4 class="widget-title lighter">
             <i class="ace-icon fa fa-circle-o-notch"></i>
-            单位职能
-        </h4>
-
+            党员统计</h4>
         <div class="widget-toolbar">
             <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-up"></i>
@@ -146,23 +88,77 @@
     </div>
     <div class="widget-body">
         <div class="widget-main no-padding" id="unitfunctionDiv">
-            <c:import url="${ctx}/unitFunction?unitId=${unit.id}"/>
+            <table id="myTable" class="table table-unhover table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td rowspan="2" valign="middle" style="line-height: 4">党员总人数</td>
+                        <td rowspan="2" style="min-width: 80px; line-height: 4" class="countNumber">
+                            ${allPartyNubmerCount.get('countNumber')}
+                        </td>
+                        <td>在职教职工党员数</td>
+                        <td style="min-width: 80px" class="countNumber">
+                            ${allPartyNubmerCount.get('teacherNumber')}
+                        </td>
+                        <td>学生党员数</td>
+                        <td style="min-width: 80px" class="countNumber">
+                           ${allPartyNubmerCount.get('studentNumber')}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>离退休党员数</td>
+                        <td colspan="3" class="countNumber">
+                            ${allPartyNubmerCount.get('retireNumber')}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" style="line-height: 4">主建单位党员总人数</td>
+                        <td rowspan="2" style="line-height: 4" class="countNumber">
+                            ${hostPartyNumberCount.get('countNumber')}
+                        </td>
+                        <td>在职教职工党员数</td>
+                        <td style="min-width: 80px" class="countNumber">
+                            ${hostPartyNumberCount.get('teacherNumber')}
+                        </td>
+                        <td>学生党员数</td>
+                        <td style="min-width: 80px" class="countNumber">
+                            ${hostPartyNumberCount.get('studentNumber')}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>离退休党员数</td>
+                        <td colspan="3" class="countNumber">
+                            ${hostPartyNumberCount.get('retireNumber')}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" style="line-height: 4">联合建设单位党员总人数</td>
+                        <td rowspan="2" style="line-height: 4" class="countNumber">
+                            ${notHostPartyNumberCount.get('countNumber')}
+                        </td>
+                        <td>在职教职工党员数</td>
+                        <td style="min-width: 80px" class="countNumber">
+                            ${notHostPartyNumberCount.get('teacherNumber')}
+                        </td>
+                        <td>学生党员数</td>
+                        <td style="min-width: 80px" class="countNumber">
+                            ${notHostPartyNumberCount.get('studentNumber')}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>离退休党员数</td>
+                        <td colspan="3" class="countNumber">
+                            ${notHostPartyNumberCount.get('retireNumber')}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 <script>
-    $("#modal form").validate({
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success: function (ret) {
-                    if (ret.success) {
-                        page_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                }
-            });
-        }
-    });
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    var arr=$("td[class=countNumber]");
+    for (var i=0;i<arr.length;i++){
+        var isNull = $(arr[i]).text().trim()=='';
+        if (!isNull){$(arr[i].append('人'));}
+    }
 </script>

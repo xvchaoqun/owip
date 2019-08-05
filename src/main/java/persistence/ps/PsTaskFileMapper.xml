@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.ps.PsTaskMapper">
-  <resultMap id="BaseResultMap" type="domain.ps.PsTask">
+<mapper namespace="persistence.ps.PsTaskFileMapper">
+  <resultMap id="BaseResultMap" type="domain.ps.PsTaskFile">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="year" jdbcType="INTEGER" property="year" />
-    <result column="ps_ids" jdbcType="VARCHAR" property="psIds" />
-    <result column="files" jdbcType="VARCHAR" property="files" />
-    <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
-    <result column="is_publish" jdbcType="BIT" property="isPublish" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, year, ps_ids, files, release_date, is_publish, remark
+    id, task_id, file_name, file_path, create_time
   </sql>
-  <select id="selectByExample" parameterType="domain.ps.PsTaskExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.ps.PsTaskFileExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ps_task
+    from ps_task_file
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,114 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ps_task
+    from ps_task_file
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from ps_task
+    delete from ps_task_file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.ps.PsTaskExample">
-    delete from ps_task
+  <delete id="deleteByExample" parameterType="domain.ps.PsTaskFileExample">
+    delete from ps_task_file
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.ps.PsTask">
+  <insert id="insert" parameterType="domain.ps.PsTaskFile">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ps_task (name, year, ps_ids, 
-      files, release_date, is_publish, 
-      remark)
-    values (#{name,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, #{psIds,jdbcType=VARCHAR}, 
-      #{files,jdbcType=VARCHAR}, #{releaseDate,jdbcType=TIMESTAMP}, #{isPublish,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR})
+    insert into ps_task_file (task_id, file_name, file_path, 
+      create_time)
+    values (#{taskId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="domain.ps.PsTask">
+  <insert id="insertSelective" parameterType="domain.ps.PsTaskFile">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ps_task
+    insert into ps_task_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="taskId != null">
+        task_id,
       </if>
-      <if test="year != null">
-        year,
+      <if test="fileName != null">
+        file_name,
       </if>
-      <if test="psIds != null">
-        ps_ids,
+      <if test="filePath != null">
+        file_path,
       </if>
-      <if test="files != null">
-        files,
-      </if>
-      <if test="releaseDate != null">
-        release_date,
-      </if>
-      <if test="isPublish != null">
-        is_publish,
-      </if>
-      <if test="remark != null">
-        remark,
+      <if test="createTime != null">
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
       </if>
-      <if test="year != null">
-        #{year,jdbcType=INTEGER},
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="psIds != null">
-        #{psIds,jdbcType=VARCHAR},
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
       </if>
-      <if test="files != null">
-        #{files,jdbcType=VARCHAR},
-      </if>
-      <if test="releaseDate != null">
-        #{releaseDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isPublish != null">
-        #{isPublish,jdbcType=BIT},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.ps.PsTaskExample" resultType="java.lang.Long">
-    select count(*) from ps_task
+  <select id="countByExample" parameterType="domain.ps.PsTaskFileExample" resultType="java.lang.Long">
+    select count(*) from ps_task_file
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ps_task
+    update ps_task_file
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.taskId != null">
+        task_id = #{record.taskId,jdbcType=INTEGER},
       </if>
-      <if test="record.year != null">
-        year = #{record.year,jdbcType=INTEGER},
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
-      <if test="record.psIds != null">
-        ps_ids = #{record.psIds,jdbcType=VARCHAR},
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
       </if>
-      <if test="record.files != null">
-        files = #{record.files,jdbcType=VARCHAR},
-      </if>
-      <if test="record.releaseDate != null">
-        release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.isPublish != null">
-        is_publish = #{record.isPublish,jdbcType=BIT},
-      </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,64 +172,49 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ps_task
+    update ps_task_file
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      year = #{record.year,jdbcType=INTEGER},
-      ps_ids = #{record.psIds,jdbcType=VARCHAR},
-      files = #{record.files,jdbcType=VARCHAR},
-      release_date = #{record.releaseDate,jdbcType=TIMESTAMP},
-      is_publish = #{record.isPublish,jdbcType=BIT},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      task_id = #{record.taskId,jdbcType=INTEGER},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.ps.PsTask">
-    update ps_task
+  <update id="updateByPrimaryKeySelective" parameterType="domain.ps.PsTaskFile">
+    update ps_task_file
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
       </if>
-      <if test="year != null">
-        year = #{year,jdbcType=INTEGER},
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="psIds != null">
-        ps_ids = #{psIds,jdbcType=VARCHAR},
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
       </if>
-      <if test="files != null">
-        files = #{files,jdbcType=VARCHAR},
-      </if>
-      <if test="releaseDate != null">
-        release_date = #{releaseDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isPublish != null">
-        is_publish = #{isPublish,jdbcType=BIT},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.ps.PsTask">
-    update ps_task
-    set name = #{name,jdbcType=VARCHAR},
-      year = #{year,jdbcType=INTEGER},
-      ps_ids = #{psIds,jdbcType=VARCHAR},
-      files = #{files,jdbcType=VARCHAR},
-      release_date = #{releaseDate,jdbcType=TIMESTAMP},
-      is_publish = #{isPublish,jdbcType=BIT},
-      remark = #{remark,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="domain.ps.PsTaskFile">
+    update ps_task_file
+    set task_id = #{taskId,jdbcType=INTEGER},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.ps.PsTaskExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.ps.PsTaskFileExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ps_task
+    from ps_task_file
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
