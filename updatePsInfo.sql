@@ -11,8 +11,8 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 
 2019-08-05
 新增角色 桑文帅
-INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_allPs_Admin', '全部二级党校管理员', '728,729,1065,1066,1067,1068,1069,1071,1072,1073,1076,1074,1077,1078,1079,1080,1075,1081,1082,1083,1070', '-1', NULL, 0, 0, 58, '');
-INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_ps_admin', '二级党校管理员', '1068,1071,1072,1073,1074,1075,1070', '-1', NULL, 0, 1, 59, '');
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_allPs_Admin', '全部二级党校管理员', '728,729,2065,2066,2067,2068,2069,2071,2072,2073,2076,2074,2077,2078,2079,2080,2075,2081,2082,2083,2070', '-1', NULL, 0, 0, 58, '');
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_ps_admin', '二级党校管理员', '1068,2071,2072,2073,2074,2075,2070', '-1', NULL, 0, 1, 59, '');
 
 2019-08-05
 新增系统资源 桑文帅
