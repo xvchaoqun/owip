@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>结束党校任职</h3>
+    <h3>结束任职</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/ps/psMember_history" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -18,9 +18,9 @@ pageEncoding="UTF-8"%>
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-5 control-label">建设单位撤销时间</label>
+            <label class="col-xs-5 control-label">离任时间</label>
             <div class="col-xs-4">
-                <div class="input-group">
+                <div class="input-group" style="width: 150px">
                     <input class="form-control date-picker" name="_endDate" type="text"
                            data-date-format="yyyy.mm"
                            data-date-min-view-mode="1"

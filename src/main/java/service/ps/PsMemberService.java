@@ -13,21 +13,21 @@ import org.springframework.transaction.annotation.Transactional;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class PsMemberService extends PsBaseMapper {
 
-    public boolean idDuplicate(Integer psId, int userId, Integer type){
+    public boolean idDuplicate(Integer id, Integer psId, int userId, Integer type){
 
         PsMemberExample example = new PsMemberExample();
-        /*PsMemberExample.Criteria criteria = */
-        example.createCriteria()
-                .andUserIdEqualTo(userId)
-                .andPsIdEqualTo(psId)
-                .andIsHistoryEqualTo(false)
-                .andTypeEqualTo(type);
-        //if(id!=null) criteria.andIdNotEqualTo(id);
+        PsMemberExample.Criteria criteria = example.createCriteria()
+                                            .andUserIdEqualTo(userId)
+                                            .andPsIdEqualTo(psId)
+                                            .andIsHistoryEqualTo(false)
+                                            .andTypeEqualTo(type);
+        if(id!=null) criteria.andIdNotEqualTo(id);
 
         return psMemberMapper.countByExample(example) > 0;
     }
@@ -108,20 +108,20 @@ public class PsMemberService extends PsBaseMapper {
         }
     }
 
-    @Transactional
-    public void history(Integer[] ids, String _endDate){
-
+    public void updateMemberStade(Integer[] ids,String _endDate,Boolean isHistory){
         if(ids==null || ids.length==0) return;
 
-        PsMemberExample example = new PsMemberExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-
-        PsMember record = new PsMember();
+        Date endDate = null;
         if (StringUtils.isNotBlank(_endDate)){
-            record.setEndDate(DateUtils.parseDate(_endDate,DateUtils.YYYYMM));
+            endDate = DateUtils.parseDate(_endDate,DateUtils.YYYYMM);
         }
-        record.setIsHistory(true);
-        psMemberMapper.updateByExampleSelective(record, example);
+        for (Integer id : ids){
+            PsMember psMember = new PsMember();
+            psMember.setId(id);
+            psMember.setEndDate(endDate);
+            psMember.setIsHistory(isHistory);
+            psMember.setSortOrder(getNextSortOrder("ps_member","is_history="+isHistory));
+            psMemberMapper.updateByPrimaryKeySelective(psMember);
+        }
     }
-
 }

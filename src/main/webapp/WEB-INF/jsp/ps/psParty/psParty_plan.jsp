@@ -8,6 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/ps/psParty_history" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
+        <input type="hidden" name="isHost" value="${param.isHost}">
         <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
         <c:if test="${count>1}">
             <div class="form-group">
@@ -20,7 +21,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-5 control-label">建设单位撤销时间</label>
             <div class="col-xs-4">
-                <div class="input-group">
+                <div class="input-group" style="width: 150px">
                     <input class="form-control date-picker" name="_endDate" type="text"
                            data-date-format="yyyy.mm"
                            data-date-min-view-mode="1"

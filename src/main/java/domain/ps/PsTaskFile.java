@@ -1,9 +1,13 @@
 package domain.ps;
 
+import persistence.ps.common.IPsMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class PsTaskFile implements Serializable {
+
     private Integer id;
 
     private Integer taskId;

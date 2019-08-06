@@ -18,7 +18,7 @@
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <c:set var="_query"
-                               value="${not empty param.name || not empty param.code || not empty param.sort}"/>
+                               value="${not empty param.partyId || not empty param.name || not empty param.code || not empty param.sort}"/>
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="psInfo:edit">
                                 <button class="popupBtn btn btn-info btn-sm"
@@ -39,6 +39,15 @@
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
+                            <c:if test="${isHistory}">
+                            <button class="jqBatchBtn btn btn-warning btn-sm"
+                                    data-title="返回"
+                                    data-msg="确定恢复这{0}条数据？"
+                                    data-grid-id="#jqGrid"
+                                    data-url="${ctx}/ps/psInfo_notHistory">
+                                <i class="fa fa-backward"></i> 返回
+                            </button>
+                            </c:if>
                             <shiro:hasPermission name="psInfo:del">
                                 <button data-url="${ctx}/ps/psInfo_batchDel"
                                         data-title="删除"
@@ -48,6 +57,11 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
+                            <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                    data-url="${ctx}/ps/psInfo_import"
+                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                批量导入
+                            </button>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -66,6 +80,13 @@
                                             <input class="form-control search-query" name="name" type="text"
                                                    value="${param.name}"
                                                    placeholder="请输入二级党校名称">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>建设单位</label>
+                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/ps/psParty_selects"
+                                                    name="partyId" data-placeholder="请输入建设单位名称">
+                                                <option value="${party.id}">${party.name}</option>
+                                            </select>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
@@ -131,4 +152,5 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    $.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

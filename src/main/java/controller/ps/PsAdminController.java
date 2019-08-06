@@ -58,7 +58,7 @@ public class PsAdminController extends PsBaseController {
     @ResponseBody
     public void psAdmin_data(HttpServletResponse response,
                              @SortParam(required = false, defaultValue = "sort_order", tableName = "ps_admin") String sort,
-                             @OrderParam(required = false, defaultValue = "desc") String order,
+                             @OrderParam(required = false, defaultValue = "asc") String order,
                              Integer psId,
                              Byte type,
                              Integer userId,
@@ -302,7 +302,7 @@ public class PsAdminController extends PsBaseController {
     public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,String _endDate) {
 
         if (null != ids && ids.length>0){
-            psAdminService.history(ids,_endDate);
+            psAdminService.updateAdminStatus(ids,_endDate,true);
             logger.info(addLog(LogConstants.LOG_PS, "批量结束党校管理员职务：%s", StringUtils.join(ids, ",")));
         }
 

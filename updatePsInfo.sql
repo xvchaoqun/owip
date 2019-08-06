@@ -1,3 +1,10 @@
+2019-08-06
+-- 修改字段属性 桑文帅
+ALTER TABLE `ps_party` ALTER `start_date` DROP DEFAULT;
+ALTER TABLE `ps_party` CHANGE COLUMN `start_date` `start_date` DATE NULL COMMENT '开始时间' AFTER `is_finish`;
+
+-- 新增排序字段 桑文帅
+ALTER TABLE `ps_party` ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `start_date`;
 
 2019-08-05
 -- 新增元数据 桑文帅

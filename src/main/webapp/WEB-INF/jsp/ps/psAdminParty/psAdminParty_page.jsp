@@ -21,6 +21,7 @@ pageEncoding="UTF-8" %>
                 <tr>
                     <th nowrap>管理的单位</th>
                     <th nowrap>开始时间</th>
+                    <th nowrap>结束时间</th>
                     <th nowrap>操作</th>
                     <th nowrap>备注</th>
                 </tr>
@@ -30,16 +31,17 @@ pageEncoding="UTF-8" %>
                     <tr>
                         <td nowrap>${partyMap.get(psAdminParty.partyId).name}</td>
                         <td nowrap>${cm:formatDate(psAdminParty.startDate, "yyyy.MM.dd")}</td>
+                        <td nowrap>${cm:formatDate(psAdminParty.endDate, "yyyy.MM.dd")}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <button onclick="metaType_au(${psAdminParty.id})" class="btn btn-primary btn-xs">
                                     <i class="fa fa-edit"></i> 修改
                                 </button>
+                                <button onclick="metaType_au(${psAdminParty.id},true)" class="btn btn-warning btn-xs">
+                                    <i class="fa fa-hand-stop-o"></i> 结束管理
+                                </button>
                                 <button class="delBtn btn btn-danger btn-xs" data-id="${psAdminParty.id}">
                                     <i class="fa fa-trash"></i> 删除
-                                </button>
-                                <button onclick="metaType_au(${psAdminParty.id},true)" class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash"></i> 结束管理
                                 </button>
                             </div>
                         </td>

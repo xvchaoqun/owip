@@ -2,6 +2,7 @@ package service.ps;
 
 import domain.ps.PsAdminParty;
 import domain.ps.PsAdminPartyExample;
+import domain.ps.PsMemberExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,5 +37,17 @@ public class PsAdminPartyService extends PsBaseMapper {
     public void updateByPrimaryKeySelective(PsAdminParty record){
 
         psAdminPartyMapper.updateByPrimaryKeySelective(record);
+    }
+
+    public boolean idDuplicate(Integer id, Integer partyId, int adminId){
+
+        PsAdminPartyExample example = new PsAdminPartyExample();
+        PsAdminPartyExample.Criteria criteria = example.createCriteria()
+                                                .andPartyIdEqualTo(partyId)
+                                                .andAdminIdEqualTo(adminId)
+                                                .andIsHistoryEqualTo(false);
+        if(id!=null) criteria.andIdNotEqualTo(id);
+
+        return psAdminPartyMapper.countByExample(example) > 0;
     }
 }

@@ -8,6 +8,7 @@
     <result column="is_host" jdbcType="BIT" property="isHost" />
     <result column="is_finish" jdbcType="BIT" property="isFinish" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, ps_id, party_id, is_host, is_finish, start_date, end_date, remark
+    id, ps_id, party_id, is_host, is_finish, start_date, sort_order, end_date, remark
   </sql>
   <select id="selectByExample" parameterType="domain.ps.PsPartyExample" resultMap="BaseResultMap">
     select
@@ -107,11 +108,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ps_party (ps_id, party_id, is_host, 
-      is_finish, start_date, end_date, 
-      remark)
+      is_finish, start_date, sort_order, 
+      end_date, remark)
     values (#{psId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{isHost,jdbcType=BIT}, 
-      #{isFinish,jdbcType=BIT}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
-      #{remark,jdbcType=VARCHAR})
+      #{isFinish,jdbcType=BIT}, #{startDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
+      #{endDate,jdbcType=DATE}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.ps.PsParty">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -133,6 +134,9 @@
       </if>
       <if test="startDate != null">
         start_date,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
       </if>
       <if test="endDate != null">
         end_date,
@@ -156,6 +160,9 @@
       </if>
       <if test="startDate != null">
         #{startDate,jdbcType=DATE},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="endDate != null">
         #{endDate,jdbcType=DATE},
@@ -192,6 +199,9 @@
       <if test="record.startDate != null">
         start_date = #{record.startDate,jdbcType=DATE},
       </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.endDate != null">
         end_date = #{record.endDate,jdbcType=DATE},
       </if>
@@ -211,6 +221,7 @@
       is_host = #{record.isHost,jdbcType=BIT},
       is_finish = #{record.isFinish,jdbcType=BIT},
       start_date = #{record.startDate,jdbcType=DATE},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       end_date = #{record.endDate,jdbcType=DATE},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -235,6 +246,9 @@
       <if test="startDate != null">
         start_date = #{startDate,jdbcType=DATE},
       </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="endDate != null">
         end_date = #{endDate,jdbcType=DATE},
       </if>
@@ -251,6 +265,7 @@
       is_host = #{isHost,jdbcType=BIT},
       is_finish = #{isFinish,jdbcType=BIT},
       start_date = #{startDate,jdbcType=DATE},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
       end_date = #{endDate,jdbcType=DATE},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

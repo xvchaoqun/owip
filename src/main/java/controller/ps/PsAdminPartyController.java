@@ -117,6 +117,10 @@ public class PsAdminPartyController extends PsBaseController {
         }
         if (id == null) {
 
+            if(psAdminPartyService.idDuplicate(id,record.getPartyId(),record.getAdminId())) {
+                return failed("添加重复");
+            }
+
             record.setIsHistory(false);
             psAdminPartyService.insertSelective(record);
             logger.info(log( LogConstants.LOG_PS, "添加二级党校管理员管理的单位：{0}", record.getId()));
@@ -244,4 +248,5 @@ public class PsAdminPartyController extends PsBaseController {
         resultMap.put("options", options);
         return resultMap;
     }
-}
+
+    }

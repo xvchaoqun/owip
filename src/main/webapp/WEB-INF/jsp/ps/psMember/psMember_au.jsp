@@ -92,6 +92,7 @@ pageEncoding="UTF-8"%>
 		${not empty psMember?'确定':'添加'}</button>
 </div>
 <script>
+
 	$("input[name=personnelType]").click(function(){
 		$("#personnelTypeDiv select[name=userId]").val(null).trigger("change");
 		$("#personnelTypeDiv select[name=userId]").data("ajax-url",
@@ -114,10 +115,7 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    //$("#modalForm :checkbox").bootstrapSwitch();
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
 </script>

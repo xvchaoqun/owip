@@ -73,6 +73,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
 						openView(${param.adminId});
+						$("#jqGrid2").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

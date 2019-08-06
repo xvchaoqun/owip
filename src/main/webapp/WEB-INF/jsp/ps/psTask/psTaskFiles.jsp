@@ -47,11 +47,11 @@
                                 </button>
                             </shiro:hasPermission>
                             <button class="downloadBtn btn btn-xs btn-info" data-type="download"
-                               data-url="${ctx}/attach/download?path=${cm:encodeURI(psTaskFile.filePath)}&filename=${psTaskFile.fileName}">
+                               data-url="${ctx}/attach_download?path=${cm:encodeURI(psTaskFile.filePath)}&filename=${psTaskFile.fileName}">
                                 <i class="fa fa-download"></i> 下载</button>
                         </div>
                     </td>
-                </tr>download
+                </tr>
             </c:forEach>
             </tbody>
         </table>

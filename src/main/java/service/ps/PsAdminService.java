@@ -14,6 +14,7 @@ import sys.constants.PsInfoConstants;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -63,7 +64,7 @@ public class PsAdminService extends PsBaseMapper {
     public void changeOrder(Integer id,Integer addNum){
         if (addNum == 0) return;
 
-        byte orderBy = ORDER_BY_DESC;
+        byte orderBy = ORDER_BY_ASC;
 
         PsAdmin psAdmin = psAdminMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = psAdmin.getSortOrder();
@@ -101,19 +102,18 @@ public class PsAdminService extends PsBaseMapper {
 
 }
 
-    @Transactional
-    public void history(Integer[] ids, String _endDate){
-
+    public void updateAdminStatus(Integer[] ids, String _endDate, Boolean isHistory){
         if(ids==null || ids.length==0) return;
-
-        PsAdminExample example = new PsAdminExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-
-        PsAdmin record = new PsAdmin();
-        if (StringUtils.isNotBlank(_endDate)){
-            record.setEndDate(DateUtils.parseDate(_endDate,DateUtils.YYYYMMDD_DOT));
+        Date endDate = null;
+        if(StringUtils.isNotBlank(_endDate)){
+            endDate = DateUtils.parseDate(_endDate,DateUtils.YYYYMMDD_DOT);
         }
-        record.setIsHistory(true);
-        psAdminMapper.updateByExampleSelective(record, example);
+        for (Integer id : ids){
+            PsAdmin psAdmin = new PsAdmin();
+            psAdmin.setId(id);
+            psAdmin.setIsHistory(isHistory);
+            psAdmin.setEndDate(endDate);
+            psAdminMapper.updateByPrimaryKeySelective(psAdmin);
+        }
     }
 }

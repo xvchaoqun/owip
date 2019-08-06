@@ -27,8 +27,8 @@
                     <tr>
                         <td>联合建设单位</td>
                         <td colspan="5">
-                            <c:forEach items="${jointPartyList}" var="jointParty">
-                                ${cm:displayParty(jointParty.partyId, null)}&nbsp;&nbsp;
+                            <c:forEach items="${jointPartyList}" var="jointParty" varStatus="status">
+                                ${cm:displayParty(jointParty.partyId, null)}${status.last?"":"、"}
                             </c:forEach>
                         </td>
                     </tr>

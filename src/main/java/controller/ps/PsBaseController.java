@@ -1,6 +1,7 @@
 package controller.ps;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import persistence.ps.common.IPsMapper;
 import service.party.PartyService;
 import service.ps.*;
 import service.sys.SysUserService;
@@ -25,4 +26,6 @@ public class PsBaseController extends PsBaseMapper implements HttpResponseMethod
     protected PsMemberService psMemberService;
     @Autowired
     protected PsPartyService psPartyService;
+    @Autowired
+    protected IPsMapper iPsMapper;
 }

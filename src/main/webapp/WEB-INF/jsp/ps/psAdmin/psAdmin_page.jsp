@@ -46,50 +46,6 @@ pageEncoding="UTF-8" %>
         任职结束</button>
     </shiro:hasPermission>
 </div>
-<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-    <div class="widget-header">
-        <h4 class="widget-title">搜索</h4>
-        <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
-                <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-            </a>
-        </div>
-    </div>
-    <div class="widget-body">
-        <div class="widget-main no-padding">
-            <form class="form-inline search-form" id="searchForm">
-                <div class="form-group">
-                    <label>所属二级党校</label>
-                    <input class="form-control search-query" name="psId" type="text" value="${param.psId}"
-                           placeholder="请输入所属二级党校"/>
-                </div>
-                <div class="form-group">
-                    <label>类型</label>
-                    <input class="form-control search-query" name="type" type="text" value="${param.type}"
-                           placeholder="请输入类型"/>
-                </div>
-                <div class="form-group">
-                    <label>管理员</label>
-                    <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
-                           placeholder="请输入管理员"/>
-                </div>
-                <div class="clearfix form-actions center">
-                    <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-url="${ctx}/ps/psAdmin"
-                       data-target="#page-content"
-                       data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
-                    <c:if test="${_query}">&nbsp;
-                        <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/ps/psAdmin"
-                                data-target="#page-content">
-                            <i class="fa fa-reply"></i> 重置
-                        </button>
-                    </c:if>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
 <div id="jqGridPager2"></div>
@@ -104,12 +60,17 @@ pageEncoding="UTF-8" %>
                 { label: '姓名',name: 'user.realname'},
                 { label:'排序', width: 85, formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{grid:'#jqGrid2',url:'${ctx}/ps/psAdmin_changeOrder'},frozen:true },
-                { label: '所在单位及职务',name: 'title',width: 200},
+                { label: '所在单位及职务',name: 'title',width: 250},
                 { label: '管理的单位', name: 'memberCount', width: 150, formatter: function (cellvalue, options, rowObject) {
-                        return ('<button class="popupBtn btn btn-success btn-xs"' +
+                    if (rowObject.type == 1)  return '--'
+                        var notEmptyParty = (rowObject.countParty == 0);
+                        return ('<button class="popupBtn btn btn-{2} btn-xs"' +
                             'data-url="${ctx}/ps/psAdminParty?adminId={0}" ' +
-                            'data-width="800"><i class="fa fa-search"></i> ' +
-                            '{1}({2})</button>').format(rowObject.id, rowObject.id==null?'编辑':'查看',rowObject.id);
+                            'data-width="800"><i class="fa fa-{3}"></i> ' +
+                            '{1}</button>').format(rowObject.id,
+                            notEmptyParty?'编辑':'查看('+rowObject.countParty+')',
+                            notEmptyParty?'primary':'success ',
+                            notEmptyParty?'edit':'search');
                     }},
                 { label: '任职起始时间',name: 'startDate',width: 150, formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y-m-d'}},
                 { label: '联系方式',name: 'mobile',width: 200},

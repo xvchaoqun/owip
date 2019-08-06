@@ -5,22 +5,26 @@ pageEncoding="UTF-8" %>
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-user"></i> 主建单位
-            <div class="buttons">
+            <div class="buttons" id="hostUnit">
                 <shiro:hasPermission name="psParty:edit">
+                    <c:if test="${!isHaveHostUnit}">
                 <button class="popupBtn btn btn-success btn-sm"
                    data-url="${ctx}/ps/psParty_au?psId=${param.psId}&isHost=1">
                     <i class="fa fa-plus"></i>
                     添加</button>
+                    </c:if>
+                    <c:if test="${isHaveHostUnit}">
                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                    data-url="${ctx}/ps/psParty_au"
                    data-grid-id="#jqGrid_hostUnit">
                     <i class="fa fa-edit"></i>
                     修改</button>
+                    </c:if>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="psParty:history">
                 <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                         data-grid-id="#jqGrid_hostUnit"
-                        data-url="${ctx}/ps/psParty_history">
+                        data-url="${ctx}/ps/psParty_history?isHost=1">
                     <i class="fa fa-recycle"></i>
                     撤销</button>
                 </shiro:hasPermission>
@@ -62,7 +66,7 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="psParty:history">
                 <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                         data-grid-id="#jqGrid_jointUnit"
-                        data-url="${ctx}/ps/psParty_history">
+                        data-url="${ctx}/ps/psParty_history?isHost=0">
                     <i class="fa fa-recycle"></i>
                     撤销</button>
                 </shiro:hasPermission>
@@ -91,7 +95,7 @@ pageEncoding="UTF-8" %>
         pager: "#jqGridPager_hostUnit",
         url: '${ctx}/ps/psParty_data?callback=?&isHost=1&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '主建单位名称', name: 'partyId', width: 250, frozen: true, formatter:function(cellvalue, options, rowObject){
+            {label: '主建单位名称', name: 'partyId', width: 350,align: 'left', frozen: true, formatter:function(cellvalue, options, rowObject){
                     return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;}},
             {label: '开始时间', name: 'startDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
             {label: '结束时间', name: 'endDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
@@ -106,8 +110,10 @@ pageEncoding="UTF-8" %>
         pager: "#jqGridPager_jointUnit",
         url: '${ctx}/ps/psParty_data?callback=?&isHost=0&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '联合建设单位名称', name: 'partyId', width: 250, frozen: true, formatter:function(cellvalue, options, rowObject){
+            {label: '联合建设单位名称', name: 'partyId', width: 350, align: 'left', frozen: true, formatter:function(cellvalue, options, rowObject){
                     return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;}},
+            { label:'排序', width: 85, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{grid:'#jqGrid_jointUnit',url:'${ctx}/ps/psParty_changeOrder'},frozen:true },
             {label: '开始时间', name: 'startDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
             {label: '结束时间', name: 'endDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
             {label: '状态', name: 'isFinish', formatter: function (cellvalue, options, rowObject) {
@@ -117,4 +123,6 @@ pageEncoding="UTF-8" %>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid4');
+    $.initNavGrid("jqGrid", "jqGrid_hostUnit");
+    $.initNavGrid("jqGrid", "jqGrid_jointUnit");
 </script>

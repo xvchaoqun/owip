@@ -1,6 +1,7 @@
 package domain.ps;
 
 import domain.sys.SysUserView;
+import persistence.ps.common.IPsMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -10,6 +11,12 @@ public class PsAdmin implements Serializable {
 
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
+    }
+
+    public Integer getCountParty(){
+
+        IPsMapper iPsMapper = CmTag.getBean(IPsMapper.class);
+        return iPsMapper.getCountParty(id);
     }
 
     private Integer id;

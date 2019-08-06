@@ -16,6 +16,8 @@ public class PsParty implements Serializable {
 
     private Date startDate;
 
+    private Integer sortOrder;
+
     private Date endDate;
 
     private String remark;
@@ -68,6 +70,14 @@ public class PsParty implements Serializable {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Date getEndDate() {

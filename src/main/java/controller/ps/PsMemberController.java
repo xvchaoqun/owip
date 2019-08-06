@@ -60,16 +60,9 @@ public class PsMemberController extends PsBaseController {
     @RequestMapping("/psMember_data")
     @ResponseBody
     public void psMember_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ps_member") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                 @RequestParam(required = false, defaultValue = "0")Boolean isHistory,
-                                    Integer psId,
-                                    String seq,
-                                    Integer type,
-                                    Integer userId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                              Integer pageSize,
+                              Integer pageNo,
+                              @RequestParam(required = false, defaultValue = "0")Boolean isHistory) throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -81,29 +74,10 @@ public class PsMemberController extends PsBaseController {
 
         PsMemberExample example = new PsMemberExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("sort_order ASC");
 
-        if (psId!=null) {
-            criteria.andPsIdEqualTo(psId);
-        }
-        if (StringUtils.isNotBlank(seq)) {
-            criteria.andSeqLike(SqlUtils.like(seq));
-        }
-        if (type!=null) {
-            criteria.andTypeEqualTo(type);
-        }
-        if (userId!=null) {
-            criteria.andUserIdEqualTo(userId);
-        }
         if (isHistory!=null){
             criteria.andIsHistoryEqualTo(isHistory);
-        }
-
-        if (export == 1) {
-            if(ids!=null && ids.length>0)
-                criteria.andIdIn(Arrays.asList(ids));
-            psMember_export(example, response);
-            return;
         }
 
         long count = psMemberMapper.countByExample(example);
@@ -138,11 +112,13 @@ public class PsMemberController extends PsBaseController {
         if (StringUtils.isNotBlank(_startDate)){
             record.setStartDate(DateUtils.parseDate(_startDate,DateUtils.YYYYMM));
         }
-        if (psMemberService.idDuplicate(record.getPsId(), record.getUserId(),record.getType())) {
+
+        if (psMemberService.idDuplicate(id,record.getPsId(), record.getUserId(),record.getType())) {
             return failed("添加重复");
         }
 
         if (id == null) {
+
             MetaType metaType = metaTypeMapper.selectByPrimaryKey(record.getType());
             if(StringUtils.equals(metaType.getCode(),"ps_principal")){//判断添加的职务是否是“校长”
                 PsMemberExample psMemberExample = new PsMemberExample();
@@ -173,7 +149,15 @@ public class PsMemberController extends PsBaseController {
             logger.info(log( LogConstants.LOG_PS, "添加二级党校班子成员：{0}", record.getId()));
         } else {
 
-            psMemberService.updateByPrimaryKeySelective(record);
+            PsMember psMember = psMemberMapper.selectByPrimaryKey(id);
+            if(record.getUserId() != psMember.getUserId()){
+                record.setIsHistory(psMember.getIsHistory());
+                psMemberMapper.updateByPrimaryKey(record);
+            }else {
+
+                psMemberService.updateByPrimaryKeySelective(record);
+            }
+
             logger.info(log( LogConstants.LOG_PS, "更新二级党校班子成员：{0}", record.getId()));
         }
 
@@ -315,7 +299,7 @@ public class PsMemberController extends PsBaseController {
     public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,String _endDate) {
 
         if (null != ids && ids.length>0){
-            psMemberService.history(ids,_endDate);
+            psMemberService.updateMemberStade(ids,_endDate,true);
             logger.info(addLog(LogConstants.LOG_PS, "批量结束党校任职：%s", StringUtils.join(ids, ",")));
         }
 

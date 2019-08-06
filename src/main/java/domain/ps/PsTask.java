@@ -1,9 +1,18 @@
 package domain.ps;
 
+import persistence.ps.common.IPsMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class PsTask implements Serializable {
+
+    public Integer getCountFile(){
+        IPsMapper iPsMapper = CmTag.getBean(IPsMapper.class);
+        return iPsMapper.getCountFile(id);
+    }
+
     private Integer id;
 
     private String name;
