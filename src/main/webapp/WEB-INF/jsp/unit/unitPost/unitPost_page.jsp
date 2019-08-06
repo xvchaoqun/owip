@@ -45,15 +45,6 @@
                                                                      value="1"> 只显示空缺岗位
                         </span>
                 </div>
-                 <shiro:hasPermission name="unitPost:del">
-                     <button data-url="${ctx}/unitPost_batchDel"
-                             data-title="删除"
-                             data-msg="确定删除这{0}个岗位？<br/>（删除后不可恢复，请谨慎操作！）"
-                             data-grid-id="#jqGrid"
-                             class="jqBatchBtn btn btn-danger btn-sm">
-                         <i class="fa fa-trash"></i> 删除
-                     </button>
-                 </shiro:hasPermission>
                 <shiro:hasPermission name="unitPost:edit">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/unitPost_import"
@@ -67,6 +58,15 @@
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
                 </button>
+                <shiro:hasPermission name="unitPost:del">
+                     <button data-url="${ctx}/unitPost_batchDel"
+                             data-title="删除"
+                             data-msg="确定删除这{0}个岗位？<br/>（删除后不可恢复，请谨慎操作！）"
+                             data-grid-id="#jqGrid"
+                             class="jqBatchBtn btn btn-danger btn-sm">
+                         <i class="fa fa-trash"></i> 删除
+                     </button>
+                 </shiro:hasPermission>
                 <c:if test="${cls==1}">
                 <span class="text-primary" style="padding-left: 10px">【注：岗位的维护也可在单位档案页中进行操作】</span>
                 </c:if>

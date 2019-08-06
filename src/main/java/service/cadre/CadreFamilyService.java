@@ -120,7 +120,9 @@ public class CadreFamilyService extends BaseMapper {
     @Transactional
     public int insertSelective(CadreFamily record) {
 
-        addCheck(record.getCadreId(), record.getTitle());
+        if(record.getTitle()!=null) {
+            addCheck(record.getCadreId(), record.getTitle());
+        }
         if (BooleanUtils.isTrue(record.getWithGod())) {
             record.setBirthday(null);
         }

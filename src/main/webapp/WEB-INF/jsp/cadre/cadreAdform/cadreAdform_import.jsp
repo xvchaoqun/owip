@@ -9,7 +9,7 @@
     <form class="form-horizontal" autocomplete="off" disableautocomplete
           id="modalForm" enctype="multipart/form-data" action="${ctx}/cadreAdform_import" method="post">
 		<div class="form-group">
-			<label class="col-xs-4 text-right">单个部任免审批表文件</label>
+			<label class="col-xs-4 text-right">单个干部任免审批表文件</label>
 			<div class="col-xs-6">
 				<input type="file" name="lrmx" extension="lrmx"/>
 			</div>

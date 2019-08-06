@@ -56,7 +56,13 @@
                     </button>
                     </c:if>
                 </shiro:hasPermission>
-
+                <c:if test="${!isQuit}">
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/cmMember_data?type=${type}&isQuit=0"
+                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出
+                </button>
+                    </c:if>
                 <shiro:hasPermission name="cmMember:del">
                     <button data-url="${ctx}/cmMember_batchDel"
                             data-title="删除"
@@ -66,13 +72,6 @@
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <c:if test="${!isQuit}">
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                        data-url="${ctx}/cmMember_data?type=${type}&isQuit=0"
-                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出
-                </button>
-                    </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

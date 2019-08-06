@@ -814,40 +814,41 @@ public class CadreAdformService extends BaseMapper {
                 evaMap.put(metaType.getName(), metaType.getId());
             }
             String evaResultsReg = StringUtils.join(evaResults, "|");
+            if(StringUtils.isNotBlank(evaResultsReg)) {
+                pattern = Pattern.compile(MessageFormat.format("[^{0}]*({0})[^{0}]*", evaResultsReg));
+                matcher = pattern.matcher(ces);
 
-            pattern = Pattern.compile(MessageFormat.format("[^{0}]*({0})[^{0}]*", evaResultsReg));
-            matcher = pattern.matcher(ces);
+                Map<Integer, String> posResultMap = new LinkedHashMap<>();
+                while (matcher.find()) {
+                    String result = matcher.group(1);
+                    //System.out.println("result = " + result);
+                    int start = matcher.start(1);
+                    //System.out.println("start = " + start);
 
-            Map<Integer, String> posResultMap = new LinkedHashMap<>();
-            while (matcher.find()) {
-                String result = matcher.group(1);
-                //System.out.println("result = " + result);
-                int start = matcher.start(1);
-                //System.out.println("start = " + start);
+                    posResultMap.put(start, result);
+                }
 
-                posResultMap.put(start, result);
-            }
+                List<CadreEva> cadreEvas = new ArrayList<>();
+                for (Map.Entry<Integer, Integer> entry : yearPosMap.entrySet()) {
+                    int year = entry.getKey();
+                    int yearPos = entry.getValue();
+                    CadreEva record = new CadreEva();
+                    record.setCadreId(cadreId);
+                    record.setYear(year);
+                    for (Map.Entry<Integer, String> resultEntry : posResultMap.entrySet()) {
 
-            List<CadreEva> cadreEvas = new ArrayList<>();
-            for (Map.Entry<Integer, Integer> entry : yearPosMap.entrySet()) {
-                int year = entry.getKey();
-                int yearPos = entry.getValue();
-                CadreEva record = new CadreEva();
-                record.setCadreId(cadreId);
-                record.setYear(year);
-                for (Map.Entry<Integer, String> resultEntry : posResultMap.entrySet()) {
-
-                    int resultPos = resultEntry.getKey();
-                    if(resultPos > yearPos){
-                        Integer evaType = evaMap.get(resultEntry.getValue());
-                        record.setType(evaType);
-                        cadreEvas.add(record);
-                        break;
+                        int resultPos = resultEntry.getKey();
+                        if (resultPos > yearPos) {
+                            Integer evaType = evaMap.get(resultEntry.getValue());
+                            record.setType(evaType);
+                            cadreEvas.add(record);
+                            break;
+                        }
                     }
                 }
-            }
 
-            cadreEvaService.batchImport(cadreEvas);
+                cadreEvaService.batchImport(cadreEvas);
+            }
         }
 
 
