@@ -39,7 +39,8 @@ public class TplParser {
 	@Test
 	public void execute() throws Exception{
 		
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-ow.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-ow.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cg.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-party.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-sys.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-sys2.json";

@@ -1,6 +1,21 @@
 
+删除cpc.common
+
+提交ps模块
+
+更新common-utils
+
+-- 查询家庭成员重复申请的情况
+SELECT cf.id, cf.cadre_id, cf.status, cf.title, bmt.name, c.realname, c.code FROM cadre_family cf
+LEFT JOIN cadre_view c ON cf.cadre_id=c.id
+LEFT JOIN base_meta_type bmt ON cf.title=bmt.id
+ WHERE cf.STATUS IN(0,1) AND bmt.bool_attr=1
+ AND c.user_id IN ( SELECT user_id FROM modify_table_apply WHERE module=17 AND TYPE=1)
+ AND cf.id IN(SELECT modify_id FROM modify_table_apply WHERE module=17 AND TYPE=1)
+ GROUP BY cf.cadre_id, cf.title HAVING COUNT(cf.id)>1;
+
 20190804
-南航、北邮
+南航、北邮、哈工大、北航、北化工、西交大
 
 20190802
 

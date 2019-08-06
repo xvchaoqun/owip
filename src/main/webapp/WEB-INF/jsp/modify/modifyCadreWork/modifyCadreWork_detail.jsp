@@ -161,7 +161,8 @@
                 success:function(ret){
                     if(ret.success){
 
-                        $.hashchange();
+                        $("#jqGrid_cadreWork").trigger("reloadGrid");
+                        $.hideView();
                     }
                 }
             });

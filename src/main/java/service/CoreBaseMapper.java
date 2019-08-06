@@ -16,7 +16,6 @@ import persistence.cadreReserve.CadreReserveOriginMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
 import persistence.common.CommonMapper;
 import persistence.common.IPropertyMapper;
-import persistence.cpc.common.ICpcMapper;
 import persistence.dispatch.*;
 import persistence.dispatch.common.IDispatchMapper;
 import persistence.leader.LeaderMapper;
@@ -238,8 +237,6 @@ public class CoreBaseMapper {
     protected ILeaderMapper iLeaderMapper;
     @Autowired(required = false)
     protected ICadreMapper iCadreMapper;
-    @Autowired(required = false)
-    protected ICpcMapper iCpcMapper;
     @Autowired(required = false)
     protected IDispatchMapper iDispatchMapper;
     @Autowired(required = false)

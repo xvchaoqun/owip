@@ -9,10 +9,10 @@
                 <jsp:include page="/WEB-INF/jsp/modify/modifyTableApply/menu.jsp"/>
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
-                        <button class="popupBtn btn btn-success btn-sm"
+                        <button class="popupBtn btn btn-success btn-sm" data-width="800"
                            data-url="${ctx}/cadreFamily_au?module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
                             添加</button>
-                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                        <button class="jqOpenViewBtn btn btn-primary btn-sm" data-width="800"
                            data-url="${ctx}/cadreFamily_au"
                            data-grid-id="#jqGrid_records"
                            data-querystr="module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-edit"></i>

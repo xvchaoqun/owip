@@ -163,7 +163,8 @@
                 success:function(ret){
                     if(ret.success){
 
-                        $.hashchange();
+                        $("#jqGrid_records").trigger("reloadGrid");
+                        $.hideView();
                     }
                 }
             });

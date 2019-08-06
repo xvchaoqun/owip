@@ -51,32 +51,6 @@
                 }
             }
 
-            example = new DispatchExample();
-            example.createCriteria().andPptIsNotNull();
-            dispatches = dispatchMapper.selectByExample(example);
-            total = dispatches.size();
-            for (Dispatch dispatch : dispatches) {
-
-                count++;
-                String path = springProps.uploadPath + dispatch.getPpt();
-                if (!FileUtils.exists(path)) continue;
-
-                String ext = FileUtils.getExtention(path);
-                path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf") ? ext : ".pdf");
-                String imgPath = path + ".jpg";
-                if (flush || !FileUtils.exists(imgPath)) {
-
-                    logger.info(dispatch.getDispatchCode());
-                    try {
-                        PdfUtils.pdf2jpg(path, 300, PropertiesUtils.getString("gs.command"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    logger.info(count + "/" + total + ":" + imgPath);
-                }
-            }
-
             logger.info("finished.");
         }
     });

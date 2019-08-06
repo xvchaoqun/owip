@@ -1,0 +1,55 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "cg",
+  "resFolder": "cg",
+  "tables": [
+    {
+      "table": "cg_team",
+      "key": "id",
+      "searchColumns": "name,type,category",
+      "showColumns": "name,sort_order,type,category,need_adjust,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType": "LogConstants.LOG_CG",
+      "ignore": false
+    },
+    {
+      "table": "cg_member",
+      "key": "id",
+      "searchColumns": "team_id,post,type,unit_post_id,user_id",
+      "showColumns": "team_id,post,type,unit_post_id,user_id,tag,start_date,end_date,remark",
+      "excludeEditColumns": "id,is_current,sort_order",
+      "logType": "LogConstants.LOG_CG",
+      "ignore": false
+    },
+    {
+      "table": "cg_rule",
+      "key": "id",
+      "searchColumns": "team_id,type,confirm_date,content,file_path",
+      "showColumns": "team_id,type,sort_order,confirm_date,content,file_path,remark",
+      "excludeEditColumns": "id,is_current,sort_order",
+      "logType": "LogConstants.LOG_CG",
+      "ignore": false
+    },
+    {
+      "table": "cg_leader",
+      "key": "id",
+      "searchColumns": "team_id,relate_post,unit_post_id,user_id,phone,confirm_date",
+      "showColumns": "team_id,relate_post,unit_post_id,user_id,phone,confirm_date,remark",
+      "excludeEditColumns": "id,is_current",
+      "logType": "LogConstants.LOG_CG",
+      "ignore": false
+    },
+    {
+      "table": "cg_unit",
+      "key": "id",
+      "searchColumns": "team_id,unit_id,confirm_date",
+      "showColumns": "team_id,unit_id,confirm_date",
+      "excludeEditColumns": "id,is_current",
+      "logType": "LogConstants.LOG_CG",
+      "ignore": false
+    }
+  ]
+}

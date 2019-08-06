@@ -549,7 +549,7 @@ public class UnitPostAllocationService extends BaseMapper {
             results.put(unitTypeGroup, dataList);
 
             // =============统计设定的干部职数==============
-            List<UnitPostAllocationStatBean> cpcStatBeans = iCpcMapper.cpcStat_setting(unitTypeGroup);
+            List<UnitPostAllocationStatBean> cpcStatBeans = iCadreMapper.unitPostStatSetting(unitTypeGroup);
 
             int mainNum = 0; // 正*
             int viceNum = 0;  // 副*
@@ -580,7 +580,7 @@ public class UnitPostAllocationService extends BaseMapper {
             // 无行政级别
             int mainCount3 = 0; // 全职
             int subCount3 = 0;  // 兼职
-            List<UnitPostAllocationStatBean> cpcStats = iCpcMapper.cpcStat_real(unitTypeGroup);
+            List<UnitPostAllocationStatBean> cpcStats = iCadreMapper.unitPostStatReal(unitTypeGroup);
             for (UnitPostAllocationStatBean bean : cpcStats) {
 
                 Integer adminLevel = bean.getAdminLevel();

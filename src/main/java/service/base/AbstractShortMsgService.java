@@ -38,14 +38,14 @@ public abstract class AbstractShortMsgService extends BaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SysUserService sysUserService;
+    protected SysUserService sysUserService;
     @Autowired
-    private UserBeanService userBeanService;
+    protected UserBeanService userBeanService;
 
     @Autowired
-    private SpringProps springProps;
+    protected SpringProps springProps;
     @Autowired
-    private ContentTplService contentTplService;
+    protected ContentTplService contentTplService;
     @Autowired
     protected PasswordHelper passwordHelper;
     @Autowired

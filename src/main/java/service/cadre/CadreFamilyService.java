@@ -64,7 +64,9 @@ public class CadreFamilyService extends BaseMapper {
             criteria.andCadreIdEqualTo(cadreId);
 
             if (cadreFamilyMapper.countByExample(example) > 0) {
-                throw new OpException(metaTypeService.getName(title) + "已经添加了，请不要重复添加");
+                CadreView cv = CmTag.getCadreById(cadreId);
+                throw new OpException((cv.getUserId().intValue()!=ShiroHelper.getCurrentUserId()?"("+cv.getRealname()+")":"")
+                        + metaTypeService.getName(title) + "添加重复");
             }
         }
 
@@ -75,6 +77,27 @@ public class CadreFamilyService extends BaseMapper {
         if(cadreFamilyMapper.countByExample(example)>=6){
             throw new OpException("最多只允许添加6个家庭成员");
         }*/
+    }
+
+    public void modifyCheck(Integer id, int cadreId, int title) {
+
+        MetaType titleType = CmTag.getMetaType(title);
+        boolean isUnique = BooleanUtils.isTrue(titleType.getBoolAttr());
+
+        if (isUnique) {
+            CadreFamilyExample example = new CadreFamilyExample();
+            CadreFamilyExample.Criteria criteria = example.createCriteria()
+                    .andTitleEqualTo(title)
+                    .andStatusNotEqualTo(SystemConstants.RECORD_STATUS_APPROVAL);
+            criteria.andCadreIdEqualTo(cadreId);
+            if(id!=null){
+                criteria.andIdNotEqualTo(id);
+            }
+
+            if (cadreFamilyMapper.countByExample(example) > 0) {
+                throw new OpException(metaTypeService.getName(title) + "添加重复");
+            }
+        }
     }
 
     public void updateCheck(int id, int cadreId, int title) {
@@ -89,7 +112,7 @@ public class CadreFamilyService extends BaseMapper {
             criteria.andIdNotEqualTo(id);
 
             if (cadreFamilyMapper.countByExample(example) > 0) {
-                throw new OpException(metaTypeService.getName(title) + "已经添加了，请不要重复添加");
+                throw new OpException(metaTypeService.getName(title) + "添加重复");
             }
         }
     }
@@ -227,6 +250,13 @@ public class CadreFamilyService extends BaseMapper {
             if (applies.size() > 0) {
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
+        }
+
+        // 检查是否重复添加了
+        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD){
+
+           modifyCheck(record.getId(), record.getCadreId(), record.getTitle());
         }
 
         Integer userId = ShiroHelper.getCurrentUserId();
