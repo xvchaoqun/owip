@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import persistence.sys.SysSyncMapper;
+import service.sys.SysSyncService;
 import sys.utils.JSONUtils;
 import sys.utils.PropertiesUtils;
 
@@ -30,7 +30,7 @@ public abstract class Source {
     private static Logger logger = LoggerFactory.getLogger(Source.class);
     private static DataSource ds;
     @Autowired
-    public SysSyncMapper sysSyncMapper;
+    public SysSyncService sysSyncService;
     protected static Dialect dialect = null;
 
     public Connection getConn() {
@@ -122,14 +122,13 @@ public abstract class Source {
             for (int i = 1; i <= pageNo; i++) {
 
                 if(syncId!=null) {
-                    SysSync _sync = sysSyncMapper.selectByPrimaryKey(syncId);
-                    if (_sync.getIsStop()) {
+                    if (sysSyncService.isStop(syncId)) {
                         break; // 强制结束
                     }
                     SysSync record = new SysSync();
                     record.setId(syncId);
                     record.setCurrentCount((i * pageSize > count) ? count : i * pageSize);
-                    sysSyncMapper.updateByPrimaryKeySelective(record);
+                    sysSyncService.updateByPrimaryKeySelective(record);
                 }
 
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
@@ -225,14 +224,13 @@ public abstract class Source {
             for (int i = 1; i <= pageNo; i++) {
 
                 if(syncId!=null) {
-                    SysSync _sync = sysSyncMapper.selectByPrimaryKey(syncId);
-                    if (_sync.getIsStop()) {
+                    if (sysSyncService.isStop(syncId)) {
                         break; // 强制结束
                     }
                     SysSync record = new SysSync();
                     record.setId(syncId);
                     record.setCurrentCount((i * pageSize > count) ? count : i * pageSize);
-                    sysSyncMapper.updateByPrimaryKeySelective(record);
+                    sysSyncService.updateByPrimaryKeySelective(record);
                 }
 
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));

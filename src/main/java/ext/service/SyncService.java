@@ -1,8 +1,8 @@
 package ext.service;
 
 import controller.global.OpException;
-import ext.domain.*;
 import domain.sys.*;
+import ext.domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import persistence.sys.StudentInfoMapper;
 import persistence.sys.TeacherInfoMapper;
 import service.BaseMapper;
 import service.SpringProps;
+import service.sys.SysSyncService;
 import service.sys.SysUserService;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
@@ -27,13 +27,14 @@ import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class SyncService extends BaseMapper {
 
+    @Autowired
+    private SysSyncService sysSyncService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -61,19 +62,10 @@ public class SyncService extends BaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public boolean lastSyncIsNotStop(byte type) {
-
-        SysSyncExample example = new SysSyncExample();
-        example.createCriteria()
-                .andTypeEqualTo(type).andIsStopEqualTo(false);
-
-        return sysSyncMapper.countByExample(example) > 0;
-    }
-
     // 同步在职工资信息
     public synchronized void syncJzgSalary(boolean autoStart) {
 
-        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG_SALARY)) {
+        if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG_SALARY)) {
             throw new OpException("上一次同步仍在进行中");
         }
 
@@ -93,7 +85,7 @@ public class SyncService extends BaseMapper {
         sysSync.setInsertCount(0);
         sysSync.setUpdateCount(0);
 
-        insertSelective(sysSync);
+        sysSyncService.insertSelective(sysSync);
 
         int syncId = sysSync.getId();
 
@@ -114,13 +106,13 @@ public class SyncService extends BaseMapper {
         record.setAutoStop(true);
         record.setIsStop(true);
 
-        updateByPrimaryKeySelective(record);
+        sysSyncService.updateByPrimaryKeySelective(record);
     }
 
     // 同步离退休工资信息
     public synchronized void syncRetireSalary(boolean autoStart) {
 
-        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
+        if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
             throw new OpException("上一次同步仍在进行中");
         }
         SysSync sysSync = new SysSync();
@@ -138,7 +130,7 @@ public class SyncService extends BaseMapper {
         sysSync.setInsertCount(0);
         sysSync.setUpdateCount(0);
 
-        insertSelective(sysSync);
+        sysSyncService.insertSelective(sysSync);
 
         int syncId = sysSync.getId();
         // 先从学校导入数据
@@ -157,13 +149,13 @@ public class SyncService extends BaseMapper {
         record.setAutoStop(true);
         record.setIsStop(true);
 
-        updateByPrimaryKeySelective(record);
+        sysSyncService.updateByPrimaryKeySelective(record);
     }
 
     // 同步教职工党员出国境信息
     public synchronized void syncAllAbroad(boolean autoStart) {
 
-        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD)) {
+        if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD)) {
             throw new OpException("上一次同步仍在进行中");
         }
 
@@ -183,7 +175,7 @@ public class SyncService extends BaseMapper {
         sysSync.setInsertCount(0);
         sysSync.setUpdateCount(0);
 
-        insertSelective(sysSync);
+        sysSyncService.insertSelective(sysSync);
 
         int syncId = sysSync.getId();
 
@@ -209,7 +201,7 @@ public class SyncService extends BaseMapper {
         record.setAutoStop(true);
         record.setIsStop(true);
         try {
-            updateByPrimaryKeySelective(record);
+            sysSyncService.updateByPrimaryKeySelective(record);
         } catch (Exception ex) {
             logger.error("异常", ex);
         }
@@ -258,7 +250,7 @@ public class SyncService extends BaseMapper {
     @Async
     public synchronized void syncAllJZG(boolean autoStart) {
 
-        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG)) {
+        if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG)) {
             throw new OpException("上一次同步仍在进行中");
         }
 
@@ -279,7 +271,7 @@ public class SyncService extends BaseMapper {
         sysSync.setInsertCount(0);
         sysSync.setUpdateCount(0);
 
-        insertSelective(sysSync);
+        sysSyncService.insertSelective(sysSync);
 
         int syncId = sysSync.getId();
 
@@ -322,11 +314,10 @@ public class SyncService extends BaseMapper {
             //record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
-                SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());
-                if (_sync.getIsStop()) {
+                if (sysSyncService.isStop(sysSync.getId())) {
                     return; // 强制结束
                 }
-                updateByPrimaryKeySelective(record);
+                sysSyncService.updateByPrimaryKeySelective(record);
             } catch (Exception ex) {
                 logger.error("异常", ex);
             }
@@ -338,7 +329,7 @@ public class SyncService extends BaseMapper {
         record.setAutoStop(true);
         record.setIsStop(true);
         try {
-            updateByPrimaryKeySelective(record);
+            sysSyncService.updateByPrimaryKeySelective(record);
         } catch (Exception ex) {
             logger.error("异常", ex);
         }
@@ -386,7 +377,7 @@ public class SyncService extends BaseMapper {
     @Async
     public synchronized void syncAllYJS(boolean autoStart) {
 
-        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS)) {
+        if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS)) {
             throw new OpException("上一次同步仍在进行中");
         }
 
@@ -406,7 +397,7 @@ public class SyncService extends BaseMapper {
         sysSync.setInsertCount(0);
         sysSync.setUpdateCount(0);
 
-        insertSelective(sysSync);
+        sysSyncService.insertSelective(sysSync);
 
         int syncId = sysSync.getId();
 
@@ -451,11 +442,10 @@ public class SyncService extends BaseMapper {
             //record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
-                SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());
-                if (_sync.getIsStop()) {
+                if (sysSyncService.isStop(sysSync.getId())) {
                     return; // 强制结束
                 }
-                updateByPrimaryKeySelective(record);
+                sysSyncService.updateByPrimaryKeySelective(record);
             } catch (Exception ex) {
                 logger.error("异常", ex);
             }
@@ -467,7 +457,7 @@ public class SyncService extends BaseMapper {
         record.setAutoStop(true);
         record.setIsStop(true);
         try {
-            updateByPrimaryKeySelective(record);
+            sysSyncService.updateByPrimaryKeySelective(record);
         } catch (Exception ex) {
             logger.error("异常", ex);
         }
@@ -517,7 +507,7 @@ public class SyncService extends BaseMapper {
     @Async
     public synchronized void syncAllBks(boolean autoStart) {
 
-        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS)) {
+        if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS)) {
             throw new OpException("上一次同步仍在进行中");
         }
 
@@ -537,7 +527,7 @@ public class SyncService extends BaseMapper {
         sysSync.setInsertCount(0);
         sysSync.setUpdateCount(0);
 
-        insertSelective(sysSync);
+        sysSyncService.insertSelective(sysSync);
 
         int syncId = sysSync.getId();
 
@@ -581,11 +571,10 @@ public class SyncService extends BaseMapper {
             //record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
-                SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());
-                if (_sync.getIsStop()) {
+                if (sysSyncService.isStop(sysSync.getId())) {
                     return; // 强制结束
                 }
-                updateByPrimaryKeySelective(record);
+                sysSyncService.updateByPrimaryKeySelective(record);
             } catch (Exception ex) {
                 logger.error("异常", ex);
             }
@@ -597,7 +586,7 @@ public class SyncService extends BaseMapper {
         record.setAutoStop(true);
         record.setIsStop(true);
         try {
-            updateByPrimaryKeySelective(record);
+            sysSyncService.updateByPrimaryKeySelective(record);
         } catch (Exception ex) {
             logger.error("异常", ex);
         }
@@ -864,46 +853,5 @@ public class SyncService extends BaseMapper {
                 record.setAvatar(null);
             }
         }
-    }
-
-    @Transactional
-    public int insertSelective(SysSync record) {
-
-        Assert.isTrue(!lastSyncIsNotStop(record.getType()), "last sync is not stop.");
-        return sysSyncMapper.insertSelective(record);
-    }
-
-    @Transactional
-    public void del(Integer id) {
-
-        sysSyncMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    public void batchDel(Integer[] ids) {
-
-        if (ids == null || ids.length == 0) return;
-
-        SysSyncExample example = new SysSyncExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        sysSyncMapper.deleteByExample(example);
-    }
-
-    @Transactional
-    public void stopSync(byte type) {
-
-        SysSync record = new SysSync();
-        record.setIsStop(true);
-        record.setEndTime(new Date());
-        record.setAutoStop(false);
-
-        SysSyncExample example = new SysSyncExample();
-        example.createCriteria().andTypeEqualTo(type).andIsStopEqualTo(false);
-        sysSyncMapper.updateByExampleSelective(record, example);
-    }
-
-    @Transactional
-    public int updateByPrimaryKeySelective(SysSync record) {
-        return sysSyncMapper.updateByPrimaryKeySelective(record);
     }
 }
