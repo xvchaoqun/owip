@@ -1,6 +1,6 @@
 
 
-
+2019-08-09
 ALTER TABLE `ps_info`
 	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `is_history`;
 
