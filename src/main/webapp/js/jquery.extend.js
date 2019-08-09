@@ -580,6 +580,7 @@ var _modal_width;
             var at = params.at;
             var type = params.type || "info";
             var inactive = params.inactive || 1000;
+            var adjustY = 0;
 
             if ($target == undefined) {
 
@@ -600,6 +601,7 @@ var _modal_width;
                 $container = $form;
                 if ($form.closest("#modal").length > 0) {
                     $container = $form.closest("#modal");
+                    adjustY = $.isIE()?$("#modal").scrollTop():0
                 }
             }
             var label = '<i class="fa fa-warning red"></i> ';
@@ -607,7 +609,6 @@ var _modal_width;
                 label = '<i class="fa fa-check-circle green"></i> ';
             }
             //console.log($target)
-            //console.log($container)
             return $target.qtip({
                 content: label + msg,
                 show: true, hide: {
@@ -616,7 +617,10 @@ var _modal_width;
                 }, position: {
                     container: $container || $('#page-content'),
                     my: my || $target.data("my") || (isMobile?'bottom center':'left center'),
-                    at: at || $target.data("at") || (isMobile?'top center':'right center')
+                    at: at || $target.data("at") || (isMobile?'top center':'right center'),
+                    adjust:{
+                            y:adjustY
+                        }
                 }
             });
         },

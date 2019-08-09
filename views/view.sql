@@ -1,4 +1,12 @@
 
+DROP VIEW IF EXISTS `cadre_party_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `cadre_party_view`
+AS SELECT cp.*, cv.id as cadre_id, cv.code, cv.realname, cv.unit_id, cv.ow_grow_time, cv.member_status, cv.admin_level,
+cv.post_type, cv.title AS cadre_title, cv.post AS cadre_post,
+cv.status as cadre_status,cv.sort_order AS cadre_sort_order
+FROM cadre_party cp
+LEFT JOIN cadre_view cv ON cp.user_id=cv.user_id ;
+
 -- 干部教育培训
 
 DROP VIEW IF EXISTS `cet_unit_view`;

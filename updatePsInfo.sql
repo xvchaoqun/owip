@@ -1,3 +1,9 @@
+
+
+
+ALTER TABLE `ps_info`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `is_history`;
+
 2019-08-06
 -- 修改字段属性 桑文帅
 ALTER TABLE `ps_party` ALTER `start_date` DROP DEFAULT;

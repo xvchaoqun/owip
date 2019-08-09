@@ -75,7 +75,7 @@ SELECT c.*,
    ,_vwt.verify_work_time as verify_work_time
 FROM  cadre c
 left join cm_member cm on cm.is_quit=0 and cm.type=3 and cm.user_id=c.user_id
-left join cadre_party dp on dp.user_id= c.user_id and dp.type = 1
+left join cadre_party dp on dp.user_id= c.user_id and dp.type = 1 and dp.is_first=1
 left join cadre_party ow on ow.user_id= c.user_id and ow.type = 2
 LEFT JOIN `sys_user_view` `uv` ON `uv`.`user_id` = `c`.`user_id`
 LEFT JOIN `sys_teacher_info` `t` ON `t`.`user_id` = `c`.`user_id`

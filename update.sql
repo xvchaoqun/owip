@@ -1,7 +1,24 @@
 
-删除cpc.common
+20190809
+UPDATE sys_role SET is_sys_hold=0 WHERE is_sys_hold IS NULL;
+-- 增加SysSyncService.java，修改SyncService.java, Source.java
 
-提交ps模块
+ALTER TABLE `cadre_party`
+	ADD COLUMN `is_first` TINYINT(1) UNSIGNED NULL COMMENT '是否第一民主党派，针对干部可能有多个民主党派的情况' AFTER `type`;
+ALTER TABLE `cadre_party`
+	DROP INDEX `user_id_type`;
+-- 更新 cadre_view 等
+
+UPDATE cadre_party SET is_first=1 WHERE TYPE=1;
+-- 添加 cadre_party_view
+
+
+20190806
+
+提交ps、cg模块
+
+
+删除cpc.common
 
 更新common-utils
 

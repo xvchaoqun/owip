@@ -173,10 +173,7 @@ div.WordSection1
   padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'>
       <c:if test="${bean.dpTypeId>0}">
-                ${cm:getMetaType(bean.dpTypeId).extraAttr}
-                <c:if test="${not empty bean.owGrowTime}"><br/>
-                    （${cm:formatDate(bean.owGrowTime, "yyyy.MM")}）
-                </c:if>
+                <c:if test="${not empty bean.owGrowTime}">${cm:formatDate(bean.owGrowTime, "yyyy.MM")}；</c:if>${cm:getMetaType(bean.dpTypeId).extraAttr}<c:forEach items="${bean.dpParties}" var="dpParty">；${cm:getMetaType(dpParty.classId).extraAttr}</c:forEach>
             </c:if>
             <c:if test="${empty bean.dpTypeId}">
                 <c:if test="${not empty bean.owGrowTime}">

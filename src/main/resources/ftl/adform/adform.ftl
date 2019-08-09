@@ -1332,7 +1332,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t><#if dpPartyName??>${dpPartyName!}<#if isOw><w:br/>(${owGrowTime!})</#if><#else><#if isOw>${owGrowTime!}</#if></#if></w:t>
+								<w:t><#if dpPartyName??><#if isOw&&owGrowTime??>${owGrowTime?ensure_ends_with("；")}</#if>${dpPartyName!}<#if dpPartyNames??>${dpPartyNames!}</#if><#else><#if isOw>${owGrowTime!}</#if></#if></w:t>
 							</w:r>
 						</w:p>
 					</w:tc>

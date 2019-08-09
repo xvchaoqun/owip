@@ -5,3 +5,6 @@ logs
 target
 null
 classes
+/src/main/resources/spring.properties
+/pom.xml
+/src/main/resources/logback.xml

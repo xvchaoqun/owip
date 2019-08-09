@@ -143,10 +143,7 @@ td.padding10{
                 </div>
             </td><td class="td2 center" colspan="2">
             <c:if test="${bean.dpTypeId>0}">
-                ${cm:getMetaType(bean.dpTypeId).extraAttr}
-                <c:if test="${not empty bean.owGrowTime}"><br/>
-                    （${cm:formatDate(bean.owGrowTime, "yyyy.MM")}）
-                </c:if>
+                <c:if test="${not empty bean.owGrowTime}">${cm:formatDate(bean.owGrowTime, "yyyy.MM")}；</c:if>${cm:getMetaType(bean.dpTypeId).extraAttr}<c:forEach items="${bean.dpParties}" var="dpParty">；${cm:getMetaType(dpParty.classId).extraAttr}</c:forEach>
             </c:if>
             <c:if test="${empty bean.dpTypeId}">
                 <c:if test="${not empty bean.owGrowTime}">

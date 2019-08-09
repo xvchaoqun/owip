@@ -393,11 +393,21 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("isOw", bean.getIsOw());
         dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), DateUtils.YYYYMM));
         if (bean.getDpTypeId() != null && bean.getDpTypeId() > 0) {
-            // 民主党派
+            // 第一民主党派
             MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
             String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
             dataMap.put("dpPartyName", dpPartyName);
             dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), DateUtils.YYYYMM));
+            // 其他民主党派
+            List<CadreParty> dpParties = bean.getDpParties();
+            if(dpParties.size()>0) {
+                String dpPartyNames = "";
+                for (CadreParty dpParty : dpParties) {
+                    metaType = CmTag.getMetaType(dpParty.getClassId());
+                    dpPartyNames += "；" + StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
+                }
+                dataMap.put("dpPartyNames", dpPartyNames);
+            }
         }
 
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM));
