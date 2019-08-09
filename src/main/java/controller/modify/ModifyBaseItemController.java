@@ -109,10 +109,10 @@ public class ModifyBaseItemController extends ModifyBaseController{
             Member member = memberService.get(userId);
             boolean isOwParty = (member!=null && (member.getStatus()==1 || member.getStatus()==4));
             if(!isOwParty) {
-                CadreParty owParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                CadreParty owParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
                 isOwParty = (owParty != null);
             }
-            CadreParty dpParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+            CadreParty dpParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
             boolean isDpParty = (dpParty != null);
 
             modelMap.put("isOwParty", isOwParty);

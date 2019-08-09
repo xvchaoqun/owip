@@ -129,7 +129,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                             // 无 -> 中共党员
 
                             // 只插入或更新 中共党员干部库，不管党员库
-                            CadreParty _cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                            CadreParty _cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
                             if (_cadreParty == null) {
 
                                 CadreParty cadreParty = new CadreParty();
@@ -145,7 +145,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                             }
                         }else if(democraticPartyMap.containsKey(modifyValue)){
                             // 无 -> 民主党派
-                            CadreParty _cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                            CadreParty _cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
                             if (_cadreParty == null) {
 
                                 CadreParty cadreParty = new CadreParty();
@@ -174,7 +174,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
 
                             // 可能在中共党员干部库
                             {
-                                CadreParty owParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                                CadreParty owParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
                                 if (owParty != null) {
                                     cadrePartyMapper.deleteByPrimaryKey(owParty.getId());
 
@@ -198,7 +198,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                             sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
                         }else{
                             // 民主党派 -> 清空
-                            CadreParty dpParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                            CadreParty dpParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
                             cadrePartyMapper.deleteByPrimaryKey(dpParty.getId());
 
                             logger.info(log(LogConstants.LOG_ADMIN,"审批修改党派申请，删除民主党派{0}",
@@ -220,7 +220,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
 
                             // 可能在中共党员干部库
                             {
-                                CadreParty owParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                                CadreParty owParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
                                 if (owParty != null) {
                                     growTime = owParty.getGrowTime();
                                     cadrePartyMapper.deleteByPrimaryKey(owParty.getId());
@@ -245,7 +245,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                             // 删除党员身份
                             sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
 
-                            CadreParty _cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                            CadreParty _cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
                             if (_cadreParty == null) {
 
                                 CadreParty cadreParty = new CadreParty();
@@ -269,10 +269,10 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                         } else if (modifyValue == 0 && democraticPartyMap.containsKey(orginalValue)) {
 
                             // 民主党派 -> 中共党员
-                            CadreParty dpParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                            CadreParty dpParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
 
                             // 只插入或更新 中共党员干部库，不管党员库
-                            CadreParty _cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                            CadreParty _cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
                             if (_cadreParty == null) {
 
                                 CadreParty cadreParty = new CadreParty();
@@ -297,7 +297,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 && democraticPartyMap.containsKey(modifyValue)) {
 
                             // 民主党派 -> 民主党派
-                            CadreParty _cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                            CadreParty _cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
                             if (_cadreParty == null) {
 
                                 CadreParty cadreParty = new CadreParty();
@@ -332,10 +332,10 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                     Member member = memberMapper.selectByPrimaryKey(userId);
                     boolean isOwParty = (member!=null && (member.getStatus()==1 || member.getStatus()==4));
                     if(!isOwParty) {
-                        CadreParty owParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                        CadreParty owParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
                         isOwParty = (owParty != null);
                     }
-                    CadreParty dpParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                    CadreParty dpParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
                     boolean isDpParty = (dpParty != null);
                     int owType = 2; // 两个党派以上时或民主党派时，默认为民主党派的加入时间
                     if(isOwParty && !isDpParty){
@@ -377,7 +377,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
 
                     } else if (owType == 2) { // 修改加入民主党派时间
 
-                        CadreParty _cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                        CadreParty _cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
                         if(_cadreParty==null){
                             throw new OpException("该用户不在民主党员干部库中。");
                         }

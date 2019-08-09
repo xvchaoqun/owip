@@ -71,7 +71,7 @@ public class CadreBaseInfoController extends BaseController {
                 if(dpTypeId>0) {
                     // 直接修改为民主党派时，先删除中共党员
                     cadrePartyService.del(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
-                    CadreParty cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                    CadreParty cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
                     if(cadreParty!=null){
                         record.setId(cadreParty.getId());
                         logger.info(addLog(LogConstants.LOG_ADMIN, "更新为民主党派：%s ", cadreId));
@@ -85,7 +85,7 @@ public class CadreBaseInfoController extends BaseController {
                 }else if(dpTypeId==0){
                     // 直接修改为中共党员时，先删除民主党派（删除所有的民主党派）
                     cadrePartyService.del(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
-                    CadreParty cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                    CadreParty cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
                     if(cadreParty!=null){
                         record.setId(cadreParty.getId());
                         logger.info(addLog(LogConstants.LOG_ADMIN, "更新为中共党员：%s ", cadreId));
