@@ -1,5 +1,8 @@
 package domain.ps;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,8 +13,10 @@ public class PsAdminParty implements Serializable {
 
     private Integer partyId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date startDate;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date endDate;
 
     private Boolean isHistory;

@@ -19,16 +19,27 @@ pageEncoding="UTF-8" %>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
     <shiro:hasPermission name="psAdmin:edit">
+        <c:if test="${!isHistory}">
     <button class="popupBtn btn btn-info btn-sm"
             data-url="${ctx}/ps/psAdmin_au?psId=${param.psId}">
         <i class="fa fa-plus"></i>
         添加</button>
+        </c:if>
     <button class="jqOpenViewBtn btn btn-primary btn-sm"
             data-url="${ctx}/ps/psAdmin_au"
             data-grid-id="#jqGrid2">
         <i class="fa fa-edit"></i>
         修改</button>
     </shiro:hasPermission>
+    <c:if test="${!isHistory}">
+    <shiro:hasPermission name="	psAdmin:history">
+    <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+            data-grid-id="#jqGrid2"
+            data-url="${ctx}/ps/psAdmin_history">
+        <i class="fa fa-hand-stop-o"></i>
+        任职结束</button>
+    </shiro:hasPermission>
+    </c:if>
     <shiro:hasPermission name="psAdmin:del">
     <button class="jqBatchBtn btn btn-danger btn-sm"
             data-url="${ctx}/ps/psAdmin_batchDel"
@@ -38,13 +49,7 @@ pageEncoding="UTF-8" %>
         <i class="fa fa-trash"></i>
         删除</button>
     </shiro:hasPermission>
-    <shiro:hasPermission name="	psAdmin:history">
-    <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
-            data-grid-id="#jqGrid2"
-            data-url="${ctx}/ps/psAdmin_history">
-        <i class="fa fa-hand-stop-o"></i>
-        任职结束</button>
-    </shiro:hasPermission>
+
 </div>
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
@@ -56,13 +61,16 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/ps/psAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         pager:"jqGridPager2",
         colModel: [
-                { label: '管理员类型',name: 'type',width:200, formatter: function (cellvalue, options, rowObject) {return rowObject.type == 1?"二级党校管理员":"院系级党委管理员" }},
+                { label: '管理员类型',name: 'type',width:140, formatter: function (cellvalue, options, rowObject) {return rowObject.type == 1?"二级党校管理员":"院系级党委管理员" }},
                 { label: '姓名',name: 'user.realname'},
+                { label: '学工号',name: 'user.code', width: 120},
+                <shiro:hasPermission name="psAdmin:edit">
                 { label:'排序', width: 85, formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{grid:'#jqGrid2',url:'${ctx}/ps/psAdmin_changeOrder'},frozen:true },
-                { label: '所在单位及职务',name: 'title',width: 250},
+                </shiro:hasPermission>
+                { label: '所在单位及职务',name: 'title',width: 250, align:'left'},
                 { label: '管理的单位', name: 'memberCount', width: 150, formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.type == 1)  return '--'
+                    if (rowObject.type == '<%=PsConstants.PS_ADMIN_TYPE_PARTY%>')  return '--'
                         var notEmptyParty = (rowObject.countParty == 0);
                         return ('<button class="popupBtn btn btn-{2} btn-xs"' +
                             'data-url="${ctx}/ps/psAdminParty?adminId={0}" ' +
@@ -72,7 +80,7 @@ pageEncoding="UTF-8" %>
                             notEmptyParty?'primary':'success ',
                             notEmptyParty?'edit':'search');
                     }},
-                { label: '任职起始时间',name: 'startDate',width: 150, formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y-m-d'}},
+                { label: '任职起始时间',name: 'startDate',width: 150, formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y.m.d'}},
                 { label: '联系方式',name: 'mobile',width: 200},
                 { label: '备注',name: 'remark',width: 250}
         ]

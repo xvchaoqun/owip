@@ -2,6 +2,7 @@ package service.ps;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.ps.*;
+import persistence.ps.common.IPsMapper;
 import service.CoreBaseMapper;
 
 public class PsBaseMapper extends CoreBaseMapper {
@@ -21,4 +22,7 @@ public class PsBaseMapper extends CoreBaseMapper {
     protected PsPartyMapper psPartyMapper;
     @Autowired(required = false)
     protected PsTaskMapper psTaskMapper;
+
+    @Autowired(required = false)
+    protected IPsMapper iPsMapper;
 }

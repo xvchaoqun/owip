@@ -7,6 +7,7 @@ import domain.ps.PsAdminPartyExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.party.PartyMapper;
-import persistence.ps.PsAdminPartyMapper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -41,19 +41,22 @@ public class PsAdminPartyController extends PsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    //@RequiresPermissions("psAdminParty:list")
+    @RequiresPermissions("psAdmin:list")
     @RequestMapping("/psAdminParty")
     public String psAdminParty(Integer adminId,ModelMap modelMap) {
-        PsAdminPartyExample psAdminPartyExample = new PsAdminPartyExample();
-        psAdminPartyExample.createCriteria()
-                .andAdminIdEqualTo(adminId)
-                .andIsHistoryEqualTo(false);
-        List<PsAdminParty> psAdminParties = psAdminPartyMapper.selectByExample(psAdminPartyExample);
-        modelMap.put("psAdminParties",psAdminParties);
+
+        PsAdminPartyExample example = new PsAdminPartyExample();
+        example.createCriteria()
+                .andAdminIdEqualTo(adminId);
+        example.setOrderByClause("is_history asc, start_date desc");
+        List<PsAdminParty> psAdminParties = psAdminPartyMapper.selectByExample(example);
+
+        modelMap.put("psAdminParties", psAdminParties);
+
         return "ps/psAdminParty/psAdminParty_page";
     }
 
-    //@RequiresPermissions("psAdminParty:list")
+    @RequiresPermissions("psAdmin:list")
     @RequestMapping("/psAdminParty_data")
     @ResponseBody
     public void psAdminParty_data(HttpServletResponse response,
@@ -103,25 +106,20 @@ public class PsAdminPartyController extends PsBaseController {
         return;
     }
 
-    //@RequiresPermissions("psAdminParty:edit")
+    @RequiresPermissions("psAdmin:edit")
     @RequestMapping(value = "/psAdminParty_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psAdminParty_au(PsAdminParty record, String _startDate, String _endDate, HttpServletRequest request) {
+    public Map do_psAdminParty_au(PsAdminParty record, HttpServletRequest request) {
 
         Integer id = record.getId();
-        if (StringUtils.isNotBlank(_startDate)){
-            record.setStartDate(DateUtils.parseDate(_startDate,DateUtils.YYYYMMDD_DOT));
+        record.setIsHistory(BooleanUtils.isTrue(record.getIsHistory()));
+
+        if(psAdminPartyService.idDuplicate(id, record.getPartyId(),record.getAdminId())) {
+            return failed("添加重复");
         }
-        if (StringUtils.isNotBlank(_endDate)){
-            record.setEndDate(DateUtils.parseDate(_endDate,DateUtils.YYYYMMDD_DOT));
-        }
+
         if (id == null) {
 
-            if(psAdminPartyService.idDuplicate(id,record.getPartyId(),record.getAdminId())) {
-                return failed("添加重复");
-            }
-
-            record.setIsHistory(false);
             psAdminPartyService.insertSelective(record);
             logger.info(log( LogConstants.LOG_PS, "添加二级党校管理员管理的单位：{0}", record.getId()));
         } else {
@@ -133,22 +131,28 @@ public class PsAdminPartyController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //@RequiresPermissions("psAdminParty:edit")
+    @RequiresPermissions("psAdmin:edit")
     @RequestMapping("/psAdminParty_au")
-    public String psAdminParty_au(Integer id,ModelMap modelMap,
+    public String psAdminParty_au(Integer adminId, Integer id,ModelMap modelMap,
                                   @RequestParam(required = false, defaultValue = "0")boolean isHistory) {
 
         if (id != null) {
+
             PsAdminParty psAdminParty = psAdminPartyMapper.selectByPrimaryKey(id);
+            adminId = psAdminParty.getAdminId();
+
             Party party = partyMapper.selectByPrimaryKey(psAdminParty.getPartyId());
             modelMap.put("psAdminParty", psAdminParty);
             modelMap.put("party",party);
         }
         modelMap.put("isHistory",isHistory);
+
+        modelMap.put("psAdmin", psAdminMapper.selectByPrimaryKey(adminId));
+
         return "ps/psAdminParty/psAdminParty_au";
     }
 
-    //@RequiresPermissions("psAdminParty:del")
+    @RequiresPermissions("psAdmin:edit")
     @RequestMapping(value = "/psAdminParty_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psAdminParty_del(HttpServletRequest request, Integer id) {
@@ -161,7 +165,7 @@ public class PsAdminPartyController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //@RequiresPermissions("psAdminParty:del")
+    @RequiresPermissions("psAdmin:edit")
     @RequestMapping(value = "/psAdminParty_batchDel", method = RequestMethod.POST)
     public String psAdminParty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
@@ -203,6 +207,7 @@ public class PsAdminPartyController extends PsBaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
+    @RequiresPermissions("psAdmin:list")
     @RequestMapping("/psAdminParty_selects")
     @ResponseBody
     public Map psAdminParty_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {

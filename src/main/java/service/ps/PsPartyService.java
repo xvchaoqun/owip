@@ -1,25 +1,31 @@
 package service.ps;
 
-import domain.ps.PsInfo;
-import domain.ps.PsInfoExample;
 import domain.ps.PsParty;
 import domain.ps.PsPartyExample;
-import domain.unit.UnitPost;
-import domain.unit.UnitPostExample;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sys.constants.PsInfoConstants;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class PsPartyService extends PsBaseMapper {
+
+    public boolean idDuplicate(Integer id, int psId, int partyId){
+
+        //判断选择单位是否已经是建设单位
+        PsPartyExample psPartyExample = new PsPartyExample();
+        PsPartyExample.Criteria criteria = psPartyExample.createCriteria()
+                .andIsFinishEqualTo(false)
+                .andPartyIdEqualTo(partyId)
+                .andPsIdEqualTo(psId);
+
+        if (id != null) criteria.andIdNotEqualTo(id);
+
+        return psPartyMapper.countByExample(psPartyExample)>0;
+    }
 
     @Transactional
     public void insertSelective(PsParty record){
@@ -77,43 +83,9 @@ public class PsPartyService extends PsBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
-        byte orderBy = ORDER_BY_DESC;
-
         PsParty entity = psPartyMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        PsPartyExample example = new PsPartyExample();
-        if (addNum * orderBy > 0) {
-
-            example.createCriteria().andPsIdEqualTo(entity.getPsId()).andIsHostEqualTo(entity.getIsHost())
-                    .andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andPsIdEqualTo(entity.getPsId()).andIsHostEqualTo(entity.getIsHost())
-                    .andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<PsParty> overEntities = psPartyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            PsParty targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum * orderBy > 0)
-                commonMapper.downOrder("ps_party", String.format("ps_id=%s and is_host=%s", entity.getPsId(), entity.getIsHost()),
-                        baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ps_party", String.format("ps_id=%s and is_host=%s", entity.getPsId(), entity.getIsHost()),
-                        baseSortOrder, targetEntity.getSortOrder());
-
-            PsParty record = new PsParty();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            psPartyMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("ps_party", String.format("ps_id=%s and is_host=%s and is_finish=%s",
+                entity.getPsId(), entity.getIsHost(), entity.getIsFinish()), ORDER_BY_DESC, id, addNum);
     }
 
     //是否拥有主建单位
@@ -127,22 +99,24 @@ public class PsPartyService extends PsBaseMapper {
     }
 
     //更新建设单位状态
-    public void updatePartyStatus(Integer[] ids,String _endDate,Boolean isFinish,Boolean isHost){
+    @Transactional
+    public void updatePartyStatus(Integer[] ids, Date endDate, boolean isFinish){
+
         if(ids==null || ids.length==0) return;
 
-        Date endDate = null;
-        if (StringUtils.isNotBlank(_endDate)){
-            endDate = DateUtils.parseDate(_endDate,DateUtils.YYYYMM);
-        }
         for (Integer id : ids){
-            PsParty psParty = new PsParty();
-            psParty.setEndDate(endDate);
-            psParty.setIsFinish(isFinish);
-            psParty.setIsHost(isHost);
-            psParty.setId(id);
-            psParty.setSortOrder(getNextSortOrder("ps_party","is_finish="+isFinish+" and is_host="+isHost));
 
-            psPartyMapper.updateByPrimaryKeySelective(psParty);
+            PsParty psParty = psPartyMapper.selectByPrimaryKey(id);
+            isFinish = psParty.getIsFinish();
+            Boolean isHost = psParty.getIsHost();
+            PsParty record = new PsParty();
+            record.setId(id);
+            record.setEndDate(endDate);
+            record.setIsFinish(isFinish);
+            record.setSortOrder(getNextSortOrder("ps_party",
+                    "is_finish="+ isFinish +" and is_host="+ isHost));
+
+            psPartyMapper.updateByPrimaryKeySelective(record);
         }
     }
 }

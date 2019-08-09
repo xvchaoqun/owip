@@ -40,7 +40,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"> 是否发布</label>
+			<label class="col-xs-3 control-label"> 是否公开</label>
 			<div class="col-xs-6">
 				<label>
 					<input name="isPublish" ${psTask.isPublish?"checked":""}  type="checkbox" />

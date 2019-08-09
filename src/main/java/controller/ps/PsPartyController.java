@@ -2,19 +2,16 @@ package controller.ps;
 
 import controller.global.OpException;
 import domain.party.Party;
-import domain.party.PartyExample;
 import domain.ps.PsParty;
 import domain.ps.PsPartyExample;
 import domain.ps.PsPartyExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
-import sys.constants.PsInfoConstants;
-import sys.constants.SystemConstants;
-import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -46,7 +40,7 @@ public class PsPartyController extends PsBaseController {
     @RequestMapping("/psParty")
     public String psParty(Integer psId, ModelMap modelMap) {
 
-        modelMap.put("isHaveHostUnit",psPartyService.isHaveHostUnit(psId));
+        modelMap.put("isHaveHostUnit", psPartyService.isHaveHostUnit(psId));
         return "ps/psParty/psParty_page";
     }
 
@@ -54,10 +48,11 @@ public class PsPartyController extends PsBaseController {
     @RequestMapping("/psParty_data")
     @ResponseBody
     public void psParty_data(HttpServletResponse response,
-                                    Boolean isHost,//是否主建单位
-                                    Boolean isFinish,//是否结束
-                                    Integer pageSize,
-                                    Integer pageNo)  throws IOException{
+                             Integer psId,
+                             Boolean isHost,//是否主建单位
+                             Boolean isFinish,//是否结束
+                             Integer pageSize,
+                             Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -71,10 +66,14 @@ public class PsPartyController extends PsBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("is_finish asc,sort_order desc");
 
-        if (isHost!=null) {
+        if (psId != null) {
+            criteria.andPsIdEqualTo(psId);
+        }
+
+        if (isHost != null) {
             criteria.andIsHostEqualTo(isHost);
         }
-        if (isFinish!=null) {
+        if (isFinish != null) {
             criteria.andIsFinishEqualTo(isFinish);
         }
 
@@ -83,7 +82,7 @@ public class PsPartyController extends PsBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PsParty> records= psPartyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PsParty> records = psPartyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -100,35 +99,25 @@ public class PsPartyController extends PsBaseController {
     @RequiresPermissions("psParty:edit")
     @RequestMapping(value = "/psParty_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psParty_au(PsParty psParty,
-                             String _startDate,
+    public Map do_psParty_au(PsParty record,
                              HttpServletRequest request) {
 
-        Integer id = psParty.getId();
-        if (StringUtils.isNotBlank(_startDate)){
-            psParty.setStartDate(DateUtils.parseDate(_startDate,DateUtils.YYYYMM));
-        }
+        Integer id = record.getId();
 
-        //判断选择单位是否已经组建二级党校
-        PsPartyExample psPartyExample = new PsPartyExample();
-        psPartyExample.createCriteria()
-                .andIsFinishEqualTo(false)
-                .andPartyIdEqualTo(psParty.getPartyId());
-        List<PsParty> psParties = psPartyMapper.selectByExample(psPartyExample);
-        if (psParties.size()>0) {
-            throw new OpException("该单位已经组建二级党校。");
+        if (psPartyService.idDuplicate(id, record.getPsId(), record.getPartyId())) {
+            return failed("添加重复，已经是建设单位");
         }
 
         if (id == null) {
 
             //默认添加的建设单位未结束
-            psParty.setIsFinish(false);
-            psPartyService.insertSelective(psParty);
-            logger.info(log( LogConstants.LOG_PS, "添加二级党校建设单位：{0}", psParty.getId()));
+            record.setIsFinish(false);
+            psPartyService.insertSelective(record);
+            logger.info(log(LogConstants.LOG_PS, "添加二级党校建设单位：{0}", record.getId()));
         } else {
 
-            psPartyService.updateByPrimaryKeySelective(psParty);
-            logger.info(log( LogConstants.LOG_PS, "更新二级党校建设单位：{0}", psParty.getId()));
+            psPartyService.updateByPrimaryKeySelective(record);
+            logger.info(log(LogConstants.LOG_PS, "更新二级党校建设单位：{0}", record.getId()));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -142,21 +131,23 @@ public class PsPartyController extends PsBaseController {
                              ModelMap modelMap) {
 
         if (id != null) {
+
             PsParty psParty = psPartyMapper.selectByPrimaryKey(id);
             Party party = partyMapper.selectByPrimaryKey(psParty.getPartyId());
+            isHost = psParty.getIsHost();
+            psId = psParty.getPsId();
+
             modelMap.put("psParty", psParty);
             modelMap.put("party", party);
         }
 
-        if(id == null){
-            if (isHost){
-                if(psPartyService.isHaveHostUnit(psId)){
-                    throw new OpException("已经拥有主建单位。");
-                }
-            }
+        if (id == null && isHost && psPartyService.isHaveHostUnit(psId)) {
+            throw new OpException("已经拥有主建单位。");
         }
 
-        modelMap.put("isHost",isHost);
+        modelMap.put("isHost", isHost);
+        modelMap.put("psId", psId);
+
         return "ps/psParty/psParty_au";
     }
 
@@ -168,7 +159,7 @@ public class PsPartyController extends PsBaseController {
         if (id != null) {
 
             psPartyService.del(id);
-            logger.info(log( LogConstants.LOG_PS, "删除二级党校建设单位：{0}", id));
+            logger.info(log(LogConstants.LOG_PS, "删除二级党校建设单位：{0}", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -178,20 +169,21 @@ public class PsPartyController extends PsBaseController {
     @ResponseBody
     public Map psParty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             psPartyService.batchDel(ids);
-            logger.info(log( LogConstants.LOG_PS, "批量删除二级党校建设单位：{0}", StringUtils.join(ids, ",")));
+            logger.info(log(LogConstants.LOG_PS, "批量删除二级党校建设单位：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("psParty:edit")
     @RequestMapping(value = "/psParty_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psParty_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         psPartyService.changeOrder(id, addNum);
-        logger.info(addLog( LogConstants.LOG_ADMIN, "二级党校建设单位调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "二级党校建设单位调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -199,18 +191,18 @@ public class PsPartyController extends PsBaseController {
 
         List<PsParty> records = psPartyMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"所属二级党校|100","建设单位|100","主建设单位/联合建设单位|100","是否结束|100","开始时间|100","结束时间|100","备注|100"};
+        String[] titles = {"所属二级党校|100", "建设单位|100", "主建设单位/联合建设单位|100", "是否结束|100", "开始时间|100", "结束时间|100", "备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PsParty record = records.get(i);
             String[] values = {
-                record.getPsId()+"",
-                            record.getPartyId()+"",
-                            record.getIsHost()+"",
-                            record.getIsFinish()+"",
-                            DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
-                            DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
-                            record.getRemark()
+                    record.getPsId() + "",
+                    record.getPartyId() + "",
+                    record.getIsHost() + "",
+                    record.getIsFinish() + "",
+                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
+                    record.getRemark()
             };
             valuesList.add(values);
         }
@@ -220,7 +212,7 @@ public class PsPartyController extends PsBaseController {
 
     @RequestMapping("/psParty_selects")
     @ResponseBody
-    public Map psParty_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map psParty_selects(Integer psId, Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -234,21 +226,21 @@ public class PsPartyController extends PsBaseController {
         Criteria criteria = example.createCriteria();
         //example.setOrderByClause("sort_order desc");
 
-        /*if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike(SqlUtils.like(searchStr));
-        }*/
+        if(psId!=null){
+            criteria.andPsIdEqualTo(psId);
+        }
 
         long count = psPartyMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<PsParty> records = psPartyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<PsParty> records = psPartyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List options = new ArrayList<>();
-        if(null != records && records.size()>0){
+        if (null != records && records.size() > 0) {
 
-            for(PsParty record:records){
+            for (PsParty record : records) {
 
                 String psPartyName = partyMapper.selectByPrimaryKey(record.getPartyId()).getName();
                 Map<String, Object> option = new HashMap<>();
@@ -269,18 +261,18 @@ public class PsPartyController extends PsBaseController {
     @RequestMapping("/psParty_history")
     public String psParty_history() {
 
-        return "ps/psParty/psParty_plan";
+        return "ps/psParty/psParty_history";
     }
 
     @RequiresPermissions("psParty:history")
     @RequestMapping(value = "/psParty_history", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psParty_history(@RequestParam(value = "ids[]") Integer[] ids,
-                                  @RequestParam(required = false, defaultValue = "0") Boolean isHost,
-                                  String _endDate) {
+                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date endDate) {
 
-        if (null != ids && ids.length>0){
-            psPartyService.updatePartyStatus(ids,_endDate,true,isHost);
+        if (null != ids && ids.length > 0) {
+
+            psPartyService.updatePartyStatus(ids, endDate, true);
             logger.info(addLog(LogConstants.LOG_PS, "批量结束建设单位：%s", StringUtils.join(ids, ",")));
         }
 

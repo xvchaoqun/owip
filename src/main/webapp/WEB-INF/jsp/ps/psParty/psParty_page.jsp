@@ -13,18 +13,18 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-plus"></i>
                     添加</button>
                     </c:if>
-                    <c:if test="${isHaveHostUnit}">
+
                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                    data-url="${ctx}/ps/psParty_au"
                    data-grid-id="#jqGrid_hostUnit">
                     <i class="fa fa-edit"></i>
                     修改</button>
-                    </c:if>
+
                 </shiro:hasPermission>
                 <shiro:hasPermission name="psParty:history">
                 <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                         data-grid-id="#jqGrid_hostUnit"
-                        data-url="${ctx}/ps/psParty_history?isHost=1">
+                        data-url="${ctx}/ps/psParty_history">
                     <i class="fa fa-recycle"></i>
                     撤销</button>
                 </shiro:hasPermission>
@@ -66,7 +66,7 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="psParty:history">
                 <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                         data-grid-id="#jqGrid_jointUnit"
-                        data-url="${ctx}/ps/psParty_history?isHost=0">
+                        data-url="${ctx}/ps/psParty_history">
                     <i class="fa fa-recycle"></i>
                     撤销</button>
                 </shiro:hasPermission>
@@ -112,8 +112,10 @@ pageEncoding="UTF-8" %>
         colModel: [
             {label: '联合建设单位名称', name: 'partyId', width: 350, align: 'left', frozen: true, formatter:function(cellvalue, options, rowObject){
                     return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;}},
+            <shiro:hasPermission name="psParty:edit">
             { label:'排序', width: 85, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid_jointUnit',url:'${ctx}/ps/psParty_changeOrder'},frozen:true },
+            </shiro:hasPermission>
             {label: '开始时间', name: 'startDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
             {label: '结束时间', name: 'endDate', formatter:$.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}, frozen:true},
             {label: '状态', name: 'isFinish', formatter: function (cellvalue, options, rowObject) {

@@ -2,20 +2,21 @@ package service.ps;
 
 import domain.base.MetaType;
 import domain.ps.*;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sys.constants.PsInfoConstants;
+import sys.constants.PsConstants;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
 
 import java.util.*;
 
 @Service
 public class PsInfoService extends PsBaseMapper {
+
+    @Autowired
+    private PsAdminService psAdminService;
 
     @Transactional
     @CacheEvict(value="PsInfo:ALL", allEntries = true)
@@ -25,39 +26,23 @@ public class PsInfoService extends PsBaseMapper {
         psInfoMapper.insertSelective(record);
     }
 
-    @Transactional
-    @CacheEvict(value="PsInfo:ALL", allEntries = true)
-    public void del(Integer id){
-
-        psInfoMapper.deleteByPrimaryKey(id);
-    }
-
-    /*@Transactional
-    @CacheEvict(value="PsInfo:ALL", allEntries = true)
-    public void history(Integer[] ids, String _abolishDate){
-
-        if(ids==null || ids.length==0) return;
-
-        PsInfoExample example = new PsInfoExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-
-        PsInfo record = new PsInfo();
-        if (StringUtils.isNotBlank(_abolishDate)){
-            record.setAbolishDate(DateUtils.parseDate(_abolishDate,DateUtils.YYYYMMDD_DOT));
-        }
-        record.setIsHistory(PsInfoConstants.PS_STATUS_IS_HISTORY);
-        psInfoMapper.updateByExampleSelective(record, example);
-    }*/
-
+    //（假删除）
     @Transactional
     @CacheEvict(value="PsInfo:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
 
-        PsInfoExample example = new PsInfoExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        psInfoMapper.deleteByExample(example);
+        for (Integer id : ids) {
+
+            PsInfo record = new PsInfo();
+            record.setId(id);
+            record.setIsDeleted(true);
+
+            psInfoMapper.updateByPrimaryKeySelective(record);
+
+            updatePsAdminsRole(id);
+        }
     }
 
     @Transactional
@@ -67,11 +52,46 @@ public class PsInfoService extends PsBaseMapper {
         return psInfoMapper.updateByPrimaryKeySelective(record);
     }
 
+    // 更新某二级党校所有现任管理员的权限
+    public void updatePsAdminsRole(int psId){
+
+        PsAdminExample example = new PsAdminExample();
+        example.createCriteria().andPsIdEqualTo(psId)
+                .andIsHistoryEqualTo(false);
+
+        List<PsAdmin> psAdmins = psAdminMapper.selectByExample(example);
+        for (PsAdmin psAdmin : psAdmins) {
+
+            psAdminService.updateRole(psAdmin.getUserId(), psAdmin.getType());
+        }
+    }
+
+    //更新二级党校状态
+    @Transactional
+    public void updatePsInfoStatus(Integer[] ids, boolean isHistory, Date abolishDate){
+
+        if(ids==null || ids.length==0) return;
+
+        for (Integer id : ids){
+            PsInfo psInfo = new PsInfo();
+            psInfo.setId(id);
+            psInfo.setAbolishDate(abolishDate);
+            psInfo.setIsHistory(isHistory);
+            psInfo.setSortOrder(getNextSortOrder("ps_info","is_history="+isHistory));
+
+            psInfoMapper.updateByPrimaryKeySelective(psInfo);
+
+            updatePsAdminsRole(id);
+        }
+    }
+
     @Cacheable(value="PsInfo:ALL")
     public Map<Integer, PsInfo> findAll() {
 
         PsInfoExample example = new PsInfoExample();
-        example.createCriteria().andIsHistoryEqualTo(false);
+        example.createCriteria()
+                .andIsHistoryEqualTo(false)
+                .andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order desc");
         List<PsInfo> psInfoes = psInfoMapper.selectByExample(example);
         Map<Integer, PsInfo> map = new LinkedHashMap<>();
@@ -91,40 +111,22 @@ public class PsInfoService extends PsBaseMapper {
     @CacheEvict(value = "PsInfo:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
         PsInfo entity = psInfoMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
         Boolean isHistory = entity.getIsHistory();
+        changeOrder("ps_info", "is_history="+isHistory, ORDER_BY_DESC, id, addNum);
+    }
 
-        PsInfoExample example = new PsInfoExample();
-        if (addNum*orderBy > 0) {
+     @Transactional
+    public int batchImport(List<PsInfo> records) {
 
-            example.createCriteria().andIsHistoryEqualTo(isHistory).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
+        int addCount = 0;
+        for (PsInfo record : records) {
 
-            example.createCriteria().andIsHistoryEqualTo(isHistory).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
+            insertSelective(record);
+            addCount++;
         }
 
-        List<PsInfo> overEntities = psInfoMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            PsInfo targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("ps_info", "is_history="+isHistory, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ps_info", "is_history="+isHistory, baseSortOrder, targetEntity.getSortOrder());
-
-            PsInfo record = new PsInfo();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            psInfoMapper.updateByPrimaryKeySelective(record);
-        }
+        return addCount;
     }
 
     //根据建设单位ID 得到所属二级党校ID
@@ -165,6 +167,7 @@ public class PsInfoService extends PsBaseMapper {
 
     //获取现任的组织人员
     public List<PsMember> getPsMember(String code, Integer id){
+
         MetaType metaType = CmTag.getMetaTypeByCode(code);
         PsMemberExample psMemberExample = new PsMemberExample();
         psMemberExample.createCriteria().andPsIdEqualTo(id)
@@ -179,10 +182,11 @@ public class PsInfoService extends PsBaseMapper {
      * @return 建设单位信息
      */
     public List<PsParty> getPsPsParty(Boolean isHost,Integer psId){
+
         PsPartyExample psPartyExample = new PsPartyExample();
         psPartyExample.createCriteria()
                 .andPsIdEqualTo(psId)
-                .andIsFinishEqualTo(PsInfoConstants.PS_STATUS_NOT_HISTORY);
+                .andIsFinishEqualTo(PsConstants.PS_STATUS_NOT_HISTORY);
 
         List<PsParty> allPsParties = psPartyMapper.selectByExample(psPartyExample);
         if(isHost == null) return allPsParties;//全部建设单位
@@ -194,25 +198,5 @@ public class PsInfoService extends PsBaseMapper {
             }
         }
         return psParties;
-    }
-
-    //更新二级党校状态
-    public void updatePsInfoStatus(Integer[] ids, Boolean isHistory, String _abolishDate){
-        if(ids==null || ids.length==0) return;
-
-        Date abolishDate = null;
-        if (StringUtils.isNotBlank(_abolishDate)){
-            abolishDate = DateUtils.parseDate(_abolishDate,DateUtils.YYYYMMDD_DOT);
-        }
-        for (Integer id : ids){
-            PsInfo psInfo = new PsInfo();
-            psInfo.setAbolishDate(abolishDate);
-            psInfo.setIsHistory(isHistory);
-            psInfo.setId(id);
-            psInfo.setSortOrder(getNextSortOrder("ps_info","is_history="+isHistory));
-
-            psInfoMapper.updateByPrimaryKeySelective(psInfo);
-        }
-
     }
 }

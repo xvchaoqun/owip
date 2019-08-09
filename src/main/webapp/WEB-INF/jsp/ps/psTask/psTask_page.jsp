@@ -86,8 +86,17 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/ps/psTask_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '名称',name: 'name', width: 250, align: 'left'},
                 { label: '年度',name: 'year',width: 80},
+                {label: '发布日期', name: 'releaseDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+                { label: '名称',name: 'name', width: 250, align: 'left'},
+
+                { label: '附件',name: 'files',formatter: function (cellvalue, options, rowObject) {
+                        return '<button class="popupBtn btn btn-warning btn-xs" data-width="500" data-callback="_reload"' +
+                            'data-url="${ctx}/ps/psTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件{1}</button>'
+                                .format(rowObject.id, rowObject.countFile>0?"("+rowObject.countFile+")":"")
+                    }},
+                { label: '是否公开',name: 'isPublish', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+               <shiro:hasPermission name="psTask:edit">
                 { label: '发布范围',name: 'psIds',formatter: function (cellvalue, options, rowObject) {
                     var count = 0;
                     if ($.trim(rowObject.psIds)!=''){
@@ -98,13 +107,7 @@ pageEncoding="UTF-8" %>
                                 .format(rowObject.id, count==0?"添加":"编辑("+count+")",
                                     count==0?"btn-info":"btn-success", count == 0?"plus":"edit");
                     }},
-                {label: '发布时间', name: 'releaseDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
-                { label: '附件',name: 'files',formatter: function (cellvalue, options, rowObject) {
-                        return '<button class="popupBtn btn btn-warning btn-xs" data-width="500" data-callback="_reload"' +
-                            'data-url="${ctx}/ps/psTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件{1}</button>'
-                                .format(rowObject.id, rowObject.countFile>0?"("+rowObject.countFile+")":"")
-                    }},
-                { label: '是否发布',name: 'isPublish', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+                </shiro:hasPermission>
                 { label: '备注',name: 'remark', width: 250}
         ]
     }).jqGrid("setFrozenColumns");

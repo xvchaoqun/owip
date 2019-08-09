@@ -1,8 +1,12 @@
 package controller.ps;
 
 import controller.global.OpException;
-import domain.ps.*;
+import domain.ps.PsInfo;
+import domain.ps.PsInfoExample;
+import domain.ps.PsMember;
+import domain.ps.PsParty;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -12,7 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import service.unit.UnitPostService;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.PsConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
-import javax.print.DocFlavor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,8 +39,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/ps")
 public class PsInfoController extends PsBaseController {
-    @Autowired
-    private UnitPostService unitPostService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -118,8 +120,19 @@ public class PsInfoController extends PsBaseController {
         pageNo = Math.max(1, pageNo);
 
         PsInfoExample example = new PsInfoExample();
-        PsInfoExample.Criteria criteria = example.createCriteria().andIsHistoryEqualTo(isHistory);
+        PsInfoExample.Criteria criteria =
+                example.createCriteria().andIsHistoryEqualTo(isHistory)
+                .andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order desc");
+
+        if(!ShiroHelper.hasRole(PsConstants.ROLE_PS_ADMIN)){
+            List<Integer> allAdminPsIds = iPsMapper.getAllAdminPsIds(ShiroHelper.getCurrentUserId());
+            if(allAdminPsIds.size()>0){
+                criteria.andIdIn(allAdminPsIds);
+            }else{
+                criteria.andIdIsNull();
+            }
+        }
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
@@ -140,7 +153,8 @@ public class PsInfoController extends PsBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PsInfo> records= psInfoMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PsInfo> records= psInfoMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -162,6 +176,7 @@ public class PsInfoController extends PsBaseController {
     public Map do_psInfo_au(PsInfo record, HttpServletRequest request) {
 
         Integer id = record.getId();
+        record.setIsDeleted(false);
 
         if (id == null) {
 
@@ -192,23 +207,11 @@ public class PsInfoController extends PsBaseController {
     @RequiresPermissions("psInfo:history")
     @RequestMapping(value = "/psInfo_history", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids, String _abolishDate) {
+    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,
+                                 Boolean isHistory,  @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date _abolishDate) {
 
         if (null != ids && ids.length>0){
-            psInfoService.updatePsInfoStatus(ids,true,_abolishDate);
-            logger.info(addLog(LogConstants.LOG_PS, "批量转移二级党校：%s", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("psInfo:history")
-    @RequestMapping(value = "/psInfo_notHistory", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_psInfo_notHistory(@RequestParam(value = "ids[]") Integer[] ids) {
-
-        if (null != ids && ids.length>0){
-            psInfoService.updatePsInfoStatus(ids,false,null);
+            psInfoService.updatePsInfoStatus(ids, BooleanUtils.isTrue(isHistory), _abolishDate);
             logger.info(addLog(LogConstants.LOG_PS, "批量转移二级党校：%s", StringUtils.join(ids, ",")));
         }
 
@@ -219,12 +222,10 @@ public class PsInfoController extends PsBaseController {
     @RequestMapping("/psInfo_history")
     public String psInfo_history() {
 
-        return "ps/psInfo/psInfo_plan";
+        return "ps/psInfo/psInfo_history";
     }
 
-
-
-    //批量删除二级党校
+    //批量删除二级党校（假删除）
     @RequiresPermissions("psInfo:del")
     @RequestMapping(value = "/psInfo_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -240,7 +241,7 @@ public class PsInfoController extends PsBaseController {
     }
 
     //二级党校调序
-    @RequiresPermissions("psInfo:changeOrder")
+    @RequiresPermissions("psInfo:edit")
     @RequestMapping(value = "/psInfo_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psInfo_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -283,7 +284,9 @@ public class PsInfoController extends PsBaseController {
         pageNo = Math.max(1, pageNo);
 
         PsInfoExample example = new PsInfoExample();
-        PsInfoExample.Criteria criteria = example.createCriteria().andIsHistoryEqualTo(false);
+        PsInfoExample.Criteria criteria = example.createCriteria()
+                .andIsHistoryEqualTo(false)
+                .andIsDeletedEqualTo(false);
         example.setOrderByClause("is_history asc, sort_order desc");
 
         if(isHistory!=null){
@@ -356,12 +359,12 @@ public class PsInfoController extends PsBaseController {
 
             String foundDate = StringUtils.trimToNull(xlsRow.get(2));
             if (StringUtils.isNotBlank(foundDate)){
-                record.setFoundDate(DateUtils.parseDate(foundDate,"YYYY-MM-DD"));
+                record.setFoundDate(DateUtils.parseStringToDate(foundDate));
             }
 
             String abolishDate = StringUtils.trimToNull(xlsRow.get(3));
             if (StringUtils.isNotBlank(abolishDate)){
-                record.setAbolishDate(DateUtils.parseDate(abolishDate,"YYYY-MM-DD"));
+                record.setAbolishDate(DateUtils.parseStringToDate(abolishDate));
             }
 
             String isHistory = StringUtils.trimToNull(xlsRow.get(4));
@@ -370,20 +373,22 @@ public class PsInfoController extends PsBaseController {
             }
             record.setIsHistory(StringUtils.equalsIgnoreCase(isHistory, "是"));
             record.setRemark(StringUtils.trimToNull(xlsRow.get(5)));
+            record.setIsDeleted(false);
+
             records.add(record);
         }
 
         Collections.reverse(records); // 逆序排列，保证导入的顺序正确
 
-        //int addCount = psInfoService.insertSelective(records);
+        int addCount = psInfoService.batchImport(records);
         int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        //resultMap.put("addCount", addCount);
+        resultMap.put("addCount", addCount);
         resultMap.put("total", totalCount);
 
-        /*logger.info(log(LogConstants.LOG_ADMIN,
-                "导入干部岗位成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
-                totalCount, addCount, totalCount - addCount));*/
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入二级党校成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }

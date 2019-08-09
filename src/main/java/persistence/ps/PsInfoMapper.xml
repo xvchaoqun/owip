@@ -9,6 +9,7 @@
     <result column="abolish_date" jdbcType="DATE" property="abolishDate" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="is_history" jdbcType="BIT" property="isHistory" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, seq, name, found_date, abolish_date, sort_order, is_history, remark
+    id, seq, name, found_date, abolish_date, sort_order, is_history, is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.ps.PsInfoExample" resultMap="BaseResultMap">
     select
@@ -108,10 +109,10 @@
     </selectKey>
     insert into ps_info (seq, name, found_date, 
       abolish_date, sort_order, is_history, 
-      remark)
+      is_deleted, remark)
     values (#{seq,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{foundDate,jdbcType=DATE}, 
       #{abolishDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{isHistory,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR})
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.ps.PsInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -137,6 +138,9 @@
       <if test="isHistory != null">
         is_history,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -159,6 +163,9 @@
       </if>
       <if test="isHistory != null">
         #{isHistory,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -195,6 +202,9 @@
       <if test="record.isHistory != null">
         is_history = #{record.isHistory,jdbcType=BIT},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -212,6 +222,7 @@
       abolish_date = #{record.abolishDate,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       is_history = #{record.isHistory,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -238,6 +249,9 @@
       <if test="isHistory != null">
         is_history = #{isHistory,jdbcType=BIT},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -252,6 +266,7 @@
       abolish_date = #{abolishDate,jdbcType=DATE},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       is_history = #{isHistory,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

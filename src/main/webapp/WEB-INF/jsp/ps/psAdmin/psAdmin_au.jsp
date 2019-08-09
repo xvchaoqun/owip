@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/ps/psAdmin_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${psAdmin.id}">
-		<input type="hidden" name="psId" value="${param.psId}">
+		<input type="hidden" name="psId" value="${psId}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span> 管理员类型</label>
 			<div class="col-xs-6 ">

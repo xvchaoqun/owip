@@ -1,5 +1,7 @@
 package domain.ps;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -622,6 +624,16 @@ public class PsTaskExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria adminPsIds(List<Integer> psIds) {
+
+            List<String> sqlList = new ArrayList<>();
+            for (Integer psId : psIds) {
+                sqlList.add("find_in_set(" + psId + ", ps_ids)");
+            }
+            addCriterion("(" + StringUtils.join(sqlList, "or") +")");
             return (Criteria) this;
         }
     }

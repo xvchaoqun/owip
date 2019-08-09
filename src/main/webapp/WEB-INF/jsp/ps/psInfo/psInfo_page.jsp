@@ -39,15 +39,22 @@
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
+                            <shiro:hasPermission name="psInfo:edit">
                             <c:if test="${isHistory}">
-                            <button class="jqBatchBtn btn btn-warning btn-sm"
+                            <button class="jqBatchBtn btn btn-success btn-sm"
                                     data-title="返回"
                                     data-msg="确定恢复这{0}条数据？"
                                     data-grid-id="#jqGrid"
-                                    data-url="${ctx}/ps/psInfo_notHistory">
-                                <i class="fa fa-backward"></i> 返回
+                                    data-url="${ctx}/ps/psInfo_history?isHistory=0">
+                                <i class="fa fa-reply"></i> 返回
                             </button>
                             </c:if>
+                            <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                    data-url="${ctx}/ps/psInfo_import"
+                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                批量导入
+                            </button>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="psInfo:del">
                                 <button data-url="${ctx}/ps/psInfo_batchDel"
                                         data-title="删除"
@@ -57,11 +64,6 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-                            <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                                    data-url="${ctx}/ps/psInfo_import"
-                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                批量导入
-                            </button>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

@@ -1,29 +1,23 @@
 package controller.ps;
 
+import domain.cadre.CadreView;
 import domain.member.MemberView;
-import domain.member.MemberViewExample;
 import domain.ps.PsAdmin;
 import domain.ps.PsAdminExample;
 import domain.ps.PsAdminExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.member.MemberViewMapper;
 import sys.constants.LogConstants;
-import sys.constants.PsInfoConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -39,8 +33,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/ps")
 public class PsAdminController extends PsBaseController {
-    @Autowired
-    private MemberViewMapper memberViewMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -57,8 +49,6 @@ public class PsAdminController extends PsBaseController {
     @RequestMapping("/psAdmin_data")
     @ResponseBody
     public void psAdmin_data(HttpServletResponse response,
-                             @SortParam(required = false, defaultValue = "sort_order", tableName = "ps_admin") String sort,
-                             @OrderParam(required = false, defaultValue = "asc") String order,
                              Integer psId,
                              Byte type,
                              Integer userId,
@@ -77,7 +67,7 @@ public class PsAdminController extends PsBaseController {
 
         PsAdminExample example = new PsAdminExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("sort_order asc");
 
         if (psId!=null) {
             criteria.andPsIdEqualTo(psId);
@@ -130,31 +120,30 @@ public class PsAdminController extends PsBaseController {
             record.setStartDate(DateUtils.parseDate(_startDate,DateUtils.YYYYMMDD_DOT));
         }
 
-        /*if (psAdminService.idDuplicate(id, record.getUserId())) {
+        if (psAdminService.idDuplicate(id, record.getPsId(), record.getUserId())) {
             return failed("添加重复");
-        }*/
+        }
 
         if (id == null) {
 
-            //判断管理员类型是否是'二级党校管理员'
-            if(record.getType() == PsInfoConstants.PS_ADMIN_TYPE_PARTY){
-                PsAdminExample psAdminExample = new PsAdminExample();
-                psAdminExample.createCriteria()
-                        .andTypeEqualTo(PsInfoConstants.PS_ADMIN_TYPE_PARTY)
-                        .andPsIdEqualTo(record.getPsId())
-                        .andIsHistoryEqualTo(false);
-                List<PsAdmin> psAdmins = psAdminMapper.selectByExample(psAdminExample);
-                if(psAdmins.size()>0){
-                    return failed("重复添加二级党校管理员。");
+            int userId = record.getUserId();
+            String title = null;
+            String mobile = null;
+            //新增时自动插入'所在单位'、'联系方式'；
+            CadreView cv = CmTag.getCadreByUserId(userId);
+            if(cv!=null){
+                title = cv.getTitle();
+                mobile = cv.getMobile();
+            }else{
+                MemberView mv = iMemberMapper.getMemberView(userId);
+                if(mv!=null){
+                    title = mv.getUnit();
+                    mobile = mv.getMobile();
                 }
             }
 
-            //新增时自动插入'所在单位'、'联系方式'；
-            MemberViewExample memberViewExample = new MemberViewExample();
-            memberViewExample.createCriteria().andUserIdEqualTo(record.getUserId());
-            MemberView memberView = memberViewMapper.selectByExample(memberViewExample).get(0);
-            record.setTitle(memberView.getUnit());
-            record.setMobile(memberView.getMobile());
+            record.setTitle(title);
+            record.setMobile(mobile);
 
             record.setIsHistory(false);
             psAdminService.insertSelective(record);
@@ -170,13 +159,15 @@ public class PsAdminController extends PsBaseController {
 
     @RequiresPermissions("psAdmin:edit")
     @RequestMapping("/psAdmin_au")
-    public String psAdmin_au(Integer id, ModelMap modelMap) {
+    public String psAdmin_au(Integer id, Integer psId, ModelMap modelMap) {
 
         if (id != null) {
             PsAdmin psAdmin = psAdminMapper.selectByPrimaryKey(id);
+            psId = psAdmin.getPsId();
             modelMap.put("psAdmin", psAdmin);
             modelMap.put("sysUser",CmTag.getUserById(psAdmin.getUserId()));
         }
+        modelMap.put("psId", psId);
 
         return "ps/psAdmin/psAdmin_au";
     }
@@ -208,7 +199,7 @@ public class PsAdminController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //@RequiresPermissions("psAdmin:changeOrder")
+    @RequiresPermissions("psAdmin:edit")
     @RequestMapping(value = "/psAdmin_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psAdmin_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -222,12 +213,13 @@ public class PsAdminController extends PsBaseController {
 
         List<PsAdmin> records = psAdminMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"所属二级党校|100","类型|100","管理员|100","所在单位及职务|100","联系方式|100","任职起始时间|100","任职结束时间|100","现任/离任|100","备注|100"};
+        String[] titles = {"所属二级党校|100","类型|100","管理员|100","所在单位及职务|100",
+                "联系方式|100","任职起始时间|100","任职结束时间|100","现任/离任|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PsAdmin record = records.get(i);
             String[] values = {
-                record.getPsId()+"",
+                            record.getPsId()+"",
                             record.getType()+"",
                             record.getUserId()+"",
                             record.getTitle(),
@@ -293,7 +285,7 @@ public class PsAdminController extends PsBaseController {
     @RequestMapping("/psAdmin_history")
     public String psInfo_history() {
 
-        return "ps/psAdmin/psAdmin_plan";
+        return "ps/psAdmin/psAdmin_history";
     }
 
     @RequiresPermissions("psAdmin:history")

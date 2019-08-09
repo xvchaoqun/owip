@@ -3,12 +3,12 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>撤销建设单位</h3>
+    <h3>撤销二级党校</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/ps/psParty_history" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/ps/psInfo_history?isHistory=1"
+          autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
-        <input type="hidden" name="isHost" value="${param.isHost}">
         <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
         <c:if test="${count>1}">
             <div class="form-group">
@@ -19,13 +19,11 @@ pageEncoding="UTF-8"%>
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-5 control-label">建设单位撤销时间</label>
+            <label class="col-xs-5 control-label"><span class="star">*</span>二级党校撤销时间</label>
             <div class="col-xs-4">
-                <div class="input-group" style="width: 150px">
-                    <input class="form-control date-picker" name="_endDate" type="text"
-                           data-date-format="yyyy.mm"
-                           data-date-min-view-mode="1"
-                           value="${cm:formatDate(now,'yyyy.MM')}"/>
+                <div class="input-group">
+                    <input required class="form-control date-picker" name="_abolishDate" type="text"
+                           data-date-format="yyyy.mm.dd" value="${cm:formatDate(now,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -43,9 +41,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
-                        $("#jqGrid_hostUnit").trigger("reloadGrid");
-                        $("#jqGrid_jointUnit").trigger("reloadGrid");
-
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                 }
             });

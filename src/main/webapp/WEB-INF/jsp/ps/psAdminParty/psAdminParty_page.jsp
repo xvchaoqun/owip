@@ -4,9 +4,11 @@ pageEncoding="UTF-8" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <div class="buttons pull-right" style="margin-right: 20px">
-        <button onclick="metaType_au()" class="btn btn-info">
+        <shiro:hasPermission name="psAdmin:edit">
+        <button onclick="_au()" class="btn btn-info">
             <i class="fa fa-plus"></i> 添加
         </button>
+        </shiro:hasPermission>
     </div>
     <h3>管理的单位</h3>
 </div>
@@ -22,30 +24,33 @@ pageEncoding="UTF-8" %>
                     <th nowrap>管理的单位</th>
                     <th nowrap>开始时间</th>
                     <th nowrap>结束时间</th>
+                    <th nowrap>状态</th>
+                    <shiro:hasPermission name="psAdmin:edit">
                     <th nowrap>操作</th>
+                    </shiro:hasPermission>
                     <th nowrap>备注</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${psAdminParties}" var="psAdminParty">
+                <c:forEach items="${psAdminParties}" var="record">
                     <tr>
-                        <td nowrap>${partyMap.get(psAdminParty.partyId).name}</td>
-                        <td nowrap>${cm:formatDate(psAdminParty.startDate, "yyyy.MM.dd")}</td>
-                        <td nowrap>${cm:formatDate(psAdminParty.endDate, "yyyy.MM.dd")}</td>
+                        <td class="align-left">${partyMap.get(record.partyId).name}</td>
+                        <td nowrap>${cm:formatDate(record.startDate, "yyyy.MM.dd")}</td>
+                        <td nowrap>${cm:formatDate(record.endDate, "yyyy.MM.dd")}</td>
+                        <td>${record.isHistory?'已结束':'未结束'}</td>
+                        <shiro:hasPermission name="psAdmin:edit">
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <button onclick="metaType_au(${psAdminParty.id})" class="btn btn-primary btn-xs">
+                                <button onclick="_au(${record.id})" class="btn btn-primary btn-xs">
                                     <i class="fa fa-edit"></i> 修改
                                 </button>
-                                <button onclick="metaType_au(${psAdminParty.id},true)" class="btn btn-warning btn-xs">
-                                    <i class="fa fa-hand-stop-o"></i> 结束管理
-                                </button>
-                                <button class="delBtn btn btn-danger btn-xs" data-id="${psAdminParty.id}">
+                                <button class="delBtn btn btn-danger btn-xs" data-id="${record.id}">
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </div>
                         </td>
-                        <td>${psAdminParty.remark}</td>
+                        </shiro:hasPermission>
+                        <td>${record.remark}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -54,10 +59,9 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-    function metaType_au(id,isHistory) {
+    function _au(id) {
         var url = "${ctx}/ps/psAdminParty_au?adminId=${param.adminId}";
-        if (id > 0) url += "&id=" + id;
-        if (isHistory) url += "&isHistory=" +isHistory;
+        if(id>0) url += "&id=" + id;
         $.loadModal(url);
     }
 </script>

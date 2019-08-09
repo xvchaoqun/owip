@@ -23,6 +23,8 @@ public class PsInfo implements Serializable {
 
     private Boolean isHistory;
 
+    private Boolean isDeleted;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -81,6 +83,14 @@ public class PsInfo implements Serializable {
 
     public void setIsHistory(Boolean isHistory) {
         this.isHistory = isHistory;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getRemark() {

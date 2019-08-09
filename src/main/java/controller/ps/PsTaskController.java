@@ -1,8 +1,5 @@
 package controller.ps;
 
-import domain.oa.OaTask;
-import domain.oa.OaTaskAdmin;
-import domain.oa.OaTaskFile;
 import domain.ps.PsInfo;
 import domain.ps.PsTask;
 import domain.ps.PsTaskExample;
@@ -14,6 +11,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import persistence.oa.OaTaskAdminMapper;
 import persistence.ps.PsTaskFileMapper;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.PsConstants;
 import sys.tool.fancytree.TreeNode;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -45,14 +44,14 @@ public class PsTaskController extends PsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    //@RequiresPermissions("psTask:list")
+    @RequiresPermissions("psTask:list")
     @RequestMapping("/psTask")
     public String psTask() {
 
         return "ps/psTask/psTask_page";
     }
 
-    //@RequiresPermissions("psTask:list")
+    @RequiresPermissions("psTask:list")
     @RequestMapping("/psTask_data")
     @ResponseBody
     public void psTask_data(HttpServletResponse response,
@@ -76,6 +75,17 @@ public class PsTaskController extends PsBaseController {
         PsTaskExample example = new PsTaskExample();
         Criteria criteria = example.createCriteria();
         //example.setOrderByClause(String.format("%s %s", sort, order));
+
+        if(!ShiroHelper.hasRole(PsConstants.ROLE_PS_ADMIN)){
+            List<Integer> allAdminPsIds = iPsMapper.getAllAdminPsIds(ShiroHelper.getCurrentUserId());
+            if(allAdminPsIds.size()>0){
+                criteria.adminPsIds(allAdminPsIds);
+            }else{
+                criteria.andIdIsNull();
+            }
+
+            criteria.andIsPublishEqualTo(true);
+        }
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
@@ -114,7 +124,7 @@ public class PsTaskController extends PsBaseController {
         return;
     }
 
-    //@RequiresPermissions("psTask:edit")
+    @RequiresPermissions("psTask:edit")
     @RequestMapping(value = "/psTask_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psTask_au(PsTask record, String _year,String _releaseDate, HttpServletRequest request) {
@@ -124,6 +134,7 @@ public class PsTaskController extends PsBaseController {
         if (StringUtils.isNotBlank(_year)){
             record.setYear(Integer.parseInt(_year));
         }
+
         if (StringUtils.isNotBlank(_releaseDate)){
             record.setReleaseDate(DateUtils.parseDate(_releaseDate,DateUtils.YYYY_MM_DD));
         }
@@ -146,7 +157,7 @@ public class PsTaskController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //@RequiresPermissions("psTask:edit")
+    @RequiresPermissions("psTask:edit")
     @RequestMapping("/psTask_au")
     public String psTask_au(Integer id, ModelMap modelMap) {
 
@@ -157,7 +168,7 @@ public class PsTaskController extends PsBaseController {
         return "ps/psTask/psTask_au";
     }
 
-    //@RequiresPermissions("psTask:del")
+    @RequiresPermissions("psTask:del")
     @RequestMapping(value = "/psTask_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psTask_del(HttpServletRequest request, Integer id) {
@@ -170,7 +181,7 @@ public class PsTaskController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //@RequiresPermissions("psTask:del")
+    @RequiresPermissions("psTask:del")
     @RequestMapping(value = "/psTask_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map psTask_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -264,6 +275,7 @@ public class PsTaskController extends PsBaseController {
 
 
     //二级党校年度工作任务附件
+    @RequiresPermissions("psTask:list")
     @RequestMapping("/psTaskFiles")
     public String oaTaskFiles(Integer taskId, ModelMap modelMap) {
 
@@ -274,6 +286,7 @@ public class PsTaskController extends PsBaseController {
     }
 
     //添加二级党校年度工作任务附件
+    @RequiresPermissions("psTask:edit")
     @RequestMapping(value = "/psTaskFile_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_oaTaskFile_au(int taskId, MultipartFile[] files, HttpServletRequest request) throws IOException, InterruptedException {
@@ -300,6 +313,7 @@ public class PsTaskController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("psTask:edit")
     @RequestMapping("/psTaskScope_au")
     public String oaTaskAdmin_au(Integer taskId, ModelMap modelMap) {
 
@@ -339,6 +353,7 @@ public class PsTaskController extends PsBaseController {
         return "ps/psTask/psTaskScope_au";
     }
 
+    @RequiresPermissions("psTask:edit")
     @RequestMapping(value = "/psTaskScope_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_oaTaskAdmin_au(PsTask record, HttpServletRequest request) {
@@ -352,6 +367,7 @@ public class PsTaskController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("psTask:edit")
     @RequestMapping(value = "/psTaskFile_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_oaTaskFile_del(HttpServletRequest request, Integer id) {

@@ -2,7 +2,7 @@ package service.ps;
 
 import domain.ps.PsAdminParty;
 import domain.ps.PsAdminPartyExample;
-import domain.ps.PsMemberExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +37,9 @@ public class PsAdminPartyService extends PsBaseMapper {
     public void updateByPrimaryKeySelective(PsAdminParty record){
 
         psAdminPartyMapper.updateByPrimaryKeySelective(record);
+        if(BooleanUtils.isFalse(record.getIsHistory())){
+            commonMapper.excuteSql("update ps_admin_party set end_date=null where id="+ record.getId());
+        }
     }
 
     public boolean idDuplicate(Integer id, Integer partyId, int adminId){

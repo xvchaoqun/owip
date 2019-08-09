@@ -8,10 +8,8 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/ps/psParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${psParty.id}"/>
-		<c:if test="${empty psParty}">
-			<input type="hidden" name="psId" value="${param.psId}"/>
-			<input type="hidden" name="isHost" value="${isHost}"/>
-		</c:if>
+		<input type="hidden" name="psId" value="${psId}"/>
+		<input type="hidden" name="isHost" value="${isHost}"/>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> ${isHost?"主建":"联合建设"}单位名称</label>
 			<div class="col-xs-6">
@@ -27,7 +25,7 @@ pageEncoding="UTF-8"%>
 			<label class="col-xs-4 control-label"> 开始时间</label>
 			<div class="col-xs-6">
 				<div class="input-group">
-					<input class="form-control date-picker" name="_startDate" type="text"
+					<input class="form-control date-picker" name="startDate" type="text"
 						   data-date-format="yyyy.mm"
 						   data-date-min-view-mode="1"
 						   value="${empty psParty.startDate?'':cm:formatDate(psParty.startDate,'yyyy.MM')}"/>

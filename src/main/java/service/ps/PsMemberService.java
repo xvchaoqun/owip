@@ -2,19 +2,13 @@ package service.ps;
 
 import domain.ps.PsMember;
 import domain.ps.PsMemberExample;
-import domain.ps.PsParty;
-import domain.ps.PsPartyExample;
-import domain.unit.UnitPost;
-import domain.unit.UnitPostExample;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class PsMemberService extends PsBaseMapper {
@@ -69,46 +63,13 @@ public class PsMemberService extends PsBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
-        byte orderBy = ORDER_BY_DESC;
-
         PsMember psMember = psMemberMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = psMember.getSortOrder();
-
-        PsMemberExample example = new PsMemberExample();
-        if (addNum * orderBy > 0) {
-
-            example.createCriteria().andPsIdEqualTo(psMember.getPsId()).andIsHistoryEqualTo(psMember.getIsHistory())
-                    .andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andPsIdEqualTo(psMember.getPsId()).andIsHistoryEqualTo(psMember.getIsHistory())
-                    .andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<PsMember> overEntities = psMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            PsMember targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum * orderBy > 0)
-                commonMapper.downOrder("ps_member", String.format("ps_id=%s and is_history=%s", psMember.getPsId(), psMember.getIsHistory()),
-                        baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ps_member", String.format("ps_id=%s and is_history=%s", psMember.getPsId(), psMember.getIsHistory()),
-                        baseSortOrder, targetEntity.getSortOrder());
-
-            PsMember record = new PsMember();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            psMemberMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("ps_member", String.format("ps_id=%s and is_history=%s",
+                psMember.getPsId(), psMember.getIsHistory()), ORDER_BY_ASC, id, addNum);
     }
 
-    public void updateMemberStade(Integer[] ids,String _endDate,Boolean isHistory){
+    @Transactional
+    public void updateMemberState(Integer[] ids, String _endDate, Boolean isHistory){
         if(ids==null || ids.length==0) return;
 
         Date endDate = null;

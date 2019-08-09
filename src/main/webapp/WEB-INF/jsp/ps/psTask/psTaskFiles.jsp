@@ -16,7 +16,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="submitBtn" class="btn btn-primary"><i class="fa fa-upload"></i> 上传</button>
+                 <button id="submitBtn" type="button" class="btn btn-primary"
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 上传中，请不要关闭此窗口"> 确定</button>
             </div>
 
         </form>
@@ -37,7 +38,7 @@
                     <td nowrap>${psTaskFile.fileName}</td>
                     <td nowrap>
                         <div class="hidden-sm hidden-xs action-buttons">
-                            <shiro:hasPermission name="oaTask:delFile">
+                            <shiro:hasPermission name="psTask:edit">
                                 <button class="confirm btn btn-danger btn-xs"
                                         data-title="删除"
                                         data-msg="确定删除？"
@@ -76,11 +77,13 @@
     })
     $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
                         _pop_reload();
                     }
+                     $btn.button('reset');
                 }
             });
         }

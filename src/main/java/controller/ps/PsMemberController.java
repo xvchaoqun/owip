@@ -9,8 +9,6 @@ import domain.member.MemberViewExample;
 import domain.ps.PsMember;
 import domain.ps.PsMemberExample;
 import domain.ps.PsMemberExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -26,12 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.base.MetaTypeMapper;
 import persistence.member.MemberViewMapper;
-import service.LoginUserService;
 import sys.constants.LogConstants;
-import sys.constants.PsInfoConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,6 +59,7 @@ public class PsMemberController extends PsBaseController {
     @RequestMapping("/psMember_data")
     @ResponseBody
     public void psMember_data(HttpServletResponse response,
+                              Integer psId,
                               Integer pageSize,
                               Integer pageNo,
                               @RequestParam(required = false, defaultValue = "0")Boolean isHistory) throws IOException{
@@ -75,6 +75,10 @@ public class PsMemberController extends PsBaseController {
         PsMemberExample example = new PsMemberExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order ASC");
+
+        if(psId!=null){
+            criteria.andPsIdEqualTo(psId);
+        }
 
         if (isHistory!=null){
             criteria.andIsHistoryEqualTo(isHistory);
@@ -204,7 +208,7 @@ public class PsMemberController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("psMember:changeOrder")
+    @RequiresPermissions("psMember:edit")
     @RequestMapping(value = "/psMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_psMember_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -290,7 +294,7 @@ public class PsMemberController extends PsBaseController {
     @RequestMapping("/psMember_history")
     public String psInfo_history() {
 
-        return "ps/psMember/psMember_plan";
+        return "ps/psMember/psMember_history";
     }
 
     @RequiresPermissions("psMember:history")
@@ -299,7 +303,7 @@ public class PsMemberController extends PsBaseController {
     public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids,String _endDate) {
 
         if (null != ids && ids.length>0){
-            psMemberService.updateMemberStade(ids,_endDate,true);
+            psMemberService.updateMemberState(ids,_endDate,true);
             logger.info(addLog(LogConstants.LOG_PS, "批量结束党校任职：%s", StringUtils.join(ids, ",")));
         }
 

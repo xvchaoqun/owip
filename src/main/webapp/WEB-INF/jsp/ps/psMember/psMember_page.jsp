@@ -20,19 +20,21 @@ pageEncoding="UTF-8" %>
 </ul>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${!isHistory}">
+
         <shiro:hasPermission name="psMember:edit">
+            <c:if test="${!isHistory}">
         <button class="popupBtn btn btn-info btn-sm"
                 data-url="${ctx}/ps/psMember_au?psId=${param.psId}">
             <i class="fa fa-plus"></i>
             添加</button>
+            </c:if>
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                 data-url="${ctx}/ps/psMember_au?psId=${param.psId}"
                 data-grid-id="#jqGrid2">
             <i class="fa fa-edit"></i>
             修改</button>
         </shiro:hasPermission>
-    </c:if>
+
     <shiro:hasPermission name="psMember:history">
     <c:if test="${!isHistory}">
         <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
@@ -64,14 +66,16 @@ pageEncoding="UTF-8" %>
                 { label: '党校职务',name: 'type',formatter: $.jgrid.formatter.MetaType},
                 { label: '姓名',name: 'user.realname'},
                 {label: '学工号', name: 'user.code'},
+                <shiro:hasPermission name="psMember:edit">
                 { label:'排序', width: 85, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2',url:'${ctx}/ps/psMember_changeOrder'},frozen:true },
+                </shiro:hasPermission>
                 { label: '所在单位及职务',name: 'title',align: 'left', width: 250},
                 { label: '任职起始时间',name: 'startDate',
-                    formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+                    formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             <c:if test="${isHistory}">
                 { label: '任职结束时间',name: 'endDate',
-                    formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m'}},
+                    formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             </c:if>
                 { label: '联系方式',name: 'mobile',width: 150},
                 { label: '备注',name: 'remark',width: 250}
