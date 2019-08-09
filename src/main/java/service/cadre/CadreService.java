@@ -49,8 +49,6 @@ public class CadreService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
-    private CadrePostService cadrePostService;
-    @Autowired
     private CacheHelper cacheHelper;
     @Autowired
     private CadreReserveService cadreReserveService;
@@ -358,58 +356,6 @@ public class CadreService extends BaseMapper {
 
             // 删除干部身份
             sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE);
-        }
-    }
-
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
-    public void addOrUPdateCadreParty(CadreParty record) {
-
-        if (record.getId() == null) {
-            cadrePartyMapper.insertSelective(record);
-        }else {
-            Date growTime = record.getGrowTime();
-            if(growTime==null){
-                commonMapper.excuteSql("update cadre_party set grow_time=null where id="+ record.getId());
-            }
-            cadrePartyMapper.updateByPrimaryKeySelective(record);
-        }
-
-        int userId = record.getUserId();
-        CadreView cv = dbFindByUserId(userId);
-        if (cv == null) {
-            // 不在干部库中，需要添加为临时干部
-            Cadre _cadre = new Cadre();
-            _cadre.setUserId(userId);
-            _cadre.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
-            // 标记类型为其他干部
-            if(_cadre.getType()==null){
-                _cadre.setType(CadreConstants.CADRE_TYPE_OTHER);
-            }
-            insertSelective(_cadre);
-        }
-    }
-
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
-    public void cadrePartyImport(List<CadreParty> records) {
-
-        for (CadreParty record : records) {
-
-            int userId = record.getUserId();
-            byte type = record.getType();
-            CadreParty cadreParty = get(userId, type);
-            if (cadreParty != null) {
-                record.setId(cadreParty.getId());
-            }
-
-            addOrUPdateCadreParty(record);
         }
     }
 

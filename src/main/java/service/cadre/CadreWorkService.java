@@ -167,7 +167,7 @@ public class CadreWorkService extends BaseMapper {
                             StringUtils.trimToEmpty(EduSuffix.getEduSuffix2(cadreEdu.getEduId())),
                             cadreEdu.getIsGraduated()?"毕业":"",
                             cadreEdu.getHasDegree()?
-                            String.format("，获%s%s", cadreEdu.getMajor(), cadreEdu.getDegree()):"",
+                            String.format("，获%s学位", cadreEdu.getDegree()):"",
                             StringUtils.isNotBlank(cadreEdu.getNote())?String.format("（%s）", cadreEdu.getNote()):"");
                     eduResume.setDetail(detail);
 

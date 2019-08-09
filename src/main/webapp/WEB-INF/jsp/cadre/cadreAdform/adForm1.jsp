@@ -127,10 +127,7 @@ td.bolder{font-weight: bolder}
       </td>
       <td class="td0 center" colspan="2">
         <c:if test="${bean.dpTypeId>0}">
-          ${cm:getMetaType(bean.dpTypeId).extraAttr}
-          <c:if test="${not empty bean.owGrowTime}"><br/>
-            （${cm:formatDate(bean.owGrowTime, "yyyy.MM")}）
-          </c:if>
+          <c:if test="${not empty bean.owGrowTime}">${cm:formatDate(bean.owGrowTime, "yyyy.MM")}；</c:if>${cm:getMetaType(bean.dpTypeId).extraAttr}
         </c:if>
         <c:if test="${empty bean.dpTypeId}">
           <c:if test="${not empty bean.owGrowTime}">

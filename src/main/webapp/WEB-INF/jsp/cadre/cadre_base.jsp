@@ -542,8 +542,9 @@
                                     <c:set var="cadreParty"
                                            value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false)}"/>
                                     <c:set var="original" value="${cadreParty.get('partyName')}"/>
-                                    <c:if test="${fn:contains(original, ',')}">${original}</c:if><!--有多个党派不允许在此修改-->
-                                    <c:if test="${!fn:contains(original, ',')}">
+                                    <c:set var="hasMultiParty" value="${fn:contains(original, ',')}"/>
+                                    <c:if test="${hasMultiParty}">${original}</c:if><!--有多个党派不允许在此修改-->
+                                    <c:if test="${!hasMultiParty}">
                                         <c:if test="${member!=null}">${original}</c:if>
                                         <c:if test="${member==null}">
                                             <select data-rel="select2" name="dpTypeId" data-width="150"
@@ -560,8 +561,8 @@
                                 </td>
                                 <td>
                                     <c:set var="original" value="${cadreParty.get('growTime')}"/>
-                                    <c:if test="${member!=null}">${original}</c:if>
-                                    <c:if test="${member==null}">
+                                    <c:if test="${member!=null || hasMultiParty}">${original}</c:if>
+                                    <c:if test="${member==null && !hasMultiParty}">
                                         <div class="input-group date" data-date-format="yyyy.mm.dd"
                                              style="width: 150px; float: left;">
                                             <input class="form-control" type="text" name="_dpAddTime"
@@ -824,7 +825,7 @@
     </c:if>
     <script>
         <shiro:hasPermission name="cadre:updateWithoutRequired">
-        $('span.star').remove();
+        $('span.star').css("color", "gray");
         $('input, textarea').prop("required", false);
         </shiro:hasPermission>
 

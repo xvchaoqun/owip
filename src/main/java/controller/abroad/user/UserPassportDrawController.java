@@ -11,7 +11,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +78,6 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "abroad/user/passportDraw/passportDraw_select";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passportDraw_self")
     public String passportDraw_self(Integer cadreId, Integer pageSize, Integer pageNo, ModelMap modelMap, HttpServletRequest request) {
         if (null == pageSize) {
@@ -121,7 +119,6 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         return "abroad/user/passportDraw/passportDraw_self";
     }
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passportDraw_self_select")
     public String passportDraw_self_select(Integer cadreId, int applyId, ModelMap modelMap, HttpServletRequest request) {
 
@@ -142,7 +139,6 @@ public class UserPassportDrawController extends AbroadBaseController {
     }
 
     // 申请签注页面
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passportDraw_self_sign")
     public String passportDraw_self_sign(Integer cadreId, String type,
                                          Integer passportId, Integer id, ModelMap modelMap) {
@@ -183,7 +179,6 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "abroad/user/passportDraw/passportDraw_self_sign";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passportDraw_self_confirm")
     public String passportDraw_self_confirm(Integer cadreId, int applyId, int passportId,
                                             HttpServletRequest request, ModelMap modelMap) {
@@ -286,8 +281,6 @@ public class UserPassportDrawController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/passportDraw_self_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_self_au(Integer cadreId,
@@ -338,7 +331,6 @@ public class UserPassportDrawController extends AbroadBaseController {
     }
 
     // 申请 因公赴台、长期因公出国
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passportDraw_tw")
     public String passportDraw_tw(Integer cadreId, ModelMap modelMap) {
 
@@ -355,7 +347,6 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "abroad/user/passportDraw/passportDraw_tw";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/passportDraw_tw_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_tw_au(/*@CurrentUser SysUserView loginUser,*/ Integer cadreId,
@@ -457,7 +448,6 @@ public class UserPassportDrawController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping("/passportDraw_other")
     public String passportDraw_other(Integer cadreId, ModelMap modelMap) {
 
@@ -473,7 +463,6 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "abroad/user/passportDraw/passportDraw_other";
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_ABROADADMIN)
     @RequestMapping(value = "/passportDraw_other_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_other_au(Integer cadreId,

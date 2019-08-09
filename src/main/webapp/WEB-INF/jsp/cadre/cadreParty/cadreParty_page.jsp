@@ -134,19 +134,23 @@
         rownumbers: true,
         url: '${ctx}/cadreParty_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '工作证号', name: 'user.code', width: 120, frozen: true},
+            {label: '工作证号', name: 'code', width: 120, frozen: true},
             {
-                label: '姓名', name: 'user.realname', width: 110, formatter: function (cellvalue, options, rowObject) {
-                return $.cadre(rowObject.id, cellvalue);
+                label: '姓名', name: 'realname', width: 110, formatter: function (cellvalue, options, rowObject) {
+                return $.cadre(rowObject.cadreId, cellvalue);
             }, frozen: true
             },
             <c:if test="${type==1}">
-            {label: '民主党派', name: 'dpTypeId', formatter: $.jgrid.formatter.MetaType},
-            {label: '党派加入时间', name: 'dpGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, width: 110},
-            {label: '担任党派职务', name: 'dpPost',align:'left',  width: 250},
+            {label: '民主党派', name: 'classId', align:'left', width: 120, formatter:function(cellvalue, options, rowObject){
+                var str = '<span class="red" title="非第一民主党派">* </span>';
+                var dp = $.jgrid.formatter.MetaType(cellvalue);
+                return (!rowObject.isFirst)?str+dp:dp;
+            }},
+            {label: '党派加入时间', name: 'growTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, width: 110},
+            {label: '担任党派职务', name: 'post',align:'left',  width: 250},
             </c:if>
             <c:if test="${type==2}">
-            {label: '党派加入时间', name: 'owGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, width: 110},
+            {label: '党派加入时间', name: 'growTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, width: 110},
             <c:if test="${_p_hasPartyModule}">
             {
                 label: '是否存在于党员信息库', width: 180, name: 'memberStatus', formatter: function (cellvalue, options, rowObject) {
@@ -161,25 +165,23 @@
             }},
             </c:if>
             </c:if>
-            {label: '部门属性', name: 'unit.unitType.name', width: 150},
-            {label: '所在单位', name: 'unit.name',align:'left',  width: 200},
-            {label: '现任职务', name: 'post', align:'left', width: 250},
-            {label: '所在单位及职务', name: 'title',  align:'left', width: 350},
+            {label: '部门属性', name: 'unitId', width: 150, formatter: function (cellvalue, options, rowObject) {
+                var unit = _cMap.unitMap[cellvalue];
+                if(unit==undefined) return '--'
+                return $.jgrid.formatter.MetaType(unit.typeId);
+            }},
+            {label: '所在单位', name: 'unitId', align:'left',  width: 200, formatter: $.jgrid.formatter.unit},
+            {label: '现任职务', name: 'cadrePost', align:'left', width: 250},
+            {label: '所在单位及职务', name: 'cadreTitle',  align:'left', width: 350},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
             {
-                label: '在任情况', name: 'status', formatter: function (cellvalue, options, rowObject) {
+                label: '在任情况', name: 'cadreStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
 
                 return _cMap.CADRE_STATUS_MAP[cellvalue];
             }
-            },
-            <c:if test="${type==1}">
-            {label: '备注', name: 'dpRemark', align:'left', width: 350}, {name: 'dpId', key:true, hidden:true}
-            </c:if>
-            <c:if test="${type==2}">
-            {label: '备注', name: 'owRemark', align:'left', width: 350}, {name: 'owId', key:true, hidden:true}
-            </c:if>
+            }, {label: '备注', name: 'remark', align:'left', width: 350}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();

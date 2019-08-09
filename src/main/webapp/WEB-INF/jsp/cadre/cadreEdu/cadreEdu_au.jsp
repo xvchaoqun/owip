@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
 	<button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-	<h3><c:if test="${cadreEdu!=null}">编辑</c:if><c:if test="${cadreEdu==null}">添加</c:if>学习经历
+	<h3><c:if test="${cadreEdu!=null}">编辑</c:if><c:if test="${cadreEdu==null}">添加</c:if>学习经历（${sysUser.realname}）
 		<shiro:hasPermission name="sysUser:resume">（<a href="/sysUserInfo_resume?userId=${sysUser.userId}" target="_blank">查看干部任免审批表简历</a>）</shiro:hasPermission></h3>
 </div>
 <div class="modal-body">
@@ -13,12 +13,6 @@
 				<input type="hidden" name="_isUpdate" value="${param._isUpdate}">
 				<input type="hidden" name="applyId" value="${param.applyId}">
 				<input type="hidden" name="id" value="${cadreEdu.id}">
-				<div class="form-group">
-					<label class="col-xs-5 control-label">姓名</label>
-					<div class="col-xs-7 label-text">
-						${sysUser.realname}
-					</div>
-				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">学历</label>
 					<div class="col-xs-7">
@@ -71,7 +65,7 @@
 				<div class="form-group">
 					<label class="col-xs-5 control-label"><span class="star">*</span>毕业/在读学校</label>
 					<div class="col-xs-7">
-						<input required class="form-control" type="text" name="school" value="${cadreEdu.school}">
+						<textarea required class="form-control" name="school">${cadreEdu.school}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -201,7 +195,7 @@
 					<div class="form-group">
 						<label class="col-xs-4 control-label">备注</label>
 						<div class="col-xs-8">
-							<textarea class="form-control" name="remark" rows="2" maxlength="100">${cadreEdu.remark}</textarea>
+							<textarea class="form-control" name="remark" maxlength="100">${cadreEdu.remark}</textarea>
 						</div>
 					</div>
 
@@ -235,7 +229,7 @@
 			$("#modalForm input[name=degreeCountry]").val('${cadreEdu.degreeCountry}').prop("disabled", false).attr("required", "required");
 			$("#modalForm input[name=degreeUnit]").val('${cadreEdu.degreeUnit}').prop("disabled", false).attr("required", "required");
 
-			var finishTime = $("input[name=finishTime]").val();
+			var finishTime = $("#modalForm input[name=finishTime]").val();
 			//alert(finishTime)
 			if($.trim($("#modalForm input[name=degreeTime]").val())==''){
 				var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM");
@@ -243,7 +237,7 @@
 			}
 			$("#modalForm input[name=degreeTime]").prop("disabled", false).attr("required", "required");
 
-			$("#modalForm input[name=school]").trigger("keyup");
+			$("#modalForm textarea[name=school]").trigger("keyup");
 		}else{
 			$("#modalForm input[name=degree]").val('').prop("disabled", true).removeAttr("required");
 			$("#modalForm input[name=isHighDegree]").bootstrapSwitch('state', false).bootstrapSwitch('disabled', true);
@@ -281,15 +275,15 @@
 		var $eduId = $("#modalForm select[name=eduId]");
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_zz").id}"){
 
-			$("input[name=dep]").val('').removeAttr("required");
-			$("input[name=major]").val('').removeAttr("required");
-			$("input[name=dep]").closest(".form-group").find(".control-label").html('院系')
-			$("input[name=major]").closest(".form-group").find(".control-label").html('所学专业')
+			$("#modalForm input[name=dep]").val('').removeAttr("required");
+			$("#modalForm input[name=major]").val('').removeAttr("required");
+			$("#modalForm input[name=dep]").closest(".form-group").find(".control-label").html('院系')
+			$("#modalForm input[name=major]").closest(".form-group").find(".control-label").html('所学专业')
 		}else{
-			$("input[name=dep]").attr("required", "required");
-			$("input[name=major]").attr("required", "required");
-			$("input[name=dep]").closest(".form-group").find(".control-label").html('<span class="star">*</span>院系')
-			$("input[name=major]").closest(".form-group").find(".control-label").html('<span class="star">*</span>所学专业')
+			$("#modalForm input[name=dep]").attr("required", "required");
+			$("#modalForm input[name=major]").attr("required", "required");
+			$("#modalForm input[name=dep]").closest(".form-group").find(".control-label").html('<span class="star">*</span>院系')
+			$("#modalForm input[name=major]").closest(".form-group").find(".control-label").html('<span class="star">*</span>所学专业')
 		}
 
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
@@ -302,10 +296,14 @@
 			<c:if test="${sysUser.userId==_user.userId}">
 			$("#modalForm input[name=tutorName]").prop("disabled", false).attr("required", "required");
 			$("#modalForm input[name=tutorTitle]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=tutorName]").closest(".form-group").find(".control-label").html('<span class="star">*</span>导师姓名')
+			$("#modalForm input[name=tutorTitle]").closest(".form-group").find(".control-label").html('<span class="star">*</span>导师现所在单位及职务（职称）')
 			</c:if>
 		}else{
 			$("#modalForm input[name=tutorName]").val('').prop("disabled", true).removeAttr("required");
 			$("#modalForm input[name=tutorTitle]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=tutorName]").closest(".form-group").find(".control-label").html('导师姓名')
+			$("#modalForm input[name=tutorTitle]").closest(".form-group").find(".control-label").html('导师现所在单位及职务（职称）')
 		}
 
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_jxxx").id}"){
@@ -348,7 +346,7 @@
 
 
 
-	$("#modalForm input[name=school]").keyup(function(){
+	$("#modalForm textarea[name=school]").keyup(function(){
 		//console.log($("input[name=hasDegree]").bootstrapSwitch("state"));
 		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")) {
 			var $degreeUnit = $("#modalForm input[name=degreeUnit]");
@@ -374,6 +372,10 @@
 	$.register.date($('.input-group.date'));
 
 	$("#submitBtn").click(function () {
+		<shiro:hasPermission name="cadre:updateWithoutRequired">
+			$('span.star').css("color", "gray");
+			$('input, textarea, select').prop("required", false);
+		</shiro:hasPermission>
         $("#modalForm").submit();
         return false;
     });
@@ -406,7 +408,7 @@
 	$('[data-rel="tooltip"]').tooltip();
 
 	<shiro:hasPermission name="cadre:updateWithoutRequired">
-		$('span.star').remove();
+		$('span.star').css("color", "gray");
 		$('input, textarea, select').prop("required", false);
 	</shiro:hasPermission>
 </script>

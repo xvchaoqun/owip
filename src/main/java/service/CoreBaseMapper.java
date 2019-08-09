@@ -199,6 +199,8 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected CadrePartyMapper cadrePartyMapper;
     @Autowired(required = false)
+    protected CadrePartyViewMapper cadrePartyViewMapper;
+    @Autowired(required = false)
     protected CadreAdLogMapper cadreAdLogMapper;
     @Autowired(required = false)
     protected CadreInspectMapper cadreInspectMapper;

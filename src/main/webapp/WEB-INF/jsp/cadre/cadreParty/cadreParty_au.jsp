@@ -70,7 +70,18 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label">担任党派职务</label>
                 <div class="col-xs-6">
-                    <textarea class="form-control" name="post" rows="4">${cadreParty.post}</textarea>
+                    <textarea class="form-control" name="post" rows="3">${cadreParty.post}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">是否第一民主党派</label>
+                <div class="col-xs-6">
+                    <label>
+                        <input name="isFirst" ${(empty cadreParty || cadreParty.isFirst)?"checked":""}
+                               type="checkbox"/>
+                        <span class="lbl"></span>
+                    </label>
+                    <span class="help-block">注：仅针对拥有多个民主党派的情况，如果只有一个民主党派请选“是”</span>
                 </div>
             </div>
         </c:if>
@@ -89,8 +100,8 @@
 </div>
 
 <script>
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
+
+    $("#modal input[name=isFirst]").bootstrapSwitch();
     $('textarea.limited').inputlimiter();
     $("#modal form").validate({
         submitHandler: function (form) {

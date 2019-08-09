@@ -312,6 +312,66 @@ public class CadrePartyExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsFirstIsNull() {
+            addCriterion("is_first is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstIsNotNull() {
+            addCriterion("is_first is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstEqualTo(Boolean value) {
+            addCriterion("is_first =", value, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstNotEqualTo(Boolean value) {
+            addCriterion("is_first <>", value, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstGreaterThan(Boolean value) {
+            addCriterion("is_first >", value, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_first >=", value, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstLessThan(Boolean value) {
+            addCriterion("is_first <", value, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_first <=", value, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstIn(List<Boolean> values) {
+            addCriterion("is_first in", values, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstNotIn(List<Boolean> values) {
+            addCriterion("is_first not in", values, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_first between", value1, value2, "isFirst");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFirstNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_first not between", value1, value2, "isFirst");
+            return (Criteria) this;
+        }
+
         public Criteria andClassIdIsNull() {
             addCriterion("class_id is null");
             return (Criteria) this;

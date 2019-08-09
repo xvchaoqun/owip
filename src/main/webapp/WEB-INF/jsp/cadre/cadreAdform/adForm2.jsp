@@ -217,11 +217,8 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>
-   <c:if test="${bean.dpTypeId>0}">
-          ${cm:getMetaType(bean.dpTypeId).extraAttr}
-          <c:if test="${not empty bean.owGrowTime}"><br/>
-            （${cm:formatDate(bean.owGrowTime, "yyyy.MM")}）
-          </c:if>
+       <c:if test="${bean.dpTypeId>0}">
+          <c:if test="${not empty bean.owGrowTime}">${cm:formatDate(bean.owGrowTime, "yyyy.MM")}；</c:if>${cm:getMetaType(bean.dpTypeId).extraAttr}
         </c:if>
         <c:if test="${empty bean.dpTypeId}">
           <c:if test="${not empty bean.owGrowTime}">

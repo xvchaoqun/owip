@@ -2,10 +2,9 @@ package persistence.cadre;
 
 import domain.cadre.CadreParty;
 import domain.cadre.CadrePartyExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface CadrePartyMapper {
     long countByExample(CadrePartyExample example);

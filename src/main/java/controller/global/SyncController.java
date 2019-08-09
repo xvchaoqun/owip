@@ -1,11 +1,11 @@
 package controller.global;
 
 import controller.BaseController;
-import ext.domain.*;
 import domain.sys.SysSync;
 import domain.sys.SysSyncExample;
 import domain.sys.SysSyncExample.Criteria;
 import domain.sys.SysUserView;
+import ext.domain.*;
 import ext.service.ExtBksImport;
 import ext.service.ExtJzgImport;
 import ext.service.ExtRetireSalaryImport;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.sys.SysSyncService;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -41,6 +42,9 @@ import java.util.Map;
 public class SyncController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private SysSyncService sysSyncService;
     @Autowired
     private ExtJzgImport extJzgImport;
     @Autowired
@@ -181,10 +185,10 @@ public class SyncController extends BaseController {
     public Map sync_status() {
 
         Map<String, Object> map = success(FormUtils.SUCCESS);
-        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_JZG, syncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG));
-        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_YJS, syncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS));
-        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_BKS, syncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS));
-        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_ABROAD, syncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_JZG, sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_YJS, sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_BKS, sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_ABROAD, sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD));
         return map;
     }
 
@@ -252,7 +256,7 @@ public class SyncController extends BaseController {
         record.setIsStop(true);
         record.setEndTime(new Date());
         record.setAutoStop(false);
-        syncService.updateByPrimaryKeySelective(record);
+        sysSyncService.updateByPrimaryKeySelective(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "结束账号同步：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
@@ -276,7 +280,7 @@ public class SyncController extends BaseController {
 
         if (id != null) {
 
-            syncService.del(id);
+            sysSyncService.del(id);
             logger.info(addLog(LogConstants.LOG_ADMIN, "删除账号同步日志：%s", id));
         }
         return success(FormUtils.SUCCESS);
@@ -289,7 +293,7 @@ public class SyncController extends BaseController {
 
 
         if (null != ids && ids.length>0){
-            syncService.batchDel(ids);
+            sysSyncService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除账号同步日志：%s", StringUtils.join(ids, ",")));
         }
 

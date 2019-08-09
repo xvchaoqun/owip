@@ -198,8 +198,7 @@ public class SysRoleController extends BaseController {
 	@RequiresPermissions("sysRole:del")
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysRole_del(@CurrentUser SysUserView loginUser,
-							  @RequestParam(value = "ids[]") Integer[] ids,
+	public Map do_sysRole_del(@RequestParam(value = "ids[]") Integer[] ids,
 							  HttpServletRequest request) {
 		
 		sysRoleService.batchDel(ids);
@@ -221,7 +220,7 @@ public class SysRoleController extends BaseController {
 	@RequiresPermissions("sysRole:edit")
 	@RequestMapping(value="/sysRole_updateIsSysHold", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysRole_updateIsSysHold(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
+	public Map do_sysRole_updateIsSysHold(Integer id, HttpServletRequest request) {
 
 		if(id!=null){
 			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);

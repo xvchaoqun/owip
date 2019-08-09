@@ -158,7 +158,7 @@
     $('[data-rel="tooltip"]').tooltip();
 
     <shiro:hasPermission name="cadre:updateWithoutRequired">
-		$('span.star').remove();
+		$('span.star').css("color", "gray");
 		$('input, textarea, select').prop("required", false);
 	</shiro:hasPermission>
 </script>

@@ -4,8 +4,8 @@ import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreParty;
-import domain.cadre.CadreView;
-import domain.cadre.CadreViewExample;
+import domain.cadre.CadrePartyView;
+import domain.cadre.CadrePartyViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -35,7 +35,10 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CadrePartyController extends BaseController {
@@ -75,29 +78,25 @@ public class CadrePartyController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreViewExample example = new CadreViewExample();
-        CadreViewExample.Criteria criteria = example.createCriteria();
+        CadrePartyViewExample example = new CadrePartyViewExample();
+        CadrePartyViewExample.Criteria criteria =
+                example.createCriteria().andTypeEqualTo(type);
 
         if(type==1) {
-            //criteria.andDpIdIsNotNull();
-
             // 仅显示民主党派，不显示群众
-            Set<Integer> dpTypeIds = new HashSet<>();
+            List<Integer> dpTypeIds = new ArrayList<>();
             Map<Integer, MetaType> dpTypes = CmTag.getMetaTypes("mc_democratic_party");
             for (MetaType metaType : dpTypes.values()) {
                 if(BooleanUtils.isNotTrue(metaType.getBoolAttr())){
                     dpTypeIds.add(metaType.getId());
                 }
             }
-            criteria.andDpTypeIdIn(dpTypeIds);
-
-        }else if(type==2) {
-            criteria.andOwIdIsNotNull();
+            criteria.andClassIdIn(dpTypeIds);
         }
 
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("cadre_sort_order desc, is_first desc");
         if (status!=null) {
-            criteria.andStatusEqualTo(status);
+            criteria.andCadreStatusEqualTo(status);
         }
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
@@ -106,21 +105,21 @@ public class CadrePartyController extends BaseController {
             criteria.andAdminLevelEqualTo(adminLevel);
         }
         if (dpTypeId!=null) {
-            criteria.andDpTypeIdEqualTo(dpTypeId);
+            criteria.andClassIdEqualTo(dpTypeId);
         }
         if (postType !=null) {
             criteria.andPostTypeEqualTo(postType);
         }
         if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleLike(SqlUtils.like(title));
+            criteria.andCadreTitleLike(SqlUtils.like(title));
         }
 
-        long count = cadreViewMapper.countByExample(example);
+        long count = cadrePartyViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreView> Cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CadrePartyView> Cadres = cadrePartyViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         Map resultMap = new HashMap();
@@ -141,13 +140,13 @@ public class CadrePartyController extends BaseController {
     public Map do_cadreParty_au(CadreParty record,
                                 HttpServletRequest request) {
 
-        if(cadrePartyService.idDuplicate(record.getId(), record.getUserId(), record.getType())){
-
-            return failed("添加重复");
+        if(record.getType()==CadreConstants.CADRE_PARTY_TYPE_DP) {
+            record.setIsFirst(BooleanUtils.isTrue(record.getIsFirst()));
         }
 
-        cadreService.addOrUPdateCadreParty(record);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部党派：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+        cadrePartyService.addOrUPdateCadreParty(record);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部党派：%s",
+                JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -265,7 +264,7 @@ public class CadrePartyController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         if(records.size()>0) {
-            cadreService.cadrePartyImport(records);
+            cadrePartyService.batchImport(records);
         }
         int successCount = records.size();
         resultMap.put("successCount", successCount);

@@ -153,6 +153,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 cadreParty.setType(CadreConstants.CADRE_PARTY_TYPE_DP);
                                 cadreParty.setClassId(modifyValue);
                                 cadreParty.setRemark("本人修改申请（无 -> " + democraticPartyMap.get(modifyValue) + "）");
+                                cadreParty.setIsFirst(true);
 
                                 cadrePartyMapper.insertSelective(cadreParty);
                             } else {
@@ -253,6 +254,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 cadreParty.setGrowTime(growTime);
                                 cadreParty.setClassId(modifyValue);
                                 cadreParty.setRemark("本人修改申请（中共党员 -> " + democraticPartyMap.get(orginalValue) + "）");
+                                cadreParty.setIsFirst(true);
 
                                 cadrePartyMapper.insertSelective(cadreParty);
                             } else {
@@ -279,6 +281,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 cadreParty.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
                                 cadreParty.setRemark("本人修改申请（" + democraticPartyMap.get(orginalValue) + " -> 中共党员）");
 
+                                cadreParty.setIsFirst(false);
                                 cadrePartyMapper.insertSelective(cadreParty);
                             } else {
 
@@ -304,6 +307,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 cadreParty.setRemark("本人修改申请（" + democraticPartyMap.get(orginalValue)
                                         + " -> " + democraticPartyMap.get(modifyValue) + "）");
 
+                                cadreParty.setIsFirst(true);
                                 cadrePartyMapper.insertSelective(cadreParty);
                             } else {
                                 _cadreParty.setClassId(modifyValue);
@@ -380,14 +384,15 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
 
                         if(growTime==null){
                             commonMapper.excuteSql("update cadre_party set grow_time=null " +
-                                    "where user_id="+userId + " and type="+CadreConstants.CADRE_PARTY_TYPE_DP);
+                                    "where user_id="+userId + " and is_first=1 and type="+CadreConstants.CADRE_PARTY_TYPE_DP);
                         }else {
                             CadreParty record = new CadreParty();
                             record.setGrowTime(growTime);
 
                             CadrePartyExample example = new CadrePartyExample();
                             example.createCriteria().andUserIdEqualTo(userId)
-                                    .andTypeEqualTo(CadreConstants.CADRE_PARTY_TYPE_DP);
+                                    .andTypeEqualTo(CadreConstants.CADRE_PARTY_TYPE_DP)
+                                    .andIsFirstEqualTo(true);
 
                             cadrePartyMapper.updateByExampleSelective(record, example);
                         }

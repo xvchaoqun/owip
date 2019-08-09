@@ -13,6 +13,8 @@ public class CadreParty implements Serializable {
 
     private Byte type;
 
+    private Boolean isFirst;
+
     private Integer classId;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
@@ -46,6 +48,14 @@ public class CadreParty implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getIsFirst() {
+        return isFirst;
+    }
+
+    public void setIsFirst(Boolean isFirst) {
+        this.isFirst = isFirst;
     }
 
     public Integer getClassId() {

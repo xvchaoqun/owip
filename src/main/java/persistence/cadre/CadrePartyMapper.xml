@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_first" jdbcType="BIT" property="isFirst" />
     <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type, class_id, grow_time, post, remark
+    id, user_id, type, is_first, class_id, grow_time, post, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadrePartyExample" resultMap="BaseResultMap">
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadreParty">
     insert into cadre_party (id, user_id, type, 
-      class_id, grow_time, post, 
-      remark)
+      is_first, class_id, grow_time, 
+      post, remark)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{classId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, #{post,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{isFirst,jdbcType=BIT}, #{classId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
+      #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreParty">
     insert into cadre_party
@@ -120,6 +121,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="isFirst != null">
+        is_first,
       </if>
       <if test="classId != null">
         class_id,
@@ -143,6 +147,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isFirst != null">
+        #{isFirst,jdbcType=BIT},
       </if>
       <if test="classId != null">
         #{classId,jdbcType=INTEGER},
@@ -176,6 +183,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.isFirst != null">
+        is_first = #{record.isFirst,jdbcType=BIT},
+      </if>
       <if test="record.classId != null">
         class_id = #{record.classId,jdbcType=INTEGER},
       </if>
@@ -198,6 +208,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      is_first = #{record.isFirst,jdbcType=BIT},
       class_id = #{record.classId,jdbcType=INTEGER},
       grow_time = #{record.growTime,jdbcType=DATE},
       post = #{record.post,jdbcType=VARCHAR},
@@ -214,6 +225,9 @@
       </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isFirst != null">
+        is_first = #{isFirst,jdbcType=BIT},
       </if>
       <if test="classId != null">
         class_id = #{classId,jdbcType=INTEGER},
@@ -234,6 +248,7 @@
     update cadre_party
     set user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      is_first = #{isFirst,jdbcType=BIT},
       class_id = #{classId,jdbcType=INTEGER},
       grow_time = #{growTime,jdbcType=DATE},
       post = #{post,jdbcType=VARCHAR},

@@ -649,7 +649,7 @@ public class CmTag {
         return edu.getName();
     }
 
-    // 获取干部的党派
+    // 获取干部的党派（中共党员+第一民主党派）
     public static Map<String, String> getCadreParty(Boolean isOw, Date owGrowTime,
                                                     String defaultOwName,
                                                     Integer dpTypeId,

@@ -5,7 +5,7 @@
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="hideView btn btn-xs btn-success">
-                <i class="ace-icon fa fa-backward"></i>返回</a>
+                <i class="ace-icon fa fa-backward"></i> 返回</a>
         </h4>
         <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
             ${cetProject.name}（${cm:formatDate(cetProject.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProject.endDate, "yyyy-MM-dd")}）

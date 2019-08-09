@@ -25,10 +25,10 @@
         </javaClientGenerator>
 
         <!--二级党校-->
-        <!--<table tableName="ps_info" domainObjectName="ps.PsInfo"
+        <table tableName="ps_info" domainObjectName="ps.PsInfo"
                mapperName="ps.PsInfoMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <!--<table tableName="ps_admin" domainObjectName="ps.PsAdmin"
                mapperName="ps.PsAdminMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -45,10 +45,10 @@
                mapperName="ps.PsMemberMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="ps_party" domainObjectName="ps.PsParty"
+        <!--<table tableName="ps_party" domainObjectName="ps.PsParty"
                mapperName="ps.PsPartyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--<table tableName="ps_task" domainObjectName="ps.PsTask"
                mapperName="ps.PsTaskMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

@@ -3,6 +3,7 @@ package bean;
 import domain.cadre.CadreCompany;
 import domain.cadre.CadreFamily;
 import domain.cadre.CadreFamilyAbroad;
+import domain.cadre.CadreParty;
 
 import java.util.Date;
 import java.util.List;
@@ -36,10 +37,12 @@ public class CadreInfoForm {
     // 出生地
     private String homeplace;
 
-    // 民主党派类别
+    // 民主党派类别（第一民主党派）
     private Integer dpTypeId;
-    // 民主党派加入时间
+    // 民主党派加入时间（第一民主党派）
     private Date dpGrowTime;
+    // 其他民主党派（非第一民主党派，适用多个民主党派的情况）
+    private List<CadreParty> dpParties;
     // 是否中共党员
     private Boolean isOw;
     // 中共党员加入时间
@@ -266,6 +269,14 @@ public class CadreInfoForm {
 
     public void setDpGrowTime(Date dpGrowTime) {
         this.dpGrowTime = dpGrowTime;
+    }
+
+    public List<CadreParty> getDpParties() {
+        return dpParties;
+    }
+
+    public void setDpParties(List<CadreParty> dpParties) {
+        this.dpParties = dpParties;
     }
 
     public Boolean getIsOw() {

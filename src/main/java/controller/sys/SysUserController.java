@@ -11,6 +11,7 @@ import domain.sys.*;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.SysUserListMixin;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -424,6 +425,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 更新角色
     @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUserRole", method = RequestMethod.POST)
     @ResponseBody
@@ -438,6 +440,7 @@ public class SysUserController extends BaseController {
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         int userId = record.getId();
         SysUserView uv = sysUserService.findById(userId);
+        // 不允许非超管更新超管的角色
         if (!superAccount && ShiroHelper.lackRole(RoleConstants.ROLE_SUPER)
                 && CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_SUPER)) {
             return failed("该账号不允许更新。");
@@ -446,6 +449,42 @@ public class SysUserController extends BaseController {
         sysUserService.updateUserRoles(userId, "," + StringUtils.join(rIds, ",") + ",");
 
         logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", record.getUsername(), StringUtils.join(rIds, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 为账号添加/删除一个角色
+    @RequiresPermissions("sysUser:edit")
+    @RequestMapping(value = "/sysUser_updateRole", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUser_updateRole( @RequestParam(required = false, value = "ids[]") Integer[] ids,
+                                      int roleId, Boolean del) {
+
+        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        if(ids==null) return null;
+
+        SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
+        if(BooleanUtils.isTrue(sysRole.getIsSysHold())){
+            return failed("该角色只能由系统自动设定");
+        }
+
+        for (Integer userId : ids) {
+
+            SysUserView uv = sysUserService.findById(userId);
+            // 不允许非超管更新超管的角色
+            if (!superAccount && ShiroHelper.lackRole(RoleConstants.ROLE_SUPER)
+                    && CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_SUPER)) {
+                return failed("账号{0}（{1}）不允许更新。", uv.getRealname(), uv.getCode());
+            }
+            if(BooleanUtils.isTrue(del)) {
+                sysUserService.delRole(userId, sysRole.getCode());
+            }else{
+                sysUserService.addRole(userId, sysRole.getCode());
+            }
+
+            logger.info(log(LogConstants.LOG_ADMIN, "为用户{0}{1}角色：{2}",
+                uv.getUsername(), BooleanUtils.isTrue(del)?"删除":"添加", sysRole.getName()));
+        }
+
         return success(FormUtils.SUCCESS);
     }
 

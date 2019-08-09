@@ -70,6 +70,8 @@ public class CadreAdformService extends BaseMapper {
     @Autowired
     protected CadreService cadreService;
     @Autowired
+    protected CadrePartyService cadrePartyService;
+    @Autowired
     protected CadreEvaService cadreEvaService;
     @Autowired
     protected CadreInfoService cadreInfoService;
@@ -231,61 +233,15 @@ public class CadreAdformService extends BaseMapper {
 
         bean.setDpTypeId(cadre.getDpTypeId());
         bean.setDpGrowTime(cadre.getDpGrowTime());
+        bean.setDpParties(cadrePartyService.getDpParties(cadre.getUserId()));
+
         bean.setIsOw(cadre.getIsOw());
         bean.setOwGrowTime(cadre.getOwGrowTime());
 
-        /*// 最高学历
-        CadreEdu highEdu = cadreEduService.getHighEdu(cadreId);
-        bean.setDegree(highEdu == null ? null : metaTypeService.getName(highEdu.getEduId()));
-        bean.setSchoolDepMajor(highEdu == null ? null :
-                StringUtils.trimToEmpty(highEdu.getSchool())+
-                        StringUtils.trimToEmpty(highEdu.getDep())
-                        +StringUtils.trimToEmpty(highEdu.getMajor()));*/
         String _fulltimeEdu = ""; // 全日制最高学历
         String _fulltimeDegree = ""; // 全日制最高学位
-        String _fulltimeMajor = "";  // 全日制毕业院校及专业
         String _onjobEdu = ""; // 在职最高学历
         String _onjobDegree = ""; // 在职最高学位
-        String _onjobMajor = "";  // 在职毕业院校及专业
-        /*CadreEdu[] cadreEdus = cadre.getCadreEdus();
-        CadreEdu fulltimeEdu = cadreEdus[0];
-        CadreEdu onjobEdu = cadreEdus[1];
-
-        if (fulltimeEdu != null && fulltimeEdu.getIsGraduated()) {
-            if (jxxx != null && fulltimeEdu.getId().intValue() == jxxx.getId()) {
-                // 进修学习不能进入表格
-            } else {
-                *//*Integer eduId = fulltimeEdu.getEduId();
-                if(eduId!=null) {
-                    _fulltimeEdu = CmTag.getEduName(eduId);
-                }*//*
-
-                bean.setSchool(StringUtils.trimToEmpty(fulltimeEdu.getSchool()));
-                bean.setDep(StringUtils.trimToEmpty(fulltimeEdu.getDep()));
-                bean.setDepMajor(StringUtils.trimToEmpty(CadreUtils.major(fulltimeEdu.getMajor())));
-                _fulltimeMajor = bean.getSchool() + StringUtils.trimToEmpty(fulltimeEdu.getDep()) + bean.getDepMajor();
-
-                //_fulltimeDegree = fulltimeEdu.getDegree(); // 学位
-            }
-        }
-        if (onjobEdu != null && onjobEdu.getIsGraduated()) {
-            if (jxxx != null && onjobEdu.getId().intValue() == jxxx.getId()) {
-                // 进修学习不能进入表格
-            } else {
-                *//*Integer eduId = onjobEdu.getEduId();
-                if(eduId!=null) {
-                    _onjobEdu = CmTag.getEduName(eduId);
-                }*//*
-
-                bean.setInSchool(StringUtils.trimToEmpty(onjobEdu.getSchool()));
-                bean.setInDep(StringUtils.trimToEmpty(onjobEdu.getDep()));
-                bean.setInDepMajor(StringUtils.trimToEmpty(CadreUtils.major(onjobEdu.getMajor())));
-
-                _onjobMajor = bean.getInSchool() + StringUtils.trimToEmpty(onjobEdu.getDep()) + bean.getInDepMajor();
-
-                //_onjobDegree = onjobEdu.getDegree();
-            }
-        }*/
 
         MetaType fullltimeType = CmTag.getMetaTypeByCode("mt_fulltime");
         MetaType onjobType = CmTag.getMetaTypeByCode("mt_onjob");
@@ -482,7 +438,7 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("isOw", bean.getIsOw());
         dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), DateUtils.YYYYMM));
         if (bean.getDpTypeId() != null && bean.getDpTypeId() > 0) {
-            // 民主党派
+            // 第一民主党派
             MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
             String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
             dataMap.put("dpPartyName", dpPartyName);
@@ -612,7 +568,7 @@ public class CadreAdformService extends BaseMapper {
         }
 
         String _blankEndDate = "";
-        String[] textArray = text.trim().split(" ");
+        String[] textArray = text.trim().split("\\s", 2);
         if (textArray[0].trim().endsWith("—")) {
             _blankEndDate = "       "; // 简历中结束时间为空，留7个空格
         }

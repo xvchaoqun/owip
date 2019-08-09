@@ -58,9 +58,11 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreTrain!=null}">确定</c:if><c:if test="${cadreTrain==null}">添加</c:if>"/>
+    <button type="button" id="submitBtn" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+        ${cadreTrain!=null?'确定':'添加'}
+    </button>
 </div>
-
 <script>
 
     <shiro:hasPermission name="cadre:updateWithoutRequired">
@@ -70,8 +72,10 @@ pageEncoding="UTF-8"%>
 
     $.register.date($('.input-group.date'));
 
-    $("#modal form").validate({
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -88,6 +92,7 @@ pageEncoding="UTF-8"%>
                         </c:if>
                         </c:if>
                     }
+                    $btn.button('reset');
                 }
             });
         }
