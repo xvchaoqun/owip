@@ -27,7 +27,7 @@ public class CgMemberService extends CgBaseMapper {
     @Transactional
     public void insertSelective(CgMember record){
 
-        Assert.isTrue(!idDuplicate(null, record.getTeamId(), record.getUserId(), record.getIsCurrent()), "duplicate");
+        //Assert.isTrue(!idDuplicate(null, record.getTeamId(), record.getUserId(), record.getIsCurrent()), "duplicate");
         record.setSortOrder(getNextSortOrder("cg_member", null));
         cgMemberMapper.insertSelective(record);
     }
@@ -51,7 +51,7 @@ public class CgMemberService extends CgBaseMapper {
     @Transactional
     public void updateByPrimaryKeySelective(CgMember record){
 
-        Assert.isTrue(!idDuplicate(record.getId(), record.getTeamId(), record.getUserId(), record.getIsCurrent()), "duplicate");
+        //Assert.isTrue(!idDuplicate(record.getId(), record.getTeamId(), record.getUserId(), record.getIsCurrent()), "duplicate");
         cgMemberMapper.updateByPrimaryKeySelective(record);
     }
 

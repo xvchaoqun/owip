@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.teamId ||not empty param.type ||not empty param.confirmDate ||not empty param.content ||not empty param.filePath || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.type ||not empty param.confirmDate ||not empty param.content ||not empty param.filePath || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cgRule:edit">
                     <button class="popupBtn btn btn-info btn-sm"
@@ -85,15 +85,16 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid table-striped"></table>
-            <div id="jqGridPager"></div>
+            <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+            <div id="jqGridPager2"></div>
         </div>
         <div id="body-content-view"></div>
     </div>
 </div>
 <script>
-    $("#jqGrid").jqGrid({
+    $("#jqGrid2").jqGrid({
         rownumbers:true,
+        pager:"jqGridPager2",
         url: '${ctx}/cg/cgRule_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '所属委员会或领导小组',name: 'teamId'},
@@ -108,8 +109,8 @@ pageEncoding="UTF-8" %>
                 { label: '备注',name: 'remark'}
         ]
     }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
-    $.initNavGrid("jqGrid", "jqGridPager");
+    $(window).triggerHandler('resize.jqGrid2');
+    $.initNavGrid("jqGrid2", "jqGridPager2");
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();

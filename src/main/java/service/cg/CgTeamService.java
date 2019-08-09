@@ -13,7 +13,7 @@ public class CgTeamService extends CgBaseMapper {
     @Transactional
     public void insertSelective(CgTeam record){
 
-        record.setSortOrder(getNextSortOrder("cg_team", null));
+        record.setSortOrder(getNextSortOrder("cg_team", "is_current="+record.getIsCurrent()));
         cgTeamMapper.insertSelective(record);
     }
 
@@ -47,5 +47,18 @@ public class CgTeamService extends CgBaseMapper {
     public void changeOrder(int id, int addNum) {
 
         changeOrder("cg_team", null, ORDER_BY_DESC, id, addNum);
+    }
+
+    @Transactional
+    public void updateTeamState(Integer[] ids){
+
+        for (Integer id : ids){
+
+            CgTeam record = new CgTeam();
+            record.setId(id);
+            record.setIsCurrent(false);
+            record.setSortOrder(getNextSortOrder("cg_team", "is_current="+record.getIsCurrent()));
+            cgTeamMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

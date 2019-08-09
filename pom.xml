@@ -1,0 +1,1160 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>jixiantech</groupId>
+    <artifactId>owip</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>owip Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+    <properties>
+        <!--maven方式跳过maven test, 等同$ mvn package -Dmaven.test.skip=true-->
+        <!--<maven.test.skip>true</maven.test.skip>-->
+        <!--surefire plugin方式跳过maven test， 等同$ mvn package -DskipTests-->
+        <skipTests>true</skipTests>
+        <!--<springsecurity.version>3.1.0.RELEASE</springsecurity.version>-->
+        <spring.version>4.3.23.RELEASE</spring.version>
+        <shiro.version>1.4.0</shiro.version>
+        <lucene.version>7.3.0</lucene.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <libdir>D:/project/owip</libdir>
+        <generator.mybatis.modal>ps</generator.mybatis.modal>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>common</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>jixiantech</groupId>
+            <artifactId>api.bnu</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tuckey</groupId>
+            <artifactId>urlrewritefilter</artifactId>
+            <version>4.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-all</artifactId>
+            <version>1.2.6</version>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/xfire-all-1.2.6.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/jdom-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.1.0</version>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/ojdbc6-11.2.0.1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.1.3.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-quartz</artifactId>
+            <version>${shiro.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.opensymphony.quartz</groupId>
+                    <artifactId>quartz</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
+         <!-- cmyk格式图片转换 -->
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-jpeg</artifactId>
+            <version>3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-tiff</artifactId>
+            <version>3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- <dependency>
+            <groupId>com.artofsolving</groupId>
+            <artifactId>jodconverter</artifactId>
+            <version>2.2.1</version>
+        </dependency> -->
+        <dependency>
+            <groupId>org.openoffice</groupId>
+            <artifactId>ridl</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openoffice</groupId>
+            <artifactId>unoil</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openoffice</groupId>
+            <artifactId>juh</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.artofsolving</groupId>
+            <artifactId>jodconverter</artifactId>
+            <version>3.0-beta-4</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/jodconverter-core-3.0-beta-4.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.highcharts.export</groupId>
+            <artifactId>highcharts-export-convert</artifactId>
+            <version>2.1.0</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/highcharts-export-convert-2.1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>3.16</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>2.10.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.28</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- <dependency>
+          <groupId>org.mybatis.generator</groupId>
+          <artifactId>mybatis-generator-maven-plugin</artifactId>
+          <version>1.3.2</version>
+          <scope>test</scope>
+        </dependency> -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--<dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-web</artifactId>
+          <version>${springsecurity.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-config</artifactId>
+          <version>${springsecurity.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-taglibs</artifactId>
+          <version>${springsecurity.version}</version>
+        </dependency>-->
+        <!-- <dependency>
+           <groupId>com.googlecode.ehcache-spring-annotations</groupId>
+           <artifactId>ehcache-spring-annotations</artifactId>
+           <version>1.1.2</version>
+       </dependency> -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+        <!--<dependency>
+          <groupId>org.mybatis</groupId>
+          <artifactId>mybatis-typehandlers-jsr310</artifactId>
+          <version>1.0.2</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.11</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.15</version>
+        </dependency>
+        <dependency>
+            <groupId>oro</groupId>
+            <artifactId>oro</artifactId>
+            <version>2.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+            <version>0.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.26</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.26</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mrbean</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+        <!--<dependency>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+          <artifactId>jackson-datatype-jsr310</artifactId>
+          <version>2.8.8</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-api</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-impl</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-transport-local</artifactId>
+            <version>1.6.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-transport-http</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.schema</groupId>
+            <artifactId>XmlSchema</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.neethi</groupId>
+            <artifactId>neethi</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+
+       <!-- <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-highlighter</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-memory</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-smartcn</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>-->
+
+        <!-- iReport JasperReports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>5.6.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.lowagie</groupId>
+                    <artifactId>itext</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.7</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcmail-jdk14</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcprov-jdk14</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bctsp-jdk14</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcprov-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcmail-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itextasian</artifactId>
+            <version>2.1.7.js2</version>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/iTextAsian.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>simfang</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/simfang.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.jasig.cas.client</groupId>
+            <artifactId>cas-client-core</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>neusoft</groupId>
+            <artifactId>cas-client</artifactId>
+            <version>4.0.0</version>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/neusoft-cas-client-4.0.0.jar</systemPath>
+        </dependency>
+
+        <!-- highchart export -->
+        <dependency>
+            <groupId>batik-all-1.7</groupId>
+            <artifactId>batik-all-1.7</artifactId>
+            <version>1.7</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/batik-all-1.7.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>pdf-transcoder</groupId>
+            <artifactId>pdf-transcoder</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/pdf-transcoder.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis-ext-1.3.04</groupId>
+            <artifactId>xml-apis-ext-1.3.04</artifactId>
+            <version>1.3.04</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${libdir}/lib/xml-apis-ext-1.3.04.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.docx4j</groupId>
+            <artifactId>docx4j-ImportXHTML</artifactId>
+            <version>6.1.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.15</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom2</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.11.3</version>
+        </dependency>
+        <!-- Quartz依赖 -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.icepdf.os</groupId>
+            <artifactId>icepdf-viewer</artifactId>
+            <version>6.2.2</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.itfsw</groupId>
+            <artifactId>mybatis-generator-plugin</artifactId>
+            <version>1.2.12</version>
+        </dependency>-->
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <excludes>
+                        <!--<exclude>**/*.xml</exclude>-->
+                        <exclude>*.xml</exclude>
+                        <!--exclude class root path xml -->
+                        <exclude>*.properties</exclude>
+                        <exclude>*.xlsx</exclude>
+                        <exclude>*.dat</exclude>
+                        <exclude>xlsx/**</exclude>
+                        <exclude>ftl/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.7</version>
+                <executions>
+                    <!--<execution>
+                        <id>Generate MyBatis Artifacts</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>-->
+                </executions>
+                <configuration>
+                    <configurationFile>src/test/java/generator/mybatis/generator-${generator.mybatis.modal}.xml</configurationFile>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                    <!--<jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver>
+                    <jdbcURL>jdbc:mysql://localhost:3306/db_owip?useUnicode=true&amp;characterEncoding=UTF8</jdbcURL>
+                    <jdbcUserId>root</jdbcUserId>
+                    <jdbcPassword>123</jdbcPassword>-->
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.0.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.3.7</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.itfsw</groupId>
+                        <artifactId>mybatis-generator-plugin</artifactId>
+                        <version>1.2.12</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.mybatis</groupId>
+                        <artifactId>mybatis</artifactId>
+                        <version>3.4.4</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <fork>true</fork>
+
+                    <meminitial>512m</meminitial>
+                     <maxmem>1024m</maxmem>
+                    <!--<verbose>true</verbose>-->
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!--<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>generator.code.TplParser</mainClass>
+                            <arguments>
+                                <argument>arg0</argument>
+                                <argument>arg1</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+            <plugin>
+                <!-- YUI Compressor Maven压缩插件 -->
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <version>1.5.1</version>
+                <executions>
+                    <execution>
+                        <!-- <goals>
+                           <goal>compress</goal>
+                         </goals>-->
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- 读取js,css文件采用UTF-8编码 -->
+                    <encoding>UTF-8</encoding>
+                    <!-- 不显示js可能的错误 -->
+                    <jswarn>false</jswarn>
+                    <!-- 若存在已压缩的文件，会先对比源文件是否有改动。有改动便压缩，无改动就不压缩 -->
+                    <force>false</force>
+                    <!-- 在指定的列号后插入新行 -->
+                    <linebreakpos>-1</linebreakpos>
+                    <!-- 压缩之前先执行聚合文件操作 -->
+                    <preProcessAggregates>true</preProcessAggregates>
+                    <!-- 压缩后保存文件后缀 -->
+                    <!--<suffix>.min</suffix>-->
+                    <nosuffix>true</nosuffix>
+                    <!-- 源目录，即需压缩的根目录 -->
+                    <sourceDirectory>${basedir}/src/main/webapp</sourceDirectory>
+                    <!-- 压缩js和css文件 -->
+                    <includes>
+                        <include>js/extend.js</include>
+                        <include>js/ui.js</include>
+                        <include>js/main.js</include>
+                        <include>css/main.css</include>
+                        <include>css/extend.css</include>
+                        <include>css/a.min.css</include>
+                        <include>css/ie9.css</include>
+                        <include>js/extra.js</include>
+                        <include>js/jquery.stickyheader.js</include>
+                        <include>mobile/js/main.js</include>
+                        <include>mobile/js/extend.js</include>
+                        <include>mobile/css/main.css</include>
+                        <include>mobile/css/extend.css</include>
+                    </includes>
+                    <!-- 以下目录和文件不会被压缩 -->
+                    <!--<excludes>
+                        <exclude>**/*.min.js</exclude>
+                        <exclude>**/*.min.css</exclude>
+                    </excludes>-->
+                    <!-- 压缩后输出文件目录 -->
+                    <outputDirectory>${basedir}/src/main/webapp</outputDirectory>
+
+                    <!-- 聚合文件 -->
+                    <aggregations>
+
+                        <!--   <aggregation>
+                             &lt;!&ndash; 合并每一个文件后插入一新行 &ndash;&gt;
+                             <insertNewLine>true</insertNewLine>
+                             &lt;!&ndash; 需合并文件的根文件夹 &ndash;&gt;
+                             <inputDir>${basedir}/src/main/webapp</inputDir>
+                             &lt;!&ndash; 最终合并的输出文件 &ndash;&gt;
+                             <output>${basedir}/src/main/webapp/js/jquery.stickyheader.js</output>
+                             &lt;!&ndash; 把以下js文件合并成一个js文件，是按顺序合并的 &ndash;&gt;
+                             <includes>
+                               <include>extend/js/jquery.stickyheader.js</include>
+                             </includes>
+                           </aggregation>-->
+
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/js/main.js</output>
+                            <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
+                            <includes>
+                                <include>assets/js/jquery.js</include>
+                                <include>assets/js/bootstrap.js</include>
+                                <include>assets/js/jquery-ui.custom.js</include>
+                                <include>extend/js/jqGrid/jquery.jqGrid.js</include>
+                                <include>extend/js/jqGrid/i18n/grid.locale-cn.js</include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/js/extend.js</output>
+                            <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
+                            <includes>
+                                <include>extend/js/nprogress.js</include>
+                                <include>extend/js/toastr.js</include>
+                                <include>extend/js/jquery.qtip.js</include>
+                                <include>extend/js/jquery.qtip.extend.js</include>
+                                <include>extend/js/jquery.form.js</include>
+                                <include>extend/js/jquery.dynatree.min.js</include>
+                                <include>extend/js/jquery.validate.min.js</include>
+                                <include>extend/js/jquery.fileDownload.js</include>
+                                <include>extend/js/additional-methods.min.js</include>
+                                <!--<include>extend/js/jquery.validate.extend.js</include>-->
+                                <include>extend/js/jquery.showLoading.js</include>
+                                <include>extend/js/underscore.js</include>
+                                <!--<include>extend/js/custom.js</include>-->
+                                <include>extend/js/bootbox.min.js</include>
+                                <include>extend/js/select2.full.js</include>
+                                <include>extend/js/select2-zh-CN.js</include>
+                                <include>assets/js/date-time/bootstrap-datepicker.js</include>
+                                <include>assets/js/date-time/bootstrap-datepicker.zh-CN.min.js</include>
+                                <include>extend/js/bootstrap-datetimepicker.js</include>
+                                <include>extend/js/bootstrap-datetimepicker.zh-CN.js</include>
+                                <include>extend/js/bootstrap-switch.min.js</include>
+                                <include>assets/js/bootstrap-multiselect.js</include>
+                                <include>assets/js/jquery.inputlimiter.1.3.1.js</include>
+                                <include>extend/js/placeholders.jquery.js</include>
+                                <include>extend/js/jquery.base64.js</include>
+                                <include>extend/js/jquery.ba-throttle-debounce.js</include>
+                                <include>extend/js/jquery.stickyheader.js</include>
+                                <include>extend/js/lazyload.js</include>
+                                <include>extend/js/fancybox/source/jquery.fancybox.js</include>
+                                <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js</include>
+                                <include>extend/js/jquery.webui-popover.min.js</include>
+                                <!--在FF下与sidebar scroll冲突-->
+                                <!-- <include>extend/js/jquery.mousewheel.pack.js</include>-->
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/js/ui.js</output>
+                            <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
+                            <includes>
+                                <include>assets/js/ace/elements.fileinput.js</include>
+                                <include>assets/js/ace/elements.wysiwyg.js</include>
+                                <include>assets/js/ace/elements.spinner.js</include>
+                                <include>assets/js/ace/elements.treeview.js</include>
+                                <include>assets/js/ace/elements.wizard.js</include>
+                                <include>assets/js/ace/elements.aside.js</include>
+                                <include>assets/js/ace/ace.js</include>
+                                <include>assets/js/ace/ace.sidebar.js</include>
+                                <include>assets/js/ace/ace.sidebar-scroll-1.js</include>
+                                <include>assets/js/ace/ace.submenu-hover.js</include>
+                                <include>assets/js/ace/ace.widget-box.js</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/css/main.css</output>
+                            <includes>
+                                <include>assets/css/bootstrap.css</include>
+                                <include>extend/css/bootstrap-theme-3.3.5.css</include>
+                                <include>assets/css/font-awesome.css</include>
+                                <include>extend/css/awesome-bootstrap-checkbox.css</include>
+                                <include>assets/css/bootstrap-datepicker3.css</include>
+                                <include>extend/css/bootstrap-datetimepicker.css</include>
+                                <!--<include>extend/css/ui.jqgrid-bootstrap.css</include>-->
+                                <!--<include>assets/css/ace-nobtn.css</include>-->
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/css/extend.css</output>
+                            <includes>
+                                <include>extend/css/nprogress.css</include>
+                                <include>extend/css/bootstrap-switch.min.css</include>
+                                <include>extend/css/ui.dynatree.css</include>
+                                <include>extend/css/showLoading.css</include>
+                                <include>extend/css/toastr.css</include>
+                                <include>extend/css/select2.css</include>
+                                <include>extend/css/jquery.qtip.css</include>
+                                <include>extend/css/component.css</include>
+                                <include>extend/css/navbar.css</include>
+                                <include>extend/js/fancybox/source/jquery.fancybox.css</include>
+                                <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css</include>
+                                <include>extend/css/jquery.webui-popover.min.css</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/css/a.min.css</output>
+                            <includes>
+                                <include>extend/css/ui.jqgrid-bootstrap.css</include>
+                                <include>assets/css/ace-nobtn.css</include>
+                                <include>assets/css/bootstrap-multiselect.css</include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/css/ie9.css</output>
+                            <includes>
+                                <include>assets/css/ace-part2.css</include>
+                                <include>assets/css/ace-ie.css</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/js/extra.js</output>
+                            <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
+                            <includes>
+                                <include>assets/js/ace-extra.js</include>
+                            </includes>
+                        </aggregation>
+
+                        <!--mobile-->
+                        <aggregation>
+                          <!-- 合并每一个文件后插入一新行 -->
+                          <insertNewLine>true</insertNewLine>
+                          <!-- 需合并文件的根文件夹 -->
+                          <inputDir>${basedir}/src/main/webapp</inputDir>
+                          <!-- 最终合并的输出文件 -->
+                          <output>${basedir}/src/main/webapp/mobile/css/main.css</output>
+                          <includes>
+                            <include>assets/css/bootstrap.css</include>
+                            <include>assets/css/font-awesome.css</include>
+                            <include>assets/css/ace-fonts.css</include>
+                            <include>assets/css/ace.css</include>
+                            <include>assets/css/bootstrap-datepicker3.css</include>
+                          </includes>
+                        </aggregation>
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/mobile/css/extend.css</output>
+                            <includes>
+                                <include>extend/css/bootstrap-switch.min.css</include>
+                                <include>extend/css/select2.css</include>
+                                <include>extend/css/jquery.qtip.css</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                          <!-- 合并每一个文件后插入一新行 -->
+                          <insertNewLine>true</insertNewLine>
+                          <!-- 需合并文件的根文件夹 -->
+                          <inputDir>${basedir}/src/main/webapp</inputDir>
+                          <!-- 最终合并的输出文件 -->
+                          <output>${basedir}/src/main/webapp/mobile/js/main.js</output>
+                          <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
+                          <includes>
+                            <include>assets/js/jquery.js</include>
+                            <include>assets/js/jquery-ui.custom.js</include>
+                            <include>assets/js/bootstrap.js</include>
+                            <include>assets/js/ace/ace.js</include>
+                            <include>assets/js/ace/ace.sidebar.js</include>
+                          </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <!-- 合并每一个文件后插入一新行 -->
+                            <insertNewLine>true</insertNewLine>
+                            <!-- 需合并文件的根文件夹 -->
+                            <inputDir>${basedir}/src/main/webapp</inputDir>
+                            <!-- 最终合并的输出文件 -->
+                            <output>${basedir}/src/main/webapp/mobile/js/extend.js</output>
+                            <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
+                            <includes>
+                                <include>extend/js/jquery.qtip.js</include>
+                                <include>extend/js/jquery.qtip.extend.js</include>
+                                <include>extend/js/jquery.form.js</include>
+                                <include>extend/js/jquery.validate.min.js</include>
+                                <include>extend/js/jquery.showLoading.min.js</include>
+                                <include>extend/js/bootbox.min.js</include>
+                                <include>extend/js/underscore.js</include>
+                                <!--<include>extend/js/custom.js</include>-->
+                                <include>extend/js/select2.full.js</include>
+                                <include>extend/js/select2-zh-CN.js</include>
+                                <include>assets/js/date-time/bootstrap-datepicker.js</include>
+                                <include>assets/js/date-time/bootstrap-datepicker.zh-CN.min.js</include>
+                                <include>extend/js/bootstrap-switch.min.js</include>
+                                <include>assets/js/jquery.inputlimiter.1.3.1.js</include>
+                            </includes>
+                        </aggregation>
+                    </aggregations>
+                </configuration>
+            </plugin>
+
+            <!-- ProGuard混淆插件-->
+            <!--<plugin>
+              <groupId>com.github.wvengen</groupId>
+              <artifactId>proguard-maven-plugin</artifactId>
+              <version>2.0.11</version>
+              <executions>
+                <execution>
+                  &lt;!&ndash; 混淆时刻，这里是打包的时候混淆&ndash;&gt;
+                  <phase>package</phase>
+                  <goals>
+                    &lt;!&ndash; 使用插件的什么功能，当然是混淆&ndash;&gt;
+                    <goal>proguard</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                &lt;!&ndash; 是否将生成的PG文件安装部署&ndash;&gt;
+                <attach>true</attach>
+                &lt;!&ndash; 是否混淆&ndash;&gt;
+                <obfuscate>true</obfuscate>
+                &lt;!&ndash; 指定生成文件分类 &ndash;&gt;
+                <attachArtifactClassifier>pg</attachArtifactClassifier>
+                <options>
+                  &lt;!&ndash; JDK目标版本1.8&ndash;&gt;
+                  <option>-target 1.8</option>
+                  &lt;!&ndash; 不做收缩（删除注释、未被引用代码）&ndash;&gt;
+                  <option>-dontshrink</option>
+                  &lt;!&ndash; 不做优化（变更代码实现逻辑）&ndash;&gt;
+                  <option>-dontoptimize</option>
+                  &lt;!&ndash; 不路过非公用类文件及成员&ndash;&gt;
+                  <option>-dontskipnonpubliclibraryclasses</option>
+                  <option>-dontskipnonpubliclibraryclassmembers</option>
+                  &lt;!&ndash; 优化时允许访问并修改有修饰符的类和类的成员 &ndash;&gt;
+                  <option>-allowaccessmodification</option>
+                  &lt;!&ndash; 确定统一的混淆类的成员名称来增加混淆,防止冲突&ndash;&gt;
+                  <option>-useuniqueclassmembernames</option>
+                  &lt;!&ndash; 不混淆所有包名，Spring配置中有大量固定写法的包名&ndash;&gt;
+                  <option>-keeppackagenames</option>
+                  &lt;!&ndash; 不混淆所有特殊的类&ndash;&gt;
+                  <option>-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,LocalVariable*Table,*Annotation*,Synthetic,EnclosingMethod</option>
+                  &lt;!&ndash; 不混淆所有的set/get方法，毕竟项目中使用的部分第三方框架（例如Shiro）会用到大量的set/get映射&ndash;&gt;
+                  <option>-keepclassmembers public class * {void set*(***);*** get*();}</option>
+
+                </options>
+                <outjar>${project.build.finalName}-pg.jar</outjar>
+                &lt;!&ndash; 添加依赖，这里你可以按你的需要修改，这里测试只需要一个JRE的Runtime包就行了 &ndash;&gt;
+                <libs>
+                  <lib>${java.home}/lib/rt.jar</lib>
+                  <lib>${java.home}/lib/jce.jar</lib>
+                  <lib>${java.home}/lib/security/local_policy.jar</lib>
+                  <lib>${java.home}/lib/security/US_export_policy.jar</lib>
+                  <lib>${java.home}/lib/ext/sunjce_provider.jar</lib>
+                </libs>
+                &lt;!&ndash; 加载文件的过滤器，就是你的工程目录了&ndash;&gt;
+                <inFilter>**</inFilter>
+                &lt;!&ndash; 对什么东西进行加载，这里仅有classes成功，毕竟你也不可能对配置文件及JSP混淆吧&ndash;&gt;
+                <injar>classes</injar>
+                &lt;!&ndash; 输出目录&ndash;&gt;
+                <outputDirectory>${project.build.directory}</outputDirectory>
+              </configuration>
+            </plugin>-->
+        </plugins>
+    </build>
+</project>

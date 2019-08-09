@@ -3,6 +3,7 @@ package controller.cg;
 import domain.cg.CgMember;
 import domain.cg.CgMemberExample;
 import domain.cg.CgMemberExample.Criteria;
+import domain.unit.UnitPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -10,12 +11,15 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.unit.UnitPostMapper;
+import service.sys.SysUserService;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -31,12 +35,16 @@ import java.util.*;
 @Controller
 @RequestMapping("/cg")
 public class CgMemberController extends CgBaseController {
+    @Autowired
+    private UnitPostMapper unitPostMapper;
+    @Autowired
+    private SysUserService sysUserService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cgMember:list")
     @RequestMapping("/cgMember")
-    public String cgMember() {
+    public String cgMember(Integer teamId) {
 
         return "cg/cgMember/cgMember_page";
     }
@@ -113,14 +121,15 @@ public class CgMemberController extends CgBaseController {
     @RequiresPermissions("cgMember:edit")
     @RequestMapping(value = "/cgMember_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cgMember_au(CgMember record, HttpServletRequest request) {
+    public Map do_cgMember_au(@RequestParam(value = "userIdsList[]", required = false) Integer[] userIds,
+                              CgMember record,HttpServletRequest request) {
 
         Integer id = record.getId();
 
         record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));
-        if (cgMemberService.idDuplicate(id, record.getTeamId(), record.getUserId(), record.getIsCurrent())) {
+        /*if (cgMemberService.idDuplicate(id, record.getTeamId(), record.getUserId(), record.getIsCurrent())) {
             return failed("添加重复");
-        }
+        }*/
         if (id == null) {
             
             cgMemberService.insertSelective(record);
@@ -140,6 +149,9 @@ public class CgMemberController extends CgBaseController {
 
         if (id != null) {
             CgMember cgMember = cgMemberMapper.selectByPrimaryKey(id);
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(cgMember.getUnitPostId());
+            modelMap.put("sysUser",sysUserService.findById(cgMember.getUserId()));
+            modelMap.put("unitPost",unitPost);
             modelMap.put("cgMember", cgMember);
         }
         return "cg/cgMember/cgMember_au";

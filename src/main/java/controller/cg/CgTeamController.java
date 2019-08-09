@@ -3,6 +3,7 @@ package controller.cg;
 import domain.cg.CgTeam;
 import domain.cg.CgTeamExample;
 import domain.cg.CgTeamExample.Criteria;
+import domain.ps.PsInfo;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,22 +34,34 @@ public class CgTeamController extends CgBaseController {
 
     @RequiresPermissions("cgTeam:list")
     @RequestMapping("/cgTeam")
-    public String cgTeam() {
+    public String cgTeam(@RequestParam(required = false, defaultValue = "1") boolean isCurrent,
+                         ModelMap modelMap) {
 
+        modelMap.put("isCurrent",isCurrent);
         return "cg/cgTeam/cgTeam_page";
+    }
+
+    @RequiresPermissions("cgTeam:view")
+    @RequestMapping("/cgTeam_view")
+    public String cgTeam_view(int id, ModelMap modelMap) {
+
+        CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(id);
+        modelMap.put("cgTeam", cgTeam);
+
+        return "cg/cgTeam/cgTeam_view";
     }
 
     @RequiresPermissions("cgTeam:list")
     @RequestMapping("/cgTeam_data")
     @ResponseBody
     public void cgTeam_data(HttpServletResponse response,
-                                    String name,
-                                    Byte type,
-                                    Integer category,
-                                
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                            String name,
+                            Byte type,
+                            Integer category,
+                            @RequestParam(required = false, defaultValue = "1") Boolean isCurrent,
+                            @RequestParam(required = false, defaultValue = "0") int export,
+                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                            Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -71,7 +84,9 @@ public class CgTeamController extends CgBaseController {
         if (category!=null) {
             criteria.andCategoryEqualTo(category);
         }
-
+        if (isCurrent!=null){
+            criteria.andIsCurrentEqualTo(isCurrent);
+        }
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -107,6 +122,7 @@ public class CgTeamController extends CgBaseController {
         Integer id = record.getId();
 
         record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));
+        record.setNeedAdjust(false);
 
         if (id == null) {
             
@@ -125,10 +141,13 @@ public class CgTeamController extends CgBaseController {
     @RequestMapping("/cgTeam_au")
     public String cgTeam_au(Integer id, ModelMap modelMap) {
 
+        boolean isCurrent = true;
         if (id != null) {
             CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(id);
+            isCurrent = cgTeam.getIsCurrent();
             modelMap.put("cgTeam", cgTeam);
         }
+        modelMap.put("isCurrent",isCurrent);
         return "cg/cgTeam/cgTeam_au";
     }
 
@@ -233,5 +252,18 @@ public class CgTeamController extends CgBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequiresPermissions("cgTeam:plan")
+    @RequestMapping(value = "/cgTeam_plan", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cgTeam_plan(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        if (null != ids && ids.length>0){
+            cgTeamService.updateTeamState(ids);
+            logger.info(addLog(LogConstants.LOG_CG, "批量撤销委员会和领导小组：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 }

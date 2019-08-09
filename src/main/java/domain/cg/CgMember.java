@@ -1,9 +1,30 @@
 package domain.cg;
 
+import domain.sys.SysUserView;
+import domain.unit.UnitPost;
+import persistence.cg.CgTeamMapper;
+import persistence.ps.common.IPsMapper;
+import persistence.unit.UnitPostMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CgMember implements Serializable {
+
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
+
+    public UnitPost getUnitPost(){
+        return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(unitPostId);
+    }
+
+    public CgTeam getcgTeam(){
+
+        CgTeamMapper cgTeamMapper = CmTag.getBean(CgTeamMapper.class);
+        return cgTeamMapper.selectByPrimaryKey(teamId);
+    }
     private Integer id;
 
     private Integer teamId;

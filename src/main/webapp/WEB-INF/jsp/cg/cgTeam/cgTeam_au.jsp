@@ -8,43 +8,48 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cg/cgTeam_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cgTeam.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 名称</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${cgTeam.name}">
-				</div>
+		<input type="hidden" name="isCurrent" value="${isCurrent}">
+		<div class="form-group">
+			<label class="col-xs-4 control-label"><span class="star">*</span> 委员会和领导小组名称</label>
+			<div class="col-xs-6">
+				<input required class="form-control" type="text" name="name" value="${cgTeam.name}">
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 类型</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="type" value="${cgTeam.type}">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label"><span class="star">*</span> 类型</label>
+			<div class="col-xs-6">
+				<select required id="typeSelect" name="type" data-placeholder="请选择管理员类型"
+						data-rel="select2" data-width="270">
+					<option></option>
+					<c:forEach items="<%=CgConstants.CG_TEAM_TYPE_MAP%>" var="cgTeamType">
+						<option value="${cgTeamType.key}">${cgTeamType.value}</option>
+					</c:forEach>
+				</select>
+				<script>
+					$("#typeSelect").val('${cgTeam.type}');
+				</script>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 类别</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="category" value="${cgTeam.category}">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label"><span class="star">*</span> 类别</label>
+			<div class="col-xs-6">
+				<select class="col-xs-6" required name="category" data-width="270"
+						data-rel="select2" data-placeholder="请选择">
+					<option></option>
+					<c:import url="/metaTypes?__code=mc_cg_type"/>
+				</select>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 是否当前委员会或领导小组</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="isCurrent" value="${cgTeam.isCurrent}">
-				</div>
+			<script>
+				$("#modalForm select[name=category]").val('${cgTeam.category}');
+			</script>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label"> 备注</label>
+			<div class="col-xs-6">
+				<textarea class="form-control" name="remark">${cgTeam.remark}</textarea>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 是否需要调整</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="needAdjust" value="${cgTeam.needAdjust}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 备注</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${cgTeam.remark}">
-				</div>
-			</div>
-    </form>
+		</div>
+	</form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
@@ -70,7 +75,7 @@ pageEncoding="UTF-8"%>
     });
     //$("#modalForm :checkbox").bootstrapSwitch();
     //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#modalForm [data-rel="select2"]').select2();
+    $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();
     //$.register.date($('.date-picker'));
