@@ -18,14 +18,19 @@
         <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <libdir>D:/project/owip</libdir>
         <generator.mybatis.modal>ps</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>common</groupId>
+            <groupId>jixiantech</groupId>
             <artifactId>common-utils</artifactId>
             <version>1.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>jixiantech</groupId>
@@ -38,25 +43,9 @@
             <version>4.0.4</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.xfire</groupId>
-            <artifactId>xfire-all</artifactId>
-            <version>1.2.6</version>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/xfire-all-1.2.6.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/jdom-1.0.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.1.0</version>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/ojdbc6-11.2.0.1.0.jar</systemPath>
+          <groupId>ojdbc6</groupId>
+          <artifactId>ojdbc6</artifactId>
+          <version>11.2.0.1.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -187,17 +176,11 @@
             <groupId>com.artofsolving</groupId>
             <artifactId>jodconverter</artifactId>
             <version>3.0-beta-4</version>
-            <type>jar</type>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/jodconverter-core-3.0-beta-4.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.highcharts.export</groupId>
             <artifactId>highcharts-export-convert</artifactId>
             <version>2.1.0</version>
-            <type>jar</type>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/highcharts-export-convert-2.1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
@@ -547,15 +530,11 @@
             <groupId>com.lowagie</groupId>
             <artifactId>itextasian</artifactId>
             <version>2.1.7.js2</version>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/iTextAsian.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.lowagie</groupId>
             <artifactId>simfang</artifactId>
             <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/simfang.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.jasig.cas.client</groupId>
@@ -566,8 +545,6 @@
             <groupId>neusoft</groupId>
             <artifactId>cas-client</artifactId>
             <version>4.0.0</version>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/neusoft-cas-client-4.0.0.jar</systemPath>
         </dependency>
 
         <!-- highchart export -->
@@ -575,25 +552,16 @@
             <groupId>batik-all-1.7</groupId>
             <artifactId>batik-all-1.7</artifactId>
             <version>1.7</version>
-            <type>jar</type>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/batik-all-1.7.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>pdf-transcoder</groupId>
             <artifactId>pdf-transcoder</artifactId>
             <version>1.0</version>
-            <type>jar</type>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/pdf-transcoder.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>xml-apis-ext-1.3.04</groupId>
             <artifactId>xml-apis-ext-1.3.04</artifactId>
             <version>1.3.04</version>
-            <type>jar</type>
-            <scope>system</scope>
-            <systemPath>${libdir}/lib/xml-apis-ext-1.3.04.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -1157,4 +1125,11 @@
             </plugin>-->
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>jixianmaven</id>
+            <name>jixian maven</name>
+            <url>http://nexus.jixiantech.com/repository/maven-public/</url>
+        </repository>
+    </repositories>
 </project>
