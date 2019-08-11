@@ -6,5 +6,5 @@ target
 null
 classes
 /src/main/resources/spring.properties
-pom.xml
+/pom.xml
 /src/main/resources/logback.xml
