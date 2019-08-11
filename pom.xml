@@ -1127,8 +1127,8 @@
     </build>
     <repositories>
         <repository>
-            <id>jixianmaven</id>
-            <name>jixian maven</name>
+            <id>jixian</id>
+            <name>jixian nexus</name>
             <url>http://nexus.jixiantech.com/repository/maven-public/</url>
         </repository>
     </repositories>
