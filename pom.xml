@@ -43,7 +43,7 @@
             <version>4.0.4</version>
         </dependency>
         <dependency>
-          <groupId>ojdbc6</groupId>
+          <groupId>jixiantech.ext</groupId>
           <artifactId>ojdbc6</artifactId>
           <version>11.2.0.1.0</version>
         </dependency>
@@ -549,8 +549,8 @@
 
         <!-- highchart export -->
         <dependency>
-            <groupId>batik-all-1.7</groupId>
-            <artifactId>batik-all-1.7</artifactId>
+            <groupId>jixiantech.ext</groupId>
+            <artifactId>batik-all</artifactId>
             <version>1.7</version>
         </dependency>
         <dependency>
