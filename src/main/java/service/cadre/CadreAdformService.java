@@ -244,86 +244,139 @@ public class CadreAdformService extends BaseMapper {
         String _onjobDegree = ""; // 在职最高学位
 
         MetaType fullltimeType = CmTag.getMetaTypeByCode("mt_fulltime");
-        MetaType onjobType = CmTag.getMetaTypeByCode("mt_onjob");
-        CadreEdu fulltimeHighEdu = cadreEduService.getHighEdu(cadreId, fullltimeType.getId());
-        CadreEdu onjobHighEdu = cadreEduService.getHighEdu(cadreId, onjobType.getId());
-        if (fulltimeHighEdu != null && !isJxxx(fulltimeHighEdu.getEduId())) {
-            _fulltimeEdu = CmTag.getEduName(fulltimeHighEdu.getEduId());
-        }
-        if (onjobHighEdu != null && !isJxxx(onjobHighEdu.getEduId())) {
-            _onjobEdu = CmTag.getEduName(onjobHighEdu.getEduId());
-        }
+        List<CadreEdu> fulltimeHighDegrees = cadreEduService.getHighDegrees(cadreId, fullltimeType.getId());
 
+        if (fulltimeHighDegrees.size() > 1) { // 有多个学位的情况（只处理前两个学位）
 
-        CadreEdu fulltimeHighDegree = cadreEduService.getHighDegree(cadreId, fullltimeType.getId());
-        CadreEdu onjobHighDegree = cadreEduService.getHighDegree(cadreId, onjobType.getId());
-        if (fulltimeHighDegree != null && !isJxxx(fulltimeHighDegree.getEduId())) {
-            _fulltimeDegree = fulltimeHighDegree.getDegree();
-        }
-        if (onjobHighDegree != null && !isJxxx(onjobHighDegree.getEduId())) {
-            _onjobDegree = onjobHighDegree.getDegree();
-        }
+            CadreEdu firstHighDegree = fulltimeHighDegrees.get(0);
+            CadreEdu secondHighDegree = fulltimeHighDegrees.get(1);
 
-        // 全日制 - 根据学历、学位对应的毕业院系是否相同，读取 “毕业院系及专业”
-        if (fulltimeHighEdu != null && fulltimeHighDegree != null) {
-            if (fulltimeHighEdu.getId().intValue() == fulltimeHighDegree.getId()) {
-                // 最高学历和学位毕业学校及专业相同
+            if (!isJxxx(firstHighDegree.getEduId())) { // 把第一个最高学位对应的学位和学历放在第一行
+                _fulltimeEdu = StringUtils.trimToEmpty(CmTag.getEduName(firstHighDegree.getEduId()))
+                        + StringUtils.trimToEmpty(firstHighDegree.getDegree());
+            }
+            if (!isJxxx(secondHighDegree.getEduId())) { // 把第二个最高学位对应的学位和学历放在第二行
+                _fulltimeDegree = StringUtils.trimToEmpty(CmTag.getEduName(secondHighDegree.getEduId()))
+                        + StringUtils.trimToEmpty(secondHighDegree.getDegree());
+            }
+
+            bean.setSameSchool(false);
+            bean.setSchoolDepMajor1(StringUtils.trimToEmpty(firstHighDegree.getSchool())
+                    + StringUtils.trimToEmpty(firstHighDegree.getDep())
+                    + StringUtils.trimToEmpty(CadreUtils.major(firstHighDegree.getMajor())));
+            bean.setSchoolDepMajor2(StringUtils.trimToEmpty(secondHighDegree.getSchool())
+                    + StringUtils.trimToEmpty(secondHighDegree.getDep())
+                    + StringUtils.trimToEmpty(CadreUtils.major(secondHighDegree.getMajor())));
+
+        } else if (fulltimeHighDegrees.size() == 1) { // 只有一个学位的情况
+
+            CadreEdu fulltimeHighDegree = fulltimeHighDegrees.get(0);
+            CadreEdu fulltimeHighEdu = cadreEduService.getHighEdu(cadreId, fullltimeType.getId());
+            if (fulltimeHighEdu != null && !isJxxx(fulltimeHighEdu.getEduId())) {
+                _fulltimeEdu = CmTag.getEduName(fulltimeHighEdu.getEduId());
+            }
+
+            if (fulltimeHighDegree != null && !isJxxx(fulltimeHighDegree.getEduId())) {
+                _fulltimeDegree = fulltimeHighDegree.getDegree();
+            }
+            // 全日制 - 根据学历、学位对应的毕业院系是否相同，读取 “毕业院系及专业”
+            if (fulltimeHighEdu != null && fulltimeHighDegree != null) {
+                if (fulltimeHighEdu.getId().intValue() == fulltimeHighDegree.getId()) {
+                    // 最高学历和学位毕业学校及专业相同
+                    bean.setSameSchool(true);
+                    bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                            + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
+                    bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                } else {
+                    bean.setSameSchool(false);
+                    bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                            + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
+                            + StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+                    bean.setSchoolDepMajor2(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
+                            + StringUtils.trimToEmpty(fulltimeHighDegree.getDep())
+                            + StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
+                }
+            } else if (fulltimeHighEdu != null) {
+
                 bean.setSameSchool(true);
                 bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
                         + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
                 bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
-            } else {
-                bean.setSameSchool(false);
-                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
-                        + StringUtils.trimToEmpty(fulltimeHighEdu.getDep())
-                        + StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
-                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
-                        + StringUtils.trimToEmpty(fulltimeHighDegree.getDep())
-                        + StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
+            } else if (fulltimeHighDegree != null) {
+
+                bean.setSameSchool(true);
+                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
+                        + StringUtils.trimToEmpty(fulltimeHighDegree.getDep()));
+                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
             }
-        } else if (fulltimeHighEdu != null) {
-
-            bean.setSameSchool(true);
-            bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
-                    + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
-            bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
-        } else if (fulltimeHighDegree != null) {
-
-            bean.setSameSchool(true);
-            bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighDegree.getSchool())
-                    + StringUtils.trimToEmpty(fulltimeHighDegree.getDep()));
-            bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
         }
 
-        // 在职 - 根据学历、学位对应的毕业院系是否相同，读取 “毕业院系及专业”
-        if (onjobHighEdu != null && onjobHighDegree != null) {
-            if (onjobHighEdu.getId().intValue() == onjobHighDegree.getId()) {
-                // 最高学历和学位毕业学校及专业相同
+        MetaType onjobType = CmTag.getMetaTypeByCode("mt_onjob");
+        List<CadreEdu> onjobHighDegrees = cadreEduService.getHighDegrees(cadreId, onjobType.getId());
+
+        if (onjobHighDegrees.size() > 1) { // 有多个学位的情况（只处理前两个学位）
+
+            CadreEdu firstHighDegree = onjobHighDegrees.get(0);
+            CadreEdu secondHighDegree = onjobHighDegrees.get(1);
+
+            if (!isJxxx(firstHighDegree.getEduId())) { // 把第一个最高学位对应的学位和学历放在第一行
+                _onjobEdu = StringUtils.trimToEmpty(CmTag.getEduName(firstHighDegree.getEduId()))
+                        + StringUtils.trimToEmpty(firstHighDegree.getDegree());
+            }
+            if (!isJxxx(secondHighDegree.getEduId())) { // 把第二个最高学位对应的学位和学历放在第二行
+                _onjobDegree = StringUtils.trimToEmpty(CmTag.getEduName(secondHighDegree.getEduId()))
+                        + StringUtils.trimToEmpty(secondHighDegree.getDegree());
+            }
+
+            bean.setSameInSchool(false);
+            bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(firstHighDegree.getSchool())
+                    + StringUtils.trimToEmpty(firstHighDegree.getDep())
+                    + StringUtils.trimToEmpty(CadreUtils.major(firstHighDegree.getMajor())));
+            bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(secondHighDegree.getSchool())
+                    + StringUtils.trimToEmpty(secondHighDegree.getDep())
+                    + StringUtils.trimToEmpty(CadreUtils.major(secondHighDegree.getMajor())));
+
+        } else if (onjobHighDegrees.size() == 1) { // 只有一个学位的情况
+
+            CadreEdu onjobHighDegree = onjobHighDegrees.get(0);
+            CadreEdu onjobHighEdu = cadreEduService.getHighEdu(cadreId, onjobType.getId());
+            if (onjobHighEdu != null && !isJxxx(onjobHighEdu.getEduId())) {
+                _onjobEdu = CmTag.getEduName(onjobHighEdu.getEduId());
+            }
+
+            if (onjobHighDegree != null && !isJxxx(onjobHighDegree.getEduId())) {
+                _onjobDegree = onjobHighDegree.getDegree();
+            }
+            // 在职 - 根据学历、学位对应的毕业院系是否相同，读取 “毕业院系及专业”
+            if (onjobHighEdu != null && onjobHighDegree != null) {
+                if (onjobHighEdu.getId().intValue() == onjobHighDegree.getId()) {
+                    // 最高学历和学位毕业学校及专业相同
+                    bean.setSameInSchool(true);
+                    bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                            + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
+                    bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                } else {
+                    bean.setSameInSchool(false);
+                    bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                            + StringUtils.trimToEmpty(onjobHighEdu.getDep())
+                            + StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
+                    bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
+                            + StringUtils.trimToEmpty(onjobHighDegree.getDep())
+                            + StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
+                }
+            } else if (onjobHighEdu != null) {
+
                 bean.setSameInSchool(true);
                 bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
                         + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
                 bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
-            } else {
-                bean.setSameInSchool(false);
-                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
-                        + StringUtils.trimToEmpty(onjobHighEdu.getDep())
-                        + StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
-                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
-                        + StringUtils.trimToEmpty(onjobHighDegree.getDep())
-                        + StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
+            } else if (onjobHighDegree != null) {
+
+                bean.setSameInSchool(true);
+                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
+                        + StringUtils.trimToEmpty(onjobHighDegree.getDep()));
+                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
             }
-        } else if (onjobHighEdu != null) {
-
-            bean.setSameInSchool(true);
-            bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
-                    + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
-            bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
-        } else if (onjobHighDegree != null) {
-
-            bean.setSameInSchool(true);
-            bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
-                    + StringUtils.trimToEmpty(onjobHighDegree.getDep()));
-            bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
         }
 
         // 全日制最高学历
@@ -445,7 +498,7 @@ public class CadreAdformService extends BaseMapper {
             dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), DateUtils.YYYYMM));
             // 其他民主党派
             List<CadreParty> dpParties = bean.getDpParties();
-            if(dpParties.size()>0) {
+            if (dpParties.size() > 0) {
                 String dpPartyNames = "";
                 for (CadreParty dpParty : dpParties) {
                     metaType = CmTag.getMetaType(dpParty.getClassId());
@@ -780,7 +833,7 @@ public class CadreAdformService extends BaseMapper {
                 evaMap.put(metaType.getName(), metaType.getId());
             }
             String evaResultsReg = StringUtils.join(evaResults, "|");
-            if(StringUtils.isNotBlank(evaResultsReg)) {
+            if (StringUtils.isNotBlank(evaResultsReg)) {
                 pattern = Pattern.compile(MessageFormat.format("[^{0}]*({0})[^{0}]*", evaResultsReg));
                 matcher = pattern.matcher(ces);
 
@@ -858,7 +911,7 @@ public class CadreAdformService extends BaseMapper {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_doctor").getId();
                     degree = "博士学位";
                 } else if (StringUtils.contains(resumeRow.desc, "同等")
-                        &&StringUtils.contains(resumeRow.desc, "硕士")) { // 硕士同等学历、同等学历硕士
+                        && StringUtils.contains(resumeRow.desc, "硕士")) { // 硕士同等学历、同等学历硕士
                     eduId = CmTag.getMetaTypeByCode("mt_edu_sstd").getId();
                     degree = "硕士学位";
                 } else if (StringUtils.containsAny(resumeRow.desc, "硕士", "研究生")) {
@@ -874,11 +927,11 @@ public class CadreAdformService extends BaseMapper {
                 cadreEdu.setFinishTime(resumeRow.end);
                 cadreEdu.setIsGraduated(!StringUtils.contains(resumeRow.desc, "在读"));
                 cadreEdu.setIsHighEdu(false);
-                cadreEdu.setIsHighDegree(false);
+                cadreEdu.setIsHighDegree(false); // 导入时默认非最高学位
 
-                if(resumeRow.fRow==null) {
+                if (resumeRow.fRow == null) {
                     cadreEdu.setSchool(resumeRow.desc); // 全日制描述放入学校字段，需要手动编辑
-                }else{
+                } else {
                     cadreEdu.setRemark(resumeRow.desc); // 在职描述放入备注字段，需要手动编辑
                 }
 
@@ -987,7 +1040,7 @@ public class CadreAdformService extends BaseMapper {
             dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
             // 其他民主党派
             List<CadreParty> dpParties = bean.getDpParties();
-            if(dpParties.size()>0) {
+            if (dpParties.size() > 0) {
                 for (CadreParty dpParty : dpParties) {
                     metaType = CmTag.getMetaType(dpParty.getClassId());
                     dpPartyName += "；" + StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());

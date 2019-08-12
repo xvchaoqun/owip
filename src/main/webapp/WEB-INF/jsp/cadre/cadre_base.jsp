@@ -428,36 +428,48 @@
                             最高学位
                         </td>
                         <td>
-                                ${highDegree.degree}
+                            <c:forEach items="${highDegrees}" var="highDegree" varStatus="vs">
+                                ${highDegree.degree}${vs.last?'':'，'}
+                            </c:forEach>
                         </td>
                         <td>学习方式</td>
                         <td>
-                                ${cm:getMetaType(highDegree.learnStyle).name}
+                            <c:forEach items="${highDegrees}" var="highDegree" varStatus="vs">
+                                ${cm:getMetaType(highDegree.learnStyle).name}${vs.last?'':'，'}
+                            </c:forEach>
                         </td>
                         <td>
                             毕业学校
                         </td>
                         <td>
-                                ${highDegree.school}
+                            <c:forEach items="${highDegrees}" var="highDegree" varStatus="vs">
+                                ${highDegree.school}${vs.last?'':'，'}
+                            </c:forEach>
                         </td>
                     </tr>
                     <tr>
 
                         <td>毕业学院</td>
                         <td>
-                                ${highDegree.dep}
+                            <c:forEach items="${highDegrees}" var="highDegree" varStatus="vs">
+                                ${highDegree.dep}${vs.last?'':'，'}
+                            </c:forEach>
                         </td>
                         <td>
                             所学专业
                         </td>
                         <td>
-                                ${highDegree.major}
+                            <c:forEach items="${highDegrees}" var="highDegree" varStatus="vs">
+                                ${highDegree.major}${vs.last?'':'，'}
+                            </c:forEach>
                         </td>
                         <td>
                             学校类型
                         </td>
                         <td>
-                                ${CADRE_SCHOOL_TYPE_MAP.get(highDegree.schoolType)}
+                            <c:forEach items="${highDegrees}" var="highDegree" varStatus="vs">
+                                ${CADRE_SCHOOL_TYPE_MAP.get(highDegree.schoolType)}${vs.last?'':'，'}
+                            </c:forEach>
                         </td>
                     </tr>
 

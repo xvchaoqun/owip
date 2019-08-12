@@ -35,26 +35,26 @@ public class CadreEduService extends BaseMapper {
     private MetaTypeService metaTypeService;
 
     // 根据起始时间读取学习经历（用于任免审批表导入时）
-    public CadreEdu getByEduTime(int cadreId, Date enrolTime, Date finishTime){
+    public CadreEdu getByEduTime(int cadreId, Date enrolTime, Date finishTime) {
 
-        if(enrolTime==null) return null;
+        if (enrolTime == null) return null;
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria()
-                        .andCadreIdEqualTo(cadreId)
-                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+                .andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         criteria.andEnrolTimeEqualTo(enrolTime);
-        if(finishTime != null){
+        if (finishTime != null) {
             criteria.andFinishTimeEqualTo(finishTime);
-        }else{
+        } else {
             criteria.andFinishTimeIsNull();
         }
 
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        return cadreEdus.size()>0?cadreEdus.get(0):null;
+        return cadreEdus.size() > 0 ? cadreEdus.get(0) : null;
     }
 
-    public List<Integer> needTutorEduTypes(){
+    public List<Integer> needTutorEduTypes() {
 
         MetaType eduDoctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
         MetaType eduMaster = CmTag.getMetaTypeByCode("mt_edu_master");
@@ -68,12 +68,12 @@ public class CadreEduService extends BaseMapper {
     }
 
     // 查找某个干部的学习经历
-    public List<CadreEdu> list(int cadreId, Boolean isGraduated){
+    public List<CadreEdu> list(int cadreId, Boolean isGraduated) {
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        if(isGraduated!=null)
+        if (isGraduated != null)
             criteria.andIsGraduatedEqualTo(isGraduated);
 
         example.setOrderByClause("enrol_time asc");
@@ -82,7 +82,7 @@ public class CadreEduService extends BaseMapper {
     }
 
     // 获取全日制教育、在职教育（各读取已毕业的最后一条记录）
-    public CadreEdu[] getByLearnStyle(int cadreId){
+    public CadreEdu[] getByLearnStyle(int cadreId) {
 
         CadreEduExample example = new CadreEduExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -99,7 +99,7 @@ public class CadreEduService extends BaseMapper {
         for (CadreEdu cadreEdu : cadreEdus) {
 
             Integer learnStyle = cadreEdu.getLearnStyle();
-            if(learnStyle!=null) {
+            if (learnStyle != null) {
                 if (learnStyle.intValue() == fullltimeType.getId()) {
                     result[0] = cadreEdu; // fulltimeEdu
                 } else if (learnStyle.intValue() == onjobType.getId()) {
@@ -110,74 +110,158 @@ public class CadreEduService extends BaseMapper {
         return result;
     }
 
-    public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu){
+    public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu) {
 
         return hasHighEdu(id, cadreId, isHighEdu, SystemConstants.RECORD_STATUS_FORMAL);
     }
 
-    public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu, byte status){
+    public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu, byte status) {
 
         // isHighEdu=null return false
-        if(BooleanUtils.isNotTrue(isHighEdu)) return false;
+        if (BooleanUtils.isNotTrue(isHighEdu)) return false;
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andIsHighEduEqualTo(true).andStatusEqualTo(status);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
         return cadreEduMapper.countByExample(example) > 0;
     }
 
     // 在读只允许一条记录
-    public boolean isNotGraduated(Integer id, int cadreId, Boolean isGraduated){
+    public boolean isNotGraduated(Integer id, int cadreId, Boolean isGraduated) {
 
-        if(BooleanUtils.isTrue(isGraduated)) return false;
+        if (BooleanUtils.isTrue(isGraduated)) return false;
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andIsGraduatedEqualTo(false).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
         return cadreEduMapper.countByExample(example) > 0;
     }
 
-    public boolean hasHighDegree(Integer id, int cadreId, Boolean isHighDegree){
+    /*public boolean hasFirstHighDegree(Integer id, int cadreId, Boolean isHighDegree){
 
-        return hasHighDegree(id, cadreId, isHighDegree, SystemConstants.RECORD_STATUS_FORMAL);
+        return hasFirstHighDegree(id, cadreId, isHighDegree, SystemConstants.RECORD_STATUS_FORMAL);
+    }*/
+
+    // 是否有第一个最高学位（供完整性判断时使用）
+    public boolean hasFirstHighDegree(Integer id, int cadreId, byte status) {
+
+        return firstHighDegreeCount(id, cadreId, status) > 0;
     }
 
-    public boolean hasHighDegree(Integer id, int cadreId, Boolean isHighDegree, byte status){
-
-        if(BooleanUtils.isNotTrue(isHighDegree)) return false;
+    public int firstHighDegreeCount(Integer id, int cadreId, byte status) {
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andIsHighDegreeEqualTo(true).andStatusEqualTo(status);
-        if(id!=null) criteria.andIdNotEqualTo(id);
-        return cadreEduMapper.countByExample(example) > 0;
+                .andIsHighDegreeEqualTo(true).andIsSecondDegreeEqualTo(false)
+                .andStatusEqualTo(status);
+        if (id != null) criteria.andIdNotEqualTo(id);
+        return (int) cadreEduMapper.countByExample(example);
     }
 
-    public CadreEdu getHighEdu(int cadreId){
+    // 校正第一个最高学位
+    private void adjustHighDegreeAnyway(int cadreId) {
+        /**
+         * 当前记录更新为第二个最高学位，必须要存在第一个最高学位，否则选择一个时间最早的为第一个最高学位
+         */
+        int firstHighDegreeCount = firstHighDegreeCount(null, cadreId, SystemConstants.RECORD_STATUS_FORMAL);
+        if (firstHighDegreeCount == 0) {
+
+            CadreEduExample example = new CadreEduExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andIsHighDegreeEqualTo(true)
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+            example.setOrderByClause("enrol_time asc");
+            List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+            if (cadreEdus.size() > 0) {
+                CadreEdu record = new CadreEdu();
+                record.setId(cadreEdus.get(0).getId());
+                record.setIsSecondDegree(false);
+                cadreEduMapper.updateByPrimaryKeySelective(record);
+            }
+        } else if (firstHighDegreeCount > 1) { // 如果存在多个第一个最高学位，则仅保留时间最早的一个
+
+            CadreEduExample example = new CadreEduExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andIsHighDegreeEqualTo(true)
+                    .andIsSecondDegreeEqualTo(false)
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+            example.setOrderByClause("enrol_time asc");
+            List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+            if (cadreEdus.size() > 0) {
+
+                example = new CadreEduExample();
+                example.createCriteria().andCadreIdEqualTo(cadreId)
+                        .andIsHighDegreeEqualTo(true)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL)
+                        .andIdNotEqualTo(cadreEdus.get(0).getId());
+
+                CadreEdu record = new CadreEdu();
+                record.setIsSecondDegree(true);
+                cadreEduMapper.updateByExampleSelective(record, example);
+            }
+        }
+    }
+
+    /**
+     * 如果干部的最高学位是双学位或多个学位，则调整干部的最高学位，
+     * 使其只有一个最高学位（is_second_degree=0)，其他都是第二个学位（is_second_degree=1)
+     *
+     * @param id             待添加或更新的记录ID
+     * @param isSecondDegree 更新为是否第二个学位
+     */
+    public void adjustHighDegree(int id, int cadreId, boolean isSecondDegree) {
+
+        CadreEdu cadreEdu = cadreEduMapper.selectByPrimaryKey(id);
+        if (cadreEdu == null || BooleanUtils.isNotTrue(cadreEdu.getIsHighDegree())) {
+
+            // 修改非最高学位或删除记录或异常的情况，找不到当前记录，则检验一下
+            adjustHighDegreeAnyway(cadreId);
+        } else {
+
+            cadreId = cadreEdu.getCadreId();
+            {
+                // 先更新当前学历
+                CadreEdu record = new CadreEdu();
+                record.setId(id);
+                record.setIsSecondDegree(isSecondDegree);
+                cadreEduMapper.updateByPrimaryKeySelective(record);
+            }
+
+            if (isSecondDegree) {
+
+                adjustHighDegreeAnyway(cadreId);
+            } else {
+                /**
+                 * 当前记录更新为第一个最高学位，则其他最高学位均更新为第二个最高学位
+                 */
+                CadreEduExample example = new CadreEduExample();
+                example.createCriteria().andCadreIdEqualTo(cadreId)
+                        .andIsHighDegreeEqualTo(true)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL)
+                        .andIdNotEqualTo(id);
+
+                CadreEdu record = new CadreEdu();
+                record.setIsSecondDegree(true);
+                cadreEduMapper.updateByExampleSelective(record, example);
+            }
+        }
+    }
+
+    public CadreEdu getHighEdu(int cadreId) {
 
         CadreEduExample example = new CadreEduExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andIsGraduatedEqualTo(true).andIsHighEduEqualTo(true)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(cadreEdus.size()>0) return  cadreEdus.get(0);
-        return null;
-    }
-    public CadreEdu getHighDegree(int cadreId){
-
-        CadreEduExample example = new CadreEduExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andIsGraduatedEqualTo(true).andIsHighDegreeEqualTo(true)
-                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(cadreEdus.size()>0) return  cadreEdus.get(0);
+        if (cadreEdus.size() > 0) return cadreEdus.get(0);
         return null;
     }
 
     // 获取全日制/在职的最高学历
-    public CadreEdu getHighEdu(int cadreId, int learnStyle){
+    public CadreEdu getHighEdu(int cadreId, int learnStyle) {
 
         CadreEduExample example = new CadreEduExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -185,79 +269,113 @@ public class CadreEduService extends BaseMapper {
                 .andLearnStyleEqualTo(learnStyle).andEduIdIsNotNull()
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
 
-        example.setOrderByClause("is_high_edu desc, enrol_time desc");
-        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(cadreEdus.size()>0) return  cadreEdus.get(0);
-        return null;
+        example.setOrderByClause("is_high_edu desc, is_second_degree asc, enrol_time desc");
+        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
+
+        if(cadreEdus.size()==1) return cadreEdus.get(0);
+
+        // 如果存在多个最高学历，则以第一个最高学位对应的学历为准
+        for (CadreEdu cadreEdu : cadreEdus) {
+            if(BooleanUtils.isFalse(cadreEdu.getIsSecondDegree())
+                    && cadreEdu.getEduId()!=null) { // 且学历不为空的
+                return cadreEdu;
+            }
+        }
+
+        return cadreEdus.size()>0?cadreEdus.get(0):null;
     }
 
     // 获取全日制/在职的最高学位
-    public CadreEdu getHighDegree(int cadreId, int learnStyle){
+    public List<CadreEdu> getHighDegrees(int cadreId, Integer learnStyle) {
 
         CadreEduExample example = new CadreEduExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId)
+        CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
                 .andIsGraduatedEqualTo(true)
-                .andLearnStyleEqualTo(learnStyle).andHasDegreeEqualTo(true)
+                .andHasDegreeEqualTo(true)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
 
-        example.setOrderByClause("is_high_degree desc, enrol_time desc");
-        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(cadreEdus.size()>0) return  cadreEdus.get(0);
-        return null;
+        if(learnStyle!=null){
+            criteria.andLearnStyleEqualTo(learnStyle);
+        }
+        example.setOrderByClause("is_high_degree desc, is_second_degree asc, enrol_time desc");
+
+        List<CadreEdu> records = cadreEduMapper.selectByExample(example);
+        List<CadreEdu> cadreEdus = new ArrayList<>();
+
+        for (CadreEdu record : records) {
+            if(BooleanUtils.isTrue(record.getIsHighDegree())){
+                cadreEdus.add(record);
+            }
+        }
+
+        if(cadreEdus.size()==0){ // 如果没有设置最高学位，则读取第一个学位
+            if(records.size()>0){
+                cadreEdus.add(records.get(0));
+            }
+        }
+
+        return cadreEdus;
     }
 
     // 返回某个学历
-    public CadreEdu getCadreEdu(int cadreId, int eduId){
+    public CadreEdu getCadreEdu(int cadreId, int eduId) {
 
         CadreEduExample example = new CadreEduExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andEduIdEqualTo(eduId)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(cadreEdus.size()>0) return  cadreEdus.get(0);
+        if (cadreEdus.size() > 0) return cadreEdus.get(0);
         return null;
     }
 
     // 更新或添加时，检查规则
-    public void checkUpdate(CadreEdu record){
+    public void checkUpdate(CadreEdu record) {
 
-        if(isNotGraduated(record.getId(), record.getCadreId(), record.getIsGraduated())){
+        if (isNotGraduated(record.getId(), record.getCadreId(), record.getIsGraduated())) {
             throw new OpException("已经存在一条在读记录");
         }
 
-        if(hasHighEdu(record.getId(), record.getCadreId(), record.getIsHighEdu())){
-            throw new OpException("已经存在最高学历");
-        }
-        if(hasHighDegree(record.getId(), record.getCadreId(), record.getIsHighDegree())){
-            throw new OpException("已经存在最高学位");
+        // 非第二最高学位，不允许存在多个最高学历
+        if (BooleanUtils.isNotTrue(record.getIsSecondDegree())
+                && hasHighEdu(record.getId(), record.getCadreId(), record.getIsHighEdu())) {
+
+            if(BooleanUtils.isTrue(record.getIsHighDegree())){
+
+                throw new OpException("已经存在最高学历（注：如获得了双学位请勾选“第二个最高学位”选项）");
+            }else {
+                throw new OpException("已经存在最高学历");
+            }
         }
     }
 
     // 添加一条正式记录
     @Transactional
-    public int insertSelective(CadreEdu record){
+    public void insertSelective(CadreEdu record) {
 
         checkUpdate(record);
 
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-        return cadreEduMapper.insertSelective(record);
+        cadreEduMapper.insertSelective(record);
+
+        adjustHighDegree(record.getId(), record.getCadreId(), BooleanUtils.isTrue(record.getIsSecondDegree()));
     }
 
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id) {
 
         cadreEduMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, int cadreId){
+    public void batchDel(Integer[] ids, int cadreId) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
         {
             // 干部信息本人直接修改数据校验
             CadreEduExample example = new CadreEduExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             long count = cadreEduMapper.countByExample(example);
-            if(count!=ids.length){
+            if (count != ids.length) {
                 throw new OpException("参数有误");
             }
         }
@@ -269,7 +387,7 @@ public class CadreEduService extends BaseMapper {
 
     // 更新一条正式记录， 或者更新 添加或修改申请 的记录
     @Transactional
-    public void updateByPrimaryKey(CadreEdu record){
+    public void updateByPrimaryKey(CadreEdu record) {
 
         checkUpdate(record);
 
@@ -277,19 +395,19 @@ public class CadreEduService extends BaseMapper {
         cadreEduMapper.updateByPrimaryKey(record);
 
         // 学历允许为空（有些特殊时期只有学位，没有学历）
-        if(record.getEduId()==null){
-            commonMapper.excuteSql("update cadre_edu set edu_id=null where id="+ record.getId());
+        if (record.getEduId() == null) {
+            commonMapper.excuteSql("update cadre_edu set edu_id=null where id=" + record.getId());
         }
-        /*if(!record.getHasDegree()){ // 没有获得学位，清除学位名称等字段
-            updateMapper.del_caderEdu_hasDegree(record.getId());
-        }*/
+
+        // 调整最高学位
+        adjustHighDegree(record.getId(), record.getCadreId(), record.getIsSecondDegree());
     }
 
     // 更新修改申请的内容（仅允许管理员和本人更新自己的申请）
     @Transactional
-    public void updateModify(CadreEdu record, Integer applyId){
+    public void updateModify(CadreEdu record, Integer applyId) {
 
-        if(applyId==null){
+        if (applyId == null) {
             throw new OpException("参数有误");
         }
 
@@ -305,21 +423,21 @@ public class CadreEduService extends BaseMapper {
         CadreEduExample.Criteria criteria = example.createCriteria().andIdEqualTo(id)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_MODIFY);
 
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)){
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)) {
             CadreView cadre = cadreService.dbFindByUserId(currentUserId);
             criteria.andCadreIdEqualTo(cadre.getId()); // 保证本人只更新自己的记录
         }
 
         record.setId(null);
         record.setStatus(null);
-        if(cadreEduMapper.updateByExampleSelective(record, example)>0) {
+        if (cadreEduMapper.updateByExampleSelective(record, example) > 0) {
             if (!record.getHasDegree()) { // 没有获得学位，清除学位名称等字段
                 commonMapper.excuteSql("update cadre_edu set degree=null, is_high_degree=null," +
                         " degree_country=null, degree_unit=null, degree_time=null where id=" + id);
             }
 
             // 更新申请时间
-            ModifyTableApply _record= new ModifyTableApply();
+            ModifyTableApply _record = new ModifyTableApply();
             _record.setId(mta.getId());
             _record.setCreateTime(new Date());
             modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
@@ -328,18 +446,18 @@ public class CadreEduService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreEdu record, Integer id, boolean isDelete){
+    public void modifyApply(CadreEdu record, Integer id, boolean isDelete) {
 
         Integer userId = ShiroHelper.getCurrentUserId();
 
         CadreEdu original = null; // 修改、删除申请对应的原纪录
         byte type;
-        if(isDelete){ // 删除申请时id不允许为空
+        if (isDelete) { // 删除申请时id不允许为空
             record = cadreEduMapper.selectByPrimaryKey(id);
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
-        }else{
-            if(record.getId()==null) // 添加申请
+        } else {
+            if (record.getId() == null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
 
@@ -350,7 +468,7 @@ public class CadreEduService extends BaseMapper {
                             .andApplyUserIdEqualTo(userId)
                             .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU)
                             .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
-                    if(modifyTableApplyMapper.countByExample(example) == 0) {
+                    if (modifyTableApplyMapper.countByExample(example) == 0) {
                         checkUpdate(record);
                     }
                 }
@@ -358,27 +476,27 @@ public class CadreEduService extends BaseMapper {
                 original = cadreEduMapper.selectByPrimaryKey(record.getId());
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
 
-                if(StringUtils.isBlank(record.getCertificate())){ // 证件留空则保留原证件
+                if (StringUtils.isBlank(record.getCertificate())) { // 证件留空则保留原证件
                     record.setCertificate(original.getCertificate());
                 }
             }
         }
 
         // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
+        if (CmTag.canDirectUpdateCadreInfo(record.getCadreId())) {
             throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
         }
 
-        Integer originalId = original==null?null:original.getId();
-        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
-                type== ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
+        Integer originalId = original == null ? null : original.getId();
+        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
                     .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU)
                     .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
-            if(applies.size()>0){
+            if (applies.size() > 0) {
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
         }
@@ -414,13 +532,19 @@ public class CadreEduService extends BaseMapper {
 
     // 审核修改申请
     @Transactional
-    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status){
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status) {
 
         Integer originalId = mta.getOriginalId();
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if(status) {
+        if (status) {
+
+            // 以下四个字段供校正第一个最高学位使用
+            Integer id = null;
+            Integer cadreId = null;
+            boolean isSecondHighDegree = false;
+
             if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
                 CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
@@ -431,6 +555,10 @@ public class CadreEduService extends BaseMapper {
                 cadreEduMapper.insertSelective(modify); // 插入新纪录
                 record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
+                id = modify.getId();
+                cadreId = modify.getCadreId();
+                isSecondHighDegree = BooleanUtils.isTrue(modify.getIsSecondDegree());
+
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
                 CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
@@ -440,13 +568,26 @@ public class CadreEduService extends BaseMapper {
                 checkUpdate(modify);
                 cadreEduMapper.updateByPrimaryKey(modify); // 覆盖原纪录
 
+                id = originalId;
+                cadreId = modify.getCadreId();
+                isSecondHighDegree = BooleanUtils.isTrue(modify.getIsSecondDegree());
+
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+
+                CadreEdu original = cadreEduMapper.selectByPrimaryKey(originalId);
 
                 // 更新最后删除的记录内容
                 record.setOriginalJson(JSONUtils.toString(cadreEduMapper.selectByPrimaryKey(originalId), false));
                 // 删除原纪录
                 cadreEduMapper.deleteByPrimaryKey(originalId);
+
+                id = originalId;
+                cadreId = original.getCadreId();
+                isSecondHighDegree = BooleanUtils.isTrue(original.getIsSecondDegree());
             }
+
+            // 调整最高学位
+            adjustHighDegree(id, cadreId, isSecondHighDegree);
         }
 
         CadreEdu modify = new CadreEdu();
@@ -460,19 +601,19 @@ public class CadreEduService extends BaseMapper {
     public void cadreEdu_export(Integer[] ids, int exportType, Integer reserveType, HttpServletResponse response) {
 
         List<CadreEdu> cadreEdus = new ArrayList<>();
-        if(exportType==0) { // 现任干部
+        if (exportType == 0) { // 现任干部
             cadreEdus = iCadreMapper.getCadreEdus(ids, CadreConstants.CADRE_STATUS_MIDDLE);
-        }else if(exportType==1) { // 年轻干部
+        } else if (exportType == 1) { // 年轻干部
             cadreEdus = iCadreMapper.getCadreReserveEdus(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
         long rownum = cadreEdus.size();
         Set<Integer> needTutorEduTypes = new HashSet<>(needTutorEduTypes());
 
-        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100","所在单位及职务|150|left", "学历|100",
-                "毕业/在读|80","入学时间|100","毕业时间|90","是否最高学历|100","毕业/在读学校|100",
-                "院系|80","所学专业|80","学校类型|80","学习方式|80","是否获得学位|100",
-                "学位|80","是否最高学位|100","学位授予国家|100","学位授予单位|100","学位授予日期|100",
-                "导师姓名|80","导师所在单位及职务|100|left","学历学位证书|100","备注|80","补充说明|80"};
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100", "所在单位及职务|150|left", "学历|100",
+                "毕业/在读|80", "入学时间|100", "毕业时间|90", "是否最高学历|100", "毕业/在读学校|100",
+                "院系|80", "所学专业|80", "学校类型|80", "学习方式|80", "是否获得学位|100",
+                "学位|80", "是否最高学位|100", "学位授予国家|100", "学位授予单位|100", "学位授予日期|100",
+                "导师姓名|80", "导师所在单位及职务|100|left", "学历学位证书|100", "备注|80", "补充说明|80"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CadreEdu record = cadreEdus.get(i);
@@ -483,36 +624,36 @@ public class CadreEduService extends BaseMapper {
             String[] values = {
                     cadre.getCode(),
                     cadre.getRealname(),
-                    unit==null?"":unit.getName(),
+                    unit == null ? "" : unit.getName(),
                     cadre.getTitle(),
                     metaTypeService.getName(record.getEduId()),
 
-                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getIsGraduated())?"毕业":"在读",
+                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getIsGraduated()) ? "毕业" : "在读",
                     DateUtils.formatDate(record.getEnrolTime(), DateUtils.YYYYMM),
                     DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYYMM),
-                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getIsHighDegree())?"是":"否",
+                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getIsHighDegree()) ? "是" : "否",
                     record.getSchool(),
 
                     record.getDep(),
                     record.getMajor(),
                     CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
                     metaTypeService.getName(record.getLearnStyle()),
-                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getHasDegree())?"是":"否",
+                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getHasDegree()) ? "是" : "否",
 
-                    hasDegree?record.getDegree() :"-",
-                    hasDegree?(record.getIsHighDegree()?"是":"否"):"-",
-                    hasDegree?record.getDegreeCountry():"-",
-                    hasDegree?record.getDegreeUnit():"-",
-                    hasDegree?DateUtils.formatDate(record.getDegreeTime(), DateUtils.YYYYMM):"-",
+                    hasDegree ? record.getDegree() : "-",
+                    hasDegree ? (record.getIsHighDegree() ? "是" : "否") : "-",
+                    hasDegree ? record.getDegreeCountry() : "-",
+                    hasDegree ? record.getDegreeUnit() : "-",
+                    hasDegree ? DateUtils.formatDate(record.getDegreeTime(), DateUtils.YYYYMM) : "-",
 
-                    needTutorEduTypes.contains(record.getEduId())?record.getTutorName():"-",
-                    needTutorEduTypes.contains(record.getEduId())?record.getTutorTitle():"-",
-                    StringUtils.isBlank(record.getCertificate())?"-":"已上传",
+                    needTutorEduTypes.contains(record.getEduId()) ? record.getTutorName() : "-",
+                    needTutorEduTypes.contains(record.getEduId()) ? record.getTutorTitle() : "-",
+                    StringUtils.isBlank(record.getCertificate()) ? "-" : "已上传",
                     "", ""
             };
             valuesList.add(values);
         }
-        String fileName = "学习经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd")+")";
+        String fileName = "学习经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

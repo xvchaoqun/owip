@@ -92,7 +92,7 @@ public class CadreEduController extends BaseController {
 
         CadreEduExample example = new CadreEduExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        //example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("enrol_time asc");
 
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
@@ -168,7 +168,9 @@ public class CadreEduController extends BaseController {
         }
 
         record.setIsHighEdu(BooleanUtils.isTrue(record.getIsHighEdu()));
+
         record.setIsHighDegree(BooleanUtils.isTrue(record.getIsHighDegree()));
+        record.setIsSecondDegree(BooleanUtils.isTrue(record.getIsSecondDegree()));
 
         if (id == null) {
 

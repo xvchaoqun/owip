@@ -297,7 +297,9 @@ public class CadreExportService extends BaseMapper {
                 if(eduId!=null) {
                     //String degree = fulltimeEdu.getDegree();
                     _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-                    _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor();
+                    _fulltimeMajor = StringUtils.trimToEmpty(fulltimeEdu.getSchool())
+                            + StringUtils.trimToEmpty(fulltimeEdu.getDep())
+                            + StringUtils.trimToEmpty(fulltimeEdu.getMajor());
                 }
             }
             if (onjobEdu != null) {
@@ -305,7 +307,9 @@ public class CadreExportService extends BaseMapper {
                 if(eduId!=null) {
                     //String degree = onjobEdu.getDegree();
                     _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-                    _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor();
+                    _onjobMajor = StringUtils.trimToEmpty(onjobEdu.getSchool())
+                            + StringUtils.trimToEmpty(onjobEdu.getDep())
+                            + StringUtils.trimToEmpty(onjobEdu.getMajor());
                 }
             }
 

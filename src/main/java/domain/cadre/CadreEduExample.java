@@ -1072,6 +1072,66 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsSecondDegreeIsNull() {
+            addCriterion("is_second_degree is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeIsNotNull() {
+            addCriterion("is_second_degree is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeEqualTo(Boolean value) {
+            addCriterion("is_second_degree =", value, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeNotEqualTo(Boolean value) {
+            addCriterion("is_second_degree <>", value, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeGreaterThan(Boolean value) {
+            addCriterion("is_second_degree >", value, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_second_degree >=", value, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeLessThan(Boolean value) {
+            addCriterion("is_second_degree <", value, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_second_degree <=", value, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeIn(List<Boolean> values) {
+            addCriterion("is_second_degree in", values, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeNotIn(List<Boolean> values) {
+            addCriterion("is_second_degree not in", values, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_second_degree between", value1, value2, "isSecondDegree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSecondDegreeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_second_degree not between", value1, value2, "isSecondDegree");
+            return (Criteria) this;
+        }
+
         public Criteria andDegreeCountryIsNull() {
             addCriterion("degree_country is null");
             return (Criteria) this;

@@ -83,7 +83,7 @@
                 var cadreEdus = rowObject.cadreEdus;
                 //console.log(cadreEdus)
                 if (cadreEdus == undefined || cadreEdus == null || cadreEdus[0] == undefined) return '--';
-                return cadreEdus[0].school + cadreEdus[0].dep + cadreEdus[0].major;
+                return $.trim(cadreEdus[0].school) + $.trim(cadreEdus[0].dep) + $.trim(cadreEdus[0].major);
             }
         },
         {
@@ -101,7 +101,7 @@
             formatter: function (cellvalue, options, rowObject) {
                 var cadreEdus = rowObject.cadreEdus;
                 if (cadreEdus == undefined || cadreEdus == null || cadreEdus[1] == undefined) return '--';
-                return cadreEdus[1].school + cadreEdus[1].dep + cadreEdus[1].major;
+                return $.trim(cadreEdus[1].school) + $.trim(cadreEdus[1].dep) + $.trim(cadreEdus[1].major);
             }
         },
         /*{label: '岗位类别', name: 'postClass'},
@@ -318,7 +318,15 @@
         {label: '是否获得学位', name: 'hasDegree', formatter: $.jgrid.formatter.TRUEFALSE},
         {
             label: '学位', name: 'degree', formatter: function (cellvalue, options, rowObject) {
-            return rowObject.hasDegree ? cellvalue : "-";
+
+                var str = '';
+                if(rowObject.isHighDegree && rowObject.isSecondDegree){
+                <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+                str = '<i class="red" title="双学位">*</i>&nbsp;';
+                </shiro:hasPermission>
+                }
+
+            return rowObject.hasDegree ? str+cellvalue : "-";
         }
         },
         {

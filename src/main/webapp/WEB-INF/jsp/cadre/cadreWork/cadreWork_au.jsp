@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">${not empty topCadreWork.endTime?"*":""}结束日期</label>
+				<label class="col-xs-4 control-label">${not empty topCadreWork.endTime?'<span class="star">*</span>':''}结束日期</label>
 				<div class="col-xs-7">
                     <div class="input-group date" style="width: 120px"
                          data-date-min-view-mode="1"

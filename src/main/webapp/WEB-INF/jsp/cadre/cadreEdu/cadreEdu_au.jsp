@@ -14,7 +14,10 @@
 				<input type="hidden" name="applyId" value="${param.applyId}">
 				<input type="hidden" name="id" value="${cadreEdu.id}">
 				<div class="form-group">
-					<label class="col-xs-5 control-label">学历</label>
+					<label class="col-xs-5 control-label">学历
+					<span class="prompt" data-title="说明"
+							  data-prompt="注：如未取得学历证书请留空"><i class="fa fa-question-circle-o"></i></span>
+					</label>
 					<div class="col-xs-7">
 						<select data-rel="select2" name="eduId"
 								data-placeholder="请选择" data-width="193">
@@ -24,7 +27,6 @@
 						<script type="text/javascript">
 							$("#modal form select[name=eduId]").val(${cadreEdu.eduId});
 						</script>
-						<span class="help-block" style="font-size: 10px;">注：如未获得学历证书请留空</span>
 					</div>
 				</div>
 				<div class="form-group">
@@ -96,7 +98,12 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label"><span class="star">*</span>学习方式</label>
+					<label class="col-xs-5 control-label"><span class="star">*</span>学习方式
+					<shiro:hasPermission name="cadre:updateWithoutRequired">
+							<span class="prompt" data-title="说明"
+							  data-prompt="注：学习方式为空时，不计入任免审批表和信息采集表"><i class="fa fa-question-circle-o"></i></span>
+						</shiro:hasPermission>
+					</label>
 					<div class="col-xs-7">
 						<select required data-rel="select2" name="learnStyle"
 								data-placeholder="请选择" data-width="193">
@@ -106,9 +113,6 @@
 						<script type="text/javascript">
 							$("#modal form select[name=learnStyle]").val(${cadreEdu.learnStyle});
 						</script>
-						<shiro:hasPermission name="cadre:updateWithoutRequired">
-							<span class="help-block">注：学习方式为空时，不计入任免审批表和信息采集表。</span>
-						</shiro:hasPermission>
 					</div>
 				</div>
 				<div class="form-group">
@@ -134,10 +138,14 @@
 					<div class="form-group">
 						<label class="col-xs-4 control-label">是否为最高学位</label>
 						<div class="col-xs-8">
-							<label>
+							<label style="margin-right: 10px">
 								<input name="isHighDegree" ${cadreEdu.isHighDegree?"checked":""}  type="checkbox" />
 								<span class="lbl"></span>
 							</label>
+							<span class="secondDegree" style="display: none">
+							<input type="checkbox" name="isSecondDegree" ${cadreEdu.isSecondDegree?"checked":""}> 第二个最高学位 <span class="prompt" data-title="第二个最高学位说明"
+							  data-prompt="如果最高学位是双学位，请在添加第二个最高学位的时候勾选此选项。"><i class="fa fa-question-circle-o"></i></span>
+							</span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -208,7 +216,9 @@
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"> ${not empty cadreEdu?"确定":"添加"}
     </button>
 </div>
-
+<shiro:hasPermission name="cadre:updateWithoutRequired">
+	<style>span.star{color: grey}</style>
+</shiro:hasPermission>
 <script>
 	$.fileInput($('#modalForm input[type=file]'),{
 		no_file:'请选择证书图片 ...',
@@ -221,7 +231,19 @@
 		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
 		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 	});
-	$("#modal :checkbox").bootstrapSwitch();
+	//$("#modal .checkbox").bootstrapSwitch();
+	function isHighDegreeChange(){
+		if($("#modalForm input[name=isHighDegree]").bootstrapSwitch("state")){
+			$("#modalForm .secondDegree").show();
+		}else{
+			$("#modalForm .secondDegree").hide();
+		}
+	}
+	$('#modalForm input[name=isHighDegree]').on('switchChange.bootstrapSwitch', function(event, state) {
+		isHighDegreeChange();
+	});
+	isHighDegreeChange();
+
 	function hasDegreeChange(){
 		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")){
 			$("#modalForm input[name=degree]").prop("disabled", false).attr("required", "required");
@@ -272,8 +294,19 @@
 	schoolTypeChange();
 
 	function eduIdChange(){
+
 		var $eduId = $("#modalForm select[name=eduId]");
-		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_zz").id}"){
+		//console.log("$.trim($eduId.val())="+$.trim($eduId.val()))
+		// 清除学历
+		if($.trim($eduId.val())==''){
+			$("#modalForm input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+		}else{
+			$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+		}
+
+		// 学历为高中、中专不需要填写院系和专业
+		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_gz").id}"
+				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_zz").id}"){
 
 			$("#modalForm input[name=dep]").val('').removeAttr("required");
 			$("#modalForm input[name=major]").val('').removeAttr("required");
@@ -312,7 +345,9 @@
 			$("#modalForm input[name=isHighDegreee]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
 		}else{
 			$("#modalForm input[name=hasDegree]").bootstrapSwitch('disabled', false);
-			$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+			if($.trim($eduId.val())!='') {
+				$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+			}
 			$("#modalForm input[name=isHighDegreee]").bootstrapSwitch('disabled', false);
 		}
 	}
@@ -332,7 +367,9 @@
 
 		}else {
 			$("#modalForm input[name=hasDegree]").bootstrapSwitch('disabled', false);
-			$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+			if($.trim($("#modalForm select[name=eduId]").val())!='') {
+				$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+			}
 			$("#modalForm input[name='_files[]']").prop("disabled", false);
 
 			$("#modalForm input[name=finishTime]").prop("disabled", false).attr("required", "required");
@@ -373,7 +410,6 @@
 
 	$("#submitBtn").click(function () {
 		<shiro:hasPermission name="cadre:updateWithoutRequired">
-			$('span.star').css("color", "gray");
 			$('input, textarea, select').prop("required", false);
 		</shiro:hasPermission>
         $("#modalForm").submit();
@@ -406,9 +442,4 @@
 	});
 	$('#modalForm [data-rel="select2"]').select2();
 	$('[data-rel="tooltip"]').tooltip();
-
-	<shiro:hasPermission name="cadre:updateWithoutRequired">
-		$('span.star').css("color", "gray");
-		$('input, textarea, select').prop("required", false);
-	</shiro:hasPermission>
 </script>

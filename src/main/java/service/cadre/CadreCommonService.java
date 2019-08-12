@@ -331,7 +331,7 @@ public class CadreCommonService extends BaseMapper {
         // 最高学历
         modelMap.put("highEdu", cadreEduService.getHighEdu(cadreId));
         //最高学位
-        modelMap.put("highDegree", cadreEduService.getHighDegree(cadreId));
+        modelMap.put("highDegrees", cadreEduService.getHighDegrees(cadreId, null));
 
         // 是否已认定了参加工作时间，没认定前可修改
         modelMap.put("hasVerifyWorkTime", cadre.getVerifyWorkTime()!=null);

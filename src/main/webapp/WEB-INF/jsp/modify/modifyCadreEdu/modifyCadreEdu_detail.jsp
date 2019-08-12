@@ -76,7 +76,7 @@
                 </tr>
                 <tr>
                     <td data-code="isHighDegree">是否为最高学位</td>
-                    <td class="bg-left">${modify.isHighDegree?"是":"否"}</td>
+                    <td class="bg-left">${modify.isSecondDegree?'*':''}${modify.isHighDegree?"是":"否"}</td>
                     <td data-code="degreeCountry">学位授予国家</td>
                     <td class="bg-left">${modify.degreeCountry}</td>
                     <td data-code="degreeUnit">学位授予单位</td>
@@ -188,6 +188,9 @@
             $this.addClass("text-danger bolder");
         }
     });
+    if(modify.isSecondDegree!=original.isSecondDegree){
+        $("td[data-code=isHighDegree]").addClass("text-danger bolder");
+    }
     </c:if>
 
     $("#approvalBtn").click(function(){$("#approvalForm").submit();return false;})

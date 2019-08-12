@@ -246,9 +246,9 @@ public class CadreInfoCheckService extends BaseMapper {
     // 最高学位
     public Byte cadreHighDegreeCheck(int cadreId) {
 
-        if (cadreEduService.hasHighDegree(null, cadreId, true, SystemConstants.RECORD_STATUS_MODIFY))
+        if (cadreEduService.hasFirstHighDegree(null, cadreId, SystemConstants.RECORD_STATUS_MODIFY))
             return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
-        if (cadreEduService.hasHighDegree(null, cadreId, true, SystemConstants.RECORD_STATUS_FORMAL))
+        if (cadreEduService.hasFirstHighDegree(null, cadreId, SystemConstants.RECORD_STATUS_FORMAL))
             return CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
         else
             return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;

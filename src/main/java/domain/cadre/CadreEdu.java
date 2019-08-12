@@ -39,6 +39,8 @@ public class CadreEdu implements Serializable {
 
     private Boolean isHighDegree;
 
+    private Boolean isSecondDegree;
+
     private String degreeCountry;
 
     private String degreeUnit;
@@ -180,6 +182,14 @@ public class CadreEdu implements Serializable {
 
     public void setIsHighDegree(Boolean isHighDegree) {
         this.isHighDegree = isHighDegree;
+    }
+
+    public Boolean getIsSecondDegree() {
+        return isSecondDegree;
+    }
+
+    public void setIsSecondDegree(Boolean isSecondDegree) {
+        this.isSecondDegree = isSecondDegree;
     }
 
     public String getDegreeCountry() {

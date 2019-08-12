@@ -304,7 +304,6 @@
                 {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
                 {label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
                 {label: '备注', name: 'remark', width: 150},
-
                 {
                     label: '干部任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--'
@@ -316,18 +315,17 @@
                     ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                 }, width: 120
                 },
-
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                {
-                    label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
-                    //alert(rowObject.id)
-                    return _.template($("#op_tpl").html().NoMultiSpace())
-                    ({id: rowObject.id, parentRowKey: null, subWorkCount: rowObject.subWorkCount, cadreId: rowObject.cadreId})
-                }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
-                }
-        </shiro:lacksPermission>
-        </c:if>
+                <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+                <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                        {
+                            label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
+                            //alert(rowObject.id)
+                            return _.template($("#op_tpl").html().NoMultiSpace())
+                            ({id: rowObject.id, parentRowKey: null, subWorkCount: rowObject.subWorkCount, cadreId: rowObject.cadreId})
+                        }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
+                        }
+                </shiro:lacksPermission>
+                </c:if>
             ],
             rowattr: function (rowData, currentObj, rowId) {
                 //console.log(currentObj)
@@ -341,11 +339,9 @@
             subGridRowExpanded: subGridRowExpanded,
             subGridRowColapsed: subGridRowColapsed,
             subGridOptions: {
-                // configure the icons from theme rolloer
                 plusicon: "fa fa-folder-o",
                 minusicon: "fa fa-folder-open-o"
                 // selectOnExpand:true
-                //openicon: "ui-icon-arrowreturn-1-e"
             }
         }).on("initGrid", function () {
 
