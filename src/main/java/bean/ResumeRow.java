@@ -17,8 +17,10 @@ public class ResumeRow {
     public String desc;
     // 是否学习工作经历，否则工作经历
     public boolean isEdu;
-    // 所属主要经历的行号
+    // 所属主要工作经历或学习经历的行号
     public Integer fRow;
+    // 是否学习经历的其间经历
+    public boolean isEduWork;
 
     @Override
     public String toString() {
@@ -29,6 +31,7 @@ public class ResumeRow {
                 ", parseResumeRow='" + desc + '\'' +
                 ", isEdu=" + isEdu +
                 ", fRow=" + fRow +
+                ", isEduWork=" + isEduWork +
                 '}';
     }
 }

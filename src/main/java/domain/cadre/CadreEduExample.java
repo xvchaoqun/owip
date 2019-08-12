@@ -192,6 +192,66 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
+        public Criteria andSubWorkCountIsNull() {
+            addCriterion("sub_work_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountIsNotNull() {
+            addCriterion("sub_work_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountEqualTo(Integer value) {
+            addCriterion("sub_work_count =", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountNotEqualTo(Integer value) {
+            addCriterion("sub_work_count <>", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountGreaterThan(Integer value) {
+            addCriterion("sub_work_count >", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sub_work_count >=", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountLessThan(Integer value) {
+            addCriterion("sub_work_count <", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountLessThanOrEqualTo(Integer value) {
+            addCriterion("sub_work_count <=", value, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountIn(List<Integer> values) {
+            addCriterion("sub_work_count in", values, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountNotIn(List<Integer> values) {
+            addCriterion("sub_work_count not in", values, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountBetween(Integer value1, Integer value2) {
+            addCriterion("sub_work_count between", value1, value2, "subWorkCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubWorkCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("sub_work_count not between", value1, value2, "subWorkCount");
+            return (Criteria) this;
+        }
+
         public Criteria andCadreIdIsNull() {
             addCriterion("cadre_id is null");
             return (Criteria) this;

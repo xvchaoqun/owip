@@ -139,6 +139,11 @@ public class CadreEduController extends BaseController {
 
         Integer id = record.getId();
 
+        if(record.getEnrolTime()!=null && record.getFinishTime()!=null
+                && record.getFinishTime().before(record.getEnrolTime())){
+            return failed("入学时间和毕业时间有误");
+        }
+
         List<String> filePaths = new ArrayList<>();
         for (MultipartFile _file : _files) {
             String originalFilename = _file.getOriginalFilename();

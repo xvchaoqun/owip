@@ -63,6 +63,11 @@ span.a0
 	layout-grid:15.6pt;}
 div.WordSection1
 	{page:WordSection1;}
+
+.resume p {
+ text-indent: -9em;
+ margin: 0 0 0 9em;
+}
 -->
 </style>
 <c:if test="${param.mobile=='1'}">
@@ -475,7 +480,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   <p class=MsoNormal align=center style='text-align:center'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>历</span></p>
   </td>
-  <td width=572 colspan=11 style='width:429.2pt;border-top:none;border-left:
+  <td width=572 colspan=11 class="resume" style='width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:338.95pt'>
   ${bean.resumeDesc}

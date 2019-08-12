@@ -26,6 +26,7 @@
         }},
         </c:if>
         </c:if>
+        {label: '干部类别', name: 'isDep', width: 90, formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '院系干部', off: '机关干部'}},
         <c:if test="${_p_useCadreState}">
         {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
         </c:if>

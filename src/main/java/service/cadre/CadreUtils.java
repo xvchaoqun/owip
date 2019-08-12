@@ -64,6 +64,7 @@ public class CadreUtils {
                     sub = sub.trim().replace("[其|期]间[：|:]", "");
                     ResumeRow r = new ResumeRow();
                     r.fRow = newRow.row;
+                    r.isEduWork = newRow.isEdu;
                     parseResumeRow(r, sub);
                     resumeRows.add(r);
                 }

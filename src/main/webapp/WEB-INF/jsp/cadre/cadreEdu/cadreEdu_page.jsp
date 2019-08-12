@@ -19,25 +19,31 @@
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreEdu:edit">
-            <a class="popupBtn btn btn-warning btn-sm"
+            <button class="popupBtn btn btn-warning btn-sm"
                data-width="800"
                data-url="${ctx}/hf_content?code=hf_cadre_edu">
-                <i class="fa fa-info-circle"></i> 填写说明</a>
+                <i class="fa fa-info-circle"></i> 填写说明</button>
             <%--<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-url="${ctx}/cadreEdu_rule?cadreId=${param.cadreId}"><i class="fa fa-search"></i>
                     学历学位的认定规则</a>
             </shiro:hasPermission>--%>
-            <a class="popupBtn btn btn-success btn-sm"
+            <button class="popupBtn btn btn-success btn-sm"
                data-url="${ctx}/cadreEdu_au?cadreId=${param.cadreId}"
                data-width="900"><i class="fa fa-plus"></i>
-                添加学习经历</a>
-            <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                添加学习经历</button>
+            <button class="jqOpenViewBtn btn btn-primary btn-sm"
                data-url="${ctx}/cadreEdu_au"
                data-grid-id="#jqGrid_cadreEdu"
                data-querystr="&cadreId=${param.cadreId}"
                data-width="900"><i class="fa fa-edit"></i>
-                修改学习经历</a>
+                修改学习经历</button>
+            <button class="jqOpenViewBtn btn btn-info btn-sm"
+                       data-grid-id="#jqGrid_cadreEdu"
+                       data-url="${ctx}/cadreWork_au?isEduWork=1"
+                       data-id-name="fid"
+                       data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+                        添加其间经历</button>
         </shiro:hasPermission>
         <shiro:hasPermission name="cadreEdu:del">
             <button data-url="${ctx}/cadreEdu_batchDel"
@@ -67,7 +73,7 @@
                     </h4>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main" style="min-height: 647px" id="orginal">
+                    <div class="widget-main resume" style="min-height: 647px" id="orginal">
                         <jsp:useBean id='map' class='java.util.HashMap' scope='request'>
                             <c:set target='${map}' property='cadreEdus' value='${cadreEdus}'/>
                         </jsp:useBean>
@@ -103,7 +109,23 @@
         </div>
     </div>
 </c:if>
+<style>
+    .noSubWork [aria-describedby="jqGrid_cadreEdu_subgrid"] a {
+        display: none;
+    }
+    .table > tbody > tr.ui-subgrid.active > td,
+    .table tbody tr.ui-subgrid:hover td, .table tbody tr.ui-subgrid:hover th {
+        background-color: inherit !important;
+    }
 
+    .ui-subgrid tr.success td {
+        background-color: inherit !important;
+    }
+    .resume p {
+         text-indent: -9em;
+         margin: 0 0 0 9em;
+    }
+</style>
 <c:if test="${type==2}">
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
@@ -143,10 +165,44 @@
     </script>
 </c:if>
 <c:if test="${type==1}">
+    <script type="text/template" id="switch_tpl">
+        <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
+                data-id="{{=id}}"><i class="fa fa-folder-o"></i>
+            <span>查看其间经历</span>({{=subWorkCount}})
+        </button>
+    </script>
+    <script type="text/template" id="op_tpl">
+    <shiro:hasPermission name="cadreWork:edit">
+        <button class="popupBtn btn btn-xs btn-primary"
+                data-url="${ctx}/cadreWork_au?id={{=id}}&cadreId={{=cadreId}}&&fid={{=parentRowKey}}"><i
+                class="fa fa-edit"></i> 编辑
+        </button>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="cadreWork:del">
+        <button class="confirm btn btn-xs btn-danger"
+                data-parent="{{=parentRowKey}}"
+                data-url="${ctx}/cadreWork_batchDel?ids[]={{=id}}&cadreId=${param.cadreId}"
+                data-msg="确定删除该其间经历？"
+                data-callback="_callback"><i class="fa fa-times"></i> 删除
+        </button>
+        </shiro:hasPermission>
+    </script>
     <script>
         function _innerPage(type, fn) {
             $("#view-box .tab-content").loadPage({url:"${ctx}/cadreEdu_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
+
+        var colModal = colModels.cadreEdu.concat();
+        colModal.unshift({
+                    label: '其间经历', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
+                    if (rowObject.subWorkCount == 0) return '--';
+                    return _.template($("#switch_tpl").html().NoMultiSpace())({
+                        id: rowObject.id,
+                        subWorkCount: rowObject.subWorkCount
+                    });
+                }, width: 130
+        });
+
         var needTutorEduTypes = ${cm:toJSONArray(needTutorEduTypes)};
         $("#jqGrid_cadreEdu").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
@@ -156,9 +212,90 @@
             },
             pager: "#jqGridPager_cadreEdu",
             url: '${ctx}/cadreEdu_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-            colModel: colModels.cadreEdu
+            colModel: colModal,
+            rowattr: function (rowData, currentObj, rowId) {
+                //console.log(currentObj)
+                if (currentObj.subWorkCount == 0) {
+                    //console.log(rowId)
+                    //console.log($("#"+rowId).text())
+                    return {'class': 'noSubWork'}
+                }
+            },
+            subGrid: true,
+            subGridRowExpanded: subGridRowExpanded,
+            subGridRowColapsed: subGridRowColapsed,
+            subGridOptions: {
+                plusicon: "fa fa-folder-o",
+                minusicon: "fa fa-folder-open-o"
+                // selectOnExpand:true
+            }
+        }).on("initGrid", function () {
+
+            $('.noSubWork [aria-describedby="jqGrid_cadreEdu_subgrid"]').removeClass();
+
+            //console.log(currentExpandRows)
+            currentExpandRows.forEach(function(item, i){
+                $("#jqGrid_cadreEdu").expandSubGridRow(item)
+            })
         }).jqGrid("setFrozenColumns");
         $(window).triggerHandler('resize.jqGrid2');
+
+        function _swtich(id, btn) {
+
+            if (!$("i", btn).hasClass("fa-folder-open-o")) {
+                $("#jqGrid_cadreEdu").expandSubGridRow(id)
+            } else {
+                $("#jqGrid_cadreEdu").collapseSubGridRow(id)
+            }
+            $.getEvent().stopPropagation();
+        }
+        var currentExpandRows = [];
+        function subGridRowColapsed(parentRowID, parentRowKey) {
+            $(".switchBtn i", '#jqGrid_cadreEdu #' + parentRowKey).removeClass("fa-folder-open-o");
+            $(".switchBtn span", '#jqGrid_cadreEdu #' + parentRowKey).html("查看其间经历");
+            currentExpandRows.remove(parentRowKey);
+        }
+        // the event handler on expanding parent row receives two parameters
+        // the ID of the grid tow  and the primary key of the row
+        function subGridRowExpanded(parentRowID, parentRowKey) {
+
+            $(".switchBtn i", '#jqGrid_cadreEdu #' + parentRowKey).addClass("fa-folder-open-o");
+            $(".switchBtn span", '#jqGrid_cadreEdu #' + parentRowKey).html("隐藏其间经历");
+            currentExpandRows.remove(parentRowKey);
+            currentExpandRows.push(parentRowKey);
+
+            var childGridID = parentRowID + "_table";
+            var childGridPagerID = parentRowID + "_pager";
+
+            var childGridURL = '${ctx}/cadreWork_data?fid={0}&${cm:encodeQueryString(pageContext.request.queryString)}'.format(parentRowKey);
+
+            $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
+            $("#" + childGridID).jqGrid({
+                ondblClickRow: function () {
+                },
+                multiselect: false,
+                url: childGridURL,
+                colModel: [
+                    {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+                    {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+                    {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align: 'left'},
+                    {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 120},
+                    {label: '备注', name: 'remark', width: 150},
+                    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                    {
+                        label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
+                        //alert(rowObject.id)
+                        return _.template($("#op_tpl").html().NoMultiSpace())
+                        ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
+                    }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
+                    }
+                    </shiro:lacksPermission>
+                    </c:if>
+                ],
+                pager: null
+            });
+        }
 
         $.register.fancybox(function () {
             //console.log(this)

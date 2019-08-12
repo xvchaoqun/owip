@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cadre.CadreWork">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="fid" jdbcType="INTEGER" property="fid" />
+    <result column="is_edu_work" jdbcType="BIT" property="isEduWork" />
     <result column="sub_work_count" jdbcType="INTEGER" property="subWorkCount" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="start_time" jdbcType="DATE" property="startTime" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fid, sub_work_count, cadre_id, start_time, end_time, detail, unit_ids, work_type, 
-    is_cadre, remark, status
+    id, fid, is_edu_work, sub_work_count, cadre_id, start_time, end_time, detail, unit_ids, 
+    work_type, is_cadre, remark, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreWorkExample" resultMap="BaseResultMap">
     select
@@ -111,14 +112,16 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre_work (fid, sub_work_count, cadre_id, 
-      start_time, end_time, detail, 
-      unit_ids, work_type, is_cadre, 
-      remark, status)
-    values (#{fid,jdbcType=INTEGER}, #{subWorkCount,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{detail,jdbcType=VARCHAR}, 
-      #{unitIds,jdbcType=VARCHAR}, #{workType,jdbcType=INTEGER}, #{isCadre,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+    insert into cadre_work (fid, is_edu_work, sub_work_count, 
+      cadre_id, start_time, end_time, 
+      detail, unit_ids, work_type, 
+      is_cadre, remark, status
+      )
+    values (#{fid,jdbcType=INTEGER}, #{isEduWork,jdbcType=BIT}, #{subWorkCount,jdbcType=INTEGER}, 
+      #{cadreId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, 
+      #{detail,jdbcType=VARCHAR}, #{unitIds,jdbcType=VARCHAR}, #{workType,jdbcType=INTEGER}, 
+      #{isCadre,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreWork">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -128,6 +131,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="fid != null">
         fid,
+      </if>
+      <if test="isEduWork != null">
+        is_edu_work,
       </if>
       <if test="subWorkCount != null">
         sub_work_count,
@@ -163,6 +169,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="fid != null">
         #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="isEduWork != null">
+        #{isEduWork,jdbcType=BIT},
       </if>
       <if test="subWorkCount != null">
         #{subWorkCount,jdbcType=INTEGER},
@@ -211,6 +220,9 @@
       <if test="record.fid != null">
         fid = #{record.fid,jdbcType=INTEGER},
       </if>
+      <if test="record.isEduWork != null">
+        is_edu_work = #{record.isEduWork,jdbcType=BIT},
+      </if>
       <if test="record.subWorkCount != null">
         sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
       </if>
@@ -250,6 +262,7 @@
     update cadre_work
     set id = #{record.id,jdbcType=INTEGER},
       fid = #{record.fid,jdbcType=INTEGER},
+      is_edu_work = #{record.isEduWork,jdbcType=BIT},
       sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       start_time = #{record.startTime,jdbcType=DATE},
@@ -269,6 +282,9 @@
     <set>
       <if test="fid != null">
         fid = #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="isEduWork != null">
+        is_edu_work = #{isEduWork,jdbcType=BIT},
       </if>
       <if test="subWorkCount != null">
         sub_work_count = #{subWorkCount,jdbcType=INTEGER},
@@ -306,6 +322,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreWork">
     update cadre_work
     set fid = #{fid,jdbcType=INTEGER},
+      is_edu_work = #{isEduWork,jdbcType=BIT},
       sub_work_count = #{subWorkCount,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=DATE},

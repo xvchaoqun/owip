@@ -3,25 +3,30 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">其间</c:if>工作经历
-        <shiro:hasPermission name="sysUser:resume">（<a href="/sysUserInfo_resume?userId=${sysUser.userId}" target="_blank">查看干部任免审批表简历</a>）</shiro:hasPermission></h3>
+    <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty fid}">其间</c:if>工作经历
+        <shiro:hasPermission name="sysUser:resume">（<a href="/sysUserInfo_resume?userId=${cadre.userId}" target="_blank">查看干部任免审批表简历</a>）</shiro:hasPermission></h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreWork_au?toApply=${param.toApply}&cadreId=${cadre.id}" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
             <input type="hidden" name="applyId" value="${param.applyId}">
             <input type="hidden" name="id" value="${cadreWork.id}">
-            <input  type="hidden" name="fid" value="${empty cadreWork?param.fid:cadreWork.fid}">
+            <input  type="hidden" name="isEduWork" value="${isEduWork}">
+            <input  type="hidden" name="fid" value="${fid}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">姓名</label>
 				<div class="col-xs-6 label-text">
-                    ${sysUser.realname}
+                    ${cadre.realname}
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>开始日期</label>
 				<div class="col-xs-6">
-                    <div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm" style="width: 120px">
+                    <div class="input-group date" data-date-min-view-mode="1"
+                            <c:if test="${not empty fid}">
+                                data-date-end-date="'${cm:formatDate(topEndTime,'yyyy.MM')}'"
+                            </c:if>
+                         data-date-format="yyyy.mm" style="width: 120px">
                         <input required class="form-control" name="_startTime" type="text"
                                 placeholder="yyyy.mm" value="${cm:formatDate(cadreWork.startTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -29,21 +34,22 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">${not empty topCadreWork.endTime?'<span class="star">*</span>':''}结束日期</label>
+				<label class="col-xs-4 control-label">${not empty topEndTime?'<span class="star">*</span>':''}结束日期</label>
 				<div class="col-xs-7">
                     <div class="input-group date" style="width: 120px"
                          data-date-min-view-mode="1"
-                            <c:if test="${not empty param.fid}">
-                                data-date-start-date="'${cm:formatDate(topCadreWork.startTime,'yyyy.MM')}'"
-                                data-date-end-date="'${cm:formatDate(topCadreWork.endTime,'yyyy.MM')}'"
+                            <c:if test="${not empty fid}">
+                                data-date-start-date="'${cm:formatDate(topStartTime,'yyyy.MM')}'"
+                                data-date-end-date="'${cm:formatDate(topEndTime,'yyyy.MM')}'"
                             </c:if>
                          data-date-format="yyyy.mm">
-                        <input ${not empty topCadreWork.endTime?"required":""} placeholder="yyyy.mm"
-                                                                                class="form-control" name="_endTime" type="text" value="${cm:formatDate(cadreWork.endTime,'yyyy.MM')}"/>
+                        <input ${not empty topEndTime?"required":""} placeholder="yyyy.mm"
+                           class="form-control" name="_endTime" type="text"
+                           value="${cm:formatDate(cadreWork.endTime,'yyyy.MM')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
-                <c:if test="${not empty param.fid}">
-                    <span class="help-block red">注：结束日期要求在主要工作经历的日期范围之内</span>
+                <c:if test="${not empty fid}">
+                    <span class="help-block red">注：结束日期要求在${isEduWork?'学习经历':'主要工作经历'}的日期范围之内</span>
                 </c:if>
 				</div>
 			</div>
@@ -65,6 +71,7 @@ pageEncoding="UTF-8"%>
                     </script>
 				</div>
 			</div>
+        <c:if test="${!isEduWork}">
         <div class="form-group">
             <label class="col-xs-4 control-label">是否担任领导职务</label>
             <div class="col-xs-6">
@@ -74,6 +81,7 @@ pageEncoding="UTF-8"%>
                 </label>
             </div>
         </div>
+            </c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6">
@@ -90,7 +98,6 @@ pageEncoding="UTF-8"%>
     $("#modal :checkbox").bootstrapSwitch();
     $('textarea.limited').inputlimiter();
     $.register.date($('.input-group.date'));
-    //$.register.date($('.date-picker'), {startDate:'${cm:formatDate(topCadreWork.startTime, "yyyy.MM")}', endDate:'${cm:formatDate(topCadreWork.endTime, "yyyy.MM")}'});
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
@@ -99,25 +106,21 @@ pageEncoding="UTF-8"%>
 
                         currentExpandRows = [];
                         $("#modal").modal("hide");
-                        // 如果添加主要工作经历，那么添加之后所有的其间工作经历都是隐藏状态；
-                        // 如果添加其间工作经历，那么添加之后，只有它所在的主要工作经历的其间工作经历为打开状态，其他主要工作经历的其间工作经历为隐藏状态。
-                        <c:if test="${empty param.fid}">
+                        /**
+                         * 如果添加主要工作经历或学习经历，那么添加之后所有的其间工作经历都是隐藏状态；
+                         *
+                         * 如果添加其间工作经历，那么添加之后，只有它所在的主要工作经历或学习经历的其间工作经历为打开状态，
+                         * 其他主要工作经历或学习经历的其间工作经历为隐藏状态。
+                          */
+                        <c:if test="${empty fid}">
                         currentExpandRows = [];
                         </c:if>
-                        <c:if test="${not empty param.fid}">
-                        currentExpandRows.push("${param.fid}");
+                        <c:if test="${not empty fid}">
+                        currentExpandRows.push("${fid}");
                         </c:if>
-
-                        <%--<c:if test="${topCadreWork.subWorkCount==0 || empty param.fid}">
-                            $("#jqGrid_cadreWork").trigger("reloadGrid");
-                            _reloadSubGrid(${param.fid});
-                        </c:if>
-                        <c:if test="${topCadreWork.subWorkCount>0 && not empty param.fid}">
-                            _reloadSubGrid(${param.fid});
-                        </c:if>--%>
 
                         <c:if test="${param.toApply!=1}">
-                        $("#jqGrid_cadreWork").trigger("reloadGrid");
+                        $("#${isEduWork?'jqGrid_cadreEdu':'jqGrid_cadreWork'}").trigger("reloadGrid");
                         </c:if>
                         <c:if test="${param.toApply==1}">
                         <c:if test="${param._isUpdate==1}">

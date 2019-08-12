@@ -51,6 +51,8 @@ public class CadreView implements Serializable {
 
     private Byte type;
 
+    private Boolean isDep;
+
     private Boolean hasCrp;
 
     private Boolean isDouble;
@@ -243,6 +245,14 @@ public class CadreView implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getIsDep() {
+        return isDep;
+    }
+
+    public void setIsDep(Boolean isDep) {
+        this.isDep = isDep;
     }
 
     public Boolean getHasCrp() {

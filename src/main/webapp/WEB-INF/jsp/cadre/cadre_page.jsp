@@ -17,7 +17,8 @@
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
-                ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.state  ||not empty param.post  ||not empty param.title }"/>
+                ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
+                 ||not empty param.state  ||not empty param.post  ||not empty param.title }"/>
 
                 <div class="tabbable">
 
@@ -342,6 +343,18 @@
                                                             <c:import url="/metaTypes?__code=mc_democratic_party"/>
                                                         </select>
                                                     </td>
+                                                    <c:if test="${_p_useCadreState}">
+                                                    <td class="name">${_pMap['cadreStateName']}</td>
+                                                    <td class="input">
+                                                        <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <c:import url="/metaTypes?__code=mc_cadre_state"/>
+                                                        </select>
+                                                        <script type="text/javascript">
+                                                            $("#searchForm select[name=state]").val(${param.state});
+                                                        </script>
+                                                    </td>
+                                                    </c:if>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">部门属性</td>
@@ -517,6 +530,7 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
+                                                    <c:if test="${_p_hasKjCadre}">
                                                     <td class="name">干部类型</td>
                                                     <td class="input">
                                                         <select name="type" data-width="150" data-rel="select2"
@@ -530,18 +544,19 @@
                                                             $("#searchForm select[name=type]").val('${param.type}');
                                                         </script>
                                                     </td>
-                                                    <c:if test="${_p_useCadreState}">
-                                                    <td class="name">${_pMap['cadreStateName']}</td>
+                                                    </c:if>
+                                                    <td class="name">干部类别</td>
                                                     <td class="input">
-                                                        <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
+                                                        <select name="isDep" data-width="150" data-rel="select2"
+                                                                data-placeholder="请选择">
                                                             <option></option>
-                                                            <c:import url="/metaTypes?__code=mc_cadre_state"/>
+                                                            <option value="1">院系干部</option>
+                                                            <option value="0">机关干部</option>
                                                         </select>
-                                                        <script type="text/javascript">
-                                                            $("#searchForm select[name=state]").val(${param.state});
+                                                        <script>
+                                                            $("#searchForm select[name=isDep]").val('${param.isDep}');
                                                         </script>
                                                     </td>
-                                                    </c:if>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">职务</td>
@@ -564,6 +579,7 @@
                                                             $("#searchForm select[name=hasCrp]").val('${param.hasCrp}');
                                                         </script>
                                                     </td>
+
                                                 </tr>
                                             </table>
                                             <div>

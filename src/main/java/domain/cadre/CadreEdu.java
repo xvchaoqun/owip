@@ -5,9 +5,23 @@ import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class CadreEdu implements Serializable {
+
+    private List<CadreWork> subCadreWorks;
+
+    public List<CadreWork> getSubCadreWorks() {
+        return subCadreWorks;
+    }
+
+    public void setSubCadreWorks(List<CadreWork> subCadreWorks) {
+        this.subCadreWorks = subCadreWorks;
+    }
+
     private Integer id;
+
+    private Integer subWorkCount;
 
     private Integer cadreId;
 
@@ -70,6 +84,14 @@ public class CadreEdu implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getSubWorkCount() {
+        return subWorkCount;
+    }
+
+    public void setSubWorkCount(Integer subWorkCount) {
+        this.subWorkCount = subWorkCount;
     }
 
     public Integer getCadreId() {

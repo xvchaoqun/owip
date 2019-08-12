@@ -186,6 +186,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
                            Boolean isDouble, // 是否双肩挑
                            Boolean hasCrp, // 是否有干部挂职经历
+                           Boolean isDep,
                            Byte type,
                            Integer state,
                            String post,
@@ -297,6 +298,9 @@ public class CadreController extends BaseController {
         }
         if (hasCrp != null) {
             criteria.andHasCrpEqualTo(hasCrp);
+        }
+        if(isDep!=null){
+            criteria.andIsDepEqualTo(isDep);
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
@@ -650,6 +654,8 @@ public class CadreController extends BaseController {
     public Map do_cadre_au(Cadre record,
                            @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
                            HttpServletRequest request) {
+
+        record.setIsDep(BooleanUtils.isTrue(record.getIsDep()));
 
         record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
         if(record.getIsDouble()){

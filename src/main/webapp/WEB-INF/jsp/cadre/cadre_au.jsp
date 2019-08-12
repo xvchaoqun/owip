@@ -12,8 +12,27 @@
         <input type="hidden" name="id" value="${cadre.id}">
         <input type="hidden" name="status" value="${status}">
         <div class="form-group">
+            <label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input required type="radio" name="isDep" id="isDep1" ${cadre.isDep?"checked":""} value="1">
+                        <label for="isDep1">
+                            院系干部
+                        </label>
+                    </div>
+                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                        <input required type="radio" name="isDep" id="isDep0" ${cadre.isDep?"":"checked"} value="0">
+                        <label for="isDep0">
+                            机关干部
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-4 control-label"><c:if test="${empty cadre}"><span class="star">*</span></c:if>账号</label>
-            <div class="col-xs-6 ${cadre!=null?'label-text':''}">
+            <div class="col-xs-6 ${not empty cadre?'label-text':''}">
                 <c:if test="${cadre==null}">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">

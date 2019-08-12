@@ -61,7 +61,7 @@
                     </h4>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main" style="min-height: 647px" id="orginal">
+                    <div class="widget-main resume" style="min-height: 647px" id="orginal">
                         <jsp:useBean id='map' class='java.util.HashMap' scope='request'>
                             <c:set target='${map}' property='cadreWorks' value='${cadreWorks}'/>
                         </jsp:useBean>
@@ -109,7 +109,7 @@
                     </h4>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main" style="min-height: 647px" id="orginal">
+                    <div class="widget-main resume" style="min-height: 647px" id="orginal">
                         <jsp:useBean id='map3' class='java.util.HashMap' scope='request'>
                             <c:set target='${map3}' property='cadreResumes' value='${cadreResumes}'/>
                         </jsp:useBean>
@@ -146,17 +146,6 @@
         </div>
     </div>
 </c:if>
-
-<style>
-    .table > tbody > tr.ui-subgrid.active > td,
-    .table tbody tr.ui-subgrid:hover td, .table tbody tr.ui-subgrid:hover th {
-        background-color: inherit !important;
-    }
-
-    .ui-subgrid tr.success td {
-        background-color: inherit !important;
-    }
-</style>
 <script type="text/template" id="switch_tpl">
     <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
             data-id="{{=id}}"><i class="fa fa-folder-o"></i>
@@ -204,6 +193,18 @@
 <style>
     .noSubWork [aria-describedby="jqGrid_cadreWork_subgrid"] a {
         display: none;
+    }
+    .table > tbody > tr.ui-subgrid.active > td,
+    .table tbody tr.ui-subgrid:hover td, .table tbody tr.ui-subgrid:hover th {
+        background-color: inherit !important;
+    }
+
+    .ui-subgrid tr.success td {
+        background-color: inherit !important;
+    }
+    .resume p {
+         text-indent: -9em;
+         margin: 0 0 0 9em;
     }
 </style>
 <c:if test="${type==2}">

@@ -2,9 +2,7 @@ package service.cadre;
 
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreEduExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import domain.unit.Unit;
@@ -70,15 +68,31 @@ public class CadreEduService extends BaseMapper {
     // 查找某个干部的学习经历
     public List<CadreEdu> list(int cadreId, Boolean isGraduated) {
 
-        CadreEduExample example = new CadreEduExample();
-        CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        if (isGraduated != null)
-            criteria.andIsGraduatedEqualTo(isGraduated);
+        List<CadreEdu> cadreEdus = null;
+        {
+            CadreEduExample example = new CadreEduExample();
+            CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+            if (isGraduated != null)
+                criteria.andIsGraduatedEqualTo(isGraduated);
+            example.setOrderByClause("enrol_time asc");
 
-        example.setOrderByClause("enrol_time asc");
+            cadreEdus = cadreEduMapper.selectByExample(example);
+        }
+        if(cadreEdus!=null) {
+            for (CadreEdu cadreEdu : cadreEdus) {
+                Integer fid = cadreEdu.getId();
+                CadreWorkExample example = new CadreWorkExample();
+                example.createCriteria().andFidEqualTo(fid)
+                        .andIsEduWorkEqualTo(true)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+                example.setOrderByClause("start_time asc");
+                List<CadreWork> subCadreWorks = cadreWorkMapper.selectByExample(example);
+                cadreEdu.setSubCadreWorks(subCadreWorks);
+            }
+        }
 
-        return cadreEduMapper.selectByExample(example);
+        return cadreEdus;
     }
 
     // 获取全日制教育、在职教育（各读取已毕业的最后一条记录）

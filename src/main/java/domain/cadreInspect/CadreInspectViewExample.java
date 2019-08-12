@@ -622,6 +622,66 @@ public class CadreInspectViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsDepIsNull() {
+            addCriterion("is_dep is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepIsNotNull() {
+            addCriterion("is_dep is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepEqualTo(Boolean value) {
+            addCriterion("is_dep =", value, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepNotEqualTo(Boolean value) {
+            addCriterion("is_dep <>", value, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepGreaterThan(Boolean value) {
+            addCriterion("is_dep >", value, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_dep >=", value, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepLessThan(Boolean value) {
+            addCriterion("is_dep <", value, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_dep <=", value, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepIn(List<Boolean> values) {
+            addCriterion("is_dep in", values, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepNotIn(List<Boolean> values) {
+            addCriterion("is_dep not in", values, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_dep between", value1, value2, "isDep");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDepNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_dep not between", value1, value2, "isDep");
+            return (Criteria) this;
+        }
+
         public Criteria andHasCrpIsNull() {
             addCriterion("has_crp is null");
             return (Criteria) this;

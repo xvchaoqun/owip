@@ -98,8 +98,6 @@ public class StatCadreController extends BaseController {
         int count = 0;
         List records = new ArrayList<>();
 
-        MetaType xyUnitMetaType = metaTypeService.codeKeyMap().get("mt_unit_type_xy");
-
         searchBean.setCadreStatus(CadreConstants.CADRE_STATUS_MIDDLE); // 统计现任干部
         switch (type) {
             case 1: // 查找干部的（境外）学习经历
@@ -126,9 +124,8 @@ public class StatCadreController extends BaseController {
                     export_cadreWorks(xyMetaType, searchBean, response);
                     return;
                 }
-                int unitTypeId = xyUnitMetaType.getId();
                 int workType = xyMetaType.getId();
-                searchBean.setNotUnitTypeId(unitTypeId);
+                searchBean.setDep(false);
                 count = iCadreMapper.countCadreWorkList(workType, searchBean);
                 records = iCadreMapper.selectCadreWorkList(workType, searchBean, rowBounds);
                 break;
@@ -138,9 +135,8 @@ public class StatCadreController extends BaseController {
                     export_cadreWorks(jgMetaType, searchBean, response);
                     return;
                 }
-                unitTypeId = xyUnitMetaType.getId();
                 workType = jgMetaType.getId();
-                searchBean.setUnitTypeId(unitTypeId);
+                searchBean.setDep(true);
                 count = iCadreMapper.countCadreWorkList(workType, searchBean);
                 records = iCadreMapper.selectCadreWorkList(workType, searchBean, rowBounds);
                 break;

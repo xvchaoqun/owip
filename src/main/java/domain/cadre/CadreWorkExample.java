@@ -252,6 +252,66 @@ public class CadreWorkExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsEduWorkIsNull() {
+            addCriterion("is_edu_work is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkIsNotNull() {
+            addCriterion("is_edu_work is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkEqualTo(Boolean value) {
+            addCriterion("is_edu_work =", value, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkNotEqualTo(Boolean value) {
+            addCriterion("is_edu_work <>", value, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkGreaterThan(Boolean value) {
+            addCriterion("is_edu_work >", value, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_edu_work >=", value, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkLessThan(Boolean value) {
+            addCriterion("is_edu_work <", value, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_edu_work <=", value, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkIn(List<Boolean> values) {
+            addCriterion("is_edu_work in", values, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkNotIn(List<Boolean> values) {
+            addCriterion("is_edu_work not in", values, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_edu_work between", value1, value2, "isEduWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEduWorkNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_edu_work not between", value1, value2, "isEduWork");
+            return (Criteria) this;
+        }
+
         public Criteria andSubWorkCountIsNull() {
             addCriterion("sub_work_count is null");
             return (Criteria) this;

@@ -30,6 +30,8 @@ public class CadreWork implements Serializable {
 
     private Integer fid;
 
+    private Boolean isEduWork;
+
     private Integer subWorkCount;
 
     private Integer cadreId;
@@ -66,6 +68,14 @@ public class CadreWork implements Serializable {
 
     public void setFid(Integer fid) {
         this.fid = fid;
+    }
+
+    public Boolean getIsEduWork() {
+        return isEduWork;
+    }
+
+    public void setIsEduWork(Boolean isEduWork) {
+        this.isEduWork = isEduWork;
     }
 
     public Integer getSubWorkCount() {

@@ -3,6 +3,7 @@
 <mapper namespace="persistence.cadre.CadreEduMapper">
   <resultMap id="BaseResultMap" type="domain.cadre.CadreEdu">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sub_work_count" jdbcType="INTEGER" property="subWorkCount" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="edu_id" jdbcType="INTEGER" property="eduId" />
     <result column="is_graduated" jdbcType="BIT" property="isGraduated" />
@@ -88,10 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, edu_id, is_graduated, is_high_edu, school, dep, major, school_type, 
-    enrol_time, finish_time, learn_style, has_degree, degree, is_high_degree, is_second_degree, 
-    degree_country, degree_unit, degree_time, tutor_name, tutor_title, certificate, remark, 
-    note, sort_order, status
+    id, sub_work_count, cadre_id, edu_id, is_graduated, is_high_edu, school, dep, major, 
+    school_type, enrol_time, finish_time, learn_style, has_degree, degree, is_high_degree, 
+    is_second_degree, degree_country, degree_unit, degree_time, tutor_name, tutor_title, 
+    certificate, remark, note, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreEduExample" resultMap="BaseResultMap">
     select
@@ -127,24 +128,24 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre_edu (cadre_id, edu_id, is_graduated, 
-      is_high_edu, school, dep, 
-      major, school_type, enrol_time, 
-      finish_time, learn_style, has_degree, 
-      degree, is_high_degree, is_second_degree, 
-      degree_country, degree_unit, degree_time, 
-      tutor_name, tutor_title, certificate, 
-      remark, note, sort_order, 
-      status)
-    values (#{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, #{isGraduated,jdbcType=BIT}, 
-      #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, #{dep,jdbcType=VARCHAR}, 
-      #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, #{enrolTime,jdbcType=DATE}, 
-      #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER}, #{hasDegree,jdbcType=BIT}, 
-      #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, #{isSecondDegree,jdbcType=BIT}, 
-      #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, 
-      #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+    insert into cadre_edu (sub_work_count, cadre_id, edu_id, 
+      is_graduated, is_high_edu, school, 
+      dep, major, school_type, 
+      enrol_time, finish_time, learn_style, 
+      has_degree, degree, is_high_degree, 
+      is_second_degree, degree_country, degree_unit, 
+      degree_time, tutor_name, tutor_title, 
+      certificate, remark, note, 
+      sort_order, status)
+    values (#{subWorkCount,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, 
+      #{isGraduated,jdbcType=BIT}, #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, 
+      #{dep,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, 
+      #{enrolTime,jdbcType=DATE}, #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER}, 
+      #{hasDegree,jdbcType=BIT}, #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, 
+      #{isSecondDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, 
+      #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, 
+      #{certificate,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreEdu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -152,6 +153,9 @@
     </selectKey>
     insert into cadre_edu
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="subWorkCount != null">
+        sub_work_count,
+      </if>
       <if test="cadreId != null">
         cadre_id,
       </if>
@@ -229,6 +233,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="subWorkCount != null">
+        #{subWorkCount,jdbcType=INTEGER},
+      </if>
       <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
@@ -318,6 +325,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.subWorkCount != null">
+        sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
+      </if>
       <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
@@ -401,6 +411,7 @@
   <update id="updateByExample" parameterType="map">
     update cadre_edu
     set id = #{record.id,jdbcType=INTEGER},
+      sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       edu_id = #{record.eduId,jdbcType=INTEGER},
       is_graduated = #{record.isGraduated,jdbcType=BIT},
@@ -433,6 +444,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreEdu">
     update cadre_edu
     <set>
+      <if test="subWorkCount != null">
+        sub_work_count = #{subWorkCount,jdbcType=INTEGER},
+      </if>
       <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
@@ -513,7 +527,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreEdu">
     update cadre_edu
-    set cadre_id = #{cadreId,jdbcType=INTEGER},
+    set sub_work_count = #{subWorkCount,jdbcType=INTEGER},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
       edu_id = #{eduId,jdbcType=INTEGER},
       is_graduated = #{isGraduated,jdbcType=BIT},
       is_high_edu = #{isHighEdu,jdbcType=BIT},

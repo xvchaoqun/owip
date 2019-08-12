@@ -25,6 +25,7 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_dep" jdbcType="BIT" property="isDep" />
     <result column="has_crp" jdbcType="BIT" property="hasCrp" />
     <result column="is_double" jdbcType="BIT" property="isDouble" />
     <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
@@ -143,7 +144,7 @@
     candidate_id, is_first, expert_count, crs_post_id, crs_post_type, crs_post_year, 
     crs_post_seq, crs_post_name, crs_post_job, crs_post_status, applicant_id, recommend_ow, 
     recommend_cadre, recommend_crowd, recommend_pdf, recommend_first_count, recommend_second_count, 
-    is_recommend, ppt_name, ppt, id, user_id, type, has_crp, is_double, double_unit_ids, 
+    is_recommend, ppt_name, ppt, id, user_id, type, is_dep, has_crp, is_double, double_unit_ids, 
     state, title, dispatch_cadre_id, remark, sort_order, status, unit_id, admin_level, 
     post_type, post, is_committee_member, msg_title, mobile, phone, home_phone, email, 
     code, realname, gender, nation, native_place, idcard, birth, party_id, branch_id, 

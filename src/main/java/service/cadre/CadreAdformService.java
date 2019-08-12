@@ -540,7 +540,6 @@ public class CadreAdformService extends BaseMapper {
         if (adFormType != null && adFormType == 2) {
             maxFamilyCount = 7;
             adformFtl = "/adform/adform2.ftl";
-            titleEditorFtl = "/common/titleEditor2.ftl";
             familyFtl = "/adform/family2.ftl";
         }
 
@@ -887,8 +886,8 @@ public class CadreAdformService extends BaseMapper {
 
         List<ResumeRow> resumeRows = CadreUtils.parseResume(resume);
         CadreView cadre = iCadreMapper.getCadre(cadreId);
-        // <row, cadreWorkId> 辅助数组，用于其间工作
-        Map<Integer, Integer> workIdMap = new HashMap<>();
+        // <row, 主要工作经历或学习经历的ID> 辅助数组，用于其间工作
+        Map<Integer, Integer> fidMap = new HashMap<>();
 
         for (ResumeRow resumeRow : resumeRows) {
 
@@ -967,19 +966,28 @@ public class CadreAdformService extends BaseMapper {
                 //cadreEdu.setRemark(resumeRow.desc);
 
                 CadreEdu byEduTime = cadreEduService.getByEduTime(cadreId, cadreEdu.getEnrolTime(), cadreEdu.getFinishTime());
-                if (byEduTime != null) {
-                    cadreEdu.setId(byEduTime.getId());
-                    cadreEduMapper.updateByPrimaryKeySelective(cadreEdu);
-                } else {
+                if (byEduTime == null) {
                     try {
                         cadreEduService.insertSelective(cadreEdu);
+                        if (resumeRow.row != null) {
+                            // 暂存学习经历ID
+                            fidMap.put(resumeRow.row, cadreEdu.getId());
+                        }
                     } catch (Exception ex) {
                         throw new OpException("{0}学习经历有误：{1}", cadre.getRealname(), ex.getMessage());
                     }
+                } else {
+
+                    if (resumeRow.row != null) {
+                        fidMap.put(resumeRow.row, byEduTime.getId());
+                    }
+                    cadreEdu.setId(byEduTime.getId());
+                    cadreEduMapper.updateByPrimaryKeySelective(cadreEdu);
                 }
             } else {
                 // 工作经历
                 CadreWork cadreWork = new CadreWork();
+                cadreWork.setIsEduWork(false);
                 cadreWork.setCadreId(cadreId);
                 cadreWork.setStartTime(resumeRow.start);
                 cadreWork.setEndTime(resumeRow.end);
@@ -1002,17 +1010,18 @@ public class CadreAdformService extends BaseMapper {
                         cadreWorkService.insertSelective(cadreWork);
                         if (resumeRow.row != null) {
                             // 暂存主要工作经历ID
-                            workIdMap.put(resumeRow.row, cadreWork.getId());
+                            fidMap.put(resumeRow.row, cadreWork.getId());
                         }
                     } else {
                         // 保存其间工作经历
-                        cadreWork.setFid(workIdMap.get(resumeRow.fRow)); // 读取主要工作经历ID
+                        cadreWork.setFid(fidMap.get(resumeRow.fRow)); // 读取主要工作经历ID
+                        cadreWork.setIsEduWork(resumeRow.isEduWork);
                         cadreWorkService.insertSelective(cadreWork);
                     }
 
                 } else {
                     if (resumeRow.row != null) {
-                        workIdMap.put(resumeRow.row, byWorkTime.getId());
+                        fidMap.put(resumeRow.row, byWorkTime.getId());
                     }
                     cadreWork.setId(byWorkTime.getId());
                     cadreWorkService.updateByPrimaryKeySelective(cadreWork);

@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_dep" jdbcType="BIT" property="isDep" />
     <result column="has_crp" jdbcType="BIT" property="hasCrp" />
     <result column="is_double" jdbcType="BIT" property="isDouble" />
     <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type, has_crp, is_double, double_unit_ids, state, title, dispatch_cadre_id, 
+    id, user_id, type, is_dep, has_crp, is_double, double_unit_ids, state, title, dispatch_cadre_id, 
     remark, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreExample" resultMap="BaseResultMap">
@@ -111,14 +112,16 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre (user_id, type, has_crp, 
-      is_double, double_unit_ids, state, 
-      title, dispatch_cadre_id, remark, 
-      sort_order, status)
-    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{hasCrp,jdbcType=BIT}, 
-      #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{dispatchCadreId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
+    insert into cadre (user_id, type, is_dep, 
+      has_crp, is_double, double_unit_ids, 
+      state, title, dispatch_cadre_id, 
+      remark, sort_order, status
+      )
+    values (#{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{isDep,jdbcType=BIT}, 
+      #{hasCrp,jdbcType=BIT}, #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{dispatchCadreId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.Cadre">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -131,6 +134,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="isDep != null">
+        is_dep,
       </if>
       <if test="hasCrp != null">
         has_crp,
@@ -166,6 +172,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isDep != null">
+        #{isDep,jdbcType=BIT},
       </if>
       <if test="hasCrp != null">
         #{hasCrp,jdbcType=BIT},
@@ -214,6 +223,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.isDep != null">
+        is_dep = #{record.isDep,jdbcType=BIT},
+      </if>
       <if test="record.hasCrp != null">
         has_crp = #{record.hasCrp,jdbcType=BIT},
       </if>
@@ -251,6 +263,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      is_dep = #{record.isDep,jdbcType=BIT},
       has_crp = #{record.hasCrp,jdbcType=BIT},
       is_double = #{record.isDouble,jdbcType=BIT},
       double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
@@ -272,6 +285,9 @@
       </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isDep != null">
+        is_dep = #{isDep,jdbcType=BIT},
       </if>
       <if test="hasCrp != null">
         has_crp = #{hasCrp,jdbcType=BIT},
@@ -307,6 +323,7 @@
     update cadre
     set user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      is_dep = #{isDep,jdbcType=BIT},
       has_crp = #{hasCrp,jdbcType=BIT},
       is_double = #{isDouble,jdbcType=BIT},
       double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},

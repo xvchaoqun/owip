@@ -162,7 +162,7 @@ public class FreemarkerService {
                     if (StringUtils.contains(style, "2em")
                             || StringUtils.contains(style, "text-indent"))
                         type = 1;
-                    if (StringUtils.contains(style, "5em"))
+                    if (StringUtils.contains(style, "0em"))
                         type = 2;
                     //String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
                     List cols = new ArrayList();
@@ -215,7 +215,7 @@ public class FreemarkerService {
             if (StringUtils.contains(style, "2em")
                     || StringUtils.contains(style, "text-indent"))
                 type = 1;
-            if (StringUtils.contains(style, "5em"))
+            if (StringUtils.contains(style, "0em"))
                 type = 2;
             //String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
             String text = StringUtils.trimToEmpty(pElement.text());
