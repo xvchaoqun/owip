@@ -65,6 +65,10 @@ p.a, li.a, div.a
 div.WordSection1
 	{page:WordSection1;}
 -->
+    .resume p {
+ text-indent: -9em;
+ margin: 0 0 0 9em;
+}
 </style>
 <div style="position: absolute; top:25px; left:10px;">
     <a href="javascript:;" class="downloadBtn btn btn-primary"
@@ -319,7 +323,7 @@ div.WordSection1
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:宋体'>历</span></p>
   </td>
-  <td width=566 colspan=6 style='width:424.55pt;border-top:none;border-left:
+  <td width=566 class="resume" colspan=6 style='width:424.55pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:366.05pt'>
         ${bean.resumeDesc}

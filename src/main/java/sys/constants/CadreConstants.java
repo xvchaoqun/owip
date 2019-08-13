@@ -12,12 +12,14 @@ public class CadreConstants {
 
     // 干部审批表样式
     public final static byte CADRE_ADFORMTYPE_BNU = 1; // 北京
-    public final static byte CADRE_ADFORMTYPE_GXB = 2; // 工信部
+    public final static byte CADRE_ADFORMTYPE_GXB = 2; // 中组部
+    public final static byte CADRE_ADFORMTYPE_GXB_STANDARD = 3; // 中组部标准
     public final static Map<Byte, String> CADRE_ADFORMTYPE_MAP = new LinkedHashMap<>();
 
     static {
         CADRE_ADFORMTYPE_MAP.put(CADRE_ADFORMTYPE_BNU, "北京");
-        CADRE_ADFORMTYPE_MAP.put(CADRE_ADFORMTYPE_GXB, "工信部");
+        CADRE_ADFORMTYPE_MAP.put(CADRE_ADFORMTYPE_GXB_STANDARD, "中组部(宋体)");
+        CADRE_ADFORMTYPE_MAP.put(CADRE_ADFORMTYPE_GXB, "中组部(仿宋_GB2312)");
     }
 
     // 干部库类别

@@ -134,11 +134,12 @@ public class CadreAdformController extends BaseController {
     @RequestMapping("/cadreAdform_download")
     public void cadreAdform_download(Integer cadreId,
                                      Boolean isWord, // 否： 中组部格式
+                                     Byte adFormType, // 指定格式
                                      HttpServletRequest request,
                                      HttpServletResponse response) throws IOException, TemplateException, DocumentException {
         if(cadreId == null) return;
         Integer cadreIds[] = {cadreId};
 
-        cadreAdformService.export(cadreIds, BooleanUtils.isTrue(isWord), request, response);
+        cadreAdformService.export(cadreIds, BooleanUtils.isTrue(isWord), adFormType, request, response);
     }
 }

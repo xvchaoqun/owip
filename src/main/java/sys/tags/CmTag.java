@@ -147,6 +147,16 @@ public class CmTag {
 
         return Integer.valueOf(stringProperty);
     }
+    public static Byte getByteProperty(String key){
+
+        Integer p = getIntProperty(key);
+        return p==null?null:p.byteValue();
+    }
+    public static Byte getByteProperty(String key, byte def){
+
+        Integer p = getIntProperty(key, def);
+        return p==null?def:p.byteValue();
+    }
     // 获取系统的属性值（布尔类型）
     public static boolean getBoolProperty(String key){
 

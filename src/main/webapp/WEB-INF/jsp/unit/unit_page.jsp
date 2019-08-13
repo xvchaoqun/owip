@@ -40,25 +40,25 @@
                             </shiro:hasPermission>
 
                             <div class="btn-group">
-                                        <button data-toggle="dropdown"
-                                                data-rel="tooltip" data-placement="top" data-html="true"
-                                                title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
-                                                class="btn btn-success btn-sm dropdown-toggle tooltip-success">
-                                            <i class="fa fa-download"></i> 导出  <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-                                          <li><a href="javascript:;" class="jqExportBtn">
-                                            <i class="fa fa-download"></i> 导出单位一览表</a>
-                                          </li>
-                                            <li role="separator" class="divider"></li>
-                                            <li>
-                                                <a href="javascript:;" class="jqExportBtn"
-                                                   data-need-id="false"
-                                                   data-url="${ctx}/unit_data?export=2">
-                                                    <i class="fa fa-file-excel-o"></i> 导出单位列表</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <button data-toggle="dropdown"
+                                        data-rel="tooltip" data-placement="top" data-html="true"
+                                        title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
+                                        class="btn btn-success btn-sm dropdown-toggle tooltip-success">
+                                    <i class="fa fa-download"></i> 导出 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-success" role="menu">
+                                    <li><a href="javascript:;" class="jqExportBtn">
+                                        <i class="fa fa-download"></i> 导出单位一览表</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="javascript:;" class="jqExportBtn"
+                                           data-need-id="false"
+                                           data-url="${ctx}/unit_data?export=2">
+                                            <i class="fa fa-file-excel-o"></i> 导出单位列表</a>
+                                    </li>
+                                </ul>
+                            </div>
                                 <shiro:hasPermission name="unit:abolish">
                                     <c:if test="${status==1}">
                                         <button class="jqBatchBtn btn btn-warning btn-sm"

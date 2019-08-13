@@ -159,8 +159,7 @@ public class FreemarkerService {
 
                     String style = pElement.attr("style");
                     int type = 0;
-                    if (StringUtils.contains(style, "2em")
-                            || StringUtils.contains(style, "text-indent"))
+                    if (StringUtils.contains(style, "2em"))
                         type = 1;
                     if (StringUtils.contains(style, "0em"))
                         type = 2;
@@ -212,8 +211,7 @@ public class FreemarkerService {
         for (Element pElement : pElements) {
             String style = pElement.attr("style");
             int type = 0;
-            if (StringUtils.contains(style, "2em")
-                    || StringUtils.contains(style, "text-indent"))
+            if (StringUtils.contains(style, "2em"))
                 type = 1;
             if (StringUtils.contains(style, "0em"))
                 type = 2;
@@ -238,8 +236,9 @@ public class FreemarkerService {
                 if(StringUtils.isNotBlank(col)){
                     isEmptyRow = false;
                 }
-                if(i==0 && col.endsWith("—")){ // 简历中结束时间为空，留7个空格
-                    col = col + "       ";
+                if(i==0 && (col.endsWith("—")||col.endsWith("—至今"))){ // 简历中结束时间为空，留7个空格
+
+                    col = col + (col.endsWith("—")?"       ":"   ");
                     cols.add(HtmlUtils.htmlEscapeDecimal(col));
                 }else{
                     cols.add(HtmlUtils.htmlEscapeDecimal(col));

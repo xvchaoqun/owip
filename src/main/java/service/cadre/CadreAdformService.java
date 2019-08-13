@@ -92,6 +92,7 @@ public class CadreAdformService extends BaseMapper {
 
     public void export(Integer[] cadreIds,
                        boolean isWord, // 否：中组部格式
+                       Byte adFormType,
                        HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
 
         if (cadreIds == null) return;
@@ -113,7 +114,7 @@ public class CadreAdformService extends BaseMapper {
                 response.setContentType("application/msword;charset=UTF-8");
 
                 CadreInfoForm adform = getCadreAdform(cadreId);
-                process(adform, response.getWriter());
+                process(adform, adFormType, response.getWriter());
             } else {
                 // 输出中组部任免审批表
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getRealname();
@@ -152,7 +153,7 @@ public class CadreAdformService extends BaseMapper {
                     OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
 
                     CadreInfoForm adform = getCadreAdform(cadreId);
-                    process(adform, osw);
+                    process(adform, adFormType, osw);
                 } else {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
                             + " 干部任免审批表 " + cadre.getRealname() + ".lrmx";
@@ -180,6 +181,13 @@ public class CadreAdformService extends BaseMapper {
             DownloadUtils.zip(fileMap, filename, request, response);
             FileUtils.deleteDir(new File(tmpdir));
         }
+    }
+
+    public void export(Integer[] cadreIds,
+                       boolean isWord, // 否：中组部格式
+                       HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
+
+        export(cadreIds, isWord, null, request, response);
     }
 
     // 判断是否是进修学习，进修学习不能进入任免审批表
@@ -460,8 +468,10 @@ public class CadreAdformService extends BaseMapper {
         example.setOrderByClause("sort_order asc");
 
         int maxFamilyCount = 6;
-        Integer adFormType = CmTag.getIntProperty("adFormType");
-        if (adFormType != null && adFormType == 2) {
+        byte adFormType = CmTag.getByteProperty("adFormType",
+                CadreConstants.CADRE_ADFORMTYPE_BNU);
+        if (adFormType == CadreConstants.CADRE_ADFORMTYPE_GXB
+                || adFormType == CadreConstants.CADRE_ADFORMTYPE_GXB_STANDARD) {
             maxFamilyCount = 7;
         }
         List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, maxFamilyCount));
@@ -474,7 +484,7 @@ public class CadreAdformService extends BaseMapper {
     }
 
     // 输出任免审批表
-    public void process(CadreInfoForm bean, Writer out) throws IOException, TemplateException {
+    public void process(CadreInfoForm bean, Byte adFormType, Writer out) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("name", bean.getRealname());
@@ -536,11 +546,20 @@ public class CadreAdformService extends BaseMapper {
         String adformFtl = "/adform/adform.ftl";
         String titleEditorFtl = "/common/titleEditor.ftl";
         String familyFtl = "/adform/family.ftl";
-        Integer adFormType = CmTag.getIntProperty("adFormType");
-        if (adFormType != null && adFormType == 2) {
+        if(adFormType ==null){
+            adFormType = CmTag.getByteProperty("adFormType",
+                CadreConstants.CADRE_ADFORMTYPE_BNU);
+        }
+        if(adFormType == CadreConstants.CADRE_ADFORMTYPE_GXB) {
             maxFamilyCount = 7;
             adformFtl = "/adform/adform2.ftl";
+            titleEditorFtl = "/common/titleEditor2.ftl";
             familyFtl = "/adform/family2.ftl";
+        }else if(adFormType == CadreConstants.CADRE_ADFORMTYPE_GXB_STANDARD) {
+            maxFamilyCount = 7;
+            adformFtl = "/adform/adform3.ftl";
+            titleEditorFtl = "/common/titleEditor3.ftl";
+            familyFtl = "/adform/family3.ftl";
         }
 
         dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360, titleEditorFtl));
@@ -579,6 +598,11 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("d1", DateUtils.getDay(reportDate));
 
         freemarkerService.process(adformFtl, dataMap, out);
+    }
+
+    public void process(CadreInfoForm bean, Writer out) throws IOException, TemplateException {
+
+        process(bean, null, out);
     }
 
     private Document getZZBTemplate() throws FileNotFoundException, DocumentException {

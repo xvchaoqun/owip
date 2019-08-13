@@ -68,6 +68,10 @@ td.padding10{
     padding-left: 10px;
 }
 .bolder{font-weight: bolder}
+    .resume p {
+ text-indent: -9em;
+ margin: 0 0 0 9em;
+}
 </style>
 <div style="position: absolute; top:25px; left:10px;">
     <a href="javascript:;" class="downloadBtn btn btn-primary"
@@ -286,18 +290,18 @@ td.padding10{
                 <div style="margin-top: 100px">
                     历
                 </div>
-            </td><td class="td12 padding10" colspan="12" style="vertical-align: top">
+            </td><td class="td12 padding10 resume" colspan="12" style="vertical-align: top">
             <c:if test="${not empty bean.learnDesc}">
                 <p style="font-weight: bolder;">学习经历：</p>
-                <p>
+
                         ${bean.learnDesc}
-                </p>
+
             </c:if>
             <c:if test="${not empty bean.workDesc}">
                 <p style="font-weight: bolder;">工作经历：</p>
-                <p>
+
                         ${bean.workDesc}
-                </p>
+
             </c:if>
         </td>
         </tr>

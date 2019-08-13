@@ -56,6 +56,11 @@ td.padding10{
   padding-left: 10px;
 }
 td.bolder{font-weight: bolder}
+
+  .resume p {
+ text-indent: -9em;
+ margin: 0 0 0 9em;
+}
 </style>
 <c:if test="${param.mobile=='1'}">
     <button type="button"
@@ -251,7 +256,7 @@ td.bolder{font-weight: bolder}
           历
         </div>
       </td>
-      <td class="td12 padding10" colspan="8" style="vertical-align: top">
+      <td class="td12 padding10 resume" colspan="8" style="vertical-align: top">
         <%--<c:if test="${empty bean.resumeDesc}">
         <c:if test="${not empty bean.learnDesc}">
           <p style="font-weight: bolder;">学习经历：</p>
