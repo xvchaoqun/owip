@@ -6,7 +6,6 @@ import domain.base.MetaType;
 import domain.base.MetaTypeExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -16,13 +15,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class MetaTypeService extends BaseMapper {
@@ -230,42 +223,7 @@ public class MetaTypeService extends BaseMapper {
     })
     public void changeOrder(int id, int addNum) { // 分类内部排序
 
-        if(addNum == 0) return ;
-        byte orderBy = ORDER_BY_ASC;
         MetaType entity = metaTypeMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        int classId = entity.getClassId();
-
-        String tableName = "base_meta_type";
-        String whereSql = "class_id=" + classId;
-        adjustSortOrder(tableName, whereSql);
-        if(baseSortOrder==null) return;
-
-        MetaTypeExample example = new MetaTypeExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andClassIdEqualTo(classId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andClassIdEqualTo(classId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<MetaType> overEntities = metaTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            MetaType targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-
-            MetaType record = new MetaType();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            metaTypeMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("base_meta_type", "class_id=" + entity.getClassId(), ORDER_BY_ASC, id, addNum);
     }
 }

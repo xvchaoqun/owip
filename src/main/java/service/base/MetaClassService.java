@@ -4,7 +4,6 @@ import domain.base.MetaClass;
 import domain.base.MetaClassExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -156,41 +155,6 @@ public class MetaClassService extends BaseMapper {
     })
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        MetaClass entity = metaClassMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        String tableName = "base_meta_class";
-        String whereSql = null;
-        adjustSortOrder(tableName, whereSql);
-        if(baseSortOrder==null) return;
-
-        MetaClassExample example = new MetaClassExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<MetaClass> overEntities = metaClassMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            MetaClass targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum > 0)
-                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-
-            MetaClass record = new MetaClass();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            metaClassMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("base_meta_class", null, ORDER_BY_DESC, id, addNum);
     }
 }
