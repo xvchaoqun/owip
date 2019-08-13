@@ -66,8 +66,8 @@ div.WordSection1
 	{page:WordSection1;}
 -->
     .resume p {
- text-indent: -9em;
- margin: 0 0 0 9em;
+ text-indent: -10em;
+ margin: 0 0 0 10em;
 }
 </style>
 <div style="position: absolute; top:25px; left:10px;">
@@ -371,7 +371,7 @@ div.WordSection1
   style='font-size:14.0pt;font-family:宋体'>培训情况</span></p>
 
   </td>
-  <td width=550 colspan=5 style='width:412.85pt;border-top:none;border-left:
+  <td width=550 colspan=5 class="resume" style='width:412.85pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:47.6pt'>
   ${bean.trainDesc}

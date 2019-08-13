@@ -462,22 +462,11 @@ public class CadreAdformService extends BaseMapper {
         // 培训情况
         bean.setTrainDesc(cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN));
 
-        // 社会关系
+        // 所有的家庭成员
         CadreFamilyExample example = new CadreFamilyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("sort_order asc");
-
-        int maxFamilyCount = 0;
-        byte adFormType = CmTag.getByteProperty("adFormType",
-                CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
-
-        if(adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ){
-            maxFamilyCount = 5; // 6?
-        }else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312
-                || adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
-            maxFamilyCount = 7;
-        }
-        List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, maxFamilyCount));
+        List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExample(example);
         bean.setCadreFamilys(cadreFamilys);
 
         // 呈报日程默认当天

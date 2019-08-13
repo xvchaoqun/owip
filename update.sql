@@ -7,8 +7,8 @@
 -- 重新传lib包
 
 ALTER TABLE `cadre_edu`
-	ADD COLUMN `is_sencond_degree` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否第二个学位，存在两个最高学位时有效' AFTER `is_high_degree`;
-UPDATE cadre_edu SET  is_sencond_degree=0;
+	ADD COLUMN `is_second_degree` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否第二个学位，存在两个最高学位时有效' AFTER `is_high_degree`;
+UPDATE cadre_edu SET  is_second_degree=0;
 
 ALTER TABLE `cadre`
 	ADD COLUMN `is_dep` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否院系干部' AFTER `type`;
@@ -20,6 +20,7 @@ main_cadre_post.unit_id=u.id AND u.type_id=bmt.id AND bmt.code='mt_unit_type_xy'
 
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
 VALUES (27, '高中', 'mt_edu_gz', NULL, 'gz', '', 135, 1);
+-- 调整学历顺序
 
 ALTER TABLE `cadre_work`
 	ADD COLUMN `is_edu_work` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否学习其间工作' AFTER `fid`,

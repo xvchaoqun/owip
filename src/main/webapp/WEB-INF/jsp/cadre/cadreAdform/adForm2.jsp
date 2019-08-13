@@ -553,7 +553,8 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
  </tr>
  <tr>
-  <td width=79 rowspan=8 style='width:59.1pt;border-top:none;border-left:solid windowtext 1.5pt;
+  <c:set var="familyCount" value="${fn:length(bean.cadreFamilys)}"/>
+  <td width=79 rowspan="${familyCount<7?8:(familyCount+1)}" style='width:59.1pt;border-top:none;border-left:solid windowtext 1.5pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
@@ -675,8 +676,8 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   </td>
  </tr>
     </c:forEach>
-   <c:if test="${fn:length(bean.cadreFamilys)<=6}">
-   <c:forEach begin="0" end="${6-fn:length(bean.cadreFamilys)}">
+   <c:if test="${familyCount<=6}">
+   <c:forEach begin="0" end="${6-familyCount}">
       <tr style='height:31.45pt'>
      <td width=72 style='width:54.05pt;border-top:none;border-left:none;
      border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;

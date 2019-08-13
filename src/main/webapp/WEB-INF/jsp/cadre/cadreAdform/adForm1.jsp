@@ -187,7 +187,7 @@ td.bolder{font-weight: bolder}
           <span>教    育</span>
         </div>
       </td>
-      <td class="td6 padding10" colspan="2">
+      <td class="td6 padding10" colspan="2" style="text-align: center">
         ${bean.edu}
         <br/>
         ${bean.degree}
@@ -199,7 +199,7 @@ td.bolder{font-weight: bolder}
           <span>系及专业</span>
         </div>
       </td>
-      <td class="td9 padding10" colspan="3">
+      <td class="td9 padding10" colspan="3" style="text-align: center">
           ${bean.schoolDepMajor1}${bean.sameSchool?'':'<br/>'}${bean.schoolDepMajor2}
       </td>
     </tr>
@@ -210,7 +210,7 @@ td.bolder{font-weight: bolder}
           <span>教  育</span>
         </div>
       </td>
-      <td class="td6 padding10" colspan="2">
+      <td class="td6 padding10" colspan="2" style="text-align: center">
         ${bean.inEdu}
         <br/>
         ${bean.inDegree}
@@ -221,7 +221,7 @@ td.bolder{font-weight: bolder}
           <span>系及专业</span>
         </div>
       </td>
-      <td class="td9 padding10" colspan="3">
+      <td class="td9 padding10" colspan="3" style="text-align: center">
         ${bean.inSchoolDepMajor1}${bean.sameInSchool?'':'<br/>'}${bean.inSchoolDepMajor2}
       </td>
     </tr>
@@ -329,7 +329,8 @@ td.bolder{font-weight: bolder}
       </td>
     </tr>
     <tr class="r2">
-      <td class="td1 center bolder" rowspan="7">
+      <c:set var="familyCount" value="${fn:length(bean.cadreFamilys)}"/>
+      <td class="td1 center bolder" rowspan="${familyCount<6?7:(familyCount+1)}">
         <span>主&nbsp;&nbsp;及</span>
         <div>
           <span>要&nbsp;&nbsp;社</span>
@@ -392,8 +393,8 @@ td.bolder{font-weight: bolder}
         </td>
       </tr>
     </c:forEach>
-    <c:if test="${fn:length(bean.cadreFamilys)<=5}">
-    <c:forEach begin="0" end="${5-fn:length(bean.cadreFamilys)}">
+    <c:if test="${familyCount<6}">
+    <c:forEach begin="0" end="${5-familyCount}">
       <tr class="r2">
         <td class="td13">
           <p class="p8"></p>

@@ -319,7 +319,7 @@ td.padding10{
                 <p class="p3">
                     <span>况</span>
                 </p>
-            </td><td class="td12 padding10" colspan="12" style="vertical-align: top">
+            </td><td class="td12 padding10 resume" colspan="12" style="vertical-align: top">
             ${bean.trainDesc}
         </td>
         </tr>
@@ -461,7 +461,8 @@ td.padding10{
             </td>
         </tr>
         <tr class="r4">
-            <td class="td1 center bolder" rowspan="7">
+            <c:set var="familyCount" value="${fn:length(bean.cadreFamilys)}"/>
+            <td class="td1 center bolder" rowspan="${familyCount<6?7:(familyCount+1)}">
                     <span>家庭成员</span>
                 <div><span>信息</span></div>
             </td><td class="td15 center bolder">
@@ -497,8 +498,8 @@ td.padding10{
             </td>
             </tr>
         </c:forEach>
-        <c:if test="${fn:length(bean.cadreFamilys)<=5}">
-        <c:forEach begin="0" end="${5-fn:length(bean.cadreFamilys)}">
+        <c:if test="${familyCount<=5}">
+        <c:forEach begin="0" end="${5-familyCount}">
         <tr class="r4">
             <td class="td15">
                 <p class="p18"></p>
@@ -515,7 +516,8 @@ td.padding10{
         </c:forEach>
         </c:if>
         <tr class="r4">
-            <td class="td1 center bolder" rowspan="3">
+             <c:set var="familyAbroadCount" value="${fn:length(bean.cadreFamilyAbroads)}"/>
+            <td class="td1 center bolder" rowspan="${familyAbroadCount<2?3:(familyAbroadCount+1)}">
                     <span>配偶、子女移居国（境）外的情况</span>
             </td><td class="td15 center bolder">
                 <span>称  谓</span>
@@ -558,7 +560,8 @@ td.padding10{
         </td>
         </tr>
         </c:forEach>
-        <c:forEach begin="0" end="${1-fn:length(bean.cadreFamilyAbroads)}">
+        <c:if test="${familyCount<=2}">
+        <c:forEach begin="0" end="${2-familyCount}">
         <tr class="r2">
             <td class="td15">
                 <p class="p18"></p>
@@ -581,6 +584,7 @@ td.padding10{
         </td>
         </tr>
         </c:forEach>
+        </c:if>
         </tbody>
     </table>
         </div>
