@@ -25,7 +25,7 @@
         </javaClientGenerator>
 
         <!--干部库-->
-          <!--<table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
+          <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
                 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>
          <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
@@ -60,15 +60,15 @@
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
+        </table>
 
           <!--<table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
           </table>-->
-        <table tableName="cadre_party_view" domainObjectName="cadre.CadrePartyView" mapperName="cadre.CadrePartyViewMapper"
+        <!--<table tableName="cadre_party_view" domainObjectName="cadre.CadrePartyView" mapperName="cadre.CadrePartyViewMapper"
            enableInsert="false" enableUpdateByPrimaryKey="false"
            enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
            enableDeleteByExample="false">
-        </table>
+        </table>-->
         <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
           </table>-->
 

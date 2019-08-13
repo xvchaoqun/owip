@@ -1521,3 +1521,6 @@ span.delete, span.delete a {
     background-color: transparent;
     border-color: #563d7c;
 }
+.prompt{
+    cursor:help
+}

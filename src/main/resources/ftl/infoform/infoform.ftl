@@ -4844,7 +4844,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1297" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:textFlow w:val="tb-rl-v"/>
 								<w:vAlign w:val="center"/>
@@ -4885,7 +4885,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="990" w:type="dxa"/>
+								<w:tcW w:w="987" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00092C82" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00092C82" wsp:rsidP="00000CD6">
@@ -4924,7 +4924,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="988" w:type="dxa"/>
+								<w:tcW w:w="969" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4965,7 +4965,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1020" w:type="dxa"/>
+								<w:tcW w:w="1105" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4996,7 +4996,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="991" w:type="dxa"/>
+								<w:tcW w:w="901" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00092C82" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00092C82" wsp:rsidP="00005295">
@@ -5028,7 +5028,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="4961" w:type="dxa"/>
+								<w:tcW w:w="5002" w:type="dxa"/>
 								<w:gridSpan w:val="7"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>

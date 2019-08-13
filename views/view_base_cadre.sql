@@ -80,8 +80,8 @@ left join cadre_party ow on ow.user_id= c.user_id and ow.type = 2
 LEFT JOIN `sys_user_view` `uv` ON `uv`.`user_id` = `c`.`user_id`
 LEFT JOIN `sys_teacher_info` `t` ON `t`.`user_id` = `c`.`user_id`
 LEFT JOIN `ow_member` `om` ON `om`.`user_id` = `c`.`user_id`
-LEFT JOIN `cadre_edu` `max_ce` ON  `max_ce`.`cadre_id` = `c`.`id` AND `max_ce`.`is_high_edu` = 1 and max_ce.status=0
-LEFT JOIN `cadre_edu` `max_degree` ON `max_degree`.`cadre_id` = `c`.`id` AND `max_degree`.`is_high_degree` = 1 and max_degree.status=0
+LEFT JOIN `cadre_edu` `max_ce` ON  `max_ce`.`cadre_id` = `c`.`id` AND `max_ce`.`is_high_edu` = 1 and max_ce.is_second_degree=0 and max_ce.status=0
+LEFT JOIN `cadre_edu` `max_degree` ON `max_degree`.`cadre_id` = `c`.`id` AND `max_degree`.`is_high_degree` = 1 and max_degree.is_second_degree=0 and max_degree.status=0
 left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_first_main_post=1)
 left join unit_post up on up.id=main_cadre_post.unit_post_id
 left join base_meta_type admin_level on(main_cadre_post.admin_level=admin_level.id)

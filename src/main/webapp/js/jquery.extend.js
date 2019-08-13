@@ -265,6 +265,25 @@ SysMsg.confirm = function (msg, title, callback) {
 };
 
 $.fn.extend({
+    // Form表单元素设置必填/可填
+    requireField: function (required, disabled) {
+
+        disabled = disabled || false;
+        //console.log("required="+ required + " disabled="+ disabled)
+        if (required) {
+            $(this).prop("disabled", disabled)
+                .attr("required", "required")
+                .closest(".form-group")
+                .find(".control-label:not(:has(span.star))")
+                .prepend('<span class="star">*</span>');
+        } else {
+            $(this).prop("disabled", disabled)
+                .val('').removeAttr("required")
+                .closest(".form-group").find(".control-label span.star").remove();
+            //console.log($(this).closest(".form-group").find(".control-label span.star").html())
+        }
+        return $(this);
+    },
     renderUrl: function (options) {
         var defaults = {
             op: "html",
@@ -1649,15 +1668,22 @@ $.extend($.register, {
     date: function ($date, params) {
         $date.parent().css('z-index', '1030');
         $date.parent().parent().css('z-index', '10');
-        var endDate = new Date();
-        endDate.setFullYear(endDate.getFullYear() + 50); // 最多允许选择50年以内的年份
-        return $date.datepicker($.extend({
-            language: "zh-CN",
-            autoclose: true,
-            todayHighlight: true,
-            clearBtn: true,
-            endDate: endDate,
-        }, params)).attr("autocomplete", "off").attr("disableautocomplete", "")
+        params = params||{};
+        $.each($date, function(i, date){
+
+            var endDate = $(date).data("date-end-date") || params.endDate;
+            if (endDate == undefined) {
+                endDate = new Date();
+                endDate.setFullYear(endDate.getFullYear() + 50); // 最多允许选择50年以内的年份
+            }
+            $(date).datepicker($.extend({
+                language: "zh-CN",
+                autoclose: true,
+                todayHighlight: true,
+                clearBtn: true,
+                endDate: endDate,
+            }, params)).attr("autocomplete", "off").attr("disableautocomplete", "");
+        });
     },
     // 日历时间
     datetime: function ($date, params) {

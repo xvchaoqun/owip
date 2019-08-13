@@ -49,7 +49,7 @@
                         <#if row_index==0>
                             <w:spacing w:line="440" w:line-rule="exact"/>
                         </#if>
-                        <w:ind w:left-chars="700" w:left="105"/>
+                        <w:ind w:left-chars="850" w:left="105"/>
                         <w:rPr>
                             <w:sz w:val="24"/>
                         </w:rPr>

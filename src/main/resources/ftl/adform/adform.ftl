@@ -1726,6 +1726,7 @@
 						</w:tcPr>
 						<w:p wsp:rsidR="004F66D3" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
+								<w:jc w:val="center"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
@@ -1738,9 +1739,10 @@
 								<w:t>${edu!}</w:t>
 							</w:r>
 						</w:p>
-<#if degree??>
+						<#if degree?? && degree?trim!=''>
 						<w:p wsp:rsidR="00123E1F" wsp:rsidRPr="0042663B" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
+								<w:jc w:val="center"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
@@ -1753,7 +1755,7 @@
 								<w:t>${degree!}</w:t>
 							</w:r>
 						</w:p>
-</#if>
+						</#if>
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
@@ -1802,6 +1804,7 @@
 						<w:p wsp:rsidR="0060451C" wsp:rsidRPr="00541A01" wsp:rsidRDefault="00B943F3" wsp:rsidP="00123E1F">
 							<w:pPr>
 								<w:spacing w:line="260" w:line-rule="exact"/>
+								<w:jc w:val="center"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
@@ -1810,7 +1813,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${schoolDepMajor1!}<#if !sameSchool><w:br/></#if>${schoolDepMajor2!}</w:t>
+								<w:t>${schoolDepMajor1!}<#if !sameSchool && schoolDepMajor2?? && schoolDepMajor2?trim!=''><w:br/></#if>${schoolDepMajor2!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1913,6 +1916,7 @@
 						</w:tcPr>
 						<w:p wsp:rsidR="004F66D3" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
+								<w:jc w:val="center"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
@@ -1925,9 +1929,10 @@
 								<w:t>${inEdu!}</w:t>
 							</w:r>
 						</w:p>
-<#if inDegree??>
+						<#if inDegree?? && inDegree?trim!=''>
 						<w:p wsp:rsidR="00123E1F" wsp:rsidRPr="0042663B" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
+								<w:jc w:val="center"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
@@ -1940,7 +1945,7 @@
 								<w:t>${inDegree!}</w:t>
 							</w:r>
 						</w:p>
-</#if>
+						</#if>
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
@@ -1989,6 +1994,7 @@
 						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="006C7AAB">
 							<w:pPr>
 								<w:spacing w:line="260" w:line-rule="exact"/>
+								<w:jc w:val="center"/>
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
@@ -1997,7 +2003,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${inSchoolDepMajor1!}<#if !sameInSchool><w:br/></#if>${inSchoolDepMajor2!}</w:t>
+								<w:t>${inSchoolDepMajor1!}<#if !sameInSchool && inSchoolDepMajor2?? && inSchoolDepMajor2?trim!=''><w:br/></#if>${inSchoolDepMajor2!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2293,8 +2299,7 @@
 				<w:tr wsp:rsidR="0060451C" wsp:rsidRPr="00E759EF" wsp:rsidTr="00B943F3">
 					<w:trPr>
 						<w:cantSplit/>
-						<#--<w:trHeight w:h-rule="exact" w:val="8957"/>-->
-						<w:trHeight w:val="8957"/>
+						<w:trHeight w:h-rule="exact" w:val="8957"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2340,7 +2345,7 @@
 						<w:tcPr>
 							<w:tcW w:w="8971" w:type="dxa"/>
 							<w:gridSpan w:val="8"/>
-							<w:vAlign w:val="top"/>
+							<w:vAlign w:val="center"/>
 						</w:tcPr>
 						${resumeDesc?default('<w:p/>')}
 					</w:tc>
@@ -2379,8 +2384,7 @@
 				<w:tr wsp:rsidR="00F43419" wsp:rsidTr="00D03268">
 					<w:trPr>
 						<w:cantSplit/>
-						<#--<w:trHeight w:h-rule="exact" w:val="1229"/>-->
-						<w:trHeight w:val="1229"/>
+						<w:trHeight w:h-rule="exact" w:val="1229"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>

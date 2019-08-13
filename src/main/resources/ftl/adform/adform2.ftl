@@ -3,7 +3,7 @@
 <w:wordDocument xmlns:aml="http://schemas.microsoft.com/aml/2001/core" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.microsoft.com/office/word/2003/wordml" xmlns:wx="http://schemas.microsoft.com/office/word/2003/auxHint" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wsp="http://schemas.microsoft.com/office/word/2003/wordml/sp2" xmlns:sl="http://schemas.microsoft.com/schemaLibrary/2003/core" w:macrosPresent="no" w:embeddedObjPresent="no" w:ocxPresent="no" xml:space="preserve">
 	<w:ignoreSubtree w:val="http://schemas.microsoft.com/office/word/2003/wordml/sp2"/>
 	<w:fonts>
-		<w:defaultFonts w:ascii="Calibri" w:fareast="宋体" w:h-ansi="Calibri" w:cs="Times New Roman"/>
+		<w:defaultFonts w:ascii="Calibri" w:fareast="仿宋_GB2312" w:h-ansi="Calibri" w:cs="Times New Roman"/>
 		<w:font w:name="Times New Roman">
 			<w:panose-1 w:val="02020603050405020304"/>
 			<w:charset w:val="00"/>
@@ -453,8 +453,8 @@
 			<w:rPr>
 				<wx:font wx:val="Calibri"/>
 				<w:kern w:val="2"/>
-				<w:sz w:val="21"/>
-				<w:sz-cs w:val="22"/>
+				<w:sz w:val="28"/>
+				<w:sz-cs w:val="28"/>
 				<w:lang w:val="EN-US" w:fareast="ZH-CN" w:bidi="AR-SA"/>
 			</w:rPr>
 		</w:style>
@@ -767,7 +767,7 @@
 				</w:tblGrid>
 				<w:tr wsp:rsidR="00DE3C38" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="629"/>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -1087,7 +1087,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00DE3C38" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="629"/>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -1357,7 +1357,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00DE3C38" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="629"/>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -1796,7 +1796,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00DE3C38" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="629"/>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -1981,7 +1981,7 @@
 								<w:t>${edu!}</w:t>
 							</w:r>
 						</w:p>
-                        <#if degree??>
+                        <#if degree?? && degree?trim!=''>
 						<w:p wsp:rsidR="007417DB" wsp:rsidRPr="00EF3E39" wsp:rsidRDefault="007417DB" wsp:rsidP="00EF3E39">
 							<w:pPr>
 								<w:spacing w:line="300" w:line-rule="exact"/>
@@ -2059,14 +2059,14 @@
 									<w:sz w:val="28"/>
 									<w:sz-cs w:val="28"/>
 								</w:rPr>
-								<w:t>${schoolDepMajor1!}<#if !sameSchool><w:br/></#if>${schoolDepMajor2!}</w:t>
+								<w:t>${schoolDepMajor1!}<#if !sameSchool && schoolDepMajor2?? && schoolDepMajor2?trim!=''><w:br/></#if>${schoolDepMajor2!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
 				</w:tr>
 				<w:tr wsp:rsidR="00DE3C38" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="629"/>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2203,7 +2203,7 @@
 								<w:t>${inEdu!}</w:t>
 							</w:r>
 						</w:p>
-                        <#if inDegree??>
+                        <#if inDegree?? && inDegree?trim!=''>
 						<w:p wsp:rsidR="007417DB" wsp:rsidRPr="00EF3E39" wsp:rsidRDefault="007417DB" wsp:rsidP="00EF3E39">
 							<w:pPr>
 								<w:spacing w:line="300" w:line-rule="exact"/>
@@ -2281,14 +2281,14 @@
 									<w:sz w:val="28"/>
 									<w:sz-cs w:val="28"/>
 								</w:rPr>
-								<w:t>${inSchoolDepMajor1!}<#if !sameInSchool><w:br/></#if>${inSchoolDepMajor2!}</w:t>
+								<w:t>${inSchoolDepMajor1!}<#if !sameInSchool && inSchoolDepMajor2?? && inSchoolDepMajor2?trim!=''><w:br/></#if>${inSchoolDepMajor2!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
 				</w:tr>
 				<w:tr wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="629"/>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2408,7 +2408,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="629"/>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2528,7 +2528,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="629"/>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2648,7 +2648,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="6779"/>
+						<w:trHeight w:h-rule="exact" w:val="6779"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2784,7 +2784,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="1550"/>
+						<w:trHeight w:h-rule="exact" w:val="1550"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2895,7 +2895,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="1274"/>
+						<w:trHeight w:h-rule="exact" w:val="1274"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2980,7 +2980,7 @@
 						<w:p wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidRDefault="00563A30" wsp:rsidP="009B666C">
 							<w:pPr>
 								<w:spacing w:line="300" w:line-rule="exact"/>
-								<w:jc w:val="center"/>
+								<w:jc w:val="left"/>
 								<w:rPr>
 									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
 									<wx:font wx:val="Times New Roman"/>
@@ -3002,7 +3002,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="1391"/>
+						<w:trHeight w:h-rule="exact" w:val="1391"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -3748,7 +3748,7 @@
 				${family!}
 				<w:tr wsp:rsidR="007F619C" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
-						<w:trHeight w:val="1501"/>
+						<w:trHeight w:h-rule="exact" w:val="1501"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>

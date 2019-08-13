@@ -1328,9 +1328,16 @@ $(document).on("mouseover", ".prompt", function () {
         animation:'pop',
         width:$(this).data("width")||300,
         title:$(this).data("title")||'提示',
+        trigger:'hover',
+        delay:{show:null, hide:300},
         content:'<div class="alert alert-success">' + $(this).data("prompt") + '</div>'
     };
-    $(this).webuiPopover(settings).webuiPopover('show');
+    var popoverId = $(this).data("target");
+    //console.log("target=" + $(this).data("target") + " visible=" + $("#"+popoverId).is(":visible"))
+    //console.log($(".webui-popover").is(":visible"))
+    if(popoverId==undefined || !$("#"+popoverId).is(":visible")) {
+        $(this).webuiPopover(settings).webuiPopover('show');
+    }
     //$(elem).qtip({content:$(elem).data("msg"),show: true});
     event.stopPropagation();
 });

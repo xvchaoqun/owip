@@ -1,4 +1,38 @@
 
+20190813
+
+-- 修改pom.xml，改为nexus仓库，并删除 /lib下所有jar
+-- 改api.bnu.jar -> jx.bnu.jar
+-- common-utils.jar -> jx.utils.jar
+-- 重新传lib包
+
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `is_sencond_degree` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否第二个学位，存在两个最高学位时有效' AFTER `is_high_degree`;
+UPDATE cadre_edu SET  is_sencond_degree=0;
+
+ALTER TABLE `cadre`
+	ADD COLUMN `is_dep` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否院系干部' AFTER `type`;
+UPDATE cadre c, unit u, base_meta_type bmt, cadre_post main_cadre_post SET c.is_dep=1 WHERE
+main_cadre_post.cadre_id=c.id and main_cadre_post.is_first_main_post=1 and
+main_cadre_post.unit_id=u.id AND u.type_id=bmt.id AND bmt.code='mt_unit_type_xy';
+
+-- 更新 cadre_view 等
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+VALUES (27, '高中', 'mt_edu_gz', NULL, 'gz', '', 135, 1);
+
+ALTER TABLE `cadre_work`
+	ADD COLUMN `is_edu_work` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否学习其间工作' AFTER `fid`,
+	DROP FOREIGN KEY `FK_base_cadre_work_base_cadre_work`;
+ALTER TABLE `cadre_work`
+	CHANGE COLUMN `fid` `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属学习或工作经历，其间工作时设定' AFTER `id`;
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `sub_work_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '其间工作数量，提交其间工作时设定' AFTER `id`;
+
+UPDATE sys_property SET `remark`='1：北京  2：中组部(仿宋_GB2312) 3: 中组部(宋体)（系统默认）' WHERE  `code`='adFormType';
+
+-- 更新导入样表
+
 20190809
 UPDATE sys_role SET is_sys_hold=0 WHERE is_sys_hold IS NULL;
 -- 增加SysSyncService.java，修改SyncService.java, Source.java

@@ -1,7 +1,7 @@
 <w:tr wsp:rsidR="00CF4831" wsp:rsidTr="00CF4831">
     <w:trPr>
         <w:cantSplit/>
-        <w:trHeight w:val="510"/>
+        <w:trHeight w:h-rule="exact" w:val="510"/>
         <w:jc w:val="center"/>
     </w:trPr>
     <w:tc>
