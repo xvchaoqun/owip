@@ -77,7 +77,7 @@ public class CadreWorkController extends BaseController {
                               /* @SortParam(required = false, defaultValue = "id", tableName = "cadre_work") String sort,
                                @OrderParam(required = false, defaultValue = "desc") String order,*/
                                Integer cadreId, Integer pageSize, Integer pageNo,
-                               Integer fid, // fid=null时，读取工作经历；fid<=0时，读取全部 fid>0 读取其间工作
+                                   Integer fid, // fid=null时，读取工作经历；fid<=0时，读取全部 fid>0 读取其间工作
                                Boolean isCadre,
                                Integer unitId, // 所属内设机构
                                @RequestParam(required = false, defaultValue = "0") int export,

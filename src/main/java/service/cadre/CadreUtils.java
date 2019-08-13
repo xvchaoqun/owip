@@ -41,6 +41,7 @@ public class CadreUtils {
             String subLine = null;
             if(PatternUtils.match("\\s*[（|\\(].*", line)){ // 如果是换行的其间经历
                 newRow.fRow = row-1;
+                newRow.isEduWork = resumeRows.get(resumeRows.size()-1).isEdu;
             }else{
                 newRow.row = row++;
 
@@ -103,10 +104,12 @@ public class CadreUtils {
         if(StringUtils.isBlank(desc)){
             throw new OpException("第{0}行{1}简历读取为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
         }
+
         // 判断是否是学习经历
         r.isEdu = (StringUtils.containsAny(desc,
                 "学习", "毕业", "中专", "大专", "专科", "学士", "硕士", "博士", "学位")
         || desc.endsWith("学生")|| desc.endsWith("本科")|| desc.endsWith("本科生")|| desc.endsWith("研究生"));
 
+        //System.out.println("desc = " + desc + "      "  + r.isEdu);
     }
 }

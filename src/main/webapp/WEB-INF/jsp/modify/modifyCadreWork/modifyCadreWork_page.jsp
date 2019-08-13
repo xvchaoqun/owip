@@ -60,7 +60,7 @@
 </script>
 <script type="text/template" id="subgrid_op_tpl">
     <button class="popupBtn btn btn-xs btn-primary"
-            data-url="${ctx}/cadreWork_au?toApply=1&id={{=id}}&cadreId={{=cadreId}}&&fid={{=parentRowKey}}"><i
+            data-url="${ctx}/cadreWork_au?module=${param.module}&toApply=1&id={{=id}}&cadreId={{=cadreId}}&&fid={{=parentRowKey}}"><i
             class="fa fa-edit"></i> 修改
     </button>
     <button class="confirm btn btn-xs btn-danger"

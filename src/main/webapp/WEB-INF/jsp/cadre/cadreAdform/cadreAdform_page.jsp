@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['adFormType']}" var="_p_adFormType"/>
 <div class="tabbable myTableDiv">
     <shiro:hasPermission name="${PERMISSION_CADREONLYVIEW}">
             <a href="javascript:;" class="downloadBtn btn btn-primary" data-url="${ctx}/cadreAdform_download?isWord=1&cadreId=${param.cadreId}">
@@ -42,9 +43,8 @@
                         <c:forEach items="<%=CadreConstants.CADRE_ADFORMTYPE_MAP%>" var="adFormType" varStatus="vs">
                         <li>
                             <a href="javascript:;" class="downloadBtn"
-                               data-need-id="false"
                                data-url="${ctx}/cadreAdform_download?isWord=1&adFormType=${adFormType.key}&cadreId=${param.cadreId}">
-                                <i class="fa fa-file-excel-o"></i> ${adFormType.value}</a>
+                                <i class="fa fa-file-excel-o"></i> ${adFormType.value}${_p_adFormType==adFormType.key?'(系统默认)':''}</a>
                         </li>
                         <c:if test="${!vs.last}">
                         <li role="separator" class="divider"></li>

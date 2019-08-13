@@ -124,7 +124,7 @@ public class CadreBaseInfoController extends BaseController {
             }
         }
 
-        if(!CmTag.validMobile(mobile)){
+        if(StringUtils.isNotBlank(mobile) && !CmTag.validMobile(mobile)){
             return failed("手机号码有误："+ mobile);
         }
 

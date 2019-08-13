@@ -322,9 +322,7 @@
 
                 var str = '';
                 if(rowObject.isHighDegree && rowObject.isSecondDegree){
-                <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                 str = '<i class="red" title="双学位">*</i>&nbsp;';
-                </shiro:hasPermission>
                 }
 
             return rowObject.hasDegree ? str+cellvalue : "-";

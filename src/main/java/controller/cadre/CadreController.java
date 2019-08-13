@@ -845,23 +845,29 @@ public class CadreController extends BaseController {
             int userId = uv.getId();
             record.setUserId(userId);
 
+            // 留空默认是机关干部
+            record.setIsDep(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(2)), "院系"));
+
             boolean useCadreState = BooleanUtils.isTrue(CmTag.getBoolProperty("useCadreState"));
             boolean hasKjCadre = BooleanUtils.isTrue(CmTag.getBoolProperty("hasKjCadre"));
 
-            int kjCol = 2;
-            int stateCol = 3;
-            int titleCol = 4;
-            int remarkCol = 5;
+            int kjCol = 3;
+            int stateCol = 4;
+            int titleCol = 5;
+            int remarkCol = 11;
 
             if(hasKjCadre && useCadreState){
                 //
-            }else if(hasKjCadre) {
-                titleCol = 3;
-                remarkCol = 4;
-            }else if(useCadreState) {
+            }else if(hasKjCadre) { // 只有科级
+                titleCol = 4;
+                remarkCol = 10;
+            }else if(useCadreState) { // 只有人员类别
                 stateCol = 2;
                 titleCol = 3;
                 remarkCol = 4;
+            }else{ // 都没有
+                titleCol = 3;
+                remarkCol = 9;
             }
 
             if(hasKjCadre) {

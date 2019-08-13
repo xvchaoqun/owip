@@ -246,10 +246,10 @@
 
 	function hasDegreeChange(){
 		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")){
-			$("#modalForm input[name=degree]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=degree]").requireField(true);
 			$("#modalForm input[name=isHighDegree]").bootstrapSwitch('disabled', false);
-			$("#modalForm input[name=degreeCountry]").val('${cadreEdu.degreeCountry}').prop("disabled", false).attr("required", "required");
-			$("#modalForm input[name=degreeUnit]").val('${cadreEdu.degreeUnit}').prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=degreeCountry]").val('${cadreEdu.degreeCountry}').requireField(true);
+			$("#modalForm input[name=degreeUnit]").val('${cadreEdu.degreeUnit}').requireField(true);
 
 			var finishTime = $("#modalForm input[name=finishTime]").val();
 			//alert(finishTime)
@@ -257,15 +257,15 @@
 				var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM");
 				$("#modalForm input[name=degreeTime]").val(degreeTime);
 			}
-			$("#modalForm input[name=degreeTime]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=degreeTime]").requireField(true);
 
 			$("#modalForm textarea[name=school]").trigger("keyup");
 		}else{
-			$("#modalForm input[name=degree]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=degree]").requireField(false, true);;
 			$("#modalForm input[name=isHighDegree]").bootstrapSwitch('state', false).bootstrapSwitch('disabled', true);
-			$("#modalForm input[name=degreeCountry]").val('').prop("disabled", true).removeAttr("required");
-			$("#modalForm input[name=degreeUnit]").val('').prop("disabled", true).removeAttr("required");
-			$("#modalForm input[name=degreeTime]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=degreeCountry]").requireField(false, true);;
+			$("#modalForm input[name=degreeUnit]").requireField(false, true);;
+			$("#modalForm input[name=degreeTime]").requireField(false, true);;
 		}
 	}
 	$('#modalForm input[name=hasDegree]').on('switchChange.bootstrapSwitch', function(event, state) {
@@ -282,9 +282,9 @@
 			var $schoolType = $("#modalForm select[name=schoolType]");
 			if($schoolType.val()=='<%=CadreConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL%>'
 					|| $schoolType.val()=='<%=CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC%>'){
-				$("#modalForm input[name=degreeCountry]").val('中国').prop("disabled", true).removeAttr("required");
+				$("#modalForm input[name=degreeCountry]").requireField(false, true).val('中国');
 			}else{
-				$("#modalForm input[name=degreeCountry]").prop("disabled", false).attr("required", "required");
+				$("#modalForm input[name=degreeCountry]").requireField(true);
 			}
 		}
 	}
@@ -308,15 +308,11 @@
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_gz").id}"
 				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_zz").id}"){
 
-			$("#modalForm input[name=dep]").val('').removeAttr("required");
-			$("#modalForm input[name=major]").val('').removeAttr("required");
-			$("#modalForm input[name=dep]").closest(".form-group").find(".control-label").html('院系')
-			$("#modalForm input[name=major]").closest(".form-group").find(".control-label").html('所学专业')
+			$("#modalForm input[name=dep]").requireField(false);
+			$("#modalForm input[name=major]").requireField(false)
 		}else{
-			$("#modalForm input[name=dep]").attr("required", "required");
-			$("#modalForm input[name=major]").attr("required", "required");
-			$("#modalForm input[name=dep]").closest(".form-group").find(".control-label").html('<span class="star">*</span>院系')
-			$("#modalForm input[name=major]").closest(".form-group").find(".control-label").html('<span class="star">*</span>所学专业')
+			$("#modalForm input[name=dep]").requireField(true);
+			$("#modalForm input[name=major]").requireField(true);
 		}
 
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
@@ -327,16 +323,12 @@
 			$("#modalForm input[name=tutorTitle]").prop("disabled", false);
 			</c:if>
 			<c:if test="${sysUser.userId==_user.userId}">
-			$("#modalForm input[name=tutorName]").prop("disabled", false).attr("required", "required");
-			$("#modalForm input[name=tutorTitle]").prop("disabled", false).attr("required", "required");
-			$("#modalForm input[name=tutorName]").closest(".form-group").find(".control-label").html('<span class="star">*</span>导师姓名')
-			$("#modalForm input[name=tutorTitle]").closest(".form-group").find(".control-label").html('<span class="star">*</span>导师现所在单位及职务（职称）')
+			$("#modalForm input[name=tutorName]").requireField(true);
+			$("#modalForm input[name=tutorTitle]").requireField(true);
 			</c:if>
 		}else{
-			$("#modalForm input[name=tutorName]").val('').prop("disabled", true).removeAttr("required");
-			$("#modalForm input[name=tutorTitle]").val('').prop("disabled", true).removeAttr("required");
-			$("#modalForm input[name=tutorName]").closest(".form-group").find(".control-label").html('导师姓名')
-			$("#modalForm input[name=tutorTitle]").closest(".form-group").find(".control-label").html('导师现所在单位及职务（职称）')
+			$("#modalForm input[name=tutorName]").requireField(false, true);;
+			$("#modalForm input[name=tutorTitle]").requireField(false, true);;
 		}
 
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_jxxx").id}"){
@@ -362,8 +354,8 @@
 			$("#modalForm input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
 			$("#modalForm input[name='_files[]']").prop("disabled", true);
 
-			$("#modalForm input[name=finishTime]").val('').prop("disabled", true).removeAttr("required");
-			//$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=finishTime]").requireField(false, true);;
+			//$("input[name=schoolLen]").requireField(false, true);;
 
 		}else {
 			$("#modalForm input[name=hasDegree]").bootstrapSwitch('disabled', false);
@@ -372,16 +364,14 @@
 			}
 			$("#modalForm input[name='_files[]']").prop("disabled", false);
 
-			$("#modalForm input[name=finishTime]").prop("disabled", false).attr("required", "required");
-			//$("input[name=schoolLen]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=finishTime]").requireField(true);
+			//$("input[name=schoolLen]").requireField(true);
 		}
 	}
 	$('#modalForm input[name=isGraduated]').on('switchChange.bootstrapSwitch', function(event, state) {
 		isGraduatedChange();
 	});
 	isGraduatedChange();
-
-
 
 	$("#modalForm textarea[name=school]").keyup(function(){
 		//console.log($("input[name=hasDegree]").bootstrapSwitch("state"));
@@ -393,7 +383,6 @@
 			$degreeUnit.val($(this).val());
 		}
 	});
-
 	$("#modalForm input[name=finishTime]").on('changeDate',function(ev){
 
 		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")) {
@@ -405,7 +394,6 @@
 			}
 		}
 	});
-
 	$.register.date($('.input-group.date'));
 
 	$("#submitBtn").click(function () {

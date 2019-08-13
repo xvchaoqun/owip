@@ -467,11 +467,14 @@ public class CadreAdformService extends BaseMapper {
         example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("sort_order asc");
 
-        int maxFamilyCount = 6;
+        int maxFamilyCount = 0;
         byte adFormType = CmTag.getByteProperty("adFormType",
-                CadreConstants.CADRE_ADFORMTYPE_BNU);
-        if (adFormType == CadreConstants.CADRE_ADFORMTYPE_GXB
-                || adFormType == CadreConstants.CADRE_ADFORMTYPE_GXB_STANDARD) {
+                CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
+
+        if(adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ){
+            maxFamilyCount = 5; // 6?
+        }else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312
+                || adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
             maxFamilyCount = 7;
         }
         List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, maxFamilyCount));
@@ -542,27 +545,38 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("inPost", bean.getInPost());
         dataMap.put("prePost", bean.getPrePost());
 
-        int maxFamilyCount = 5;
-        String adformFtl = "/adform/adform.ftl";
-        String titleEditorFtl = "/common/titleEditor.ftl";
-        String familyFtl = "/adform/family.ftl";
-        if(adFormType ==null){
+        int maxFamilyCount = 0;
+        String adFormFtl = null;
+        String titleEditorFtl = null;
+        String rewardFtl = null;
+        String familyFtl = null;
+        if (adFormType == null) {
             adFormType = CmTag.getByteProperty("adFormType",
-                CadreConstants.CADRE_ADFORMTYPE_BNU);
+                    CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
         }
-        if(adFormType == CadreConstants.CADRE_ADFORMTYPE_GXB) {
+        if (adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ) {
+
+            maxFamilyCount = 5;
+            adFormFtl = "/adform/adform.ftl";
+            titleEditorFtl = "/common/titleEditor.ftl";
+            rewardFtl = "/common/titleEditor.ftl";
+            familyFtl = "/adform/family.ftl";
+        } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
             maxFamilyCount = 7;
-            adformFtl = "/adform/adform2.ftl";
+            adFormFtl = "/adform/adform2.ftl";
             titleEditorFtl = "/common/titleEditor2.ftl";
+            rewardFtl = "/common/titleEditor.ftl";
             familyFtl = "/adform/family2.ftl";
-        }else if(adFormType == CadreConstants.CADRE_ADFORMTYPE_GXB_STANDARD) {
+        } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
             maxFamilyCount = 7;
-            adformFtl = "/adform/adform3.ftl";
+            adFormFtl = "/adform/adform3.ftl";
             titleEditorFtl = "/common/titleEditor3.ftl";
+            rewardFtl = "/common/titleEditor.ftl";
             familyFtl = "/adform/family3.ftl";
         }
 
-        dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360, titleEditorFtl));
+        dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(),
+                false, 360, rewardFtl));
         dataMap.put("ces", bean.getCes());
         dataMap.put("reason", bean.getReason());
 
@@ -597,7 +611,7 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("m1", DateUtils.getMonth(reportDate));
         dataMap.put("d1", DateUtils.getDay(reportDate));
 
-        freemarkerService.process(adformFtl, dataMap, out);
+        freemarkerService.process(adFormFtl, dataMap, out);
     }
 
     public void process(CadreInfoForm bean, Writer out) throws IOException, TemplateException {
@@ -723,8 +737,8 @@ public class CadreAdformService extends BaseMapper {
             int userId = uv.getId();
             Cadre cadre = new Cadre();
             cadre.setUserId(userId);
-            cadre.setTitle(title.replaceAll("^" + sysConfig.getSchoolName()
-                    + "|" + sysConfig.getSchoolShortName(), ""));
+            cadre.setTitle(title.replaceAll("^" + sysConfig.getSchoolName().replaceAll("\\*", "\\\\*")
+                    + "|" + sysConfig.getSchoolShortName().replaceAll("\\*", "\\\\*"), ""));
             cadre.setStatus(CadreConstants.CADRE_STATUS_MIDDLE);
             cadre.setType(CadreConstants.CADRE_TYPE_CJ);
 

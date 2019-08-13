@@ -296,6 +296,10 @@
                 pager: null
             });
         }
+        function _callback(target) {
+            //_reloadSubGrid($(target).data("parent"))
+            $("#jqGrid_cadreEdu").trigger("reloadGrid");
+        }
 
         $.register.fancybox(function () {
             //console.log(this)
