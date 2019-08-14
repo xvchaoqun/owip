@@ -311,7 +311,7 @@
         {
             label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
-            return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
+                return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
         }, width: 90
         },
 
