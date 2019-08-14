@@ -506,10 +506,10 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>况</span></p>
   </td>
-  <td width=572 colspan=11 style='width:429.2pt;border-top:none;border-left:
+  <td width=572 colspan=11 class="resume" style='width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;border-top: solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:77.5pt'>
-  <p class=MsoNormal align=left style='text-align:left;line-height:15.0pt'><span
+  <p class="MsoNormal" align=left style='text-align:left;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>${bean.reward}</span></p>
   </td>
  </tr>
@@ -527,7 +527,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   <td width=572 colspan=11 style='width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:63.7pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
+  <p class=MsoNormal align=center style='text-align:left;line-height:15.0pt'><span
   lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
   color:windowtext'>${bean.ces}</span></p>
   </td>
