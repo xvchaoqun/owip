@@ -32,6 +32,7 @@ ALTER TABLE `cadre_edu`
 
 UPDATE sys_property SET `remark`='1：北京  2：中组部(仿宋_GB2312) 3: 中组部(宋体)（系统默认）' WHERE  `code`='adFormType';
 
+UPDATE `base_meta_class` SET `extra_options`='gz|学生|高中,zz|学生|中专,zk|学生|专科,bk|学生|本科,yjs|硕士研究生|研究生,yjskcb|硕士研究生（研究生课程班）|研究生,sstd|硕士研究生（硕士同等学历）|研究生,bs|博士研究生|博士研究生' WHERE code='mc_edu';
 -- 更新导入样表
 
 20190809
