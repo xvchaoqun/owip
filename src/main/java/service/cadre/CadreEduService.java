@@ -368,6 +368,7 @@ public class CadreEduService extends BaseMapper {
 
         checkUpdate(record);
 
+        record.setSubWorkCount(0);
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
         cadreEduMapper.insertSelective(record);
 
@@ -406,7 +407,10 @@ public class CadreEduService extends BaseMapper {
         checkUpdate(record);
 
         //record.setStatus(null);
-        cadreEduMapper.updateByPrimaryKey(record);
+        CadreEdu cadreEdu = cadreEduMapper.selectByPrimaryKey(record.getId());
+        record.setSubWorkCount(cadreEdu.getSubWorkCount()); // 保留原来的其间工作数量
+
+        cadreEduMapper.updateByPrimaryKey(record); // 覆盖更新
 
         // 学历允许为空（有些特殊时期只有学位，没有学历）
         if (record.getEduId() == null) {
@@ -471,9 +475,9 @@ public class CadreEduService extends BaseMapper {
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
         } else {
-            if (record.getId() == null) // 添加申请
+            if (record.getId() == null) { // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
-            else { // 修改申请
+            }else { // 修改申请
 
                 {
                     // 如果不存在删除申请时，则不允许提交存在最高学位（学历）的修改申请
@@ -564,6 +568,7 @@ public class CadreEduService extends BaseMapper {
                 CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
                 modify.setId(null);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                modify.setSubWorkCount(0);
 
                 checkUpdate(modify);
                 cadreEduMapper.insertSelective(modify); // 插入新纪录
@@ -578,6 +583,9 @@ public class CadreEduService extends BaseMapper {
                 CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
                 modify.setId(originalId);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+
+                CadreEdu original = cadreEduMapper.selectByPrimaryKey(originalId);
+                modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加其间工作经历
 
                 checkUpdate(modify);
                 cadreEduMapper.updateByPrimaryKey(modify); // 覆盖原纪录

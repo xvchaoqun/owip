@@ -200,7 +200,9 @@ public class CadreEduController extends BaseController {
                 if (record.getCertificate() == null) {
                     record.setCertificate(_record.getCertificate());
                 }
-                cadreEduService.updateByPrimaryKey(record);
+
+                cadreEduService.updateByPrimaryKey(record); // 覆盖更新
+
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {

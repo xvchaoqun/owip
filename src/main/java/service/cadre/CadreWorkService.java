@@ -585,6 +585,7 @@ public class CadreWorkService extends BaseMapper {
                 CadreWork modify = cadreWorkMapper.selectByPrimaryKey(modifyId);
                 modify.setId(null);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                modify.setSubWorkCount(0);
 
                 cadreWorkMapper.insertSelective(modify); // 插入新纪录
                 updateSubWorkCount(modify.getFid(), modify.getIsEduWork()); // 必须放插入之后
