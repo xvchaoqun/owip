@@ -1,7 +1,9 @@
 
 
+20190815
+南航、北邮、北航、北化工、西交大、哈工大
 
-
+update sys_resource SET url='/modifyBaseApply?type=admin' WHERE permission='modifyBaseApply:menu';
 20190814
 南航、北邮、北航、北化工、西交大、哈工大
 
