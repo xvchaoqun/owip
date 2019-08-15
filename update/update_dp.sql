@@ -1,6 +1,10 @@
 
 
+
+-- 视图更新  dp_member_view dp_party_view
 -- 插入角色和权限 -- 20190815 李阳
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('dp_org_admin', '民主党派管理员', '2574,2575,2578,2579,2576,2580,2581,2582,2583,2584,2588,2577,2585,2586,2590,2587', '-1', NULL, 0, 0, 58, '');
+
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2574, 0, '统战信息管理', '', 'menu', 'fa fa-binoculars', NULL, 1, '0/1/', 0, 'dp:*', NULL, NULL, NULL, 1, 7535);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2575, 0, '民主党派', '', 'url', '', '/dp/dpParty', 2574, '0/1/2574/', 0, 'dpParty:list', NULL, NULL, NULL, 1, 300);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2576, 0, '委员会', '', 'url', '', '/dp/dpPartyMemberGroup', 2574, '0/1/2574/', 0, 'dpPartyMemberGroup:list', NULL, NULL, NULL, 1, 200);
@@ -19,31 +23,27 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2590, 0, '查看民主党派', '', 'function', '', NULL, 2577, '0/1/2574/2577/', 1, 'dp:viewAll', NULL, NULL, NULL, 1, NULL);
 
 
-INSERT INTO `sys_role` (`id`, `code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES (63, 'dp_org_admin', '民主党派管理员', '2574,2575,2578,2579,2576,2580,2581,2582,2583,2584,2588,2577,2585,2586,2590,2587', '-1', NULL, 0, 0, 58, '');
-
 
 -- 插入元数据
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (8, 8, '学部、院、系所', 'mt_unit_type_xy', NULL, 'xy', '附加属性用于干部数据统计，不可修改', 66, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (557, 90, '中国国民党革命委员会（民革）', 'mt_dp_mg', NULL, '', '', 1, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (558, 90, '中国民主同盟（民盟）', 'mt_dp_mm', NULL, '', '', 2, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (559, 90, '中国民主建国会（民建）', 'mt_dp_mj', NULL, '', '', 3, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (560, 90, '中国民主促进会（民进）', 'mt_dp_mjh', NULL, '', '', 4, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (561, 90, '中国农工民主党（农工党）', 'mt_dp_ngd', NULL, '', '', 5, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (562, 90, '中国致公党（致公党）', 'mt_dp_zgd', NULL, '', '', 6, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (563, 90, '九三学社（九三学社）', 'mt_dp_jsxs', NULL, '', '', 7, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (564, 90, '台湾民主自治同盟（台盟）', 'mt_dp_tm', NULL, '', '', 8, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (565, 91, '主委', 'mt_dp_zw', 1, '', '', 1, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (566, 91, '副主委', 'mt_dp_fzw', 1, '', '', 2, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (567, 91, '委员', 'mt_dp_wy', 1, '', '', 3, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (568, 90, '无党派', 'mt_dp_wdp', 1, '', '', 9, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (569, 92, '主持党委工作', 'mt_dp_zcdwgz', 1, '是否是管理员', '', 1, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (570, 92, '教师工作', 'mt_dp_jsgz', 1, '', '', 2, 1);
-INSERT INTO `base_meta_type` (`id`, `class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (571, 92, '学生工作', 'mt_dp_xsgz', 1, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国国民党革命委员会（民革）', 'mt_dp_mg', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国民主同盟（民盟）', 'mt_dp_mm', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国民主建国会（民建）', 'mt_dp_mj', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国民主促进会（民进）', 'mt_dp_mjh', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国农工民主党（农工党）', 'mt_dp_ngd', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国致公党（致公党）', 'mt_dp_zgd', NULL, '', '', 6, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '九三学社（九三学社）', 'mt_dp_jsxs', NULL, '', '', 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '台湾民主自治同盟（台盟）', 'mt_dp_tm', NULL, '', '', 8, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2591, '主委', 'mt_dp_zw', 1, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2591, '副主委', 'mt_dp_fzw', 1, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2591, '委员', 'mt_dp_wy', 1, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '无党派', 'mt_dp_wdp', 1, '', '', 9, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2592, '主持党委工作', 'mt_dp_zcdwgz', 1, '是否是管理员', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2592, '教师工作', 'mt_dp_jsgz', 1, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2592, '学生工作', 'mt_dp_xsgz', 1, '', '', 3, 1);
 
-
-INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (90, NULL, '民主党派类别', '统战信息管理', '民主党派', 'mc_dp_party_class', '', '', '', 90, 1);
-INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (91, NULL, '民主党派委员职务', '统战信息管理', '委员会', 'mc_dp_party_member_post', '是否默认管理员', '', '', 91, 1);
-INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (92, NULL, '民主党派委员分工', '统战信息管理', '委员会', 'mc_dp_party_member_type', '是否默认管理员', '', '', 92, 1);
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (2590, NULL, '民主党派类别', '统战信息管理', '民主党派', 'mc_dp_party_class', '', '', '', 2590, 1);
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (2591, NULL, '民主党派委员职务', '统战信息管理', '委员会', 'mc_dp_party_member_post', '是否默认管理员', '', '', 2591, 1);
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (2592, NULL, '民主党派委员分工', '统战信息管理', '委员会', 'mc_dp_party_member_type', '是否默认管理员', '', '', 2592, 1);
 
 
 -- 民主党派建表语句
