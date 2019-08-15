@@ -61,11 +61,24 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
     @Transactional
     public void del(int id) {
 
-        ModifyBaseItemExample example = new ModifyBaseItemExample();
-        example.createCriteria().andIdEqualTo(id)
-                .andStatusEqualTo(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY); // 只有待审批的记录可以删除
+        ModifyBaseItem modifyBaseItem = modifyBaseItemMapper.selectByPrimaryKey(id);
+        int applyId = modifyBaseItem.getApplyId();
 
-        modifyBaseItemMapper.deleteByExample(example);
+        {
+            ModifyBaseItemExample example = new ModifyBaseItemExample();
+            example.createCriteria().andIdEqualTo(id)
+                    .andStatusEqualTo(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY); // 只有待审批的记录可以删除
+
+            modifyBaseItemMapper.deleteByExample(example);
+        }
+
+        // 判断一下所属申请记录下的剩下的修改项是否全部删除了，如果全部删除了，则把该条申请记录也删除
+        ModifyBaseItemExample example = new ModifyBaseItemExample();
+        example.createCriteria().andApplyIdEqualTo(applyId);
+        int leftCount = modifyBaseItemMapper.countByExample(example);
+        if(leftCount==0){
+            modifyBaseApplyMapper.deleteByPrimaryKey(applyId);
+        }
     }
 
     // 更新申请变更的值

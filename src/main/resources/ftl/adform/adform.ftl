@@ -1688,6 +1688,7 @@
 							<w:gridSpan w:val="3"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
+						<#assign needReturn=(!sameSchool && schoolDepMajor2?? && schoolDepMajor2?trim!='')>
 						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="0050470B" wsp:rsidP="00123E1F">
 							<w:pPr>
 								<w:spacing w:line="260" w:line-rule="exact"/>
@@ -1699,11 +1700,11 @@
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 								</w:rPr>
-								<w:t>${schoolDepMajor1!}</w:t>
+								<w:t>${schoolDepMajor1!}<#if !needReturn>${schoolDepMajor2!}</#if></w:t>
 							</w:r>
 							<w:proofErr w:type="gramEnd"/>
 						</w:p>
-						<#if !sameSchool && schoolDepMajor2?? && schoolDepMajor2?trim!=''>
+						<#if needReturn>
 						<w:p wsp:rsidR="0050470B" wsp:rsidRPr="00541A01" wsp:rsidRDefault="0050470B" wsp:rsidP="00123E1F">
 							<w:pPr>
 								<w:spacing w:line="260" w:line-rule="exact"/>
@@ -1876,6 +1877,7 @@
 							<w:gridSpan w:val="3"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
+						<#assign needReturn=(!sameInSchool && inSchoolDepMajor2?? && inSchoolDepMajor2?trim!='')>
 						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="0050470B">
 							<w:pPr>
 								<w:spacing w:line="260" w:line-rule="exact"/>
@@ -1887,11 +1889,11 @@
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 								</w:rPr>
-								<w:t>${inSchoolDepMajor1!}</w:t>
+								<w:t>${inSchoolDepMajor1!}<#if !needReturn>${inSchoolDepMajor2!}</#if></w:t>
 							</w:r>
 							<w:proofErr w:type="gramEnd"/>
 						</w:p>
-						<#if !sameInSchool && inSchoolDepMajor2?? && inSchoolDepMajor2?trim!=''>
+						<#if needReturn>
 						<w:p wsp:rsidR="0050470B" wsp:rsidRDefault="0050470B">
 							<w:pPr>
 								<w:spacing w:line="260" w:line-rule="exact"/>

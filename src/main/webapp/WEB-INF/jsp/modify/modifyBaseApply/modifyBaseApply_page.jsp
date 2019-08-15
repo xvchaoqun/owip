@@ -14,16 +14,16 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/modifyBaseApply?status=1"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/modifyBaseApply?type=${param.type}&status=1"><i
                                 class="fa fa-edit"></i> 修改申请</a>
                     </li>
                     <li class="<c:if test="${status==2}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/modifyBaseApply?status=2"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/modifyBaseApply?type=${param.type}&status=2"><i
                                 class="fa fa-check"></i> 审核完成</a>
                     </li>
                     <shiro:hasRole name="${ROLE_CADREADMIN}">
                         <li class="<c:if test="${status==3}">active</c:if>">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/modifyBaseApply?status=3"><i
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/modifyBaseApply?type=${param.type}&status=3"><i
                                     class="fa fa-times"></i> 已删除</a>
                         </li>
                     </shiro:hasRole>
@@ -39,7 +39,7 @@
                                     <i class="fa fa-check-square-o"></i> 批量审批
                                 </button>
                                 </shiro:hasPermission>
-                                <shiro:hasPermission name="<%=SystemConstants.PERMISSION_CADREADMINSELF%>">
+                                <c:if test="${param.type!='admin'}">
                                     <a class="openView btn btn-success btn-sm"
                                        data-url="${ctx}/user/modifyBaseApply_au"
                                        data-open-by="page"><i class="fa fa-edit"></i> 修改申请</a>
@@ -47,7 +47,7 @@
                                             data-url="${ctx}/user/modifyBaseApply_back" data-title="撤销申请记录"
                                             data-msg="确定撤销申请记录吗？"><i class="fa fa-times"></i> 撤销申请
                                     </button>
-                                </shiro:hasPermission>
+                                </c:if>
                                 <shiro:hasPermission name="modifyBaseApply:fakeDel">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/modifyBaseApply_fakeDel" data-title="删除申请记录"
@@ -146,9 +146,9 @@
                 if (rowObject.status == '${MODIFY_BASE_APPLY_STATUS_ALL_CHECK}') {
                     return '--';
                 }
-                return '<button data-url="${ctx}/modifyBaseItem?opType=check&applyId={0}" class="openView btn btn-success btn-xs">'
+                return '<button data-url="${ctx}/modifyBaseItem?opType=check&applyId={0}" class="openView btn btn-warning btn-xs">'
                                 .format(rowObject.id)
-                        + '<i class="fa fa-check"></i> 审核</button>'
+                        + '<i class="fa fa-sign-in"></i> 审核</button>'
             }
             },
             {label: '最后审核时间', name: 'checkTime', width: 150},

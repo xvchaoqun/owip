@@ -386,10 +386,16 @@ public class CoreBaseMapper {
 
         String targetSql = StringUtils.trimToEmpty(whereSql) + (StringUtils.isBlank(whereSql)?"":" and ");
         if (addNum * orderBy > 0) {
+            int count = commonMapper.count(tableName, targetSql + "sort_order > " + baseSortOrder);
+            addNum = Math.min(Math.abs(addNum), count)*(addNum>0?1:-1);
             targetSql += "sort_order > " + baseSortOrder + " order by sort_order asc limit " + (Math.abs(addNum) - 1) + ",1";
         } else {
+            int count = commonMapper.count(tableName, targetSql + "sort_order < " + baseSortOrder);
+            addNum = Math.min(Math.abs(addNum), count)*(addNum>0?1:-1);
             targetSql += "sort_order < " + baseSortOrder + " order by sort_order desc limit " + (Math.abs(addNum) - 1) + ",1";
         }
+
+        if(Math.abs(addNum)==0) return;
 
         Integer targetSortOrder = commonMapper.getTargetSortOrder(tableName, targetSql);
         if (targetSortOrder != null) {
