@@ -9,14 +9,16 @@ import java.util.Map;
 public class OwConstants {
 
 
-    // 党组织管理员类别，1 分党委管理员  2 支部管理员
+    // 党组织管理员类别，1 分党委管理员  2 支部管理员  3 民主党派管理员
     public final static byte OW_ORG_ADMIN_PARTY = 1;
     public final static byte OW_ORG_ADMIN_BRANCH = 2;
+    public final static byte OW_ORG_ADMIN_DPPARTY = 3;
     public final static Map<Byte, String> OW_ORG_ADMIN_MAP = new LinkedHashMap<>();
 
     static {
         OW_ORG_ADMIN_MAP.put(OW_ORG_ADMIN_PARTY, "分党委管理员");
         OW_ORG_ADMIN_MAP.put(OW_ORG_ADMIN_BRANCH, "支部管理员");
+        OW_ORG_ADMIN_MAP.put(OW_ORG_ADMIN_DPPARTY, "民主党派管理员");
     }
 
     // 权限开通申请状态，0申请 1本人撤销 2 打回 3通过；

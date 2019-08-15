@@ -21,6 +21,8 @@ public class RoleConstants {
     public static final String ROLE_INFLOWMEMBER = "inflowMember";
     public static final String ROLE_PARTYADMIN = "partyAdmin";
     public static final String ROLE_BRANCHADMIN = "branchAdmin";
+    public static final String ROLE_DPPARTYADMIN = "dp_org_admin";
+    public static final String ROLE_DPMEMBER = "dpMember";
     // 三大管理员
     public static final String ROLE_ODADMIN = "odAdmin";
     public static final String ROLE_CADREADMIN = "cadreAdmin";
@@ -74,5 +76,8 @@ public class RoleConstants {
 
         ROLE_MAP.put(ROLE_CET_ADMIN, "干部教育培训管理员");
         ROLE_MAP.put(ROLE_CET_TRAINEE, "参训人员(干部教育培训)");
+
+        ROLE_MAP.put(ROLE_DPPARTYADMIN, "民主党派管理员");
+        ROLE_MAP.put(ROLE_DPMEMBER, "党派成员");
     }
 }

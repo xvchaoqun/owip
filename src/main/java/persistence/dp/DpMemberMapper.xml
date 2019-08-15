@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dp.DpMemberMapper">
+  <resultMap id="BaseResultMap" type="domain.dp.DpMember">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="political_status" jdbcType="TINYINT" property="politicalStatus" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="source" jdbcType="TINYINT" property="source" />
+    <result column="add_type" jdbcType="INTEGER" property="addType" />
+    <result column="transfer_time" jdbcType="TIMESTAMP" property="transferTime" />
+    <result column="apply_time" jdbcType="DATE" property="applyTime" />
+    <result column="active_time" jdbcType="DATE" property="activeTime" />
+    <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
+    <result column="sponsor" jdbcType="VARCHAR" property="sponsor" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="positive_time" jdbcType="DATE" property="positiveTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="party_post" jdbcType="VARCHAR" property="partyPost" />
+    <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
+    <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    user_id, party_id, political_status, type, status, source, add_type, transfer_time, 
+    apply_time, active_time, candidate_time, sponsor, grow_time, positive_time, create_time, 
+    update_time, party_post, party_reward, other_reward
+  </sql>
+  <select id="selectByExample" parameterType="domain.dp.DpMemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dp_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dp_member
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dp_member
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.dp.DpMemberExample">
+    delete from dp_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.dp.DpMember">
+    insert into dp_member (user_id, party_id, political_status, 
+      type, status, source, 
+      add_type, transfer_time, apply_time, 
+      active_time, candidate_time, sponsor, 
+      grow_time, positive_time, create_time, 
+      update_time, party_post, party_reward, 
+      other_reward)
+    values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{politicalStatus,jdbcType=TINYINT}, 
+      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{source,jdbcType=TINYINT}, 
+      #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, 
+      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, 
+      #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, 
+      #{otherReward,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.dp.DpMember">
+    insert into dp_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="politicalStatus != null">
+        political_status,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="addType != null">
+        add_type,
+      </if>
+      <if test="transferTime != null">
+        transfer_time,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="activeTime != null">
+        active_time,
+      </if>
+      <if test="candidateTime != null">
+        candidate_time,
+      </if>
+      <if test="sponsor != null">
+        sponsor,
+      </if>
+      <if test="growTime != null">
+        grow_time,
+      </if>
+      <if test="positiveTime != null">
+        positive_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="partyPost != null">
+        party_post,
+      </if>
+      <if test="partyReward != null">
+        party_reward,
+      </if>
+      <if test="otherReward != null">
+        other_reward,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="politicalStatus != null">
+        #{politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=TINYINT},
+      </if>
+      <if test="addType != null">
+        #{addType,jdbcType=INTEGER},
+      </if>
+      <if test="transferTime != null">
+        #{transferTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null">
+        #{activeTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTime != null">
+        #{candidateTime,jdbcType=DATE},
+      </if>
+      <if test="sponsor != null">
+        #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="growTime != null">
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="positiveTime != null">
+        #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partyPost != null">
+        #{partyPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partyReward != null">
+        #{partyReward,jdbcType=VARCHAR},
+      </if>
+      <if test="otherReward != null">
+        #{otherReward,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.dp.DpMemberExample" resultType="java.lang.Long">
+    select count(*) from dp_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dp_member
+    <set>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.politicalStatus != null">
+        political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.source != null">
+        source = #{record.source,jdbcType=TINYINT},
+      </if>
+      <if test="record.addType != null">
+        add_type = #{record.addType,jdbcType=INTEGER},
+      </if>
+      <if test="record.transferTime != null">
+        transfer_time = #{record.transferTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.applyTime != null">
+        apply_time = #{record.applyTime,jdbcType=DATE},
+      </if>
+      <if test="record.activeTime != null">
+        active_time = #{record.activeTime,jdbcType=DATE},
+      </if>
+      <if test="record.candidateTime != null">
+        candidate_time = #{record.candidateTime,jdbcType=DATE},
+      </if>
+      <if test="record.sponsor != null">
+        sponsor = #{record.sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.growTime != null">
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.positiveTime != null">
+        positive_time = #{record.positiveTime,jdbcType=DATE},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.partyPost != null">
+        party_post = #{record.partyPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyReward != null">
+        party_reward = #{record.partyReward,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherReward != null">
+        other_reward = #{record.otherReward,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dp_member
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      political_status = #{record.politicalStatus,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=TINYINT},
+      source = #{record.source,jdbcType=TINYINT},
+      add_type = #{record.addType,jdbcType=INTEGER},
+      transfer_time = #{record.transferTime,jdbcType=TIMESTAMP},
+      apply_time = #{record.applyTime,jdbcType=DATE},
+      active_time = #{record.activeTime,jdbcType=DATE},
+      candidate_time = #{record.candidateTime,jdbcType=DATE},
+      sponsor = #{record.sponsor,jdbcType=VARCHAR},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      positive_time = #{record.positiveTime,jdbcType=DATE},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      party_post = #{record.partyPost,jdbcType=VARCHAR},
+      party_reward = #{record.partyReward,jdbcType=VARCHAR},
+      other_reward = #{record.otherReward,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.dp.DpMember">
+    update dp_member
+    <set>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="politicalStatus != null">
+        political_status = #{politicalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=TINYINT},
+      </if>
+      <if test="addType != null">
+        add_type = #{addType,jdbcType=INTEGER},
+      </if>
+      <if test="transferTime != null">
+        transfer_time = #{transferTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=DATE},
+      </if>
+      <if test="activeTime != null">
+        active_time = #{activeTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTime != null">
+        candidate_time = #{candidateTime,jdbcType=DATE},
+      </if>
+      <if test="sponsor != null">
+        sponsor = #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="growTime != null">
+        grow_time = #{growTime,jdbcType=DATE},
+      </if>
+      <if test="positiveTime != null">
+        positive_time = #{positiveTime,jdbcType=DATE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partyPost != null">
+        party_post = #{partyPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partyReward != null">
+        party_reward = #{partyReward,jdbcType=VARCHAR},
+      </if>
+      <if test="otherReward != null">
+        other_reward = #{otherReward,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.dp.DpMember">
+    update dp_member
+    set party_id = #{partyId,jdbcType=INTEGER},
+      political_status = #{politicalStatus,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      source = #{source,jdbcType=TINYINT},
+      add_type = #{addType,jdbcType=INTEGER},
+      transfer_time = #{transferTime,jdbcType=TIMESTAMP},
+      apply_time = #{applyTime,jdbcType=DATE},
+      active_time = #{activeTime,jdbcType=DATE},
+      candidate_time = #{candidateTime,jdbcType=DATE},
+      sponsor = #{sponsor,jdbcType=VARCHAR},
+      grow_time = #{growTime,jdbcType=DATE},
+      positive_time = #{positiveTime,jdbcType=DATE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      party_post = #{partyPost,jdbcType=VARCHAR},
+      party_reward = #{partyReward,jdbcType=VARCHAR},
+      other_reward = #{otherReward,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dp.DpMemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dp_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+</mapper>

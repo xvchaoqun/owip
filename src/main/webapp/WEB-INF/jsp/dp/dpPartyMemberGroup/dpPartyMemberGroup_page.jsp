@@ -1,0 +1,207 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="row">
+    <div class="col-xs-12">
+        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <c:set var="_query" value="${not empty param.id ||not empty param.partyId || not empty param.code || not empty param.sort}"/>
+           <div class="tabbable">
+               <jsp:include page="menu.jsp"/>
+               <div class="tab-content">
+                   <div class="tab-pane in active">
+            <div class="jqgrid-vertical-offset buttons">
+                <shiro:hasPermission name="dpPartyMemberGroup:edit">
+                    <button class="popupBtn btn btn-info btn-sm"
+                            data-url="${ctx}/dp/dpPartyMemberGroup_au">
+                        <i class="fa fa-plus"></i> 添加</button>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/dp/dpPartyMemberGroup_au"
+                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                        修改信息</button>
+                <c:if test="${status>=0}">
+                    <shiro:hasPermission name="dpPartyMemberGroup:realDel">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown"
+                                    data-rel="tooltip" data-placement="top" data-html="true"
+                                    title="<div style='width:180px'>批量导入操作</div>"
+                                    class="btn btn-info btn-sm dropdown-toggle tooltip-success">
+                                <i class="fa fa-hand-o-right"></i> 批量导入 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                                <li>
+                                    <a href="javascript:;" class="popupBtn"
+                                       data-url="${ctx}/dp/dpPartyMemberGroup_import">
+                                        <i class="fa fa-upload"></i> 批量导入班子</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a href="javascript:;" class="popupBtn"
+                                       data-url="${ctx}dp/dpPartyMember_import">
+                                        <i class="fa fa-upload"></i> 批量导入班子成员</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </shiro:hasPermission>
+                </c:if>
+                </shiro:hasPermission>
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-url="${ctx}/dp/dpPartyMemberGroup_data"
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</button>
+                <c:if test="${status>=0}">
+                    <shiro:hasPermission name="dpPartyMemberGroup:del">
+                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpPartyMemberGroup_batchDel" data-title="撤销领导班子"
+                           data-msg="确定撤销这{0}个领导班子吗？"><i class="fa fa-history"></i> 撤销</a>
+                        【注：撤销操作将同时删除相关管理员，请谨慎操作！】
+                    </shiro:hasPermission>
+                </c:if>
+                <c:if test="${status==-1}">
+                    <shiro:hasPermission name="dpPartyMemberGroup:realDel">
+                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpPartyMemberGroup_realDel"
+                           data-title="删除领导班子"
+                           data-msg="确定完全删除这{0}个领导班子吗？（不可恢复，请谨慎操作！）"><i class="fa fa-times"></i> 完全删除</a>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="dpPartyMemberGroup:del">
+                        <a class="jqBatchBtn btn btn-success btn-sm"
+                           data-url="${ctx}/dp/dpPartyMemberGroup_batchDel"
+                           data-querystr="isDeleted=0"
+                           data-title="恢复已删除领导班子"
+                           data-msg="确定恢复这{0}个领导班子吗？"><i class="fa fa-reply"></i> 恢复</a>
+                        【注：恢复操作之后需要重新设置相关管理员！】
+                    </shiro:hasPermission>
+                </c:if>
+            </div>
+            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
+
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <form class="form-inline search-form" id="searchForm">
+                            <input type="hidden" name="cls" value="${status}">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input class="form-control search-query" name="id" type="text" value="${param.id}"
+                                   placeholder="请输入ID">
+                        </div>
+                        <div class="form-group">
+                            <label>所属民主党派</label>
+                            <input class="form-control search-query" name="partyId" type="text" value="${param.partyId}"
+                                   placeholder="请输入所属民主党派">
+                        </div>
+                            <div class="clearfix form-actions center">
+                                <a class="jqSearchBtn btn btn-default btn-sm"
+                                   data-url="${ctx}/dp/dpPartyMemberGroup"
+                                   data-target="#page-content"
+                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
+                                <c:if test="${_query}">&nbsp;
+                                    <button type="button" class="reloadBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/dp/dpPartyMemberGroup"
+                                            data-target="#page-content">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <table id="jqGrid" class="jqGrid table-striped"></table>
+            <div id="jqGridPager"></div>
+                   </div></div></div></div>
+        <div id="body-content-view"></div>
+    </div>
+</div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<script>
+    $("#jqGrid").jqGrid({
+        rownumbers:false,
+        url: '${ctx}/dp/dpPartyMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+                {
+                label: '名称',
+                name: 'name',
+                align: 'left',
+                width: 450,
+                formatter: function (cellvalue, options, rowObject) {
+                    var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 当届委员会</span>&nbsp;';
+                    return (rowObject.isPresent) ? str + cellvalue : cellvalue;
+                },
+                frozen: true
+                },
+                {
+                label: '查看委员', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
+                    return ('<button class="openView btn btn-warning btn-xs" ' +
+                        'data-url="${ctx}/dp/dpPartyMember_menu?groupId={0}">'
+                        + '<i class="fa fa-search"></i> 查看委员</button>')
+                        .format(rowObject.id);
+                }
+                },
+                {
+                label: '导出委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
+                    if (rowObject.isPresent)
+                        return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
+                            'data-url="${ctx}/dp/dpPartyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出委员</a>')
+                            .format(rowObject.id);
+                    return '--'
+                }
+                },
+            {
+                label: '所属民主党派',
+                name: 'partyId',
+                align: 'left',
+                width: 380,
+                formatter: function (cellvalue, options, rowObject) {
+                    var dpParty = _cMap.partyMap[rowObject.partyId];
+                    var _dpPartyView = null;
+                    if (dpParty != undefined) {
+                        _dpPartyView = dpParty.name;
+                        if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
+                            _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
+                                .format(dpParty.id, dpParty.name, ctx);
+                    }
+                    if (_dpPartyView != null) {
+                        return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                    }
+                    return '--';
+                }
+            },
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {
+                hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
+                    return (rowObject.isPresent) ? 1 : 0;
+                }
+            },
+            {label: '应换届时间', name: 'tranTime', width: 130,
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'},
+                cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if (rowObject.isPresent &&
+                        rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
+                        return "class='danger'";
+                }
+            },
+            {
+                label: '实际换届时间',
+                name: 'actualTranTime',
+                width: 130,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y-m-d'}
+            }
+        ]
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
+    $.initNavGrid("jqGrid", "jqGridPager");
+    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#searchForm [data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
+    $.register.date($('.date-picker'));
+</script>
