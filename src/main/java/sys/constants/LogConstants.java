@@ -22,6 +22,7 @@ public class LogConstants {
     public static final int LOG_PCS = 70; // 党代会
     public static final int LOG_OA = 80; // 协同办公
     public static final int LOG_PMD = 90; // 党费收缴
+    public static final int LOG_PM = 95; // 三会一课
     public static final int LOG_CPC = 100; // 干部职数
     public static final int LOG_CRS = 110; // 干部竞争上岗
     public static final int LOG_DR = 112; // 民主推荐

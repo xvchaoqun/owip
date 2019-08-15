@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pm.PmQuarterBranchMapper">
+  <resultMap id="BaseResultMap" type="domain.pm.PmQuarterBranch">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="quarter_id" jdbcType="INTEGER" property="quarterId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="is_exclude" jdbcType="BIT" property="isExclude" />
+    <result column="meeting_num" jdbcType="INTEGER" property="meetingNum" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, quarter_id, party_id, branch_id, branch_name, is_exclude, meeting_num, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.pm.PmQuarterBranchExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pm_quarter_branch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pm_quarter_branch
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pm_quarter_branch
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pm.PmQuarterBranchExample">
+    delete from pm_quarter_branch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pm.PmQuarterBranch">
+    insert into pm_quarter_branch (id, quarter_id, party_id, 
+      branch_id, branch_name, is_exclude, 
+      meeting_num, remark)
+    values (#{id,jdbcType=INTEGER}, #{quarterId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{branchName,jdbcType=VARCHAR}, #{isExclude,jdbcType=BIT}, 
+      #{meetingNum,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pm.PmQuarterBranch">
+    insert into pm_quarter_branch
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="quarterId != null">
+        quarter_id,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="branchName != null">
+        branch_name,
+      </if>
+      <if test="isExclude != null">
+        is_exclude,
+      </if>
+      <if test="meetingNum != null">
+        meeting_num,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="quarterId != null">
+        #{quarterId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="isExclude != null">
+        #{isExclude,jdbcType=BIT},
+      </if>
+      <if test="meetingNum != null">
+        #{meetingNum,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pm.PmQuarterBranchExample" resultType="java.lang.Long">
+    select count(*) from pm_quarter_branch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pm_quarter_branch
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.quarterId != null">
+        quarter_id = #{record.quarterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchName != null">
+        branch_name = #{record.branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isExclude != null">
+        is_exclude = #{record.isExclude,jdbcType=BIT},
+      </if>
+      <if test="record.meetingNum != null">
+        meeting_num = #{record.meetingNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pm_quarter_branch
+    set id = #{record.id,jdbcType=INTEGER},
+      quarter_id = #{record.quarterId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      branch_name = #{record.branchName,jdbcType=VARCHAR},
+      is_exclude = #{record.isExclude,jdbcType=BIT},
+      meeting_num = #{record.meetingNum,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pm.PmQuarterBranch">
+    update pm_quarter_branch
+    <set>
+      <if test="quarterId != null">
+        quarter_id = #{quarterId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="branchName != null">
+        branch_name = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="isExclude != null">
+        is_exclude = #{isExclude,jdbcType=BIT},
+      </if>
+      <if test="meetingNum != null">
+        meeting_num = #{meetingNum,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pm.PmQuarterBranch">
+    update pm_quarter_branch
+    set quarter_id = #{quarterId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      branch_name = #{branchName,jdbcType=VARCHAR},
+      is_exclude = #{isExclude,jdbcType=BIT},
+      meeting_num = #{meetingNum,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pm.PmQuarterBranchExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pm_quarter_branch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
