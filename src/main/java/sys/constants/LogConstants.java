@@ -42,6 +42,9 @@ public class LogConstants {
     public static final int LOG_CET = 500; // 干部教育培训
     public static final int LOG_CET_INSPECTOR = 501; // 干部教育培训评课
     public static final int LOG_PS = 510; // 二级党校
+    public static final int LOG_GROW = 520;//党员发展
+    public static final int LOG_DPPARTY= 521; //民主党派党建
+    public static final int LOG_DPMEMBER = 525;//民主党派成员信息
     public static final int LOG_CG = 550; // 委员会和领导小组
 
     public final static Map<Integer, String> LOG_MAP = new LinkedHashMap<>();
@@ -81,6 +84,10 @@ public class LogConstants {
         LOG_MAP.put(LOG_CET_INSPECTOR, "干部教育培训评课");
 
         LOG_MAP.put(LOG_PS, "二级党校");
+        LOG_MAP.put(LOG_GROW,"党员发展");
+
+        LOG_MAP.put(LOG_DPPARTY, "民主党派党建");
+        LOG_MAP.put(LOG_DPMEMBER, "民主党派成员");
         LOG_MAP.put(LOG_CG, "委员会和领导小组");
     }
 }

@@ -236,9 +236,12 @@ public class FreemarkerService {
                 if(StringUtils.isNotBlank(col)){
                     isEmptyRow = false;
                 }
-                if(i==0 && (col.endsWith("—")||col.endsWith("—至今"))){ // 简历中结束时间为空，留7个空格
-
-                    col = col + (col.endsWith("—")?"       ":"   ");
+                if(i==0 && (col.endsWith("—")||col.endsWith("—至今"))){
+                    /**
+                     *  简历中结束时间为空，留7个空格（如果是新起一行的其间经历则不空），含"至今"则空3格
+                     *  （总共空出9个空格或2个空格，其中2个空格在ftl文件中预留）
+                      */
+                    col = col + (col.endsWith("—")?(col.startsWith("（")?"":"       "):"   ");
                     cols.add(HtmlUtils.htmlEscapeDecimal(col));
                 }else{
                     cols.add(HtmlUtils.htmlEscapeDecimal(col));

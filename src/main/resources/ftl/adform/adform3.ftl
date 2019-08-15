@@ -1657,9 +1657,11 @@
 							</w:tcMar>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
+						<#assign needReturn=(!sameSchool && schoolDepMajor2?? && schoolDepMajor2?trim!='')>
 						<w:p wsp:rsidR="00176812" wsp:rsidRDefault="00667531" wsp:rsidP="00176812">
 							<w:pPr>
 								<w:spacing w:line="300" w:line-rule="exact"/>
+								<w:jc w:val="center"/>
 							</w:pPr>
 							<w:proofErr w:type="gramStart"/>
 							<w:r>
@@ -1667,14 +1669,15 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="28"/>
 								</w:rPr>
-								<w:t>${schoolDepMajor1!}</w:t>
+								<w:t>${schoolDepMajor1!}<#if !needReturn>${schoolDepMajor2!}</#if></w:t>
 							</w:r>
 							<w:proofErr w:type="gramEnd"/>
 						</w:p>
-						<#if !sameSchool && schoolDepMajor2?? && schoolDepMajor2?trim!=''>
+						<#if needReturn>
 						<w:p wsp:rsidR="005D394B" wsp:rsidRPr="009F3EEF" wsp:rsidRDefault="005D394B" wsp:rsidP="00176812">
 							<w:pPr>
 								<w:spacing w:line="300" w:line-rule="exact"/>
+								<w:jc w:val="center"/>
 							</w:pPr>
 							<w:proofErr w:type="gramStart"/>
 							<w:r>
@@ -1941,9 +1944,11 @@
 							</w:tcMar>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
+						<#assign needReturn=(!sameInSchool && inSchoolDepMajor2?? && inSchoolDepMajor2?trim!='')>
 						<w:p wsp:rsidR="00176812" wsp:rsidRDefault="00667531" wsp:rsidP="00176812">
 							<w:pPr>
 								<w:spacing w:line="300" w:line-rule="exact"/>
+								<w:jc w:val="center"/>
 							</w:pPr>
 							<w:proofErr w:type="gramStart"/>
 							<w:r>
@@ -1951,14 +1956,15 @@
 									<w:rFonts w:hint="fareast"/>
 									<w:sz w:val="28"/>
 								</w:rPr>
-								<w:t>${inSchoolDepMajor1!}</w:t>
+								<w:t>${inSchoolDepMajor1!}<#if !needReturn>${inSchoolDepMajor2!}</#if></w:t>
 							</w:r>
 							<w:proofErr w:type="gramEnd"/>
 						</w:p>
-						<#if !sameInSchool && inSchoolDepMajor2?? && inSchoolDepMajor2?trim!=''>
+						<#if needReturn>
 						<w:p wsp:rsidR="005D394B" wsp:rsidRPr="009F3EEF" wsp:rsidRDefault="005D394B" wsp:rsidP="00176812">
 							<w:pPr>
 								<w:spacing w:line="300" w:line-rule="exact"/>
+								<w:jc w:val="center"/>
 							</w:pPr>
 							<w:proofErr w:type="gramStart"/>
 							<w:r>

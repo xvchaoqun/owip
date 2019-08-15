@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.dp.common.IDpMemberMapper">
+
+    <sql id="dp_member_selects_permits">
+        <if test="addPermits">
+            <if test="adminDpPartyIdList.size>0">
+                and (
+                party_id in
+                <foreach collection="adminDpPartyIdList" item="partyId"
+                         index="index" open="(" close=")" separator=",">
+                    #{partyId}
+                </foreach>
+                )
+            </if>
+            <if test="adminDpPartyIdList.size>0">
+                and party_id in
+                <foreach collection="adminDpPartyIdList" item="partyId"
+                         index="index" open="(" close=")" separator=",">
+                    #{partyId}
+                </foreach>
+            </if>
+            <if test="adminDpPartyIdList.size==0">
+                and m.user_id is null
+            </if>
+        </if>
+    </sql>
+
+    <sql id="selectDpMemberList_where">
+        <if test="isRetire!=null">
+            , sys_teacher_info ti
+        </if>
+        where m.user_id= u.id
+        <if test="partyId!=null">
+            and m.party_id =#{partyId}
+        </if>
+        <if test="type!=null">
+            and m.type =#{type}
+        </if>
+        <if test="politicalStatus!=null">
+            and m.political_status =#{politicalStatus}
+        </if>
+        <if test="statusList!=null and statusList.size>0">
+            and m.status in
+            <foreach collection="statusList" item="st"
+                     index="index" open="(" close=")" separator=",">
+                #{st}
+            </foreach>
+        </if>
+        <if test="isRetire!=null">
+            and ti.user_id=u.user_id
+            <if test="isRetire">
+                and ti.is_retire = 1
+            </if>
+            <if test="!isRetire">
+                and (ti.is_retire <![CDATA[<>]]> 1)
+            </if>
+        </if>
+        <include refid="dp_member_selects_permits"/>
+        <if test="search != null">
+            and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
+        </if>
+    </sql>
+
+    <select id="selectDpMemberStudentCount" parameterType="map" resultType="map">
+        select sum(if(status=1, 1, 0)) as student_normalCount, sum(if(status=4, 1, 0)) as student_transferCount from dp_member_view m
+        where m.type=2
+        <include refid="dp_member_selects_permits"/>
+    </select>
+    <select id="selectDpMemberTeacherCount" parameterType="map" resultType="map">
+        select sum(if(status=1 and is_retire=0, 1, 0)) as teacher_normalCount,
+        sum(if(status=1 and is_retire=1, 1, 0)) as teacher_retireCount,
+        sum(if(status=4, 1, 0)) as teacher_transferCount, sum(if(status=1 or status=4, 1, 0)) total from dp_member_view m
+        where m.type=1
+        <include refid="dp_member_selects_permits"/>
+    </select>
+
+    <sql id="userSearchSql">
+        select * from sys_user_view
+        <if test="query != null">
+            <where>
+                and username like '${query}%'
+            </where>
+            union
+            select * from sys_user_view
+            <where>
+                and realname like '${query}%'
+            </where>
+            union
+            select * from sys_user_view
+            <where>
+                and code like '${query}%'
+            </where>
+        </if>
+    </sql>
+
+    <select id="countNotDpMemberList" parameterType="map" resultType="java.lang.Integer">
+        select count(id) from (<include refid="userSearchSql" />) u
+        where not exists(select 1 from dp_member where user_id=u.id and status=1)
+        and role_ids not like "%${regRoleStr}%"
+    </select>
+    <select id="selectNotDpMemberList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
+        select * from (<include refid="userSearchSql" />) u
+        where not exists(select 1 from dp_member where user_id=u.id and status=1)
+        and role_ids not like "%${regRoleStr}%"
+        and type in(1,2,3)
+        order by create_time desc
+    </select>
+
+    <update id="changeDpMemberParty" parameterType="map">
+        update dp_member
+        set
+        party_id = #{partyId,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="persistence.dp.DpMemberMapper.Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+
+    <select id="countDpMemberList" parameterType="map" resultType="java.lang.Integer">
+        select count(dm.user_id) from dp_member m,sys_user_view u
+        <include refid="selectDpMemberList_where"/>
+    </select>
+
+    <select id="selectDpMemberList" resultMap="persistence.dp.DpMemberMapper.BaseResultMap" parameterType="map">
+        select m.* from dp_member m, sys_user_view u
+        <include refid="selectDpMemberList_where"/>
+        order by m.grow_time desc
+    </select>
+
+</mapper>

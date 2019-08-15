@@ -17,6 +17,8 @@ public interface CommonMapper {
 
     @Select("select sort_order from ${tableName} where ${idName}=#{id}")
     Integer getSortOrder(@Param("tableName") String tableName, @Param("idName") String idName, @Param("id") Integer id);
+    @Select("select count(*) from ${tableName} where ${whereSql}")
+    int count(@Param("tableName") String tableName, @Param("whereSql") String whereSql);
     @Select("select sort_order from ${tableName} where ${whereSql}")
     Integer getTargetSortOrder(@Param("tableName") String tableName, @Param("whereSql") String whereSql);
 
