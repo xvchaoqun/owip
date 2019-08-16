@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="spring.properties"/>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_user}"
+                        password="${jdbc_password}" />
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--三会一课-->
+        <table tableName="pm_meeting" domainObjectName="pm.PmMeeting" mapperName="pm.PmMeetingMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="attends" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="absents" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="resolution" jdbcType="VARCHAR"></columnOverride>
+        </table>
+
+        <!--<table tableName="pm_meeting_file" domainObjectName="pm.PmMeetingFile" mapperName="pm.PmMeetingFileMapper">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="pm_quarter" domainObjectName="pm.PmQuarter" mapperName="pm.PmQuarterMapper">-->
+        <!--</table>-->
+
+        <!--<table tableName="pm_quarter_branch" domainObjectName="pm.PmQuarterBranch" mapperName="pm.PmQuarterBranchMapper">-->
+        <!--</table>-->
+
+        <!--<table tableName="pm_quarter_party" domainObjectName="pm.PmQuarterParty" mapperName="pm.PmQuarterPartyMapper">-->
+        <!--</table>-->
+
+        <!--<table tableName="pm_exclude_branch" domainObjectName="pm.PmExcludeBranch" mapperName="pm.PmExcludeBranchMapper">-->
+        <!--</table>-->
+    </context>
+</generatorConfiguration>
