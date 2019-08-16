@@ -4,7 +4,6 @@ import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.party.*;
-import domain.party.BranchExample.Criteria;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -504,8 +503,8 @@ public class BranchController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        BranchExample example = new BranchExample();
-        Criteria criteria = example.createCriteria();
+        BranchViewExample example = new BranchViewExample();
+        BranchViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
         if (del != null) {
@@ -540,32 +539,22 @@ public class BranchController extends BaseController {
             }
         }
 
-        int count = branchMapper.countByExample(example);
+        int count = branchViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-
-        /*List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != branchs && branchs.size()>0){
-
-            for(Branch branch:branchs){
-
-                Select2Option option = new Select2Option();
-                option.setText(branch.getName());
-                option.setId(branch.getId() + "");
-
-                options.add(option);
-            }
-        }*/
+        List<BranchView> branchs = branchViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<>();
-        for (Branch branch : branchs) {
+        for (BranchView branch : branchs) {
             Map<String, Object> option = new HashMap<>();
             option.put("text", branch.getName());
             option.put("id", branch.getId());
             option.put("del", branch.getIsDeleted());
+
+            option.put("branch", branch);
+
             options.add(option);
         }
 
