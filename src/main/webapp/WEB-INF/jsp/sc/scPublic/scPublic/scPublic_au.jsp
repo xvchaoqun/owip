@@ -20,10 +20,9 @@
                             <input type="file" name="file" id="upload-file"/>
                         </form>
                     </div>
-                    <div class="buttons pull-right ">
+                    <div class="buttons pull-right" style="right:15px;">
 
-                        <a href="javascript:;" class="hideView btn btn-xs btn-success"
-                           style="margin-right: 10px; top: -5px;">
+                        <a href="javascript:;" class="hideView btn btn-xs btn-success">
                             <i class="ace-icon fa fa-backward"></i>
                             返回</a>
                     </div>
@@ -154,8 +153,8 @@
                     <div class="widget-header">
                         <h4 class="widget-title">
                             公示对象
-                            <div class="buttons pull-right ">
-                                <button id="selectUsersBtn" style="margin-right: 10px; top: -5px;"
+                            <div class="buttons pull-right" style="right:45px;">
+                                <button id="selectUsersBtn"
                                         class="btn btn-success btn-xs" type="button"
                                         onclick="_selectUsers()">
                                     <i class="fa fa-plus-circle"></i> 从“干部选拔任用表决”中选择

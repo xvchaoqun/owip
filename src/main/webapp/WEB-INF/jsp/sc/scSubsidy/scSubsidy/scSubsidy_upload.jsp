@@ -21,7 +21,7 @@
                             <input type="file" name="file" id="upload-file"/>
                         </form>
                     </div>
-                    <div class="buttons pull-right ">
+                    <div class="buttons pull-right" style="right:15px;">
                         <c:if test="${not empty file}">
                         <button style="margin-right: 15px;" type="button" data-url="${ctx}/attach_download?path=${cm:encodeURI(file)}&filename=${cm:encodeURI(code)}"
                                 class="downloadBtn btn btn-xs btn-warning">
@@ -29,8 +29,7 @@
                             下载
                         </button>
                         </c:if>
-                        <a href="javascript:;" class="hideView btn btn-xs btn-success"
-                           style="margin-right: 10px; top: -5px;">
+                        <a href="javascript:;" class="hideView btn btn-xs btn-success">
                             <i class="ace-icon fa fa-backward"></i>
                             返回</a>
                     </div>

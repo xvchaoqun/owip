@@ -19,10 +19,9 @@
                             <input type="file" name="file" id="upload-file"/>
                         </form>
                     </div>
-                    <div class="buttons pull-right ">
+                    <div class="buttons pull-right" style="right:15px;">
 
-                        <a href="javascript:;" class="hideView btn btn-xs btn-success"
-                           style="margin-right: 10px; top: -5px;">
+                        <a href="javascript:;" class="hideView btn btn-xs btn-success">
                             <i class="ace-icon fa fa-backward"></i>
                             返回</a>
                     </div>
@@ -179,11 +178,6 @@
                                     onclick="_selectUsers()">
                                 <i class="fa fa-plus-circle"></i> 从“干部选拔任用表决”中选择
                             </button>
-                            <%--<button style="margin-right: 10px; top: -5px;"
-                                    class="btn btn-primary btn-xs" type="button"
-                                    onclick="_download()">
-                                <i class="fa fa-download"></i> 导出已选择的任免对象
-                            </button>--%>
                         </div>
                     </h4>
                     <div class="widget-toolbar">

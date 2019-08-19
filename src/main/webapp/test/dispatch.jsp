@@ -37,9 +37,9 @@
                 String pdfFilePath = springProps.uploadPath + dispatch.getFile();
                 if (!FileUtils.exists(pdfFilePath)) continue;
 
-                String imgPath = pdfFilePath + "-001.jpg";
-                FileUtils.delFile(imgPath); // 删除
+                FileUtils.delFile(pdfFilePath + ".jpg"); // 删除原整张图片
 
+                String imgPath = pdfFilePath + "-001.jpg";
                 if (flush || !FileUtils.exists(imgPath)) {
 
                     logger.info(dispatch.getDispatchCode());

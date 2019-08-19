@@ -19,10 +19,9 @@
               <input type="file" name="file" id="upload-file"/>
             </form>
           </div>
-          <div class="buttons pull-right ">
+          <div class="buttons pull-right" style="right:15px;">
 
-            <a href="javascript:;" class="btn btn-xs btn-success"  onclick="_back()"
-               style="margin-right: 10px; top: -5px;">
+            <a href="javascript:;" class="btn btn-xs btn-success" onclick="_back()">
               <i class="ace-icon fa fa-backward"></i>
               返回</a>
           </div>
