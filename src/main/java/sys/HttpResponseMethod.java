@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 import service.SpringProps;
 import service.sys.LogService;
@@ -92,7 +91,7 @@ public interface HttpResponseMethod {
 
         if (flush || !FileUtils.exists(imgPath)) {
 
-            resolution = resolution == null ? CmTag.getIntProperty("pdfResolution", 300) : resolution;
+            resolution = resolution == null ? CmTag.getIntProperty("pdfResolution", 100) : resolution;
             try {
                 String cmd = null;
                 if(pageNo==null) {
@@ -118,11 +117,11 @@ public interface HttpResponseMethod {
     }
 
     // 异步Pdf转图片（没生效？）
-    @Async
+    /*@Async
     default void asyncPdf2jpg(String pdfFilePath, Integer pageNo) {
 
         toPdfImage(pdfFilePath, true, 300, pageNo);
-    }
+    }*/
 
     /**
      * 上传文件
