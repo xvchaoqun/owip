@@ -317,6 +317,17 @@ public class CadreAdformService extends BaseMapper {
                         + StringUtils.trimToEmpty(fulltimeHighDegree.getDep()));
                 bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighDegree.getMajor())));
             }
+        }else{ // 没有学位的情况
+
+            CadreEdu fulltimeHighEdu = cadreEduService.getHighEdu(cadreId, fullltimeType.getId());
+            if (fulltimeHighEdu != null && !isJxxx(fulltimeHighEdu.getEduId())) {
+                _fulltimeEdu = CmTag.getEduName(fulltimeHighEdu.getEduId());
+
+                bean.setSameSchool(true);
+                bean.setSchoolDepMajor1(StringUtils.trimToEmpty(fulltimeHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(fulltimeHighEdu.getDep()));
+                bean.setSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(fulltimeHighEdu.getMajor())));
+            }
         }
 
         MetaType onjobType = CmTag.getMetaTypeByCode("mt_onjob");
@@ -384,6 +395,17 @@ public class CadreAdformService extends BaseMapper {
                 bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighDegree.getSchool())
                         + StringUtils.trimToEmpty(onjobHighDegree.getDep()));
                 bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighDegree.getMajor())));
+            }
+        }else{ // 没有学位的情况
+
+            CadreEdu onjobHighEdu = cadreEduService.getHighEdu(cadreId, onjobType.getId());
+            if (onjobHighEdu != null && !isJxxx(onjobHighEdu.getEduId())) {
+                _onjobEdu = CmTag.getEduName(onjobHighEdu.getEduId());
+
+                bean.setSameInSchool(true);
+                bean.setInSchoolDepMajor1(StringUtils.trimToEmpty(onjobHighEdu.getSchool())
+                        + StringUtils.trimToEmpty(onjobHighEdu.getDep()));
+                bean.setInSchoolDepMajor2(StringUtils.trimToEmpty(CadreUtils.major(onjobHighEdu.getMajor())));
             }
         }
 
