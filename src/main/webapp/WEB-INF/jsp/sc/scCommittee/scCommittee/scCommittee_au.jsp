@@ -6,7 +6,7 @@
             <div class="widget-header">
                 <h4 class="widget-title">
                     常委会文件预览
-                    <div style="position: absolute; left:200px;top:0px;">
+                    <div style="position: absolute; left:160px;top:0px;">
                         <form action="${ctx}/sc/scCommittee_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">
