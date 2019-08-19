@@ -4,7 +4,7 @@
 <shiro:hasPermission name="scDispatch:list">
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
             文件签发稿
             <div class="buttons pull-right ">
                 <button style="margin-right: 10px;top: -5px;"
@@ -25,7 +25,7 @@
 </shiro:hasPermission>
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
             ${dispatch!=null?"修改":"添加"}发文
         </h4>
     </div>

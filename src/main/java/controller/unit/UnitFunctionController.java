@@ -140,8 +140,6 @@ public class UnitFunctionController extends BaseController {
         if(_file!=null && !_file.isEmpty()) {
             String pdfFilePath = upload(_file, "unitFunction");
             record.setFilePath(pdfFilePath);
-            PdfUtils.pdf2jpg(springProps.uploadPath + pdfFilePath, PropertiesUtils.getString("gs.command"));
-            record.setImgPath(pdfFilePath + ".jpg");
         }
 
         record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));

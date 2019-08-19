@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -68,7 +69,7 @@ public class DpPartyController extends DpBaseController {
         DpPartyViewExample example = new DpPartyViewExample();
         DpPartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("sort_order desc"));
-        criteria.addPermits(loginUserService.adminDpPartyIdList());
+        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
         criteria.andIsDeletedEqualTo(cls == 2);
 

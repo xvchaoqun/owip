@@ -666,12 +666,14 @@
             return ret;
         }
         },
+        <shiro:hasPermission name="scAdArchive:list">
         {
             label: '归档记录', name:'archiveId', width:80, formatter: function (cellvalue, options, rowObject) {
             if(cellvalue==undefined) return '--'
             return '<button class="linkBtn btn btn-xs btn-primary" data-url="#/sc/scAdArchive?objId={0}" data-target="_blank"><i class="fa fa-search"></i> 查看</button>'
                     .format(rowObject.id);
         }},
+        </shiro:hasPermission>
         {label: '备注', name: 'remark'}, {hidden: true, name: 'inspectorType'}
     ];
     colModels.cadreReport = [

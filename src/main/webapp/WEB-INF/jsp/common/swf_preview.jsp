@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <fmt:message key="upload.path" bundle="${spring}" var="_uploadPath"/>
-<c:set value="${_uploadPath}${path}" var="_path"/>
-<c:if test="${empty path || !cm:exists(_path)}">
+<c:set value="${_uploadPath}${path}" var="_fullPath"/>
+<c:if test="${empty path || !cm:exists(_fullPath)}">
     <div class="modal-header">
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
         <h3>提示</h3>
@@ -15,7 +15,7 @@
         <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
     </div>
 </c:if>
-<c:if test="${not empty path && cm:exists(_path)}">
+<c:if test="${not empty path && cm:exists(_fullPath)}">
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>

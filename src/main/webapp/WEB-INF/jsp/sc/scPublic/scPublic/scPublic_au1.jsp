@@ -28,7 +28,7 @@
                         <div class="dispatch" style="width: 450px;margin-right: 0">
                             <div class="widget-box" style="width: 430px;">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         公示信息
                                     </h4>
                                 </div>
@@ -104,7 +104,7 @@
                             </div>
                             <div class="widget-box" style="width: 430px;">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         上传最终版公示
                                     </h4>
                                 </div>
@@ -154,7 +154,7 @@
                         <div class="cadres">
                             <div class="widget-box" style="width: 950px;">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         公示对象
                                         <div class="buttons pull-right ">
                                             <button style="margin-right: 10px; top: -5px;"

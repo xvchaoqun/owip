@@ -5,7 +5,7 @@
       /*{label: '年度', name: 'year'},*/
       /*{
           label: '发文类型', name: 'dispatchType', formatter: function (cellvalue, options, rowObject) {
-          if(cellvalue==undefined) return '--'
+          if($.isBlank(cellvalue)) return '--'
           return cellvalue.name;
       }, frozen: true
       },*/
@@ -14,7 +14,7 @@
       {
           label: '党委常委会', name: 'scCommittees', width:210, formatter: function (cellvalue, options, rowObject) {
 
-          if(cellvalue==undefined || cellvalue.length==0) return '--'
+          if($.isBlank(cellvalue) || cellvalue.length==0) return '--'
 
           var scCommittee = cellvalue[0];
           var str = scCommittee.code

@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>关联任免文件</h3>
 </div>
-<div class="modal-body" style="overflow-x: scroll;margin-right: 5px;">
+<div class="modal-body" style="overflow-x: scroll;">
     <c:if test="${fn:length(dispatchCadres)>0}">
         <table class="table table-striped table-bordered table-hover">
             <thead>

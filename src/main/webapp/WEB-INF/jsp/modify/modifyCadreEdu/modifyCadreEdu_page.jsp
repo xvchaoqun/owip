@@ -20,12 +20,9 @@
                            data-width="900"><i class="fa fa-edit"></i>
                             修改学习经历</a>
                         <button data-url="${ctx}/user/modifyTableApply_del"
-                                data-title="删除"
-                                data-msg="申请删除这条学习经历？"
                                 data-grid-id="#jqGrid_records"
                                 data-querystr="module=${module}"
-                                data-callback="_delCallback"
-                                class="jqItemBtn btn btn-danger btn-sm">
+                                class="jqOpenViewBtn btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </div>
@@ -40,10 +37,6 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <script>
-    function _delCallback(type) {
-        $("#modal").modal("hide");
-        $.hashchange('cls=1&module=${module}');
-    }
     var needTutorEduTypes = ${cm:toJSONArray(needTutorEduTypes)};
     $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {

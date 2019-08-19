@@ -4,9 +4,9 @@
 	<div class="preview">
 		<div class="widget-box">
 			<div class="widget-header">
-				<h4 class="smaller">
+				<h4 class="widget-title">
 					讨论议题文件预览
-					<div style="position: absolute; left:180px;top:8px;">
+					<div style="position: absolute; left:2000px;top:0px;">
 						<form action="${ctx}/sc/scGroupTopic_upload"
 							  enctype="multipart/form-data" method="post"
 							  class="btn-upload-form">
@@ -41,7 +41,7 @@
 		<div id="dispatch-cadres-view">
 			<div class="widget-box">
 				<div class="widget-header">
-					<h4 class="smaller">
+					<h4 class="widget-title">
 						${scGroupTopic!=null?"修改":"添加"}讨论议题
 					</h4>
 				</div>
@@ -130,7 +130,7 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+
 <script>
 	/*var contentKe = KindEditor.create('#contentId', {
 		//cssPath:"${ctx}/css/ke.css",

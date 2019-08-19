@@ -143,7 +143,7 @@ public class CadreTrainController extends BaseController {
                 cadreTrainService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部培训情况：%s", record.getId()));
             }else{
-                cadreTrainService.modifyApply(record, null, false);
+                cadreTrainService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部培训情况：%s", record.getId()));
             }
 
@@ -159,7 +159,7 @@ public class CadreTrainController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部培训情况：%s", record.getId()));
             }else{
                 if(_isUpdate==false) {
-                    cadreTrainService.modifyApply(record, id, false);
+                    cadreTrainService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部培训情况：%s", record.getId()));
                 }else{
                     // 更新修改申请的内容

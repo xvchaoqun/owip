@@ -10,7 +10,7 @@
     <shiro:hasPermission name="cetCourse:edit">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     添加学习内容
                 </h4>
             </div>

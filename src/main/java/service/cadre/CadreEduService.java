@@ -454,17 +454,19 @@ public class CadreEduService extends BaseMapper {
                         " degree_country=null, degree_unit=null, degree_time=null where id=" + id);
             }
 
-            // 更新申请时间
-            ModifyTableApply _record = new ModifyTableApply();
-            _record.setId(mta.getId());
-            _record.setCreateTime(new Date());
-            modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
+            if(mta.getUserId().intValue() == currentUserId) {
+                // 更新申请时间
+                ModifyTableApply _record = new ModifyTableApply();
+                _record.setId(mta.getId());
+                _record.setCreateTime(new Date());
+                modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
+            }
         }
     }
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreEdu record, Integer id, boolean isDelete) {
+    public void modifyApply(CadreEdu record, Integer id, boolean isDelete, String reason) {
 
         Integer userId = ShiroHelper.getCurrentUserId();
 
@@ -541,6 +543,7 @@ public class CadreEduService extends BaseMapper {
         _record.setOriginalId(originalId);
         _record.setModifyId(record.getId());
         _record.setType(type);
+        _record.setReason(reason);
         _record.setOriginalJson(JSONUtils.toString(original, false));
         _record.setCreateTime(new Date());
         _record.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="widget-box myTableDiv" data-cls="${htmlFragment.code}" style="width:828px">
   <div class="widget-header">
-    <h4 class="smaller">
+    <h4 class="widget-title">
       ${htmlFragment.title}
     </h4>
   </div>

@@ -66,7 +66,7 @@
     </div>
 </div>
 </div>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+
 <script>
 
     $("#modalForm select[name=fid]").select2({

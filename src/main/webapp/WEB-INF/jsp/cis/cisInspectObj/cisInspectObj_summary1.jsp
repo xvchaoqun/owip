@@ -25,7 +25,7 @@
                         <div class="dispatch" style="width: 450px;">
                             <div class="widget-box" style="width: 400px;">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         请选择单位
                                     </h4>
                                 </div>
@@ -41,7 +41,7 @@
                         <div class="cadres">
                             <div class="widget-box" style="width: 750px;">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         考察报告
                                     </h4>
                                 </div>
@@ -65,7 +65,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
 
     var ke = KindEditor.create('#content', {

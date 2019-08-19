@@ -145,7 +145,7 @@ public class CadrePostProController extends BaseController {
                 cadrePostProService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加专技岗位过程信息：%s", record.getId()));
             } else {
-                cadrePostProService.modifyApply(record, null, false);
+                cadrePostProService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-专技岗位过程信息：%s", record.getId()));
             }
 
@@ -161,7 +161,7 @@ public class CadrePostProController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新专技岗位过程信息：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadrePostProService.modifyApply(record, id, false);
+                    cadrePostProService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-专技岗位过程信息：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容

@@ -33,6 +33,8 @@ public class ModifyTableApply implements Serializable {
 
     private Byte type;
 
+    private String reason;
+
     private String originalJson;
 
     private Date createTime;
@@ -115,6 +117,14 @@ public class ModifyTableApply implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
     }
 
     public String getOriginalJson() {

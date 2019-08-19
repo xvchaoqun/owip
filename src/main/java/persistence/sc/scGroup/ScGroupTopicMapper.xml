@@ -6,6 +6,11 @@
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="sc_type" jdbcType="INTEGER" property="scType" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="candidate_user_id" jdbcType="INTEGER" property="candidateUserId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -70,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, file_path, group_id, name, content, memo, remark, is_deleted
+    id, file_path, group_id, name, type, unit_post_id, sc_type, record_id, candidate_user_id, 
+    content, memo, remark, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scGroup.ScGroupTopicExample" resultMap="BaseResultMap">
     select
@@ -102,20 +108,27 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.sc.scGroup.ScGroupTopic">
-    insert into sc_group_topic (id, file_path, group_id, 
-      name, content, memo, 
-      remark, is_deleted)
-    values (#{id,jdbcType=INTEGER}, #{filePath,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
+  <insert id="insert" parameterType="domain.sc.scGroup.ScGroupTopic">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sc_group_topic (file_path, group_id, name, 
+      type, unit_post_id, sc_type, 
+      record_id, candidate_user_id, content, 
+      memo, remark, is_deleted
+      )
+    values (#{filePath,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, #{scType,jdbcType=INTEGER}, 
+      #{recordId,jdbcType=INTEGER}, #{candidateUserId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.sc.scGroup.ScGroupTopic">
+  <insert id="insertSelective" parameterType="domain.sc.scGroup.ScGroupTopic">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sc_group_topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="filePath != null">
         file_path,
       </if>
@@ -124,6 +137,21 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="unitPostId != null">
+        unit_post_id,
+      </if>
+      <if test="scType != null">
+        sc_type,
+      </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="candidateUserId != null">
+        candidate_user_id,
       </if>
       <if test="content != null">
         content,
@@ -139,9 +167,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="filePath != null">
         #{filePath,jdbcType=VARCHAR},
       </if>
@@ -150,6 +175,21 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unitPostId != null">
+        #{unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="scType != null">
+        #{scType,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="candidateUserId != null">
+        #{candidateUserId,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -186,6 +226,21 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitPostId != null">
+        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="record.scType != null">
+        sc_type = #{record.scType,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.candidateUserId != null">
+        candidate_user_id = #{record.candidateUserId,jdbcType=INTEGER},
+      </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
@@ -209,6 +264,11 @@
       file_path = #{record.filePath,jdbcType=VARCHAR},
       group_id = #{record.groupId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      sc_type = #{record.scType,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
+      candidate_user_id = #{record.candidateUserId,jdbcType=INTEGER},
       content = #{record.content,jdbcType=VARCHAR},
       memo = #{record.memo,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -228,6 +288,21 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unitPostId != null">
+        unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="scType != null">
+        sc_type = #{scType,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="candidateUserId != null">
+        candidate_user_id = #{candidateUserId,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -249,6 +324,11 @@
     set file_path = #{filePath,jdbcType=VARCHAR},
       group_id = #{groupId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      sc_type = #{scType,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
+      candidate_user_id = #{candidateUserId,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       memo = #{memo,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},

@@ -117,7 +117,7 @@
             {label: '议题数量', name: 'topicNum'},
 
             {label: '议题word版', name: 'wordFilePath', width: 105, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '--'
+                if($.isBlank(cellvalue)) return '--'
                 var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"));
                 return '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> 下载</button>'
                         .format(encodeURI(rowObject.wordFilePath), encodeURI(_num));
@@ -142,6 +142,7 @@
                 if(rowObject.logFile==undefined) return '--';
                 return $.pdfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
+            {label: '纪实人员', name: 'recordUser.realname'},
             {label: '备注', name: 'remark', width: 280}
         ]
     }).jqGrid("setFrozenColumns");

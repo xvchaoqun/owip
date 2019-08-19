@@ -145,7 +145,7 @@ public class CadreParttimeController extends BaseController {
                 cadreParttimeService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
             } else {
-                cadreParttimeService.modifyApply(record, null, false);
+                cadreParttimeService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部社会或学术兼职：%s", record.getId()));
             }
 
@@ -161,7 +161,7 @@ public class CadreParttimeController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreParttimeService.modifyApply(record, id, false);
+                    cadreParttimeService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部社会或学术兼职：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容

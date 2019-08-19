@@ -8,7 +8,6 @@
     <result column="confirm_time" jdbcType="DATE" property="confirmTime" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
-    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_id, is_current, confirm_time, content, file_path, img_path, remark
+    id, unit_id, is_current, confirm_time, content, file_path, remark
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitFunctionExample" resultMap="BaseResultMap">
     select
@@ -105,10 +104,10 @@
   <insert id="insert" parameterType="domain.unit.UnitFunction">
     insert into unit_function (id, unit_id, is_current, 
       confirm_time, content, file_path, 
-      img_path, remark)
+      remark)
     values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{isCurrent,jdbcType=BIT}, 
       #{confirmTime,jdbcType=DATE}, #{content,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
-      #{imgPath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.UnitFunction">
     insert into unit_function
@@ -130,9 +129,6 @@
       </if>
       <if test="filePath != null">
         file_path,
-      </if>
-      <if test="imgPath != null">
-        img_path,
       </if>
       <if test="remark != null">
         remark,
@@ -156,9 +152,6 @@
       </if>
       <if test="filePath != null">
         #{filePath,jdbcType=VARCHAR},
-      </if>
-      <if test="imgPath != null">
-        #{imgPath,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -192,9 +185,6 @@
       <if test="record.filePath != null">
         file_path = #{record.filePath,jdbcType=VARCHAR},
       </if>
-      <if test="record.imgPath != null">
-        img_path = #{record.imgPath,jdbcType=VARCHAR},
-      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -211,7 +201,6 @@
       confirm_time = #{record.confirmTime,jdbcType=DATE},
       content = #{record.content,jdbcType=VARCHAR},
       file_path = #{record.filePath,jdbcType=VARCHAR},
-      img_path = #{record.imgPath,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -235,9 +224,6 @@
       <if test="filePath != null">
         file_path = #{filePath,jdbcType=VARCHAR},
       </if>
-      <if test="imgPath != null">
-        img_path = #{imgPath,jdbcType=VARCHAR},
-      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -251,7 +237,6 @@
       confirm_time = #{confirmTime,jdbcType=DATE},
       content = #{content,jdbcType=VARCHAR},
       file_path = #{filePath,jdbcType=VARCHAR},
-      img_path = #{imgPath,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

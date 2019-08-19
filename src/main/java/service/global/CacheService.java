@@ -97,9 +97,9 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
 
     // 异步Pdf转图片
     @Async
-    public void asyncPdf2jpg(String pdfFilePath) {
+    public void asyncPdf2jpg(String pdfFilePath, Integer pageNo) {
 
-        toPdfImage(pdfFilePath);
+        toPdfImage(pdfFilePath, pageNo);
     }
 
     // 判断某个角色是否拥有某个权限

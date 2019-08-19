@@ -27,7 +27,6 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${scCommitteeOtherVote!=null}">确定</c:if><c:if test="${scCommitteeOtherVote==null}">添加</c:if></button>
 </div>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     var memoKe = KindEditor.create('#memoId', {
         //cssPath:"${ctx}/css/ke.css",

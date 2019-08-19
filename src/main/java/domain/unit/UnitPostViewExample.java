@@ -1,5 +1,7 @@
 package domain.unit;
 
+import sys.utils.SqlUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -364,6 +366,11 @@ public class UnitPostViewExample {
 
         public Criteria andNameLike(String value) {
             addCriterion("name like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria search(String value) {
+            addCriterion("(name like '" + SqlUtils.like(value) + "' or code like '" + SqlUtils.like(value)+"')");
             return (Criteria) this;
         }
 

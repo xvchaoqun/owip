@@ -55,7 +55,7 @@
     <div class="col-xs-6 preview-text">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     初始数据
                 </h4>
             </div>
@@ -76,7 +76,7 @@
     <div class="col-xs-6">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">最终数据（<span
+                <h4 class="widget-title">最终数据（<span
                         style="font-weight: bolder; color: red;"
                         id="saveTime">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
                 </h4>
@@ -281,7 +281,7 @@
 </c:if>
 
 
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+
 <script>
     var ke_height =${type==CADRE_INFO_TYPE_RESEARCH?550:250};
     var readonlyMode = false;

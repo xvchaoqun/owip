@@ -500,7 +500,7 @@ public class CadreWorkService extends BaseMapper {
         record.setId(null);
         record.setFid(null);
         record.setStatus(null);
-        if (cadreWorkMapper.updateByExampleSelective(record, example) > 0) {
+        if (cadreWorkMapper.updateByExampleSelective(record, example) > 0 && mta.getUserId().intValue() == currentUserId) {
 
             // 更新申请时间
             ModifyTableApply _record = new ModifyTableApply();
@@ -512,7 +512,7 @@ public class CadreWorkService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreWork record, Integer id, boolean isDelete) {
+    public void modifyApply(CadreWork record, Integer id, boolean isDelete, String reason) {
 
         CadreWork original = null; // 修改、删除申请对应的原纪录
         byte type;
@@ -564,6 +564,7 @@ public class CadreWorkService extends BaseMapper {
         _record.setOriginalId(originalId);
         _record.setModifyId(record.getId());
         _record.setType(type);
+        _record.setReason(reason);
         _record.setOriginalJson(JSONUtils.toString(original, false));
         _record.setCreateTime(new Date());
         _record.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));

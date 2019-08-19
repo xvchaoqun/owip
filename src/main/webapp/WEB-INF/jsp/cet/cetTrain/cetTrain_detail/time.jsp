@@ -29,7 +29,7 @@
     <div style="width: 500px;float: left;margin-right: 25px">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     选课自动开关
                 </h4>
             </div>
@@ -82,7 +82,7 @@
     <div style="width: 325px; float:left">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     选课手动开关
                 </h4>
             </div>

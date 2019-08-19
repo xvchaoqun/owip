@@ -179,7 +179,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     }
 
     // for test
-    @RequiresPermissions("dispatchWorkFile:edit")
+    /*@RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping(value = "/dispatchWorkFile_asyncPdf2jpg")
     @ResponseBody
     public Map dispatchWorkFile_asyncPdf2jpg(){
@@ -193,11 +193,11 @@ public class DispatchWorkFileController extends DispatchBaseController {
             if(FileUtils.exists(springProps.uploadPath + pdfFilePath+".jpg"))
                 continue;
              // 异步pdf转图片
-            cacheService.asyncPdf2jpg(pdfFilePath);
+            cacheService.asyncPdf2jpg(pdfFilePath, null);
             i++;
         }
         return success(i+"add");
-    }
+    }*/
     
     @RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping(value = "/dispatchWorkFile_au", method = RequestMethod.POST)
@@ -224,8 +224,8 @@ public class DispatchWorkFileController extends DispatchBaseController {
 
         if (canUpload) {
             record.setPdfFilePath(uploadPdf(_pdfFilePath, "dispatch_work_file"));
-            // 异步pdf转图片
-            cacheService.asyncPdf2jpg(record.getPdfFilePath());
+            // 异步pdf转图片 第一页
+            cacheService.asyncPdf2jpg(record.getPdfFilePath(), 1);
             
             record.setWordFilePath(upload(_wordFilePath, "dispatch_work_file"));
         }else{

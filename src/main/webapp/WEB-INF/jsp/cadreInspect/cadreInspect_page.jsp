@@ -43,7 +43,7 @@ pageEncoding="UTF-8" %>
                         <shiro:hasPermission name="cadreInspect:edit">
                             <a class="popupBtn btn btn-info btn-sm btn-success"
                                data-url="${ctx}/cadreInspect_au"><i class="fa fa-plus"></i>
-                                提任干部
+                                添加考察对象
                             </a>
                         </shiro:hasPermission>
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"

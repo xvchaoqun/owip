@@ -4,9 +4,9 @@
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     纪委回复文件预览
-                    <div style="position: absolute; left:160px;top:8px;">
+                    <div style="position: absolute; left:180px;top:0px;">
                         <form action="${ctx}/sc/scLetter_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">
@@ -41,7 +41,7 @@
         <div id="dispatch-cadres-view">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4 class="smaller">
+                    <h4 class="widget-title">
                         ${scLetterReply!=null?"修改":"添加"}纪委回复情况
                     </h4>
                 </div>

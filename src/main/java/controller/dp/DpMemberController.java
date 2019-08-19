@@ -72,7 +72,7 @@ public class DpMemberController extends DpBaseController {
 
         //查询登录用户管理的民主党派
         boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL);
-        List<Integer> adminDpPartyIdList = loginUserService.adminDpPartyIdList();
+        List<Integer> adminDpPartyIdList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
 
         //统计学生、教职工各个状态人数
         Map dpMemberStudentCount = iDpMemberMapper.selectDpMemberStudentCount(addPermits,adminDpPartyIdList);
@@ -225,7 +225,7 @@ public class DpMemberController extends DpBaseController {
         } else if (StringUtils.equalsIgnoreCase(sort, "growTime")) {
             example.setOrderByClause(String.format("grow_time %s", order));
         }
-        criteria.addPermits(loginUserService.adminDpPartyIdList());
+        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
 
         if (userId != null) {
@@ -631,7 +631,7 @@ public class DpMemberController extends DpBaseController {
         List<Integer> adminPartyIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
             addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL);
-            adminPartyIdList = loginUserService.adminDpPartyIdList();
+            adminPartyIdList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
         }
 
         List<Byte> statusList = null;

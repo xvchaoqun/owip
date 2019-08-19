@@ -7,7 +7,7 @@
     <div style="width: 770px;float: left;margin-right: 25px">
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
             任职资格
             <c:if test="${not empty crsPost.qualification}">
             <div class="pull-right" style="margin-right: 10px">
@@ -37,7 +37,7 @@
     <div style="width: 550px; float:left">
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
             岗位具体要求（用于资格审核）
             <c:if test="${not empty crsPostRequire}">
             <div class="pull-right" style="margin-right: 10px">

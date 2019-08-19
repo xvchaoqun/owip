@@ -61,6 +61,9 @@ td.bolder{font-weight: bolder}
  text-indent: -9em;
  margin: 0 0 0 9em;
 }
+  .reward p {
+ margin: 0;
+}
 </style>
 <c:if test="${param.mobile=='1'}">
     <button type="button"
@@ -288,7 +291,7 @@ td.bolder{font-weight: bolder}
           <span>惩&nbsp;&nbsp;况</span>
         </div>
       </td>
-      <td class="td12 padding10 resume" colspan="8">
+      <td class="td12 padding10 reward" colspan="8">
         ${bean.reward}
       </td>
     </tr>

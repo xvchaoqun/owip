@@ -18,12 +18,9 @@
                            data-querystr="module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-edit"></i>
                             修改</button>
                         <button data-url="${ctx}/user/modifyTableApply_del"
-                                data-title="删除"
-                                data-msg="申请删除这条记录？"
                                 data-grid-id="#jqGrid_records"
                                 data-querystr="module=${module}"
-                                data-callback="_delCallback"
-                                class="jqItemBtn btn btn-danger btn-sm">
+                                class="jqOpenViewBtn btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
@@ -48,10 +45,6 @@
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <jsp:include page="/WEB-INF/jsp/cadre/cadreCompany/colModels.jsp"/>
 <script>
-    function _delCallback(type) {
-        $("#modal").modal("hide");
-        $.hashchange('cls=1&module=${module}');
-    }
     $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {
         },

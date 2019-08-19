@@ -11,4 +11,7 @@
   <li class="${cls==3?'active':''}">
   <a href="javascript:;" class="loadPage" data-url="${ctx}/sc/scGroup?cls=3"><i class="fa fa-comments ${cls==3?'fa-1g':''}"></i> 干部小组会议题</a>
   </li>
+  <li class="${cls==4?'active':''}">
+  <a href="javascript:;" class="loadPage" data-url="${ctx}/sc/scGroup?cls=4"><i class="fa fa-gears ${cls==4?'fa-1g':''}"></i> 参数设置</a>
+  </li>
 </ul>

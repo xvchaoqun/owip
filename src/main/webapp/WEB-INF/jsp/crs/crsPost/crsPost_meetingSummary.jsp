@@ -18,7 +18,6 @@ pageEncoding="UTF-8"%>
     </c:if>
     <input type="button" id="meetingSummarySubmitBtn" class="btn btn-primary" value="确定"/>
 </div>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     var ke = KindEditor.create('#contentId', {
         allowFileManager: true,

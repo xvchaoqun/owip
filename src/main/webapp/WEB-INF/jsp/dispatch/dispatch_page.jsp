@@ -320,7 +320,7 @@
             {
                 label: '上会ppt', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.pptName && rowObject.pptName != '')
-                        return ($.pdfShow(rowObject.ppt, encodeURI(rowObject.pptName), "查看")
+                        return ($.pdfPreview(rowObject.ppt, encodeURI(rowObject.pptName), "查看")
                             + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'
                             + 'data-id="{0}" data-type="ppt">删除</a>'.format(rowObject.id));
                     return '--';

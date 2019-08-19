@@ -114,7 +114,7 @@ public class CadreFamilyAbroadController extends BaseController {
                 cadreFamilyAbroadService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加家庭成员海外情况：%s", record.getId()));
             } else {
-                cadreFamilyAbroadService.modifyApply(record, null, false);
+                cadreFamilyAbroadService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-家庭成员海外情况：%s", record.getId()));
             }
 
@@ -130,7 +130,7 @@ public class CadreFamilyAbroadController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新家庭成员海外情况：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreFamilyAbroadService.modifyApply(record, id, false);
+                    cadreFamilyAbroadService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-家庭成员海外情况：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容

@@ -176,7 +176,7 @@ public class CadreFamilyController extends BaseController {
                 cadreFamilyService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
             } else {
-                cadreFamilyService.modifyApply(record, null, false);
+                cadreFamilyService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-家庭成员信息：%s", record.getId()));
             }
 
@@ -192,7 +192,7 @@ public class CadreFamilyController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreFamilyService.modifyApply(record, id, false);
+                    cadreFamilyService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-家庭成员信息：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容

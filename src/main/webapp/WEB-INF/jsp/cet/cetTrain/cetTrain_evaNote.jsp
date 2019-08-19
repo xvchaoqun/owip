@@ -22,7 +22,6 @@
     <a class="btn btn-primary" onclick="updateNote()">确定</a></div>
 </div>
 </c:if>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     var ke = KindEditor.create('#noteId', {
         allowFileManager: true,

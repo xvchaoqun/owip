@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="<%=SystemConstants.UNIT_POST_STATUS_DELETE%>" var="UNIT_POST_STATUS_DELETE"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${scMotion!=null}">编辑</c:if><c:if test="${scMotion==null}">添加</c:if>动议</h3>
@@ -20,60 +21,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>动议日期</label>
-				<div class="col-xs-6">
-					<div class="input-group">
-						<input required class="form-control date-picker" autocomplete="off" name="holdDate" type="text"
-							   data-date-format="yyyy-mm-dd" value="${empty scMotion.holdDate?_today:(cm:formatDate(scMotion.holdDate,'yyyy-MM-dd'))}"/>
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">拟调整岗位</label>
-				<div class="col-xs-6">
-					<select name="unitPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
-							data-placeholder="请选择">
-						<option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
-					</select>
-					<script>
-						$.register.del_select($("#modalForm select[name=unitPostId]"), {
-							width:273,
-							templateResult: function (state) {
-								var txt = state.text;
-								if(state.code) txt = state.code+"-"+txt;
-								return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", txt);
-							},
-							templateSelection: function (state) {
-								var txt = state.text;
-								if(state.code) txt = state.code+"-"+txt;
-								return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", txt);
-							}
-						})
-					</script>
-				</div>
-			</div>
-			<%--<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>动议编号</label>
-				<div class="col-xs-6">
-                        <input required class="form-control num" type="text" name="num" value="${scMotion.num}">
-				</div>
-			</div>--%>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>选拔任用方式</label>
-				<div class="col-xs-6">
-					<select required data-rel="select2" data-width="273"
-							name="scType" data-placeholder="请选择">
-						<option></option>
-						<jsp:include page="/metaTypes?__code=mc_sc_motion_sctype"/>
-					</select>
-					<script type="text/javascript">
-						$("#modalForm select[name=scType]").val(${scMotion.scType});
-					</script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>动议形式</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>动议主体</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="way"
 							data-placeholder="请选择" data-width="273">
@@ -87,6 +35,55 @@ pageEncoding="UTF-8"%>
 					</script>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>动议记录</label>
+				<div class="col-xs-6">
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>动议时间</label>
+				<div class="col-xs-6">
+					<div class="input-group">
+						<input required class="form-control date-picker" autocomplete="off" name="holdDate" type="text"
+							   data-date-format="yyyy-mm-dd" value="${empty scMotion.holdDate?_today:(cm:formatDate(scMotion.holdDate,'yyyy-MM-dd'))}"/>
+						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">拟调整岗位</label>
+				<div class="col-xs-6">
+					<select name="unitPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
+							data-width="273"
+							data-placeholder="请选择">
+						<option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
+					</select>
+					<script>
+						$.register.del_select($("#modalForm select[name=unitPostId]"))
+					</script>
+				</div>
+			</div>
+			<%--<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>动议编号</label>
+				<div class="col-xs-6">
+                        <input required class="form-control num" type="text" name="num" value="${scMotion.num}">
+				</div>
+			</div>--%>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>选任方式</label>
+				<div class="col-xs-6">
+					<select required data-rel="select2" data-width="273"
+							name="scType" data-placeholder="请选择">
+						<option></option>
+						<jsp:include page="/metaTypes?__code=mc_sc_type"/>
+					</select>
+					<script type="text/javascript">
+						$("#modalForm select[name=scType]").val(${scMotion.scType});
+					</script>
+				</div>
+			</div>
+
 			<div class="form-group" id="wayOtherDiv">
 				<label class="col-xs-3 control-label"><span class="star">*</span>其他动议形式</label>
 				<div class="col-xs-6">

@@ -5,7 +5,7 @@
   <div class="col-xs-12">
       <div class="widget-box" style="width: 500px">
         <div class="widget-header">
-          <h4 class="smaller">
+          <h4 class="widget-title">
             基本设置
           </h4>
         </div>
@@ -56,7 +56,7 @@
 
     <div class="widget-box myTableDiv"  style="width:800px">
       <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
           提案类型
           <div class="pull-right" style="margin-right: 10px">
             <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsProposalType_au"><i

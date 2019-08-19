@@ -244,7 +244,7 @@ public class CadreResearchController extends BaseController {
                 cadreResearchService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部科研项目：%s", record.getId()));
             } else {
-                cadreResearchService.modifyApply(record, null, record.getResearchType(), false);
+                cadreResearchService.modifyApply(record, null, record.getResearchType(), false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部科研项目：%s", record.getId()));
             }
 
@@ -260,7 +260,7 @@ public class CadreResearchController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部科研项目：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreResearchService.modifyApply(record, id, record.getResearchType(), false);
+                    cadreResearchService.modifyApply(record, id, record.getResearchType(), false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部科研项目：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容

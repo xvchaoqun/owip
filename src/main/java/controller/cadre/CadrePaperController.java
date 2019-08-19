@@ -135,7 +135,7 @@ public class CadrePaperController extends BaseController {
                 cadrePaperService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加发表论文情况：%s", record.getId()));
             } else {
-                cadrePaperService.modifyApply(record, null, false);
+                cadrePaperService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-发表论文情况：%s", record.getId()));
             }
 
@@ -151,7 +151,7 @@ public class CadrePaperController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新发表论文情况：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadrePaperService.modifyApply(record, id, false);
+                    cadrePaperService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-发表论文情况：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容

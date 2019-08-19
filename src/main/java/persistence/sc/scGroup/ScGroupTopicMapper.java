@@ -2,10 +2,9 @@ package persistence.sc.scGroup;
 
 import domain.sc.scGroup.ScGroupTopic;
 import domain.sc.scGroup.ScGroupTopicExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface ScGroupTopicMapper {
     long countByExample(ScGroupTopicExample example);

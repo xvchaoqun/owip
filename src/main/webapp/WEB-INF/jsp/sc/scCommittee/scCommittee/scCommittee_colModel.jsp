@@ -5,7 +5,7 @@
             {label: '年份', name: 'year', width: 60, frozen: true},
             {
                 label: '编号', name: 'code', width: 200, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '--'
+                if($.isBlank(cellvalue)) return '--'
                 if($.trim(rowObject.filePath)=='') return cellvalue;
                 return $.pdfPreview(rowObject.filePath, cellvalue);
             }, frozen: true},

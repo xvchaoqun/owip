@@ -4,9 +4,9 @@
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     干部小组会议题预览
-                    <div style="position: absolute; left:180px;top:8px;">
+                    <div style="position: absolute; left:200px;top:0px;">
                         <form action="${ctx}/sc/scGroup_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">
@@ -41,7 +41,7 @@
         <div id="dispatch-cadres-view">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4 class="smaller">
+                    <h4 class="widget-title">
                         ${scGroup!=null?"修改":"添加"}干部小组会
                     </h4>
                 </div>

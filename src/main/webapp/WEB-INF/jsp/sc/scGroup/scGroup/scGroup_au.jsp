@@ -4,9 +4,9 @@
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     干部小组会议题预览
-                    <div style="position: absolute; left:180px;top:8px;">
+                    <div style="position: absolute; left:200px;top:0px;">
                         <form action="${ctx}/sc/scGroup_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">
@@ -41,7 +41,7 @@
         <div id="dispatch-cadres-view">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4 class="smaller">
+                    <h4 class="widget-title">
                         ${scGroup!=null?"修改":"添加"}干部小组会
                     </h4>
                 </div>
@@ -54,7 +54,7 @@
                                 <input type="hidden" name="filePath" value="${scGroup.filePath}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>年份</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label"><span class="star">*</span>干部小组会日期</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>干部小组会日期</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -83,27 +83,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label"><span class="star">*</span>议题数量</label>
+                                    <label class="col-xs-4 control-label"><span class="star">*</span>议题数量</label>
 
                                     <div class="col-xs-6">
                                         <input required class="form-control num" type="text" name="topicNum" value="${scGroup.topicNum}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">议题word版</label>
+                                    <label class="col-xs-4 control-label">议题word版</label>
                                     <div class="col-xs-6">
                                         <input class="form-control" type="file" name="_wordFilePath"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">会议记录</label>
+                                    <label class="col-xs-4 control-label">会议记录</label>
                                     <div class="col-xs-6">
                                         <input class="form-control" type="file" name="_logFile"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">参会人</label>
-                                    <div class="col-xs-9">
+                                    <label class="col-xs-4 control-label">参会人</label>
+                                    <div class="col-xs-8">
                                         <div id="tree3" style="height: 200px;" class="noborder">
                                             <div style="height: 200px;line-height: 200px;font-size: 20px">
                                                 <i class="fa fa-spinner fa-spin"></i> 加载中，请稍后...
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">列席人</label>
+                                    <label class="col-xs-4 control-label">列席人</label>
 
                                     <div class="col-xs-6">
                                         <input class="form-control" type="text" name="attendUsers" value="${scGroup.attendUsers}">
@@ -120,7 +120,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">备注</label>
+                                    <label class="col-xs-4 control-label">备注</label>
 
                                     <div class="col-xs-6">
                                         <textarea class="form-control limited"

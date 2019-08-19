@@ -5,7 +5,7 @@
 <div style="margin: 0px; width: 500px;float: left">
     <div class="widget-box">
         <div class="widget-header">
-            <h4 class="smaller">
+            <h4 class="widget-title">
                 会议材料清单
             </h4>
         </div>
@@ -84,7 +84,7 @@
 <div style="margin: 0px 10px; width: 400px;float: left">
     <div class="widget-box">
         <div class="widget-header">
-            <h4 class="smaller">
+            <h4 class="widget-title">
                 应聘人PPT
             </h4>
         </div>
@@ -159,7 +159,7 @@
     <div style="width: 500px;float: left">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     会务材料清单
                 </h4>
             </div>

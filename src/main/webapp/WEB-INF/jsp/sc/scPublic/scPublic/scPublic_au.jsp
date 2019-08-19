@@ -5,9 +5,9 @@
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     公示预览
-                    <div style="position: absolute; left:120px;top:8px;">
+                    <div style="position: absolute; left:130px;top:0px;">
                         <form action="${ctx}/sc/scPublic_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">

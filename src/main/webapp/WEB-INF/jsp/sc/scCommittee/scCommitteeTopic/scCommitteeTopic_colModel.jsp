@@ -29,7 +29,7 @@
       {
           label: '涉及单位', name: 'unitIds', width:180, align:'left', formatter: function (cellvalue, options, rowObject) {
 
-              if(cellvalue==undefined) return '--'
+              if($.isBlank(cellvalue)) return '--'
 
               var unitIds = cellvalue.split(",");
               var unitname = "-"

@@ -28,7 +28,7 @@
                         <div class="dispatch" style="width: 550px;margin-right: 0">
                             <div class="widget-box" style="width: 530px;">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         文件信息
                                     </h4>
                                 </div>
@@ -153,7 +153,7 @@
                         <div class="cadres">
                             <div class="widget-box" style="width: 850px;">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         任免对象
                                         <div class="buttons pull-right ">
                                             <button style="margin-right: 10px;top: -5px;"

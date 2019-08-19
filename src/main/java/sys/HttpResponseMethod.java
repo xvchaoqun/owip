@@ -73,12 +73,12 @@ public interface HttpResponseMethod {
         return resultMap;
     }
 
-    default String toPdfImage(String path){
+    default String toPdfImage(String path, Integer pageNo){
 
-        return toPdfImage(path, true, null);
+        return toPdfImage(path, true, null, pageNo);
     }
 
-    default String toPdfImage(String path, boolean flush, Integer resolution){
+    default String toPdfImage(String path, boolean flush, Integer resolution, Integer pageNo){
 
         String ext = FileUtils.getExtention(path); // linux区分文件名大小写
         path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf") ? ext : ".pdf");
@@ -88,40 +88,41 @@ public interface HttpResponseMethod {
 
         if (!FileUtils.exists(pdfFilePath)) return null;
 
-        String imgPath = pdfFilePath + ".jpg";
+        String imgPath = pdfFilePath + (pageNo==null?".jpg":String.format("-%03d.jpg", pageNo));
+
         if (flush || !FileUtils.exists(imgPath)) {
 
             resolution = resolution == null ? CmTag.getIntProperty("pdfResolution", 300) : resolution;
             try {
-                String cmd = PdfUtils.pdf2jpg(pdfFilePath, resolution, PropertiesUtils.getString("gs.command"));
+                String cmd = null;
+                if(pageNo==null) {
+                     cmd = PdfUtils.pdf2jpg(pdfFilePath, resolution, PropertiesUtils.getString("gs.command"));
+                }else{
+                    cmd = PdfUtils.pdf2jpg(pdfFilePath, resolution, PropertiesUtils.getString("gs.command"), pageNo);
+                }
                 logger.info(cmd);
             } catch (Exception e) {
                 logger.error("gs {}, {}", pdfFilePath, e.getMessage());
             }
         }
+
         return imgPath;
     }
 
-    default void displayPdfImage(String path, boolean flush, Integer resolution, HttpServletResponse response) throws IOException {
+    default void displayPdfImage(String path, boolean flush,
+                                 Integer resolution,
+                                 Integer pageNo, HttpServletResponse response) throws IOException {
 
-        String imgPath = toPdfImage(path, flush, resolution);
+        String imgPath = toPdfImage(path, flush, resolution, pageNo);
         ImageUtils.displayImage(FileUtils.getBytes(imgPath), response);
     }
 
-    // 异步Pdf转图片
+    // 异步Pdf转图片（没生效？）
     @Async
-    default void asyncPdf2jpg(String pdfFilePath) {
+    default void asyncPdf2jpg(String pdfFilePath, Integer pageNo) {
 
-        toPdfImage(pdfFilePath, true, 300);
+        toPdfImage(pdfFilePath, true, 300, pageNo);
     }
-
-    /*default void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedException {
-
-        SpringProps springProps = CmTag.getBean(SpringProps.class);
-
-        FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + filePath,
-                springProps.uploadPath + swfPath, springProps.swfToolsLanguagedir);
-    }*/
 
     /**
      * 上传文件

@@ -4,9 +4,9 @@
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     任免文件预览
-                    <div style="position: absolute; left:125px;top:8px;">
+                    <div style="position: absolute; left:145px;top:0px;">
                         <form action="${ctx}/dispatch_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">
@@ -19,10 +19,8 @@
                             <input type="file" name="file" id="upload-file"/>
                         </form>
                     </div>
-                    <div class="buttons pull-right ">
-
-                        <a href="javascript:;" class="hideView btn btn-xs btn-success"
-                           style="margin-right: 10px; top: -5px;">
+                    <div class="buttons pull-right" style="right:15px;">
+                        <a href="javascript:;" class="hideView btn btn-xs btn-success">
                             <i class="ace-icon fa fa-backward"></i>
                             返回</a>
                     </div>

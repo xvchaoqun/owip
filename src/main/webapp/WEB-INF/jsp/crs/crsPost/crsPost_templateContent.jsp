@@ -36,7 +36,6 @@ pageEncoding="UTF-8"%>
     </c:if>
     <input type="button" id="noticeSubmitBtn" class="btn btn-primary" value="确定"/>
 </div>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     <c:set var="keWidth" value="743px"/>
     <c:if test="${param.type==CRS_TEMPLATE_TYPE_MEETINGNOTICE}">

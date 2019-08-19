@@ -4,9 +4,9 @@
   <div class="preview">
     <div class="widget-box">
       <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
           证明文件预览
-          <div style="position: absolute; left:125px;top:8px;">
+          <div style="position: absolute; left:135px;top:0px;">
             <form action="${ctx}/crsApplicant_special_upload"
                   enctype="multipart/form-data" method="post"
                   class="btn-upload-form">
@@ -41,7 +41,7 @@
     <div id="dispatch-cadres-view">
       <div class="widget-box">
         <div class="widget-header">
-          <h4 class="smaller">
+          <h4 class="widget-title">
             破格信息
           </h4>
         </div>

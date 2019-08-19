@@ -15,7 +15,7 @@
     <div class="space-4"></div>
     <div class="widget-box" style="width: 500px">
       <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
           基本设置
         </h4>
       </div>

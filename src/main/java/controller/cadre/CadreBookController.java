@@ -117,7 +117,7 @@ public class CadreBookController extends BaseController {
                 cadreBookService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部出版著作：%s", record.getId()));
             }else{
-                cadreBookService.modifyApply(record, null, false);
+                cadreBookService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部出版著作：%s", record.getId()));
             }
 
@@ -133,7 +133,7 @@ public class CadreBookController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部出版著作：%s", record.getId()));
             }else{
                 if(_isUpdate==false) {
-                    cadreBookService.modifyApply(record, id, false);
+                    cadreBookService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部出版著作：%s", record.getId()));
                 }else{
                     // 更新修改申请的内容

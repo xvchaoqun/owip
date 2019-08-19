@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div class="widget-box" style="width: 800px">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     【${party.name}】-党代会管理员
                     <div class="pull-right"  style="margin-right: 10px">
                     <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsPartyAdmin_au?partyId=${party.id}"><i class="fa fa-plus"></i> 添加管理员</a>

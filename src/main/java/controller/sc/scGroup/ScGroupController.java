@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -46,10 +47,10 @@ public class ScGroupController extends ScBaseController {
 
             modelMap.put("scGroupFile", scGroupFileService.getCurrent());
             return "/sc/scGroup/scGroup/scGroup_info";
-        }
-
-        if (cls == 3) {
+        }else if (cls == 3) {
             return "forward:/sc/scGroupTopic";
+        }else if (cls == 4) {
+            return "sc/scGroup/scGroup_setting_page";
         }
 
         return "sc/scGroup/scGroup/scGroup_page";
@@ -148,6 +149,7 @@ public class ScGroupController extends ScBaseController {
 
         if (id == null) {
             record.setIsDeleted(false);
+            record.setRecordUserId(ShiroHelper.getCurrentUserId()); // 纪实人员
             scGroupService.insertSelective(record, userIds);
             logger.info(addLog(LogConstants.LOG_SC_GROUP, "添加干部小组会：%s", record.getId()));
         } else {

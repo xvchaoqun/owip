@@ -137,7 +137,7 @@
         background-color: #eadda9;
     }
 </style>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+
 <script>
     var ke = KindEditor.create('#content', {
         allowFileManager: true,

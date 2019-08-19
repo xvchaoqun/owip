@@ -210,7 +210,6 @@
 
     </div>
 </div>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     $.fileInput($("#_favicon"), {
         style: 'well',

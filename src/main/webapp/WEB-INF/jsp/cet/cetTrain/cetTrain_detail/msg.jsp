@@ -4,7 +4,7 @@
 <div style="width: 500px; float:left;margin-right: 25px">
   <div class="widget-box">
     <div class="widget-header">
-      <h4 class="smaller">
+      <h4 class="widget-title">
         短信通知
       </h4>
     </div>

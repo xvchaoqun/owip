@@ -6,10 +6,15 @@
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="sc_type" jdbcType="INTEGER" property="scType" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="candidate_user_id" jdbcType="INTEGER" property="candidateUserId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
     <result column="group_file_path" jdbcType="VARCHAR" property="groupFilePath" />
@@ -47,8 +52,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, file_path, group_id, name, content, memo, remark, is_deleted, year, hold_date, 
-    group_file_path, log_file, attend_users, unit_ids
+    id, file_path, group_id, name, type, unit_post_id, sc_type, record_id, candidate_user_id, 
+    content, memo, remark, is_deleted, year, hold_date, group_file_path, log_file, attend_users, 
+    unit_ids
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scGroup.ScGroupTopicViewExample" resultMap="BaseResultMap">
     select

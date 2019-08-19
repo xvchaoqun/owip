@@ -10,7 +10,7 @@
     <c:if test="${pmdNorm.status!=PMD_NORM_STATUS_ABOLISH}">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     新增额度
                 </h4>
             </div>

@@ -5,7 +5,7 @@
 
 <div class="widget-box" style="width: 750px">
     <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
             <c:if test="${not empty crsPost.notice}">
                 <a href="javascript:;" data-dismiss="modal" class="printBtn btn btn-info btn-xs"
                    data-url="${ctx}/pdf?path=${cm:encodeURI(crsPost.notice)}"><i class="fa fa-print"></i> 打印</a>

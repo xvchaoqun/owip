@@ -379,7 +379,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
             criteria.andStatusIsNull();
         }
 
-        int count = modifyTableApplyMapper.countByExample(example);
+        int count = (int) modifyTableApplyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

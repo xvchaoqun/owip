@@ -42,6 +42,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
+import static domain.unit.UnitPostViewExample.*;
+
 @Controller
 public class UnitPostController extends BaseController {
 
@@ -263,7 +265,7 @@ public class UnitPostController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         UnitPostViewExample example = new UnitPostViewExample();
-        UnitPostViewExample.Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria();
         example.setOrderByClause("unit_sort_order asc, sort_order asc");
         if(cls==1){
             criteria.andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
@@ -621,7 +623,9 @@ public class UnitPostController extends BaseController {
 
     @RequestMapping("/unitPost_selects")
     @ResponseBody
-    public Map unitPost_selects(Integer pageSize, Integer pageNo, Integer unitId, String searchStr) throws IOException {
+    public Map unitPost_selects(Integer pageSize, Integer pageNo,
+                                Byte status,
+                                Integer unitId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -632,14 +636,17 @@ public class UnitPostController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         UnitPostViewExample example = new UnitPostViewExample();
-        UnitPostViewExample.Criteria criteria = example.createCriteria()
-                .andStatusNotEqualTo(SystemConstants.UNIT_POST_STATUS_DELETE);
-        example.setOrderByClause("status asc, unit_status asc, unit_sort_order asc, sort_order desc");
+        Criteria criteria = example.createCriteria();
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+
+        example.setOrderByClause("status asc, unit_status asc, unit_sort_order asc, sort_order asc");
         if(unitId!=null){
             criteria.andUnitIdEqualTo(unitId);
         }
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr.trim()+"%");
+            criteria.search(searchStr.trim());
         }
 
         long count = unitPostViewMapper.countByExample(example);
@@ -656,8 +663,7 @@ public class UnitPostController extends BaseController {
             for(UnitPostView record:records){
 
                 Map<String, Object> option = new HashMap<>();
-                option.put("text", record.getName());
-                option.put("code", record.getCode());
+                option.put("text", record.getCode() + "-" + record.getName());
                 option.put("adminLevel", record.getAdminLevel());
                 option.put("id", record.getId() + "");
                 option.put("up", record);

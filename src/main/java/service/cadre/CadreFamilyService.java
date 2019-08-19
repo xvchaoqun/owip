@@ -206,7 +206,7 @@ public class CadreFamilyService extends BaseMapper {
 
         record.setId(null);
         record.setStatus(null);
-        if (cadreFamilyMapper.updateByExampleSelective(record, example) > 0) {
+        if (cadreFamilyMapper.updateByExampleSelective(record, example) > 0 && mta.getUserId().intValue() == currentUserId) {
 
             // 更新申请时间
             ModifyTableApply _record = new ModifyTableApply();
@@ -218,7 +218,7 @@ public class CadreFamilyService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreFamily record, Integer id, boolean isDelete) {
+    public void modifyApply(CadreFamily record, Integer id, boolean isDelete, String reason) {
 
         CadreFamily original = null; // 修改、删除申请对应的原纪录
         byte type;
@@ -278,6 +278,7 @@ public class CadreFamilyService extends BaseMapper {
         _record.setOriginalId(originalId);
         _record.setModifyId(record.getId());
         _record.setType(type);
+        _record.setReason(reason);
         _record.setOriginalJson(JSONUtils.toString(original, false));
         _record.setCreateTime(new Date());
         _record.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));

@@ -6,7 +6,7 @@
       <c:forEach items="${metaClassList}" var="metaClass">
     <div class="widget-box myTableDiv"  style="width:800px">
       <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
           ${metaClass.name}
           <div class="pull-right" style="margin-right: 10px">
             <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/sc/scMatterSetting_au?classId=${metaClass.id}"><i

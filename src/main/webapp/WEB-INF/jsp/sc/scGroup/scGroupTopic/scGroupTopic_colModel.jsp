@@ -4,9 +4,10 @@
   var colModel = [
       {label: '年份', name: 'year', width: 60, frozen: true},
       {
-          label: '编号', name: '_num', width: 200, formatter: function (cellvalue, options, rowObject) {
+          label: '干部小组会', name: '_num', width: 200, formatter: function (cellvalue, options, rowObject) {
               var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
-              if(rowObject.groupFilePath==undefined) return _num;
+              //console.log(_num + " rowObject.groupFilePath="+rowObject.groupFilePath)
+              if($.isBlank(rowObject.groupFilePath)) return _num;
               return $.pdfPreview(rowObject.groupFilePath, _num);
           }, frozen: true},
       {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
@@ -18,10 +19,11 @@
                   .format(rowObject.id);
           }
       },
+      {label: '议题类型', name: 'type', width:180, align:'left', formatter: $.jgrid.formatter.MetaType},
       {
           label: '涉及单位', name: 'unitIds', width:180, align:'left', formatter: function (cellvalue, options, rowObject) {
 
-              if(cellvalue==undefined) return '--'
+              if($.isBlank(cellvalue)) return '--'
 
               var unitIds = cellvalue.split(",");
               var unitname = "-"
@@ -36,14 +38,14 @@
                   unitname += "，..."
               }
 
-              return ('<a href="javascript:;" class="popupBtn" ' +
+              return unitIds.length>1?('<a href="javascript:;" class="popupBtn" ' +
                   'data-url="${ctx}/sc/scGroupTopicUnit?topicId={0}">{1}</a>')
-                  .format(rowObject.id, unitname);
+                  .format(rowObject.id, unitname):unitname;
           }
       },
       {
           label: '参会人', name: 'users', width:280, align:'left', formatter: function (cellvalue, options, rowObject) {
-              if(cellvalue==undefined) return '--'
+              if($.isBlank(cellvalue)) return '--'
               return $.map(cellvalue, function(u){
                   return u.realname;
               })

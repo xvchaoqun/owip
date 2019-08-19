@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <div class="widget-box myTableDiv" style="width: 1000px">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     大会材料清单
                     <div class="pull-right" style="margin-right: 10px">
                         <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsPrFileTemplate_au"><i

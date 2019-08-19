@@ -22,6 +22,16 @@ public class ScGroupTopicView implements Serializable {
 
     private String name;
 
+    private Integer type;
+
+    private Integer unitPostId;
+
+    private Integer scType;
+
+    private Integer recordId;
+
+    private Integer candidateUserId;
+
     private String content;
 
     private String memo;
@@ -74,6 +84,46 @@ public class ScGroupTopicView implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
+    }
+
+    public Integer getScType() {
+        return scType;
+    }
+
+    public void setScType(Integer scType) {
+        this.scType = scType;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public Integer getCandidateUserId() {
+        return candidateUserId;
+    }
+
+    public void setCandidateUserId(Integer candidateUserId) {
+        this.candidateUserId = candidateUserId;
     }
 
     public String getContent() {

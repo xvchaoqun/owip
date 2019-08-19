@@ -24,12 +24,9 @@
                        data-querystr="module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
                         添加其间工作</a>
                         <button data-url="${ctx}/user/modifyTableApply_del"
-                                data-title="删除"
-                                data-msg="申请删除这条工作经历？"
                                 data-grid-id="#jqGrid_cadreWork"
                                 data-querystr="module=${module}"
-                                data-callback="_delCallback"
-                                class="jqItemBtn btn btn-danger btn-sm">
+                                class="jqOpenViewBtn btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i> 删除
                         </button>
                 </div>
@@ -83,10 +80,6 @@
     }
 </style>
 <script>
-    function _delCallback(type) {
-        $("#modal").modal("hide");
-        $.hashchange('cls=1&module=${module}');
-    }
     $("#jqGrid_cadreWork").jqGrid({
         ondblClickRow: function () {
         },

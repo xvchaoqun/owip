@@ -1,5 +1,7 @@
 package domain.sc.scRecord;
 
+import sys.utils.SqlUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -949,6 +951,13 @@ public class ScRecordViewExample {
 
         public Criteria andPostTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("post_type not between", value1, value2, "postType");
+            return (Criteria) this;
+        }
+        public ScRecordViewExample.Criteria search(String value) {
+            addCriterion("(post_name like '" + SqlUtils.like(value)
+                    + "' or job like '" + SqlUtils.like(value)
+                    + "' or seq like '" + SqlUtils.like(value)
+                    + "' or code like '" + SqlUtils.like(value)+"')");
             return (Criteria) this;
         }
 

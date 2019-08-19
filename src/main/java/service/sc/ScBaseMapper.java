@@ -128,6 +128,8 @@ public class ScBaseMapper extends CoreBaseMapper {
     protected ScGroupTopicViewMapper scGroupTopicViewMapper;
     @Autowired(required = false)
     protected ScGroupTopicUnitMapper scGroupTopicUnitMapper;
+    @Autowired(required = false)
+    protected ScGroupTopicUserMapper scGroupTopicUserMapper;
 
     /**
      * 干部选拔-党委常委会议题

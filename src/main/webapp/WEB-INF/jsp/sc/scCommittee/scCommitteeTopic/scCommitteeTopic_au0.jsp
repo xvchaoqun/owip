@@ -65,8 +65,6 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${scCommitteeTopic!=null}">确定</c:if><c:if test="${scCommitteeTopic==null}">添加</c:if></button>
 </div>
-
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
 	$.fileInput($("#modalForm input[name=_voteFilePath]"),{
 		allowExt: ['pdf'],

@@ -6,7 +6,7 @@
     <div style="width: 480px;float: left;margin-right: 25px">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     招聘会照片和录音
                     <div class="pull-right" style="margin-right: 10px">
                         <div style="float: left; margin-right: 10px">
@@ -84,7 +84,7 @@
     <div style="width: 480px; float:left;;margin: 0 25px 15px 0">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     专家组推荐情况
                     <div class="pull-right" style="margin-right: 10px">
                         <button type="button"
@@ -107,7 +107,7 @@
     <div style="width: 480px;float: left">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     会议备忘
                     <c:if test="${not empty crsPost.meetingSummary}">
                         <div class="pull-right" style="margin-right: 10px">

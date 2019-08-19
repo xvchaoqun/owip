@@ -4,9 +4,9 @@
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     常委会文件预览
-                    <div style="position: absolute; left:180px;top:8px;">
+                    <div style="position: absolute; left:200px;top:0px;">
                         <form action="${ctx}/sc/scCommittee_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">
@@ -41,7 +41,7 @@
         <div id="dispatch-cadres-view">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4 class="smaller">
+                    <h4 class="widget-title">
                         ${scCommittee!=null?"修改":"添加"}信息
                     </h4>
                 </div>
@@ -106,7 +106,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div style="margin:0 5px 10px">
+                                <div style="margin:0 5px 10px;height: 218px;overflow: auto">
                                     <div id="itemList0" class="itemList">
 
                                     </div>

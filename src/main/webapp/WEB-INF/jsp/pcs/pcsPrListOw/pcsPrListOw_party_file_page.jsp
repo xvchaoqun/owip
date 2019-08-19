@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div class="widget-box" style="width: 800px">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     大会材料清单
                 </h4>
             </div>

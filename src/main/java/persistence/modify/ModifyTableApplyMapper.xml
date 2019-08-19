@@ -1,44 +1,45 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.modify.ModifyTableApplyMapper" >
-  <resultMap id="BaseResultMap" type="domain.modify.ModifyTableApply" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="module" property="module" jdbcType="TINYINT" />
-    <result column="table_name" property="tableName" jdbcType="VARCHAR" />
-    <result column="original_id" property="originalId" jdbcType="INTEGER" />
-    <result column="modify_id" property="modifyId" jdbcType="INTEGER" />
-    <result column="apply_user_id" property="applyUserId" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="original_json" property="originalJson" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="ip" property="ip" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="check_remark" property="checkRemark" jdbcType="VARCHAR" />
-    <result column="check_reason" property="checkReason" jdbcType="VARCHAR" />
-    <result column="check_user_id" property="checkUserId" jdbcType="INTEGER" />
-    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
-    <result column="check_ip" property="checkIp" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.modify.ModifyTableApplyMapper">
+  <resultMap id="BaseResultMap" type="domain.modify.ModifyTableApply">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="module" jdbcType="TINYINT" property="module" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="original_id" jdbcType="INTEGER" property="originalId" />
+    <result column="modify_id" jdbcType="INTEGER" property="modifyId" />
+    <result column="apply_user_id" jdbcType="INTEGER" property="applyUserId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="original_json" jdbcType="VARCHAR" property="originalJson" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="check_remark" jdbcType="VARCHAR" property="checkRemark" />
+    <result column="check_reason" jdbcType="VARCHAR" property="checkReason" />
+    <result column="check_user_id" jdbcType="INTEGER" property="checkUserId" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="check_ip" jdbcType="VARCHAR" property="checkIp" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -49,25 +50,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -78,229 +79,241 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, module, table_name, original_id, modify_id, apply_user_id, user_id, type, original_json, 
-    create_time, ip, status, check_remark, check_reason, check_user_id, check_time, check_ip
+  <sql id="Base_Column_List">
+    id, module, table_name, original_id, modify_id, apply_user_id, user_id, type, reason, 
+    original_json, create_time, ip, status, check_remark, check_reason, check_user_id, 
+    check_time, check_ip
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.modify.ModifyTableApplyExample" >
+  <select id="selectByExample" parameterType="domain.modify.ModifyTableApplyExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from modify_table_apply
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from modify_table_apply
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from modify_table_apply
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.modify.ModifyTableApplyExample" >
+  <delete id="deleteByExample" parameterType="domain.modify.ModifyTableApplyExample">
     delete from modify_table_apply
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.modify.ModifyTableApply" >
+  <insert id="insert" parameterType="domain.modify.ModifyTableApply">
     insert into modify_table_apply (id, module, table_name, 
       original_id, modify_id, apply_user_id, 
-      user_id, type, original_json, 
-      create_time, ip, status, 
-      check_remark, check_reason, check_user_id, 
-      check_time, check_ip)
+      user_id, type, reason, 
+      original_json, create_time, ip, 
+      status, check_remark, check_reason, 
+      check_user_id, check_time, check_ip
+      )
     values (#{id,jdbcType=INTEGER}, #{module,jdbcType=TINYINT}, #{tableName,jdbcType=VARCHAR}, 
       #{originalId,jdbcType=INTEGER}, #{modifyId,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{originalJson,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{checkRemark,jdbcType=VARCHAR}, #{checkReason,jdbcType=VARCHAR}, #{checkUserId,jdbcType=INTEGER}, 
-      #{checkTime,jdbcType=TIMESTAMP}, #{checkIp,jdbcType=VARCHAR})
+      #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
+      #{originalJson,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{checkRemark,jdbcType=VARCHAR}, #{checkReason,jdbcType=VARCHAR}, 
+      #{checkUserId,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, #{checkIp,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.modify.ModifyTableApply" >
+  <insert id="insertSelective" parameterType="domain.modify.ModifyTableApply">
     insert into modify_table_apply
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="module != null" >
+      <if test="module != null">
         module,
       </if>
-      <if test="tableName != null" >
+      <if test="tableName != null">
         table_name,
       </if>
-      <if test="originalId != null" >
+      <if test="originalId != null">
         original_id,
       </if>
-      <if test="modifyId != null" >
+      <if test="modifyId != null">
         modify_id,
       </if>
-      <if test="applyUserId != null" >
+      <if test="applyUserId != null">
         apply_user_id,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type,
       </if>
-      <if test="originalJson != null" >
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="originalJson != null">
         original_json,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         ip,
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status,
       </if>
-      <if test="checkRemark != null" >
+      <if test="checkRemark != null">
         check_remark,
       </if>
-      <if test="checkReason != null" >
+      <if test="checkReason != null">
         check_reason,
       </if>
-      <if test="checkUserId != null" >
+      <if test="checkUserId != null">
         check_user_id,
       </if>
-      <if test="checkTime != null" >
+      <if test="checkTime != null">
         check_time,
       </if>
-      <if test="checkIp != null" >
+      <if test="checkIp != null">
         check_ip,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="module != null" >
+      <if test="module != null">
         #{module,jdbcType=TINYINT},
       </if>
-      <if test="tableName != null" >
+      <if test="tableName != null">
         #{tableName,jdbcType=VARCHAR},
       </if>
-      <if test="originalId != null" >
+      <if test="originalId != null">
         #{originalId,jdbcType=INTEGER},
       </if>
-      <if test="modifyId != null" >
+      <if test="modifyId != null">
         #{modifyId,jdbcType=INTEGER},
       </if>
-      <if test="applyUserId != null" >
+      <if test="applyUserId != null">
         #{applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
-      <if test="originalJson != null" >
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="originalJson != null">
         #{originalJson,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="checkRemark != null" >
+      <if test="checkRemark != null">
         #{checkRemark,jdbcType=VARCHAR},
       </if>
-      <if test="checkReason != null" >
+      <if test="checkReason != null">
         #{checkReason,jdbcType=VARCHAR},
       </if>
-      <if test="checkUserId != null" >
+      <if test="checkUserId != null">
         #{checkUserId,jdbcType=INTEGER},
       </if>
-      <if test="checkTime != null" >
+      <if test="checkTime != null">
         #{checkTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="checkIp != null" >
+      <if test="checkIp != null">
         #{checkIp,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.modify.ModifyTableApplyExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.modify.ModifyTableApplyExample" resultType="java.lang.Long">
     select count(*) from modify_table_apply
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update modify_table_apply
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.module != null" >
+      <if test="record.module != null">
         module = #{record.module,jdbcType=TINYINT},
       </if>
-      <if test="record.tableName != null" >
+      <if test="record.tableName != null">
         table_name = #{record.tableName,jdbcType=VARCHAR},
       </if>
-      <if test="record.originalId != null" >
+      <if test="record.originalId != null">
         original_id = #{record.originalId,jdbcType=INTEGER},
       </if>
-      <if test="record.modifyId != null" >
+      <if test="record.modifyId != null">
         modify_id = #{record.modifyId,jdbcType=INTEGER},
       </if>
-      <if test="record.applyUserId != null" >
+      <if test="record.applyUserId != null">
         apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
+      <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null" >
+      <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
-      <if test="record.originalJson != null" >
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.originalJson != null">
         original_json = #{record.originalJson,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.ip != null" >
+      <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null" >
+      <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.checkRemark != null" >
+      <if test="record.checkRemark != null">
         check_remark = #{record.checkRemark,jdbcType=VARCHAR},
       </if>
-      <if test="record.checkReason != null" >
+      <if test="record.checkReason != null">
         check_reason = #{record.checkReason,jdbcType=VARCHAR},
       </if>
-      <if test="record.checkUserId != null" >
+      <if test="record.checkUserId != null">
         check_user_id = #{record.checkUserId,jdbcType=INTEGER},
       </if>
-      <if test="record.checkTime != null" >
+      <if test="record.checkTime != null">
         check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.checkIp != null" >
+      <if test="record.checkIp != null">
         check_ip = #{record.checkIp,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update modify_table_apply
     set id = #{record.id,jdbcType=INTEGER},
       module = #{record.module,jdbcType=TINYINT},
@@ -310,6 +323,7 @@
       apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      reason = #{record.reason,jdbcType=VARCHAR},
       original_json = #{record.originalJson,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
@@ -319,65 +333,68 @@
       check_user_id = #{record.checkUserId,jdbcType=INTEGER},
       check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       check_ip = #{record.checkIp,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.modify.ModifyTableApply" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.modify.ModifyTableApply">
     update modify_table_apply
-    <set >
-      <if test="module != null" >
+    <set>
+      <if test="module != null">
         module = #{module,jdbcType=TINYINT},
       </if>
-      <if test="tableName != null" >
+      <if test="tableName != null">
         table_name = #{tableName,jdbcType=VARCHAR},
       </if>
-      <if test="originalId != null" >
+      <if test="originalId != null">
         original_id = #{originalId,jdbcType=INTEGER},
       </if>
-      <if test="modifyId != null" >
+      <if test="modifyId != null">
         modify_id = #{modifyId,jdbcType=INTEGER},
       </if>
-      <if test="applyUserId != null" >
+      <if test="applyUserId != null">
         apply_user_id = #{applyUserId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
-      <if test="originalJson != null" >
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="originalJson != null">
         original_json = #{originalJson,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="checkRemark != null" >
+      <if test="checkRemark != null">
         check_remark = #{checkRemark,jdbcType=VARCHAR},
       </if>
-      <if test="checkReason != null" >
+      <if test="checkReason != null">
         check_reason = #{checkReason,jdbcType=VARCHAR},
       </if>
-      <if test="checkUserId != null" >
+      <if test="checkUserId != null">
         check_user_id = #{checkUserId,jdbcType=INTEGER},
       </if>
-      <if test="checkTime != null" >
+      <if test="checkTime != null">
         check_time = #{checkTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="checkIp != null" >
+      <if test="checkIp != null">
         check_ip = #{checkIp,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.modify.ModifyTableApply" >
+  <update id="updateByPrimaryKey" parameterType="domain.modify.ModifyTableApply">
     update modify_table_apply
     set module = #{module,jdbcType=TINYINT},
       table_name = #{tableName,jdbcType=VARCHAR},
@@ -386,6 +403,7 @@
       apply_user_id = #{applyUserId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      reason = #{reason,jdbcType=VARCHAR},
       original_json = #{originalJson,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
@@ -397,17 +415,17 @@
       check_ip = #{checkIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.modify.ModifyTableApplyExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.modify.ModifyTableApplyExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from modify_table_apply
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

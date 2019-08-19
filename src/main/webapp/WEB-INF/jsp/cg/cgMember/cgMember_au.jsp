@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 						data-rel="select2-ajax"
 						data-ajax-url="${ctx}/unitPost_selects"
 						data-placeholder="请选择">
-					<option value="${cgMember.unitPostId}">${unitPost.name}</option>
+					<option value="${cgMember.unitPostId}">${unitPost.code}-${unitPost.name}</option>
 				</select>
 			</div>
 		</div>

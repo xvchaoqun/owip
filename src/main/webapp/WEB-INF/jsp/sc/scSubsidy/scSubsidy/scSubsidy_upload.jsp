@@ -6,9 +6,9 @@
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     ${param.fileType==1?'发人事处通知':'发财经处通知'}
-                    <div style="position: absolute; left:125px;top:8px;">
+                    <div style="position: absolute; left:135px;top:0px;">
                         <form action="${ctx}/sc/scSubsidy_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
             添加干部选拔任用表决情况
         </h4>
     </div>

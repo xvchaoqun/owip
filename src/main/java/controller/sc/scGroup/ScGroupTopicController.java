@@ -1,7 +1,10 @@
 package controller.sc.scGroup;
 
 import controller.sc.ScBaseController;
+import domain.base.MetaType;
+import domain.cadre.CadreView;
 import domain.sc.scGroup.*;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.gson.GsonUtils;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -137,32 +142,14 @@ public class ScGroupTopicController extends ScBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
-    /*@RequiresPermissions("scGroupTopic:edit")
-    @RequestMapping(value = "/scGroupTopic_upload", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_scGroupTopic_upload(MultipartFile file) throws InterruptedException, IOException {
 
-        String originalFilename = file.getOriginalFilename();
-        String ext = FileUtils.getExtention(originalFilename);
-        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(file, "pdf")) {
-            throw new OpException("文件格式错误，请上传pdf文件");
-        }
-
-        String savePath = uploadPdf(file, "scGroupTopic");
-
-        Map<String, Object> resultMap = success();
-        //resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("filePath", savePath);
-
-        return resultMap;
-    }*/
     @RequiresPermissions("scGroupTopic:edit")
     @RequestMapping(value = "/scGroupTopic_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scGroupTopic_au(ScGroupTopic record,
                                   MultipartFile[] files,
                                   @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
+                                  String users, // 确定的考察对象
                                   HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
@@ -178,13 +165,21 @@ public class ScGroupTopicController extends ScBaseController {
             record.setFilePath(StringUtils.join(filePaths, ","));
         }
 
+        List<TopicUser> topicUsers = null;
+         MetaType metaType = CmTag.getMetaTypeByCode("mt_sgt_candidate");
+        if(metaType!=null && metaType.getId().intValue()==record.getType()){
+
+            topicUsers = GsonUtils.toBeans(users, TopicUser.class);
+            if(topicUsers.size()==0) return failed("请选择考察对象");
+        }
+
         if (id == null) {
 
-            scGroupTopicService.insertSelective(record, unitIds);
+            scGroupTopicService.insertSelective(record, unitIds, topicUsers);
             logger.info(addLog(LogConstants.LOG_SC_GROUP, "添加干部小组会议题：%s", record.getId()));
         } else {
 
-            scGroupTopicService.updateByPrimaryKeySelective(record, unitIds);
+            scGroupTopicService.updateByPrimaryKeySelective(record, unitIds, topicUsers);
             logger.info(addLog(LogConstants.LOG_SC_GROUP, "更新干部小组会议题：%s", record.getId()));
         }
 
@@ -213,6 +208,18 @@ public class ScGroupTopicController extends ScBaseController {
             modelMap.put("scGroupTopic", scGroupTopic);
             if(scGroupTopic!=null){
                 groupId = scGroupTopic.getGroupId();
+
+                Integer recordId = scGroupTopic.getRecordId();
+                if(recordId!=null){
+                    modelMap.put("scRecord", iScMapper.getScRecordView(recordId));
+                }
+                Integer unitPostId = scGroupTopic.getUnitPostId();
+                if(unitPostId!=null){
+                    modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+                }
+
+                modelMap.put("selectUsers", scGroupTopicService.getTopicUsers(scGroupTopic.getId()));
+                modelMap.put("candidateUser", CmTag.getUserById(scGroupTopic.getCandidateUserId()));
             }
             List<Unit> units = scGroupTopicService.getUnits(id);
             for (Unit unit : units) {
@@ -231,11 +238,6 @@ public class ScGroupTopicController extends ScBaseController {
             List<ScGroup> scGroups = scGroupMapper.selectByExample(example);
             modelMap.put("scGroups", scGroups);
         }
-
-        /*List<Unit> runUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_RUN);
-        modelMap.put("runUnits", runUnits);
-        List<Unit> historyUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_HISTORY);
-        modelMap.put("historyUnits", historyUnits);*/
 
         // MAP<unitTypeId, List<unitId>>
         Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
@@ -264,6 +266,67 @@ public class ScGroupTopicController extends ScBaseController {
         modelMap.put("historyUnitListMap", historyUnitListMap);
 
         return "sc/scGroup/scGroupTopic/scGroupTopic_au";
+    }
+
+    @RequiresPermissions("scGroupTopic:edit")
+    @RequestMapping(value = "/scGroupTopic_selectUser", method = RequestMethod.POST)
+    public void do_scGroupTopic_selectUser(
+            Integer userId,
+            HttpServletResponse response) throws IOException {
+
+        TopicUser user = new TopicUser();
+        if (userId != null) {
+            CadreView cv = cadreService.dbFindByUserId(userId);
+            if (cv != null) {
+                user.setUserId(cv.getUserId());
+                user.setRealname(cv.getRealname());
+                user.setCode(cv.getCode());
+                user.setTitle(cv.getTitle());
+            } else {
+
+                SysUserView uv = sysUserService.findById(userId);
+                user.setUserId(uv.getId());
+                user.setRealname(uv.getRealname());
+                user.setCode(uv.getCode());
+                user.setTitle(uv.getUnit());
+            }
+        }
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("user", user);
+        JSONUtils.write(response, resultMap);
+    }
+
+    // 确定的考察对象
+    @RequestMapping("/scGroupTopic_users")
+    @ResponseBody
+    public Map scGroupTopic_users(Integer recordId){
+
+        List<TopicUser> topicUsers = new ArrayList<>();
+
+        if(recordId!=null) {
+            MetaType metaType = CmTag.getMetaTypeByCode("mt_sgt_candidate");
+            ScGroupTopic scGroupTopic = scGroupTopicService.getTopic(recordId, metaType.getId());
+            if (scGroupTopic != null) {
+                topicUsers = scGroupTopicService.getTopicUsers(scGroupTopic.getId());
+            }
+        }
+        int totalCount = topicUsers.size();
+        List options = new ArrayList<>();
+        if(totalCount>0){
+            for(TopicUser record:topicUsers){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", record.getCode() + "-" + record.getRealname() + "-" + record.getTitle());
+                option.put("id", record.getUserId() + "");
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", totalCount);
+        resultMap.put("options", options);
+        return resultMap;
     }
 
     @RequiresPermissions("scGroupTopic:del")

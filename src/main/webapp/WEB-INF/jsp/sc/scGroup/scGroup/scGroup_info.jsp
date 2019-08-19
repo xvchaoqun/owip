@@ -13,7 +13,7 @@
                             <div class="preview">
                                 <div class="widget-box">
                                     <div class="widget-header">
-                                        <h4 class="smaller">
+                                        <h4 class="widget-title">
                                             干部工作小组会成立文件
                                             <div class="buttons pull-right" style="padding-right: 10px;">
                                                 <button type="button"

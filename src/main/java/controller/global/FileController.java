@@ -97,8 +97,7 @@ public class FileController extends BaseController {
     public void pdf(String path, HttpServletResponse response) throws IOException {
 
         // 强制读取pdf文件（word转pdf的情况）
-        String ext = FileUtils.getExtention(path); // linux区分文件名大小写
-        path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf")?ext:".pdf");
+        path = PdfUtils.forcePdfPath(path);
         String filePath = springProps.uploadPath + path;
 
         byte[] bytes = FileUtils.getBytes(filePath);
@@ -118,9 +117,7 @@ public class FileController extends BaseController {
     public void pdfShow(String path, HttpServletResponse response) throws IOException {
 
         // path的后缀可能为大写的, .PDF
-        if(path.toLowerCase().endsWith(".pdf") == false) {
-            path = FileUtils.getFileName(path) + ".pdf";
-        }
+        path = PdfUtils.forcePdfPath(path);
         String filePath = springProps.uploadPath + path;
 
         byte[] bytes = FileUtils.getBytes(filePath);
@@ -137,9 +134,11 @@ public class FileController extends BaseController {
 
     // pdf转图片显示
     @RequestMapping("/pdf_image")
-    public void pdf_image(String path, Boolean flush, Integer r, HttpServletResponse response) throws IOException, InterruptedException {
+    public void pdf_image(String path, Boolean flush, Integer r,
+                          Integer pageNo, // 如果传入了页码，则返回该页图片，如果没有，则返回所有页合并后的图片
+                          HttpServletResponse response) throws IOException, InterruptedException {
 
-       displayPdfImage(path, BooleanUtils.isTrue(flush), r, response);
+       displayPdfImage(path, BooleanUtils.isTrue(flush), r, pageNo, response);
     }
 
     // swf内容

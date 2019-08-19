@@ -9,7 +9,7 @@
     <shiro:hasPermission name="scGroupFile:edit">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     添加文件
                 </h4>
             </div>

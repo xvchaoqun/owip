@@ -20,7 +20,7 @@
                         <div style="width: 450px; float: left;margin-right: 25px">
                             <div class="widget-box">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         一、上传应聘PPT
                                     </h4>
                                 </div>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="widget-box">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         二、招聘会信息
                                     </h4>
                                 </div>
@@ -95,7 +95,7 @@
                         <div style="width: 800px; float: left;margin-right: 25px">
                             <div class="widget-box">
                                 <div class="widget-header">
-                                    <h4 class="smaller">
+                                    <h4 class="widget-title">
                                         三、招聘会公告
                                     </h4>
                                 </div>

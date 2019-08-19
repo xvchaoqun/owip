@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="widget-box myTableDiv" data-cls="${metaClass.code}" style="width:900px">
   <div class="widget-header">
-    <h4 class="smaller">
+    <h4 class="widget-title">
       ${metaClass.name}
       <div class="pull-right" style="margin-right: 10px">
         <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/metaClass_type_au?cls=${metaClass.code}"><i
@@ -18,6 +18,7 @@
         <tr>
           <th width="30">序号</th>
           <th width="">类型名称</th>
+          <th width="80">编码</th>
           <th width="150">备注</th>
           <th width="80">排序</th>
           <th width="100"></th>
@@ -29,6 +30,7 @@
           <tr>
             <td>${vs.count}</td>
             <td style="text-align: left">${record.name}</td>
+            <td style="text-align: left">${record.code}</td>
             <td style="text-align: left">${record.remark}</td>
             <td nowrap>
               <a href="javascript:;" data-url="${ctx}/metaClass_type_changeOrder?cls=${metaClass.code}"

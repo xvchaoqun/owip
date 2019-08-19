@@ -6,7 +6,7 @@
 
 <div class="widget-box" style="width: 770px">
     <div class="widget-header">
-        <h4 class="smaller">
+        <h4 class="widget-title">
             <c:if test="${not empty crsPost.requirement}">
             <div class="pull-right" style="margin-right: 10px">
                 <shiro:hasPermission name="crsPost:edit">

@@ -5,6 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +29,7 @@ public class UserModifyTableApplyController extends ModifyBaseController {
     @RequestMapping(value = "/modifyTableApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map modifyTableApply_back(Integer id,
-                    HttpServletRequest request) {
+                                     HttpServletRequest request) {
 
         try {
             modifyTableApplyService.back(id);
@@ -41,72 +42,81 @@ public class UserModifyTableApplyController extends ModifyBaseController {
 
     // 提交[删除申请]
     @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
+    @RequestMapping("/modifyTableApply_del")
+    public String modifyTableApply_del(byte module, Integer id, ModelMap modelMap) {
+
+        modelMap.put("module", (byte) (module % 100));
+        return "modify/user/modifyTableApply/modifyTableApply_del";
+    }
+
+    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyTableApply_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_modifyTableApply_del(HttpServletRequest request, byte module,  Integer id) {
+    public Map do_modifyTableApply_del(HttpServletRequest request,
+                                       byte module, Integer id, String reason) {
 
         if (id != null) {
-            module = (byte) (module%100);
-            switch (module){
+            module = (byte) (module % 100);
+            switch (module) {
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
-                    cadreEduService.modifyApply(null, id, true);
+                    cadreEduService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK:
-                    cadreWorkService.modifyApply(null, id, true);
+                    cadreWorkService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
-                    cadreBookService.modifyApply(null, id, true);
+                    cadreBookService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
-                    cadreCompanyService.modifyApply(null, id, true);
+                    cadreCompanyService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
-                    cadreCourseService.modifyApply(null, id, true);
+                    cadreCourseService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
-                    cadrePaperService.modifyApply(null, id, true);
+                    cadrePaperService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
-                    cadreParttimeService.modifyApply(null, id, true);
+                    cadreParttimeService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
-                    cadreTrainService.modifyApply(null, id, true);
+                    cadreTrainService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
-                    cadreResearchService.modifyApply(null, id, CadreConstants.CADRE_RESEARCH_TYPE_DIRECT, true);
+                    cadreResearchService.modifyApply(null, id, CadreConstants.CADRE_RESEARCH_TYPE_DIRECT, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
-                    cadreResearchService.modifyApply(null, id, CadreConstants.CADRE_RESEARCH_TYPE_IN, true);
+                    cadreResearchService.modifyApply(null, id, CadreConstants.CADRE_RESEARCH_TYPE_IN, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
-                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_TEACH, true);
+                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_TEACH, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
-                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_RESEARCH, true);
+                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_RESEARCH, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
-                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_OTHER, true);
+                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_OTHER, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO:
-                    cadrePostProService.modifyApply(null, id, true);
+                    cadrePostProService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN:
-                    cadrePostAdminService.modifyApply(null, id, true);
+                    cadrePostAdminService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
-                    cadrePostWorkService.modifyApply(null, id, true);
+                    cadrePostWorkService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
-                    cadreFamilyService.modifyApply(null, id, true);
+                    cadreFamilyService.modifyApply(null, id, true, reason);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
-                    cadreFamilyAbroadService.modifyApply(null, id, true);
+                    cadreFamilyAbroadService.modifyApply(null, id, true, reason);
                     break;
             }
 
-            logger.info(addLog(LogConstants.LOG_ADMIN, "删除申请-"+
-                    ModifyConstants.MODIFY_TABLE_APPLY_MODULE_MAP.get(module)+"：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除申请-" +
+                    ModifyConstants.MODIFY_TABLE_APPLY_MODULE_MAP.get(module) + "：%s", id));
         }
 
         return success(FormUtils.SUCCESS);

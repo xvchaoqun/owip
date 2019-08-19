@@ -183,7 +183,7 @@ public class CadreEduController extends BaseController {
                 cadreEduService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
             } else {
-                cadreEduService.modifyApply(record, null, false);
+                cadreEduService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部学习经历：%s", record.getId()));
             }
 
@@ -206,7 +206,7 @@ public class CadreEduController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreEduService.modifyApply(record, id, false);
+                    cadreEduService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部学习经历：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容

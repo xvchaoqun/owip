@@ -1,12 +1,17 @@
 package domain.sc.scGroup;
 
+import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class ScGroup implements Serializable {
+
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+
     private Integer id;
 
     private String filePath;
@@ -23,6 +28,8 @@ public class ScGroup implements Serializable {
     private String logFile;
 
     private String attendUsers;
+
+    private Integer recordUserId;
 
     private String remark;
 
@@ -92,6 +99,14 @@ public class ScGroup implements Serializable {
 
     public void setAttendUsers(String attendUsers) {
         this.attendUsers = attendUsers == null ? null : attendUsers.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public String getRemark() {

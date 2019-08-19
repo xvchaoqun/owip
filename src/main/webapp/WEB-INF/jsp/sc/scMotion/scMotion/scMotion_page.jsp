@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.UNIT_POST_STATUS_DELETE%>" var="UNIT_POST_STATUS_DELETE"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers"
@@ -85,7 +86,7 @@
                                     <select name="unitPostId" data-rel="select2-ajax"
                                             data-ajax-url="${ctx}/unitPost_selects"
                                             data-placeholder="请选择">
-                                        <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.name}</option>
+                                        <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
                                     </select>
                                     <script>
                                         $.register.del_select($("#searchForm select[name=unitPostId]"))
@@ -150,9 +151,9 @@
                 }},*/
             {label: '所属单位', name: 'unitId', width: 200, align: 'left', formatter: $.jgrid.formatter.unit},
             {label: '单位类型', name: 'unitType', width: 120, frozen: true, formatter: $.jgrid.formatter.MetaType},
-            {label: '选拔任用方式', name: 'scType', width: 120, formatter: $.jgrid.formatter.MetaType},
+            {label: '选任方式', name: 'scType', width: 120, formatter: $.jgrid.formatter.MetaType},
             {
-                label: '动议形式', name: 'way', width: 150, formatter: function (cellvalue, options, rowObject) {
+                label: '动议主体', name: 'way', width: 150, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--'
                     if (cellvalue == '<%=ScConstants.SC_MOTION_WAY_OTHER%>') {
                         return "其他：" + rowObject.wayOther

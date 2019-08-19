@@ -42,6 +42,12 @@
     <div class="widget-body">
         <div class="widget-main">
             <table class="table  table-unhover table-bordered table-striped">
+                <c:if test="${mta.type==MODIFY_TABLE_APPLY_TYPE_DELETE}">
+                    <tr>
+                        <td>删除原因</td>
+                        <td colspan="5" class="bg-left">${mta.reason}</td>
+                    </tr>
+                </c:if>
                 <tr>
                     <td data-code="pubTime">出版日期</td>
                     <td class="bg-left">${cm:formatDate(modify.pubTime,'yyyy-MM-dd')}</td>

@@ -7,5 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class MetaTypeOptionMixin extends OptionMixin {
     @JsonProperty
+    public String code;
+    @JsonProperty
     public Boolean boolAttr;
 }

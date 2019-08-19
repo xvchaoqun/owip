@@ -6,7 +6,7 @@
      data-querystr="pageSize=${param.pageSize}&${cm:encodeQueryString(pageContext.request.queryString)}"
      style="width:800px">
   <div class="widget-header">
-    <h4 class="smaller">
+    <h4 class="widget-title">
         ${ANNUAL_TYPE_MODULE_MAP.get(cm:toByte(param.module))}
       <div class="pull-right" style="margin-right: 10px">
         <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/annualType_au?module=${param.module}"><i

@@ -24,7 +24,7 @@
                     <div style="width: 500px;float: left;margin-right: 25px">
                         <div class="widget-box" style="height: 530px;">
                             <div class="widget-header">
-                                <h4 class="smaller">
+                                <h4 class="widget-title">
                                     ${scCommitteeTopic!=null?"修改":"添加"}
                                 </h4>
                             </div>
@@ -138,7 +138,7 @@
                     <div style="width: 500px;float: left;margin-right: 25px">
                         <div class="widget-box">
                             <div class="widget-header">
-                                <h4 class="smaller">
+                                <h4 class="widget-title">
                                     议题内容
                                 </h4>
                             </div>
@@ -152,7 +152,7 @@
                     <div style="width: 500px;float: left;margin-right: 25px">
                         <div class="widget-box">
                             <div class="widget-header">
-                                <h4 class="smaller">
+                                <h4 class="widget-title">
                                     议题讨论备忘
                                 </h4>
                             </div>
@@ -180,7 +180,7 @@
     </div>
     <!-- /.widget-box -->
 </div>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+
 <script>
     $.fileInput($("#modalForm input[name=_voteFilePath]"),{
         allowExt: ['pdf'],

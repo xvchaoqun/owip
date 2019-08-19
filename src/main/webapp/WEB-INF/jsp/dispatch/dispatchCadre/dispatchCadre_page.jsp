@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.UNIT_POST_STATUS_DELETE%>" var="UNIT_POST_STATUS_DELETE"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -120,7 +121,7 @@
                                             <select name="unitPostId" data-rel="select2-ajax"
                                                     data-ajax-url="${ctx}/unitPost_selects"
                                                     data-placeholder="请选择">
-                                                <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.name}</option>
+                                                <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
                                             </select>
                                             <script>
                                                 $.register.del_select($("#searchForm select[name=unitPostId]"))

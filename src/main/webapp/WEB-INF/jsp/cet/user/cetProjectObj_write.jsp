@@ -26,7 +26,7 @@
         <div class="rownumbers widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
             <div class="widget-box" style="width:300px">
                 <div class="widget-header">
-                    <h4 class="smaller">
+                    <h4 class="widget-title">
                         <i class="fa fa-edit"></i> 上传心得体会
                     </h4>
                 </div>

@@ -68,6 +68,9 @@ div.WordSection1
  text-indent: -9em;
  margin: 0 0 0 9em;
 }
+.reward p {
+ margin: 0;
+}
 -->
 </style>
 <c:if test="${param.mobile=='1'}">
@@ -506,7 +509,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
   style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>况</span></p>
   </td>
-  <td width=572 colspan=11 class="resume" style='width:429.2pt;border-top:none;border-left:
+  <td width=572 colspan=11 class="reward" style='width:429.2pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;border-top: solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:77.5pt'>
   <p class="MsoNormal" align=left style='text-align:left;line-height:15.0pt'><span

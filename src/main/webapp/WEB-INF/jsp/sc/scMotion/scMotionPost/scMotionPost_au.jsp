@@ -15,7 +15,7 @@
             <div class="col-xs-6">
                 <select name="unitPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects?unitId=${motion.unitId }"
                         data-placeholder="请选择">
-                    <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.name}</option>
+                    <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
                 </select>
                 <script>
                     $.register.del_select($("#modalForm select[name=unitPostId]"), 273)

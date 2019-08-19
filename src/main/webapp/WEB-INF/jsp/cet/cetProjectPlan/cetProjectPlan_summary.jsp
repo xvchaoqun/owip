@@ -21,7 +21,6 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="button" id="summarySubmitBtn" class="btn btn-primary" value="确定"/>
 </div>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     var ke = KindEditor.create('#contentId', {
         allowFileManager: true,

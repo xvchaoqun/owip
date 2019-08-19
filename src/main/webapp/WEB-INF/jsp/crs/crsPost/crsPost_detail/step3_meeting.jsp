@@ -7,7 +7,7 @@
     <div style="width: 500px;float: left;margin-right: 25px">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     招聘会相关时间节点
                 </h4>
             </div>
@@ -100,7 +100,7 @@
     <div style="width: 500px; float:left;margin-right: 25px">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     短信通知
                 </h4>
             </div>
@@ -160,7 +160,7 @@
     <div style="width: 500px;float: left;margin-right: 25px">
         <div class="widget-box">
             <div class="widget-header">
-                <h4 class="smaller">
+                <h4 class="widget-title">
                     招聘会公告
                     <c:if test="${not empty crsPost.meetingNotice}">
                         <div class="pull-right" style="margin-right: 10px">

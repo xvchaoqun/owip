@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>关联任免文件</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" style="overflow-x: scroll;">
             <c:if test="${fn:length(dispatchCadres)>0}">
                 <table class="table table-actived table-striped table-bordered table-hover">
                     <thead>
@@ -56,10 +56,10 @@ pageEncoding="UTF-8" %>
                                 <td nowrap>${cm:getMetaType(dispatchCadre.wayId).name}</td>
                                 <td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
                                 <td nowrap>${cm:getUserById(cm:getCadreById(dispatchCadre.cadreId).userId).realname}</td>
-                                <td >${dispatchCadre.post}</td>
+                                <td nowrap>${dispatchCadre.post}</td>
                                 <td nowrap>${cm:getMetaType(dispatchCadre.postType).name}</td>
 								<td nowrap>${cm:getMetaType(dispatchCadre.adminLevel).name}</td>
-								<td >${unitMap.get(dispatchCadre.unitId).name}</td>
+								<td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
                                 <td nowrap><c:if test="${not empty dispatch.fileName}">
                                     <a href="javascript:;" data-type="download"
                                        data-url="${ctx}/attach_download?path=${cm:encodeURI(dispatch.file)}&filename=${dispatch.fileName}"

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
-import sys.constants.ScConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -165,7 +164,7 @@ public class ScMotionController extends ScBaseController {
         return "sc/scMotion/scMotion/scMotion_au";
     }
 
-    @RequiresPermissions("scMotion:edit")
+    /*@RequiresPermissions("scMotion:edit")
     @RequestMapping(value = "/scMotion_topics", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scMotion_topics(int id, String topics, HttpServletRequest request) {
@@ -205,7 +204,7 @@ public class ScMotionController extends ScBaseController {
         }else{
             return null;
         }
-    }
+    }*/
 
     @RequiresPermissions("scMotion:del")
     @RequestMapping(value = "/scMotion_del", method = RequestMethod.POST)

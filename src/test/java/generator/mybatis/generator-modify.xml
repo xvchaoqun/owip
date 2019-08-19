@@ -32,8 +32,8 @@
         </table>-->
         <!-- <table tableName="modify_base_item" domainObjectName="modify.ModifyBaseItem">
          </table>-->
-        <!-- <table tableName="modify_table_apply" domainObjectName="modify.ModifyTableApply">
+         <table tableName="modify_table_apply" domainObjectName="modify.ModifyTableApply">
             <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
     </context>
 </generatorConfiguration>

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.constants.ScConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -155,6 +156,61 @@ public class ScRecordController extends ScBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/scRecord_selects")
+    @ResponseBody
+    public Map scRecord_selects(Integer pageSize, Integer pageNo,
+                                Byte status,
+                                Integer unitId, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        ScRecordViewExample example = new ScRecordViewExample();
+        ScRecordViewExample.Criteria criteria = example.createCriteria();
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+
+        example.setOrderByClause("status asc, hold_date desc");
+        if(unitId!=null){
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.search(searchStr.trim());
+        }
+
+        long count = scRecordViewMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<ScRecordView> records = scRecordViewMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(ScRecordView record:records){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", record.getCode() + "-" + record.getPostName() + "-" + record.getJob());
+                option.put("id", record.getId() + "");
+                option.put("del", record.getStatus() != ScConstants.SC_RECORD_STATUS_INIT);
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 
     public void scRecord_export(ScRecordViewExample example, HttpServletResponse response) {

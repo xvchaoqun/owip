@@ -153,7 +153,7 @@
                 return cellvalue;
             }},
             {label: '原任职务<br/>任职时间', name: 'originalPostTime', width: 90, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '--'
+                if($.isBlank(cellvalue)) return '--'
                 return $.date(cellvalue, "yyyy-MM-dd");
             }},
             { label:'干部类型', name: 'cadreTypeId', formatter: $.jgrid.formatter.MetaType},

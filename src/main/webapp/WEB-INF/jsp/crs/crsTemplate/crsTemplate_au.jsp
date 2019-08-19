@@ -41,7 +41,6 @@ pageEncoding="UTF-8"%>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${crsTemplate!=null}">确定</c:if><c:if test="${crsTemplate==null}">添加</c:if>"/>
 </div>
-<script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     var ke = KindEditor.create('#contentId', {
         allowFileManager: true,

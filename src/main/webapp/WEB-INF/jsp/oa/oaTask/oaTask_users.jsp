@@ -183,6 +183,7 @@
                 }
 
                 $userSelect.val(null).trigger("change");
+                _showCount();
             }
         });
     });
@@ -213,6 +214,7 @@
                                 $jqGrid.jqGrid("addRowData", user.userId, user, "last");
                             }
                         })
+                        _showCount();
                         $("#importForm input[name=xlsx]").ace_file_input('reset_input');
                     }
                     $btn.button('reset');
@@ -243,8 +245,8 @@
                 }
             },
             </c:if>
-            {label: '姓名', name: 'realname'},
             {label: '工作证号', name: 'code', width: 120},
+            {label: '姓名', name: 'realname'},
             {label: '手机号码', name: 'mobile', width: 150},
             {
                 label: '所在单位及职务',
@@ -263,11 +265,16 @@
     </c:if>
     $(document).on("click", ".delRowBtn", function () {
         var $jqGrid = $("#jqGrid2");
-        var $count = $jqGrid.closest(".widget-box").find(".tip .count");
         $jqGrid.delRowData($(this).data("id"));
+
+        _showCount();
+    })
+
+    function _showCount(){
+        var $count = $jqGrid.closest(".widget-box").find(".tip .count");
         //console.log($jqGrid.jqGrid("getDataIDs").length)
         $count.html($jqGrid.jqGrid("getDataIDs").length);
-    })
+    }
 
     $("#submitBtn").click(function () {
 

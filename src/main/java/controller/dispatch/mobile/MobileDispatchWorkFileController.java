@@ -3,7 +3,6 @@ package controller.dispatch.mobile;
 import controller.BaseController;
 import domain.dispatch.DispatchWorkFile;
 import domain.dispatch.DispatchWorkFileExample;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -39,13 +37,5 @@ public class MobileDispatchWorkFileController extends BaseController {
 		modelMap.put("dispatchWorkFiles", dispatchWorkFiles);
 
 		return "dispatch/mobile/dispatchWorkFile_page";
-	}
-
-	@RequiresPermissions("m:dispatchWorkFile:list")
-	@RequestMapping("/dispatchWorkFile_preview")
-	public void dispatchWorkFile_preview(int id, Boolean flush, Integer r, HttpServletResponse response) throws Exception {
-
-		DispatchWorkFile dwf = dispatchWorkFileMapper.selectByPrimaryKey(id);
-		displayPdfImage(dwf.getPdfFilePath(), BooleanUtils.isTrue(flush), r, response);
 	}
 }

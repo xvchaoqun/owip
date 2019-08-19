@@ -169,7 +169,7 @@ public class CadreRewardController extends BaseController {
                 cadreRewardService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部教学奖励：%s", record.getId()));
             } else {
-                cadreRewardService.modifyApply(record, null, record.getRewardType(), false);
+                cadreRewardService.modifyApply(record, null, record.getRewardType(), false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部教学奖励：%s", record.getId()));
             }
 
@@ -185,7 +185,7 @@ public class CadreRewardController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部教学奖励：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreRewardService.modifyApply(record, id, record.getRewardType(), false);
+                    cadreRewardService.modifyApply(record, id, record.getRewardType(), false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部教学奖励：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容

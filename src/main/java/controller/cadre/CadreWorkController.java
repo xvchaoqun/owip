@@ -223,7 +223,7 @@ public class CadreWorkController extends BaseController {
                 cadreWorkService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加工作经历：%s", record.getId()));
             } else {
-                cadreWorkService.modifyApply(record, null, false);
+                cadreWorkService.modifyApply(record, null, false, null);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-工作经历：%s", record.getId()));
             }
 
@@ -242,7 +242,7 @@ public class CadreWorkController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreWorkService.modifyApply(record, id, false);
+                    cadreWorkService.modifyApply(record, id, false, null);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-工作经历：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
