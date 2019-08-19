@@ -13,7 +13,7 @@
                 <!--<value>(persistence|service|controller)\.member\..*</value>-->
 
                 <!--干部考察管理-->
-                <value>(persistence|service|controller)\.cis\..*</value>
+                <!--<value>(persistence|service|controller)\.cis\..*</value>-->
 
                 <!--<value>(persistence|service|controller)\.cet\..*</value>-->
                <!-- <value>(persistence|service|controller)\.abroad\..*</value>-->
@@ -28,6 +28,10 @@
                 <value>(persistence|service|controller)\.dr\..*</value>
 
                 <value>(persistence|service|controller)\.verify\..*</value>
+
+                <!--<value>(persistence|service|controller)\.dp\..*</value>
+                <value>(persistence|service|controller)\.cg\..*</value>
+                <value>(persistence|service|controller)\.pm\..*</value>-->
 
                 <!--与modify模块有关联-->
                 <!--<value>(persistence|service|controller)\.crs\..*</value>-->

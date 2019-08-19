@@ -37,18 +37,21 @@
                 String pdfFilePath = springProps.uploadPath + dispatch.getFile();
                 if (!FileUtils.exists(pdfFilePath)) continue;
 
-                String imgPath = pdfFilePath + ".jpg";
+                String imgPath = pdfFilePath + "-001.jpg";
+                FileUtils.delFile(imgPath); // 删除
+
                 if (flush || !FileUtils.exists(imgPath)) {
 
                     logger.info(dispatch.getDispatchCode());
                     try {
-                        PdfUtils.pdf2jpg(pdfFilePath, 300, PropertiesUtils.getString("gs.command"));
+                        PdfUtils.pdf2jpg(pdfFilePath, 300, PropertiesUtils.getString("gs.command"), 1);// 生成第一页
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
                     logger.info(count + "/" + total + ":" + imgPath);
                 }
+
             }
 
             logger.info("finished.");

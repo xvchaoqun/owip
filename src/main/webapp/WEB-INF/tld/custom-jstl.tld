@@ -321,6 +321,16 @@
 		<function-class>sys.utils.FileUtils</function-class>
 		<function-signature>long lastModified(java.lang.String)</function-signature>
 	</function>
+	<function>
+		<name>forcePdfPath</name>
+		<function-class>sys.utils.PdfUtils</function-class>
+		<function-signature>java.lang.String forcePdfPath(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getPages</name>
+		<function-class>sys.utils.PdfUtils</function-class>
+		<function-signature>int getPages(java.lang.String)</function-signature>
+	</function>
 	<!--获得日期字符串-->
 	<function>
 		<name>formatDateTimeMillis</name>

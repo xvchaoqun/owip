@@ -43,6 +43,38 @@ function _tunePage(toPageNo, pageNo, uri, selector, op, searchStr, method) {
     }
 }
 
+if(typeof(KindEditor)!='undefined') {
+
+    KindEditor.basePath = ctx + '/extend/ke4/';
+    KindEditor.lang({
+        clearstyle: '清除样式'
+    });
+    KindEditor.plugin('clearstyle', function (K) {
+        var self = this, name = 'clearstyle';
+        // 点击图标时执行
+        self.clickToolbar(name, function () {
+            self.exec('removeformat');
+            self.focus();
+            var html = self.html();
+            if ($.isBlank(html)) return;
+
+            html = html.replace(/(<script[^>]*>)([\s\S]*?)(<\/script>)/ig, '');
+            html = html.replace(/(<style[^>]*>)([\s\S]*?)(<\/style>)/ig, '');
+            html = html.removePStyle();
+            html = K.formatHtml(html, {
+                a: ['href', 'target'],
+                embed: ['src', 'width', 'height', 'type', 'loop', 'autostart', 'quality', '.width', '.height', 'align', 'allowscriptaccess'],
+                img: ['src', 'width', 'height', 'border', 'alt', 'title', '.width', '.height'],
+                table: ['border'],
+                'td,th': ['rowspan', 'colspan'],
+                'div,hr,br,tbody,tr,p,ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6': []
+            });
+            self.html(html);
+            self.cmd.selection(true);
+            self.addBookmark();
+        });
+    });
+}
 /*========jquery.validate.extend=====start===*/
 if (jQuery.validator) {
     jQuery.extend(jQuery.validator.messages, {
@@ -445,6 +477,9 @@ $.fn.extend({
 var _modal_width;
 (function ($) {
     $.extend({
+        isBlank:function(str){
+            return $.trim(str)=='';
+        },
         replace:function(str, searchValue, replaceValue){
             //console.log("str="+str)
             return $.trim(str).replace(searchValue, replaceValue);
@@ -551,7 +586,7 @@ var _modal_width;
                 if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget});
             });
         },
-        loadPdfModal: function (url, width, direction, dragTarget) { // 加载url内容，dragTarget：拖拽位置
+        loadPdfModal: function (path, pages, width, direction, dragTarget) { // 加载pdf图片预览，dragTarget：拖拽位置
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);
             if (width > 0) {
@@ -569,7 +604,19 @@ var _modal_width;
             var close = '<button type="button" style="padding: 20px; position: absolute;right: 0;top: -10px;z-index: 2222"'
                 // var close = '<button type="button" style="position: sticky;padding: 20px;top: 0px;z-index: 2222;"'
                 + 'data-dismiss="modal" aria-hidden="true" class="close">&times;</button>'
-            $('#modal .modal-content').html(close + "<div id='preview'><img src='" + url + "'></div>")
+
+            var imgs = "";
+            if(pages>0) {
+                for (var i = 1; i <= pages; i++) {
+                    imgs += ('<img data-src="{0}/m/pdf_image?path={1}&pageNo={2}" ' +
+                        'src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" ' +
+                        'onload="lzld(this)">').format(ctx, path, i);
+                }
+            }else{
+                imgs = "<img src='{0}/m/pdf_image?path={1}'>".format(ctx, path);
+            }
+
+            $('#modal .modal-content').html(close + "<div id='preview'>"+ imgs +"</div>")
             $("#preview img").width(window.screen.availWidth)
             $(".modal-dialog").css("margin", "0")
             $("#modal").modal('show').draggable({handle: dragTarget});
@@ -1555,7 +1602,7 @@ $.extend($.register, {
     },
     defaultTemplateResult: function (state) {
 
-        var $state = state.text;
+        var $state = $.trim(state.text);
         if ($.trim(state.type) != '')
             $state += ($state != '' ? '-' : '') + state.type;
         // 反转义
@@ -1989,13 +2036,8 @@ $.extend($.register, {
             _params = $.extend({}, params);
         }
         return $select.select2($.extend({
-            templateResult: _params.templateResult || function (state) {
-
-                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
-            },
-            templateSelection: _params.templateSelection || function (state) {
-                return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
-            },
+            templateResult: _params.templateResult || $.register.defaultTemplateResult,
+            templateSelection: _params.templateSelection || $.register.defaultTemplateResult,
             escapeMarkup: function (markup) {
                 return markup;
             },

@@ -71,8 +71,8 @@ $.register.m_click(".popupBtn", function () {
     $.loadModal(url, $(this).data("width"), $(this).data("direction"));
 })
 $.register.m_click(".popPdfView", function () {
-    var url = $(this).data("url");
-    $.loadPdfModal(url, $(this).data("width"), $(this).data("direction"));
+    $.loadPdfModal($(this).data("path"), $(this).data("pages"),
+        $(this).data("width"), $(this).data("direction"));
 })
 $.register.m_click(".confirm", function () {
     $.confirm(this);

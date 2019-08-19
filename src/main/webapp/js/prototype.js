@@ -61,6 +61,10 @@ String.prototype.htmldecode = function(){
 String.prototype.removeSpan = function(){
     return this.replace(/<span[^\>]*>(.*?)<\/span>/g, '$1');
 }
+// 移除p标签上的样式
+String.prototype.removePStyle = function(){
+    return this.replace(/<p([^\>])*>/g, '');
+}
 
 // 不足位数在前面填充0
 if (!String.prototype.zfill) {

@@ -1524,3 +1524,9 @@ span.delete, span.delete a {
 .prompt{
     cursor:help
 }
+/*kindeditor*/
+.ke-icon-clearstyle {
+        background-position: 0px -1008px;
+        width: 16px;
+        height: 16px;
+}
