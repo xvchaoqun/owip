@@ -21,6 +21,8 @@ ALTER TABLE `crs_post`
 	ADD COLUMN `unit_post_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '对应的岗位' AFTER `record_user_id`,
 	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '招聘岗位，如果选择了岗位则同步岗位信息' AFTER `unit_post_id`;
 
+20190819
+更新南航
 
 20190819
 

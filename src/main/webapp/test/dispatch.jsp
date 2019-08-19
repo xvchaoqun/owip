@@ -44,7 +44,7 @@
 
                     logger.info(dispatch.getDispatchCode());
                     try {
-                        PdfUtils.pdf2jpg(pdfFilePath, 300, PropertiesUtils.getString("gs.command"), 1);// 生成第一页
+                        PdfUtils.pdf2jpg(pdfFilePath, 150, PropertiesUtils.getString("gs.command"), 1);// 生成第一页
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
