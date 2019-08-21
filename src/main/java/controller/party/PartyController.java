@@ -4,7 +4,6 @@ import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.party.*;
-import domain.party.PartyExample.Criteria;
 import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -431,8 +430,8 @@ public class PartyController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PartyExample example = new PartyExample();
-        Criteria criteria = example.createCriteria();
+        PartyViewExample example = new PartyViewExample();
+        PartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("is_deleted asc, sort_order desc");
 
         if(del!=null){
@@ -472,20 +471,23 @@ public class PartyController extends BaseController {
             }
         }
 
-        long count = partyMapper.countByExample(example);
+        long count = partyViewMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<Party> partys = partyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<PartyView> records = partyViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
         List<Map<String, Object>> options = new ArrayList<>();
-        for(Party party:partys){
+        for(PartyView party:records){
 
             Map<String, Object> option = new HashMap<>();
             option.put("text", party.getName());
             option.put("id", party.getId());
             option.put("class", party.getClassId());
             option.put("del", party.getIsDeleted());
+
+            option.put("party", party);
+
             options.add(option);
         }
 
