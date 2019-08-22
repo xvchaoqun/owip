@@ -3,10 +3,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>选择</h3>
+    <h3>选择${param.type==1?'参会人员':'请假人员'}</h3>
 </div>
 <div class="modal-body rownumbers">
-    <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${param.partyId}&branchId=${param.branchId}"
+    <select data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${param.partyId}&branchId=${param.branchId}&status=${MEMBER_STATUS_NORMAL}"
             name="userId" data-placeholder="请输入账号或姓名或工号">
         <option></option>
     </select>
@@ -27,7 +27,6 @@
 </style>
 <script>
 
-   // var membersViews = ${cm:toJSONArray(rows)};
    var membersViews = ${cm:toJSONArray(membersViews)};
     var $selectPr = $.register.user_select($("#modal select[name=userId]"));
 
@@ -107,13 +106,16 @@
     //       //  console.log(users);
     //     });
     // });
-
-    $("#attendTable tbody tr").each(function(){
-        // console.log("$(this).data(\"user-id\")="+$(this).data("user-id"))
-        $("#jqGridPopup").jqGrid('setSelection', $(this).data("user-id"), true);
-        //users.remove($(this).data("user-id"));
-        //  console.log(users);
-    });
+     var table;
+    if(${param.type==1}){
+        table =$("#attendTable tbody tr");
+    }
+    if(${param.type==2}){
+        table =$("#absentTable tbody tr");
+    }
+       table.each(function(){
+            $("#jqGridPopup").jqGrid('setSelection', $(this).data("user-id"), true);
+        });
 
     $("#modal #selectBtn").click(function(){
 
@@ -122,13 +124,38 @@
 
         var users = [];
         $.each(userIds, function(i, userId){
-            if($("#attendTable tbody tr[data-user-id="+userId+"]").length>0) return true;
-
+            if($("#attendTable tbody tr[data-user-id="+userId+"]").length>0&&${param.type==1}) return true;
+            if($("#absentTable tbody tr[data-user-id="+userId+"]").length>0&&${param.type==2}) return true;
             var user = $("#jqGridPopup").getRowData(userId);
             users.push(user);
         })
+        if(${param.type==1}){
+            $("#attendTable tbody").append(_.template($("#seconder_tpl").html())({users: users}));
+            users.forEach(function(user){
 
-        $("#attendTable tbody").append(_.template($("#seconder_tpl").html())({users: users}));
+                $("#absentTable tbody tr").each(function(){
+                   if(user.userId==$(this).data("user-id")){
+                       $(this).remove();
+                   }
+                });
+            });
+            $("#modalForm input[name=attendNum]").val($("#attendTable tbody tr").length);
+            $("#modalForm input[name=absentNum]").val($("#absentTable tbody tr").length);
+        }
+
+        if(${param.type==2}){
+            $("#absentTable tbody").append(_.template($("#seconder_tpl").html())({users: users}));
+            users.forEach(function(user){
+
+                $("#attendTable tbody tr").each(function(){
+                    if(user.userId==$(this).data("user-id")){
+                        $(this).remove();
+                    }
+                });
+            });
+            $("#modalForm input[name=attendNum]").val($("#attendTable tbody tr").length);
+            $("#modalForm input[name=absentNum]").val($("#absentTable tbody tr").length);
+        }
 
         $("#modal").modal('hide');
     });

@@ -1,21 +1,27 @@
 package controller.pm;
 
-import domain.member.Member;
+import controller.global.OpException;
 
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
 
-import domain.party.Branch;
-import domain.party.Party;
+import domain.party.*;
 import domain.pm.PmMeeting;
 import domain.pm.PmMeetingExample;
 import domain.pm.PmMeetingFile;
 
 import domain.pm.PmMeetingFileExample;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,28 +32,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import persistence.member.MemberViewMapper;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import persistence.party.BranchViewMapper;
+import persistence.party.PartyViewMapper;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmConstants;
 
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
+import static sys.constants.MemberConstants.MEMBER_STATUS_NORMAL;
 import static sys.constants.PmConstants.*;
-import static sys.constants.RoleConstants.ROLE_ADMIN;
-import static sys.constants.RoleConstants.ROLE_ODADMIN;
-
+import static sys.helper.PartyHelper.isDirectBranch;
 
 @Controller
 
@@ -61,9 +69,15 @@ public class PmMeetingController extends PmBaseController {
                                Integer partyId,
                                Integer branchId,ModelMap modelMap) {
 
-        if (ShiroHelper.hasRole(ROLE_ODADMIN)&&!ShiroHelper.hasRole(ROLE_ADMIN)) {
-            cls=3;
+        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+        Map pmInitCount = iPmMapper.selectPmInitCount(type,addPermits,adminPartyIdList, adminBranchIdList);
+        if (pmInitCount != null) {
+            modelMap.putAll(pmInitCount);
         }
+
         modelMap.put("type", type);
         modelMap.put("cls", cls);
 
@@ -90,7 +104,9 @@ public class PmMeetingController extends PmBaseController {
                                   @RequestParam(defaultValue = "1") Integer cls,
                                   Integer partyId,
                                   Integer branchId,
+                                  String name,
                                   String issue,
+                                  Integer year,
                                   Byte quarter,
                                   @RequestDateRange DateRange _meetingDate,
                                   HttpServletResponse response, Integer pageSize, Integer pageNo)  throws IOException{
@@ -116,8 +132,14 @@ public class PmMeetingController extends PmBaseController {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
+        if (StringUtils.isNotBlank(name)) {
+            criteria.andNameLike(SqlUtils.like(name));
+        }
         if (StringUtils.isNotBlank(issue)) {
             criteria.andIssueLike(SqlUtils.like(issue));
+        }
+        if (year != null) {
+            criteria.andYearEqualTo(year);
         }
         if (quarter != null) {
             criteria.andQuarterEqualTo(quarter);
@@ -131,13 +153,16 @@ public class PmMeetingController extends PmBaseController {
         }
         switch (cls) {
             case 1:
-                criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_INIT);
+                criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_INIT).andIsBackNotEqualTo(true);
                 break;
             case 2:
-                criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_DENY);
+                criteria.andIsBackEqualTo(true);
                 break;
             case 3:
                 criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_PASS);
+                break;
+            case 4:
+                criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_DENY);
                 break;
             default:
                 break;
@@ -170,7 +195,6 @@ public class PmMeetingController extends PmBaseController {
         PmMeeting pmMeeting=new PmMeeting();
         if(id!=null){
             pmMeeting =pmMeetingMapper.selectByPrimaryKey(id);
-           // branchId=pmMeeting.getBranchId();
 
             PmMeetingFileExample example = new PmMeetingFileExample();
             example.createCriteria().andMeetingIdEqualTo(id);
@@ -180,11 +204,31 @@ public class PmMeetingController extends PmBaseController {
         } else {
             boolean odAdmin = ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
             if (!odAdmin) {
-                Integer loginUserId = ShiroHelper.getCurrentUserId();
-                Member member = memberService.get(loginUserId);
-                if (branchMemberService.isPresentAdmin(loginUserId, member.getPartyId(), member.getBranchId())) {
-                    pmMeeting.setPartyId(member.getPartyId());
-                    pmMeeting.setBranchId(member.getBranchId());
+
+                List<Integer> adminPartyIds = loginUserService.adminPartyIdList();
+                List<Integer> adminBranchIds = loginUserService.adminBranchIdList();
+                if(adminPartyIds.size()==0&&adminBranchIds.size()==1){
+                    pmMeeting.setPartyId(CmTag.getBranch(adminBranchIds.get(0)).getPartyId());
+                    pmMeeting.setBranchId(adminBranchIds.get(0));
+                    modelMap.put("adminOnePartyOrBranch",true);
+
+                    BranchViewMapper branchViewMapper = CmTag.getBean(BranchViewMapper.class);
+                    BranchViewExample example = new BranchViewExample();
+                    example.createCriteria().andIdEqualTo(pmMeeting.getBranchId()).andPartyIdEqualTo(pmMeeting.getPartyId());
+                    List<BranchView> branchViews= branchViewMapper.selectByExample(example);
+                    modelMap.put("memberCount",branchViews.get(0).getMemberCount());
+
+                }else if(adminPartyIds.size()==1&&adminBranchIds.size()==0&&isDirectBranch(adminPartyIds.get(0))){
+                    pmMeeting.setPartyId(adminPartyIds.get(0));
+                    modelMap.put("adminOnePartyOrBranch",true);
+
+                    PartyViewMapper partyViewMapper = CmTag.getBean(PartyViewMapper.class);
+                    PartyViewExample example = new PartyViewExample();
+                    example.createCriteria().andIdEqualTo(pmMeeting.getPartyId());
+                    List<PartyView> partyViews= partyViewMapper.selectByExample(example);
+                    modelMap.put("memberCount",partyViews.get(0).getMemberCount());
+                }else{
+                    modelMap.put("adminOnePartyOrBranch",false);
                 }
             }
         }
@@ -200,6 +244,7 @@ public class PmMeetingController extends PmBaseController {
     public Map partyBranchMeeting_au(PmMeeting record,Byte type,@RequestParam(defaultValue = "0")Byte reedit,    //reedit 重新编辑
                                      @RequestParam(value = "_files[]", required = false) MultipartFile[] _files, // 附件
                                      @RequestParam(value = "attendIds[]", required = false) String attendIds,//参会人员
+                                     @RequestParam(value = "absentIds[]", required = false) String absentIds,//参会人员
                                      HttpServletRequest request) throws InterruptedException, IOException {
         Integer id = record.getId();
         if (_files == null) _files = new MultipartFile[]{};
@@ -217,12 +262,11 @@ public class PmMeetingController extends PmBaseController {
             pmMeetingFiles.add(file);
         }
         if (id == null) {
-            if(StringUtils.isNotBlank(attendIds)){
-                record.setAttends(attendIds);
-            }
+            record.setAttends(attendIds);
+            record.setAbsents(absentIds);
             record.setType(type);
 
-            pmMeetingService.insertSelective(record);
+            pmMeetingService.insertSelective(record,pmMeetingFiles);
             logger.info(addLog(LogConstants.LOG_PM, "添加三会一课：%s",record.getId()));
 
         } else {
@@ -231,16 +275,12 @@ public class PmMeetingController extends PmBaseController {
                 record.setStatus(PM_MEETING_STATUS_INIT);
                 record.setIsBack(false);
             }
-            if(StringUtils.isNotBlank(attendIds)){
             record.setAttends(attendIds);
-            }
-            pmMeetingService.updateByPrimaryKeySelective(record);
-           logger.info(addLog(LogConstants.LOG_PM, "更新三会一课：%s", record.getId()));
+            record.setAbsents(absentIds);
+            pmMeetingService.updateByPrimaryKeySelective(record,pmMeetingFiles);
+            logger.info(addLog(LogConstants.LOG_PM, "更新三会一课：%s", record.getId()));
         }
-        for (PmMeetingFile pmMeetingFile : pmMeetingFiles) {
-            pmMeetingFile.setMeetingId(record.getId());
-            pmMeetingFileMapper.insertSelective(pmMeetingFile);
-        }
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -258,8 +298,13 @@ public class PmMeetingController extends PmBaseController {
 
     @RequiresPermissions("pmMeeting:edit")
     @RequestMapping("/pmMeeting_member")
-    public String pmMeeting_member(Integer partyId,Integer branchId,HttpServletRequest request, ModelMap modelMap) {
+    public String pmMeeting_member(Integer partyId,Integer branchId,Byte type,HttpServletRequest request, ModelMap modelMap) {
 
+        if(!ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)&&
+                !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),partyId)
+                &&!PartyHelper.isPresentBranchAdmin(ShiroHelper.getCurrentUserId(),partyId,branchId)){
+            throw new UnauthorizedException();
+        }
         MemberViewExample example = new MemberViewExample();
         MemberViewExample.Criteria criteria = example.createCriteria();
         if (partyId != null) {
@@ -268,53 +313,11 @@ public class PmMeetingController extends PmBaseController {
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
+        criteria.andStatusEqualTo(MEMBER_STATUS_NORMAL);
         List<MemberView> membersViews=memberViewMapper.selectByExample(example);
         modelMap.put("membersViews",membersViews);
         return "pm/pmMeeting/pmMeeting_member";
     }
-/*    @RequestMapping("/pmMeeting_memberData")
-    public void pmMeeting_memberData(Integer partyId,
-                                  Integer branchId,
-                                  HttpServletResponse response, Integer pageSize, Integer pageNo, ModelMap modelMap)  throws IOException{
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-        MemberViewExample example = new MemberViewExample();
-        MemberViewExample.Criteria criteria = example.createCriteria();
-
-        if (partyId != null) {
-            criteria.andPartyIdEqualTo(partyId);
-        }
-        if (branchId != null) {
-            criteria.andBranchIdEqualTo(branchId);
-        }
-
-        List<MemberView> records= memberViewMapper.selectByExample(example);
-        modelMap.put("rows", records);
-        long count = memberViewMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<MemberView> records= memberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        Map resultMap = new HashMap();
-        resultMap.put("rows", records);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
-        resultMap.put("total", commonList.pageNum);
-
-        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(partySchool.class, partySchoolMixin.class);
-        JSONUtils.jsonp(resultMap, baseMixins);
-        return;
-    }*/
 
     @RequiresPermissions("pmMeeting:approve")
     @RequestMapping( "/pmMeeting_check")
@@ -328,18 +331,163 @@ public class PmMeetingController extends PmBaseController {
     @RequestMapping(value = "/pmMeeting_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmMeeting_check(PmMeeting record,Boolean check,Boolean hasPass,HttpServletRequest request, ModelMap modelMap) {
-       if(check){
-           if(hasPass==null)
-               record.setStatus(PM_MEETING_STATUS_DENY);
-           else
-               record.setStatus(PM_MEETING_STATUS_PASS);
+       if(BooleanUtils.isTrue(check)){
+           record.setStatus(hasPass==null?PM_MEETING_STATUS_DENY:PM_MEETING_STATUS_PASS);
        }else{
-        record.setStatus(PM_MEETING_STATUS_DENY);
         record.setIsBack(true);
        }
         pmMeetingMapper.updateByPrimaryKeySelective(record);
         logger.info(addLog(LogConstants.LOG_PM, "审核三会一课：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pmMeeting:approve")
+    @RequestMapping("/pmMeeting_import")
+    public String member_import(ModelMap modelMap) {
+
+        return "pm/pmMeeting/pmMeeting_import";
+    }
+
+    // 导入会议
+    @RequiresPermissions("pmMeeting:approve")
+    @RequestMapping(value = "/pmMeeting_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_member_import(HttpServletRequest request) throws InvalidFormatException, IOException, InterruptedException {
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<String, Party> runPartyMap = new HashMap<>();
+        for (Party party : partyMap.values()) {
+            if (BooleanUtils.isNotTrue(party.getIsDeleted())) {
+                runPartyMap.put(party.getCode(), party);
+            }
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<String, Branch> runBranchMap = new HashMap<>();
+        for (Branch branch : branchMap.values()) {
+            if (BooleanUtils.isNotTrue(branch.getIsDeleted())) {
+                runBranchMap.put(branch.getCode(), branch);
+            }
+        }
+
+        Map<String, Byte> partyMeetingMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : PARTY_MEETING_MAP.entrySet()) {
+
+            partyMeetingMap.put(entry.getValue(), entry.getKey());
+        }
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        Map<String, Object> resultMap = null;
+
+        resultMap = importMeeting(xlsRows, runPartyMap, runBranchMap, partyMeetingMap);
+
+        int successCount = (int) resultMap.get("successCount");
+        int totalCount = (int) resultMap.get("total");
+
+        logger.info(log(LogConstants.LOG_PM,
+                "导入会议成功，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, successCount));
+
+        return resultMap;
+    }
+
+    private Map<String, Object> importMeeting(List<Map<Integer, String>> xlsRows,
+                                                     Map<String, Party> runPartyMap,
+                                                     Map<String, Branch> runBranchMap,
+                                                     Map<String, Byte> partyMeetingMap) throws InterruptedException {
+
+        //Date now = new Date();
+        List<PmMeeting> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            PmMeeting record = new PmMeeting();
+
+            String partyCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(partyCode)) {
+                throw new OpException("第{0}行分党委编码为空", row);
+            }
+            Party party = runPartyMap.get(partyCode);
+            if (party == null) {
+                throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
+            }
+            record.setPartyId(party.getId());
+            if (!partyService.isDirectBranch(party.getId())) {
+
+                String branchCode = StringUtils.trim(xlsRow.get(2));
+                if (StringUtils.isBlank(branchCode)) {
+                    throw new OpException("第{0}行党支部编码为空", row);
+                }
+                Branch branch = runBranchMap.get(branchCode);
+                if (branch == null) {
+                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
+                }
+                record.setBranchId(branch.getId());
+            }
+
+            String _partyMeetingType = StringUtils.trimToNull(xlsRow.get(4));
+            if (StringUtils.isBlank(_partyMeetingType)) {
+                throw new OpException("第{0}行会议类型为空", row);
+            }
+
+            Byte partyMeetingType = partyMeetingMap.get(_partyMeetingType);
+            if (partyMeetingType == null) {
+                throw new OpException("第{0}行会议类型[{1}]有误", row, _partyMeetingType);
+            }
+            record.setType(partyMeetingType);
+
+            String presenterCode = StringUtils.trim(xlsRow.get(5));
+            if (StringUtils.isBlank(presenterCode)) {
+                continue;
+            }
+
+            SysUserView presenter = sysUserService.findByCode(presenterCode);
+            if (presenter == null) {
+                throw new OpException("第{0}行主持人学工号[{1}]不存在", row, presenterCode);
+            }
+            record.setPresenter(presenter.getId());
+
+            String recorderCode = StringUtils.trim(xlsRow.get(7));
+            if (StringUtils.isBlank(recorderCode)) {
+                continue;
+            }
+            SysUserView recorder = sysUserService.findByCode(recorderCode);
+            if (recorder == null) {
+                throw new OpException("第{0}行记录人学工号[{1}]不存在", row, recorderCode);
+            }
+            record.setRecorder(recorder.getId());
+
+            int col = 9;
+            record.setName(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            //record.setCreateTime(now);
+            record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setDueNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setAttendNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setAbsentNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setInvitee(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setIssue(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setContent(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setDecision(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            records.add(record);
+        }
+
+        int successCount = pmMeetingService.pmMeetingImport(records);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 }

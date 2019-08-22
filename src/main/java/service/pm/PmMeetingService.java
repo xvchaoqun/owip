@@ -1,12 +1,11 @@
 package service.pm;
 
-import domain.member.Member;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
 import domain.pm.PmMeeting;
 import domain.pm.PmMeetingExample;
-import domain.sys.SysUserView;
-import domain.sys.SysUserViewExample;
+import domain.pm.PmMeetingFile;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -23,8 +22,8 @@ import sys.helper.PartyHelper;
 import java.util.*;
 
 import static sys.constants.PmConstants.*;
-import static sys.constants.RoleConstants.ROLE_BRANCHADMIN;
 import static sys.constants.RoleConstants.ROLE_ODADMIN;
+import static sys.constants.RoleConstants.ROLE_PARTYADMIN;
 
 @Service("PmMeetingService")
 public class PmMeetingService extends PmBaseMapper {
@@ -35,32 +34,51 @@ public class PmMeetingService extends PmBaseMapper {
     BranchMemberService branchMemberService;
 
     @Transactional
-    public void insertSelective(PmMeeting record) throws InterruptedException {
+    public void insertSelective(PmMeeting record, List<PmMeetingFile> pmMeetingFiles) throws InterruptedException {
+
         if(!ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)&&
                 !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId())
                 &&!PartyHelper.isPresentBranchAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
             throw new UnauthorizedException();
         }
 
-        record.setYear(getYear(record.getDate()));
-        record.setQuarter(getQuarter(record.getDate()));
+         if(record.getDate()!=null){
+                record.setYear(getYear(record.getDate()));
+                  record.setQuarter(getQuarter(record.getDate()));
+         }
+        record.setIsBack(false);
         record.setIsDelete(false);
 
-        if (ShiroHelper.hasRole(ROLE_ODADMIN)) {
+        if (ShiroHelper.hasRole(ROLE_ODADMIN)||ShiroHelper.hasRole(ROLE_PARTYADMIN)) {
             record.setStatus(PM_MEETING_STATUS_PASS);
         }else{
             record.setStatus(PM_MEETING_STATUS_INIT);
         }
 
-      pmMeetingMapper.insertSelective(record);
+        pmMeetingMapper.insertSelective(record);
+
+        if(pmMeetingFiles==null) return;
+
+        for (PmMeetingFile pmMeetingFile : pmMeetingFiles) {
+            pmMeetingFile.setMeetingId(record.getId());
+            pmMeetingFileMapper.insertSelective(pmMeetingFile);
+        }
+
     }
-    public void updateByPrimaryKeySelective(PmMeeting record){
+    public void updateByPrimaryKeySelective(PmMeeting record, List<PmMeetingFile> pmMeetingFiles){
+
         if(!ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)&&
                 !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId())
                 &&!PartyHelper.isPresentBranchAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
             throw new UnauthorizedException();
         }
+
         pmMeetingMapper.updateByPrimaryKeySelective(record);
+
+        for (PmMeetingFile pmMeetingFile : pmMeetingFiles) {
+            pmMeetingFile.setMeetingId(record.getId());
+            pmMeetingFileMapper.insertSelective(pmMeetingFile);
+        }
     }
 
     @Transactional
@@ -74,7 +92,7 @@ public class PmMeetingService extends PmBaseMapper {
 
     }
     // 获取所有参会人
-    public List<MemberView> getAttendList(String attendId) {
+    public List<MemberView> getMemberList(String attendId) {
        if(StringUtils.isNotBlank(attendId)){
            attendId.trim();
            String attend [] = attendId.split(",");
@@ -92,11 +110,23 @@ public class PmMeetingService extends PmBaseMapper {
             }
            return memberViews;
      }
-
         return null;
+    }
+    // 批量导入
+    @Transactional
+    public int pmMeetingImport(List<PmMeeting> records) throws InterruptedException {
+
+        int addCount = 0;
+
+        for (PmMeeting record : records) {
+            insertSelective(record,null);
+            addCount++;
+        }
+        return addCount;
     }
 
     public  int getYear(Date date){
+
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         int year = c.get(Calendar.YEAR);
@@ -133,6 +163,5 @@ public class PmMeetingService extends PmBaseMapper {
                 break;
         }
         return season;
-
     }
 }

@@ -23,6 +23,20 @@ public interface IPmMapper {
 
     @Select("select count(1) from pm_meeting where  branch_id=#{branchId}")
     public int getMeetingCount(@Param("branchId")Integer branchId);
+
+    Map selectPmInitCount(@Param("type") Byte type,
+                          @Param("addPermits") Boolean addPermits,
+                          @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+
+//    Map selectPmBackCount(@Param("adminPartyIdList") List<Integer> adminPartyIdList,
+//                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+//
+//    Map selectPmPassCount(@Param("adminPartyIdList") List<Integer> adminPartyIdList,
+//                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+//
+//    Map selectPmDenyCount(@Param("adminPartyIdList") List<Integer> adminPartyIdList,
+//                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);
     //@Select("select count(1) from pm_meeting where  branch_id=#{branchId} and type=#{type}")
    // public int getMeetingCount(@Param("branchId")Integer branchId,@Param("type")Byte type);
 }

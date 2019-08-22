@@ -15,43 +15,56 @@
             <table class="table table-bordered table-unhover">
                 <input class="form-control" type="hidden" name="id"
                        value="${param.id}">
-              <c:if test="${not empty pmMeeting.partyId &&not empty pmMeeting.branchId}">
+              <c:if test="${adminOnePartyOrBranch==true}">
                 <input class="form-control" type="hidden" name="partyId"
                        value="${pmMeeting.partyId}">
                 <input class="form-control" type="hidden" name="branchId"
                        value="${pmMeeting.branchId}">
               </c:if>
-                <c:if test="${empty pmMeeting.id&&empty pmMeeting.partyId}">
+                <c:if test="${adminOnePartyOrBranch!=true}">
                 <tr>
                     <div class="form-group">
-                        <td><span class="star">*</span>所属分党委</td>
-                        <td>
-                            <div class="col-xs-6">
-                                <select required class="form-control" data-rel="select2-ajax"
-                                            data-ajax-url="${ctx}/party_selects?auth=1"
-                                            name="partyId" data-placeholder="请选择" data-width="270">
-                                    <option value="${party.id}">${party.name}</option>
-                                </select>
-                            </div>
+                        <td><span class="star">*</span>所属党组织</td>
+                        <td colspan="3">
+                            <c:if test="${!edit}">
+                                ${cm:displayParty(pmMeeting.partyId,pmMeeting.branchId)}
+                            </c:if>
+
+                            <c:if test="${edit}">
+                                <div class="col-xs-5">
+                                    <select required class="form-control" data-rel="select2-ajax"
+                                                data-ajax-url="${ctx}/party_selects?auth=1"
+                                                name="partyId" data-placeholder="请选择分党委" data-width="250">
+                                        <option value="${pmMeeting.partyId}">${pmMeeting.party.name}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+                                    <%--<label class="col-xs-3 control-label">选择党支部</label>--%>
+                                    <div class="col-xs-5">
+                                        <select class="form-control"  data-rel="select2-ajax"
+                                                data-ajax-url="${ctx}/branch_selects?del=0&auth=1"
+                                                name="branchId" data-placeholder="请选择党支部" data-width="250">
+                                            <option value="${pmMeeting.branchId}">${pmMeeting.branch.name}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </c:if>
                         </td>
                     </div>
 
-                <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                    <td><span class="star">*</span>所属党支部</td>
-                    <td>
-                        <div class="col-xs-6">
-                            <select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
-                                    name="branchId" data-placeholder="请选择" data-width="270">
-                                <option value="${branch.id}">${branch.name}</option>
-                            </select>
-                        </div>
-                    </td>
-                </div>
                     <script>
                         $.register.party_branch_select($("#modalForm"), "branchDiv",
-                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${pmMeeting.partyId}",
+                            "${pmMeeting.party.classId}", "partyId", "branchId", true);
                     </script>
                 </tr>
+                </c:if>
+                <c:if test="${adminOnePartyOrBranch==true}">
+                <td><span class="star">*</span>所属党组织</td>
+                <td colspan="3">
+                   ${cm:displayParty(pmMeeting.partyId,pmMeeting.branchId)}
+                   <%-- ${cm:displayParty(pmMeeting.partyId,pmMeeting.branchId)}--%>
+                </td>
                 </c:if>
                 <tr>
                     <td width="100">会议名称</td>
@@ -66,7 +79,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>会议时间</td>
+                    <td><span class="star">*</span>会议时间</td>
                     <td>
                         <c:if test="${!edit}">
                             ${cm:formatDate(pmMeeting.date, "yyyy-MM-dd HH:mm")}
@@ -82,14 +95,15 @@
                         </c:if>
                    </td>
 
-                    <td>主持人</td>
+                    <td><span class="star">*</span>主持人</td>
                     <td>
                         <c:if test="${!edit}">
                             ${pmMeeting.presenterName.realname}
                         </c:if>
                         <c:if test="${edit}">
-                        <select  required  data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?branchId=${pmMeeting.branchId}" data-width="350"
-                                 id="presenter" name="presenter" data-placeholder="请选择">
+                        <select  ${empty pmMeeting.partyId&&empty pmMeeting.branchId?'disabled="disabled"':''}
+                                required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${pmMeeting.partyId}&branchId=${pmMeeting.branchId}&status=${MEMBER_STATUS_NORMAL}"
+                                data-width="270" id="presenter" name="presenter" data-placeholder="请选择">
                             <option value="${pmMeeting.presenter}">${pmMeeting.presenterName.realname}-${pmMeeting.presenterName.code}</option>
                         </select>
                         </c:if>
@@ -97,7 +111,7 @@
 
                 </tr>
                 <tr>
-                    <td>会议地点</td>
+                    <td><span class="star">*</span>会议地点</td>
                     <td>
                         <c:if test="${!edit}">
                            ${pmMeeting.address}
@@ -107,14 +121,15 @@
                                    value="${pmMeeting.address}">
                         </c:if>
                     </td>
-                    <td>记录人</td>
+                    <td><span class="star">*</span>记录人</td>
                     <td>
                         <c:if test="${!edit}">
                             ${pmMeeting.recorderName.realname}
                         </c:if>
                         <c:if test="${edit}">
-                        <select  required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?branchId=${pmMeeting.branchId}" data-width="350"
-                                 id="recorder" name="recorder" data-placeholder="请选择">
+                        <select ${empty pmMeeting.partyId&&empty pmMeeting.branchId?'disabled="disabled"':''}
+                                required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${pmMeeting.partyId}&branchId=${pmMeeting.branchId}&status=${MEMBER_STATUS_NORMAL}"
+                                data-width="270" id="recorder" name="recorder" data-placeholder="请选择">
                             <option value="${pmMeeting.recorder}">${pmMeeting.recorderName.realname}-${pmMeeting.recorderName.code}</option>
                         </select>
                         </c:if>
@@ -123,9 +138,110 @@
                         </script>
                     </td>
                 </tr>
+
                 <tr>
-                    <td>列席人员</td>
+                    <td>参会人员
+                        <c:if test="${edit}">
+
+                            <button type="button" id ="attend" ${empty pmMeeting.partyId&&empty pmMeeting.branchId?'disabled="disabled"':''}
+                            class="popupBtn btn btn-info btn-xs"
+                            data-width="900"
+                            data-url="${ctx}/pmMeeting_member?type=1&partyId=${pmMeeting.partyId}&branchId=${pmMeeting.branchId}">
+                            <i class="fa fa-plus-circle"></i> 选择</button>
+                        </c:if>
+                    </td>
                     <td colspan="3">
+                        <div style="height:200px; overflow:auto;">
+                        <table id="attendTable"  class="table table-bordered table-condensed"
+                        data-pagination="true" data-side-pagination="client" data-page-size="5">
+                            <thead>
+                            <tr>
+                                <th width="30%">工作证号</th>
+                                <th>党员姓名</th>
+                                <th>党内职务</th>
+                                <th>手机号</th>
+                                <c:if test="${edit}">
+                                    <th></th>
+                                </c:if>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>请假人员
+                        <c:if test="${edit}">
+                            <button type="button" id ="absent" ${empty pmMeeting.partyId&&empty pmMeeting.branchId?'disabled="disabled"':''}
+                               class="popupBtn btn btn-info btn-xs"
+                               data-width="900"
+                               data-url="${ctx}/pmMeeting_member?type=2&partyId=${pmMeeting.partyId}&branchId=${pmMeeting.branchId}">
+                                <i class="fa fa-plus-circle"></i> 选择</button>
+                        </c:if>
+                    </td>
+                    <td colspan="3">
+                        <div style="height:135px; overflow:auto;">
+                            <table id="absentTable"  class="table table-bordered table-condensed"
+                                   data-pagination="true" data-side-pagination="client" data-page-size="5">
+                                <thead>
+                                <tr>
+                                    <th width="30%">工作证号</th>
+                                    <th>党员姓名</th>
+                                    <th>党内职务</th>
+                                    <th>手机号</th>
+                                    <c:if test="${edit}">
+                                         <th></th>
+                                    </c:if>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td><span class="star">*</span>实到人数</td>
+                    <td>
+                        <c:if test="${!edit}">
+                            ${pmMeeting.attendNum}
+                        </c:if>
+                        <c:if test="${edit}">
+                            <input required class="form-control" type="text" name="attendNum"
+                                   value="${pmMeeting.attendNum}">
+                        </c:if>
+                    </td>
+                    <td><span class="star">*</span>请假人数</td>
+                    <td>
+                        <c:if test="${!edit}">
+                            ${pmMeeting.absentNum}
+                        </c:if>
+                        <c:if test="${edit}">
+                            <input  required class="form-control" type="text" name="absentNum"
+                                    value="${pmMeeting.absentNum}">
+                        </c:if>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="star">*</span>应到人数</td>
+                    <td>
+                        <c:if test="${!edit}">
+                            ${empty pmMeeting.dueNum?allMembersNum:pmMeeting.dueNum}
+                        </c:if>
+                        <c:if test="${edit}">
+                        <input required  class="form-control" type="text" name="dueNum"
+                               value="${pmMeeting.dueNum}">
+                        </c:if>
+                    </td>
+
+                    <td>列席人员</td>
+                    <td>
                         <c:if test="${!edit}">
                             ${pmMeeting.invitee}
                         </c:if>
@@ -136,89 +252,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>参会人员
-                        <a href="javascript:;"
-                           class="popupBtn btn btn-info btn-xs"
-                           data-width="900"
-                           data-url="${ctx}/pmMeeting_member?partyId=${pmMeeting.partyId}&branchId=${pmMeeting.branchId}">
-                            <i class="fa fa-plus-circle"></i> 选择</a></td>
-                    <td colspan="3">
-                        <div style="height:200px; overflow:auto;">
-                        <table id="attendTable"  class="table table-bordered table-condensed"
-                        data-pagination="true" data-side-pagination="client" data-page-size="5">
-                            <thead>
-                            <tr>
-                                <th>工作证号</th>
-                                <th>党员姓名</th>
-                                <th>党内职务</th>
-                                <th>手机号</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                        </div>
-                        <%--<c:if test="${!edit&&not empty pmMeeting.users}">--%>
-                            <%--<c:forEach items="${pmMeeting.users}" var="user">--%>
-                                <%--${user.realname}、--%>
-                            <%--</c:forEach>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${edit}">--%>
-                   <%----%>
-                        <%--</c:if>--%>
-                    </td>
-                </tr>
-                <tr>
-                    <td>请假人员</td>
-                    <td>
-                    <c:if test="${!edit}">
-                        DFJ
-                    </c:if>
-                    <%--<c:if test="${edit}">--%>
-                        <%--<select class="multiselect" name="absents" multiple="">--%>
-                            <%--&lt;%&ndash;<c:forEach items="${membersViews}" var="memberView">&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<option value="${memberView.userId}">${memberView.realname}</option>&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;</c:forEach>&ndash;%&gt;--%>
-                        <%--</select>--%>
-                    <%--</c:if>--%>
-                    </td>
-                    <td>请假人数</td>
-                    <td>
-                        <c:if test="${!edit}">
-                            ${pmMeeting.absentNum}
-                        </c:if>
-                        <c:if test="${edit}">
-                        <input  required class="form-control" type="text" name="absentNum"
-                               value="${pmMeeting.absentNum}">
-                        </c:if>
-                    </td>
-                </tr>
-                <tr>
-                    <td>应到人数</td>
-                    <td>
-                        <c:if test="${!edit}">
-                            ${empty pmMeeting.dueNum?allMembersNum:pmMeeting.dueNum}
-                        </c:if>
-                        <c:if test="${edit}">
-                        <input required  class="form-control" type="text" name="dueNum"
-                               value="${pmMeeting.dueNum}">
-                        </c:if>
-                    </td>
-                    <td>实到人数</td>
-                    <td>
-                        <c:if test="${!edit}">
-                            ${pmMeeting.attendNum}
-                        </c:if>
-                        <c:if test="${edit}">
-                        <input required class="form-control" type="text" name="attendNum"
-                               value="${pmMeeting.attendNum}">
-                        </c:if>
-                    </td>
-                </tr>
-                <tr>
-                    <td>会议议题</td>
+                    <td><span class="star">*</span>会议议题</td>
                     <td colspan="3">
                         <c:if test="${!edit}">
                             ${pmMeeting.issue}
@@ -231,7 +265,7 @@
                 </tr>
 
                 <tr>
-                    <td style="padding: 80px">会议内容</td>
+                    <td style="padding: 80px"><span class="star">*</span>会议内容</td>
                     <td colspan="3">
                         <c:if test="${!edit}">
                             ${pmMeeting.content}
@@ -369,60 +403,130 @@
         <td>{{=u.realname}}</td>
         <td>{{=u.partyPost}}</td>
         <td>{{=u.mobile}}</td>
-        <td>
-            <button ${!allowModify?"":"disabled"} class="delRowBtn btn btn-danger btn-xs"><i class="fa fa-minus-circle"></i> 移除</button>
-        </td>
+        <c:if test="${edit}">
+            <td>
+               <button ${!allowModify?"":"disabled"} class="delRowBtn btn btn-danger btn-xs"><i class="fa fa-minus-circle"></i> 移除</button>
+            </td>
+        </c:if>
     </tr>
     {{});}}
 </script>
 <script>
+    var presenterSelect = $('#modalForm select[name="presenter"]');
+    var recorderSelect = $('#modalForm select[name="recorder"]');
 
     $.register.datetime($('.datetime-picker'));
-    //$.register.multiselect($('#modalForm select[class="multiselect"]'));
-   // $('#modalForm [data-rel="select2"]').select2();
 
-    $.register.user_select($('#modalForm select[name=presenter]'));
-    $.register.user_select($('#modalForm select[name=recorder]'));
+    $.register.user_select(presenterSelect);
+    $.register.user_select(recorderSelect);
     $("#modalForm input[name=isPublic]").bootstrapSwitch();
-    $("#attendTable tbody").append(_.template($("#seconder_tpl").html())({users: ${cm:toJSONArray(pmMeeting.attendList)}}));
 
-    $('#modalForm select[name="branchId"]').on('change',function(){
-        var partyId=$('#modalForm select[name=partyId]').val();
-        var branchId=$('#modalForm select[name=branchId]').val();
-        $('#modalForm select[name="presenter"]').data('ajax-url', "${ctx}/member_selects?branchId="+branchId);
-        $('#modalForm select[name="recorder"]').data('ajax-url', "${ctx}/member_selects?branchId="+branchId);
-        $.register.user_select($('#modalForm select[name=presenter]'));
-        $.register.user_select($('#modalForm select[name=recorder]'));
-       $("a").data('url', "pmMeeting_member?partyId="+partyId+"&branchId="+branchId);
+    $("#attendTable tbody").append(_.template($("#seconder_tpl").html())({users: ${cm:toJSONArray(pmMeeting.attendList)}}));
+    $("#absentTable tbody").append(_.template($("#seconder_tpl").html())({users: ${cm:toJSONArray(pmMeeting.absentList)}}));
+
+    if(${adminOnePartyOrBranch==true}){
+        $("#modalForm input[name=dueNum]").val(${memberCount});
+    }
+
+    var partySelect = $('#modalForm select[name="partyId"]');
+    partySelect.on('change',function(){
+        var partyId=partySelect.val();
+        if ($.isBlank(partyId)){
+            $("#modalForm input[name=dueNum]").val('');
+            presenterSelect.attr("disabled",true);
+            recorderSelect.attr("disabled",true);
+            $('#attend').attr("disabled",true);
+            $('#absent').attr("disabled",true);
+            return;
+        }
+        var data = partySelect.select2("data")[0];
+        if(data.class==${cm:getMetaTypeByCode("mt_direct_branch").id}){
+
+
+            presenterSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&status="+${MEMBER_STATUS_NORMAL});
+            recorderSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&status="+${MEMBER_STATUS_NORMAL});
+
+            $.register.user_select(presenterSelect);
+            $.register.user_select(recorderSelect);
+
+            $('#attend').data('url', "pmMeeting_member?type=1&partyId="+partyId);
+            $('#absent').data('url', "pmMeeting_member?type=2&partyId="+partyId);
+
+            presenterSelect.removeAttr("disabled");
+            recorderSelect.removeAttr("disabled");
+            $('#attend').removeAttr("disabled");
+            $('#absent').removeAttr("disabled");
+
+            var data = partySelect.select2("data")[0];
+            $("#modalForm input[name=dueNum]").val(data['party'].memberCount);
+        }
+
+     });
+
+    var branchSelect = $('#modalForm select[name="branchId"]');
+    branchSelect.on('change',function(){
+
+        var partyId=partySelect.val();
+        var branchId=branchSelect.val();
+        //console.log(branchSelect.select2("data"));
+        //console.log("branchSelect："+branchId);
+        if ($.isBlank(branchId)){
+            $("#modalForm input[name=dueNum]").val('');
+            presenterSelect.attr("disabled",true);
+            recorderSelect.attr("disabled",true);
+            $('#attend').attr("disabled",true);
+            $('#absent').attr("disabled",true);
+            return;
+        }
+
+        presenterSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&branchId="+branchId+"&status="+${MEMBER_STATUS_NORMAL});
+        recorderSelect.data('ajax-url', "${ctx}/member_selects?partyId="+partyId+"&branchId="+branchId+"&status="+${MEMBER_STATUS_NORMAL});
+
+        $.register.user_select(presenterSelect);
+        $.register.user_select(recorderSelect);
+
+        $('#attend').data('url', "pmMeeting_member?type=1&partyId="+partyId+"&branchId="+branchId);
+        $('#absent').data('url', "pmMeeting_member?type=2&partyId="+partyId+"&branchId="+branchId);
+
+        presenterSelect.removeAttr("disabled");
+        recorderSelect.removeAttr("disabled");
+        $('#attend').removeAttr("disabled");
+        $('#absent').removeAttr("disabled");
+
+        var data = branchSelect.select2("data")[0];
+        //console.log(branchSelect.select2("data"));
+        if(data['branch']) {
+            console.log('--------')
+            $("#modalForm input[name=dueNum]").val(data['branch'].memberCount);
+        }else{
+            console.log(data)
+        }
+      // console.log(data['branch'].memberCount);
        });
 
-    // $('#modalForm select[name="attends"]').on('change',function(){
-    //     if($('#modalForm select[name="attends"]').val()!=null){
-    //         $('input[name="attendNum"]').val($('#modalForm select[name="attends"]').val().length);
-    //         }else{
-    //             $('input[name="attendNum"]').val(undefined);
-    //         }
-    // });
-    // $('#modalForm select[name="absents"]').on('change',function(){
-    //     if($('#modalForm select[name="absents"]').val()!=null){
-    //         $('input[name="absentNum"]').val($('#modalForm select[name="absents"]').val().length);
-    //     }else{
-    //         $('input[name="absentNum"]').val(undefined);
-    //     }
-    // });
-    $(document).on("click", ".delRowBtn", function () {
+    $(document).on("click", "#attendTable button", function () {
 
         $(this).closest("tr").remove();
-    })
+        $("#modalForm input[name=attendNum]").val($("#attendTable tbody tr").length);
+    });
+    $(document).on("click", "#absentTable button", function () {
+        $(this).closest("tr").remove();
+        $("#modalForm input[name=absentNum]").val($("#absentTable tbody tr").length);
+
+    });
+
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             var attendIds = [];
+            var absentIds = [];
             $("#attendTable tbody tr").each(function(){
                 attendIds.push($(this).data("user-id"));
             });
-            //alert(inviteIds)
-            var data = {attendIds:attendIds};
+            $("#absentTable tbody tr").each(function(){
+                absentIds.push($(this).data("user-id"));
+            });
+            var data = {attendIds:attendIds,absentIds:absentIds};
 
             $(form).ajaxSubmit({
                 data: data,
@@ -457,12 +561,11 @@
             if (result) {
                 $.post("${ctx}/pmMeetingFile_del", {id: id}, function (ret) {
                     if (ret.success) {
-                        //SysMsg.success("删除成功",'',function(){
+
                         $("#file" + id).remove();
                         if ($("#fileGroup").find(".file").length == 0) {
                             $("#fileGroup").remove();
                         }
-                        //});
                     }
                 });
             }

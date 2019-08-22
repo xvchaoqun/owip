@@ -23,4 +23,5 @@ public class PmBaseMapper extends CoreBaseMapper {
     protected PmQuarterBranchMapper pmQuarterBranchMapper;
     @Autowired
     protected PmExcludeBranchMapper pmExcludeBranchMapper;
+
 }

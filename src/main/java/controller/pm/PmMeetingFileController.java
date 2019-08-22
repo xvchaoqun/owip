@@ -12,6 +12,7 @@ import domain.pm.PmMeetingFileExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -51,7 +52,7 @@ public class PmMeetingFileController extends PmBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-//    @RequiresPermissions("partyBranchMeeting:list")
+    @RequiresPermissions("pmMeeting:list")
     @RequestMapping("/pmMeetingFile")
     public String pmMeetingFile(Integer id,ModelMap modelMap) {
 
@@ -69,34 +70,21 @@ public class PmMeetingFileController extends PmBaseController {
             return failed("附件不能为空。");
         }
 
-//        pmMeetingFileService.checkAuth(taskId, null);
-
-        for (MultipartFile file : files) {
-
-            PmMeetingFile record = new PmMeetingFile();
-            record.setMeetingId(id);
-            record.setFileName(file.getOriginalFilename());
-            record.setFilePath(upload(file, "pmMeetingFile"));
-
-            pmMeetingFileMapper.insertSelective(record);
-           logger.info(addLog(LogConstants.LOG_PM, "添加三会一课附件：%s", record.getFileName()));
-
-        }
+        pmMeetingFileService.insertMeetingFiles(id,files);
+        logger.info(addLog(LogConstants.LOG_PM, "添加三会一课附件"));
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("pmMeeting:edit")
     @RequestMapping(value = "/pmMeetingFile_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmMeetingFile_del(HttpServletRequest request, Integer id) {
 
         PmMeetingFile pmMeetingFile = pmMeetingFileMapper.selectByPrimaryKey(id);
 
-      //  PmMeeting pmMeeting = pmMeetingMapper.selectByPrimaryKey(pmMeetingFile.getMeetingId());
-      //  pmMeetingService.checkAuth(pmMeeting.getId(), null);
-
         pmMeetingFileMapper.deleteByPrimaryKey(id);
-       // logger.info(addLog(LogConstants.LOG_OA, "删除协同办公任务附件：%s", oaTaskFile.getFileName()));
+        logger.info(addLog(LogConstants.LOG_OA, "删除协同办公任务附件：%s", pmMeetingFile.getFileName()));
 
         return success(FormUtils.SUCCESS);
     }
