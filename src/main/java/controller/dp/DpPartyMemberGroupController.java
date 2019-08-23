@@ -1,14 +1,13 @@
 package controller.dp;
 
 import controller.global.OpException;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchUnit;
 import domain.dp.DpParty;
 import domain.dp.DpPartyMemberGroup;
 import domain.dp.DpPartyMemberGroupExample;
 import domain.dp.DpPartyMemberGroupExample.Criteria;
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchUnit;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import mixin.DpPartyMemberGroupOptionMiXin;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -64,7 +65,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
         modelMap.put("status", status);
 
         if (null != partyId){
-            modelMap.put("dp", dpPartyService.findAll().get(partyId));
+            modelMap.put("dpParty", dpPartyService.findAll().get(partyId));
         }
         if (null != userId){
             modelMap.put("sysUser", sysUserService.findById(userId));
@@ -85,13 +86,11 @@ public class DpPartyMemberGroupController extends DpBaseController {
     @ResponseBody
     public void dpPartyMemberGroup_data(HttpServletResponse response,
                                         @RequestParam(required = false, defaultValue = "1") Byte status,
-                                        @SortParam(required = false, defaultValue = "sort_order", tableName = "dp_party_member_group") String sort,
-                                        @OrderParam(required = false, defaultValue = "desc") String order,
                                         Integer id,
                                         String name,
                                         Integer partyId,
                                         Boolean isPresent,
-                                        @RequestDateRange DateRange _apponitTime,
+                                        @RequestDateRange DateRange _appointTime,
                                         @RequestDateRange DateRange _tranTime,
                                         @RequestParam(required = false, defaultValue = "0") int export,
                                         @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -108,34 +107,27 @@ public class DpPartyMemberGroupController extends DpBaseController {
         DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("is_present desc, sort_order desc, appoint_time desc");
-
+        //=======权限
+        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
         criteria.andIsDeletedEqualTo(status == -1);
 
-        /*//=======权限
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
-            List<Integer> dpPartyList = loginUserService.adminDpPartyIdList();
-            if (dpPartyList.size()>0){
-                criteria.andPartyIdIn(dpPartyList);
-            }
-        }*/
-
+        if (id != null){
+            criteria.andIdEqualTo(id);
+        }
         if (null != isPresent){
             criteria.andIsPresentEqualTo(isPresent);
         }
         if (null != name){
             criteria.andNameLike(SqlUtils.like(name));
         }
-        if (id!=null) {
-            criteria.andIdEqualTo(id);
-        }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        if (null != _apponitTime.getStart()){
-            criteria.andAppointTimeGreaterThanOrEqualTo(_apponitTime.getStart());
+        if (null != _appointTime.getStart()){
+            criteria.andAppointTimeGreaterThanOrEqualTo(_appointTime.getStart());
         }
-        if (null != _apponitTime.getEnd()){
-            criteria.andAppointTimeLessThanOrEqualTo(_apponitTime.getEnd());
+        if (null != _appointTime.getEnd()){
+            criteria.andAppointTimeLessThanOrEqualTo(_appointTime.getEnd());
         }
         if (null != _tranTime.getStart()){
             criteria.andTranTimeGreaterThanOrEqualTo(_tranTime.getStart());
@@ -165,7 +157,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(dpPartyMemberGroup.class, dpPartyMemberGroupMixin.class);
+        baseMixins.put(DpPartyMemberGroup.class, DpPartyMemberGroupOptionMiXin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
@@ -327,7 +319,10 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
     @RequestMapping("/dpPartyMemberGroup_selects")
     @ResponseBody
-    public Map dpPartyMemberGroup_selects(Integer partyId, Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map dpPartyMemberGroup_selects(Integer partyId,Boolean auth,
+                                          Boolean del,
+                                          Boolean isPresent,
+                                          Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -339,15 +334,30 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
         DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
         Criteria criteria = example.createCriteria();
+        example.setOrderByClause("is_deleted asc, sort_order desc");
+
+        if (del != null){
+            criteria.andIsDeletedEqualTo(del);
+        }
+        if (isPresent != null){
+            criteria.andIsPresentEqualTo(isPresent);
+        }
         if (null !=partyId){
             criteria.andPartyIdEqualTo(partyId);
-        }else {
-            criteria.andIdIsNull();
         }
-        example.setOrderByClause("sort_order desc");
+        if (StringUtils.isNotBlank(searchStr)){
+            criteria.andIdEqualTo(Integer.valueOf(searchStr.trim()));
+        }
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike(SqlUtils.like(searchStr));
+        //======权限
+        if (BooleanUtils.isTrue(auth)){
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
+                List<Integer> dpPartyList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
+                if (dpPartyList.size() > 0)
+                    criteria.andPartyIdIn(dpPartyList);
+                else
+                    criteria.andPartyIdIsNull();
+            }
         }
 
         long count = dpPartyMemberGroupMapper.countByExample(example);
@@ -357,7 +367,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
         }
         List<DpPartyMemberGroup> records = dpPartyMemberGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List options = new ArrayList<>();
+        List<Map<String, Object>> options = new ArrayList<>();
         if(null != records && records.size()>0){
 
             for(DpPartyMemberGroup record:records){
@@ -365,6 +375,9 @@ public class DpPartyMemberGroupController extends DpBaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getName());
                 option.put("id", record.getId() + "");
+                option.put("partyId", record.getPartyId());
+                option.put("del", record.getIsDeleted());
+                option.put("isPresent", record.getIsPresent());
 
                 options.add(option);
             }
@@ -378,13 +391,14 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
     @RequiresPermissions("dpPartyMemberGroup:edit")
     @RequestMapping("/dpPartyMemberGroup_import")
-    public String dpPartyMemberGroup_import(){
+    public String dpPartyMemberGroup_import(ModelMap modelMap){
 
         return "dp/dpPartyMemberGroup/dpPartyMemberGroup_import";
     }
 
     @RequiresPermissions("dpPartyMemberGroup:edit")
     @RequestMapping(value = "/dpPartyMemberGroup_import", method = RequestMethod.POST)
+    @ResponseBody
     public Map do_dpPartyMemberGroup_import(HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -421,7 +435,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
             String tranTime = StringUtils.trimToNull(xlsRow.get(5));
             record.setTranTime(DateUtils.parseStringToDate(tranTime));
             if (record.getIsPresent()){
-                String actualTranTime = StringUtils.trimToNull(xlsRow.get(5));
+                String actualTranTime = StringUtils.trimToNull(xlsRow.get(6));
                 record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
             }
             record.setIsDeleted(false);

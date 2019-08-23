@@ -10,15 +10,14 @@ import domain.base.MetaType;
 import domain.cadre.CadreViewExample;
 import domain.cet.CetTrainEvaTable;
 import domain.dispatch.DispatchType;
+import domain.dp.DpParty;
+import domain.dp.DpPartyMemberGroup;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import mixin.MetaTypeOptionMixin;
-import mixin.OptionMixin;
-import mixin.PartyOptionMixin;
-import mixin.UnitOptionMixin;
+import mixin.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.cache.Cache;
@@ -36,6 +35,8 @@ import service.base.MetaTypeService;
 import service.cadre.CadreAdminLevelService;
 import service.cadre.CadrePostService;
 import service.dispatch.DispatchTypeService;
+import service.dp.DpPartyMemberGroupService;
+import service.dp.DpPartyService;
 import service.party.BranchService;
 import service.party.PartyService;
 import service.sys.SysPropertyService;
@@ -62,6 +63,10 @@ import java.util.*;
 @Service(value="cacheService")
 public class CacheService extends BaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected DpPartyMemberGroupService dpPartyMemberGroupService;
+    @Autowired
+    protected DpPartyService dpPartyService;
     @Autowired
     protected CountMapper countMapper;
     @Autowired
@@ -311,6 +316,8 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
 
         Map<Class<?>, Class<?>> baseMixins = new HashMap<>();
+        baseMixins.put(DpPartyMemberGroup.class, DpPartyMemberGroupOptionMiXin.class);
+        baseMixins.put(DpParty.class, DpPartyOptionMiXin.class);
         baseMixins.put(MetaType.class, MetaTypeOptionMixin.class);
         baseMixins.put(Party.class, PartyOptionMixin.class);
         baseMixins.put(Branch.class, PartyOptionMixin.class);
@@ -340,6 +347,8 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
 
         Map map = new HashMap<>();
 
+        map.put("dpPartyMemberGroupMap", dpPartyMemberGroupService.findAll());
+        map.put("dpPartyMap", dpPartyService.findAll());
         map.put("partyMap", partyService.findAll());
         map.put("branchMap", branchService.findAll());
 

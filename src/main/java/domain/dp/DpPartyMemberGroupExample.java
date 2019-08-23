@@ -1,5 +1,8 @@
 package domain.dp;
 
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -807,6 +810,20 @@ public class DpPartyMemberGroupExample {
 
         protected Criteria() {
             super();
+        }
+
+        public DpPartyMemberGroupExample.Criteria addPermits(List<Integer> partyIdList) {
+
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+            if(partyIdList.isEmpty())
+                andPartyIdIsNull();
+            return this;
         }
     }
 

@@ -2,7 +2,8 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="DP_MEMBER_SOURCE_MAP" value="<%=DpConstants.DP_MEMBER_SOURCE_MAP%>"/>
-<c:set var="DP_MEMBER_SOURCE_MAP" value="<%=DpConstants.DP_MEMBER_SOURCE_MAP%>"/>
+<c:set var="DP_MEMBER_POLITICAL_STATUS_MAP" value="<%=DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP%>"/>
+<c:set var="DP_MEMBER_STATUS_MAP" value="<%=DpConstants.DP_MEMBER_STATUS_MAP%>"/>
 <c:set var="DP_MEMBER_POLITICAL_STATUS_GROW" value="<%=DpConstants.DP_MEMBER_POLITICAL_STATUS_GROW%>"/>
 
 <div class="widget-box">
@@ -17,7 +18,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-		<jsp:include page="/WEB-INF/jsp/ext/student_info_table.jsp"/>
+		<jsp:include page="/WEB-INF/jsp/dp/dpUserInfo/dpStudent_info_table.jsp"/>
         </div>
     </div>
 </div>
@@ -40,7 +41,7 @@
                         所属组织机构
                     </td>
                     <td class="bg-left" colspan="5">
-                        ${cm:displayParty(member.partyId, member.branchId)}
+                        <span class="${dpParty.isDeleted ? "delete" :""}">${dpParty.name}</span>
                     </td>
 
                 </tr>
@@ -48,17 +49,6 @@
                     <td class="bg-right">党籍状态</td>
                     <td class="bg-left">
                         ${DP_MEMBER_POLITICAL_STATUS_MAP.get(dpMember.politicalStatus)}
-                        <shiro:hasPermission name="dpMember:edit">
-                            <c:if test="${dpMember.politicalStatus==DP_MEMBER_POLITICAL_STATUS_GROW}">
-                                &nbsp;
-                                <button class="confirm btn btn-xs btn-primary"
-                                        data-title="同步预备党员"
-                                        data-msg="确定将此预备党员信息导入<span style='color:red;font-weight:bolder;'>[入党申请管理-预备党员]支部审核阶段</span>？"
-                                        data-url="${ctx}/snyc_memberApply?userId=${param.userId}">
-                                    <i class="fa fa-random "></i> 同步至入党申请列表
-                                </button>
-                            </c:if>
-                        </shiro:hasPermission>
                     </td>
                     <td class="bg-right">状态</td>
                     <td class="bg-left">
@@ -76,7 +66,7 @@
                         入党时间
                     </td>
                     <td class="bg-left" width="150">
-                        ${cm:formatDate(dpMember.growTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.growTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         入党介绍人
@@ -85,49 +75,28 @@
                         ${dpMember.sponsor}
                     </td>
                     <td class="bg-right">
-                        入党时所在党支部
-                    </td>
-                    <td class="bg-left">
-                        ${dpMember.growBranch}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="bg-right">
                         转正时间
                     </td>
                     <td class="bg-left">
-                        ${cm:formatDate(dpMember.positiveTime,'yyyy-MM-dd')}
-                    </td>
-                    <td class="bg-right">
-                        转正时所在党支部
-                    </td>
-                    <td class="bg-left" width="150">
-                        ${dpMember.positiveBranch}
-                    </td>
-                    <td class="bg-right">
-                        进入系统方式
-                    </td>
-                    <td class="bg-left">
-                        ${DP_MEMBER_SOURCE_MAP.get(dpMember.source)}
+                        ${cm:formatDate(dpMember.positiveTime,'yyyy.MM.dd')}
                     </td>
                 </tr>
                 <tr>
                     <td class="bg-right">提交书面申请书时间</td>
                     <td class="bg-left">
-                        ${cm:formatDate(dpMember.applyTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.applyTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         确定为入党积极分子时间
                     </td>
-
                     <td class="bg-left">
-                        ${cm:formatDate(dpMember.activeTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.activeTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         确定为发展对象时间
                     </td>
                     <td class="bg-left">
-                        ${cm:formatDate(dpMember.candidateTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.candidateTime,'yyyy.MM.dd')}
                     </td>
                 </tr>
                 <tr>

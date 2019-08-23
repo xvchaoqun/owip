@@ -1,5 +1,8 @@
 package domain.dp;
 
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -611,6 +614,19 @@ public class DpOrgAdminExample {
         protected Criteria() {
             super();
         }
+
+        public DpOrgAdminExample.Criteria addPermits(List<Integer> partyIdList) {
+
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL))
+                return this;
+
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+
+            if(!partyIdList.isEmpty())
+                andPartyIdIn(partyIdList);
+            return this;
+        }
+
     }
 
     public static class Criterion {

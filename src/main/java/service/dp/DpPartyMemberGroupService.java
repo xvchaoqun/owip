@@ -127,7 +127,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
             // 如果他只是该党派的管理员，则删除账号所属的"党派管理员"角色； 否则不处理
             List<Integer> partyIdList = iDpPartyMapper.adminDpPartyIdList(userId);
             if(partyIdList.size()==0) {
-                sysUserService.delRole(userId, RoleConstants.ROLE_DPPARTYADMIN);
+                sysUserService.delRole(userId, RoleConstants.ROLE_DP_PARTY);
             }
         }
     }
@@ -148,9 +148,9 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
                 // 添加账号的"党派管理员"角色
                 // 如果账号是现任委员会的管理员， 且没有"党派管理员"角色，则添加
                 Set<String> roles = sysUserService.findRoles(sysUser.getUsername());
-                SysRole roleId = sysRoleService.getByRole(RoleConstants.ROLE_DPPARTYADMIN);
+                SysRole roleId = sysRoleService.getByRole(RoleConstants.ROLE_DP_PARTY);
                 if (!roles.contains(roleId)) {
-                    sysUserService.addRole(userId, RoleConstants.ROLE_DPPARTYADMIN);
+                    sysUserService.addRole(userId, RoleConstants.ROLE_DP_PARTY);
                 }
                 DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);
                 dpOrgAdminService.addDpPartyAdmin(userId, dpPartyMemberGroup.getPartyId());

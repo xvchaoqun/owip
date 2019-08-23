@@ -472,6 +472,14 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
+    <cache name="DpParty:ID_"
+           eternal="false"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
     <cache name="UnitTransfer:ALL"
            eternal="false"
            maxElementsInMemory="100"

@@ -31,10 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.dp.DpPartyService;
 import shiro.ShiroHelper;
-import sys.constants.CadreConstants;
-import sys.constants.DpConstants;
-import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.helper.DpPartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -134,39 +131,20 @@ public class DpMemberController extends DpBaseController {
                 titles.add(6, "离退休时间|80");
             }
 
-            SysUserInfoExample example = new SysUserInfoExample();
-            example.createCriteria().andIdcardTypeEqualTo("1").andNationIsNotNull();
-            List<SysUserInfo> sysUserInfos = sysUserInfoMapper.selectByExample(example);
-            Set<String> nations = new HashSet<>();
-            Set<String> nativePlaces = new HashSet<>();
-            for (SysUserInfo sysUserInfo : sysUserInfos) {
-                nations.add(sysUserInfo.getNation());
-                nativePlaces.add(sysUserInfo.getNativePlace());
-            }
             modelMap.put("teacherEducationTypes", iDpPropertyMapper.teacherEducationTypes());
             modelMap.put("teacherPostClasses", iDpPropertyMapper.teacherPostClasses());
-            modelMap.put("nations", nations);
-            modelMap.put("nativePlaces", nativePlaces);
+            modelMap.put("nations", iDpPropertyMapper.teacherNations());
+            modelMap.put("nativePlaces", iDpPropertyMapper.teacherNativePlaces());
         } else if (cls == 1|| cls == 6){//学生党派成员
             titles = getStudentExportTitles();
 
-            SysUserInfoExample example = new SysUserInfoExample();
-            example.createCriteria().andIdcardTypeEqualTo("2").andNationIsNotNull();
-            List<SysUserInfo> sysUserInfos = sysUserInfoMapper.selectByExample(example);
-            Set<String> nations = new HashSet<>();
-            Set<String> nativePlaces = new HashSet<>();
             modelMap.put("studentGrades", iDpPropertyMapper.studentGrades());
             modelMap.put("studentTypes", iDpPropertyMapper.studentTypes());
-            modelMap.put("nations", nations);
-            modelMap.put("nativePlaces", nativePlaces);
+            modelMap.put("nations", iDpPropertyMapper.studentNations());
+            modelMap.put("nativePlaces", iDpPropertyMapper.studentNativePlaces());
         } else if (cls == 10){
-            SysUserInfoExample example = new SysUserInfoExample();
-            example.createCriteria().andNationIsNotNull();
-            List<SysUserInfo> sysUserInfos = sysUserInfoMapper.selectByExample(example);
-            Set<String> nations = new HashSet<>();
-            Set<String> nativePlaces = new HashSet<>();
-            modelMap.put("nations", nations);
-            modelMap.put("nativePlaces", nativePlaces);
+            modelMap.put("nations", iDpPropertyMapper.nations());
+            modelMap.put("nativePlaces", iDpPropertyMapper.nativePlaces());
         }
 
         modelMap.put("titles", titles);
@@ -200,6 +178,7 @@ public class DpMemberController extends DpBaseController {
                                     String eduType,
 
                                     /**教职工党员**/
+                                    String staffType,
                                     String education,
                                     String postClass,
                                     @RequestDateRange DateRange _retireTime,
@@ -237,54 +216,52 @@ public class DpMemberController extends DpBaseController {
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-
+        if (gender != null){
+            criteria.andGenderEqualTo(gender);
+        }
         if (politicalStatus != null) {
             criteria.andPoliticalStatusEqualTo(politicalStatus);
         }
-
-        if (userId != null) {
+        if (nation != null){
+            List<String> selectNations = Arrays.asList(nation);
+            criteria.andNationIn(selectNations);
+        }
+        if (nativePlace != null){
+            List<String> selectNativePlaces = Arrays.asList(nativePlace);
+            criteria.andNativePlaceIn(selectNativePlaces);
+        }
+        if (grade != null){
+            criteria.andGradeEqualTo(grade);
+        }
+        if (studentType != null){
+            criteria.andStudentTypeEqualTo(studentType);
+        }
             if (age != null) {
-                SysUserView sysUserView = new SysUserView();
-
-                sysUserView = sysUserService.findById(userId);
-                Date birth = sysUserView.getBirth();
-
                 switch (age) {
-                    case DpConstants.DP_MEMBER_AGE_20:
-                        if (birth.after(DateUtils.getDateBeforeOrAfterYears(new Date(), -21))) {
-                            criteria.andUserIdEqualTo(userId);
-                        }
+                    case DpConstants.DP_MEMBER_AGE_20: // 20及以下
+                        criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                         break;
                     case DpConstants.DP_MEMBER_AGE_21_30:
-                        if (birth.equals(DateUtils.getDateBeforeOrAfterYears(new Date(), -21)) && birth.after(DateUtils.getDateBeforeOrAfterYears(new Date(), -31))) {
-                            criteria.andUserIdEqualTo(userId);
-                        }
+                        criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -31))
+                                .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                         break;
                     case DpConstants.DP_MEMBER_AGE_31_40:
-                        if (birth.equals(DateUtils.getDateBeforeOrAfterYears(new Date(), -31)) && birth.after(DateUtils.getDateBeforeOrAfterYears(new Date(), -41))) {
-                            criteria.andUserIdEqualTo(userId);
-                        }
+                        criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -41))
+                                .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
                         break;
                     case DpConstants.DP_MEMBER_AGE_41_50:
-                        if (birth.equals(DateUtils.getDateBeforeOrAfterYears(new Date(), -41)) && birth.after(DateUtils.getDateBeforeOrAfterYears(new Date(), -51))) {
-                            criteria.andUserIdEqualTo(userId);
-                        }
+                        criteria.andBirthGreaterThan(DateUtils.getDateBeforeOrAfterYears(new Date(), -51))
+                                .andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
                         break;
                     case DpConstants.DP_MEMBER_AGE_51: // 51及以上
-                        if (birth.equals(DateUtils.getDateBeforeOrAfterYears(new Date(), -51)) && birth.before(DateUtils.getDateBeforeOrAfterYears(new Date(), -1))) {
-                            criteria.andUserIdEqualTo(userId);
-                        }
+                        criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
                         break;
                     case DpConstants.DP_MEMBER_AGE_0:
-                        if (birth == null) {
-                            criteria.andUserIdEqualTo(userId);
-                        }
+                        criteria.andBirthIsNull();
                         break;
                 }
-            }else {
-                criteria.andUserIdEqualTo(userId);
             }
-        }
+
 
 
         if (StringUtils.isNotBlank(eduLevel)){
@@ -328,6 +305,12 @@ public class DpMemberController extends DpBaseController {
         }
         if (_outHandleTime.getEnd() != null) {
             criteria.andOutHandleTimeLessThanOrEqualTo(_outHandleTime.getEnd());
+        }
+        if (postClass != null){
+            criteria.andPostClassEqualTo(postClass);
+        }
+        if (staffType != null){
+            criteria.andStaffTypeEqualTo(staffType);
         }
 
         /*
@@ -628,10 +611,10 @@ public class DpMemberController extends DpBaseController {
         if (searchStr != null) searchStr = searchStr.trim() + "%";
 
         boolean addPermits = false;
-        List<Integer> adminPartyIdList = null;
+        List<Integer> adminDpPartyIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
             addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL);
-            adminPartyIdList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
+            adminDpPartyIdList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
         }
 
         List<Byte> statusList = null;
@@ -640,14 +623,14 @@ public class DpMemberController extends DpBaseController {
         }
 
         int count = iDpMemberMapper.countDpMemberList(partyId, type, isRetire, politicalStatus, statusList,
-                searchStr, addPermits, adminPartyIdList);
+                searchStr, addPermits, adminDpPartyIdList);
 
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
         List<DpMember> records = iDpMemberMapper.selectDpMemberList(partyId, type, isRetire, politicalStatus, statusList,
-                searchStr, addPermits, adminPartyIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                searchStr, addPermits, adminDpPartyIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String,Object>> options = new ArrayList<Map<String,Object>>();
         if(null != records && records.size()>0){
@@ -702,9 +685,9 @@ public class DpMemberController extends DpBaseController {
                 throw new UnauthorizedException();
             }
         }
-        if (dpMember.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER)
+        if (dpMember.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER){
             return "dp/dpMember/dpTeacher_view";
-
+        }
         return "dp/dpMember/dpStudent_view";
     }
 
@@ -769,6 +752,24 @@ public class DpMemberController extends DpBaseController {
         return resultMap;
     }
 
+    //党派成员基本信息
+    @RequestMapping("/dpMember_base")
+    public String dpMember_base(Integer userId, ModelMap modelMap){
+
+        DpMemberView dpMemberView = iDpMemberMapper.getDpMemberView(userId);
+        Integer partyId = dpMemberView.getPartyId();
+        modelMap.put("dpParty", dpPartyService.findById(partyId));
+        modelMap.put("dpMember", dpMemberView);
+        modelMap.put("uv", sysUserService.findById(userId));
+        if(dpMemberView.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER){
+            modelMap.put("teacherInfo", teacherInfoService.get(userId));
+            return "dp/dpMember/dpTeacher_base";
+        }else {
+        modelMap.put("studentInfo", studentInfoService.get(userId));
+        return "dp/dpMember/dpStudent_base";}
+
+    }
+
     @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
     @RequestMapping("/dpMember_import")
     public String dpMember_import(boolean inSchool,
@@ -777,22 +778,6 @@ public class DpMemberController extends DpBaseController {
         modelMap.put("inSchool", inSchool);
 
         return "dp/dpMember/dpMember_import";
-    }
-
-    //党派成员基本信息
-    @RequestMapping("/dpMember_base")
-    public String dpMember_base(Integer userId, ModelMap modelMap){
-
-        DpMemberView dpMemberView = iDpMemberMapper.getDpMemberView(userId);
-        modelMap.put("member", dpMemberView);
-        modelMap.put("uv", sysUserService.findById(userId));
-        if(dpMemberView.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER){
-            modelMap.put("teacherInfo", teacherInfoService.get(userId));
-            return "dp/dpMember/dpTeacher_base";
-        }
-        modelMap.put("studentInfo", studentInfoService.get(userId));
-        return "dp/dpMember/dpStudent_base";
-
     }
 
     //导入校内账号的党派成员信息
@@ -854,6 +839,9 @@ public class DpMemberController extends DpBaseController {
             SysUserInfo sysUserInfo = new SysUserInfo();
 
             int col = 0;
+            /*for (int i = 0; i<xlsRow.size();i ++){
+                System.out.println(StringUtils.trim(xlsRow.get(i)) + "," + i);
+            }*/
             String userCode = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(userCode)){
                 continue;
@@ -887,8 +875,7 @@ public class DpMemberController extends DpBaseController {
             } else {
                 sysUserInfo.setGender(SystemConstants.GENDER_UNKNOWN);
             }
-
-            sysUserInfo.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            sysUserInfo.setBirth(DateUtils.parseStringToDate(StringUtils.trim(xlsRow.get(col++))));
             sysUserInfo.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));
 
             sysUserInfo.setNation(StringUtils.trimToNull(xlsRow.get(col++)));
@@ -904,37 +891,22 @@ public class DpMemberController extends DpBaseController {
             teacherInfo.setMajor(StringUtils.trimToNull(xlsRow.get(col++)));
 
             teacherInfo.setSchool(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setSchoolType(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setDegreeSchool(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setArriveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             teacherInfo.setAuthorizedType(StringUtils.trimToNull(xlsRow.get(col++)));
 
             teacherInfo.setStaffType(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setStaffStatus(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setPostClass(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setMainPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setOnJob(StringUtils.trimToNull(xlsRow.get(col++)));
 
             teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setTitleLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setManageLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setOfficeLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-
-            teacherInfo.setPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setPostLevel(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setTalentType(StringUtils.trimToNull(xlsRow.get(col++)));
-            teacherInfo.setTalentTitle(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
 
-            teacherInfo.setMaritalStatus(StringUtils.trimToNull(xlsRow.get(col++)));
             sysUserInfo.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
-            sysUserInfo.setHomePhone(StringUtils.trimToNull(xlsRow.get(col++)));
             teacherInfo.setIsRetire(StringUtils.equals(xlsRow.get(col++), "是"));
             teacherInfo.setRetireTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
 
             teacherInfo.setIsHonorRetire(StringUtils.equals(xlsRow.get(col++), "是"));
-
             //判断xlsx文件和系统内是否包含所要导入的信息
             String _politicalStatus = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(_politicalStatus)){
@@ -973,7 +945,7 @@ public class DpMemberController extends DpBaseController {
             //record.setType();
             record.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);
             // 默认为原有党员导入
-            record.setAddType(CmTag.getMetaTypeByCode("mt_dp_member_add_type_old").getId());
+            record.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_old").getId());
             record.setSource(DpConstants.DP_MEMBER_SOURCE_IMPORT);
 
             records.add(record);
@@ -1020,7 +992,7 @@ public class DpMemberController extends DpBaseController {
             }
             record.setPartyId(dpParty.getId());
 
-            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(6));
+            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(4));
             if (StringUtils.isBlank(_politicalStatus)){
                 throw new OpException("第{0}行党籍状态为空", row);
             }
@@ -1047,7 +1019,7 @@ public class DpMemberController extends DpBaseController {
             //record.setType();
             record.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);
             // 默认为原有党员导入
-            record.setAddType(CmTag.getMetaTypeByCode("mt_dp_member_add_type_old").getId());
+            record.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_old").getId());
             record.setSource(DpConstants.DP_MEMBER_SOURCE_IMPORT);
 
             records.add(record);
@@ -1063,16 +1035,16 @@ public class DpMemberController extends DpBaseController {
 
     private List<String> getTeacherExportTitles() {
 
-        return new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|80",
-                "编制类别|80", "人员类别|100", "人员状态|80", "在岗情况|80", "岗位类别|80", "主岗等级|120",
+        return new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|120",
+                "编制类别|80", "人员类别|100", "人员状态|80", "在岗情况|80", /*"岗位类别|80", "主岗等级|120",*/
                 "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", "国家/地区|80", "证件号码|150",
                 "政治面貌|80", "所属民主党派|300", "所在单位|200",
                 "入党时间|100",  "入党介绍人|100", "转正时间|100",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "到校日期|80",
-                "专业技术职务|120", "专技岗位等级|120", "管理岗位等级|120", "任职级别|120",
-                "行政职务|180", "学历|120", "学历毕业学校|200", "学位授予学校|200",
-                "学位|100", "学员结构|100", "人才类型|100", "人才称号|200", "手机号码|100"}));
+                "专业技术职务|120",/* "专技岗位等级|120", "管理岗位等级|120",*/ "任职级别|120",
+                /*"行政职务|180",*/ "学历|120", "学历毕业学校|200",/* "学位授予学校|200",*/
+                "学位|100", "学员结构|100", /*"人才类型|100", "人才称号|200", */"手机号码|100"}));
     }
 
     public void teacher_export(int cls, DpMemberViewExample example, Integer[] cols, HttpServletResponse response) {
@@ -1106,7 +1078,7 @@ public class DpMemberController extends DpBaseController {
             SysUserView sysUserView = record.getUser();
             TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(record.getUserId());
             Integer partyId = record.getPartyId();
-            if (!dpParties.contains(partyId)){
+            if (!dpPartyIds.contains(partyId)){
                 partyId = null;
             }
             Date birth = sysUserView.getBirth();
@@ -1132,8 +1104,8 @@ public class DpMemberController extends DpBaseController {
                     teacherInfo.getStaffType(),//人员类别
                     teacherInfo.getStaffStatus(), // 人员状态
                     teacherInfo.getOnJob(), // 在岗情况
-                    teacherInfo.getPostClass(), // 岗位类别
-                    teacherInfo.getMainPostLevel(), // 主岗等级
+                    //teacherInfo.getPostClass(), // 岗位类别
+                    //teacherInfo.getMainPostLevel(), // 主岗等级
                     sysUserView.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(sysUserView.getGender()),//性别
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),//出生日期
                     birth != null ? DateUtils.intervalYearsUntilNow(birth) + "" : "",//年龄
@@ -1142,7 +1114,7 @@ public class DpMemberController extends DpBaseController {
                     uv.getCountry(),// 国家/地区
                     sysUserView.getIdcard(), // 证件号码
                     DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),//政治面貌
-                    partyId == null ? "--" : dpPartyService.findAll().get(partyId).getName(),
+                    partyId == null ? "--" : dpPartyService.findAll().get(partyId).getName(),//所属民主党派
                     uv.getUnit(), // 所在单位
 
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),//入党时间
@@ -1155,17 +1127,17 @@ public class DpMemberController extends DpBaseController {
 
                     DateUtils.formatDate(teacherInfo.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record.getProPost(), // 专业技术职务
-                    teacherInfo.getProPostLevel(), //专技岗位等级
-                    teacherInfo.getManageLevel(), // 管理岗位等级
+                    //teacherInfo.getProPostLevel(), //专技岗位等级
+                    //teacherInfo.getManageLevel(), // 管理岗位等级
                     adminLevel, // 任职级别 -- 行政级别
-                    post, // 行政职务 -- 职务
+                    //post, // 行政职务 -- 职务
                     record.getEducation(), // 学历
                     teacherInfo.getSchool(), // 学历毕业学校
-                    teacherInfo.getDegreeSchool(),//学位授予学校
+                    //teacherInfo.getDegreeSchool(),//学位授予学校
                     teacherInfo.getDegree(), // 学位
                     teacherInfo.getFromType(), // 学员结构
-                    teacherInfo.getTalentType(), // 人才类型
-                    teacherInfo.getTalentTitle(),//人才称号
+                    //teacherInfo.getTalentType(), // 人才类型
+                    //teacherInfo.getTalentTitle(),//人才称号
                     sysUserView.getMobile()//手机号码
             }));
 
@@ -1192,8 +1164,8 @@ public class DpMemberController extends DpBaseController {
 
     private List<String> getStudentExportTitles() {
 
-        return new ArrayList<>(Arrays.asList(new String[]{"学号|100", "学生类别|150", "姓名|80", "性别|50", "出生日期|100", "身份证号|150",
-                "民族|100", "年级|50", "所属民主党派|350|left",
+        return new ArrayList<>(Arrays.asList(new String[]{"学号|100", "学生类别|150", "姓名|120", "性别|50", "出生日期|100", "身份证号|150",
+                "民族|100", "年级|50", "所属民主党派|300",
                 "政治面貌|100", "入党时间|100",  "入党介绍人|100", "转正时间|100",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "培养层次（研究生）|150", "培养类型（研究生）|150", "教育类别（研究生）|150",

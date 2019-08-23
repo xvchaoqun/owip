@@ -33,10 +33,10 @@ public class DpOrgAdminService extends DpBaseMapper {
         SysUserView sysUser = sysUserService.findById(userId);
 
         // 见PartyMemberAdminService.toggleAdmin
-        // 添加账号的"分党委管理员"角色
-        // 如果账号是现任班子的管理员， 且没有"分党委管理员"角色，则添加
-        if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_DPPARTYADMIN)) {
-            sysUserService.addRole(userId, RoleConstants.ROLE_DPPARTYADMIN);
+        // 添加账号的"党派管理员"角色
+        // 如果账号是委员会的管理员， 且没有"分党委管理员"角色，则添加
+        if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_DP_PARTY)) {
+            sysUserService.addRole(userId, RoleConstants.ROLE_DP_PARTY);
         }
 
         DpOrgAdmin record = new DpOrgAdmin();
@@ -80,7 +80,7 @@ public class DpOrgAdminService extends DpBaseMapper {
             // 如果他只是该党派的管理员，则删除账号所属的"党派管理员"角色； 否则不处理
             List<Integer> partyIdList = iDpPartyMapper.adminDpPartyIdList(userId);
             if (partyIdList.size() == 0) {
-                sysUserService.delRole(userId, RoleConstants.ROLE_DPPARTYADMIN);
+                sysUserService.delRole(userId, RoleConstants.ROLE_DP_PARTY);
             }
         }
     }

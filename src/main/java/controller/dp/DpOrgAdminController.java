@@ -79,7 +79,7 @@ public class DpOrgAdminController extends DpBaseController {
         DpOrgAdminExample example = new DpOrgAdminExample();
         DpOrgAdminExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
 
-        //criteria.addPermits(loginUserService.adminDpPartyIdList());
+        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
         if(type== OwConstants.OW_ORG_ADMIN_DPPARTY){
             if(partyId!=null){
@@ -131,7 +131,7 @@ public class DpOrgAdminController extends DpBaseController {
                 criteria.andPartyIdEqualTo(partyId);
             }
 
-            //criteria.addPermits(loginUserService.adminDpPartyIdList());
+            criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
             int count = (int) dpOrgAdminMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {
@@ -156,7 +156,7 @@ public class DpOrgAdminController extends DpBaseController {
         return "dp/dp_org_admin";
     }
 
-    //@RequiresPermissions("orgAdmin:edit")
+    @RequiresPermissions("dpOrgAdmin:edit")
     @RequestMapping(value = "/dpOrgAdmin_au", method = RequestMethod.POST)
     @ResponseBody
     public Map dpOrgAdmin_au(DpOrgAdmin record, HttpServletRequest request) {

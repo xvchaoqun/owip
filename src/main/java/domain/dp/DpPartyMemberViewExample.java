@@ -1,19 +1,21 @@
 package domain.dp;
 
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class DpPartyMemberExample {
-
+public class DpPartyMemberViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public DpPartyMemberExample() {
+    public DpPartyMemberViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -822,12 +824,262 @@ public class DpPartyMemberExample {
             addCriterion("present_member not between", value1, value2, "presentMember");
             return (Criteria) this;
         }
+
+        public Criteria andGroupPartyIdIsNull() {
+            addCriterion("group_party_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdIsNotNull() {
+            addCriterion("group_party_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdEqualTo(Integer value) {
+            addCriterion("group_party_id =", value, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdNotEqualTo(Integer value) {
+            addCriterion("group_party_id <>", value, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdGreaterThan(Integer value) {
+            addCriterion("group_party_id >", value, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("group_party_id >=", value, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdLessThan(Integer value) {
+            addCriterion("group_party_id <", value, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("group_party_id <=", value, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdIn(List<Integer> values) {
+            addCriterion("group_party_id in", values, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdNotIn(List<Integer> values) {
+            addCriterion("group_party_id not in", values, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdBetween(Integer value1, Integer value2) {
+            addCriterion("group_party_id between", value1, value2, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupPartyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("group_party_id not between", value1, value2, "groupPartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentIsNull() {
+            addCriterion("is_present is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentIsNotNull() {
+            addCriterion("is_present is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentEqualTo(Boolean value) {
+            addCriterion("is_present =", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotEqualTo(Boolean value) {
+            addCriterion("is_present <>", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentGreaterThan(Boolean value) {
+            addCriterion("is_present >", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_present >=", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentLessThan(Boolean value) {
+            addCriterion("is_present <", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_present <=", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentIn(List<Boolean> values) {
+            addCriterion("is_present in", values, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotIn(List<Boolean> values) {
+            addCriterion("is_present not in", values, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_present between", value1, value2, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_present not between", value1, value2, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdIsNull() {
+            addCriterion("unit_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdIsNotNull() {
+            addCriterion("unit_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdEqualTo(Integer value) {
+            addCriterion("unit_id =", value, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdNotEqualTo(Integer value) {
+            addCriterion("unit_id <>", value, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdGreaterThan(Integer value) {
+            addCriterion("unit_id >", value, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_id >=", value, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdLessThan(Integer value) {
+            addCriterion("unit_id <", value, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_id <=", value, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdIn(List<Integer> values) {
+            addCriterion("unit_id in", values, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdNotIn(List<Integer> values) {
+            addCriterion("unit_id not in", values, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_id between", value1, value2, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_id not between", value1, value2, "unitId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
             super();
+        }
+
+        public DpPartyMemberViewExample.Criteria addPermits(List<Integer> partyIdList) {
+
+            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL))
+                return this;
+            if(partyIdList==null) partyIdList = new ArrayList<>();
+            if (!partyIdList.isEmpty())
+                andGroupPartyIdIn(partyIdList);
+                return this;
         }
     }
 

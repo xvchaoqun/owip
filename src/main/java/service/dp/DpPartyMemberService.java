@@ -2,10 +2,8 @@ package service.dp;
 
 
 import domain.base.MetaType;
-import domain.dp.DpOrgAdmin;
-import domain.dp.DpPartyMember;
-import domain.dp.DpPartyMemberExample;
-import domain.dp.DpPartyMemberGroup;
+import domain.dp.*;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -15,7 +13,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.base.MetaTypeService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -29,31 +29,51 @@ public class DpPartyMemberService extends DpBaseMapper {
 
 
     @Autowired
+    private SysUserService sysUserService;
+    @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
     private DpOrgAdminService dpOrgAdminService;
     @Autowired
     private DpPartyMemberAdminService dpPartyMemberAdminService;
+    @Autowired
+    private DpPartyMemberGroupService dpPartyMemberGroupService;
 
-    public boolean idDuplicate(Integer id,  int userId, int postId) {
+    public Integer findByGroupId(Integer groupId){
+
+        Integer partyId = null;
+        DpPartyMemberGroupExample dpPartyMemberGroupExample = new DpPartyMemberGroupExample();
+        dpPartyMemberGroupExample.createCriteria().andIdEqualTo(groupId);
+        List<DpPartyMemberGroup> dpPartyMemberGroups = dpPartyMemberGroupMapper.selectByExample(dpPartyMemberGroupExample);
+        if (dpPartyMemberGroups.size() > 0) {
+            for (DpPartyMemberGroup dpPartyMemberGroup : dpPartyMemberGroups) {
+                partyId = dpPartyMemberGroup.getPartyId();
+            }
+        }
+
+        return partyId;
+    }
+
+    public boolean idDuplicate(Integer id,  int userId, int groupId, int postId) {
 
         //同一个人可能存在兼职情况
         {
             //但同一个人不可以在同一个委员会任同一个职务
             DpPartyMemberExample example = new DpPartyMemberExample();
             DpPartyMemberExample.Criteria criteria = example.createCriteria()
-                    .andPostIdEqualTo(postId).andUserIdEqualTo(userId);
+                    .andPostIdEqualTo(postId).andUserIdEqualTo(userId).andGroupIdEqualTo(groupId);
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if (dpPartyMemberMapper.countByExample(example) > 0) return true;
         }
 
         MetaType metaType = metaTypeService.findAll().get(postId);
-        if (StringUtils.equalsIgnoreCase(metaType.getCode(), "mtmt_dp_party_secretary")){
+        if (StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_dp_zw")){
 
+            //每个委员会只有一个委员
             DpPartyMemberExample example = new DpPartyMemberExample();
             DpPartyMemberExample.Criteria criteria = example.createCriteria()
-                  .andPostIdEqualTo(postId);
+                  .andPostIdEqualTo(postId).andGroupIdEqualTo(groupId);
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if (dpPartyMemberMapper.countByExample(example) > 0) return true;
@@ -90,7 +110,7 @@ public class DpPartyMemberService extends DpBaseMapper {
         DpPartyMemberExample.Criteria criteria = example.createCriteria()
                 .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId).andUserIdEqualTo(userId);
 
-        List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExample(example);
         return dpPartyMembers.size() == 1 ? dpPartyMembers.get(0) : null;
     }
 
@@ -102,10 +122,10 @@ public class DpPartyMemberService extends DpBaseMapper {
 
             DpPartyMember _record = get(record.getGroupId(), record.getUserId(), record.getPostId());
 
-            Integer postId = _record.getPostId();
+            Integer postId = record.getPostId();
             MetaType metaType = CmTag.getMetaType(postId);
-            boolean isAdmin = ((org.apache.commons.lang3.StringUtils.equals(metaType.getCode(), "mt_dp_party_secretary")
-                    || org.apache.commons.lang3.StringUtils.equals(metaType.getCode(), "mt_dp_party_vice_secretary")));
+            boolean isAdmin = ((org.apache.commons.lang3.StringUtils.equals(metaType.getCode(), "mt_dp_zw")
+                    || org.apache.commons.lang3.StringUtils.equals(metaType.getCode(), "mt_dp_fzw")));
 
             if (_record == null) {
 
@@ -133,6 +153,21 @@ public class DpPartyMemberService extends DpBaseMapper {
         record.setIsAdmin(autoAdmin);
         record.setSortOrder(getNextSortOrder("dp_party_member", "group_id=" + record.getGroupId()));
         dpPartyMemberMapper.insertSelective(record);
+        if(!autoAdmin){
+            // 删除账号的"民主党派管理员"角色
+            // 如果他只是该民主党派的管理员，则删除账号所属的"民主党派管理员"角色； 否则不处理
+            List<Integer> partyIdList = iDpPartyMapper.adminDpPartyIdList(record.getUserId());
+            if(partyIdList.size()==0) {
+                sysUserService.delRole(record.getUserId(), RoleConstants.ROLE_DP_PARTY);
+            }
+        }else{
+            // 添加账号的"民主党派管理员"角色
+            // 如果账号是现任委员会的管理员， 且没有"民主党派管理员"角色，则添加
+            SysUserView sysUser = sysUserService.findById(record.getUserId());
+            if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_DP_PARTY)) {
+                sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_DP_PARTY);
+            }
+        }
 
         if (autoAdmin) {
             dpPartyMemberAdminService.toggleAdmin(record);
@@ -147,7 +182,18 @@ public class DpPartyMemberService extends DpBaseMapper {
         if (ids == null || ids.length == 0)return;
         DpPartyMemberExample example = new DpPartyMemberExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExample(example);
         dpPartyMemberMapper.deleteByExample(example);
+        for (DpPartyMember dpPartyMember : dpPartyMembers){
+            if(dpPartyMember.getIsAdmin()){
+                // 删除账号的"民主党派管理员"角色
+                // 如果他只是该民主党派的管理员，则删除账号所属的"民主党派管理员"角色； 否则不处理
+                List<Integer> partyIdList = iDpPartyMapper.adminDpPartyIdList(dpPartyMember.getUserId());
+                if(partyIdList.size()==0) {
+                    sysUserService.delRole(dpPartyMember.getUserId(),RoleConstants.ROLE_DP_PARTY);
+                }
+            }
+        }
     }
 
     @Transactional
@@ -270,11 +316,11 @@ public class DpPartyMemberService extends DpBaseMapper {
     @Transactional
     public void delAdmin(int userId, int partyId){
         List<DpPartyMember> dpPartyMembers = iDpPartyMapper.findDpPartyAdminOfDpPartyMember(userId,partyId);
-        for (DpPartyMember dpPartyMember : dpPartyMembers){
+        for (DpPartyMember dpPartyMember : dpPartyMembers){//理论上只有一个
             dpPartyMemberAdminService.toggleAdmin(dpPartyMember);
         }
         List<DpOrgAdmin> dpOrgAdmins = iDpPartyMapper.findDpPartyAdminOfOrgAdmin(userId,partyId);
-        for(DpOrgAdmin dpOrgAdmin : dpOrgAdmins){
+        for(DpOrgAdmin dpOrgAdmin : dpOrgAdmins){//理论上只有一个
             dpOrgAdminService.del(dpOrgAdmin.getId(),dpOrgAdmin.getUserId());
         }
     }

@@ -5,6 +5,7 @@ import domain.dp.DpMemberExample;
 import domain.dp.DpMemberView;
 import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 
@@ -23,19 +24,21 @@ public interface IDpMemberMapper {
                                     @Param("politicalStatus") Byte politicalStatus,
                                     @Param("statusList") List<Byte> statusList, @Param("search") String search,
                                     @Param("addPermits") Boolean addPermits,
-                                    @Param("adminPartyIdList") List<Integer> adminPartyIdList, RowBounds rowBounds);
+                                    @Param("adminDpPartyIdList") List<Integer> adminDpPartyIdList, RowBounds rowBounds);
 
     int countDpMemberList(@Param("partyId") Integer partyId,
                           @Param("type") Byte type,
                           @Param("isRetire") Boolean isRetire,
                           @Param("politicalStatus") Byte politicalStatus,
-                          @Param("statusList") List<Byte> statusList, @Param("search") String search,
+                          @Param("statusList") List<Byte> statusList,
+                          @Param("search") String search,
                           @Param("addPermits") Boolean addPermits,
-                          @Param("adminPartyIdList") List<Integer> adminPartyIdList);
+                          @Param("adminDpPartyIdList") List<Integer> adminDpPartyIdList);
 
     // 批量转校内组织关系
     int changeDpMemberParty(@Param("partyId") Integer partyId, @Param("example") DpMemberExample example);
 
+    @ResultMap("persistence.dp.DpMemberViewMapper.BaseResultMap")
     @Select("select * from dp_member_view where user_id=#{userId}")
     DpMemberView getDpMemberView(@Param("userId") int userId);
 

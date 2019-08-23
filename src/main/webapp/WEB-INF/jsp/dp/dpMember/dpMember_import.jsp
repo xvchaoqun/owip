@@ -18,8 +18,8 @@
         </form>
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
-            <a href="${ctx}/attach?code=sample_member_${inSchool?"inSchool":"outSchool"}">
-                党员录入样表（${inSchool?"校园门户账号":"系统注册账号"}）.xlsx</a>（点击下载）的数据格式</span>
+            <a href="${ctx}/attach?code=sample_dpMember_${inSchool?"inSchool":"outSchool"}">
+                党派成员录入样表（${inSchool?"校园门户账号":"系统注册账号"}）.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">

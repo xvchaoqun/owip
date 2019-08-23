@@ -3,7 +3,6 @@ package controller.dp;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.dp.*;
-import domain.dp.DpPartyMemberExample.Criteria;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import domain.unit.Unit;
@@ -94,11 +93,11 @@ public class DpPartyMemberController extends DpBaseController {
     public void dpPartyMember_data(HttpServletResponse response,
                                    @RequestParam(required = false, defaultValue = "1") Byte cls,
                                    @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
-                                   Integer user_id,
+                                   Integer userId,
                                    Integer groupId,
                                    Integer postId,
+                                   Integer groupPartyId,
                                    Integer unitId,
-                                   Integer partyId,
                                    Boolean isAdmin,
                                    Boolean isDeleted,
                                    Boolean isPresent,
@@ -114,20 +113,29 @@ public class DpPartyMemberController extends DpBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        DpPartyMemberExample example = new DpPartyMemberExample();
-        DpPartyMemberExample.Criteria criteria = example.createCriteria();
+        DpPartyMemberViewExample example = new DpPartyMemberViewExample();
+        DpPartyMemberViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
+
+        //权限管理
+        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
         criteria.andPresentMemberEqualTo(cls==1);
 
         if (groupId!=null) {
             criteria.andGroupIdEqualTo(groupId);
         }
-        if (user_id!=null) {
-            criteria.andUserIdEqualTo(user_id);
+        if (userId!=null) {
+            criteria.andUserIdEqualTo(userId);
         }
         if (postId!=null) {
             criteria.andPostIdEqualTo(postId);
+        }
+        if (groupPartyId != null){
+            criteria.andGroupPartyIdEqualTo(groupPartyId);
+        }
+        if (unitId != null){
+            criteria.andUnitIdEqualTo(unitId);
         }
         if (typeIds != null){
             List<Integer> selectedTypeIds = Arrays.asList(typeIds);
@@ -137,8 +145,6 @@ public class DpPartyMemberController extends DpBaseController {
             criteria.andIsAdminEqualTo(isAdmin);
         }
 
-
-
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -146,12 +152,12 @@ public class DpPartyMemberController extends DpBaseController {
             return;
         }
 
-        long count = dpPartyMemberMapper.countByExample(example);
+        long count = dpPartyMemberViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DpPartyMember> records= dpPartyMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<DpPartyMemberView> records= dpPartyMemberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -177,7 +183,6 @@ public class DpPartyMemberController extends DpBaseController {
         //权限控制
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
             Integer groupId = record.getGroupId();
-            record.setGroupId(groupId);
             DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);
             Integer partyId = dpPartyMemberGroup.getPartyId();
             //要求是党派管理员
@@ -187,8 +192,8 @@ public class DpPartyMemberController extends DpBaseController {
         }
 
         Integer id = record.getId();
-        if (dpPartyMemberService.idDuplicate(id,record.getUserId(),record.getPostId())){
-            return failed("添加重复【每个委员会的人员不可重复，并且书记只有一个】");
+        if (dpPartyMemberService.idDuplicate(id,record.getUserId(),record.getGroupId(), record.getPostId())){
+            return failed("添加重复【该委员已添加，并且主委只能有一个】");
         }
         boolean autoAdmin = false;
         {
@@ -214,11 +219,9 @@ public class DpPartyMemberController extends DpBaseController {
         record.setPresentMember(true);
 
         if (id == null) {
-            
             dpPartyMemberService.insertSelective(record, autoAdmin);
             logger.info(log( LogConstants.LOG_DPPARTY, "添加党派委员：{0}", record.getId()));
         } else {
-
             dpPartyMemberService.updateByPrimaryKeySelective(record,autoAdmin);
             logger.info(log( LogConstants.LOG_DPPARTY, "更新党派委员：{0}", record.getId()));
         }
@@ -229,8 +232,6 @@ public class DpPartyMemberController extends DpBaseController {
     @RequiresPermissions("dpPartyMember:edit")
     @RequestMapping("/dpPartyMember_au")
     public String dpPartyMember_au(Integer id, Integer groupId, ModelMap modelMap) {
-
-
 
         if (id != null) {
             DpPartyMember dpPartyMember = dpPartyMemberMapper.selectByPrimaryKey(id);
@@ -265,8 +266,13 @@ public class DpPartyMemberController extends DpBaseController {
     @ResponseBody
     public Map dpPartyMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length>0){
+            for (Integer id : ids){
+                DpPartyMember dpPartyMember = dpPartyMemberMapper.selectByPrimaryKey(id);
+                if (dpPartyMember.getUserId().intValue() == ShiroHelper.getCurrentUserId()){
+                    return failed("不能删除自己");
+                }
+            }
             dpPartyMemberService.batchDel(ids);
             logger.info(log( LogConstants.LOG_GROW, "批量删除分党委委员：{0}", StringUtils.join(ids, ",")));
         }
@@ -293,13 +299,13 @@ public class DpPartyMemberController extends DpBaseController {
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-    public void dpPartyMember_export(DpPartyMemberExample example, HttpServletResponse response) {
+    public void dpPartyMember_export(DpPartyMemberViewExample example, HttpServletResponse response) {
 
         Map<Integer, Unit> unitMap = unitService.findAll();
         Map<Integer, DpParty> dpPartyMap = dpPartyService.findAll();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
 
-        List<DpPartyMember> records = dpPartyMemberMapper.selectByExample(example);
+        List<DpPartyMemberView> records = dpPartyMemberViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"工作证号", "姓名", "所在单位", "所属分党委", "职务",
                 "分工", "任职时间", "性别", "民族", "身份证号",
@@ -308,7 +314,7 @@ public class DpPartyMemberController extends DpBaseController {
                 "手机号"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            DpPartyMember record = records.get(i);
+            DpPartyMemberView record = records.get(i);
             SysUserView sysUserView = record.getUser();
             DpMember dpMember = dpMemberMapper.selectByPrimaryKey(record.getUserId());
             DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(record.getGroupId());
@@ -358,7 +364,13 @@ public class DpPartyMemberController extends DpBaseController {
 
     @RequestMapping("/dpPartyMember_selects")
     @ResponseBody
-    public Map dpPartyMember_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map dpPartyMember_selects(Integer pageSize,
+                                     Integer pageNo,
+                                     Integer userId,
+                                     Integer partyId,
+                                     @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                     Boolean isPresent,
+                                     Boolean isDeleted) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -368,29 +380,46 @@ public class DpPartyMemberController extends DpBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        DpPartyMemberExample example = new DpPartyMemberExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        DpPartyMemberViewExample example = new DpPartyMemberViewExample();
+        DpPartyMemberViewExample.Criteria criteria = example.createCriteria();
+        criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
-        /*if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike(SqlUtils.like(searchStr));
-        }*/
+        if (partyId != null){
+            criteria.andGroupPartyIdEqualTo(partyId);
+        }
+        if (userId != null){
+            criteria.andUserIdEqualTo(userId);
+        }
+        if (typeIds != null){
+            List<Integer> selectedTypeIds = Arrays.asList(typeIds);
+            criteria.andTypeIdsIn(selectedTypeIds);
+        }
+        if (isPresent != null){
+            criteria.andIsPresentEqualTo(true);
+        }
+        if (isDeleted != null){
+            criteria.andIsDeletedEqualTo(false);
+        }
 
-        long count = dpPartyMemberMapper.countByExample(example);
+
+        long count = dpPartyMemberViewMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<DpPartyMember> records = dpPartyMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<DpPartyMemberView> records = dpPartyMemberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List options = new ArrayList<>();
+        List<Map<String,Object>> options = new ArrayList<Map<String,Object>>();
         if(null != records && records.size()>0){
 
-            for(DpPartyMember record:records){
+            for(DpPartyMemberView record:records){
 
                 Map<String, Object> option = new HashMap<>();
-                option.put("text", String.valueOf(record.getId()));
-                option.put("id", record.getId() + "");
+                SysUserView uv = sysUserService.findById(record.getUserId());
+                option.put("id", record.getUserId() + "");
+                option.put("text", uv.getRealname());
+                option.put("code", uv.getCode());
+                option.put("realname", uv.getRealname());
 
                 options.add(option);
             }
@@ -433,6 +462,7 @@ public class DpPartyMemberController extends DpBaseController {
 
     @RequiresPermissions("dpPartyMember:edit")
     @RequestMapping(value = "/dpPartyMember_import", method = RequestMethod.POST)
+    @ResponseBody
     public Map do_dpPartyMember_import(HttpServletRequest request) throws InvalidFormatException,IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -460,7 +490,7 @@ public class DpPartyMemberController extends DpBaseController {
             }
 
             DpPartyMemberGroup presentGroup = dpPartyMemberGroupService.getPresentGroup(dpParty.getId());
-            if(presentGroup==null) continue; // 如果分党委还未设置当前班子，则忽略导入；
+            if(presentGroup==null) continue; // 如果党派还未设置当前委员会，则忽略导入；
             record.setGroupId(presentGroup.getId());
 
             String userCode = StringUtils.trim(xlsRow.get(3));
@@ -480,10 +510,10 @@ public class DpPartyMemberController extends DpBaseController {
                 record.setPostId(postType.getId());
             }else{
                 // 默认都是委员
-                MetaType dpPartyMemberType = CmTag.getMetaTypeByCode("mt_dp_party_member");
+                MetaType dpPartyMemberType = CmTag.getMetaTypeByCode("mt_dp_wy");
                 record.setPostId(dpPartyMemberType.getId());
             }
-
+            record.setPresentMember(true);
             records.add(record);
         }
 
@@ -495,8 +525,8 @@ public class DpPartyMemberController extends DpBaseController {
         resultMap.put("addCount", addCount);
         resultMap.put("total", totalCount);
 
-        logger.info(log(LogConstants.LOG_ADMIN,
-                "导入分党委班子成员成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+        logger.info(log(LogConstants.LOG_DPPARTY,
+                "导入党派委员会委员成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;
@@ -513,6 +543,9 @@ public class DpPartyMemberController extends DpBaseController {
 
             // 权限控制
             if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)) {
+                if (dpPartyMember.getUserId().intValue() == ShiroHelper.getCurrentUserId()){
+                    return failed("不能删除自己");
+                }
 
                 Integer groupId = dpPartyMember.getGroupId();
                 DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);

@@ -18,7 +18,7 @@
                             data-msg="确定撤销这{0}条数据？"
                             data-grid-id="#jqGrid2"
                             class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-times"></i> 撤销
+                        <i class="fa fa-history"></i> 撤销
                     </button>
                     </c:if>
                     <c:if test="${cls==0}">
@@ -44,7 +44,6 @@
     }
     $("#jqGrid2").jqGrid({
         //forceFit:true,
-        pager: "jqGridPager2",
         url: '${ctx}/dp/dpPartyMember_data?callback=?&groupId=${param.groupId}&cls=${cls}',
         colModel: [
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
@@ -69,10 +68,22 @@
                     return '<button data-url="${ctx}/dp/dpPartyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
             }},
             </shiro:hasPermission>
-            {label: '所在单位', name: 'user.unit', width: 350,align:'left'},
-            {label: '所属民主党派', name: 'groupPartyId', width: 400, align:'left',formatter: function (cellvalue, options, rowObject) {
-                return $.party(rowObject.groupPartyId);
-            }},
+            {label: '所在单位', name: 'unitId', width: 350,align:'left' ,formatter: $.jgrid.formatter.unit},
+            {label: '所属民主党派', name: 'groupId', width: 400, align:'left',formatter: function (cellvalue, options, rowObject) {
+                    var dpPartyMemberGroup = _cMap.dpPartyMemberGroupMap[rowObject.groupId];
+                    var dpParty = _cMap.dpPartyMap[dpPartyMemberGroup.partyId];
+                    var _dpPartyView = null;
+                    if (dpParty != undefined) {
+                        _dpPartyView = dpParty.name;
+                        if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
+                            _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
+                                .format(dpParty.id, dpParty.name, ctx);
+                    }
+                    if (_dpPartyView != null) {
+                        return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                    }
+                    return "--";
+                }},
             {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '分工', name: 'typeIds', width: 300, formatter: function (cellvalue, options, rowObject) {

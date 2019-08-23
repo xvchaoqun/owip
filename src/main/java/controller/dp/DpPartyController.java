@@ -1,10 +1,20 @@
 package controller.dp;
 
+import controller.global.OpException;
+import domain.base.MetaType;
+import domain.dispatch.DispatchUnit;
 import domain.dp.*;
 import domain.dp.DpPartyExample.Criteria;
+import domain.unit.Unit;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -53,6 +67,7 @@ public class DpPartyController extends DpBaseController {
                              Integer unitId,
                              Integer classId,
                              String phone,
+                             Long presentGroupCount,
                              @RequestDateRange DateRange _foundTime,
                              @RequestParam(required = false, defaultValue = "0") int export,
                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -97,6 +112,9 @@ public class DpPartyController extends DpBaseController {
         if (_foundTime.getEnd()!=null) {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
         }
+        if (presentGroupCount != null){
+            criteria.andPresentGroupCountEqualTo(presentGroupCount);
+        }
 
         if (export == 1) {
             if(ids!=null && ids.length>0)
@@ -139,6 +157,7 @@ public class DpPartyController extends DpBaseController {
             record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
         }
         if (id == null) {
+            SecurityUtils.getSubject().checkPermission("dpParty:add");
 
             record.setCreateTime(new Date());
             dpPartyService.insertSelective(record);
@@ -186,9 +205,10 @@ public class DpPartyController extends DpBaseController {
 
         if (null != ids && ids.length>0){
             dpPartyService.batchDel(ids,isDeleted);
-            logger.info(log( LogConstants.LOG_DPPARTY, "批量删除民主党派：{0}", StringUtils.join(ids, ",")));
+            logger.info(log( LogConstants.LOG_DPPARTY, "批量撤销/恢复民主党派：{0}", StringUtils.join(ids, ",")));
         }
-
+        cacheHelper.clearSysBaseCache();
+        cacheService.flushMetadata();
         return success(FormUtils.SUCCESS);
     }
 
@@ -230,6 +250,7 @@ public class DpPartyController extends DpBaseController {
     @RequestMapping("/dpParty_selects")
     @ResponseBody
     public Map dpParty_selects(Integer pageSize, Boolean auth,
+                               Integer partyId,
                                Boolean del,
                                Integer pageNo, Integer classId, String searchStr) throws IOException {
 
@@ -253,19 +274,19 @@ public class DpPartyController extends DpBaseController {
         }
 
         if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike(SqlUtils.like(searchStr));
+            criteria.andNameLike("%"+searchStr.trim()+"%");
         }
 
-       /* //======权限
+        //======权限
         if (BooleanUtils.isTrue(auth)){
             if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
-                List<Integer> dpPartyList = loginUserService.adminDpPartyIdList();
+                List<Integer> dpPartyList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());
                 if (dpPartyList.size() > 0)
                     criteria.andIdIn(dpPartyList);
                 else
                     criteria.andIdIsNull();
             }
-        }*/
+        }
 
         long count = dpPartyMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
@@ -282,6 +303,7 @@ public class DpPartyController extends DpBaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getName());
                 option.put("id", record.getId() + "");
+                option.put("name",record.getName());
                 option.put("class",record.getClassId());
                 option.put("del",record.getIsDeleted());
 
@@ -323,11 +345,122 @@ public class DpPartyController extends DpBaseController {
         return "dp/dpParty/dpParty_view";
     }
 
-    @RequiresPermissions("dp:edit")
+    @RequiresPermissions("dpParty:edit")
     @RequestMapping("/dpParty_import")
     public String dpParty_import(){
 
         return "dp/dpParty/dpParty_import";
+    }
+
+    @RequiresPermissions("dpParty:edit")
+    @RequestMapping(value = "dpParty_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dpParty_import(HttpServletRequest request) throws InvalidFormatException,IOException{
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer,String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<DpParty> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows){
+            DpParty record = new DpParty();
+            row++;
+            String code = StringUtils.trimToNull(xlsRow.get(0));
+            if (StringUtils.isBlank(code)){
+                throw new OpException("第{0}行编号为空", row);
+            }
+            record.setCode(code);
+
+            String name = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.isBlank(name)){
+                throw new OpException("第{0}行名称为空", row);
+            }
+            record.setName(name);
+
+            String shortName = StringUtils.trimToNull(xlsRow.get(2));
+            record.setShortName(shortName);
+
+            String foundTime = StringUtils.trimToNull(xlsRow.get(3));
+            record.setFoundTime(DateUtils.parseStringToDate(foundTime));
+
+            String unitCode = StringUtils.trimToNull(xlsRow.get(4));
+            if (StringUtils.isBlank(unitCode)){
+                throw new OpException("第{0}行的单位编码为空", row);
+            }
+            Unit unit = unitService.findUnitByCode(unitCode);
+            if (unit == null){
+                throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+            }
+            record.setUnitId(unit.getId());
+
+            String _partyClass = StringUtils.trimToNull(xlsRow.get(5));
+            System.out.println(_partyClass+"111111");
+            MetaType partyClass = CmTag.getMetaTypeByName("mc_dp_party_class",_partyClass);
+            if (partyClass == null)throw new OpException("第{0}行党总支类别[{1}]不存在", row, _partyClass);
+            record.setClassId(partyClass.getId());
+
+            /*String _partyUnitType = StringUtils.trimToNull(xlsRow.get(7));
+            MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", _partyUnitType);
+            if (partyUnitType == null) throw new OpException("第{0}行所在单位属性[{1}]不存在", row, _partyUnitType);
+            record.setUnitTypeId(partyUnitType.getId());*/
+
+            record.setPhone(StringUtils.trimToNull(xlsRow.get(6)));
+            record.setFax(StringUtils.trimToNull(xlsRow.get(7)));
+            record.setEmail(StringUtils.trimToNull(xlsRow.get(8)));
+            record.setCreateTime(new Date());
+            records.add(record);
+        }
+        Collections.reverse(records);//逆序排列，保证导入的顺序正确
+
+        int addCount = dpPartyService.bacthImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("totalCount", totalCount);
+
+        logger.info(log(LogConstants.LOG_DPPARTY,
+                "导入民主党派成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("unit:view")
+    @RequestMapping("/dp_unit_view")
+    public String dp_unit_view(HttpServletResponse response, int id, ModelMap modelMap) {
+
+        Unit unit = unitMapper.selectByPrimaryKey(id);
+        modelMap.put("unit", unit);
+
+        return "dp/dpParty/dp_unit_view";
+    }
+
+    // 基本信息
+    @RequiresPermissions("unit:view")
+    @RequestMapping("/dp_unit_base")
+    public String dp_unit_base(Integer id, ModelMap modelMap) {
+
+        Unit unit = unitMapper.selectByPrimaryKey(id);
+        modelMap.put("unit", unit);
+
+        Integer dispatchUnitId = unit.getDispatchUnitId();
+        if (dispatchUnitId != null) {
+            DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
+            if (dispatchUnit != null)
+                modelMap.put("dispatch", dispatchUnit.getDispatch());
+        }
+
+        // 正在运转单位
+        //modelMap.put("runUnits", unitService.findRunUnits(id));
+        // 历史单位
+        modelMap.put("historyUnits", unitService.findHistoryUnits(id));
+
+        return "unit/unit_base";
     }
 
 }

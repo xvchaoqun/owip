@@ -13,13 +13,6 @@
                 </foreach>
                 )
             </if>
-            <if test="adminDpPartyIdList.size>0">
-                and party_id in
-                <foreach collection="adminDpPartyIdList" item="partyId"
-                         index="index" open="(" close=")" separator=",">
-                    #{partyId}
-                </foreach>
-            </if>
             <if test="adminDpPartyIdList.size==0">
                 and m.user_id is null
             </if>
@@ -117,7 +110,7 @@
     </update>
 
     <select id="countDpMemberList" parameterType="map" resultType="java.lang.Integer">
-        select count(dm.user_id) from dp_member m,sys_user_view u
+        select count(m.user_id) from dp_member m,sys_user_view u
         <include refid="selectDpMemberList_where"/>
     </select>
 

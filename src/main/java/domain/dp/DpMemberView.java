@@ -1,8 +1,6 @@
 package domain.dp;
 
 import domain.sys.SysUserView;
-import domain.sys.TeacherInfo;
-import service.dp.dpCommon.DpCommon;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -12,10 +10,6 @@ public class DpMemberView implements Serializable {
     public SysUserView getUser(){
 
         return CmTag.getUserById(userId);
-    }
-    public TeacherInfo getTeacherInfo(){
-
-        return DpCommon.getTeacherById(userId);
     }
     private Integer userId;
 
@@ -57,6 +51,16 @@ public class DpMemberView implements Serializable {
 
     private Integer unitId;
 
+    private Byte gender;
+
+    private Date birth;
+
+    private String nation;
+
+    private String nativePlace;
+
+    private String mobile;
+
     private Byte outStatus;
 
     private Date outHandleTime;
@@ -72,6 +76,10 @@ public class DpMemberView implements Serializable {
     private Date retireTime;
 
     private Boolean isHonorRetire;
+
+    private String staffType;
+
+    private String postClass;
 
     private String eduLevel;
 
@@ -255,6 +263,46 @@ public class DpMemberView implements Serializable {
         this.unitId = unitId;
     }
 
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
+    }
+
+    public String getNativePlace() {
+        return nativePlace;
+    }
+
+    public void setNativePlace(String nativePlace) {
+        this.nativePlace = nativePlace == null ? null : nativePlace.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
     public Byte getOutStatus() {
         return outStatus;
     }
@@ -317,6 +365,22 @@ public class DpMemberView implements Serializable {
 
     public void setIsHonorRetire(Boolean isHonorRetire) {
         this.isHonorRetire = isHonorRetire;
+    }
+
+    public String getStaffType() {
+        return staffType;
+    }
+
+    public void setStaffType(String staffType) {
+        this.staffType = staffType == null ? null : staffType.trim();
+    }
+
+    public String getPostClass() {
+        return postClass;
+    }
+
+    public void setPostClass(String postClass) {
+        this.postClass = postClass == null ? null : postClass.trim();
     }
 
     public String getEduLevel() {

@@ -6,6 +6,8 @@ import service.LoginUserService;
 import service.base.MetaTypeService;
 import service.dp.*;
 import service.dp.dpCommon.StatDpPartyMemberService;
+import service.global.CacheHelper;
+import service.global.CacheService;
 import service.sys.StudentInfoService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
@@ -14,6 +16,10 @@ import sys.HttpResponseMethod;
 
 public class DpBaseController extends DpBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected CacheService cacheService;
+    @Autowired
+    protected CacheHelper cacheHelper;
     @Autowired
     protected StudentInfoService studentInfoService;
     @Autowired

@@ -3,8 +3,9 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.id ||not empty param.partyId || not empty param.code || not empty param.sort}"/>
+        <div id="body-content" class="myTableDiv" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <c:set var="_query" value="${not empty param.id ||not empty param.partyId || not empty param.code || not empty param.sort
+            ||not empty param._appointTime ||not empty param._tranTime}"/>
            <div class="tabbable">
                <jsp:include page="menu.jsp"/>
                <div class="tab-content">
@@ -31,13 +32,13 @@ pageEncoding="UTF-8" %>
                                 <li>
                                     <a href="javascript:;" class="popupBtn"
                                        data-url="${ctx}/dp/dpPartyMemberGroup_import">
-                                        <i class="fa fa-upload"></i> 批量导入班子</a>
+                                        <i class="fa fa-upload"></i> 批量导入委员会</a>
                                 </li>
                                 <li role="separator" class="divider"></li>
                                 <li>
                                     <a href="javascript:;" class="popupBtn"
                                        data-url="${ctx}dp/dpPartyMember_import">
-                                        <i class="fa fa-upload"></i> 批量导入班子成员</a>
+                                        <i class="fa fa-upload"></i> 批量导入委员会成员</a>
                                 </li>
                             </ul>
                         </div>
@@ -51,8 +52,8 @@ pageEncoding="UTF-8" %>
                 <c:if test="${status>=0}">
                     <shiro:hasPermission name="dpPartyMemberGroup:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpPartyMemberGroup_batchDel" data-title="撤销领导班子"
-                           data-msg="确定撤销这{0}个领导班子吗？"><i class="fa fa-history"></i> 撤销</a>
+                           data-url="${ctx}/dp/dpPartyMemberGroup_batchDel" data-title="撤销委员会"
+                           data-msg="确定撤销这{0}个委员会吗？"><i class="fa fa-history"></i> 撤销</a>
                         【注：撤销操作将同时删除相关管理员，请谨慎操作！】
                     </shiro:hasPermission>
                 </c:if>
@@ -61,14 +62,14 @@ pageEncoding="UTF-8" %>
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/dp/dpPartyMemberGroup_realDel"
                            data-title="删除领导班子"
-                           data-msg="确定完全删除这{0}个领导班子吗？（不可恢复，请谨慎操作！）"><i class="fa fa-times"></i> 完全删除</a>
+                           data-msg="确定完全删除这{0}个委员会吗？（不可恢复，请谨慎操作！）"><i class="fa fa-times"></i> 完全删除</a>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="dpPartyMemberGroup:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/dp/dpPartyMemberGroup_batchDel"
                            data-querystr="isDeleted=0"
-                           data-title="恢复已删除领导班子"
-                           data-msg="确定恢复这{0}个领导班子吗？"><i class="fa fa-reply"></i> 恢复</a>
+                           data-title="恢复已删除委员会"
+                           data-msg="确定恢复这{0}个委员会吗？"><i class="fa fa-reply"></i> 恢复</a>
                         【注：恢复操作之后需要重新设置相关管理员！】
                     </shiro:hasPermission>
                 </c:if>
@@ -87,16 +88,56 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                             <input type="hidden" name="cls" value="${status}">
-                        <div class="form-group">
-                            <label>ID</label>
-                            <input class="form-control search-query" name="id" type="text" value="${param.id}"
-                                   placeholder="请输入ID">
-                        </div>
-                        <div class="form-group">
-                            <label>所属民主党派</label>
-                            <input class="form-control search-query" name="partyId" type="text" value="${param.partyId}"
-                                   placeholder="请输入所属民主党派">
-                        </div>
+                            <div class="form-group">
+                                <label>所在委员会</label>
+                                <select  data-width="300" data-rel="select2-ajax"
+                                         data-ajax-url="${ctx}/dp/dpPartyMemberGroup_selects"
+                                         name="id" data-placeholder="请选择">
+                                    <option value="${param.id}">${param.name}</option>
+                                </select>
+                                <script>         $.register.del_select($("#searchForm select[name=id]"), 300)     </script>
+                            </div>
+                            <div class="form-group">
+                                <label>所在民主党派</label>
+                                <select  data-width="300" data-rel="select2-ajax"
+                                         data-ajax-url="${ctx}/dp/dpParty_selects"
+                                         name="partyId" data-placeholder="请选择">
+                                    <option value="${dpParty.id}">${dpParty.name}</option>
+                                </select>
+                                <script>         $.register.del_select($("#searchForm select[name=partyId]"), 300)     </script>
+                            </div>
+                            <div class="form-group">
+                                <label>任命时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="任命时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                    <input placeholder="请选择任命时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                           type="text" name="_appointTime" value="${param._appointTime}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>应换届时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="应换届时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                    <input placeholder="请选择应换届时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                           type="text" name="_tranTime" value="${param._tranTime}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>是否现任</label>
+                                <select name="isPresent" data-width="80"
+                                        data-rel="select2" data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=isPresent]").val('${param.isPresent}');
+                                </script>
+                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/dp/dpPartyMemberGroup"
@@ -116,7 +157,7 @@ pageEncoding="UTF-8" %>
             </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"></table>
-            <div id="jqGridPager"></div>
+                       <div id="jqGridPager"></div></div>
                    </div></div></div></div>
         <div id="body-content-view"></div>
     </div>
@@ -124,7 +165,6 @@ pageEncoding="UTF-8" %>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid").jqGrid({
-        rownumbers:false,
         url: '${ctx}/dp/dpPartyMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 {
@@ -158,10 +198,9 @@ pageEncoding="UTF-8" %>
             {
                 label: '所属民主党派',
                 name: 'partyId',
-                align: 'left',
-                width: 380,
+                width: 300,
                 formatter: function (cellvalue, options, rowObject) {
-                    var dpParty = _cMap.partyMap[rowObject.partyId];
+                    var dpParty = _cMap.dpPartyMap[rowObject.partyId];
                     var _dpPartyView = null;
                     if (dpParty != undefined) {
                         _dpPartyView = dpParty.name;
@@ -172,20 +211,20 @@ pageEncoding="UTF-8" %>
                     if (_dpPartyView != null) {
                         return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
                     }
-                    return '--';
+                    return "--";
                 }
             },
-            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
                     return (rowObject.isPresent) ? 1 : 0;
                 }
             },
             {label: '应换届时间', name: 'tranTime', width: 130,
-                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'},
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     if (rowObject.isPresent &&
-                        rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
+                        rowObject.tranTime <= new Date().format('yyyy.MM.dd'))
                         return "class='danger'";
                 }
             },
@@ -194,14 +233,13 @@ pageEncoding="UTF-8" %>
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.user_select($('[data-rel="select2-ajax"]'));
-    $('#searchForm [data-rel="select2"]').select2();
+    $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $.register.date($('.date-picker'));
 </script>

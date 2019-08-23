@@ -13,6 +13,8 @@ public class DpBaseMapper extends CoreBaseMapper {
      * 民主党派
      * */
     @Autowired
+    protected DpPartyMemberViewMapper dpPartyMemberViewMapper;
+    @Autowired
     protected IDpPartyMapper iDpPartyMapper;
     @Autowired
     protected DpPartyViewMapper dpPartyViewMapper;

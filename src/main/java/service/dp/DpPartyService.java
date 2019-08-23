@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -24,6 +25,24 @@ public class DpPartyService extends DpBaseMapper {
     private DpOrgAdminService dpOrgAdminService;
     @Autowired
     private DpPartyMemberGroupService dpPartyMemberGroupService;
+
+    @Transactional
+    @CacheEvict(value = "DpParty:ALL", allEntries = true)
+    public int bacthImport(List<DpParty> records){
+        int addCount = 0;
+        for (DpParty record : records){
+            String code = record.getCode();
+            DpParty _record = getByCode(code);
+            if (_record == null){
+                insertSelective(record);
+                addCount++;
+            } else {
+                record.setId(_record.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+        return addCount;
+    }
 
     public boolean idDuplicate(Integer id, String code){
 
@@ -75,7 +94,6 @@ public class DpPartyService extends DpBaseMapper {
     public void batchDel(Integer[] ids, boolean isDeleted){
 
         if(ids==null || ids.length==0) return;
-
         for (Integer id : ids){
             DpParty record = new DpParty();
             record.setId(id);
@@ -111,19 +129,28 @@ public class DpPartyService extends DpBaseMapper {
         dpPartyMapper.updateByPrimaryKeySelective(record);
     }
 
-    //@Cacheable(value="DpParty:ALL")
+    @Cacheable(value="DpParty:ALL")
     public Map<Integer, DpParty> findAll() {
 
-        DpPartyExample example = new DpPartyExample();
+        /*DpPartyExample example = new DpPartyExample();
         example.createCriteria();
-        example.setOrderByClause("sort_order desc");
-        List<DpParty> records = dpPartyMapper.selectByExample(example);
+        example.setOrderByClause("sort_order desc");*/
+        List<DpParty> records = dpPartyMapper.selectByExample(new DpPartyExample());
         Map<Integer, DpParty> map = new LinkedHashMap<>();
         for (DpParty record : records) {
             map.put(record.getId(), record);
         }
 
         return map;
+    }
+
+    @Cacheable(value = "DpParty:ID_", key = "#id")
+    public DpParty findById(Integer id){
+        DpPartyExample example = new DpPartyExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<DpParty> dpParties = dpPartyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return (dpParties.size() > 0) ? dpParties.get(0) : null;
     }
 
     /**

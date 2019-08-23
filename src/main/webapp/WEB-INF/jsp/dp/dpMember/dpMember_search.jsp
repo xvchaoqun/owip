@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>全校组织关系查询</h3>
+  <h3>成员党派关系查询</h3>
 </div>
 <div class="modal-body">
   <form>

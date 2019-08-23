@@ -4,16 +4,19 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.id ||not empty param.code ||not empty param.unitId ||not empty param.classId ||not empty param.phone || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.id ||not empty param.code ||not empty param.unitId ||not empty param.classId ||not empty param.phone || not empty param.code || not empty param.sort
+            ||not empty param._foundTime ||not empty param.presentGroupCount}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
                     <div class="tab-content">
                         <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="dpParty:edit">
+                <shiro:hasPermission name="dpParty:add">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/dp/dpParty_au">
                         <i class="fa fa-plus"></i> 添加</button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="dpParty:edit">
                     <button class="jqEditBtn btn btn-primary btn-sm"
                        data-url="${ctx}/dp/dpParty_au"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
@@ -70,16 +73,21 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                             <input type="hidden" name="cls" value="${cls}">
                             <div class="form-group">
-                            <label>名称</label>
-                            <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                                   placeholder="请输入名称">
-                        </div>
-                        <div class="form-group">
-                            <label>编号</label>
-                            <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                <label>所在民主党派</label>
+                                <div class="input-group">
+                                    <select  data-width="300" data-rel="select2-ajax"
+                                             data-ajax-url="${ctx}/dp/dpParty_selects?auth=1"
+                                             name="id" data-placeholder="请选择">
+                                        <option value="${param.id}" title="${param.isDeleted}">${param.name}</option>
+                                    </select>
+                                </div>
+                                <script>         $("#searchForm select[name=name]").val('${param.id}');     </script>
+                            </div>
+                            <div class="form-group">
+                                <label>编号</label>
+                                <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                    placeholder="请输入编号">
-                        </div>
-
+                            </div>
                             <div class="form-group">
                                 <label>所属单位</label>
                                 <select name="unitId" data-rel="select2" data-placeholder="请选择">
@@ -88,6 +96,23 @@ pageEncoding="UTF-8" %>
                                         <option value="${unit.key}">${unit.value.name}</option>
                                           </c:forEach>  </select>
                                 <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
+                            </div>
+                            <div class="form-group">
+                                <label>所属民主党派类别</label>
+                                    <select data-width="300" name="classId" data-rel="select2" data-placeholder="请选择">
+                                        <option></option>
+                                        <c:import url="/metaTypes?__code=mc_dp_party_class"/>
+                                    </select>
+                                <script>         $("#searchForm select[name=classId]").val('${param.classId}');     </script>
+                            </div>
+                            <div class="form-group">
+                                <label>成立时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="成立时间范围">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                    </span>
+                                    <input placeholder="请选择成立时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_foundTime" value="${param._foundTime}"/>
+                                </div>
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -109,12 +134,15 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
-        </div></div>
-                    </div>
-            </div></div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
 
     $("#jqGrid").jqGrid({
@@ -130,7 +158,20 @@ pageEncoding="UTF-8" %>
                         'data-url="${ctx}/dp/dpParty_view?id={0}">'
                         + '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)}},
             {label: '编号', name: 'code', frozen: true},
-            {label: '名称', name: 'name', align: 'left', width: 400, frozen: true},
+            {label: '名称', name: 'name', width: 300, frozen: true, formatter: function (cellvalue, options, rowObject) {
+                    var dpParty = _cMap.dpPartyMap[rowObject.id];
+                    var _dpPartyView = null;
+                    if (dpParty != undefined) {
+                        _dpPartyView = dpParty.name;
+                        if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
+                            _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
+                                .format(dpParty.id, dpParty.name, ctx);
+                    }
+                    if (_dpPartyView != null) {
+                        return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                    }
+                    return "--";
+                }},
             <shiro:hasPermission name="dpParty:edit">
             <c:if test="${!_query}">
             {label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
@@ -177,8 +218,23 @@ pageEncoding="UTF-8" %>
                 formatter: function (cellvalue, options, rowObject) {
                     return cellvalue >= 1 ? "是" : "否";}},
             {label: '简称', name: 'shortName', width: 180},
-            {label:'所属单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
-            {label: '民族党派类别', name: 'classId', formatter: $.jgrid.formatter.MetaType},
+            {label:'所属单位', name: 'unitId', width: 180, formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '--'
+                    var name = null;
+                    var unit = _cMap.unitMap[cellvalue];
+                    if (unit != undefined) name = unit.name;
+
+                    if ($.trim(name) == '') return '--'
+
+                    if ($.inArray("unit:view", _permissions) >= 0 || $.inArray("unit:*", _permissions) >= 0) {
+                        return ('<a href="javascript:;" class="openView" data-url="{3}/dp/dp_unit_view?id={0}"><span class="{1}">{2}</span></a>'
+                            .format(unit.id, unit.status == 2 ? 'delete' : '', name, ctx));
+                    }
+
+                    return ('<span class="{0}">{1}</span>'
+                        .format(unit.status == 2 ? 'delete' : '', name));
+                }},
+            {label: '民族党派类别', name: 'classId', width:300, formatter: $.jgrid.formatter.MetaType},
             {label: '联系电话', name: 'phone'},
             {label: '传真', name: 'fax'},
             {label: '邮箱', name: 'email'},
@@ -188,7 +244,7 @@ pageEncoding="UTF-8" %>
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    $('#searchForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     $('[data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
 </script>

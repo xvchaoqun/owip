@@ -14,18 +14,13 @@
            class="jqOpenViewBtn btn btn-primary btn-xs">
             <i class="fa fa-edit"></i> 修改信息</a>
     </shiro:hasPermission>
-
-    <%--<button onclick="_editMember()" class="btn btn-warning btn-xs">
-        <i class="fa fa-user"></i> 编辑委员
-    </button>--%>
-
-    <shiro:hasPermission name="partyMemberGroup:del">
+    <shiro:hasPermission name="dpPartyMemberGroup:del">
         <button data-url="${ctx}/dp/dpPartyMemberGroup_batchDel"
-                data-title="删除"
-                data-msg="确定删除这{0}条数据？"
+                data-title="撤销"
+                data-msg="确定撤销这{0}条数据？"
                 data-grid-id="#jqGrid2"
                 class="jqBatchBtn btn btn-danger btn-xs">
-            <i class="fa fa-trash"></i> 删除
+            <i class="fa fa-history"></i> 撤销
         </button>
     </shiro:hasPermission>
 </div>

@@ -6,10 +6,15 @@ pageEncoding="UTF-8" %>
 <c:set var="DP_MEMBER_TYPE_STUDENT" value="<%=DpConstants.DP_MEMBER_TYPE_STUDENT%>"/>
 <c:set var="DP_MEMBER_STATUS_NORMAL" value="<%=DpConstants.DP_MEMBER_STATUS_NORMAL%>"/>
 <c:set var="DP_MEMBER_STATUS_TRANSFER" value="<%=DpConstants.DP_MEMBER_STATUS_TRANSFER%>"/>
+<c:set var="DP_MEMBER_POLITICAL_STATUS_MAP" value="<%=DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
-        <div id="body-content" class="rownumbers " data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.partyId ||not empty param.politicalStatus ||not empty param.type ||not empty param.status ||not empty param.source ||not empty param.partyPost || not empty param.code || not empty param.sort}"/>
+        <div id="body-content" class="myTableDiv " data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.gender
+            ||not empty param.partyId ||not empty param.politicalStatus ||not empty param.type || not empty selectNations ||not empty selectNativePlaces
+            ||not empty param.status ||not empty param.source ||not empty param.partyPost
+            || not empty param.code || not empty param.sort ||not empty param._outHandleTime ||not empty param._positiveTime ||not empty param._growTime
+            ||not empty param.isHonorRetire ||not empty param._retireTime ||not empty param.education}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/dp/dpMember/dpMember_menu.jsp"/>
                 <div class="tab-content">
@@ -32,50 +37,11 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                   <c:if test="${cls!=10}">
-                       <div class="btn-group">
-                           <button data-toggle="dropdown"
-                                   data-rel="tooltip" data-placement="top" data-html="true"
-                                   title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
-                                   class="btn btn-success btn-sm dropdown-toggle tooltip-success">
-                               <i class="fa fa-download"></i> 导出 <span class="caret"></span>
-                           </button>
-                           <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-                               <li class="dropdown-hover" data-stopPropagation="true">
-                                   <a href="javascript:;">
-                                       <i class="fa fa-file-excel-o"></i> 导出党员信息
-                                       <i class="ace-icon fa fa-caret-right pull-right"></i>
-                                   </a>
-                                   <div class="dropdown-menu" style="width: 675px;top:-220px;">
-                                       <form class="form-horizontal" id="exportForm">
-                                           <div style="padding: 7px 0 10px 10px">
-                                               <c:forEach items="${titles}" var="title" varStatus="vs">
-                                                   <div style="padding-left:5px;float: left;width:220px">
-                                                       <input class="big" type="checkbox" value="${vs.index}"
-                                                              checked>
-                                                           ${fn:split(title, "|")[0]}</div>
-                                               </c:forEach>
-                                               <div style="clear: both"/>
-                                           </div>
-                                           <div class="form-actions center">
-                                               <div style="position: absolute; float:left; left:10px;padding-top: 3px">
-                                                   <input type="button" id="btnSelectAll"
-                                                          class="btn btn-success btn-xs" value="全选"/>
-                                                   <input type="button" id="btnDeselectAll"
-                                                          class="btn btn-danger btn-xs" value="全不选"/>
-                                               </div>
-                                               <button type="button" class="jqExportBtn btn btn-success"
-                                                       data-need-id="false" data-url="${ctx}/dp/dpMember_data?cls=${cls}"
-                                                       data-querystr="format=1">
-                                                   <i class="fa fa-file-excel-o"></i> 导出
-                                               </button>
-                                           </div>
-                                       </form>
-                                   </div>
-                               </li>
-                           </ul>
-                       </div>
-                   </c:if>
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/dp/dpMember_data?cls=${cls}"
+                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</button>
+
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -112,20 +78,24 @@ pageEncoding="UTF-8" %>
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                 </select>
-
                             </div>
                         </div>
                             <div class="form-group">
-                                <label>民主党派所在单位</label>
+                                <label>所在民主党派</label>
+                                <select class="form-control" data-width="300" data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/dp/dpParty_selects?auth=1"
+                                        name="partyId" data-placeholder="请选择">
+                                    <option value="${dpParty.id}" delete="${dpParty.isDeleted}">${dpParty.name}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>所在单位</label>
                                 <select name="unitId" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
                                     <c:forEach items="${unitMap}" var="unit">
                                         <option value="${unit.key}">${unit.value.name}</option>
                                     </c:forEach>
                                 </select>
-                                <script>
-                                    $("#searchForm select[name=unitId]").val('${param.unitId}');
-                                </script>
                             </div>
                             <div class="form-group">
                                 <label>性别</label>
@@ -163,7 +133,6 @@ pageEncoding="UTF-8" %>
                                             <option value="${nation}">${nation}</option>
                                         </c:forEach>
                                     </select>
-
                                 </div>
                             </div>
                             <div class="form-group">
@@ -177,6 +146,85 @@ pageEncoding="UTF-8" %>
 
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label>转正时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="转正时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                    <input placeholder="请选择转正时间范围" data-rel="date-range-picker"
+                                           class="form-control date-range-picker"
+                                           type="text" name="_positiveTime" value="${param._positiveTime}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>入党时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="入党时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                    <input placeholder="请选择入党时间范围" data-rel="date-range-picker"
+                                           class="form-control date-range-picker"
+                                           type="text" name="_growTime" value="${param._growTime}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>党籍状态</label>
+                                <select required data-rel="select2" name="politicalStatus"
+                                        data-placeholder="请选择" data-width="120">
+                                    <option></option>
+                                    <c:forEach items="${DP_MEMBER_POLITICAL_STATUS_MAP}" var="_status">
+                                        <option value="${_status.key}">${_status.value}</option>
+                                    </c:forEach>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
+                                </script>
+                            </div>
+                            <c:if test="${cls==2 || cls==3 || cls==7}">
+                                <div class="form-group">
+                                    <label>最高学历</label>
+                                    <div class="input-group">
+                                        <select name="education" data-rel="select2" data-placeholder="请选择">
+                                            <option></option>
+                                            <c:forEach items="${teacherEducationTypes}" var="education">
+                                                <option value="${education}">${education}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=education]").val('${param.education}');
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <c:if test="${cls==3 || cls==7}">
+                                    <div class="form-group">
+                                        <label>退休时间</label>
+                                        <div class="input-group tooltip-success" data-rel="tooltip"
+                                             title="退休时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                            <input placeholder="请选择退休时间范围" data-rel="date-range-picker"
+                                                   class="form-control date-range-picker"
+                                                   type="text" name="_retireTime"
+                                                   value="${param._retireTime}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>是否离休</label>
+                                        <select name="isHonorRetire" data-width="100" data-rel="select2"
+                                                data-placeholder="请选择">
+                                            <option></option>
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=isHonorRetire]").val('${param.isHonorRetire}');
+                                        </script>
+                                    </div>
+                                </c:if>
+                            </c:if>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/dp/dpMember"
@@ -229,9 +277,7 @@ pageEncoding="UTF-8" %>
         $("#searchForm input[name=cols]").val(cols.join(','));
     }
 
-    $.register.date($('.date-picker'));
     $('#searchForm [data-rel="select2"]').select2();
-
     $.register.multiselect($('#searchForm select[name=nation]'), ${cm:toJSONArray(selectNations)});
     $.register.multiselect($('#searchForm select[name=nativePlace]'), ${cm:toJSONArray(selectNativePlaces)});
 
@@ -254,14 +300,28 @@ pageEncoding="UTF-8" %>
                 }, frozen: true
             },
             {label: '学工号', name: 'user.code', width: 120, frozen: true},
-            {label: '性别', name: 'user.gender', width: 55, formatter: $.jgrid.formatter.GENDER},
-            {label: '民族', name: 'user.nation'},
-            {label: '籍贯', name: 'user.nativePlace', width: 120},
-            {label: '年龄', name: 'user.birth', width: 55, formatter: $.jgrid.formatter.AGE},
+            {label: '性别', name: 'gender', width: 55, formatter:$.jgrid.formatter.GENDER},
+            {label: '民族', name: 'nation'},
+            {label: '籍贯', name: 'nativePlace', width: 120},
+            {label: '年龄', name: 'birth', width: 55, formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '--';
+                    return $.yearOffNow(cellvalue);
+                },},
             {
-                label: '所属组织机构', name: 'dpParty', width: 550, formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.partyId);
-                }, sortable: true, align: 'left'
+                label: '所属组织机构', name: 'dpParty', width: 300, formatter: function (cellvalue, options, rowObject) {
+                    var dpParty = _cMap.dpPartyMap[rowObject.partyId];
+                    var _dpPartyView = null;
+                    if (dpParty != undefined) {
+                        _dpPartyView = dpParty.name;
+                        if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
+                            _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
+                                .format(dpParty.id, dpParty.name, ctx);
+                    }
+                    if (_dpPartyView != null) {
+                        return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                    }
+                    return "--";
+                }, sortable: true
             },
             {
                 label: '党籍状态', name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
@@ -276,13 +336,13 @@ pageEncoding="UTF-8" %>
                 width: 120,
                 sortable: true,
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             {
                 label: '转正时间',
                 name: 'positiveTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             <c:if test="${cls==1 || cls==6}">
             {label: '学生类别', name: 'studentType', width: 150},
@@ -303,38 +363,20 @@ pageEncoding="UTF-8" %>
                 label: '转出时间',
                 name: 'outHandleTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m.d'}
             },
             </c:if>
 
             <c:if test="${cls==3||cls==7}">
-            {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d'}},
+            {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
             {label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
-            {label: '所在院系', name: 'user.unit', width: 180, align: 'left'},
+            {label: '所在院系', name: 'user.unit', width: 250, align: 'left'},
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     $.initNavGrid("jqGrid", "jqGridPager");
-    <shiro:hasRole name="${ROLE_DPPARTYADMIN}">
-    $("#jqGrid").navButtonAdd('#jqGridPager', {
-        caption: "民主党派内部组织关系变动",
-        btnbase: "branchChangeBtn btn btn-info btn-xs",
-        buttonicon: "fa fa-random",
-        onClickButton: function () {
-            var ids = $(this).getGridParam("selarrrow");
-            if (ids.length == 0) {
-                SysMsg.warning("请选择行", "提示");
-                return;
-            }
-            //alert(ids)
-            var rowData = $(this).getRowData(ids[0]);
-            //console.log("ids[0]" + ids[0] +rowData)
-            $.loadModal("${ctx}/member_changeBranch?ids[]={0}&partyId={1}".format(ids, rowData.partyId))
-        }
-    });
-    </shiro:hasRole>
 </script>

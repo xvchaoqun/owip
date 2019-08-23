@@ -27,7 +27,7 @@
                             data-title="撤销"
                             data-msg="确定撤销这{0}条数据？"
                             class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-times"></i> 撤销
+                        <i class="fa fa-history"></i> 撤销
                     </button>
                 </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -49,8 +49,7 @@
                                 <div class="form-group">
                                     <label>姓名</label>
                                     <div class="input-group">
-                                        <input type="hidden" name="status" value="${status}">
-                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/dp/dpPartyMember_selects"
                                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
                                             <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                         </select>
@@ -67,12 +66,12 @@
                                 </div>
                                     <div class="form-group">
                                         <label>所属民主党派</label>
-                                        <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/dp/dpParty_selects"
+                                        <select name="groupPartyId" data-rel="select2-ajax" data-ajax-url="${ctx}/dp/dpParty_selects"
                                                 data-placeholder="请选择所属民主党派">
-                                            <option value="${dpParty.id}" title="${dpParty.isDeleted}">${dpParty.name}</option>
+                                            <option value="${dpParty.id}" delete="${dpParty.isDeleted}">${dpParty.name}</option>
                                         </select>
                                         <script>
-                                            $.register.del_select($("#searchForm select[name=partyId]"), 350)
+                                            $("#searchForm select[name=groupPartyId]").val('${param.groupPartyId}');
                                         </script>
                                     </div>
                                 <div class="form-group">
@@ -82,13 +81,6 @@
                                          <c:import url="/metaTypes?__code=mc_dp_party_member_post"/>
                                     </select> 
                                     <script>         $("#searchForm select[name=postId]").val('${param.postId}');     </script>
-                                     
-                                </div>
-                                <div class="form-group">
-                                    <label>分工</label>
-                                    <select name="typeIds" class="multiselect" multiple="" data-placeholder="请选择"> 
-                                          <c:import url="/metaTypes?__code=mc_dp_party_member_type"/>
-                                    </select> 
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -116,10 +108,8 @@
     $.register.multiselect($('#searchForm select[name=typeIds]'), ${cm:toJSONArray(selectedTypeIds)});
     $.register.user_select($('#searchForm select[name=userId]'));
     function _adminCallback(){
-        $("#modal").modal("hide")
+        $("#modal").modal("hide");
         $("#jqGrid").trigger("reloadGrid");
-        jQuery("#jqGrid2").trigger("reloadGrid");
-        $.register.date($('.date-picker'));
     }
     $("#jqGrid").jqGrid({
         url: '${ctx}dp/dpPartyMember_data?callback=?&isDeleted=0&isPresent=1&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -146,9 +136,21 @@
                         return '<button data-url="${ctx}/dp/dpPartyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
                 }},
             </shiro:hasPermission>
-            {label: '所在单位', name: 'user.unit', width: 350,align:'left'},
-            {label: '所属民主党派', name: 'groupPartyId', width: 400, align:'left',formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.groupPartyId);
+            {label: '所在单位', name: 'unitId', width: 350,formatter: $.jgrid.formatter.unit},
+            {label: '所属民主党派', name: 'groupId', width: 300, formatter: function (cellvalue, options, rowObject) {
+                    var dpPartyMemberGroup = _cMap.dpPartyMemberGroupMap[rowObject.groupId];
+                    var dpParty = _cMap.dpPartyMap[dpPartyMemberGroup.partyId];
+                    var _dpPartyView = null;
+                    if (dpParty != undefined) {
+                        _dpPartyView = dpParty.name;
+                        if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
+                            _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
+                                .format(dpParty.id, dpParty.name, ctx);
+                    }
+                    if (_dpPartyView != null) {
+                        return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                    }
+                    return "--";
                 }},
             {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             {
@@ -177,7 +179,7 @@
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

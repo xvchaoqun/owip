@@ -16,16 +16,13 @@
                         <li class="active">
                             <a href="javascript:;" data-url="${ctx}/dp/dpMember_base?userId=${param.userId}">基本信息</a>
                         </li>
-                        <li>
-                            <a href="javascript:;" data-url="${ctx}/dp/dpMemberOut_view?userId=${param.userId}">组织关系转出</a>
-                        </li>
                     </ul>
                 </div>
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4">
                     <div class="tab-content padding-8">
-                    <c:import url="/member_base"/>
+                    <c:import url="/dp/dpMember_base"/>
                     </div>
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->

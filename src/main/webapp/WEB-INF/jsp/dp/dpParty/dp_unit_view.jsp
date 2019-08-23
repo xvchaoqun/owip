@@ -9,20 +9,22 @@
                     <a href="javascript:;" class="hideView btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>
-                    <%--<i class="ace-icon fa fa-user"></i>教职工党员个人信息--%>
                 </h4>
+                <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+                    ${unit.name}
+                </span>
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="javascript:;" data-url="${ctx}/dp/dpMember_base?userId=${param.userId}">基本信息</a>
+                            <a href="javascript:;" data-url="${ctx}/dp/dp_unit_base?id=${param.id}">基本信息</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4">
-                    <div class="tab-content padding-8">
-                    <c:import url="/dp/dpMember_base"/>
+                    <div class="tab-content padding-8" id="tab-content">
+                        <c:import url="/unit_base"/>
                     </div>
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->
