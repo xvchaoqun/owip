@@ -1,5 +1,3 @@
-2019-08-22
-INSERT INTO `sys_attach_file` (`id`, `code`, `user_id`, `path`, `filename`, `ext`, `type`, `sort_order`, `remark`, `create_time`) VALUES (54, 'sample_pm_Meeting', 100719, '\\attach_file\\20190822\\cc576295-caf2-413a-862d-489a7ae98da6.xlsx', '三会一课录入样表', '.xlsx', 3, 54, '三会一课录入样表', '2019-08-22 16:35:01');
 
 2019-08-15
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2772, 0, '三会一课管理', '', 'menu', 'fa fa-pencil-square-o', NULL, 1, '0/1/', 0, 'pm:menu', NULL, NULL, NULL, 1, 4500);

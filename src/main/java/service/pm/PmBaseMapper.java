@@ -3,8 +3,6 @@ package service.pm;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.member.MemberViewMapper;
 import persistence.pm.*;
-import persistence.pmd.*;
-import persistence.pmd.common.IPmdMapper;
 import service.CoreBaseMapper;
 
 public class PmBaseMapper extends CoreBaseMapper {
@@ -23,5 +21,6 @@ public class PmBaseMapper extends CoreBaseMapper {
     protected PmQuarterBranchMapper pmQuarterBranchMapper;
     @Autowired
     protected PmExcludeBranchMapper pmExcludeBranchMapper;
-
+    @Autowired
+    protected IPmMapper iPmMapper;
 }

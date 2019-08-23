@@ -29,7 +29,6 @@ import persistence.member.common.StatMemberMapper;
 import persistence.modify.common.IModifyMapper;
 import persistence.party.*;
 import persistence.party.common.IPartyMapper;
-import persistence.pm.IPmMapper;
 import persistence.sys.*;
 import persistence.sys.common.ISysMapper;
 import persistence.unit.*;
@@ -254,8 +253,6 @@ public class CoreBaseMapper {
     protected IUnitMapper iUnitMapper;
     @Autowired(required = false)
     protected StatMemberMapper statMemberMapper;
-    @Autowired(required = false)
-    protected IPmMapper iPmMapper;
 
     @Autowired(required = false)
     protected LocationMapper locationMapper;
