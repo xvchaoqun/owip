@@ -1,29 +1,28 @@
 package service.pm;
 
+import controller.global.OpException;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
 import domain.pm.PmMeeting;
 import domain.pm.PmMeetingExample;
 import domain.pm.PmMeetingFile;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import service.party.BranchMemberService;
 import service.party.MemberService;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
 import java.util.*;
 
-import static sys.constants.PmConstants.*;
+import static sys.constants.PmConstants.PM_MEETING_STATUS_INIT;
+import static sys.constants.PmConstants.PM_MEETING_STATUS_PASS;
 import static sys.constants.RoleConstants.ROLE_ODADMIN;
-import static sys.constants.RoleConstants.ROLE_PARTYADMIN;
 
 @Service("PmMeetingService")
 public class PmMeetingService extends PmBaseMapper {
@@ -73,6 +72,11 @@ public class PmMeetingService extends PmBaseMapper {
             throw new UnauthorizedException();
         }
 
+        PmMeeting pmMeeting=pmMeetingMapper.selectByPrimaryKey(record.getId());
+
+        if(pmMeeting.getStatus()==PM_MEETING_STATUS_PASS&&!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+            throw new OpException("该记录已审核通过，不能再次修改");
+        }
         pmMeetingMapper.updateByPrimaryKeySelective(record);
 
         for (PmMeetingFile pmMeetingFile : pmMeetingFiles) {
@@ -94,21 +98,15 @@ public class PmMeetingService extends PmBaseMapper {
     // 获取所有参会人
     public List<MemberView> getMemberList(String attendId) {
        if(StringUtils.isNotBlank(attendId)){
-           attendId.trim();
+
            String attend [] = attendId.split(",");
-           List<MemberView> memberViews= new ArrayList();
-            for(int x = 0 ; x < attend.length ; x++) {
-
-                MemberViewExample example = new MemberViewExample();
-                example.createCriteria().andUserIdEqualTo(Integer.valueOf(attend[x]));
-                List<MemberView> users = memberViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-
-                if(users.size() > 0){
-                    MemberView uv=users.get(0);
-                    memberViews.add(uv);
-                }
+           List<Integer> attendUserIdList= new ArrayList();
+            for(String a:attend) {
+                attendUserIdList.add(Integer.valueOf(a.trim()));
             }
-           return memberViews;
+           MemberViewExample example = new MemberViewExample();
+           example.createCriteria().andUserIdIn(attendUserIdList);
+           return  memberViewMapper.selectByExample(example);
      }
         return null;
     }

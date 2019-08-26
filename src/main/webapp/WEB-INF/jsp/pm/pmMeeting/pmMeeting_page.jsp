@@ -24,6 +24,21 @@
                     <li class="${cls==4?'active':''}">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting?cls=4&type=${type}"}><i class="fa fa-times"></i> 未通过(${cm:trimToZero(pm_denyCount)})</a>
                     </li>
+                    <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
+                        <shiro:hasPermission name="pmMeeting:edit">
+                            <button class="openView btn btn-info btn-sm"
+                                    data-url="${ctx}/pmMeeting_au?type=${type}&edit=true">
+                                <i class="fa fa-plus"></i> 添加
+                            </button>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="pmMeeting:approve">
+                            <button class="popupBtn btn btn-success btn-sm tooltip-info"
+                                    data-url="${ctx}/pmMeeting_import"
+                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                批量导入
+                            </button>
+                        </shiro:hasPermission>
+                    </div>
                 </ul>
                 </shiro:hasPermission>
                 <div class="tab-content">
@@ -33,19 +48,22 @@
                         <div class="jqgrid-vertical-offset buttons">
 
                             <shiro:hasPermission name="pmMeeting:edit">
-                                <button class="openView btn btn-info btn-sm"
-                                        data-url="${ctx}/pmMeeting_au?type=${type}&edit=true">
-                                    <i class="fa fa-plus"></i> 添加
-                                </button>
+                                <c:if test="${cls==2||cls==4}">
+                                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                       data-url="${ctx}/pmMeeting_au?edit=true&reedit=1"
+                                       data-grid-id="#jqGrid"
+                                       data-open-by="page"><i class="fa fa-edit"></i>
+                                        重新提交</a>
+                                </c:if>
 
-                            <c:if test="${cls!=3}">
-                                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                              <c:if test="${cls==1||addPermits==false&&cls==3}">
+                                  <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                                data-url="${ctx}/pmMeeting_au?edit=true"
                                                data-grid-id="#jqGrid"
-                                               data-open-by="page"
-                                            ><i class="fa fa-edit"></i>
+                                               data-open-by="page"><i class="fa fa-edit"></i>
                                         修改</a>
-
+                              </c:if>
+                                <c:if test="${cls!=3}">
                                 <button data-url="${ctx}/pmMeeting_del"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？"
@@ -55,13 +73,6 @@
                                 </button>
                             </c:if>
                             </shiro:hasPermission>
-                            <shiro:hasPermission name="pmMeeting:approve">
-                                <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                                        data-url="${ctx}/pmMeeting_import"
-                                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                    批量导入
-                                </button>
-                           </shiro:hasPermission>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -247,7 +258,7 @@
             <c:if test="${cls==2||cls==4}">
             {label: '原因', name: 'reason', align:'left'},
             </c:if>
-            {label: '所属机构', name: 'branch.name', width:370, frozen: true, align:'left', formatter: function (cellvalue, options, rowObject) {
+            {label: '所属组织机构', name: 'branch.name', width:550, frozen: true, align:'left', formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }
             },

@@ -67,7 +67,7 @@
                 </td>
                 </c:if>
                 <tr>
-                    <td width="100">会议名称</td>
+                    <td width="100"><span class="star">*</span>会议名称</td>
                     <td colspan="3">
                         <c:if test="${!edit}">
                             ${pmMeeting.name}

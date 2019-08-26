@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="widget-box transparent" id="view-box">
+    <div class="widget-header">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:;" class="hideView btn btn-xs btn-success">
+                <i class="ace-icon fa fa-backward"></i>
+                返回</a>
+            <%-- <i class="ace-icon fa fa-user"></i>学生党员个人信息--%>
+        </h4>
+    </div>
+</div>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -79,8 +89,8 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGridBranch" class="jqGrid table-striped"></table>
-            <%--<div id="jqGridPager"></div>--%>
+            <table id="jqGridBranch" class="jqGrid2 table-striped"></table>
+            <div id="jqGridPagerBranch"></div>
         </div>
         <div id="body-content-view"></div>
     </div>
@@ -88,26 +98,31 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGridBranch").jqGrid({
         rownumbers:true,
+        pager:"jqGridPagerBranch",
         url: '${ctx}/pmQuarterBranch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '支部名称',name: 'branchName'},
-                { label: '是否需要召开党员大会',name: 'isExclude',formatter:function(cellvalue, options, rowObject){
+                {label: '所属机构', name: 'branch.name', width:400, frozen: true, align:'left', formatter: function (cellvalue, options, rowObject) {
+                    return $.party(rowObject.partyId, rowObject.branchId);
+                  }
+                  },
+                { label: '查看', name: '_detail', width: 80, formatter:function(cellvalue, options, rowObject){
+
+                    return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/pmMeeting?type=1&cls=3&partyId={1}&branchId={2}"><i class="fa fa-search"></i> {0}</button>'
+                        .format('查看',rowObject.partyId, rowObject.branchId);
+                },frozen:true },
+                { label: '是否需要召开党员大会', name: 'isExclude' ,width:200,formatter:function(cellvalue, options, rowObject){
                         if(cellvalue==undefined||rowObject.isExclude==false) return '是';
                         return '否';
                        }
                 },
                 { label: '会议次数',name: 'meetingCount'
                 },
-                { label: '查看', name: '_detail', width: 80, formatter:function(cellvalue, options, rowObject){
 
-                    return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/pmMeeting_page?id={0}&branchId={2}"><i class="fa fa-search"></i> {1}</button>'
-                        .format(rowObject.id, '查看',rowObject.branchId);
-                },frozen:true },
-                { label: '备注',name: 'remark'},
+                { label: '备注',name: 'remark',width:150,align:'left' },
         ]
     }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
-    $.initNavGrid("jqGridBranch", "jqGridPager");
+    $(window).triggerHandler('resize.jqGrid2');
+    $.initNavGrid("jqGridBranch", "jqGridPagerBranch");
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();

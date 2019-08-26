@@ -239,7 +239,7 @@ public class PmMeetingController extends PmBaseController {
     public Map partyBranchMeeting_au(PmMeeting record,Byte type,@RequestParam(defaultValue = "0")Byte reedit,    //reedit 重新编辑
                                      @RequestParam(value = "_files[]", required = false) MultipartFile[] _files, // 附件
                                      @RequestParam(value = "attendIds[]", required = false) String attendIds,//参会人员
-                                     @RequestParam(value = "absentIds[]", required = false) String absentIds,//参会人员
+                                     @RequestParam(value = "absentIds[]", required = false) String absentIds,//请假人员
                                      HttpServletRequest request) throws InterruptedException, IOException {
         Integer id = record.getId();
         if (_files == null) _files = new MultipartFile[]{};
