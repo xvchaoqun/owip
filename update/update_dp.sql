@@ -10,10 +10,10 @@ ALTER TABLE `dp_party_member_group`
 
 -- 20190823 李阳
 -- 视图更新  dp_member_view dp_party_view
---角色
+-- 角色
 REPLACE INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_dp_admin', '统战部管理员', '2574,2575,2578,2579,2591,2576,2580,2581,2582,2583,2584,2588,2577,2585,2586,2587,2590', '-1', NULL, 0, 0, 58, '');
 REPLACE INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_dp_party', '民主党派管理员', '2574,2575,2578,2576,2580,2581,2582,2583,2584,2588,2577,2585,2586,2587', '-1', NULL, 0, 1, 59, '');
---资源
+-- 资源
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2574, 0, '统战信息管理', '', 'menu', 'fa fa-binoculars', NULL, 1, '0/1/', 0, 'dp:list', NULL, NULL, NULL, 1, 7535);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2575, 0, '民主党派', '', 'url', '', '/dp/dpParty', 2574, '0/1/2574/', 0, 'dpParty:list', NULL, NULL, NULL, 1, 300);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2576, 0, '委员会', '', 'url', '', '/dp/dpPartyMemberGroup', 2574, '0/1/2574/', 0, 'dpPartyMemberGroup:list', NULL, NULL, NULL, 1, 200);
@@ -32,7 +32,7 @@ REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2590, 0, '查看民主党派', '', 'function', '', NULL, 2574, '0/1/2574/', 1, 'dp:viewAll', NULL, NULL, NULL, 1, NULL);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2591, 0, '添加', '', 'function', '', NULL, 2575, '0/1/2574/2575/', 1, 'dpParty:add', NULL, NULL, NULL, 1, NULL);
 
---元数据
+-- 元数据
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国国民党革命委员会（民革）', 'mt_dp_mg', NULL, '', '', 1, 1);
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国民主同盟（民盟）', 'mt_dp_mm', NULL, '', '', 2, 1);
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2590, '中国民主建国会（民建）', 'mt_dp_mj', NULL, '', '', 3, 1);
