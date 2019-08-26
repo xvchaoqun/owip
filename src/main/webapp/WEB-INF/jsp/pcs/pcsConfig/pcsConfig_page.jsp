@@ -75,8 +75,10 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '党代会名称',name: 'name', width:200},
             { label: '是否当前党代会',name: 'isCurrent', width:150, formatter:$.jgrid.formatter.TRUEFALSE},
-            {label: '提交提案时间', name: 'proposalSubmitTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
-            {label: '征集附议人时间', name: 'proposalSupportTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
+            {label: '提交提案时间', name: 'proposalSubmitTime', width: 130, formatter: $.jgrid.formatter.date,
+                formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
+            {label: '征集附议人时间', name: 'proposalSupportTime', width: 130, formatter: $.jgrid.formatter.date,
+                formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
             {label: '立案附议人数', name: 'proposalSupportCount', width: 120},
             { label: '创建时间',name: 'createTime', width:150},
             { label: '备注',name: 'remark', width:500}

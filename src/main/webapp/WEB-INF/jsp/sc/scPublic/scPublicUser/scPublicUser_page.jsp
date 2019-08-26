@@ -111,8 +111,10 @@
             {label: '党委常委会编号', name: 'scCommittee.code', width: 210, frozen: true},
             {label: '党委常委会日期', name: 'scCommittee.holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '发布时间', name: 'publishDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '公示开始时间', name: 'publicStartDate', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:m'}},
-            {label: '公示结束时间', name: 'publicEndDate', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:m'}},
+            {label: '公示开始时间', name: 'publicStartDate', width: 140,
+                formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}},
+            {label: '公示结束时间', name: 'publicEndDate', width: 140,
+                formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}},
             {label: '对应的选任纪实', name: 'scRecord.code', width: 200},
             {label: '纪实人员', name: 'recordUser.realname'}
         ]

@@ -523,52 +523,52 @@ public class ScPublicExample {
         }
 
         public Criteria andPublicStartDateEqualTo(Date value) {
-            addCriterionForJDBCDate("public_start_date =", value, "publicStartDate");
+            addCriterion("public_start_date =", value, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("public_start_date <>", value, "publicStartDate");
+            addCriterion("public_start_date <>", value, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("public_start_date >", value, "publicStartDate");
+            addCriterion("public_start_date >", value, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("public_start_date >=", value, "publicStartDate");
+            addCriterion("public_start_date >=", value, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateLessThan(Date value) {
-            addCriterionForJDBCDate("public_start_date <", value, "publicStartDate");
+            addCriterion("public_start_date <", value, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("public_start_date <=", value, "publicStartDate");
+            addCriterion("public_start_date <=", value, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateIn(List<Date> values) {
-            addCriterionForJDBCDate("public_start_date in", values, "publicStartDate");
+            addCriterion("public_start_date in", values, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("public_start_date not in", values, "publicStartDate");
+            addCriterion("public_start_date not in", values, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("public_start_date between", value1, value2, "publicStartDate");
+            addCriterion("public_start_date between", value1, value2, "publicStartDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicStartDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("public_start_date not between", value1, value2, "publicStartDate");
+            addCriterion("public_start_date not between", value1, value2, "publicStartDate");
             return (Criteria) this;
         }
 
@@ -583,52 +583,52 @@ public class ScPublicExample {
         }
 
         public Criteria andPublicEndDateEqualTo(Date value) {
-            addCriterionForJDBCDate("public_end_date =", value, "publicEndDate");
+            addCriterion("public_end_date =", value, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("public_end_date <>", value, "publicEndDate");
+            addCriterion("public_end_date <>", value, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("public_end_date >", value, "publicEndDate");
+            addCriterion("public_end_date >", value, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("public_end_date >=", value, "publicEndDate");
+            addCriterion("public_end_date >=", value, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateLessThan(Date value) {
-            addCriterionForJDBCDate("public_end_date <", value, "publicEndDate");
+            addCriterion("public_end_date <", value, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("public_end_date <=", value, "publicEndDate");
+            addCriterion("public_end_date <=", value, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateIn(List<Date> values) {
-            addCriterionForJDBCDate("public_end_date in", values, "publicEndDate");
+            addCriterion("public_end_date in", values, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("public_end_date not in", values, "publicEndDate");
+            addCriterion("public_end_date not in", values, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("public_end_date between", value1, value2, "publicEndDate");
+            addCriterion("public_end_date between", value1, value2, "publicEndDate");
             return (Criteria) this;
         }
 
         public Criteria andPublicEndDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("public_end_date not between", value1, value2, "publicEndDate");
+            addCriterion("public_end_date not between", value1, value2, "publicEndDate");
             return (Criteria) this;
         }
 

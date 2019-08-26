@@ -294,8 +294,10 @@
             }, frozen: true
             },
             {label: '所在单位及职务', name: 'cadre.title', align:'left', width: 250, frozen: true},
-            {label: '出行时间', name: 'startTime', formatter: $.jgrid.formatter.date, width: 150, formatoptions: {newformat: 'Y-m-d H:i'}},
-            {label: '返校时间', name: 'endTime', formatter: $.jgrid.formatter.date, width: 150, formatoptions: {newformat: 'Y-m-d H:i'}},
+            {label: '出行时间', name: 'startTime', formatter: $.jgrid.formatter.date, width: 150,
+                formatoptions: {srcformat:'Y-m-d H:i:s',newformat: 'Y-m-d H:i'}},
+            {label: '返校时间', name: 'endTime', formatter: $.jgrid.formatter.date, width: 150,
+                formatoptions: {srcformat:'Y-m-d H:i:s',newformat: 'Y-m-d H:i'}},
             {
                 label: '出行天数', name: '_day', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return $.dayDiff(rowObject.startTime, rowObject.endTime);
@@ -312,8 +314,10 @@
                         return "class='danger'";
                 }
             }},
-            {label: '实际出发时间', name: 'realStartTime', formatter: $.jgrid.formatter.date, width: 150, formatoptions: {newformat: 'Y-m-d H:i'}},
-            {label: '实际返校时间', name: 'realEndTime', formatter: $.jgrid.formatter.date, width: 150, formatoptions: {newformat: 'Y-m-d H:i'}},
+            {label: '实际出发时间', name: 'realStartTime', formatter: $.jgrid.formatter.date, width: 150,
+                formatoptions: {srcformat:'Y-m-d H:i:s',newformat: 'Y-m-d H:i'}},
+            {label: '实际返校时间', name: 'realEndTime', formatter: $.jgrid.formatter.date, width: 150,
+                formatoptions: {srcformat:'Y-m-d H:i:s',newformat: 'Y-m-d H:i'}},
             {label: '销假备注', name: 'backRemark', width: 200},
                 </c:if>
             {

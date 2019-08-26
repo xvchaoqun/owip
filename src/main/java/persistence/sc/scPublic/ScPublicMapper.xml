@@ -8,8 +8,8 @@
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
     <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
-    <result column="public_start_date" jdbcType="DATE" property="publicStartDate" />
-    <result column="public_end_date" jdbcType="DATE" property="publicEndDate" />
+    <result column="public_start_date" jdbcType="TIMESTAMP" property="publicStartDate" />
+    <result column="public_end_date" jdbcType="TIMESTAMP" property="publicEndDate" />
     <result column="publish_date" jdbcType="DATE" property="publishDate" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="is_confirmed" jdbcType="BIT" property="isConfirmed" />
@@ -119,8 +119,8 @@
       is_confirmed, remark, is_deleted, 
       record_user_id)
     values (#{committeeId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
-      #{wordFilePath,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{publicStartDate,jdbcType=DATE}, 
-      #{publicEndDate,jdbcType=DATE}, #{publishDate,jdbcType=DATE}, #{isFinished,jdbcType=BIT}, 
+      #{wordFilePath,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{publicStartDate,jdbcType=TIMESTAMP}, 
+      #{publicEndDate,jdbcType=TIMESTAMP}, #{publishDate,jdbcType=DATE}, #{isFinished,jdbcType=BIT}, 
       #{isConfirmed,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
       #{recordUserId,jdbcType=INTEGER})
   </insert>
@@ -187,10 +187,10 @@
         #{pdfFilePath,jdbcType=VARCHAR},
       </if>
       <if test="publicStartDate != null">
-        #{publicStartDate,jdbcType=DATE},
+        #{publicStartDate,jdbcType=TIMESTAMP},
       </if>
       <if test="publicEndDate != null">
-        #{publicEndDate,jdbcType=DATE},
+        #{publicEndDate,jdbcType=TIMESTAMP},
       </if>
       <if test="publishDate != null">
         #{publishDate,jdbcType=DATE},
@@ -240,10 +240,10 @@
         pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
       </if>
       <if test="record.publicStartDate != null">
-        public_start_date = #{record.publicStartDate,jdbcType=DATE},
+        public_start_date = #{record.publicStartDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.publicEndDate != null">
-        public_end_date = #{record.publicEndDate,jdbcType=DATE},
+        public_end_date = #{record.publicEndDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.publishDate != null">
         publish_date = #{record.publishDate,jdbcType=DATE},
@@ -276,8 +276,8 @@
       num = #{record.num,jdbcType=INTEGER},
       word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
-      public_start_date = #{record.publicStartDate,jdbcType=DATE},
-      public_end_date = #{record.publicEndDate,jdbcType=DATE},
+      public_start_date = #{record.publicStartDate,jdbcType=TIMESTAMP},
+      public_end_date = #{record.publicEndDate,jdbcType=TIMESTAMP},
       publish_date = #{record.publishDate,jdbcType=DATE},
       is_finished = #{record.isFinished,jdbcType=BIT},
       is_confirmed = #{record.isConfirmed,jdbcType=BIT},
@@ -307,10 +307,10 @@
         pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
       </if>
       <if test="publicStartDate != null">
-        public_start_date = #{publicStartDate,jdbcType=DATE},
+        public_start_date = #{publicStartDate,jdbcType=TIMESTAMP},
       </if>
       <if test="publicEndDate != null">
-        public_end_date = #{publicEndDate,jdbcType=DATE},
+        public_end_date = #{publicEndDate,jdbcType=TIMESTAMP},
       </if>
       <if test="publishDate != null">
         publish_date = #{publishDate,jdbcType=DATE},
@@ -340,8 +340,8 @@
       num = #{num,jdbcType=INTEGER},
       word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
-      public_start_date = #{publicStartDate,jdbcType=DATE},
-      public_end_date = #{publicEndDate,jdbcType=DATE},
+      public_start_date = #{publicStartDate,jdbcType=TIMESTAMP},
+      public_end_date = #{publicEndDate,jdbcType=TIMESTAMP},
       publish_date = #{publishDate,jdbcType=DATE},
       is_finished = #{isFinished,jdbcType=BIT},
       is_confirmed = #{isConfirmed,jdbcType=BIT},

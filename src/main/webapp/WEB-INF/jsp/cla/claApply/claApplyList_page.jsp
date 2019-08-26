@@ -179,8 +179,10 @@
             {label: '工作证号',  name: 'user.code', width: 110, frozen: true},
             {label: '姓名',  name: 'user.realname', width: 75, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', width: 250},
-            {label: '出行时间',  name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:i'}},
-            {label: '返校时间',  name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:i'}},
+            {label: '出行时间',  name: 'startTime', formatter: $.jgrid.formatter.date,
+                formatoptions: {srcformat:'Y-m-d H:i:s',newformat: 'Y-m-d H:i'}},
+            {label: '返校时间',  name: 'endTime', formatter: $.jgrid.formatter.date,
+                formatoptions: {srcformat:'Y-m-d H:i:s',newformat: 'Y-m-d H:i'}},
             {
                 label: '出行天数',
                 name: '_day',

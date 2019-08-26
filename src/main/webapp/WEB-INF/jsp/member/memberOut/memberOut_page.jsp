@@ -65,7 +65,7 @@
                         </div>
                         </c:if>
                         <div class="buttons pull-left" style="margin-left: 25px">
-                            <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+                            <shiro:hasPermission name="memberOutImport:*">
                                 <button class="popupBtn btn btn-success btn-sm tooltip-primary"
                                    data-url="${ctx}/memberOut_import"
                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>

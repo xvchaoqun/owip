@@ -49,7 +49,7 @@ public class MemberOutController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions({"memberOut:import", SystemConstants.PERMISSION_PARTYVIEWALL})
+    @RequiresPermissions("memberOutImport:*")
     @RequestMapping("/memberOut_import")
     public String memberOut_import(ModelMap modelMap) {
 
@@ -57,12 +57,13 @@ public class MemberOutController extends MemberBaseController {
     }
 
     // 导入
-    @RequiresPermissions({"memberOut:import", SystemConstants.PERMISSION_PARTYVIEWALL})
+    @RequiresPermissions("memberOutImport:*")
     @RequestMapping(value = "/memberOut_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_import(HttpServletRequest request) throws InvalidFormatException, IOException {
 
-        Date now = new Date();
+        Set<Integer> adminPartyIdSet = new HashSet<>(loginUserService.adminPartyIdList());
+        Set<Integer> adminBranchIdSet = new HashSet<>(loginUserService.adminBranchIdList());
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
@@ -96,6 +97,14 @@ public class MemberOutController extends MemberBaseController {
             }
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
+
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+                if(!adminPartyIdSet.contains(member.getPartyId())
+                    && (member.getBranchId()==null || !adminBranchIdSet.contains(member.getBranchId()))){
+
+                    throw new OpException("第{0}行学工号[{1}]没有权限导入", row, userCode);
+                }
+            }
 
             String _type = StringUtils.trimToNull(xlsRow.get(2));
             MetaType type = CmTag.getMetaTypeByName("mc_member_in_out_type", _type);
