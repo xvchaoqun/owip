@@ -1,6 +1,7 @@
 package domain.dp;
 
 import domain.sys.SysUserView;
+import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -9,6 +10,9 @@ import java.util.Date;
 public class DpPartyMemberView implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
+    }
+    public DpParty getDpParty(){
+        return DpPartyHelper.getDpPartyByGroupId(groupId);
     }
 
     private Integer id;
@@ -40,6 +44,8 @@ public class DpPartyMemberView implements Serializable {
     private Boolean isDeleted;
 
     private Integer unitId;
+
+    private Boolean isDpPartyDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -161,5 +167,13 @@ public class DpPartyMemberView implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Boolean getIsDpPartyDeleted() {
+        return isDpPartyDeleted;
+    }
+
+    public void setIsDpPartyDeleted(Boolean isDpPartyDeleted) {
+        this.isDpPartyDeleted = isDpPartyDeleted;
     }
 }

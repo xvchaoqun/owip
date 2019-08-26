@@ -86,17 +86,13 @@
         colModel: [
             {label: '学工号', name: 'user.code', width: 110, frozen: true},
             {label: '姓名', name: 'user.realname', width: 90, frozen: true},
-            {label: '所在民主党派', name: 'partyId', width: 450, align: 'left', formatter:function(cellvalue, options, rowObject){
-                    var dpParty = _cMap.dpPartyMap[rowObject.partyId];
+            {label: '所在民主党派', name: 'dpParty.name', width: 450, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
-                    if (dpParty != undefined) {
-                        _dpPartyView = dpParty.name;
-                        if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
-                            _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
-                                .format(dpParty.id, dpParty.name, ctx);
-                    }
-                    if (_dpPartyView != null) {
-                        return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                    if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
+                        _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
+                            .format(rowObject.partyId, cellvalue, ctx);
+                    if (cellvalue != ''){
+                        return '<span class="{0}">{1}</span>'.format(rowObject.isDeleted ? "delete" : "", _dpPartyView);
                     }
                     return "--";
                 }}

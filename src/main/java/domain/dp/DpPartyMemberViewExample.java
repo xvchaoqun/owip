@@ -1064,6 +1064,66 @@ public class DpPartyMemberViewExample {
             addCriterion("unit_id not between", value1, value2, "unitId");
             return (Criteria) this;
         }
+
+        public Criteria andIsDpPartyDeletedIsNull() {
+            addCriterion("is_dp_party_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedIsNotNull() {
+            addCriterion("is_dp_party_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedEqualTo(Boolean value) {
+            addCriterion("is_dp_party_deleted =", value, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_dp_party_deleted <>", value, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedGreaterThan(Boolean value) {
+            addCriterion("is_dp_party_deleted >", value, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_dp_party_deleted >=", value, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedLessThan(Boolean value) {
+            addCriterion("is_dp_party_deleted <", value, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_dp_party_deleted <=", value, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedIn(List<Boolean> values) {
+            addCriterion("is_dp_party_deleted in", values, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_dp_party_deleted not in", values, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_dp_party_deleted between", value1, value2, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDpPartyDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_dp_party_deleted not between", value1, value2, "isDpPartyDeleted");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

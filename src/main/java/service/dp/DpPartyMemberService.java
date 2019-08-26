@@ -39,6 +39,18 @@ public class DpPartyMemberService extends DpBaseMapper {
     @Autowired
     private DpPartyMemberGroupService dpPartyMemberGroupService;
 
+    @Transactional
+    public void cancelMember(List<Integer> groupIds){
+
+        DpPartyMemberExample example = new DpPartyMemberExample();
+        example.createCriteria().andGroupIdIn(groupIds);
+        List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExample(example);
+        for (DpPartyMember dpPartyMember : dpPartyMembers){
+            dpPartyMember.setPresentMember(false);
+            dpPartyMemberMapper.updateByPrimaryKey(dpPartyMember);
+        }
+    }
+
     public Integer findByGroupId(Integer groupId){
 
         Integer partyId = null;

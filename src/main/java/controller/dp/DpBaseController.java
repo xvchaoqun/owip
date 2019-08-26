@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginUserService;
 import service.base.MetaTypeService;
 import service.dp.*;
+import service.dp.dpCommon.DpCommonService;
 import service.dp.dpCommon.StatDpPartyMemberService;
 import service.global.CacheHelper;
 import service.global.CacheService;
@@ -16,6 +17,8 @@ import sys.HttpResponseMethod;
 
 public class DpBaseController extends DpBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected DpCommonService dpCommonService;
     @Autowired
     protected CacheService cacheService;
     @Autowired

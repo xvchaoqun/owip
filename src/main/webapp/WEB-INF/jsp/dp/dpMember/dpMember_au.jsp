@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>所属民主党派</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>所属党派</label>
                 <c:if test="${empty dpParty}">
                     <div class="col-xs-6">
                         <select required data-rel="select2-ajax" data-width="270"
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">${dpMember_needGrowTime?'<span class="star">*</span>':''} 入党时间</label>
+                <label class="col-xs-4 control-label">${dpMember_needGrowTime?'<span class="star">*</span>':''} 党派加入时间</label>
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input ${dpMember_needGrowTime?'required':''} class="form-control date-picker" name="_growTime" type="text"

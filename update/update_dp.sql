@@ -1,6 +1,13 @@
 
 
 
+-- 20190826 李阳
+-- 视图更新 dp_party_member_view
+
+-- 表更新
+ALTER TABLE `dp_party_member_group`
+	ADD COLUMN `group_session` VARCHAR(50) NULL COMMENT '委员会届数' AFTER `is_deleted`;
+
 -- 20190823 李阳
 -- 视图更新  dp_member_view dp_party_view
 --角色

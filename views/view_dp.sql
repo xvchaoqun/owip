@@ -1,6 +1,12 @@
 
 
 
+-- 20190826 李阳 更新dp_party_member_view视图
+DROP VIEW IF EXISTS `dp_party_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_party_member_view` AS
+select dpm.*,dpmg.party_id as group_party_id,dpmg.is_present,dpmg.is_deleted,dp.unit_id,dp.is_deleted as is_dp_party_deleted
+from dp_party_member dpm join dp_party_member_group dpmg on dpmg.id=dpm.group_id
+left join dp_party dp on dp.id=dpmg.party_id
 
 -- 20190819 李阳  添加dp_party_member_view视图，修改dp_member_view视图
 -- dp_party_member_view

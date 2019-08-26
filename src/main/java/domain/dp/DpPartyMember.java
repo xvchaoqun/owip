@@ -2,6 +2,7 @@ package domain.dp;
 
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -11,6 +12,10 @@ import java.util.Date;
 public class DpPartyMember implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
+    }
+
+    public DpParty getDpParty(){
+        return DpPartyHelper.getDpPartyByGroupId(groupId);
     }
     private Integer id;
 

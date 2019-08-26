@@ -159,18 +159,14 @@ pageEncoding="UTF-8" %>
                         + '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)}},
             {label: '编号', name: 'code', frozen: true},
             {label: '名称', name: 'name', width: 300, frozen: true, formatter: function (cellvalue, options, rowObject) {
-                    var dpParty = _cMap.dpPartyMap[rowObject.id];
                     var _dpPartyView = null;
-                    if (dpParty != undefined) {
-                        _dpPartyView = dpParty.name;
-                        if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
-                            _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
-                                .format(dpParty.id, dpParty.name, ctx);
-                    }
-                    if (_dpPartyView != null) {
-                        return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
-                    }
-                    return "--";
+                    if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
+                        _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
+                            .format(rowObject.id, cellvalue, ctx);
+                     if (cellvalue != ''){
+                         return '<span class="{0}">{1}</span>'.format(rowObject.isDeleted ? "delete" : "", _dpPartyView);
+                     }
+                     return "--";
                 }},
             <shiro:hasPermission name="dpParty:edit">
             <c:if test="${!_query}">
@@ -178,9 +174,12 @@ pageEncoding="UTF-8" %>
                 formatoptions: {url: '${ctx}/dp/dpParty_changeOrder'}, frozen: true},
             </c:if>
             </shiro:hasPermission>
-            {label: '党员总数', name: 'memberCount', width: 80, formatter: function (cellvalue, option, rowObject) {
-                    return cellvalue == undefined ? 0 : cellvalue;}},
-            {label: '在职教职工',
+            {label: '成员总数', name: 'memberCount', width: 80, formatter: function (cellvalue, option, rowObject) {
+                    <shiro:hasPermission name="dpMember:list">
+                    if (cellvalue == undefined ||cellvalue == 0)return 0;
+                    return '<a href="#${ctx}/dp/dpMember?cls=10&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                    </shiro:hasPermission>}},
+            {label: '在职成员数',
                 name: 'teacherMemberCount',
                 width: 90,
                 formatter: function (cellvalue, options, rowObject) {
@@ -191,7 +190,7 @@ pageEncoding="UTF-8" %>
                     <shiro:lacksPermission name="dpMember:list">
                     return cellvalue;
                     </shiro:lacksPermission>}},
-            { label:'学生', name: 'studentMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
+            { label:'学生成员数', name: 'studentMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                     if(cellvalue==undefined|| cellvalue==0) return 0;
                     <shiro:hasPermission name="dpMember:list">
                     return '<a href="#${ctx}/dp/dpMember?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
@@ -199,9 +198,9 @@ pageEncoding="UTF-8" %>
                     <shiro:lacksPermission name="dpMember:list">
                     return cellvalue;
                     </shiro:lacksPermission>}},
-            {label: '离退休党员',
+            {label: '离退休成员数',
                 name: 'retireMemberCount',
-                width: 90,
+                width: 100,
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined || cellvalue == 0) return 0;
                     <shiro:hasPermission name="dpMember:list">
@@ -217,7 +216,7 @@ pageEncoding="UTF-8" %>
                 width: 160,
                 formatter: function (cellvalue, options, rowObject) {
                     return cellvalue >= 1 ? "是" : "否";}},
-            {label: '简称', name: 'shortName', width: 180},
+            {label: '党派简称', name: 'shortName', width: 180},
             {label:'所属单位', name: 'unitId', width: 180, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--'
                     var name = null;

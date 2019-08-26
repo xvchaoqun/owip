@@ -804,6 +804,76 @@ public class DpPartyMemberGroupExample {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
+
+        public Criteria andGroupSessionIsNull() {
+            addCriterion("group_session is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionIsNotNull() {
+            addCriterion("group_session is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionEqualTo(String value) {
+            addCriterion("group_session =", value, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionNotEqualTo(String value) {
+            addCriterion("group_session <>", value, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionGreaterThan(String value) {
+            addCriterion("group_session >", value, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionGreaterThanOrEqualTo(String value) {
+            addCriterion("group_session >=", value, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionLessThan(String value) {
+            addCriterion("group_session <", value, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionLessThanOrEqualTo(String value) {
+            addCriterion("group_session <=", value, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionLike(String value) {
+            addCriterion("group_session like", value, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionNotLike(String value) {
+            addCriterion("group_session not like", value, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionIn(List<String> values) {
+            addCriterion("group_session in", values, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionNotIn(List<String> values) {
+            addCriterion("group_session not in", values, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionBetween(String value1, String value2) {
+            addCriterion("group_session between", value1, value2, "groupSession");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupSessionNotBetween(String value1, String value2) {
+            addCriterion("group_session not between", value1, value2, "groupSession");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
@@ -812,16 +882,15 @@ public class DpPartyMemberGroupExample {
             super();
         }
 
-        public DpPartyMemberGroupExample.Criteria addPermits(List<Integer> partyIdList) {
+        public DpPartyMemberGroupExample.Criteria addPermits(List<Integer> partyIdList){
 
-            if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL))
-                return this;
+            if (ShiroHelper.isPermitted((SystemConstants.PERMISSION_DPPARTYVIEWALL)))
+                return  this;
+            if (partyIdList==null) partyIdList = new ArrayList<>();
 
-            if(partyIdList==null) partyIdList = new ArrayList<>();
-
-            if(!partyIdList.isEmpty())
+            if (!partyIdList.isEmpty())
                 andPartyIdIn(partyIdList);
-            if(partyIdList.isEmpty())
+            if (partyIdList.isEmpty())
                 andPartyIdIsNull();
             return this;
         }
