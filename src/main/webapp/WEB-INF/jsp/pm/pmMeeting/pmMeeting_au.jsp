@@ -332,9 +332,6 @@
                     <td colspan="4">
 
                         <div class="modal-footer center">
-                            <button type="button" class="hideView btn btn-default btn-xlg"><i
-                                    class="fa fa-reply"></i> 取消
-                            </button>
 
                             <button id="submitBtn"
                                     class="btn btn-success btn-xlg"><i

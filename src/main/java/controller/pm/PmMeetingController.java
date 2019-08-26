@@ -80,6 +80,8 @@ public class PmMeetingController extends PmBaseController {
 
         modelMap.put("type", type);
         modelMap.put("cls", cls);
+        modelMap.put("adminPartyIdList", adminPartyIdList);
+        modelMap.put("addPermits", addPermits);
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
@@ -91,13 +93,6 @@ public class PmMeetingController extends PmBaseController {
         return "pm/pmMeeting/pmMeeting_page";
     }
 
-    @RequiresPermissions("pmMeeting:list")
-    @RequestMapping("/pmMeeting_page")
-    public String pmMeeting_page(Integer branch,ModelMap modelMap) {
-
-            return "pm/pmMeeting/pmMeeting_page";
-
-    }
     @RequiresPermissions("pmMeeting:list")
     @RequestMapping("/pmMeeting_data")
     public void partyMeeting_data(Byte type,
@@ -323,6 +318,11 @@ public class PmMeetingController extends PmBaseController {
     @RequestMapping( "/pmMeeting_check")
     public String pmMeeting_check(Integer id,Boolean check,HttpServletRequest request, ModelMap modelMap) {
         PmMeeting pmMeeting=pmMeetingMapper.selectByPrimaryKey(id);
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
+                !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId())){
+            throw new UnauthorizedException();
+        }
+
         modelMap.put("pmMeeting",pmMeeting);
         return "pm/pmMeeting/pmMeeting_check";
     }
@@ -331,7 +331,13 @@ public class PmMeetingController extends PmBaseController {
     @RequestMapping(value = "/pmMeeting_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmMeeting_check(PmMeeting record,Boolean check,Boolean hasPass,HttpServletRequest request, ModelMap modelMap) {
-       if(BooleanUtils.isTrue(check)){
+        PmMeeting pmMeeting=pmMeetingMapper.selectByPrimaryKey(record.getId());
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
+                !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId())){
+            throw new UnauthorizedException();
+        }
+
+        if(BooleanUtils.isTrue(check)){
            record.setStatus(hasPass==null?PM_MEETING_STATUS_DENY:PM_MEETING_STATUS_PASS);
        }else{
         record.setIsBack(true);
@@ -419,6 +425,10 @@ public class PmMeetingController extends PmBaseController {
             Party party = runPartyMap.get(partyCode);
             if (party == null) {
                 throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
+            }
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
+                    !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+                throw new OpException("您没有权限导入第{0}行党支部数据", row);
             }
             record.setPartyId(party.getId());
             if (!partyService.isDirectBranch(party.getId())) {

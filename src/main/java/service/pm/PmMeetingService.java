@@ -49,7 +49,7 @@ public class PmMeetingService extends PmBaseMapper {
         record.setIsBack(false);
         record.setIsDelete(false);
 
-        if (ShiroHelper.hasRole(ROLE_ODADMIN)||ShiroHelper.hasRole(ROLE_PARTYADMIN)) {
+        if (ShiroHelper.hasRole(ROLE_ODADMIN)||PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId())) {
             record.setStatus(PM_MEETING_STATUS_PASS);
         }else{
             record.setStatus(PM_MEETING_STATUS_INIT);

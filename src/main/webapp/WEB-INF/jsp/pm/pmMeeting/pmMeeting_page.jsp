@@ -199,22 +199,21 @@
                 }},
             {label: '附件', name: 'file', formatter: function (cellvalue, options, rowObject) {
 
-                    return '<button class="popupBtn btn btn-info btn-xs" data-width="500" data-callback="_reload"' +
+                    return '<button class="popupBtn btn btn-info btn-xs" data-width="600" data-callback="_reload"' +
                         'data-url="${ctx}/pmMeetingFile?id={0}"><i class="fa fa-search"></i> 附件{1}</button>'
                             .format(rowObject.id, rowObject.fileCount>=0?"("+rowObject.fileCount+")":"")
                 }},
-            { label: '审核情况', name: 'status', width: 80,
-                <%--formatter:function(cellvalue, options, rowObject){--%>
+            { label: '审核情况', name: 'status', width: 80, formatter: function (cellvalue, options, rowObject) {
+                var adminParty=$.inArray(rowObject.partyId,${cm:toJSONArray(adminPartyIdList)});
 
-                    <%--return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/pmMeeting_page?id={0}&branchId={2}"><i class="fa fa-search"></i> {1}</button>'--%>
-                        <%--.format(rowObject.id, '审核',rowObject.branchId);--%>
-                <%--}--%>
-                formatter: function (cellvalue, options, rowObject) {
                     if(rowObject.isBack) return '已退回'
                     <shiro:hasPermission name="pmMeeting:approve">
-                    if (cellvalue == 0)
-                        return '<button class="popupBtn btn btn-success btn-xs" ' +
-                            'data-url="${ctx}/pmMeeting_check?id={0}&check=true"><i class="fa fa-check"></i> {1}</button>'.format(rowObject.id, '审核');
+                    if (cellvalue == 0){
+                        if(adminParty<0&&${addPermits==true})
+                            return '<button class="popupBtn btn btn-success btn-xs" disabled="disabled" data-url="${ctx}/pmMeeting_check?id={0}&check=true"><i class="fa fa-check"></i> {1}</button>'.format(rowObject.id, '审核');
+                        else
+                            return '<button class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pmMeeting_check?id={0}&check=true"><i class="fa fa-check"></i> {1}</button>'.format(rowObject.id, '审核');
+                    }
                     </shiro:hasPermission>
                     return _cMap.PM_MEETING_STATUS_MAP[cellvalue];
                 }
@@ -222,17 +221,21 @@
             <c:if test="${cls==1}">
             <shiro:hasPermission name="pmMeeting:approve">
             { label: '退回', name: 'isBack', width: 80, formatter:function(cellvalue, options, rowObject){
+                    var adminParty=$.inArray(rowObject.partyId,${cm:toJSONArray(adminPartyIdList)});
+
                     if (cellvalue) return '已退回'
                     if (rowObject.status != 0)  return '--';
-
-                    return '<button class="popupBtn btn btn-danger btn-xs" data-url="${ctx}/pmMeeting_check?id={0}&check=false"><i class="fa fa-reply"></i> {1}</button>'
-                        .format(rowObject.id, '退回');
+                    if(adminParty<0&&${addPermits==true})
+                         return '<button class="popupBtn btn btn-danger btn-xs" disabled="disabled" data-url="${ctx}/pmMeeting_check?id={0}&check=false"><i class="fa fa-reply"></i> {1}</button>'
+                             .format(rowObject.id, '退回');
+                    else
+                        return '<button class="popupBtn btn btn-danger btn-xs" data-url="${ctx}/pmMeeting_check?id={0}&check=false"><i class="fa fa-reply"></i> {1}</button>'
+                            .format(rowObject.id, '退回');
                 },frozen:true
             },
             </shiro:hasPermission>
             </c:if>
             <c:if test="${cls==2}">
-            <shiro:hasAnyRoles name="${ROLE_BRANCHADMIN},${ROLE_ADMIN}">
             { label: '重新编辑', name: 'reedit', width: 100, formatter:function(cellvalue, options, rowObject){
                     if (rowObject.isBack)
                     return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/pmMeeting_au?edit=true&id={0}&reedit=1"><i class="fa fa-edit"></i> {1}</button>'
@@ -240,9 +243,10 @@
                     return '--';
                 },frozen:true
             },
-            </shiro:hasAnyRoles>
             </c:if>
+            <c:if test="${cls==2||cls==4}">
             {label: '原因', name: 'reason', align:'left'},
+            </c:if>
             {label: '所属机构', name: 'branch.name', width:370, frozen: true, align:'left', formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }
