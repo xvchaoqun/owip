@@ -8,3 +8,4 @@ classes
 /src/main/resources/spring.properties
 /pom.xml
 /src/main/resources/logback.xml
+/src/main/resources/bean-filters.xml
