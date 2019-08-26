@@ -1633,6 +1633,7 @@
 				</w:tr>
 				<w:tr wsp:rsidR="00DE3C38" wsp:rsidRPr="009B666C" wsp:rsidTr="009B666C">
 					<w:trPr>
+						<w:trHeight w:h-rule="exact" w:val="629"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>

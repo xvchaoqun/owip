@@ -583,7 +583,8 @@ var _modal_width;
                 $("#modal").addClass(direction);
             }
             $('#modal .modal-content').load(url, function (data) {
-                if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget});
+                if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget,
+                    start:function(){WebuiPopovers.hideAll();}});
             });
         },
         loadPdfModal: function (path, pages, width, direction, dragTarget) { // 加载pdf图片预览，dragTarget：拖拽位置
@@ -1713,10 +1714,12 @@ $.extend($.register, {
     },
     // 日历
     date: function ($date, params) {
-        $date.parent().css('z-index', '1030');
-        $date.parent().parent().css('z-index', '10');
+
         params = params||{};
         $.each($date, function(i, date){
+
+            $(date).parent().css('position', 'relative').css('z-index', '1029');
+            $(date).parent().parent().css('z-index', '10');
 
             var endDate = $(date).data("date-end-date") || params.endDate;
             if (endDate == undefined) {
