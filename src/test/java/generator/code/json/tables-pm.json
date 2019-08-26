@@ -1,0 +1,36 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "pm",
+  "tables": [
+    {
+      "table": "pm_quarter",
+      "key": "id",
+      "searchColumns": "quarter",
+      "showColumns": "year,quarter,num,due_num,finish_num",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_PM",
+      "ignore": false
+    },
+    {
+      "table": "pm_quarter_branch",
+      "key": "id",
+      "searchColumns": "party_id,branch_id",
+      "showColumns": "year,quarter,branch_name,is_exclude,meeting_num",
+      "excludeEditColumns": "id,party_id,branch_id",
+      "logType": "LogConstants.LOG_PM",
+      "ignore": false
+    },
+    {
+      "table": "pm_quarter_party",
+      "key": "id",
+      "searchColumns": "party_id",
+      "showColumns": "year,quarter,party_id,branch_num,exculde_branch_num",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_PM",
+      "ignore": false
+    }
+  ]
+}
