@@ -1,18 +1,55 @@
 package domain.cis;
 
 import domain.cadre.CadreView;
+import domain.sc.scRecord.ScRecordView;
+import domain.sc.scRecord.ScRecordViewExample;
+import domain.sys.SysUserView;
+import domain.unit.UnitPost;
+import org.apache.commons.lang3.StringUtils;
+import persistence.sc.IScMapper;
+import persistence.sc.scRecord.ScRecordViewMapper;
+import persistence.unit.UnitPostMapper;
 import sys.helper.CisHelper;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
+import sys.utils.NumberUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class CisInspectObjView implements Serializable {
 
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+
+    public UnitPost getUnitPost(){
+        if(unitPostId==null) return null;
+        return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(unitPostId);
+    }
+
+    public ScRecordView getScRecord(){
+
+        if(recordId==null) return null;
+        IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+        if(iScMapper==null) return null;
+        return iScMapper.getScRecordView(recordId);
+    }
+
+    public List<ScRecordView> getScRecords(){
+
+        if(StringUtils.isBlank(recordIds)) return null;
+        ScRecordViewMapper scRecordViewMapper = CmTag.getBean(ScRecordViewMapper.class);
+        if(scRecordViewMapper==null) return null;
+
+        ScRecordViewExample example = new ScRecordViewExample();
+        example.createCriteria().andIdIn(new ArrayList<>(NumberUtils.toIntSet(recordIds, ",")));
+        return scRecordViewMapper.selectByExample(example);
+    }
+
     public String getSn(){
         String type = CmTag.getMetaType(typeId).getName();
-        return String.format("%s〔%s〕%s号", type, year, seq);
+        return String.format("%s〔%s%02d〕号", type, DateUtils.formatDate(inspectDate, DateUtils.YYYYMMDD), seq);
     }
 
     public CadreView getCadre(){
@@ -31,6 +68,12 @@ public class CisInspectObjView implements Serializable {
     }
 
     private Integer id;
+
+    private Integer recordId;
+
+    private String recordIds;
+
+    private Integer unitPostId;
 
     private Integer year;
 
@@ -58,6 +101,10 @@ public class CisInspectObjView implements Serializable {
 
     private String logFile;
 
+    private String report;
+
+    private Integer recordUserId;
+
     private String remark;
 
     private Integer archiveId;
@@ -70,6 +117,30 @@ public class CisInspectObjView implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public String getRecordIds() {
+        return recordIds;
+    }
+
+    public void setRecordIds(String recordIds) {
+        this.recordIds = recordIds == null ? null : recordIds.trim();
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public Integer getYear() {
@@ -174,6 +245,22 @@ public class CisInspectObjView implements Serializable {
 
     public void setLogFile(String logFile) {
         this.logFile = logFile == null ? null : logFile.trim();
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report == null ? null : report.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public String getRemark() {

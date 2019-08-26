@@ -3,14 +3,17 @@
 <mapper namespace="persistence.sc.scMotion.ScMotionViewMapper">
   <resultMap id="BaseResultMap" type="domain.sc.scMotion.ScMotionView">
     <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="year" jdbcType="SMALLINT" property="year" />
-    <result column="hold_date" jdbcType="DATE" property="holdDate" />
     <result column="seq" jdbcType="VARCHAR" property="seq" />
-    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
-    <result column="sc_type" jdbcType="INTEGER" property="scType" />
+    <result column="year" jdbcType="SMALLINT" property="year" />
     <result column="way" jdbcType="TINYINT" property="way" />
     <result column="way_other" jdbcType="VARCHAR" property="wayOther" />
-    <result column="topics" jdbcType="VARCHAR" property="topics" />
+    <result column="committee_topic_id" jdbcType="INTEGER" property="committeeTopicId" />
+    <result column="group_topic_id" jdbcType="INTEGER" property="groupTopicId" />
+    <result column="hold_date" jdbcType="DATE" property="holdDate" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="sc_type" jdbcType="INTEGER" property="scType" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="post_name" jdbcType="VARCHAR" property="postName" />
     <result column="job" jdbcType="VARCHAR" property="job" />
@@ -49,8 +52,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, hold_date, seq, unit_post_id, sc_type, way, way_other, topics, remark, 
-    post_name, job, admin_level, post_type, unit_id, unit_type
+    id, seq, year, way, way_other, committee_topic_id, group_topic_id, hold_date, unit_post_id, 
+    sc_type, content, record_user_id, remark, post_name, job, admin_level, post_type, 
+    unit_id, unit_type
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMotion.ScMotionViewExample" resultMap="BaseResultMap">
     select

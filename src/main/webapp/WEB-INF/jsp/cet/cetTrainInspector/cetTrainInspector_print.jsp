@@ -8,14 +8,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="UTF-8" />
 <title>账号打印</title>
-<%--<script src="${ctx}/js/jquery.min.js"></script>
-<script src="${ctx}/js/jquery.PrintArea.js"></script>
-<script>
-function printResult(){
-
-	$("#printArea").printArea();
-}
-</script>--%>
 <style>
 table tr td {
 	padding-left: 10px;

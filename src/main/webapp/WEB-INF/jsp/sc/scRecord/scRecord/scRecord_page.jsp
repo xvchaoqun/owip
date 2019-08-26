@@ -60,10 +60,17 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>年份</label>
-                            <input class="form-control search-query" name="year" type="text" value="${param.year}"
-                                   placeholder="请输入年份">
+                            <div class="input-group date" data-date-format="yyyy"
+                                 data-date-min-view-mode="2" style="width: 100px">
+                                <input required class="form-control" placeholder="请选择"
+                                       name="year"
+                                       type="text"
+                                       value="${param.year}"/>
+                                <span class="input-group-addon"> <i
+                                        class="fa fa-calendar bigger-110"></i></span>
+                            </div>
                         </div>
-                        <div class="form-group">
+                        <%--<div class="form-group">
                             <label>所属动议</label>
                             <input class="form-control search-query" name="motionId" type="text" value="${param.motionId}"
                                    placeholder="请输入所属动议">
@@ -72,7 +79,7 @@ pageEncoding="UTF-8" %>
                             <label>状态</label>
                             <input class="form-control search-query" name="status" type="text" value="${param.status}"
                                    placeholder="请输入状态">
-                        </div>
+                        </div>--%>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/sc/scRecord"
@@ -105,12 +112,13 @@ pageEncoding="UTF-8" %>
             {label: '年份', name: 'year', width: 80, frozen:true},
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                     return _cMap.SC_RECORD_STATUS_MAP[cellvalue]
-            }},
+            }, frozen:true},
             {label: '纪实编号', name: 'code', width: 200, frozen:true},
             { label: '纪实详情',name: '_detail'},
             { label: '纪实进度',name: '_progress'},
             {label: '选任启动日期', name: 'holdDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '选任岗位',name: 'postName', align:'left', width: 300, frozen:true},
+            {label: '选任岗位',name: 'postName', align:'left', width: 300},
+            {label: '岗位编号',name: 'postCode'},
             {label: '分管工作', align:'left', name: 'job', width: 200 },
             {label: '行政级别', name: 'adminLevel', width: 85, formatter: $.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},
@@ -125,5 +133,5 @@ pageEncoding="UTF-8" %>
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
+    $.register.date($('.input-group.date'));
 </script>

@@ -3,14 +3,17 @@
 <mapper namespace="persistence.sc.scMotion.ScMotionMapper">
   <resultMap id="BaseResultMap" type="domain.sc.scMotion.ScMotion">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="year" jdbcType="SMALLINT" property="year" />
-    <result column="hold_date" jdbcType="DATE" property="holdDate" />
     <result column="seq" jdbcType="VARCHAR" property="seq" />
-    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
-    <result column="sc_type" jdbcType="INTEGER" property="scType" />
+    <result column="year" jdbcType="SMALLINT" property="year" />
     <result column="way" jdbcType="TINYINT" property="way" />
     <result column="way_other" jdbcType="VARCHAR" property="wayOther" />
-    <result column="topics" jdbcType="VARCHAR" property="topics" />
+    <result column="committee_topic_id" jdbcType="INTEGER" property="committeeTopicId" />
+    <result column="group_topic_id" jdbcType="INTEGER" property="groupTopicId" />
+    <result column="hold_date" jdbcType="DATE" property="holdDate" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="sc_type" jdbcType="INTEGER" property="scType" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -72,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, hold_date, seq, unit_post_id, sc_type, way, way_other, topics, remark
+    id, seq, year, way, way_other, committee_topic_id, group_topic_id, hold_date, unit_post_id, 
+    sc_type, content, record_user_id, remark
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMotion.ScMotionExample" resultMap="BaseResultMap">
     select
@@ -105,13 +109,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.sc.scMotion.ScMotion">
-    insert into sc_motion (id, year, hold_date, 
-      seq, unit_post_id, sc_type, 
-      way, way_other, topics, 
+    insert into sc_motion (id, seq, year, 
+      way, way_other, committee_topic_id, 
+      group_topic_id, hold_date, unit_post_id, 
+      sc_type, content, record_user_id, 
       remark)
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, #{holdDate,jdbcType=DATE}, 
-      #{seq,jdbcType=VARCHAR}, #{unitPostId,jdbcType=INTEGER}, #{scType,jdbcType=INTEGER}, 
-      #{way,jdbcType=TINYINT}, #{wayOther,jdbcType=VARCHAR}, #{topics,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{seq,jdbcType=VARCHAR}, #{year,jdbcType=SMALLINT}, 
+      #{way,jdbcType=TINYINT}, #{wayOther,jdbcType=VARCHAR}, #{committeeTopicId,jdbcType=INTEGER}, 
+      #{groupTopicId,jdbcType=INTEGER}, #{holdDate,jdbcType=DATE}, #{unitPostId,jdbcType=INTEGER}, 
+      #{scType,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{recordUserId,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scMotion.ScMotion">
@@ -120,20 +126,11 @@
       <if test="id != null">
         id,
       </if>
-      <if test="year != null">
-        year,
-      </if>
-      <if test="holdDate != null">
-        hold_date,
-      </if>
       <if test="seq != null">
         seq,
       </if>
-      <if test="unitPostId != null">
-        unit_post_id,
-      </if>
-      <if test="scType != null">
-        sc_type,
+      <if test="year != null">
+        year,
       </if>
       <if test="way != null">
         way,
@@ -141,8 +138,26 @@
       <if test="wayOther != null">
         way_other,
       </if>
-      <if test="topics != null">
-        topics,
+      <if test="committeeTopicId != null">
+        committee_topic_id,
+      </if>
+      <if test="groupTopicId != null">
+        group_topic_id,
+      </if>
+      <if test="holdDate != null">
+        hold_date,
+      </if>
+      <if test="unitPostId != null">
+        unit_post_id,
+      </if>
+      <if test="scType != null">
+        sc_type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="recordUserId != null">
+        record_user_id,
       </if>
       <if test="remark != null">
         remark,
@@ -152,20 +167,11 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="year != null">
-        #{year,jdbcType=SMALLINT},
-      </if>
-      <if test="holdDate != null">
-        #{holdDate,jdbcType=DATE},
-      </if>
       <if test="seq != null">
         #{seq,jdbcType=VARCHAR},
       </if>
-      <if test="unitPostId != null">
-        #{unitPostId,jdbcType=INTEGER},
-      </if>
-      <if test="scType != null">
-        #{scType,jdbcType=INTEGER},
+      <if test="year != null">
+        #{year,jdbcType=SMALLINT},
       </if>
       <if test="way != null">
         #{way,jdbcType=TINYINT},
@@ -173,8 +179,26 @@
       <if test="wayOther != null">
         #{wayOther,jdbcType=VARCHAR},
       </if>
-      <if test="topics != null">
-        #{topics,jdbcType=VARCHAR},
+      <if test="committeeTopicId != null">
+        #{committeeTopicId,jdbcType=INTEGER},
+      </if>
+      <if test="groupTopicId != null">
+        #{groupTopicId,jdbcType=INTEGER},
+      </if>
+      <if test="holdDate != null">
+        #{holdDate,jdbcType=DATE},
+      </if>
+      <if test="unitPostId != null">
+        #{unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="scType != null">
+        #{scType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -193,20 +217,11 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.year != null">
-        year = #{record.year,jdbcType=SMALLINT},
-      </if>
-      <if test="record.holdDate != null">
-        hold_date = #{record.holdDate,jdbcType=DATE},
-      </if>
       <if test="record.seq != null">
         seq = #{record.seq,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitPostId != null">
-        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
-      </if>
-      <if test="record.scType != null">
-        sc_type = #{record.scType,jdbcType=INTEGER},
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=SMALLINT},
       </if>
       <if test="record.way != null">
         way = #{record.way,jdbcType=TINYINT},
@@ -214,8 +229,26 @@
       <if test="record.wayOther != null">
         way_other = #{record.wayOther,jdbcType=VARCHAR},
       </if>
-      <if test="record.topics != null">
-        topics = #{record.topics,jdbcType=VARCHAR},
+      <if test="record.committeeTopicId != null">
+        committee_topic_id = #{record.committeeTopicId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupTopicId != null">
+        group_topic_id = #{record.groupTopicId,jdbcType=INTEGER},
+      </if>
+      <if test="record.holdDate != null">
+        hold_date = #{record.holdDate,jdbcType=DATE},
+      </if>
+      <if test="record.unitPostId != null">
+        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="record.scType != null">
+        sc_type = #{record.scType,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -228,14 +261,17 @@
   <update id="updateByExample" parameterType="map">
     update sc_motion
     set id = #{record.id,jdbcType=INTEGER},
-      year = #{record.year,jdbcType=SMALLINT},
-      hold_date = #{record.holdDate,jdbcType=DATE},
       seq = #{record.seq,jdbcType=VARCHAR},
-      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
-      sc_type = #{record.scType,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=SMALLINT},
       way = #{record.way,jdbcType=TINYINT},
       way_other = #{record.wayOther,jdbcType=VARCHAR},
-      topics = #{record.topics,jdbcType=VARCHAR},
+      committee_topic_id = #{record.committeeTopicId,jdbcType=INTEGER},
+      group_topic_id = #{record.groupTopicId,jdbcType=INTEGER},
+      hold_date = #{record.holdDate,jdbcType=DATE},
+      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      sc_type = #{record.scType,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -244,20 +280,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.sc.scMotion.ScMotion">
     update sc_motion
     <set>
-      <if test="year != null">
-        year = #{year,jdbcType=SMALLINT},
-      </if>
-      <if test="holdDate != null">
-        hold_date = #{holdDate,jdbcType=DATE},
-      </if>
       <if test="seq != null">
         seq = #{seq,jdbcType=VARCHAR},
       </if>
-      <if test="unitPostId != null">
-        unit_post_id = #{unitPostId,jdbcType=INTEGER},
-      </if>
-      <if test="scType != null">
-        sc_type = #{scType,jdbcType=INTEGER},
+      <if test="year != null">
+        year = #{year,jdbcType=SMALLINT},
       </if>
       <if test="way != null">
         way = #{way,jdbcType=TINYINT},
@@ -265,8 +292,26 @@
       <if test="wayOther != null">
         way_other = #{wayOther,jdbcType=VARCHAR},
       </if>
-      <if test="topics != null">
-        topics = #{topics,jdbcType=VARCHAR},
+      <if test="committeeTopicId != null">
+        committee_topic_id = #{committeeTopicId,jdbcType=INTEGER},
+      </if>
+      <if test="groupTopicId != null">
+        group_topic_id = #{groupTopicId,jdbcType=INTEGER},
+      </if>
+      <if test="holdDate != null">
+        hold_date = #{holdDate,jdbcType=DATE},
+      </if>
+      <if test="unitPostId != null">
+        unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="scType != null">
+        sc_type = #{scType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -276,14 +321,17 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.sc.scMotion.ScMotion">
     update sc_motion
-    set year = #{year,jdbcType=SMALLINT},
-      hold_date = #{holdDate,jdbcType=DATE},
-      seq = #{seq,jdbcType=VARCHAR},
-      unit_post_id = #{unitPostId,jdbcType=INTEGER},
-      sc_type = #{scType,jdbcType=INTEGER},
+    set seq = #{seq,jdbcType=VARCHAR},
+      year = #{year,jdbcType=SMALLINT},
       way = #{way,jdbcType=TINYINT},
       way_other = #{wayOther,jdbcType=VARCHAR},
-      topics = #{topics,jdbcType=VARCHAR},
+      committee_topic_id = #{committeeTopicId,jdbcType=INTEGER},
+      group_topic_id = #{groupTopicId,jdbcType=INTEGER},
+      hold_date = #{holdDate,jdbcType=DATE},
+      unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      sc_type = #{scType,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      record_user_id = #{recordUserId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

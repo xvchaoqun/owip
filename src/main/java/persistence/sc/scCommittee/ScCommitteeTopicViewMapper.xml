@@ -13,6 +13,7 @@
     <result column="has_other_vote" jdbcType="BIT" property="hasOtherVote" />
     <result column="vote_file_path" jdbcType="VARCHAR" property="voteFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
@@ -54,8 +55,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, committee_id, seq, name, unit_ids, content, memo, has_vote, has_other_vote, vote_file_path, 
-    remark, is_deleted, year, hold_date, committee_member_count, count, absent_count, 
-    attend_users, file_path, log_file
+    remark, record_user_id, is_deleted, year, hold_date, committee_member_count, count, 
+    absent_count, attend_users, file_path, log_file
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeTopicViewExample" resultMap="BaseResultMap">
     select

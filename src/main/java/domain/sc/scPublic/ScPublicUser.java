@@ -11,6 +11,8 @@ public class ScPublicUser implements Serializable {
 
     private Integer sortOrder;
 
+    private Integer recordId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -43,5 +45,13 @@ public class ScPublicUser implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
     }
 }

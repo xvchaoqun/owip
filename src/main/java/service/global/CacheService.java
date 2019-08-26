@@ -256,7 +256,7 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     // 刷新地区js数据
     public void flushLocation(){
 
-        String content = "function Location() {this.items=" + locationService.toJSON() + ";}";
+        String content = "function ChinaLocation() {this.items=" + locationService.toJSON() + ";}";
         FileUtils.writerText(CmTag.getJsFolder(), content, "location.js", false);
 
         logger.info("==============刷新location.js成功=================");

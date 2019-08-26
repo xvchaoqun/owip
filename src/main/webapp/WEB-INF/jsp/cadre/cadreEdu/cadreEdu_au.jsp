@@ -255,7 +255,8 @@
 			//alert(finishTime)
 			if($.trim($("#modalForm input[name=degreeTime]").val())==''){
 				var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM");
-				$("#modalForm input[name=degreeTime]").val(degreeTime);
+				$("#modalForm input[name=degreeTime]").closest(".input-group.date")
+					.datepicker('update', degreeTime);;
 			}
 			$("#modalForm input[name=degreeTime]").requireField(true);
 
@@ -389,8 +390,9 @@
 			var $degreeTime = $("#modalForm input[name=degreeTime]");
 			//console.log("$degreeTime.val()=" + $degreeTime.val())
 			if ($degreeTime.val() == '') {
-				//$degreeTime.val(ev.date.format("yyyy.MM"));
-				$degreeTime.datepicker('update', ev.date.format("yyyy.MM"));
+
+				$degreeTime.closest(".input-group.date")
+					.datepicker('update', ev.date.format("yyyy.MM"));
 			}
 		}
 	});

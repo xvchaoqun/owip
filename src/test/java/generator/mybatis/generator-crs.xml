@@ -27,8 +27,8 @@
 
 
         <!--干部招聘-->
-        <!--<table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
-        </table>-->
+        <table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
+        </table>
         <!--<table tableName="crs_candidate" domainObjectName="crs.CrsCandidate" mapperName="crs.CrsCandidateMapper">
         </table>-->
 

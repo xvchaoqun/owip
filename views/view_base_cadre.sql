@@ -109,14 +109,14 @@ left join (select post_id, count(*) as expert_count from crs_post_expert cpe gro
 --  View definition for `cadre_inspect_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `cadre_inspect_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_inspect_view` AS
-select ci.id as inspect_id, ci.`type` as inspect_type, ci.`status` as inspect_status,
-ci.remark as inspect_remark, ci.sort_order as inspect_sort_order, cv.*
+CREATE ALGORITHM=UNDEFINED VIEW `cadre_inspect_view` AS
+select ci.id as inspect_id, ci.record_id, ci.unit_post_id, ci.`type` as inspect_type, ci.`status` as inspect_status,
+ci.remark as inspect_remark, ci.record_user_id, ci.sort_order as inspect_sort_order, cv.*
 from cadre_inspect ci left join cadre_view cv on ci.cadre_id=cv.id;
 
 
 DROP VIEW IF EXISTS `cadre_reserve_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_reserve_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `cadre_reserve_view` AS
 select cr.id as reserve_id, cr.`type` as reserve_type, cr.post_time as reserve_post_time, cr.`status` as reserve_status,
 cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, u.username, cv.*
 from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id left join sys_user u on u.id=cv.user_id ;

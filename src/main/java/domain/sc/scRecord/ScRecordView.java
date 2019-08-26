@@ -26,6 +26,8 @@ public class ScRecordView implements Serializable {
 
     private Integer unitPostId;
 
+    private String postCode;
+
     private String postName;
 
     private String job;
@@ -110,6 +112,14 @@ public class ScRecordView implements Serializable {
 
     public void setUnitPostId(Integer unitPostId) {
         this.unitPostId = unitPostId;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode == null ? null : postCode.trim();
     }
 
     public String getPostName() {

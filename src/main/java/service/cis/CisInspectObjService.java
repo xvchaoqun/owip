@@ -282,4 +282,20 @@ public class CisInspectObjService extends CisBaseMapper {
         }
         cel.setCellValue(_inspectors);
     }
+
+    // 考察复用
+    @Transactional
+    public void reuse(int objId, Integer[] recordIds) {
+
+        if(recordIds!=null && recordIds.length>0){
+
+            CisInspectObj record = new CisInspectObj();
+            record.setId(objId);
+            record.setRecordIds(StringUtils.join(recordIds, ","));
+            cisInspectObjMapper.updateByPrimaryKeySelective(record);
+        }else{
+            // 不传则清空
+            commonMapper.excuteSql("update cis_inspect_obj set record_ids=null where id="+ objId);
+        }
+    }
 }

@@ -49,30 +49,44 @@
             <div class="col-xs-6">
                 <div class="input-group">
                     <input  class="form-control date-picker required" name="inspectDate"
-                            type="text" data-date-format="yyyy-mm-dd"
-                            value="${cm:formatDate(cisInspectObj.inspectDate, "yyyy-MM-dd")}"/>
+                            type="text" data-date-format="yyyy.mm.dd"
+                            value="${cm:formatDate(cisInspectObj.inspectDate, "yyyy.MM.dd")}"/>
                         <span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
                         </span>
                 </div>
             </div>
         </div>
+        <shiro:hasPermission name="scRecord:list">
+            <div class="form-group">
+                <label class="col-xs-3 control-label"> 对应选任纪实</label>
+                <div class="col-xs-6">
+                    <input type="hidden" name="recordId" value="${scRecord.id}">
+                    <input readonly class="form-control" type="text" name="recordCode" value="${scRecord.code}">
+                </div>
+                <button id="selectRecordBtn" type="button" class="btn btn-success btn-sm"><i
+                        class="fa fa-chevron-circle-down"></i> 选择
+                </button>
+            </div>
+        </shiro:hasPermission>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>考察对象</label>
-            <c:if test="${empty cisInspectObj}">
             <div class="col-xs-6">
-                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
-                        name="cadreId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
-                    <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
+                <c:set var="cadreSelectUrl" value="${ctx}/cadre_selects?type=0&key=1"/>
+                <c:if test="${not empty scRecord.id}">
+                    <c:set var="cadreSelectUrl" value="${ctx}/sc/scGroupTopic_users?recordId=${scRecord.id}"/>
+                </c:if>
+                <select required data-rel="select2-ajax" data-ajax-url="${cadreSelectUrl}"
+                        name="userId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
+                    <option value="${cadre.userId}">${cadre.realname}-${cadre.code}</option>
                 </select>
             </div>
-            </c:if>
-            <c:if test="${not empty cisInspectObj}">
+            <%--<c:if test="${not empty cisInspectObj}">
             <div class="col-xs-6 label-text">
-                    <input type="hidden" name="cadreId" value="${cisInspectObj.cadreId}">
+                    <input type="hidden" name="userId" value="${cadre.userId}">
                   ${cadre.realname}-${cadre.code}
             </div>
-            </c:if>
+            </c:if>--%>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">所在单位及职务</label>
@@ -83,7 +97,14 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">拟任职务</label>
             <div class="col-xs-6">
-                <textarea class="form-control noEnter" name="assignPost">${cisInspectObj.assignPost}</textarea>
+                <select name="unitPostId" data-rel="select2-ajax"
+                        data-ajax-url="${ctx}/unitPost_selects" data-width="273"
+                        data-placeholder="请选择">
+                    <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
+                </select>
+                <script>
+                    $.register.del_select($("#modalForm select[name=unitPostId]"))
+                </script>
             </div>
         </div>
         <div class="form-group">
@@ -135,12 +156,47 @@
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary"
-           value="<c:if test="${cisInspectObj!=null}">确定</c:if><c:if test="${cisInspectObj==null}">添加</c:if>"/>
+    <button type="button" id="submitBtn" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+        ${cisInspectObj!=null?'确定':'添加'}
+    </button>
 </div>
 
 <script>
 
+    function _selectItem(id, rowData){
+        //console.log(rowData)
+        if(id>0){
+            var code = rowData.code;
+            $("#modalForm input[name=recordId]").val(id);
+            $("#modalForm input[name=recordCode]").val(code);
+            $("#modalForm select[name=unitPostId]").html('<option value="{0}">{1}</option>'
+                    .format(rowData.unitPostId, rowData.postCode + "-" + rowData.postName))
+                    .trigger("change");
+            $('#modalForm select[name=userId]').data("ajax-url", "${ctx}/sc/scGroupTopic_users?recordId="+id)
+                .val(null).trigger("change");
+        }else{
+            $("#modalForm input[name=recordId]").val('');
+            $("#modalForm input[name=recordCode]").val('');
+            $('#modalForm select[name=userId]').data("ajax-url", "${ctx}/cadre_selects?type=0&key=1")
+                .val(null).trigger("change");
+        }
+
+        $.register.user_select($('#modalForm select[name=userId]'));
+        WebuiPopovers.hideAll();
+    }
+    $('#selectRecordBtn').webuiPopover({
+        padding: true,
+        backdrop: false,
+        autoHide: false,
+        trigger: 'click',
+        content: function (data) {
+            return '<div id="popup-content">' + data + '</div>';
+        },
+        type: 'async',
+        cache: false,
+        url: '/sc/scRecord?cls=10&year=${_thisYear}'
+    });
 
     function inspectorTypeChange(){
         var $inspectorType = $("select[name=inspectorType]");
@@ -156,6 +212,8 @@
         inspectorTypeChange();
     });
     inspectorTypeChange();
+
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
@@ -172,7 +230,7 @@
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
     $.register.del_select($('#modalForm select[name=chiefInspectorId]'));
-    var $selectCadre = $.register.user_select($('#modalForm select[name=cadreId]'));
+    var $selectCadre = $.register.user_select($('#modalForm select[name=userId]'));
     $selectCadre.on("change",function(){
         //console.log($(this).select2("data")[0])
         var title = $(this).select2("data")[0]['title']||'';

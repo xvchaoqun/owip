@@ -1,14 +1,27 @@
 package domain.sc.scCommittee;
 
 import domain.cadre.CadreView;
+import domain.sc.scRecord.ScRecordView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import persistence.sc.IScMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class ScCommitteeVoteView implements Serializable {
+
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+
+    public ScRecordView getScRecord(){
+
+        if(recordId==null) return null;
+        IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+        if(iScMapper==null) return null;
+        return iScMapper.getScRecordView(recordId);
+    }
+
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }
@@ -52,6 +65,8 @@ public class ScCommitteeVoteView implements Serializable {
 
     private String remark;
 
+    private Integer recordId;
+
     private Integer sortOrder;
 
     private String name;
@@ -63,6 +78,8 @@ public class ScCommitteeVoteView implements Serializable {
     private Integer committeeId;
 
     private String voteFilePath;
+
+    private Integer recordUserId;
 
     private String originalPost;
 
@@ -216,6 +233,14 @@ public class ScCommitteeVoteView implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
     public Integer getSortOrder() {
         return sortOrder;
     }
@@ -262,6 +287,14 @@ public class ScCommitteeVoteView implements Serializable {
 
     public void setVoteFilePath(String voteFilePath) {
         this.voteFilePath = voteFilePath == null ? null : voteFilePath.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public String getOriginalPost() {

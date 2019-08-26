@@ -37,6 +37,8 @@ public class ScDispatch implements Serializable {
 
     private String remark;
 
+    private Integer recordUserId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -125,5 +127,13 @@ public class ScDispatch implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 }

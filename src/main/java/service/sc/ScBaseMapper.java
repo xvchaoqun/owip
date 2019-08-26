@@ -25,7 +25,7 @@ import persistence.sc.scPassport.ScPassportMapper;
 import persistence.sc.scPassport.ScPassportMsgMapper;
 import persistence.sc.scPublic.ScPublicMapper;
 import persistence.sc.scPublic.ScPublicUserMapper;
-import persistence.sc.scPublic.ScPublicViewMapper;
+import persistence.sc.scPublic.ScPublicUserViewMapper;
 import persistence.sc.scRecord.ScRecordMapper;
 import persistence.sc.scRecord.ScRecordViewMapper;
 import persistence.sc.scSubsidy.*;
@@ -105,9 +105,9 @@ public class ScBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected ScPublicMapper scPublicMapper;
     @Autowired(required = false)
-    protected ScPublicViewMapper scPublicViewMapper;
-    @Autowired(required = false)
     protected ScPublicUserMapper scPublicUserMapper;
+    @Autowired(required = false)
+    protected ScPublicUserViewMapper scPublicUserViewMapper;
 
     /**
      * 干部选拔-干部小组会议题
@@ -166,8 +166,6 @@ public class ScBaseMapper extends CoreBaseMapper {
     protected ScLetterViewMapper scLetterViewMapper;
     @Autowired(required = false)
     protected ScLetterItemMapper scLetterItemMapper;
-    @Autowired(required = false)
-    protected ScLetterItemViewMapper scLetterItemViewMapper;
     @Autowired(required = false)
     protected ScLetterReplyMapper scLetterReplyMapper;
     @Autowired(required = false)

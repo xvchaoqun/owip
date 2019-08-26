@@ -60,14 +60,12 @@
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
                                 <label>年份</label>
-                                <div class="input-group" style="width: 150px">
-                                    <input class="form-control date-picker" placeholder="请选择年份"
+                                <div class="input-group" style="width: 80px">
+                                    <input class="form-control date-picker" placeholder="请选择"
                                            name="year"
                                            type="text"
                                            data-date-format="yyyy" data-date-min-view-mode="2"
                                            value="${param.year}"/>
-                                    <span class="input-group-addon"> <i
-                                            class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -81,17 +79,15 @@
                                 </script>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">拟调整岗位</label>
-                                <div class="col-xs-6">
-                                    <select name="unitPostId" data-rel="select2-ajax"
-                                            data-ajax-url="${ctx}/unitPost_selects"
-                                            data-placeholder="请选择">
-                                        <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
-                                    </select>
-                                    <script>
-                                        $.register.del_select($("#searchForm select[name=unitPostId]"))
-                                    </script>
-                                </div>
+                                <label>拟调整岗位</label>
+                                <select name="unitPostId" data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/unitPost_selects"
+                                        data-placeholder="请选择">
+                                    <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
+                                </select>
+                                <script>
+                                    $.register.del_select($("#searchForm select[name=unitPostId]"))
+                                </script>
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -124,18 +120,21 @@
         colModel: [
             {label: '年份', name: 'year', width: 80, frozen:true},
             {label: '动议编号', name: 'code', width: 200, frozen:true},
-            {label: '动议记录', name: '_log', width: 90, formatter: function (cellvalue, options, rowObject) {
+            {label: '动议记录', name: '_log', width: 210, formatter: function (cellvalue, options, rowObject) {
 
-                    if (rowObject.way == '<%=ScConstants.SC_MOTION_WAY_OTHER%>') {
-                        return "--"
+                    if (rowObject.way == '<%=ScConstants.SC_MOTION_WAY_COMMITTEE%>'
+                        && rowObject.committeeTopic!=undefined) {
+                        var _num = "党委常委会〔{0}〕号".format($.date(rowObject.committeeTopic.holdDate, "yyyyMMdd"))
+                        if($.trim(rowObject.committeeTopic.filePath)=='') return _num;
+                        return $.pdfPreview(rowObject.committeeTopic.filePath, _num);
+                    }else if (rowObject.way == '<%=ScConstants.SC_MOTION_WAY_GROUP%>'
+                            && rowObject.groupTopic!=undefined) {
+                        var _num = "干部小组会〔{0}〕号".format($.date(rowObject.groupTopic.holdDate, "yyyyMMdd"))
+                        if ($.isBlank(rowObject.groupTopic.groupFilePath)) return _num;
+                        return $.pdfPreview(rowObject.groupTopic.groupFilePath, _num);
                     }
 
-                    return ('<button class="popupBtn btn {1} btn-xs" data-width="1200" ' +
-                        'data-url="${ctx}/sc/scMotion_topics?id={0}"><i class="fa {3}"></i> {2}</button>')
-                        .format(rowObject.id,
-                            rowObject.topics==undefined?'btn-primary':'btn-success',
-                            rowObject.topics==undefined?'编辑':'查看',
-                            rowObject.topics==undefined?'fa-edit':'fa-search');
+                    return "--"
                 }, frozen:true},
             {label: '动议日期', name: 'holdDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '拟调整岗位',name: 'postName', align:'left', width: 300, frozen:true},
@@ -153,6 +152,12 @@
             {label: '单位类型', name: 'unitType', width: 120, frozen: true, formatter: $.jgrid.formatter.MetaType},
             {label: '选任方式', name: 'scType', width: 120, formatter: $.jgrid.formatter.MetaType},
             {
+                label: '工作方案', name: 'content', width: 90, formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="popupBtn btn btn-success btn-xs" ' +
+                'data-url="${ctx}/sc/scMotion_content?id={0}"><i class="fa fa-search"></i> 查看</button>')
+                            .format(rowObject.id);
+            }},
+            {
                 label: '动议主体', name: 'way', width: 150, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--'
                     if (cellvalue == '<%=ScConstants.SC_MOTION_WAY_OTHER%>') {
@@ -161,7 +166,7 @@
                     return _cMap.SC_MOTION_WAY_MAP[cellvalue]
                 }
             },
-
+            {label: '纪实人员', name: 'recordUser.realname'},
             {label: '备注', name: 'remark', width: 350, align: 'left'}
         ]
     }).jqGrid("setFrozenColumns");
@@ -170,5 +175,5 @@
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
+    $.register.date($('.date-picker'));
 </script>

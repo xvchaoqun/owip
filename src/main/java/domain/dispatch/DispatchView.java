@@ -60,6 +60,8 @@ public class DispatchView implements Serializable {
 
     private String remark;
 
+    private Integer recordUserId;
+
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -214,6 +216,14 @@ public class DispatchView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public Integer getSortOrder() {

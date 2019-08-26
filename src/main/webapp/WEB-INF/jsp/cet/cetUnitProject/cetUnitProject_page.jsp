@@ -45,7 +45,7 @@ pageEncoding="UTF-8" %>
                         <div class="form-group">
                             <label>年度</label>
                             <input class="form-control search-query" name="year" type="text" value="${param.year}"
-                                   placeholder="请输入年度">
+                                   placeholder="请输入">
                         </div>
                         <div class="form-group">
                             <label>培训班主办方</label>

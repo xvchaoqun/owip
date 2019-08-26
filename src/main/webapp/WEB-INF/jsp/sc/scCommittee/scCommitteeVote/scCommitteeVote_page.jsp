@@ -202,6 +202,8 @@
                 if(rowObject.logFile==undefined) return '--';
                 return $.pdfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
+            {label: '对应的选任纪实', name: 'scRecord.code', width: 200},
+            {label: '纪实人员', name: 'recordUser.realname'},
             {label: '备注', name: 'remark', width:300}
         ]
     }).jqGrid("setFrozenColumns");

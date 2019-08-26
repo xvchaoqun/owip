@@ -5,6 +5,9 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="check_id" jdbcType="INTEGER" property="checkId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="record_ids" jdbcType="VARCHAR" property="recordIds" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="compare_date" jdbcType="DATE" property="compareDate" />
     <result column="result_type" jdbcType="VARCHAR" property="resultType" />
     <result column="self_file" jdbcType="VARCHAR" property="selfFile" />
@@ -78,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, check_id, user_id, compare_date, result_type, self_file, confirm_type, confirm_date, 
-    check_reason, handle_type, check_file, ow_handle_type, ow_handle_date, ow_handle_file, 
-    ow_affect_date, remark
+    id, check_id, user_id, record_id, record_ids, record_user_id, compare_date, result_type, 
+    self_file, confirm_type, confirm_date, check_reason, handle_type, check_file, ow_handle_type, 
+    ow_handle_date, ow_handle_file, ow_affect_date, remark
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterCheckItemExample" resultMap="BaseResultMap">
     select
@@ -114,12 +117,14 @@
   </delete>
   <insert id="insert" parameterType="domain.sc.scMatter.ScMatterCheckItem">
     insert into sc_matter_check_item (id, check_id, user_id, 
+      record_id, record_ids, record_user_id, 
       compare_date, result_type, self_file, 
       confirm_type, confirm_date, check_reason, 
       handle_type, check_file, ow_handle_type, 
       ow_handle_date, ow_handle_file, ow_affect_date, 
       remark)
     values (#{id,jdbcType=INTEGER}, #{checkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{recordId,jdbcType=INTEGER}, #{recordIds,jdbcType=VARCHAR}, #{recordUserId,jdbcType=INTEGER}, 
       #{compareDate,jdbcType=DATE}, #{resultType,jdbcType=VARCHAR}, #{selfFile,jdbcType=VARCHAR}, 
       #{confirmType,jdbcType=TINYINT}, #{confirmDate,jdbcType=DATE}, #{checkReason,jdbcType=VARCHAR}, 
       #{handleType,jdbcType=VARCHAR}, #{checkFile,jdbcType=VARCHAR}, #{owHandleType,jdbcType=VARCHAR}, 
@@ -137,6 +142,15 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="recordIds != null">
+        record_ids,
+      </if>
+      <if test="recordUserId != null">
+        record_user_id,
       </if>
       <if test="compareDate != null">
         compare_date,
@@ -187,6 +201,15 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordIds != null">
+        #{recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
       </if>
       <if test="compareDate != null">
         #{compareDate,jdbcType=DATE},
@@ -247,6 +270,15 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordIds != null">
+        record_ids = #{record.recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      </if>
       <if test="record.compareDate != null">
         compare_date = #{record.compareDate,jdbcType=DATE},
       </if>
@@ -296,6 +328,9 @@
     set id = #{record.id,jdbcType=INTEGER},
       check_id = #{record.checkId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
+      record_ids = #{record.recordIds,jdbcType=VARCHAR},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER},
       compare_date = #{record.compareDate,jdbcType=DATE},
       result_type = #{record.resultType,jdbcType=VARCHAR},
       self_file = #{record.selfFile,jdbcType=VARCHAR},
@@ -321,6 +356,15 @@
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordIds != null">
+        record_ids = #{recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
       </if>
       <if test="compareDate != null">
         compare_date = #{compareDate,jdbcType=DATE},
@@ -368,6 +412,9 @@
     update sc_matter_check_item
     set check_id = #{checkId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
+      record_ids = #{recordIds,jdbcType=VARCHAR},
+      record_user_id = #{recordUserId,jdbcType=INTEGER},
       compare_date = #{compareDate,jdbcType=DATE},
       result_type = #{resultType,jdbcType=VARCHAR},
       self_file = #{selfFile,jdbcType=VARCHAR},

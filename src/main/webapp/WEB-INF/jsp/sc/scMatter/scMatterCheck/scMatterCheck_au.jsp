@@ -119,11 +119,11 @@
                                         <button type="button" class="btn btn-success btn-sm" onclick="_selectUser()"><i
                                                 class="fa fa-plus"></i> 选择
                                         </button>
-                                        <div style="padding-top: 10px;">
-                                            <div id="itemList">
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <div id="itemList" style="max-height: 382px;overflow-y: auto;margin: 0 15px">
 
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -157,14 +157,16 @@
     </div>
 </div>
 <script type="text/template" id="itemListTpl">
-    <table class="table table-striped table-bordered table-condensed table-unhover2">
+    {{if(users.length>0){}}
+    <table id="itemTable" class="table table-striped table-bordered table-unhover2 table-center">
         <thead>
         <tr>
-            <td colspan="3">已选择的核查对象</td>
+            <td colspan="4">已选择的核查对象</td>
         </tr>
         <tr>
             <td>姓名</td>
             <td>工号</td>
+            <th>对应的选任纪实</th>
             <td></td>
         </tr>
         </thead>
@@ -174,18 +176,37 @@
             <td>{{=u.realname}}</td>
             <td>{{=u.code}}</td>
             <td>
+                <span data-user-id="{{=u.userId}}" data-record-id="{{=u.recordId}}">{{=u.scRecordCode}}</span>
+                <button type="button" data-width="1050"
+                        data-url="${ctx}/sc/scLetter_selectScRecord?userId={{=u.userId}}&year={{=year}}&recordId={{=u.recordId}}"
+                        class="popupBtn btn btn-primary btn-xs"><i class="fa fa-edit"></i></button>
+            </td>
+            <td>
                 <a href="javasciprt:;" class="del">移除</a>
             </td>
         </tr>
         {{});}}
         </tbody>
     </table>
+    {{}}}
 </script>
 <script>
 
-    var selectedUsers = ${cm:toJSONArrayWithFilter(itemUserList, "userId,code,realname")};
-    $("#itemList").append(_.template($("#itemListTpl").html())({users: selectedUsers}));
+    var selectedItems = ${cm:toJSONArrayWithFilter(itemUserList, "userId,code,realname,recordId,scRecordCode")};
+    $("#itemList").append(_.template($("#itemListTpl").html())({users: selectedItems, year:'${scMatterCheck.year}'}));
+    stickheader($("#itemTable"));
+
     function _selectUser() {
+
+        var year = $("#modalForm input[name=year]").val();
+        if(year==''){
+            $.tip({
+                $target: $("#modalForm input[name=year]"),
+                at: 'top center', my: 'bottom center', type: 'info',
+                msg: "请选择年份。"
+            });
+            return;
+        }
 
         var $select = $("#modalForm select[name=userId]");
         var userId = $.trim($select.val());
@@ -198,7 +219,7 @@
             return;
         }
         var hasSelected = false;
-        $.each(selectedUsers, function (i, user) {
+        $.each(selectedItems, function (i, user) {
             if (user.userId == userId) {
                 hasSelected = true;
                 return false;
@@ -218,21 +239,25 @@
         var user = {userId: userId, realname: realname, code: code};
 
         //console.log(user)
-        selectedUsers.push(user);
-        $("#itemList").empty().append(_.template($("#itemListTpl").html())({users: selectedUsers}));
+        selectedItems.push(user);
+        $("#itemList").empty().append(_.template($("#itemListTpl").html())({users: selectedItems, year:year}));
     }
     $(document).off("click", "#itemList .del")
             .on('click', "#itemList .del", function () {
                 var $tr = $(this).closest("tr");
+                var $table = $(this).closest("table");
                 var userId = $tr.data("user-id");
                 //console.log("userId=" + userId)
-                $.each(selectedUsers, function (i, user) {
+                $.each(selectedItems, function (i, user) {
                     if (user.userId == userId) {
-                        selectedUsers.splice(i, 1);
+                        selectedItems.splice(i, 1);
                         return false;
                     }
                 })
                 $(this).closest("tr").remove();
+                if ($("tbody tr", $table).length == 0) {
+                    $table.remove();
+                }
             });
     $.register.user_select($('#modalForm [data-rel="select2-ajax"]'));
     $.register.date($('.date-picker'));
@@ -265,27 +290,28 @@
     $.fileInput($('#modalForm input[name=_files]'),{no_file:"请选择一个或多个文件"});
 
     $("#submitBtn").click(function () {
-        if ($.trim($("#modalForm input[name=checkFile]").val()) == "") {
+        /*if ($.trim($("#modalForm input[name=checkFile]").val()) == "") {
             $.tip({
                 $target: $("#upload-file").closest("form").find("button"),
                 at: 'right center', my: 'left center', type: 'info',
                 msg: "请上传核查文件。"
             });
-        }
+        }*/
         $("#modalForm").submit();
         return false;
     });
     $("#modalForm").validate({
         submitHandler: function (form) {
-            var userIds = $.map(selectedUsers, function (user) {
-                return user.userId;
+            var selectedUsers = $.map(selectedItems, function (user) {
+                user.recordId = $("span[data-user-id='"+ user.userId +"']", "#itemTable").data("record-id");
+                return user;
             });
-            if ($.trim($("#modalForm input[name=checkFile]").val()) == "") {
+            /*if ($.trim($("#modalForm input[name=checkFile]").val()) == "") {
                 return;
-            }
+            }*/
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
-                data: {userIds: userIds},
+                data: {users: $.base64.encode(JSON.stringify(selectedUsers))},
                 success: function (ret) {
                     if (ret.success) {
                         $.hideView();

@@ -2,7 +2,9 @@ package controller.sc.scLetter;
 
 import controller.global.OpException;
 import controller.sc.ScBaseController;
-import domain.sc.scLetter.*;
+import domain.sc.scLetter.ScLetter;
+import domain.sc.scLetter.ScLetterView;
+import domain.sc.scLetter.ScLetterViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -16,13 +18,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import service.sc.scLetter.ScLetterUser;
 import sys.constants.LogConstants;
+import sys.gson.GsonUtils;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Controller
@@ -131,7 +137,7 @@ public class ScLetterController extends ScBaseController {
     @RequestMapping("/scLetter_items")
     public String scLetter_items(Integer letterId, ModelMap modelMap) {
 
-        List<ScLetterItemView> itemList = scLetterService.getItemList(letterId);
+        List<ScLetterUser> itemList = scLetterService.getItemList(letterId);
         modelMap.put("itemList", itemList);
 
         return "sc/scLetter/scLetter/scLetter_items";
@@ -141,18 +147,19 @@ public class ScLetterController extends ScBaseController {
     @RequestMapping(value = "/scLetter_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scLetter_au(ScLetter record,
-                              @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
-                              HttpServletRequest request) {
+                              String users,
+                              HttpServletRequest request) throws UnsupportedEncodingException {
 
         Integer id = record.getId();
+        List<ScLetterUser> scLetterUsers = GsonUtils.toBeans(users, ScLetterUser.class);
 
         if (id == null) {
             record.setIsDeleted(false);
-            scLetterService.insertSelective(record, userIds);
+            scLetterService.insertSelective(record, scLetterUsers);
             logger.info(addLog(LogConstants.LOG_SC_LETTER, "添加纪委函询文件管理：%s", record.getId()));
         } else {
 
-            scLetterService.updateByPrimaryKeySelective(record, userIds);
+            scLetterService.updateByPrimaryKeySelective(record, scLetterUsers);
             logger.info(addLog(LogConstants.LOG_SC_LETTER, "更新纪委函询文件管理：%s", record.getId()));
         }
 
@@ -167,11 +174,8 @@ public class ScLetterController extends ScBaseController {
             ScLetter scLetter = scLetterMapper.selectByPrimaryKey(id);
             modelMap.put("scLetter", scLetter);
 
-            ScLetterItemViewExample example = new ScLetterItemViewExample();
-            example.createCriteria().andLetterIdEqualTo(id);
-            example.setOrderByClause("id asc");
-            List<ScLetterItemView> scLetterItemViews = scLetterItemViewMapper.selectByExample(example);
-            modelMap.put("itemList", scLetterItemViews);
+            List<ScLetterUser> itemList = scLetterService.getItemList(id);
+            modelMap.put("itemList", itemList);
         }
         return "sc/scLetter/scLetter/scLetter_au";
     }
@@ -190,6 +194,15 @@ public class ScLetterController extends ScBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("scLetter:edit")
+    @RequestMapping("/scLetter_selectScRecord")
+    public String scLetter_selectScRecord(int userId,
+                                      ModelMap modelMap) {
+
+        modelMap.put("sysUser", CmTag.getUserById(userId));
+
+        return "sc/scLetter/scLetter/scLetter_selectScRecord";
+    }
 
     public void scLetter_export(ScLetterViewExample example, HttpServletResponse response) {
 

@@ -372,6 +372,186 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andRecordIdIsNull() {
+            addCriterion("record_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdIsNotNull() {
+            addCriterion("record_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdEqualTo(Integer value) {
+            addCriterion("record_id =", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotEqualTo(Integer value) {
+            addCriterion("record_id <>", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdGreaterThan(Integer value) {
+            addCriterion("record_id >", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("record_id >=", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdLessThan(Integer value) {
+            addCriterion("record_id <", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdLessThanOrEqualTo(Integer value) {
+            addCriterion("record_id <=", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdIn(List<Integer> values) {
+            addCriterion("record_id in", values, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotIn(List<Integer> values) {
+            addCriterion("record_id not in", values, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdBetween(Integer value1, Integer value2) {
+            addCriterion("record_id between", value1, value2, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("record_id not between", value1, value2, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdIsNull() {
+            addCriterion("record_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdIsNotNull() {
+            addCriterion("record_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdEqualTo(Integer value) {
+            addCriterion("record_user_id =", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotEqualTo(Integer value) {
+            addCriterion("record_user_id <>", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdGreaterThan(Integer value) {
+            addCriterion("record_user_id >", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("record_user_id >=", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdLessThan(Integer value) {
+            addCriterion("record_user_id <", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("record_user_id <=", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdIn(List<Integer> values) {
+            addCriterion("record_user_id in", values, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotIn(List<Integer> values) {
+            addCriterion("record_user_id not in", values, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("record_user_id between", value1, value2, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("record_user_id not between", value1, value2, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdIsNull() {
+            addCriterion("unit_post_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdIsNotNull() {
+            addCriterion("unit_post_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdEqualTo(Integer value) {
+            addCriterion("unit_post_id =", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotEqualTo(Integer value) {
+            addCriterion("unit_post_id <>", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdGreaterThan(Integer value) {
+            addCriterion("unit_post_id >", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id >=", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdLessThan(Integer value) {
+            addCriterion("unit_post_id <", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id <=", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdIn(List<Integer> values) {
+            addCriterion("unit_post_id in", values, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotIn(List<Integer> values) {
+            addCriterion("unit_post_id not in", values, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id between", value1, value2, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id not between", value1, value2, "unitPostId");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;

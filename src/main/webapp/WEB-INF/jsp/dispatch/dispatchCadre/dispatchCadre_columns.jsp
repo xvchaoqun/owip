@@ -4,7 +4,7 @@
 <script>
         var colModel= [
             { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
-            { label:'发文号',  name: 'dispatch.dispatchCode', width: 190,formatter:function(cellvalue, options, rowObject){
+            { label:'发文号',  name: 'dispatch.dispatchCode', align:'left', width: 190,formatter:function(cellvalue, options, rowObject){
 
                 return $.pdfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
                     cellvalue, cellvalue, '${param.type eq 'all'?'modal':'url'}');
@@ -16,7 +16,7 @@
             { label:'任免方式', name: 'wayId', width: 80, formatter: $.jgrid.formatter.MetaType},
             { label:'任免程序', name: 'procedureId', width: 80, formatter: $.jgrid.formatter.MetaType},
             { label:'干部类型', name: 'cadreTypeId', width: 80, formatter: $.jgrid.formatter.MetaType},
-            { label:'工作证号', name: 'user.code'},
+            { label:'工作证号', name: 'user.code', width: 110},
             { label:'姓名', name: 'user.realname', width: 90, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.cadre==undefined) return '--'
                 return $.cadre(rowObject.cadre.id, cellvalue, '${param.type eq 'all'?'':'_blank'}');
@@ -71,6 +71,8 @@
                 if(rowObject.hasChecked==undefined) return 0;
                 return rowObject.hasChecked?1:0;
             }},
+            {label: '对应的选任纪实', name: 'scRecord.code', width: 200},
+            {label: '纪实人员', name: 'recordUser.realname'},
             { label:'备注', width: 250, name: 'remark'}
             </c:if>
             <c:if test="${param.type1 eq 'team'}">

@@ -91,6 +91,10 @@ public class ScCommitteeVoteService extends ScBaseMapper {
 
         scCommitteeVoteMapper.updateByPrimaryKeySelective(record);
         updateTopicCadre(record.getTopicId(), record.getCadreId(), originalPost, originalPostTime);
+
+        if(record.getRecordId()==null){
+            commonMapper.excuteSql("update sc_committee_vote set record_id=null where id="+ record.getId());
+        }
     }
 
 

@@ -222,7 +222,7 @@ public class ScMatterCheckItemController extends ScBaseController {
     @RequiresPermissions("scMatterCheckItem:del")
     @RequestMapping(value = "/scMatterCheckItem_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scMatterCheckItem_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -233,35 +233,29 @@ public class ScMatterCheckItemController extends ScBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*public void scMatterCheckItem_export(ScMatterCheckItemExample example, HttpServletResponse response) {
+    @RequiresPermissions("scMatterCheckItem:edit")
+    @RequestMapping("/scMatterCheckItem_reuse")
+    public String scMatterCheckItem_reuse(Integer replyItemId,
+                                      ModelMap modelMap) {
 
-        List<ScMatterCheckItem> records = scMatterCheckItemMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"核查|100","核查对象|100","比对日期|100","干部监督机构查核结果|100","本人说明材料|100","认定结果|100","认定日期|100","干部管理机构处理意见|100","核查情况表|100","组织处理方式|100","组织处理日期|100","组织处理记录|100","组织处理影响期|100","备注|100"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            ScMatterCheckItem record = records.get(i);
-            String[] values = {
-                record.getCheckId()+"",
-                            record.getUserId()+"",
-                            DateUtils.formatDate(record.getCompareDate(), DateUtils.YYYY_MM_DD),
-                            record.getResultType(),
-                            record.getSelfFile(),
-                            record.getConfirmType(),
-                            DateUtils.formatDate(record.getConfirmDate(), DateUtils.YYYY_MM_DD),
-                            record.getHandleType(),
-                            record.getCheckFile(),
-                            record.getOwHandleType(),
-                            DateUtils.formatDate(record.getOwHandleDate(), DateUtils.YYYY_MM_DD),
-                            record.getOwHandleFile(),
-                            DateUtils.formatDate(record.getOwAffectDate(), DateUtils.YYYY_MM_DD),
-                            record.getRemark()
-            };
-            valuesList.add(values);
-        }
-        String fileName = "个人有关事项-核查对象_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
-    }*/
+        ScMatterCheckItemView smci = iScMapper.getScMatterCheckItemView(replyItemId);
+        modelMap.put("smci", smci);
+
+        return "sc/scMatter/scMatterCheckItem/scMatterCheckItem_reuse";
+    }
+
+    @RequiresPermissions("scMatterCheckItem:edit")
+    @RequestMapping(value = "/scMatterCheckItem_reuse", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scMatterCheckItem_reuse(int itemId, @RequestParam(value = "recordIds[]", required = false) Integer[] recordIds,
+                                      HttpServletRequest request) {
+
+        scMatterCheckItemService.reuse(itemId, recordIds);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新核查复用：%s, %s",
+                itemId, StringUtils.join(recordIds, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequestMapping("/scMatterCheckItem_selects")
     @ResponseBody

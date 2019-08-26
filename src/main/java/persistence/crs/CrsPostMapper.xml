@@ -6,6 +6,9 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="job" jdbcType="VARCHAR" property="job" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
@@ -101,11 +104,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, seq, name, job, admin_level, unit_id, num, notice, post_require_id, 
-    start_time, end_time, enroll_status, meeting_apply_count, meeting_time, meeting_address, 
-    report_deadline, quit_deadline, ppt_deadline, ppt_upload_closed, meeting_status, 
-    committee_status, remark, create_time, pub_status, status, stat_give_count, stat_back_count, 
-    stat_file, stat_file_name, stat_date
+    id, year, type, seq, record_id, record_user_id, unit_post_id, name, job, admin_level, 
+    unit_id, num, notice, post_require_id, start_time, end_time, enroll_status, meeting_apply_count, 
+    meeting_time, meeting_address, report_deadline, quit_deadline, ppt_deadline, ppt_upload_closed, 
+    meeting_status, committee_status, remark, create_time, pub_status, status, stat_give_count, 
+    stat_back_count, stat_file, stat_file_name, stat_date
   </sql>
   <sql id="Blob_Column_List">
     post_duty, requirement, qualification, meeting_notice, meeting_summary
@@ -160,31 +163,33 @@
   </delete>
   <insert id="insert" parameterType="domain.crs.CrsPostWithBLOBs">
     insert into crs_post (id, year, type, 
-      seq, name, job, admin_level, 
-      unit_id, num, notice, 
-      post_require_id, start_time, end_time, 
-      enroll_status, meeting_apply_count, meeting_time, 
-      meeting_address, report_deadline, quit_deadline, 
-      ppt_deadline, ppt_upload_closed, meeting_status, 
-      committee_status, remark, create_time, 
-      pub_status, status, stat_give_count, 
-      stat_back_count, stat_file, stat_file_name, 
-      stat_date, post_duty, requirement, 
-      qualification, meeting_notice, meeting_summary
-      )
+      seq, record_id, record_user_id, 
+      unit_post_id, name, job, 
+      admin_level, unit_id, num, 
+      notice, post_require_id, start_time, 
+      end_time, enroll_status, meeting_apply_count, 
+      meeting_time, meeting_address, report_deadline, 
+      quit_deadline, ppt_deadline, ppt_upload_closed, 
+      meeting_status, committee_status, remark, 
+      create_time, pub_status, status, 
+      stat_give_count, stat_back_count, stat_file, 
+      stat_file_name, stat_date, post_duty, 
+      requirement, qualification, meeting_notice, 
+      meeting_summary)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{seq,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, 
-      #{unitId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, 
-      #{postRequireId,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{enrollStatus,jdbcType=TINYINT}, #{meetingApplyCount,jdbcType=INTEGER}, #{meetingTime,jdbcType=TIMESTAMP}, 
-      #{meetingAddress,jdbcType=VARCHAR}, #{reportDeadline,jdbcType=TIMESTAMP}, #{quitDeadline,jdbcType=TIMESTAMP}, 
-      #{pptDeadline,jdbcType=TIMESTAMP}, #{pptUploadClosed,jdbcType=BIT}, #{meetingStatus,jdbcType=BIT}, 
-      #{committeeStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{pubStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{statGiveCount,jdbcType=INTEGER}, 
-      #{statBackCount,jdbcType=INTEGER}, #{statFile,jdbcType=VARCHAR}, #{statFileName,jdbcType=VARCHAR}, 
-      #{statDate,jdbcType=DATE}, #{postDuty,jdbcType=LONGVARCHAR}, #{requirement,jdbcType=LONGVARCHAR}, 
-      #{qualification,jdbcType=LONGVARCHAR}, #{meetingNotice,jdbcType=LONGVARCHAR}, #{meetingSummary,jdbcType=LONGVARCHAR}
-      )
+      #{seq,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{recordUserId,jdbcType=INTEGER}, 
+      #{unitPostId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, 
+      #{adminLevel,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
+      #{notice,jdbcType=VARCHAR}, #{postRequireId,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, #{meetingApplyCount,jdbcType=INTEGER}, 
+      #{meetingTime,jdbcType=TIMESTAMP}, #{meetingAddress,jdbcType=VARCHAR}, #{reportDeadline,jdbcType=TIMESTAMP}, 
+      #{quitDeadline,jdbcType=TIMESTAMP}, #{pptDeadline,jdbcType=TIMESTAMP}, #{pptUploadClosed,jdbcType=BIT}, 
+      #{meetingStatus,jdbcType=BIT}, #{committeeStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{pubStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{statGiveCount,jdbcType=INTEGER}, #{statBackCount,jdbcType=INTEGER}, #{statFile,jdbcType=VARCHAR}, 
+      #{statFileName,jdbcType=VARCHAR}, #{statDate,jdbcType=DATE}, #{postDuty,jdbcType=LONGVARCHAR}, 
+      #{requirement,jdbcType=LONGVARCHAR}, #{qualification,jdbcType=LONGVARCHAR}, #{meetingNotice,jdbcType=LONGVARCHAR}, 
+      #{meetingSummary,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.crs.CrsPostWithBLOBs">
     insert into crs_post
@@ -200,6 +205,15 @@
       </if>
       <if test="seq != null">
         seq,
+      </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="recordUserId != null">
+        record_user_id,
+      </if>
+      <if test="unitPostId != null">
+        unit_post_id,
       </if>
       <if test="name != null">
         name,
@@ -313,6 +327,15 @@
       </if>
       <if test="seq != null">
         #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
+      </if>
+      <if test="unitPostId != null">
+        #{unitPostId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -436,6 +459,15 @@
       <if test="record.seq != null">
         seq = #{record.seq,jdbcType=INTEGER},
       </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitPostId != null">
+        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -546,6 +578,9 @@
       year = #{record.year,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       seq = #{record.seq,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       job = #{record.job,jdbcType=VARCHAR},
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
@@ -589,6 +624,9 @@
       year = #{record.year,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       seq = #{record.seq,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       job = #{record.job,jdbcType=VARCHAR},
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
@@ -632,6 +670,15 @@
       </if>
       <if test="seq != null">
         seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
+      </if>
+      <if test="unitPostId != null">
+        unit_post_id = #{unitPostId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -740,6 +787,9 @@
     set year = #{year,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       seq = #{seq,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
+      record_user_id = #{recordUserId,jdbcType=INTEGER},
+      unit_post_id = #{unitPostId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       job = #{job,jdbcType=VARCHAR},
       admin_level = #{adminLevel,jdbcType=INTEGER},
@@ -780,6 +830,9 @@
     set year = #{year,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       seq = #{seq,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
+      record_user_id = #{recordUserId,jdbcType=INTEGER},
+      unit_post_id = #{unitPostId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       job = #{job,jdbcType=VARCHAR},
       admin_level = #{adminLevel,jdbcType=INTEGER},

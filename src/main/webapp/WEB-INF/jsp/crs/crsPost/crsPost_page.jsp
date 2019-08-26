@@ -35,11 +35,11 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==CRS_POST_STATUS_NORMAL}">
                             <shiro:hasPermission name="crsPost:edit">
-                                <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/crsPost_au"><i
+                                <a class="popupBtn btn btn-info btn-sm" data-width="900" data-url="${ctx}/crsPost_au"><i
                                         class="fa fa-plus"></i> 添加招聘岗位</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/crsPost_au"
-                                   data-grid-id="#jqGrid"
+                                   data-grid-id="#jqGrid" data-width="900"
                                    ><i class="fa fa-edit"></i>
                                     修改</a>
                                 <button data-url="${ctx}/crsPost_publish?publish=1"
@@ -308,6 +308,10 @@
                 if (cellvalue == undefined) return '--';
                 return _cMap.CRS_POST_STATUS_MAP[cellvalue];
             }},
+            <shiro:hasPermission name="scRecord:list">
+            {label: '纪实编号', name: 'scRecord.code', width: 200},
+            {label: '纪实人员', name: 'recordUser.realname'},
+            </shiro:hasPermission>
             {label: '备注', name: 'remark', width: 350, formatter: $.jgrid.formatter.NoMultiSpace}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {

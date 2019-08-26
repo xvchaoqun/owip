@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import persistence.sc.IScMapper;
+import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -130,13 +132,18 @@ public class CadreInspectController extends BaseController {
     @RequiresPermissions("cadreInspect:edit")
     @RequestMapping(value = "/cadreInspect_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreInspect_au(int userId, Integer inspectId, String inspectRemark,
+    public Map do_cadreInspect_au(int userId,
+                                  Integer recordId, Integer unitPostId,
+                                  Integer inspectId, String inspectRemark,
                                   Cadre cadreRecord, HttpServletRequest request) {
 
         CadreInspect record = new CadreInspect();
         record.setId(inspectId);
+        record.setRecordId(recordId);
+        record.setUnitPostId(unitPostId);
         record.setRemark(inspectRemark);
         if (inspectId == null) {
+            record.setRecordUserId(ShiroHelper.getCurrentUserId());
             cadreInspectService.insertOrUpdateSelective(userId, record, cadreRecord);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加考察对象：%s", record.getId()));
         } else {
@@ -156,6 +163,19 @@ public class CadreInspectController extends BaseController {
             modelMap.put("cadreInspect", cadreInspect);
             CadreView cadre = iCadreMapper.getCadre(cadreInspect.getCadreId());
             modelMap.put("cadre", cadre);
+
+            IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+            if(iScMapper!=null) {
+                Integer recordId = cadreInspect.getRecordId();
+                if (recordId != null) {
+                    modelMap.put("scRecord", iScMapper.getScRecordView(recordId));
+                }
+            }
+
+            Integer unitPostId = cadreInspect.getUnitPostId();
+            if(unitPostId!=null){
+                modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+            }
         }
 
         return "cadreInspect/cadreInspect_au";

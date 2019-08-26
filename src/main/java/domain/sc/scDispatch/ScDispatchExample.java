@@ -851,6 +851,66 @@ public class ScDispatchExample {
             addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
+
+        public Criteria andRecordUserIdIsNull() {
+            addCriterion("record_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdIsNotNull() {
+            addCriterion("record_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdEqualTo(Integer value) {
+            addCriterion("record_user_id =", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotEqualTo(Integer value) {
+            addCriterion("record_user_id <>", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdGreaterThan(Integer value) {
+            addCriterion("record_user_id >", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("record_user_id >=", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdLessThan(Integer value) {
+            addCriterion("record_user_id <", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("record_user_id <=", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdIn(List<Integer> values) {
+            addCriterion("record_user_id in", values, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotIn(List<Integer> values) {
+            addCriterion("record_user_id not in", values, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("record_user_id between", value1, value2, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("record_user_id not between", value1, value2, "recordUserId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

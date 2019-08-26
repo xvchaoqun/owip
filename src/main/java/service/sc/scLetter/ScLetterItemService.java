@@ -2,6 +2,7 @@ package service.sc.scLetter;
 
 import domain.sc.scLetter.ScLetterItem;
 import domain.sc.scLetter.ScLetterItemExample;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sc.ScBaseMapper;
@@ -36,5 +37,21 @@ public class ScLetterItemService extends ScBaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(ScLetterItem record){
         return scLetterItemMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 函询复用
+    @Transactional
+    public void reuse(int itemId, Integer[] recordIds) {
+
+        if(recordIds!=null && recordIds.length>0){
+
+            ScLetterItem record = new ScLetterItem();
+            record.setId(itemId);
+            record.setRecordIds(StringUtils.join(recordIds, ","));
+            scLetterItemMapper.updateByPrimaryKeySelective(record);
+        }else{
+            // 不传则清空
+            commonMapper.excuteSql("update sc_letter_item set record_ids=null where id="+ itemId);
+        }
     }
 }

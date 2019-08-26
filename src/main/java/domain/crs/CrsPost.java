@@ -1,18 +1,25 @@
 package domain.crs;
 
+import domain.sc.scRecord.ScRecordView;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
+import persistence.sc.IScMapper;
 import service.crs.CrsApplicantService;
 import sys.constants.CrsConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CrsPost implements Serializable {
+
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+    public ScRecordView getScRecord(){
+        if(recordId==null) return null;
+        IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+        if(iScMapper==null) return null;
+        return iScMapper.getScRecordView(recordId);
+    }
 
     public List<Map<String, Object>> getApplicants(){
 
@@ -77,6 +84,12 @@ public class CrsPost implements Serializable {
     private Byte type;
 
     private Integer seq;
+
+    private Integer recordId;
+
+    private Integer recordUserId;
+
+    private Integer unitPostId;
 
     private String name;
 
@@ -166,6 +179,30 @@ public class CrsPost implements Serializable {
 
     public void setSeq(Integer seq) {
         this.seq = seq;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public String getName() {

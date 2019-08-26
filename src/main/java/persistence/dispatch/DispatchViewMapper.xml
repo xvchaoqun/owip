@@ -21,6 +21,7 @@
     <result column="ppt" jdbcType="VARCHAR" property="ppt" />
     <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -55,7 +56,7 @@
   <sql id="Base_Column_List">
     id, sc_dispatch_id, year, dispatch_type_id, code, category, meeting_time, pub_time, 
     work_time, appoint_count, real_appoint_count, dismiss_count, real_dismiss_count, 
-    has_checked, file, file_name, ppt, ppt_name, remark, sort_order
+    has_checked, file, file_name, ppt, ppt_name, remark, record_user_id, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchViewExample" resultMap="BaseResultMap">
     select

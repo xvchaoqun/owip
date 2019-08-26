@@ -694,6 +694,76 @@ public class ScRecordViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPostCodeIsNull() {
+            addCriterion("post_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeIsNotNull() {
+            addCriterion("post_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeEqualTo(String value) {
+            addCriterion("post_code =", value, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeNotEqualTo(String value) {
+            addCriterion("post_code <>", value, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeGreaterThan(String value) {
+            addCriterion("post_code >", value, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("post_code >=", value, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeLessThan(String value) {
+            addCriterion("post_code <", value, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeLessThanOrEqualTo(String value) {
+            addCriterion("post_code <=", value, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeLike(String value) {
+            addCriterion("post_code like", value, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeNotLike(String value) {
+            addCriterion("post_code not like", value, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeIn(List<String> values) {
+            addCriterion("post_code in", values, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeNotIn(List<String> values) {
+            addCriterion("post_code not in", values, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeBetween(String value1, String value2) {
+            addCriterion("post_code between", value1, value2, "postCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCodeNotBetween(String value1, String value2) {
+            addCriterion("post_code not between", value1, value2, "postCode");
+            return (Criteria) this;
+        }
+
         public Criteria andPostNameIsNull() {
             addCriterion("post_name is null");
             return (Criteria) this;

@@ -5,11 +5,17 @@ import java.io.Serializable;
 public class CadreInspect implements Serializable {
     private Integer id;
 
+    private Integer recordId;
+
+    private Integer unitPostId;
+
     private Integer cadreId;
 
     private Byte type;
 
     private Byte status;
+
+    private Integer recordUserId;
 
     private String remark;
 
@@ -23,6 +29,22 @@ public class CadreInspect implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public Integer getCadreId() {
@@ -47,6 +69,14 @@ public class CadreInspect implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public String getRemark() {

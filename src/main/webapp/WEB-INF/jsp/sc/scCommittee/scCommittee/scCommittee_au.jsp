@@ -105,7 +105,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div style="margin:0 5px 10px;height: 218px;overflow: auto">
+                                <div style="margin:0 5px 10px;max-height: 218px;overflow: auto">
                                     <div id="itemList0" class="itemList">
 
                                     </div>

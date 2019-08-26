@@ -4,6 +4,7 @@ import controller.sc.ScBaseController;
 import domain.sc.scLetter.ScLetterItem;
 import domain.sc.scLetter.ScLetterItemExample;
 import domain.sc.scLetter.ScLetterItemExample.Criteria;
+import domain.sc.scLetter.ScLetterReplyItemView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/sc")
 public class ScLetterItemController extends ScBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -124,6 +126,30 @@ public class ScLetterItemController extends ScBaseController {
             scLetterItemService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_SC_LETTER, "批量删除函询对象：%s", StringUtils.join(ids, ",")));
         }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scLetterItem:edit")
+    @RequestMapping("/scLetterItem_reuse")
+    public String scLetterItem_reuse(Integer replyItemId,
+                                      ModelMap modelMap) {
+
+        ScLetterReplyItemView slri = iScMapper.getScLetterReplyItemView(replyItemId);
+        modelMap.put("slri", slri);
+
+        return "sc/scLetter/scLetterItem/scLetterItem_reuse";
+    }
+
+    @RequiresPermissions("scLetterItem:edit")
+    @RequestMapping(value = "/scLetterItem_reuse", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scLetterItem_reuse(int itemId, @RequestParam(value = "recordIds[]", required = false) Integer[] recordIds,
+                                      HttpServletRequest request) {
+
+        scLetterItemService.reuse(itemId, recordIds);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新函询复用：%s, %s",
+                itemId, StringUtils.join(recordIds, ",")));
 
         return success(FormUtils.SUCCESS);
     }

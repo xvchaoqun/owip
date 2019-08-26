@@ -2,6 +2,7 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>" var="UNIT_POST_STATUS_NORMAL"/>
+<c:set value="<%=ScConstants.SC_RECORD_STATUS_INIT%>" var="SC_RECORD_STATUS_INIT"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${dispatchCadre!=null}">编辑</c:if><c:if test="${dispatchCadre==null}">添加</c:if>干部任免</h3>
@@ -170,6 +171,25 @@ pageEncoding="UTF-8"%>
 			</div>
                 </div>
             </div>
+        <shiro:hasPermission name="scRecord:list">
+            <div class="row">
+                <div class="form-group">
+                  <label class="col-xs-3 control-label">对应的选任纪实</label>
+                  <div class="col-xs-6">
+                      <select name="recordId" data-rel="select2-ajax"
+                              data-ajax-url="${ctx}/sc/scRecord_selects" data-width="400"
+                              data-placeholder="请选择">
+                          <option value="${scRecord.id}"
+                                  delete="${scRecord.status!=SC_RECORD_STATUS_INIT}">
+                              ${scRecord.code}-${scRecord.postName}-${scRecord.job}</option>
+                      </select>
+                      <script>
+                          $.register.del_select($("#modalForm select[name=recordId]"))
+                      </script>
+                  </div>
+              </div>
+            </div>
+        </shiro:hasPermission>
     </form>
 </div>
 <div class="modal-footer">

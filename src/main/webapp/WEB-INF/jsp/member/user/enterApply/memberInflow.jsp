@@ -174,11 +174,10 @@
         white-space: nowrap;
     }
 </style>
-<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
     $('textarea.limited').inputlimiter();
     $("#modalForm :checkbox").bootstrapSwitch();
-    showLocation("${memberInflow.province}", null, null, $("#loc_province_container1"));
+    $.showLocation("${memberInflow.province}", null, null, $("#loc_province_container1"));
     $.register.date($('.date-picker'), {endDate: '${_today}'});
     $('#modalForm [data-rel="select2"]').select2();
     $("form").validate({

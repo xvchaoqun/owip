@@ -1,6 +1,7 @@
 package controller.crs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import persistence.sc.IScMapper;
 import service.base.ContentTplService;
 import service.cadre.CadreService;
 import service.crs.*;
@@ -19,6 +20,8 @@ public class CrsBaseController extends CrsBaseMapper implements HttpResponseMeth
     protected ContentTplService contentTplService;
     @Autowired
     protected CadreService cadreService;
+    @Autowired
+    protected IScMapper iScMapper;
     
     @Autowired
     protected CrsPostService crsPostService;

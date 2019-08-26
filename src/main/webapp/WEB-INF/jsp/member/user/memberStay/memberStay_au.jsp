@@ -602,7 +602,7 @@
         margin-bottom: 11px !important;
     }
 </style>
-<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
+
 <script>
     $.register.fancybox(function () {
         //console.log(this)

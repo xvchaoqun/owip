@@ -13,6 +13,7 @@
     <result column="has_other_vote" jdbcType="BIT" property="hasOtherVote" />
     <result column="vote_file_path" jdbcType="VARCHAR" property="voteFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, committee_id, seq, name, unit_ids, content, memo, has_vote, has_other_vote, vote_file_path, 
-    remark, is_deleted
+    remark, record_user_id, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeTopicExample" resultMap="BaseResultMap">
     select
@@ -108,15 +109,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
-    insert into sc_committee_topic (id, committee_id, seq, 
-      name, unit_ids, content, 
-      memo, has_vote, has_other_vote, 
-      vote_file_path, remark, is_deleted
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sc_committee_topic (committee_id, seq, name, 
+      unit_ids, content, memo, 
+      has_vote, has_other_vote, vote_file_path, 
+      remark, record_user_id, is_deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{committeeId,jdbcType=INTEGER}, #{seq,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{unitIds,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{memo,jdbcType=VARCHAR}, #{hasVote,jdbcType=BIT}, #{hasOtherVote,jdbcType=BIT}, 
-      #{voteFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
+    values (#{committeeId,jdbcType=INTEGER}, #{seq,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{unitIds,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{hasVote,jdbcType=BIT}, #{hasOtherVote,jdbcType=BIT}, #{voteFilePath,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{recordUserId,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
@@ -125,9 +129,6 @@
     </selectKey>
     insert into sc_committee_topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="committeeId != null">
         committee_id,
       </if>
@@ -158,14 +159,14 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="recordUserId != null">
+        record_user_id,
+      </if>
       <if test="isDeleted != null">
         is_deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="committeeId != null">
         #{committeeId,jdbcType=INTEGER},
       </if>
@@ -195,6 +196,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
@@ -243,6 +247,9 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
@@ -264,6 +271,7 @@
       has_other_vote = #{record.hasOtherVote,jdbcType=BIT},
       vote_file_path = #{record.voteFilePath,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -302,6 +310,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
+      </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
@@ -320,6 +331,7 @@
       has_other_vote = #{hasOtherVote,jdbcType=BIT},
       vote_file_path = #{voteFilePath,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
+      record_user_id = #{recordUserId,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -3,6 +3,9 @@
 <mapper namespace="persistence.cis.CisInspectObjViewMapper">
   <resultMap id="BaseResultMap" type="domain.cis.CisInspectObjView">
     <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="record_ids" jdbcType="VARCHAR" property="recordIds" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="seq" jdbcType="INTEGER" property="seq" />
@@ -16,6 +19,8 @@
     <result column="assign_post" jdbcType="VARCHAR" property="assignPost" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="log_file" jdbcType="VARCHAR" property="logFile" />
+    <result column="report" jdbcType="VARCHAR" property="report" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="archive_id" jdbcType="INTEGER" property="archiveId" />
   </resultMap>
@@ -49,9 +54,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type_id, seq, inspect_date, cadre_id, inspector_type, other_inspector_type, 
-    chief_inspector_id, talk_user_count, post, assign_post, summary, log_file, remark, 
-    archive_id
+    id, record_id, record_ids, unit_post_id, year, type_id, seq, inspect_date, cadre_id, 
+    inspector_type, other_inspector_type, chief_inspector_id, talk_user_count, post, 
+    assign_post, summary, log_file, report, record_user_id, remark, archive_id
   </sql>
   <select id="selectByExample" parameterType="domain.cis.CisInspectObjViewExample" resultMap="BaseResultMap">
     select

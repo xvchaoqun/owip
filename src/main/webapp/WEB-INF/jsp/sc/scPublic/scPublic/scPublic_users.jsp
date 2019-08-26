@@ -36,7 +36,7 @@
             { label:'工作证号', name: 'user.code'},
             { label:'姓名', name: 'user.realname'},
             {label: '原任职务', name: 'originalPost', width: 240,align:'left'},
-            { label:'职务', name: 'post', width: 240,align:'left' }, {hidden: true, key: true, name: 'id'}
+            { label:'拟任职务', name: 'post', width: 240,align:'left' }, {hidden: true, key: true, name: 'id'}
         ]
     });
 

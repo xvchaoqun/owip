@@ -21,6 +21,7 @@
     <result column="ppt" jdbcType="VARCHAR" property="ppt" />
     <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -84,7 +85,7 @@
   <sql id="Base_Column_List">
     id, sc_dispatch_id, year, dispatch_type_id, code, category, meeting_time, pub_time, 
     work_time, appoint_count, real_appoint_count, dismiss_count, real_dismiss_count, 
-    has_checked, file, file_name, ppt, ppt_name, remark, sort_order
+    has_checked, file, file_name, ppt, ppt_name, remark, record_user_id, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchExample" resultMap="BaseResultMap">
     select
@@ -126,14 +127,14 @@
       real_appoint_count, dismiss_count, real_dismiss_count, 
       has_checked, file, file_name, 
       ppt, ppt_name, remark, 
-      sort_order)
+      record_user_id, sort_order)
     values (#{scDispatchId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{dispatchTypeId,jdbcType=INTEGER}, 
       #{code,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{meetingTime,jdbcType=DATE}, 
       #{pubTime,jdbcType=DATE}, #{workTime,jdbcType=DATE}, #{appointCount,jdbcType=INTEGER}, 
       #{realAppointCount,jdbcType=INTEGER}, #{dismissCount,jdbcType=INTEGER}, #{realDismissCount,jdbcType=INTEGER}, 
       #{hasChecked,jdbcType=BIT}, #{file,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{ppt,jdbcType=VARCHAR}, #{pptName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER})
+      #{recordUserId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.dispatch.Dispatch">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -195,6 +196,9 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="recordUserId != null">
+        record_user_id,
+      </if>
       <if test="sortOrder != null">
         sort_order,
       </if>
@@ -253,6 +257,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -325,6 +332,9 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -354,6 +364,7 @@
       ppt = #{record.ppt,jdbcType=VARCHAR},
       ppt_name = #{record.pptName,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -416,6 +427,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -442,6 +456,7 @@
       ppt = #{ppt,jdbcType=VARCHAR},
       ppt_name = #{pptName,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
+      record_user_id = #{recordUserId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

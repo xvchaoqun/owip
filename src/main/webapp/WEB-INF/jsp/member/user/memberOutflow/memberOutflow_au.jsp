@@ -107,10 +107,10 @@
     </div>
 </div>
 </div>
-<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
+
 <script>
     $("#modalForm :checkbox").bootstrapSwitch();
-    showLocation("${memberOutflow.province}");
+    $.showLocation("${memberOutflow.province}");
 
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));

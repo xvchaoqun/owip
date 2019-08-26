@@ -14,22 +14,28 @@ public class ScMotion implements Serializable {
 
     private Integer id;
 
-    private Short year;
-
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
-    private Date holdDate;
-
     private String seq;
 
-    private Integer unitPostId;
-
-    private Integer scType;
+    private Short year;
 
     private Byte way;
 
     private String wayOther;
 
-    private String topics;
+    private Integer committeeTopicId;
+
+    private Integer groupTopicId;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date holdDate;
+
+    private Integer unitPostId;
+
+    private Integer scType;
+
+    private String content;
+
+    private Integer recordUserId;
 
     private String remark;
 
@@ -43,22 +49,6 @@ public class ScMotion implements Serializable {
         this.id = id;
     }
 
-    public Short getYear() {
-        return year;
-    }
-
-    public void setYear(Short year) {
-        this.year = year;
-    }
-
-    public Date getHoldDate() {
-        return holdDate;
-    }
-
-    public void setHoldDate(Date holdDate) {
-        this.holdDate = holdDate;
-    }
-
     public String getSeq() {
         return seq;
     }
@@ -67,20 +57,12 @@ public class ScMotion implements Serializable {
         this.seq = seq == null ? null : seq.trim();
     }
 
-    public Integer getUnitPostId() {
-        return unitPostId;
+    public Short getYear() {
+        return year;
     }
 
-    public void setUnitPostId(Integer unitPostId) {
-        this.unitPostId = unitPostId;
-    }
-
-    public Integer getScType() {
-        return scType;
-    }
-
-    public void setScType(Integer scType) {
-        this.scType = scType;
+    public void setYear(Short year) {
+        this.year = year;
     }
 
     public Byte getWay() {
@@ -99,12 +81,60 @@ public class ScMotion implements Serializable {
         this.wayOther = wayOther == null ? null : wayOther.trim();
     }
 
-    public String getTopics() {
-        return topics;
+    public Integer getCommitteeTopicId() {
+        return committeeTopicId;
     }
 
-    public void setTopics(String topics) {
-        this.topics = topics == null ? null : topics.trim();
+    public void setCommitteeTopicId(Integer committeeTopicId) {
+        this.committeeTopicId = committeeTopicId;
+    }
+
+    public Integer getGroupTopicId() {
+        return groupTopicId;
+    }
+
+    public void setGroupTopicId(Integer groupTopicId) {
+        this.groupTopicId = groupTopicId;
+    }
+
+    public Date getHoldDate() {
+        return holdDate;
+    }
+
+    public void setHoldDate(Date holdDate) {
+        this.holdDate = holdDate;
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
+    }
+
+    public Integer getScType() {
+        return scType;
+    }
+
+    public void setScType(Integer scType) {
+        this.scType = scType;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public String getRemark() {

@@ -18,6 +18,10 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
 
+                            <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                   data-url="${ctx}/sc/scLetterItem_reuse" data-id-name="replyItemId" data-width="1050"
+                                   data-grid-id="#jqGrid"><i class="fa fa-check-circle-o"></i>
+                                    函询复用</button>
                             <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>--%>
@@ -39,8 +43,8 @@
                                         <div class="form-group">
                                             <label>年份</label>
 
-                                            <div class="input-group">
-                                                <input class="form-control date-picker" placeholder="请选择年份"
+                                            <div class="input-group" style="width: 100px">
+                                                <input class="form-control date-picker" placeholder="请选择"
                                                        name="letterYear"
                                                        type="text"
                                                        data-date-format="yyyy" data-date-min-view-mode="2"
@@ -60,7 +64,7 @@
                                             <label>函询类型</label>
 
                                             <div class="input-group">
-                                                <select data-rel="select2" name="letterType" data-placeholder="请选择" data-width="100">
+                                                <select data-rel="select2" name="letterType" data-placeholder="请选择" data-width="180">
                                                     <option></option>
                                                     <c:import url="/metaTypes?__code=mc_sc_letter_type"/>
                                                 </select>
@@ -72,14 +76,14 @@
                                         <div class="form-group">
                                             <label>函询编号</label>
                                             <input class="form-control search-query num" name="letterNum" type="text"
-                                                   value="${param.letterNum}" style="width: 50px"
-                                                   placeholder="请输入函询编号">
+                                                   value="${param.letterNum}" style="width: 60px"
+                                                   placeholder="请输入">
                                         </div>
                                         <div class="form-group">
                                             <label>回复编号</label>
                                             <input class="form-control search-query num" name="replyNum" type="text"
-                                                   value="${param.replyNum}" style="width: 50px"
-                                                   placeholder="请输入回复编号">
+                                                   value="${param.replyNum}" style="width: 60px"
+                                                   placeholder="请输入">
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -132,7 +136,14 @@
             {label: '纪委回复日期', name: 'replyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '函询对象工作证号', name: 'code', width: 130},
             {label: '函询对象姓名', name: 'realname', width: 110},
-            {label: '纪委回复情况', name: 'content', width: 500},
+            {label: '纪委回复情况', name: 'content',align:'left', width: 350},
+            {label: '对应的选任纪实', name: 'scRecord.code', width: 200},
+            {label: '纪实人员', name: 'recordUser.realname'},
+            {label: '函询复用', name: '_scRecords', width: 200, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.recordIds)=='') return '--'
+                return $.map(rowObject.scRecords, function(scRecord){
+                    return scRecord.code;})
+            }},
             {label: '备注', name: 'remark', width: 320}
 
         ]

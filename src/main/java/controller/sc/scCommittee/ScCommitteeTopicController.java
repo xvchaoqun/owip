@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -142,6 +143,7 @@ public class ScCommitteeTopicController extends ScBaseController {
             if (record.getSeq() == null)
                 record.setSeq(scCommitteeTopicService.genSeq(record.getCommitteeId()));
 
+            record.setRecordUserId(ShiroHelper.getCurrentUserId());
             scCommitteeTopicService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加党委常委会议题：%s", record.getId()));
         } else {
@@ -238,5 +240,53 @@ public class ScCommitteeTopicController extends ScBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/scCommitteeTopic_selects")
+    @ResponseBody
+    public Map scCommitteeTopic_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        ScCommitteeTopicViewExample example = new ScCommitteeTopicViewExample();
+        ScCommitteeTopicViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("hold_date desc");
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andNameLike("%"+searchStr.trim()+"%");
+        }
+
+        long count = scCommitteeTopicViewMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<ScCommitteeTopicView> records = scCommitteeTopicViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(ScCommitteeTopicView record:records){
+
+                String holdDate = DateUtils.formatDate(record.getHoldDate(), DateUtils.YYYYMMDD_DOT);
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", String.format("[%s]", holdDate) + record.getName());
+                option.put("holdDate", holdDate);
+                option.put("id", record.getId() + "");
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

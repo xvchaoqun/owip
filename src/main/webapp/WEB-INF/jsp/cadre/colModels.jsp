@@ -597,14 +597,14 @@
     ];
 
     colModels.cisInspectObj = [
-        {label: '编号', name: 'sn', width: 180, frozen: true},
-        {label: '考察日期', name: 'inspectDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
-        {label: '工作证号', name: 'cadre.code', frozen: true},
+        {label: '编号', name: 'sn', width: 210, frozen: true},
+        /*{label: '考察日期', name: 'inspectDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},*/
+        {label: '工作证号', name: 'cadre.code', width: 120, frozen: true},
         {label: '考察对象', name: 'cadre.realname', formatter: function (cellvalue, options, rowObject) {
             return $.cadre(rowObject.cadre.id, cellvalue);
         }, frozen: true},
         {label: '所在单位及职务', name: 'post', align: 'left', width: 200},
-        {label: '拟任职务', name: 'assignPost', align: 'left', width: 200},
+        {label: '拟任职务', name: 'unitPost.name', align: 'left', width: 200},
         {
             label: '考察主体', name: '_inspectorType', formatter: function (cellvalue, options, rowObject) {
             var type = _cMap.CIS_INSPECTOR_TYPE_MAP[rowObject.inspectorType];
@@ -674,6 +674,23 @@
                     .format(rowObject.id);
         }},
         </shiro:hasPermission>
+        {
+            label: '考察期间有无举报', name:'report', width:130, formatter: function (cellvalue, options, rowObject) {
+            if($.trim(cellvalue)=='') return '无'
+            return ('<button class="popupBtn btn btn-xs btn-primary" data-url="${ctx}/cisInspectObj_report?objId={0}"><i class="fa fa-search"></i> 查看</button>'
+                    .format(rowObject.id));
+        }},
+        <shiro:hasPermission name="scRecord:list">
+            {label: '对应的选任纪实', name: 'scRecord.code', width: 200},
+            {label: '纪实人员', name: 'recordUser.realname'},
+            {label: '考察复用', name: '_scRecords', width: 200, formatter: function (cellvalue, options, rowObject) {
+            if($.trim(rowObject.recordIds)=='') return '--'
+            return $.map(rowObject.scRecords, function(scRecord){
+                return scRecord.code;
+            })
+        }},
+        </shiro:hasPermission>
+
         {label: '备注', name: 'remark'}, {hidden: true, name: 'inspectorType'}
     ];
     colModels.cadreReport = [

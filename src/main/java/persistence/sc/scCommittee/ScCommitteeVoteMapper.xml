@@ -18,6 +18,7 @@
     <result column="abstain_count" jdbcType="INTEGER" property="abstainCount" />
     <result column="disagree_count" jdbcType="INTEGER" property="disagreeCount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -81,7 +82,7 @@
   <sql id="Base_Column_List">
     id, topic_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
     post, post_type, admin_level, unit_id, agree_count, abstain_count, disagree_count, 
-    remark, sort_order
+    remark, record_id, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteExample" resultMap="BaseResultMap">
     select
@@ -119,13 +120,15 @@
       way_id, procedure_id, post, 
       post_type, admin_level, unit_id, 
       agree_count, abstain_count, disagree_count, 
-      remark, sort_order)
+      remark, record_id, sort_order
+      )
     values (#{id,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{unitPostId,jdbcType=INTEGER}, #{cadreTypeId,jdbcType=INTEGER}, 
       #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
       #{postType,jdbcType=INTEGER}, #{adminLevel,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
       #{agreeCount,jdbcType=INTEGER}, #{abstainCount,jdbcType=INTEGER}, #{disagreeCount,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+      #{remark,jdbcType=VARCHAR}, #{recordId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scCommittee.ScCommitteeVote">
     insert into sc_committee_vote
@@ -177,6 +180,9 @@
       </if>
       <if test="remark != null">
         remark,
+      </if>
+      <if test="recordId != null">
+        record_id,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -230,6 +236,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -293,6 +302,9 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -319,6 +331,7 @@
       abstain_count = #{record.abstainCount,jdbcType=INTEGER},
       disagree_count = #{record.disagreeCount,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
+      record_id = #{record.recordId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -372,6 +385,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -395,6 +411,7 @@
       abstain_count = #{abstainCount,jdbcType=INTEGER},
       disagree_count = #{disagreeCount,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
+      record_id = #{recordId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

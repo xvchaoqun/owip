@@ -7,7 +7,12 @@
                 label: '编号', name: 'code', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if($.isBlank(cellvalue)) return '--'
                 if($.trim(rowObject.filePath)=='') return cellvalue;
+                <c:if test="${param.popup!=1}">
                 return $.pdfPreview(rowObject.filePath, cellvalue);
+                </c:if>
+                    <c:if test="${param.popup==1}">
+                        return cellvalue;
+                    </c:if>
             }, frozen: true},
             {label: '党委常委会<br/>日期', name: 'holdDate', width: 95, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '议题数量',name: 'topicNum', width: 70},
@@ -18,16 +23,26 @@
             {
                 label: '实际参会<br/>常委数', name: 'count', width: 70, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==0) return '--'
+                    <c:if test="${param.popup!=1}">
                 return ('<a href="javascript:;" class="popupBtn bolder" ' +
                 'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=0"><u>{1}</u></a>')
                         .format(rowObject.id, cellvalue);
+                </c:if>
+                    <c:if test="${param.popup==1}">
+                        return cellvalue;
+                    </c:if>
             }},
             {
                 label: '请假<br/>常委数', name: 'absentCount', width: 60, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==0) return '--'
+                    <c:if test="${param.popup!=1}">
                 return ('<a href="javascript:;" class="popupBtn bolder" ' +
                 'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1"><u>{1}</u></a>')
                         .format(rowObject.id, cellvalue);
+                    </c:if>
+                    <c:if test="${param.popup==1}">
+                        return cellvalue;
+                    </c:if>
             }},
             { label: '列席人',name: 'attendUsers', width: 140, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.attendUsers==undefined) return '--';
@@ -38,6 +53,7 @@
                     return "title='"+rowObject.attendUsers+"'";
             }},
             /*{ label: '列席人',name: 'attendUsers', width: 400,align:'left'},*/
+            <c:if test="${param.popup!=1}">
             {label: '会议记录', name: 'logFile', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '--';
                 return $.pdfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
@@ -55,6 +71,7 @@
                         .format(rowObject.id);
             }
             },
+            </c:if>
             { label: '备注',name: 'remark', width: 320}
         ]
 </script>

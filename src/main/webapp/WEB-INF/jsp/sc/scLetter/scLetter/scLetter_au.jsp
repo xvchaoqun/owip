@@ -114,11 +114,12 @@
                                         <button type="button" class="btn btn-success btn-sm" onclick="_selectUser()"><i
                                                 class="fa fa-plus"></i> 选择
                                         </button>
-                                        <div style="padding-top: 10px;">
-                                            <div id="itemList" style="max-height: 382px;overflow-y: auto;">
 
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div id="itemList" style="max-height: 382px;overflow-y: auto;margin: 0 15px">
+
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -131,9 +132,9 @@
                                 </div>
                             </div>
                             <div class="clearfix form-actions center">
-                                <button class="btn btn-info btn-sm" type="submit">
+                                <button class="btn btn-success btn-sm" type="submit">
                                     <i class="ace-icon fa fa-check "></i>
-                                    ${scLetter!=null?"修改":"添加"}
+                                    ${scLetter!=null?"保存":"添加"}
                                 </button>
                             </div>
                         </form>
@@ -144,14 +145,13 @@
     </div>
 </div>
 <script type="text/template" id="itemListTpl">
+    {{if(users.length>0){}}
     <table id="itemTable" class="table table-striped table-bordered table-unhover2 table-center">
         <thead class="multi">
         <tr>
-            <th colspan="3">已选择的函询对象</th>
-        </tr>
-        <tr>
             <th>姓名</th>
             <th>工号</th>
+            <th>对应的选任纪实</th>
             <th></th>
         </tr>
         </thead>
@@ -161,31 +161,49 @@
             <td>{{=u.realname}}</td>
             <td>{{=u.code}}</td>
             <td>
+                <span data-user-id="{{=u.userId}}" data-record-id="{{=u.recordId}}">{{=u.scRecordCode}}</span>
+                <button type="button" data-width="1050"
+                        data-url="${ctx}/sc/scLetter_selectScRecord?userId={{=u.userId}}&year={{=year}}&recordId={{=u.recordId}}"
+                        class="popupBtn btn btn-primary btn-xs"><i class="fa fa-edit"></i></button>
+            </td>
+            <td>
                 <a href="javasciprt:;" class="del">移除</a>
             </td>
         </tr>
         {{});}}
         </tbody>
     </table>
+    {{}}}
 </script>
 <script>
 
-    var selectedItems = ${cm:toJSONArrayWithFilter(itemList, "userId,code,realname")};
-    $("#itemList").append(_.template($("#itemListTpl").html())({users: selectedItems}));
+    var selectedItems = ${cm:toJSONArrayWithFilter(itemList, "userId,code,realname,recordId,scRecordCode")};
+    $("#itemList").append(_.template($("#itemListTpl").html())({users: selectedItems, year:'${scLetter.year}'}));
     stickheader($("#itemTable"));
 
     function _selectUser() {
+
+        var year = $("#modalForm input[name=year]").val();
+        if(year==''){
+            $.tip({
+                $target: $("#modalForm input[name=year]"),
+                at: 'top center', my: 'bottom center', type: 'info',
+                msg: "请选择年份。"
+            });
+            return;
+        }
 
         var $select = $("#modalForm select[name=userId]");
         var userId = $.trim($select.val());
         if (userId == '') {
             $.tip({
                 $target: $select.closest("div").find(".select2-container"),
-                at: 'top center', my: 'bottom center', type: 'success',
+                at: 'top center', my: 'bottom center', type: 'info',
                 msg: "请选择函询对象。"
             });
             return;
         }
+
         var hasSelected = false;
         $.each(selectedItems, function (i, user) {
             if (user.userId == userId) {
@@ -208,11 +226,12 @@
 
         //console.log(user)
         selectedItems.push(user);
-        $("#itemList").empty().append(_.template($("#itemListTpl").html())({users: selectedItems}));
+        $("#itemList").empty().append(_.template($("#itemListTpl").html())({users: selectedItems, year:year}));
     }
     $(document).off("click", "#itemList .del")
             .on('click', "#itemList .del", function () {
                 var $tr = $(this).closest("tr");
+                var $table = $(this).closest("table");
                 var userId = $tr.data("user-id");
                 //console.log("userId=" + userId)
                 $.each(selectedItems, function (i, user) {
@@ -222,6 +241,9 @@
                     }
                 })
                 $(this).closest("tr").remove();
+                if ($("tbody tr", $table).length == 0) {
+                    $table.remove();
+                }
             });
     $.register.user_select($('#modalForm [data-rel="select2-ajax"]'));
     $.register.date($('.input-group.date'));
@@ -258,15 +280,16 @@
     });
     $("#modalForm").validate({
         submitHandler: function (form) {
-            var userIds = $.map(selectedItems, function (user) {
-                return user.userId;
+            var selectedUsers = $.map(selectedItems, function (user) {
+                user.recordId = $("span[data-user-id='"+ user.userId +"']", "#itemTable").data("record-id");
+                return user;
             });
-            if ($.trim($("#modalForm input[name=filePath]").val()) == "") {
+            /*if ($.trim($("#modalForm input[name=filePath]").val()) == "") {
                 SysMsg.warning("请上传函询文件");
                 return;
-            }
+            }*/
             $(form).ajaxSubmit({
-                data: {userIds: userIds},
+                data: {users: $.base64.encode(JSON.stringify(selectedUsers))},
                 success: function (ret) {
                     if (ret.success) {
                         $.hideView();

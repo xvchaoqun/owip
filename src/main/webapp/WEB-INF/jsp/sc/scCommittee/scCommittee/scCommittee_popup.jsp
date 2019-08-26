@@ -51,13 +51,13 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-info" type="button" id="selectBtn">
+    <button class="btn btn-primary" type="button" id="selectBtn">
         <i class="ace-icon fa fa-check "></i>
         确定
     </button>
 </div>
 
-<jsp:include page="scCommittee_colModel.jsp"/>
+<jsp:include page="scCommittee_colModel.jsp?popup=1"/>
 <script>
 
     function _reload2() {

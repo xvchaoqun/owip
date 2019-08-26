@@ -12,6 +12,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.ScConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +41,10 @@ public class ScRecordController extends ScBaseController {
 
         modelMap.put("cls", cls);
 
+        if (cls == 10) {
+
+            return "sc/scRecord/scRecord/scRecordList";
+        }
         return "sc/scRecord/scRecord/scRecord_page";
     }
 
@@ -51,8 +53,11 @@ public class ScRecordController extends ScBaseController {
     @ResponseBody
     public void scRecord_data(HttpServletResponse response,
                                     Short year,
+                                    String postName,
                                     Integer motionId,
+                                    Integer scType,
                                     Byte status,
+                                 @DateTimeFormat(pattern = DateUtils.YYYYMMDD)Date holdDate,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -67,13 +72,22 @@ public class ScRecordController extends ScBaseController {
 
         ScRecordViewExample example = new ScRecordViewExample();
         ScRecordViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("hold_date desc");
+        example.setOrderByClause("year desc, hold_date desc");
 
         if (year!=null) {
             criteria.andYearEqualTo(year);
         }
+        if(scType!=null){
+            criteria.andScTypeEqualTo(scType);
+        }
+        if(postName!=null){
+            criteria.andPostNameLike(SqlUtils.like(postName));
+        }
         if (motionId!=null) {
             criteria.andMotionIdEqualTo(motionId);
+        }
+        if(holdDate!=null){
+            criteria.andHoldDateGreaterThanOrEqualTo(holdDate);
         }
         if (status!=null) {
             criteria.andStatusEqualTo(status);
@@ -162,6 +176,7 @@ public class ScRecordController extends ScBaseController {
     @ResponseBody
     public Map scRecord_selects(Integer pageSize, Integer pageNo,
                                 Byte status,
+                                Integer scType,
                                 Integer unitId, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -179,6 +194,11 @@ public class ScRecordController extends ScBaseController {
         }
 
         example.setOrderByClause("status asc, hold_date desc");
+
+        if(scType!=null){
+            criteria.andScTypeEqualTo(scType);
+        }
+
         if(unitId!=null){
             criteria.andUnitIdEqualTo(unitId);
         }
@@ -211,6 +231,33 @@ public class ScRecordController extends ScBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    // 根据年份、考察对象、选任启动日期读取纪实列表
+    @RequestMapping("/scRecords")
+    @ResponseBody
+    public void scRecords(Short year, Integer userId,
+                          @DateTimeFormat(pattern = DateUtils.YYYYMMDD) Date holdDate) throws IOException {
+
+        List<Integer> recordIdList = iScMapper.getRecordIdList(year, userId, holdDate);
+
+        if(recordIdList.size()==0) return;
+
+        ScRecordViewExample example = new ScRecordViewExample();
+        ScRecordViewExample.Criteria criteria = example.createCriteria();
+        criteria.andIdIn(recordIdList);
+        example.setOrderByClause("status asc, hold_date desc");
+
+        List<ScRecordView> records = scRecordViewMapper.selectByExample(example);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", records.size());
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(scRecord.class, scRecordMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
     }
 
     public void scRecord_export(ScRecordViewExample example, HttpServletResponse response) {

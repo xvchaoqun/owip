@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -207,6 +208,16 @@ public class ScCommitteeVoteController extends ScBaseController {
         scCommitteeVoteService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "干部选拔任用表决调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scCommitteeVote:edit")
+    @RequestMapping("/scCommitteeVote_selectScRecord")
+    public String scCommitteeVote_selectScRecord(int userId,
+                                      ModelMap modelMap) {
+
+        modelMap.put("sysUser", CmTag.getUserById(userId));
+
+        return "sc/scCommittee/scCommitteeVote/scCommitteeVote_selectScRecord";
     }
 
     public void scCommitteeVote_export(ScCommitteeVoteViewExample example, HttpServletResponse response) {

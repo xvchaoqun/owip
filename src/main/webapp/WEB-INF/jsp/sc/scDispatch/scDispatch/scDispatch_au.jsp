@@ -104,7 +104,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-4 control-label"
-                                       style="white-space: nowrap">党委常委会</label>
+                                       style="white-space: nowrap"><span class="star">*</span>党委常委会</label>
                                 <div class="col-xs-7">
                                     <button id="selectCommitteeBtn" class="popupBtn btn btn-success btn-sm" type="button"
                                             data-width="1200"

@@ -66,6 +66,7 @@ public class DispatchCadreController extends DispatchBaseController {
                 DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
                 modelMap.put("dispatchCadre", dispatchCadre);
 
+                modelMap.put("scRecord", dispatchCadre.getScRecord());
                 if(dispatchCadre.getUnitPostId()!=null) {
                     UnitPostView unitPost = iUnitMapper.getUnitPost(dispatchCadre.getUnitPostId());
                     modelMap.put("unitPost", unitPost);
@@ -299,6 +300,8 @@ public class DispatchCadreController extends DispatchBaseController {
         if (id != null) {
             DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
             modelMap.put("dispatchCadre", dispatchCadre);
+            modelMap.put("scRecord", dispatchCadre.getScRecord());
+
             if(dispatchCadre!=null && dispatchCadre.getUnitPostId()!=null) {
                 UnitPostView unitPost = iUnitMapper.getUnitPost(dispatchCadre.getUnitPostId());
                 modelMap.put("unitPost", unitPost);

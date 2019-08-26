@@ -108,7 +108,9 @@ public class ScDispatchService extends ScBaseMapper {
             scDispatchCommitteeMapper.deleteByExample(example);
         }
         if(committeeIds!=null) {
-            for (Integer committeeId : committeeIds) {
+            Set<Integer> committeeIdSet = new HashSet<>();
+            committeeIdSet.addAll(Arrays.asList(committeeIds));
+            for (Integer committeeId : committeeIdSet) {
                 ScDispatchCommittee record = new ScDispatchCommittee();
                 record.setDispatchId(dispatchId);
                 record.setCommitteeId(committeeId);

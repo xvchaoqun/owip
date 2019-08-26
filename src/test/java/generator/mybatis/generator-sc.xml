@@ -39,6 +39,7 @@
         <!--干部选拔-动议-->
         <!--<table tableName="sc_motion" domainObjectName="sc.scMotion.ScMotion"
                mapperName="sc.scMotion.ScMotionMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="sc_motion_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -46,6 +47,7 @@
                enableDeleteByExample="false"
                domainObjectName="sc.scMotion.ScMotionView"
                mapperName="sc.scMotion.ScMotionViewMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
 
         <!--干部选拔-干部津贴变动-->
@@ -135,14 +137,8 @@
                mapperName="sc.scPublic.ScPublicMapper">
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="sc_public_view"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false"
-               domainObjectName="sc.scPublic.ScPublicView" mapperName="sc.scPublic.ScPublicViewMapper">
-        </table>-->
 
-        <!--<table tableName="sc_public_user" domainObjectName="sc.scPublic.ScPublicUser"
+        <table tableName="sc_public_user" domainObjectName="sc.scPublic.ScPublicUser"
                mapperName="sc.scPublic.ScPublicUserMapper">
         </table>-->
 
@@ -190,8 +186,8 @@
        </table>-->
         <!-- <table tableName="sc_committee_vote" domainObjectName="sc.scCommittee.ScCommitteeVote"
                mapperName="sc.scCommittee.ScCommitteeVoteMapper">
-        </table>
-        <table tableName="sc_committee_vote_view"
+        </table>-->
+        <!--<table tableName="sc_committee_vote_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
@@ -218,6 +214,14 @@
             <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
         </table>-->
 
+        <table tableName="sc_public_user_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scPublic.ScPublicUserView"
+               mapperName="sc.scPublic.ScPublicUserViewMapper">
+        </table>
+
         <!--干部选拔-干部小组会议题-->
         <!--<table tableName="sc_group" domainObjectName="sc.scGroup.ScGroup"
                mapperName="sc.scGroup.ScGroupMapper">
@@ -240,7 +244,7 @@
         <!--<table tableName="sc_group_participant" domainObjectName="sc.scGroup.ScGroupParticipant"
                mapperName="sc.scGroup.ScGroupParticipantMapper">
         </table>-->
-        <table tableName="sc_group_topic" domainObjectName="sc.scGroup.ScGroupTopic"
+        <!--<table tableName="sc_group_topic" domainObjectName="sc.scGroup.ScGroupTopic"
                mapperName="sc.scGroup.ScGroupTopicMapper">
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="file_path" jdbcType="VARCHAR"></columnOverride>
@@ -263,7 +267,7 @@
         </table>
         <table tableName="sc_group_topic_user" domainObjectName="sc.scGroup.ScGroupTopicUser"
                mapperName="sc.scGroup.ScGroupTopicUserMapper">
-        </table>
+        </table>-->
         <!--<table tableName="sc_group_topic_unit" domainObjectName="sc.scGroup.ScGroupTopicUnit"
                mapperName="sc.scGroup.ScGroupTopicUnitMapper">
         </table>-->
@@ -275,13 +279,7 @@
         </table>-->
         <!--<table tableName="sc_letter_item" domainObjectName="sc.scLetter.ScLetterItem" mapperName="sc.scLetter.ScLetterItemMapper">
         </table>-->
-        <!--<table tableName="sc_letter_item_view"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false"
-               domainObjectName="sc.scLetter.ScLetterItemView"
-               mapperName="sc.scLetter.ScLetterItemViewMapper">
-        </table>-->
+
         <!--<table tableName="sc_letter_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

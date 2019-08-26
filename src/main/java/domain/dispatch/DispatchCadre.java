@@ -1,13 +1,23 @@
 package domain.dispatch;
 
 import domain.cadre.CadreView;
+import domain.sc.scRecord.ScRecordView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import persistence.sc.IScMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 
 public class DispatchCadre implements Serializable {
+
+    public ScRecordView getScRecord(){
+
+        if(recordId==null) return null;
+        IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+        if(iScMapper==null) return null;
+        return iScMapper.getScRecordView(recordId);
+    }
 
     public Dispatch getDispatch(){
         return CmTag.getDispatch(dispatchId);
@@ -49,6 +59,8 @@ public class DispatchCadre implements Serializable {
     private Integer unitId;
 
     private String remark;
+
+    private Integer recordId;
 
     private Integer sortOrder;
 
@@ -156,6 +168,14 @@ public class DispatchCadre implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
     }
 
     public Integer getSortOrder() {

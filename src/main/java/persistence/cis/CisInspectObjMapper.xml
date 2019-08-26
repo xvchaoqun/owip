@@ -3,6 +3,9 @@
 <mapper namespace="persistence.cis.CisInspectObjMapper">
   <resultMap id="BaseResultMap" type="domain.cis.CisInspectObj">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="record_ids" jdbcType="VARCHAR" property="recordIds" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="seq" jdbcType="INTEGER" property="seq" />
@@ -16,6 +19,8 @@
     <result column="assign_post" jdbcType="VARCHAR" property="assignPost" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="log_file" jdbcType="VARCHAR" property="logFile" />
+    <result column="report" jdbcType="VARCHAR" property="report" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -77,8 +82,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type_id, seq, inspect_date, cadre_id, inspector_type, other_inspector_type, 
-    chief_inspector_id, talk_user_count, post, assign_post, summary, log_file, remark
+    id, record_id, record_ids, unit_post_id, year, type_id, seq, inspect_date, cadre_id, 
+    inspector_type, other_inspector_type, chief_inspector_id, talk_user_count, post, 
+    assign_post, summary, log_file, report, record_user_id, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cis.CisInspectObjExample" resultMap="BaseResultMap">
     select
@@ -111,24 +117,35 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cis.CisInspectObj">
-    insert into cis_inspect_obj (id, year, type_id, 
+    insert into cis_inspect_obj (id, record_id, record_ids, 
+      unit_post_id, year, type_id, 
       seq, inspect_date, cadre_id, 
       inspector_type, other_inspector_type, chief_inspector_id, 
       talk_user_count, post, assign_post, 
-      summary, log_file, remark
-      )
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+      summary, log_file, report, 
+      record_user_id, remark)
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{recordIds,jdbcType=VARCHAR}, 
+      #{unitPostId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
       #{seq,jdbcType=INTEGER}, #{inspectDate,jdbcType=DATE}, #{cadreId,jdbcType=INTEGER}, 
       #{inspectorType,jdbcType=TINYINT}, #{otherInspectorType,jdbcType=VARCHAR}, #{chiefInspectorId,jdbcType=INTEGER}, 
       #{talkUserCount,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{assignPost,jdbcType=VARCHAR}, 
-      #{summary,jdbcType=VARCHAR}, #{logFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
-      )
+      #{summary,jdbcType=VARCHAR}, #{logFile,jdbcType=VARCHAR}, #{report,jdbcType=VARCHAR}, 
+      #{recordUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cis.CisInspectObj">
     insert into cis_inspect_obj
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="recordIds != null">
+        record_ids,
+      </if>
+      <if test="unitPostId != null">
+        unit_post_id,
       </if>
       <if test="year != null">
         year,
@@ -169,6 +186,12 @@
       <if test="logFile != null">
         log_file,
       </if>
+      <if test="report != null">
+        report,
+      </if>
+      <if test="recordUserId != null">
+        record_user_id,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -176,6 +199,15 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordIds != null">
+        #{recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPostId != null">
+        #{unitPostId,jdbcType=INTEGER},
       </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
@@ -216,6 +248,12 @@
       <if test="logFile != null">
         #{logFile,jdbcType=VARCHAR},
       </if>
+      <if test="report != null">
+        #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
+      </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -232,6 +270,15 @@
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordIds != null">
+        record_ids = #{record.recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitPostId != null">
+        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       </if>
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
@@ -272,6 +319,12 @@
       <if test="record.logFile != null">
         log_file = #{record.logFile,jdbcType=VARCHAR},
       </if>
+      <if test="record.report != null">
+        report = #{record.report,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -283,6 +336,9 @@
   <update id="updateByExample" parameterType="map">
     update cis_inspect_obj
     set id = #{record.id,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
+      record_ids = #{record.recordIds,jdbcType=VARCHAR},
+      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       type_id = #{record.typeId,jdbcType=INTEGER},
       seq = #{record.seq,jdbcType=INTEGER},
@@ -296,6 +352,8 @@
       assign_post = #{record.assignPost,jdbcType=VARCHAR},
       summary = #{record.summary,jdbcType=VARCHAR},
       log_file = #{record.logFile,jdbcType=VARCHAR},
+      report = #{record.report,jdbcType=VARCHAR},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -304,6 +362,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cis.CisInspectObj">
     update cis_inspect_obj
     <set>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordIds != null">
+        record_ids = #{recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPostId != null">
+        unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      </if>
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
       </if>
@@ -343,6 +410,12 @@
       <if test="logFile != null">
         log_file = #{logFile,jdbcType=VARCHAR},
       </if>
+      <if test="report != null">
+        report = #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -351,7 +424,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cis.CisInspectObj">
     update cis_inspect_obj
-    set year = #{year,jdbcType=INTEGER},
+    set record_id = #{recordId,jdbcType=INTEGER},
+      record_ids = #{recordIds,jdbcType=VARCHAR},
+      unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      year = #{year,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
       seq = #{seq,jdbcType=INTEGER},
       inspect_date = #{inspectDate,jdbcType=DATE},
@@ -364,6 +440,8 @@
       assign_post = #{assignPost,jdbcType=VARCHAR},
       summary = #{summary,jdbcType=VARCHAR},
       log_file = #{logFile,jdbcType=VARCHAR},
+      report = #{report,jdbcType=VARCHAR},
+      record_user_id = #{recordUserId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

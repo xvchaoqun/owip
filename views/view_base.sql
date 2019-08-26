@@ -10,7 +10,7 @@ AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_i
 --  View definition for `ow_party_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_view` AS
 select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,
 mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from ow_party p
 left join (select count(*) as num, party_id from ow_branch where is_deleted=0 group by party_id) btmp on btmp.party_id=p.id
@@ -24,7 +24,7 @@ left join (select count(*) as num, party_id from ow_party_member_group where is_
 --  View definition for `ow_branch_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_branch_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_view` AS
 select b.*, p.sort_order as party_sort_order, mtmp.num as member_count, mtmp.positive_count, mtmp.s_num as student_member_count,
 mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count, gtmp2.num as present_group_count
 from ow_branch b
@@ -36,7 +36,7 @@ left join (select count(*) as num, branch_id from ow_branch_member_group where i
 left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 and is_present=1 group by branch_id) gtmp2 on gtmp2.branch_id=b.id;
 
 DROP VIEW IF EXISTS `ow_org_admin_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_org_admin_view` AS
+CREATE ALGORITHM = UNDEFINED VIEW `ow_org_admin_view` AS
 select oa.*, p.sort_order as party_sort_order, b.party_id as branch_party_id,
 bp.sort_order as branch_party_sort_order, b.sort_order as branch_sort_order from ow_org_admin oa
 left join ow_party p on p.id=oa.party_id
@@ -45,7 +45,7 @@ left join ow_party bp on bp.id=b.party_id;
 
 
 DROP VIEW IF EXISTS `ow_member_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_member_view` AS
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_view` AS
 select
 m.*, u.source as user_source, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
 ui.birth, ui.idcard, ui.mobile, ui.email, ui.unit, p.unit_id,
@@ -74,7 +74,7 @@ left join sys_student_info s on s.user_id = m.user_id;
 --  View definition for `ow_member_abroad_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_abroad_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_abroad_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ow_member_abroad_view` AS
 select ea.`*`, m.user_id, u.realname, u.code, u.gender, m.party_id, m.branch_id
 from ext_abroad ea , sys_user_view u, ow_member m where ea.gzzh=u.code and u.id=m.user_id ;
 
@@ -105,7 +105,7 @@ sum(if(bmt.code='mt_admin_level_vice_kj', num,0)) as vice_kj_count
 from unit_post_count_view upc , base_meta_type bmt where upc.admin_level=bmt.id group by upc.unit_id) cpc on cpc.unit_id=u.id;
 
 DROP VIEW IF EXISTS `leader_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `leader_view` AS
+CREATE ALGORITHM = UNDEFINED VIEW `leader_view` AS
 select l.*, c.status as cadre_status, if(!isnull(cm.id), 1, 0) as is_committee_member from leader l
 left join cadre c on c.user_id=l.user_id
 left join cm_member cm on cm.is_quit=0 and cm.type=3 and cm.user_id=l.user_id ;

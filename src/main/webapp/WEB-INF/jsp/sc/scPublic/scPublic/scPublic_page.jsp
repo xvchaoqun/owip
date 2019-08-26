@@ -60,17 +60,27 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cls" value="${cls}">
-                                        <div class="form-group">
+                                        <div class="form-group" style="z-index:1050">
                                             <label>年度</label>
-                                            <input class="form-control search-query" name="year" type="text"
-                                                   value="${param.year}"
-                                                   placeholder="请输入年度">
+                                            <div class="input-group date"
+                                                 data-date-format="yyyy" data-date-min-view-mode="2"
+                                                 style="width: 120px;z-index:1050">
+                                                <input class="form-control" placeholder="请选择"
+                                                       name="year"
+                                                       type="text"
+                                                       value="${param.year}"/>
+                                                <span class="input-group-addon"> <i
+                                                        class="fa fa-calendar bigger-110"></i></span>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>所属党委常委会</label>
-                                            <input class="form-control search-query" name="committeeId" type="text"
-                                                   value="${param.committeeId}"
-                                                   placeholder="请输入所属党委常委会">
+                                            <select data-rel="select2-ajax"
+                                                    data-ajax-url="${ctx}/sc/scCommittee_selects"
+                                                    data-width="260" name="committeeId"
+                                                    data-placeholder="请选择或输入日期(YYYYMMDD)">
+                                                <option value="${scCommittee.id}">${scCommittee.code}</option>
+                                            </select>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -98,6 +108,8 @@
     </div>
 </div>
 <script>
+    $.register.ajax_select($('#searchForm select[name=committeeId]'), {maximumInputLength: 8})
+    $.register.date($('.input-group.date'));
     function _reload(){
         $("#modal").modal('hide');
         $("#jqGrid").trigger("reloadGrid");
@@ -106,6 +118,12 @@
         rownumbers:true,
         url: '${ctx}/sc/scPublic_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {
+                label: '详情', name: '_detail', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="openView btn btn-success btn-xs" ' +
+                'data-url="${ctx}/sc/scPublicUser?publicId={0}"><i class="fa fa-search"></i> 详情</button>')
+                            .format(rowObject.id);
+            }},
             {label: '状态', name: 'isFinished', width: 90, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue){
                   return "公示结束" /*+ ((rowObject.isFinished && !rowObject.isConfirm)?"(未确认)":"")*/
@@ -120,7 +138,7 @@
                 label: '公示编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.year==undefined) return '--'
                 var _num = rowObject.code;
-                if(rowObject.pdfFilePath==undefined) return _num;
+                if($.isBlank(rowObject.pdfFilePath)) return _num;
                 return $.pdfPreview(rowObject.pdfFilePath, _num);
             }, frozen: true},
             {
@@ -144,16 +162,12 @@
                 }
                 return ret;
             }},
-            {
-                label: '党委常委会编号', name: '_num', width: 210, formatter: function (cellvalue, options, rowObject) {
-                //console.log(rowObject.holdDate)
-                var _num = "党委常委会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"))
-                return _num;
-            }, frozen: true},
-            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '党委常委会编号', name: 'scCommittee.code', width: 210, frozen: true},
+            {label: '党委常委会日期', name: 'scCommittee.holdDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '发布时间', name: 'publishDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '公示开始时间', name: 'publicStartDate', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:m'}},
             {label: '公示结束时间', name: 'publicEndDate', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y-m-d H:m'}},
+            {label: '纪实人员', name: 'recordUser.realname'},
             /*{label: '确认结束公示', name: 'isConfirmed', formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.isFinished) return '--'

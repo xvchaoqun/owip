@@ -73,7 +73,6 @@
 </style>
 <script src="${ctx}/extend/js/webcam.min.js"></script>
 <script src="${ctx}/extend/js/jQueryRotate.js"></script>
-<%--<script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>--%>
 <script>
 
     var i=1;

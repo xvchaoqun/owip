@@ -2,6 +2,7 @@ package service.sc.scMatter;
 
 import domain.sc.scMatter.ScMatterCheckItem;
 import domain.sc.scMatter.ScMatterCheckItemExample;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sc.ScBaseMapper;
@@ -36,5 +37,21 @@ public class ScMatterCheckItemService extends ScBaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(ScMatterCheckItem record){
         return scMatterCheckItemMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 核查复用
+    @Transactional
+    public void reuse(int itemId, Integer[] recordIds) {
+
+        if(recordIds!=null && recordIds.length>0){
+
+            ScMatterCheckItem record = new ScMatterCheckItem();
+            record.setId(itemId);
+            record.setRecordIds(StringUtils.join(recordIds, ","));
+            scMatterCheckItemMapper.updateByPrimaryKeySelective(record);
+        }else{
+            // 不传则清空
+            commonMapper.excuteSql("update sc_matter_check_item set record_ids=null where id="+ itemId);
+        }
     }
 }

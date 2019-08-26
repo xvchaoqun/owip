@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
+import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
@@ -147,6 +148,7 @@ public class CrsPostController extends CrsBaseController {
 
         if (id == null) {
 
+            record.setRecordUserId(ShiroHelper.getCurrentUserId());
             crsPostService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CRS, "添加岗位：%s", record.getId()));
         } else {
@@ -170,6 +172,15 @@ public class CrsPostController extends CrsBaseController {
         if (id != null) {
             CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
             modelMap.put("crsPost", crsPost);
+
+            if(iScMapper!=null){
+                if(crsPost.getRecordId()!=null) {
+                    modelMap.put("scRecord", iScMapper.getScRecordView(crsPost.getRecordId()));
+                }
+                if(crsPost.getUnitPostId()!=null) {
+                    modelMap.put("unitPost", iUnitMapper.getUnitPost(crsPost.getUnitPostId()));
+                }
+            }
         }
         return "crs/crsPost/crsPost_au";
     }

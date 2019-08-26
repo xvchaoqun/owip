@@ -1,10 +1,16 @@
 package domain.sc.scCommittee;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class ScCommitteeTopicView implements Serializable {
+
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+
     private Integer id;
 
     private Integer committeeId;
@@ -26,6 +32,8 @@ public class ScCommitteeTopicView implements Serializable {
     private String voteFilePath;
 
     private String remark;
+
+    private Integer recordUserId;
 
     private Boolean isDeleted;
 
@@ -133,6 +141,14 @@ public class ScCommitteeTopicView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public Boolean getIsDeleted() {

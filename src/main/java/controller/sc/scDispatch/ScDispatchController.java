@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.sc.scCommittee.ScCommitteeService;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -163,6 +164,7 @@ public class ScDispatchController extends ScBaseController {
             return failed("发文号重复");
         }
         if (id == null) {
+            record.setRecordUserId(ShiroHelper.getCurrentUserId());
             scDispatchService.insertSelective(record, committeeIds, voteIds);
             logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "添加文件起草签发：%s", record.getId()));
         } else {
@@ -258,13 +260,10 @@ public class ScDispatchController extends ScBaseController {
     public Map do_scDispatch_snyc(int dispatchId, HttpServletResponse response) throws IOException {
 
         try {
-
             scDispatchService.sync(dispatchId);
-
         } catch (Exception e) {
-          return failed("同步失败");
+          return failed("同步失败", e);
         }
-
         return success();
     }
 

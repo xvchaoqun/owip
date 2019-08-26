@@ -61,9 +61,9 @@
     </div>
 </div>
 </div>
-<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
+
 <script>
-    showLocation("${memberInflow.outLocation}");
+    $.showLocation("${memberInflow.outLocation}");
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
     $("#modalForm").validate({

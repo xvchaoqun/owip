@@ -2,9 +2,10 @@
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>" var="UNIT_POST_STATUS_NORMAL"/>
+<c:set value="<%=ScConstants.SC_RECORD_STATUS_INIT%>" var="SC_RECORD_STATUS_INIT"/>
 <c:if test="${not empty dispatch.scDispatchId}">
   <button class="confirm btn btn-primary btn-block btn-lg" type="button"
-          data-msg="确定同步?"
+          data-msg="确定同步?（重复同步将清除相关联的记录，比如工作经历等关联的任免信息）"
           data-callback="_reload"
           data-url="${ctx}/sc/scDispatch_snyc?dispatchId=${dispatch.id}">
     <i class="fa fa-refresh"></i> 同步“文件起草签发”
@@ -178,6 +179,25 @@
         </div>
       </div>
     </div>
+     <shiro:hasPermission name="scRecord:list">
+    <div class="row">
+        <div class="form-group">
+          <label class="col-xs-3 control-label">对应的选任纪实</label>
+          <div class="col-xs-6">
+              <select name="recordId" data-rel="select2-ajax"
+                      data-ajax-url="${ctx}/sc/scRecord_selects" data-width="400"
+                      data-placeholder="请选择">
+                  <option value="${scRecord.id}"
+                          delete="${scRecord.status!=SC_RECORD_STATUS_INIT}">
+                      ${scRecord.code}-${scRecord.postName}-${scRecord.job}</option>
+              </select>
+              <script>
+                  $.register.del_select($("#cadreForm select[name=recordId]"))
+              </script>
+          </div>
+      </div>
+    </div>
+        </shiro:hasPermission>
 <c:if test="${empty dispatch.scDispatchId}">
     <div class="clearfix form-actions center">
         <button class="btn ${empty dispatchCadre?'btn-success':'btn-info'} btn-sm" type="submit">
@@ -316,7 +336,6 @@
 
           var option = new Option(up.unitName, up.unitId, true, true);
           $("#cadreForm select[name=unitId]").append(option).trigger('change');
-
 
           $('#cadreForm input[name=_unitType]').val(_cMap.metaTypeMap[up.unitTypeId].name)
       }

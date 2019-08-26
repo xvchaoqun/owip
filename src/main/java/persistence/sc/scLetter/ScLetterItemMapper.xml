@@ -5,6 +5,9 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="letter_id" jdbcType="INTEGER" property="letterId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="record_ids" jdbcType="VARCHAR" property="recordIds" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, letter_id, user_id
+    id, letter_id, user_id, record_id, record_ids, record_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scLetter.ScLetterItemExample" resultMap="BaseResultMap">
     select
@@ -98,9 +101,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.sc.scLetter.ScLetterItem">
-    insert into sc_letter_item (id, letter_id, user_id
+    insert into sc_letter_item (id, letter_id, user_id, 
+      record_id, record_ids, record_user_id
       )
-    values (#{id,jdbcType=INTEGER}, #{letterId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{letterId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{recordId,jdbcType=INTEGER}, #{recordIds,jdbcType=VARCHAR}, #{recordUserId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scLetter.ScLetterItem">
@@ -115,6 +120,15 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="recordIds != null">
+        record_ids,
+      </if>
+      <if test="recordUserId != null">
+        record_user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -125,6 +139,15 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordIds != null">
+        #{recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -146,6 +169,15 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordIds != null">
+        record_ids = #{record.recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,7 +187,10 @@
     update sc_letter_item
     set id = #{record.id,jdbcType=INTEGER},
       letter_id = #{record.letterId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER}
+      user_id = #{record.userId,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
+      record_ids = #{record.recordIds,jdbcType=VARCHAR},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,13 +204,25 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordIds != null">
+        record_ids = #{recordIds,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.sc.scLetter.ScLetterItem">
     update sc_letter_item
     set letter_id = #{letterId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER}
+      user_id = #{userId,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
+      record_ids = #{recordIds,jdbcType=VARCHAR},
+      record_user_id = #{recordUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scLetter.ScLetterItemExample" resultMap="BaseResultMap">

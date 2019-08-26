@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sc.ScBaseMapper;
+import sys.constants.ScConstants;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
@@ -60,11 +61,10 @@ public class ScMotionService extends ScBaseMapper {
     @Transactional
     public void updateByPrimaryKeySelective(ScMotion record) {
 
-        ScMotion scMotion = scMotionMapper.selectByPrimaryKey(record.getId());
-        if(record.getWay()!=null && record.getWay().intValue()!=scMotion.getWay()){
-            commonMapper.excuteSql("update sc_motion set topics=null where id="+record.getId());
-        }
-
         scMotionMapper.updateByPrimaryKeySelective(record);
+
+        if(record.getWay()!=null && record.getWay()== ScConstants.SC_MOTION_WAY_OTHER){
+            commonMapper.excuteSql("update sc_motion set committee_topic_id=null, group_topic_id=null where id="+record.getId());
+        }
     }
 }

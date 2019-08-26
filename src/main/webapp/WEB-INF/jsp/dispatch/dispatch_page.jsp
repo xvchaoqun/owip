@@ -197,7 +197,7 @@
                 }, frozen: true
             },
             {
-                label: '发文号', name: 'dispatchCode', width: 190, formatter: function (cellvalue, options, rowObject) {
+                label: '发文号', name: 'dispatchCode', align:'left', width: 190, formatter: function (cellvalue, options, rowObject) {
 
                     return $.pdfPreview(rowObject.file, rowObject.fileName, cellvalue, cellvalue);
                 }, frozen: true
@@ -213,7 +213,7 @@
             {
                 label: '党委常委会',
                 name: 'scDispatch.scCommittees',
-                width: 210,
+                width: 210, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
 
                     if (cellvalue == undefined || cellvalue.length == 0) return '--'

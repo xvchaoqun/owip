@@ -193,6 +193,18 @@ public class ScGroupTopicController extends ScBaseController {
         if (topicId != null) {
             ScGroupTopic scGroupTopic = scGroupTopicMapper.selectByPrimaryKey(topicId);
             modelMap.put("scGroupTopic", scGroupTopic);
+
+            Integer recordId = scGroupTopic.getRecordId();
+            if(recordId!=null){
+                modelMap.put("scRecord", iScMapper.getScRecordView(recordId));
+            }
+            Integer unitPostId = scGroupTopic.getUnitPostId();
+            if(unitPostId!=null){
+                modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+            }
+
+            modelMap.put("selectUsers", scGroupTopicService.getTopicUsers(scGroupTopic.getId()));
+            modelMap.put("candidateUser", CmTag.getUserById(scGroupTopic.getCandidateUserId()));
         }
 
         return "sc/scGroup/scGroupTopic/scGroupTopic_content";
@@ -319,6 +331,7 @@ public class ScGroupTopicController extends ScBaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getCode() + "-" + record.getRealname() + "-" + record.getTitle());
                 option.put("id", record.getUserId() + "");
+                option.put("title", record.getTitle());
                 options.add(option);
             }
         }
@@ -341,5 +354,62 @@ public class ScGroupTopicController extends ScBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/scGroupTopic_selects")
+    @ResponseBody
+    public Map scGroupTopic_selects(Integer pageSize, Integer pageNo, Integer type, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        ScGroupTopicViewExample example = new ScGroupTopicViewExample();
+        ScGroupTopicViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("hold_date desc");
+
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andNameLike("%"+searchStr.trim()+"%");
+        }
+
+        long count = scGroupTopicViewMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<ScGroupTopicView> records = scGroupTopicViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(ScGroupTopicView record:records){
+
+                String holdDate = DateUtils.formatDate(record.getHoldDate(), DateUtils.YYYYMMDD_DOT);
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", String.format("[%s]", holdDate) + record.getName());
+                option.put("holdDate", holdDate);
+                if(record.getUnitPostId()!=null) {
+                    option.put("unitPost", unitPostMapper.selectByPrimaryKey(record.getUnitPostId()));
+                }
+                option.put("scType", record.getScType());
+                option.put("content", record.getContent());
+
+                option.put("id", record.getId() + "");
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

@@ -1,6 +1,6 @@
 
 DROP VIEW IF EXISTS `cadre_party_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `cadre_party_view`
+CREATE ALGORITHM = UNDEFINED VIEW `cadre_party_view`
 AS SELECT cp.*, cv.id as cadre_id, cv.code, cv.realname, cv.unit_id, cv.ow_grow_time, cv.member_status, cv.admin_level,
 cv.post_type, cv.title AS cadre_title, cv.post AS cadre_post,
 cv.status as cadre_status,cv.sort_order AS cadre_sort_order
@@ -135,7 +135,7 @@ group by ce.id;
 
 -- 民主推荐
 DROP VIEW IF EXISTS `dr_offline_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `dr_offline_view` AS
+CREATE ALGORITHM = UNDEFINED VIEW `dr_offline_view` AS
 select do.*, sr.seq as sr_seq, sm.hold_date, sm.sc_type, sm.unit_post_id, up.name as post_name,
 up.job, up.admin_level, up.post_type, up.unit_id,
 u.type_id as unit_type from dr_offline do
@@ -146,7 +146,7 @@ left join unit u on u.id = up.unit_id ;
 
 -- 动议
 DROP VIEW IF EXISTS `sc_motion_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `sc_motion_view` AS
+CREATE ALGORITHM = UNDEFINED VIEW `sc_motion_view` AS
 select sm.*, up.name as post_name, up.job, up.admin_level, up.post_type, up.unit_id, u.type_id as unit_type
 from sc_motion sm
        left join unit_post up on up.id = sm.unit_post_id
@@ -154,8 +154,8 @@ from sc_motion sm
 
 -- 纪实
 DROP VIEW IF EXISTS `sc_record_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `sc_record_view` AS
-select sr.*, sm.hold_date, sm.sc_type, sm.unit_post_id, up.name as post_name, up.job, up.admin_level, up.post_type, up.unit_id,
+CREATE ALGORITHM = UNDEFINED VIEW `sc_record_view` AS
+select sr.*, sm.hold_date, sm.sc_type, sm.unit_post_id, up.code AS post_code, up.name as post_name, up.job, up.admin_level, up.post_type, up.unit_id,
  u.type_id as unit_type from sc_record sr
 left join sc_motion sm on sm.id=sr.motion_id
 left join unit_post up on up.id = sm.unit_post_id
@@ -190,12 +190,6 @@ left join dispatch_type dt on sd.dispatch_type_id = dt.id
 left join dispatch d on d.sc_dispatch_id=sd.id
 group by sd.id ;
 
--- 干部任前公示
-DROP VIEW IF EXISTS `sc_public_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `sc_public_view` AS
-select sp.*, sc.hold_date from sc_public sp
-left join sc_committee sc on sc.id=sp.committee_id ;
-
 
 -- 常委会
 DROP VIEW IF EXISTS `sc_committee_member_view`;
@@ -219,7 +213,7 @@ where sc.is_deleted=0 ;
 
 DROP VIEW IF EXISTS `sc_committee_vote_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_vote_view` AS
-select scv.*, sct.name, sct.seq, sct.content, sct.committee_id, sct.vote_file_path,
+select scv.*, sct.name, sct.seq, sct.content, sct.committee_id, sct.vote_file_path, sct.record_user_id,
 sctc.original_post, sctc.original_post_time,
 sc.year, sc.hold_date, sc.committee_member_count, sc.count, sc.absent_count, sc.attend_users, sc.file_path, sc.log_file,
 -- 已使用的ID
@@ -239,6 +233,15 @@ from sc_committee_other_vote scov
 left join sc_committee_topic sct on sct.id=scov.topic_id
 left join sc_committee_view sc on sc.id=sct.committee_id;
 
+DROP VIEW IF EXISTS `sc_public_user_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_public_user_view` AS
+SELECT spu.*, sp.year, sp.committee_id, sp.publish_date, sp.public_start_date, sp.public_end_date,
+sp.pdf_file_path, sp.word_file_path, sp.record_user_id,
+sctc.original_post, scv.cadre_id, scv.post  from sc_public_user spu
+LEFT JOIN sc_public sp ON sp.id=spu.public_id
+LEFT JOIN sc_committee_vote scv ON scv.id=spu.vote_id
+left join sc_committee_topic_cadre sctc on sctc.topic_id=scv.topic_id and sctc.cadre_id=scv.cadre_id;
+
 -- 干部小组会
 DROP VIEW IF EXISTS `sc_group_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_group_member_view` AS
@@ -254,11 +257,6 @@ left join sc_group sg on sgt.group_id = sg.id
 left join (select group_concat(unit_id) as unit_ids, topic_id from sc_group_topic_unit group by topic_id) sgtu on sgtu.topic_id=sgt.id
 where sg.is_deleted=0;
 -- 纪委函询视图
-DROP VIEW IF EXISTS `sc_letter_item_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_item_view` AS
-select sli.*, u.realname, u.code from sc_letter_item sli
-left join sys_user_view u on sli.user_id=u.id;
-
 DROP VIEW IF EXISTS `sc_letter_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_view` AS
 select sl.*, count(distinct sli.id) as item_count, count(distinct slr.id) as reply_count  from sc_letter sl
@@ -276,14 +274,16 @@ left join sc_letter_reply_item slri on slri.reply_id=slr.id group by slr.id;
 
 DROP VIEW IF EXISTS `sc_letter_reply_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_reply_item_view` AS
-select slri.*, slr.letter_id, slr.type as reply_type, slr.reply_date, slr.num as reply_num,
+select slri.*, sli.id as item_id, sli.record_id, sli.record_ids, sli.record_user_id,
+slr.letter_id, slr.type as reply_type, slr.reply_date, slr.num as reply_num,
 slr.file_path as reply_file_path, slr.file_name as reply_file_name,
 sl.year as letter_year, sl.num as letter_num,
 sl.file_path as letter_file_path, sl.file_name as letter_file_name,
 sl.query_date as letter_query_date, sl.type as letter_type, u.realname, u.code from sc_letter_reply_item slri
 left join sys_user_view u on slri.user_id=u.id
 left join sc_letter_reply slr on slr.id=slri.reply_id and slr.is_deleted=0
-left join sc_letter sl on sl.id=slr.letter_id and sl.is_deleted=0;
+left join sc_letter sl on sl.id=slr.letter_id and sl.is_deleted=0
+LEFT JOIN sc_letter_item sli ON sli.letter_id=sl.id AND sli.user_id=u.id;
 
 -- 出入境备案视图
 DROP VIEW IF EXISTS `sc_border_view`;
@@ -320,7 +320,8 @@ left join cadre_view c on c.user_id=smi.user_id;
 
 DROP VIEW IF EXISTS `sc_matter_check_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_check_item_view` AS
-select smci.*, smc.year, smc.is_random, smc.check_date, smc.num, u.code, u.realname  from sc_matter_check_item smci
+select smci.*, smc.year, smc.is_random, smc.check_date, smc.num, u.code, u.realname
+from sc_matter_check_item smci
 left join sc_matter_check smc on smc.id=smci.check_id
 left join sys_user_view u on u.id=smci.user_id;
 
@@ -618,7 +619,7 @@ left join cadre_view c on c.id=cc.cadre_id;
 --  View definition for `cis_inspector_view`
 -- ----------------------------
 /*DROP VIEW IF EXISTS `cis_inspector_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cis_inspector_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `cis_inspector_view` AS
 select ci.*, uv.username, uv.code, uv.realname
 from cis_inspector ci left join sys_user_view uv on ci.user_id = uv.id;*/
 -- ----------------------------
@@ -633,21 +634,29 @@ where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq de
 --  View definition for `dispatch_cadre_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_cadre_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_cadre_view` AS
-select dc.*, bmt.extra_attr as post_team, d.category, d.year, d.pub_time,d.work_time, d.dispatch_type_id, d.code , d.has_checked from dispatch_cadre dc
+CREATE ALGORITHM=UNDEFINED VIEW `dispatch_cadre_view` AS
+select dc.*, bmt.extra_attr as post_team,
+d.category, d.year, d.pub_time,d.work_time,
+d.dispatch_type_id, d.code , d.has_checked,d.record_user_id
+from dispatch_cadre dc
 left join base_meta_type bmt on bmt.id=dc.post_type, dispatch d, dispatch_type dt
-    where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc  ;
+where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc  ;
+
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_unit_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_unit_view` AS
-select du.*, d.category, d.year, d.pub_time, d.dispatch_type_id, d.code , d.has_checked from dispatch_unit du, dispatch d, dispatch_type dt
-    where du.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, du.type asc  ;
+CREATE ALGORITHM=UNDEFINED VIEW `dispatch_unit_view` AS
+select du.*,
+       d.category, d.year, d.pub_time, d.dispatch_type_id,
+       d.code , d.has_checked
+from dispatch_unit du, dispatch d, dispatch_type dt
+where du.dispatch_id = d.id and  d.dispatch_type_id = dt.id
+order by d.year desc, dt.sort_order desc, d.code desc, du.type asc;
 
 -- ----------------------------
 --  View definition for `dispatch_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `dispatch_view` AS
 select d.* from dispatch d, dispatch_type dt
     where d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc ;
 
@@ -668,7 +677,7 @@ left join cadre_view cv on cv.id=cp.cadre_id;
 --  View definition for `ow_branch_member_group_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_branch_member_group_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_member_group_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_member_group_view` AS
 SELECT bmg.`*`, b.party_id, p.sort_order as party_sort_order, b.sort_order as branch_sort_order, count(obm.id) as member_count
 from ow_branch_member_group bmg
 left join ow_branch_member obm on obm.group_id=bmg.id
@@ -693,7 +702,7 @@ from  ow_member_apply ma
 --  View definition for `ow_member_outflow_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_outflow_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_outflow_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ow_member_outflow_view` AS
 SELECT omo.*, om.`status` as member_status from ow_member_outflow omo, ow_member om where omo.user_id=om.user_id  ;
 
 -- ----------------------------
@@ -709,7 +718,7 @@ on wms.user_id=om.user_id  ;
 --  View definition for `ow_party_member_group_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_member_group_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_member_group_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_member_group_view` AS
 select opmg.*, op.sort_order as party_sort_order, count(opm.id) as member_count from ow_party_member_group opmg
 left join ow_party_member opm on opm.group_id=opmg.id
 left join  ow_party op on opmg.party_id=op.id group by opmg.id;
@@ -718,7 +727,7 @@ left join  ow_party op on opmg.party_id=op.id group by opmg.id;
 --  View definition for `ow_party_member_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_member_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_member_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_member_view` AS
 select opm.*,
 `ui`.`msg_title` AS `msg_title`
 	,`ui`.`email` AS `email`
@@ -765,7 +774,7 @@ left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2;
 -- ----------------------------
 
 DROP VIEW IF EXISTS `ow_branch_member_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ow_branch_member_view` AS select obm.*,
+CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_view` AS select obm.*,
 `ui`.`msg_title` AS `msg_title`
 ,`ui`.`email` AS `email`
 ,`ui`.`realname` AS `realname`

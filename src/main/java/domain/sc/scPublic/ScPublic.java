@@ -1,6 +1,10 @@
 package domain.sc.scPublic;
 
+import domain.sc.scCommittee.ScCommitteeView;
+import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import persistence.sc.IScMapper;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -8,10 +12,16 @@ import java.util.Date;
 
 public class ScPublic implements Serializable {
 
-    /*public String getCode(){
-        if(year==null || num==null) return null;
-        return MessageFormat.format("公示〔{0}〕{1}号", year, num);
-    }*/
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+
+    public ScCommitteeView getScCommittee(){
+
+        if(committeeId==null) return null;
+        IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+        if(iScMapper==null) return null;
+        return iScMapper.getScCommitteeView(committeeId);
+    }
+
     public String getCode(){
         return String.format("公示〔%s〕号", DateUtils.formatDate(publishDate, "yyyyMMdd"));
     }
@@ -44,6 +54,8 @@ public class ScPublic implements Serializable {
     private String remark;
 
     private Boolean isDeleted;
+
+    private Integer recordUserId;
 
     private static final long serialVersionUID = 1L;
 
@@ -149,5 +161,13 @@ public class ScPublic implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 }

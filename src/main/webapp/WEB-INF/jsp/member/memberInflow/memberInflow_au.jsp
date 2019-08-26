@@ -152,15 +152,15 @@ pageEncoding="UTF-8"%>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${memberInflow!=null}">确定</c:if><c:if test="${memberInflow==null}">添加</c:if>"/>
 </div>
-<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
+
 <script>
 	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
 	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 
 	$("#modal :checkbox").bootstrapSwitch();
 	//alert(JSON.stringify(Location.items[0]))
-	showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
-	showLocation("${memberInflow.outLocation}",null, null, $("#loc_province_container2"));
+	$.showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
+	$.showLocation("${memberInflow.outLocation}",null, null, $("#loc_province_container2"));
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));
     $("#modal form").validate({

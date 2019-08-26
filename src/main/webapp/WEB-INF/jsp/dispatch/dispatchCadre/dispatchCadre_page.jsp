@@ -69,7 +69,7 @@
                                 </div>
                                         <div class="form-group">
                                             <label>干部</label>
-                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
                                                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>

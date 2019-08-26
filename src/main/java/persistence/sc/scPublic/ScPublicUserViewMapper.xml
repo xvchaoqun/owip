@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.sc.scPublic.ScPublicViewMapper">
-  <resultMap id="BaseResultMap" type="domain.sc.scPublic.ScPublicView">
+<mapper namespace="persistence.sc.scPublic.ScPublicUserViewMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scPublic.ScPublicUserView">
     <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
+    <result column="public_id" jdbcType="INTEGER" property="publicId" />
+    <result column="vote_id" jdbcType="INTEGER" property="voteId" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="year" jdbcType="INTEGER" property="year" />
-    <result column="num" jdbcType="INTEGER" property="num" />
-    <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
-    <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
+    <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
+    <result column="publish_date" jdbcType="DATE" property="publishDate" />
     <result column="public_start_date" jdbcType="DATE" property="publicStartDate" />
     <result column="public_end_date" jdbcType="DATE" property="publicEndDate" />
-    <result column="publish_date" jdbcType="DATE" property="publishDate" />
-    <result column="is_finished" jdbcType="BIT" property="isFinished" />
-    <result column="is_confirmed" jdbcType="BIT" property="isConfirmed" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
-    <result column="hold_date" jdbcType="DATE" property="holdDate" />
+    <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
+    <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
+    <result column="original_post" jdbcType="VARCHAR" property="originalPost" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -47,16 +49,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, committee_id, year, num, word_file_path, pdf_file_path, public_start_date, public_end_date, 
-    publish_date, is_finished, is_confirmed, remark, is_deleted, hold_date
+    id, public_id, vote_id, sort_order, record_id, year, committee_id, publish_date, 
+    public_start_date, public_end_date, pdf_file_path, word_file_path, record_user_id, 
+    original_post, cadre_id, post
   </sql>
-  <select id="selectByExample" parameterType="domain.sc.scPublic.ScPublicViewExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.sc.scPublic.ScPublicUserViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from sc_public_view
+    from sc_public_user_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -64,19 +67,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.sc.scPublic.ScPublicViewExample" resultType="java.lang.Long">
-    select count(*) from sc_public_view
+  <select id="countByExample" parameterType="domain.sc.scPublic.ScPublicUserViewExample" resultType="java.lang.Long">
+    select count(*) from sc_public_user_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scPublic.ScPublicViewExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scPublic.ScPublicUserViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from sc_public_view
+    from sc_public_user_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -213,7 +213,9 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="typeSelect motion" style="position: absolute;text-align: center;width: 720px;font-size: 16px;font-weight: bolder;">
+                                    <div class="typeSelect motion"
+                                         style="position: absolute;text-align: center;width: 320px;margin:0 200px;
+                                         font-size: 16px;font-weight: bolder;">
                                         确定工作方案
                                     </div>
                                     <div  class="typeSelect content">

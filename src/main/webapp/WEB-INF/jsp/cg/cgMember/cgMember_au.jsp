@@ -139,7 +139,7 @@ pageEncoding="UTF-8"%>
 		}
 	}
 
-	$("select[name=unitPostId]").on("change",function () {
+	$("select[name=unitPostId]").change(function () {
 
 		if ($("select[name=unitPostId]").val() == null) return;
 

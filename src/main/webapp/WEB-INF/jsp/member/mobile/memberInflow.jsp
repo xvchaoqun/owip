@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                <label class="col-xs-4 control-label">党支部</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>党支部</label>
 
                 <div class="col-xs-8">
                     <select class="form-control" data-rel="select2-ajax" data-width="100%" data-ajax-url="${ctx}/m/branch_selects?del=0"
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>流入前所在省份</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>流入前<br/>所在省份</label>
 
                 <div class="col-xs-8" id="loc_province_container1">
                     <select required class="loc_province" name="province" data-width="100%" data-placeholder="请选择">
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>组织关系所在地</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>组织关系<br/>所在地</label>
 
                 <div class="col-xs-8">
                     <input required class="form-control" type="text" name="orLocation"
@@ -163,11 +163,11 @@
         white-space: nowrap;
     }
 </style>
-<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
+
 <script>
     $('textarea.limited').inputlimiter();
     $("#modalForm :checkbox").bootstrapSwitch();
-    showLocation("${memberInflow.province}", null, null, $("#loc_province_container1"));
+    $.showLocation("${memberInflow.province}", null, null, $("#loc_province_container1"));
     $.register.date($('.date-picker'), {endDate: '${_today}'});
     $('#modalForm [data-rel="select2"]').select2();
     $("form").validate({

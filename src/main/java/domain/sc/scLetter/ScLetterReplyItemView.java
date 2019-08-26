@@ -1,9 +1,42 @@
 package domain.sc.scLetter;
 
+import domain.sc.scRecord.ScRecordView;
+import domain.sc.scRecord.ScRecordViewExample;
+import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
+import persistence.sc.IScMapper;
+import persistence.sc.scRecord.ScRecordViewMapper;
+import sys.tags.CmTag;
+import sys.utils.NumberUtils;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ScLetterReplyItemView implements Serializable {
+
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+
+    public ScRecordView getScRecord(){
+
+        if(recordId==null) return null;
+        IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+        if(iScMapper==null) return null;
+        return iScMapper.getScRecordView(recordId);
+    }
+
+    public List<ScRecordView> getScRecords(){
+
+        if(StringUtils.isBlank(recordIds)) return null;
+        ScRecordViewMapper scRecordViewMapper = CmTag.getBean(ScRecordViewMapper.class);
+        if(scRecordViewMapper==null) return null;
+
+        ScRecordViewExample example = new ScRecordViewExample();
+        example.createCriteria().andIdIn(new ArrayList<>(NumberUtils.toIntSet(recordIds, ",")));
+        return scRecordViewMapper.selectByExample(example);
+    }
+
     private Integer id;
 
     private Integer replyId;
@@ -11,6 +44,14 @@ public class ScLetterReplyItemView implements Serializable {
     private Integer userId;
 
     private String content;
+
+    private Integer itemId;
+
+    private Integer recordId;
+
+    private String recordIds;
+
+    private Integer recordUserId;
 
     private Integer letterId;
 
@@ -72,6 +113,38 @@ public class ScLetterReplyItemView implements Serializable {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public String getRecordIds() {
+        return recordIds;
+    }
+
+    public void setRecordIds(String recordIds) {
+        this.recordIds = recordIds == null ? null : recordIds.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public Integer getLetterId() {

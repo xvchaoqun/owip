@@ -7,7 +7,6 @@ import domain.sc.scMatter.ScMatterCheckExample;
 import domain.sc.scMatter.ScMatterCheckExample.Criteria;
 import domain.sc.scMatter.ScMatterCheckView;
 import domain.sc.scMatter.ScMatterCheckViewExample;
-import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -21,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import service.sc.scMatter.ScMatterCheckUser;
 import sys.constants.LogConstants;
+import sys.gson.GsonUtils;
+import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.ContentTypeUtils;
@@ -129,10 +131,11 @@ public class ScMatterCheckController extends ScBaseController {
     @ResponseBody
     public Map do_scMatterCheck_au(ScMatterCheck record,
                                    MultipartFile[] _files,
-                                   @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
+                                   String users,
                                    HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
+        List<ScMatterCheckUser> scMatterCheckUsers = GsonUtils.toBeans(users, ScMatterCheckUser.class);
 
         List<String> fileList = new ArrayList<>();
         for (MultipartFile file : _files) {
@@ -145,11 +148,11 @@ public class ScMatterCheckController extends ScBaseController {
         record.setFiles(StringUtils.trimToNull(_fileList));
 
         if (id == null) {
-            scMatterCheckService.insertSelective(record, userIds);
+            scMatterCheckService.insertSelective(record, scMatterCheckUsers);
             logger.info(addLog(LogConstants.LOG_SC_MATTER, "添加个人有关事项-抽查核实：%s", record.getId()));
         } else {
 
-            scMatterCheckService.updateByPrimaryKeySelective(record, userIds);
+            scMatterCheckService.updateByPrimaryKeySelective(record, scMatterCheckUsers);
             logger.info(addLog(LogConstants.LOG_SC_MATTER, "更新个人有关事项-抽查核实：%s", record.getId()));
         }
 
@@ -171,7 +174,7 @@ public class ScMatterCheckController extends ScBaseController {
     @RequestMapping("/scMatterCheck_items")
     public String scMatterCheck_items(Integer checkId, ModelMap modelMap) {
 
-        List<SysUserView> itemUserList = scMatterCheckService.getItemUserList(checkId);
+        List<ScMatterCheckUser> itemUserList = scMatterCheckService.getItemUserList(checkId);
         modelMap.put("itemUserList", itemUserList);
 
         return "sc/scMatter/scMatterCheck/scMatterCheck_items";
@@ -186,7 +189,7 @@ public class ScMatterCheckController extends ScBaseController {
             modelMap.put("scMatterCheck", scMatterCheck);
             if(scMatterCheck!=null){
 
-                List<SysUserView> itemUserList = scMatterCheckService.getItemUserList(id);
+                List<ScMatterCheckUser> itemUserList = scMatterCheckService.getItemUserList(id);
                 modelMap.put("itemUserList", itemUserList);
             }
         }
@@ -205,6 +208,16 @@ public class ScMatterCheckController extends ScBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scMatterCheck:edit")
+    @RequestMapping("/scMatterCheck_selectScRecord")
+    public String scMatterCheck_selectScRecord(int userId,
+                                      ModelMap modelMap) {
+
+        modelMap.put("sysUser", CmTag.getUserById(userId));
+
+        return "sc/scMatter/scMatterCheck/scMatterCheck_selectScRecord";
     }
 
     @RequestMapping("/scMatterCheck_selects")

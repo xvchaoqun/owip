@@ -99,7 +99,7 @@
         </button>
     </div>
 </form>
-<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
+
 <script>
 
     $('textarea.limited').inputlimiter();

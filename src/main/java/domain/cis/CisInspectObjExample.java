@@ -192,6 +192,196 @@ public class CisInspectObjExample {
             return (Criteria) this;
         }
 
+        public Criteria andRecordIdIsNull() {
+            addCriterion("record_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdIsNotNull() {
+            addCriterion("record_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdEqualTo(Integer value) {
+            addCriterion("record_id =", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotEqualTo(Integer value) {
+            addCriterion("record_id <>", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdGreaterThan(Integer value) {
+            addCriterion("record_id >", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("record_id >=", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdLessThan(Integer value) {
+            addCriterion("record_id <", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdLessThanOrEqualTo(Integer value) {
+            addCriterion("record_id <=", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdIn(List<Integer> values) {
+            addCriterion("record_id in", values, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotIn(List<Integer> values) {
+            addCriterion("record_id not in", values, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdBetween(Integer value1, Integer value2) {
+            addCriterion("record_id between", value1, value2, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("record_id not between", value1, value2, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsIsNull() {
+            addCriterion("record_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsIsNotNull() {
+            addCriterion("record_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsEqualTo(String value) {
+            addCriterion("record_ids =", value, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsNotEqualTo(String value) {
+            addCriterion("record_ids <>", value, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsGreaterThan(String value) {
+            addCriterion("record_ids >", value, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("record_ids >=", value, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsLessThan(String value) {
+            addCriterion("record_ids <", value, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsLessThanOrEqualTo(String value) {
+            addCriterion("record_ids <=", value, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsLike(String value) {
+            addCriterion("record_ids like", value, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsNotLike(String value) {
+            addCriterion("record_ids not like", value, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsIn(List<String> values) {
+            addCriterion("record_ids in", values, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsNotIn(List<String> values) {
+            addCriterion("record_ids not in", values, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsBetween(String value1, String value2) {
+            addCriterion("record_ids between", value1, value2, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdsNotBetween(String value1, String value2) {
+            addCriterion("record_ids not between", value1, value2, "recordIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdIsNull() {
+            addCriterion("unit_post_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdIsNotNull() {
+            addCriterion("unit_post_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdEqualTo(Integer value) {
+            addCriterion("unit_post_id =", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotEqualTo(Integer value) {
+            addCriterion("unit_post_id <>", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdGreaterThan(Integer value) {
+            addCriterion("unit_post_id >", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id >=", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdLessThan(Integer value) {
+            addCriterion("unit_post_id <", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id <=", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdIn(List<Integer> values) {
+            addCriterion("unit_post_id in", values, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotIn(List<Integer> values) {
+            addCriterion("unit_post_id not in", values, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id between", value1, value2, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id not between", value1, value2, "unitPostId");
+            return (Criteria) this;
+        }
+
         public Criteria andYearIsNull() {
             addCriterion("year is null");
             return (Criteria) this;
@@ -1019,6 +1209,136 @@ public class CisInspectObjExample {
 
         public Criteria andLogFileNotBetween(String value1, String value2) {
             addCriterion("log_file not between", value1, value2, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportIsNull() {
+            addCriterion("report is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportIsNotNull() {
+            addCriterion("report is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportEqualTo(String value) {
+            addCriterion("report =", value, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportNotEqualTo(String value) {
+            addCriterion("report <>", value, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportGreaterThan(String value) {
+            addCriterion("report >", value, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportGreaterThanOrEqualTo(String value) {
+            addCriterion("report >=", value, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportLessThan(String value) {
+            addCriterion("report <", value, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportLessThanOrEqualTo(String value) {
+            addCriterion("report <=", value, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportLike(String value) {
+            addCriterion("report like", value, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportNotLike(String value) {
+            addCriterion("report not like", value, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportIn(List<String> values) {
+            addCriterion("report in", values, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportNotIn(List<String> values) {
+            addCriterion("report not in", values, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportBetween(String value1, String value2) {
+            addCriterion("report between", value1, value2, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportNotBetween(String value1, String value2) {
+            addCriterion("report not between", value1, value2, "report");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdIsNull() {
+            addCriterion("record_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdIsNotNull() {
+            addCriterion("record_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdEqualTo(Integer value) {
+            addCriterion("record_user_id =", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotEqualTo(Integer value) {
+            addCriterion("record_user_id <>", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdGreaterThan(Integer value) {
+            addCriterion("record_user_id >", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("record_user_id >=", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdLessThan(Integer value) {
+            addCriterion("record_user_id <", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("record_user_id <=", value, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdIn(List<Integer> values) {
+            addCriterion("record_user_id in", values, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotIn(List<Integer> values) {
+            addCriterion("record_user_id not in", values, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("record_user_id between", value1, value2, "recordUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("record_user_id not between", value1, value2, "recordUserId");
             return (Criteria) this;
         }
 

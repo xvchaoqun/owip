@@ -25,15 +25,15 @@
         </javaClientGenerator>
 
         <!--发文-->
-        <table tableName="dispatch" domainObjectName="dispatch.Dispatch" mapperName="dispatch.DispatchMapper">
+        <!--<table tableName="dispatch" domainObjectName="dispatch.Dispatch" mapperName="dispatch.DispatchMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+        </table>
         <table tableName="dispatch_view" domainObjectName="dispatch.DispatchView"
                mapperName="dispatch.DispatchViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!-- <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -45,24 +45,24 @@
        mapperName="dispatch.DispatchUnitMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
       </table>-->
-        <table tableName="dispatch_unit_view" domainObjectName="dispatch.DispatchUnitView"
+        <!--<table tableName="dispatch_unit_view" domainObjectName="dispatch.DispatchUnitView"
                mapperName="dispatch.DispatchUnitViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>
+         </table>-->
       <!--<table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
       <generatedKey column="id" sqlStatement="MySql" identity="true"/>
       </table>-->
-        <!--<table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
+        <table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-         <table tableName="dispatch_cadre_view" domainObjectName="dispatch.DispatchCadreView"
+        </table>
+         <!--<table tableName="dispatch_cadre_view" domainObjectName="dispatch.DispatchCadreView"
                 mapperName="dispatch.DispatchCadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>
+         </table>-->
 
         <!--<table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
                mapperName="dispatch.DispatchWorkFileMapper">

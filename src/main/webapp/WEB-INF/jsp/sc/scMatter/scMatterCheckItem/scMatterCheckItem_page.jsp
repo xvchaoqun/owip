@@ -28,6 +28,11 @@
                                    data-grid-id="#jqGrid"
                                    ><i class="fa fa-gear"></i>
                                     组织处理</a>
+
+                                <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                   data-url="${ctx}/sc/scMatterCheckItem_reuse" data-id-name="replyItemId" data-width="1050"
+                                   data-grid-id="#jqGrid"><i class="fa fa-check-circle-o"></i>
+                                    核查复用</button>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="scMatterCheckItem:del">
                                 <button data-url="${ctx}/sc/scMatterCheckItem_batchDel"
@@ -186,6 +191,13 @@
                     if($.isBlank(cellvalue)) return '--'
                     return $.date(cellvalue, "yyyy-MM-dd");
                 }},
+            {label: '对应的选任纪实', name: 'scRecord.code', width: 200},
+            {label: '纪实人员', name: 'recordUser.realname'},
+            {label: '核查复用', name: '_scRecords', width: 200, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.recordIds)=='') return '--'
+                return $.map(rowObject.scRecords, function(scRecord){
+                    return scRecord.code;})
+            }},
             {label: '备注', name: 'remark', width: 300}
         ]
     }).jqGrid("setFrozenColumns");

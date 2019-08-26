@@ -125,7 +125,8 @@
                 $("#modalForm input[name=_workTime]").val('');
                 $("#modalForm input[name=remark]").val('');
 
-
+                if(!$("#modalForm input[name=_category][value='<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>']").prop("checked"))
+                    $("#modalForm input[name=_category][value='<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>']").click()
                 $("#modal").modal('hide');
             }
         })

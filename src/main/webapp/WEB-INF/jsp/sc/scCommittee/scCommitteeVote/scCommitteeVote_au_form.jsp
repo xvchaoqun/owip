@@ -179,7 +179,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="row" style="margin: 10px 0;">
+                <div class="row" style="margin: 10px 0 0;">
                     <table class="table table-striped table-bordered
                     table-condensed table-center table-unhover2">
                         <tbody>
@@ -234,6 +234,22 @@
                         </tbody>
                     </table>
                 </div>
+                <table class="table table-striped table-bordered
+                    table-condensed table-center table-unhover2"  style="margin: 10px 0;">
+                    <tr>
+                        <td class="bg-grey" style="width: 150px">
+                            <span class="red bolder">对应的选任纪实</span>
+                        </td>
+                        <td class="bg-left">
+                            <input type="hidden" name="userId" value="${scCommitteeVote.cadre.userId}">
+                            <input type="hidden" name="recordId" value="${scCommitteeVote.scRecord.id}">
+                            <span id="scRecordCode">${scCommitteeVote.scRecord.code}</span>
+                            <button type="button"
+                                    onclick="_selectScRecordBtn()"
+                                    class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></button>
+                        </td>
+                    </tr>
+                </table>
                 <div class="clearfix form-actions center">
                     <button class="btn ${empty scCommitteeVote?'btn-success':'btn-info'} btn-sm" type="submit">
                         <i class="ace-icon fa ${empty scCommitteeVote?"fa-plus":"fa-edit"} "></i>
@@ -300,6 +316,19 @@
     <c:if test="${empty scCommitteeTopic}">
     $("select, input, button, textarea", "#voteForm").prop("disabled", true);
     </c:if>
+
+    function _selectScRecordBtn(){
+
+        var userId = $('#voteForm input[name=userId]').val();
+        if($.trim(userId)==''){
+            SysMsg.info("请选择干部");
+            return;
+        };
+        var recordId = $('#voteForm input[name=recordId]').val();
+
+        $.loadModal("${ctx}/sc/scCommitteeVote_selectScRecord?userId="+userId
+            +"&year=${scCommittee.year}&recordId="+recordId, 1050)
+    }
 
     $("#voteForm input[name=type]").change(function () {
 
@@ -383,10 +412,11 @@
     });
     $selectCadre.on("change", function () {
         //console.log($(this).select2("data")[0])
-        var name = $(this).select2("data")[0]['text'] || '';
+        var userId = $(this).select2("data")[0]['userId'] || '';
         var status = $(this).select2("data")[0]['status'] || '';
 
-        //$('#voteForm input[name=_name]').val(name);
+        $('#voteForm input[name=userId]').val(userId);
+
         if(status==${CADRE_STATUS_MIDDLE} || status==${CADRE_STATUS_LEADER}){
 
             var title = '';

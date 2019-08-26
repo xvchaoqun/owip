@@ -21,6 +21,7 @@
 
 <c:set value="<%=new Date()%>" var="now"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="_today"/>
+<c:set value="${cm:formatDate(now,'yyyy.MM.dd')}" var="_today_dot"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd HH:mm')}" var="_todayMinute"/>
 <c:set value="${cm:formatDate(now,'yyyy')}" var="_thisYear"/>
 

@@ -18,12 +18,14 @@
     <result column="abstain_count" jdbcType="INTEGER" property="abstainCount" />
     <result column="disagree_count" jdbcType="INTEGER" property="disagreeCount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="seq" jdbcType="INTEGER" property="seq" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
     <result column="vote_file_path" jdbcType="VARCHAR" property="voteFilePath" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
     <result column="original_post" jdbcType="VARCHAR" property="originalPost" />
     <result column="original_post_time" jdbcType="DATE" property="originalPostTime" />
     <result column="year" jdbcType="INTEGER" property="year" />
@@ -68,9 +70,9 @@
   <sql id="Base_Column_List">
     id, topic_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
     post, post_type, admin_level, unit_id, agree_count, abstain_count, disagree_count, 
-    remark, sort_order, name, seq, content, committee_id, vote_file_path, original_post, 
-    original_post_time, year, hold_date, committee_member_count, count, absent_count, 
-    attend_users, file_path, log_file, dispatch_user_id
+    remark, record_id, sort_order, name, seq, content, committee_id, vote_file_path, 
+    record_user_id, original_post, original_post_time, year, hold_date, committee_member_count, 
+    count, absent_count, attend_users, file_path, log_file, dispatch_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteViewExample" resultMap="BaseResultMap">
     select

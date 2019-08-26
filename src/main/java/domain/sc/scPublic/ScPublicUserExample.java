@@ -343,6 +343,66 @@ public class ScPublicUserExample {
             addCriterion("sort_order not between", value1, value2, "sortOrder");
             return (Criteria) this;
         }
+
+        public Criteria andRecordIdIsNull() {
+            addCriterion("record_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdIsNotNull() {
+            addCriterion("record_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdEqualTo(Integer value) {
+            addCriterion("record_id =", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotEqualTo(Integer value) {
+            addCriterion("record_id <>", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdGreaterThan(Integer value) {
+            addCriterion("record_id >", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("record_id >=", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdLessThan(Integer value) {
+            addCriterion("record_id <", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdLessThanOrEqualTo(Integer value) {
+            addCriterion("record_id <=", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdIn(List<Integer> values) {
+            addCriterion("record_id in", values, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotIn(List<Integer> values) {
+            addCriterion("record_id not in", values, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdBetween(Integer value1, Integer value2) {
+            addCriterion("record_id between", value1, value2, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("record_id not between", value1, value2, "recordId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

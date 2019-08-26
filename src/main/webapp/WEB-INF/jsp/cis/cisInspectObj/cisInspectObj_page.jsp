@@ -15,18 +15,30 @@
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="cisInspectObj:edit">
-                                <a class="popupBtn btn btn-success btn-sm" data-url="${ctx}/cisInspectObj_au"><i
-                                        class="fa fa-plus"></i> 添加</a>
-                                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                <button class="popupBtn btn btn-success btn-sm" data-url="${ctx}/cisInspectObj_au"><i
+                                        class="fa fa-plus"></i> 添加</button>
+                                <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/cisInspectObj_au"
                                    data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                                    修改</a>
+                                    修改</button>
                                 <button id="inspectorEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/cisObjInspectors"
                                    data-grid-id="#jqGrid"
                                    data-id-name="objId"><i class="fa fa-edit"></i>
                                     编辑考察组成员</button>
+                                <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/cisInspectObj_report" data-id-name="objId"
+                                   data-grid-id="#jqGrid"><i class="fa fa-hand-stop-o"></i>
+                                    考察期间有举报</button>
+                                <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                   data-url="${ctx}/cisInspectObj_reuse" data-id-name="objId" data-width="1050"
+                                   data-grid-id="#jqGrid"><i class="fa fa-check-circle-o"></i>
+                                    考察复用</button>
                             </shiro:hasPermission>
+                            <a class="jqExportBtn btn btn-primary btn-sm tooltip-success"
+                               data-url="${ctx}/cisInspectObj_data"
+                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                                <i class="fa fa-download"></i> 导出工作安排</a>
                             <shiro:hasPermission name="cisInspectObj:del">
                                 <button data-url="${ctx}/cisInspectObj_batchDel"
                                         data-title="删除"
@@ -36,10 +48,6 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                               data-url="${ctx}/cisInspectObj_data"
-                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                <i class="fa fa-download"></i> 导出工作安排</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                             <div class="widget-header">

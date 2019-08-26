@@ -13,6 +13,7 @@
     <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
     <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_user_id" jdbcType="INTEGER" property="recordUserId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, dispatch_type_id, code, title, meeting_time, pub_time, file_path, word_file_path, 
-    sign_file_path, remark
+    sign_file_path, remark, record_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scDispatch.ScDispatchExample" resultMap="BaseResultMap">
     select
@@ -113,11 +114,11 @@
     insert into sc_dispatch (year, dispatch_type_id, code, 
       title, meeting_time, pub_time, 
       file_path, word_file_path, sign_file_path, 
-      remark)
+      remark, record_user_id)
     values (#{year,jdbcType=INTEGER}, #{dispatchTypeId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{meetingTime,jdbcType=DATE}, #{pubTime,jdbcType=DATE}, 
       #{filePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, #{signFilePath,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{recordUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scDispatch.ScDispatch">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -155,6 +156,9 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="recordUserId != null">
+        record_user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="year != null">
@@ -186,6 +190,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordUserId != null">
+        #{recordUserId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -231,6 +238,9 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.recordUserId != null">
+        record_user_id = #{record.recordUserId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +258,8 @@
       file_path = #{record.filePath,jdbcType=VARCHAR},
       word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      record_user_id = #{record.recordUserId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +297,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="recordUserId != null">
+        record_user_id = #{recordUserId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -300,7 +314,8 @@
       file_path = #{filePath,jdbcType=VARCHAR},
       word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       sign_file_path = #{signFilePath,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      record_user_id = #{recordUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scDispatch.ScDispatchExample" resultMap="BaseResultMap">

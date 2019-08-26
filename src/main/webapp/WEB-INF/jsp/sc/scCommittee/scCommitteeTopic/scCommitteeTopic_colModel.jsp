@@ -101,6 +101,7 @@
               if(rowObject.voteFilePath==undefined) return '--';
               return $.pdfPreview(rowObject.voteFilePath, '表决票', '查看');
           }},
+      {label: '纪实人员', name: 'recordUser.realname'},
       { label: '备注',name: 'remark', width:300}
   ]
 </script>

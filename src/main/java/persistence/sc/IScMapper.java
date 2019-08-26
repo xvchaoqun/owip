@@ -4,20 +4,50 @@ import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.sc.scAd.ScAdArchiveView;
 import domain.sc.scCommittee.ScCommittee;
+import domain.sc.scCommittee.ScCommitteeTopicView;
+import domain.sc.scCommittee.ScCommitteeView;
 import domain.sc.scCommittee.ScCommitteeVoteView;
+import domain.sc.scDispatch.ScDispatchView;
+import domain.sc.scGroup.ScGroupTopicView;
+import domain.sc.scLetter.ScLetterReplyItemView;
 import domain.sc.scMatter.ScMatterAccess;
+import domain.sc.scMatter.ScMatterCheckItemView;
+import domain.sc.scPublic.ScPublicUserView;
 import domain.sc.scRecord.ScRecordView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by lm on 2018/1/23.
  */
 public interface IScMapper {
+
+    // 考察对象对应的纪实ID
+    List<Integer> getRecordIdList(@Param("year") Short year,
+                                  @Param("userId") int userId,
+                                  // holdDate不为空时，读取选任启动日期在holdDate之后的纪实
+                                  @Param("holdDate") Date holdDate);
+
+    @ResultMap("persistence.sc.scDispatch.ScDispatchViewMapper.BaseResultMap")
+    @Select("select * from sc_dispatch_view where id=#{id}")
+    ScDispatchView getScDispatchView(@Param("id") int id);
+
+    @ResultMap("persistence.sc.scPublic.ScPublicUserViewMapper.BaseResultMap")
+    @Select("select * from sc_public_user_view where id=#{id}")
+    ScPublicUserView getScPublicUserView(@Param("id") int id);
+
+    @ResultMap("persistence.sc.scLetter.ScLetterReplyItemViewMapper.BaseResultMap")
+    @Select("select * from sc_letter_reply_item_view where id=#{id}")
+    ScLetterReplyItemView getScLetterReplyItemView(@Param("id") int id);
+
+    @ResultMap("persistence.sc.scMatter.ScMatterCheckItemViewMapper.BaseResultMap")
+    @Select("select * from sc_matter_check_item_view where id=#{id}")
+    ScMatterCheckItemView getScMatterCheckItemView(@Param("id") int id);
 
     @ResultMap("persistence.sc.scAd.ScAdArchiveViewMapper.BaseResultMap")
     @Select("select * from sc_ad_archive_view where id=#{id}")
@@ -34,9 +64,21 @@ public interface IScMapper {
     public List<ScMatterAccess> selectScMatterAccessList(@Param("matterItemId") int matterItemId,
                                                          RowBounds rowBounds);
 
+    @ResultMap("persistence.sc.scCommittee.ScCommitteeViewMapper.BaseResultMap")
+    @Select("select * from sc_committee_view where id=#{id}")
+    ScCommitteeView getScCommitteeView(@Param("id") int id);
+
     @ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")
     @Select("select * from sc_committee_vote_view where id=#{id}")
     ScCommitteeVoteView getScCommitteeVoteView(@Param("id") int id);
+
+    @ResultMap("persistence.sc.scCommittee.ScCommitteeTopicViewMapper.BaseResultMap")
+    @Select("select * from sc_committee_topic_view where id=#{id}")
+    ScCommitteeTopicView getScCommitteeTopicView(@Param("id") int id);
+
+    @ResultMap("persistence.sc.scGroup.ScGroupTopicViewMapper.BaseResultMap")
+    @Select("select * from sc_group_topic_view where id=#{id}")
+    ScGroupTopicView getScGroupTopicView(@Param("id") int id);
 
     @Select("select count(distinct sma.id) from sc_matter_access sma, sc_matter_access_item smai " +
             "where smai.matter_item_id=#{matterItemId} and sma.is_deleted=0 and sma.id=smai.access_id")

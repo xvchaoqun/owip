@@ -49,9 +49,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label"><span class="star">*</span>议题序号</label>
+                                            <label class="col-xs-3 control-label"> 议题序号</label>
                                             <div class="col-xs-8">
-                                                 <input required class="form-control digits" name="seq" value="${scCommitteeTopic.seq}"/>
+                                                 <input class="form-control digits" name="seq" value="${scCommitteeTopic.seq}"/>
                                                 <span class="help-block"><span class="star">*</span> 留空自动生成</span>
                                             </div>
                                         </div>
@@ -111,7 +111,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-xs-3 control-label">表决情况</label>
+                                            <label class="col-xs-3 control-label"><span class="star">*</span> 表决情况</label>
                                             <div class="col-xs-7 label-text">
                                                 <input type="checkbox" class="big" name="hasVote" ${scCommitteeTopic.hasVote?'checked':''}> 干部选拔任用表决
                                                 <input type="checkbox" class="big" name="hasOtherVote"  ${scCommitteeTopic.hasOtherVote?'checked':''}> 其他事项表决
@@ -139,7 +139,7 @@
                         <div class="widget-box">
                             <div class="widget-header">
                                 <h4 class="widget-title">
-                                    议题内容
+                                    <span class="star">*</span> 议题内容
                                 </h4>
                             </div>
                             <div class="widget-body">

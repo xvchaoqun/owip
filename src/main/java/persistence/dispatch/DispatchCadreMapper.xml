@@ -15,6 +15,7 @@
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, dispatch_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
-    post, post_type, admin_level, unit_id, remark, sort_order
+    post, post_type, admin_level, unit_id, remark, record_id, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchCadreExample" resultMap="BaseResultMap">
     select
@@ -117,12 +118,12 @@
       unit_post_id, cadre_type_id, way_id, 
       procedure_id, post, post_type, 
       admin_level, unit_id, remark, 
-      sort_order)
+      record_id, sort_order)
     values (#{dispatchId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{unitPostId,jdbcType=INTEGER}, #{cadreTypeId,jdbcType=INTEGER}, #{wayId,jdbcType=INTEGER}, 
       #{procedureId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, 
       #{adminLevel,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER})
+      #{recordId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.dispatch.DispatchCadre">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -166,6 +167,9 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
       <if test="sortOrder != null">
         sort_order,
       </if>
@@ -206,6 +210,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -260,6 +267,9 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -283,6 +293,7 @@
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
+      record_id = #{record.recordId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -327,6 +338,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -347,6 +361,7 @@
       admin_level = #{adminLevel,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
+      record_id = #{recordId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

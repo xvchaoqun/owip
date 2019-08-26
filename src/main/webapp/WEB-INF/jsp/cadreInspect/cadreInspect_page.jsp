@@ -166,15 +166,22 @@ pageEncoding="UTF-8" %>
             {label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true},
             </c:if>
             {label: '现所在单位', name: 'unit.name', width: 200, align:'left'},
-            {label: '现任职务', name: 'post', width: 250, align:'left'},
-            {label: '现所在单位及职务', name: 'title', width: 350, align:'left'},
+            {label: '现任职务', name: 'post', width: 200, align:'left'},
+            {label: '现所在单位及职务', name: 'title', width: 300, align:'left'},
             {label: '现行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '现职务属性', name: 'postType', formatter:$.jgrid.formatter.MetaType, width: 150},
-            {label: '手机号', name: 'mobile'},
+            {label: '拟任职务', name: 'unitPost.name', width: 200, align:'left'},
+            <shiro:hasPermission name="scRecord:list">
+            {label: '对应的选任纪实', name: 'scRecord.code', width: 200},
+            </shiro:hasPermission>
+            {label: '手机号', name: 'mobile', width: 110},
             {label: '办公电话', name: 'phone'},
             {label: '家庭电话', name: 'homePhone'},
-            {label: '电子邮箱', name: 'email', width: 150},
-            {label: '备注', name: 'inspectRemark', width: 150}, {hidden: true, key: true, name: 'inspectId'}
+            {label: '电子邮箱', name: 'email', width: 200, align:'left'},
+            <shiro:hasPermission name="scRecord:list">
+            {label: '纪实人员', name: 'recordUser.realname'},
+            </shiro:hasPermission>
+            {label: '备注', name: 'inspectRemark', width: 350, align:'left'}, {hidden: true, key: true, name: 'inspectId'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $('[data-rel="tooltip"]').tooltip();

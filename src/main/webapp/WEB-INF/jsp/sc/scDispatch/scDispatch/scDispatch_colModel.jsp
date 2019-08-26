@@ -2,17 +2,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <script>
   var colModel = [
-      /*{label: '年度', name: 'year'},*/
-      /*{
-          label: '发文类型', name: 'dispatchType', formatter: function (cellvalue, options, rowObject) {
-          if($.isBlank(cellvalue)) return '--'
-          return cellvalue.name;
-      }, frozen: true
-      },*/
-      {label: '发文号', name: 'dispatchCode', width: 190},
-      {label: '标题', name: 'title', width: 350, align:'left'},
+      {label: '发文号', name: 'dispatchCode', align:'left', width: 190, frozen: true},
+      {label: '标题', name: 'title', width: 350, align:'left', frozen: true},
       {
-          label: '党委常委会', name: 'scCommittees', width:210, formatter: function (cellvalue, options, rowObject) {
+          label: '党委常委会', name: 'scCommittees', align:'left', width:210, formatter: function (cellvalue, options, rowObject) {
 
           if($.isBlank(cellvalue) || cellvalue.length==0) return '--'
 
@@ -88,6 +81,7 @@
               return $.pdfPreview(rowObject.dispatchFile, rowObject.dispatchFileName, cellvalue, cellvalue);
           }, frozen: true
       },
+      {label: '纪实人员', name: 'recordUser.realname'},
       </c:if>
       {label: '备注', name: 'remark', width: 380}
   ]

@@ -12,6 +12,13 @@ public class ScMatterCheckItem implements Serializable {
     private Integer checkId;
 
     private Integer userId;
+
+    private Integer recordId;
+
+    private String recordIds;
+
+    private Integer recordUserId;
+
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date compareDate;
 
@@ -63,6 +70,30 @@ public class ScMatterCheckItem implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public String getRecordIds() {
+        return recordIds;
+    }
+
+    public void setRecordIds(String recordIds) {
+        this.recordIds = recordIds == null ? null : recordIds.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public Date getCompareDate() {

@@ -1,14 +1,26 @@
 package domain.dispatch;
 
 import domain.cadre.CadreView;
+import domain.sc.scRecord.ScRecordView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import persistence.sc.IScMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class DispatchCadreView implements Serializable {
+
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+
+    public ScRecordView getScRecord(){
+
+        if(recordId==null) return null;
+        IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+        if(iScMapper==null) return null;
+        return iScMapper.getScRecordView(recordId);
+    }
 
     public Dispatch getDispatch(){
         return CmTag.getDispatch(dispatchId);
@@ -50,6 +62,8 @@ public class DispatchCadreView implements Serializable {
 
     private String remark;
 
+    private Integer recordId;
+
     private Integer sortOrder;
 
     private String postTeam;
@@ -67,6 +81,8 @@ public class DispatchCadreView implements Serializable {
     private String code;
 
     private Boolean hasChecked;
+
+    private Integer recordUserId;
 
     private static final long serialVersionUID = 1L;
 
@@ -174,6 +190,14 @@ public class DispatchCadreView implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
     public Integer getSortOrder() {
         return sortOrder;
     }
@@ -244,5 +268,13 @@ public class DispatchCadreView implements Serializable {
 
     public void setHasChecked(Boolean hasChecked) {
         this.hasChecked = hasChecked;
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 }

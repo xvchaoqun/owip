@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.sc.IScMapper">
+
+    <select id="getRecordIdList" resultType="java.lang.Integer" parameterType="map">
+        SELECT distinct sr.id FROM sc_group_topic_user sgtu
+        left join sc_group_topic sgt on sgtu.topic_id=sgt.id
+        LEFT JOIN sc_record sr ON sr.id=sgt.record_id
+        left join sc_motion sm on sm.id=sr.motion_id
+        <where>
+            <if test="userId!=null">
+                and sgtu.user_id=#{userId}
+            </if>
+            <if test="year!=null">
+                and sr.year=#{year}
+            </if>
+            <if test="holdDate!=null">
+                and sm.hold_date>=#{holdDate}
+            </if>
+        </where>
+    </select>
+</mapper>

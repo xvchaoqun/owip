@@ -57,8 +57,8 @@
                                         <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
                                             <label>年份</label>
-                                            <div class="input-group" style="width: 120px">
-                                                <input class="form-control date-picker" placeholder="请选择年份"
+                                            <div class="input-group" style="width: 100px">
+                                                <input class="form-control date-picker" placeholder="请选择"
                                                        name="year"
                                                        type="text"
                                                        data-date-format="yyyy" data-date-min-view-mode="2"
@@ -70,7 +70,7 @@
                                         <div class="form-group">
                                             <label>函询类型</label>
                                             <div class="input-group">
-                                                <select data-rel="select2" name="type" data-placeholder="请选择" data-width="100">
+                                                <select data-rel="select2" name="type" data-placeholder="请选择" data-width="180">
                                                     <option></option>
                                                     <c:import url="/metaTypes?__code=mc_sc_letter_type"/>
                                                 </select>
@@ -82,7 +82,7 @@
                                         <div class="form-group">
                                             <label>函询编号</label>
                                             <input class="form-control search-query num" name="num" type="text"
-                                                   value="${param.num}" style="width: 50px">
+                                                   value="${param.num}" style="width: 60px">
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>

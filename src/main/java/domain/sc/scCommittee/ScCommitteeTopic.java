@@ -25,6 +25,8 @@ public class ScCommitteeTopic implements Serializable {
 
     private String remark;
 
+    private Integer recordUserId;
+
     private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
@@ -115,6 +117,14 @@ public class ScCommitteeTopic implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public Boolean getIsDeleted() {

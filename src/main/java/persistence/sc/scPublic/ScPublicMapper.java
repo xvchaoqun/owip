@@ -2,10 +2,9 @@ package persistence.sc.scPublic;
 
 import domain.sc.scPublic.ScPublic;
 import domain.sc.scPublic.ScPublicExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface ScPublicMapper {
     long countByExample(ScPublicExample example);

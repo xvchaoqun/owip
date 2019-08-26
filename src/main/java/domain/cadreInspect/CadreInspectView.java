@@ -2,14 +2,34 @@ package domain.cadreInspect;
 
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
+import domain.sc.scRecord.ScRecordView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import domain.unit.UnitPost;
+import persistence.sc.IScMapper;
+import persistence.unit.UnitPostMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreInspectView implements Serializable {
+
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
+
+    public UnitPost getUnitPost(){
+        if(unitPostId==null) return null;
+        return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(unitPostId);
+    }
+
+    public ScRecordView getScRecord(){
+
+        if(recordId==null) return null;
+        IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+        if(iScMapper==null) return null;
+        return iScMapper.getScRecordView(recordId);
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -28,11 +48,17 @@ public class CadreInspectView implements Serializable {
     }
     private Integer inspectId;
 
+    private Integer recordId;
+
+    private Integer unitPostId;
+
     private Byte inspectType;
 
     private Byte inspectStatus;
 
     private String inspectRemark;
+
+    private Integer recordUserId;
 
     private Integer inspectSortOrder;
 
@@ -222,6 +248,22 @@ public class CadreInspectView implements Serializable {
         this.inspectId = inspectId;
     }
 
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
+    }
+
     public Byte getInspectType() {
         return inspectType;
     }
@@ -244,6 +286,14 @@ public class CadreInspectView implements Serializable {
 
     public void setInspectRemark(String inspectRemark) {
         this.inspectRemark = inspectRemark == null ? null : inspectRemark.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public Integer getInspectSortOrder() {

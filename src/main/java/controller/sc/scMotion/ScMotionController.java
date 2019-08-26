@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -91,7 +90,7 @@ public class ScMotionController extends ScBaseController {
 
         ScMotionViewExample example = new ScMotionViewExample();
         ScMotionViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("hold_date desc");
+        example.setOrderByClause("year desc, hold_date desc");
 
         if (year != null) {
             criteria.andYearEqualTo(year);
@@ -136,8 +135,9 @@ public class ScMotionController extends ScBaseController {
 
         Integer id = record.getId();
 
+        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
         if (id == null) {
-            
+            record.setRecordUserId(ShiroHelper.getCurrentUserId());
             scMotionService.insertSelective(record);
             logger.info(addLog( LogConstants.LOG_SC_MOTION, "添加动议：%s", record.getId()));
         } else {
@@ -160,51 +160,30 @@ public class ScMotionController extends ScBaseController {
             int unitPostId = scMotion.getUnitPostId();
             UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
             modelMap.put("unitPost", unitPost);
+
+            if(scMotion.getCommitteeTopicId()!=null){
+                modelMap.put("scCommitteeTopic", iScMapper.getScCommitteeTopicView(scMotion.getCommitteeTopicId()));
+            }
+
+            if(scMotion.getGroupTopicId()!=null){
+                modelMap.put("scGroupTopic", iScMapper.getScGroupTopicView(scMotion.getGroupTopicId()));
+            }
         }
+
         return "sc/scMotion/scMotion/scMotion_au";
     }
 
-    /*@RequiresPermissions("scMotion:edit")
-    @RequestMapping(value = "/scMotion_topics", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_scMotion_topics(int id, String topics, HttpServletRequest request) {
+    @RequiresPermissions("scMotion:list")
+    @RequestMapping("/scMotion_content")
+    public String scMotion_content(Integer id, ModelMap modelMap) {
 
-        if(StringUtils.isBlank(topics)){
-
-            return failed("请选择议题。");
+        if (id != null) {
+            ScMotion scMotion = scMotionMapper.selectByPrimaryKey(id);
+            modelMap.put("scMotion", scMotion);
         }
 
-        ScMotion record = new ScMotion();
-        record.setId(id);
-        record.setTopics(topics);
-        scMotionService.updateByPrimaryKeySelective(record);
-        logger.info(addLog( LogConstants.LOG_SC_MOTION, "关联议题：%s", record.getId()));
-
-        return success(FormUtils.SUCCESS);
+        return "sc/scMotion/scMotion/scMotion_content";
     }
-
-    @RequiresPermissions("scMotion:edit")
-    @RequestMapping("/scMotion_topics")
-    public String scMotion_topics(int id, ModelMap modelMap) {
-
-        ScMotion scMotion = scMotionMapper.selectByPrimaryKey(id);
-        modelMap.put("scMotion", scMotion);
-
-        Integer unitPostId = scMotion.getUnitPostId();
-        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
-        modelMap.put("unitPost", unitPost);
-
-        Byte way = scMotion.getWay();
-        if(way== ScConstants.SC_MOTION_WAY_COMMITTEE) {
-
-            return "sc/scMotion/scMotion/scMotion_committeeTopics";
-        }else if(way== ScConstants.SC_MOTION_WAY_GROUP){
-
-            return "sc/scMotion/scMotion/scMotion_groupTopics";
-        }else{
-            return null;
-        }
-    }*/
 
     @RequiresPermissions("scMotion:del")
     @RequestMapping(value = "/scMotion_del", method = RequestMethod.POST)

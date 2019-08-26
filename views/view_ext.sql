@@ -1,13 +1,13 @@
 
 DROP VIEW IF EXISTS `ext_user_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ext_user_view` AS
+CREATE ALGORITHM = UNDEFINED VIEW `ext_user_view` AS
   SELECT id as user_id, code from sys_user ;
 
 -- ----------------------------
 --  View definition for `ext_cadre_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ext_cadre_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ext_cadre_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ext_cadre_view` AS
 select u.code AS code,ui.realname AS realname,unit.code AS unit_code,
 unit.name AS unit_name,_unittype.name AS unit_type,
 posttype.name AS post, cadretype.name AS admin_level, c.lp_work_time as post_work_time from
@@ -23,7 +23,7 @@ where c.user_id = u.id and (c.status = 1 or c.status=6) and ui.user_id = u.id or
 --  View definition for `ext_branch_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ext_branch_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ext_branch_view`
+CREATE ALGORITHM=UNDEFINED VIEW `ext_branch_view`
 AS SELECT ob.code as branch_code, ob.name as branch_name,if(ob.is_staff, 1, 2) as branch_type, op.code as party_code,
 op.name as party_name, u.code as dep_code, u.name as dep_name,
 count1.member_count,tmp.code as sid, tmp.realname from ow_branch ob
@@ -48,7 +48,7 @@ where op.is_deleted=0 and op.unit_id=u.id and bmt.code='mt_direct_branch' and op
 --  View definition for `ext_branch_view2`
 -- ----------------------------
 DROP VIEW IF EXISTS `ext_branch_view2`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ext_branch_view2`
+CREATE ALGORITHM=UNDEFINED VIEW `ext_branch_view2`
 AS SELECT ob.code as zbdm, ob.name as zbmc,if(ob.is_staff, '教工党支部', '学生党支部') as zblb,
 zbsj.code as zbsjgh, zbsj.realname as zbsjxm,
 op.name as zzmc, zzlb.name as zzlb,
@@ -97,7 +97,7 @@ where op.is_deleted=0 and bmt.code='mt_direct_branch' order by sort_order desc;
 --  View definition for `ext_member_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ext_member_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ext_member_view` AS
+CREATE ALGORITHM=UNDEFINED VIEW `ext_member_view` AS
 select u.code as sid, u.realname, om.type, if(oms.status=3, 4, om.status) as status, om.political_status, om.grow_time, if(bmt.code='mt_direct_branch', op.code, ob.code) as branch_code
 from ow_member om
 left join ow_member_stay oms on oms.user_id=om.user_id

@@ -2,6 +2,7 @@ package domain.sc.scDispatch;
 
 import domain.dispatch.DispatchType;
 import domain.sc.scCommittee.ScCommittee;
+import domain.sys.SysUserView;
 import persistence.sc.IScMapper;
 import sys.tags.CmTag;
 
@@ -10,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 public class ScDispatchView implements Serializable {
+
+    public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
 
     public String getDispatchCode(){
         return CmTag.getDispatchCode(code, dispatchTypeId, year);
@@ -44,6 +47,8 @@ public class ScDispatchView implements Serializable {
     private String signFilePath;
 
     private String remark;
+
+    private Integer recordUserId;
 
     private Integer dispatchId;
 
@@ -145,6 +150,14 @@ public class ScDispatchView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public Integer getDispatchId() {

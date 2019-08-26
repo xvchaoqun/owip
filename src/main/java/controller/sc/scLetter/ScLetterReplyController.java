@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.sc.scLetter.ScLetterUser;
 import sys.constants.LogConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
@@ -133,13 +134,11 @@ public class ScLetterReplyController extends ScBaseController {
         modelMap.put("letterId", letterId);
 
         List<ScLetterReplyItemView> itemList = new ArrayList<>();
-        ScLetterItemViewExample example = new ScLetterItemViewExample();
-        example.createCriteria().andLetterIdEqualTo(letterId);
-        example.setOrderByClause("id asc");
-        List<ScLetterItemView> scLetterItemViews = scLetterItemViewMapper.selectByExample(example);
-        for (ScLetterItemView scLetterItemView : scLetterItemViews) {
 
-            Integer userId = scLetterItemView.getUserId();
+        List<ScLetterUser> scLetterUsers = scLetterService.getItemList(letterId);
+        for (ScLetterUser scLetterUser : scLetterUsers) {
+
+            Integer userId = scLetterUser.getUserId();
             ScLetterReplyItemView record = null;
             if(id!=null) {
                 record = scLetterReplyService.getScLetterReplyItemView(id, userId);
@@ -148,8 +147,8 @@ public class ScLetterReplyController extends ScBaseController {
             if(record==null){
                 record = new ScLetterReplyItemView();
                 record.setUserId(userId);
-                record.setCode(scLetterItemView.getCode());
-                record.setRealname(scLetterItemView.getRealname());
+                record.setCode(scLetterUser.getCode());
+                record.setRealname(scLetterUser.getRealname());
             }
             itemList.add(record);
         }

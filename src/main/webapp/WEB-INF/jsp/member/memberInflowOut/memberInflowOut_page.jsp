@@ -278,10 +278,10 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
-<script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
+
 <script>
-    showLocation("${param.province}", '', '', $("#province"));
-    showLocation("${param.outLocation}", '', '', $("#outLocation"));
+    $.showLocation("${param.province}", '', '', $("#province"));
+    $.showLocation("${param.outLocation}", '', '', $("#outLocation"));
     function goto_next(goToNext){
         if(goToNext){
             if($("#next").hasClass("disabled") && $("#last").hasClass("disabled") )

@@ -49,7 +49,9 @@
                 },
                 frozen: true
             },
-            {label: '所属${_p_partyName}', name: 'party', width: 280},
+            {label: '所属${_p_partyName}', name: 'partyId', width: 280, formatter:function(cellvalue, options, rowObject){
+                return $.party(cellvalue);
+            }},
             {label: '应换届时间', name: 'tranTime', width: 130, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '实际换届时间',

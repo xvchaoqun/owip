@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import persistence.sc.IScMapper;
 import service.sc.scDispatch.ScDispatchService;
+import shiro.ShiroHelper;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
@@ -167,6 +169,27 @@ public class DispatchController extends DispatchBaseController {
 
             Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
+        }else if(scDispatchId!=null){
+
+            IScMapper iScMapper = CmTag.getBean(IScMapper.class);
+            if(iScMapper!=null){
+                ScDispatchView scDispatch = iScMapper.getScDispatchView(scDispatchId);
+                if(scDispatch!=null){
+
+                    Dispatch dispatch = new Dispatch();
+                    dispatch.setDispatchTypeId(scDispatch.getDispatchTypeId());
+                    dispatch.setCode(scDispatch.getCode());
+                    dispatch.setMeetingTime(scDispatch.getMeetingTime());
+                    dispatch.setAppointCount(scDispatch.getAppointCount());
+                    dispatch.setDismissCount(scDispatch.getDismissCount());
+                    dispatch.setCategory(DispatchConstants.DISPATCH_CATEGORY_CADER+"");
+
+                    modelMap.put("dispatch", dispatch);
+
+                    Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+                    modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
+                }
+            }
         }
         modelMap.put("scDispatchId", scDispatchId);
 
@@ -224,6 +247,7 @@ public class DispatchController extends DispatchBaseController {
             record.setMeetingTime(sd.getMeetingTime());
             record.setAppointCount(sd.getAppointCount());
             record.setDismissCount(sd.getDismissCount());
+            record.setRecordUserId(sd.getRecordUserId());
         }else{
             record.setMeetingTime(DateUtils.parseDate(_meetingTime, DateUtils.YYYY_MM_DD));
         }
@@ -256,6 +280,10 @@ public class DispatchController extends DispatchBaseController {
         if (id == null) {
             /*if (record.getCode() == null)
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));*/
+            if(record.getScDispatchId()==null) {
+                record.setRecordUserId(ShiroHelper.getCurrentUserId());
+            }
+
             dispatchService.insertSelective(record);
             id = record.getId(); // 新ID
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加发文：%s", id));

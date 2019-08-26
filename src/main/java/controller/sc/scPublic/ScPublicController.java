@@ -5,8 +5,7 @@ import controller.sc.ScBaseController;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scCommittee.ScCommitteeVoteViewExample;
 import domain.sc.scPublic.ScPublic;
-import domain.sc.scPublic.ScPublicView;
-import domain.sc.scPublic.ScPublicViewExample;
+import domain.sc.scPublic.ScPublicExample;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.common.FreemarkerService;
 import service.sc.scCommittee.ScCommitteeService;
+import shiro.ShiroHelper;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -45,9 +45,10 @@ public class ScPublicController extends ScBaseController {
 
     @RequiresPermissions("scPublic:list")
     @RequestMapping("/scPublic")
-    public String scPublic(ModelMap modelMap) {
+    public String scPublic(Integer committeeId, ModelMap modelMap) {
 
-        //modelMap.put("cls", cls);
+        modelMap.put("scCommittee", scCommitteeMapper.selectByPrimaryKey(committeeId));
+
         return "sc/scPublic/scPublic/scPublic_page";
     }
 
@@ -69,8 +70,8 @@ public class ScPublicController extends ScBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        ScPublicViewExample example = new ScPublicViewExample();
-        ScPublicViewExample.Criteria criteria = example.createCriteria()
+        ScPublicExample example = new ScPublicExample();
+        ScPublicExample.Criteria criteria = example.createCriteria()
                 .andIsDeletedEqualTo(false);
         example.setOrderByClause("id desc");
 
@@ -90,12 +91,12 @@ public class ScPublicController extends ScBaseController {
             return;
         }
 
-        long count = scPublicViewMapper.countByExample(example);
+        long count = scPublicMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScPublicView> records = scPublicViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScPublic> records = scPublicMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -185,6 +186,8 @@ public class ScPublicController extends ScBaseController {
         record.setWordFilePath(upload(_wordFilePath, "scPublic-word"));
         //record.setPdfFilePath(uploadPdf(_pdfFilePath, "scPublic-pdf"));
         if (id == null) {
+
+            record.setRecordUserId(ShiroHelper.getCurrentUserId());
             scPublicService.insertSelective(record, voteIds);
             logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "添加干部任前公示：%s", record.getId()));
         } else {
@@ -294,15 +297,15 @@ public class ScPublicController extends ScBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void scPublic_export(ScPublicViewExample example, HttpServletResponse response) {
+    public void scPublic_export(ScPublicExample example, HttpServletResponse response) {
 
-        List<ScPublicView> records = scPublicViewMapper.selectByExample(example);
+        List<ScPublic> records = scPublicMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"所属党委常委会|100", "年度|100", "公示文件WORD版|100",
                 "公示文件PDF版|100", "公示时间|100", "发布时间|100", "是否公示结束|100", "是否确认公示结束|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            ScPublicView record = records.get(i);
+            ScPublic record = records.get(i);
             String[] values = {
                     record.getCommitteeId() + "",
                     record.getYear() + "",

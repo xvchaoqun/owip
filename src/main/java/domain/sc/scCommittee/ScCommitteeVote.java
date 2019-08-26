@@ -1,15 +1,10 @@
 package domain.sc.scCommittee;
 
-import domain.cadre.CadreView;
-import domain.sys.SysUserView;
-import domain.unit.Unit;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 
 public class ScCommitteeVote implements Serializable {
 
-    public Unit getUnit(){
+    /*public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }
     public SysUserView getUser(){
@@ -18,7 +13,7 @@ public class ScCommitteeVote implements Serializable {
     }
     public CadreView getCadre(){
         return CmTag.getCadreById(cadreId);
-    }
+    }*/
 
     private Integer id;
 
@@ -51,6 +46,8 @@ public class ScCommitteeVote implements Serializable {
     private Integer disagreeCount;
 
     private String remark;
+
+    private Integer recordId;
 
     private Integer sortOrder;
 
@@ -182,6 +179,14 @@ public class ScCommitteeVote implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
     }
 
     public Integer getSortOrder() {

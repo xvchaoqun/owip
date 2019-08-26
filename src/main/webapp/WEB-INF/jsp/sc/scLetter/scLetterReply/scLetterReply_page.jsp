@@ -53,9 +53,8 @@
                                         <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
                                             <label>年份</label>
-
-                                            <div class="input-group">
-                                                <input class="form-control date-picker" placeholder="请选择年份"
+                                            <div class="input-group" style="width: 100px">
+                                                <input class="form-control date-picker" placeholder="请选择"
                                                        name="letterYear"
                                                        type="text"
                                                        data-date-format="yyyy" data-date-min-view-mode="2"
@@ -68,7 +67,7 @@
                                             <label>函询类型</label>
 
                                             <div class="input-group">
-                                                <select data-rel="select2" name="letterType" data-placeholder="请选择" data-width="100">
+                                                <select data-rel="select2" name="letterType" data-placeholder="请选择" data-width="180">
                                                     <option></option>
                                                     <c:import url="/metaTypes?__code=mc_sc_letter_type"/>
                                                 </select>
@@ -80,8 +79,8 @@
                                         <div class="form-group">
                                             <label>函询编号</label>
                                             <input class="form-control search-query num" name="letterNum" type="text"
-                                                   value="${param.letterNum}" style="width: 50px"
-                                                   placeholder="请输入函询编号">
+                                                   value="${param.letterNum}" style="width: 60px"
+                                                   placeholder="请输入">
                                         </div>
 
                                         <div class="clearfix form-actions center">

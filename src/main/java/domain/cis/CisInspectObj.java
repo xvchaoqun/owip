@@ -14,7 +14,7 @@ public class CisInspectObj implements Serializable {
 
     public String getSn(){
         String type = CmTag.getMetaType(typeId).getName();
-        return String.format("%s〔%s〕%s号", type, year, seq);
+        return String.format("%s〔%s%02d〕号", type, DateUtils.formatDate(inspectDate, DateUtils.YYYYMMDD), seq);
     }
 
     public CadreView getCadre(){
@@ -33,13 +33,19 @@ public class CisInspectObj implements Serializable {
 
     private Integer id;
 
+    private Integer recordId;
+
+    private String recordIds;
+
+    private Integer unitPostId;
+
     private Integer year;
 
     private Integer typeId;
 
     private Integer seq;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date inspectDate;
 
     private Integer cadreId;
@@ -60,6 +66,10 @@ public class CisInspectObj implements Serializable {
 
     private String logFile;
 
+    private String report;
+
+    private Integer recordUserId;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -70,6 +80,30 @@ public class CisInspectObj implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public String getRecordIds() {
+        return recordIds;
+    }
+
+    public void setRecordIds(String recordIds) {
+        this.recordIds = recordIds == null ? null : recordIds.trim();
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public Integer getYear() {
@@ -174,6 +208,22 @@ public class CisInspectObj implements Serializable {
 
     public void setLogFile(String logFile) {
         this.logFile = logFile == null ? null : logFile.trim();
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report == null ? null : report.trim();
+    }
+
+    public Integer getRecordUserId() {
+        return recordUserId;
+    }
+
+    public void setRecordUserId(Integer recordUserId) {
+        this.recordUserId = recordUserId;
     }
 
     public String getRemark() {
