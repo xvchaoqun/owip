@@ -1,9 +1,15 @@
 package domain.dp;
 
+import sys.helper.DpPartyHelper;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class DpPartyMemberGroup implements Serializable {
+    public DpParty getDpParty(){
+        return DpPartyHelper.getDpPartyByPartyId(partyId);
+    }
+
     private Integer id;
 
     private Integer fid;
@@ -25,6 +31,8 @@ public class DpPartyMemberGroup implements Serializable {
     private Integer sortOrder;
 
     private Boolean isDeleted;
+
+    private String groupSession;
 
     private static final long serialVersionUID = 1L;
 
@@ -114,5 +122,13 @@ public class DpPartyMemberGroup implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public String getGroupSession() {
+        return groupSession;
+    }
+
+    public void setGroupSession(String groupSession) {
+        this.groupSession = groupSession == null ? null : groupSession.trim();
     }
 }

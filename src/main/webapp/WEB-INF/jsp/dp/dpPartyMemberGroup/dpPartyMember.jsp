@@ -137,18 +137,13 @@
                 }},
             </shiro:hasPermission>
             {label: '所在单位', name: 'unitId', width: 350,formatter: $.jgrid.formatter.unit},
-            {label: '所属民主党派', name: 'groupId', width: 300, formatter: function (cellvalue, options, rowObject) {
-                    var dpPartyMemberGroup = _cMap.dpPartyMemberGroupMap[rowObject.groupId];
-                    var dpParty = _cMap.dpPartyMap[dpPartyMemberGroup.partyId];
+            {label: '所属民主党派', name: 'dpParty.name', width: 300, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
-                    if (dpParty != undefined) {
-                        _dpPartyView = dpParty.name;
-                        if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
-                            _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
-                                .format(dpParty.id, dpParty.name, ctx);
-                    }
-                    if (_dpPartyView != null) {
-                        return '<span class="{0}">{1}</span>'.format(dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                    if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
+                        _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
+                            .format(rowObject.groupPartyId, cellvalue, ctx);
+                    if (cellvalue != ''){
+                        return '<span class="{0}">{1}</span>'.format(rowObject.isDeleted ? "delete" : "", _dpPartyView);
                     }
                     return "--";
                 }},

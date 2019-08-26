@@ -1,9 +1,6 @@
 package service.dp;
 
-import domain.dp.DpParty;
-import domain.dp.DpPartyExample;
-import domain.dp.DpPartyMemberGroup;
-import domain.dp.DpPartyMemberGroupExample;
+import domain.dp.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,8 @@ import java.util.Map;
 @Service
 public class DpPartyService extends DpBaseMapper {
 
+    @Autowired
+    private DpPartyMemberService dpPartyMemberService;
     @Autowired
     private DpOrgAdminService dpOrgAdminService;
     @Autowired
@@ -110,6 +109,7 @@ public class DpPartyService extends DpBaseMapper {
                             groupIds.add(dpPartyMemberGroup.getId());
                         }
                         dpPartyMemberGroupService.batchDel(groupIds.toArray(new Integer[]{}),true);
+                        dpPartyMemberService.cancelMember(groupIds);
                     }
                 }
                 //删除所有的党派管理员

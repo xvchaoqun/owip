@@ -1,6 +1,7 @@
 package domain.dp;
 
 import domain.sys.SysUserView;
+import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -9,6 +10,9 @@ import java.util.Date;
 public class DpOrgAdmin implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
+    }
+    public DpParty getDpParty(){
+        return DpPartyHelper.getDpPartyByPartyId(partyId);
     }
     private Integer id;
 
