@@ -46,6 +46,12 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
+			<label class="col-xs-3 control-label">委员会届数</label>
+			<div class="col-xs-8" style="width: 312px">
+				<textarea class="form-control" name="groupSession">${dpPartyMemberGroup.groupSession}</textarea>
+			</div>
+		</div>
+		<div class="form-group">
 			<label class="col-xs-3 control-label">是否现任班子</label>
 			<div class="col-xs-8">
 				<label>

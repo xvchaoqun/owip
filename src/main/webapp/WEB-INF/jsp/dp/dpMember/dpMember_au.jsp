@@ -40,7 +40,7 @@
                         <select required data-rel="select2-ajax" data-width="270"
                                 data-ajax-url="${ctx}/dp/dpParty_selects?auth=1"
                                 name="partyId">
-                            <option>${dpParty.name}</option>
+                            <option value="${dpParty.id}">${dpParty.name}</option>
                         </select>
                     </div>
                 </c:if>

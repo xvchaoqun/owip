@@ -90,6 +90,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
                                         String name,
                                         Integer partyId,
                                         Boolean isPresent,
+                                        String groupSession,
                                         @RequestDateRange DateRange _appointTime,
                                         @RequestDateRange DateRange _tranTime,
                                         @RequestParam(required = false, defaultValue = "0") int export,
@@ -135,6 +136,9 @@ public class DpPartyMemberGroupController extends DpBaseController {
         if (null != _tranTime.getEnd()){
             criteria.andTranTimeLessThanOrEqualTo(_tranTime.getEnd());
         }
+        if (null != groupSession){
+            criteria.andGroupSessionEqualTo(groupSession);
+        }
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -169,6 +173,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
                                         String _tranTime,
                                         String _actualTranTime,
                                         String _appointTime,
+                                        String groupSession,
                                         HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -181,6 +186,9 @@ public class DpPartyMemberGroupController extends DpBaseController {
         }
         if (StringUtils.isNotBlank(_appointTime)) {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
+        }
+        if (StringUtils.isNotBlank(groupSession)){
+            record.setGroupSession(groupSession);
         }
 
         record.setIsPresent((record.getIsPresent() == null) ? false : record.getIsPresent());
@@ -288,7 +296,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
         List<DpPartyMemberGroup> records = dpPartyMemberGroupMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称|250|left", "所属分党委|250|left", "是否现任班子|70", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
+        String[] titles = {"名称|250|left", "所属分党委|250|left", "是否现任班子|70", "委员会届数|70", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DpPartyMemberGroup record = records.get(i);
@@ -307,6 +315,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
                             record.getName(),
                             partyId == null ? "" : dpPartyService.findAll().get(partyId).getName(),
                             BooleanUtils.isTrue(record.getIsPresent()) ? "是" : "否",
+                            record.getGroupSession(),
                             DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
                             DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
                             DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD),
